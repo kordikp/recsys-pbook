@@ -224,7 +224,7 @@ export class RecombeeClient {
 // --- User Model (engagement tracking + profile) ---
 export class UserModel {
   constructor() {
-    this.voiceScores = { engineer: 0, product: 0, business: 0 };
+    this.voiceScores = { explorer: 0, creator: 0, thinker: 0 };
     this.readBlocks = new Set();
     this.seenBlocks = new Set();
     this.savedBlocks = new Set();
@@ -237,6 +237,12 @@ export class UserModel {
     this.preferredVoice = null;
     this.firstVisit = null;
     this.sessionCount = 0;
+    // Gamification
+    this.xp = 0;
+    this.level = 1;
+    this.streak = 0;
+    this.lastActiveDate = null;
+    this.achievements = [];
     this.load();
     this._trackSession();
   }
@@ -244,6 +250,16 @@ export class UserModel {
   _trackSession() {
     if (!this.firstVisit) this.firstVisit = Date.now();
     this.sessionCount++;
+    // Streak tracking
+    const today = new Date().toDateString();
+    if (this.lastActiveDate && this.lastActiveDate !== today) {
+      const yesterday = new Date(Date.now() - 86400000).toDateString();
+      if (this.lastActiveDate === yesterday) this.streak++;
+      else this.streak = 1;
+    } else if (!this.lastActiveDate) {
+      this.streak = 1;
+    }
+    this.lastActiveDate = today;
     this.lastVisit = Date.now();
     this.save();
   }
@@ -264,6 +280,11 @@ export class UserModel {
       if (s.preferredVoice) this.preferredVoice = s.preferredVoice;
       if (s.firstVisit) this.firstVisit = s.firstVisit;
       if (s.sessionCount) this.sessionCount = s.sessionCount;
+      if (s.xp) this.xp = s.xp;
+      if (s.level) this.level = s.level;
+      if (s.streak) this.streak = s.streak;
+      if (s.lastActiveDate) this.lastActiveDate = s.lastActiveDate;
+      if (s.achievements) this.achievements = s.achievements;
     } catch (e) {}
   }
 
@@ -283,6 +304,11 @@ export class UserModel {
         preferredVoice: this.preferredVoice,
         firstVisit: this.firstVisit,
         sessionCount: this.sessionCount,
+        xp: this.xp,
+        level: this.level,
+        streak: this.streak,
+        lastActiveDate: this.lastActiveDate,
+        achievements: this.achievements,
       }));
     } catch (e) {}
   }
@@ -302,6 +328,8 @@ export class UserModel {
     this.seenBlocks.add(blockId);
     this._sig(blockId).read = true;
     this.totalInteractions++;
+    this.addXP(10, 'Read a section');
+    this.checkAchievements();
     this.save();
   }
 
@@ -322,6 +350,8 @@ export class UserModel {
       this.voiceScores[voice]++;
       this.totalInteractions++;
       if (blockId) this._sig(blockId).expanded = true;
+      this.addXP(5);
+      this.checkAchievements();
       this.save();
     }
   }
@@ -329,24 +359,68 @@ export class UserModel {
   trackRating(blockId, rating) {
     this.ratings.set(blockId, rating);
     this._sig(blockId).rated = rating;
+    this.addXP(3);
     this.save();
   }
 
   trackSave(blockId) {
     this.savedBlocks.add(blockId);
     this._sig(blockId).saved = true;
+    this.addXP(2);
     this.save();
   }
 
   trackNote(blockId) {
     this.notes.add(blockId);
     this._sig(blockId).noted = true;
+    this.addXP(5);
     this.save();
   }
 
   setVoice(voice) { this.preferredVoice = voice; this.save(); }
 
   getBlockSignals(blockId) { return this.signals[blockId] || {}; }
+
+  // --- Gamification ---
+  addXP(amount) {
+    this.xp += amount;
+    const newLevel = Math.floor(this.xp / 50) + 1;
+    if (newLevel > this.level) { this.level = newLevel; this._pendingLevelUp = newLevel; }
+  }
+
+  checkAchievements() {
+    const earned = new Set(this.achievements.map(a => a.id));
+    const checks = [
+      { id: 'first_read', name: 'First Steps', icon: '👣', desc: 'Read your first section', test: () => this.readBlocks.size >= 1 },
+      { id: 'reader_5', name: 'Bookworm', icon: '📚', desc: 'Read 5 sections', test: () => this.readBlocks.size >= 5 },
+      { id: 'reader_15', name: 'Speed Reader', icon: '⚡', desc: 'Read 15 sections', test: () => this.readBlocks.size >= 15 },
+      { id: 'reader_30', name: 'Knowledge Machine', icon: '🤖', desc: 'Read 30 sections', test: () => this.readBlocks.size >= 30 },
+      { id: 'first_like', name: 'Thumbs Up', icon: '❤️', desc: 'Like your first section', test: () => [...this.ratings.values()].some(r => r >= 0.7) },
+      { id: 'like_10', name: 'Super Fan', icon: '🌟', desc: 'Like 10 sections', test: () => [...this.ratings.values()].filter(r => r >= 0.7).length >= 10 },
+      { id: 'first_note', name: 'Note Taker', icon: '📝', desc: 'Write your first note', test: () => this.notes.size >= 1 },
+      { id: 'voice_all', name: 'Triple Threat', icon: '🎭', desc: 'Try all 3 depth voices', test: () => Object.values(this.voiceScores).every(v => v > 0) },
+      { id: 'streak_3', name: 'On a Roll', icon: '🔥', desc: '3-day reading streak', test: () => this.streak >= 3 },
+      { id: 'streak_7', name: 'Week Warrior', icon: '💪', desc: '7-day reading streak', test: () => this.streak >= 7 },
+      { id: 'level_5', name: 'Level 5!', icon: '🏆', desc: 'Reach level 5', test: () => this.level >= 5 },
+      { id: 'save_5', name: 'Collector', icon: '🔖', desc: 'Save 5 sections', test: () => this.savedBlocks.size >= 5 },
+      { id: 'xp_200', name: 'XP Hunter', icon: '💎', desc: 'Earn 200 XP', test: () => this.xp >= 200 },
+      { id: 'deep_diver', name: 'Deep Diver', icon: '🤿', desc: 'Expand 10 depth cards', test: () => Object.values(this.voiceScores).reduce((s,v) => s+v, 0) >= 10 },
+    ];
+    checks.forEach(a => {
+      if (!earned.has(a.id) && a.test()) {
+        this.achievements.push({ id: a.id, name: a.name, icon: a.icon, desc: a.desc, earnedAt: Date.now() });
+        this._pendingAchievement = a;
+      }
+    });
+  }
+
+  getLevelTitle() {
+    const titles = ['Newbie', 'Curious', 'Apprentice', 'Explorer', 'Scholar', 'Expert', 'Wizard', 'Legend', 'Grandmaster', 'Recommendation Guru'];
+    return titles[Math.min(this.level - 1, titles.length - 1)];
+  }
+
+  getXPForNextLevel() { return this.level * 50; }
+  getXPInCurrentLevel() { return this.xp - (this.level - 1) * 50; }
 
   getVisibleVoices() {
     const total = Object.values(this.voiceScores).reduce((s, v) => s + v, 0);
@@ -449,7 +523,7 @@ export class UserModel {
   }
 
   reset() {
-    this.voiceScores = { engineer: 0, product: 0, business: 0 };
+    this.voiceScores = { explorer: 0, creator: 0, thinker: 0 };
     this.readBlocks = new Set();
     this.seenBlocks = new Set();
     this.savedBlocks = new Set();
@@ -462,6 +536,11 @@ export class UserModel {
     this.preferredVoice = null;
     this.firstVisit = Date.now();
     this.sessionCount = 0;
+    this.xp = 0;
+    this.level = 1;
+    this.streak = 0;
+    this.lastActiveDate = null;
+    this.achievements = [];
     this.save();
   }
 }

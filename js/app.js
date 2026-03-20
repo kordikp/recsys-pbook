@@ -1244,77 +1244,87 @@ class PBook {
   renderProfile() {
     const el = document.getElementById('profileContent');
     const p = this.user.getProfile(this.allBlocks);
-    const status = this.rc.getStatus();
+    const u = this.user;
 
-    let h = '<h2 style="font-family:var(--font-ui);font-size:1.3rem;font-weight:800;margin-bottom:1em">Your Reader Profile</h2>';
+    let h = '';
 
-    // Identity
-    h += '<div class="profile-section"><h3>Identity</h3>';
-    h += `<div class="stat-row"><span>Reader ID</span><span class="stat-val" style="font-size:.7rem;font-family:var(--font-mono)">${p.userId}</span></div>`;
-    h += `<div class="stat-row"><span>First visit</span><span class="stat-val">${p.firstVisit || 'Today'}</span></div>`;
-    h += `<div class="stat-row"><span>Sessions</span><span class="stat-val">${p.sessions}</span></div>`;
-    h += `<div class="stat-row"><span>Recombee</span><span class="stat-val" style="color:${status.mode==='live'?'var(--product)':'var(--text-3)'}">${status.mode === 'live' ? 'Connected' : 'Local mode'}</span></div>`;
+    // Level & XP hero card
+    const xpInLevel = u.getXPInCurrentLevel();
+    const xpNeeded = u.getXPForNextLevel();
+    const xpPct = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
+    h += `<div class="gami-hero">
+      <div class="gami-level">Lv.${u.level}</div>
+      <div class="gami-info">
+        <div class="gami-title">${u.getLevelTitle()}</div>
+        <div class="gami-xp-bar"><div class="gami-xp-fill" style="width:${xpPct}%"></div></div>
+        <div class="gami-xp-text">${u.xp} XP &middot; ${xpNeeded - xpInLevel} XP to level ${u.level + 1}</div>
+      </div>
+      ${u.streak > 1 ? `<div class="gami-streak">&#128293; ${u.streak} day streak!</div>` : ''}
+    </div>`;
+
+    // Quick stats row
+    h += `<div class="gami-stats">
+      <div class="gami-stat"><span class="gs-num">${p.progress.read}</span><span class="gs-label">Read</span></div>
+      <div class="gami-stat"><span class="gs-num">${p.progress.pct}%</span><span class="gs-label">Done</span></div>
+      <div class="gami-stat"><span class="gs-num">${u.achievements.length}</span><span class="gs-label">Badges</span></div>
+      <div class="gami-stat"><span class="gs-num">${u.streak}</span><span class="gs-label">Streak</span></div>
+    </div>`;
+
+    // Achievements
+    h += '<div class="profile-section"><h3>&#127942; Achievements</h3>';
+    if (u.achievements.length) {
+      h += '<div class="gami-badges">';
+      u.achievements.forEach(a => {
+        h += `<div class="gami-badge earned" title="${a.desc}"><span class="badge-icon">${a.icon}</span><span class="badge-name">${a.name}</span></div>`;
+      });
+      h += '</div>';
+    }
+    // Show locked achievements
+    const earnedIds = new Set(u.achievements.map(a => a.id));
+    const allBadges = [
+      { id: 'first_read', icon: '👣', name: 'First Steps' }, { id: 'reader_5', icon: '📚', name: 'Bookworm' },
+      { id: 'reader_15', icon: '⚡', name: 'Speed Reader' }, { id: 'reader_30', icon: '🤖', name: 'Knowledge Machine' },
+      { id: 'first_like', icon: '❤️', name: 'Thumbs Up' }, { id: 'like_10', icon: '🌟', name: 'Super Fan' },
+      { id: 'first_note', icon: '📝', name: 'Note Taker' }, { id: 'voice_all', icon: '🎭', name: 'Triple Threat' },
+      { id: 'streak_3', icon: '🔥', name: 'On a Roll' }, { id: 'streak_7', icon: '💪', name: 'Week Warrior' },
+      { id: 'level_5', icon: '🏆', name: 'Level 5!' }, { id: 'save_5', icon: '🔖', name: 'Collector' },
+      { id: 'xp_200', icon: '💎', name: 'XP Hunter' }, { id: 'deep_diver', icon: '🤿', name: 'Deep Diver' },
+    ];
+    const locked = allBadges.filter(a => !earnedIds.has(a.id));
+    if (locked.length) {
+      h += '<div class="gami-badges">';
+      locked.forEach(a => { h += `<div class="gami-badge locked"><span class="badge-icon">🔒</span><span class="badge-name">${a.name}</span></div>`; });
+      h += '</div>';
+    }
     h += '</div>';
 
-    // Reading stats
-    h += '<div class="profile-section"><h3>Reading Statistics</h3>';
-    h += `<div class="stat-row"><span>Sections read</span><span class="stat-val">${p.progress.read} / ${p.progress.total}</span></div>`;
-    h += `<div class="stat-row"><span>Sections seen</span><span class="stat-val">${p.progress.seen}</span></div>`;
-    h += `<div class="stat-row"><span>Completion</span><span class="stat-val">${p.progress.pct}%</span></div>`;
-    h += `<div class="stat-row"><span>Reading time</span><span class="stat-val">${p.readingTimeMin} min</span></div>`;
-    h += `<div class="stat-row"><span>Total interactions</span><span class="stat-val">${p.totalInteractions}</span></div>`;
-    h += `<div class="stat-row"><span>Ratings given</span><span class="stat-val">${p.signals.ratings}</span></div>`;
-    h += `<div class="stat-row"><span>Items saved</span><span class="stat-val">${p.savedCount}</span></div>`;
-    h += `<div class="stat-row"><span>Notes written</span><span class="stat-val">${p.notesCount}</span></div>`;
-    h += '</div>';
+    // XP breakdown
+    h += '<div class="profile-section"><h3>How to earn XP</h3>';
+    h += '<div style="font-size:.8rem;display:grid;grid-template-columns:auto 1fr;gap:.3em .8em">';
+    h += '<span style="font-weight:600;color:var(--accent)">+10 XP</span><span>Read a section</span>';
+    h += '<span style="font-weight:600;color:var(--accent)">+5 XP</span><span>Explore a depth card</span>';
+    h += '<span style="font-weight:600;color:var(--accent)">+5 XP</span><span>Write a note</span>';
+    h += '<span style="font-weight:600;color:var(--accent)">+3 XP</span><span>Like a section</span>';
+    h += '<span style="font-weight:600;color:var(--accent)">+2 XP</span><span>Save for later</span>';
+    h += '</div></div>';
 
     // Voice preference
-    h += '<div class="profile-section"><h3>Your Perspective</h3>';
-    ['engineer', 'product', 'business'].forEach(v => {
-      const pct = p.voicePreference[v];
-      const color = `var(--${v})`;
-      h += `<div class="voice-bar"><span class="voice-bar-label" style="color:${color}">${CONFIG.voices[v]?.label || v}</span><div style="flex:1;height:6px;background:var(--border);border-radius:3px"><div class="voice-bar-fill" style="width:${pct}%;background:${color}"></div></div><span style="font-family:var(--font-ui);font-size:.72rem;color:var(--text-3);width:2.5em;text-align:right">${pct}%</span></div>`;
-    });
-    h += '<div style="font-size:.75rem;color:var(--text-3);margin-top:.5em">The book adapts which depth cards it shows based on your clicks.</div>';
-    h += '</div>';
-
-    // Top topics
-    if (p.topTopics.length) {
-      h += '<div class="profile-section"><h3>Your Top Topics</h3>';
-      h += '<div style="display:flex;flex-wrap:wrap;gap:.3em">';
-      p.topTopics.forEach(t => { h += `<span class="card-topic" onclick="app.showTopic('${t}')" style="font-size:.75rem;padding:.25em .6em">${t}</span>`; });
-      h += '</div></div>';
-    }
-
-    // Liked blocks
-    if (p.liked.length) {
-      h += '<div class="profile-section"><h3>Liked Content</h3>';
-      const likedIds = [...this.user.ratings].filter(([_, r]) => r >= 0.7).map(([id]) => id);
-      likedIds.forEach(id => {
-        const b = this.findBlock(id);
-        if (b) h += `<div class="saved-item" onclick="app.openBlock('${id}')">&#10084; ${b.meta.title}</div>`;
+    const voices = Object.keys(CONFIG.voices);
+    if (voices.length) {
+      h += '<div class="profile-section"><h3>Your Style</h3>';
+      const totalV = voices.reduce((s, v) => s + (u.voiceScores[v] || 0), 0) || 1;
+      voices.forEach(v => {
+        const pct = Math.round(((u.voiceScores[v] || 0) / totalV) * 100);
+        const vc = CONFIG.voices[v] || {};
+        h += `<div class="voice-bar"><span class="voice-bar-label">${vc.icon || ''} ${vc.label || v}</span><div style="flex:1;height:6px;background:var(--border);border-radius:3px"><div class="voice-bar-fill" style="width:${pct}%;background:var(--accent)"></div></div><span style="font-size:.72rem;color:var(--text-3);width:2.5em;text-align:right">${pct}%</span></div>`;
       });
       h += '</div>';
     }
 
-    // Saved blocks
-    const saved = [...this.user.savedBlocks].map(id => this.findBlock(id)).filter(Boolean);
-    if (saved.length) {
-      h += '<div class="profile-section"><h3>Saved for Later</h3>';
-      saved.forEach(b => { h += `<div class="saved-item" onclick="app.openBlock('${b.meta.id}')">&#128278; ${b.meta.title}</div>`; });
-      h += '</div>';
-    }
-
-    // Data & privacy
-    h += '<div class="profile-section"><h3>Your Data</h3>';
-    h += '<div style="font-size:.78rem;color:var(--text-2);line-height:1.5">';
-    h += '<p>All reading data is stored in your browser (localStorage). ';
-    if (status.mode === 'live') h += 'Interactions are also sent to Recombee to personalize recommendations. ';
-    h += 'Your reader ID is anonymous — no personal information is collected.</p>';
-    h += `<div style="margin-top:.8em;display:flex;gap:.5em">`;
-    h += '<button class="btn-ghost" style="border:1px solid var(--border);border-radius:6px;padding:.3em .8em;font-size:.75rem" onclick="app.exportProfile()">Export my data</button>';
-    h += '<button class="btn-ghost" style="border:1px solid #dc2626;border-radius:6px;padding:.3em .8em;font-size:.75rem;color:#dc2626" onclick="app.resetAll()">Delete all data</button>';
-    h += '</div></div></div>';
+    // Reset
+    h += '<div class="profile-section">';
+    h += '<button class="btn-ghost" style="border:1px solid #dc2626;border-radius:6px;padding:.3em .8em;font-size:.75rem;color:#dc2626" onclick="app.resetAll()">Reset everything</button>';
+    h += '</div>';
 
     el.innerHTML = h;
   }

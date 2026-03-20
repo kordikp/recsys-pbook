@@ -556,9 +556,31 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 /* =============================================
    PROFILE VIEW
    ============================================= */
-.profile-inner { padding: 1.5em 1em; max-width: 500px; margin: 0 auto; }
-.profile-section { margin-bottom: 2em; }
+.profile-inner { padding: 1em; max-width: 500px; margin: 0 auto; }
+.profile-section { margin-bottom: 1.5em; }
 .profile-section h3 { font-family: var(--font-ui); font-size: .9rem; font-weight: 700; margin-bottom: .8em; }
+
+/* Gamification */
+.gami-hero { display: flex; align-items: center; gap: .8em; padding: 1em; background: linear-gradient(135deg, var(--accent-bg), var(--surface)); border: 2px solid var(--accent); border-radius: var(--radius); margin-bottom: 1em; }
+.gami-level { font-family: var(--font-ui); font-size: 1.8rem; font-weight: 900; color: var(--accent); flex-shrink: 0; width: 3em; text-align: center; }
+.gami-info { flex: 1; }
+.gami-title { font-family: var(--font-ui); font-size: 1rem; font-weight: 800; margin-bottom: .3em; }
+.gami-xp-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-bottom: .2em; }
+.gami-xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #EC4899); border-radius: 4px; transition: width .5s ease; }
+.gami-xp-text { font-family: var(--font-ui); font-size: .68rem; color: var(--text-3); }
+.gami-streak { font-family: var(--font-ui); font-size: .82rem; font-weight: 700; color: #EF4444; text-align: center; flex-shrink: 0; }
+
+.gami-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: .4em; margin-bottom: 1.2em; }
+.gami-stat { text-align: center; padding: .5em; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-sm); }
+.gs-num { display: block; font-family: var(--font-ui); font-size: 1.2rem; font-weight: 800; color: var(--accent); }
+.gs-label { font-family: var(--font-ui); font-size: .62rem; color: var(--text-3); text-transform: uppercase; letter-spacing: .04em; }
+
+.gami-badges { display: flex; flex-wrap: wrap; gap: .4em; margin-bottom: .8em; }
+.gami-badge { display: flex; align-items: center; gap: .3em; padding: .3em .6em; border-radius: 20px; font-family: var(--font-ui); font-size: .72rem; border: 1.5px solid var(--border); transition: all var(--transition); }
+.gami-badge.earned { background: var(--accent-bg); border-color: var(--accent); }
+.gami-badge.locked { opacity: .4; }
+.badge-icon { font-size: .85rem; }
+.badge-name { font-weight: 600; }
 .stat-row { display: flex; justify-content: space-between; padding: .4em 0; font-family: var(--font-ui); font-size: .85rem; }
 .stat-val { font-weight: 600; color: var(--accent); }
 .voice-bars { display: flex; flex-direction: column; gap: .4em; }
