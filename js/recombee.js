@@ -241,6 +241,8 @@ export class UserModel {
     this.xp = 0;
     this.level = 1;
     this.achievements = [];
+    // Spaced repetition recall (Anki-style)
+    this.recall = {}; // blockId → { interval, ease, nextReview, lastReview, reps }
     this.load();
     this._trackSession();
   }
@@ -271,6 +273,7 @@ export class UserModel {
       if (s.xp) this.xp = s.xp;
       if (s.level) this.level = s.level;
       if (s.achievements) this.achievements = s.achievements;
+      if (s.recall) this.recall = s.recall;
     } catch (e) {}
   }
 
@@ -293,6 +296,7 @@ export class UserModel {
         xp: this.xp,
         level: this.level,
         achievements: this.achievements,
+        recall: this.recall,
       }));
     } catch (e) {}
   }
@@ -313,6 +317,7 @@ export class UserModel {
     this._sig(blockId).read = true;
     this.totalInteractions++;
     this.addXP(10, 'Read a section');
+    this.scheduleRecall(blockId);
     this.checkAchievements();
     this.save();
   }
@@ -365,6 +370,66 @@ export class UserModel {
 
   getBlockSignals(blockId) { return this.signals[blockId] || {}; }
 
+  // --- Spaced repetition (Anki-style) ---
+  // Schedule a block for recall after it's read
+  scheduleRecall(blockId) {
+    if (this.recall[blockId]) return; // already scheduled
+    this.recall[blockId] = {
+      interval: 1,       // days until next review (starts at 1 day)
+      ease: 2.5,         // ease factor (Anki default)
+      nextReview: Date.now() + 24 * 60 * 60 * 1000, // 1 day from now
+      lastReview: Date.now(),
+      reps: 0
+    };
+    this.save();
+  }
+
+  // Process a recall response: quality 0-3 (forgot, hard, good, easy)
+  processRecall(blockId, quality) {
+    const card = this.recall[blockId];
+    if (!card) return;
+
+    card.reps++;
+    card.lastReview = Date.now();
+
+    if (quality < 1) {
+      // Forgot — reset to 1 day
+      card.interval = 1;
+      card.ease = Math.max(1.3, card.ease - 0.2);
+    } else if (quality === 1) {
+      // Hard — small increase
+      card.interval = Math.max(1, Math.round(card.interval * 1.2));
+      card.ease = Math.max(1.3, card.ease - 0.15);
+    } else if (quality === 2) {
+      // Good — normal increase
+      card.interval = Math.round(card.interval * card.ease);
+    } else {
+      // Easy — big increase
+      card.interval = Math.round(card.interval * card.ease * 1.3);
+      card.ease = Math.min(3.0, card.ease + 0.15);
+    }
+
+    // Cap at 30 days for kids (don't want reviews too far apart)
+    card.interval = Math.min(30, card.interval);
+    card.nextReview = Date.now() + card.interval * 24 * 60 * 60 * 1000;
+
+    // XP reward based on quality
+    const xpReward = quality >= 2 ? 8 : quality === 1 ? 5 : 2;
+    this.addXP(xpReward);
+    this.checkAchievements();
+    this.save();
+    return xpReward;
+  }
+
+  // Get blocks that are due for review
+  getDueRecalls() {
+    const now = Date.now();
+    return Object.entries(this.recall)
+      .filter(([_, card]) => card.nextReview <= now)
+      .sort((a, b) => a[1].nextReview - b[1].nextReview)
+      .map(([blockId, card]) => ({ blockId, ...card }));
+  }
+
   // --- Gamification ---
   addXP(amount) {
     this.xp += amount;
@@ -389,6 +454,7 @@ export class UserModel {
       { id: 'save_5', name: 'Collector', icon: '🔖', desc: 'Save 5 sections', test: () => this.savedBlocks.size >= 5 },
       { id: 'xp_200', name: 'XP Hunter', icon: '💎', desc: 'Earn 200 XP', test: () => this.xp >= 200 },
       { id: 'deep_diver', name: 'Deep Diver', icon: '🤿', desc: 'Expand 10 depth cards', test: () => Object.values(this.voiceScores).reduce((s,v) => s+v, 0) >= 10 },
+      { id: 'recall_5', name: 'Memory Pro', icon: '🧠', desc: 'Complete 5 recall reviews', test: () => Object.values(this.recall).reduce((s, c) => s + c.reps, 0) >= 5 },
     ];
     checks.forEach(a => {
       if (!earned.has(a.id) && a.test()) {
@@ -407,8 +473,9 @@ export class UserModel {
   getXPInCurrentLevel() { return this.xp - (this.level - 1) * 50; }
 
   getVisibleVoices() {
+    const allVoices = Object.keys(this.voiceScores);
     const total = Object.values(this.voiceScores).reduce((s, v) => s + v, 0);
-    if (total < 5) return ['engineer', 'product', 'business'];
+    if (total < 5) return allVoices;
     if (this.preferredVoice && this.preferredVoice !== 'universal') {
       const visible = [this.preferredVoice];
       for (const [v, score] of Object.entries(this.voiceScores)) {
@@ -419,7 +486,7 @@ export class UserModel {
     return Object.entries(this.voiceScores)
       .filter(([_, score]) => score / total > 0.1)
       .map(([v]) => v)
-      .concat(total < 10 ? ['engineer', 'product', 'business'] : [])
+      .concat(total < 10 ? allVoices : [])
       .filter((v, i, a) => a.indexOf(v) === i);
   }
 
@@ -493,11 +560,9 @@ export class UserModel {
       totalInteractions: this.totalInteractions,
       progress: prog,
       signals: summary,
-      voicePreference: {
-        engineer: Math.round((this.voiceScores.engineer / totalVoice) * 100),
-        product: Math.round((this.voiceScores.product / totalVoice) * 100),
-        business: Math.round((this.voiceScores.business / totalVoice) * 100),
-      },
+      voicePreference: Object.fromEntries(
+        Object.entries(this.voiceScores).map(([v, s]) => [v, Math.round((s / totalVoice) * 100)])
+      ),
       topTopics,
       liked,
       savedCount: this.savedBlocks.size,
@@ -523,6 +588,7 @@ export class UserModel {
     this.xp = 0;
     this.level = 1;
     this.achievements = [];
+    this.recall = {};
     this.save();
   }
 }

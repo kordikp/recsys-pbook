@@ -181,6 +181,21 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .tag-table { background: #D1FAE5; color: #065F46; }
 .tag-code { background: #E5E7EB; color: #374151; }
 
+/* Recall cards (spaced repetition) */
+.recall-card { cursor: default; }
+.recall-card .card-title { font-size: .85rem; line-height: 1.4; }
+.recall-answer-text { font-size: .8rem; color: var(--text-2); line-height: 1.5; padding: .5em 0; border-top: 1px solid var(--border-light); margin-top: .4em; }
+.recall-hint { font-size: .65rem; }
+.recall-reveal { background: #F59E0B; color: #fff; border: none; border-radius: 6px; padding: .4em .8em; font-size: .75rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: .4em; }
+.recall-reveal:hover { background: #D97706; }
+.recall-buttons { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: .3em; margin-top: .4em; }
+.recall-btn { border: none; border-radius: 5px; padding: .35em .3em; font-size: .65rem; font-weight: 600; cursor: pointer; }
+.recall-forgot { background: #FEE2E2; color: #991B1B; }
+.recall-hard { background: #FEF3C7; color: #92400E; }
+.recall-good { background: #D1FAE5; color: #065F46; }
+.recall-easy { background: #DBEAFE; color: #1E40AF; }
+.recall-btn:hover { opacity: .85; transform: translateY(-1px); }
+
 /* Hero card (continue reading) */
 .card-hero { flex: 0 0 calc(100% - 2em); max-width: 500px; background: linear-gradient(135deg, var(--accent-bg), var(--surface)); border-color: var(--accent); min-height: 160px; }
 .card-hero .card-title { font-size: 1.05rem; }

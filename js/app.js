@@ -163,6 +163,34 @@ class PBook {
       html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
 
+    // 1b. Recall cards — spaced repetition review
+    const dueRecalls = this.user.getDueRecalls();
+    if (dueRecalls.length > 0) {
+      const recallCards = dueRecalls.slice(0, 6).map(r => {
+        const block = this.findBlock(r.blockId);
+        if (!block) return '';
+        const quiz = this._getRecallQuestion(block);
+        return `<div class="card recall-card" style="border-top: 3px solid #F59E0B; flex: 0 0 280px">
+          <div class="card-chapter" style="color:#F59E0B;font-weight:700">Do you remember?</div>
+          <div class="card-title">${quiz.q}</div>
+          <div class="recall-answer" id="recall-a-${r.blockId}" style="display:none">
+            <div class="recall-answer-text">${quiz.a}</div>
+            <div class="recall-hint" style="font-size:.7rem;color:var(--text-3);margin:.3em 0">From: ${block.meta.title}</div>
+            <div class="recall-buttons">
+              <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${r.blockId}',0)">Forgot</button>
+              <button class="recall-btn recall-hard" onclick="app.scoreRecall('${r.blockId}',1)">Hard</button>
+              <button class="recall-btn recall-good" onclick="app.scoreRecall('${r.blockId}',2)">Good</button>
+              <button class="recall-btn recall-easy" onclick="app.scoreRecall('${r.blockId}',3)">Easy!</button>
+            </div>
+          </div>
+          <button class="recall-reveal" id="recall-r-${r.blockId}" onclick="document.getElementById('recall-a-${r.blockId}').style.display='block';this.style.display='none'">Show answer</button>
+        </div>`;
+      }).filter(Boolean);
+      if (recallCards.length) {
+        html += this.shelf('Do you remember?', recallCards);
+      }
+    }
+
     // 2. Recommended for you
     const forYou = await this.rc.getRecsForUser('pbook:personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
     if (forYou?.recomms?.length) {
@@ -209,18 +237,22 @@ class PBook {
       }
     });
 
-    // 8. By chapter
+    // 8. By chapter (unread first)
     this.book.chapters.forEach((ch, i) => {
-      const chBlocks = (this.chapters[i]?.blocks || []).filter(b => b.type === 'spine').slice(0, 8);
+      const allSpines = (this.chapters[i]?.blocks || []).filter(b => b.type === 'spine');
+      const unread = allSpines.filter(b => !this.user.readBlocks.has(b.id));
+      const read = allSpines.filter(b => this.user.readBlocks.has(b.id));
+      const chBlocks = [...unread, ...read].slice(0, 8);
       if (chBlocks.length) {
         html += this.shelf(`Ch${ch.number}: ${ch.title}`, chBlocks.map(b => this.cardHtml(b)));
       }
     });
 
     el.innerHTML = html || '<div class="search-empty">Loading content...</div>';
-    // Hide arrows on shelves that don't overflow
-    // Delay to ensure cards have rendered and have width
-    setTimeout(() => this._updateShelfArrows(), 100);
+    // Update arrows multiple times to catch layout settling
+    this._updateShelfArrows();
+    setTimeout(() => this._updateShelfArrows(), 200);
+    setTimeout(() => this._updateShelfArrows(), 600);
   }
 
   shelf(title, cardHtmls) {
@@ -228,9 +260,9 @@ class PBook {
     return `<section class="shelf fade-up">
       <div class="shelf-head"><h3 class="shelf-title">${title}</h3></div>
       <div class="shelf-wrap">
-        <button class="shelf-btn shelf-btn-left" onclick="app.scrollShelf('${id}',-1)">&#8249;</button>
+        <button class="shelf-btn shelf-btn-left arrow-hidden" onclick="app.scrollShelf('${id}',-1)">&#8249;</button>
         <div class="shelf-scroll" id="${id}">${cardHtmls.join('')}</div>
-        <button class="shelf-btn shelf-btn-right" onclick="app.scrollShelf('${id}',1)">&#8250;</button>
+        <button class="shelf-btn shelf-btn-right arrow-hidden" onclick="app.scrollShelf('${id}',1)">&#8250;</button>
       </div>
     </section>`;
   }
@@ -253,7 +285,12 @@ class PBook {
       if (!scroll) return;
       const overflows = scroll.scrollWidth > scroll.clientWidth + 10;
       wrap.classList.toggle('no-scroll', !overflows);
-      this._updateArrowVisibility(wrap, scroll);
+      if (!overflows) {
+        // No overflow: hide both arrows completely
+        wrap.querySelectorAll('.shelf-btn').forEach(b => b.classList.add('arrow-hidden'));
+      } else {
+        this._updateArrowVisibility(wrap, scroll);
+      }
     });
     // Listen for scroll to update arrows dynamically
     document.querySelectorAll('.shelf-scroll').forEach(scroll => {
@@ -270,10 +307,12 @@ class PBook {
     const left = wrap.querySelector('.shelf-btn-left');
     const right = wrap.querySelector('.shelf-btn-right');
     if (!left || !right) return;
-    const atStart = scroll.scrollLeft < 10;
-    const atEnd = scroll.scrollLeft + scroll.clientWidth >= scroll.scrollWidth - 10;
-    left.classList.toggle('arrow-hidden', atStart);
-    right.classList.toggle('arrow-hidden', atEnd);
+    // scrollLeft can be fractional in some browsers — round it
+    const sl = Math.round(scroll.scrollLeft);
+    const canScrollLeft = sl > 5;
+    const canScrollRight = sl + scroll.clientWidth < scroll.scrollWidth - 5;
+    left.classList.toggle('arrow-hidden', !canScrollLeft);
+    right.classList.toggle('arrow-hidden', !canScrollRight);
   }
 
   cardHtml(block, hero = false) {
@@ -347,6 +386,11 @@ class PBook {
     this.user.save();
 
     const pane = document.getElementById('readPane');
+
+    // Reset observer for fresh render
+    if (this._observer) { this._observer.disconnect(); this._observer = null; }
+    if (this._dwellTimers) { Object.values(this._dwellTimers).forEach(t => clearInterval(t)); this._dwellTimers = {}; }
+    this._observedChapters = {};
 
     // Render current chapter
     const html = await this._renderChapterContent(ch, idx);
@@ -453,18 +497,24 @@ class PBook {
 
   _observeBlocks(ch) {
     // Dwell-time tracking: seen after 3s visible, read after estimated reading time
-    if (this._observer) this._observer.disconnect();
-    if (this._dwellTimers) Object.values(this._dwellTimers).forEach(t => clearInterval(t));
-    this._dwellTimers = {};
+    // Create observer once; on subsequent calls just observe new elements
+    if (!this._observer) {
+      this._dwellTimers = {};
+      this._observedChapters = {};
+    }
+    // Store chapter blocks for lookup
+    ch.blocks.forEach(b => { this._observedChapters[b.id] = ch; });
 
+    if (!this._observer) {
     this._observer = new IntersectionObserver((entries) => {
       entries.forEach(e => {
         const id = e.target.id?.replace('b-', '');
         if (!id) return;
 
         if (e.isIntersecting) {
-          // Start dwell timer
-          const block = ch.blocks.find(b => b.id === id);
+          // Start dwell timer — find block from any loaded chapter
+          const ownerCh = this._observedChapters[id];
+          const block = ownerCh ? ownerCh.blocks.find(b => b.id === id) : null;
           const readTimeMs = Math.min(((block?.readingTime || 2) * 60 * 1000) * 0.15, 12000); // 15% of reading time, max 12s — kids read fast!
           const startTime = Date.now();
 
@@ -487,7 +537,7 @@ class PBook {
               e.target.querySelector('.block-status')?.classList.remove('seen');
               e.target.querySelector('.block-status')?.classList.add('read');
               this.updateContext(id);
-              this._updateInlineReadNext(id, ch);
+              this._updateInlineReadNext(id, ownerCh);
               this.showXPToast('+10 XP', 'xp');
               this.checkGamificationEvents();
               clearInterval(this._dwellTimers[id]);
@@ -508,8 +558,15 @@ class PBook {
         }
       });
     }, { threshold: 0.3 });
+    } // end if (!this._observer)
 
-    document.querySelectorAll('.block-article').forEach(el => this._observer.observe(el));
+    // Observe all block articles (new ones will just be added)
+    document.querySelectorAll('.block-article').forEach(el => {
+      if (!el.dataset.observed) {
+        el.dataset.observed = '1';
+        this._observer.observe(el);
+      }
+    });
   }
 
   async renderSpine(block) {
@@ -870,6 +927,48 @@ class PBook {
         <button class="ctx-quiz-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Hmm, let me think... &#129300; Show answer!</button>
         <div class="ctx-quiz-a" style="display:none">${quiz.a}</div>
       </div>`;
+  }
+
+  // --- Spaced repetition recall ---
+  _getRecallQuestion(block) {
+    const body = (block.body || '').toLowerCase();
+    const title = block.meta.title || '';
+
+    // Generate recall questions based on content keywords
+    if (body.includes('collaborative filter')) return { q: 'How does collaborative filtering find recommendations?', a: 'It finds people with similar taste to you, then recommends things THEY liked that you haven\'t seen yet.' };
+    if (body.includes('content-based')) return { q: 'What does content-based filtering look at?', a: 'It looks at the FEATURES of items you liked (genre, tags, description) and finds similar items.' };
+    if (body.includes('cold start')) return { q: 'What is the "cold start" problem?', a: 'When a new user or item has no data yet, the system can\'t make good recommendations. It\'s "cold" because there\'s no history to learn from.' };
+    if (body.includes('filter bubble')) return { q: 'What is a filter bubble?', a: 'When recommendations only show you things you already like, trapping you in a bubble where you never discover anything new.' };
+    if (body.includes('echo chamber')) return { q: 'How is an echo chamber different from a filter bubble?', a: 'An echo chamber is worse — it makes you think everyone agrees with you because you only hear your own opinions reflected back.' };
+    if (body.includes('a/b test')) return { q: 'What is an A/B test?', a: 'A real experiment where half the users see version A and half see version B. You compare results to find which is actually better.' };
+    if (body.includes('digital footprint') || body.includes('footprint')) return { q: 'What are "digital footprints"?', a: 'Every click, watch, skip, and search you make online — like invisible tracks that tell algorithms about your interests.' };
+    if (body.includes('implicit') && body.includes('explicit')) return { q: 'What\'s the difference between implicit and explicit feedback?', a: 'Explicit = you TELL the system (ratings, likes). Implicit = the system WATCHES what you do (clicks, time spent, skips).' };
+    if (body.includes('pipeline') || (body.includes('find') && body.includes('rank'))) return { q: 'What are the 3 stages of a recommendation pipeline?', a: 'FIND (gather candidates), RANK (score them for you), CHECK (add diversity, remove duplicates).' };
+    if (body.includes('popular') && body.includes('trending')) return { q: 'Why isn\'t "show what\'s popular" the best strategy?', a: 'Because popular items are the same for everyone — they don\'t know YOUR unique taste. A good system is personal.' };
+    if (body.includes('matrix factor') || body.includes('svd')) return { q: 'What does matrix factorization do?', a: 'It finds hidden patterns in a big grid of ratings by breaking it into simpler pieces — discovering "latent factors" like genre preferences.' };
+    if (body.includes('autoplay') || body.includes('infinite scroll')) return { q: 'Why is autoplay/infinite scroll designed the way it is?', a: 'To remove stopping points — there\'s always something next. It\'s like a bag of chips that never runs out. Recognizing this helps you stay in control.' };
+    if (body.includes('dopamine')) return { q: 'What brain chemical makes you want to watch "just one more"?', a: 'Dopamine! Released when you see something surprising or rewarding. The uncertainty of "will the next one be good?" creates a loop.' };
+    if (body.includes('privacy') || body.includes('gdpr')) return { q: 'What can you do to protect your privacy online?', a: 'Use privacy-focused browsers, check app permissions, clear history, use "not interested" buttons, and know your rights (like GDPR).' };
+    if (body.includes('third-party cookie') || body.includes('tracker')) return { q: 'How do third-party trackers follow you across websites?', a: 'They hide tiny code on many websites. When you visit any site using the same tracker, they recognize you and build a profile across ALL your browsing.' };
+    if (body.includes('diversity') || body.includes('long tail')) return { q: 'Why is diversity important in recommendations?', a: 'Without it, popular items get recommended more and more while new/niche content gets buried. Diversity gives everything a fair chance.' };
+
+    // Fallback: ask about the section title
+    return { q: `Can you explain "${title}" in your own words?`, a: `Re-read the section "${title}" to refresh your memory. The best way to learn is to explain things simply!` };
+  }
+
+  scoreRecall(blockId, quality) {
+    const xpEarned = this.user.processRecall(blockId, quality);
+    const labels = ['Forgot — we\'ll try again soon!', 'Hard — keep at it!', 'Good — nice memory!', 'Easy — you\'re a pro!'];
+    this.showXPToast(`+${xpEarned} XP — ${labels[quality]}`, quality >= 2 ? 'xp' : 'info');
+    this.checkGamificationEvents();
+    // Remove the card from view
+    const card = document.getElementById(`recall-a-${blockId}`)?.closest('.card');
+    if (card) {
+      card.style.transition = 'opacity 0.3s, transform 0.3s';
+      card.style.opacity = '0';
+      card.style.transform = 'scale(0.9)';
+      setTimeout(() => card.remove(), 300);
+    }
   }
 
   renderMath(el) {
@@ -1301,12 +1400,16 @@ class PBook {
     </div>`;
 
     // Quick stats row
+    const dueCount = u.getDueRecalls().length;
     h += `<div class="gami-stats">
       <div class="gami-stat"><span class="gs-num">${p.progress.read}</span><span class="gs-label">Read</span></div>
       <div class="gami-stat"><span class="gs-num">${p.progress.pct}%</span><span class="gs-label">Done</span></div>
       <div class="gami-stat"><span class="gs-num">${u.achievements.length}</span><span class="gs-label">Badges</span></div>
       <div class="gami-stat"><span class="gs-num">${p.readingTimeMin}</span><span class="gs-label">Min read</span></div>
     </div>`;
+    if (dueCount > 0) {
+      h += `<div style="text-align:center;margin:.5em 0"><button class="recall-reveal" style="max-width:260px" onclick="app.switchView('home')">${dueCount} review${dueCount > 1 ? 's' : ''} due — go practice!</button></div>`;
+    }
 
     // Achievements
     h += '<div class="profile-section"><h3>&#127942; Achievements</h3>';
@@ -1327,6 +1430,7 @@ class PBook {
       { id: 'curious_cat', icon: '🐱', name: 'Curious Cat' }, { id: 'quiz_master', icon: '🧩', name: 'Quiz Master' },
       { id: 'level_5', icon: '🏆', name: 'Level 5!' }, { id: 'save_5', icon: '🔖', name: 'Collector' },
       { id: 'xp_200', icon: '💎', name: 'XP Hunter' }, { id: 'deep_diver', icon: '🤿', name: 'Deep Diver' },
+      { id: 'recall_5', icon: '🧠', name: 'Memory Pro' },
     ];
     const locked = allBadges.filter(a => !earnedIds.has(a.id));
     if (locked.length) {
@@ -1344,6 +1448,7 @@ class PBook {
     h += '<span style="font-weight:600;color:var(--accent)">+5 XP</span><span>Write a note</span>';
     h += '<span style="font-weight:600;color:var(--accent)">+3 XP</span><span>Like a section</span>';
     h += '<span style="font-weight:600;color:var(--accent)">+2 XP</span><span>Save for later</span>';
+    h += '<span style="font-weight:600;color:#F59E0B">+2-8 XP</span><span>Recall review (depends on how well you remember)</span>';
     h += '</div></div>';
 
     // Voice preference
@@ -1893,7 +1998,7 @@ class PBook {
   }
 
   cycleVoice() {
-    const voices = ['universal', 'engineer', 'product', 'business'];
+    const voices = ['universal', ...Object.keys(CONFIG.voices)];
     const current = this.user.preferredVoice || 'universal';
     const next = voices[(voices.indexOf(current) + 1) % voices.length];
     this.user.setVoice(next);
