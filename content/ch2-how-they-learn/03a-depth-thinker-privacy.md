@@ -10,8 +10,6 @@ parent: ch2-privacy
 diagram: null
 ---
 
-# Helpful Librarian or Stranger Following You?
-
 Let's think about something important. There are two very different ways companies can use your data. And understanding the difference is a real-life superpower.
 
 **The Helpful Librarian**

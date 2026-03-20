@@ -3,7 +3,18 @@
 // Falls back to inline-generated diagrams if files not found
 
 const DIAGRAM_FILES = {
-  // Original diagrams
+  // Kids diagrams
+  'kids-recommendations-everywhere': 'images/kids-recommendations-everywhere.svg',
+  'kids-pattern-detective': 'images/kids-pattern-detective.svg',
+  'kids-three-jobs': 'images/kids-three-jobs.svg',
+  'kids-digital-footprints': 'images/kids-digital-footprints.svg',
+  'kids-cold-start': 'images/kids-cold-start.svg',
+  'kids-collaborative-filtering': 'images/kids-collaborative-filtering.svg',
+  'kids-content-based': 'images/kids-content-based.svg',
+  'kids-pipeline': 'images/kids-pipeline.svg',
+  'kids-filter-bubble': 'images/kids-filter-bubble.svg',
+  'kids-ab-test': 'images/kids-ab-test.svg',
+  // Original diagrams (kept as fallback)
   pipeline: 'images/diagram-pipeline.svg',
   'data-sources': 'images/diagram-data-sources.svg',
   stakeholders: 'images/diagram-stakeholders.svg',

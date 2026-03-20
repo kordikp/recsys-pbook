@@ -10,8 +10,6 @@ parent: ch2-footprints
 diagram: null
 ---
 
-# What Do They Actually Track?
-
 Let's get specific. When you use an app like YouTube or TikTok, here's what the system can see. Some of these might surprise you:
 
 **The Obvious Stuff:**

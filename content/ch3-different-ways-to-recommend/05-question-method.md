@@ -15,8 +15,6 @@ options:
   - letter: D, text: Popularity -- start simple with trending!, voice: universal
 ---
 
-# Which Method Would You Start With?
-
 You've just been hired to build a recommendation system for a brand new app. You have to pick your starting approach. There's no wrong answer -- each one reveals something about how you think!
 
 **A) Collaborative filtering** -- Start by finding taste twins. If enough people use the app, their patterns will reveal what to recommend. Discovery is the most exciting part!

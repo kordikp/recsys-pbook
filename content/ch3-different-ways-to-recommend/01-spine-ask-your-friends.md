@@ -7,10 +7,8 @@ standalone: true
 teaser: "What if a million people with your exact taste could recommend stuff to you?"
 voice: universal
 parent: null
-diagram: null
+diagram: kids-collaborative-filtering
 ---
-
-# Ask Your Friends
 
 Here's a question: how do you usually find new stuff to watch?
 

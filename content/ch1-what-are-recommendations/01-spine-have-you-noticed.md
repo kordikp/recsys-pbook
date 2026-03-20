@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Have You Ever Noticed?
-
 You open YouTube. Right there on your home page: a Minecraft build tutorial, a funny cat video, and that creator you watched yesterday. You didn't search for any of them. They just... appeared.
 
 How did YouTube know?

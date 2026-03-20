@@ -16,8 +16,6 @@ options:
   - letter: D, text: Something totally new that nobody has thought of yet, voice: universal
 ---
 
-# What Would YOU Build?
-
 You now know how recommendation systems work. You've built one with your own hands. The question is: **what would you build next?**
 
 **A) Minecraft Server Recommender** -- Imagine a system that learns what kind of Minecraft worlds you enjoy (survival, creative, minigames, parkour) and recommends the perfect servers for your play style. It could even suggest building techniques based on what you've built before.

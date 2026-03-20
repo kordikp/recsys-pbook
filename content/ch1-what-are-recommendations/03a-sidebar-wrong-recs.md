@@ -10,8 +10,6 @@ parent: ch1-not-magic
 diagram: null
 ---
 
-# When Recommendations Go Hilariously Wrong
-
 Recommender systems are smart, but they're not THAT smart. Sometimes they mess up in the funniest ways:
 
 **The One-Video Trap.** You watch ONE video about how to make slime. Just one! Suddenly your entire YouTube is slime. Slime tutorials. Slime ASMR. Slime fails. Slime for 100 days straight. YOU DON'T EVEN LIKE SLIME.

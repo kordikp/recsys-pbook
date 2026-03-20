@@ -10,8 +10,6 @@ parent: ch2-privacy
 diagram: null
 ---
 
-# The Great Algorithm Experiment
-
 Here's a fun experiment you can actually run. You're going to test how fast a recommendation system can learn about you. Ready?
 
 **What You'll Need:**

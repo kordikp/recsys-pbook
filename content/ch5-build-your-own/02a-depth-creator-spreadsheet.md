@@ -10,8 +10,6 @@ parent: ch5-collect
 diagram: null
 ---
 
-# Build It in a Spreadsheet
-
 Paper is great for starting out, but if you want to go bigger -- more people, more movies -- a spreadsheet is your best friend. Here's exactly how to set it up in Google Sheets (or Excel, or any spreadsheet app).
 
 **Step 1: Create the sheet**

@@ -7,10 +7,8 @@ standalone: true
 teaser: "When recommendations are TOO good, you only see what you already like."
 voice: universal
 parent: null
-diagram: null
+diagram: kids-filter-bubble
 ---
-
-# Trapped in a Bubble
 
 Imagine you tell your friend you love pizza. So every time you hang out, they bring pizza. Monday: pizza. Tuesday: pizza. Your birthday party? More pizza. No tacos. No sushi. No burgers. Just pizza, forever.
 

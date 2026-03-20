@@ -7,10 +7,8 @@ standalone: true
 teaser: "Discover, find, and keep you interested -- that's the gig."
 voice: universal
 parent: null
-diagram: null
+diagram: kids-three-jobs
 ---
-
-# The Three Jobs of a Recommender
 
 Every recommender system in the world has three main jobs. Whether it's YouTube, Spotify, or your school's library app, it's trying to do these three things:
 

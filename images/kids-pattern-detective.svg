@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="250" viewBox="0 0 680 250">
+  <style>text { font-family: system-ui, sans-serif; }</style>
+
+  <!-- Title -->
+  <text x="340" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#7C3AED">Pattern Detective</text>
+
+  <!-- Detective board background -->
+  <rect x="20" y="35" width="640" height="205" rx="12" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.5"/>
+
+  <!-- String lines connecting clues (like a detective board) -->
+  <line x1="185" y1="90" x2="280" y2="80" stroke="#EF4444" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="280" y1="80" x2="370" y2="95" stroke="#EF4444" stroke-width="1" stroke-dasharray="3 2"/>
+  <line x1="370" y1="95" x2="460" y2="75" stroke="#EF4444" stroke-width="1" stroke-dasharray="3 2"/>
+
+  <!-- Magnifying glass on the left -->
+  <circle cx="80" cy="90" r="28" fill="none" stroke="#7C3AED" stroke-width="3"/>
+  <line x1="100" y1="110" x2="118" y2="128" stroke="#7C3AED" stroke-width="4" stroke-linecap="round"/>
+  <text x="80" y="95" text-anchor="middle" font-size="11" fill="#7C3AED" font-weight="bold">CLUES</text>
+
+  <!-- Row of cat icons -->
+  <g transform="translate(130, 60)">
+    <!-- Cat 1 -->
+    <circle cx="30" cy="28" r="14" fill="#EC4899"/>
+    <polygon points="19,18 24,8 29,18" fill="#EC4899"/>
+    <polygon points="31,18 36,8 41,18" fill="#EC4899"/>
+    <circle cx="25" cy="26" r="2" fill="white"/>
+    <circle cx="35" cy="26" r="2" fill="white"/>
+    <path d="M27 31 Q30 34 33 31" fill="none" stroke="white" stroke-width="1"/>
+    <!-- Cat 2 -->
+    <circle cx="75" cy="28" r="14" fill="#EC4899"/>
+    <polygon points="64,18 69,8 74,18" fill="#EC4899"/>
+    <polygon points="76,18 81,8 86,18" fill="#EC4899"/>
+    <circle cx="70" cy="26" r="2" fill="white"/>
+    <circle cx="80" cy="26" r="2" fill="white"/>
+    <path d="M72 31 Q75 34 78 31" fill="none" stroke="white" stroke-width="1"/>
+    <!-- Cat 3 -->
+    <circle cx="120" cy="28" r="14" fill="#EC4899"/>
+    <polygon points="109,18 114,8 119,18" fill="#EC4899"/>
+    <polygon points="121,18 126,8 131,18" fill="#EC4899"/>
+    <circle cx="115" cy="26" r="2" fill="white"/>
+    <circle cx="125" cy="26" r="2" fill="white"/>
+    <path d="M117 31 Q120 34 123 31" fill="none" stroke="white" stroke-width="1"/>
+    <!-- Cat 4 -->
+    <circle cx="165" cy="28" r="14" fill="#EC4899"/>
+    <polygon points="154,18 159,8 164,18" fill="#EC4899"/>
+    <polygon points="166,18 171,8 176,18" fill="#EC4899"/>
+    <circle cx="160" cy="26" r="2" fill="white"/>
+    <circle cx="170" cy="26" r="2" fill="white"/>
+    <path d="M162 31 Q165 34 168 31" fill="none" stroke="white" stroke-width="1"/>
+    <!-- Cat 5 -->
+    <circle cx="210" cy="28" r="14" fill="#EC4899"/>
+    <polygon points="199,18 204,8 209,18" fill="#EC4899"/>
+    <polygon points="211,18 216,8 221,18" fill="#EC4899"/>
+    <circle cx="205" cy="26" r="2" fill="white"/>
+    <circle cx="215" cy="26" r="2" fill="white"/>
+    <path d="M207 31 Q210 34 213 31" fill="none" stroke="white" stroke-width="1"/>
+  </g>
+
+  <text x="260" y="110" text-anchor="middle" font-size="10" fill="#6B7280">Your recent views: cats, cats, cats, cats, cats!</text>
+
+  <!-- Arrow to right -->
+  <polygon points="408,85 418,78 418,82 460,82 460,88 418,88 418,92" fill="#F59E0B"/>
+  <text x="436" y="75" text-anchor="middle" font-size="9" fill="#F59E0B" font-weight="bold">The system notices:</text>
+
+  <!-- Speech bubble on right -->
+  <rect x="466" y="55" width="185" height="42" rx="12" fill="#7C3AED"/>
+  <polygon points="466,78 456,85 466,85" fill="#7C3AED"/>
+  <text x="558" y="73" text-anchor="middle" font-size="12" fill="white" font-weight="bold">You LOVE cats!</text>
+  <text x="558" y="88" text-anchor="middle" font-size="11" fill="white">&#128049;</text>
+
+  <!-- Bottom section: other cat lovers -->
+  <rect x="50" y="135" width="580" height="90" rx="10" fill="#EFF6FF" stroke="#93C5FD" stroke-width="1"/>
+
+  <!-- People icons -->
+  <text x="80" y="165" text-anchor="middle" font-size="10" fill="#3B82F6" font-weight="bold">1,000 cat lovers</text>
+  <g transform="translate(40,168)">
+    <circle cx="10" cy="10" r="8" fill="#3B82F6"/><circle cx="10" cy="7" r="4" fill="#93C5FD"/>
+    <circle cx="30" cy="10" r="8" fill="#3B82F6"/><circle cx="30" cy="7" r="4" fill="#93C5FD"/>
+    <circle cx="50" cy="10" r="8" fill="#3B82F6"/><circle cx="50" cy="7" r="4" fill="#93C5FD"/>
+    <circle cx="70" cy="10" r="8" fill="#3B82F6"/><circle cx="70" cy="7" r="4" fill="#93C5FD"/>
+    <text x="90" y="14" font-size="11" fill="#3B82F6">...</text>
+  </g>
+
+  <!-- Also liked arrow -->
+  <text x="180" y="195" font-size="10" fill="#6B7280">also liked</text>
+
+  <!-- Dog icon -->
+  <circle cx="270" cy="186" r="16" fill="#F59E0B"/>
+  <circle cx="264" cy="183" r="2.5" fill="#1F2937"/>
+  <circle cx="276" cy="183" r="2.5" fill="#1F2937"/>
+  <ellipse cx="270" cy="190" rx="5" ry="3" fill="#1F2937"/>
+  <!-- Ears -->
+  <ellipse cx="256" cy="177" rx="6" ry="9" fill="#D97706" transform="rotate(-15,256,177)"/>
+  <ellipse cx="284" cy="177" rx="6" ry="9" fill="#D97706" transform="rotate(15,284,177)"/>
+  <text x="270" y="213" text-anchor="middle" font-size="9" fill="#F59E0B" font-weight="bold">dogs!</text>
+
+  <!-- Big arrow and conclusion -->
+  <polygon points="310,186 320,178 320,183 370,183 370,189 320,189 320,194" fill="#10B981"/>
+  <rect x="380" y="162" width="240" height="46" rx="10" fill="#10B981"/>
+  <text x="500" y="182" text-anchor="middle" font-size="12" fill="white" font-weight="bold">Maybe you'd like dogs too?</text>
+  <text x="500" y="198" text-anchor="middle" font-size="11" fill="#D1FAE5">Let's recommend some! &#127775;</text>
+
+  <!-- Pushpin decorations -->
+  <circle cx="40" cy="45" r="5" fill="#EF4444"/>
+  <circle cx="640" cy="45" r="5" fill="#3B82F6"/>
+  <circle cx="40" cy="225" r="5" fill="#F59E0B"/>
+  <circle cx="640" cy="225" r="5" fill="#10B981"/>
+</svg>

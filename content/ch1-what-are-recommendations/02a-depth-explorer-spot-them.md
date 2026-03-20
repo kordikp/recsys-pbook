@@ -10,8 +10,6 @@ parent: ch1-everywhere
 diagram: null
 ---
 
-# Spot the Recommendations!
-
 Time to become a recommendation detective. Grab your phone or tablet and let's go hunting.
 
 **Your Mission:** Find 5 different types of recommendations in the wild.

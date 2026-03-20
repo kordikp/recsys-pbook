@@ -10,8 +10,6 @@ parent: ch3-friends
 diagram: null
 ---
 
-# See Collaborative Filtering in Action
-
 Let's build a real example. Imagine six kids and five movies. A checkmark means they liked the movie:
 
 |  | Spider-Verse | Encanto | Mitchells | Turning Red | Nimona |

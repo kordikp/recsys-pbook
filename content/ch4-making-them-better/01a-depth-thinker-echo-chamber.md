@@ -10,8 +10,6 @@ parent: ch4-bubbles
 diagram: null
 ---
 
-# Echo Chambers: When Bubbles Get Serious
-
 Filter bubbles with videos and music are one thing. But what happens when the same thing occurs with NEWS and OPINIONS?
 
 Imagine a room where every wall is a mirror. You shout, "Cats are better than dogs!" and the echo bounces back: "Cats are better! Better! BETTER!" You never hear anyone say, "Actually, dogs are pretty great too." You start to think that EVERYONE agrees with you.

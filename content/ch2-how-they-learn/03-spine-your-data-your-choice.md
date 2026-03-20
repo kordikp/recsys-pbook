@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Your Data, Your Choice
-
 Here's something important: all those digital footprints we talked about? They're YOURS. And you have more control over them than you might think.
 
 You don't have to just sit there and let every app collect everything. You have tools. Think of them as your **data superpowers**:

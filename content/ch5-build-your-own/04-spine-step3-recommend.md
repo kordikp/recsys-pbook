@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Step 3: Make Your Predictions
-
 You've got your rating matrix. You know who's similar to who. Now for the big moment: **predicting ratings and making recommendations.**
 
 **The Method:**

@@ -7,10 +7,8 @@ standalone: true
 teaser: "Forget other people. What if the system just looked at WHAT the thing actually is?"
 voice: universal
 parent: null
-diagram: null
+diagram: kids-content-based
 ---
-
-# Look at the Thing Itself
 
 Collaborative filtering is powerful. But it has a problem.
 

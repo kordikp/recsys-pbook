@@ -10,8 +10,6 @@ parent: ch2-clues
 diagram: null
 ---
 
-# The Cold Start Problem
-
 Ever created a brand new account on an app? Remember what happened?
 
 The recommendations were... weird. Generic. Boring. The system showed you the same popular stuff it shows everyone. That's because it had ZERO clues about you. No footprints. No history. Nothing.

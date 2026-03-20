@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Step 4: Make It Better
-
 You built a working recommendation system. That's amazing. But if you tested it, you probably noticed it's not perfect. Some predictions were spot on, others were way off.
 
 Welcome to the life of a recommendation engineer. The system is never "done." There's always a way to make it better. Here are the tricks the pros use:

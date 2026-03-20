@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="250" viewBox="0 0 680 250">
+  <style>text { font-family: system-ui, sans-serif; }</style>
+
+  <!-- Title -->
+  <text x="340" y="22" text-anchor="middle" font-size="15" font-weight="bold" fill="#7C3AED">A/B Testing: The Recommendation Experiment</text>
+
+  <!-- Center divider -->
+  <line x1="340" y1="35" x2="340" y2="210" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="6 4"/>
+  <rect x="300" y="28" width="80" height="22" rx="8" fill="#7C3AED"/>
+  <text x="340" y="43" text-anchor="middle" font-size="9" fill="white" font-weight="bold">A/B Test</text>
+
+  <!-- VS badge -->
+  <circle cx="340" cy="120" r="18" fill="#1F2937"/>
+  <text x="340" y="125" text-anchor="middle" font-size="12" font-weight="bold" fill="white">VS</text>
+
+  <!-- LEFT: Group A (Orange) -->
+  <rect x="25" y="55" width="300" height="150" rx="14" fill="#FFF7ED" stroke="#FDBA74" stroke-width="1.5"/>
+
+  <!-- Group A header -->
+  <rect x="45" y="62" width="100" height="24" rx="8" fill="#F59E0B"/>
+  <text x="95" y="79" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Group A</text>
+
+  <text x="175" y="80" font-size="10" fill="#B45309" font-weight="bold">Old Way</text>
+
+  <!-- Everyone sees same content -->
+  <g transform="translate(40, 92)">
+    <!-- Person 1 -->
+    <circle cx="25" cy="12" r="10" fill="#9CA3AF"/>
+    <circle cx="25" cy="9" r="5" fill="#D1D5DB"/>
+    <!-- Person 2 -->
+    <circle cx="55" cy="12" r="10" fill="#9CA3AF"/>
+    <circle cx="55" cy="9" r="5" fill="#D1D5DB"/>
+    <!-- Person 3 -->
+    <circle cx="85" cy="12" r="10" fill="#9CA3AF"/>
+    <circle cx="85" cy="9" r="5" fill="#D1D5DB"/>
+
+    <!-- Arrow -->
+    <polygon points="105,12 115,6 115,9 125,9 125,15 115,15 115,18" fill="#D1D5DB"/>
+
+    <!-- Same generic content for all -->
+    <rect x="135" y="0" width="24" height="18" rx="3" fill="#D1D5DB"/>
+    <rect x="163" y="0" width="24" height="18" rx="3" fill="#D1D5DB"/>
+    <rect x="191" y="0" width="24" height="18" rx="3" fill="#D1D5DB"/>
+    <text x="176" y="32" text-anchor="middle" font-size="8" fill="#9CA3AF">Same for everyone</text>
+  </g>
+
+  <!-- Result A -->
+  <rect x="55" y="150" width="200" height="36" rx="8" fill="white" stroke="#FDBA74" stroke-width="1"/>
+  <text x="100" y="172" text-anchor="middle" font-size="11" fill="#B45309" font-weight="bold">Result:</text>
+  <text x="170" y="170" font-size="12" fill="#F59E0B">&#128077;</text>
+  <text x="200" y="172" font-size="10" fill="#9CA3AF">OK</text>
+
+  <!-- RIGHT: Group B (Purple) -->
+  <rect x="355" y="55" width="300" height="150" rx="14" fill="#F5F3FF" stroke="#C4B5FD" stroke-width="1.5"/>
+
+  <!-- Group B header -->
+  <rect x="375" y="62" width="100" height="24" rx="8" fill="#7C3AED"/>
+  <text x="425" y="79" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Group B</text>
+
+  <text x="505" y="80" font-size="10" fill="#6D28D9" font-weight="bold">New Way</text>
+
+  <!-- Personalized content -->
+  <g transform="translate(370, 92)">
+    <!-- Person 1 with matching content -->
+    <circle cx="20" cy="12" r="10" fill="#EC4899"/>
+    <circle cx="20" cy="9" r="5" fill="#FBCFE8"/>
+    <text x="40" y="10" font-size="6" fill="#7C3AED">&#10140;</text>
+    <rect x="48" y="3" width="22" height="16" rx="3" fill="#EC4899"/>
+
+    <!-- Person 2 with matching content -->
+    <circle cx="95" cy="12" r="10" fill="#3B82F6"/>
+    <circle cx="95" cy="9" r="5" fill="#BFDBFE"/>
+    <text x="115" y="10" font-size="6" fill="#7C3AED">&#10140;</text>
+    <rect x="123" y="3" width="22" height="16" rx="3" fill="#3B82F6"/>
+
+    <!-- Person 3 with matching content -->
+    <circle cx="170" cy="12" r="10" fill="#10B981"/>
+    <circle cx="170" cy="9" r="5" fill="#D1FAE5"/>
+    <text x="190" y="10" font-size="6" fill="#7C3AED">&#10140;</text>
+    <rect x="198" y="3" width="22" height="16" rx="3" fill="#10B981"/>
+
+    <text x="120" y="32" text-anchor="middle" font-size="8" fill="#7C3AED" font-weight="bold">Personalized for each!</text>
+  </g>
+
+  <!-- Result B -->
+  <rect x="385" y="150" width="240" height="36" rx="8" fill="white" stroke="#C4B5FD" stroke-width="1"/>
+  <text x="430" y="172" text-anchor="middle" font-size="11" fill="#6D28D9" font-weight="bold">Result:</text>
+  <text x="480" y="170" font-size="12" fill="#10B981">&#128077;&#128077;&#128077;</text>
+  <text x="560" y="172" font-size="10" fill="#10B981" font-weight="bold">Much better!</text>
+
+  <!-- Bottom text -->
+  <rect x="160" y="215" width="360" height="28" rx="10" fill="#F3E8FF"/>
+  <text x="340" y="234" text-anchor="middle" font-size="11" fill="#7C3AED" font-weight="bold">A science experiment with millions of people!</text>
+
+  <!-- Sparkles -->
+  <text x="565" y="70" font-size="12" fill="#FBBF24">&#10024;</text>
+  <text x="590" y="150" font-size="10" fill="#EC4899">&#10024;</text>
+</svg>

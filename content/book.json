@@ -18,7 +18,8 @@
         "03b-depth-thinker-patterns.md",
         "04-spine-three-jobs.md",
         "04a-depth-creator-your-first.md",
-        "05-question-what-type.md"
+        "05-question-what-type.md",
+        "06-spine-worksheet-match-apps.md"
       ]
     },
     {
@@ -34,7 +35,8 @@
         "02a-sidebar-incognito.md",
         "03-spine-your-data-your-choice.md",
         "03a-depth-thinker-privacy.md",
-        "03b-depth-creator-experiment.md"
+        "03b-depth-creator-experiment.md",
+        "04-spine-worksheet-data-detective.md"
       ]
     },
     {
@@ -54,7 +56,8 @@
         "03a-sidebar-popularity-trap.md",
         "04-spine-the-pipeline.md",
         "04a-depth-explorer-pipeline-visual.md",
-        "05-question-method.md"
+        "05-question-method.md",
+        "06-spine-worksheet-build-recommender.md"
       ]
     },
     {
@@ -71,7 +74,8 @@
         "02a-sidebar-youtube-algorithm.md",
         "03-spine-testing.md",
         "03a-depth-explorer-ab-test.md",
-        "04-question-ethics.md"
+        "04-question-ethics.md",
+        "05-spine-worksheet-bubble-audit.md"
       ]
     },
     {
@@ -90,7 +94,8 @@
         "04a-depth-creator-code.md",
         "05-spine-step4-improve.md",
         "05a-sidebar-career.md",
-        "06-question-next.md"
+        "06-question-next.md",
+        "07-spine-worksheet-design-challenge.md"
       ]
     }
   ]

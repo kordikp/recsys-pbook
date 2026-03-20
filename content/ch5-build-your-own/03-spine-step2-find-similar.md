@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Step 2: Find Similar People
-
 Now comes the detective work. You've got your rating matrix. Time to figure out: **who has similar taste?**
 
 Let's look at an example. Here are three people's ratings:

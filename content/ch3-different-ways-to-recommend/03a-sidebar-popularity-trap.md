@@ -10,8 +10,6 @@ parent: ch3-popular
 diagram: null
 ---
 
-# The Popularity Trap
-
 Here's something tricky that happens with popularity-based recommendations. It's called the **rich-get-richer effect**, and once you see it, you'll notice it everywhere.
 
 ## How the Trap Works

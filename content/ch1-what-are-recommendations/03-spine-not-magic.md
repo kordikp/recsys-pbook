@@ -7,10 +7,8 @@ standalone: true
 teaser: "Recommender systems are like detectives. They find clues in your clicks."
 voice: universal
 parent: null
-diagram: null
+diagram: kids-pattern-detective
 ---
-
-# It's Not Magic -- It's Patterns
 
 Okay, so recommender systems seem almost magical. But they're not magic at all. They're detectives. And their superpower? **Finding patterns.**
 

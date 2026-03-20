@@ -10,8 +10,6 @@ parent: ch4-testing
 diagram: null
 ---
 
-# Run Your Own A/B Test
-
 Let's walk through a real A/B test, step by step. You're the lead engineer at a music streaming app called "TuneUp." Your mission: figure out the best way to recommend songs.
 
 **The Experiment:**

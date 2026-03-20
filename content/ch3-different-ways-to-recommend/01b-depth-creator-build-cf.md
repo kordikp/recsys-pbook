@@ -10,8 +10,6 @@ parent: ch3-friends
 diagram: null
 ---
 
-# Build Your Own Taste-Matching System
-
 You don't need a computer to try collaborative filtering. You can do it right now with a pencil, some paper, and about 10 friends.
 
 ## What You'll Need

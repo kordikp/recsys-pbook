@@ -10,8 +10,6 @@ parent: ch5-recommend
 diagram: null
 ---
 
-# Code It!
-
 Ready to turn your recommendation system into actual code? Here's a Python script that does everything from Steps 1-3. Every single line has a comment explaining what it does.
 
 **You'll need:**
@@ -36,7 +34,6 @@ Leo,,5,,5,2
 ```python
 import csv                           # reads CSV files
 
-# Load the ratings from file
 ratings = {}                         # empty dictionary to hold all ratings
 with open('ratings.csv') as f:       # open our data file
     reader = csv.DictReader(f)       # read it as a table with headers
@@ -47,7 +44,6 @@ with open('ratings.csv') as f:       # open our data file
             if movie != 'Name' and score: # skip name column and blanks
                 ratings[name][movie] = int(score)  # store as number
 
-# Find how similar two people are
 def similarity(person1, person2):
     shared = []                      # movies both people rated
     for movie in ratings[person1]:   # check person1's movies
@@ -58,7 +54,6 @@ def similarity(person1, person2):
         return 99                    # not similar at all
     return sum(shared) / len(shared) # average difference (lower = more similar)
 
-# Predict a rating for a person + movie
 def predict(person, movie):
     scores = []                      # collect ratings from similar people
     for other in ratings:            # check every other person
@@ -72,7 +67,6 @@ def predict(person, movie):
         return round(sum(scores) / len(scores), 1)  # return average
     return None                      # not enough data to predict
 
-# Make recommendations for someone
 person = 'Sam'                       # who to recommend for
 print(f'Recommendations for {person}:')
 all_movies = set()                   # find every movie in our data

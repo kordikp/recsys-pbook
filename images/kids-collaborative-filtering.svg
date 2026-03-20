@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="350" viewBox="0 0 680 350">
+  <style>text { font-family: system-ui, sans-serif; }</style>
+
+  <!-- Title -->
+  <text x="340" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#7C3AED">Collaborative Filtering: Finding Your Taste Twin</text>
+
+  <!-- Grid background -->
+  <rect x="30" y="38" width="430" height="220" rx="12" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1"/>
+
+  <!-- Column headers: movies -->
+  <g transform="translate(150, 48)">
+    <!-- Spider-Man -->
+    <rect x="0" y="0" width="58" height="28" rx="6" fill="#EF4444"/>
+    <text x="29" y="13" text-anchor="middle" font-size="7" fill="white" font-weight="bold">Spider-</text>
+    <text x="29" y="23" text-anchor="middle" font-size="7" fill="white" font-weight="bold">Man</text>
+    <!-- Frozen -->
+    <rect x="68" y="0" width="58" height="28" rx="6" fill="#3B82F6"/>
+    <text x="97" y="18" text-anchor="middle" font-size="8" fill="white" font-weight="bold">Frozen</text>
+    <!-- Encanto -->
+    <rect x="136" y="0" width="58" height="28" rx="6" fill="#F59E0B"/>
+    <text x="165" y="18" text-anchor="middle" font-size="8" fill="white" font-weight="bold">Encanto</text>
+    <!-- Moana -->
+    <rect x="204" y="0" width="58" height="28" rx="6" fill="#10B981"/>
+    <text x="233" y="18" text-anchor="middle" font-size="8" fill="white" font-weight="bold">Moana</text>
+    <!-- Mystery -->
+    <rect x="272" y="0" width="58" height="28" rx="6" fill="#D1D5DB"/>
+    <text x="301" y="18" text-anchor="middle" font-size="14" fill="#6B7280">?</text>
+  </g>
+
+  <!-- Row 1: YOU (highlighted) -->
+  <rect x="35" y="82" width="420" height="40" rx="6" fill="#EDE9FE"/>
+  <!-- Face -->
+  <circle cx="65" cy="102" r="14" fill="#FBBF24"/>
+  <circle cx="60" cy="99" r="2" fill="#1F2937"/>
+  <circle cx="70" cy="99" r="2" fill="#1F2937"/>
+  <path d="M60 107 Q65 112 70 107" fill="none" stroke="#1F2937" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="100" y="106" font-size="12" font-weight="bold" fill="#7C3AED">YOU</text>
+  <!-- Checkmarks: Spider-Man YES, Frozen YES, Encanto YES, Moana ??, Mystery ? -->
+  <text x="179" y="108" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="247" y="108" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="315" y="108" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="383" y="108" text-anchor="middle" font-size="16" fill="#D1D5DB">&#8212;</text>
+  <text x="451" y="108" text-anchor="middle" font-size="16" fill="#D1D5DB">&#8212;</text>
+
+  <!-- Row 2: Alex (highlighted - taste twin!) -->
+  <rect x="35" y="126" width="420" height="40" rx="6" fill="#FEF3C7"/>
+  <circle cx="65" cy="146" r="14" fill="#3B82F6"/>
+  <circle cx="60" cy="143" r="2" fill="white"/>
+  <circle cx="70" cy="143" r="2" fill="white"/>
+  <path d="M60 151 Q65 156 70 151" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="100" y="150" font-size="11" font-weight="bold" fill="#B45309">Alex</text>
+  <!-- Matching! Spider-Man YES, Frozen YES, Encanto YES, Moana YES -->
+  <text x="179" y="152" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="247" y="152" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="315" y="152" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="383" y="152" text-anchor="middle" font-size="18" fill="#F59E0B" font-weight="bold">&#10003;</text>
+  <text x="451" y="152" text-anchor="middle" font-size="16" fill="#D1D5DB">&#8212;</text>
+  <!-- Match indicator -->
+  <text x="133" y="128" font-size="8" fill="#F59E0B" font-weight="bold">&#11088; MATCH!</text>
+
+  <!-- Row 3: Sam -->
+  <rect x="35" y="170" width="420" height="40" rx="6" fill="white"/>
+  <circle cx="65" cy="190" r="14" fill="#10B981"/>
+  <circle cx="60" cy="187" r="2" fill="white"/>
+  <circle cx="70" cy="187" r="2" fill="white"/>
+  <path d="M60 195 Q65 200 70 195" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="100" y="194" font-size="11" font-weight="bold" fill="#6B7280">Sam</text>
+  <text x="179" y="196" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="247" y="196" text-anchor="middle" font-size="16" fill="#D1D5DB">&#8212;</text>
+  <text x="315" y="196" text-anchor="middle" font-size="16" fill="#D1D5DB">&#8212;</text>
+  <text x="383" y="196" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="451" y="196" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+
+  <!-- Row 4: Maya -->
+  <rect x="35" y="214" width="420" height="40" rx="6" fill="white"/>
+  <circle cx="65" cy="234" r="14" fill="#EC4899"/>
+  <circle cx="60" cy="231" r="2" fill="white"/>
+  <circle cx="70" cy="231" r="2" fill="white"/>
+  <path d="M60 239 Q65 244 70 239" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="100" y="238" font-size="11" font-weight="bold" fill="#6B7280">Maya</text>
+  <text x="179" y="240" text-anchor="middle" font-size="16" fill="#D1D5DB">&#8212;</text>
+  <text x="247" y="240" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="315" y="240" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+  <text x="383" y="240" text-anchor="middle" font-size="16" fill="#D1D5DB">&#8212;</text>
+  <text x="451" y="240" text-anchor="middle" font-size="18" fill="#10B981">&#10003;</text>
+
+  <!-- Bracket connecting You and Alex's Moana columns -->
+  <rect x="368" y="92" width="30" height="68" rx="0" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 3"/>
+
+  <!-- Big conclusion arrow and text -->
+  <rect x="470" y="86" width="200" height="90" rx="14" fill="#7C3AED"/>
+  <text x="570" y="112" text-anchor="middle" font-size="11" fill="white" font-weight="bold">Alex liked Moana</text>
+  <text x="570" y="130" text-anchor="middle" font-size="11" fill="white" font-weight="bold">and your taste matches!</text>
+  <text x="570" y="156" text-anchor="middle" font-size="16" fill="#FBBF24" font-weight="bold">&#10140; TRY IT!</text>
+  <text x="570" y="170" text-anchor="middle" font-size="12" fill="#FBBF24">&#10024; &#10024; &#10024;</text>
+
+  <!-- Bottom explanation -->
+  <rect x="100" y="276" width="480" height="36" rx="10" fill="#F3F4F6"/>
+  <text x="340" y="298" text-anchor="middle" font-size="11" fill="#6B7280">People who like the same things as you = your <tspan fill="#7C3AED" font-weight="bold">Taste Twins!</tspan></text>
+
+  <!-- Connection lines -->
+  <line x1="455" y1="102" x2="470" y2="110" stroke="#F59E0B" stroke-width="2"/>
+  <line x1="455" y1="146" x2="470" y2="140" stroke="#F59E0B" stroke-width="2"/>
+</svg>

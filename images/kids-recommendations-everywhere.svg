@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="680" height="300" viewBox="0 0 680 300">
+  <style>text { font-family: system-ui, sans-serif; }</style>
+
+  <!-- Title -->
+  <text x="340" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#7C3AED">Recommendations Are Everywhere!</text>
+
+  <!-- Center kid -->
+  <circle cx="340" cy="158" r="36" fill="#FDE68A" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="328" cy="150" r="3.5" fill="#1F2937"/>
+  <circle cx="352" cy="150" r="3.5" fill="#1F2937"/>
+  <path d="M326 166 Q340 178 354 166" fill="none" stroke="#1F2937" stroke-width="2" stroke-linecap="round"/>
+  <path d="M306 148 Q312 120 340 118 Q368 120 374 148" fill="#7C3AED"/>
+  <text x="340" y="208" text-anchor="middle" font-size="12" font-weight="bold" fill="#374151">YOU</text>
+
+  <!-- 6 apps arranged in hexagonal positions -->
+  <!-- Dashed arrows from center to each app -->
+
+  <!-- 1. YouTube — top center -->
+  <line x1="340" y1="122" x2="340" y2="68" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="314" y="36" width="52" height="30" rx="6" fill="#EF4444"/>
+  <polygon points="334,46 334,58 346,52" fill="white"/>
+  <text x="340" y="80" text-anchor="middle" font-size="9" fill="#EF4444" font-weight="bold">Up Next</text>
+
+  <!-- 2. TikTok — top right -->
+  <line x1="370" y1="132" x2="455" y2="72" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="472" cy="58" r="20" fill="#111827"/>
+  <text x="472" y="64" text-anchor="middle" font-size="18" fill="#25F4EE">&#9834;</text>
+  <text x="472" y="90" text-anchor="middle" font-size="9" fill="#EC4899" font-weight="bold">For You</text>
+
+  <!-- 3. Spotify — middle right -->
+  <line x1="376" y1="158" x2="468" y2="158" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <circle cx="492" cy="158" r="20" fill="#10B981"/>
+  <path d="M481 151 Q492 147 503 151" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M483 157 Q492 154 501 157" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"/>
+  <path d="M485 163 Q492 161 499 163" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="492" y="190" text-anchor="middle" font-size="8" fill="#10B981" font-weight="bold">Discover Weekly</text>
+
+  <!-- 4. Netflix — bottom right -->
+  <line x1="370" y1="184" x2="455" y2="240" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="452" y="230" width="40" height="28" rx="5" fill="#111827"/>
+  <text x="472" y="250" text-anchor="middle" font-size="16" font-weight="bold" fill="#E50914">N</text>
+  <text x="472" y="274" text-anchor="middle" font-size="7" fill="#EF4444" font-weight="bold">Because You Watched</text>
+
+  <!-- 5. Amazon — bottom left -->
+  <line x1="310" y1="184" x2="225" y2="240" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="186" y="230" width="40" height="28" rx="6" fill="#F59E0B"/>
+  <text x="206" y="249" text-anchor="middle" font-size="14" fill="white" font-weight="bold">a</text>
+  <path d="M192 253 Q206 260 220 253" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="206" y="274" text-anchor="middle" font-size="7" fill="#F59E0B" font-weight="bold">Customers Also Bought</text>
+
+  <!-- 6. App Store — middle left -->
+  <line x1="304" y1="158" x2="212" y2="158" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <rect x="168" y="140" width="36" height="36" rx="8" fill="#3B82F6"/>
+  <text x="186" y="164" text-anchor="middle" font-size="18" font-weight="bold" fill="white">A</text>
+  <text x="186" y="190" text-anchor="middle" font-size="8" fill="#3B82F6" font-weight="bold">You Might Like</text>
+
+  <!-- Sparkles -->
+  <circle cx="80" cy="50" r="3" fill="#FBBF24"/>
+  <circle cx="600" cy="50" r="3" fill="#EC4899"/>
+  <circle cx="600" cy="270" r="3" fill="#FBBF24"/>
+  <circle cx="80" cy="270" r="3" fill="#7C3AED"/>
+  <circle cx="130" cy="100" r="2" fill="#10B981"/>
+  <circle cx="550" cy="220" r="2" fill="#3B82F6"/>
+</svg>

@@ -10,8 +10,6 @@ parent: ch1-three-jobs
 diagram: null
 ---
 
-# Build Your First Recommender (On Paper!)
-
 You don't need a computer to build a recommendation system. You just need some friends, a pencil, and a piece of paper. Let's do this!
 
 ## What You Need

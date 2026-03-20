@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# What Sounds Most Fun to You?
-
 You've learned the basics of what recommender systems are. Now it's time to figure out what YOU want to explore next. There's no wrong answer here -- this just helps you pick your adventure.
 
 **Read each option and pick the one that excites you the most:**

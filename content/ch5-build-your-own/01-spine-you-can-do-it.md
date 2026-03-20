@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# You Can Actually Do This
-
 Okay. You've learned how recommendation systems work. You know about collaborative filtering, content-based filtering, filter bubbles, fairness, and A/B testing. You know more about this stuff than most adults.
 
 Now here's the fun part: **you're going to build one yourself.**

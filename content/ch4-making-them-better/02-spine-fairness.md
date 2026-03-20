@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Is It Fair?
-
 Picture a school talent show. But here's the twist: the kids who won LAST year get to perform first, on the biggest stage, with the best sound system. New kids? They perform in a tiny room in the back, where almost nobody can hear them.
 
 The popular kids get cheered on, which makes them even MORE popular next year. The new kids never get a real chance. Even if they're amazing.

@@ -10,8 +10,6 @@ parent: ch3-content
 diagram: null
 ---
 
-# Friends vs. Things: Which Method Wins?
-
 We've learned two ways to recommend stuff. Let's put them head-to-head and think carefully about when each one shines -- and when it struggles.
 
 ## Collaborative Filtering (The Friends Method)

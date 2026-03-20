@@ -10,8 +10,6 @@ parent: ch4-fairness
 diagram: null
 ---
 
-# YouTube by the Numbers
-
 YouTube is one of the biggest recommendation engines on the planet. The numbers are wild:
 
 **The Scale:**

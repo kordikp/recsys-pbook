@@ -10,8 +10,6 @@ parent: ch5-similar
 diagram: null
 ---
 
-# The Math Behind Similarity
-
 The "average difference" method from the main chapter works fine for a small project. But real recommendation systems need something more precise. The most popular method is called **cosine similarity**, and it's more intuitive than it sounds.
 
 **Think of it like a compass.**

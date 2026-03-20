@@ -16,8 +16,6 @@ options:
   - letter: D, text: All of them -- find a way to balance everything, voice: universal
 ---
 
-# What Matters Most?
-
 You're designing a recommendation system for a brand-new video app. Millions of people will use it. You can only focus on ONE priority first. What do you choose?
 
 **A) Accuracy** -- Make the recommendations as precise as possible. Every video shown should be something the user will love. Happy users come back.

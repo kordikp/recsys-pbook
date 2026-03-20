@@ -10,8 +10,6 @@ parent: ch3-friends
 diagram: null
 ---
 
-# The Million-Dollar Recommendation Challenge
-
 In 2006, Netflix did something wild. They said: "We'll give **one million dollars** to anyone who can make our movie recommendations just 10% better."
 
 They called it the **Netflix Prize**.

@@ -7,10 +7,8 @@ standalone: true
 teaser: "Real systems don't use just one method. They use ALL of them, in three clever steps."
 voice: universal
 parent: null
-diagram: null
+diagram: kids-pipeline
 ---
-
-# The Recommendation Pipeline
 
 Here's something important: real recommendation systems don't pick just one method. They don't say "we're a collaborative filtering company" or "we only do content-based."
 

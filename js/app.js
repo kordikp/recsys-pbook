@@ -783,29 +783,52 @@ class PBook {
   }
 
   _generateQuiz(block) {
-    // Generate a comprehension question based on the block content
     const body = (block.body || '').toLowerCase();
-    const title = block.title || '';
-
-    // Simple quiz templates based on content keywords
     const quizzes = [];
-    if (body.includes('collaborative filter')) quizzes.push({ q: 'What is the core assumption behind collaborative filtering?', a: 'People who agreed in the past will agree in the future.' });
-    if (body.includes('cold start') || body.includes('cold-start')) quizzes.push({ q: 'What is the cold start problem in recommendation?', a: 'New users or items have no interaction history, making personalization difficult.' });
-    if (body.includes('a/b test')) quizzes.push({ q: 'Why is A/B testing the gold standard for evaluating recommenders?', a: 'It measures real user outcomes, not just offline proxies.' });
-    if (body.includes('diversity') && body.includes('relevance')) quizzes.push({ q: 'Why can maximizing relevance alone be harmful?', a: 'It creates filter bubbles — users only see familiar content and never discover new things.' });
-    if (body.includes('matrix factor')) quizzes.push({ q: 'What does matrix factorization discover?', a: 'Hidden "taste dimensions" — latent factors that capture user preferences and item characteristics.' });
-    if (body.includes('adtech') || body.includes('targeted ad')) quizzes.push({ q: 'How do recommender systems differ from targeted advertising?', a: 'Recommenders use on-site behavior only. AdTech tracks users across the entire web.' });
-    if (body.includes('objective') && body.includes('metric')) quizzes.push({ q: 'Why is choosing the right objective critical?', a: 'The objectives you set shape the product users experience. Wrong objectives create wrong behavior.' });
-    if (body.includes('scenario') && body.includes('homepage')) quizzes.push({ q: 'Why do different scenarios need different optimization?', a: 'User intent differs: browsing (homepage) vs searching (query) vs checkout have different expectations.' });
-    if (body.includes('engagement') && body.includes('retention')) quizzes.push({ q: 'Can higher engagement lead to worse outcomes?', a: 'Yes — clickbait increases CTR but destroys long-term retention and trust.' });
-    if (body.includes('recombee') && body.includes('logic')) quizzes.push({ q: 'What are Recombee Logics?', a: 'Pre-configured recommendation algorithms/ensembles (e.g., recombee:personal, recombee:similar-items).' });
 
-    if (quizzes.length === 0) return null;
+    // --- Kid-friendly quizzes matched to content keywords ---
+
+    // Ch1: What are recommendations
+    if (body.includes('youtube') && body.includes('recommend')) quizzes.push({ q: 'How does YouTube pick videos for your homepage?', a: 'It looks at what you watched before and finds patterns — if you liked cat videos, it guesses you might like more!' });
+    if (body.includes('pattern')) quizzes.push({ q: 'What are recommender systems really good at finding?', a: 'Patterns! They notice things like "people who liked X also liked Y" — like a super-powered detective.' });
+    if (body.includes('discover') && body.includes('find')) quizzes.push({ q: 'Can you name the 3 jobs of a recommender system?', a: '1) Help you DISCOVER new things, 2) Help you FIND stuff faster, 3) Keep you INTERESTED so you come back!' });
+    if (body.includes('peppa pig') || body.includes('wrong') || body.includes('hilarious')) quizzes.push({ q: 'Why do recommendations sometimes go totally wrong?', a: 'Because the system only sees clicks, not reasons. If your sibling watches cartoons on your account, it thinks YOU like cartoons!' });
+
+    // Ch2: How they learn
+    if (body.includes('footprint') || body.includes('digital')) quizzes.push({ q: 'What are "digital footprints"?', a: 'Every click, watch, skip, and search you make — like footprints in sand that tell the system about your taste!' });
+    if (body.includes('skip') && body.includes('watch')) quizzes.push({ q: 'Which tells the system MORE about you: watching a video to the end, or skipping after 3 seconds?', a: 'Both! Watching to the end says "loved it!" Skipping says "not for me." The system learns from everything you do.' });
+    if (body.includes('cold start') || body.includes('new account')) quizzes.push({ q: 'What happens when you create a brand new account?', a: 'The "cold start" problem! The system has zero clues about you, so recommendations are pretty random at first. But it learns FAST!' });
+    if (body.includes('privacy') || body.includes('your data')) quizzes.push({ q: 'True or false: You have NO control over what recommendations show you.', a: 'FALSE! You can clear history, say "not interested," use separate profiles, and even go incognito. Your data = your choice!' });
+
+    // Ch3: Different methods
+    if (body.includes('collaborative') || body.includes('similar taste')) quizzes.push({ q: 'You and your friend both love the same 5 movies. Your friend finds a new one and loves it. Will you probably like it too?', a: 'Probably yes! That is exactly how collaborative filtering works — finding people with matching taste and sharing their discoveries.' });
+    if (body.includes('content-based') || body.includes('look at the thing')) quizzes.push({ q: 'What is the difference between asking your friends vs. looking at the thing itself?', a: 'Asking friends (collaborative filtering) = find people with similar taste. Looking at the thing (content-based) = find items with similar features. Both work, but differently!' });
+    if (body.includes('popular') || body.includes('trending')) quizzes.push({ q: 'Why is "just show what is popular" not always the best strategy?', a: 'Because it does not know YOU at all! Popular stuff is popular for a reason, but you might have unique tastes that trending lists miss completely.' });
+    if (body.includes('pipeline') || body.includes('find') && body.includes('rank')) quizzes.push({ q: 'What are the 3 steps in a recommendation pipeline?', a: '1) FIND — gather hundreds of candidates, 2) RANK — score each one for you personally, 3) CHECK — add variety and remove stuff you already saw!' });
+    if (body.includes('netflix') && body.includes('prize')) quizzes.push({ q: 'Netflix offered $1 million for better recommendations. What happened?', a: 'Over 40,000 teams competed! The winners made it 10% better by combining 100+ methods. But it was too complicated to actually use. Sometimes simpler is better!' });
+
+    // Ch4: Making them better
+    if (body.includes('filter bubble') || body.includes('bubble')) quizzes.push({ q: 'What is a "filter bubble" and why should you care?', a: 'When recommendations only show you things you already like, you get stuck in a bubble. You never discover new interests! It is like only eating pizza forever.' });
+    if (body.includes('echo chamber')) quizzes.push({ q: 'How is an echo chamber different from a filter bubble?', a: 'A filter bubble limits what you discover. An echo chamber is worse — it makes you think EVERYONE agrees with you because you only hear your own opinions reflected back!' });
+    if (body.includes('fair') || body.includes('new creator')) quizzes.push({ q: 'Why might a recommendation system be unfair to new creators?', a: 'Because popular creators get recommended more → get more views → become even more popular. New creators barely get seen. Good systems give new content a chance!' });
+    if (body.includes('a/b test') || body.includes('experiment')) quizzes.push({ q: 'What is an A/B test?', a: 'A science experiment with real users! Half see version A, half see version B. Compare the results to find out which is actually better. Companies do this all the time!' });
+
+    // Ch5: Build your own
+    if (body.includes('survey') || body.includes('rate') && body.includes('movie')) quizzes.push({ q: 'What is the first step to building your own recommendation system?', a: 'Collect data! Survey your friends — ask them to rate movies 1-5 stars. That grid of ratings is exactly what Netflix and Spotify use!' });
+    if (body.includes('similar') && body.includes('rating')) quizzes.push({ q: 'How do you find people with similar taste using a rating grid?', a: 'Look for people who gave the SAME movies similar scores. If you both rated Frozen 5 stars and Moana 4 stars, you probably have matching taste!' });
+    if (body.includes('predict') || body.includes('empty cell')) quizzes.push({ q: 'How do you predict if someone will like a movie they have not seen?', a: 'Find 2-3 people with similar taste who DID see it. Average their ratings. If they gave it 4+ stars, recommend it!' });
+    if (body.includes('improve') || body.includes('more data')) quizzes.push({ q: 'Name 2 ways to make your recommendation system better.', a: 'Get MORE data (survey more people), and do not just look at ratings — also consider what TYPE of movie it is (animation, action, comedy)!' });
+
+    // Fallback: generate from title
+    if (quizzes.length === 0) {
+      quizzes.push({ q: 'Can you explain "' + (block.title || 'this topic') + '" to a friend in one sentence?', a: 'Try it! If you can explain it simply, you really understand it. If not, read the section again — it will make more sense the second time!' });
+    }
+
     const quiz = quizzes[Math.floor(Math.random() * quizzes.length)];
-    return `<h4>&#129504; Check yourself</h4>
+    return `<h4>&#129504; Quick Quiz!</h4>
       <div class="ctx-quiz">
         <div class="ctx-quiz-q">${quiz.q}</div>
-        <button class="ctx-quiz-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show answer</button>
+        <button class="ctx-quiz-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Hmm, let me think... &#129300; Show answer!</button>
         <div class="ctx-quiz-a" style="display:none">${quiz.a}</div>
       </div>`;
   }
@@ -1087,24 +1110,25 @@ class PBook {
 
   // ===== VISUAL RPG MAP =====
   renderVisualMap(visibleVoices) {
-    const chapterPrereqs = { 0:[], 1:[0], 2:[0,1], 3:[2], 4:[2,3], 5:[4], 6:[2,5] };
+    // Build prereqs and layout dynamically from book chapters
+    const numCh = this.book.chapters.length;
+    const chapterPrereqs = {};
+    for (let i = 0; i < numCh; i++) {
+      chapterPrereqs[i] = i === 0 ? [] : [i - 1]; // linear: each chapter requires the previous
+    }
     const suggestedNext = this.getSuggestedNext(chapterPrereqs);
 
-    // Layout: position chapters on a grid
-    const layout = [
-      { ci: 0, x: 50,  y: 60,  label: 'Intro' },
-      { ci: 1, x: 220, y: 30,  label: 'Data' },
-      { ci: 2, x: 220, y: 100, label: 'Objectives' },
-      { ci: 3, x: 390, y: 100, label: 'Scenarios' },
-      { ci: 4, x: 500, y: 60,  label: 'Tasks' },
-      { ci: 5, x: 620, y: 30,  label: 'Algorithms' },
-      { ci: 6, x: 620, y: 100, label: 'Evaluation' },
-    ];
+    // Layout: position chapters dynamically on a grid
+    const layout = this.book.chapters.map((ch, i) => {
+      const cols = Math.min(numCh, 4);
+      const row = Math.floor(i / cols);
+      const col = i % cols;
+      return { ci: i, x: 50 + col * 170, y: 40 + row * 80, label: ch.title.split(/[:(]/)[0].trim().substring(0, 14) };
+    });
 
-    // Connections (prerequisite arrows)
-    const connections = [
-      [0, 1], [0, 2], [2, 3], [2, 4], [3, 4], [4, 5], [2, 6], [5, 6]
-    ];
+    // Connections: linear chain
+    const connections = [];
+    for (let i = 0; i < numCh - 1; i++) connections.push([i, i + 1]);
 
     // Compute stats per chapter
     const chData = layout.map(l => {
@@ -1121,7 +1145,9 @@ class PBook {
       return { ...l, spines, depths, readSpines, total, pct, hasNext, depthCount, savedCount, ratedCount };
     });
 
-    const W = 740, H = 180;
+    const cols = Math.min(numCh, 4);
+    const rows = Math.ceil(numCh / cols);
+    const W = Math.max(680, 50 + cols * 170), H = 40 + rows * 80 + 60;
     let svg = `<div class="visual-map-wrap"><svg viewBox="0 0 ${W} ${H}" class="visual-map">`;
 
     // Background grid pattern
@@ -1607,24 +1633,81 @@ class PBook {
       this.user.save();
       this.updateVoiceBadge();
     }
-    // Show recommendations based on answer
+
     const qBlock = el.closest('.q-block');
     let recsDiv = qBlock.querySelector('.q-recs');
     if (!recsDiv) { recsDiv = document.createElement('div'); recsDiv.className = 'q-recs fade-up'; qBlock.appendChild(recsDiv); }
+
+    // Generate personalized feedback based on the answer
+    const answerText = el.textContent.trim();
+    const letter = el.querySelector('.q-letter')?.textContent?.trim() || '';
+    const feedback = this._generateAnswerFeedback(qId, letter, voice, answerText);
+
+    // Find matching recommendations
     const vc = CONFIG.voices[voice] || {};
     const voiceFilter = voice !== 'universal' ? voice : null;
-    // Prioritize: matching voice depth cards first, then spine blocks
     let recs = [];
     if (voiceFilter) {
-      // Voice-specific: show depth cards in that voice first
       const voiceDepths = this.allBlocks.filter(b => b.meta.voice === voiceFilter && b.meta.type === 'depth' && !this.user.readBlocks.has(b.meta.id));
       const unreadSpines = this.allBlocks.filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id));
       recs = [...voiceDepths.slice(0, 3), ...unreadSpines.slice(0, 2)].slice(0, 4);
     } else {
       recs = this.allBlocks.filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id)).slice(0, 4);
     }
-    recsDiv.innerHTML = `<div class="q-recs-title">Recommended for you${vc.label ? ` (${vc.label})` : ''}:</div>${recs.map(b => `<div class="q-rec-item">${this.cardHtml(b.meta)}</div>`).join('')}`;
+
+    let html = `<div class="q-feedback fade-up">${feedback}</div>`;
+    if (recs.length) {
+      html += `<div class="q-recs-title">Here's what to read next${vc.label ? ' (' + vc.label + ' path)' : ''}:</div>`;
+      html += recs.map(b => `<div class="q-rec-item">${this.cardHtml(b.meta)}</div>`).join('');
+    }
+    recsDiv.innerHTML = html;
     recsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  _generateAnswerFeedback(qId, letter, voice, text) {
+    // Question-specific feedback
+    const feedbacks = {
+      'ch1-q1': {
+        A: "Awesome choice! You're an Explorer! You'll love seeing how YouTube's algorithm actually decides what to show you — it's like peeking behind a magic curtain. Let's dig into the mechanics!",
+        B: "A Creator at heart! Building things is the BEST way to learn. By the end of this book, you'll have made your own recommendation system. How cool is that?",
+        C: "Great thinking! Understanding WHY things go wrong helps us make them better. You'll discover some surprising reasons why recommendations mess up — and what we can do about it.",
+        D: "You want it all — love it! You'll get to explore, build, AND think deeply. Every chapter has something for everyone."
+      },
+      'ch3-q1': {
+        A: "Collaborative filtering is fascinating! It's basically the idea that birds of a feather flock together. If you and someone else both love the same movies, you'll probably agree on new ones too!",
+        B: "Smart thinking! Content-based filtering is super logical — if you liked a video about building Minecraft castles, you'll probably like other building videos. Simple but powerful!",
+        C: "You're thinking like a real engineer! The best systems in the world (YouTube, Spotify, Netflix) all use hybrid approaches. Why pick one when you can use them all?",
+        D: "Sometimes the simplest solution is the best starting point! Showing what's popular is how most apps begin. Then they add smarter methods over time."
+      },
+      'ch4-q1': {
+        A: "Accuracy matters — nobody likes bad recommendations! But here's a fun twist: sometimes the MOST accurate system only shows you things you already know you like. Is that really the best?",
+        B: "You care about fairness — that's awesome! Imagine being a new YouTuber whose amazing videos never get recommended just because you're not famous yet. Fairness means giving everyone a chance.",
+        C: "Discovery is what makes recommendations MAGICAL! The best recommendation isn't something you already wanted — it's something you didn't know existed but absolutely love.",
+        D: "That's the right answer! The best recommendation systems balance all three. It's tricky, but that's what makes it such an interesting problem to solve."
+      },
+      'ch5-q1': {
+        A: "A Minecraft server recommender — YES! Imagine: it knows you like survival mode with friends, building medieval stuff, and servers with <50 players. It finds your perfect match. You could totally build this!",
+        B: "A music discovery engine! What if it could find genres you've never heard of based on the FEEL of music you like? Not just 'more pop' but 'here's this amazing Japanese city pop that has the same vibe.'",
+        C: "A smart book recommender! It could track not just what books you like, but how fast you read, whether you prefer short or long chapters, and even match your mood. Libraries would love this!",
+        D: "The best inventions are the ones nobody saw coming! Maybe a recommendation system for study buddies, hiking trails, science experiments, or even what to cook for dinner tonight. Dream big!"
+      }
+    };
+
+    // Look up specific feedback
+    const qFeedbacks = feedbacks[qId];
+    if (qFeedbacks && qFeedbacks[letter]) {
+      return qFeedbacks[letter];
+    }
+
+    // Generic voice-based feedback
+    const voiceFeedback = {
+      explorer: "Great pick! As an Explorer, you'll love the hands-on demos and visual explanations coming up. Let's see how things work under the hood!",
+      creator: "Awesome — you chose the Creator path! Get ready for projects, experiments, and building real things. Learning by doing is the best!",
+      thinker: "Nice — you're a Thinker! You like understanding the WHY behind things. The deeper explanations coming up are perfect for you.",
+      universal: "Great choice! You'll get a mix of everything — exploring, creating, and thinking. Let's keep going!"
+    };
+
+    return voiceFeedback[voice] || voiceFeedback.universal;
   }
 
   toggleLike(blockId) {

@@ -10,8 +10,6 @@ parent: ch1-not-magic
 diagram: null
 ---
 
-# Patterns Are Everywhere
-
 Recommender systems find patterns in your behavior. But here's something cool: finding patterns is actually one of the most powerful ideas in ALL of science and math. Let's zoom out.
 
 **Patterns in nature.** Red sky at night? Sailors have known for centuries that means good weather tomorrow. Dark clouds rolling in? Rain is coming. Weather forecasts are basically pattern-finding machines -- they look at what happened before in similar conditions and guess what'll happen next.

@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Step 1: Collect the Data
-
 Every recommendation system starts with data. And YOUR data is going to come from real people -- your friends, family, classmates, anyone you can convince to answer a quick survey.
 
 **The Survey:**

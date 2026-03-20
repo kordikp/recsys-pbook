@@ -10,8 +10,6 @@ parent: ch4-bubbles
 diagram: null
 ---
 
-# Pop Your Bubble!
-
 Ready for an experiment? You're going to see your filter bubble in action -- and then POP it.
 
 **Step 1: Document your bubble (5 minutes)**

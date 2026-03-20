@@ -10,8 +10,6 @@ parent: ch3-pipeline
 diagram: null
 ---
 
-# Trace a Real YouTube Recommendation
-
 Let's follow exactly what happens from the moment you tap the YouTube app to the moment recommendations appear on your home screen. This all happens in under one second.
 
 ## 0.0 seconds: You Open the App
