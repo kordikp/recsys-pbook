@@ -1,0 +1,467 @@
+// Recombee client for p-book — production version
+// Handles: HMAC auth, user identity, interactions, recommendations, search
+// Falls back to local simulation when API unavailable
+
+import { CONFIG } from './config.js';
+
+export class RecombeeClient {
+  constructor() {
+    this.config = { ...CONFIG.recombee };
+    // Disable on localhost (no proxy available)
+    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+    this.enabled = this.config.enabled && !isLocal;
+    this.userId = this.getOrCreateUserId();
+    this.interactions = []; // local log (always kept for offline reference)
+    this.allBlocks = [];
+  }
+
+  // --- User identity (persistent across sessions) ---
+  getOrCreateUserId() {
+    let id = localStorage.getItem('pbook-uid');
+    if (!id) {
+      id = 'reader-' + crypto.randomUUID();
+      localStorage.setItem('pbook-uid', id);
+    }
+    return id;
+  }
+
+  setAllBlocks(blocks) { this.allBlocks = blocks; }
+
+
+  // --- API call via server-side proxy (avoids CORS) ---
+  async api(method, endpoint, body) {
+    if (!this.enabled) return null;
+    try {
+      const res = await fetch('/.netlify/functions/recombee', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ endpoint, body })
+      });
+      if (res.ok) return await res.json();
+      // Any error → silently switch to local mode
+      this.enabled = false;
+      return null;
+    } catch (e) {
+      this.enabled = false;
+      return null;
+    }
+  }
+
+  // --- Interactions (always stored locally + sent to Recombee) ---
+  async sendView(itemId, duration) {
+    const i = { type: 'detailview', itemId, userId: this.userId, ts: Date.now(), duration };
+    this.interactions.push(i);
+    this._saveInteractions();
+    const body = { userId: this.userId, itemId, cascadeCreate: true, timestamp: new Date().toISOString() };
+    if (duration) body.duration = duration;
+    if (this._lastRecommId) body.recommId = this._lastRecommId;
+    if (this.enabled) return this.api('POST', '/detailviews/', body);
+  }
+
+  async sendRating(itemId, rating) {
+    const i = { type: 'rating', itemId, userId: this.userId, ts: Date.now(), rating };
+    this.interactions.push(i);
+    this._saveInteractions();
+    if (this.enabled) return this.api('POST', '/ratings/', {
+      userId: this.userId, itemId, rating,
+      cascadeCreate: true, timestamp: new Date().toISOString()
+    });
+  }
+
+  async sendBookmark(itemId) {
+    const i = { type: 'bookmark', itemId, userId: this.userId, ts: Date.now() };
+    this.interactions.push(i);
+    this._saveInteractions();
+    if (this.enabled) return this.api('POST', '/bookmarks/', {
+      userId: this.userId, itemId,
+      cascadeCreate: true, timestamp: new Date().toISOString()
+    });
+  }
+
+  async sendCartAdd(itemId) {
+    const i = { type: 'cartaddition', itemId, userId: this.userId, ts: Date.now() };
+    this.interactions.push(i);
+    this._saveInteractions();
+    if (this.enabled) return this.api('POST', '/cartadditions/', {
+      userId: this.userId, itemId,
+      cascadeCreate: true, timestamp: new Date().toISOString()
+    });
+  }
+
+  async setUserProperties(props) {
+    if (this.enabled) {
+      return this.api('POST', `/users/${this.userId}`, { ...props, cascadeCreate: true });
+    }
+  }
+
+  // --- Persist interactions locally ---
+  _saveInteractions() {
+    try {
+      // Keep last 500 interactions
+      const recent = this.interactions.slice(-500);
+      localStorage.setItem('pbook-interactions', JSON.stringify(recent));
+    } catch (e) {}
+  }
+
+  _loadInteractions() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('pbook-interactions') || '[]');
+      this.interactions = saved;
+    } catch (e) {}
+  }
+
+  // --- ReQL helpers ---
+  reql(filters = {}) {
+    const parts = [];
+    if (filters.type) parts.push(`'type' == "${filters.type}"`);
+    if (filters.voice) parts.push(`'voice' in {${filters.voice.map(v => `"${v}"`).join(',')}}`);
+    if (filters.chapter) parts.push(`'chapter' == "${filters.chapter}"`);
+    if (filters.standalone) parts.push(`'standalone' == true`);
+    if (filters.maxTime) parts.push(`'readingTime' <= ${filters.maxTime}`);
+    return parts.length ? parts.join(' AND ') : undefined;
+  }
+
+  reqlBoost(userModel) {
+    const parts = [];
+    const pref = userModel.voiceScores;
+    if (pref) {
+      const top = Object.entries(pref).sort((a, b) => b[1] - a[1])[0];
+      if (top && top[1] > 3) parts.push(`if 'voice' == "${top[0]}" then 1.5`);
+    }
+    return parts.length ? parts.join(' AND ') : undefined;
+  }
+
+  // --- Recommendations (Recombee API with local fallback) ---
+  async getRecsForUser(scenario, count, filter, booster) {
+    if (this.enabled) {
+      const body = { count, cascadeCreate: true };
+      if (scenario) body.scenario = scenario;
+      if (filter) body.filter = filter;
+      if (booster) body.booster = booster;
+      const result = await this.api('POST', `/recomms/users/${this.userId}/items/`, body);
+      if (result) {
+        if (result.recommId) this._lastRecommId = result.recommId;
+        return result;
+      }
+    }
+    return this._localRecsForUser(scenario, count);
+  }
+
+  async getRecsForItem(itemId, count, filter) {
+    if (this.enabled) {
+      const body = { count, targetUserId: this.userId, cascadeCreate: true };
+      if (filter) body.filter = filter;
+      const result = await this.api('POST', `/recomms/items/${itemId}/items/`, body);
+      if (result) {
+        if (result.recommId) this._lastRecommId = result.recommId;
+        return result;
+      }
+    }
+    return this._localRecsForItem(itemId, count);
+  }
+
+  async searchItems(query, count, filter) {
+    if (this.enabled) {
+      const body = { searchQuery: query, count, cascadeCreate: true };
+      if (filter) body.filter = filter;
+      const result = await this.api('POST', `/search/users/${this.userId}/items/`, body);
+      if (result) return result;
+    }
+    return this._localSearch(query, count);
+  }
+
+  // --- Local fallback recommendations ---
+  _viewed() { return new Set(this.interactions.filter(i => i.type === 'detail-view').map(i => i.itemId)); }
+
+  _localRecsForUser(scenario, count) {
+    const viewed = this._viewed();
+    let pool = this.allBlocks.filter(b => !viewed.has(b.meta.id));
+    if (scenario === 'pbook:spine') pool = pool.filter(b => b.meta.type === 'spine');
+    if (scenario === 'pbook:popular') pool = this.allBlocks.filter(b => b.meta.standalone);
+    pool = pool.sort(() => Math.random() - 0.5);
+    return { recomms: pool.slice(0, count).map(b => ({ id: b.meta.id, values: b.meta })) };
+  }
+
+  _localRecsForItem(itemId, count) {
+    const block = this.allBlocks.find(b => b.meta.id === itemId);
+    if (!block) return { recomms: [] };
+    const ch = block.meta.chapter || block._chapter;
+    let pool = this.allBlocks.filter(b => b.meta.id !== itemId && (b.meta.chapter === ch || b._chapter === ch));
+    if (pool.length < count) pool = [...pool, ...this.allBlocks.filter(b => b.meta.id !== itemId)];
+    return { recomms: pool.sort(() => Math.random() - 0.5).slice(0, count).map(b => ({ id: b.meta.id, values: b.meta })) };
+  }
+
+  _localSearch(query, count) {
+    const q = query.toLowerCase();
+    const scored = this.allBlocks.map(b => {
+      let score = 0;
+      const title = (b.meta.title || '').toLowerCase();
+      const body = (b.body || '').toLowerCase();
+      if (title.includes(q)) score += 10;
+      for (const word of q.split(/\s+/)) {
+        if (word.length < 3) continue;
+        if (title.includes(word)) score += 3;
+        if (body.includes(word)) score += 1;
+      }
+      return { block: b, score };
+    }).filter(s => s.score > 0).sort((a, b) => b.score - a.score);
+    return { recomms: scored.slice(0, count).map(s => ({ id: s.block.meta.id, values: s.block.meta })) };
+  }
+
+  // --- Status ---
+  getStatus() {
+    return {
+      mode: this.enabled ? 'live' : 'local',
+      database: this.config.database,
+      region: this.config.region,
+      userId: this.userId,
+      interactions: this.interactions.length,
+      apiCalls: this._apiCalls || 0
+    };
+  }
+}
+
+// --- User Model (engagement tracking + profile) ---
+export class UserModel {
+  constructor() {
+    this.voiceScores = { engineer: 0, product: 0, business: 0 };
+    this.readBlocks = new Set();
+    this.seenBlocks = new Set();
+    this.savedBlocks = new Set();
+    this.ratings = new Map();
+    this.notes = new Set();
+    this.signals = {};
+    this.totalInteractions = 0;
+    this.currentChapter = 0;
+    this.currentBlock = null;
+    this.preferredVoice = null;
+    this.firstVisit = null;
+    this.sessionCount = 0;
+    this.load();
+    this._trackSession();
+  }
+
+  _trackSession() {
+    if (!this.firstVisit) this.firstVisit = Date.now();
+    this.sessionCount++;
+    this.lastVisit = Date.now();
+    this.save();
+  }
+
+  load() {
+    try {
+      const s = JSON.parse(localStorage.getItem('pbook-user') || '{}');
+      if (s.voiceScores) this.voiceScores = s.voiceScores;
+      if (s.readBlocks) this.readBlocks = new Set(s.readBlocks);
+      if (s.seenBlocks) this.seenBlocks = new Set(s.seenBlocks);
+      if (s.savedBlocks) this.savedBlocks = new Set(s.savedBlocks);
+      if (s.ratings) this.ratings = new Map(s.ratings);
+      if (s.notes) this.notes = new Set(s.notes);
+      if (s.signals) this.signals = s.signals;
+      if (s.totalInteractions) this.totalInteractions = s.totalInteractions;
+      if (s.currentChapter !== undefined) this.currentChapter = s.currentChapter;
+      if (s.currentBlock) this.currentBlock = s.currentBlock;
+      if (s.preferredVoice) this.preferredVoice = s.preferredVoice;
+      if (s.firstVisit) this.firstVisit = s.firstVisit;
+      if (s.sessionCount) this.sessionCount = s.sessionCount;
+    } catch (e) {}
+  }
+
+  save() {
+    try {
+      localStorage.setItem('pbook-user', JSON.stringify({
+        voiceScores: this.voiceScores,
+        readBlocks: [...this.readBlocks],
+        seenBlocks: [...this.seenBlocks],
+        savedBlocks: [...this.savedBlocks],
+        ratings: [...this.ratings],
+        notes: [...this.notes],
+        signals: this.signals,
+        totalInteractions: this.totalInteractions,
+        currentChapter: this.currentChapter,
+        currentBlock: this.currentBlock,
+        preferredVoice: this.preferredVoice,
+        firstVisit: this.firstVisit,
+        sessionCount: this.sessionCount,
+      }));
+    } catch (e) {}
+  }
+
+  _sig(id) { if (!this.signals[id]) this.signals[id] = {}; return this.signals[id]; }
+
+  trackSeen(blockId) {
+    this.seenBlocks.add(blockId);
+    const s = this._sig(blockId);
+    s.seen = true;
+    s.seenAt = Date.now();
+    this.save();
+  }
+
+  trackRead(blockId) {
+    this.readBlocks.add(blockId);
+    this.seenBlocks.add(blockId);
+    this._sig(blockId).read = true;
+    this.totalInteractions++;
+    this.save();
+  }
+
+  trackDwell(blockId, ms) {
+    const s = this._sig(blockId);
+    s.dwellMs = (s.dwellMs || 0) + ms;
+    this.save();
+  }
+
+  trackPortion(blockId, portion) {
+    const s = this._sig(blockId);
+    s.portion = Math.max(s.portion || 0, portion);
+    this.save();
+  }
+
+  trackVoiceExpand(voice, blockId) {
+    if (voice && this.voiceScores[voice] !== undefined) {
+      this.voiceScores[voice]++;
+      this.totalInteractions++;
+      if (blockId) this._sig(blockId).expanded = true;
+      this.save();
+    }
+  }
+
+  trackRating(blockId, rating) {
+    this.ratings.set(blockId, rating);
+    this._sig(blockId).rated = rating;
+    this.save();
+  }
+
+  trackSave(blockId) {
+    this.savedBlocks.add(blockId);
+    this._sig(blockId).saved = true;
+    this.save();
+  }
+
+  trackNote(blockId) {
+    this.notes.add(blockId);
+    this._sig(blockId).noted = true;
+    this.save();
+  }
+
+  setVoice(voice) { this.preferredVoice = voice; this.save(); }
+
+  getBlockSignals(blockId) { return this.signals[blockId] || {}; }
+
+  getVisibleVoices() {
+    const total = Object.values(this.voiceScores).reduce((s, v) => s + v, 0);
+    if (total < 5) return ['engineer', 'product', 'business'];
+    if (this.preferredVoice && this.preferredVoice !== 'universal') {
+      const visible = [this.preferredVoice];
+      for (const [v, score] of Object.entries(this.voiceScores)) {
+        if (v !== this.preferredVoice && score / total > 0.2) visible.push(v);
+      }
+      return visible;
+    }
+    return Object.entries(this.voiceScores)
+      .filter(([_, score]) => score / total > 0.1)
+      .map(([v]) => v)
+      .concat(total < 10 ? ['engineer', 'product', 'business'] : [])
+      .filter((v, i, a) => a.indexOf(v) === i);
+  }
+
+  getTopVoice() {
+    if (this.preferredVoice && this.preferredVoice !== 'universal') return this.preferredVoice;
+    const entries = Object.entries(this.voiceScores).sort((a, b) => b[1] - a[1]);
+    return entries[0] && entries[0][1] > 0 ? entries[0][0] : null;
+  }
+
+  getProgress(allBlocks) {
+    const spineBlocks = allBlocks.filter(b => b.meta.type === 'spine');
+    const read = spineBlocks.filter(b => this.readBlocks.has(b.meta.id));
+    const seen = spineBlocks.filter(b => this.seenBlocks.has(b.meta.id));
+    return {
+      read: read.length, seen: seen.length, total: spineBlocks.length,
+      pct: Math.round((read.length / Math.max(spineBlocks.length, 1)) * 100)
+    };
+  }
+
+  getSignalSummary() {
+    let views = 0, reads = 0, dwellTotal = 0, ratings = 0, saves = 0, notes = 0, expands = 0;
+    Object.values(this.signals).forEach(s => {
+      if (s.seen) views++;
+      if (s.read) reads++;
+      if (s.dwellMs) dwellTotal += s.dwellMs;
+      if (s.rated !== undefined) ratings++;
+      if (s.saved) saves++;
+      if (s.noted) notes++;
+      if (s.expanded) expands++;
+    });
+    return { views, reads, dwellTotal, ratings, saves, notes, expands };
+  }
+
+  // --- Reader profile summary ---
+  getProfile(allBlocks) {
+    const prog = this.getProgress(allBlocks);
+    const summary = this.getSignalSummary();
+    const totalVoice = Object.values(this.voiceScores).reduce((s, v) => s + v, 0) || 1;
+
+    // Top topics from read blocks
+    const topicCounts = {};
+    [...this.readBlocks].forEach(id => {
+      const block = allBlocks.find(b => b.meta.id === id);
+      if (!block) return;
+      const body = ((block.meta.title || '') + ' ' + (block.body || '')).toLowerCase();
+      const topics = {
+        'Collaborative Filtering': ['collaborative filter'],
+        'Deep Learning': ['deep learn', 'neural', 'transformer'],
+        'Cold Start': ['cold start', 'cold-start'],
+        'Evaluation': ['a/b test', 'evaluation', 'metric', 'ndcg'],
+        'Search': ['search', 'query', 'retrieval'],
+        'Objectives': ['objective', 'stakeholder', 'alignment'],
+        'Data': ['interaction data', 'item catalog', 'feedback'],
+      };
+      for (const [topic, kws] of Object.entries(topics)) {
+        if (kws.some(k => body.includes(k))) topicCounts[topic] = (topicCounts[topic] || 0) + 1;
+      }
+    });
+    const topTopics = Object.entries(topicCounts).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([t]) => t);
+
+    // Liked blocks
+    const liked = [...this.ratings].filter(([_, r]) => r >= 0.7).map(([id]) => {
+      const b = allBlocks.find(x => x.meta.id === id);
+      return b ? b.meta.title : null;
+    }).filter(Boolean);
+
+    return {
+      userId: localStorage.getItem('pbook-uid'),
+      firstVisit: this.firstVisit ? new Date(this.firstVisit).toLocaleDateString() : null,
+      sessions: this.sessionCount,
+      totalInteractions: this.totalInteractions,
+      progress: prog,
+      signals: summary,
+      voicePreference: {
+        engineer: Math.round((this.voiceScores.engineer / totalVoice) * 100),
+        product: Math.round((this.voiceScores.product / totalVoice) * 100),
+        business: Math.round((this.voiceScores.business / totalVoice) * 100),
+      },
+      topTopics,
+      liked,
+      savedCount: this.savedBlocks.size,
+      notesCount: this.notes.size,
+      readingTimeMin: Math.round(summary.dwellTotal / 60000),
+    };
+  }
+
+  reset() {
+    this.voiceScores = { engineer: 0, product: 0, business: 0 };
+    this.readBlocks = new Set();
+    this.seenBlocks = new Set();
+    this.savedBlocks = new Set();
+    this.ratings = new Map();
+    this.notes = new Set();
+    this.signals = {};
+    this.totalInteractions = 0;
+    this.currentChapter = 0;
+    this.currentBlock = null;
+    this.preferredVoice = null;
+    this.firstVisit = Date.now();
+    this.sessionCount = 0;
+    this.save();
+  }
+}

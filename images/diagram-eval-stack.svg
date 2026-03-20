@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400" font-family="system-ui, sans-serif">
+  <!-- Title -->
+  <text x="340" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1C1917">The Evaluation Stack</text>
+  <text x="340" y="46" text-anchor="middle" font-size="11" fill="#78716C">Layered approach from fast offline checks to continuous production monitoring</text>
+
+  <!-- Layer 5 (top, narrowest): Continuous Monitoring -->
+  <rect x="200" y="68" width="280" height="52" rx="8" fill="#FEF2F2" stroke="#DC2626" stroke-width="1.5"/>
+  <text x="340" y="89" text-anchor="middle" font-size="12" font-weight="700" fill="#DC2626">Continuous Monitoring</text>
+  <text x="340" y="106" text-anchor="middle" font-size="9" fill="#78716C">Drift detection, alerting, dashboards</text>
+
+  <!-- Layer 4: Segment Analysis -->
+  <rect x="165" y="128" width="350" height="52" rx="8" fill="#FFF7ED" stroke="#D97706" stroke-width="1.5"/>
+  <text x="340" y="149" text-anchor="middle" font-size="12" font-weight="700" fill="#D97706">Segment Analysis</text>
+  <text x="340" y="166" text-anchor="middle" font-size="9" fill="#78716C">Per-group metrics, fairness audits, edge case detection</text>
+
+  <!-- Layer 3: Online Experiments -->
+  <rect x="130" y="188" width="420" height="52" rx="8" fill="#FFFBEB" stroke="#CA8A04" stroke-width="1.5"/>
+  <text x="340" y="209" text-anchor="middle" font-size="12" font-weight="700" fill="#CA8A04">Online Experiments</text>
+  <text x="340" y="226" text-anchor="middle" font-size="9" fill="#78716C">A/B tests, interleaving, real user traffic, statistical significance</text>
+
+  <!-- Layer 2: Counterfactual Evaluation -->
+  <rect x="95" y="248" width="490" height="52" rx="8" fill="#F0FDF4" stroke="#059669" stroke-width="1.5"/>
+  <text x="340" y="269" text-anchor="middle" font-size="12" font-weight="700" fill="#059669">Counterfactual Evaluation</text>
+  <text x="340" y="286" text-anchor="middle" font-size="9" fill="#78716C">Bias correction, IPS / doubly robust, simulated policy evaluation</text>
+
+  <!-- Layer 1 (bottom, widest): Offline Evaluation -->
+  <rect x="60" y="308" width="560" height="52" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="340" y="329" text-anchor="middle" font-size="12" font-weight="700" fill="#2563EB">Offline Evaluation</text>
+  <text x="340" y="346" text-anchor="middle" font-size="9" fill="#78716C">Fast iteration, sanity checks, historical data, precision/recall/NDCG</text>
+
+  <!-- Left side arrow: Increasing reliability -->
+  <line x1="42" y1="340" x2="42" y2="80" stroke="#1C1917" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+  <text x="30" y="260" text-anchor="middle" font-size="9" fill="#1C1917" transform="rotate(-90, 30, 260)">Increasing reliability</text>
+
+  <!-- Right side arrow: Increasing cost -->
+  <line x1="638" y1="340" x2="638" y2="80" stroke="#DC2626" stroke-width="1.5" marker-end="url(#arrowUpRed)"/>
+  <text x="656" y="260" text-anchor="middle" font-size="9" fill="#DC2626" transform="rotate(-90, 656, 260)">Increasing cost</text>
+
+  <!-- Speed vs confidence labels -->
+  <text x="340" y="384" text-anchor="middle" font-size="10" fill="#78716C">Bottom layers: fast &amp; cheap | Top layers: slow &amp; definitive</text>
+
+  <defs>
+    <marker id="arrowUp" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
+      <path d="M0,8 L4,0 L8,8" fill="none" stroke="#1C1917" stroke-width="1.5"/>
+    </marker>
+    <marker id="arrowUpRed" markerWidth="8" markerHeight="8" refX="4" refY="1" orient="auto">
+      <path d="M0,8 L4,0 L8,8" fill="none" stroke="#DC2626" stroke-width="1.5"/>
+    </marker>
+  </defs>
+</svg>

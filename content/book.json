@@ -1,0 +1,97 @@
+{
+  "title": "How Recommendations Work",
+  "author": "Pavel Kordik",
+  "version": "0.1",
+  "chapters": [
+    {
+      "id": "ch1-what-are-recommendations",
+      "number": 1,
+      "title": "What Are Recommendations?",
+      "subtitle": "How YouTube, TikTok, and Spotify know what you like",
+      "directory": "ch1-what-are-recommendations",
+      "files": [
+        "01-spine-have-you-noticed.md",
+        "02-spine-recommendations-everywhere.md",
+        "02a-depth-explorer-spot-them.md",
+        "03-spine-not-magic.md",
+        "03a-sidebar-wrong-recs.md",
+        "03b-depth-thinker-patterns.md",
+        "04-spine-three-jobs.md",
+        "04a-depth-creator-your-first.md",
+        "05-question-what-type.md"
+      ]
+    },
+    {
+      "id": "ch2-how-they-learn",
+      "number": 2,
+      "title": "How They Learn About You",
+      "subtitle": "The clues you leave behind when you click, watch, and skip",
+      "directory": "ch2-how-they-learn",
+      "files": [
+        "01-spine-digital-footprints.md",
+        "01a-depth-explorer-what-they-track.md",
+        "02-spine-three-types-of-clues.md",
+        "02a-sidebar-incognito.md",
+        "03-spine-your-data-your-choice.md",
+        "03a-depth-thinker-privacy.md",
+        "03b-depth-creator-experiment.md"
+      ]
+    },
+    {
+      "id": "ch3-different-ways",
+      "number": 3,
+      "title": "Different Ways to Recommend",
+      "subtitle": "From asking your friends to teaching a computer",
+      "directory": "ch3-different-ways-to-recommend",
+      "files": [
+        "01-spine-ask-your-friends.md",
+        "01a-depth-explorer-cf-demo.md",
+        "01b-depth-creator-build-cf.md",
+        "01c-sidebar-netflix-story.md",
+        "02-spine-look-at-the-thing.md",
+        "02a-depth-thinker-compare.md",
+        "03-spine-whats-popular.md",
+        "03a-sidebar-popularity-trap.md",
+        "04-spine-the-pipeline.md",
+        "04a-depth-explorer-pipeline-visual.md",
+        "05-question-method.md"
+      ]
+    },
+    {
+      "id": "ch4-making-them-better",
+      "number": 4,
+      "title": "Making Recommendations Better",
+      "subtitle": "Filter bubbles, fairness, and why getting it right matters",
+      "directory": "ch4-making-them-better",
+      "files": [
+        "01-spine-filter-bubbles.md",
+        "01a-depth-thinker-echo-chamber.md",
+        "01b-depth-creator-pop-bubble.md",
+        "02-spine-fairness.md",
+        "02a-sidebar-youtube-algorithm.md",
+        "03-spine-testing.md",
+        "03a-depth-explorer-ab-test.md",
+        "04-question-ethics.md"
+      ]
+    },
+    {
+      "id": "ch5-build-your-own",
+      "number": 5,
+      "title": "Build Your Own!",
+      "subtitle": "Create a simple recommendation system step by step",
+      "directory": "ch5-build-your-own",
+      "files": [
+        "01-spine-you-can-do-it.md",
+        "02-spine-step1-collect.md",
+        "02a-depth-creator-spreadsheet.md",
+        "03-spine-step2-find-similar.md",
+        "03a-depth-thinker-math.md",
+        "04-spine-step3-recommend.md",
+        "04a-depth-creator-code.md",
+        "05-spine-step4-improve.md",
+        "05a-sidebar-career.md",
+        "06-question-next.md"
+      ]
+    }
+  ]
+}

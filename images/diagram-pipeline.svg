@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 280" width="680" height="280" font-family="system-ui, sans-serif">
+  <!-- Item pool -->
+  <rect x="8" y="100" width="80" height="60" rx="8" fill="#F5F5F4" stroke="#E7E5E4" stroke-width="1.5"/>
+  <text x="48" y="125" text-anchor="middle" font-size="11" font-weight="600" fill="#1C1917">Items</text>
+  <text x="48" y="142" text-anchor="middle" font-size="9" fill="#78716C">(millions)</text>
+
+  <!-- Arrow 1 -->
+  <line x1="92" y1="130" x2="118" y2="130" stroke="#E7E5E4" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Stage 1: Retrieve -->
+  <rect x="122" y="75" width="140" height="110" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+  <rect x="122" y="75" width="140" height="30" rx="8" fill="#2563EB"/>
+  <rect x="122" y="97" width="140" height="8" fill="#2563EB"/>
+  <text x="192" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="white">RETRIEVE</text>
+  <text x="192" y="125" text-anchor="middle" font-size="10" fill="#1C1917">Candidate generation</text>
+  <text x="192" y="140" text-anchor="middle" font-size="10" fill="#78716C">Fast, high recall</text>
+  <text x="192" y="155" text-anchor="middle" font-size="10" fill="#78716C">ANN, heuristics</text>
+  <text x="192" y="172" text-anchor="middle" font-size="9" font-weight="600" fill="#2563EB">Stage 1</text>
+
+  <!-- Candidates count -->
+  <rect x="270" y="108" width="70" height="44" rx="6" fill="#F5F5F4" stroke="#E7E5E4" stroke-width="1"/>
+  <text x="305" y="127" text-anchor="middle" font-size="10" font-weight="600" fill="#1C1917">Candidates</text>
+  <text x="305" y="142" text-anchor="middle" font-size="9" fill="#78716C">(hundreds)</text>
+
+  <!-- Arrow 2 -->
+  <line x1="344" y1="130" x2="370" y2="130" stroke="#E7E5E4" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Stage 2: Rank -->
+  <rect x="374" y="75" width="140" height="110" rx="8" fill="#F0FDF4" stroke="#059669" stroke-width="1.5"/>
+  <rect x="374" y="75" width="140" height="30" rx="8" fill="#059669"/>
+  <rect x="374" y="97" width="140" height="8" fill="#059669"/>
+  <text x="444" y="96" text-anchor="middle" font-size="13" font-weight="700" fill="white">RANK</text>
+  <text x="444" y="125" text-anchor="middle" font-size="10" fill="#1C1917">Scoring &amp; ordering</text>
+  <text x="444" y="140" text-anchor="middle" font-size="10" fill="#78716C">Precise, ML models</text>
+  <text x="444" y="155" text-anchor="middle" font-size="10" fill="#78716C">LTR, neural rankers</text>
+  <text x="444" y="172" text-anchor="middle" font-size="9" font-weight="600" fill="#059669">Stage 2</text>
+
+  <!-- Ranked list count -->
+  <rect x="522" y="108" width="62" height="44" rx="6" fill="#F5F5F4" stroke="#E7E5E4" stroke-width="1"/>
+  <text x="553" y="127" text-anchor="middle" font-size="10" font-weight="600" fill="#1C1917">Ranked</text>
+  <text x="553" y="142" text-anchor="middle" font-size="9" fill="#78716C">(tens)</text>
+
+  <!-- Arrow 3 -->
+  <line x1="588" y1="130" x2="600" y2="130" stroke="#E7E5E4" stroke-width="2" marker-end="url(#arrowGray)"/>
+
+  <!-- Stage 3: Re-rank (narrower to show funnel) -->
+  <rect x="604" y="85" width="68" height="90" rx="8" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/>
+  <text x="638" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">RE-RANK</text>
+  <text x="638" y="132" text-anchor="middle" font-size="8" fill="#1C1917">Diversity</text>
+  <text x="638" y="144" text-anchor="middle" font-size="8" fill="#1C1917">Rules</text>
+  <text x="638" y="156" text-anchor="middle" font-size="8" fill="#1C1917">Constraints</text>
+  <text x="638" y="168" text-anchor="middle" font-size="8" font-weight="600" fill="#D97706">Stage 3</text>
+
+  <!-- Final output -->
+  <text x="638" y="200" text-anchor="middle" font-size="9" fill="#78716C">Final</text>
+  <text x="638" y="212" text-anchor="middle" font-size="9" fill="#78716C">recommendations</text>
+  <line x1="638" y1="178" x2="638" y2="194" stroke="#D97706" stroke-width="1.5" marker-end="url(#arrowAmber)"/>
+
+  <!-- Title -->
+  <text x="340" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1C1917">The Recommendation Pipeline</text>
+  <text x="340" y="50" text-anchor="middle" font-size="11" fill="#78716C">Progressive narrowing from millions of items to a handful of recommendations</text>
+
+  <!-- Funnel indicator -->
+  <text x="340" y="250" text-anchor="middle" font-size="10" fill="#78716C">Millions → Hundreds → Tens → Final list</text>
+  <line x1="60" y1="240" x2="620" y2="240" stroke="#E7E5E4" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- Arrow markers -->
+  <defs>
+    <marker id="arrowGray" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#A8A29E" stroke-width="1.5"/>
+    </marker>
+    <marker id="arrowAmber" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="none" stroke="#D97706" stroke-width="1.5"/>
+    </marker>
+  </defs>
+</svg>

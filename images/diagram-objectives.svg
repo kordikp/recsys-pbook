@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 400" width="680" height="400" font-family="system-ui, sans-serif">
+  <!-- Title -->
+  <text x="340" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1C1917">Objectives Radar</text>
+  <text x="340" y="46" text-anchor="middle" font-size="11" fill="#78716C">Different domains prioritize different recommendation objectives</text>
+
+  <!-- Center point -->
+  <!-- cx=340, cy=220, radius max=150 -->
+
+  <!-- Radar grid rings (5 levels) -->
+  <!-- Level 1 (innermost, r=30) -->
+  <polygon points="340,190 365.98,205 365.98,235 340,250 314.02,235 314.02,205" fill="none" stroke="#E7E5E4" stroke-width="0.5"/>
+  <!-- Level 2 (r=60) -->
+  <polygon points="340,160 391.96,190 391.96,250 340,280 288.04,250 288.04,190" fill="none" stroke="#E7E5E4" stroke-width="0.5"/>
+  <!-- Level 3 (r=90) -->
+  <polygon points="340,130 417.94,175 417.94,265 340,310 262.06,265 262.06,175" fill="none" stroke="#E7E5E4" stroke-width="0.5"/>
+  <!-- Level 4 (r=120) -->
+  <polygon points="340,100 443.92,160 443.92,280 340,340 236.08,280 236.08,160" fill="none" stroke="#E7E5E4" stroke-width="0.5"/>
+  <!-- Level 5 (outermost, r=150) -->
+  <polygon points="340,70 469.90,145 469.90,295 340,370 210.10,295 210.10,145" fill="none" stroke="#E7E5E4" stroke-width="0.8"/>
+
+  <!-- Axis lines -->
+  <!-- Engagement (top, 0deg) -->
+  <line x1="340" y1="220" x2="340" y2="70" stroke="#E7E5E4" stroke-width="0.8"/>
+  <!-- Revenue (60deg from top, clockwise) -->
+  <line x1="340" y1="220" x2="469.90" y2="145" stroke="#E7E5E4" stroke-width="0.8"/>
+  <!-- Relevance (120deg) -->
+  <line x1="340" y1="220" x2="469.90" y2="295" stroke="#E7E5E4" stroke-width="0.8"/>
+  <!-- Diversity (180deg, bottom) -->
+  <line x1="340" y1="220" x2="340" y2="370" stroke="#E7E5E4" stroke-width="0.8"/>
+  <!-- Freshness (240deg) -->
+  <line x1="340" y1="220" x2="210.10" y2="295" stroke="#E7E5E4" stroke-width="0.8"/>
+  <!-- Fairness (300deg) -->
+  <line x1="340" y1="220" x2="210.10" y2="145" stroke="#E7E5E4" stroke-width="0.8"/>
+
+  <!-- Axis labels -->
+  <text x="340" y="58" text-anchor="middle" font-size="11" font-weight="600" fill="#1C1917">Engagement</text>
+  <text x="482" y="140" text-anchor="start" font-size="11" font-weight="600" fill="#1C1917">Revenue</text>
+  <text x="482" y="302" text-anchor="start" font-size="11" font-weight="600" fill="#1C1917">Relevance</text>
+  <text x="340" y="388" text-anchor="middle" font-size="11" font-weight="600" fill="#1C1917">Diversity</text>
+  <text x="196" y="302" text-anchor="end" font-size="11" font-weight="600" fill="#1C1917">Freshness</text>
+  <text x="196" y="140" text-anchor="end" font-size="11" font-weight="600" fill="#1C1917">Fairness</text>
+
+  <!-- Scale labels on Engagement axis -->
+  <text x="350" y="192" font-size="7" fill="#A8A29E">1</text>
+  <text x="350" y="162" font-size="7" fill="#A8A29E">2</text>
+  <text x="350" y="132" font-size="7" fill="#A8A29E">3</text>
+  <text x="350" y="102" font-size="7" fill="#A8A29E">4</text>
+  <text x="350" y="72" font-size="7" fill="#A8A29E">5</text>
+
+  <!--
+    E-commerce profile:
+    Engagement: 3/5 (medium)    -> r=90, angle=0   -> (340, 130)
+    Revenue: 5/5 (high)         -> r=150, angle=60  -> (469.90, 145)
+    Relevance: 5/5 (high)       -> r=150, angle=120 -> (469.90, 295)
+    Diversity: 2/5 (low)        -> r=60, angle=180  -> (340, 280)
+    Freshness: 1/5 (low)        -> r=30, angle=240  -> (314.02, 235)
+    Fairness: 2/5 (low)         -> r=60, angle=300  -> (288.04, 190)
+  -->
+  <polygon points="340,130 469.90,145 469.90,295 340,280 314.02,235 288.04,190"
+    fill="#2563EB" fill-opacity="0.12" stroke="#2563EB" stroke-width="2"/>
+  <!-- E-commerce dots -->
+  <circle cx="340" cy="130" r="4" fill="#2563EB"/>
+  <circle cx="469.90" cy="145" r="4" fill="#2563EB"/>
+  <circle cx="469.90" cy="295" r="4" fill="#2563EB"/>
+  <circle cx="340" cy="280" r="4" fill="#2563EB"/>
+  <circle cx="314.02" cy="235" r="4" fill="#2563EB"/>
+  <circle cx="288.04" cy="190" r="4" fill="#2563EB"/>
+
+  <!--
+    News profile:
+    Engagement: 5/5 (high)      -> r=150, angle=0   -> (340, 70)
+    Revenue: 2/5 (medium)       -> r=60, angle=60    -> (391.96, 190)
+    Relevance: 3/5 (medium)     -> r=90, angle=120   -> (417.94, 265)
+    Diversity: 4/5 (high)       -> r=120, angle=180  -> (340, 340)
+    Freshness: 5/5 (high)       -> r=150, angle=240  -> (210.10, 295)
+    Fairness: 3/5 (medium)      -> r=90, angle=300   -> (262.06, 175)
+  -->
+  <polygon points="340,70 391.96,190 417.94,265 340,340 210.10,295 262.06,175"
+    fill="#D97706" fill-opacity="0.12" stroke="#D97706" stroke-width="2"/>
+  <!-- News dots -->
+  <circle cx="340" cy="70" r="4" fill="#D97706"/>
+  <circle cx="391.96" cy="190" r="4" fill="#D97706"/>
+  <circle cx="417.94" cy="265" r="4" fill="#D97706"/>
+  <circle cx="340" cy="340" r="4" fill="#D97706"/>
+  <circle cx="210.10" cy="295" r="4" fill="#D97706"/>
+  <circle cx="262.06" cy="175" r="4" fill="#D97706"/>
+
+  <!-- Legend -->
+  <rect x="40" y="62" width="120" height="52" rx="6" fill="white" stroke="#E7E5E4" stroke-width="1"/>
+  <!-- E-commerce -->
+  <line x1="52" y1="80" x2="72" y2="80" stroke="#2563EB" stroke-width="2"/>
+  <circle cx="62" cy="80" r="3" fill="#2563EB"/>
+  <text x="80" y="84" font-size="10" fill="#1C1917">E-commerce</text>
+  <!-- News -->
+  <line x1="52" y1="100" x2="72" y2="100" stroke="#D97706" stroke-width="2"/>
+  <circle cx="62" cy="100" r="3" fill="#D97706"/>
+  <text x="80" y="104" font-size="10" fill="#1C1917">News</text>
+</svg>

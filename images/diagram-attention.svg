@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" width="680" height="380" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="attArrow" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#D97706"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="340" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1C1917">Self-Attention: Not All Past Interactions Matter Equally</text>
+  <text x="340" y="48" text-anchor="middle" font-size="12" fill="#78716C">The model learns which historical items are most relevant for the next prediction</text>
+
+  <!-- Timeline base -->
+  <line x1="60" y1="230" x2="620" y2="230" stroke="#E7E5E4" stroke-width="2"/>
+
+  <!-- Time labels -->
+  <text x="60" y="250" text-anchor="middle" font-size="9" fill="#78716C">3 months ago</text>
+  <text x="200" y="250" text-anchor="middle" font-size="9" fill="#78716C">2 months ago</text>
+  <text x="340" y="250" text-anchor="middle" font-size="9" fill="#78716C">1 month ago</text>
+  <text x="440" y="250" text-anchor="middle" font-size="9" fill="#78716C">Last week</text>
+  <text x="540" y="250" text-anchor="middle" font-size="9" fill="#78716C">Yesterday</text>
+
+  <!-- Item 1: Cooking show (thin attention) -->
+  <g transform="translate(60, 160)">
+    <rect x="-30" y="0" width="60" height="60" rx="8" fill="#059669" fill-opacity="0.15" stroke="#059669" stroke-width="1.5"/>
+    <text x="0" y="25" text-anchor="middle" font-size="20">🍳</text>
+    <text x="0" y="48" text-anchor="middle" font-size="8" fill="#059669" font-weight="bold">Cooking</text>
+    <text x="0" y="57" text-anchor="middle" font-size="8" fill="#059669">Show</text>
+  </g>
+
+  <!-- Item 2: Sci-fi movie (thick attention) -->
+  <g transform="translate(200, 160)">
+    <rect x="-30" y="0" width="60" height="60" rx="8" fill="#2563EB" fill-opacity="0.15" stroke="#2563EB" stroke-width="1.5"/>
+    <text x="0" y="25" text-anchor="middle" font-size="20">🚀</text>
+    <text x="0" y="48" text-anchor="middle" font-size="8" fill="#2563EB" font-weight="bold">Sci-Fi</text>
+    <text x="0" y="57" text-anchor="middle" font-size="8" fill="#2563EB">Movie</text>
+  </g>
+
+  <!-- Item 3: Action movie (thick attention) -->
+  <g transform="translate(340, 160)">
+    <rect x="-30" y="0" width="60" height="60" rx="8" fill="#2563EB" fill-opacity="0.15" stroke="#2563EB" stroke-width="1.5"/>
+    <text x="0" y="25" text-anchor="middle" font-size="20">💥</text>
+    <text x="0" y="48" text-anchor="middle" font-size="8" fill="#2563EB" font-weight="bold">Action</text>
+    <text x="0" y="57" text-anchor="middle" font-size="8" fill="#2563EB">Movie</text>
+  </g>
+
+  <!-- Item 4: Action movie (very thick attention) -->
+  <g transform="translate(440, 160)">
+    <rect x="-30" y="0" width="60" height="60" rx="8" fill="#2563EB" fill-opacity="0.2" stroke="#2563EB" stroke-width="2"/>
+    <text x="0" y="25" text-anchor="middle" font-size="20">🎬</text>
+    <text x="0" y="48" text-anchor="middle" font-size="8" fill="#2563EB" font-weight="bold">Action</text>
+    <text x="0" y="57" text-anchor="middle" font-size="8" fill="#2563EB">Sequel</text>
+  </g>
+
+  <!-- Item 5: Sci-fi (thick) -->
+  <g transform="translate(540, 160)">
+    <rect x="-30" y="0" width="60" height="60" rx="8" fill="#2563EB" fill-opacity="0.2" stroke="#2563EB" stroke-width="2"/>
+    <text x="0" y="25" text-anchor="middle" font-size="20">🌌</text>
+    <text x="0" y="48" text-anchor="middle" font-size="8" fill="#2563EB" font-weight="bold">Space</text>
+    <text x="0" y="57" text-anchor="middle" font-size="8" fill="#2563EB">Drama</text>
+  </g>
+
+  <!-- Prediction target -->
+  <g transform="translate(630, 130)">
+    <rect x="-28" y="30" width="56" height="60" rx="8" fill="#D97706" fill-opacity="0.15" stroke="#D97706" stroke-width="2" stroke-dasharray="5,3"/>
+    <text x="0" y="55" text-anchor="middle" font-size="22" fill="#D97706" font-weight="bold">?</text>
+    <text x="0" y="78" text-anchor="middle" font-size="8" fill="#D97706" font-weight="bold">Next</text>
+    <text x="0" y="87" text-anchor="middle" font-size="8" fill="#D97706" font-weight="bold">Rec</text>
+  </g>
+
+  <!-- Attention arrows (curved, from prediction to each item) -->
+  <!-- Arrow to Cooking (thin = low weight) -->
+  <path d="M602,155 C580,90 120,80 65,155" fill="none" stroke="#D97706" stroke-width="1" opacity="0.35"/>
+  <text x="310" y="82" text-anchor="middle" font-size="9" fill="#D97706" opacity="0.6">0.03</text>
+
+  <!-- Arrow to Sci-fi (medium) -->
+  <path d="M602,155 C580,100 240,95 203,155" fill="none" stroke="#D97706" stroke-width="2.5" opacity="0.55"/>
+  <text x="400" y="100" text-anchor="middle" font-size="9" fill="#D97706" opacity="0.8">0.15</text>
+
+  <!-- Arrow to Action (thick) -->
+  <path d="M602,160 C585,115 370,110 343,155" fill="none" stroke="#D97706" stroke-width="4" opacity="0.7"/>
+  <text x="475" y="115" text-anchor="middle" font-size="9" fill="#D97706">0.22</text>
+
+  <!-- Arrow to Action Sequel (very thick) -->
+  <path d="M602,165 C590,130 470,125 443,160" fill="none" stroke="#D97706" stroke-width="6" opacity="0.8"/>
+  <text x="530" y="130" text-anchor="middle" font-size="9" fill="#D97706" font-weight="bold">0.32</text>
+
+  <!-- Arrow to Space Drama (thickest) -->
+  <path d="M602,170 C595,150 560,145 543,160" fill="none" stroke="#D97706" stroke-width="5" opacity="0.75"/>
+  <text x="580" y="148" text-anchor="middle" font-size="9" fill="#D97706" font-weight="bold">0.28</text>
+
+  <!-- Weight legend -->
+  <g transform="translate(60, 280)">
+    <rect x="0" y="0" width="560" height="45" rx="8" fill="#F5F5F4" stroke="#E7E5E4" stroke-width="1"/>
+    <text x="20" y="18" font-size="11" font-weight="bold" fill="#1C1917">Attention Weights:</text>
+    <text x="20" y="35" font-size="10" fill="#78716C">Arrow thickness = how much each past item influences the next prediction</text>
+
+    <!-- Thin to thick demonstration -->
+    <line x1="320" y1="12" x2="370" y2="12" stroke="#D97706" stroke-width="1" opacity="0.35"/>
+    <text x="378" y="16" font-size="9" fill="#78716C">Low</text>
+
+    <line x1="410" y1="12" x2="460" y2="12" stroke="#D97706" stroke-width="3" opacity="0.6"/>
+    <text x="468" y="16" font-size="9" fill="#78716C">Medium</text>
+
+    <line x1="510" y1="12" x2="545" y2="12" stroke="#D97706" stroke-width="6" opacity="0.8"/>
+    <text x="553" y="16" font-size="9" fill="#78716C">High</text>
+  </g>
+
+  <!-- Insight -->
+  <g transform="translate(60, 340)">
+    <rect x="0" y="0" width="560" height="30" rx="6" fill="#7C3AED" fill-opacity="0.06" stroke="#7C3AED" stroke-width="1"/>
+    <text x="280" y="19" text-anchor="middle" font-size="11" fill="#7C3AED">The cooking show from months ago barely matters. Recent action/sci-fi items drive the prediction.</text>
+  </g>
+</svg>

@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 480" width="680" height="480" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrowUp" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <path d="M0,6 L4,0 L8,6" fill="#78716C"/>
+    </marker>
+    <marker id="arrowUpBlue" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <path d="M0,6 L4,0 L8,6" fill="#2563EB"/>
+    </marker>
+    <marker id="arrowUpGreen" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <path d="M0,6 L4,0 L8,6" fill="#059669"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="340" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1C1917">Two-Tower Architecture</text>
+  <text x="340" y="48" text-anchor="middle" font-size="12" fill="#78716C">Separate encoders for users and items, unified embedding space</text>
+
+  <!-- Shared Embedding Space (top center) -->
+  <g transform="translate(190, 68)">
+    <rect x="0" y="0" width="300" height="60" rx="12" fill="#F5F5F4" stroke="#E7E5E4" stroke-width="1.5"/>
+    <text x="150" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#1C1917">Shared Embedding Space</text>
+
+    <!-- User embedding -->
+    <rect x="30" y="32" width="90" height="20" rx="4" fill="#2563EB" fill-opacity="0.15" stroke="#2563EB" stroke-width="1"/>
+    <text x="75" y="46" text-anchor="middle" font-size="9" fill="#2563EB" font-weight="bold">[0.3, 0.8, ..., 0.5]</text>
+
+    <!-- Item embedding -->
+    <rect x="180" y="32" width="90" height="20" rx="4" fill="#059669" fill-opacity="0.15" stroke="#059669" stroke-width="1"/>
+    <text x="225" y="46" text-anchor="middle" font-size="9" fill="#059669" font-weight="bold">[0.4, 0.7, ..., 0.6]</text>
+
+    <!-- Similarity dotted line -->
+    <line x1="122" y1="42" x2="178" y2="42" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+    <text x="150" y="39" text-anchor="middle" font-size="8" fill="#D97706" font-weight="bold">similarity</text>
+  </g>
+
+  <!-- USER TOWER (left) -->
+  <g transform="translate(100, 145)">
+    <!-- Tower outline -->
+    <rect x="0" y="0" width="180" height="240" rx="8" fill="#2563EB" fill-opacity="0.03" stroke="#2563EB" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="90" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563EB">User Tower</text>
+
+    <!-- Arrow from tower top to embedding space -->
+    <line x1="90" y1="-2" x2="90" y2="-18" stroke="#2563EB" stroke-width="2" marker-end="url(#arrowUpBlue)"/>
+
+    <!-- Hidden layers -->
+    <rect x="25" y="35" width="130" height="30" rx="6" fill="#2563EB" fill-opacity="0.12" stroke="#2563EB" stroke-width="1"/>
+    <text x="90" y="54" text-anchor="middle" font-size="10" fill="#2563EB">Dense Layer (128)</text>
+
+    <line x1="90" y1="65" x2="90" y2="78" stroke="#2563EB" stroke-width="1" opacity="0.5"/>
+
+    <rect x="25" y="78" width="130" height="30" rx="6" fill="#2563EB" fill-opacity="0.08" stroke="#2563EB" stroke-width="1"/>
+    <text x="90" y="97" text-anchor="middle" font-size="10" fill="#2563EB">Dense Layer (256)</text>
+
+    <line x1="90" y1="108" x2="90" y2="118" stroke="#2563EB" stroke-width="1" opacity="0.5"/>
+
+    <rect x="25" y="118" width="130" height="30" rx="6" fill="#2563EB" fill-opacity="0.05" stroke="#2563EB" stroke-width="1"/>
+    <text x="90" y="137" text-anchor="middle" font-size="10" fill="#2563EB">Dense Layer (512)</text>
+
+    <line x1="90" y1="148" x2="90" y2="158" stroke="#2563EB" stroke-width="1" opacity="0.5"/>
+
+    <!-- Input features -->
+    <rect x="10" y="160" width="160" height="70" rx="6" fill="white" stroke="#2563EB" stroke-width="1"/>
+    <text x="90" y="177" text-anchor="middle" font-size="10" font-weight="bold" fill="#2563EB">Inputs</text>
+
+    <!-- Input items -->
+    <g font-size="9" fill="#1C1917">
+      <circle cx="28" cy="193" r="3" fill="#2563EB" opacity="0.5"/>
+      <text x="36" y="196">Browse history</text>
+      <circle cx="28" cy="208" r="3" fill="#2563EB" opacity="0.5"/>
+      <text x="36" y="211">Demographics</text>
+      <circle cx="28" cy="223" r="3" fill="#2563EB" opacity="0.5"/>
+      <text x="36" y="226">Context (time, device)</text>
+    </g>
+  </g>
+
+  <!-- ITEM TOWER (right) -->
+  <g transform="translate(400, 145)">
+    <!-- Tower outline -->
+    <rect x="0" y="0" width="180" height="240" rx="8" fill="#059669" fill-opacity="0.03" stroke="#059669" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="90" y="20" text-anchor="middle" font-size="14" font-weight="bold" fill="#059669">Item Tower</text>
+
+    <!-- Arrow from tower top to embedding space -->
+    <line x1="90" y1="-2" x2="90" y2="-18" stroke="#059669" stroke-width="2" marker-end="url(#arrowUpGreen)"/>
+
+    <!-- Hidden layers -->
+    <rect x="25" y="35" width="130" height="30" rx="6" fill="#059669" fill-opacity="0.12" stroke="#059669" stroke-width="1"/>
+    <text x="90" y="54" text-anchor="middle" font-size="10" fill="#059669">Dense Layer (128)</text>
+
+    <line x1="90" y1="65" x2="90" y2="78" stroke="#059669" stroke-width="1" opacity="0.5"/>
+
+    <rect x="25" y="78" width="130" height="30" rx="6" fill="#059669" fill-opacity="0.08" stroke="#059669" stroke-width="1"/>
+    <text x="90" y="97" text-anchor="middle" font-size="10" fill="#059669">Dense Layer (256)</text>
+
+    <line x1="90" y1="108" x2="90" y2="118" stroke="#059669" stroke-width="1" opacity="0.5"/>
+
+    <rect x="25" y="118" width="130" height="30" rx="6" fill="#059669" fill-opacity="0.05" stroke="#059669" stroke-width="1"/>
+    <text x="90" y="137" text-anchor="middle" font-size="10" fill="#059669">Dense Layer (512)</text>
+
+    <line x1="90" y1="148" x2="90" y2="158" stroke="#059669" stroke-width="1" opacity="0.5"/>
+
+    <!-- Input features -->
+    <rect x="10" y="160" width="160" height="70" rx="6" fill="white" stroke="#059669" stroke-width="1"/>
+    <text x="90" y="177" text-anchor="middle" font-size="10" font-weight="bold" fill="#059669">Inputs</text>
+
+    <!-- Input items -->
+    <g font-size="9" fill="#1C1917">
+      <circle cx="28" cy="193" r="3" fill="#059669" opacity="0.5"/>
+      <text x="36" y="196">Title &amp; description</text>
+      <circle cx="28" cy="208" r="3" fill="#059669" opacity="0.5"/>
+      <text x="36" y="211">Category &amp; attributes</text>
+      <circle cx="28" cy="223" r="3" fill="#059669" opacity="0.5"/>
+      <text x="36" y="226">Image embedding</text>
+    </g>
+  </g>
+
+  <!-- Serve time info box -->
+  <g transform="translate(80, 410)">
+    <rect x="0" y="0" width="520" height="50" rx="8" fill="#D97706" fill-opacity="0.06" stroke="#D97706" stroke-width="1"/>
+    <text x="260" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#D97706">Serving Pipeline</text>
+    <text x="260" y="38" text-anchor="middle" font-size="11" fill="#78716C">Compute user embedding &rarr; ANN lookup in item index &rarr; Top candidates in &lt;10ms</text>
+  </g>
+
+  <!-- Key advantage annotations -->
+  <g transform="translate(290, 210)">
+    <text x="50" y="0" text-anchor="middle" font-size="10" fill="#78716C" font-style="italic">Trained</text>
+    <text x="50" y="12" text-anchor="middle" font-size="10" fill="#78716C" font-style="italic">independently</text>
+  </g>
+</svg>

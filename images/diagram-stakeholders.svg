@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" width="680" height="380" font-family="system-ui, sans-serif">
+  <!-- Title -->
+  <text x="340" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1C1917">Stakeholder Triangle</text>
+  <text x="340" y="48" text-anchor="middle" font-size="11" fill="#78716C">Balancing competing interests in recommender systems</text>
+
+  <!-- Triangle edges (tension lines) -->
+  <line x1="340" y1="100" x2="120" y2="290" stroke="#E7E5E4" stroke-width="2" stroke-dasharray="6,4"/>
+  <line x1="340" y1="100" x2="560" y2="290" stroke="#E7E5E4" stroke-width="2" stroke-dasharray="6,4"/>
+  <line x1="120" y1="290" x2="560" y2="290" stroke="#E7E5E4" stroke-width="2" stroke-dasharray="6,4"/>
+
+  <!-- Tension labels on edges -->
+  <text x="210" y="185" text-anchor="middle" font-size="8" fill="#A8A29E" transform="rotate(-40, 210, 185)">fair exposure vs. relevance</text>
+  <text x="470" y="185" text-anchor="middle" font-size="8" fill="#A8A29E" transform="rotate(40, 470, 185)">engagement vs. well-being</text>
+  <text x="340" y="310" text-anchor="middle" font-size="8" fill="#A8A29E">revenue vs. creator fairness</text>
+
+  <!-- Center: Recommender System -->
+  <rect x="280" y="196" width="120" height="44" rx="22" fill="#1C1917"/>
+  <text x="340" y="215" text-anchor="middle" font-size="10" font-weight="700" fill="white">Recommender</text>
+  <text x="340" y="229" text-anchor="middle" font-size="10" font-weight="700" fill="white">System</text>
+
+  <!-- Connecting lines from center to nodes -->
+  <line x1="340" y1="196" x2="340" y2="140" stroke="#1C1917" stroke-width="1.5"/>
+  <line x1="285" y1="225" x2="170" y2="272" stroke="#1C1917" stroke-width="1.5"/>
+  <line x1="395" y1="225" x2="510" y2="272" stroke="#1C1917" stroke-width="1.5"/>
+
+  <!-- Node 1: Users (top) -->
+  <rect x="270" y="72" width="140" height="68" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+  <!-- User icon -->
+  <circle cx="340" cy="92" r="9" fill="none" stroke="#2563EB" stroke-width="1.5"/>
+  <path d="M327,108 Q340,100 353,108" fill="none" stroke="#2563EB" stroke-width="1.5"/>
+  <text x="340" y="122" text-anchor="middle" font-size="10" font-weight="600" fill="#2563EB">Users</text>
+  <text x="340" y="134" text-anchor="middle" font-size="8" fill="#78716C">relevance, discovery, trust</text>
+
+  <!-- Node 2: Content Producers (bottom-left) -->
+  <rect x="50" y="258" width="160" height="68" rx="8" fill="#F0FDF4" stroke="#059669" stroke-width="1.5"/>
+  <!-- Creator icon (pen/document) -->
+  <rect x="120" y="268" width="14" height="18" rx="2" fill="none" stroke="#059669" stroke-width="1.3"/>
+  <line x1="124" y1="274" x2="130" y2="274" stroke="#059669" stroke-width="1"/>
+  <line x1="124" y1="278" x2="130" y2="278" stroke="#059669" stroke-width="1"/>
+  <line x1="124" y1="282" x2="128" y2="282" stroke="#059669" stroke-width="1"/>
+  <text x="130" y="302" text-anchor="middle" font-size="10" font-weight="600" fill="#059669">Content Producers</text>
+  <text x="130" y="316" text-anchor="middle" font-size="8" fill="#78716C">audience, fair exposure, reach</text>
+
+  <!-- Node 3: Platform Owners (bottom-right) -->
+  <rect x="470" y="258" width="160" height="68" rx="8" fill="#FDF4FF" stroke="#7C3AED" stroke-width="1.5"/>
+  <!-- Platform icon (chart) -->
+  <rect x="540" y="272" width="4" height="14" rx="1" fill="#7C3AED"/>
+  <rect x="548" y="268" width="4" height="18" rx="1" fill="#7C3AED"/>
+  <rect x="556" y="275" width="4" height="11" rx="1" fill="#7C3AED"/>
+  <text x="550" y="302" text-anchor="middle" font-size="10" font-weight="600" fill="#7C3AED">Platform Owners</text>
+  <text x="550" y="316" text-anchor="middle" font-size="8" fill="#78716C">engagement, revenue, growth</text>
+
+  <!-- Bidirectional tension arrows -->
+  <!-- Users <-> Content Producers -->
+  <path d="M285,130 L178,260" fill="none" stroke="#A8A29E" stroke-width="0.8" marker-start="url(#tensionStart)" marker-end="url(#tensionEnd)"/>
+  <!-- Users <-> Platform -->
+  <path d="M395,130 L502,260" fill="none" stroke="#A8A29E" stroke-width="0.8" marker-start="url(#tensionStart)" marker-end="url(#tensionEnd)"/>
+  <!-- Content Producers <-> Platform -->
+  <path d="M210,295 L470,295" fill="none" stroke="#A8A29E" stroke-width="0.8" marker-start="url(#tensionStart)" marker-end="url(#tensionEnd)"/>
+
+  <!-- Legend -->
+  <line x1="220" y1="358" x2="250" y2="358" stroke="#E7E5E4" stroke-width="2" stroke-dasharray="6,4"/>
+  <text x="258" y="362" font-size="9" fill="#78716C">Tension / trade-off</text>
+  <line x1="370" y1="358" x2="400" y2="358" stroke="#1C1917" stroke-width="1.5"/>
+  <text x="408" y="362" font-size="9" fill="#78716C">Mediated by RS</text>
+
+  <defs>
+    <marker id="tensionStart" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+      <circle cx="2.5" cy="2.5" r="1.5" fill="#A8A29E"/>
+    </marker>
+    <marker id="tensionEnd" markerWidth="5" markerHeight="5" refX="2.5" refY="2.5" orient="auto">
+      <circle cx="2.5" cy="2.5" r="1.5" fill="#A8A29E"/>
+    </marker>
+  </defs>
+</svg>
