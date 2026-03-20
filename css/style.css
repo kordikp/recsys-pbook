@@ -98,6 +98,7 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .xp-toast.xp { background: linear-gradient(135deg, var(--accent), #EC4899); }
 .xp-toast.achievement { background: linear-gradient(135deg, #F59E0B, #EF4444); font-size: .85rem; padding: .5em 1em; }
 .xp-toast.levelup { background: linear-gradient(135deg, #10B981, #3B82F6); font-size: .9rem; padding: .6em 1em; }
+.xp-toast.info { background: linear-gradient(135deg, #6B7280, #4B5563); }
 
 .voice-badge { font-family: var(--font-ui); font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: .2em .5em; border-radius: 4px; color: #fff; }
 .voice-badge.engineer { background: var(--engineer); }
