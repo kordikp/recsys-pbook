@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Which Model Powers Your Favorite App?
-
 Every app you use has a secret recipe for deciding what to show you. Let's figure out which recipe each app is using — by actually opening them up and looking!
 
 First, meet the five models:

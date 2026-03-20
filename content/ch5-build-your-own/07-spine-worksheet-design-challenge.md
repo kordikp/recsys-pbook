@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Design Challenge: Your Dream Recommender
-
 You've learned how recommendation systems work, how they collect data, how they find patterns, and how they can go wrong. Now here's your challenge: dream up one that doesn't exist yet.
 
 Close your eyes for 10 seconds. Seriously — close them. And imagine: what would YOU build a recommendation system for? Not movies. Not music. Not stuff that already exists. Something brand new that nobody has thought of.

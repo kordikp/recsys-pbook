@@ -10,8 +10,6 @@ parent: null
 diagram: null
 ---
 
-# Be a Data Detective — Right Now!
-
 Grab your phone. Open YouTube. We're going to investigate YOUR algorithm in real time. This whole thing takes about 10 minutes, and by the end you'll have proof of how fast the algorithm learns.
 
 ---
