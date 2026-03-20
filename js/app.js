@@ -1259,7 +1259,6 @@ class PBook {
         <div class="gami-xp-bar"><div class="gami-xp-fill" style="width:${xpPct}%"></div></div>
         <div class="gami-xp-text">${u.xp} XP &middot; ${xpNeeded - xpInLevel} XP to level ${u.level + 1}</div>
       </div>
-      ${u.streak > 1 ? `<div class="gami-streak">&#128293; ${u.streak} day streak!</div>` : ''}
     </div>`;
 
     // Quick stats row
@@ -1267,7 +1266,7 @@ class PBook {
       <div class="gami-stat"><span class="gs-num">${p.progress.read}</span><span class="gs-label">Read</span></div>
       <div class="gami-stat"><span class="gs-num">${p.progress.pct}%</span><span class="gs-label">Done</span></div>
       <div class="gami-stat"><span class="gs-num">${u.achievements.length}</span><span class="gs-label">Badges</span></div>
-      <div class="gami-stat"><span class="gs-num">${u.streak}</span><span class="gs-label">Streak</span></div>
+      <div class="gami-stat"><span class="gs-num">${p.readingTimeMin}</span><span class="gs-label">Min read</span></div>
     </div>`;
 
     // Achievements
@@ -1286,7 +1285,7 @@ class PBook {
       { id: 'reader_15', icon: '⚡', name: 'Speed Reader' }, { id: 'reader_30', icon: '🤖', name: 'Knowledge Machine' },
       { id: 'first_like', icon: '❤️', name: 'Thumbs Up' }, { id: 'like_10', icon: '🌟', name: 'Super Fan' },
       { id: 'first_note', icon: '📝', name: 'Note Taker' }, { id: 'voice_all', icon: '🎭', name: 'Triple Threat' },
-      { id: 'streak_3', icon: '🔥', name: 'On a Roll' }, { id: 'streak_7', icon: '💪', name: 'Week Warrior' },
+      { id: 'curious_cat', icon: '🐱', name: 'Curious Cat' }, { id: 'quiz_master', icon: '🧩', name: 'Quiz Master' },
       { id: 'level_5', icon: '🏆', name: 'Level 5!' }, { id: 'save_5', icon: '🔖', name: 'Collector' },
       { id: 'xp_200', icon: '💎', name: 'XP Hunter' }, { id: 'deep_diver', icon: '🤿', name: 'Deep Diver' },
     ];

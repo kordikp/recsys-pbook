@@ -237,11 +237,9 @@ export class UserModel {
     this.preferredVoice = null;
     this.firstVisit = null;
     this.sessionCount = 0;
-    // Gamification
+    // Gamification (no streaks — safe for kids)
     this.xp = 0;
     this.level = 1;
-    this.streak = 0;
-    this.lastActiveDate = null;
     this.achievements = [];
     this.load();
     this._trackSession();
@@ -250,16 +248,6 @@ export class UserModel {
   _trackSession() {
     if (!this.firstVisit) this.firstVisit = Date.now();
     this.sessionCount++;
-    // Streak tracking
-    const today = new Date().toDateString();
-    if (this.lastActiveDate && this.lastActiveDate !== today) {
-      const yesterday = new Date(Date.now() - 86400000).toDateString();
-      if (this.lastActiveDate === yesterday) this.streak++;
-      else this.streak = 1;
-    } else if (!this.lastActiveDate) {
-      this.streak = 1;
-    }
-    this.lastActiveDate = today;
     this.lastVisit = Date.now();
     this.save();
   }
@@ -282,8 +270,6 @@ export class UserModel {
       if (s.sessionCount) this.sessionCount = s.sessionCount;
       if (s.xp) this.xp = s.xp;
       if (s.level) this.level = s.level;
-      if (s.streak) this.streak = s.streak;
-      if (s.lastActiveDate) this.lastActiveDate = s.lastActiveDate;
       if (s.achievements) this.achievements = s.achievements;
     } catch (e) {}
   }
@@ -306,8 +292,6 @@ export class UserModel {
         sessionCount: this.sessionCount,
         xp: this.xp,
         level: this.level,
-        streak: this.streak,
-        lastActiveDate: this.lastActiveDate,
         achievements: this.achievements,
       }));
     } catch (e) {}
@@ -399,8 +383,8 @@ export class UserModel {
       { id: 'like_10', name: 'Super Fan', icon: '🌟', desc: 'Like 10 sections', test: () => [...this.ratings.values()].filter(r => r >= 0.7).length >= 10 },
       { id: 'first_note', name: 'Note Taker', icon: '📝', desc: 'Write your first note', test: () => this.notes.size >= 1 },
       { id: 'voice_all', name: 'Triple Threat', icon: '🎭', desc: 'Try all 3 depth voices', test: () => Object.values(this.voiceScores).every(v => v > 0) },
-      { id: 'streak_3', name: 'On a Roll', icon: '🔥', desc: '3-day reading streak', test: () => this.streak >= 3 },
-      { id: 'streak_7', name: 'Week Warrior', icon: '💪', desc: '7-day reading streak', test: () => this.streak >= 7 },
+      { id: 'curious_cat', name: 'Curious Cat', icon: '🐱', desc: 'Read sections from 3 different chapters', test: () => { const chs = new Set(); this.readBlocks.forEach(id => { for (const [k,v] of Object.entries(this.signals)) { if (k === id) chs.add(v.chapter || ''); }}); return chs.size >= 3 || this.readBlocks.size >= 12; }},
+      { id: 'quiz_master', name: 'Quiz Master', icon: '🧩', desc: 'Answer 3 questions', test: () => this.totalInteractions >= 15 },
       { id: 'level_5', name: 'Level 5!', icon: '🏆', desc: 'Reach level 5', test: () => this.level >= 5 },
       { id: 'save_5', name: 'Collector', icon: '🔖', desc: 'Save 5 sections', test: () => this.savedBlocks.size >= 5 },
       { id: 'xp_200', name: 'XP Hunter', icon: '💎', desc: 'Earn 200 XP', test: () => this.xp >= 200 },
@@ -538,8 +522,6 @@ export class UserModel {
     this.sessionCount = 0;
     this.xp = 0;
     this.level = 1;
-    this.streak = 0;
-    this.lastActiveDate = null;
     this.achievements = [];
     this.save();
   }
