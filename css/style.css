@@ -88,6 +88,17 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .topbar-right { display: flex; align-items: center; gap: .4em; flex-shrink: 0; }
 .topbar-icon { font-size: 1.1rem; padding: .3em; color: var(--text-2); border-radius: 6px; }
 .topbar-icon:hover { background: var(--border-light); }
+/* XP badge in topbar */
+.xp-badge { font-family: var(--font-ui); font-size: .65rem; font-weight: 800; padding: .2em .6em; border-radius: 12px; background: linear-gradient(135deg, var(--accent), #EC4899); color: #fff; cursor: pointer; transition: transform var(--transition); }
+.xp-badge:hover { transform: scale(1.1); }
+
+/* XP toast notification */
+.xp-toast { position: fixed; top: calc(var(--topbar-h) + .5em); right: .8em; font-family: var(--font-ui); font-size: .8rem; font-weight: 700; padding: .4em .8em; border-radius: 10px; color: #fff; z-index: 500; opacity: 0; transform: translateY(-10px); transition: all .3s ease; pointer-events: none; }
+.xp-toast.show { opacity: 1; transform: translateY(0); }
+.xp-toast.xp { background: linear-gradient(135deg, var(--accent), #EC4899); }
+.xp-toast.achievement { background: linear-gradient(135deg, #F59E0B, #EF4444); font-size: .85rem; padding: .5em 1em; }
+.xp-toast.levelup { background: linear-gradient(135deg, #10B981, #3B82F6); font-size: .9rem; padding: .6em 1em; }
+
 .voice-badge { font-family: var(--font-ui); font-size: .65rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; padding: .2em .5em; border-radius: 4px; color: #fff; }
 .voice-badge.engineer { background: var(--engineer); }
 .voice-badge.product { background: var(--product); }

@@ -69,6 +69,7 @@
     <span class="search-placeholder">Search...</span>
   </button>
   <div class="topbar-right">
+    <button class="xp-badge" id="xpBadge" onclick="app.switchView('profile')"></button>
     <button class="voice-badge" id="voiceBadge" onclick="app.cycleVoice()"></button>
     <button class="topbar-icon" id="settingsBtn" onclick="app.toggleSettings()">&#9881;</button>
   </div>
@@ -174,7 +175,8 @@
   </button>
 </nav>
 
-<!-- (chat view moved inside main) -->
+<!-- XP Toast (slides in from top-right) -->
+<div class="xp-toast" id="xpToast"></div>
 
 <!-- SETTINGS PANEL -->
 <div class="settings-drawer" id="settingsDrawer">

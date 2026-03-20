@@ -123,6 +123,7 @@ class PBook {
   startApp() {
     document.getElementById('onboarding').classList.add('hidden');
     this.updateVoiceBadge();
+    this.updateXPBadge();
     this.switchView('home');
   }
 
@@ -481,6 +482,8 @@ class PBook {
               e.target.querySelector('.block-status')?.classList.add('read');
               this.updateContext(id);
               this._updateInlineReadNext(id, ch);
+              this.showXPToast('+10 XP', 'xp');
+              this.checkGamificationEvents();
               clearInterval(this._dwellTimers[id]);
             }
 
@@ -1657,7 +1660,9 @@ class PBook {
       tab.classList.add('active');
       card.classList.add('active');
       this.user.trackVoiceExpand(voice, blockId);
-      this.rc.sendCartAdd(blockId); // Strong positive signal
+      this.rc.sendCartAdd(blockId);
+      this.showXPToast('+5 XP', 'xp');
+      this.checkGamificationEvents(); // Strong positive signal
       this.renderMath(card); // Render math in newly revealed depth card
     }
   }
@@ -1760,9 +1765,9 @@ class PBook {
     const newRating = current >= 0.7 ? 0 : 1; // toggle
     this.rc.sendRating(blockId, newRating);
     this.user.trackRating(blockId, newRating);
-    // Like implies you saw it
     if (!this.user.seenBlocks.has(blockId)) this.user.trackSeen(blockId);
     if (newRating >= 0.7 && !this.user.readBlocks.has(blockId)) this.user.trackRead(blockId);
+    if (newRating >= 0.7) { this.showXPToast('+3 XP ❤️', 'xp'); this.checkGamificationEvents(); }
     // Update button visually
     const btn = document.querySelector(`.block-reactions[data-block="${blockId}"] .like-btn`);
     if (btn) {
@@ -1891,6 +1896,34 @@ class PBook {
     // Re-render current view to reflect voice change
     if (this.currentView === 'read') this.renderRead();
     else if (this.currentView === 'home') this.renderHome();
+  }
+
+  updateXPBadge() {
+    const el = document.getElementById('xpBadge');
+    if (!el) return;
+    el.textContent = 'Lv.' + this.user.level + ' · ' + this.user.xp + 'XP';
+  }
+
+  showXPToast(text, type) {
+    const toast = document.getElementById('xpToast');
+    if (!toast) return;
+    toast.textContent = text;
+    toast.className = 'xp-toast ' + (type || 'xp') + ' show';
+    clearTimeout(this._xpToastTimer);
+    this._xpToastTimer = setTimeout(() => { toast.classList.remove('show'); }, 2500);
+  }
+
+  // Check for pending gamification events and show toasts
+  checkGamificationEvents() {
+    if (this.user._pendingLevelUp) {
+      this.showXPToast('Level ' + this.user._pendingLevelUp + '! You are now: ' + this.user.getLevelTitle(), 'levelup');
+      this.user._pendingLevelUp = null;
+    } else if (this.user._pendingAchievement) {
+      const a = this.user._pendingAchievement;
+      this.showXPToast(a.icon + ' ' + a.name + '!', 'achievement');
+      this.user._pendingAchievement = null;
+    }
+    this.updateXPBadge();
   }
 
   updateVoiceBadge() {
