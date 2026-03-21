@@ -7,9 +7,8 @@ import { CONFIG } from './config.js';
 export class RecombeeClient {
   constructor() {
     this.config = { ...CONFIG.recombee };
-    // Disable on localhost (no proxy available)
-    const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    this.enabled = this.config.enabled && !isLocal;
+    // Enabled everywhere — local dev server provides proxy too
+    this.enabled = this.config.enabled;
     this.userId = this.getOrCreateUserId();
     this.interactions = []; // local log (always kept for offline reference)
     this.allBlocks = [];
