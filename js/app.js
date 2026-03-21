@@ -795,7 +795,7 @@ class PBook {
   }
 
   renderSidebar(block) {
-    return `<div class="sb-block fade-up"><div class="sb-label">&#9670; Sidebar</div><h4>${block.title}</h4>${renderMarkdown(block.body)}</div>`;
+    return `<div class="sb-block fade-up" id="b-${block.id}"><div class="sb-label">&#9670; Sidebar</div><h4>${block.title}</h4>${renderMarkdown(block.body)}</div>`;
   }
 
   renderQuestion(block) {
@@ -2603,7 +2603,8 @@ class PBook {
     const block = this.findBlock(blockId);
     if (!block) return;
     const chIdx = block.meta._chapterIdx;
-    const parentId = block.meta.parent || blockId; // depth cards → scroll to parent
+    // Depth cards scroll to parent (they're inside depth-group), sidebars scroll directly (they have their own ID now)
+    const parentId = (block.meta.type === 'depth' && block.meta.parent) ? block.meta.parent : blockId;
     this.user.currentBlock = blockId;
     this.user.currentChapter = chIdx;
     this.user.save();
