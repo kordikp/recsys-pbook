@@ -579,6 +579,7 @@ class PBook {
               this._updateInlineReadNext(id, ownerCh);
               this.showXPToast('+10 XP', 'xp');
               this.checkGamificationEvents();
+              this._updateMissionBar();
               clearInterval(this._dwellTimers[id]);
             }
 
