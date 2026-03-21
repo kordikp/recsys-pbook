@@ -119,14 +119,23 @@
     <div class="profile-inner" id="profileContent"></div>
   </div>
 
-  <!-- CHAT VIEW -->
+  <!-- TUTOR VIEW -->
   <div class="view" id="view-chat">
     <div class="chat-view-inner">
-      <div class="chat-messages" id="chatMessagesFull">
-        <div class="chat-msg bot">Ask about any topic in the book. I'll find relevant sections and suggest a reading path.</div>
+      <div class="tutor-header">
+        <span class="tutor-avatar">&#129302;</span>
+        <div class="tutor-info">
+          <span class="tutor-name">Book Tutor</span>
+          <span class="tutor-status" id="tutorStatus">Ask me anything about the book!</span>
+        </div>
+        <button class="tutor-author-btn" onclick="app.escalateToAuthor()" title="Send question to the author">&#9993; Ask Pavel</button>
       </div>
+      <div class="chat-messages" id="chatMessagesFull">
+        <div class="chat-msg bot">Hi! I'm your book tutor. Ask me anything about recommender systems and I'll help you find answers in the book!</div>
+      </div>
+      <div class="tutor-typing" id="tutorTyping" style="display:none"><span></span><span></span><span></span></div>
       <div class="chat-input-wrap">
-        <input type="text" id="chatInputFull" placeholder="Ask a question..." onkeydown="if(event.key==='Enter')app.sendFullChat()">
+        <input type="text" id="chatInputFull" placeholder="Ask about recommendations..." onkeydown="if(event.key==='Enter')app.sendFullChat()">
         <button onclick="app.sendFullChat()">&#10148;</button>
       </div>
     </div>
@@ -167,7 +176,7 @@
   </button>
   <button class="tab" data-view="chat" onclick="app.switchView('chat')">
     <span class="tab-icon">&#128172;</span>
-    <span class="tab-label">Ask</span>
+    <span class="tab-label">Tutor</span>
   </button>
   <button class="tab" data-view="profile" onclick="app.switchView('profile')">
     <span class="tab-icon">&#128100;</span>
@@ -208,6 +217,6 @@
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=13"></script>
+<script type="module" src="js/app.js?v=14"></script>
 </body>
 </html>

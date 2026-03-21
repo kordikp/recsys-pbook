@@ -243,6 +243,7 @@ export class UserModel {
     this.achievements = [];
     // Spaced repetition recall (Anki-style)
     this.recall = {}; // blockId → { interval, ease, nextReview, lastReview, reps }
+    this.activePath = null; // current reading path id
     this.load();
     this._trackSession();
   }
@@ -274,6 +275,7 @@ export class UserModel {
       if (s.level) this.level = s.level;
       if (s.achievements) this.achievements = s.achievements;
       if (s.recall) this.recall = s.recall;
+      if (s.activePath) this.activePath = s.activePath;
     } catch (e) {}
   }
 
@@ -297,6 +299,7 @@ export class UserModel {
         level: this.level,
         achievements: this.achievements,
         recall: this.recall,
+        activePath: this.activePath,
       }));
     } catch (e) {}
   }
@@ -589,6 +592,7 @@ export class UserModel {
     this.level = 1;
     this.achievements = [];
     this.recall = {};
+    this.activePath = null;
     this.save();
   }
 }

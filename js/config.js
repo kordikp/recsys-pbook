@@ -29,6 +29,12 @@ export const CONFIG = {
     recommendations: true
   },
 
+  tutor: {
+    mode: 'mock',              // 'mock' or 'llm' (future)
+    escalationThreshold: 0.3,  // confidence below this → suggest author
+    authorName: 'Pavel'
+  },
+
   // Voices adapted for kids (8-15 years old)
   voices: {
     explorer: { label: 'Explorer', icon: '\u{1F50D}', description: 'How does it work? Show me!' },

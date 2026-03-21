@@ -4,6 +4,7 @@ import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
 import { RecombeeClient, UserModel } from './recombee.js';
 import { getDiagram } from './diagrams.js';
+import { MockTutorEngine, ConversationManager } from './tutor.js';
 
 class PBook {
   constructor() {
@@ -16,6 +17,9 @@ class PBook {
     this.feedbackTimeout = null;
     this.topicIndex = {};  // topic → [blockIds]
     this.blockTopics = {}; // blockId → [topics]
+    this.tutor = new MockTutorEngine();
+    this.convManager = new ConversationManager();
+    this._activeConvId = null;
   }
 
   // ===== INIT =====
@@ -604,6 +608,7 @@ class PBook {
           </button>
         </div>
         <div class="block-actions">
+          <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
           <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
           <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save">&#128278;</button>
           <button class="act-btn flag-btn" onclick="app.flagBlock('${block.id}')" title="Suggest edit to author">&#9873;</button>
@@ -882,17 +887,24 @@ class PBook {
       else hide('ctxQuiz');
     }
 
-    // 5. Chat
+    // 5. Chat with suggested questions
     const ctxChat = document.getElementById('ctxChat');
-    if (ctxChat && !ctxChat.dataset.init) {
-      ctxChat.dataset.init = '1';
+    if (ctxChat) {
+      const suggested = currentBlock ? this.tutor.getSuggestedQuestions({ meta: currentBlock, body: currentBlock.body || this.findBlock(currentBlock.id)?.body }) : [];
+      const sugHtml = suggested.length ? suggested.map(q =>
+        `<button class="tutor-suggest-btn" style="font-size:.7rem;padding:.25em .5em" onclick="document.getElementById('chatInput').value='${q.replace(/'/g,"\\'")}';app.sendChat()">${q}</button>`
+      ).join('') : '';
       ctxChat.style.display = 'block';
-      ctxChat.innerHTML = `<h4>&#128172; Ask about this</h4>
-        <div class="ctx-chat-messages" id="chatMessages"><div class="chat-msg bot" style="font-size:.75rem">Ask me anything about what you're reading.</div></div>
-        <div class="ctx-chat-input">
-          <input type="text" id="chatInput" placeholder="Ask a question..." onkeydown="if(event.key==='Enter')app.sendChat()">
-          <button onclick="app.sendChat()">&#10148;</button>
-        </div>`;
+      if (!ctxChat.dataset.init) {
+        ctxChat.dataset.init = '1';
+        ctxChat.innerHTML = `<h4>&#129302; Ask the tutor</h4>
+          <div class="ctx-chat-messages" id="chatMessages"><div class="chat-msg bot" style="font-size:.75rem">Ask me anything about what you're reading!</div></div>
+          ${sugHtml ? `<div class="tutor-suggestions" style="padding:0 0 .3em">${sugHtml}</div>` : ''}
+          <div class="ctx-chat-input">
+            <input type="text" id="chatInput" placeholder="Ask about this section..." onkeydown="if(event.key==='Enter')app.sendChat()">
+            <button onclick="app.sendChat()">&#10148;</button>
+          </div>`;
+      }
     }
   }
 
@@ -1089,9 +1101,16 @@ class PBook {
       <div class="map-mode-toggle">
         <button class="map-mode-btn ${mapMode === 'visual' ? 'active' : ''}" onclick="app.setMapMode('visual')">Visual</button>
         <button class="map-mode-btn ${mapMode === 'list' ? 'active' : ''}" onclick="app.setMapMode('list')">Detail List</button>
+        <button class="map-mode-btn ${mapMode === 'paths' ? 'active' : ''}" onclick="app.setMapMode('paths')">Reading Paths</button>
       </div>
       <button class="map-reset-btn" onclick="app.resetAll()">Reset progress</button>
     </div>`;
+
+    if (mapMode === 'paths') {
+      html += this.renderReadingPaths();
+      el.innerHTML = html;
+      return;
+    }
 
     if (mapMode === 'visual') {
       html += this.renderVisualMap(visibleVoices);
@@ -1227,6 +1246,125 @@ class PBook {
   }
 
   setMapMode(mode) { this._mapMode = mode; this.renderMap(); }
+
+  // ===== READING PATHS =====
+  getReadingPaths() {
+    return [
+      {
+        id: 'youtube',
+        title: 'How YouTube Works',
+        desc: 'Understand how YouTube picks videos for your homepage',
+        icon: '\u{1F3AC}',
+        keywords: ['youtube', 'recommend', 'collaborative', 'pipeline', 'popular', 'a/b test'],
+        blocks: [] // auto-populated
+      },
+      {
+        id: 'privacy',
+        title: 'Privacy & Your Data',
+        desc: 'What apps know about you and how to protect yourself',
+        icon: '\u{1F512}',
+        keywords: ['privacy', 'data', 'footprint', 'cookie', 'tracker', 'gdpr', 'incognito'],
+        blocks: []
+      },
+      {
+        id: 'builder',
+        title: 'Build Your Own RecSys',
+        desc: 'Step-by-step: create a recommendation system from scratch',
+        icon: '\u{1F527}',
+        keywords: ['build', 'collect', 'survey', 'rating', 'similar', 'predict', 'improve', 'spreadsheet', 'code'],
+        blocks: []
+      },
+      {
+        id: 'fairness',
+        title: 'Fairness & Filter Bubbles',
+        desc: 'Why recommendations can be unfair and how to fix it',
+        icon: '\u{2696}',
+        keywords: ['fair', 'bubble', 'echo chamber', 'bias', 'diversity', 'ethical', 'addictive'],
+        blocks: []
+      },
+      {
+        id: 'algorithms',
+        title: 'How Algorithms Learn',
+        desc: 'The methods behind smart recommendations',
+        icon: '\u{1F9E0}',
+        keywords: ['collaborative filter', 'content-based', 'popular', 'pipeline', 'cold start', 'pattern'],
+        blocks: []
+      }
+    ];
+  }
+
+  renderReadingPaths() {
+    const paths = this.getReadingPaths();
+    // Auto-populate blocks by matching keywords to content
+    paths.forEach(path => {
+      const matched = new Set();
+      this.allBlocks.forEach(b => {
+        const text = ((b.meta.title || '') + ' ' + (b.body || '')).toLowerCase();
+        if (path.keywords.some(kw => text.includes(kw)) && b.meta.type === 'spine') {
+          matched.add(b.meta.id);
+        }
+      });
+      path.blocks = [...matched].slice(0, 8);
+    });
+
+    const activePath = this.user.activePath;
+    let html = '<div class="paths-section">';
+    html += '<h3 style="margin:1em 0 .5em;font-size:.95rem">Choose your reading adventure</h3>';
+    html += '<p style="font-size:.8rem;color:var(--text-2);margin-bottom:1em">Pick a goal and follow a curated path through the book!</p>';
+
+    paths.forEach(path => {
+      const readCount = path.blocks.filter(id => this.user.readBlocks.has(id)).length;
+      const total = path.blocks.length;
+      const pct = Math.round((readCount / Math.max(total, 1)) * 100);
+      const isActive = activePath === path.id;
+      const isComplete = pct === 100 && total > 0;
+
+      html += `<div class="path-card ${isActive ? 'path-active' : ''} ${isComplete ? 'path-complete' : ''}" onclick="app.selectPath('${path.id}')">
+        <div class="path-icon">${path.icon}</div>
+        <div class="path-info">
+          <div class="path-title">${path.title}</div>
+          <div class="path-desc">${path.desc}</div>
+          <div class="path-progress">
+            <div class="path-progress-bar"><div class="path-progress-fill" style="width:${pct}%"></div></div>
+            <span class="path-progress-text">${readCount}/${total} ${isComplete ? '-- Complete!' : ''}</span>
+          </div>
+        </div>
+        ${isActive ? '<span class="path-badge">Active</span>' : ''}
+      </div>`;
+    });
+
+    // Show active path detail
+    if (activePath) {
+      const path = paths.find(p => p.id === activePath);
+      if (path && path.blocks.length) {
+        html += '<div class="path-detail">';
+        html += `<h4>${path.icon} ${path.title} — Your reading list</h4>`;
+        path.blocks.forEach((blockId, i) => {
+          const block = this.findBlock(blockId);
+          if (!block) return;
+          const isRead = this.user.readBlocks.has(blockId);
+          html += `<div class="path-step ${isRead ? 'path-step-done' : ''}" onclick="app.openBlock('${blockId}')">
+            <span class="path-step-num">${isRead ? '\u2713' : i + 1}</span>
+            <span class="path-step-title">${block.meta.title}</span>
+            <span class="path-step-ch">Ch${block.meta._chapterNum}</span>
+          </div>`;
+        });
+        html += '</div>';
+      }
+    }
+
+    html += '</div>';
+    return html;
+  }
+
+  selectPath(pathId) {
+    this.user.activePath = this.user.activePath === pathId ? null : pathId;
+    this.user.save();
+    this.renderMap();
+    if (this.user.activePath) {
+      this.showXPToast('Path selected! Follow the steps to complete it.', 'info');
+    }
+  }
 
   _signalIcons(sig) {
     if (!sig || Object.keys(sig).length === 0) return '';
@@ -1655,12 +1793,22 @@ class PBook {
     const msg = input?.value?.trim();
     if (!msg) return;
     input.value = '';
+    // Remove suggestion buttons if present
+    document.querySelector('.tutor-suggestions')?.remove();
     const messages = document.getElementById('chatMessagesFull');
     if (!messages) return;
     messages.innerHTML += `<div class="chat-msg user">${this.escHtml(msg)}</div>`;
-    const response = this.generateChatResponse(msg);
-    setTimeout(() => { messages.innerHTML += `<div class="chat-msg bot">${response}</div>`; messages.scrollTop = messages.scrollHeight; }, 300);
+    // Show typing indicator
+    const typing = document.getElementById('tutorTyping');
+    if (typing) typing.style.display = 'flex';
     messages.scrollTop = messages.scrollHeight;
+    // Simulate thinking delay
+    setTimeout(() => {
+      if (typing) typing.style.display = 'none';
+      const response = this.generateChatResponse(msg);
+      messages.innerHTML += `<div class="chat-msg bot">${response}</div>`;
+      messages.scrollTop = messages.scrollHeight;
+    }, 600 + Math.random() * 400);
   }
 
   // ===== GLOSSARY / TOPICS =====
@@ -1763,63 +1911,85 @@ class PBook {
     messages.scrollTop = messages.scrollHeight;
   }
 
-  generateChatResponse(query) {
-    const q = query.toLowerCase();
+  generateChatResponse(query, targetEl) {
+    const context = {
+      allBlocks: this.allBlocks,
+      topicIndex: this.topicIndex,
+      currentBlockId: this.user.currentBlock,
+      currentChapterId: this.chapters[this.user.currentChapter]?.id,
+      userProfile: this.user
+    };
 
-    // Find relevant blocks
-    const scored = this.allBlocks.map(b => {
-      let score = 0;
-      const title = (b.meta.title || '').toLowerCase();
-      const body = (b.body || '').toLowerCase();
-      for (const word of q.split(/\s+/)) {
-        if (word.length < 3) continue;
-        if (title.includes(word)) score += 5;
-        if (body.includes(word)) score += 1;
-      }
-      return { block: b, score };
-    }).filter(s => s.score > 0).sort((a, b) => b.score - a.score).slice(0, 3);
+    const result = this.tutor.generateResponse(query, context);
 
-    // Find matching topics
-    const matchTopics = Object.keys(this.topicIndex).filter(t => t.toLowerCase().includes(q) || q.includes(t.toLowerCase().split(' ')[0]));
+    // Store in conversation
+    const blockId = this.user.currentBlock || null;
+    const chapterId = context.currentChapterId || null;
+    const conv = this.convManager.getOrCreateConversation(blockId, chapterId);
+    this._activeConvId = conv.id;
+    this.convManager.addMessage(conv.id, 'user', query);
+    this.convManager.addMessage(conv.id, 'tutor', result.text, { confidence: result.confidence });
 
-    if (scored.length === 0 && matchTopics.length === 0) {
-      return "I couldn't find content matching that. Try asking about specific topics like <b>collaborative filtering</b>, <b>cold start</b>, <b>A/B testing</b>, or <b>conversion rate</b>.";
+    // Build response with follow-up and escalation
+    let html = result.text;
+    if (result.followUp) {
+      html += `<br><br><i>${result.followUp}</i>`;
     }
+    if (result.canEscalate) {
+      html += `<br><br><button class="tutor-escalate-btn" onclick="app.escalateToAuthor()">Ask the author instead</button>`;
+    }
+    return html;
+  }
 
-    let resp = '';
+  escalateToAuthor() {
+    if (!this._activeConvId) return;
+    const conv = this.convManager.conversations.find(c => c.id === this._activeConvId);
+    const lastUserMsg = conv?.messages?.filter(m => m.role === 'user').pop();
+    if (!lastUserMsg) return;
 
-    // Socratic: don't just answer, ask a question back
-    if (scored.length > 0) {
-      const top = scored[0].block;
-      const teaser = top.meta.teaser || (top.body || '').substring(0, 150).replace(/[#*_]/g, '');
-      resp += `<b>${top.meta.title}</b> (Ch${top.meta._chapterNum}) covers this. `;
-      resp += `${teaser}... `;
-      resp += `<br><br><a href="#" onclick="event.preventDefault();app.openBlock('${top.meta.id}');void(0)">Read this section &rarr;</a>`;
+    this.convManager.escalateToAuthor(
+      this._activeConvId,
+      lastUserMsg.text,
+      this.user.currentBlock,
+      this.user
+    );
 
-      if (scored.length > 1) {
-        resp += '<br><br>Also related:';
-        scored.slice(1).forEach(s => {
-          resp += `<br>&middot; <a href="#" onclick="event.preventDefault();app.openBlock('${s.block.meta.id}');void(0)">${s.block.meta.title}</a>`;
+    // Show confirmation in chat
+    const msgHtml = '<div class="chat-msg system">Your question has been sent to Pavel (the author). He reads every message! In the meantime, try exploring related sections in the book.</div>';
+    const chatEl = document.getElementById('chatMessagesFull') || document.getElementById('chatMessages');
+    if (chatEl) chatEl.insertAdjacentHTML('beforeend', msgHtml);
+  }
+
+  askAboutBlock(blockId) {
+    const block = this.findBlock(blockId);
+    if (!block) return;
+    this.user.currentBlock = blockId;
+    this.user.save();
+    this.tutor.resetConversation();
+    this.switchView('chat');
+    // Pre-seed with suggested questions
+    const questions = this.tutor.getSuggestedQuestions(block);
+    const chatEl = document.getElementById('chatMessagesFull');
+    if (chatEl) {
+      chatEl.innerHTML = `<div class="chat-msg bot">Let's talk about <b>${block.meta.title}</b>! What would you like to know?</div>`;
+      if (questions.length) {
+        let sugHtml = '<div class="tutor-suggestions">';
+        questions.forEach(q => {
+          sugHtml += `<button class="tutor-suggest-btn" onclick="app.askSuggested(this,'${this.escHtml(q)}')">${q}</button>`;
         });
+        sugHtml += '</div>';
+        chatEl.insertAdjacentHTML('beforeend', sugHtml);
       }
     }
+    document.getElementById('chatInputFull')?.focus();
+  }
 
-    if (matchTopics.length > 0) {
-      resp += '<br><br>Explore the topic: ';
-      matchTopics.slice(0, 3).forEach(t => {
-        resp += `<a href="#" onclick="event.preventDefault();app.showTopic('${t}');void(0)">${t}</a> `;
-      });
-    }
-
-    // Socratic follow-up
-    const followUps = [
-      'What aspect interests you most — the technical details, practical application, or business impact?',
-      'Would you like to dive deeper into the math, or see how this works in practice?',
-      'Have you read about the related concepts? I can suggest a reading path.',
-    ];
-    resp += `<br><br><i>${followUps[Math.floor(Math.random() * followUps.length)]}</i>`;
-
-    return resp;
+  askSuggested(btn, question) {
+    // Remove suggestions
+    btn.closest('.tutor-suggestions')?.remove();
+    // Send as if user typed it
+    const input = document.getElementById('chatInputFull');
+    if (input) { input.value = question; this.sendFullChat(); }
   }
 
   // ===== SEARCH =====
