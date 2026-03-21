@@ -812,7 +812,7 @@ window.testRC=function(){
   fetch('/.netlify/functions/recombee',{
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({endpoint:'/items/list/',body:{count:1}})
+    body:JSON.stringify({endpoint:'/items/list/?count=1'})
   })
   .then(function(res){
     if(res.ok) return res.json().then(function(data){statusEl.innerHTML='<span style="color:var(--prod)">&#10003; Connected via proxy! '+JSON.stringify(data).substring(0,100)+'</span>'});

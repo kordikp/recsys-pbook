@@ -44,15 +44,18 @@ exports.handler = async function(event) {
   }
 
   var basePath = '/' + DB + endpoint;
+  var method = body ? 'POST' : 'GET';
+  if (method === 'GET' && body) {
+    var params = Object.entries(body).map(function(e) { return e[0] + '=' + encodeURIComponent(e[1]); }).join('&');
+    basePath += (basePath.includes('?') ? '&' : '?') + params;
+  }
   var signedPath = signUrl(basePath);
   var url = 'https://' + REGION + '.recombee.com' + signedPath;
 
   try {
-    var response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: body ? JSON.stringify(body) : undefined,
-    });
+    var fetchOpts = { method: method, headers: { 'Content-Type': 'application/json' } };
+    if (method === 'POST') fetchOpts.body = JSON.stringify(body);
+    var response = await fetch(url, fetchOpts);
     var data = await response.text();
     var h4 = Object.assign({}, CORS, { 'Content-Type': 'application/json' });
     return { statusCode: response.status, headers: h4, body: data };

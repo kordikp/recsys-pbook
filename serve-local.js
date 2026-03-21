@@ -68,16 +68,20 @@ async function handleProxy(req, res) {
     return;
   }
 
-  const basePath = '/' + DB + parsed.endpoint;
+  // Build URL with query params from body for GET-like endpoints
+  let basePath = '/' + DB + parsed.endpoint;
+  const method = parsed.method || (parsed.body ? 'POST' : 'GET');
+  if (method === 'GET' && parsed.body) {
+    const params = Object.entries(parsed.body).map(([k,v]) => k + '=' + encodeURIComponent(v)).join('&');
+    basePath += (basePath.includes('?') ? '&' : '?') + params;
+  }
   const signedPath = signUrl(basePath);
   const url = 'https://' + REGION + '.recombee.com' + signedPath;
 
   try {
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: parsed.body ? JSON.stringify(parsed.body) : undefined,
-    });
+    const fetchOpts = { method, headers: { 'Content-Type': 'application/json' } };
+    if (method === 'POST' && parsed.body) fetchOpts.body = JSON.stringify(parsed.body);
+    const response = await fetch(url, fetchOpts);
     const data = await response.text();
     res.writeHead(response.status, { ...CORS, 'Content-Type': 'application/json' });
     res.end(data);
