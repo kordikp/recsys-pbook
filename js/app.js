@@ -2629,7 +2629,7 @@ class PBook {
     container.style.display = 'flex';
     const step = this._wizardStep;
     container.innerHTML = `
-      <button class="mission-bar-back" onclick="app._returnToWizard()" title="Next step">${m.icon}</button>
+      <button class="mission-bar-back" onclick="app._returnToWizard()" title="Next step">&#127919;</button>
       <div class="mission-bar-dots">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === step ? 'current' : ''}"></span>`).join('')}</div>
     `;
   }
@@ -2646,8 +2646,9 @@ class PBook {
     this._wizardStep = nextStep;
 
     if (nextStep >= m.core.length) {
-      // All done — show boss quiz
-      this._renderWizardStep();
+      // All core read — go to boss quiz
+      this._wizardStep = m.core.length;
+      this._renderBossQuiz();
       return;
     }
 
