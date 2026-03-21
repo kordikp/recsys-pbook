@@ -34,7 +34,7 @@ export class RecombeeClient {
       const res = await fetch('/.netlify/functions/recombee', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ endpoint, body })
+        body: JSON.stringify({ endpoint, body, method })
       });
       if (res.ok) return await res.json();
       // 401 = bad token → disable. Other errors (403 scenario, 404) → just return null, keep trying.
@@ -115,7 +115,7 @@ export class RecombeeClient {
 
   async setUserProperties(props) {
     if (this.enabled) {
-      return this.api('POST', `/users/${this.userId}`, { ...props, cascadeCreate: true });
+      return this.api('PUT', `/users/${this.userId}/?cascadeCreate=true`, props);
     }
   }
 

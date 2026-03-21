@@ -68,7 +68,7 @@ async function handleProxy(req, res) {
     return;
   }
 
-  // Build URL with query params from body for GET-like endpoints
+  // Build URL — auto-detect method from request or body presence
   let basePath = '/' + DB + parsed.endpoint;
   const method = parsed.method || (parsed.body ? 'POST' : 'GET');
   if (method === 'GET' && parsed.body) {
@@ -80,7 +80,7 @@ async function handleProxy(req, res) {
 
   try {
     const fetchOpts = { method, headers: { 'Content-Type': 'application/json' } };
-    if (method === 'POST' && parsed.body) fetchOpts.body = JSON.stringify(parsed.body);
+    if (method !== 'GET' && parsed.body) fetchOpts.body = JSON.stringify(parsed.body);
     const response = await fetch(url, fetchOpts);
     const data = await response.text();
     res.writeHead(response.status, { ...CORS, 'Content-Type': 'application/json' });

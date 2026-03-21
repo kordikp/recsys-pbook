@@ -12,12 +12,8 @@ export const CONFIG = {
     enabled: true,
     database: 'cvachond-land-free-pbook-kids',
     scenarios: {
-      nextInSpine: 'pbook:next-in-spine',
-      goDeeper: 'pbook:go-deeper',
-      related: 'pbook:related',
-      forYou: 'pbook:for-you',
-      popular: 'pbook:popular',
-      startHere: 'pbook:start-here'
+      personal: 'personal',
+      nextRead: 'next-read'
     }
   },
 

@@ -254,7 +254,7 @@ class PBook {
     }
 
     // 2. Recommended for you
-    const forYou = await this.rc.getRecsForUser('pbook:personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
+    const forYou = await this.rc.getRecsForUser('personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
     if (forYou?.recomms?.length) {
       html += this.shelf('Picked for you', forYou.recomms.map(r => this.cardFromRec(r)));
     }
@@ -533,7 +533,7 @@ class PBook {
     // Try Recombee first — ask for next recommended spine block
     if (this.rc.enabled) {
       const readIds = [...this.user.readBlocks].join(',');
-      const result = await this.rc.getRecsForUser('pbook:next-read', 1,
+      const result = await this.rc.getRecsForUser('next-read', 1,
         this.rc.reql({ type: 'spine' }));
       if (result?.recomms?.length) {
         const recId = result.recomms[0].id;

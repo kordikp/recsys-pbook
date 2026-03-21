@@ -28,11 +28,12 @@ exports.handler = async function(event) {
     return { statusCode: 500, headers: h1, body: '{"error":"RECOMBEE_TOKEN not set"}' };
   }
 
-  var endpoint, body;
+  var endpoint, body, reqMethod;
   try {
     var json = JSON.parse(event.body || '{}');
     endpoint = json.endpoint;
     body = json.body;
+    reqMethod = json.method;
   } catch (e) {
     var h2 = Object.assign({}, CORS, { 'Content-Type': 'application/json' });
     return { statusCode: 400, headers: h2, body: '{"error":"Invalid JSON"}' };
@@ -44,7 +45,7 @@ exports.handler = async function(event) {
   }
 
   var basePath = '/' + DB + endpoint;
-  var method = body ? 'POST' : 'GET';
+  var method = reqMethod || (body ? 'POST' : 'GET');
   if (method === 'GET' && body) {
     var params = Object.entries(body).map(function(e) { return e[0] + '=' + encodeURIComponent(e[1]); }).join('&');
     basePath += (basePath.includes('?') ? '&' : '?') + params;
@@ -54,7 +55,7 @@ exports.handler = async function(event) {
 
   try {
     var fetchOpts = { method: method, headers: { 'Content-Type': 'application/json' } };
-    if (method === 'POST') fetchOpts.body = JSON.stringify(body);
+    if (method !== 'GET' && body) fetchOpts.body = JSON.stringify(body);
     var response = await fetch(url, fetchOpts);
     var data = await response.text();
     var h4 = Object.assign({}, CORS, { 'Content-Type': 'application/json' });
