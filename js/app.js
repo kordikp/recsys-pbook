@@ -124,6 +124,12 @@ class PBook {
 
   startReading() { this.startApp(); }
 
+  showWelcome() {
+    const overlay = document.getElementById('onboarding');
+    overlay.classList.remove('hidden');
+    this.showStep(0);
+  }
+
   startApp() {
     document.getElementById('onboarding').classList.add('hidden');
     this.updateVoiceBadge();
@@ -156,44 +162,16 @@ class PBook {
     window.scrollTo(0, 0);
   }
 
-  // ===== HOME VIEW =====
+  // ===== HOME VIEW (Netflix shelves) =====
   async renderHome() {
     const el = document.getElementById('homeContent');
-    const prog = this.user.getProgress(this.allBlocks);
-    const hasStarted = prog.read > 0;
     let html = '';
 
-    // Hero: minimalist title + reading modes
-    html += `<div class="home-hero">
-      <h1 class="home-title">How Recommendations Work</h1>
-      <p class="home-author"><span onclick="app.switchView('profile')" style="cursor:pointer;text-decoration:underline dotted">Pavel Kordik</span></p>
-      <p class="home-slogan">Understand the algorithms that decide what you see online</p>
-      ${hasStarted ? `<div class="home-progress-mini">${prog.read} of ${prog.total} sections read &middot; ${prog.pct}%</div>` : ''}
-    </div>`;
-
-    // Reading modes
-    html += `<div class="home-modes">
-      <div class="home-mode" onclick="app.switchView('glossary')">
-        <span class="home-mode-icon">&#127919;</span>
-        <span class="home-mode-label">Missions</span>
-        <span class="home-mode-desc">Story-driven quests</span>
-      </div>
-      <div class="home-mode" onclick="app.switchView('read')">
-        <span class="home-mode-icon">&#128214;</span>
-        <span class="home-mode-label">Read</span>
-        <span class="home-mode-desc">Chapter by chapter</span>
-      </div>
-      <div class="home-mode" onclick="app.switchView('map')">
-        <span class="home-mode-icon">&#128506;</span>
-        <span class="home-mode-label">Map</span>
-        <span class="home-mode-desc">See the big picture</span>
-      </div>
-      <div class="home-mode" onclick="app.switchView('chat')">
-        <span class="home-mode-icon">&#129302;</span>
-        <span class="home-mode-label">Tutor</span>
-        <span class="home-mode-desc">Ask Pavel's AI</span>
-      </div>
-    </div>`;
+    // 1. Continue reading (hero)
+    const continueBlock = this.getContinueBlock();
+    if (continueBlock) {
+      html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
+    }
 
     // Recall cards if due
     const dueRecalls = this.user.getDueRecalls();
@@ -226,6 +204,27 @@ class PBook {
     if (continueBlock) {
       html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
+
+    // Active missions
+    const missions = this.getMissions();
+    const activeMissions = missions.filter(m => {
+      if (this._isMissionLocked(m)) return false;
+      const p = this._getMissionProgress(m);
+      return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
+    });
+    const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
+    const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
+      const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+      const isNext = coreRead === 0;
+      return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
+        <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Next mission' : 'In progress'}</div>
+        <div style="font-size:1.3rem;margin:.1em 0">${m.icon}</div>
+        <div class="card-title">${m.title}</div>
+        <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
+        <div class="card-meta"><span class="card-time">${coreRead}/${m.core.length} steps</span></div>
+      </div>`;
+    });
+    if (missionCards.length) html += this.shelf('Your missions', missionCards);
 
     // 2. Recommended for you
     const forYou = await this.rc.getRecsForUser('pbook:personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));

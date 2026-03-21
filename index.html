@@ -17,45 +17,66 @@
 <div class="overlay" id="onboarding">
   <div class="onboarding-card">
 
-    <!-- Step 0: What you'll learn (lead with value) -->
+    <!-- Step 0: Welcome screen -->
     <div class="step active" data-step="0">
       <h1>How Recommendations Work</h1>
-      <p class="intro-subtitle">Understand the algorithms behind YouTube, TikTok, Spotify & more</p>
+      <p class="intro-subtitle">Understand the algorithms that decide what you see online</p>
 
-      <div class="intro-features">
-        <div class="intro-feature"><span>&#127919;</span><span><b>6 story-driven missions</b> — learn through real scenarios like "How does YouTube know?"</span></div>
-        <div class="intro-feature"><span>&#128260;</span><span><b>3 learning paths</b> — Explorer, Creator, or Thinker. The book adapts to you.</span></div>
-        <div class="intro-feature"><span>&#129504;</span><span><b>Spaced repetition</b> — recall quizzes so you actually remember what you read</span></div>
-        <div class="intro-feature"><span>&#127942;</span><span><b>XP, badges & certificate</b> — earn rewards as you master each topic</span></div>
+      <details class="intro-details" style="margin-top:0">
+        <summary>About the author &mdash; Pavel Kordik</summary>
+        <div class="intro-author-bio">
+          <p>Co-founder of <b>Recombee</b> (recommendation engine used by hundreds of services worldwide) and associate professor at Czech Technical University.</p>
+          <p>"One day my daughter asked: <em>Dad, how does YouTube know what I want to watch?</em> I realized I'd spent 15 years building recommendation systems but never explained them simply. This book is my answer."</p>
+        </div>
+      </details>
+
+      <h3 class="intro-section-title">Choose how to read</h3>
+      <div class="home-modes" style="padding:0;margin-bottom:.8em">
+        <div class="home-mode" onclick="app.startApp();app.switchView('glossary')">
+          <span class="home-mode-icon">&#127919;</span>
+          <span class="home-mode-label">Missions</span>
+          <span class="home-mode-desc">Story-driven quests with a final boss</span>
+        </div>
+        <div class="home-mode" onclick="app.startApp()">
+          <span class="home-mode-icon">&#127916;</span>
+          <span class="home-mode-label">Browse</span>
+          <span class="home-mode-desc">Netflix-style, pick what interests you</span>
+        </div>
+        <div class="home-mode" onclick="app.startApp();app.switchView('read')">
+          <span class="home-mode-icon">&#128214;</span>
+          <span class="home-mode-label">Read</span>
+          <span class="home-mode-desc">Chapter by chapter, start to finish</span>
+        </div>
+        <div class="home-mode" onclick="app.startApp();app.switchView('map')">
+          <span class="home-mode-icon">&#128506;</span>
+          <span class="home-mode-label">Map</span>
+          <span class="home-mode-desc">See everything, pick your path</span>
+        </div>
       </div>
 
       <button class="btn-primary btn-large" onclick="app.showStep(1)">Start learning &#128640;</button>
 
-      <!-- Collapsible: What readers say -->
+      <div class="intro-features" style="margin-top:1em">
+        <div class="intro-feature"><span>&#129504;</span><span><b>Spaced repetition</b> — recall quizzes so you actually remember</span></div>
+        <div class="intro-feature"><span>&#127942;</span><span><b>XP, badges & certificate</b> — earn rewards as you learn</span></div>
+        <div class="intro-feature"><span>&#129302;</span><span><b>AI tutor</b> — Pavel's assistant answers your questions</span></div>
+      </div>
+
       <details class="intro-details">
         <summary>What readers say</summary>
         <div class="intro-testimonials">
           <div class="intro-testimonial">
-            <p>"I finally understand why my feed looks the way it does. The missions made it feel like a game, not homework."</p>
+            <p>"The missions made it feel like a game, not homework."</p>
             <span class="testimonial-author">&#8212; Emma, 14</span>
           </div>
           <div class="intro-testimonial">
-            <p>"I built my own recommendation system with my friends! The step-by-step mission was amazing."</p>
+            <p>"I built my own recommendation system with my friends!"</p>
             <span class="testimonial-author">&#8212; Tom, 12</span>
           </div>
           <div class="intro-testimonial">
-            <p>"The recall quizzes actually work. I read this weeks ago and I still remember how collaborative filtering works."</p>
+            <p>"The recall quizzes work. I still remember collaborative filtering weeks later."</p>
             <span class="testimonial-author">&#8212; Mia, 15</span>
           </div>
-        </div>
-      </details>
-
-      <!-- Collapsible: About the author -->
-      <details class="intro-details">
-        <summary>About the author</summary>
-        <div class="intro-author-bio">
-          <p><b>Pavel Kordik</b> is co-founder of <b>Recombee</b>, a recommendation engine used by hundreds of services worldwide, and associate professor at Czech Technical University.</p>
-          <p>"One day my daughter asked me: <em>Dad, how does YouTube know what I want to watch?</em> I realized I'd spent 15 years building recommendation systems but never explained them simply. This book is my answer — for her, and for every curious kid who wants to understand the technology that shapes what they see online."</p>
         </div>
       </details>
     </div>
@@ -102,7 +123,8 @@
 <!-- TOP BAR -->
 <header class="topbar" id="topbar">
   <div class="topbar-left">
-    <span class="topbar-title" onclick="app.switchView('home')">p-book for Kids</span>
+    <span class="topbar-title" onclick="app.switchView('home')">p-book</span>
+    <button class="topbar-icon" onclick="app.showWelcome()" title="About this book" style="font-size:.9rem">&#128214;</button>
   </div>
   <button class="topbar-search" onclick="app.openSearch()">
     <span>&#128269;</span>
@@ -257,6 +279,6 @@
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=20"></script>
+<script type="module" src="js/app.js?v=21"></script>
 </body>
 </html>

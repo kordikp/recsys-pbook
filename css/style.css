@@ -94,6 +94,7 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .intro-author-bio { margin-top: .4em; font-size: .8rem; line-height: 1.5; color: var(--text-2); text-align: left; }
 .intro-author-bio p { margin-bottom: .5em; }
 .intro-author-bio em { color: var(--text); }
+.intro-section-title { font-family: var(--font-ui); font-size: .8rem; font-weight: 700; color: var(--text-2); margin: .8em 0 .4em; text-align: left; }
 .onboard-opts { display: grid; grid-template-columns: 1fr 1fr; gap: .6em; margin: 0 auto; max-width: 360px; }
 .opt-card { display: flex; flex-direction: column; align-items: center; gap: .4em; padding: 1.2em .8em; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--surface); transition: all var(--transition); }
 .opt-card:hover, .opt-card.selected { border-color: var(--accent); background: var(--accent-bg); }
