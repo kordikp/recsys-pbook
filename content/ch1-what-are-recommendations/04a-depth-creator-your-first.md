@@ -1,12 +1,12 @@
 ---
 id: ch1-first-d-create
-type: depth
+type: spine
 title: "Build Your First Recommender (On Paper!)"
 readingTime: 3
 standalone: false
 teaser: "Grab some friends, a pencil, and get ready to recommend."
 voice: creator
-parent: ch1-three-jobs
+parent: null
 diagram: null
 ---
 

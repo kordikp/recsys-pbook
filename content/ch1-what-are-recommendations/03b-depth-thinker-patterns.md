@@ -1,12 +1,12 @@
 ---
 id: ch1-patterns-d-think
-type: depth
+type: spine
 title: "Patterns Are Everywhere"
 readingTime: 2
 standalone: false
 teaser: "From Minecraft diamonds to weather forecasts -- patterns rule the world."
 voice: thinker
-parent: ch1-not-magic
+parent: null
 diagram: null
 ---
 

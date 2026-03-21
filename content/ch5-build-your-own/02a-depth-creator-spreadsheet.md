@@ -1,12 +1,12 @@
 ---
 id: ch5-spread-d-create
-type: depth
+type: spine
 title: "Build It in a Spreadsheet"
 readingTime: 3
 standalone: false
 teaser: "Google Sheets instructions to create your very own rating matrix."
 voice: creator
-parent: ch5-collect
+parent: null
 diagram: null
 ---
 

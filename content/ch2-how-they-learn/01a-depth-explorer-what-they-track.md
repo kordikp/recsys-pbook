@@ -1,12 +1,12 @@
 ---
 id: ch2-track-d-exp
-type: depth
+type: spine
 title: "What Do They Actually Track?"
 readingTime: 2
 standalone: false
 teaser: "The full list of clues you're leaving behind. Some will surprise you."
 voice: explorer
-parent: ch2-footprints
+parent: null
 diagram: null
 ---
 

@@ -1,12 +1,12 @@
 ---
 id: ch4-ab-d-exp
-type: depth
+type: spine
 title: "Run Your Own A/B Test"
 readingTime: 3
 standalone: false
 teaser: "A music app experiment: which recommendation strategy wins?"
 voice: explorer
-parent: ch4-testing
+parent: null
 diagram: null
 ---
 

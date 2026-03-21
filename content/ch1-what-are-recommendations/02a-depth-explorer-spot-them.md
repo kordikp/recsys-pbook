@@ -1,12 +1,12 @@
 ---
 id: ch1-everywhere-d-exp
-type: depth
+type: spine
 title: "Spot the Recommendations!"
 readingTime: 2
 standalone: false
 teaser: "Grab your phone and become a recommendation detective."
 voice: explorer
-parent: ch1-everywhere
+parent: null
 diagram: null
 ---
 

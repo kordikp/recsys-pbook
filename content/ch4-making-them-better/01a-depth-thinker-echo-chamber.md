@@ -1,12 +1,12 @@
 ---
 id: ch4-echo-d-think
-type: depth
+type: spine
 title: "Echo Chambers: When Bubbles Get Serious"
 readingTime: 3
 standalone: false
 teaser: "What happens when filter bubbles affect how we see the world?"
 voice: thinker
-parent: ch4-bubbles
+parent: null
 diagram: null
 ---
 

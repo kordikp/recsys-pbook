@@ -1,12 +1,12 @@
 ---
 id: ch3-cf-d-create
-type: depth
+type: spine
 title: "Build Your Own Taste-Matching System"
 readingTime: 4
 standalone: false
 teaser: "Survey your classmates, build a spreadsheet, and discover hidden taste twins."
 voice: creator
-parent: ch3-friends
+parent: null
 diagram: null
 ---
 

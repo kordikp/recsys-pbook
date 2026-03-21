@@ -34,6 +34,7 @@
         "01-spine-digital-footprints.md",
         "01a-depth-explorer-what-they-track.md",
         "01b-sidebar-guess-the-signal.md",
+        "01c-game-signal-sort.md",
         "02-spine-three-types-of-clues.md",
         "02a-sidebar-incognito.md",
         "02b-sidebar-myth-buster.md",
@@ -55,6 +56,7 @@
         "01b-depth-creator-build-cf.md",
         "01c-sidebar-netflix-story.md",
         "01d-sidebar-taste-twin-game.md",
+        "01e-game-taste-match.md",
         "02-spine-look-at-the-thing.md",
         "02a-depth-thinker-compare.md",
         "02b-sidebar-spot-the-method.md",
@@ -63,6 +65,7 @@
         "04-spine-the-pipeline.md",
         "04a-depth-explorer-pipeline-visual.md",
         "04b-sidebar-speed-challenge.md",
+        "04c-game-pipeline.md",
         "05-question-method.md",
         "06-spine-worksheet-build-recommender.md"
       ]
@@ -78,6 +81,7 @@
         "01a-depth-thinker-echo-chamber.md",
         "01b-depth-creator-pop-bubble.md",
         "01c-sidebar-experiment-idea.md",
+        "01d-game-bubble-pop.md",
         "02-spine-fairness.md",
         "02a-sidebar-youtube-algorithm.md",
         "02b-sidebar-unfair-game.md",

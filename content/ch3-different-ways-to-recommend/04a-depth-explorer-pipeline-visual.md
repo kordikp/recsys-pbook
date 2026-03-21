@@ -1,12 +1,12 @@
 ---
 id: ch3-pipeline-d-exp
-type: depth
+type: spine
 title: "Trace a Real YouTube Recommendation"
 readingTime: 3
 standalone: false
 teaser: "Follow one recommendation from the moment you open the app to the moment it appears on screen."
 voice: explorer
-parent: ch3-pipeline
+parent: null
 diagram: null
 ---
 

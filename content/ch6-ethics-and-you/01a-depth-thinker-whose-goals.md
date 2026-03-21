@@ -1,12 +1,12 @@
 ---
 id: ch6-goals-d-think
-type: depth
+type: spine
 title: "Whose Goals Are Being Optimized?"
 readingTime: 4
 standalone: true
 teaser: "Three groups want different things from the same algorithm. When their goals clash, guess who usually loses?"
 voice: thinker
-parent: ch6-who-decides
+parent: null
 diagram: null
 ---
 

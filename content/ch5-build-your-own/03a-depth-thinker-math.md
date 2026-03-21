@@ -1,12 +1,12 @@
 ---
 id: ch5-math-d-think
-type: depth
+type: spine
 title: "The Math Behind Similarity"
 readingTime: 3
 standalone: false
 teaser: "How computers measure similarity using cosine similarity."
 voice: thinker
-parent: ch5-similar
+parent: null
 diagram: null
 ---
 

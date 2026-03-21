@@ -1,12 +1,12 @@
 ---
 id: ch6-control-d-create
-type: depth
+type: spine
 title: "Take Control: Your Digital Toolkit"
 readingTime: 4
 standalone: true
 teaser: "Practical things you can do RIGHT NOW to become the boss of your algorithm -- not the other way around."
 voice: creator
-parent: ch6-addictive
+parent: null
 diagram: null
 ---
 

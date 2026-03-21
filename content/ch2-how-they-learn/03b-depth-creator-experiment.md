@@ -1,12 +1,12 @@
 ---
 id: ch2-privacy-d-create
-type: depth
+type: spine
 title: "The Great Algorithm Experiment"
 readingTime: 2
 standalone: false
 teaser: "Clear your history, train the algorithm from scratch, and see how fast it learns."
 voice: creator
-parent: ch2-privacy
+parent: null
 diagram: null
 ---
 

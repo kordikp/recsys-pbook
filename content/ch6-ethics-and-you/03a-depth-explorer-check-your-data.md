@@ -1,12 +1,12 @@
 ---
 id: ch6-data-d-exp
-type: depth
+type: spine
 title: "Check It Yourself!"
 readingTime: 3
 standalone: true
 teaser: "Step-by-step: how to actually SEE what data these apps have collected about you. Most people are shocked."
 voice: explorer
-parent: ch6-privacy-real
+parent: null
 diagram: null
 ---
 

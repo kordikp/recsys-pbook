@@ -454,18 +454,15 @@ class PBook {
   }
 
   async _renderChapterContent(ch, idx) {
-    const visibleVoices = this.user.getVisibleVoices();
-    const depths = ch.blocks.filter(b => b.type === 'depth');
-
     let html = `<div class="ch-head fade-up" id="ch-head-${idx}"><div class="ch-label">Chapter ${ch.number}</div><h2>${ch.title}</h2><div class="ch-sub">${ch.subtitle}</div></div>`;
 
     for (const block of ch.blocks) {
       if (block.type === 'spine') {
         html += await this.renderSpine(block);
-        const blockDepths = depths.filter(d => d.parent === block.id && visibleVoices.includes(d.voice));
-        if (blockDepths.length) html += this.renderDepthGroup(blockDepths, block.id);
       } else if (block.type === 'question') {
         html += this.renderQuestion(block);
+      } else if (block.type === 'game') {
+        html += this.renderGame(block);
       }
     }
     return html;
@@ -768,27 +765,220 @@ class PBook {
     } catch (e) {}
   }
 
-  renderDepthGroup(depths, parentId) {
-    const topVoice = this.user.getTopVoice();
-    const tabsHtml = depths.map(d => {
-      const vc = CONFIG.voices[d.voice] || {};
-      const isDefault = d.voice === topVoice;
-      return `<button class="d-tab ${d.voice} ${isDefault ? 'active' : ''}" data-voice="${d.voice}" onclick="app.toggleDepth('${d.id}','${parentId}','${d.voice}')"> ${vc.icon || ''} ${vc.label || d.voice} <span class="t-time">${d.readingTime || 3}m</span></button>`;
-    }).join('');
-    const cardsHtml = depths.map(d => {
-      const vc = CONFIG.voices[d.voice] || {};
-      const isDefault = d.voice === topVoice;
-      return `<div class="d-content ${d.voice} ${isDefault ? 'active' : ''}" id="dc-${d.id}"><span class="vlabel">${vc.label || d.voice} perspective</span><h4>${d.title}</h4>${renderMarkdown(d.body)}</div>`;
-    }).join('');
-    // Auto-track if default voice is expanded
-    if (topVoice) {
-      const autoBlock = depths.find(d => d.voice === topVoice);
-      if (autoBlock) setTimeout(() => this.rc.sendView(autoBlock.id), 100);
-    }
-    return `<div class="depth-group" data-parent="${parentId}"><div class="depth-tabs">${tabsHtml}</div>${cardsHtml}</div>`;
+  // ===== MINI-GAMES =====
+  renderGame(block) {
+    const gameType = block.gameType || block.id;
+    return `<div class="game-block fade-up" id="b-${block.id}">
+      <div class="game-header">
+        <span class="game-icon">\u{1F3AE}</span>
+        <h4>${block.title}</h4>
+        <span class="game-timer" id="gt-${block.id}">1:00</span>
+      </div>
+      <div class="game-area" id="ga-${block.id}"></div>
+      <button class="game-start-btn" onclick="app.startGame('${block.id}','${gameType}')">Play!</button>
+    </div>`;
   }
 
-  // renderSidebar removed — sidebars are now regular spine blocks
+  startGame(blockId, gameType) {
+    const area = document.getElementById(`ga-${blockId}`);
+    const timerEl = document.getElementById(`gt-${blockId}`);
+    const startBtn = area?.parentElement?.querySelector('.game-start-btn');
+    if (!area) return;
+    if (startBtn) startBtn.style.display = 'none';
+
+    // 60 second timer — game auto-hides
+    let seconds = 60;
+    const timer = setInterval(() => {
+      seconds--;
+      if (timerEl) timerEl.textContent = `0:${seconds.toString().padStart(2, '0')}`;
+      if (seconds <= 0) {
+        clearInterval(timer);
+        area.innerHTML = '<div class="game-over">Time\'s up! Back to reading. You earned <b>+5 XP</b>!</div>';
+        this.user.addXP(5);
+        this.user.save();
+        this.showXPToast('+5 XP \u{1F3AE}', 'xp');
+        this._updateMissionBar();
+        setTimeout(() => {
+          const block = area.closest('.game-block');
+          if (block) { block.style.opacity = '.5'; block.style.pointerEvents = 'none'; }
+        }, 2000);
+      }
+    }, 1000);
+    this._activeGameTimer = timer;
+
+    // Launch game based on type
+    if (gameType.includes('sort') || gameType.includes('signal')) this._gameSignalSort(area);
+    else if (gameType.includes('match') || gameType.includes('twin')) this._gameTasteMatch(area);
+    else if (gameType.includes('bubble') || gameType.includes('pop')) this._gameBubblePop(area);
+    else if (gameType.includes('pipeline')) this._gamePipelineBuilder(area);
+    else this._gameSignalSort(area); // default
+  }
+
+  // Game 1: Signal Sort — drag signals into "strong" or "weak" buckets
+  _gameSignalSort(area) {
+    const signals = [
+      { text: 'Watched a video to the end', strong: true },
+      { text: 'Scrolled past quickly', strong: false },
+      { text: 'Searched for it by name', strong: true },
+      { text: 'Opened app at 3 AM', strong: false },
+      { text: 'Liked and shared', strong: true },
+      { text: 'Paused halfway', strong: false },
+      { text: 'Rewatched 3 times', strong: true },
+      { text: 'Clicked by accident', strong: false },
+      { text: 'Added to playlist', strong: true },
+      { text: 'Skipped after 2 seconds', strong: false },
+    ].sort(() => Math.random() - 0.5);
+    let score = 0, shown = 0;
+    const next = () => {
+      if (shown >= signals.length) { area.innerHTML = `<div class="game-over">Done! You got <b>${score}/${signals.length}</b> right!</div>`; return; }
+      const s = signals[shown++];
+      area.innerHTML = `<div class="game-signal-card">"${s.text}"</div>
+        <div class="game-buckets">
+          <button class="game-bucket strong" onclick="app._gameCheck(this,${s.strong},true)">Strong signal</button>
+          <button class="game-bucket weak" onclick="app._gameCheck(this,${!s.strong},true)">Weak signal</button>
+        </div>
+        <div class="game-score">${score}/${shown - 1} correct</div>`;
+      area._next = next;
+      area._score = () => score;
+      area._addScore = () => score++;
+    };
+    next();
+  }
+
+  _gameCheck(btn, correct) {
+    const area = btn.closest('.game-area');
+    if (!area) return;
+    btn.parentElement.querySelectorAll('button').forEach(b => b.disabled = true);
+    if (correct) {
+      btn.classList.add('game-correct');
+      area._addScore();
+    } else {
+      btn.classList.add('game-wrong');
+    }
+    setTimeout(() => area._next(), 600);
+  }
+
+  // Game 2: Taste Match — find which users have similar taste
+  _gameTasteMatch(area) {
+    const movies = ['Frozen', 'Avengers', 'Moana', 'Spider-Man', 'Coco'];
+    const you = movies.map(() => Math.ceil(Math.random() * 5));
+    const users = Array.from({ length: 4 }, (_, i) => ({
+      name: ['Alex', 'Sam', 'Jordan', 'Taylor'][i],
+      ratings: movies.map((_, j) => {
+        if (Math.random() < 0.3) return Math.max(1, Math.min(5, you[j] + (Math.random() < 0.5 ? -1 : 1)));
+        return Math.ceil(Math.random() * 5);
+      })
+    }));
+    // Make one user very similar
+    const twin = Math.floor(Math.random() * 4);
+    users[twin].ratings = movies.map((_, j) => Math.max(1, Math.min(5, you[j] + (Math.random() < 0.7 ? 0 : (Math.random() < 0.5 ? -1 : 1)))));
+
+    let table = '<table class="game-table"><tr><th></th>' + movies.map(m => `<th>${m}</th>`).join('') + '</tr>';
+    table += '<tr class="game-you"><td><b>You</b></td>' + you.map(r => `<td>${'\u2B50'.repeat(r)}</td>`).join('') + '</tr>';
+    users.forEach((u, i) => {
+      table += `<tr><td>${u.name}</td>` + u.ratings.map(r => `<td>${'\u2B50'.repeat(r)}</td>`).join('') + '</tr>';
+    });
+    table += '</table>';
+    area.innerHTML = `<div class="game-prompt">Who is your taste twin? Click their name!</div>${table}`;
+    area.querySelectorAll('tr:not(.game-you):not(:first-child) td:first-child').forEach((td, i) => {
+      td.style.cursor = 'pointer';
+      td.style.fontWeight = '600';
+      td.onclick = () => {
+        if (i === twin) {
+          td.style.color = '#059669';
+          area.innerHTML += '<div class="game-over" style="color:#059669"><b>Correct!</b> That\'s collaborative filtering — finding your taste twin!</div>';
+          this.user.addXP(3);
+          this.showXPToast('+3 XP', 'xp');
+        } else {
+          td.style.color = '#EF4444';
+          td.style.textDecoration = 'line-through';
+        }
+      };
+    });
+  }
+
+  // Game 3: Bubble Pop — click diverse items to "pop" filter bubbles
+  _gameBubblePop(area) {
+    const categories = ['\u{1F3B5} Music', '\u{1F3AE} Games', '\u{26BD} Sports', '\u{1F4D6} Books', '\u{1F373} Cooking', '\u{1F52C} Science', '\u{1F3A8} Art', '\u{1F30D} Travel'];
+    const bubble = categories[Math.floor(Math.random() * categories.length)];
+    let popped = new Set(), clicks = 0;
+    const render = () => {
+      const items = categories.sort(() => Math.random() - 0.5).map(c => {
+        const inBubble = c === bubble;
+        const isPopped = popped.has(c);
+        return `<button class="game-bubble-item ${inBubble ? 'in-bubble' : ''} ${isPopped ? 'popped' : ''}"
+          onclick="app._bubbleClick(this,'${c}')" ${isPopped ? 'disabled' : ''}>${c}</button>`;
+      }).join('');
+      area.innerHTML = `<div class="game-prompt">You're stuck in a "${bubble}" bubble! Click OTHER topics to pop it. (${popped.size}/${categories.length - 1} popped)</div>
+        <div class="game-bubble-grid">${items}</div>`;
+      area._popped = popped;
+      area._bubble = bubble;
+      area._render = render;
+    };
+    render();
+  }
+
+  _bubbleClick(btn, category) {
+    const area = btn.closest('.game-area');
+    if (category === area._bubble) {
+      btn.classList.add('game-wrong');
+      btn.textContent += ' (that\'s your bubble!)';
+    } else {
+      area._popped.add(category);
+      if (area._popped.size >= 7) {
+        area.innerHTML = '<div class="game-over" style="color:#059669"><b>Bubble popped!</b> Diversity is the cure for filter bubbles!</div>';
+        this.user.addXP(5);
+        this.showXPToast('+5 XP \u{1FAE7}', 'xp');
+      } else {
+        area._render();
+      }
+    }
+  }
+
+  // Game 4: Pipeline Builder — put pipeline steps in correct order
+  _gamePipelineBuilder(area) {
+    const steps = [
+      { text: 'Collect user clicks and watches', order: 1 },
+      { text: 'Find hundreds of candidate items', order: 2 },
+      { text: 'Score and rank each candidate', order: 3 },
+      { text: 'Add diversity and remove duplicates', order: 4 },
+      { text: 'Show the final recommendations', order: 5 },
+    ];
+    const shuffled = [...steps].sort(() => Math.random() - 0.5);
+    let selected = [];
+    const render = () => {
+      const remaining = shuffled.filter(s => !selected.includes(s));
+      area.innerHTML = `<div class="game-prompt">Put the recommendation pipeline in order! Click steps 1 to 5.</div>
+        <div class="game-pipeline-selected">${selected.map((s, i) => `<div class="game-pipe-step done">${i + 1}. ${s.text}</div>`).join('')}</div>
+        <div class="game-pipeline-options">${remaining.map(s =>
+          `<button class="game-pipe-btn" onclick="app._pipelineSelect(this,${s.order})">${s.text}</button>`
+        ).join('')}</div>`;
+    };
+    area._selected = selected;
+    area._steps = steps;
+    area._shuffled = shuffled;
+    area._render = render;
+    render();
+  }
+
+  _pipelineSelect(btn, correctOrder) {
+    const area = btn.closest('.game-area');
+    const expected = area._selected.length + 1;
+    if (correctOrder === expected) {
+      const step = area._shuffled.find(s => s.order === correctOrder);
+      area._selected.push(step);
+      if (area._selected.length >= 5) {
+        area.innerHTML = '<div class="game-over" style="color:#059669"><b>Perfect pipeline!</b> You understand how recommendations are built!</div>';
+        this.user.addXP(5);
+        this.showXPToast('+5 XP \u{1F527}', 'xp');
+      } else {
+        area._render();
+      }
+    } else {
+      btn.classList.add('game-wrong');
+      setTimeout(() => btn.classList.remove('game-wrong'), 500);
+    }
+  }
 
   renderQuestion(block) {
     // Structured options in frontmatter
@@ -1725,14 +1915,9 @@ class PBook {
       const ch = this.chapters[ci];
       if (!ch) continue;
       const spines = ch.blocks.filter(b => b.type === 'spine');
-      const depths = ch.blocks.filter(b => b.type === 'depth');
       const questions = ch.blocks.filter(b => b.type === 'question');
-      // For each spine: spine → its depth cards
       spines.forEach(spine => {
         order.push({ id: spine.id, chIdx: ci, type: 'spine', title: spine.title, ch: ch.number });
-        depths.filter(d => d.parent === spine.id).forEach(d => {
-          order.push({ id: d.id, chIdx: ci, type: 'depth', title: d.title, voice: d.voice, ch: ch.number, parent: spine.id });
-        });
       });
       // Questions at end of chapter
       questions.forEach(q => {
@@ -2437,23 +2622,9 @@ class PBook {
   }
 
   // ===== INTERACTIONS =====
-  toggleDepth(blockId, parentId, voice) {
-    const container = document.querySelector(`.depth-group[data-parent="${parentId}"]`);
-    if (!container) return;
-    const card = document.getElementById(`dc-${blockId}`);
-    const tab = container.querySelector(`.d-tab[data-voice="${voice}"]`);
-    const wasActive = card?.classList.contains('active');
-    container.querySelectorAll('.d-tab').forEach(t => t.classList.remove('active'));
-    container.querySelectorAll('.d-content').forEach(c => c.classList.remove('active'));
-    if (!wasActive && card && tab) {
-      tab.classList.add('active');
-      card.classList.add('active');
-      this.user.trackVoiceExpand(voice, blockId);
-      this.rc.sendCartAdd(blockId);
-      this.showXPToast('+5 XP', 'xp');
-      this.checkGamificationEvents(); // Strong positive signal
-      this.renderMath(card); // Render math in newly revealed depth card
-    }
+  // toggleDepth removed — depth cards are now regular spine blocks
+
+  _placeholder_toggleDepth() { // keep anchor for line references
   }
 
   answerQ(el, voice, qId) {
@@ -2591,8 +2762,7 @@ class PBook {
     const block = this.findBlock(blockId);
     if (!block) return;
     const chIdx = block.meta._chapterIdx;
-    // Depth cards scroll to parent (they're inside depth-group), sidebars scroll directly (they have their own ID now)
-    const parentId = (block.meta.type === 'depth' && block.meta.parent) ? block.meta.parent : blockId;
+    const parentId = blockId;
     this.user.currentBlock = blockId;
     this.user.currentChapter = chIdx;
     this.user.save();
@@ -2672,21 +2842,8 @@ class PBook {
 
   _scrollToBlock(parentId, meta) {
     setTimeout(() => {
-      const el = document.getElementById(`b-${parentId}`) || document.getElementById(`b-${meta.id}`);
-      if (!el) return;
-
-      if (meta.type === 'depth' && meta.voice) {
-        // For depth cards: first expand the tab, then scroll to the depth content
-        const tab = document.querySelector(`.depth-group[data-parent="${parentId}"] .d-tab[data-voice="${meta.voice}"]`);
-        if (tab && !tab.classList.contains('active')) tab.click();
-        setTimeout(() => {
-          const depthContent = document.getElementById(`dc-${meta.id}`);
-          if (depthContent) depthContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 300);
-      } else {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      const el = document.getElementById(`b-${meta.id}`) || document.getElementById(`b-${parentId}`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }, 300);
   }
 

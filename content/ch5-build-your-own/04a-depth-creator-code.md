@@ -1,12 +1,12 @@
 ---
 id: ch5-code-d-create
-type: depth
+type: spine
 title: "Code It!"
 readingTime: 4
 standalone: false
 teaser: "A simple Python script that does everything you just learned -- in 20 lines."
 voice: creator
-parent: ch5-recommend
+parent: null
 diagram: null
 ---
 

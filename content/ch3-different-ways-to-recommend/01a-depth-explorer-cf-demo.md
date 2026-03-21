@@ -1,12 +1,12 @@
 ---
 id: ch3-cf-d-exp
-type: depth
+type: spine
 title: "See Collaborative Filtering in Action"
 readingTime: 3
 standalone: false
 teaser: "A visual grid that shows exactly how the system finds your taste twins."
 voice: explorer
-parent: ch3-friends
+parent: null
 diagram: null
 ---
 

@@ -1,12 +1,12 @@
 ---
 id: ch6-hard-d-think
-type: depth
+type: spine
 title: "Questions Nobody Has Answered Yet"
 readingTime: 4
 standalone: true
 teaser: "Even the world's top experts disagree on these. Your opinion is just as valid as theirs."
 voice: thinker
-parent: ch6-ai-future
+parent: null
 diagram: null
 ---
 

@@ -723,6 +723,51 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 .mission-complete-btn:hover { opacity: .9; transform: translateY(-1px); }
 
 /* Mission Wizard Mode */
+/* =============================================
+   MINI-GAMES
+   ============================================= */
+.game-block { margin: 1.5em 0; padding: 1em; background: var(--surface); border: 2px solid var(--accent); border-radius: var(--radius); }
+.game-header { display: flex; align-items: center; gap: .5em; margin-bottom: .6em; }
+.game-icon { font-size: 1.3rem; }
+.game-header h4 { flex: 1; font-size: .9rem; }
+.game-timer { font-family: var(--font-mono); font-size: .8rem; color: var(--accent); font-weight: 700; }
+.game-start-btn { width: 100%; background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: .5em; font-family: var(--font-ui); font-size: .9rem; font-weight: 700; cursor: pointer; }
+.game-start-btn:hover { opacity: .9; }
+.game-area { min-height: 60px; }
+.game-over { text-align: center; padding: .8em; font-size: .85rem; color: var(--text); }
+.game-prompt { font-size: .82rem; color: var(--text-2); margin-bottom: .6em; text-align: center; }
+.game-score { font-size: .72rem; color: var(--text-3); text-align: center; margin-top: .4em; }
+
+/* Signal Sort */
+.game-signal-card { text-align: center; padding: .6em; margin-bottom: .5em; font-size: .88rem; font-weight: 600; background: var(--surface-raised); border-radius: var(--radius-sm); }
+.game-buckets { display: grid; grid-template-columns: 1fr 1fr; gap: .4em; }
+.game-bucket { padding: .5em; border: 2px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-ui); font-size: .8rem; font-weight: 600; cursor: pointer; background: var(--surface); }
+.game-bucket.strong { border-color: #10B981; color: #065F46; }
+.game-bucket.weak { border-color: #F59E0B; color: #92400E; }
+.game-bucket:hover { opacity: .8; }
+.game-correct { background: #D1FAE5 !important; border-color: #10B981 !important; }
+.game-wrong { background: #FEE2E2 !important; border-color: #EF4444 !important; }
+
+/* Taste Match */
+.game-table { width: 100%; border-collapse: collapse; font-size: .7rem; margin: .4em 0; }
+.game-table th, .game-table td { padding: .3em .2em; text-align: center; border-bottom: 1px solid var(--border-light); }
+.game-table th { font-weight: 600; color: var(--text-3); font-size: .6rem; }
+.game-you td { background: var(--accent-bg); font-weight: 600; }
+
+/* Bubble Pop */
+.game-bubble-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: .4em; }
+.game-bubble-item { padding: .5em; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-size: .78rem; cursor: pointer; background: var(--surface); font-family: var(--font-ui); }
+.game-bubble-item:hover { border-color: var(--accent); }
+.game-bubble-item.in-bubble { background: #FEF3C7; border-color: #F59E0B; }
+.game-bubble-item.popped { background: #D1FAE5; border-color: #10B981; opacity: .6; }
+
+/* Pipeline Builder */
+.game-pipeline-selected { margin-bottom: .5em; }
+.game-pipe-step { padding: .35em .5em; margin-bottom: .2em; background: #D1FAE5; border-radius: var(--radius-sm); font-size: .78rem; font-weight: 500; }
+.game-pipeline-options { display: flex; flex-direction: column; gap: .3em; }
+.game-pipe-btn { text-align: left; padding: .4em .6em; border: 1.5px solid var(--border); border-radius: var(--radius-sm); font-family: var(--font-ui); font-size: .78rem; cursor: pointer; background: var(--surface); }
+.game-pipe-btn:hover { border-color: var(--accent); }
+
 .wizard-container { max-width: 500px; margin: 0 auto; padding: 1em; }
 .wizard-progress { height: 6px; background: var(--border); border-radius: 3px; margin-bottom: .3em; overflow: hidden; }
 .wizard-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #EC4899); border-radius: 3px; transition: width .4s ease; }

@@ -1,12 +1,12 @@
 ---
 id: ch2-privacy-d-think
-type: depth
+type: spine
 title: "Helpful Librarian or Stranger Following You?"
 readingTime: 2
 standalone: false
 teaser: "There's a big difference between a recommendation and an ad."
 voice: thinker
-parent: ch2-privacy
+parent: null
 diagram: null
 ---
 

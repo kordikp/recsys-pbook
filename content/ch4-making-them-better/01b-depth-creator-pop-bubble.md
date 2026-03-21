@@ -1,12 +1,12 @@
 ---
 id: ch4-pop-d-create
-type: depth
+type: spine
 title: "Pop Your Bubble!"
 readingTime: 3
 standalone: false
 teaser: "An experiment: can you retrain YouTube's algorithm in one afternoon?"
 voice: creator
-parent: ch4-bubbles
+parent: null
 diagram: null
 ---
 

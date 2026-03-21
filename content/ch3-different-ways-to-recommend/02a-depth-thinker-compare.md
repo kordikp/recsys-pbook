@@ -1,12 +1,12 @@
 ---
 id: ch3-compare-d-think
-type: depth
+type: spine
 title: "Friends vs. Things: Which Method Wins?"
 readingTime: 3
 standalone: false
 teaser: "Collaborative filtering or content-based? Each has strengths. The real answer might surprise you."
 voice: thinker
-parent: ch3-content
+parent: null
 diagram: null
 ---
 
