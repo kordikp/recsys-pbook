@@ -27,9 +27,16 @@
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600" }
       ]
+    },
+    {
+      "source": "/games/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600" }
+      ]
     }
   ],
   "rewrites": [
+    { "source": "/.netlify/functions/recombee", "destination": "/api/recombee" },
     { "source": "/book", "destination": "/index.html" },
     { "source": "/admin", "destination": "/admin.html" }
   ]
