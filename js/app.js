@@ -156,25 +156,47 @@ class PBook {
     window.scrollTo(0, 0);
   }
 
-  // ===== HOME VIEW (Netflix shelves) =====
+  // ===== HOME VIEW =====
   async renderHome() {
     const el = document.getElementById('homeContent');
+    const prog = this.user.getProgress(this.allBlocks);
+    const hasStarted = prog.read > 0;
     let html = '';
 
-    // 1. Continue reading (hero)
-    const continueBlock = this.getContinueBlock();
-    if (continueBlock) {
-      html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
-    }
+    // Hero: minimalist title + reading modes
+    html += `<div class="home-hero">
+      <h1 class="home-title">How Recommendations Work</h1>
+      <p class="home-author"><span onclick="app.switchView('profile')" style="cursor:pointer;text-decoration:underline dotted">Pavel Kordik</span></p>
+      <p class="home-slogan">Understand the algorithms that decide what you see online</p>
+      ${hasStarted ? `<div class="home-progress-mini">${prog.read} of ${prog.total} sections read &middot; ${prog.pct}%</div>` : ''}
+    </div>`;
 
-    // 1b. Recall cards — spaced repetition review
+    // Reading modes
+    html += `<div class="home-modes">
+      <div class="home-mode" onclick="app.switchView('glossary')">
+        <span class="home-mode-icon">&#127919;</span>
+        <span class="home-mode-label">Missions</span>
+        <span class="home-mode-desc">Story-driven quests</span>
+      </div>
+      <div class="home-mode" onclick="app.switchView('read')">
+        <span class="home-mode-icon">&#128214;</span>
+        <span class="home-mode-label">Read</span>
+        <span class="home-mode-desc">Chapter by chapter</span>
+      </div>
+      <div class="home-mode" onclick="app.switchView('map')">
+        <span class="home-mode-icon">&#128506;</span>
+        <span class="home-mode-label">Map</span>
+        <span class="home-mode-desc">See the big picture</span>
+      </div>
+      <div class="home-mode" onclick="app.switchView('chat')">
+        <span class="home-mode-icon">&#129302;</span>
+        <span class="home-mode-label">Tutor</span>
+        <span class="home-mode-desc">Ask Pavel's AI</span>
+      </div>
+    </div>`;
+
+    // Recall cards if due
     const dueRecalls = this.user.getDueRecalls();
-    // Also show practice button if user has read anything
-    const hasRecallData = Object.keys(this.user.recall).length > 0;
-    if (hasRecallData && dueRecalls.length === 0) {
-      html += `<section class="shelf fade-up"><div class="shelf-head"><h3 class="shelf-title">Practice recall</h3></div>
-        <div style="padding:0 1em .5em"><button class="recall-reveal" style="max-width:300px" onclick="app.startPractice()">No reviews due yet — practice anyway?</button></div></section>`;
-    }
     if (dueRecalls.length > 0) {
       const recallCards = dueRecalls.slice(0, 6).map(r => {
         const block = this.findBlock(r.blockId);
@@ -196,36 +218,13 @@ class PBook {
           <button class="recall-reveal" id="recall-r-${r.blockId}" onclick="document.getElementById('recall-a-${r.blockId}').style.display='block';this.style.display='none'">Show answer</button>
         </div>`;
       }).filter(Boolean);
-      if (recallCards.length) {
-        html += this.shelf('Do you remember?', recallCards);
-      }
+      if (recallCards.length) html += this.shelf('Do you remember?', recallCards);
     }
 
-    // 1c. Active missions progress
-    const missions = this.getMissions();
-    const activeMissions = missions.filter(m => {
-      if (this._isMissionLocked(m)) return false;
-      const p = this._getMissionProgress(m);
-      return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
-    });
-    const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
-    const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
-      const p = this._getMissionProgress(m);
-      const isNext = p.read === 0;
-      return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
-        <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Next mission' : 'In progress'}</div>
-        <div style="font-size:1.3rem;margin:.1em 0">${m.icon}</div>
-        <div class="card-title">${m.title}</div>
-        <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => {
-          const read = this.user.readBlocks.has(id);
-          const coreRead = m.core.filter(x => this.user.readBlocks.has(x)).length;
-          return `<span class="mission-dot ${read ? 'done' : i === coreRead ? 'current' : ''}"></span>`;
-        }).join('')}</div>
-        <div class="card-meta"><span class="card-time">${m.core.filter(id => this.user.readBlocks.has(id)).length}/${m.core.length} steps</span></div>
-      </div>`;
-    });
-    if (missionCards.length) {
-      html += this.shelf('Your missions', missionCards);
+    // Continue reading
+    const continueBlock = this.getContinueBlock();
+    if (continueBlock) {
+      html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
 
     // 2. Recommended for you
@@ -452,6 +451,7 @@ class PBook {
     this.renderContext(ch, idx);
     this._observeBlocks(ch);
     this.updateLinearNav();
+    this._updateMissionBar();
   }
 
   async _renderChapterContent(ch, idx) {
@@ -2401,7 +2401,7 @@ class PBook {
     const questions = this.tutor.getSuggestedQuestions(block);
     const chatEl = document.getElementById('chatMessagesFull');
     if (chatEl) {
-      chatEl.innerHTML = `<div class="chat-msg bot">Let's talk about <b>${block.meta.title}</b>! What would you like to know?</div>`;
+      chatEl.innerHTML = `<div class="chat-msg bot">Pavel wrote a lot about <b>${block.meta.title}</b>. What would you like to know? I can explain it, find related sections, or go deeper!</div>`;
       if (questions.length) {
         let sugHtml = '<div class="tutor-suggestions">';
         questions.forEach(q => {
@@ -2609,12 +2609,46 @@ class PBook {
     // If already viewing this chapter, just scroll
     if (this.currentView === 'read' && this._renderedChapter === chIdx) {
       this._scrollToBlock(parentId, block.meta);
+      this._updateMissionBar();
       return;
     }
 
     this._pendingScroll = { parentId, meta: block.meta };
     this.switchView('read');
     this.renderRead(chIdx);
+  }
+
+  // Show/hide mission bar when reading from a mission wizard
+  _updateMissionBar() {
+    let bar = document.getElementById('missionBar');
+    const m = this._wizardMission;
+    if (!m) { if (bar) bar.style.display = 'none'; return; }
+
+    const step = this._wizardStep;
+    const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+
+    if (!bar) {
+      bar = document.createElement('div');
+      bar.id = 'missionBar';
+      bar.className = 'mission-bar';
+      document.body.appendChild(bar);
+    }
+    bar.style.display = 'flex';
+    bar.innerHTML = `
+      <button class="mission-bar-back" onclick="app._returnToWizard()">&#8592; ${m.icon} ${m.title}</button>
+      <div class="mission-bar-dots">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === step ? 'current' : ''}"></span>`).join('')}</div>
+      <span class="mission-bar-count">${coreRead}/${m.core.length}</span>
+    `;
+  }
+
+  _returnToWizard() {
+    if (!this._wizardMission) return;
+    // If current block was just read, advance to next step
+    const currentId = this._wizardMission.core[this._wizardStep];
+    if (currentId && this.user.readBlocks.has(currentId) && this._wizardStep < this._wizardMission.core.length) {
+      this._wizardStep++;
+    }
+    this._renderWizardStep();
   }
 
   _scrollToBlock(parentId, meta) {

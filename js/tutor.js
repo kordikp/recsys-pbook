@@ -109,12 +109,12 @@ export class MockTutorEngine {
 
   _openingLine(qType, confidence) {
     const lines = {
-      why: ["That's a really deep question! ", "You're thinking like a scientist! ", "Great 'why' question! "],
-      how: ["Let me show you how this works! ", "Good question! Here's the mechanics: ", "Let's break this down step by step! "],
-      whatif: ["Ooh, I love 'what if' questions! ", "Interesting thought experiment! ", "Let's explore that idea! "],
-      what: ["Good question! ", "Let me explain! ", "Here's what that means: "],
-      request: ["Sure thing! ", "Of course! ", "Happy to help! "],
-      general: ["Interesting! ", "Let me find something about that! ", "Great question! "]
+      why: ["Great question! Pavel talks about this in the book. ", "That's exactly what Pavel asked when designing Recombee! ", "You're thinking like a real engineer! "],
+      how: ["Let me show you — Pavel explains this really well. ", "Good question! Here's how it works: ", "Pavel would break this down like this: "],
+      whatif: ["Ooh, Pavel loves these thought experiments! ", "Interesting! At Recombee we think about this a lot. ", "Let's explore that idea! "],
+      what: ["Good question! Let me check what Pavel wrote about this. ", "Here's what that means: ", "Pavel explains this in the book: "],
+      request: ["Sure! Let me find the right section for you. ", "On it! ", "Happy to help — that's what I'm here for! "],
+      general: ["Let me look that up in the book! ", "Interesting question! ", "Here's what I found: "]
     };
     const options = lines[qType] || lines.general;
     return options[Math.floor(Math.random() * options.length)];
@@ -154,9 +154,9 @@ export class MockTutorEngine {
 
   _noMatchResponse() {
     const responses = [
-      "Hmm, I'm not sure about that one! I'm best at talking about how recommendation systems work. Try asking about <b>how YouTube picks videos</b>, <b>filter bubbles</b>, or <b>collaborative filtering</b>!",
-      "That's outside my expertise! I know a lot about recommender systems though. Ask me about <b>how apps learn your taste</b>, <b>A/B testing</b>, or <b>the cold start problem</b>!",
-      "I couldn't find anything about that in the book. But I'd love to help with questions about <b>algorithms</b>, <b>privacy</b>, <b>digital footprints</b>, or <b>building your own recommendation system</b>!"
+      "Hmm, Pavel didn't write about that in this book! I'm best at explaining recommendation systems. Try asking about <b>how YouTube picks videos</b>, <b>filter bubbles</b>, or <b>collaborative filtering</b>!",
+      "That's outside what Pavel covered here! But I'd love to help with <b>how apps learn your taste</b>, <b>A/B testing</b>, or <b>the cold start problem</b>. Or you can message the real Pavel!",
+      "I couldn't find that in the book. Pavel focused on <b>algorithms</b>, <b>privacy</b>, <b>digital footprints</b>, and <b>building your own recommendation system</b> — ask me about any of those!"
     ];
     return responses[Math.floor(Math.random() * responses.length)];
   }
