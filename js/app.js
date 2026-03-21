@@ -1844,6 +1844,15 @@ class PBook {
         goal: 'Explain how recommendations work to a friend',
         reward: { title: 'Algorithm Explainer', xp: 20 },
         core: ['ch1-noticed', 'ch1-everywhere', 'ch1-not-magic', 'ch1-three-jobs', 'ch2-footprints', 'ch2-clues'],
+        intros: [
+          "Let's start with something you already know. Have you ever noticed that YouTube seems to read your mind?",
+          "Recommendations aren't just on YouTube. Let's see how many you can spot in everyday apps.",
+          "So how does it actually work? Spoiler: it's not magic. It's pattern detection.",
+          "Every recommender has three jobs. Can you guess what they are before reading?",
+          "Now let's look at it from YOUR side. What clues are you leaving behind?",
+          "These clues come in different flavors. Understanding them is key to understanding the whole system."
+        ],
+        boss: { q: 'Your friend asks: "So how DOES YouTube know what I want to watch?" Explain it in one paragraph.', hints: ['patterns', 'clicks', 'data', 'similar'] },
         branches: {
           explorer: { label: 'See it in action', blocks: ['ch1-everywhere-d-exp', 'ch2-track-d-exp'] },
           creator: { label: 'Build something', blocks: ['ch1-first-d-create'] },
@@ -1857,6 +1866,14 @@ class PBook {
         goal: 'Understand what data apps collect and how signals work',
         reward: { title: 'Data Detective', xp: 20 },
         core: ['ch2-footprints', 'ch2-clues', 'ch2-guess-signal', 'ch2-myth', 'ch2-privacy'],
+        intros: [
+          "To fix bad recommendations, first understand what data you're leaving behind.",
+          "Not all data is equal. Some clues are powerful, others are noise.",
+          "Can you tell a strong signal from a weak one? This is what separates good detectives from bad ones.",
+          "Before we go further, let's bust some myths. Is your phone REALLY listening?",
+          "Now the big question: whose data is it anyway? And what can you do about it?"
+        ],
+        boss: { q: 'You see Peppa Pig in your recommendations. As a Data Detective, explain: why is it there, and what would you do to fix it?', hints: ['sibling', 'signals', 'history', 'profile'] },
         branches: {
           explorer: { label: 'Investigate your data', blocks: ['ch2-track-d-exp', 'ch2-ws-detective'] },
           creator: { label: 'Run an experiment', blocks: ['ch2-privacy-d-create'] },
@@ -1870,6 +1887,15 @@ class PBook {
         goal: 'Build a working recommendation system step by step',
         reward: { title: 'Recommendation Engineer', xp: 30 },
         core: ['ch5-start', 'ch5-collect', 'ch3-friends', 'ch5-similar', 'ch5-recommend', 'ch5-improve'],
+        intros: [
+          "You said you'd build a recommender. No backing out now! Let's see what you need.",
+          "Step 1: every recommender needs DATA. Time to survey your classmates.",
+          "The trick is finding people with matching taste. This is called collaborative filtering.",
+          "Now you need a way to MEASURE how similar two people are. Sounds hard? It's not!",
+          "You have the data. You found similar people. Now make actual predictions!",
+          "Your system works but... it's not great. Let's make it smarter."
+        ],
+        boss: { q: 'Your class tested the recommender. Someone complains: "It recommended me a movie I hate!" What went wrong, and how would you improve it?', hints: ['similar', 'data', 'diversity', 'cold start'] },
         branches: {
           creator: { label: 'Build it for real', blocks: ['ch5-spread-d-create', 'ch5-code-d-create', 'ch5-debug'] },
           thinker: { label: 'Understand the math', blocks: ['ch5-math-d-think', 'ch5-real-numbers'] },
@@ -1883,6 +1909,14 @@ class PBook {
         goal: 'Understand filter bubbles, echo chambers, and fairness',
         reward: { title: 'Bubble Buster', xp: 25 },
         core: ['ch4-bubbles', 'ch4-fairness', 'ch4-testing', 'ch3-popular', 'ch3-popular-sidebar'],
+        intros: [
+          "Something feels off. Your feed only shows gaming videos. Your friend only sees cooking. Why?",
+          "Bubbles are one thing. But is the system actually FAIR to everyone?",
+          "How do companies even know if their recommendations are good? Science!",
+          "Let's look at the simplest recommendation: just show what's popular. What could go wrong?",
+          "The popularity trap is real. Popular things get MORE popular. Is that fair?"
+        ],
+        boss: { q: 'A new video app asks you to design their recommendation system. How would you prevent filter bubbles while still showing relevant content?', hints: ['diversity', 'explore', 'bubble', 'balance'] },
         branches: {
           creator: { label: 'Pop your bubble', blocks: ['ch4-pop-d-create', 'ch4-experiment'] },
           thinker: { label: 'Think deeply', blocks: ['ch4-echo-d-think', 'ch4-unfair-game'] },
@@ -1896,6 +1930,13 @@ class PBook {
         goal: 'Digital literacy — understand privacy, manipulation, and your rights',
         reward: { title: 'Digital Citizen', xp: 25 },
         core: ['ch6-who-decides', 'ch6-addictive', 'ch6-privacy-real', 'ch6-ai-future'],
+        intros: [
+          "When you open TikTok, who chose what's on your screen? The answer might surprise you.",
+          "Infinite scroll. Autoplay. 'One more video.' These aren't accidents.",
+          "Let's get specific: what do apps ACTUALLY know about you?",
+          "You've seen the problems. Now let's talk about solutions and the future."
+        ],
+        boss: { q: 'Your younger cousin (age 8) is getting addicted to TikTok. What 3 specific things would you tell them about how the algorithm works, and what should they do?', hints: ['autoplay', 'algorithm', 'choice', 'control', 'data'] },
         branches: {
           explorer: { label: 'Check your data', blocks: ['ch6-data-d-exp', 'ch6-age-sidebar'] },
           creator: { label: 'Take control now', blocks: ['ch6-control-d-create'] },
@@ -1908,8 +1949,17 @@ class PBook {
         story: "You've learned the pieces. Now put it all together. Can you explain the FULL journey of a recommendation — from the moment you click to the moment a new suggestion appears?",
         goal: 'Deep mastery — understand the full pipeline, methods, and tradeoffs',
         reward: { title: 'Recommendation Master', xp: 40 },
-        prerequisite: 2, // must complete 2 other missions
+        prerequisite: 2,
         core: ['ch3-pipeline', 'ch3-content', 'ch3-friends', 'ch4-testing', 'ch5-improve', 'ch6-ai-future'],
+        intros: [
+          "Welcome to the capstone. Real systems use EVERYTHING together in a pipeline.",
+          "One approach: look at the ITEM itself — its features, tags, description.",
+          "Another approach: look at the PEOPLE — find taste twins using collaborative filtering.",
+          "How do you know if the system works? You test it. Rigorously.",
+          "A working system isn't a finished system. There's always room to improve.",
+          "Finally: what does all of this mean for the future — and for YOU?"
+        ],
+        boss: { q: 'Explain the full journey of a YouTube recommendation: from the moment you click a video to when new suggestions appear. Include at least 3 methods the system uses.', hints: ['pipeline', 'collaborative', 'content-based', 'candidate', 'ranking', 'diversity'] },
         branches: {
           explorer: { label: 'Trace a real rec', blocks: ['ch3-pipeline-d-exp'] },
           creator: { label: 'Build CF system', blocks: ['ch3-cf-d-create'] },
@@ -2006,6 +2056,12 @@ class PBook {
       </div>
     </div>`;
     html += `<div class="mission-detail-story">${m.story}</div>`;
+
+    // Start/Continue wizard button
+    if (!isComplete) {
+      const wizardLabel = prog.read === 0 ? 'Start mission' : 'Continue mission';
+      html += `<div style="text-align:center;margin-bottom:1em"><button class="mission-complete-btn" onclick="app.startMissionWizard('${m.id}')">${wizardLabel} &rarr;</button></div>`;
+    }
 
     // Progress overview
     html += `<div class="mission-detail-progress">
@@ -2116,6 +2172,130 @@ class PBook {
     this.showXPToast(`\u{1F3C6} ${m.reward.title}! +${m.reward.xp} XP`, 'achievement');
     this.checkGamificationEvents();
     this.showMission(missionId);
+  }
+
+  // ===== MISSION WIZARD MODE =====
+  startMissionWizard(missionId) {
+    const missions = this.getMissions();
+    const m = missions.find(x => x.id === missionId);
+    if (!m) return;
+    this._wizardMission = m;
+    this._wizardStep = 0;
+    // Find first unread core block
+    const firstUnread = m.core.findIndex(id => !this.user.readBlocks.has(id));
+    if (firstUnread >= 0) this._wizardStep = firstUnread;
+    this._renderWizardStep();
+  }
+
+  _renderWizardStep() {
+    const m = this._wizardMission;
+    if (!m) return;
+    const step = this._wizardStep;
+    const blocks = m.core;
+
+    // Past the last core block → show boss quiz
+    if (step >= blocks.length) {
+      this._renderBossQuiz();
+      return;
+    }
+
+    const blockId = blocks[step];
+    const block = this.findBlock(blockId);
+    const intro = m.intros?.[step] || '';
+    const isRead = this.user.readBlocks.has(blockId);
+
+    // Render wizard overlay in the glossary view
+    const el = document.getElementById('glossaryContent');
+    let html = '<div class="wizard-container">';
+
+    // Progress bar
+    html += `<div class="wizard-progress">
+      <div class="wizard-progress-fill" style="width:${Math.round(((step) / blocks.length) * 100)}%"></div>
+    </div>
+    <div class="wizard-progress-label">${m.icon} ${m.title} &middot; Step ${step + 1} of ${blocks.length}</div>`;
+
+    // Story intro
+    if (intro) {
+      html += `<div class="wizard-intro">${intro}</div>`;
+    }
+
+    // Block content preview
+    html += `<div class="wizard-block-card" onclick="app.openBlock('${blockId}')">
+      <div class="wizard-block-title">${block?.meta?.title || blockId}</div>
+      <div class="wizard-block-teaser">${block?.meta?.teaser || ''}</div>
+      <div class="wizard-block-meta">Chapter ${block?.meta?._chapterNum || '?'} &middot; ${block?.meta?.readingTime || 3} min read</div>
+      <button class="wizard-read-btn">${isRead ? '\u2713 Read again' : 'Read this section'} &rarr;</button>
+    </div>`;
+
+    // Navigation
+    html += `<div class="wizard-nav">
+      ${step > 0 ? `<button class="wizard-nav-btn" onclick="app._wizardStep=${step - 1};app._renderWizardStep()">&larr; Previous</button>` : '<span></span>'}
+      ${isRead ? `<button class="wizard-nav-btn wizard-nav-next" onclick="app._wizardStep=${step + 1};app._renderWizardStep()">Next &rarr;</button>` : `<button class="wizard-nav-btn" disabled style="opacity:.4">Read to continue</button>`}
+    </div>`;
+
+    html += '</div>';
+    el.innerHTML = html;
+    if (this.currentView !== 'glossary') this.switchView('glossary');
+    window.scrollTo(0, 0);
+  }
+
+  _renderBossQuiz() {
+    const m = this._wizardMission;
+    if (!m || !m.boss) { this.completeMission(m.id); return; }
+
+    const el = document.getElementById('glossaryContent');
+    let html = '<div class="wizard-container">';
+
+    html += `<div class="wizard-progress">
+      <div class="wizard-progress-fill" style="width:100%"></div>
+    </div>
+    <div class="wizard-progress-label">${m.icon} ${m.title} &middot; Final Challenge!</div>`;
+
+    html += `<div class="boss-card">
+      <div class="boss-icon">\u{1F409}</div>
+      <h3 class="boss-title">Final Boss: Prove You've Learned!</h3>
+      <div class="boss-question">${m.boss.q}</div>
+      <textarea class="boss-answer" id="bossAnswer" placeholder="Type your answer here..." rows="4"></textarea>
+      <div class="boss-hint" id="bossHint" style="display:none"></div>
+      <div class="boss-actions">
+        <button class="boss-submit" onclick="app._checkBossAnswer('${m.id}')">Check my answer</button>
+      </div>
+    </div>`;
+
+    html += '</div>';
+    el.innerHTML = html;
+    window.scrollTo(0, 0);
+  }
+
+  _checkBossAnswer(missionId) {
+    const m = this._wizardMission;
+    if (!m) return;
+    const answer = document.getElementById('bossAnswer')?.value?.toLowerCase() || '';
+    const hints = m.boss.hints || [];
+    const found = hints.filter(h => answer.includes(h));
+    const score = found.length / Math.max(hints.length, 1);
+
+    const hintEl = document.getElementById('bossHint');
+    if (!hintEl) return;
+
+    if (score >= 0.5 || answer.length > 80) {
+      // Pass! Complete the mission
+      hintEl.style.display = 'block';
+      hintEl.className = 'boss-hint boss-pass';
+      hintEl.innerHTML = `<b>Awesome!</b> You mentioned ${found.length} key concepts. You clearly understand this topic!`;
+      setTimeout(() => this.completeMission(missionId), 1500);
+    } else if (answer.length < 20) {
+      hintEl.style.display = 'block';
+      hintEl.className = 'boss-hint boss-retry';
+      hintEl.innerHTML = 'Write a bit more! Try to explain in at least a few sentences.';
+    } else {
+      const missing = hints.filter(h => !answer.includes(h)).slice(0, 2);
+      hintEl.style.display = 'block';
+      hintEl.className = 'boss-hint boss-retry';
+      hintEl.innerHTML = `Good start! But try to also mention: <b>${missing.join('</b> and <b>')}</b>. Go back and re-read if you need to!`;
+      // Add a "go back" button
+      hintEl.innerHTML += `<br><button class="wizard-nav-btn" style="margin-top:.4em" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button>`;
+    }
   }
 
   showTopic(topic) {
