@@ -9,6 +9,7 @@ teaser: "Discover, find, and keep you interested -- that's the gig."
 voice: universal
 parent: null
 diagram: kids-three-jobs
+status: accepted
 ---
 
 Every recommender system in the world has three main jobs. Whether it's YouTube, Spotify, or your school's library app, it's trying to do these three things:

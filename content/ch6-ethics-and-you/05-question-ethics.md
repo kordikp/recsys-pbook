@@ -8,6 +8,7 @@ teaser: "How should recommendation algorithms treat you? There's no wrong answer
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You've seen how recommendation systems work, what they optimize for, and how they affect you. Now it's your turn.

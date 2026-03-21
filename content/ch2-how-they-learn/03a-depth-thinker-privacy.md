@@ -8,6 +8,7 @@ teaser: "There's a big difference between a recommendation and an ad."
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's think about something important. There are two very different ways companies can use your data. And understanding the difference is a real-life superpower.

@@ -9,6 +9,7 @@ teaser: "Some companies don't just track you on one app — they follow you acro
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 So far we've talked about what ONE app knows about you. But there's something darker going on.

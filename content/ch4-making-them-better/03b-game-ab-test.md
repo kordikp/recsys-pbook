@@ -9,4 +9,5 @@ teaser: "Real or random? Look at the A/B test results and decide if they're mean
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---

@@ -9,6 +9,7 @@ teaser: "What happens when only the loud kids get called on? The same thing that
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's play an imagination game. Picture this classroom:

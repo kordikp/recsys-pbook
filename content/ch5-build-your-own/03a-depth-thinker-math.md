@@ -8,6 +8,7 @@ teaser: "How computers measure similarity using cosine similarity."
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 The "average difference" method from the main chapter works fine for a small project. But real recommendation systems need something more precise. The most popular method is called **cosine similarity**, and it's more intuitive than it sounds.

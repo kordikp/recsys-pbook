@@ -9,6 +9,7 @@ teaser: "How do you know if a recommendation system actually works? Science!"
 voice: universal
 parent: null
 diagram: kids-ab-test
+status: accepted
 ---
 
 You've built a recommendation system. You THINK it's good. But how do you actually KNOW?

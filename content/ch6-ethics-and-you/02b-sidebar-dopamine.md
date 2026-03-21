@@ -9,6 +9,7 @@ teaser: "Your brain has a chemical reward system. Recommendation algorithms have
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Your brain has a built-in reward system powered by a chemical called **dopamine**. When something surprising, new, or rewarding happens, your brain releases a little burst of dopamine. It feels good. It makes you want more.

@@ -8,6 +8,7 @@ teaser: "Practical things you can do RIGHT NOW to become the boss of your algori
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 Knowing how recommendation systems work isn't just interesting -- it's useful. Here are real things you can do today to take back control.

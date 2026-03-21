@@ -9,6 +9,7 @@ teaser: "When popular stuff gets MORE popular just because it's popular. A vicio
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Here's something tricky that happens with popularity-based recommendations. It's called the **rich-get-richer effect**, and once you see it, you'll notice it everywhere.

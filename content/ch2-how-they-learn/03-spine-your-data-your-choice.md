@@ -9,6 +9,7 @@ teaser: "You're in charge of your digital footprints. Here's how."
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Here's something important: all those digital footprints we talked about? They're YOURS. And you have more control over them than you might think.

@@ -9,6 +9,7 @@ teaser: "Is your phone REALLY listening to you? Let's bust some myths about how 
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 You've probably heard some wild theories about how recommendation systems work. Let's separate fact from fiction. For each claim, guess TRUE or FALSE before reading the answer!

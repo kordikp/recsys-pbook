@@ -9,6 +9,7 @@ teaser: "The people who built today's algorithms grew up without them. You didn'
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Here's something that most adults won't tell you, because most adults haven't realized it yet.

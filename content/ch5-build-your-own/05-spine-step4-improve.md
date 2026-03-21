@@ -9,6 +9,7 @@ teaser: "Your system works! Now let's make it smarter."
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You built a working recommendation system. That's amazing. But if you tested it, you probably noticed it's not perfect. Some predictions were spot on, others were way off.

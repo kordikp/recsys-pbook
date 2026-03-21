@@ -8,6 +8,7 @@ teaser: "Collaborative filtering or content-based? Each has strengths. The real 
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 We've learned two ways to recommend stuff. Let's put them head-to-head and think carefully about when each one shines -- and when it struggles.

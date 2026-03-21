@@ -8,6 +8,7 @@ teaser: "Follow one recommendation from the moment you open the app to the momen
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's follow exactly what happens from the moment you tap the YouTube app to the moment recommendations appear on your home screen. This all happens in under one second.

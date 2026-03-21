@@ -8,6 +8,7 @@ teaser: "Your 5-friend recommender is cute. Real systems deal with numbers that 
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 You've been building a mini recommendation system -- maybe 5 friends and 6 movies. That's a grid with 30 cells. Pretty manageable, right? You could fill it in with a pencil.

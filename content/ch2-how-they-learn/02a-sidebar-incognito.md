@@ -9,6 +9,7 @@ teaser: "New account, zero clues -- now what?"
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Ever created a brand new account on an app? Remember what happened?

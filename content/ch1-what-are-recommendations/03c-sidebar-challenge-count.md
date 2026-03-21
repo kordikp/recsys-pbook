@@ -8,6 +8,7 @@ teaser: "How many recommendations can you spot in 10 seconds? The answer will bl
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Ready for a challenge? Grab your phone and a timer. We're going to see just how FAST recommendation systems really are.

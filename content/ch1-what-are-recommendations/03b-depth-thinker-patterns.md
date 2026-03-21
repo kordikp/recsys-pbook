@@ -9,6 +9,7 @@ teaser: "From Minecraft diamonds to weather forecasts -- patterns rule the world
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 Recommender systems find patterns in your behavior. But here's something cool: finding patterns is actually one of the most powerful ideas in ALL of science and math. Let's zoom out.

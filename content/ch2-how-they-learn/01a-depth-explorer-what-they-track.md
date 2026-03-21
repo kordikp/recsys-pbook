@@ -8,6 +8,7 @@ teaser: "The full list of clues you're leaving behind. Some will surprise you."
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's get specific. When you use an app like YouTube or TikTok, here's what the system can see. Some of these might surprise you:

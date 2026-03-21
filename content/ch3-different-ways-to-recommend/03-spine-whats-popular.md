@@ -9,6 +9,7 @@ teaser: "The simplest recommendation of all: just show everyone what's trending.
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Before we get into fancy algorithms, there's a much simpler approach. So simple that you might not even think of it as a recommendation.

@@ -9,6 +9,7 @@ teaser: "What if a million people with your exact taste could recommend stuff to
 voice: universal
 parent: null
 diagram: kids-collaborative-filtering
+status: accepted
 ---
 
 Here's a question: how do you usually find new stuff to watch?

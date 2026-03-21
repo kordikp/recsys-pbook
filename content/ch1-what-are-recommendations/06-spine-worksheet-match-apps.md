@@ -8,6 +8,7 @@ teaser: "Open your favorite apps and discover which recommendation model is secr
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Every app you use has a secret recipe for deciding what to show you. Let's figure out which recipe each app is using — by actually opening them up and looking!

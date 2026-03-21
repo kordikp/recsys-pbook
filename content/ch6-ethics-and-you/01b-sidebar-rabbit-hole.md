@@ -9,6 +9,7 @@ teaser: "You searched for card tricks. Twenty minutes later you're watching cons
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You search for "cool card tricks."

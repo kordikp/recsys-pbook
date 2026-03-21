@@ -9,6 +9,7 @@ teaser: "When you open TikTok, who chose what's on your screen? Not you. Not you
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Quick experiment. Open TikTok, YouTube, or Instagram right now. Look at the first five things on your screen.

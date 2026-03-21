@@ -8,6 +8,7 @@ teaser: "Forget movies and music — imagine a recommender system nobody has eve
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You've learned how recommendation systems work, how they collect data, how they find patterns, and how they can go wrong. Now here's your challenge: dream up one that doesn't exist yet.

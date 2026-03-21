@@ -8,6 +8,7 @@ teaser: "800 million videos. 0.2 seconds. The numbers behind YouTube recommendat
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's talk about just how INSANE the numbers are behind a real recommendation system. We'll use YouTube as our example.

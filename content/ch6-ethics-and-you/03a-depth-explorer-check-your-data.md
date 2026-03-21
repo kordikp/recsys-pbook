@@ -8,6 +8,7 @@ teaser: "Step-by-step: how to actually SEE what data these apps have collected a
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Stop reading for a minute. Seriously. Grab your phone or computer and try one of these. Seeing your own data is worth a thousand explanations.

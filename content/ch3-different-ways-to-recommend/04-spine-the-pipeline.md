@@ -9,6 +9,7 @@ teaser: "Real systems don't use just one method. They use ALL of them, in three 
 voice: universal
 parent: null
 diagram: kids-pipeline
+status: accepted
 ---
 
 Here's something important: real recommendation systems don't pick just one method. They don't say "we're a collaborative filtering company" or "we only do content-based."

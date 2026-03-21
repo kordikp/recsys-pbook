@@ -9,6 +9,7 @@ teaser: "Item clues, person clues, and action clues -- the three ingredients in 
 voice: universal
 parent: null
 diagram: kids-cold-start
+status: accepted
 ---
 
 A recommender system uses three types of clues to figure out what to show you. Think of them like three ingredients in a recipe. You need all three for the best results.

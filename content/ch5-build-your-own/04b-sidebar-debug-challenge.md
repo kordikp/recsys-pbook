@@ -8,6 +8,7 @@ teaser: "Your prediction was wrong. Can you figure out why? Welcome to debugging
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 Your recommendation system just made a prediction: your friend **Sam** would rate the movie *Frozen* 4 out of 5 stars. Seems reasonable -- Sam's taste twin loved it, and Sam likes animated movies.

@@ -8,6 +8,7 @@ teaser: "No right answers, just impossible choices. Welcome to the real dilemmas
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 Time for a game. For each question, pick one side. Be honest -- there are **no right answers**. (Seriously. Engineers at big tech companies argue about these exact questions all the time.)

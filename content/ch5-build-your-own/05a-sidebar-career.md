@@ -8,6 +8,7 @@ teaser: "People build recommendation systems for a living. And it's an awesome c
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 The skills you just used -- collecting data, finding patterns, making predictions, testing results -- are the exact same skills used by recommendation engineers at the world's biggest companies.

@@ -9,4 +9,5 @@ teaser: "You're trapped in a filter bubble. Click on diverse topics to break fre
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---

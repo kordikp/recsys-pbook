@@ -9,6 +9,7 @@ teaser: "YouTube somehow knows you love Minecraft videos. But how?"
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You open YouTube. Right there on your home page: a Minecraft build tutorial, a funny cat video, and that creator you watched yesterday. You didn't search for any of them. They just... appeared.

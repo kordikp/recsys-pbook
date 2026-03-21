@@ -9,6 +9,7 @@ teaser: "Netflix offered $1,000,000 to anyone who could make their recommendatio
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 In 2006, Netflix did something wild. They said: "We'll give **one million dollars** to anyone who can make our movie recommendations just 10% better."

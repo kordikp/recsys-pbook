@@ -9,4 +9,5 @@ teaser: "Look at the ratings. Who has the most similar taste to you? That's coll
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---

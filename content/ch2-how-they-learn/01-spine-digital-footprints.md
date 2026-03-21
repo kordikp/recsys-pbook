@@ -9,6 +9,7 @@ teaser: "Every click, every skip, every replay -- you're leaving a trail."
 voice: universal
 parent: null
 diagram: kids-digital-footprints
+status: accepted
 ---
 
 Imagine walking through fresh snow. Every step you take leaves a footprint behind you. Someone could follow your trail and figure out exactly where you went.

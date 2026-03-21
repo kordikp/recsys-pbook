@@ -1,0 +1,229 @@
+\documentclass[sigconf]{acmart}
+
+\settopmatter{printacmref=true, printccs=true, printfolios=true}
+
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+
+\graphicspath{{figures/}}
+
+\setcopyright{acmlicensed}
+\acmConference[UMAP '26]{Proceedings of the 34th ACM Conference on User Modeling, Adaptation and Personalization}{June 8--11, 2026}{Gothenburg, Sweden}
+\acmYear{2026}
+\copyrightyear{2026}
+
+\begin{document}
+
+\title{p-book: Investigating Navigation Preferences in Personalized Educational Books}
+
+\author{Pavel Kordik}
+\affiliation{%
+  \institution{Czech Technical University in Prague \& Recombee}
+  \city{Prague}
+  \country{Czech Republic}
+}
+\email{kordikp@fit.cvut.cz}
+
+% ADD CO-AUTHORS HERE
+
+\begin{abstract}
+We present p-book, a web-based system that transforms linear educational content into a personalized, multi-modal reading experience. The system implements a \emph{spine+depth} content architecture where a mandatory narrative backbone is augmented with optional depth blocks personalized to reader engagement preferences. p-book offers four navigation paradigms---Missions, Browse, Read, and Map---over the same content graph. We instrument all interactions to study: \emph{which navigation paradigm do readers prefer, and how do preferences relate to engagement and coverage?} We describe the architecture, its grounding in adaptive hypermedia and self-determination theory, and our planned study.
+\end{abstract}
+
+\begin{CCSXML}
+<ccs2012>
+<concept>
+<concept_id>10003120.10003121.10003129</concept_id>
+<concept_desc>Human-centered computing~Interactive systems and tools</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+<concept>
+<concept_id>10002951.10003317.10003347.10003350</concept_id>
+<concept_desc>Information systems~Recommender systems</concept_desc>
+<concept_significance>500</concept_significance>
+</concept>
+</ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Human-centered computing~Interactive systems and tools}
+\ccsdesc[500]{Information systems~Recommender systems}
+
+\keywords{personalized book, adaptive hypermedia, navigation preferences, recommender systems, user modeling}
+
+\maketitle
+
+%% ============================================================
+\section{Introduction}
+%% ============================================================
+
+Adaptive learning systems have demonstrated substantial effectiveness ($g{=}0.70$ on cognitive outcomes~\cite{wang2024}), yet the vast majority---Carnegie Learning~\cite{ritter2016}, ALEKS~\cite{cosyn2021}, Duolingo~\cite{settles2016}---focus on skill-based tutoring and drill exercises. Book-length narrative educational content has received surprisingly little attention from the adaptive hypermedia community~\cite{sosnovsky2025}.
+
+We present \textbf{p-book}, a system that brings adaptive hypermedia to narrative reading through a \emph{spine+depth} content model: a linear backbone of core content (spine) is augmented with optional depth blocks that readers choose based on engagement preferences. A distinctive feature is that p-book offers \textbf{four navigation paradigms}---Missions, Browse, Read, and Map---all over the same content graph, following self-determination theory: meaningful choices support autonomy and intrinsic motivation~\cite{ryan2000}, with 3--5 options being optimal~\cite{evans2015,schneider2018}.
+
+The \textbf{primary research question} is: \emph{Which navigation paradigm do readers prefer, and how do preferences relate to engagement depth and content coverage?} We instrument all interactions to collect behavioral data addressing this question. Whether personalization improves learning outcomes is deferred to a planned controlled study.
+
+%% ============================================================
+\section{Related Work}
+%% ============================================================
+
+\subsection{Adaptive Platforms and Intelligent Tutoring}
+
+Table~\ref{tab:comparison} compares p-book against major adaptive learning systems. Carnegie Learning uses ACT-R cognitive theory and Bayesian knowledge tracing to select practice problems~\cite{ritter2016,desmarais2011}. ALEKS employs Knowledge Space Theory for adaptive math exercises~\cite{cosyn2021}. Knewton~Alta adapts textbook exercises using probabilistic models~\cite{chau2021}. These systems share a common architecture: content decomposed into skill atoms, mastery-based user models, and system-controlled paths.
+
+Duolingo~\cite{settles2016} is the closest multi-component precedent, combining adaptive sequencing, spaced repetition via half-life regression, and gamification. However, it operates on vocabulary drills in a system-controlled sequence---it supports neither reader-directed navigation nor narrative content. The p-book is unique in three respects: (1)~adaptation for narrative/conceptual text; (2)~six recommendation scenarios mapped to pedagogical functions; and (3)~four reader-controlled navigation modes.
+
+\begin{table}[t]
+\caption{Architectural comparison of adaptive educational systems.}
+\label{tab:comparison}
+\small
+\begin{tabular}{@{}lcccccc@{}}
+\toprule
+ & \rotatebox{70}{Carnegie} & \rotatebox{70}{ALEKS} & \rotatebox{70}{Duolingo} & \rotatebox{70}{Knewton} & \rotatebox{70}{LECTOR} & \rotatebox{70}{\textbf{p-book}} \\
+\midrule
+Content & skill & skill & drill & skill & linear & \textbf{spine+d.} \\
+User model & mastery & mastery & mastery & mastery & behav. & \textbf{engag.} \\
+Adaptation & rules & KST & HLR & prob. & obs. & \textbf{RecSys} \\
+Agency & none & none & none & low & none & \textbf{4 modes} \\
+Spaced rep. & no & no & yes & no & no & \textbf{yes} \\
+Content type & exerc. & exerc. & drills & exerc. & text & \textbf{narrat.} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Adaptive Hypermedia and Intelligent Textbooks}
+
+The adaptive hypermedia tradition~\cite{brusilovsky2007} established adaptive navigation support, presentation, and curriculum sequencing. Sosnovsky and Brusilovsky~\cite{sosnovsky2015} demonstrated topic-based adaptation in the UMUAI journal. The intelligent textbook initiative~\cite{sosnovsky2025} explores concept extraction and adaptive navigation but without integrating recommendation engines, spaced repetition, or gamification. LECTOR~\cite{lopezzapata2025} tracks e-book reading behavior to build learner models but is observational---it does not recommend content or adapt the path.
+
+\subsection{Engagement Modes, Not Learning Styles}
+
+p-book offers three engagement modes---Explorer (\emph{``Show me!''}), Creator (\emph{``Let me build!''}), Thinker (\emph{``Why?''})---influencing depth-block recommendations. We explicitly distinguish these from learning styles, whose matching to instruction is decisively debunked~\cite{pashler2008,touloumakos2023}. Unlike the ``meshing hypothesis,'' engagement modes are \emph{dynamic preference priors updated from behavioral signals}: a reader who selects Explorer but engages with Thinker content sees recommendations adapt. This is grounded in SDT~\cite{ryan2000} (choice supports autonomy), interest-driven learning~\cite{schraw1998} (choice increases engagement through perceived autonomy), and elaboration theory~\cite{reigeluth1999} (Explorer/Creator/Thinker map to relational/procedural/conceptual elaboration types).
+
+\subsection{Gamification and Spaced Repetition}
+
+Gamification yields moderate cognitive effects ($g{=}0.49$)~\cite{sailer2020} but shows novelty decline after ${\sim}$4 weeks~\cite{koivisto2022}, and negative effects when creating anxiety~\cite{almeida2022}. p-book's gamification is deliberately conservative: XP and badges, no leaderboards or streaks. Spaced repetition substantially improves retention~\cite{cepeda2006}, with synergistic effects when combined with gamification in K-12 reading~\cite{yeh2016}.
+
+%% ============================================================
+\section{System Architecture}
+%% ============================================================
+
+\subsection{Spine+Depth Content Model}
+
+Content is structured as a directed graph with two node types. \textbf{Spine blocks} form the mandatory narrative backbone. \textbf{Depth blocks} branch off spine nodes, tagged by engagement mode and content type (sidebar, game, worksheet, extended explanation). The current instantiation, \emph{``How Recommendations Work''} for ages 8--15, contains 83~blocks across 6~chapters: 28~spine, 20~depth, 22~sidebars, 10~games, and 3~worksheets. The spine guarantees coverage structurally---no assessment gating required.
+
+\subsection{Four Navigation Paradigms}
+
+The same content graph is navigable through four modes:
+\begin{itemize}
+  \item \textbf{Missions:} Story-driven quests sequencing 5--8 blocks into narrative arcs with culminating challenges. Most structured.
+  \item \textbf{Browse:} Netflix-style carousels organized by recommendation scenario (``For You,'' ``Popular,'' ``Continue Reading''). Most discovery-oriented.
+  \item \textbf{Read:} Linear chapter progression with expandable depth cards. Most familiar.
+  \item \textbf{Map:} Visual overview of all chapters and progress. Most exploratory.
+\end{itemize}
+Readers choose an initial mode during onboarding and can switch freely; switches are logged as first-class events.
+
+\subsection{Recommendation and Instrumentation}
+
+Personalization is powered by Recombee through six scenarios mapping to pedagogical functions: \texttt{next-in-spine} (curriculum sequencing), \texttt{go-deeper} (adaptive elaboration), \texttt{related} (lateral connections), \texttt{for-you} (personalized discovery), \texttt{popular} (social proof), and \texttt{start-here} (cold-start onboarding). The model receives detail views with duration, ratings, bookmarks, and engagement-mode affinity scores. A local fallback operates when the API is unavailable.
+
+All interactions are instrumented: navigation events and mode switches, dwell time and scroll depth per block, depth-block expansions by engagement mode, recommendation acceptance with scenario attribution, and spaced-repetition responses. This enables behavioral analysis without external instruments.
+
+%% ============================================================
+\section{Study Design}
+%% ============================================================
+
+We aim to answer four research questions through log analysis:
+\textbf{RQ1:} Which navigation paradigm do readers prefer, and are preferences stable?
+\textbf{RQ2:} How do paradigms differ in coverage and engagement depth?
+\textbf{RQ3:} Do multi-mode users achieve broader coverage?
+\textbf{RQ4:} Does recommendation increase depth-block exploration (within-subject, recommendations on vs.\ off)?
+
+We plan a within-subjects deployment where participants use p-book freely over multiple sessions. For RQ4, we toggle recommendation visibility. All dependent variables---mode dwell time, switch frequency, spine completion, depth exploration rate, recommendation CTR---are computed from logs.
+
+During internal piloting ($N{=}8$, adults), all four modes were used; Browse and Read were most popular initially; Map attracted users who explored more depth blocks; mission completion was high once started but discovery was low without prompting. These preliminary observations will be validated with the target age group.
+
+%% ============================================================
+\section{Conclusions}
+%% ============================================================
+
+p-book applies adaptive hypermedia to narrative educational books via a spine+depth architecture, multi-scenario recommendation, and four navigation paradigms. The primary contribution is the instrumented investigation of \emph{navigation preferences} in personalized educational content---an understudied question in adaptive learning. Our immediate goal is a within-subjects study of navigation preference and engagement. Longer-term, we plan controlled evaluation of personalization effects on comprehension and retention with children aged 8--15.
+
+%% ============================================================
+\bibliographystyle{ACM-Reference-Format}
+
+\begin{thebibliography}{99}
+
+\bibitem{almeida2022}
+F.~Almeida, J.~Sim\~{o}es. Gamification in education: A~critical analysis. {\em IJETHE}, 2022.
+
+\bibitem{brusilovsky2007}
+P.~Brusilovsky, E.~Mill\'{a}n. User models for adaptive hypermedia and adaptive educational systems. In {\em The Adaptive Web}, pp.~3--53, Springer, 2007.
+
+\bibitem{bull2007}
+S.~Bull, J.~Kay. Student models that invite the learner in: The {SMILI} open learner modelling framework. {\em IJAIED}, 17(2):89--120, 2007.
+
+\bibitem{cepeda2006}
+N.~Cepeda, H.~Pashler, E.~Vul, J.~Wixted, D.~Rohrer. Distributed practice in verbal recall tasks. {\em Psychol.\ Bull.}, 132(3):354--380, 2006.
+
+\bibitem{chau2021}
+H.~Chau et~al. Knewton Alta: Adaptive learning for higher education. In {\em AIED}, 2021.
+
+\bibitem{cosyn2021}
+E.~Cosyn, H.~Uzun, C.~Doble, J.-C.~Falmagne. {ALEKS}. In {\em AIED}, 2021.
+
+\bibitem{desmarais2011}
+M.~Desmarais, R.~Baker. A review of recent advances in learner and skill modeling. {\em UMUAI}, 22(1):9--38, 2012.
+
+\bibitem{evans2015}
+M.~Evans, A.~Boucher. Optimizing the power of choice. {\em Mind, Brain, Educ.}, 9(2):87--91, 2015.
+
+\bibitem{koivisto2022}
+J.~Koivisto, J.~Hamari. The rise of motivational information systems. {\em IJETHE}, 2022.
+
+\bibitem{lopezzapata2025}
+R.~Lopez~Zapata et~al. {LECTOR}: E-book reading behavior for personalized student support. {\em IJAIED}, 2025.
+
+\bibitem{pashler2008}
+H.~Pashler, M.~McDaniel, D.~Rohrer, R.~Bjork. Learning styles: Concepts and evidence. {\em Psychol.\ Sci.\ Pub.\ Int.}, 9(3):105--119, 2008.
+
+\bibitem{reigeluth1999}
+C.~Reigeluth. {\em Instructional-Design Theories and Models}, vol.~II. Erlbaum, 1999.
+
+\bibitem{ritter2016}
+S.~Ritter, J.~Anderson, K.~Koedinger, A.~Corbett. Cognitive Tutor. {\em Psychon.\ Bull.\ Rev.}, 14(2):249--255, 2007.
+
+\bibitem{ryan2000}
+R.~Ryan, E.~Deci. Self-determination theory and the facilitation of intrinsic motivation. {\em Am.\ Psychol.}, 55(1):68--78, 2000.
+
+\bibitem{sailer2020}
+M.~Sailer, L.~Homner. The gamification of learning: A~meta-analysis. {\em Educ.\ Psychol.\ Rev.}, 32:77--112, 2020.
+
+\bibitem{schneider2018}
+S.~Schneider, M.~Nebel, S.~Beege, G.~Rey. Autonomy-enhancing effects of choice on cognitive load, motivation and learning. {\em Learn.\ Instr.}, 58:161--172, 2018.
+
+\bibitem{schraw1998}
+G.~Schraw, T.~Flowerday, S.~Lehman. Increasing situational interest. {\em Educ.\ Psychol.\ Rev.}, 13(3):211--224, 2001.
+
+\bibitem{settles2016}
+B.~Settles, B.~Meeder. A trainable spaced repetition model for language learning. In {\em ACL}, pp.~1848--1858, 2016.
+
+\bibitem{sosnovsky2015}
+S.~Sosnovsky, P.~Brusilovsky. Evaluation of topic-based adaptation and student modeling. {\em UMUAI}, 25(4):371--424, 2015.
+
+\bibitem{sosnovsky2025}
+S.~Sosnovsky, P.~Brusilovsky, A.~Lan. Intelligent textbooks: A~survey. {\em IJAIED}, 2025.
+
+\bibitem{touloumakos2023}
+A.~Touloumakos et~al. Bayesian evidence for the null: No benefit of learning-style matching. {\em Mind, Brain, Educ.}, 17(4):301--309, 2023.
+
+\bibitem{wang2024}
+S.~Wang et~al. Effects of AI-enabled adaptive learning on cognitive outcomes: A~meta-analysis. {\em J.~Educ.\ Comput.\ Res.}, 2024.
+
+\bibitem{yeh2016}
+Y.-T.~Yeh et~al. Spaced repetition and gamification in mobile reading for K-12 science literacy. In {\em FIE}, 2016.
+
+\end{thebibliography}
+
+\end{document}

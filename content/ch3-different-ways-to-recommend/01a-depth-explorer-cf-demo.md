@@ -8,6 +8,7 @@ teaser: "A visual grid that shows exactly how the system finds your taste twins.
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's build a real example. Imagine six kids and five movies. A checkmark means they liked the movie:

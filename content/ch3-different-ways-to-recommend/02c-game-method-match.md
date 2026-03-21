@@ -9,4 +9,5 @@ teaser: "Collaborative filtering or content-based? Can you tell them apart?"
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---

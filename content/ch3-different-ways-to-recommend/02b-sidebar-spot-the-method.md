@@ -8,6 +8,7 @@ teaser: "Collaborative filtering, content-based, or popularity? Can you tell the
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Now that you know the three main recommendation methods, let's see if you can spot them out in the wild. Match each real-world example to the right method:

@@ -8,6 +8,7 @@ teaser: "You are the algorithm. Grab some friends and find out who shares your t
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 You're about to do what a collaborative filtering algorithm does -- but with your actual brain, on your actual friends.

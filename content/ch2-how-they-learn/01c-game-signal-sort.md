@@ -9,4 +9,5 @@ teaser: "Can you tell a strong signal from a weak one? Sort them before time run
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---

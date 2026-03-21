@@ -8,6 +8,7 @@ teaser: "Accuracy, fairness, diversity -- which one would you prioritize?"
 voice: universal
 parent: null
 diagram: null
+status: accepted
 description: "You're designing a recommendation system for a new video app. You can only optimize for ONE thing first. What do you pick?"
 options:
   - letter: A, text: Accuracy -- show people exactly what they'll like, voice: explorer

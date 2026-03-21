@@ -8,6 +8,7 @@ teaser: "A music app experiment: which recommendation strategy wins?"
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's walk through a real A/B test, step by step. You're the lead engineer at a music streaming app called "TuneUp." Your mission: figure out the best way to recommend songs.

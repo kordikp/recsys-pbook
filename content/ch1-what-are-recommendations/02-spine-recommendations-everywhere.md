@@ -9,6 +9,7 @@ teaser: "Once you start looking, you can't stop seeing them."
 voice: universal
 parent: null
 diagram: kids-recommendations-everywhere
+status: accepted
 ---
 
 Once you know what to look for, you'll see recommendations EVERYWHERE. They're hiding in plain sight. Here's a tour:

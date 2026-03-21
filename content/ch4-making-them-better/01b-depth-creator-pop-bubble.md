@@ -8,6 +8,7 @@ teaser: "An experiment: can you retrain YouTube's algorithm in one afternoon?"
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 Ready for an experiment? You're going to see your filter bubble in action -- and then POP it.

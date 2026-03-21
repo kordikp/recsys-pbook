@@ -8,6 +8,7 @@ teaser: "If you were building a recommendation system from scratch, which approa
 voice: universal
 parent: null
 diagram: null
+status: accepted
 options:
   - letter: A, text: Collaborative filtering -- find taste twins!, voice: explorer
   - letter: B, text: Content-based -- understand the items!, voice: thinker

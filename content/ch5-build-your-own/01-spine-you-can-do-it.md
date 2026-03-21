@@ -9,6 +9,7 @@ teaser: "You learned how recs work. Now it's time to build one yourself."
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Okay. You've learned how recommendation systems work. You know about collaborative filtering, content-based filtering, filter bubbles, fairness, and A/B testing. You know more about this stuff than most adults.

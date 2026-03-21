@@ -8,6 +8,7 @@ teaser: "Governments want to regulate recommendation algorithms. But can they ac
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Governments around the world are TRYING to write rules for recommendation algorithms. But it's way harder than it sounds.

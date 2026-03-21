@@ -8,6 +8,7 @@ teaser: "Even if you never told it how old you are, the algorithm probably knows
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You never typed your birthday into the app. You never told it you're 12 or 14. So it doesn't know your age, right?

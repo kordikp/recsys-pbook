@@ -8,6 +8,7 @@ teaser: "A 5-minute experiment that proves YOU can control the algorithm. Grab y
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 Enough theory. Let's do some science. Here's a hands-on experiment that proves you can actually shape your own recommendation bubble -- in under 5 minutes.

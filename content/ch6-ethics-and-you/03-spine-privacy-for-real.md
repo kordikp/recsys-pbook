@@ -9,6 +9,7 @@ teaser: "Let's skip the vague warnings and get specific. Here's what apps actual
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Adults love to say "be careful with your data online." But they rarely explain what that actually means. So let's be specific.

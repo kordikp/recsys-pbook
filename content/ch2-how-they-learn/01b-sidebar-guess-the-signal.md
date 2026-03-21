@@ -8,6 +8,7 @@ teaser: "Not all clicks are created equal. Can you tell which ones actually matt
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Every action you take online sends a signal to the recommendation system. But not all signals are equal. Some scream "I LOVE THIS!" and others just whisper "meh, maybe."

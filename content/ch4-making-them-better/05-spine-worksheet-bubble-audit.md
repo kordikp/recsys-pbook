@@ -8,6 +8,7 @@ teaser: "A 2-minute check to find out if your algorithm has trapped you — plus
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 A **filter bubble** is what happens when the algorithm shows you the same kind of content over and over until that's ALL you see. It thinks it's being helpful, but it might be shrinking your world. Let's find out if it's happening to you. Takes about 2 minutes.

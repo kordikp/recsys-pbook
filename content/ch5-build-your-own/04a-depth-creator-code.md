@@ -8,6 +8,7 @@ teaser: "A simple Python script that does everything you just learned -- in 20 l
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 Ready to turn your recommendation system into actual code? Here's a Python script that does everything from Steps 1-3. Every single line has a comment explaining what it does.

@@ -8,6 +8,7 @@ teaser: "Grab your phone and become a recommendation detective."
 voice: explorer
 parent: null
 diagram: null
+status: accepted
 ---
 
 Time to become a recommendation detective. Grab your phone or tablet and let's go hunting.

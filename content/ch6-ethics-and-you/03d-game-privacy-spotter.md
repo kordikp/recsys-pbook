@@ -9,4 +9,5 @@ teaser: "Some things apps do are fine. Others are privacy risks. Can you spot th
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---

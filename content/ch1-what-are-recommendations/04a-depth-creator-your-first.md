@@ -8,6 +8,7 @@ teaser: "Grab some friends, a pencil, and get ready to recommend."
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 You don't need a computer to build a recommendation system. You just need some friends, a pencil, and a piece of paper. Let's do this!

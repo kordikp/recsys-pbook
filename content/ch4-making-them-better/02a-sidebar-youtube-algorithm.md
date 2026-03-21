@@ -8,6 +8,7 @@ teaser: "The mind-boggling scale of YouTube's recommendation engine."
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 YouTube is one of the biggest recommendation engines on the planet. The numbers are wild:

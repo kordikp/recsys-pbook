@@ -8,6 +8,7 @@ teaser: "Clear your history, train the algorithm from scratch, and see how fast 
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 Here's a fun experiment you can actually run. You're going to test how fast a recommendation system can learn about you. Ready?

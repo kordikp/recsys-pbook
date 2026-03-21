@@ -8,6 +8,7 @@ teaser: "Even the world's top experts disagree on these. Your opinion is just as
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 What follows are real questions that researchers, politicians, tech executives, and philosophers are actively debating right now. Nobody has figured out the "right" answers. That's what makes them interesting.

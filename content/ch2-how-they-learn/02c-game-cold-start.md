@@ -9,4 +9,5 @@ teaser: "A new user just signed up with zero history. Which strategies actually 
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---

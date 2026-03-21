@@ -8,6 +8,7 @@ teaser: "You don't need a computer to do collaborative filtering — you just ne
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You don't need a computer to build a recommendation system. You don't even need an app. All you need is one friend (or sibling, or parent) and about five minutes. Ready? Let's do collaborative filtering — the human way.

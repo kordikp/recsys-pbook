@@ -8,6 +8,7 @@ teaser: "Pick your path through this book."
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You've learned the basics of what recommender systems are. Now it's time to figure out what YOU want to explore next. There's no wrong answer here -- this just helps you pick your adventure.

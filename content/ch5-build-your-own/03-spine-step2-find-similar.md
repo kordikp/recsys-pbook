@@ -9,6 +9,7 @@ teaser: "Who has the same taste? Find your movie twins."
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Now comes the detective work. You've got your rating matrix. Time to figure out: **who has similar taste?**

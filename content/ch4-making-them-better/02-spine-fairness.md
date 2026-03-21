@@ -9,6 +9,7 @@ teaser: "Popular creators get more popular. New creators stay invisible. Is that
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Picture a school talent show. But here's the twist: the kids who won LAST year get to perform first, on the biggest stage, with the best sound system. New kids? They perform in a tiny room in the back, where almost nobody can hear them.

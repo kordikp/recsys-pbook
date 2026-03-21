@@ -71,7 +71,8 @@ class PBook {
           return { ...meta, body, sequence, _chapter: ch.id, _chapterNum: ch.number, _chapterTitle: ch.title, meta: { ...meta, chapter: ch.id } };
         } catch (e) { return null; }
       }));
-      const valid = blocks.filter(Boolean).sort((a, b) => a.sequence - b.sequence);
+      const isAdmin = localStorage.getItem('pbook-admin') === '1';
+      const valid = blocks.filter(b => b && (!b.status || b.status === 'accepted' || isAdmin)).sort((a, b) => a.sequence - b.sequence);
       this.chapters[i] = { ...ch, blocks: valid };
       valid.forEach(b => { b._chapterIdx = i; this.allBlocks.push({ meta: b, body: b.body, _chapter: ch.id }); });
     }

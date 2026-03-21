@@ -8,6 +8,7 @@ teaser: "Survey your classmates, build a spreadsheet, and discover hidden taste 
 voice: creator
 parent: null
 diagram: null
+status: accepted
 ---
 
 You don't need a computer to try collaborative filtering. You can do it right now with a pencil, some paper, and about 10 friends.

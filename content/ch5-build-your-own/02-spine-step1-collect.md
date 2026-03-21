@@ -9,6 +9,7 @@ teaser: "Survey your friends, build a rating grid, and watch the pattern emerge.
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Every recommendation system starts with data. And YOUR data is going to come from real people -- your friends, family, classmates, anyone you can convince to answer a quick survey.

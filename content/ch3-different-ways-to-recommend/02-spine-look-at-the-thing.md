@@ -9,6 +9,7 @@ teaser: "Forget other people. What if the system just looked at WHAT the thing a
 voice: universal
 parent: null
 diagram: kids-content-based
+status: accepted
 ---
 
 Collaborative filtering is powerful. But it has a problem.

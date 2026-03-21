@@ -8,6 +8,7 @@ teaser: "You've got the skills. What's your dream project?"
 voice: universal
 parent: null
 diagram: null
+status: accepted
 description: "Now that you know how to build a recommendation system, what would you create one for?"
 options:
   - letter: A, text: Minecraft servers -- find the perfect world for your play style, voice: creator

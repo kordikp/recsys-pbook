@@ -9,6 +9,7 @@ teaser: "Use your similar users to predict ratings and make real recommendations
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 You've got your rating matrix. You know who's similar to who. Now for the big moment: **predicting ratings and making recommendations.**

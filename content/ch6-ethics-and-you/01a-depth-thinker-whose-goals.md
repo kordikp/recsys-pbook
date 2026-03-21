@@ -9,6 +9,7 @@ teaser: "Three groups want different things from the same algorithm. When their 
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 Every recommendation system serves three groups at the same time. And those groups want very different things.

@@ -9,6 +9,7 @@ teaser: "What happens when filter bubbles affect how we see the world?"
 voice: thinker
 parent: null
 diagram: null
+status: accepted
 ---
 
 Filter bubbles with videos and music are one thing. But what happens when the same thing occurs with NEWS and OPINIONS?

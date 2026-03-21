@@ -9,6 +9,7 @@ teaser: "One slime video and suddenly you're a slime expert forever."
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Recommender systems are smart, but they're not THAT smart. Sometimes they mess up in the funniest ways:

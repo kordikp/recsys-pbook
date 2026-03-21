@@ -9,6 +9,7 @@ teaser: "Infinite scroll. Autoplay. 'Just one more.' These aren't accidents -- t
 voice: universal
 parent: null
 diagram: null
+status: accepted
 ---
 
 Let's play a game. Name one popular app that has a natural stopping point -- a place where the app says "OK, you're done for now! Go do something else."
