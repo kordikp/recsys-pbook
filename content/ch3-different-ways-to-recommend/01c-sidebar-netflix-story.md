@@ -1,12 +1,12 @@
 ---
 id: ch3-netflix-sidebar
-type: sidebar
+type: spine
 title: "The Million-Dollar Recommendation Challenge"
 readingTime: 2
 standalone: true
 teaser: "Netflix offered $1,000,000 to anyone who could make their recommendations 10% better."
 voice: universal
-parent: ch3-friends
+parent: null
 diagram: null
 ---
 

@@ -355,8 +355,7 @@ class PBook {
   cardHtml(block, hero = false) {
     const chLabel = block._chapterTitle || this.getChapterLabel(block);
     const isRead = this.user.readBlocks.has(block.id);
-    const badge = block.type === 'depth' ? `<span class="card-badge ${block.voice}">${CONFIG.voices[block.voice]?.label || block.voice}</span>` :
-                  block.type === 'sidebar' ? '<span class="card-badge sidebar">Story</span>' : '';
+    const badge = block.type === 'depth' ? `<span class="card-badge ${block.voice}">${CONFIG.voices[block.voice]?.label || block.voice}</span>` : '';
     const teaser = block.teaser ? `<div class="card-teaser">${block.teaser}</div>` : '';
 
     // Visual preview strip: detect content type from body
@@ -378,8 +377,7 @@ class PBook {
     }
 
     // Voice-colored top border for depth cards
-    const borderStyle = block.type === 'depth' && block.voice ? `border-top: 3px solid var(--${block.voice})` :
-                        block.type === 'sidebar' ? 'border-top: 3px solid var(--sidebar-color)' : '';
+    const borderStyle = block.type === 'depth' && block.voice ? `border-top: 3px solid var(--${block.voice})` : '';
 
     // Topic tags
     const topics = (this.blockTopics[block.id] || []).slice(0, 2);
@@ -458,7 +456,6 @@ class PBook {
   async _renderChapterContent(ch, idx) {
     const visibleVoices = this.user.getVisibleVoices();
     const depths = ch.blocks.filter(b => b.type === 'depth');
-    const sidebars = ch.blocks.filter(b => b.type === 'sidebar');
 
     let html = `<div class="ch-head fade-up" id="ch-head-${idx}"><div class="ch-label">Chapter ${ch.number}</div><h2>${ch.title}</h2><div class="ch-sub">${ch.subtitle}</div></div>`;
 
@@ -467,11 +464,8 @@ class PBook {
         html += await this.renderSpine(block);
         const blockDepths = depths.filter(d => d.parent === block.id && visibleVoices.includes(d.voice));
         if (blockDepths.length) html += this.renderDepthGroup(blockDepths, block.id);
-        sidebars.filter(s => s.parent === block.id).forEach(s => { html += this.renderSidebar(s); });
       } else if (block.type === 'question') {
         html += this.renderQuestion(block);
-      } else if (block.type === 'sidebar' && !block.parent) {
-        html += this.renderSidebar(block);
       }
     }
     return html;
@@ -794,9 +788,7 @@ class PBook {
     return `<div class="depth-group" data-parent="${parentId}"><div class="depth-tabs">${tabsHtml}</div>${cardsHtml}</div>`;
   }
 
-  renderSidebar(block) {
-    return `<div class="sb-block fade-up" id="b-${block.id}"><div class="sb-label">&#9670; Sidebar</div><h4>${block.title}</h4>${renderMarkdown(block.body)}</div>`;
-  }
+  // renderSidebar removed — sidebars are now regular spine blocks
 
   renderQuestion(block) {
     // Structured options in frontmatter
@@ -1734,16 +1726,12 @@ class PBook {
       if (!ch) continue;
       const spines = ch.blocks.filter(b => b.type === 'spine');
       const depths = ch.blocks.filter(b => b.type === 'depth');
-      const sidebars = ch.blocks.filter(b => b.type === 'sidebar');
       const questions = ch.blocks.filter(b => b.type === 'question');
-      // For each spine: spine → its depth cards → its sidebars
+      // For each spine: spine → its depth cards
       spines.forEach(spine => {
         order.push({ id: spine.id, chIdx: ci, type: 'spine', title: spine.title, ch: ch.number });
         depths.filter(d => d.parent === spine.id).forEach(d => {
           order.push({ id: d.id, chIdx: ci, type: 'depth', title: d.title, voice: d.voice, ch: ch.number, parent: spine.id });
-        });
-        sidebars.filter(s => s.parent === spine.id).forEach(s => {
-          order.push({ id: s.id, chIdx: ci, type: 'sidebar', title: s.title, ch: ch.number, parent: spine.id });
         });
       });
       // Questions at end of chapter

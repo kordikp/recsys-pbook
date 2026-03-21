@@ -1,12 +1,12 @@
 ---
 id: ch5-debug
-type: sidebar
+type: spine
 title: "Debug Challenge!"
 readingTime: 1
 standalone: true
 teaser: "Your prediction was wrong. Can you figure out why? Welcome to debugging a recommender."
 voice: creator
-parent: ch5-recommend
+parent: null
 diagram: null
 ---
 

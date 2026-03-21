@@ -1,12 +1,12 @@
 ---
 id: ch1-wyr
-type: sidebar
+type: spine
 title: "Would You Rather...?"
 readingTime: 1
 standalone: true
 teaser: "No right answers, just impossible choices. Welcome to the real dilemmas of recommendation design."
 voice: thinker
-parent: ch1-three-jobs
+parent: null
 diagram: null
 ---
 

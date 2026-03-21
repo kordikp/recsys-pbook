@@ -1,12 +1,12 @@
 ---
 id: ch6-rabbit-sidebar
-type: sidebar
+type: spine
 title: "The Rabbit Hole Effect"
 readingTime: 2
 standalone: true
 teaser: "You searched for card tricks. Twenty minutes later you're watching conspiracy videos. How did THAT happen?"
 voice: universal
-parent: ch6-who-decides
+parent: null
 diagram: null
 ---
 

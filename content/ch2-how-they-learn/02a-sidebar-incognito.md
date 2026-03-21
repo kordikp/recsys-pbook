@@ -1,12 +1,12 @@
 ---
 id: ch2-incognito-sidebar
-type: sidebar
+type: spine
 title: "The Cold Start Problem"
 readingTime: 1
 standalone: false
 teaser: "New account, zero clues -- now what?"
 voice: universal
-parent: ch2-clues
+parent: null
 diagram: null
 ---
 

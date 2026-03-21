@@ -1,12 +1,12 @@
 ---
 id: ch2-guess-signal
-type: sidebar
+type: spine
 title: "Mini-Game: Strong Signal or Weak Signal?"
 readingTime: 1
 standalone: true
 teaser: "Not all clicks are created equal. Can you tell which ones actually matter?"
 voice: explorer
-parent: ch2-footprints
+parent: null
 diagram: null
 ---
 

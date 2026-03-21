@@ -1,12 +1,12 @@
 ---
 id: ch4-unfair-game
-type: sidebar
+type: spine
 title: "The Unfair Classroom"
 readingTime: 1
 standalone: true
 teaser: "What happens when only the loud kids get called on? The same thing that happens with popular videos."
 voice: thinker
-parent: ch4-fairness
+parent: null
 diagram: null
 ---
 

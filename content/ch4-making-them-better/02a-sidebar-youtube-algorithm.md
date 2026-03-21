@@ -1,12 +1,12 @@
 ---
 id: ch4-youtube-sidebar
-type: sidebar
+type: spine
 title: "YouTube by the Numbers"
 readingTime: 2
 standalone: false
 teaser: "The mind-boggling scale of YouTube's recommendation engine."
 voice: universal
-parent: ch4-fairness
+parent: null
 diagram: null
 ---
 

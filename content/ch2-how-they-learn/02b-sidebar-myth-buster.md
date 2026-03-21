@@ -1,12 +1,12 @@
 ---
 id: ch2-myth
-type: sidebar
+type: spine
 title: "Myth Busters: True or False?"
 readingTime: 1
 standalone: true
 teaser: "Is your phone REALLY listening to you? Let's bust some myths about how recommendations actually work."
 voice: thinker
-parent: ch2-clues
+parent: null
 diagram: null
 ---
 

@@ -1,12 +1,12 @@
 ---
 id: ch3-spot-method
-type: sidebar
+type: spine
 title: "Spot the Method!"
 readingTime: 1
 standalone: true
 teaser: "Collaborative filtering, content-based, or popularity? Can you tell them apart in the wild?"
 voice: explorer
-parent: ch3-content
+parent: null
 diagram: null
 ---
 

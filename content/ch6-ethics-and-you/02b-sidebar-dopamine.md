@@ -1,12 +1,12 @@
 ---
 id: ch6-dopamine-sidebar
-type: sidebar
+type: spine
 title: "The Dopamine Connection"
 readingTime: 2
 standalone: true
 teaser: "Your brain has a chemical reward system. Recommendation algorithms have accidentally learned to hijack it."
 voice: universal
-parent: ch6-addictive
+parent: null
 diagram: null
 ---
 

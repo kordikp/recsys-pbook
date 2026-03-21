@@ -1,12 +1,12 @@
 ---
 id: ch6-law-sidebar
-type: sidebar
+type: spine
 title: "Laws Are Trying to Catch Up"
 readingTime: 2
 standalone: true
 teaser: "Governments want to regulate recommendation algorithms. But can they actually make Big Tech listen?"
 voice: universal
-parent: ch6-ai-future
+parent: null
 diagram: null
 ---
 

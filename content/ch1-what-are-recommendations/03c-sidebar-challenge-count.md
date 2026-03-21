@@ -1,12 +1,12 @@
 ---
 id: ch1-count-challenge
-type: sidebar
+type: spine
 title: "Challenge: Count Your Recommendations!"
 readingTime: 1
 standalone: true
 teaser: "How many recommendations can you spot in 10 seconds? The answer will blow your mind."
 voice: explorer
-parent: ch1-not-magic
+parent: null
 diagram: null
 ---
 

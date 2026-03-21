@@ -1,12 +1,12 @@
 ---
 id: ch3-taste-twin
-type: sidebar
+type: spine
 title: "Quick Game: Find Your Taste Twin!"
 readingTime: 1
 standalone: true
 teaser: "You are the algorithm. Grab some friends and find out who shares your taste."
 voice: creator
-parent: ch3-friends
+parent: null
 diagram: null
 ---
 

@@ -1,12 +1,12 @@
 ---
 id: ch1-wrong-sidebar
-type: sidebar
+type: spine
 title: "When Recommendations Go Hilariously Wrong"
 readingTime: 2
 standalone: true
 teaser: "One slime video and suddenly you're a slime expert forever."
 voice: universal
-parent: ch1-not-magic
+parent: null
 diagram: null
 ---
 

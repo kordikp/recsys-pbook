@@ -1,12 +1,12 @@
 ---
 id: ch3-speed
-type: sidebar
+type: spine
 title: "Mind-Blowing Math!"
 readingTime: 1
 standalone: true
 teaser: "800 million videos. 0.2 seconds. The numbers behind YouTube recommendations are absolutely wild."
 voice: thinker
-parent: ch3-pipeline
+parent: null
 diagram: null
 ---
 

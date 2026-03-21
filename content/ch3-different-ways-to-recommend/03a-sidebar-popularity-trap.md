@@ -1,12 +1,12 @@
 ---
 id: ch3-popular-sidebar
-type: sidebar
+type: spine
 title: "The Popularity Trap"
 readingTime: 2
 standalone: true
 teaser: "When popular stuff gets MORE popular just because it's popular. A vicious cycle."
 voice: universal
-parent: ch3-popular
+parent: null
 diagram: null
 ---
 

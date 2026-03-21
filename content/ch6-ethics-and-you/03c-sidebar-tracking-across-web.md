@@ -1,12 +1,12 @@
 ---
 id: ch6-tracking-sidebar
-type: sidebar
+type: spine
 title: "They Follow You Across the Internet"
 readingTime: 2
 standalone: true
 teaser: "Some companies don't just track you on one app — they follow you across the ENTIRE web."
 voice: universal
-parent: ch6-privacy-real
+parent: null
 diagram: null
 ---
 

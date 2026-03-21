@@ -1,12 +1,12 @@
 ---
 id: ch4-experiment
-type: sidebar
+type: spine
 title: "Try This Right Now!"
 readingTime: 1
 standalone: true
 teaser: "A 5-minute experiment that proves YOU can control the algorithm. Grab your phone."
 voice: creator
-parent: ch4-bubbles
+parent: null
 diagram: null
 ---
 

@@ -1,12 +1,12 @@
 ---
 id: ch6-age-sidebar
-type: sidebar
+type: spine
 title: "Can the Algorithm Guess Your Age?"
 readingTime: 2
 standalone: true
 teaser: "Even if you never told it how old you are, the algorithm probably knows. Here's how."
 voice: universal
-parent: ch6-privacy-real
+parent: null
 diagram: null
 ---
 

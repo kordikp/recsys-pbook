@@ -1,12 +1,12 @@
 ---
 id: ch5-real-numbers
-type: sidebar
+type: spine
 title: "Real-World Numbers"
 readingTime: 1
 standalone: true
 teaser: "Your 5-friend recommender is cute. Real systems deal with numbers that barely fit on a page."
 voice: thinker
-parent: ch5-similar
+parent: null
 diagram: null
 ---
 

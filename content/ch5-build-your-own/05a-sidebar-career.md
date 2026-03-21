@@ -1,12 +1,12 @@
 ---
 id: ch5-career-sidebar
-type: sidebar
+type: spine
 title: "Recommendation Engineer: A Real Job"
 readingTime: 2
 standalone: false
 teaser: "People build recommendation systems for a living. And it's an awesome career."
 voice: universal
-parent: ch5-improve
+parent: null
 diagram: null
 ---
 
