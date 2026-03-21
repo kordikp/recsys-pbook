@@ -990,7 +990,7 @@ class PBook {
     if (block.body) {
       const bodyHtml = renderMarkdown(block.body);
       // Extract lettered options and create clickable buttons
-      const optRegex = /\*\*([A-D])\)?\*?\*?[:\s]*"?([^"*\n]+)"?\*?\*/g;
+      const optRegex = /\*\*([A-D])[):.]*\*{0,2}\s*"([^"]+)"/g;
       const voiceMap = { A: 'explorer', B: 'creator', C: 'thinker', D: 'universal' };
       const opts = [];
       let m;
