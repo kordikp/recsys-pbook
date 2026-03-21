@@ -118,7 +118,7 @@ export class RecombeeClient {
     // Set user values — properties must exist in Recombee DB first
     // Uses !cascadeCreate in body per Recombee docs
     try {
-      await this.api('POST', `/users/${this.userId}/`, { ...props, '!cascadeCreate': true });
+      await this.api('POST', `/users/${this.userId}`, { ...props, '!cascadeCreate': true });
     } catch (e) { /* ignore — properties might not be configured */ }
   }
 
