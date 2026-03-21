@@ -124,6 +124,13 @@ class PBook {
 
   startReading() { this.startApp(); }
 
+  startAndGo(view) {
+    document.getElementById('onboarding').classList.add('hidden');
+    this.updateVoiceBadge();
+    this.updateXPBadge();
+    this.switchView(view || 'home');
+  }
+
   showWelcome() {
     const overlay = document.getElementById('onboarding');
     overlay.classList.remove('hidden');
@@ -197,12 +204,6 @@ class PBook {
         </div>`;
       }).filter(Boolean);
       if (recallCards.length) html += this.shelf('Do you remember?', recallCards);
-    }
-
-    // Continue reading
-    const continueBlock = this.getContinueBlock();
-    if (continueBlock) {
-      html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
 
     // Active missions

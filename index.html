@@ -23,43 +23,44 @@
       <p class="intro-subtitle">Understand the algorithms that decide what you see online</p>
 
       <details class="intro-details" style="margin-top:0">
-        <summary>About the author &mdash; Pavel Kordik</summary>
+        <summary>Pavel Kordik &mdash; about the author</summary>
         <div class="intro-author-bio">
-          <p>Co-founder of <b>Recombee</b> (recommendation engine used by hundreds of services worldwide) and associate professor at Czech Technical University.</p>
-          <p>"One day my daughter asked: <em>Dad, how does YouTube know what I want to watch?</em> I realized I'd spent 15 years building recommendation systems but never explained them simply. This book is my answer."</p>
+          <p>I co-founded <b>Recombee</b>, a recommendation engine that powers thousands of services worldwide. We've spent over 15 years building systems that decide what people see on their screens.</p>
+          <p>We know how powerful this technology is &mdash; and how important it is to understand it. This book shares what we've learned: how recommendations work, why they matter, and what to watch out for to avoid the negative consequences like filter bubbles, privacy risks, and addictive design.</p>
+          <p>Whether you want to build recommendation systems or just be a smarter user of the apps you use every day &mdash; this book is for you.</p>
         </div>
       </details>
 
       <h3 class="intro-section-title">Choose how to read</h3>
       <div class="home-modes" style="padding:0;margin-bottom:.8em">
-        <div class="home-mode" onclick="app.startApp();app.switchView('glossary')">
+        <div class="home-mode" onclick="app.startAndGo('glossary')">
           <span class="home-mode-icon">&#127919;</span>
           <span class="home-mode-label">Missions</span>
           <span class="home-mode-desc">Story-driven quests with a final boss</span>
         </div>
-        <div class="home-mode" onclick="app.startApp()">
+        <div class="home-mode" onclick="app.startAndGo('home')">
           <span class="home-mode-icon">&#127916;</span>
           <span class="home-mode-label">Browse</span>
           <span class="home-mode-desc">Netflix-style, pick what interests you</span>
         </div>
-        <div class="home-mode" onclick="app.startApp();app.switchView('read')">
+        <div class="home-mode" onclick="app.startAndGo('read')">
           <span class="home-mode-icon">&#128214;</span>
           <span class="home-mode-label">Read</span>
           <span class="home-mode-desc">Chapter by chapter, start to finish</span>
         </div>
-        <div class="home-mode" onclick="app.startApp();app.switchView('map')">
+        <div class="home-mode" onclick="app.startAndGo('map')">
           <span class="home-mode-icon">&#128506;</span>
           <span class="home-mode-label">Map</span>
           <span class="home-mode-desc">See everything, pick your path</span>
         </div>
       </div>
 
-      <button class="btn-primary btn-large" onclick="app.showStep(1)">Start learning &#128640;</button>
+      <button class="btn-primary btn-large" onclick="app.showStep(1)">Pick your learning style first &#10132;</button>
 
       <div class="intro-features" style="margin-top:1em">
         <div class="intro-feature"><span>&#129504;</span><span><b>Spaced repetition</b> — recall quizzes so you actually remember</span></div>
         <div class="intro-feature"><span>&#127942;</span><span><b>XP, badges & certificate</b> — earn rewards as you learn</span></div>
-        <div class="intro-feature"><span>&#129302;</span><span><b>AI tutor</b> — Pavel's assistant answers your questions</span></div>
+        <div class="intro-feature"><span>&#129302;</span><span><b>AI tutor</b> — ask questions, get answers from the book</span></div>
       </div>
 
       <details class="intro-details">
@@ -193,7 +194,7 @@
         <button class="tutor-author-btn" onclick="app.escalateToAuthor()" title="Send a message to the real Pavel">&#9993; Message Pavel</button>
       </div>
       <div class="chat-messages" id="chatMessagesFull">
-        <div class="chat-msg bot">Hey! I'm Pavel's AI assistant. He taught me everything about recommender systems so I can help you while he's busy building them at Recombee. Ask me anything about the book &mdash; or if you want to talk to the real Pavel, hit the button above!</div>
+        <div class="chat-msg bot">Hey! I'm Pavel's AI assistant. The Recombee team taught me everything about recommender systems. Ask me anything about the book &mdash; or hit "Message Pavel" above to reach the real author!</div>
       </div>
       <div class="tutor-typing" id="tutorTyping" style="display:none"><span></span><span></span><span></span></div>
       <div class="chat-input-wrap">
@@ -279,6 +280,6 @@
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=21"></script>
+<script type="module" src="js/app.js?v=22"></script>
 </body>
 </html>
