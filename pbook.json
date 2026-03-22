@@ -1,0 +1,65 @@
+{
+  "pbook_version": "1.0",
+  "title": "How Recommendations Work",
+  "subtitle": "Understand the algorithms that decide what you see online",
+  "author": "Pavel Kordik",
+  "author_affiliation": "Recombee & Czech Technical University",
+  "audience": "Ages 8-15, general public",
+  "language": "en",
+  "license": "CC BY-NC-SA 4.0",
+  "repository": "https://github.com/kordikp/recsysbook-kids",
+
+  "content_index": "content/book.json",
+  "content_dir": "content/",
+  "games_dir": "games/",
+  "images_dir": "images/",
+
+  "content_format": {
+    "type": "markdown",
+    "frontmatter": "yaml",
+    "fields": {
+      "id": "Unique block identifier",
+      "type": "spine | question | game",
+      "title": "Display title",
+      "teaser": "One-sentence preview",
+      "readingTime": "Estimated minutes to read",
+      "voice": "universal | explorer | creator | thinker",
+      "core": "true if essential for certificate",
+      "status": "draft | review | accepted",
+      "game": "Reference to games/*.json file (if type=game)",
+      "diagram": "Reference to images/*.svg file"
+    }
+  },
+
+  "api": {
+    "llm_index": "/.well-known/pbook.json",
+    "content_list": "content/book.json",
+    "content_files": "content/{chapter_directory}/{filename}",
+    "games": "games/{game_id}.json"
+  },
+
+  "integrations": {
+    "recombee": {
+      "description": "Recommendation engine for personalized content delivery",
+      "required": false,
+      "scenarios": ["homepage-personal", "homepage-voice", "next-read", "context-related", "search"]
+    },
+    "tiny": {
+      "description": "Future: Tiny learning platform integration for chatbots and progress tracking",
+      "status": "planned"
+    },
+    "llm_tutor": {
+      "description": "Future: LLM-powered author persona with human failover",
+      "status": "mock"
+    }
+  },
+
+  "features": {
+    "gamification": "XP, levels, badges, completion certificate (can be disabled)",
+    "spaced_repetition": "Anki-style recall quizzes for long-term retention",
+    "missions": "Story-driven learning paths with branching and boss quizzes",
+    "mini_games": "8 interactive click-based games with 60s timer",
+    "personalization": "Voice-based content adaptation (Explorer/Creator/Thinker)",
+    "analytics": "Per-interaction mode tracking for research (netflix/read/mission/map/search)"
+  }
+}

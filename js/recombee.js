@@ -88,16 +88,6 @@ export class RecombeeClient {
     });
   }
 
-  async sendCartAdd(itemId) {
-    const ctx = this._ctx || {};
-    const i = { type: 'cartaddition', itemId, userId: this.userId, ts: Date.now(), mode: ctx.mode };
-    this.interactions.push(i);
-    this._saveInteractions();
-    if (this.enabled) return this.api('POST', '/cartadditions/', {
-      userId: this.userId, itemId,
-      cascadeCreate: true, timestamp: new Date().toISOString()
-    });
-  }
 
   // Log navigation/mode events (local only — for research analytics)
   logEvent(event, data) {
@@ -364,9 +354,8 @@ export class UserModel {
     this.seenBlocks.add(blockId);
     this._sig(blockId).read = true;
     this.totalInteractions++;
-    this.addXP(10, 'Read a section');
-    this.scheduleRecall(blockId);
-    this.checkAchievements();
+    if (CONFIG.features.gamification !== false) { this.addXP(10); this.checkAchievements(); }
+    if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(blockId);
     this.save();
   }
 
@@ -382,35 +371,25 @@ export class UserModel {
     this.save();
   }
 
-  trackVoiceExpand(voice, blockId) {
-    if (voice && this.voiceScores[voice] !== undefined) {
-      this.voiceScores[voice]++;
-      this.totalInteractions++;
-      if (blockId) this._sig(blockId).expanded = true;
-      this.addXP(5);
-      this.checkAchievements();
-      this.save();
-    }
-  }
 
   trackRating(blockId, rating) {
     this.ratings.set(blockId, rating);
     this._sig(blockId).rated = rating;
-    this.addXP(3);
+    if (CONFIG.features.gamification !== false) this.addXP(3);
     this.save();
   }
 
   trackSave(blockId) {
     this.savedBlocks.add(blockId);
     this._sig(blockId).saved = true;
-    this.addXP(2);
+    if (CONFIG.features.gamification !== false) this.addXP(2);
     this.save();
   }
 
   trackNote(blockId) {
     this.notes.add(blockId);
     this._sig(blockId).noted = true;
-    this.addXP(5);
+    if (CONFIG.features.gamification !== false) this.addXP(5);
     this.save();
   }
 
@@ -461,16 +440,15 @@ export class UserModel {
     card.interval = Math.min(30, card.interval);
     card.nextReview = Date.now() + card.interval * 24 * 60 * 60 * 1000;
 
-    // XP reward based on quality
     const xpReward = quality >= 2 ? 8 : quality === 1 ? 5 : 2;
-    this.addXP(xpReward);
-    this.checkAchievements();
+    if (CONFIG.features.gamification !== false) { this.addXP(xpReward); this.checkAchievements(); }
     this.save();
     return xpReward;
   }
 
   // Get blocks that are due for review
   getDueRecalls() {
+    if (CONFIG.features.spaceRepetition === false) return [];
     const now = Date.now();
     return Object.entries(this.recall)
       .filter(([_, card]) => card.nextReview <= now)

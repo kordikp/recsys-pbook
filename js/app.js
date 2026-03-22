@@ -2,7 +2,7 @@
 
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
-import { RecombeeClient, UserModel } from './recombee.js?v=4';
+import { RecombeeClient, UserModel } from './recombee.js?v=5';
 import { getDiagram } from './diagrams.js';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
@@ -22,6 +22,10 @@ class PBook {
     this._activeConvId = null;
   }
 
+  // Feature toggle helper
+  _f(name) { return CONFIG.features[name] !== false;
+  }
+
   // ===== INIT =====
   async init() {
     try {
@@ -35,6 +39,9 @@ class PBook {
     this.autoTagBlocks();
     this.rc.setAllBlocks(this.allBlocks);
     this.rc._loadInteractions(); // Restore persisted interactions
+
+    // Load feature toggles
+    this._loadFeatureToggles();
 
     // Sync user profile to Recombee
     if (this.rc.enabled) {
@@ -134,16 +141,55 @@ class PBook {
     document.querySelectorAll('.opt-card').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     this.user.setVoice(el.dataset.voice);
+    this._saveFeatureToggles();
     setTimeout(() => this.startApp(), 400);
   }
 
   startReading() { this.startApp(); }
 
+  _saveFeatureToggles() {
+    const get = id => document.getElementById(id)?.checked !== false;
+    const features = {
+      gamification: get('optGamification'),
+      personalization: get('optPersonalization'),
+      spaceRepetition: get('optRecall'),
+      missions: get('optMissions'),
+      games: get('optGames'),
+    };
+    localStorage.setItem('pbook-features', JSON.stringify(features));
+    Object.assign(CONFIG.features, features);
+    if (!features.personalization) this.rc.enabled = false;
+  }
+
+  _loadFeatureToggles() {
+    try {
+      const saved = JSON.parse(localStorage.getItem('pbook-features') || '{}');
+      if (Object.keys(saved).length) Object.assign(CONFIG.features, saved);
+      if (!CONFIG.features.personalization) this.rc.enabled = false;
+    } catch (e) {}
+  }
+
   startAndGo(view) {
+    this._saveFeatureToggles();
     document.getElementById('onboarding').classList.add('hidden');
     this.updateVoiceBadge();
     this.updateXPBadge();
     this.switchView(view || 'home');
+  }
+
+  startWithVoiceAndGo(view) {
+    // Pick voice from inline selector on welcome screen
+    const sel = document.querySelector('.intro-voice.selected');
+    if (sel) this.user.setVoice(sel.dataset.voice);
+    this.startAndGo(view);
+  }
+
+  startRandom() {
+    // Random reading mode for A/B testing
+    const modes = ['glossary', 'home', 'read', 'map'];
+    const mode = modes[Math.floor(Math.random() * modes.length)];
+    this.rc.logEvent('random_start', { mode });
+    this.startWithVoiceAndGo(mode);
   }
 
   showWelcome() {
@@ -156,6 +202,8 @@ class PBook {
     document.getElementById('onboarding').classList.add('hidden');
     this.updateVoiceBadge();
     this.updateXPBadge();
+    // Hide tabs for disabled features
+    if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
     this.switchView('home');
   }
 
@@ -183,7 +231,7 @@ class PBook {
     if (view === 'home') this.renderHome();
     else if (view === 'read') { this.renderRead(); this.updateLinearNav(); }
     else if (view === 'map') this.renderMap();
-    else if (view === 'glossary') this.renderMissions();
+    else if (view === 'glossary') { if (this._f('missions')) this.renderMissions(); else this.switchView('home'); }
     else if (view === 'chat') this.initChatView();
     else if (view === 'profile') this.renderProfile();
     window.scrollTo(0, 0);
@@ -200,8 +248,8 @@ class PBook {
       html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
 
-    // Recall cards if due
-    const dueRecalls = this.user.getDueRecalls();
+    // Recall cards if due (guarded by spaceRepetition toggle)
+    const dueRecalls = this._f('spaceRepetition') ? this.user.getDueRecalls() : [];
     if (dueRecalls.length > 0) {
       const recallCards = dueRecalls.slice(0, 6).map(r => {
         const block = this.findBlock(r.blockId);
@@ -226,7 +274,8 @@ class PBook {
       if (recallCards.length) html += this.shelf('Do you remember?', recallCards);
     }
 
-    // Active missions
+    // Active missions (guarded)
+    if (!this._f('missions')) { /* skip missions shelf */ } else {
     const missions = this.getMissions();
     const activeMissions = missions.filter(m => {
       if (this._isMissionLocked(m)) return false;
@@ -246,6 +295,7 @@ class PBook {
       </div>`;
     });
     if (missionCards.length) html += this.shelf('Your missions', missionCards);
+    } // end missions guard
 
     // Core essentials — unread core blocks
     const unreadCore = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id)).slice(0, 10);
@@ -490,7 +540,7 @@ class PBook {
         html += await this.renderSpine(block);
       } else if (block.type === 'question') {
         html += this.renderQuestion(block);
-      } else if (block.type === 'game') {
+      } else if (block.type === 'game' && this._f('games')) {
         html += this.renderGame(block);
       }
     }
@@ -1190,6 +1240,7 @@ class PBook {
   }
 
   startPractice() {
+    if (!this._f('spaceRepetition')) return;
     // Pick random read blocks for practice (even if not due yet)
     const readIds = [...this.user.readBlocks];
     if (readIds.length === 0) return;
@@ -1738,7 +1789,10 @@ class PBook {
 
     let h = '';
 
-    // Level & XP hero card
+    // Level & XP hero card (gamification only)
+    if (!this._f('gamification')) {
+      h += `<div class="profile-section"><h3>Reading Progress</h3><p style="font-size:.85rem">${p.progress.read} of ${p.progress.total} sections read (${p.progress.pct}%)</p><p style="font-size:.8rem;color:var(--text-2)">${p.readingTimeMin} min total reading time</p></div>`;
+    } else {
     const xpInLevel = u.getXPInCurrentLevel();
     const xpNeeded = u.getXPForNextLevel();
     const xpPct = Math.min(100, Math.round((xpInLevel / xpNeeded) * 100));
@@ -1894,6 +1948,7 @@ class PBook {
       </div>`;
     }
     h += '</div>';
+    } // end gamification guard
 
     // Reset
     h += '<div class="profile-section">';
@@ -2620,8 +2675,6 @@ class PBook {
   }
 
   // ===== INTERACTIONS =====
-  _placeholder_unused() { // removed methods anchor
-  }
 
   answerQ(el, voice, qId) {
     el.closest('.q-opts').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
@@ -2782,8 +2835,9 @@ class PBook {
   // Show/hide mission indicator in topbar
   _updateMissionBar() {
     const container = document.getElementById('missionBarInline');
-    const m = this._wizardMission;
     if (!container) return;
+    if (!this._f('missions')) { container.style.display = 'none'; return; }
+    const m = this._wizardMission;
     if (!m) { container.style.display = 'none'; return; }
 
     container.style.display = 'flex';
@@ -2904,10 +2958,13 @@ class PBook {
   updateXPBadge() {
     const el = document.getElementById('xpBadge');
     if (!el) return;
+    if (!this._f('gamification')) { el.style.display = 'none'; return; }
+    el.style.display = '';
     el.textContent = 'Lv.' + this.user.level + ' · ' + this.user.xp + 'XP';
   }
 
   showXPToast(text, type) {
+    if (!this._f('gamification') && type !== 'info') return;
     const toast = document.getElementById('xpToast');
     if (!toast) return;
     toast.textContent = text;
@@ -2918,6 +2975,7 @@ class PBook {
 
   // Check for pending gamification events and show toasts
   checkGamificationEvents() {
+    if (!this._f('gamification')) return;
     if (this.user._pendingLevelUp) {
       this.showXPToast('Level ' + this.user._pendingLevelUp + '! You are now: ' + this.user.getLevelTitle(), 'levelup');
       this.user._pendingLevelUp = null;

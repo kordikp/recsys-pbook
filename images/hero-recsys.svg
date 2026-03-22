@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 120">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#EDE9FE"/>
+      <stop offset="100%" stop-color="#F0F9FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="480" height="120" rx="14" fill="url(#bg)"/>
+
+  <!-- User node -->
+  <circle cx="50" cy="60" r="20" fill="#7C3AED" opacity=".12"/>
+  <circle cx="50" cy="53" r="7" fill="#7C3AED"/>
+  <path d="M38 70 a12 9 0 0 1 24 0" fill="#7C3AED"/>
+  <text x="50" y="95" text-anchor="middle" font-family="system-ui" font-size="8" fill="#7C3AED" font-weight="600">YOU</text>
+
+  <!-- Arrows from user to items -->
+  <line x1="73" y1="50" x2="110" y2="30" stroke="#7C3AED" stroke-width="1.2" opacity=".3" stroke-dasharray="3 3"/>
+  <line x1="73" y1="60" x2="110" y2="60" stroke="#7C3AED" stroke-width="1.8" opacity=".5"/>
+  <line x1="73" y1="70" x2="110" y2="90" stroke="#7C3AED" stroke-width="1.2" opacity=".3" stroke-dasharray="3 3"/>
+
+  <!-- Input items with icons before text -->
+  <rect x="115" y="18" width="68" height="24" rx="5" fill="#fff" stroke="#10B981" stroke-width="1.2"/>
+  <text x="127" y="34" font-size="11">🎵</text>
+  <text x="140" y="34" font-family="system-ui" font-size="8" fill="#374151">Music</text>
+
+  <rect x="115" y="48" width="68" height="24" rx="5" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="127" y="64" font-size="11">🎬</text>
+  <text x="140" y="64" font-family="system-ui" font-size="8" fill="#374151">Videos</text>
+
+  <rect x="115" y="78" width="68" height="24" rx="5" fill="#fff" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="127" y="94" font-size="11">📚</text>
+  <text x="140" y="94" font-family="system-ui" font-size="8" fill="#374151">Books</text>
+
+  <!-- Algorithm brain -->
+  <rect x="205" y="38" width="65" height="44" rx="10" fill="#7C3AED" opacity=".1"/>
+  <text x="237" y="58" text-anchor="middle" font-size="16">🧠</text>
+  <text x="237" y="74" text-anchor="middle" font-family="system-ui" font-size="7" fill="#7C3AED" font-weight="600">Algorithm</text>
+
+  <!-- Arrows -->
+  <line x1="185" y1="60" x2="203" y2="60" stroke="#7C3AED" stroke-width="1.2" opacity=".4"/>
+  <line x1="272" y1="52" x2="300" y2="35" stroke="#10B981" stroke-width="1.2" opacity=".5"/>
+  <line x1="272" y1="60" x2="300" y2="60" stroke="#10B981" stroke-width="1.8"/>
+  <line x1="272" y1="68" x2="300" y2="85" stroke="#10B981" stroke-width="1.2" opacity=".5"/>
+
+  <!-- Output recommendations -->
+  <rect x="305" y="22" width="80" height="24" rx="5" fill="#10B981" opacity=".1"/>
+  <text x="317" y="38" font-size="10">⭐</text>
+  <text x="330" y="38" font-family="system-ui" font-size="8" fill="#065F46">For you</text>
+
+  <rect x="305" y="50" width="80" height="24" rx="5" fill="#7C3AED" opacity=".1"/>
+  <text x="317" y="66" font-size="10">🔥</text>
+  <text x="330" y="66" font-family="system-ui" font-size="8" fill="#4C1D95">Trending</text>
+
+  <rect x="305" y="78" width="80" height="24" rx="5" fill="#F59E0B" opacity=".1"/>
+  <text x="317" y="94" font-size="10">💡</text>
+  <text x="330" y="94" font-family="system-ui" font-size="8" fill="#92400E">Discover</text>
+
+  <!-- Final user -->
+  <line x1="387" y1="35" x2="420" y2="52" stroke="#10B981" stroke-width="1.2" opacity=".4"/>
+  <line x1="387" y1="62" x2="420" y2="60" stroke="#10B981" stroke-width="1.5" opacity=".5"/>
+  <line x1="387" y1="90" x2="420" y2="68" stroke="#10B981" stroke-width="1.2" opacity=".4"/>
+  <circle cx="435" cy="60" r="18" fill="#10B981" opacity=".1"/>
+  <circle cx="435" cy="53" r="6" fill="#10B981"/>
+  <path d="M425 68 a10 8 0 0 1 20 0" fill="#10B981"/>
+  <text x="435" y="93" text-anchor="middle" font-size="10">😊</text>
+</svg>

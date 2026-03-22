@@ -19,89 +19,88 @@
 
     <!-- Step 0: Welcome screen -->
     <div class="step active" data-step="0">
-      <h1>How Recommendations Work</h1>
-      <p class="intro-subtitle">Understand the algorithms that decide what you see online</p>
+      <h1 class="intro-title">How Recommendations Work</h1>
+      <img src="images/hero-recsys.svg" alt="How recommendations work" class="intro-hero">
+      <p class="intro-tagline">Understand the algorithms that decide what you see</p>
 
-      <details class="intro-details" style="margin-top:0">
-        <summary>Pavel Kordik &mdash; about the author</summary>
-        <div class="intro-author-bio">
-          <p>I co-founded <b>Recombee</b>, a recommendation engine that powers thousands of services worldwide. We've spent over 15 years building systems that decide what people see on their screens.</p>
-          <p>Every day, recommendation algorithms suggest thousands of items to you &mdash; on social media, streaming services, online stores. And this number keeps growing. We believe understanding how these systems work is one of the most important skills for the digital age.</p>
-        </div>
-      </details>
+      <div class="intro-author-visible">
+        <p class="intro-author-name"><a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a></p>
+        <p class="intro-author-role">Co-founder of <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> &amp; <a href="https://aidetem.cz" target="_blank" rel="noopener">AI&nbsp;d&#283;tem</a> &middot; Assoc. Professor at <a href="https://kam.fit.cvut.cz" target="_blank" rel="noopener">CTU in Prague</a></p>
+        <p class="intro-author-text">Every day, recommendation algorithms suggest thousands of items to you &mdash; on social media, streaming services, online stores. You should know how they work.</p>
+      </div>
 
-      <h3 class="intro-section-title">Choose how to read</h3>
-      <div class="home-modes" style="padding:0;margin-bottom:.8em">
-        <div class="home-mode" onclick="app.startAndGo('glossary')">
+      <button class="btn-primary btn-large" onclick="app.startRandom()">Start reading &#128640;</button>
+
+      <h3 class="intro-section-title">Your learning style</h3>
+      <div class="intro-voices">
+        <button class="intro-voice" data-voice="explorer" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
+          <span>&#128269;</span> Explorer
+        </button>
+        <button class="intro-voice" data-voice="creator" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
+          <span>&#127912;</span> Creator
+        </button>
+        <button class="intro-voice" data-voice="thinker" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
+          <span>&#129504;</span> Thinker
+        </button>
+        <button class="intro-voice selected" data-voice="universal" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
+          <span>&#128218;</span> All
+        </button>
+      </div>
+
+      <h3 class="intro-section-title">Or choose how to read</h3>
+      <div class="home-modes" style="padding:0;margin-bottom:.6em">
+        <div class="home-mode" onclick="app.startWithVoiceAndGo('glossary')">
           <span class="home-mode-icon">&#127919;</span>
           <span class="home-mode-label">Missions</span>
           <span class="home-mode-desc">Story-driven quests with a final boss</span>
         </div>
-        <div class="home-mode" onclick="app.startAndGo('home')">
+        <div class="home-mode" onclick="app.startWithVoiceAndGo('home')">
           <span class="home-mode-icon">&#127916;</span>
           <span class="home-mode-label">Browse</span>
           <span class="home-mode-desc">Netflix-style, pick what interests you</span>
         </div>
-        <div class="home-mode" onclick="app.startAndGo('read')">
+        <div class="home-mode" onclick="app.startWithVoiceAndGo('read')">
           <span class="home-mode-icon">&#128214;</span>
-          <span class="home-mode-label">Read</span>
-          <span class="home-mode-desc">Chapter by chapter, start to finish</span>
+          <span class="home-mode-label">Feed</span>
+          <span class="home-mode-desc">Infinite personalized feed</span>
         </div>
-        <div class="home-mode" onclick="app.startAndGo('map')">
+        <div class="home-mode" onclick="app.startWithVoiceAndGo('map')">
           <span class="home-mode-icon">&#128506;</span>
           <span class="home-mode-label">Map</span>
-          <span class="home-mode-desc">See everything, pick your path</span>
+          <span class="home-mode-desc">Manual select from overview</span>
         </div>
       </div>
 
-      <button class="btn-primary btn-large" onclick="app.showStep(1)">Pick your learning style first &#10132;</button>
-
-      <div class="intro-features" style="margin-top:1em">
-        <div class="intro-feature"><span>&#129504;</span><span><b>Spaced repetition</b> — recall quizzes so you actually remember</span></div>
-        <div class="intro-feature"><span>&#127942;</span><span><b>XP, badges & certificate</b> — earn rewards as you learn</span></div>
-        <div class="intro-feature"><span>&#129302;</span><span><b>AI tutor</b> — ask questions, get answers from the book</span></div>
-      </div>
-
-      <details class="intro-details">
-        <summary>What readers say</summary>
-        <div class="intro-testimonials">
-          <div class="intro-testimonial">
-            <p>"The missions made it feel like a game, not homework."</p>
-            <span class="testimonial-author">&#8212; Emma, 14</span>
-          </div>
-          <div class="intro-testimonial">
-            <p>"I built my own recommendation system with my friends!"</p>
-            <span class="testimonial-author">&#8212; Tom, 12</span>
-          </div>
-          <div class="intro-testimonial">
-            <p>"The recall quizzes work. I still remember collaborative filtering weeks later."</p>
-            <span class="testimonial-author">&#8212; Mia, 15</span>
-          </div>
+      <details class="intro-details" style="margin-top:2em">
+        <summary>Customize features <span class="toggle-hint">(gamification, personalization, recall, missions, games)</span></summary>
+        <div class="intro-toggles">
+          <label class="intro-toggle">
+            <input type="checkbox" id="optGamification" checked>
+            <div><b>Gamification</b><br><span class="toggle-desc">XP, levels, badges and a completion certificate. Without it, the book is a plain reader.</span></div>
+          </label>
+          <label class="intro-toggle">
+            <input type="checkbox" id="optPersonalization" checked>
+            <div><b>Personalized recommendations</b><br><span class="toggle-desc">Powered by <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a>. Without it, content is shown in default order.</span></div>
+          </label>
+          <label class="intro-toggle">
+            <input type="checkbox" id="optRecall" checked>
+            <div><b>Spaced repetition</b><br><span class="toggle-desc">Recall quizzes so you actually remember. Without it, no review prompts.</span></div>
+          </label>
+          <label class="intro-toggle">
+            <input type="checkbox" id="optMissions" checked>
+            <div><b>Missions</b><br><span class="toggle-desc">Story-driven paths with a final boss quiz. Without it, the Missions tab is hidden.</span></div>
+          </label>
+          <label class="intro-toggle">
+            <input type="checkbox" id="optGames" checked>
+            <div><b>Mini-games</b><br><span class="toggle-desc">8 interactive games with a 60s timer. Without it, game blocks are hidden.</span></div>
+          </label>
         </div>
+        <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">More details in the <a href="https://github.com/kordikp/recsysbook-kids#readme" target="_blank" rel="noopener">project README</a>.</p>
       </details>
-    </div>
 
-    <!-- Step 1: Voice picker -->
-    <div class="step" data-step="1">
-      <h2>How do you like to learn?</h2>
-      <p style="font-size:.82rem;color:var(--text-2);margin-bottom:.8em">Pick your style. You can change anytime.</p>
-      <div class="onboard-opts">
-        <button class="opt-card" data-voice="explorer" onclick="app.pickVoice(this)">
-          <span class="opt-icon">&#128269;</span>
-          <span class="opt-label">Show me how things work!</span>
-        </button>
-        <button class="opt-card" data-voice="creator" onclick="app.pickVoice(this)">
-          <span class="opt-icon">&#127912;</span>
-          <span class="opt-label">I want to build something!</span>
-        </button>
-        <button class="opt-card" data-voice="thinker" onclick="app.pickVoice(this)">
-          <span class="opt-icon">&#129504;</span>
-          <span class="opt-label">I like understanding why things work</span>
-        </button>
-        <button class="opt-card" data-voice="universal" onclick="app.pickVoice(this)">
-          <span class="opt-icon">&#128218;</span>
-          <span class="opt-label">Just exploring!</span>
-        </button>
+      <div class="intro-credits">
+        <p>Supported by <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a>, <a href="https://aidetem.cz" target="_blank" rel="noopener">AI d&#283;tem</a>, <a href="https://google.org" target="_blank" rel="noopener">Google.org</a> and <a href="https://www.tacr.cz" target="_blank" rel="noopener">TACR</a></p>
+        <p><a href="https://github.com/kordikp/recsysbook-kids" target="_blank" rel="noopener">Open source on GitHub</a> &middot; <a href="https://github.com/kordikp/recsysbook-kids#create-your-own-p-book" target="_blank" rel="noopener">Create your own p-book</a></p>
       </div>
     </div>
 
@@ -123,8 +122,7 @@
 <!-- TOP BAR -->
 <header class="topbar" id="topbar">
   <div class="topbar-left">
-    <span class="topbar-title" onclick="app.switchView('home')">p-book</span>
-    <button class="topbar-icon" onclick="app.showWelcome()" title="About this book" style="font-size:.9rem">&#128214;</button>
+    <span class="topbar-title" onclick="app.showWelcome()">p-book</span>
   </div>
   <div class="mission-bar-inline" id="missionBarInline" style="display:none"></div>
   <button class="topbar-search" onclick="app.openSearch()">
@@ -221,7 +219,7 @@
 
 <!-- BOTTOM TAB NAV -->
 <nav class="bottom-nav" id="bottomNav">
-  <button class="tab active" data-view="home" onclick="app.switchView('home')">
+  <button class="tab active" data-view="home" onclick="app.showWelcome()">
     <span class="tab-icon">&#127968;</span>
     <span class="tab-label">Home</span>
   </button>
@@ -280,6 +278,6 @@
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=43"></script>
+<script type="module" src="js/app.js?v=1.0.0-final"></script>
 </body>
 </html>

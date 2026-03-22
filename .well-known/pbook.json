@@ -1,0 +1,11 @@
+{
+  "pbook_version": "1.0",
+  "manifest": "/pbook.json",
+  "title": "How Recommendations Work",
+  "author": "Pavel Kordik",
+  "content_index": "/content/book.json",
+  "description": "A personalized interactive book about recommendation systems for ages 8-15. Structured as markdown files with YAML frontmatter. Open for LLM indexing and co-authoring.",
+  "allow_indexing": true,
+  "allow_contribution": true,
+  "contribution_guide": "/CONTRIBUTING.md"
+}

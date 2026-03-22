@@ -25,7 +25,12 @@ export const CONFIG = {
     diagrams: true,
     keyboardNav: true,
     progressTracking: true,
-    recommendations: true
+    recommendations: true,
+    gamification: true,       // XP, levels, badges, certificate — can be disabled
+    personalization: true,    // Recombee recs, voice paths — can be disabled
+    spaceRepetition: true,    // Recall quizzes
+    missions: true,           // Story-driven missions
+    games: true,              // Mini-games
   },
 
   tutor: {

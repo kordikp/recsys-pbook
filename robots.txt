@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# p-book manifest for LLM/bot discovery
+# See /.well-known/pbook.json for structured content index
+# See /pbook.json for full manifest
+# See /content/book.json for chapter/file listing
+# Content files: /content/{chapter}/*.md (markdown with YAML frontmatter)
+# Games: /games/*.json
+# Images: /images/*.svg
