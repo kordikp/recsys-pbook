@@ -61,7 +61,8 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 /* =============================================
    ONBOARDING
    ============================================= */
-.overlay { position: fixed; inset: 0; background: var(--bg); z-index: 900; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; padding: 2em 0; transition: opacity .4s; }
+.overlay { position: fixed; inset: 0; background: var(--bg); z-index: 900; display: flex; align-items: flex-start; justify-content: center; overflow-y: auto; scrollbar-width: none; padding: 2em 1em; transition: opacity .4s; }
+.overlay::-webkit-scrollbar { display: none; }
 .overlay.hidden { opacity: 0; pointer-events: none; }
 .onboarding-card { max-width: 480px; width: 90%; text-align: center; }
 .onboarding-card h1 { font-family: var(--font-ui); font-size: 2rem; font-weight: 800; letter-spacing: -.03em; margin-bottom: .15em; }
@@ -69,8 +70,6 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .onboarding-card .author { font-family: var(--font-ui); font-size: .8rem; color: var(--text-3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 1.5em; }
 .onboarding-card .subtitle { font-size: 1.05rem; color: var(--text-2); margin-bottom: 2em; }
 .step { display: none; } .step.active { display: block; animation: fadeUp .3s ease; }
-.onboarding-card { max-height: 88vh; overflow-y: auto; scrollbar-width: none; }
-.onboarding-card::-webkit-scrollbar { display: none; }
 
 /* Intro layout */
 .intro-subtitle { font-size: .92rem; color: var(--text-2); margin-bottom: 1.2em; }
@@ -292,6 +291,23 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .recall-good { background: #D1FAE5; color: #065F46; }
 .recall-easy { background: #DBEAFE; color: #1E40AF; }
 .recall-btn:hover { opacity: .85; transform: translateY(-1px); }
+
+/* Full-page recall session */
+.recall-session { max-width: 480px; margin: 0 auto; padding: 1em; text-align: center; }
+.recall-session h2 { font-size: 1.2rem; margin-bottom: .5em; }
+.recall-summary-icon { font-size: 2.5rem; margin: .3em 0; }
+.recall-summary-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: .5em auto; max-width: 200px; }
+.recall-progress-row { display: flex; align-items: center; gap: .5em; margin-bottom: 1em; }
+.recall-progress-label { font-family: var(--font-ui); font-size: .75rem; font-weight: 600; color: var(--text-3); white-space: nowrap; }
+.recall-progress-bar { flex: 1; height: 5px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.recall-due-badge { font-family: var(--font-ui); font-size: .6rem; font-weight: 700; color: #fff; background: #F59E0B; padding: .15em .4em; border-radius: 4px; }
+.recall-practice-badge { font-family: var(--font-ui); font-size: .6rem; font-weight: 700; color: var(--accent); background: var(--accent-bg); padding: .15em .4em; border-radius: 4px; }
+.recall-card-big { padding: 1.5em; background: var(--surface); border: 1.5px solid var(--border); border-radius: var(--radius); }
+.recall-card-q { font-size: 1rem; font-weight: 600; line-height: 1.5; margin-bottom: .8em; }
+.recall-card-answer { font-size: .88rem; color: var(--text-2); line-height: 1.5; margin-bottom: .5em; padding-top: .5em; border-top: 1px solid var(--border-light); }
+.recall-card-source { font-size: .7rem; color: var(--text-3); margin-bottom: .6em; }
+.recall-reveal-big { width: 100%; background: #F59E0B; color: #fff; border: none; border-radius: 8px; padding: .6em; font-family: var(--font-ui); font-size: .9rem; font-weight: 700; cursor: pointer; }
+.recall-reveal-big:hover { opacity: .9; }
 
 /* Hero card (continue reading) */
 .card-hero { flex: 0 0 calc(100% - 2em); max-width: 500px; background: linear-gradient(135deg, var(--accent-bg), var(--surface)); border-color: var(--accent); min-height: 160px; }

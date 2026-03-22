@@ -45,7 +45,7 @@
       "scenarios": ["homepage-personal", "homepage-voice", "next-read", "context-related", "search"]
     },
     "tiny": {
-      "description": "Future: Tiny learning platform integration for chatbots and progress tracking",
+      "description": "Future: Tiny School (tiny.school) integration for chatbots and progress tracking",
       "status": "planned"
     },
     "llm_tutor": {

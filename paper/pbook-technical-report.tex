@@ -1,0 +1,528 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{libertine}
+\usepackage[libertine]{newtxmath}
+\usepackage{inconsolata}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{array}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{multicol}
+
+\hypersetup{colorlinks=true,linkcolor=blue!60!black,urlcolor=blue!60!black,citecolor=blue!60!black}
+
+\titleformat{\section}{\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.6em}{}
+\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{0.5em}{}
+
+\definecolor{accent}{HTML}{D97706}
+\definecolor{risk-high}{HTML}{DC2626}
+\definecolor{risk-med}{HTML}{D97706}
+\definecolor{risk-low}{HTML}{059669}
+
+\newcommand{\strong}[1]{\textbf{#1}}
+\newcommand{\riskhigh}[1]{\textcolor{risk-high}{\textbf{#1}}}
+\newcommand{\riskmed}[1]{\textcolor{risk-med}{\textbf{#1}}}
+\newcommand{\risklow}[1]{\textcolor{risk-low}{\textbf{#1}}}
+
+\title{%
+  \vspace{-1cm}
+  {\LARGE\bfseries p-book: A Personalized Interactive Book Platform}\\[0.3em]
+  {\Large Multi-Modal Navigation, Recommendation-Driven Adaptation, and\\Evidence-Based Design for Children's Learning}\\[0.5em]
+  {\large Technical Report v1.0}
+}
+\author{%
+  Pavel Kord\'{i}k\\
+  Czech Technical University in Prague \& Recombee\\
+  \texttt{kordikp@fit.cvut.cz}
+}
+\date{March 2026}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent p-book is an open-source platform for creating personalized, interactive digital books. Unlike traditional e-books or adaptive tutoring systems, p-book organizes content as a \emph{spine+depth} graph navigable through four paradigms---Missions, Browse, Read, and Map---personalized by a recommendation engine and augmented with gamification, spaced repetition, interactive games, and an AI tutor. The first instantiation, \emph{``How Recommendations Work,''} teaches recommender systems to children aged 8--15 across 83~content blocks, 8~mini-games, and 6~story-driven missions. This report presents the system architecture, a comprehensive comparison with existing adaptive platforms, a component-level review of scientific evidence for each feature's effect on children's learning, and a research agenda focused on the open question: \emph{which content navigation paradigm do readers prefer, and how do preferences relate to engagement and learning?}
+
+\medskip
+\noindent\textbf{Live demo:} \url{https://recsysbook-kids.vercel.app} \hfill \textbf{License:} MIT (code) / CC BY-NC-SA 4.0 (content)
+\end{abstract}
+
+\tableofcontents
+\newpage
+
+% ==============================================================
+\section{Introduction}
+% ==============================================================
+
+Adaptive learning systems have demonstrated substantial effectiveness---meta-analyses report effect sizes of $g{=}0.70$ on cognitive outcomes compared to non-adaptive instruction~\cite{wang2024}. Yet the overwhelming majority of these systems focus on \textbf{skill-based tutoring and drill exercises}: Carnegie Learning decomposes mathematics into skill atoms~\cite{ritter2007}, ALEKS employs Knowledge Space Theory~\cite{cosyn2021}, and Duolingo combines adaptive sequencing with vocabulary drills~\cite{settles2016}. \textbf{Book-length narrative educational content}---the dominant form of extended learning material worldwide---has received surprisingly little attention~\cite{sosnovsky2025}.
+
+p-book addresses this gap. It is both an open-source platform and a format standard for creating personalized digital books. Its core innovation is the \textbf{spine+depth content architecture}: a mandatory narrative backbone (spine) augmented with optional depth blocks personalized by a recommendation engine. The system provides four fundamentally different navigation paradigms over the same content graph, letting readers choose how they want to learn.
+
+The first p-book, \emph{``How Recommendations Work,''} teaches recommender systems concepts to children aged 8--15 through 83~content blocks across 6~chapters, 8~interactive mini-games, 6~story-driven missions with branching paths and boss quizzes, and a gamification layer with 16 achievements and a downloadable certificate.
+
+This report covers: system architecture (\S\ref{sec:arch}), differentiation from existing platforms (\S\ref{sec:diff}), a component-level evidence review with emphasis on children's learning (\S\ref{sec:evidence}), content overview (\S\ref{sec:book}), and the research agenda (\S\ref{sec:research}).
+
+% ==============================================================
+\section{System Architecture}\label{sec:arch}
+% ==============================================================
+
+\subsection{Technology Overview}
+
+p-book is a \textbf{zero-dependency single-page application} (vanilla JavaScript, no framework, $\sim$7,000~lines). It requires no build step and deploys as a static site on Vercel, Netlify, or any web host. Content is authored as Markdown files with YAML frontmatter. All major features---gamification, personalization, spaced repetition, missions, games---are independently toggleable via configuration flags, enabling within-subject ablation studies.
+
+\subsection{Spine+Depth Content Model}
+
+Content is organized as a directed graph with two node types:
+
+\begin{itemize}
+  \item \textbf{Spine blocks} (28) form the mandatory narrative backbone---core concepts in a fixed linear order.
+  \item \textbf{Depth blocks} (20) branch off spine nodes, tagged by \emph{engagement mode} (Explorer, Creator, or Thinker) and content type (sidebar, game, worksheet, extended explanation).
+\end{itemize}
+
+Additional block types include interactive quizzes (6), sidebars (22), mini-games (10), and worksheets (5), totaling 83~blocks. Of these, 35 are marked as \emph{core}---required for the completion certificate. The spine guarantees curriculum coverage \emph{structurally}: no assessment gating is required to proceed. This design preserves authorial narrative coherence while enabling personalized elaboration.
+
+\subsection{Engagement Modes: Dynamic Preference Priors}
+
+p-book offers three engagement modes that influence which depth blocks are recommended:
+
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Mode & Tagline & Elaboration Type & Theory \\
+\midrule
+Explorer & ``Show me how it works!'' & Relational & Interest-driven~\cite{schraw2001} \\
+Creator & ``I want to build something!'' & Procedural & Elaboration theory~\cite{reigeluth1999} \\
+Thinker & ``Why does it work that way?'' & Conceptual & Flow theory~\cite{csikszentmihalyi1990} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+These are \textbf{explicitly not learning styles}. The ``meshing hypothesis'' (matching instruction modality to a stable trait) has been decisively debunked~\cite{pashler2008,touloumakos2023}. Engagement modes are \emph{dynamic preference priors updated from behavioral signals}: a reader who selects Explorer during onboarding but consistently engages with Thinker-type content sees recommendations adapt accordingly. This design is grounded in Self-Determination Theory (SDT): choice supports autonomy, a core driver of intrinsic motivation~\cite{ryan2000}. Research on choice in digital learning confirms that 3--5 options are optimal~\cite{evans2015,schneider2018}.
+
+\subsection{Four Navigation Paradigms}\label{sec:nav}
+
+The same content graph is accessible through four qualitatively different navigation modes (Figure~\ref{fig:modes}):
+
+\subsubsection{Missions} Story-driven quests with narrative framing. Each of 6~missions has a story premise (e.g., \emph{``Your Peppa Pig recommendations are terrible---fix them!''}), sequences 5--8 core blocks with per-block narrated intros, offers \textbf{branching paths} by engagement mode, and culminates in a \textbf{boss quiz}---an open-ended synthesis question with a hint system. The most structured experience.
+
+\subsubsection{Browse} Netflix-style horizontal carousels organized by recommendation scenario: ``Continue Reading,'' ``Recommended for You,'' ``Your Missions,'' ``Popular,'' and ``Games \& Activities.'' The most discovery-oriented mode, designed to surface content the reader might not find through linear navigation.
+
+\subsubsection{Read} Chapter-by-chapter progression where content flows as a vertical sequence within each chapter. Depth blocks appear as expandable cards. Interactive games and quizzes are interspersed between spine blocks, creating natural stopping points. At each block boundary, a \textbf{``Read Next'' recommendation} draws from the Recombee \texttt{next-read} scenario. Importantly, blocks require a \textbf{dwell-time threshold} (15\% of estimated reading time, max 12s) before being marked as ``read''---the reader must actually engage with the content, not merely scroll past it. Subsequent chapters load progressively (not all at once), preventing true infinite scroll behavior. This design represents a \textbf{chunked progressive reading} experience rather than the problematic infinite scroll pattern documented in the literature (see \S\ref{sec:scroll}).
+
+\subsubsection{Map} Visual overview showing all chapters, blocks, and reading progress. Two sub-modes: an illustrated RPG-style path and a detailed content list with badges. The most exploratory and agency-maximizing mode.
+
+Readers choose an initial mode during onboarding and can switch freely. Mode switches are logged as first-class interaction events, enabling the primary research question: which paradigm do readers prefer?
+
+\subsection{Recommendation Engine}\label{sec:recsys}
+
+Personalization is powered by \textbf{Recombee} through a serverless API proxy (HMAC-authenticated). Five recommendation scenarios map to pedagogical functions:
+
+\begin{center}
+\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+Scenario & Pedagogical Function & Context \\
+\midrule
+\texttt{homepage-personal} & Personalized discovery & Browse shelves \\
+\texttt{homepage-voice} & Engagement-mode picks & Browse shelves \\
+\texttt{next-read} & Curriculum sequencing & Read view boundaries \\
+\texttt{context-related} & Lateral connection (item-to-item) & Sidebar \\
+\texttt{search} & Personalized search ranking & Search results \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Signals sent to Recombee include detail views with duration, ratings, bookmarks, and user properties (voice preference, level, XP, read count, session count, completed missions). When the API is unavailable, all features fall back to local algorithms.
+
+\subsection{Gamification}
+
+Deliberately conservative design---no anxiety-inducing elements:
+
+\begin{itemize}
+  \item \textbf{Included:} XP (10 for reading, 5 for depth expansion, 8 for correct recall), 50~XP/level with named titles, 16~achievement badges, downloadable SVG completion certificate after all 35~core blocks
+  \item \textbf{Excluded:} Streaks (guilt/anxiety for kids), leaderboards (social pressure), time pressure (stress reduction), competitive elements
+\end{itemize}
+
+This design is informed by evidence that competitive and pressure-based gamification can cause negative effects~\cite{almeida2022}, and that intangible rewards are more effective than tangible ones for maintaining intrinsic motivation~\cite{xiao2023}.
+
+\subsection{Spaced Repetition}
+
+Anki-style SM-2 algorithm adapted for young readers: initial 1-day interval, 4 response options (Forgot/Hard/Good/Easy), ease factor with adaptive growth, and a \textbf{30-day interval cap} (vs.\ Anki's months-long intervals)---appropriate for episodic educational content. Due reviews surface in Browse shelves and as prompts in the Read view. XP is awarded for responses to maintain motivation.
+
+\subsection{Interactive Mini-Games}
+
+Eight data-driven games defined as small JSON files, rendered by a single generic engine ($\sim$190 lines):
+
+\begin{center}
+\small
+\begin{tabular}{@{}llll@{}}
+\toprule
+Game & Type & Chapter & Concept Taught \\
+\midrule
+Signal Sort & Classify & Ch~2 & Strong vs.\ weak user signals \\
+Find Your Taste Twin & Match & Ch~3 & Collaborative filtering intuition \\
+Name That Method & Classify & Ch~3 & CF vs.\ content-based vs.\ popularity \\
+Build the Pipeline & Sequence & Ch~3 & Recommendation pipeline stages \\
+Pop the Bubble & Click-collect & Ch~4 & Filter bubble awareness \\
+A/B Test Judge & Classify & Ch~4 & Experiment design \\
+Cold Start Challenge & Classify & Ch~2 & Cold-start strategies \\
+Privacy Spotter & Click-collect & Ch~6 & Privacy awareness \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+All games are tightly integrated with the learning content (narrative-congruent), auto-hide after 60s without penalty, and award XP for completion.
+
+\subsection{AI Tutor and Research Analytics}
+
+The tutor system provides a keyword-based search over book content with Socratic follow-up questions. Its architecture is designed for LLM drop-in replacement (via serverless function to Claude API). An author escalation feature (``Message the real author'') is available when confidence is low.
+
+All interactions are logged with \textbf{navigation mode attribution}---every event records its discovery context (\texttt{netflix}, \texttt{read}, \texttt{mission}, \texttt{map}, \texttt{search}, \texttt{tutor}, \texttt{recall}, \texttt{direct}), enabling comparative analysis across paradigms.
+
+% ==============================================================
+\section{Differentiation from Existing Systems}\label{sec:diff}
+% ==============================================================
+
+Table~\ref{tab:comparison} presents a structured comparison across 11~dimensions.
+
+\begin{table}[H]
+\caption{Architectural comparison of adaptive educational systems.}
+\label{tab:comparison}
+\centering\small
+\begin{tabular}{@{}p{2.3cm}cccccp{1.8cm}@{}}
+\toprule
+\textbf{Dimension} & \rotatebox{70}{Carnegie L.} & \rotatebox{70}{ALEKS} & \rotatebox{70}{Duolingo} & \rotatebox{70}{Knewton} & \rotatebox{70}{LECTOR} & \textbf{p-book} \\
+\midrule
+Content model & skill & skill & drill & skill & linear & \textbf{spine+depth} \\
+User model & mastery & mastery & mastery & mastery & behav. & \textbf{engagement} \\
+Adaptation & rules & KST & HLR & prob. & observe & \textbf{RecSys} \\
+Reader agency & none & none & none & low & none & \textbf{4 modes} \\
+Spaced rep. & no & no & yes & no & no & \textbf{yes} \\
+Gamification & no & no & \textbf{yes} & no & no & \textbf{yes (safe)} \\
+Open learner model & no & partial & partial & no & no & \textbf{yes} \\
+Content type & exercises & exercises & drills & exercises & text & \textbf{narr.+games} \\
+Mini-games & no & no & limited & no & no & \textbf{8 types} \\
+AI tutor & yes & no & no & no & no & \textbf{yes} \\
+Missions/quests & no & no & partial & no & no & \textbf{6 story} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Three Unique Architectural Properties}
+
+\begin{enumerate}
+  \item \textbf{Spine+depth for narrative text.} ITS systems decompose content into independent skill atoms. p-book preserves authorial narrative through a linear spine while enabling personalized depth. Coverage is guaranteed structurally, not through mastery gating.
+  \item \textbf{Multi-scenario recommendation.} Most adaptive systems use one adaptation mechanism. p-book maps 5~named recommendation scenarios to distinct pedagogical functions---a generalizable framework.
+  \item \textbf{Reader agency as first-class principle.} ITS systems are system-controlled. p-book gives readers 4~navigation modes, respecting SDT's autonomy principle.
+\end{enumerate}
+
+\textbf{Duolingo} is the closest multi-component system (adaptive + SR + gamification), but differs in modality (drill vs.\ narrative), control (system-directed vs.\ reader-directed), and scope (vocabulary atoms vs.\ conceptual chapters). \textbf{LECTOR}~\cite{lopezzapata2025} is the closest e-book system---it tracks reading behavior but is observational, not interventional.
+
+% ==============================================================
+\section{Evidence Review: Effects on Children's Learning}\label{sec:evidence}
+% ==============================================================
+
+This section reviews scientific evidence for each p-book component, with emphasis on K-12 populations. Table~\ref{tab:evidence} provides a summary; detailed citations are in the companion file \texttt{COMPONENT\_EVIDENCE.md}.
+
+\begin{table}[H]
+\caption{Evidence mapping for p-book features. Children-specific evidence is highlighted.}
+\label{tab:evidence}
+\centering\small
+\begin{tabular}{@{}p{3.2cm}p{2cm}p{4.5cm}cc@{}}
+\toprule
+\textbf{Feature} & \textbf{Evidence} & \textbf{Key Effect} & \textbf{Kids?} & \textbf{Risk} \\
+\midrule
+Adaptive learning & Strong & $d{=}0.30$--$0.60$ (K-12 meta-analyses) & \checkmark & \risklow{Low} \\
+Reading personal. & Strong & Interactive features close screen-paper gap & \checkmark & \risklow{Low} \\
+Mini-games & Strong & $g{=}0.30$--$0.67$ (game-based learning) & \checkmark & \risklow{Low} \\
+Gamification & Strong$^*$ & $g{=}0.30$--$0.85$ (narrative > points) & \checkmark & \riskmed{Med} \\
+Missions/quests & Moderate & Narrative-congruent interaction helps & \checkmark & \risklow{Low} \\
+Spaced repetition & Strong$^\dagger$ & $d{=}0.50$--$1.00{+}$ & limited & \risklow{Low} \\
+Navigation choice & Moderate & SDT confirmed for children & \checkmark & \risklow{Low} \\
+Progress/OLM & Moderate & Supports self-regulation & limited & \risklow{Low} \\
+Badges/XP & Moderate & Short-term boost; overjustification risk & mixed & \riskhigh{High} \\
+Netflix-style UI & Weak & No direct educational evidence & -- & \riskmed{Med} \\
+Infinite scroll & \riskhigh{Negative} & Reduces comprehension, increases compulsion & \checkmark & \riskhigh{High} \\
+\bottomrule
+\multicolumn{5}{@{}l}{\footnotesize $^*$With caveats: novelty effect, competitive elements harmful. $^\dagger$Most evidence from adults.}
+\end{tabular}
+\end{table}
+
+\subsection{Gamification: Narrative Over Points}
+
+K-12 meta-analyses confirm positive effects on motivation ($g{=}0.52$--$0.85$) and cognitive outcomes ($g{=}0.49$)~\cite{sailer2019,kurnaz2025,dehghanzadeh2023}. Critically, \textbf{narrative/fiction elements} (story framing, quests) are the most effective gamification component---more effective than points or badges~\cite{sailer2019}. However, novelty effects are documented: engagement declines after $\sim$4 weeks but recovers through familiarization~\cite{rodrigues2022}. Competitive elements (leaderboards, social comparison) can cause anxiety and decreased performance~\cite{almeida2022}. Extrinsic rewards risk crowding out intrinsic motivation---particularly dangerous for reading motivation in children~\cite{gneezy2011}.
+
+\textbf{Design response:} p-book uses conservative gamification: XP for exploration (not reading itself), narrative-integrated missions, no leaderboards/streaks/time pressure.
+
+\subsection{Spaced Repetition: Robust but Adult-Biased Evidence}
+
+Distributed practice is one of the most established findings in learning science ($d{=}0.50$--$1.00{+}$)~\cite{cepeda2006,weinstein2018,mcdermott2020}. However, most evidence comes from college students. Ophuis-Cox et al.~\cite{ophuiscox2023} is one of the few elementary-specific studies (positive results for math facts). Working memory limitations in young children may reduce effectiveness of standard flashcard formats.
+
+\textbf{Design response:} Embed SR within gamified recall activities, not raw flashcards. 30-day interval cap. XP rewards for responses.
+
+\subsection{Interactive Mini-Games: Narrative Congruence is Key}
+
+Game-based learning shows moderate positive effects for K-12: $g{=}0.47$ for science~\cite{tsai2020}, $g{=}0.30$--$0.67$ across domains~\cite{yu2019}. Challenge-skill matching is critical for flow states~\cite{hamari2015}. The most important finding for p-book comes from children's storybook research: interactive features enhance comprehension \textbf{only when narrative-congruent} ($d{=}0.17$). Incongruent games---unrelated to the story---\textbf{harm comprehension} ($d{=}-0.14$)~\cite{takacs2015,bus2014}.
+
+\textbf{Design response:} All 8 games directly reinforce chapter concepts (e.g., ``Signal Sort'' teaches user signals, ``Build the Pipeline'' teaches recommendation pipeline stages).
+
+\subsection{Missions and Narrative-Driven Learning}
+
+Narrative categorization in game-based learning significantly enhances engagement and outcomes compared to non-narrative approaches~\cite{breien2020,oliveira2022}. Expressive storytelling improves children's comprehension~\cite{korywestlund2017}. Takacs et al.~\cite{takacs2015} confirm that story-congruent multimedia is beneficial.
+
+\textbf{Design response:} 6~missions with relatable premises, per-block narrative intros, engagement-mode branching, and boss quizzes requiring conceptual synthesis.
+
+\subsection{Multiple Navigation Modes: SDT for Children}
+
+SDT's core tenets---autonomy, competence, relatedness---apply specifically to elementary and middle school students~\cite{conesa2022}. However, children's self-regulation capacity is still developing~\cite{panadero2017}. Younger children benefit from \textbf{structured choices rather than open navigation}; the expertise reversal effect means novice learners need more scaffolding than experts~\cite{drexler2010}.
+
+\textbf{Design response:} 4~modes (within optimal 3--5 range~\cite{evans2015}). Missions provide maximum structure for younger readers; Map provides maximum freedom for experienced readers.
+
+\subsection{Netflix-Style Discovery: A Novel Design Space}
+
+\textbf{No direct educational evidence exists} for carousel-style discovery interfaces aimed at children. Indirect evidence from RecSys UX~\cite{konstan2012,zanker2019} shows personalized presentation increases engagement, but there are risks of choice overload and passive browsing rather than active learning. Radesky et al.~\cite{radesky2014} warn that passive browsing features are problematic for children.
+
+\textbf{Design response:} Browse mode serves for content discovery; opening a block transitions into focused reading. Shelves are organized by pedagogical function, not pure engagement optimization.
+
+\subsection{The Infinite Scroll Question}\label{sec:scroll}
+
+Infinite scroll is \textbf{associated with reduced comprehension} and increased compulsive use~\cite{sera2023,rixen2023}. Screen reading carries a comprehension penalty vs.\ paper ($d{=}-0.21$)~\cite{delgado2018}, though this gap shrinks for children when interactive features are present~\cite{furenes2021}. The self-regulation demands of infinite scroll are poorly suited to children's developing executive function~\cite{vedechkina2021}.
+
+However, the p-book's Read mode is \textbf{not classical infinite scroll}. It differs in three critical ways:
+
+\begin{enumerate}
+  \item \textbf{Dwell-time threshold.} A block is marked ``read'' only after the reader has spent at least 15\% of the estimated reading time (max 12s) in the viewport. Merely scrolling past content does not register as engagement. This enforces \emph{attentive reading over passive scrolling}.
+  \item \textbf{Interstitial active elements.} Games, quizzes, and worksheets are interspersed between spine blocks in the content flow, creating natural \emph{cognitive stopping points} that interrupt passive scrolling and require active engagement.
+  \item \textbf{Progressive chapter loading.} The system loads one chapter at a time and progressively appends the next when the reader approaches the end---not all content at once. Combined with ``Read Next'' recommendations at chapter boundaries, this creates deliberate \emph{decision points} where the reader chooses what to read next rather than passively continuing.
+\end{enumerate}
+
+This design implements what we call \textbf{chunked progressive reading}: the familiar vertical scroll within discrete, bounded content blocks punctuated by active engagement points. Whether this mitigates the negative effects documented for classical infinite scroll is an empirical question that our planned study will address (RQ2, \S\ref{sec:rq}).
+
+\subsection{Badges and XP: The Highest-Risk Component}
+
+Short-term motivation boost from badges is documented~\cite{leitao2021,kim2021}, but the \textbf{overjustification effect} is well-established: extrinsic rewards can crowd out intrinsic motivation~\cite{gneezy2011}. This is particularly dangerous for reading---children rewarded for reading may read \emph{less} when rewards are removed. Intangible rewards (badges, status) outperform tangible rewards for intrinsic motivation~\cite{xiao2023}.
+
+\textbf{Design response:} XP rewards mastery and exploration, not reading itself. Badges tied to genuine achievement. Certificate requires completing all 35 core blocks (meaningful milestone). No competitive elements.
+
+\subsection{Reading Personalization: Strongest Evidence for Children}
+
+This is the most well-supported component. Children-specific meta-analyses show: interactive features in e-storybooks enhance comprehension ($d{=}0.17$)~\cite{takacs2015}; screen reading disadvantage is eliminated with good interactivity~\cite{furenes2021}; animated storybooks outperform static versions~\cite{takacs2016}; adaptive display parameters help children with dyslexia~\cite{schneps2013}; personalization of narrative elements increases identification and comprehension~\cite{kucirkova2019}.
+
+\subsection{Theoretical Integration: SDT as Unifying Framework}
+
+\begin{center}
+\small
+\begin{tabular}{@{}p{2cm}p{4.5cm}p{5cm}@{}}
+\toprule
+\textbf{SDT Need} & \textbf{P-Book Component} & \textbf{Evidence} \\
+\midrule
+Autonomy & 4 navigation modes, engagement mode choice, Browse discovery & Conesa et al.~\cite{conesa2022} (children); Evans \& Boucher~\cite{evans2015} \\
+Competence & Adaptive difficulty, progress visualization, mini-games, spaced repetition & Wang et al.~\cite{wang2024}; Hamari et al.~\cite{hamari2015} \\
+Relatedness & Mission narratives, personalized content, AI tutor, author voice & Breien \& Wasson~\cite{breien2020}; Kucirkova~\cite{kucirkova2019} \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+% ==============================================================
+\section{The Book: ``How Recommendations Work''}\label{sec:book}
+% ==============================================================
+
+\begin{center}
+\small
+\begin{tabular}{@{}clccl@{}}
+\toprule
+\textbf{Ch} & \textbf{Title} & \textbf{Spine} & \textbf{Games} & \textbf{Key Concepts} \\
+\midrule
+1 & What Are Recommendations? & 4 & -- & RecSys intro, three jobs \\
+2 & How They Learn About You & 4 & 2 & Digital footprints, signals, privacy \\
+3 & Different Ways to Recommend & 5 & 3 & CF, content-based, pipeline \\
+4 & Making Them Better & 5 & 2 & Filter bubbles, fairness, A/B testing \\
+5 & Build Your Own! & 6 & -- & Step-by-step recommender \\
+6 & Ethics and You & 5 & 1 & Privacy, addictive design, AI, EU law \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+Content targets ages 8--15 with short paragraphs, real-world examples from apps children use (YouTube, TikTok, Spotify), hands-on activities, and progressive complexity. Each chapter follows a Hook $\to$ Core concept $\to$ Depth branches $\to$ Interactive element $\to$ Reflection prompt pattern.
+
+The 6~missions provide an alternative narrative path through the book: \emph{How Does YouTube Know?} (beginner), \emph{The Data Detective} (beginner), \emph{Build a Recommender} (intermediate), \emph{Pop the Bubble} (intermediate), \emph{Take Back Control} (advanced), and \emph{Recommendation Master} (capstone, requires 2~completed missions).
+
+% ==============================================================
+\section{Research Agenda}\label{sec:research}
+% ==============================================================
+
+\subsection{Primary Research Questions}\label{sec:rq}
+
+\begin{description}[style=nextline]
+  \item[RQ1] Which navigation paradigm do readers prefer? Are preferences stable across sessions?
+  \item[RQ2] How do paradigms differ in content coverage (spine completion), engagement depth (depth blocks explored), and session duration?
+  \item[RQ3] Do multi-mode users achieve broader content coverage than single-mode users?
+  \item[RQ4] Does recommendation increase depth-block exploration? (within-subject, recs on vs.\ off)
+\end{description}
+
+All dependent variables are computed from interaction logs: mode dwell time, switch frequency, spine completion rate, depth-block exploration rate, recommendation CTR, session count.
+
+\subsection{Extended Questions (Future Work)}
+
+\begin{description}[style=nextline]
+  \item[RQ5] Do engagement modes predict voluntary time-on-task with mode-matched content?
+  \item[RQ6] Does spaced repetition increase return visits?
+  \item[RQ7] Does gamification sustain engagement beyond the 4-week novelty period?
+  \item[RQ8] Does personalized p-book reading improve comprehension vs.\ linear e-book?
+  \item[RQ9] Which gamification elements contribute most? (feature-toggle ablation)
+  \item[RQ10] Can the p-book framework generalize to other content domains?
+\end{description}
+
+\subsection{Study Design}
+
+\textbf{Phase~1} (short-term): Within-subjects deployment. Participants use p-book freely. Feature-toggle A/B for RQ4.
+
+\textbf{Phase~2} (medium-term): Controlled comparison of p-book vs.\ linear PDF on comprehension/retention. Target: $N{=}30{+}$ children aged 8--15. Pre/post test. Ethics approval required.
+
+\textbf{Phase~3} (long-term): Longitudinal deployment ($8{+}$ weeks) for SR effects, gamification habituation, engagement mode stability.
+
+\subsection{Tiny Platform Integration}
+
+Planned integration with the Tiny learning platform (\url{https://tiny.cz}) for argumentative chatbots during reading, progress reporting to teacher/parent profiles, cross-platform analytics, and controlled school deployment.
+
+% ==============================================================
+\section{Limitations}\label{sec:limits}
+% ==============================================================
+
+\begin{enumerate}
+  \item \textbf{No empirical evaluation yet.} Component-level evidence comes from meta-analyses of \emph{other} systems. The integrated p-book has only been piloted internally ($N{=}8$, adults).
+  \item \textbf{Small content catalog.} 83 blocks limits recommendation engine signal; Recombee's content-based features and voice filtering partially mitigate this.
+  \item \textbf{Author-as-evaluator conflict.} Planned mitigation: independent school evaluation via Tiny.
+  \item \textbf{Gamification novelty.} Effects decline after $\sim$4 weeks~\cite{rodrigues2022}. Certificate as intrinsic goal may offset this.
+  \item \textbf{Spaced repetition for conceptual content.} Evidence is strongest for factual recall, not complex narrative understanding.
+  \item \textbf{Infinite scroll risk.} Despite the chunked progressive reading design (\S\ref{sec:scroll}), empirical validation is needed to confirm it mitigates documented risks.
+  \item \textbf{Netflix-style UI.} No direct educational evidence; effectiveness for children's learning is unknown.
+\end{enumerate}
+
+% ==============================================================
+\section{Conclusion}
+% ==============================================================
+
+p-book brings adaptive hypermedia principles to a content form that has been largely overlooked by the adaptive learning community: narrative educational books. Its spine+depth architecture, multi-scenario recommendation, and four navigation paradigms represent a novel design pattern grounded in SDT and supported by strong component-level evidence---particularly for children's learning. The highest-confidence components (adaptive learning, reading personalization, narrative-congruent games) have direct K-12 evidence; the highest-risk components (badges/XP, infinite scroll) have been deliberately designed to mitigate documented dangers.
+
+The central open question---which navigation paradigm do readers prefer, and how does this relate to engagement and learning---is one that has received little attention in the adaptive learning literature, which has overwhelmingly focused on system-controlled sequencing. We believe that studying reader agency in personalized educational books can contribute to both the UMAP community's understanding of user modeling and the broader goal of designing educational technology that respects children's autonomy while supporting their learning.
+
+% ==============================================================
+% REFERENCES
+% ==============================================================
+\bibliographystyle{plain}
+\begin{thebibliography}{99}
+\small
+
+\bibitem{almeida2022} F.~Almeida, J.~Sim\~oes. Negative effects of gamification in education software. \emph{Inf.\ Softw.\ Technol.}, 2022.
+
+\bibitem{breien2020} F.~Breien, B.~Wasson. Narrative categorization in digital game-based learning. \emph{BJET}, 2020.
+
+\bibitem{bus2014} A.~Bus, Z.~Takacs, C.~Kegel. Affordances and limitations of electronic storybooks. \emph{Dev.\ Rev.}, 2014.
+
+\bibitem{cepeda2006} N.~Cepeda, H.~Pashler et al. Distributed practice in verbal recall tasks. \emph{Psychol.\ Bull.}, 132(3):354--380, 2006.
+
+\bibitem{conesa2022} P.~Conesa et al. Basic psychological needs in elementary and middle school students. \emph{Learn.\ Motiv.}, 2022.
+
+\bibitem{cosyn2021} E.~Cosyn et al. ALEKS. In \emph{AIED}, 2021.
+
+\bibitem{csikszentmihalyi1990} M.~Csikszentmihalyi. \emph{Flow}. Harper \& Row, 1990.
+
+\bibitem{dehghanzadeh2023} H.~Dehghanzadeh et al. Using gamification to support learning in K-12 education. \emph{BJET}, 2023.
+
+\bibitem{delgado2018} P.~Delgado et al. Don't throw away your printed books: A meta-analysis. \emph{Educ.\ Res.\ Rev.}, 2018.
+
+\bibitem{drexler2010} W.~Drexler. The networked student model. \emph{AJET}, 2010.
+
+\bibitem{evans2015} M.~Evans, A.~Boucher. Optimizing the power of choice. \emph{Mind Brain Educ.}, 9(2):87--91, 2015.
+
+\bibitem{furenes2021} T.~Furenes, N.~Kucirkova, A.~Bus. Children's reading on paper versus screen: A meta-analysis. \emph{Rev.\ Educ.\ Res.}, 2021.
+
+\bibitem{gneezy2011} U.~Gneezy, S.~Meier, P.~Rey-Biel. When and why incentives (don't) work. \emph{J.\ Econ.\ Perspect.}, 25(4), 2011.
+
+\bibitem{hamari2015} J.~Hamari et al. Challenging games help students learn. \emph{Comput.\ Hum.\ Behav.}, 2015.
+
+\bibitem{kim2021} J.~Kim, D.~Castelli. Effects of gamification on behavioral change in education: A meta-analysis. \emph{IJERPH}, 2021.
+
+\bibitem{konstan2012} J.~Konstan, J.~Riedl. Recommender systems: From algorithms to user experience. \emph{UMUAI}, 2012.
+
+\bibitem{korywestlund2017} M.~Kory Westlund et al. Storytelling with a social robot. In \emph{HRI}, 2017.
+
+\bibitem{kucirkova2019} N.~Kucirkova. How could children's storybooks promote empathy? \emph{Front.\ Psychol.}, 2019.
+
+\bibitem{kurnaz2025} S.~Kurnaz, B.~Kocturk. A meta-analysis of gamification's impact on student motivation in K-12. \emph{Psychol.\ Sch.}, 2025.
+
+\bibitem{leitao2021} R.~Leitao et al. A systematic evaluation of game elements effects on students' motivation. \emph{Educ.\ Inf.\ Technol.}, 2021.
+
+\bibitem{lopezzapata2025} R.~Lopez Zapata et al. LECTOR: E-book reading behavior for personalized student support. \emph{Int.\ J.\ AIED}, 2025.
+
+\bibitem{mcdermott2020} K.~McDermott. Practicing retrieval facilitates learning. \emph{Annu.\ Rev.\ Psychol.}, 2020.
+
+\bibitem{oliveira2022} W.~Oliveira et al. Tailored gamification in education. \emph{Educ.\ Inf.\ Technol.}, 2022.
+
+\bibitem{ophuiscox2023} L.~Ophuis-Cox et al. The effect of retrieval practice in an elementary school setting. \emph{Appl.\ Cogn.\ Psychol.}, 2023.
+
+\bibitem{panadero2017} E.~Panadero. A review of self-regulated learning. \emph{Front.\ Psychol.}, 2017.
+
+\bibitem{pashler2008} H.~Pashler et al. Learning styles: Concepts and evidence. \emph{Psychol.\ Sci.\ Pub.\ Int.}, 9(3):105--119, 2008.
+
+\bibitem{radesky2014} J.~Radesky et al. Mobile and interactive media use by young children. \emph{Pediatrics}, 2014.
+
+\bibitem{reigeluth1999} C.~Reigeluth. \emph{Instructional-Design Theories and Models}, vol.\ II. Erlbaum, 1999.
+
+\bibitem{ritter2007} S.~Ritter et al. Cognitive Tutor. \emph{Psychon.\ Bull.\ Rev.}, 14(2):249--255, 2007.
+
+\bibitem{rixen2023} J.~Rixen et al. The loop and reasons to break it: Investigating infinite scrolling. \emph{Proc.\ ACM HCI}, 2023.
+
+\bibitem{rodrigues2022} L.~Rodrigues et al. Gamification suffers from the novelty effect but benefits from familiarization. \emph{Int.\ J.\ Ed.\ Tech.\ Higher Ed.}, 2022.
+
+\bibitem{ryan2000} R.~Ryan, E.~Deci. Self-determination theory and intrinsic motivation. \emph{Am.\ Psychol.}, 55(1):68--78, 2000.
+
+\bibitem{sailer2019} M.~Sailer, L.~Homner. The gamification of learning: A meta-analysis. \emph{Educ.\ Psychol.\ Rev.}, 32:77--112, 2020.
+
+\bibitem{schneider2018} S.~Schneider et al. Autonomy-enhancing effects of choice. \emph{Learn.\ Instr.}, 58:161--172, 2018.
+
+\bibitem{schneps2013} M.~Schneps et al. E-readers are more effective than paper for some with dyslexia. \emph{PLoS ONE}, 2013.
+
+\bibitem{schraw2001} G.~Schraw et al. Increasing situational interest. \emph{Educ.\ Psychol.\ Rev.}, 13(3):211--224, 2001.
+
+\bibitem{sera2023} M.~Sera. A systematic analysis of infinite scrolling. \emph{IJSREM}, 2023.
+
+\bibitem{settles2016} B.~Settles, B.~Meeder. A trainable spaced repetition model. In \emph{ACL}, pp.\ 1848--1858, 2016.
+
+\bibitem{sosnovsky2025} S.~Sosnovsky et al. Intelligent textbooks: A survey. \emph{Int.\ J.\ AIED}, 2025.
+
+\bibitem{takacs2015} Z.~Takacs, E.~Swart, A.~Bus. Benefits and pitfalls of multimedia in storybooks. \emph{Rev.\ Educ.\ Res.}, 2015.
+
+\bibitem{takacs2016} Z.~Takacs, A.~Bus. Benefits of motion in animated storybooks. \emph{Front.\ Psychol.}, 2016.
+
+\bibitem{touloumakos2023} A.~Touloumakos et al. Bayesian evidence: No benefit of learning-style matching. \emph{Mind Brain Educ.}, 17(4):301--309, 2023.
+
+\bibitem{tsai2020} Y.-F.~Tsai, C.-C.~Tsai. A meta-analysis of digital game-based science learning. \emph{JCAL}, 2020.
+
+\bibitem{vedechkina2021} M.~Vedechkina, F.~Borgonovi. Digital technology and attention in children. \emph{Front.\ Psychol.}, 2021.
+
+\bibitem{wang2024} S.~Wang et al. Effects of AI-enabled adaptive learning: A meta-analysis. \emph{J.\ Educ.\ Comput.\ Res.}, 2024.
+
+\bibitem{weinstein2018} Y.~Weinstein et al. Teaching the science of learning. \emph{Cogn.\ Res.}, 2018.
+
+\bibitem{xiao2023} Y.~Xiao, K.~Hew. Intangible vs.\ tangible rewards in gamified online learning. \emph{BJET}, 2023.
+
+\bibitem{yu2019} Z.~Yu. A meta-analysis of serious games in education. \emph{Int.\ J.\ Comput.\ Games Technol.}, 2019.
+
+\bibitem{zanker2019} M.~Zanker et al. Measuring the impact of online personalisation. \emph{IJHCS}, 2019.
+
+\end{thebibliography}
+
+\end{document}

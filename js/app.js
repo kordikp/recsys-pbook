@@ -72,10 +72,8 @@ class PBook {
       }
     }
 
-    // Apply saved settings
-    if (this.user.preferredVoice || this.user.totalInteractions > 0) {
-      this.startApp();
-    }
+    // Returning users: show welcome screen (not auto-enter)
+    // They can pick a reading mode from there
     this.applyTheme();
   }
 
@@ -251,10 +249,13 @@ class PBook {
     // Recall cards if due (guarded by spaceRepetition toggle)
     const dueRecalls = this._f('spaceRepetition') ? this.user.getDueRecalls() : [];
     if (dueRecalls.length > 0) {
-      const recallCards = dueRecalls.slice(0, 6).map(r => {
+      const seenQs = new Set();
+      const recallCards = dueRecalls.slice(0, 8).map(r => {
         const block = this.findBlock(r.blockId);
         if (!block) return '';
         const quiz = this._getRecallQuestion(block);
+        if (seenQs.has(quiz.q)) return ''; // deduplicate
+        seenQs.add(quiz.q);
         return `<div class="card recall-card" style="border-top: 3px solid #F59E0B; flex: 0 0 280px">
           <div class="card-chapter" style="color:#F59E0B;font-weight:700">Do you remember?</div>
           <div class="card-title">${quiz.q}</div>
@@ -1214,66 +1215,131 @@ class PBook {
 
   // --- Spaced repetition recall ---
   _getRecallQuestion(block) {
+    const id = block.meta?.id || block.id;
+    const title = block.meta?.title || '';
     const body = (block.body || '').toLowerCase();
-    const title = block.meta.title || '';
 
-    // Generate recall questions based on content keywords
-    if (body.includes('collaborative filter')) return { q: 'How does collaborative filtering find recommendations?', a: 'It finds people with similar taste to you, then recommends things THEY liked that you haven\'t seen yet.' };
-    if (body.includes('content-based')) return { q: 'What does content-based filtering look at?', a: 'It looks at the FEATURES of items you liked (genre, tags, description) and finds similar items.' };
-    if (body.includes('cold start')) return { q: 'What is the "cold start" problem?', a: 'When a new user or item has no data yet, the system can\'t make good recommendations. It\'s "cold" because there\'s no history to learn from.' };
-    if (body.includes('filter bubble')) return { q: 'What is a filter bubble?', a: 'When recommendations only show you things you already like, trapping you in a bubble where you never discover anything new.' };
-    if (body.includes('echo chamber')) return { q: 'How is an echo chamber different from a filter bubble?', a: 'An echo chamber is worse — it makes you think everyone agrees with you because you only hear your own opinions reflected back.' };
-    if (body.includes('a/b test')) return { q: 'What is an A/B test?', a: 'A real experiment where half the users see version A and half see version B. You compare results to find which is actually better.' };
-    if (body.includes('digital footprint') || body.includes('footprint')) return { q: 'What are "digital footprints"?', a: 'Every click, watch, skip, and search you make online — like invisible tracks that tell algorithms about your interests.' };
-    if (body.includes('implicit') && body.includes('explicit')) return { q: 'What\'s the difference between implicit and explicit feedback?', a: 'Explicit = you TELL the system (ratings, likes). Implicit = the system WATCHES what you do (clicks, time spent, skips).' };
-    if (body.includes('pipeline') || (body.includes('find') && body.includes('rank'))) return { q: 'What are the 3 stages of a recommendation pipeline?', a: 'FIND (gather candidates), RANK (score them for you), CHECK (add diversity, remove duplicates).' };
-    if (body.includes('popular') && body.includes('trending')) return { q: 'Why isn\'t "show what\'s popular" the best strategy?', a: 'Because popular items are the same for everyone — they don\'t know YOUR unique taste. A good system is personal.' };
-    if (body.includes('matrix factor') || body.includes('svd')) return { q: 'What does matrix factorization do?', a: 'It finds hidden patterns in a big grid of ratings by breaking it into simpler pieces — discovering "latent factors" like genre preferences.' };
-    if (body.includes('autoplay') || body.includes('infinite scroll')) return { q: 'Why is autoplay/infinite scroll designed the way it is?', a: 'To remove stopping points — there\'s always something next. It\'s like a bag of chips that never runs out. Recognizing this helps you stay in control.' };
-    if (body.includes('dopamine')) return { q: 'What brain chemical makes you want to watch "just one more"?', a: 'Dopamine! Released when you see something surprising or rewarding. The uncertainty of "will the next one be good?" creates a loop.' };
-    if (body.includes('privacy') || body.includes('gdpr')) return { q: 'What can you do to protect your privacy online?', a: 'Use privacy-focused browsers, check app permissions, clear history, use "not interested" buttons, and know your rights (like GDPR).' };
-    if (body.includes('third-party cookie') || body.includes('tracker')) return { q: 'How do third-party trackers follow you across websites?', a: 'They hide tiny code on many websites. When you visit any site using the same tracker, they recognize you and build a profile across ALL your browsing.' };
-    if (body.includes('diversity') || body.includes('long tail')) return { q: 'Why is diversity important in recommendations?', a: 'Without it, popular items get recommended more and more while new/niche content gets buried. Diversity gives everything a fair chance.' };
+    // Per-block unique questions keyed by ID
+    const QUESTIONS = {
+      'ch1-noticed': { q: 'Have you noticed that apps like YouTube seem to "know" what you want? How?', a: 'They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content.' },
+      'ch1-everywhere': { q: 'Name 3 apps that use recommendation algorithms.', a: 'YouTube, TikTok, Spotify, Netflix, Amazon, Instagram — almost every app you use has a recommendation system.' },
+      'ch1-not-magic': { q: 'Recommendations feel like magic, but what are they really based on?', a: 'Patterns! The system is like a detective — it finds clues in your clicks and discovers connections between users and items.' },
+      'ch1-three-jobs': { q: 'What are the 3 jobs of a recommender system?', a: 'DISCOVER new things for you, FIND things faster, and KEEP you interested so you come back.' },
+      'ch2-footprints': { q: 'What are digital footprints and why do they matter?', a: 'Every click, watch, skip and search you make — like invisible tracks. Algorithms read these to understand your preferences.' },
+      'ch2-clues': { q: 'Name the 3 types of clues recommender systems use.', a: 'Item clues (what the thing IS), person clues (who YOU are), and action clues (what you DO — clicks, watches, skips).' },
+      'ch2-privacy': { q: 'What can you do to control your digital footprints?', a: 'Clear history, use "not interested" buttons, check app permissions, use separate profiles, and know your rights.' },
+      'ch2-myth': { q: 'True or false: your phone listens to your conversations for ads.', a: 'False! It seems that way because algorithms are so good at predicting from your clicks that it FEELS like they heard you.' },
+      'ch3-friends': { q: 'How does collaborative filtering work in one sentence?', a: 'Find people with similar taste to you, then recommend things THEY liked that you haven\'t seen yet.' },
+      'ch3-content': { q: 'How is content-based filtering different from collaborative?', a: 'Content-based looks at item FEATURES (genre, tags). Collaborative looks at USER BEHAVIOR (who liked what).' },
+      'ch3-popular': { q: 'Why is "just show what\'s popular" not a great recommendation strategy?', a: 'Because popular items are the same for everyone — they don\'t know YOUR unique taste.' },
+      'ch3-pipeline': { q: 'What are the 3 stages of a recommendation pipeline?', a: 'FIND (gather candidates), RANK (score each for you), CHECK (add diversity, remove duplicates).' },
+      'ch4-bubbles': { q: 'What is a filter bubble and how do you get stuck in one?', a: 'When the algorithm only shows you things you already like, you stop discovering anything new — trapped in a bubble of sameness.' },
+      'ch4-fairness': { q: 'How can recommendation systems be unfair to new creators?', a: 'Popular creators get recommended more → get more views → become even more popular. New creators barely get seen.' },
+      'ch4-testing': { q: 'What is an A/B test and why do companies use them?', a: 'Show version A to half the users, version B to the other half, compare results. It removes guessing — data decides.' },
+      'ch5-start': { q: 'What do you need to build a basic recommendation system?', a: 'Data! Start by collecting ratings or preferences from users about items. That grid of data is your foundation.' },
+      'ch5-collect': { q: 'What is a rating matrix?', a: 'A grid where rows are users, columns are items, and each cell is a rating. Most cells are empty — that\'s what you predict.' },
+      'ch5-similar': { q: 'How do you find "taste twins" — users with similar preferences?', a: 'Compare their ratings — if two people rated the same movies similarly, they probably have matching taste.' },
+      'ch5-recommend': { q: 'How do you predict if someone will like something they haven\'t seen?', a: 'Find 2-3 people with similar taste who DID see it, then average their ratings as your prediction.' },
+      'ch5-improve': { q: 'Name 2 ways to improve a basic recommendation system.', a: 'Get more data (more users, more ratings) and look at item features (genre, actors), not just ratings.' },
+      'ch6-who-decides': { q: 'When you open TikTok, who decides what you see first?', a: 'The algorithm decides — not you, not your parents, not even a human at TikTok. Engineers designed it to maximize engagement.' },
+      'ch6-addictive': { q: 'Name 2 design tricks that keep you scrolling.', a: 'Infinite scroll (no natural stopping point) and autoplay (next video starts automatically).' },
+      'ch6-privacy-real': { q: 'What kind of data do apps actually collect about you?', a: 'Your location, device info, browsing history, search queries, how long you watch, what you skip, and sometimes your contacts.' },
+      'ch6-ai-future': { q: 'Why does YOUR generation understand algorithms better than most adults?', a: 'Because you grew up WITH them — you notice weird recommendations, know how to game the algorithm, and feel the pull of infinite scroll.' },
+    };
 
-    // Fallback: ask about the section title
-    return { q: `Can you explain "${title}" in your own words?`, a: `Re-read the section "${title}" to refresh your memory. The best way to learn is to explain things simply!` };
+    // Direct match by block ID
+    if (QUESTIONS[id]) return QUESTIONS[id];
+
+    // Generate from content — extract first meaningful sentence as answer
+    const sentences = (block.body || '').replace(/[#*_\[\]]/g, '').split(/[.!?]\s/).filter(s => s.length > 30 && s.length < 200);
+    if (sentences.length >= 2) {
+      const keyIdx = Math.floor(id.charCodeAt(id.length - 1) % sentences.length);
+      const answer = sentences[keyIdx].trim();
+      return { q: `What did you learn about "${title}"?`, a: answer + '.' };
+    }
+
+    return { q: `What is the key idea of "${title}"?`, a: `Think about what this section explained. Try re-reading "${title}" to refresh your memory!` };
   }
 
-  startPractice() {
+  startPractice(dueOnly) {
     if (!this._f('spaceRepetition')) return;
-    // Pick random read blocks for practice (even if not due yet)
-    const readIds = [...this.user.readBlocks];
-    if (readIds.length === 0) return;
-    const shuffled = readIds.sort(() => Math.random() - 0.5).slice(0, 6);
-    const el = document.getElementById('homeContent');
-    const cards = shuffled.map(blockId => {
-      const block = this.findBlock(blockId);
-      if (!block) return '';
-      const quiz = this._getRecallQuestion(block);
-      return `<div class="card recall-card" style="border-top: 3px solid #F59E0B; flex: 0 0 280px">
-        <div class="card-chapter" style="color:#F59E0B;font-weight:700">Practice recall</div>
-        <div class="card-title">${quiz.q}</div>
-        <div class="recall-answer" id="recall-a-${blockId}" style="display:none">
-          <div class="recall-answer-text">${quiz.a}</div>
-          <div class="recall-hint" style="font-size:.7rem;color:var(--text-3);margin:.3em 0">From: ${block.meta.title}</div>
+    // Full-page recall review mode
+    const due = this.user.getDueRecalls();
+    let blocks;
+    if (dueOnly && due.length > 0) {
+      blocks = due.map(r => ({ blockId: r.blockId, isDue: true }));
+    } else {
+      // Mix due + random read blocks
+      const readIds = [...this.user.readBlocks].filter(id => !due.find(d => d.blockId === id));
+      const random = readIds.sort(() => Math.random() - 0.5).slice(0, Math.max(3, 8 - due.length));
+      blocks = [...due.map(r => ({ blockId: r.blockId, isDue: true })), ...random.map(id => ({ blockId: id, isDue: false }))];
+    }
+    if (blocks.length === 0) return;
+
+    this._recallQueue = blocks;
+    this._recallIdx = 0;
+    this._recallScore = { total: blocks.length, correct: 0 };
+    this._renderRecallCard();
+  }
+
+  _renderRecallCard() {
+    const q = this._recallQueue;
+    const idx = this._recallIdx;
+
+    // Done — show summary
+    if (idx >= q.length) {
+      const el = document.getElementById('homeContent') || document.getElementById('glossaryContent');
+      const s = this._recallScore;
+      el.innerHTML = `<div class="recall-session">
+        <h2>Review complete!</h2>
+        <div class="recall-summary-icon">${s.correct >= s.total * 0.7 ? '\u{1F389}' : '\u{1F4AA}'}</div>
+        <p>${s.correct} of ${s.total} correct</p>
+        <div class="recall-summary-bar"><div style="width:${Math.round(s.correct/Math.max(s.total,1)*100)}%;background:var(--product);height:100%;border-radius:4px"></div></div>
+        <button class="btn-primary" style="margin-top:1em" onclick="app.switchView('home')">Back to reading</button>
+        <button class="btn-ghost" style="margin-top:.5em" onclick="app.startPractice()">Practice more</button>
+      </div>`;
+      if (this.currentView !== 'home') this.switchView('home');
+      return;
+    }
+
+    const item = q[idx];
+    const block = this.findBlock(item.blockId);
+    if (!block) { this._recallIdx++; this._renderRecallCard(); return; }
+    const quiz = this._getRecallQuestion(block);
+
+    const el = document.getElementById('homeContent') || document.getElementById('glossaryContent');
+    el.innerHTML = `<div class="recall-session">
+      <div class="recall-progress-row">
+        <span class="recall-progress-label">${idx + 1} / ${q.length}</span>
+        <div class="recall-progress-bar"><div style="width:${Math.round((idx/q.length)*100)}%;background:var(--accent);height:100%;border-radius:4px;transition:width .3s"></div></div>
+        ${item.isDue ? '<span class="recall-due-badge">Due</span>' : '<span class="recall-practice-badge">Practice</span>'}
+      </div>
+      <div class="recall-card-big">
+        <div class="recall-card-q">${quiz.q}</div>
+        <div class="recall-card-a" id="recallAnswer" style="display:none">
+          <div class="recall-card-answer">${quiz.a}</div>
+          <div class="recall-card-source">From: ${block.meta.title} (Ch${block.meta._chapterNum})</div>
           <div class="recall-buttons">
-            <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${blockId}',0)">Forgot</button>
-            <button class="recall-btn recall-hard" onclick="app.scoreRecall('${blockId}',1)">Hard</button>
-            <button class="recall-btn recall-good" onclick="app.scoreRecall('${blockId}',2)">Good</button>
-            <button class="recall-btn recall-easy" onclick="app.scoreRecall('${blockId}',3)">Easy!</button>
+            <button class="recall-btn recall-forgot" onclick="app._answerRecall('${item.blockId}',0)">Forgot</button>
+            <button class="recall-btn recall-hard" onclick="app._answerRecall('${item.blockId}',1)">Hard</button>
+            <button class="recall-btn recall-good" onclick="app._answerRecall('${item.blockId}',2)">Good</button>
+            <button class="recall-btn recall-easy" onclick="app._answerRecall('${item.blockId}',3)">Easy!</button>
           </div>
         </div>
-        <button class="recall-reveal" id="recall-r-${blockId}" onclick="document.getElementById('recall-a-${blockId}').style.display='block';this.style.display='none'">Show answer</button>
-      </div>`;
-    }).filter(Boolean);
-    if (cards.length) {
-      // Prepend practice shelf to home
-      const practiceHtml = this.shelf('Practice mode', cards);
-      el.insertAdjacentHTML('afterbegin', practiceHtml);
-      this._updateShelfArrows();
-      setTimeout(() => this._updateShelfArrows(), 300);
-      window.scrollTo(0, 0);
-    }
+        <button class="recall-reveal-big" id="recallRevealBtn" onclick="document.getElementById('recallAnswer').style.display='block';this.style.display='none'">Show answer</button>
+      </div>
+    </div>`;
+    if (this.currentView !== 'home') this.switchView('home');
+    window.scrollTo(0, 0);
+  }
+
+  _answerRecall(blockId, quality) {
+    this.user.processRecall(blockId, quality);
+    if (quality >= 2) this._recallScore.correct++;
+    const labels = ['Forgot', 'Hard', 'Good!', 'Easy!'];
+    this.showXPToast(labels[quality], quality >= 2 ? 'xp' : 'info');
+    this._recallIdx++;
+    setTimeout(() => this._renderRecallCard(), 400);
   }
 
   scoreRecall(blockId, quality) {
@@ -1807,14 +1873,29 @@ class PBook {
 
     // Quick stats row
     const dueCount = u.getDueRecalls().length;
+    const totalRecall = Object.keys(u.recall).length;
+    const totalReps = Object.values(u.recall).reduce((s, c) => s + c.reps, 0);
     h += `<div class="gami-stats">
       <div class="gami-stat"><span class="gs-num">${p.progress.read}</span><span class="gs-label">Read</span></div>
       <div class="gami-stat"><span class="gs-num">${p.progress.pct}%</span><span class="gs-label">Done</span></div>
       <div class="gami-stat"><span class="gs-num">${u.achievements.length}</span><span class="gs-label">Badges</span></div>
       <div class="gami-stat"><span class="gs-num">${p.readingTimeMin}</span><span class="gs-label">Min read</span></div>
     </div>`;
-    if (dueCount > 0) {
-      h += `<div style="text-align:center;margin:.5em 0"><button class="recall-reveal" style="max-width:260px" onclick="app.switchView('home')">${dueCount} review${dueCount > 1 ? 's' : ''} due — go practice!</button></div>`;
+
+    // Recall section
+    if (this._f('spaceRepetition') && totalRecall > 0) {
+      h += '<div class="profile-section"><h3>\u{1F9E0} Recall & Review</h3>';
+      h += `<div class="gami-stats">
+        <div class="gami-stat"><span class="gs-num">${dueCount}</span><span class="gs-label">Due now</span></div>
+        <div class="gami-stat"><span class="gs-num">${totalRecall}</span><span class="gs-label">Tracked</span></div>
+        <div class="gami-stat"><span class="gs-num">${totalReps}</span><span class="gs-label">Reviews</span></div>
+      </div>`;
+      h += `<div style="display:flex;gap:.4em;justify-content:center;margin-top:.5em">`;
+      if (dueCount > 0) h += `<button class="recall-reveal" onclick="app.startPractice(true)">${dueCount} due — review now</button>`;
+      h += `<button class="btn-ghost" style="border:1px solid var(--accent);border-radius:6px;padding:.3em .7em;font-size:.75rem;color:var(--accent)" onclick="app.startPractice()">Practice all</button>`;
+      h += `</div></div>`;
+    } else if (this._f('spaceRepetition')) {
+      h += '<div class="profile-section"><h3>\u{1F9E0} Recall & Review</h3><p style="font-size:.8rem;color:var(--text-3)">Read some sections first — recall quizzes will appear to help you remember.</p></div>';
     }
 
     // Achievements

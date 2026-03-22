@@ -8,6 +8,8 @@
 
 **[recsysbook-kids.vercel.app](https://recsysbook-kids.vercel.app)**
 
+![p-book screenshot](images/kids-pbook-screen.png)
+
 ## What is a p-book?
 
 A p-book is a book that adapts to the reader. Instead of a fixed linear text, content is organized as independent blocks that can be served through multiple reading modes, personalized by a recommendation engine, and enriched with interactive elements.
@@ -194,7 +196,7 @@ api/                # Serverless proxy (Vercel)
 ## Future Integrations
 
 ### Tiny Learning Platform
-Integration with [Tiny](https://tiny.cz) for:
+Integration with [Tiny School](https://www.tiny.school) for:
 - Argumentative and critic chatbots during reading
 - Progress reporting to teacher/parent profiles
 - Cross-platform learning analytics

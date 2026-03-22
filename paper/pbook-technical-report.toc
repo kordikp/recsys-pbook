@@ -1,0 +1,36 @@
+\contentsline {section}{\numberline {1}Introduction}{3}{section.1}%
+\contentsline {section}{\numberline {2}System Architecture}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Technology Overview}{3}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Spine+Depth Content Model}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Engagement Modes: Dynamic Preference Priors}{3}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Four Navigation Paradigms}{4}{subsection.2.4}%
+\contentsline {subsubsection}{\numberline {2.4.1}Missions}{4}{subsubsection.2.4.1}%
+\contentsline {subsubsection}{\numberline {2.4.2}Browse}{4}{subsubsection.2.4.2}%
+\contentsline {subsubsection}{\numberline {2.4.3}Read}{4}{subsubsection.2.4.3}%
+\contentsline {subsubsection}{\numberline {2.4.4}Map}{4}{subsubsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.5}Recommendation Engine}{4}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Gamification}{5}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Spaced Repetition}{5}{subsection.2.7}%
+\contentsline {subsection}{\numberline {2.8}Interactive Mini-Games}{5}{subsection.2.8}%
+\contentsline {subsection}{\numberline {2.9}AI Tutor and Research Analytics}{5}{subsection.2.9}%
+\contentsline {section}{\numberline {3}Differentiation from Existing Systems}{6}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Three Unique Architectural Properties}{6}{subsection.3.1}%
+\contentsline {section}{\numberline {4}Evidence Review: Effects on Children's Learning}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Gamification: Narrative Over Points}{7}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Spaced Repetition: Robust but Adult-Biased Evidence}{7}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Interactive Mini-Games: Narrative Congruence is Key}{7}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Missions and Narrative-Driven Learning}{8}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Multiple Navigation Modes: SDT for Children}{8}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Netflix-Style Discovery: A Novel Design Space}{8}{subsection.4.6}%
+\contentsline {subsection}{\numberline {4.7}The Infinite Scroll Question}{8}{subsection.4.7}%
+\contentsline {subsection}{\numberline {4.8}Badges and XP: The Highest-Risk Component}{9}{subsection.4.8}%
+\contentsline {subsection}{\numberline {4.9}Reading Personalization: Strongest Evidence for Children}{9}{subsection.4.9}%
+\contentsline {subsection}{\numberline {4.10}Theoretical Integration: SDT as Unifying Framework}{9}{subsection.4.10}%
+\contentsline {section}{\numberline {5}The Book: ``How Recommendations Work''}{9}{section.5}%
+\contentsline {section}{\numberline {6}Research Agenda}{10}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Primary Research Questions}{10}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Extended Questions (Future Work)}{10}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Study Design}{10}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Tiny Platform Integration}{10}{subsection.6.4}%
+\contentsline {section}{\numberline {7}Limitations}{10}{section.7}%
+\contentsline {section}{\numberline {8}Conclusion}{11}{section.8}%

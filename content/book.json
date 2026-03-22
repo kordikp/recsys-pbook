@@ -62,12 +62,15 @@
         "02a-depth-thinker-compare.md",
         "02b-sidebar-spot-the-method.md",
         "02c-game-method-match.md",
+        "02d-spine-bandits.md",
+        "02e-spine-deep-similarity.md",
         "03-spine-whats-popular.md",
         "03a-sidebar-popularity-trap.md",
         "04-spine-the-pipeline.md",
         "04a-depth-explorer-pipeline-visual.md",
         "04b-sidebar-speed-challenge.md",
         "04c-game-pipeline.md",
+        "04d-spine-search-and-recs.md",
         "05-question-method.md",
         "06-spine-worksheet-build-recommender.md"
       ]
@@ -87,6 +90,8 @@
         "02-spine-fairness.md",
         "02a-sidebar-youtube-algorithm.md",
         "02b-sidebar-unfair-game.md",
+        "02c-spine-objectives.md",
+        "02d-spine-explainability.md",
         "03-spine-testing.md",
         "03a-depth-explorer-ab-test.md",
         "03b-game-ab-test.md",
@@ -129,6 +134,7 @@
         "02-spine-addictive-design.md",
         "02a-depth-creator-take-control.md",
         "02b-sidebar-dopamine.md",
+        "02c-spine-adtech-vs-recs.md",
         "03-spine-privacy-for-real.md",
         "03a-depth-explorer-check-your-data.md",
         "03b-sidebar-age-guessing.md",
@@ -137,6 +143,7 @@
         "04-spine-ai-and-you.md",
         "04a-depth-thinker-hard-questions.md",
         "04b-sidebar-eu-law.md",
+        "04c-spine-conversational-recs.md",
         "05-question-ethics.md"
       ]
     }
