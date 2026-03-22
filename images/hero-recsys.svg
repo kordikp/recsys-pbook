@@ -7,60 +7,67 @@
   </defs>
   <rect width="480" height="120" rx="14" fill="url(#bg)"/>
 
-  <!-- User node -->
-  <circle cx="50" cy="60" r="20" fill="#7C3AED" opacity=".12"/>
-  <circle cx="50" cy="53" r="7" fill="#7C3AED"/>
-  <path d="M38 70 a12 9 0 0 1 24 0" fill="#7C3AED"/>
-  <text x="50" y="95" text-anchor="middle" font-family="system-ui" font-size="8" fill="#7C3AED" font-weight="600">YOU</text>
+  <!-- Girl user (stylized) -->
+  <circle cx="48" cy="60" r="22" fill="#7C3AED" opacity=".1"/>
+  <circle cx="48" cy="50" r="9" fill="#F59E0B"/>
+  <path d="M36 68 a12 10 0 0 1 24 0" fill="#7C3AED" opacity=".7"/>
+  <path d="M39 42 q9-8 18 0" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="44" cy="49" r="1.2" fill="#1C1917"/>
+  <circle cx="52" cy="49" r="1.2" fill="#1C1917"/>
+  <path d="M45 53 q3 3 6 0" fill="none" stroke="#1C1917" stroke-width=".8" stroke-linecap="round"/>
 
-  <!-- Arrows from user to items -->
-  <line x1="73" y1="50" x2="110" y2="30" stroke="#7C3AED" stroke-width="1.2" opacity=".3" stroke-dasharray="3 3"/>
-  <line x1="73" y1="60" x2="110" y2="60" stroke="#7C3AED" stroke-width="1.8" opacity=".5"/>
-  <line x1="73" y1="70" x2="110" y2="90" stroke="#7C3AED" stroke-width="1.2" opacity=".3" stroke-dasharray="3 3"/>
+  <!-- Arrows from girl to items -->
+  <line x1="72" y1="50" x2="108" y2="30" stroke="#7C3AED" stroke-width="1" opacity=".25" stroke-dasharray="3 3"/>
+  <line x1="72" y1="60" x2="108" y2="60" stroke="#7C3AED" stroke-width="1.5" opacity=".4"/>
+  <line x1="72" y1="70" x2="108" y2="90" stroke="#7C3AED" stroke-width="1" opacity=".25" stroke-dasharray="3 3"/>
 
-  <!-- Input items with icons before text -->
-  <rect x="115" y="18" width="68" height="24" rx="5" fill="#fff" stroke="#10B981" stroke-width="1.2"/>
-  <text x="127" y="34" font-size="11">🎵</text>
-  <text x="140" y="34" font-family="system-ui" font-size="8" fill="#374151">Music</text>
+  <!-- Input items — icon then gap then text -->
+  <rect x="112" y="18" width="72" height="24" rx="5" fill="#fff" stroke="#10B981" stroke-width="1.2"/>
+  <text x="124" y="34" font-size="11">🎵</text>
+  <text x="142" y="34" font-family="system-ui" font-size="8" fill="#374151">Music</text>
 
-  <rect x="115" y="48" width="68" height="24" rx="5" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/>
-  <text x="127" y="64" font-size="11">🎬</text>
-  <text x="140" y="64" font-family="system-ui" font-size="8" fill="#374151">Videos</text>
+  <rect x="112" y="48" width="72" height="24" rx="5" fill="#fff" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="124" y="64" font-size="11">🎬</text>
+  <text x="142" y="64" font-family="system-ui" font-size="8" fill="#374151">Videos</text>
 
-  <rect x="115" y="78" width="68" height="24" rx="5" fill="#fff" stroke="#F59E0B" stroke-width="1.2"/>
-  <text x="127" y="94" font-size="11">📚</text>
-  <text x="140" y="94" font-family="system-ui" font-size="8" fill="#374151">Books</text>
+  <rect x="112" y="78" width="72" height="24" rx="5" fill="#fff" stroke="#F59E0B" stroke-width="1.2"/>
+  <text x="124" y="94" font-size="11">📚</text>
+  <text x="142" y="94" font-family="system-ui" font-size="8" fill="#374151">Books</text>
 
   <!-- Algorithm brain -->
-  <rect x="205" y="38" width="65" height="44" rx="10" fill="#7C3AED" opacity=".1"/>
-  <text x="237" y="58" text-anchor="middle" font-size="16">🧠</text>
-  <text x="237" y="74" text-anchor="middle" font-family="system-ui" font-size="7" fill="#7C3AED" font-weight="600">Algorithm</text>
+  <rect x="208" y="38" width="60" height="44" rx="10" fill="#7C3AED" opacity=".1"/>
+  <text x="238" y="58" text-anchor="middle" font-size="16">🧠</text>
+  <text x="238" y="74" text-anchor="middle" font-family="system-ui" font-size="7" fill="#7C3AED" font-weight="600">Algorithm</text>
 
   <!-- Arrows -->
-  <line x1="185" y1="60" x2="203" y2="60" stroke="#7C3AED" stroke-width="1.2" opacity=".4"/>
-  <line x1="272" y1="52" x2="300" y2="35" stroke="#10B981" stroke-width="1.2" opacity=".5"/>
-  <line x1="272" y1="60" x2="300" y2="60" stroke="#10B981" stroke-width="1.8"/>
-  <line x1="272" y1="68" x2="300" y2="85" stroke="#10B981" stroke-width="1.2" opacity=".5"/>
+  <line x1="186" y1="60" x2="206" y2="60" stroke="#7C3AED" stroke-width="1" opacity=".3"/>
+  <line x1="270" y1="52" x2="298" y2="30" stroke="#10B981" stroke-width="1" opacity=".4"/>
+  <line x1="270" y1="60" x2="298" y2="60" stroke="#10B981" stroke-width="1.5"/>
+  <line x1="270" y1="68" x2="298" y2="90" stroke="#10B981" stroke-width="1" opacity=".4"/>
 
-  <!-- Output recommendations -->
-  <rect x="305" y="22" width="80" height="24" rx="5" fill="#10B981" opacity=".1"/>
-  <text x="317" y="38" font-size="10">⭐</text>
-  <text x="330" y="38" font-family="system-ui" font-size="8" fill="#065F46">For you</text>
+  <!-- Output: personalized feeds -->
+  <rect x="302" y="16" width="88" height="28" rx="6" fill="#10B981" opacity=".08" stroke="#10B981" stroke-width=".5"/>
+  <text x="316" y="34" font-size="9">⭐</text>
+  <text x="332" y="34" font-family="system-ui" font-size="7.5" fill="#065F46">Music feed</text>
 
-  <rect x="305" y="50" width="80" height="24" rx="5" fill="#7C3AED" opacity=".1"/>
-  <text x="317" y="66" font-size="10">🔥</text>
-  <text x="330" y="66" font-family="system-ui" font-size="8" fill="#4C1D95">Trending</text>
+  <rect x="302" y="48" width="88" height="28" rx="6" fill="#7C3AED" opacity=".08" stroke="#7C3AED" stroke-width=".5"/>
+  <text x="316" y="66" font-size="9">🔥</text>
+  <text x="332" y="66" font-family="system-ui" font-size="7.5" fill="#4C1D95">Video feed</text>
 
-  <rect x="305" y="78" width="80" height="24" rx="5" fill="#F59E0B" opacity=".1"/>
-  <text x="317" y="94" font-size="10">💡</text>
-  <text x="330" y="94" font-family="system-ui" font-size="8" fill="#92400E">Discover</text>
+  <rect x="302" y="80" width="88" height="28" rx="6" fill="#F59E0B" opacity=".08" stroke="#F59E0B" stroke-width=".5"/>
+  <text x="316" y="98" font-size="9">💡</text>
+  <text x="332" y="98" font-family="system-ui" font-size="7.5" fill="#92400E">Books feed</text>
 
-  <!-- Final user -->
-  <line x1="387" y1="35" x2="420" y2="52" stroke="#10B981" stroke-width="1.2" opacity=".4"/>
-  <line x1="387" y1="62" x2="420" y2="60" stroke="#10B981" stroke-width="1.5" opacity=".5"/>
-  <line x1="387" y1="90" x2="420" y2="68" stroke="#10B981" stroke-width="1.2" opacity=".4"/>
-  <circle cx="435" cy="60" r="18" fill="#10B981" opacity=".1"/>
-  <circle cx="435" cy="53" r="6" fill="#10B981"/>
-  <path d="M425 68 a10 8 0 0 1 20 0" fill="#10B981"/>
-  <text x="435" y="93" text-anchor="middle" font-size="10">😊</text>
+  <!-- Small feed preview lines -->
+  <rect x="370" y="22" width="14" height="2" rx="1" fill="#10B981" opacity=".3"/>
+  <rect x="370" y="27" width="10" height="2" rx="1" fill="#10B981" opacity=".2"/>
+  <rect x="370" y="32" width="12" height="2" rx="1" fill="#10B981" opacity=".15"/>
+
+  <rect x="370" y="54" width="14" height="2" rx="1" fill="#7C3AED" opacity=".3"/>
+  <rect x="370" y="59" width="10" height="2" rx="1" fill="#7C3AED" opacity=".2"/>
+  <rect x="370" y="64" width="12" height="2" rx="1" fill="#7C3AED" opacity=".15"/>
+
+  <rect x="370" y="86" width="14" height="2" rx="1" fill="#F59E0B" opacity=".3"/>
+  <rect x="370" y="91" width="10" height="2" rx="1" fill="#F59E0B" opacity=".2"/>
+  <rect x="370" y="96" width="12" height="2" rx="1" fill="#F59E0B" opacity=".15"/>
 </svg>
