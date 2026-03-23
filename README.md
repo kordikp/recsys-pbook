@@ -8,7 +8,7 @@
 
 **[recsysbook-kids.vercel.app](https://recsysbook-kids.vercel.app)**
 
-![p-book screenshot](images/kids-pbook-screen.png)
+![p-book screenshot](images/pbook-recsys4kids.jpeg)
 
 ## What is a p-book?
 

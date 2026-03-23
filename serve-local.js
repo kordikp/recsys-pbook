@@ -91,7 +91,39 @@ async function handleProxy(req, res) {
   }
 }
 
+// --- Interaction log ---
+const LOG_FILE = path.join(ROOT, '.log-interactions.jsonl');
+
+async function handleLog(req, res) {
+  if (req.method === 'GET') {
+    try {
+      if (!fs.existsSync(LOG_FILE)) { res.writeHead(200, { ...CORS, 'Content-Type': 'application/json' }); res.end('[]'); return; }
+      const lines = fs.readFileSync(LOG_FILE, 'utf8').trim().split('\n').filter(Boolean);
+      const entries = lines.map(l => { try { return JSON.parse(l); } catch(e) { return null; } }).filter(Boolean);
+      res.writeHead(200, { ...CORS, 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(entries));
+    } catch(e) { res.writeHead(200, { ...CORS, 'Content-Type': 'application/json' }); res.end('[]'); }
+    return;
+  }
+  // POST
+  let body = ''; for await (const c of req) body += c;
+  try {
+    const data = JSON.parse(body || '{}');
+    if (!data.type) { res.writeHead(400, { ...CORS, 'Content-Type': 'application/json' }); res.end('{"error":"type required"}'); return; }
+    const entry = { ...data, serverTs: Date.now() };
+    fs.appendFileSync(LOG_FILE, JSON.stringify(entry) + '\n');
+    res.writeHead(200, { ...CORS, 'Content-Type': 'application/json' });
+    res.end('{"ok":true}');
+  } catch(e) { res.writeHead(500, { ...CORS, 'Content-Type': 'application/json' }); res.end(JSON.stringify({ error: e.message })); }
+}
+
 const server = http.createServer(async (req, res) => {
+  // Interaction log
+  if (req.url === '/.netlify/functions/log' || req.url === '/api/log') {
+    if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
+    await handleLog(req, res); return;
+  }
+
   // Recombee proxy
   if (req.url === '/.netlify/functions/recombee') {
     if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }

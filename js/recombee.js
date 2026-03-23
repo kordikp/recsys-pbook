@@ -112,8 +112,22 @@ export class RecombeeClient {
     } catch (e) { /* ignore — properties might not be configured */ }
   }
 
+  // --- Server-side log (fire & forget) ---
+  _sendToLog(entry) {
+    try {
+      fetch('/.netlify/functions/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(entry)
+      }).catch(() => {}); // fire & forget
+    } catch(e) {}
+  }
+
   // --- Persist interactions locally ---
   _saveInteractions() {
+    // Also send last interaction to server log
+    const last = this.interactions[this.interactions.length - 1];
+    if (last) this._sendToLog(last);
     try {
       // Keep last 500 interactions
       const recent = this.interactions.slice(-500);

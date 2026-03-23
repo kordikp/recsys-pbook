@@ -710,7 +710,7 @@ class PBook {
         <div class="block-actions">
           <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
           <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
-          <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save">&#128278;</button>
+          <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save for later">&#128278;</button>
           <button class="act-btn flag-btn" onclick="app.flagBlock('${block.id}')" title="Suggest edit to author">&#9873;</button>
         </div>
       </div>
@@ -1411,11 +1411,15 @@ class PBook {
       <div class="map-mode-toggle">
         <button class="map-mode-btn ${mapMode === 'visual' ? 'active' : ''}" onclick="app.setMapMode('visual')">Visual</button>
         <button class="map-mode-btn ${mapMode === 'list' ? 'active' : ''}" onclick="app.setMapMode('list')">Detail List</button>
+        <button class="map-mode-btn ${mapMode === 'saved' ? 'active' : ''}" onclick="app.setMapMode('saved')">Saved${this.user.savedBlocks.size ? ' (' + this.user.savedBlocks.size + ')' : ''}</button>
       </div>
       <button class="map-reset-btn" onclick="app.resetAll()">Reset progress</button>
     </div>`;
 
-    if (false) { // old paths mode removed — now in Missions tab
+    if (mapMode === 'saved') {
+      html += this._renderSavedList();
+      el.innerHTML = html;
+      return;
     }
 
     if (mapMode === 'visual') {
@@ -1513,6 +1517,41 @@ class PBook {
   }
 
   setMapMode(mode) { this._mapMode = mode; this.renderMap(); }
+
+  _renderSavedList() {
+    const savedIds = [...this.user.savedBlocks];
+    const saved = savedIds.map(id => this.findBlock(id)).filter(Boolean);
+
+    if (!saved.length) {
+      return `<div style="text-align:center;padding:2em;color:var(--text-3);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">
+        <p style="font-size:1.5rem;margin-bottom:.3em">&#128278;</p>
+        <p style="font-size:.85rem;font-weight:600">No saved items yet</p>
+        <p style="font-size:.78rem;color:var(--text-3);margin-top:.2em">Tap the bookmark icon on any section to save it for later.</p>
+      </div>`;
+    }
+
+    let html = `<div style="font-size:.82rem;color:var(--text-2);margin-bottom:.8em">${saved.length} saved item${saved.length !== 1 ? 's' : ''} — tap to read, swipe to remove</div>`;
+    html += '<div class="map-blocks">';
+    saved.reverse().forEach(b => {
+      const isRead = this.user.readBlocks.has(b.meta.id);
+      const isCore = b.meta.core;
+      html += `<div class="map-block ${isRead ? 'read' : ''}" style="position:relative" onclick="app.openBlock('${b.meta.id}')">
+        <div class="map-dot ${isRead ? 'done' : ''}"></div>
+        <span class="map-block-title">${b.meta.title}</span>
+        ${isCore ? '<span class="map-core-badge">CORE</span>' : ''}
+        <span style="font-size:.65rem;color:var(--text-3)">Ch${b.meta._chapterNum}</span>
+        <button class="saved-remove-btn" onclick="event.stopPropagation();app.unsaveBlock('${b.meta.id}')" title="Remove from saved">&times;</button>
+      </div>`;
+    });
+    html += '</div>';
+    return html;
+  }
+
+  unsaveBlock(blockId) {
+    this.user.savedBlocks.delete(blockId);
+    this.user.save();
+    this.renderMap();
+  }
 
   // ===== READING PATHS =====
   getReadingPaths() {

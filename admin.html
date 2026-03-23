@@ -238,7 +238,7 @@ const FMT = ['LinkedIn Post','LinkedIn Carousel','X Thread','Blog Article','YouT
 const STAGES = ['draft','review','approved','ready_for_pr','published'];
 const STAGE_LABELS = {draft:'Draft',review:'In Review',approved:'Approved',ready_for_pr:'Ready for PR',published:'Published'};
 const STAGE_COLORS = {draft:'#d1d5db',review:'#fbbf24',approved:'#60a5fa',ready_for_pr:'#a78bfa',published:'#34d399'};
-const TABS = ['Editorial','Content','Feedback','PR Pipeline','PR Push'];
+const TABS = ['Editorial','Analytics','Content','Feedback','PR Pipeline','PR Push'];
 
 let book,allBlocks=[],mktg={},currentTab='Editorial',sideFilter=null,editorBlock=null;
 // These must be on window because onclick handlers run in global scope
@@ -303,6 +303,7 @@ window.ST=function(t){currentTab=t;document.querySelectorAll('#mainNav button').
 function showMain(){
   const m=document.getElementById('main');
   if(currentTab==='Editorial')renderEditorial(m);
+  else if(currentTab==='Analytics')renderAnalytics(m);
   else if(currentTab==='Content')renderContent(m);
   else if(currentTab==='Feedback')renderFeedback(m);
   else if(currentTab==='PR Pipeline')renderPipeline(m);
@@ -316,6 +317,183 @@ function filtered(){
   else if(sideFilter)list=list.filter(b=>mktg[b.id]?.status===sideFilter);
   return list;
 }
+
+// ---- Analytics: real Recombee data ----
+// ---- Analytics: from server-side log ----
+async function renderAnalytics(el){
+  el.innerHTML = '<div style="text-align:center;padding:2em;color:var(--text3)">Loading server-side analytics...</div>';
+
+  let interactions = [];
+  try {
+    const res = await fetch('/.netlify/functions/log');
+    if (res.ok) interactions = await res.json();
+  } catch(e) {}
+
+  // Fallback to localStorage if server has no data
+  if (!interactions.length) {
+    try { interactions = JSON.parse(localStorage.getItem('pbook-interactions') || '[]'); } catch(e) {}
+  }
+
+  const source = interactions.length && interactions[0].serverTs ? 'Server-side log' : 'Browser localStorage (fallback)';
+  const userId = localStorage.getItem('pbook-uid') || 'unknown';
+
+  // Parse interactions
+  const views = interactions.filter(i => i.type === 'detailview');
+  const ratings = interactions.filter(i => i.type === 'rating');
+  const bookmarks = interactions.filter(i => i.type === 'bookmark');
+  const events = interactions.filter(i => i.type === 'event');
+  const modeSwitches = events.filter(e => e.event === 'mode_switch');
+  const blockOpens = events.filter(e => e.event === 'open_block');
+
+  // Mode usage from mode_switch events
+  const modeCount = {};
+  modeSwitches.forEach(e => { modeCount[e.mode] = (modeCount[e.mode] || 0) + 1; });
+
+  // Blocks opened per mode
+  const modeBlocks = {};
+  blockOpens.forEach(e => {
+    if (!modeBlocks[e.mode]) modeBlocks[e.mode] = new Set();
+    modeBlocks[e.mode].add(e.blockId);
+  });
+
+  // Views per mode
+  const modeViews = {};
+  views.forEach(v => { const m = v.mode || 'unknown'; modeViews[m] = (modeViews[m] || 0) + 1; });
+
+  // View duration per mode
+  const modeDuration = {};
+  views.forEach(v => { if (v.duration) { const m = v.mode || 'unknown'; modeDuration[m] = (modeDuration[m] || 0) + v.duration; }});
+
+  // Most viewed items
+  const itemViews = {};
+  views.forEach(v => { itemViews[v.itemId] = (itemViews[v.itemId] || 0) + 1; });
+  const topItems = Object.entries(itemViews).sort((a,b) => b[1]-a[1]).slice(0, 15);
+
+  // Timeline (last 50 events)
+  const timeline = interactions.slice(-50).reverse();
+
+  let h = '<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">Reader Analytics</h2>';
+  // Unique users across all interactions
+  const allUserIds = new Set();
+  interactions.forEach(i => { if (i.userId) allUserIds.add(i.userId); });
+
+  h += `<p style="font-size:.82rem;color:var(--text2);margin-bottom:1em">Source: <b>${source}</b> · ${allUserIds.size} reader${allUserIds.size!==1?'s':''} · ${interactions.length} interactions.</p>`;
+
+  // Summary
+  h += '<div class="cg">';
+  h += gc('Views', views.length, 'blocks read');
+  h += gc('Ratings', ratings.length, 'likes/dislikes');
+  h += gc('Bookmarks', bookmarks.length, 'saved');
+  h += gc('Mode Switches', modeSwitches.length, 'navigations');
+  h += gc('Block Opens', blockOpens.length, 'from various modes');
+  h += '</div>';
+
+  // Mode usage — key research metric
+  if (Object.keys(modeCount).length) {
+    h += '<h3 style="font-size:.9rem;font-weight:700;margin:1em 0 .5em">Mode Usage (switches)</h3>';
+    h += '<p style="font-size:.75rem;color:var(--text2);margin-bottom:.5em">How many times the reader switched to each mode. Key for comparing content serving approaches.</p>';
+    const maxMode = Math.max(...Object.values(modeCount), 1);
+    const modeColors = {netflix:'#7C3AED',read:'#2563EB',mission:'#D97706',map:'#059669',tutor:'#EC4899',search:'#6366F1',profile:'#6B7280',home:'#7C3AED'};
+    h += '<div style="display:flex;flex-direction:column;gap:.4em;max-width:500px">';
+    Object.entries(modeCount).sort((a,b) => b[1]-a[1]).forEach(([mode, count]) => {
+      const pct = Math.round(count / maxMode * 100);
+      const uniqueBlocks = modeBlocks[mode]?.size || 0;
+      const viewsInMode = modeViews[mode] || 0;
+      const durSec = modeDuration[mode] || 0;
+      h += `<div>
+        <div style="display:flex;align-items:center;gap:.5em">
+          <span style="width:5em;font-size:.75rem;font-weight:600;text-align:right">${mode}</span>
+          <div style="flex:1;height:18px;background:var(--border);border-radius:4px;overflow:hidden">
+            <div style="height:100%;width:${pct}%;background:${modeColors[mode]||'var(--accent)'};border-radius:4px"></div>
+          </div>
+          <span style="font-size:.72rem;color:var(--text2);width:2.5em">${count}x</span>
+        </div>
+        <div style="margin-left:5.5em;font-size:.65rem;color:var(--text3)">${viewsInMode} views · ${uniqueBlocks} unique blocks${durSec ? ' · ' + Math.round(durSec) + 's reading' : ''}</div>
+      </div>`;
+    });
+    h += '</div>';
+  }
+
+  // Top items
+  if (topItems.length) {
+    h += '<h3 style="font-size:.9rem;font-weight:700;margin:1.5em 0 .5em">Most Read Sections</h3>';
+    h += '<div class="cl">';
+    topItems.forEach(([itemId, count]) => {
+      const b = allBlocks.find(x => x.id === itemId);
+      h += `<div class="cl-item" style="grid-template-columns:1fr auto"><span class="cl-title">${b ? b.title : itemId}</span><span style="font-size:.72rem;color:var(--text3)">${count} views</span></div>`;
+    });
+    h += '</div>';
+  }
+
+  // Timeline
+  if (timeline.length) {
+    h += '<details style="margin-top:1.5em"><summary style="font-size:.82rem;font-weight:600;cursor:pointer">Event Timeline (last 50)</summary>';
+    h += '<div class="cl" style="margin-top:.5em;font-size:.72rem">';
+    timeline.forEach(i => {
+      const time = new Date(i.ts).toLocaleString();
+      const label = i.event ? `${i.event}: ${i.mode||''}` : `${i.type}: ${i.itemId||''}`;
+      h += `<div class="cl-item" style="grid-template-columns:auto 1fr;gap:.5em;padding:.2em .4em">
+        <span style="color:var(--text3);white-space:nowrap">${time}</span>
+        <span>${label}${i.duration ? ' ('+i.duration+'s)' : ''}${i.mode && i.type !== 'event' ? ' ['+i.mode+']' : ''}</span>
+      </div>`;
+    });
+    h += '</div></details>';
+  }
+
+  // Export
+  h += '<div style="margin-top:1.5em;display:flex;gap:.5em">';
+  h += '<button class="ed-btn ed-btn-primary" onclick="exportLocalAnalytics()">Export analytics (JSON)</button>';
+  h += '<button class="ed-btn" onclick="clearAnalytics()">Clear data</button>';
+  h += '</div>';
+
+  // Per-user summary
+  if (allUserIds.size > 1) {
+    h += '<h3 style="font-size:.9rem;font-weight:700;margin:1.5em 0 .5em">Per-Reader Summary</h3>';
+    h += '<div class="cl">';
+    [...allUserIds].forEach(uid => {
+      const uViews = views.filter(v => v.userId === uid).length;
+      const uModes = {};
+      events.filter(e => e.userId === uid && e.event === 'mode_switch').forEach(e => { uModes[e.mode] = (uModes[e.mode]||0)+1; });
+      const topMode = Object.entries(uModes).sort((a,b) => b[1]-a[1])[0];
+      h += `<div class="cl-item" style="grid-template-columns:1fr auto auto auto">
+        <span style="font-size:.7rem;font-family:monospace">${uid.substring(0,24)}...</span>
+        <span style="font-size:.68rem;color:var(--text3)">${uViews} views</span>
+        <span style="font-size:.68rem;color:var(--text3)">${Object.keys(uModes).length} modes</span>
+        <span style="font-size:.68rem;color:var(--accent)">${topMode ? topMode[0] : '—'}</span>
+      </div>`;
+    });
+    h += '</div>';
+  }
+
+  h += `<div style="margin-top:1em;padding:.8em;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);font-size:.75rem;color:var(--text2)">
+    <b>How it works:</b> Every reader interaction is sent to the server-side log endpoint (<code>/.netlify/functions/log</code>).
+    On localhost, data is stored in <code>.log-interactions.jsonl</code>. On Vercel/Netlify, it's in <code>/tmp/</code> (ephemeral — persists until next deploy).
+    For production, connect a persistent store (database, Google Sheets, S3).
+  </div>`;
+
+  el.innerHTML = h;
+}
+
+window.exportLocalAnalytics = function() {
+  let interactions = [];
+  try { interactions = JSON.parse(localStorage.getItem('pbook-interactions') || '[]'); } catch(e) {}
+  let user = {};
+  try { user = JSON.parse(localStorage.getItem('pbook-user') || '{}'); } catch(e) {}
+  const data = { exportedAt: new Date().toISOString(), userId: localStorage.getItem('pbook-uid'), interactions, user };
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'pbook-analytics-' + new Date().toISOString().slice(0,10) + '.json';
+  a.click();
+  toast('Analytics exported');
+};
+
+window.clearAnalytics = function() {
+  if (!confirm('Clear all interaction data from this browser?')) return;
+  localStorage.removeItem('pbook-interactions');
+  toast('Analytics cleared');
+  showMain();
+};
 
 // ---- Editorial: review & accept content ----
 function renderEditorial(el){
