@@ -393,6 +393,22 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 /* Block articles (each block is a distinct card) */
 .block-article { margin-bottom: 1.5em; padding: 1.5em; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative; }
 
+/* Block with side notes layout */
+.block-with-side { display: flex; gap: 1em; }
+.block-main { flex: 1; min-width: 0; }
+.block-side { flex: 0 0 180px; font-family: var(--font-ui); font-size: .72rem; }
+.side-highlights { margin-bottom: .8em; }
+.side-label { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-3); margin-bottom: .3em; }
+.side-highlight { color: var(--text-2); line-height: 1.35; padding: .25em 0; border-bottom: 1px solid var(--border-light); }
+.side-highlight:last-child { border-bottom: none; }
+.side-note { padding: .5em; background: var(--accent-bg); border-radius: var(--radius-sm); }
+.side-note-text { color: var(--text); font-style: italic; line-height: 1.35; margin-bottom: .2em; }
+.side-note-edit { font-size: .6rem; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; }
+@media (max-width: 700px) {
+  .block-with-side { flex-direction: column; }
+  .block-side { flex: none; padding-top: .5em; border-top: 1px solid var(--border-light); }
+}
+
 .block-header { margin-bottom: 1em; }
 .block-header h3 { font-family: var(--font-ui); font-size: 1.35rem; font-weight: 800; line-height: 1.25; margin-bottom: .4em; color: var(--text); }
 .block-meta { font-family: var(--font-ui); font-size: .72rem; color: var(--text-3); display: flex; gap: .8em; align-items: center; }

@@ -762,13 +762,56 @@ class PBook {
     });
   }
 
+  // Generate AI highlights/takeaways from block content
+  _getHighlights(block) {
+    const body = (block.body || '').toLowerCase();
+    const id = block.id;
+    // Hand-crafted key takeaways for core blocks
+    const HIGHLIGHTS = {
+      'ch1-noticed': ['YouTube, TikTok, Spotify all use algorithms to pick content for you', 'Your feed is unique — nobody else sees the same thing', 'The system watches your every click to learn your taste'],
+      'ch1-everywhere': ['Recommendations are in 8+ apps you use daily', 'Netflix, YouTube, Spotify, app stores, online shops all use them', 'You probably see hundreds of recommendations per day without realizing'],
+      'ch1-not-magic': ['Recommenders find patterns in your behavior', 'Step 1: Watch what you do. Step 2: Find patterns. Step 3: Predict what you\'ll like', 'It\'s detective work, not mind reading'],
+      'ch1-three-jobs': ['Job 1: Help you DISCOVER new things', 'Job 2: Help you FIND things faster', 'Job 3: Keep you INTERESTED so you come back'],
+      'ch2-footprints': ['Every click, watch, skip leaves a digital footprint', 'The internet remembers everything you do', 'Your trail of data is what algorithms use to learn about you'],
+      'ch2-clues': ['Item clues (what it IS), person clues (who YOU are), action clues (what you DO)', 'All three together make recommendations better', 'The more clues, the better the prediction'],
+      'ch3-friends': ['Collaborative filtering: find people with similar taste, recommend what THEY liked', 'You don\'t need to describe what you like — similar users do it for you', 'The "people who liked X also liked Y" approach'],
+      'ch3-content': ['Content-based: look at item features (genre, tags, description)', 'Good for new items with no ratings yet', 'Doesn\'t need other users — just item data'],
+      'ch3-pipeline': ['Real systems use ALL methods together in a pipeline', 'Step 1: FIND candidates. Step 2: RANK them. Step 3: CHECK for diversity', 'This all happens in under 1 second'],
+      'ch4-bubbles': ['Filter bubble = only seeing things you already like', 'Like eating only pizza forever — sounds good until it doesn\'t', 'The algorithm thinks it\'s helping, but it\'s shrinking your world'],
+      'ch4-objectives': ['Every algorithm has a goal — engagement, revenue, or satisfaction', 'Subscription = optimizes for YOU. Free = optimizes for ADVERTISERS', 'When goals conflict, users usually lose'],
+      'ch6-who-decides': ['An algorithm decides what you see, not a human', 'Engineers designed it, but even they can\'t predict every recommendation', 'The algorithm\'s goal might not be the same as YOUR goal'],
+      'ch6-addictive': ['Infinite scroll, autoplay = no natural stopping point', 'These are design choices, not accidents', 'You have more control than you think'],
+      'ch6-adtech-vs-recs': ['Recommender = helps you within ONE app', 'Adtech = tracks you across the ENTIRE internet', 'That shoe ad following you everywhere is adtech, not recommendations'],
+    };
+    if (HIGHLIGHTS[id]) return HIGHLIGHTS[id];
+    // Auto-generate from content: extract sentences with bold/strong markers
+    const sentences = (block.body || '').split(/[.!?]\s/).filter(s => s.includes('**') || s.length > 40 && s.length < 150);
+    if (sentences.length >= 2) return sentences.slice(0, 3).map(s => s.replace(/[*#_\[\]]/g, '').trim());
+    return null;
+  }
+
   async renderSpine(block) {
     const bodyHtml = renderMarkdown(block.body);
     let diagramHtml = '';
     if (block.diagram) { const svg = await getDiagram(block.diagram); diagramHtml = `<div class="diagram-wrap">${svg}</div>`; }
     const isRead = this.user.readBlocks.has(block.id);
     const savedNote = this.getNote(block.id);
-    const noteHtml = savedNote ? `<div class="block-note-display"><span class="note-icon">&#128221;</span><span>${this.escHtml(savedNote)}</span><button class="note-edit" onclick="app.editNote('${block.id}')">edit</button></div>` : '';
+    const highlights = CONFIG.features.highlights !== false ? this._getHighlights(block) : null;
+
+    // Side notes panel (highlights + user note)
+    let sideHtml = '';
+    if (highlights || savedNote) {
+      sideHtml = '<div class="block-side">';
+      if (highlights) {
+        sideHtml += '<div class="side-highlights"><div class="side-label">\u{1F4A1} Key takeaways</div>';
+        highlights.forEach(h => { sideHtml += `<div class="side-highlight">${this.escHtml(h)}</div>`; });
+        sideHtml += '</div>';
+      }
+      if (savedNote) {
+        sideHtml += `<div class="side-note"><div class="side-label">\u{1F4DD} Your note</div><div class="side-note-text">${this.escHtml(savedNote)}</div><button class="side-note-edit" onclick="app.editNote('${block.id}')">edit</button></div>`;
+      }
+      sideHtml += '</div>';
+    }
 
     return `<article class="block-article fade-up" id="b-${block.id}">
       <div class="block-header">
@@ -779,9 +822,13 @@ class PBook {
           ${block.standalone ? '<span class="meta-standalone">Standalone</span>' : ''}
         </div>
       </div>
-      ${diagramHtml}
-      <div class="spine-body">${bodyHtml}</div>
-      ${noteHtml}
+      <div class="block-with-side">
+        <div class="block-main">
+          ${diagramHtml}
+          <div class="spine-body">${bodyHtml}</div>
+        </div>
+        ${sideHtml}
+      </div>
       <div class="block-footer">
         <div class="block-reactions" data-block="${block.id}">
           <button class="like-btn ${this.user.ratings.get(block.id)>=0.7?'liked':''}" onclick="app.toggleLike('${block.id}')">

@@ -31,6 +31,7 @@ export const CONFIG = {
     spaceRepetition: true,    // Recall quizzes
     missions: true,           // Story-driven missions
     games: true,              // Mini-games
+    highlights: true,         // AI-generated key takeaways sidebar
   },
 
   tutor: {
