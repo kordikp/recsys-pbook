@@ -627,55 +627,73 @@ class PBook {
   _setupInfiniteScroll(pane, startIdx) {
     if (this._scrollHandler) window.removeEventListener('scroll', this._scrollHandler);
     this._isLoadingMore = false;
+    this._feedShownBlocks = new Set(this.chapters[startIdx]?.blocks.map(b => b.id) || []);
 
     this._scrollHandler = async () => {
       if (this._isLoadingMore || this.currentView !== 'read') return;
-      // Check if near bottom (within 600px)
       const scrollBottom = window.innerHeight + window.scrollY;
       const docHeight = document.documentElement.scrollHeight;
       if (scrollBottom < docHeight - 600) return;
 
       this._isLoadingMore = true;
-
-      // Ask Recombee what chapter/block to show next
-      const nextChIdx = await this._getNextChapter();
-      if (nextChIdx !== null && !this._loadedChapters.has(nextChIdx)) {
-        const nextCh = this.chapters[nextChIdx];
-        if (nextCh) {
-          this._loadedChapters.add(nextChIdx);
-          const html = await this._renderChapterContent(nextCh, nextChIdx);
-          pane.insertAdjacentHTML('beforeend', '<hr style="margin:2em 0;border:none;border-top:2px solid var(--border)">');
+      const nextBlocks = await this._getNextFeedBlocks(3);
+      if (nextBlocks.length) {
+        for (const block of nextBlocks) {
+          if (this._feedShownBlocks.has(block.meta.id)) continue;
+          this._feedShownBlocks.add(block.meta.id);
+          const ch = this.chapters[block.meta._chapterIdx];
+          // Chapter divider if different chapter
+          const lastCh = this._lastFeedChapter;
+          if (ch && ch.id !== lastCh) {
+            pane.insertAdjacentHTML('beforeend', `<div class="feed-ch-divider fade-up"><span>Ch${ch.number}: ${ch.title}</span></div>`);
+            this._lastFeedChapter = ch.id;
+          }
+          const html = await this.renderSpine(block.meta);
           pane.insertAdjacentHTML('beforeend', html);
-          this.renderMath();
-          this._observeBlocks(nextCh);
-          this.user.currentChapter = nextChIdx;
-          this.user.save();
-              }
+          // Observe for dwell tracking
+          if (ch) {
+            if (!this._observedChapters[block.meta.id]) this._observedChapters[block.meta.id] = ch;
+            const el = document.getElementById(`b-${block.meta.id}`);
+            if (el && !el.dataset.observed) { el.dataset.observed = '1'; this._observer?.observe(el); }
+          }
+        }
+        this.renderMath();
       }
       this._isLoadingMore = false;
     };
 
+    this._lastFeedChapter = this.chapters[startIdx]?.id;
     window.addEventListener('scroll', this._scrollHandler, { passive: true });
   }
 
-  async _getNextChapter() {
-    // Try Recombee first — ask for next recommended spine block
-    if (this.rc.enabled) {
-      const readIds = [...this.user.readBlocks].join(',');
-      const result = await this.rc.getRecsForUser('next-read', 1,
-        this.rc.reql({ type: 'spine' }));
+  async _getNextFeedBlocks(count) {
+    const shown = this._feedShownBlocks || new Set();
+    let blocks = [];
+
+    // Try Recombee for personalized recommendations
+    if (this.rc.enabled && this._f('personalization')) {
+      const result = await this.rc.getRecsForUser('next-read', count * 2, this.rc.reql({ type: 'spine' }));
       if (result?.recomms?.length) {
-        const recId = result.recomms[0].id;
-        const block = this.findBlock(recId);
-        if (block) return block.meta._chapterIdx;
+        for (const r of result.recomms) {
+          if (shown.has(r.id)) continue;
+          const block = this.findBlock(r.id);
+          if (block && !this.user.readBlocks.has(r.id)) { blocks.push(block); if (blocks.length >= count) break; }
+        }
       }
     }
-    // Fallback: next chapter in sequence that hasn't been loaded
-    const loaded = this._loadedChapters || new Set();
-    for (let i = 0; i < this.book.chapters.length; i++) {
-      if (!loaded.has(i)) return i;
+
+    // Fallback: sequential unread blocks
+    if (blocks.length < count) {
+      for (const b of this.allBlocks) {
+        if (b.meta.type !== 'spine') continue;
+        if (shown.has(b.meta.id) || this.user.readBlocks.has(b.meta.id)) continue;
+        if (blocks.find(x => x.meta.id === b.meta.id)) continue;
+        blocks.push(b);
+        if (blocks.length >= count) break;
+      }
     }
-    return null;
+
+    return blocks;
   }
 
   // (moved inline to renderRead)
