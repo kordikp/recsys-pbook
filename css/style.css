@@ -391,25 +391,26 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .ch-sub { font-size: 1rem; color: var(--text-2); }
 
 /* Block articles (each block is a distinct card) */
-.block-article { margin-bottom: 1.5em; padding: 1.5em; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative; }
+.block-article { margin-bottom: 1.5em; padding: 1.5em; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative; overflow: visible; }
 
-/* Block with side notes layout */
-.block-with-side { display: flex; gap: 1em; }
-.block-main { flex: 1; min-width: 0; }
-.block-side { flex: 0 0 180px; font-family: var(--font-ui); font-size: .72rem; }
-.side-highlights { margin-bottom: .8em; }
-.side-label { font-size: .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-3); margin-bottom: .3em; }
-.side-highlight { color: var(--text-2); line-height: 1.35; padding: .25em 0; border-bottom: 1px solid var(--border-light); }
+/* Block with side notes layout — margin notes on wide screens */
+.block-with-side { position: relative; }
+.block-side { position: absolute; right: -185px; top: 0; width: 170px; font-family: var(--font-ui); font-size: .68rem; }
+.side-highlights { margin-bottom: .6em; }
+.side-label { font-size: .56rem; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-3); margin-bottom: .25em; }
+.side-highlight { color: var(--text-2); line-height: 1.3; padding: .2em 0; border-bottom: 1px solid var(--border-light); }
 .side-highlight:last-child { border-bottom: none; }
-.side-note { padding: .5em; background: var(--accent-bg); border-radius: var(--radius-sm); }
-.side-note-text { color: var(--text); font-style: italic; line-height: 1.35; margin-bottom: .2em; }
-.side-note-edit { font-size: .6rem; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; }
+.side-note { padding: .4em .5em; background: #FEF3C7; border-left: 2px solid #F59E0B; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; margin-top: .4em; }
+.side-note-text { color: var(--text); font-style: italic; line-height: 1.3; margin-bottom: .15em; }
+.side-note-edit { font-size: .56rem; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; }
 
-/* Auto-highlighted key sentences */
-.auto-hl { background: linear-gradient(180deg, transparent 60%, #FEF3C7 60%); }
-@media (max-width: 700px) {
-  .block-with-side { flex-direction: column; }
-  .block-side { flex: none; padding-top: .5em; border-top: 1px solid var(--border-light); }
+/* Auto-highlight: same <mark> as user highlights */
+.auto-mark { background: linear-gradient(180deg, transparent 55%, #FEF3C7 55%); font-weight: 700; }
+.user-highlight { background: #FEF3C7; }
+
+/* Narrow screens: side notes move inline below content */
+@media (max-width: 900px) {
+  .block-side { position: static; width: auto; margin-top: .6em; padding-top: .5em; border-top: 1px dashed var(--border-light); }
 }
 
 .block-header { margin-bottom: 1em; }

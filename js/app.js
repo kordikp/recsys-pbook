@@ -792,9 +792,13 @@ class PBook {
 
   async renderSpine(block) {
     let bodyHtml = renderMarkdown(block.body);
-    // Auto-highlight key sentences (paragraphs containing bold text)
+    // Auto-highlight: wrap key bold phrases with <mark> (same style as user highlights)
     if (CONFIG.features.highlights !== false) {
-      bodyHtml = bodyHtml.replace(/<p>([^<]*<strong>[^<]+<\/strong>[^<]*)<\/p>/g, '<p class="auto-hl">$1</p>');
+      bodyHtml = bodyHtml.replace(/<strong>([^<]+)<\/strong>/g, (match, text) => {
+        // Only highlight substantive phrases (not single words or short labels)
+        if (text.length > 15) return `<mark class="auto-mark">${text}</mark>`;
+        return `<strong>${text}</strong>`;
+      });
     }
     let diagramHtml = '';
     if (block.diagram) { const svg = await getDiagram(block.diagram); diagramHtml = `<div class="diagram-wrap">${svg}</div>`; }
