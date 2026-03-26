@@ -241,6 +241,15 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .fi-back { background: none; border: none; font-size: .85rem; color: var(--accent); cursor: pointer; padding: 0 .3em 0 0; font-weight: 700; flex-shrink: 0; }
 .fi-back:hover { color: var(--text); }
 
+/* Inline quiz (between blocks) */
+.inline-quiz { display: flex; gap: .6em; margin: 1em 0 1.5em; padding: .8em 1em; background: linear-gradient(135deg, var(--accent-bg), var(--surface)); border: 1px solid var(--accent); border-radius: var(--radius); }
+.iq-icon { font-size: 1.2rem; flex-shrink: 0; margin-top: .1em; }
+.iq-body { flex: 1; }
+.iq-q { font-family: var(--font-ui); font-size: .85rem; font-weight: 600; line-height: 1.4; margin-bottom: .4em; }
+.iq-reveal { font-family: var(--font-ui); font-size: .75rem; font-weight: 600; color: var(--accent); background: none; border: 1px solid var(--accent); border-radius: 5px; padding: .25em .6em; cursor: pointer; }
+.iq-reveal:hover { background: var(--accent); color: #fff; }
+.iq-a { font-size: .82rem; color: var(--text-2); line-height: 1.45; padding-top: .3em; border-top: 1px solid var(--border-light); margin-top: .3em; }
+
 /* Shelves */
 .home-inner { padding: 1em 0; }
 .shelf { margin-bottom: 1.8em; }

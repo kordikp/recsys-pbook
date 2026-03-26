@@ -527,9 +527,8 @@ class PBook {
     // Feed indicator
     this._updateFeedIndicator(ch, idx);
 
-    // Render math, context panel, observe blocks
+    // Render math, observe blocks
     this.renderMath();
-    this.renderContext(ch, idx);
     this._observeBlocks(ch);
     this.updateLinearNav();
     this._updateMissionBar();
@@ -539,9 +538,16 @@ class PBook {
   async _renderChapterContent(ch, idx) {
     let html = `<div class="ch-head fade-up" id="ch-head-${idx}"><div class="ch-label">Chapter ${ch.number}</div><h2>${ch.title}</h2><div class="ch-sub">${ch.subtitle}</div></div>`;
 
+    let spineCount = 0;
     for (const block of ch.blocks) {
       if (block.type === 'spine') {
         html += await this.renderSpine(block);
+        spineCount++;
+        // Insert inline quiz every 2-3 spine blocks
+        if (spineCount % 3 === 0) {
+          const quiz = this._generateQuiz(block);
+          if (quiz) html += `<div class="inline-quiz fade-up"><div class="iq-icon">\u{1F9E0}</div><div class="iq-body"><div class="iq-q">${quiz.q}</div><button class="iq-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Think... then reveal</button><div class="iq-a" style="display:none">${quiz.a}</div></div></div>`;
+        }
       } else if (block.type === 'question') {
         html += this.renderQuestion(block);
       } else if (block.type === 'game' && this._f('games')) {
@@ -640,7 +646,7 @@ class PBook {
               this.rc.sendView(id, Math.round(elapsed / 1000));
               e.target.querySelector('.block-status')?.classList.add('seen');
               this._lastVisibleBlock = id;
-              this.updateContext(id);
+              // context panel removed
             }
 
             // After reading time: mark as "read"
@@ -649,7 +655,7 @@ class PBook {
               this.rc.sendView(id, Math.round(elapsed / 1000));
               e.target.querySelector('.block-status')?.classList.remove('seen');
               e.target.querySelector('.block-status')?.classList.add('read');
-              this.updateContext(id);
+              // context panel removed
               this._updateInlineReadNext(id, ownerCh);
               this.showXPToast('+10 XP', 'xp');
               this.checkGamificationEvents();
