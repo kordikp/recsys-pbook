@@ -404,6 +404,9 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .side-note { padding: .5em; background: var(--accent-bg); border-radius: var(--radius-sm); }
 .side-note-text { color: var(--text); font-style: italic; line-height: 1.35; margin-bottom: .2em; }
 .side-note-edit { font-size: .6rem; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; }
+
+/* Auto-highlighted key sentences */
+.auto-hl { background: linear-gradient(180deg, transparent 60%, #FEF3C7 60%); }
 @media (max-width: 700px) {
   .block-with-side { flex-direction: column; }
   .block-side { flex: none; padding-top: .5em; border-top: 1px solid var(--border-light); }

@@ -791,7 +791,11 @@ class PBook {
   }
 
   async renderSpine(block) {
-    const bodyHtml = renderMarkdown(block.body);
+    let bodyHtml = renderMarkdown(block.body);
+    // Auto-highlight key sentences (paragraphs containing bold text)
+    if (CONFIG.features.highlights !== false) {
+      bodyHtml = bodyHtml.replace(/<p>([^<]*<strong>[^<]+<\/strong>[^<]*)<\/p>/g, '<p class="auto-hl">$1</p>');
+    }
     let diagramHtml = '';
     if (block.diagram) { const svg = await getDiagram(block.diagram); diagramHtml = `<div class="diagram-wrap">${svg}</div>`; }
     const isRead = this.user.readBlocks.has(block.id);
