@@ -253,8 +253,15 @@
         <button class="sg-opt" data-fs="large" onclick="app.setFontSize('large')">L</button>
       </div>
     </div>
-    <div class="sg"><label>Recombee</label>
-      <div id="recStatus" class="sg-info">Demo mode</div>
+    <div class="sg"><label>Features</label>
+      <div style="display:flex;flex-direction:column;gap:.3em;font-size:.75rem">
+        <label style="display:flex;align-items:center;gap:.4em"><input type="checkbox" id="sGamification" onchange="app.updateSettingsFeature()"> Gamification</label>
+        <label style="display:flex;align-items:center;gap:.4em"><input type="checkbox" id="sPersonalization" onchange="app.updateSettingsFeature()"> Personalization</label>
+        <label style="display:flex;align-items:center;gap:.4em"><input type="checkbox" id="sRecall" onchange="app.updateSettingsFeature()"> Spaced repetition</label>
+        <label style="display:flex;align-items:center;gap:.4em"><input type="checkbox" id="sMissions" onchange="app.updateSettingsFeature()"> Missions</label>
+        <label style="display:flex;align-items:center;gap:.4em"><input type="checkbox" id="sGames" onchange="app.updateSettingsFeature()"> Mini-games</label>
+        <label style="display:flex;align-items:center;gap:.4em"><input type="checkbox" id="sHighlights" onchange="app.updateSettingsFeature()"> AI takeaways</label>
+      </div>
     </div>
     <div class="sg"><label>Reset</label>
       <button class="btn-ghost" onclick="app.resetAll()">Clear all data &amp; start fresh</button>

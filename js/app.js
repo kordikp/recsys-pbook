@@ -806,16 +806,20 @@ class PBook {
       sideHtml += '</div>';
     }
 
-    const hasBack = this._navHistory && this._navHistory.length > 0;
     const chNum = block._chapterNum || '?';
-    const prog = this.user.getProgress(this.allBlocks);
+    const chTitle = block._chapterTitle || '';
+    // Position within chapter
+    const ch = this.chapters[block._chapterIdx];
+    const chSpines = ch ? ch.blocks.filter(b => b.type === 'spine') : [];
+    const posInCh = chSpines.findIndex(b => b.id === block.id) + 1;
+    const totalInCh = chSpines.length;
 
     return `<article class="block-article fade-up" id="b-${block.id}">
       <div class="block-nav">
-        ${hasBack ? '<button class="bnav-back" onclick="app.goBack()" title="Go back">&larr;</button>' : ''}
+        <button class="bnav-back" onclick="app.goBack()" title="Go back">&larr;</button>
         <span class="bnav-ch" onclick="app.switchView('map')">Ch${chNum}</span>
         <span class="bnav-sep">&middot;</span>
-        <span class="bnav-progress">${prog.read}/${prog.total}</span>
+        <span class="bnav-progress">${posInCh}/${totalInCh}</span>
         <div class="block-status ${isRead ? 'read' : ''}"></div>
       </div>
       <div class="block-header">
@@ -3284,7 +3288,11 @@ class PBook {
   }
 
   goBack() {
-    if (!this._navHistory || !this._navHistory.length) return;
+    if (!this._navHistory || !this._navHistory.length) {
+      // No history — go to welcome/home
+      this.showWelcome();
+      return;
+    }
     const prev = this._navHistory.pop();
     // Don't push to history again (avoid infinite loop)
     this.user.currentBlock = prev.blockId;
@@ -3387,7 +3395,33 @@ class PBook {
     const fs = localStorage.getItem('pbook-fs') || 'medium';
     document.querySelector(`.sg-opt[data-theme="${theme}"]`)?.classList.add('active');
     document.querySelector(`.sg-opt[data-fs="${fs}"]`)?.classList.add('active');
-    document.getElementById('recStatus').textContent = this.rc.enabled ? `Connected: ${this.rc.config.database}` : 'Demo mode (local simulation)';
+    // Sync feature checkboxes
+    const f = CONFIG.features;
+    const set = (id, val) => { const el = document.getElementById(id); if (el) el.checked = val !== false; };
+    set('sGamification', f.gamification);
+    set('sPersonalization', f.personalization);
+    set('sRecall', f.spaceRepetition);
+    set('sMissions', f.missions);
+    set('sGames', f.games);
+    set('sHighlights', f.highlights);
+  }
+
+  updateSettingsFeature() {
+    const get = id => document.getElementById(id)?.checked !== false;
+    const features = {
+      gamification: get('sGamification'),
+      personalization: get('sPersonalization'),
+      spaceRepetition: get('sRecall'),
+      missions: get('sMissions'),
+      games: get('sGames'),
+      highlights: get('sHighlights'),
+    };
+    localStorage.setItem('pbook-features', JSON.stringify(features));
+    Object.assign(CONFIG.features, features);
+    if (!features.personalization) this.rc.enabled = false;
+    if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
+    else document.querySelector('[data-view="glossary"]')?.style.removeProperty('display');
+    this.updateXPBadge();
   }
 
   cycleVoice() {
