@@ -798,18 +798,18 @@ class PBook {
     const savedNote = this.getNote(block.id);
     const highlights = CONFIG.features.highlights !== false ? this._getHighlights(block) : null;
 
-    // Side notes panel (highlights + user note)
+    // Side notes — all as uniform sticky notes (AI + user)
     let sideHtml = '';
-    if (highlights || savedNote) {
+    const notes = [];
+    if (highlights) highlights.forEach(h => notes.push({ text: h, type: 'ai' }));
+    if (savedNote) notes.push({ text: savedNote, type: 'user' });
+    if (notes.length) {
       sideHtml = '<div class="block-side">';
-      if (highlights) {
-        sideHtml += '<div class="side-highlights"><div class="side-label">\u{1F4A1} Key takeaways</div>';
-        highlights.forEach(h => { sideHtml += `<div class="side-highlight">${this.escHtml(h)}</div>`; });
-        sideHtml += '</div>';
-      }
-      if (savedNote) {
-        sideHtml += `<div class="side-note"><div class="side-label">\u{1F4DD} Your note</div><div class="side-note-text">${this.escHtml(savedNote)}</div><button class="side-note-edit" onclick="app.editNote('${block.id}')">edit</button></div>`;
-      }
+      notes.forEach(n => {
+        const icon = n.type === 'user' ? '\u{1F4DD}' : '\u{1F4CC}';
+        const editBtn = n.type === 'user' ? `<button class="snote-edit" onclick="app.editNote('${block.id}')">edit</button>` : '';
+        sideHtml += `<div class="snote snote-${n.type}"><span class="snote-icon">${icon}</span><span class="snote-text">${this.escHtml(n.text)}</span>${editBtn}</div>`;
+      });
       sideHtml += '</div>';
     }
 
