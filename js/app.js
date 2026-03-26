@@ -672,7 +672,7 @@ class PBook {
 
     // Try Recombee for personalized recommendations
     if (this.rc.enabled && this._f('personalization')) {
-      const result = await this.rc.getRecsForUser('next-read', count * 2, this.rc.reql({ type: 'spine' }));
+      const result = await this.rc.getRecsForUser('next-read', count * 2, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
       if (result?.recomms?.length) {
         for (const r of result.recomms) {
           if (shown.has(r.id)) continue;
@@ -682,12 +682,21 @@ class PBook {
       }
     }
 
-    // Fallback: sequential unread blocks
+    // Fallback: sequential unread blocks, voice-preferred first
     if (blocks.length < count) {
-      for (const b of this.allBlocks) {
-        if (b.meta.type !== 'spine') continue;
-        if (shown.has(b.meta.id) || this.user.readBlocks.has(b.meta.id)) continue;
-        if (blocks.find(x => x.meta.id === b.meta.id)) continue;
+      const voice = this.user.preferredVoice;
+      const unread = this.allBlocks.filter(b =>
+        b.meta.type === 'spine' && !shown.has(b.meta.id) && !this.user.readBlocks.has(b.meta.id) && !blocks.find(x => x.meta.id === b.meta.id)
+      );
+      // Sort: matching voice first, then universal, then others
+      if (voice && voice !== 'universal') {
+        unread.sort((a, b) => {
+          const av = a.meta.voice === voice ? 0 : a.meta.voice === 'universal' ? 1 : 2;
+          const bv = b.meta.voice === voice ? 0 : b.meta.voice === 'universal' ? 1 : 2;
+          return av - bv;
+        });
+      }
+      for (const b of unread) {
         blocks.push(b);
         if (blocks.length >= count) break;
       }

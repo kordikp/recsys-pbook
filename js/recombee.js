@@ -169,13 +169,12 @@ export class RecombeeClient {
   }
 
   reqlBoost(userModel) {
-    const parts = [];
-    const pref = userModel.voiceScores;
-    if (pref) {
-      const top = Object.entries(pref).sort((a, b) => b[1] - a[1])[0];
-      if (top && top[1] > 3) parts.push(`if 'voice' == "${top[0]}" then 1.5`);
+    // Boost items matching user's preferred voice
+    const voice = userModel.preferredVoice;
+    if (voice && voice !== 'universal') {
+      return `if 'voice' == "${voice}" then 2.0 else if 'voice' == "universal" then 1.0 else 0.7`;
     }
-    return parts.length ? parts.join(' AND ') : undefined;
+    return undefined;
   }
 
   // --- Recommendations (Recombee API with local fallback) ---
