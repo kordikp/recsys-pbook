@@ -2052,6 +2052,22 @@ class PBook {
     h += '<span style="font-weight:600;color:#F59E0B">+2-8 XP</span><span>Recall review (depends on how well you remember)</span>';
     h += '</div></div>';
 
+    // Cosmetic rewards
+    const rewards = this.getLevelRewards();
+    const activeCosmetic = localStorage.getItem('pbook-cosmetic') || null;
+    h += '<div class="profile-section"><h3>\u{1F3A8} Themes (Level Rewards)</h3>';
+    h += '<div class="cosmetic-grid">';
+    rewards.forEach(r => {
+      const unlocked = u.level >= r.level;
+      const active = (r.theme || null) === activeCosmetic;
+      h += `<button class="cosmetic-item ${unlocked ? '' : 'cosmetic-locked'} ${active ? 'cosmetic-active' : ''}" ${unlocked ? `onclick="app.setCosmetic(${r.theme ? "'" + r.theme + "'" : 'null'});app.renderProfile()"` : ''}>
+        <span class="cosmetic-icon">${unlocked ? r.icon : '\u{1F512}'}</span>
+        <span class="cosmetic-name">${r.name}</span>
+        <span class="cosmetic-level">${unlocked ? '\u2713' : 'Lv.' + r.level}</span>
+      </button>`;
+    });
+    h += '</div></div>';
+
     // Voice preference
     const voices = Object.keys(CONFIG.voices);
     if (voices.length) {
@@ -3211,6 +3227,7 @@ class PBook {
     if (theme && theme !== 'light') document.documentElement.setAttribute('data-theme', theme);
     const fs = localStorage.getItem('pbook-fs');
     if (fs) { const map = { small: '1rem', medium: '1.125rem', large: '1.25rem' }; document.documentElement.style.setProperty('--fs', map[fs]); }
+    this._applyLevelTheme();
     this.updateSettingsUI();
   }
 
@@ -3235,12 +3252,43 @@ class PBook {
     else if (this.currentView === 'home') this.renderHome();
   }
 
+  // Level rewards — cosmetic unlocks
+  getLevelRewards() {
+    return [
+      { level: 1, name: 'Default', theme: null, icon: '\u{1F331}' },
+      { level: 2, name: 'Ocean', theme: 'ocean', icon: '\u{1F30A}' },
+      { level: 3, name: 'Sunset', theme: 'sunset', icon: '\u{1F305}' },
+      { level: 4, name: 'Forest', theme: 'forest', icon: '\u{1F332}' },
+      { level: 5, name: 'Galaxy', theme: 'galaxy', icon: '\u{1F30C}' },
+      { level: 7, name: 'Neon', theme: 'neon', icon: '\u{1F4A1}' },
+      { level: 10, name: 'Gold', theme: 'gold', icon: '\u{1F451}' },
+    ];
+  }
+
   updateXPBadge() {
     const el = document.getElementById('xpBadge');
     if (!el) return;
     if (!this._f('gamification')) { el.style.display = 'none'; return; }
     el.style.display = '';
-    el.textContent = 'Lv.' + this.user.level + ' · ' + this.user.xp + 'XP';
+    const reward = this.getLevelRewards().filter(r => r.level <= this.user.level).pop();
+    el.textContent = (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP';
+    // Apply cosmetic theme
+    this._applyLevelTheme();
+  }
+
+  _applyLevelTheme() {
+    const active = localStorage.getItem('pbook-cosmetic') || null;
+    if (active) document.documentElement.setAttribute('data-cosmetic', active);
+  }
+
+  setCosmetic(theme) {
+    if (theme) {
+      localStorage.setItem('pbook-cosmetic', theme);
+      document.documentElement.setAttribute('data-cosmetic', theme);
+    } else {
+      localStorage.removeItem('pbook-cosmetic');
+      document.documentElement.removeAttribute('data-cosmetic');
+    }
   }
 
   showXPToast(text, type) {

@@ -46,6 +46,14 @@
   --bg: #F5EFE4; --surface: #FAF5EC; --surface-raised: #FFF9F0;
   --text: #3D2E1C; --text-2: #8B7355; --border: #D4C8B0;
 }
+/* Cosmetic themes (unlocked by level) */
+[data-cosmetic="ocean"] { --accent: #0EA5E9; --accent-hover: #0284C7; --accent-bg: #E0F2FE; }
+[data-cosmetic="sunset"] { --accent: #F97316; --accent-hover: #EA580C; --accent-bg: #FFF7ED; }
+[data-cosmetic="forest"] { --accent: #16A34A; --accent-hover: #15803D; --accent-bg: #F0FDF4; }
+[data-cosmetic="galaxy"] { --accent: #8B5CF6; --accent-hover: #7C3AED; --accent-bg: #F5F3FF; --bg: #0F0B1A; --surface: #1A1528; --surface-raised: #221D30; --text: #E8E0F0; --text-2: #A09CB0; --text-3: #6B6580; --border: #2D2840; --border-light: #221D30; }
+[data-cosmetic="neon"] { --accent: #EC4899; --accent-hover: #DB2777; --accent-bg: #FDF2F8; }
+[data-cosmetic="gold"] { --accent: #D97706; --accent-hover: #B45309; --accent-bg: #FFFBEB; }
+
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
 body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: var(--lh); overflow-x: hidden; }
@@ -152,8 +160,8 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .topbar-icon { font-size: 1.1rem; padding: .3em; color: var(--text-2); border-radius: 6px; }
 .topbar-icon:hover { background: var(--border-light); }
 /* XP badge in topbar */
-.xp-badge { font-family: var(--font-ui); font-size: .65rem; font-weight: 800; padding: .2em .6em; border-radius: 12px; background: linear-gradient(135deg, var(--accent), #EC4899); color: #fff; cursor: pointer; transition: transform var(--transition); }
-.xp-badge:hover { transform: scale(1.1); }
+.xp-badge { font-family: var(--font-ui); font-size: .72rem; font-weight: 800; padding: .25em .7em; border-radius: 14px; background: linear-gradient(135deg, var(--accent), #EC4899); color: #fff; cursor: pointer; transition: all var(--transition); box-shadow: 0 2px 8px rgba(124,58,237,.25); }
+.xp-badge:hover { transform: scale(1.08); box-shadow: 0 3px 12px rgba(124,58,237,.35); }
 
 /* XP toast notification */
 .xp-toast { position: fixed; top: calc(var(--topbar-h) + .5em); right: .8em; font-family: var(--font-ui); font-size: .8rem; font-weight: 700; padding: .4em .8em; border-radius: 10px; color: #fff; z-index: 500; opacity: 0; transform: translateY(-10px); transition: all .3s ease; pointer-events: none; }
@@ -238,6 +246,17 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .fi-sep { color: var(--border); }
 .fi-mode { color: var(--accent); }
 .fi-progress { margin-left: auto; flex-shrink: 0; }
+/* Cosmetic theme picker */
+.cosmetic-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(80px, 1fr)); gap: .4em; }
+.cosmetic-item { display: flex; flex-direction: column; align-items: center; gap: .15em; padding: .5em .3em; border: 1.5px solid var(--border); border-radius: var(--radius-sm); background: var(--surface); cursor: pointer; transition: all .15s; }
+.cosmetic-item:hover { border-color: var(--accent); }
+.cosmetic-active { border-color: var(--accent); background: var(--accent-bg); box-shadow: 0 0 0 2px var(--accent-bg); }
+.cosmetic-locked { opacity: .4; cursor: default; }
+.cosmetic-locked:hover { border-color: var(--border); }
+.cosmetic-icon { font-size: 1.2rem; }
+.cosmetic-name { font-family: var(--font-ui); font-size: .65rem; font-weight: 600; }
+.cosmetic-level { font-family: var(--font-ui); font-size: .55rem; color: var(--text-3); }
+
 .fi-back { background: none; border: none; font-size: .85rem; color: var(--accent); cursor: pointer; padding: 0 .3em 0 0; font-weight: 700; flex-shrink: 0; }
 .fi-back:hover { color: var(--text); }
 
