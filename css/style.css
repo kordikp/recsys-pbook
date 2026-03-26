@@ -232,6 +232,13 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .mission-bar-inline .mission-dot.done { background: var(--product); }
 .mission-bar-inline .mission-dot.current { background: var(--accent); box-shadow: 0 0 0 2px var(--accent-bg); }
 
+/* Feed indicator (read view) */
+.feed-indicator { position: sticky; top: var(--topbar-h); z-index: 50; display: flex; align-items: center; gap: .3em; padding: .3em .8em; background: var(--surface); border-bottom: 1px solid var(--border-light); font-family: var(--font-ui); font-size: .68rem; color: var(--text-3); overflow: hidden; white-space: nowrap; }
+.fi-chapter { font-weight: 600; color: var(--text-2); max-width: 50%; overflow: hidden; text-overflow: ellipsis; }
+.fi-sep { color: var(--border); }
+.fi-mode { color: var(--accent); }
+.fi-progress { margin-left: auto; flex-shrink: 0; }
+
 /* Shelves */
 .home-inner { padding: 1em 0; }
 .shelf { margin-bottom: 1.8em; }

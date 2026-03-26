@@ -524,6 +524,9 @@ class PBook {
       window.scrollTo(0, 0);
     }
 
+    // Feed indicator
+    this._updateFeedIndicator(ch, idx);
+
     // Render math, context panel, observe blocks
     this.renderMath();
     this.renderContext(ch, idx);
@@ -3045,6 +3048,45 @@ class PBook {
     banner.className = 'mission-intro-banner fade-up';
     banner.innerHTML = `<span class="mission-intro-text">${this._wizardMission?.icon || ''} ${intro}</span><button class="mission-intro-close" onclick="this.parentElement.remove()">&times;</button>`;
     pane.prepend(banner);
+  }
+
+  _updateFeedIndicator(ch, idx) {
+    const el = document.getElementById('feedIndicator');
+    if (!el) return;
+    const prog = this.user.getProgress(this.allBlocks);
+    const loaded = this._loadedChapters ? this._loadedChapters.size : 1;
+    const isPersonalized = this._f('personalization') && this.rc.enabled;
+    el.innerHTML = `
+      <span class="fi-chapter">Ch${ch.number}: ${ch.title}</span>
+      <span class="fi-sep">&middot;</span>
+      <span class="fi-mode">${isPersonalized ? '\u2728 Personalized feed' : '\u{1F4D6} Sequential reading'}</span>
+      <span class="fi-sep">&middot;</span>
+      <span class="fi-progress">${prog.read}/${prog.total} read</span>
+    `;
+
+    // Update indicator on scroll to detect chapter changes
+    if (!this._feedScrollBound) {
+      this._feedScrollBound = true;
+      let lastCh = idx;
+      window.addEventListener('scroll', () => {
+        if (this.currentView !== 'read') return;
+        // Find which chapter header is currently visible
+        const heads = document.querySelectorAll('.ch-head');
+        let currentCh = lastCh;
+        heads.forEach(h => {
+          const rect = h.getBoundingClientRect();
+          if (rect.top < 120) {
+            const match = h.id?.match(/ch-head-(\d+)/);
+            if (match) currentCh = parseInt(match[1]);
+          }
+        });
+        if (currentCh !== lastCh) {
+          lastCh = currentCh;
+          const c = this.chapters[currentCh];
+          if (c && el) el.querySelector('.fi-chapter').textContent = 'Ch' + c.number + ': ' + c.title;
+        }
+      }, { passive: true });
+    }
   }
 
   _scrollToBlock(parentId, meta) {
