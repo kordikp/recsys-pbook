@@ -326,7 +326,14 @@ async function renderAnalytics(el){
   let interactions = [];
   try {
     const res = await fetch('/.netlify/functions/log');
-    if (res.ok) interactions = await res.json();
+    if (res.ok) {
+      const raw = await res.json();
+      // Normalize Supabase snake_case to camelCase + extract from data column
+      interactions = raw.map(r => {
+        const d = r.data || {};
+        return { userId: r.user_id || d.userId, type: r.type || d.type, itemId: r.item_id || d.itemId, mode: r.mode || d.mode, event: r.event || d.event, duration: r.duration || d.duration, rating: r.rating || d.rating, ts: r.server_ts || d.ts || Date.parse(r.created_at), ...d };
+      });
+    }
   } catch(e) {}
 
   // Fallback to localStorage if server has no data
@@ -474,12 +481,18 @@ async function renderAnalytics(el){
   el.innerHTML = h;
 }
 
-window.exportLocalAnalytics = function() {
+window.exportLocalAnalytics = async function() {
   let interactions = [];
-  try { interactions = JSON.parse(localStorage.getItem('pbook-interactions') || '[]'); } catch(e) {}
-  let user = {};
-  try { user = JSON.parse(localStorage.getItem('pbook-user') || '{}'); } catch(e) {}
-  const data = { exportedAt: new Date().toISOString(), userId: localStorage.getItem('pbook-uid'), interactions, user };
+  // Try Supabase first (all users)
+  try {
+    const res = await fetch('/.netlify/functions/log');
+    if (res.ok) interactions = await res.json();
+  } catch(e) {}
+  // Fallback to localStorage
+  if (!interactions.length) {
+    try { interactions = JSON.parse(localStorage.getItem('pbook-interactions') || '[]'); } catch(e) {}
+  }
+  const data = { exportedAt: new Date().toISOString(), source: interactions.length && interactions[0].user_id ? 'supabase' : 'localStorage', totalInteractions: interactions.length, interactions };
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
