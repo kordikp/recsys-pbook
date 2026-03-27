@@ -672,31 +672,36 @@ class PBook {
 
     // Try Recombee for personalized recommendations
     if (this.rc.enabled && this._f('personalization')) {
-      const result = await this.rc.getRecsForUser('next-read', count * 2, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
+      const result = await this.rc.getRecsForUser('next-read', count * 3, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
       if (result?.recomms?.length) {
         for (const r of result.recomms) {
           if (shown.has(r.id)) continue;
           const block = this.findBlock(r.id);
-          if (block && !this.user.readBlocks.has(r.id)) { blocks.push(block); if (blocks.length >= count) break; }
+          if (block) { blocks.push(block); if (blocks.length >= count) break; }
         }
       }
     }
 
-    // Fallback: sequential unread blocks, voice-preferred first
+    // Fallback: sequential not-yet-shown blocks, voice-preferred, unread first
     if (blocks.length < count) {
       const voice = this.user.preferredVoice;
-      const unread = this.allBlocks.filter(b =>
-        b.meta.type === 'spine' && !shown.has(b.meta.id) && !this.user.readBlocks.has(b.meta.id) && !blocks.find(x => x.meta.id === b.meta.id)
+      const candidates = this.allBlocks.filter(b =>
+        (b.meta.type === 'spine' || (b.meta.type === 'game' && this._f('games'))) &&
+        !shown.has(b.meta.id) && !blocks.find(x => x.meta.id === b.meta.id)
       );
-      // Sort: matching voice first, then universal, then others
-      if (voice && voice !== 'universal') {
-        unread.sort((a, b) => {
+      // Sort: unread first, then by voice preference
+      candidates.sort((a, b) => {
+        const aRead = this.user.readBlocks.has(a.meta.id) ? 1 : 0;
+        const bRead = this.user.readBlocks.has(b.meta.id) ? 1 : 0;
+        if (aRead !== bRead) return aRead - bRead;
+        if (voice && voice !== 'universal') {
           const av = a.meta.voice === voice ? 0 : a.meta.voice === 'universal' ? 1 : 2;
           const bv = b.meta.voice === voice ? 0 : b.meta.voice === 'universal' ? 1 : 2;
           return av - bv;
-        });
-      }
-      for (const b of unread) {
+        }
+        return 0;
+      });
+      for (const b of candidates) {
         blocks.push(b);
         if (blocks.length >= count) break;
       }
@@ -1199,16 +1204,30 @@ class PBook {
     const spines = ch.blocks.filter(b => b.type === 'spine');
     const currentIdx = spines.findIndex(b => b.id === blockId);
     const nextInChapter = spines[currentIdx + 1];
-    const otherChapterBlock = this.allBlocks.find(b =>
-      b._chapter !== ch.id && b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id)
+
+    // Find a personalized recommendation (different from sequential next)
+    let recBlock = null;
+    const unreadOther = this.allBlocks.filter(b =>
+      b._chapter !== ch.id && b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id) && b.meta.id !== nextInChapter?.id
     );
+    // Prefer voice-matching blocks
+    const voice = this.user.preferredVoice;
+    if (voice && voice !== 'universal') {
+      recBlock = unreadOther.find(b => b.meta.voice === voice) || unreadOther[0];
+    } else {
+      recBlock = unreadOther.sort(() => Math.random() - 0.5)[0];
+    }
 
     let items = '';
     if (nextInChapter) {
       items += `<div class="rn-item" onclick="app.previewBlock('${nextInChapter.id}')"><span class="rn-label">Next</span><span class="rn-title">${nextInChapter.title}</span><span class="rn-time">${nextInChapter.readingTime || 3}m</span></div>`;
     }
-    if (otherChapterBlock) {
-      items += `<div class="rn-item" onclick="app.previewBlock('${otherChapterBlock.meta.id}')"><span class="rn-label">Ch${otherChapterBlock.meta._chapterNum}</span><span class="rn-title">${otherChapterBlock.meta.title}</span><span class="rn-time">${otherChapterBlock.meta.readingTime || 3}m</span></div>`;
+    if (recBlock) {
+      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">\u2728 Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${recBlock.meta._chapterNum}</span></div>`;
+    }
+    // Skip option — jump to next unread block that's NOT the sequential next
+    if (nextInChapter && recBlock) {
+      items += `<div class="rn-skip" onclick="app.previewBlock('${recBlock.meta.id}')">Not interested in next? Skip to something else &rarr;</div>`;
     }
     if (!items) return '';
     return `<div class="read-next" id="rn-${blockId}">${items}</div>`;
