@@ -189,7 +189,12 @@ class PBook {
     document.getElementById('onboarding').classList.add('hidden');
     this.updateVoiceBadge();
     this.updateXPBadge();
+    if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
     this.switchView(view || 'home');
+    // First-time tour
+    if (!localStorage.getItem('pbook-tour-done')) {
+      setTimeout(() => this.startTour(), 1000);
+    }
   }
 
   startWithVoiceAndGo(view) {
