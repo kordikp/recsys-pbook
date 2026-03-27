@@ -287,6 +287,74 @@ class PBook {
   _nextTour() { this._tourIdx++; this._showTourStep(); }
   _endTour() { document.getElementById('tourOverlay')?.remove(); localStorage.setItem('pbook-tour-done', '1'); }
 
+  // ===== TEXT SIMILARITY (TF-IDF-like) =====
+  _buildSimilarityIndex() {
+    if (this._simIndex) return;
+    const STOP = new Set('the a an is are was were be been being have has had do does did will would shall should may might can could of in to for on with at by from as into through during before after above below between out off over under again further then once here there when where why how all both each few more most other some such no nor not only own same so than too very i me my we our you your he him his she her it its they them their what which who whom this that these those am'.split(' '));
+
+    // Extract key terms per block
+    this._blockTerms = {};
+    const docFreq = {}; // how many blocks contain each term
+    const N = this.allBlocks.length;
+
+    this.allBlocks.forEach(b => {
+      if (b.meta.type !== 'spine') return;
+      const text = ((b.meta.title || '') + ' ' + (b.body || '')).toLowerCase().replace(/[^a-z0-9\s]/g, ' ');
+      const words = text.split(/\s+/).filter(w => w.length > 3 && !STOP.has(w));
+      // Term frequency
+      const tf = {};
+      words.forEach(w => { tf[w] = (tf[w] || 0) + 1; });
+      this._blockTerms[b.meta.id] = tf;
+      // Document frequency
+      Object.keys(tf).forEach(w => { docFreq[w] = (docFreq[w] || 0) + 1; });
+    });
+
+    // Compute TF-IDF vectors
+    this._blockVectors = {};
+    Object.entries(this._blockTerms).forEach(([id, tf]) => {
+      const vec = {};
+      Object.entries(tf).forEach(([term, count]) => {
+        const idf = Math.log(N / (docFreq[term] || 1));
+        if (idf > 0.5) vec[term] = count * idf; // skip very common terms
+      });
+      this._blockVectors[id] = vec;
+    });
+
+    this._simIndex = true;
+  }
+
+  _cosineSim(vecA, vecB) {
+    let dot = 0, normA = 0, normB = 0;
+    for (const k in vecA) { normA += vecA[k] * vecA[k]; if (vecB[k]) dot += vecA[k] * vecB[k]; }
+    for (const k in vecB) { normB += vecB[k] * vecB[k]; }
+    return dot / (Math.sqrt(normA) * Math.sqrt(normB) || 1);
+  }
+
+  _findSimilarBlocks(blockId, count) {
+    this._buildSimilarityIndex();
+    const vec = this._blockVectors[blockId];
+    if (!vec) return [];
+
+    // Also add topic overlap bonus
+    const blockTopics = this.blockTopics[blockId] || [];
+
+    const scored = [];
+    this.allBlocks.forEach(b => {
+      if (b.meta.id === blockId || b.meta.type !== 'spine') return;
+      const bVec = this._blockVectors[b.meta.id];
+      if (!bVec) return;
+      let sim = this._cosineSim(vec, bVec);
+      // Bonus for topic overlap
+      const bTopics = this.blockTopics[b.meta.id] || [];
+      const topicOverlap = blockTopics.filter(t => bTopics.includes(t)).length;
+      sim += topicOverlap * 0.15;
+      scored.push({ id: b.meta.id, title: b.meta.title, chNum: b.meta._chapterNum, sim });
+    });
+
+    scored.sort((a, b) => b.sim - a.sim);
+    return scored.slice(0, count).filter(s => s.sim > 0.05);
+  }
+
   // ===== VIEW SWITCHING =====
   switchView(view, auto) {
     this.currentView = view;
@@ -1235,36 +1303,20 @@ class PBook {
     if (recBlock) {
       items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">\u2728 Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${recBlock.meta._chapterNum}</span></div>`;
     }
-    // Skip option — jump to next unread block that's NOT the sequential next
-    if (nextInChapter && recBlock) {
-      items += `<div class="rn-skip" onclick="app.previewBlock('${recBlock.meta.id}')">Not interested in next? Skip to something else &rarr;</div>`;
-    }
     if (!items) return '';
 
-    // "More like this" — similar items based on shared topics
-    const blockTopics = this.blockTopics[blockId] || [];
-    if (blockTopics.length) {
-      const similar = [];
-      for (const b of this.allBlocks) {
-        if (b.meta.id === blockId || b.meta.type !== 'spine') continue;
-        if (similar.find(s => s.meta.id === b.meta.id)) continue;
-        const bTopics = this.blockTopics[b.meta.id] || [];
-        const overlap = blockTopics.filter(t => bTopics.includes(t)).length;
-        if (overlap > 0) similar.push({ ...b, _overlap: overlap });
-      }
-      similar.sort((a, b) => b._overlap - a._overlap);
-      const top3 = similar.slice(0, 3);
-      if (top3.length) {
-        items += '<div class="rn-similar"><div class="rn-similar-label">More like this</div>';
-        top3.forEach(s => {
-          const isRead = this.user.readBlocks.has(s.meta.id);
-          items += `<div class="rn-similar-item ${isRead ? 'rn-read' : ''}" onclick="app.previewBlock('${s.meta.id}')">
-            <span class="rn-similar-title">${s.meta.title}</span>
-            <span class="rn-similar-ch">Ch${s.meta._chapterNum}</span>
-          </div>`;
-        });
-        items += '</div>';
-      }
+    // "More like this" — text similarity + topic overlap
+    const similar = this._findSimilarBlocks(blockId, 3);
+    if (similar.length) {
+      items += '<div class="rn-similar"><div class="rn-similar-label">More like this</div>';
+      similar.forEach(s => {
+        const isRead = this.user.readBlocks.has(s.id);
+        items += `<div class="rn-similar-item ${isRead ? 'rn-read' : ''}" onclick="app.previewBlock('${s.id}')">
+          <span class="rn-similar-title">${s.title}</span>
+          <span class="rn-similar-ch">Ch${s.chNum}</span>
+        </div>`;
+      });
+      items += '</div>';
     }
 
     // For shared-link visitors: CTA to explore the full book
