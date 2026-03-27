@@ -2445,6 +2445,30 @@ class PBook {
   }
 
   // ===== ACCOUNT & SYNC =====
+  _syncUserToRecombee() {
+    if (!this.rc.enabled) return;
+    const u = this.user;
+    const prog = u.getProgress(this.allBlocks);
+    this.rc.setUserProperties({
+      voice: u.preferredVoice || u.getTopVoice(),
+      level: u.level,
+      xp: u.xp,
+      readCount: prog.read,
+      totalBlocks: prog.total,
+      completedMissions: (u.completedMissions || []).length,
+      activePath: u.activePath || '',
+    });
+  }
+
+  _refreshAfterAuth() {
+    // Reload user model from (merged) localStorage and refresh all views
+    this.user.load();
+    this.updateXPBadge();
+    this.renderProfile();
+    // If user was on home, re-render to pick up new recs
+    if (this.currentView === 'home') this.renderHome();
+  }
+
   _authEndpoint() {
     // Detect Netlify vs Vercel
     if (location.hostname.includes('netlify')) return '/.netlify/functions/auth';
@@ -2519,9 +2543,16 @@ class PBook {
 
     this._setAuth({ email, token: result.token, displayName: result.displayName || name });
     if (name) localStorage.setItem('pbook-cert-name', name);
+
+    // Switch Recombee identity: merge anonymous → account user
+    const accountUid = 'acct-' + email.toLowerCase().trim().replace(/[^a-z0-9]/g, '-');
+    await this.rc.switchUser(accountUid);
+    // Re-sync user properties to Recombee under new identity
+    this._syncUserToRecombee();
+
     this._lastSyncTime = Date.now();
     this.showXPToast('Account created! Your progress is now synced.', 'info');
-    this.renderProfile();
+    this._refreshAfterAuth();
   }
 
   async login() {
@@ -2584,9 +2615,14 @@ class PBook {
       this._restoreProfileData(cloudData);
     }
 
+    // Switch Recombee identity: merge anonymous → account user
+    const accountUid = 'acct-' + email.toLowerCase().trim().replace(/[^a-z0-9]/g, '-');
+    await this.rc.switchUser(accountUid);
+    this._syncUserToRecombee();
+
     this._lastSyncTime = Date.now();
     this.showXPToast(`Welcome back, ${result.displayName || 'reader'}!`, 'info');
-    this.renderProfile();
+    this._refreshAfterAuth();
   }
 
   async syncProfile() {

@@ -112,6 +112,21 @@ export class RecombeeClient {
     } catch (e) { /* ignore — properties might not be configured */ }
   }
 
+  // Merge anonymous user into account user and switch identity
+  async switchUser(newUserId) {
+    const oldUserId = this.userId;
+    if (oldUserId === newUserId) return;
+    // Merge interactions from anonymous → account user in Recombee
+    if (this.enabled && oldUserId) {
+      try {
+        await this.api('PUT', `/users/${newUserId}/merge/${oldUserId}`, { cascadeCreate: true });
+      } catch (e) { /* merge might fail if old user doesn't exist in Recombee yet */ }
+    }
+    // Switch local identity
+    this.userId = newUserId;
+    localStorage.setItem('pbook-uid', newUserId);
+  }
+
   // --- Server-side log (fire & forget) ---
   _sendToLog(entry) {
     try {
