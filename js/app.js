@@ -948,7 +948,7 @@ class PBook {
         <span class="bnav-sep">&middot;</span>
         <span class="bnav-progress">${posInCh}/${totalInCh}</span>
         ${block.core ? '<span class="bnav-core">CORE</span>' : ''}
-        <div class="block-status ${isRead ? 'read' : ''}"></div>
+        <div class="block-status ${isRead ? 'read' : this.user.seenBlocks.has(block.id) ? 'seen' : ''}"></div>
       </div>
       <div class="block-header">
         <h3>${block.title}</h3>

@@ -38,6 +38,7 @@
   "rewrites": [
     { "source": "/.netlify/functions/recombee", "destination": "/api/recombee" },
     { "source": "/.netlify/functions/log", "destination": "/api/log" },
+    { "source": "/.netlify/functions/auth", "destination": "/api/auth" },
     { "source": "/book", "destination": "/index.html" },
     { "source": "/admin", "destination": "/admin.html" }
   ]
