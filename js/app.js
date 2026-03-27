@@ -72,15 +72,23 @@ class PBook {
       }
     }
 
-    // Check for deep link: /book#blockId or #blockId
+    // Check for deep link: #blockId or #mission-missionId
     const hash = window.location.hash?.substring(1);
-    if (hash && this.findBlock(hash)) {
-      // Direct read mode — skip onboarding, show block immediately
-      document.getElementById('onboarding').classList.add('hidden');
-      this.updateXPBadge();
-      this.openBlock(hash, 'share');
-      // After reading, show "read more" prompt
-      this._sharedBlockId = hash;
+    if (hash) {
+      if (hash.startsWith('mission-')) {
+        // Mission deep link
+        const missionId = hash.replace('mission-', '');
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.switchView('glossary');
+        this.showMission(missionId);
+      } else if (this.findBlock(hash)) {
+        // Block deep link
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.openBlock(hash, 'share');
+        this._sharedBlockId = hash;
+      }
     }
 
     this.applyTheme();
@@ -1305,8 +1313,11 @@ class PBook {
     }
     if (!items) return '';
 
-    // "More like this" — text similarity + topic overlap
-    const similar = this._findSimilarBlocks(blockId, 3);
+    // "More like this" — text similarity, dedup with next/recommended
+    const excludeIds = new Set([blockId]);
+    if (nextInChapter) excludeIds.add(nextInChapter.id);
+    if (recBlock) excludeIds.add(recBlock.meta.id);
+    const similar = this._findSimilarBlocks(blockId, 5).filter(s => !excludeIds.has(s.id)).slice(0, 3);
     if (similar.length) {
       items += '<div class="rn-similar"><div class="rn-similar-label">More like this</div>';
       similar.forEach(s => {
@@ -1351,6 +1362,23 @@ class PBook {
       });
     }
     this.rc.logEvent('share', { blockId, mode: 'share' });
+  }
+
+  shareMission(missionId) {
+    const m = this.getMissions().find(x => x.id === missionId);
+    if (!m) return;
+    const url = window.location.origin + window.location.pathname + '#mission-' + missionId;
+    const title = m.title;
+    const text = m.story.substring(0, 100);
+
+    if (navigator.share) {
+      navigator.share({ title, text, url }).catch(() => {});
+    } else {
+      navigator.clipboard.writeText(url).then(() => {
+        this.showXPToast('Mission link copied!', 'info');
+      }).catch(() => { prompt('Share this link:', url); });
+    }
+    this.rc.logEvent('share', { missionId, mode: 'share_mission' });
   }
 
   previewBlock(blockId) {
@@ -2833,6 +2861,7 @@ class PBook {
         <h2 class="mission-detail-title">${m.title}</h2>
         <p class="mission-detail-goal">${m.goal}</p>
       </div>
+      <button class="act-btn share-btn" onclick="app.shareMission('${m.id}')" title="Share this mission" style="margin-left:auto;font-size:1rem">&#128279;</button>
     </div>`;
     html += `<div class="mission-detail-story">${m.story}</div>`;
 
