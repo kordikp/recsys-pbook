@@ -405,6 +405,13 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .recall-reveal-big { width: 100%; background: var(--warn); color: #fff; border: none; border-radius: 8px; padding: .6em; font-family: var(--font-ui); font-size: .9rem; font-weight: 700; cursor: pointer; }
 .recall-reveal-big:hover { opacity: .9; }
 
+/* Inline recall (in read feed) */
+.inline-recall { margin: .8em 0 1.5em; padding: 1em; background: var(--warn-bg); border: 1.5px solid var(--warn); border-radius: var(--radius); }
+.ir-header { font-family: var(--font-ui); font-size: .75rem; font-weight: 700; color: var(--warn); margin-bottom: .4em; display: flex; align-items: center; gap: .3em; }
+.ir-question { font-size: .9rem; font-weight: 600; line-height: 1.4; margin-bottom: .5em; }
+.ir-answer-text { font-size: .85rem; color: var(--text-2); line-height: 1.5; margin-bottom: .3em; padding-top: .4em; border-top: 1px solid var(--warn); }
+.ir-from { font-size: .68rem; color: var(--text-3); margin-bottom: .5em; }
+
 /* Hero card (continue reading) */
 .card-hero { flex: 0 0 calc(100% - 2em); max-width: 500px; background: linear-gradient(135deg, var(--accent-bg), var(--surface)); border-color: var(--accent); min-height: 160px; }
 .card-hero .card-title { font-size: 1.05rem; }

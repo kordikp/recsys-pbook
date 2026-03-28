@@ -433,30 +433,17 @@ class PBook {
     // Recall cards if due (guarded by spaceRepetition toggle)
     const dueRecalls = this._f('spaceRepetition') ? this.user.getDueRecalls() : [];
     if (dueRecalls.length > 0) {
-      const seenQs = new Set();
-      const recallCards = dueRecalls.slice(0, 8).map(r => {
-        const block = this.findBlock(r.blockId);
-        if (!block) return '';
-        const quiz = this._getRecallQuestion(block);
-        if (seenQs.has(quiz.q)) return ''; // deduplicate
-        seenQs.add(quiz.q);
-        return `<div class="card recall-card" style="border-top: 3px solid #F59E0B; flex: 0 0 280px">
-          <div class="card-chapter" style="color:#F59E0B;font-weight:700">Do you remember?</div>
-          <div class="card-title">${quiz.q}</div>
-          <div class="recall-answer" id="recall-a-${r.blockId}" style="display:none">
-            <div class="recall-answer-text">${quiz.a}</div>
-            <div class="recall-hint" style="font-size:.7rem;color:var(--text-3);margin:.3em 0">From: ${block.meta.title}</div>
-            <div class="recall-buttons">
-              <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${r.blockId}',0)">Forgot</button>
-              <button class="recall-btn recall-hard" onclick="app.scoreRecall('${r.blockId}',1)">Hard</button>
-              <button class="recall-btn recall-good" onclick="app.scoreRecall('${r.blockId}',2)">Good</button>
-              <button class="recall-btn recall-easy" onclick="app.scoreRecall('${r.blockId}',3)">Easy!</button>
-            </div>
-          </div>
-          <button class="recall-reveal" id="recall-r-${r.blockId}" onclick="document.getElementById('recall-a-${r.blockId}').style.display='block';this.style.display='none'">Show answer</button>
-        </div>`;
-      }).filter(Boolean);
-      if (recallCards.length) html += this.shelf('Do you remember?', recallCards);
+      const recallCards = dueRecalls.slice(0, 8).map(r => this._renderRecallCard(r)).filter(Boolean);
+      if (recallCards.length) html += this.shelf(`Do you remember? (${recallCards.length} due)`, recallCards);
+    }
+    // Practice button if user has any tracked recalls
+    if (this._f('spaceRepetition') && Object.keys(this.user.recall).length > 0) {
+      const allCount = Object.keys(this.user.recall).length;
+      const dueCount = dueRecalls.length;
+      html += `<div style="text-align:center;margin:.5em 0 1em">
+        <button class="recall-reveal" style="background:var(--accent)" onclick="app.startPractice()">\u{1F9E0} Practice all ${allCount} cards</button>
+        ${dueCount === 0 ? '<div style="font-size:.7rem;color:var(--text-3);margin-top:.3em">No cards due yet — practice anyway to strengthen your memory!</div>' : ''}
+      </div>`;
     }
 
     // Active missions (guarded)
@@ -869,6 +856,7 @@ class PBook {
               e.target.querySelector('.block-status')?.classList.add('read');
               // context panel removed
               this._updateInlineReadNext(id, ownerCh);
+              this._insertInlineRecall(id);
               this.showXPToast('+10 XP', 'xp');
               this.checkGamificationEvents();
               this._updateMissionBar();
@@ -1665,6 +1653,63 @@ class PBook {
   }
 
 
+
+  _insertInlineRecall(justReadId) {
+    if (!this._f('spaceRepetition')) return;
+    // Find a due recall for a DIFFERENT block (not the one just read)
+    const due = this.user.getDueRecalls().filter(r => r.blockId !== justReadId);
+    if (!due.length) return;
+    const r = due[0];
+    const block = this.findBlock(r.blockId);
+    if (!block) return;
+    const quiz = this._getRecallQuestion(block);
+    if (!quiz) return;
+    // Don't insert if one already exists for this block
+    if (document.getElementById(`inline-recall-${r.blockId}`)) return;
+    const article = document.getElementById(`b-${justReadId}`);
+    if (!article) return;
+    // Find the read-next div to insert after it, or after the article
+    const readNext = document.getElementById(`rn-${justReadId}`);
+    const insertAfter = readNext || article;
+    const html = `<div class="inline-recall fade-up" id="inline-recall-${r.blockId}">
+      <div class="ir-header"><span class="ir-icon">\u{1F9E0}</span> Do you remember?</div>
+      <div class="ir-question">${quiz.q}</div>
+      <div class="ir-answer" id="ir-a-${r.blockId}" style="display:none">
+        <div class="ir-answer-text">${quiz.a}</div>
+        <div class="ir-from">From: ${block.meta.title}</div>
+        <div class="recall-buttons">
+          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${r.blockId}',0);document.getElementById('inline-recall-${r.blockId}').remove()">Forgot</button>
+          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${r.blockId}',1);document.getElementById('inline-recall-${r.blockId}').remove()">Hard</button>
+          <button class="recall-btn recall-good" onclick="app.scoreRecall('${r.blockId}',2);document.getElementById('inline-recall-${r.blockId}').remove()">Good</button>
+          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${r.blockId}',3);document.getElementById('inline-recall-${r.blockId}').remove()">Easy!</button>
+        </div>
+      </div>
+      <button class="recall-reveal" onclick="document.getElementById('ir-a-${r.blockId}').style.display='block';this.style.display='none'">Hmm... Show answer!</button>
+    </div>`;
+    insertAfter.insertAdjacentHTML('afterend', html);
+  }
+
+  _renderRecallCard(r) {
+    const block = this.findBlock(r.blockId);
+    if (!block) return '';
+    const quiz = this._getRecallQuestion(block);
+    if (!quiz) return '';
+    return `<div class="card recall-card" style="border-top: 3px solid var(--warn); flex: 0 0 280px">
+      <div class="card-chapter" style="color:var(--warn);font-weight:700">Do you remember?</div>
+      <div class="card-title">${quiz.q}</div>
+      <div class="recall-answer" id="recall-a-${r.blockId}" style="display:none">
+        <div class="recall-answer-text">${quiz.a}</div>
+        <div class="recall-hint" style="font-size:.7rem;color:var(--text-3);margin:.3em 0">From: ${block.meta.title}</div>
+        <div class="recall-buttons">
+          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${r.blockId}',0)">Forgot</button>
+          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${r.blockId}',1)">Hard</button>
+          <button class="recall-btn recall-good" onclick="app.scoreRecall('${r.blockId}',2)">Good</button>
+          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${r.blockId}',3)">Easy!</button>
+        </div>
+      </div>
+      <button class="recall-reveal" id="recall-r-${r.blockId}" onclick="document.getElementById('recall-a-${r.blockId}').style.display='block';this.style.display='none'">Show answer</button>
+    </div>`;
+  }
 
   _generateQuiz(block) {
     const body = (block.body || '').toLowerCase();

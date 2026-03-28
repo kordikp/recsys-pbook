@@ -445,9 +445,9 @@ export class UserModel {
   scheduleRecall(blockId) {
     if (this.recall[blockId]) return; // already scheduled
     this.recall[blockId] = {
-      interval: 1,       // days until next review (starts at 1 day)
+      interval: 0,       // first review is same-session (10 min)
       ease: 2.5,         // ease factor (Anki default)
-      nextReview: Date.now() + 24 * 60 * 60 * 1000, // 1 day from now
+      nextReview: Date.now() + 10 * 60 * 1000, // 10 minutes from now
       lastReview: Date.now(),
       reps: 0
     };
@@ -496,6 +496,13 @@ export class UserModel {
     return Object.entries(this.recall)
       .filter(([_, card]) => card.nextReview <= now)
       .sort((a, b) => a[1].nextReview - b[1].nextReview)
+      .map(([blockId, card]) => ({ blockId, ...card }));
+  }
+
+  getAllRecalls() {
+    // All tracked blocks, sorted by least recently reviewed (for practice mode)
+    return Object.entries(this.recall)
+      .sort((a, b) => a[1].lastReview - b[1].lastReview)
       .map(([blockId, card]) => ({ blockId, ...card }));
   }
 
