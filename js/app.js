@@ -2014,10 +2014,13 @@ class PBook {
 
     let h = '';
 
-    // ── Header + share ──
-    h += `<div style="display:flex;align-items:center;justify-content:space-between;padding:.8em 1em .3em">
-      <h2 style="font-family:var(--font-ui);font-size:1.15rem;font-weight:800">\u{1F9E0} Test Your Knowledge</h2>
-      <button style="font-size:.72rem;color:var(--text-3);border:1px solid var(--border);border-radius:6px;padding:.25em .6em" onclick="app._shareQuizPage()">Share</button>
+    // ── Header ──
+    h += `<div style="padding:.8em 1em .2em">
+      <div style="display:flex;align-items:center;justify-content:space-between">
+        <h2 style="font-family:var(--font-ui);font-size:1.15rem;font-weight:800">\u{1F9E0} Test Your Knowledge</h2>
+        <button style="font-size:.72rem;color:var(--text-3)" onclick="app._shareQuizPage()" title="Share quiz page">\u{1F517}</button>
+      </div>
+      <p style="font-size:.75rem;color:var(--text-3);margin-top:.1em">Spaced repetition — the science behind Anki &amp; Duolingo</p>
     </div>`;
 
     if (totalRead === 0) {
@@ -2038,11 +2041,14 @@ class PBook {
     const totalReps = Object.values(u.recall).reduce((s, c) => s + c.reps, 0);
     const quizStreak = parseInt(localStorage.getItem('pbook-quiz-streak') || '0');
 
+    const masteredCount = easyCards.length;
+    const masteredPct = totalRecall > 0 ? Math.round(masteredCount / totalRecall * 100) : 0;
     h += `<div class="gami-stats" style="margin:0 1em .8em">
-      <div class="gami-stat"><span class="gs-num" style="${due.length ? 'color:var(--warn)' : ''}">${due.length}</span><span class="gs-label">Due</span></div>
-      <div class="gami-stat"><span class="gs-num">${totalRead}</span><span class="gs-label">Cards</span></div>
+      ${due.length > 0 ? `<div class="gami-stat"><span class="gs-num" style="color:var(--warn)">${due.length}</span><span class="gs-label">Due</span></div>` : ''}
+      <div class="gami-stat"><span class="gs-num">${totalRecall}</span><span class="gs-label">Tracked</span></div>
+      <div class="gami-stat"><span class="gs-num">${masteredPct}%</span><span class="gs-label">Mastered</span></div>
       <div class="gami-stat"><span class="gs-num">${totalReps}</span><span class="gs-label">Reviews</span></div>
-      ${quizStreak > 0 ? `<div class="gami-stat"><span class="gs-num" style="color:var(--accent)">${quizStreak}</span><span class="gs-label">Streak</span></div>` : ''}
+      ${quizStreak > 0 ? `<div class="gami-stat"><span class="gs-num" style="color:var(--accent)">${quizStreak}\u{1F525}</span><span class="gs-label">Streak</span></div>` : ''}
     </div>`;
 
     // ── Active mode: due cards shelf (answerable inline) ──
@@ -2079,7 +2085,7 @@ class PBook {
 
     // ── Practice modes ──
     h += `<div style="padding:.5em 1em"><div style="display:flex;gap:.4em;flex-wrap:wrap">`;
-    h += `<button class="btn-primary" style="flex:1;min-width:140px;font-size:.78rem;padding:.5em" onclick="app.startPractice()">Test all ${totalRead} cards</button>`;
+    h += `<button class="btn-primary" style="flex:1;min-width:140px;font-size:.78rem;padding:.5em" onclick="app.startPractice()">Test all ${totalRecall || totalRead} cards</button>`;
     if (hardCards.length > 0) {
       h += `<button class="btn-ghost" style="flex:1;min-width:120px;border:1.5px solid #dc2626;color:#dc2626;border-radius:8px;padding:.5em;font-size:.78rem" onclick="app._startHardMode()">Hard mode (${hardCards.length})</button>`;
     }
@@ -2138,14 +2144,22 @@ class PBook {
     const quiz = this._getRecallQuestion(block);
     if (!quiz) return '';
     const nextReview = card.nextReview ? new Date(card.nextReview) : null;
-    const nextLabel = !nextReview ? '' : nextReview <= new Date() ? 'Now' : nextReview.toLocaleDateString('en', { month: 'short', day: 'numeric' });
-    return `<div class="card" style="border-top:3px solid ${color};flex:0 0 240px;cursor:pointer" onclick="app.showBlockRecall('${blockId}')">
+    const nextLabel = !nextReview ? '' : nextReview <= new Date() ? 'Due' : nextReview.toLocaleDateString('en', { month: 'short', day: 'numeric' });
+    const uid = blockId.replace(/[^a-z0-9]/g, '');
+    return `<div class="card" style="border-top:3px solid ${color};flex:0 0 260px;cursor:pointer" onclick="var a=document.getElementById('qp-${uid}');if(a)a.style.display=a.style.display==='none'?'block':'none'">
       <div style="display:flex;justify-content:space-between;margin-bottom:.2em">
         <span style="font-size:.6rem;font-weight:700;color:${color}">${label}</span>
-        <span style="font-size:.55rem;color:var(--text-3)">${card.reps} reviews${nextLabel ? ' · next: ' + nextLabel : ''}</span>
+        <span style="font-size:.55rem;color:var(--text-3)">${card.reps}x${nextLabel ? ' · ' + nextLabel : ''}</span>
       </div>
       <div class="card-title" style="font-size:.82rem;line-height:1.3">${quiz.q}</div>
-      <div class="card-meta"><span style="font-size:.65rem;color:var(--text-3)">Ch${block.meta._chapterNum}: ${block.meta.title}</span></div>
+      <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum} · Tap to reveal</div>
+      <div id="qp-${uid}" style="display:none;margin-top:.4em;padding-top:.4em;border-top:1px solid var(--border)">
+        <div style="font-size:.78rem;color:var(--text-2);line-height:1.4;margin-bottom:.3em">${quiz.a}</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.3em">
+          <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="font-size:.62rem;color:var(--accent)">Read section &rarr;</a>
+          <button style="font-size:.6rem;color:var(--text-3);border:1px solid var(--border);border-radius:4px;padding:.1em .3em" onclick="event.stopPropagation();app.shareQuestion('${blockId}')">Share</button>
+        </div>
+      </div>
     </div>`;
   }
 
@@ -2230,11 +2244,10 @@ class PBook {
         <div class="recall-card-q">${quiz.q}</div>
         <div class="recall-card-a" id="recallAnswer" style="display:none">
           <div class="recall-card-answer">${quiz.a}</div>
-          <div class="recall-card-source">
-            <a href="#" onclick="event.preventDefault();app.openBlock('${item.blockId}')" style="color:var(--accent)">From: ${block.meta.title} (Ch${block.meta._chapterNum}) &rarr;</a>
-            <button style="margin-left:.5em;font-size:.7rem;color:var(--text-3);border:1px solid var(--border);border-radius:4px;padding:.15em .4em;cursor:pointer" onclick="app.shareQuestion('${item.blockId}')">Share</button>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:.4em 0">
+            <a href="#" onclick="event.preventDefault();app.openBlock('${item.blockId}')" style="color:var(--accent);font-size:.72rem">Ch${block.meta._chapterNum}: ${block.meta.title} &rarr;</a>
+            <span style="font-size:.6rem;color:var(--text-3)">${reps}x reviewed &middot; ease ${ease}</span>
           </div>
-          <div style="font-size:.6rem;color:var(--text-3);margin-bottom:.4em">${reps} reviews &middot; difficulty: ${ease}</div>
           <div class="recall-buttons">
             <button class="recall-btn recall-forgot" onclick="app._answerRecall('${item.blockId}',0)">Forgot</button>
             <button class="recall-btn recall-hard" onclick="app._answerRecall('${item.blockId}',1)">Hard</button>
@@ -2244,8 +2257,9 @@ class PBook {
         </div>
         <button class="recall-reveal-big" id="recallRevealBtn" onclick="document.getElementById('recallAnswer').style.display='block';this.style.display='none'">Show answer</button>
       </div>
-      <div style="display:flex;justify-content:center;margin-top:.8em">
-        <button style="font-size:.72rem;color:var(--text-3);border:1px solid var(--border);border-radius:6px;padding:.3em .8em;cursor:pointer" onclick="app._endPractice()">Stop here (${this._recallScore.correct}/${idx} so far)</button>
+      <div style="display:flex;justify-content:center;gap:.6em;margin-top:.8em;align-items:center">
+        <button style="font-size:.72rem;color:var(--text-3);border:1px solid var(--border);border-radius:6px;padding:.3em .8em;cursor:pointer" onclick="app._endPractice()">Stop (${this._recallScore.correct}/${idx} correct)</button>
+        <button style="font-size:.65rem;color:var(--text-3);cursor:pointer" onclick="app.shareQuestion('${item.blockId}')" title="Share this question">\u{1F517} Share</button>
       </div>
     </div>`;
     window.scrollTo(0, 0);

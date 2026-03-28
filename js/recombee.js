@@ -31,17 +31,20 @@ export class RecombeeClient {
   async api(method, endpoint, body) {
     if (!this.enabled) return null;
     try {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 1500);
       const res = await fetch('/.netlify/functions/recombee', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ endpoint, body, method })
+        body: JSON.stringify({ endpoint, body, method }),
+        signal: controller.signal,
       });
+      clearTimeout(timeout);
       if (res.ok) return await res.json();
-      // 401 = bad token → disable. Other errors (403 scenario, 404) → just return null, keep trying.
       if (res.status === 401) this.enabled = false;
       return null;
     } catch (e) {
-      // Network error → disable
+      if (e.name === 'AbortError') return null; // timeout — don't disable, just skip
       this.enabled = false;
       return null;
     }
