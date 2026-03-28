@@ -1980,7 +1980,7 @@ class PBook {
     if (dueOnly && due.length > 0) {
       blocks = due.map(r => ({ blockId: r.blockId, isDue: true }));
     } else {
-      // Smart ordering: due → learning (middle) → struggling → new → confident (sample)
+      // Smart ordering: due → learning → struggling → new → ALL confident
       const dueSet = new Set(due.map(d => d.blockId));
       const hard = [], med = [], easy = [];
       Object.entries(this.user.recall).forEach(([blockId, card]) => {
@@ -1989,16 +1989,18 @@ class PBook {
         else if (card.ease < 2.5) med.push(item);
         else easy.push(item);
       });
-      // Shuffle within groups for variety
       const shuffle = arr => arr.sort(() => Math.random() - 0.5);
-      // Unscheduled read blocks (never reviewed)
+      // Read blocks not yet in recall system
       const recallSet = new Set(Object.keys(this.user.recall));
-      const newItems = [...this.user.readBlocks]
+      const newFromRead = [...this.user.readBlocks]
         .filter(id => !recallSet.has(id))
         .map(id => ({ blockId: id, isDue: false, ease: 2.5, reps: 0 }));
-      // Order: due first, then learning (most useful), struggling, new, then sample of confident
-      const confidentSample = shuffle(easy).slice(0, Math.max(2, Math.ceil(easy.length * 0.3)));
-      blocks = [...shuffle(med), ...shuffle(hard), ...shuffle(newItems), ...confidentSample];
+      // ALL blocks with recallQ that user hasn't read yet (test knowledge even if not read)
+      const allWithQ = this.allBlocks
+        .filter(b => b.meta.recallQ && !this.user.readBlocks.has(b.meta.id) && !recallSet.has(b.meta.id))
+        .map(b => ({ blockId: b.meta.id, isDue: false, ease: 2.5, reps: 0 }));
+      // Order: learning first (sweet spot), then struggling, new, confident, then unread with questions
+      blocks = [...shuffle(med), ...shuffle(hard), ...shuffle(newFromRead), ...shuffle(easy), ...shuffle(allWithQ)];
     }
     if (blocks.length === 0) return;
 
@@ -2245,8 +2247,9 @@ class PBook {
     if (unread.length > 0) {
       h += `<button class="btn-primary" style="width:100%;max-width:320px;font-size:.82rem" onclick="app.switchView('home')">Continue reading \u{1F4D6} (${unread.length} unread)</button>`;
     }
-    if (totalRecall > 0) {
-      h += `<button class="btn-ghost" style="width:100%;max-width:320px;border:1.5px solid var(--accent);border-radius:8px;padding:.5em;font-size:.78rem;color:var(--accent)" onclick="app.startPractice()">Test all ${totalRecall} cards</button>`;
+    const totalWithQ = this.allBlocks.filter(b => b.meta.recallQ).length;
+    if (totalWithQ > 0) {
+      h += `<button class="btn-ghost" style="width:100%;max-width:320px;border:1.5px solid var(--accent);border-radius:8px;padding:.5em;font-size:.78rem;color:var(--accent)" onclick="app.startPractice()">Test all ${totalWithQ} cards</button>`;
     }
     if (hardCards.length > 0) {
       h += `<button class="btn-ghost" style="width:100%;max-width:320px;border:1.5px solid #dc2626;border-radius:8px;padding:.5em;font-size:.78rem;color:#dc2626" onclick="app._startHardMode()">Hard mode (${hardCards.length} struggling)</button>`;
