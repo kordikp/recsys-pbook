@@ -1990,6 +1990,7 @@ class PBook {
     this._recallQueue = blocks;
     this._recallIdx = 0;
     this._recallScore = { total: blocks.length, correct: 0 };
+    this._quizSessionActive = true;
     if (this.currentView !== 'quiz') this.switchView('quiz', true);
     this._renderQuizCard();
   }
@@ -2002,11 +2003,14 @@ class PBook {
     const totalRecall = Object.keys(u.recall).length;
     const totalRead = u.readBlocks.size;
 
-    // If already in a practice session, render the current card
-    if (this._recallQueue && this._recallIdx < this._recallQueue.length) {
+    // If in an active practice session started from this page, continue it
+    if (this._quizSessionActive && this._recallQueue && this._recallIdx < this._recallQueue.length) {
       this._renderQuizCard();
       return;
     }
+    // Otherwise reset and show landing page
+    this._quizSessionActive = false;
+    this._recallQueue = null;
 
     let h = '';
 
@@ -2161,6 +2165,7 @@ class PBook {
     this._recallQueue = hard;
     this._recallIdx = 0;
     this._recallScore = { total: hard.length, correct: 0 };
+    this._quizSessionActive = true;
     this._renderQuizCard();
   }
 
@@ -2172,6 +2177,7 @@ class PBook {
 
     // Done — show summary with streak + rewards
     if (idx >= q.length) {
+      this._quizSessionActive = false;
       const s = this._recallScore;
       const pct = Math.round(s.correct / Math.max(s.total, 1) * 100);
       const perfect = pct === 100 && s.total >= 3;
@@ -2197,7 +2203,7 @@ class PBook {
         <div style="display:flex;flex-direction:column;gap:.5em;margin-top:1em;align-items:center">
           <button class="btn-primary" style="width:100%;max-width:280px" onclick="app.startPractice()">Test more cards</button>
           ${unread.length > 0 ? `<button class="btn-ghost" style="border:1px solid var(--accent);border-radius:8px;padding:.5em 1em;font-size:.82rem;color:var(--accent);width:100%;max-width:280px" onclick="app.switchView('home')">\u{1F4D6} Read new sections (${unread.length} left)</button>` : ''}
-          <button style="font-size:.72rem;color:var(--text-3);margin-top:.3em;cursor:pointer" onclick="app.renderQuiz()">Back to quiz overview</button>
+          <button style="font-size:.72rem;color:var(--text-3);margin-top:.3em;cursor:pointer" onclick="app._quizSessionActive=false;app._recallQueue=null;app.renderQuiz()">Back to quiz overview</button>
         </div>
       </div>`;
       return;
@@ -2247,7 +2253,7 @@ class PBook {
 
   _endPractice() {
     this._recallQueue.length = this._recallIdx;
-    this._renderQuizCard(); // triggers summary
+    this._renderQuizCard(); // triggers summary (clears session via done state)
   }
 
   shareQuestion(blockId) {
