@@ -105,6 +105,21 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // ---- UPDATE ACCOUNT (name, password) ----
+    if (action === 'update') {
+      if (!email) return res.status(401).json({ error: 'not authenticated' });
+      const emailLower = email.toLowerCase().trim();
+      const update = { updated_at: new Date().toISOString() };
+      if (displayName) update.display_name = displayName.substring(0, 60);
+      if (password) {
+        if (password.length < 4) return res.status(400).json({ error: 'password must be at least 4 characters' });
+        update.password_hash = hashPassword(emailLower, password);
+      }
+      const result = await supabase('PATCH', `user_profiles?email=eq.${encodeURIComponent(emailLower)}`, update);
+      if (!result.ok) return res.status(500).json({ error: 'Update failed' });
+      return res.status(200).json({ ok: true });
+    }
+
     // ---- SAVE PROFILE ----
     if (action === 'save') {
       if (!email) return res.status(401).json({ error: 'not authenticated' });

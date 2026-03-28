@@ -93,6 +93,21 @@ class PBook {
 
     this.applyTheme();
 
+    // Auto-restore session: fill displayName from cert-name if missing, sync Recombee identity
+    const authRestore = this._getAuth();
+    if (authRestore) {
+      if (!authRestore.displayName) {
+        const certName = localStorage.getItem('pbook-cert-name');
+        if (certName) { authRestore.displayName = certName; this._setAuth(authRestore); }
+      }
+      // Ensure Recombee identity matches account
+      const accountUid = 'acct-' + authRestore.email.toLowerCase().trim().replace(/[^a-z0-9]/g, '-');
+      if (this.rc.userId !== accountUid) {
+        this.rc.userId = accountUid;
+        localStorage.setItem('pbook-uid', accountUid);
+      }
+    }
+
     // Auto-sync for logged-in users: save every 2 minutes
     setInterval(() => {
       if (this._getAuth()) this.syncProfile().catch(() => {});
@@ -2273,7 +2288,7 @@ class PBook {
     h += '<div class="profile-section">';
     if (auth) {
       h += `<div class="auth-card auth-logged-in">
-        <div class="auth-avatar">${(auth.displayName || auth.email)[0].toUpperCase()}</div>
+        <div class="auth-avatar">${this.getLevelIcon()}</div>
         <div class="auth-info">
           <div class="auth-name">${this.escHtml(auth.displayName || 'Reader')}</div>
           <div class="auth-email"><span style="color:var(--product)">&#9679;</span> Synced &middot; ${this.escHtml(auth.email)}</div>
@@ -3600,17 +3615,28 @@ class PBook {
     if (auth) {
       el.innerHTML = `<label>Account</label>
         <div class="auth-card auth-logged-in" style="margin-top:.3em">
-          <div class="auth-avatar" style="width:32px;height:32px;font-size:.9rem">${(auth.displayName || auth.email)[0].toUpperCase()}</div>
+          <div class="auth-avatar" style="width:32px;height:32px;font-size:1.1rem">${this.getLevelIcon()}</div>
           <div class="auth-info">
             <div class="auth-name" style="font-size:.8rem">${this.escHtml(auth.displayName || 'Reader')}</div>
             <div class="auth-email" style="font-size:.65rem"><span style="color:var(--product)">&#9679;</span> ${this.escHtml(auth.email)}</div>
           </div>
-          <button class="auth-logout-btn" onclick="app.logout();app._renderSettingsAccount()">Log out</button>
+          <button class="auth-secondary-btn" style="font-size:.68rem;padding:.3em .5em" onclick="app._showEditAccount()">Edit</button>
+          <button class="auth-logout-btn" onclick="app.logout();app._renderSettingsAccount();app.renderProfile()">Log out</button>
+        </div>
+        <div id="editAccountForm" style="display:none;margin-top:.4em">
+          <input type="text" id="editName" class="auth-input" placeholder="Display name" value="${this.escHtml(auth.displayName || '')}" maxlength="60" style="font-size:.78rem;padding:.4em .6em">
+          <input type="password" id="editPassword" class="auth-input" placeholder="New password (leave empty to keep)" maxlength="100" style="font-size:.78rem;padding:.4em .6em">
+          <div class="auth-btns">
+            <button class="auth-primary-btn" style="font-size:.72rem;padding:.35em" onclick="app.updateAccount()">Save changes</button>
+            <button class="auth-secondary-btn" style="font-size:.72rem;padding:.35em" onclick="document.getElementById('editAccountForm').style.display='none'">Cancel</button>
+          </div>
+          <div id="editAccountError" class="auth-error"></div>
         </div>`;
     } else {
+      const savedName = localStorage.getItem('pbook-cert-name') || '';
       el.innerHTML = `<label>Account</label>
         <div style="margin-top:.3em">
-          <input type="text" id="authName" class="auth-input" placeholder="Your name" maxlength="60" style="font-size:.78rem;padding:.4em .6em">
+          <input type="text" id="authName" class="auth-input" placeholder="Your name" value="${this.escHtml(savedName)}" maxlength="60" style="font-size:.78rem;padding:.4em .6em">
           <input type="email" id="authEmail" class="auth-input" placeholder="Email" maxlength="120" style="font-size:.78rem;padding:.4em .6em">
           <input type="password" id="authPassword" class="auth-input" placeholder="Password (4+ chars)" maxlength="100" style="font-size:.78rem;padding:.4em .6em">
           <div class="auth-btns">
@@ -3622,6 +3648,40 @@ class PBook {
     }
   }
 
+  _showEditAccount() {
+    const form = document.getElementById('editAccountForm');
+    if (form) form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  }
+
+  async updateAccount() {
+    const auth = this._getAuth();
+    if (!auth) return;
+    const name = document.getElementById('editName')?.value?.trim();
+    const password = document.getElementById('editPassword')?.value;
+    const errEl = document.getElementById('editAccountError');
+
+    const body = { action: 'update', email: auth.email };
+    if (name) body.displayName = name;
+    if (password) {
+      if (password.length < 4) { if (errEl) errEl.textContent = 'Password must be at least 4 characters.'; return; }
+      body.password = password;
+    }
+    if (!name && !password) { if (errEl) errEl.textContent = 'Nothing to update.'; return; }
+    if (errEl) errEl.textContent = 'Saving...';
+
+    const result = await this._authRequest(body);
+    if (result.error) { if (errEl) errEl.textContent = result.error; return; }
+
+    if (name) {
+      auth.displayName = name;
+      this._setAuth(auth);
+      localStorage.setItem('pbook-cert-name', name);
+    }
+    document.getElementById('editAccountForm').style.display = 'none';
+    this._renderSettingsAccount();
+    this.renderProfile();
+  }
+
   _renderSettingsThemes() {
     const el = document.getElementById('settingsThemes');
     if (!el) return;
@@ -3630,19 +3690,16 @@ class PBook {
     const u = this.user;
     let h = '<div class="cosmetic-grid" style="margin-top:.2em">';
     rewards.forEach(r => {
-      if (!r.theme) return; // skip "Default" — handled by Light/Dark/Sepia
       const unlocked = u.level >= r.level;
-      const active = r.theme === activeCosmetic;
-      h += `<button class="cosmetic-item ${unlocked ? '' : 'cosmetic-locked'} ${active ? 'cosmetic-active' : ''}" ${unlocked ? `onclick="app.setCosmetic('${r.theme}');app._renderSettingsThemes()"` : ''}>
+      const active = r.theme ? (r.theme === activeCosmetic) : !activeCosmetic;
+      const onclick = unlocked ? (r.theme ? `app.setCosmetic('${r.theme}');app._renderSettingsThemes()` : `app.setCosmetic(null);app._renderSettingsThemes()`) : '';
+      h += `<button class="cosmetic-item ${unlocked ? '' : 'cosmetic-locked'} ${active ? 'cosmetic-active' : ''}" ${unlocked ? `onclick="${onclick}"` : ''}>
         <span class="cosmetic-icon">${unlocked ? r.icon : '\u{1F512}'}</span>
         <span class="cosmetic-name">${r.name}</span>
-        <span class="cosmetic-level">${unlocked ? '\u2713' : 'Lv.' + r.level}</span>
+        <span class="cosmetic-level">${unlocked ? (active ? '\u2713' : '') : 'Lv.' + r.level}</span>
       </button>`;
     });
     h += '</div>';
-    if (activeCosmetic) {
-      h += `<button style="font-size:.68rem;color:var(--text-3);margin-top:.3em" onclick="app.setCosmetic(null);app._renderSettingsThemes()">Reset to default</button>`;
-    }
     el.innerHTML = h;
   }
 
@@ -3691,9 +3748,7 @@ class PBook {
 
   updateSettingsUI() {
     document.querySelectorAll('.sg-opt').forEach(o => o.classList.remove('active'));
-    const theme = localStorage.getItem('pbook-theme') || 'light';
     const fs = localStorage.getItem('pbook-fs') || 'medium';
-    document.querySelector(`.sg-opt[data-theme="${theme}"]`)?.classList.add('active');
     document.querySelector(`.sg-opt[data-fs="${fs}"]`)?.classList.add('active');
     // Sync feature checkboxes
     const f = CONFIG.features;
@@ -3726,6 +3781,12 @@ class PBook {
 
 
   // Level rewards — cosmetic unlocks
+  getLevelIcon() {
+    const rewards = this.getLevelRewards();
+    const reward = rewards.filter(r => r.level <= this.user.level).pop();
+    return reward?.icon || '\u{1F331}';
+  }
+
   getLevelRewards() {
     return [
       { level: 1, name: 'Default', theme: null, icon: '\u{1F331}' },

@@ -291,14 +291,9 @@
     </div>
     <!-- Account -->
     <div class="sg" id="settingsAccount"></div>
-    <!-- Theme -->
-    <div class="sg"><label>Theme</label>
-      <div class="sg-row">
-        <button class="sg-opt active" data-theme="light" onclick="app.setTheme('light')">Light</button>
-        <button class="sg-opt" data-theme="dark" onclick="app.setTheme('dark')">Dark</button>
-        <button class="sg-opt" data-theme="sepia" onclick="app.setTheme('sepia')">Sepia</button>
-      </div>
-      <div id="settingsThemes" style="margin-top:.5em"></div>
+    <!-- Theme (level-unlocked only) -->
+    <div class="sg"><label>Theme (unlock by leveling up)</label>
+      <div id="settingsThemes"></div>
     </div>
     <!-- Font size -->
     <div class="sg"><label>Font size</label>
@@ -330,6 +325,6 @@
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=2.2.1"></script>
+<script type="module" src="js/app.js?v=2.3.0"></script>
 </body>
 </html>

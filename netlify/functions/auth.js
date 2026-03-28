@@ -64,6 +64,17 @@ exports.handler = async function(event) {
       return { statusCode: 200, headers: h, body: JSON.stringify({ ok: true, token: sessionToken, displayName: user.display_name, profileData: user.profile_data || {} }) };
     }
 
+    if (action === 'update') {
+      if (!email) return { statusCode: 401, headers: h, body: '{"error":"not authenticated"}' };
+      const emailLower = email.toLowerCase().trim();
+      const update = { updated_at: new Date().toISOString() };
+      if (displayName) update.display_name = displayName.substring(0, 60);
+      if (password) { if (password.length < 4) return { statusCode: 400, headers: h, body: '{"error":"password must be at least 4 characters"}' }; update.password_hash = hashPassword(emailLower, password); }
+      const result = await supabase('PATCH', `user_profiles?email=eq.${encodeURIComponent(emailLower)}`, update);
+      if (!result.ok) return { statusCode: 500, headers: h, body: '{"error":"Update failed"}' };
+      return { statusCode: 200, headers: h, body: '{"ok":true}' };
+    }
+
     if (action === 'save') {
       if (!email) return { statusCode: 401, headers: h, body: '{"error":"not authenticated"}' };
       const emailLower = email.toLowerCase().trim();
