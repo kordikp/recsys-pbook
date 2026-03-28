@@ -278,7 +278,7 @@ class PBook {
     if (dueRecalls.length > 0) {
       html += `<button class="btn-secondary" style="font-size:.78rem;padding:.4em .8em;border-radius:8px;border:1.5px solid var(--warn);color:var(--warn);background:var(--warn-bg)" onclick="app.startAndGo('home');setTimeout(()=>app.startPractice(true),500)">\u{1F9E0} ${dueRecalls.length} cards due</button>`;
     } else if (Object.keys(u.recall).length > 0) {
-      html += `<button class="btn-secondary" style="font-size:.78rem;padding:.4em .8em;border-radius:8px;border:1.5px solid var(--accent);color:var(--accent)" onclick="app.startAndGo('home');setTimeout(()=>app.startPractice(),500)">\u{1F9E0} Practice memory</button>`;
+      html += `<button class="btn-secondary" style="font-size:.78rem;padding:.4em .8em;border-radius:8px;border:1.5px solid var(--accent);color:var(--accent)" onclick="app.startAndGo('home');setTimeout(()=>app.startPractice(),500)">\u{1F9E0} Test knowledge</button>`;
     }
 
     // Profile link
@@ -446,6 +446,7 @@ class PBook {
 
   // ===== VIEW SWITCHING =====
   switchView(view, auto) {
+    if (view !== 'home') this._inPracticeMode = false;
     this.currentView = view;
     const modeMap = { home: 'netflix', read: 'read', map: 'map', glossary: 'mission', chat: 'tutor', profile: 'profile' };
     this.rc.setContext(modeMap[view] || view);
@@ -463,7 +464,7 @@ class PBook {
 
     // Linear nav only in read view
 
-    if (view === 'home') this.renderHome();
+    if (view === 'home' && !this._inPracticeMode) this.renderHome();
     else if (view === 'read') this.renderRead();
     else if (view === 'map') this.renderMap();
     else if (view === 'glossary') { if (this._f('missions')) this.renderMissions(); else this.switchView('home'); }
@@ -1938,6 +1939,7 @@ class PBook {
     this._recallQueue = blocks;
     this._recallIdx = 0;
     this._recallScore = { total: blocks.length, correct: 0 };
+    this._inPracticeMode = true;
     this._renderRecallCard();
   }
 
@@ -1954,8 +1956,8 @@ class PBook {
         <div class="recall-summary-icon">${s.correct >= s.total * 0.7 ? '\u{1F389}' : '\u{1F4AA}'}</div>
         <p>${s.correct} of ${s.total} correct</p>
         <div class="recall-summary-bar"><div style="width:${Math.round(s.correct/Math.max(s.total,1)*100)}%;background:var(--product);height:100%;border-radius:4px"></div></div>
-        <button class="btn-primary" style="margin-top:1em" onclick="app.switchView('home')">Back to reading</button>
-        <button class="btn-ghost" style="margin-top:.5em" onclick="app.startPractice()">Practice more</button>
+        <button class="btn-primary" style="margin-top:1em" onclick="app._inPracticeMode=false;app.switchView('home')">Back to reading</button>
+        <button class="btn-ghost" style="margin-top:.5em" onclick="app.startPractice()">Test more</button>
       </div>`;
       if (this.currentView !== 'home') this.switchView('home', true);
       return;
@@ -1971,7 +1973,7 @@ class PBook {
       <div class="recall-progress-row">
         <span class="recall-progress-label">${idx + 1} / ${q.length}</span>
         <div class="recall-progress-bar"><div style="width:${Math.round((idx/q.length)*100)}%;background:var(--accent);height:100%;border-radius:4px;transition:width .3s"></div></div>
-        ${item.isDue ? '<span class="recall-due-badge">Due</span>' : '<span class="recall-practice-badge">Practice</span>'}
+        ${item.isDue ? '<span class="recall-due-badge">Due</span>' : '<span class="recall-practice-badge">Bonus</span>'}
       </div>
       <div class="recall-card-big">
         <div class="recall-card-q">${quiz.q}</div>
@@ -2514,7 +2516,7 @@ class PBook {
       }
       h += `<div style="display:flex;gap:.4em;justify-content:center;margin-top:.5em">`;
       if (dueCount > 0) h += `<button class="recall-reveal" onclick="app.startPractice(true)">\u{1F9E0} Review ${dueCount} due card${dueCount > 1 ? 's' : ''}</button>`;
-      h += `<button class="btn-ghost" style="border:1px solid var(--accent);border-radius:6px;padding:.3em .7em;font-size:.75rem;color:var(--accent)" onclick="app.startPractice()">Practice all ${totalRecall}</button>`;
+      h += `<button class="btn-ghost" style="border:1px solid var(--accent);border-radius:6px;padding:.3em .7em;font-size:.75rem;color:var(--accent)" onclick="app.startPractice()">\u{1F9E0} Test knowledge (${totalRecall})</button>`;
       h += `</div></div>`;
     } else if (this._f('spaceRepetition')) {
       h += '<div class="profile-section"><h3>\u{1F9E0} Recall & Review</h3><p style="font-size:.8rem;color:var(--text-3)">Read some sections first — recall quizzes will appear to help you remember.</p></div>';
