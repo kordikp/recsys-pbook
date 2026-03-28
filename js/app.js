@@ -89,12 +89,11 @@ class PBook {
         if (block) {
           document.getElementById('onboarding').classList.add('hidden');
           this.updateXPBadge();
-          this._inPracticeMode = true;
           this._recallQueue = [{ blockId, isDue: false }];
           this._recallIdx = 0;
           this._recallScore = { total: 1, correct: 0 };
-          this.switchView('home', true);
-          this._renderRecallCard();
+          this.switchView('quiz', true);
+          this._renderQuizCard();
         }
       } else if (this.findBlock(hash)) {
         // Block deep link
@@ -290,9 +289,9 @@ class PBook {
 
     // Memory cards button
     if (dueRecalls.length > 0) {
-      html += `<button class="btn-secondary" style="font-size:.78rem;padding:.4em .8em;border-radius:8px;border:1.5px solid var(--warn);color:var(--warn);background:var(--warn-bg)" onclick="app.startAndGo('home');setTimeout(()=>app.startPractice(true),500)">\u{1F9E0} ${dueRecalls.length} cards due</button>`;
+      html += `<button class="btn-secondary" style="font-size:.78rem;padding:.4em .8em;border-radius:8px;border:1.5px solid var(--warn);color:var(--warn);background:var(--warn-bg)" onclick="app.startAndGo('quiz');setTimeout(()=>app.startPractice(true),300)">\u{1F9E0} ${dueRecalls.length} cards due</button>`;
     } else if (Object.keys(u.recall).length > 0) {
-      html += `<button class="btn-secondary" style="font-size:.78rem;padding:.4em .8em;border-radius:8px;border:1.5px solid var(--accent);color:var(--accent)" onclick="app.startAndGo('home');setTimeout(()=>app.startPractice(),500)">\u{1F9E0} Test knowledge</button>`;
+      html += `<button class="btn-secondary" style="font-size:.78rem;padding:.4em .8em;border-radius:8px;border:1.5px solid var(--accent);color:var(--accent)" onclick="app.startAndGo('quiz')">\u{1F9E0} Test knowledge</button>`;
     }
 
     // Profile link
@@ -460,9 +459,8 @@ class PBook {
 
   // ===== VIEW SWITCHING =====
   switchView(view, auto) {
-    if (view !== 'home') this._inPracticeMode = false;
     this.currentView = view;
-    const modeMap = { home: 'netflix', read: 'read', map: 'map', glossary: 'mission', chat: 'tutor', profile: 'profile' };
+    const modeMap = { home: 'netflix', read: 'read', map: 'map', glossary: 'mission', quiz: 'quiz', chat: 'tutor', profile: 'profile' };
     this.rc.setContext(modeMap[view] || view);
     // Only log mode_switch for explicit user navigation, not automatic transitions
     if (!auto) this.rc.logEvent('mode_switch', { mode: modeMap[view] || view, from: this._prevView });
@@ -478,10 +476,11 @@ class PBook {
 
     // Linear nav only in read view
 
-    if (view === 'home' && !this._inPracticeMode) this.renderHome();
+    if (view === 'home') this.renderHome();
     else if (view === 'read') this.renderRead();
     else if (view === 'map') this.renderMap();
     else if (view === 'glossary') { if (this._f('missions')) this.renderMissions(); else this.switchView('home'); }
+    else if (view === 'quiz') this.renderQuiz();
     else if (view === 'chat') this.initChatView();
     else if (view === 'profile') this.renderProfile();
     window.scrollTo(0, 0);
@@ -1969,15 +1968,13 @@ class PBook {
     const due = this.user.getDueRecalls();
     let blocks;
     if (dueOnly && due.length > 0) {
-      // Due only — all due cards, sorted by most overdue first
       blocks = due.map(r => ({ blockId: r.blockId, isDue: true }));
     } else {
-      // Smart ordering: due first, then by difficulty (low ease = harder = practice more)
+      // Smart ordering: due first, then hardest (low ease), then new
       const dueSet = new Set(due.map(d => d.blockId));
       const allRecall = Object.entries(this.user.recall)
-        .sort((a, b) => a[1].ease - b[1].ease) // lowest ease (hardest) first
+        .sort((a, b) => a[1].ease - b[1].ease)
         .map(([blockId, card]) => ({ blockId, isDue: dueSet.has(blockId), ease: card.ease, reps: card.reps }));
-      // Also include read blocks with no recall yet
       const recallSet = new Set(allRecall.map(r => r.blockId));
       const unscheduled = [...this.user.readBlocks]
         .filter(id => !recallSet.has(id))
@@ -1989,42 +1986,112 @@ class PBook {
     this._recallQueue = blocks;
     this._recallIdx = 0;
     this._recallScore = { total: blocks.length, correct: 0 };
-    this._inPracticeMode = true;
-    this._renderRecallCard();
+    if (this.currentView !== 'quiz') this.switchView('quiz', true);
+    this._renderQuizCard();
   }
 
-  _renderRecallCard() {
+  renderQuiz() {
+    const el = document.getElementById('quizContent');
+    if (!el) return;
+    const u = this.user;
+    const due = this._f('spaceRepetition') ? u.getDueRecalls() : [];
+    const totalRecall = Object.keys(u.recall).length;
+    const totalRead = u.readBlocks.size;
+
+    // If already in a practice session, render the current card
+    if (this._recallQueue && this._recallIdx < this._recallQueue.length) {
+      this._renderQuizCard();
+      return;
+    }
+
+    // Landing page
+    let h = '<div style="max-width:500px;margin:0 auto;padding:1em">';
+    h += '<h2 style="font-family:var(--font-ui);font-size:1.3rem;font-weight:800;text-align:center;margin-bottom:.3em">\u{1F9E0} Test Your Knowledge</h2>';
+    h += '<p style="font-size:.82rem;color:var(--text-2);text-align:center;margin-bottom:1.2em">How well do you remember what you\'ve read?</p>';
+
+    if (totalRead === 0) {
+      h += '<div style="text-align:center;padding:2em;color:var(--text-3)"><p>Read some sections first, then come back to test yourself!</p>';
+      h += '<button class="btn-primary" style="margin-top:1em" onclick="app.switchView(\'home\')">Start reading</button></div>';
+    } else {
+      // Stats
+      const hardCount = Object.values(u.recall).filter(c => c.ease < 1.8).length;
+      const medCount = Object.values(u.recall).filter(c => c.ease >= 1.8 && c.ease < 2.5).length;
+      const easyCount = Object.values(u.recall).filter(c => c.ease >= 2.5).length;
+      const newCount = totalRead - totalRecall;
+
+      h += `<div class="gami-stats" style="margin-bottom:1em">
+        <div class="gami-stat"><span class="gs-num">${due.length}</span><span class="gs-label">Due now</span></div>
+        <div class="gami-stat"><span class="gs-num">${totalRecall}</span><span class="gs-label">Tracked</span></div>
+        <div class="gami-stat"><span class="gs-num">${totalRead}</span><span class="gs-label">Read</span></div>
+      </div>`;
+
+      // Difficulty breakdown
+      if (totalRecall > 0) {
+        h += '<div style="display:flex;gap:.3em;justify-content:center;margin-bottom:1em;font-size:.72rem">';
+        if (hardCount) h += `<span style="color:#dc2626;font-weight:600">${hardCount} hard</span>`;
+        if (medCount) h += `<span style="color:var(--warn);font-weight:600">${medCount} medium</span>`;
+        if (easyCount) h += `<span style="color:var(--product);font-weight:600">${easyCount} easy</span>`;
+        if (newCount > 0) h += `<span style="color:var(--text-3)">${newCount} new</span>`;
+        h += '</div>';
+      }
+
+      // Action buttons
+      h += '<div style="display:flex;flex-direction:column;gap:.5em;align-items:center">';
+      if (due.length > 0) {
+        h += `<button class="recall-reveal-big" onclick="app.startPractice(true)">Review ${due.length} due card${due.length > 1 ? 's' : ''}</button>`;
+      }
+      h += `<button class="btn-primary" style="width:100%;max-width:300px" onclick="app.startPractice()">Test all ${totalRead} cards</button>`;
+      if (hardCount > 0) {
+        h += `<button class="btn-ghost" style="border:1px solid #dc2626;color:#dc2626;border-radius:8px;padding:.4em 1em;font-size:.78rem;width:100%;max-width:300px" onclick="app._startHardMode()">Focus on ${hardCount} hard cards</button>`;
+      }
+      h += '</div>';
+    }
+    h += '</div>';
+    el.innerHTML = h;
+  }
+
+  _startHardMode() {
+    const hard = Object.entries(this.user.recall)
+      .filter(([_, c]) => c.ease < 1.8)
+      .sort((a, b) => a[1].ease - b[1].ease)
+      .map(([blockId, card]) => ({ blockId, isDue: true, ease: card.ease, reps: card.reps }));
+    if (!hard.length) return;
+    this._recallQueue = hard;
+    this._recallIdx = 0;
+    this._recallScore = { total: hard.length, correct: 0 };
+    this._renderQuizCard();
+  }
+
+  _renderQuizCard() {
     const q = this._recallQueue;
     const idx = this._recallIdx;
+    const el = document.getElementById('quizContent');
+    if (!el) return;
 
     // Done — show summary
     if (idx >= q.length) {
-      const el = document.getElementById('homeContent') || document.getElementById('glossaryContent');
       const s = this._recallScore;
       el.innerHTML = `<div class="recall-session">
         <h2>Review complete!</h2>
         <div class="recall-summary-icon">${s.correct >= s.total * 0.7 ? '\u{1F389}' : '\u{1F4AA}'}</div>
         <p>${s.correct} of ${s.total} correct</p>
         <div class="recall-summary-bar"><div style="width:${Math.round(s.correct/Math.max(s.total,1)*100)}%;background:var(--product);height:100%;border-radius:4px"></div></div>
-        <button class="btn-primary" style="margin-top:1em" onclick="app._inPracticeMode=false;app.switchView('home')">Back to reading</button>
+        <button class="btn-primary" style="margin-top:1em" onclick="app.switchView('home')">Back to reading</button>
         <button class="btn-ghost" style="margin-top:.5em" onclick="app.startPractice()">Test more</button>
       </div>`;
-      if (this.currentView !== 'home') this.switchView('home', true);
       return;
     }
 
     const item = q[idx];
     const block = this.findBlock(item.blockId);
-    if (!block) { this._recallIdx++; this._renderRecallCard(); return; }
+    if (!block) { this._recallIdx++; this._renderQuizCard(); return; }
     const quiz = this._getRecallQuestion(block);
-
     const card = this.user.recall[item.blockId];
     const reps = card ? card.reps : 0;
     const ease = card ? card.ease.toFixed(1) : '—';
     const diffLabel = !card ? 'New' : card.ease >= 2.5 ? 'Easy' : card.ease >= 1.8 ? 'Medium' : 'Hard';
     const diffColor = !card ? 'var(--text-3)' : card.ease >= 2.5 ? 'var(--product)' : card.ease >= 1.8 ? 'var(--warn)' : '#dc2626';
 
-    const el = document.getElementById('homeContent') || document.getElementById('glossaryContent');
     el.innerHTML = `<div class="recall-session">
       <div class="recall-progress-row">
         <span class="recall-progress-label">${idx + 1} / ${q.length}</span>
@@ -2054,14 +2121,12 @@ class PBook {
         <button style="font-size:.72rem;color:var(--text-3);border:1px solid var(--border);border-radius:6px;padding:.3em .8em;cursor:pointer" onclick="app._endPractice()">Stop here (${this._recallScore.correct}/${idx} so far)</button>
       </div>
     </div>`;
-    if (this.currentView !== 'home') this.switchView('home', true);
     window.scrollTo(0, 0);
   }
 
   _endPractice() {
-    // End early — show summary with current progress
-    this._recallQueue.length = this._recallIdx; // truncate
-    this._renderRecallCard(); // triggers summary
+    this._recallQueue.length = this._recallIdx;
+    this._renderQuizCard(); // triggers summary
   }
 
   shareQuestion(blockId) {
@@ -2090,10 +2155,10 @@ class PBook {
         answerEl.insertAdjacentHTML('beforeend', `<div style="text-align:center;margin-top:.5em"><a href="#" onclick="event.preventDefault();app.openBlock('${blockId}')" style="color:var(--accent);font-size:.82rem;font-weight:600">Re-read this section &rarr;</a></div>`);
       }
       this._recallIdx++;
-      setTimeout(() => this._renderRecallCard(), 2000); // longer pause to let them click
+      setTimeout(() => this._renderQuizCard(), 2000);
     } else {
       this._recallIdx++;
-      setTimeout(() => this._renderRecallCard(), 400);
+      setTimeout(() => this._renderQuizCard(), 400);
     }
   }
 
