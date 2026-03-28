@@ -87,18 +87,12 @@ class PBook {
         this.updateXPBadge();
         this.switchView('quiz');
       } else if (hash.startsWith('quiz-')) {
-        // Quiz deep link
+        // Single quiz card deep link — show in quiz view
         const blockId = hash.replace('quiz-', '');
-        const block = this.findBlock(blockId);
-        if (block) {
-          document.getElementById('onboarding').classList.add('hidden');
-          this.updateXPBadge();
-          this._recallQueue = [{ blockId, isDue: false }];
-          this._recallIdx = 0;
-          this._recallScore = { total: 1, correct: 0 };
-          this.switchView('quiz', true);
-          this._renderQuizCard();
-        }
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this._sharedQuizBlock = blockId;
+        this.switchView('quiz');
       } else if (this.findBlock(hash)) {
         // Block deep link
         document.getElementById('onboarding').classList.add('hidden');
@@ -2014,13 +2008,39 @@ class PBook {
 
     let h = '';
 
+    // ── Shared single card? ──
+    if (this._sharedQuizBlock) {
+      const sharedId = this._sharedQuizBlock;
+      this._sharedQuizBlock = null;
+      const block = this.findBlock(sharedId);
+      if (block) {
+        const quiz = this._getRecallQuestion(block);
+        if (quiz) {
+          h += `<div style="padding:1em;max-width:500px;margin:0 auto">
+            <p style="font-size:.75rem;color:var(--text-3);margin-bottom:.8em">Someone shared this question with you:</p>
+            <div class="recall-card-big">
+              <div class="recall-card-q">${quiz.q}</div>
+              <div id="shared-a" style="display:none">
+                <div class="recall-card-answer">${quiz.a}</div>
+                <div style="margin-top:.5em;font-size:.72rem;color:var(--text-3)">From: Ch${block.meta._chapterNum} — ${block.meta.title}</div>
+                <div style="display:flex;gap:.4em;margin-top:.6em">
+                  <button class="btn-primary" style="flex:1;font-size:.78rem" onclick="app.openBlock('${sharedId}')">Read this section</button>
+                  <button class="btn-ghost" style="flex:1;font-size:.78rem;border:1px solid var(--accent);border-radius:8px;color:var(--accent)" onclick="app.renderQuiz()">More questions</button>
+                </div>
+              </div>
+              <button class="recall-reveal-big" onclick="document.getElementById('shared-a').style.display='block';this.style.display='none'">Think about it... then reveal!</button>
+            </div>
+          </div>`;
+          el.innerHTML = h;
+          return;
+        }
+      }
+    }
+
     // ── Header ──
     h += `<div style="padding:.8em 1em .2em">
-      <div style="display:flex;align-items:center;justify-content:space-between">
-        <h2 style="font-family:var(--font-ui);font-size:1.15rem;font-weight:800">\u{1F9E0} Test Your Knowledge</h2>
-        <button style="font-size:.72rem;color:var(--text-3)" onclick="app._shareQuizPage()" title="Share quiz page">\u{1F517}</button>
-      </div>
-      <p style="font-size:.75rem;color:var(--text-3);margin-top:.1em">Spaced repetition — the science behind Anki &amp; Duolingo</p>
+      <h2 style="font-family:var(--font-ui);font-size:1.15rem;font-weight:800">\u{1F9E0} Test Your Knowledge</h2>
+      <p style="font-size:.75rem;color:var(--text-3);margin-top:.1em">Spaced repetition — review what you learned</p>
     </div>`;
 
     if (totalRead === 0) {
@@ -2091,37 +2111,53 @@ class PBook {
     }
     h += `</div></div>`;
 
-    // ── Hard cards shelf ──
+    // ── Confidence funnel (visual) ──
+    if (totalRecall > 0) {
+      const hPct = Math.round(hardCards.length / totalRecall * 100);
+      const mPct = Math.round(medCards.length / totalRecall * 100);
+      const ePct = Math.round(easyCards.length / totalRecall * 100);
+      h += `<div style="padding:.5em 1em .8em">
+        <div style="font-size:.72rem;font-weight:600;color:var(--text-3);margin-bottom:.3em">Your confidence</div>
+        <div style="display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--border)">
+          ${hPct > 0 ? `<div style="width:${hPct}%;background:#dc2626" title="${hardCards.length} struggling"></div>` : ''}
+          ${mPct > 0 ? `<div style="width:${mPct}%;background:var(--warn)" title="${medCards.length} learning"></div>` : ''}
+          ${ePct > 0 ? `<div style="width:${ePct}%;background:var(--product)" title="${easyCards.length} confident"></div>` : ''}
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:.6rem;color:var(--text-3);margin-top:.2em">
+          <span style="color:#dc2626">${hardCards.length} struggling</span>
+          <span style="color:var(--warn)">${medCards.length} learning</span>
+          <span style="color:var(--product)">${easyCards.length} confident</span>
+        </div>
+      </div>`;
+    }
+
+    // ── Card shelves by confidence (lowest first) ──
     if (hardCards.length > 0) {
-      const hCards = hardCards.slice(0, 8).map(([blockId, card]) => this._quizPreviewCard(blockId, card, '#dc2626', 'Hard')).filter(Boolean);
-      if (hCards.length) h += this.shelf('\u{1F4A2} Needs work', hCards);
+      const hCards = hardCards.slice(0, 10).map(([blockId, card]) => this._quizPreviewCard(blockId, card, '#dc2626', 'Struggling')).filter(Boolean);
+      if (hCards.length) h += this.shelf(`\u{1F4A2} Struggling (${hardCards.length})`, hCards);
     }
-
-    // ── Medium cards shelf ──
     if (medCards.length > 0) {
-      const mCards = medCards.slice(0, 8).map(([blockId, card]) => this._quizPreviewCard(blockId, card, 'var(--warn)', 'Medium')).filter(Boolean);
-      if (mCards.length) h += this.shelf('\u{1F4AD} Getting there', mCards);
+      const mCards = medCards.slice(0, 10).map(([blockId, card]) => this._quizPreviewCard(blockId, card, 'var(--warn)', 'Learning')).filter(Boolean);
+      if (mCards.length) h += this.shelf(`\u{1F4AD} Learning (${medCards.length})`, mCards);
     }
-
-    // ── Easy / mastered shelf ──
     if (easyCards.length > 0) {
-      const eCards = easyCards.slice(0, 8).map(([blockId, card]) => this._quizPreviewCard(blockId, card, 'var(--product)', 'Mastered')).filter(Boolean);
-      if (eCards.length) h += this.shelf('\u{2705} Mastered', eCards);
+      const eCards = easyCards.slice(0, 10).map(([blockId, card]) => this._quizPreviewCard(blockId, card, 'var(--product)', 'Confident')).filter(Boolean);
+      if (eCards.length) h += this.shelf(`\u{1F4AA} Confident (${easyCards.length})`, eCards);
     }
 
     // ── How it works ──
-    h += `<div style="padding:.8em 1em;margin-top:.5em">
+    h += `<div style="padding:.8em 1em;margin-top:.3em">
       <details style="font-size:.75rem;color:var(--text-2)">
         <summary style="cursor:pointer;font-weight:600;color:var(--text-3);font-size:.72rem">How does the smart reminder work?</summary>
         <div style="margin-top:.5em;line-height:1.5">
-          <p>This uses <strong>spaced repetition</strong> (SM-2 algorithm) — the same science behind Anki and Duolingo:</p>
+          <p>This uses <strong>spaced repetition</strong> (SM-2) — the same science behind Anki &amp; Duolingo:</p>
           <ul style="padding-left:1.2em;margin:.4em 0">
-            <li><strong>New cards</strong> appear 2 hours after you read a section</li>
-            <li>Answer <strong>Easy</strong> → next review in days. <strong>Good</strong> → shorter interval. <strong>Hard/Forgot</strong> → review again soon.</li>
-            <li>Each card has a <strong>difficulty score</strong> (ease factor). Cards you keep forgetting get shown more often.</li>
-            <li>Cards you master get intervals up to <strong>30 days</strong> — you only review what you need to.</li>
+            <li><strong>New cards</strong> appear 2h after reading</li>
+            <li><strong>Easy</strong> → longer interval. <strong>Forgot</strong> → review again soon.</li>
+            <li>Cards you struggle with get shown more often — the system adapts to you.</li>
+            <li>Even "confident" cards come back periodically — knowledge fades without review.</li>
           </ul>
-          <p style="margin-top:.3em"><strong>Hard</strong> (ease &lt; 1.8) = you often forget. <strong>Medium</strong> (1.8-2.5) = sometimes tricky. <strong>Easy</strong> (2.5+) = you know it well.</p>
+          <p style="margin-top:.3em">\u{1F534} Struggling = ease &lt; 1.8 &nbsp; \u{1F7E1} Learning = 1.8-2.5 &nbsp; \u{1F7E2} Confident = 2.5+</p>
         </div>
       </details>
     </div>`;
@@ -2154,20 +2190,16 @@ class PBook {
       <div class="card-title" style="font-size:.82rem;line-height:1.3">${quiz.q}</div>
       <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum} · Tap to reveal</div>
       <div id="qp-${uid}" style="display:none;margin-top:.4em;padding-top:.4em;border-top:1px solid var(--border)">
-        <div style="font-size:.78rem;color:var(--text-2);line-height:1.4;margin-bottom:.3em">${quiz.a}</div>
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.3em">
-          <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="font-size:.62rem;color:var(--accent)">Read section &rarr;</a>
-          <button style="font-size:.6rem;color:var(--text-3);border:1px solid var(--border);border-radius:4px;padding:.1em .3em" onclick="event.stopPropagation();app.shareQuestion('${blockId}')">Share</button>
+        <div style="font-size:.78rem;color:var(--text-2);line-height:1.4;margin-bottom:.4em">${quiz.a}</div>
+        <div class="recall-buttons" onclick="event.stopPropagation()">
+          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${blockId}',0);this.closest('.card').remove()">Forgot</button>
+          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${blockId}',1);this.closest('.card').remove()">Hard</button>
+          <button class="recall-btn recall-good" onclick="app.scoreRecall('${blockId}',2);this.closest('.card').remove()">Good</button>
+          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${blockId}',3);this.closest('.card').remove()">Easy!</button>
         </div>
+        <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="display:block;font-size:.62rem;color:var(--accent);margin-top:.3em;text-align:center">Re-read this section &rarr;</a>
       </div>
     </div>`;
-  }
-
-  _shareQuizPage() {
-    const url = window.location.origin + window.location.pathname + '#quiz';
-    const text = 'Test your knowledge about recommendation algorithms!';
-    if (navigator.share) navigator.share({ title: 'Test Your Knowledge', text, url }).catch(() => {});
-    else navigator.clipboard.writeText(url).then(() => this.showXPToast('Link copied!', 'info'));
   }
 
   _startHardMode() {
@@ -2257,9 +2289,8 @@ class PBook {
         </div>
         <button class="recall-reveal-big" id="recallRevealBtn" onclick="document.getElementById('recallAnswer').style.display='block';this.style.display='none'">Show answer</button>
       </div>
-      <div style="display:flex;justify-content:center;gap:.6em;margin-top:.8em;align-items:center">
+      <div style="display:flex;justify-content:center;margin-top:.8em">
         <button style="font-size:.72rem;color:var(--text-3);border:1px solid var(--border);border-radius:6px;padding:.3em .8em;cursor:pointer" onclick="app._endPractice()">Stop (${this._recallScore.correct}/${idx} correct)</button>
-        <button style="font-size:.65rem;color:var(--text-3);cursor:pointer" onclick="app.shareQuestion('${item.blockId}')" title="Share this question">\u{1F517} Share</button>
       </div>
     </div>`;
     window.scrollTo(0, 0);
