@@ -9,6 +9,8 @@ teaser: "You're in charge of your digital footprints. Here's how."
 voice: universal
 parent: null
 diagram: null
+recallQ: "Name 3 tools you have to control your data."
+recallA: "\"Not Interested\" button, clear history, separate profiles, incognito mode, and app settings."
 status: accepted
 ---
 

@@ -9,6 +9,8 @@ teaser: "One slime video and suddenly you're a slime expert forever."
 voice: universal
 parent: null
 diagram: null
+recallQ: "Why do recommendations sometimes go hilariously wrong?"
+recallA: "The system only sees clicks, not reasons. If your sibling watches cartoons on your account, it thinks YOU like cartoons!"
 status: accepted
 ---
 

@@ -9,6 +9,8 @@ teaser: "Who has the same taste? Find your movie twins."
 voice: universal
 parent: null
 diagram: null
+recallQ: "How do you find \"taste neighbors\"?"
+recallA: "Compare ratings on shared items — lower average difference = more similar taste."
 status: accepted
 ---
 

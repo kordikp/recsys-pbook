@@ -8,6 +8,8 @@ teaser: "How computers measure similarity using cosine similarity."
 voice: thinker
 parent: null
 diagram: null
+recallQ: "What does cosine similarity measure?"
+recallA: "The angle between two preference vectors — so someone who rates everything low but in the same PATTERN as you is still similar."
 status: accepted
 ---
 

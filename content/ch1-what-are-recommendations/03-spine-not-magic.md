@@ -9,6 +9,8 @@ teaser: "Recommender systems are like detectives. They find clues in your clicks
 voice: universal
 parent: null
 diagram: kids-pattern-detective
+recallQ: "Recommendations feel like magic — what are they really based on?"
+recallA: "Patterns! Watch → find patterns → predict. Like a detective finding clues in your clicks."
 status: accepted
 ---
 

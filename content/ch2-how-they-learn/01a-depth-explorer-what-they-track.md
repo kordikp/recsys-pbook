@@ -8,6 +8,8 @@ teaser: "The full list of clues you're leaving behind. Some will surprise you."
 voice: explorer
 parent: null
 diagram: null
+recallQ: "Which signal is stronger: clicking a video or watching it to the end?"
+recallA: "Watching to the end is MUCH stronger. The system tracks watch time, not just clicks."
 status: accepted
 ---
 

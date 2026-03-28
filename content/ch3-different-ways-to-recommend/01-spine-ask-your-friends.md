@@ -9,6 +9,8 @@ teaser: "What if a million people with your exact taste could recommend stuff to
 voice: universal
 parent: null
 diagram: kids-collaborative-filtering
+recallQ: "How does collaborative filtering work?"
+recallA: "Find people with similar taste → recommend what THEY liked that you haven't tried yet."
 status: accepted
 ---
 

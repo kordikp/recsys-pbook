@@ -8,6 +8,8 @@ teaser: "Survey your classmates, build a spreadsheet, and discover hidden taste 
 voice: creator
 parent: null
 diagram: null
+recallQ: "Can you build collaborative filtering without a computer?"
+recallA: "Yes! Survey friends, create a rating grid on paper, find who matches you best, check what they liked."
 status: accepted
 ---
 

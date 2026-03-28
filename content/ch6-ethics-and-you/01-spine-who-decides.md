@@ -9,6 +9,8 @@ teaser: "When you open TikTok, who chose what's on your screen? Not you. Not you
 voice: universal
 parent: null
 diagram: null
+recallQ: "Who decides what you see when you open TikTok?"
+recallA: "The algorithm — not you, not your parents, not TikTok employees. It optimizes for \"what keeps you watching longest.\""
 status: accepted
 ---
 

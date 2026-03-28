@@ -9,6 +9,8 @@ teaser: "You see a random movie at the top of your feed. Why? The answer is hard
 voice: universal
 parent: null
 diagram: null
+recallQ: "Why can't platforms fully explain their recommendations?"
+recallA: "Neural networks use hundreds of signals — even engineers can't trace exactly why one item was chosen over another."
 status: accepted
 ---
 

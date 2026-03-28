@@ -8,6 +8,8 @@ teaser: "Even if you never told it how old you are, the algorithm probably knows
 voice: universal
 parent: null
 diagram: null
+recallQ: "Can algorithms guess your age? How?"
+recallA: "Within 3-5 years! From when you watch, how fast you scroll, music taste, and meme preferences — no personal info needed."
 status: accepted
 ---
 

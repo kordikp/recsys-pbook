@@ -8,6 +8,8 @@ teaser: "Clear your history, train the algorithm from scratch, and see how fast 
 voice: creator
 parent: null
 diagram: null
+recallQ: "How fast does an algorithm start personalizing for you?"
+recallA: "Just 5-10 videos! Watch a few cooking videos and your feed fills with cooking in minutes."
 status: accepted
 ---
 

@@ -8,6 +8,8 @@ teaser: "Governments want to regulate recommendation algorithms. But can they ac
 voice: universal
 parent: null
 diagram: null
+recallQ: "What right did the EU give people regarding algorithms?"
+recallA: "The right to opt OUT of algorithmic recommendations, and a ban on using kids' personal data for targeting."
 status: accepted
 ---
 

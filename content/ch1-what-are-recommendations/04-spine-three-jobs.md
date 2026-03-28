@@ -9,6 +9,8 @@ teaser: "Discover, find, and keep you interested -- that's the gig."
 voice: universal
 parent: null
 diagram: kids-three-jobs
+recallQ: "What are the 3 jobs of a recommender system?"
+recallA: "DISCOVER new things, FIND things faster in huge catalogs, and ENGAGE — keep you interested."
 status: accepted
 ---
 

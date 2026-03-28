@@ -9,6 +9,8 @@ teaser: "Real systems don't use just one method. They use ALL of them, in three 
 voice: universal
 parent: null
 diagram: kids-pipeline
+recallQ: "What are the 3 stages of a recommendation pipeline?"
+recallA: "FIND candidates (fast + rough), RANK them (precise scoring), CHECK for diversity."
 status: accepted
 ---
 

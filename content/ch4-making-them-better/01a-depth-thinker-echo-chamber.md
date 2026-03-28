@@ -9,6 +9,8 @@ teaser: "What happens when filter bubbles affect how we see the world?"
 voice: thinker
 parent: null
 diagram: null
+recallQ: "How is an echo chamber worse than a filter bubble?"
+recallA: "Echo chambers make you think EVERYONE agrees with you — different people see different realities about the same topic."
 status: accepted
 ---
 

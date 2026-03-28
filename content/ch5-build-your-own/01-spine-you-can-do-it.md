@@ -9,6 +9,8 @@ teaser: "You learned how recs work. Now it's time to build one yourself."
 voice: universal
 parent: null
 diagram: null
+recallQ: "What are the 4 steps to build a recommendation system?"
+recallA: "Collect data → find similar users → make predictions → test and improve."
 status: accepted
 ---
 

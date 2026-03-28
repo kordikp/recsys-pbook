@@ -9,6 +9,8 @@ teaser: "When recommendations are TOO good, you only see what you already like."
 voice: universal
 parent: null
 diagram: kids-filter-bubble
+recallQ: "What is a filter bubble?"
+recallA: "When the algorithm only shows you things you already like — you never discover anything new. The bubble is invisible."
 status: accepted
 ---
 

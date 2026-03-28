@@ -9,6 +9,8 @@ teaser: "Your brain has a chemical reward system. Recommendation algorithms have
 voice: universal
 parent: null
 diagram: null
+recallQ: "Why does watching \"just one more video\" feel so hard to resist?"
+recallA: "Dopamine! Your brain releases it for anticipation + uncertainty — the same mechanism as slot machines."
 status: accepted
 ---
 

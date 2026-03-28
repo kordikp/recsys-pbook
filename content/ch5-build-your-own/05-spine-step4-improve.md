@@ -9,6 +9,8 @@ teaser: "Your system works! Now let's make it smarter."
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is the single biggest improvement for a recommendation system?"
+recallA: "More data! More users and more ratings create more connections, which means better matches and predictions."
 status: accepted
 ---
 

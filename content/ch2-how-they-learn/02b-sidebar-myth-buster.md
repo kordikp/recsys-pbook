@@ -9,6 +9,8 @@ teaser: "Is your phone REALLY listening to you? Let's bust some myths about how 
 voice: thinker
 parent: null
 diagram: null
+recallQ: "True or false: your phone listens to your conversations for ads."
+recallA: "False! Algorithms predict so well from your clicks that it FEELS like they heard you — but they didn't."
 status: accepted
 ---
 

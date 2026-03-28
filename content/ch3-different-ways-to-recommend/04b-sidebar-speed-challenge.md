@@ -8,6 +8,8 @@ teaser: "800 million videos. 0.2 seconds. The numbers behind YouTube recommendat
 voice: thinker
 parent: null
 diagram: null
+recallQ: "How long would it take a human to do what YouTube does in 1 second?"
+recallA: "25 YEARS! That's why we need algorithms — the scale is impossibly large for humans."
 status: accepted
 ---
 

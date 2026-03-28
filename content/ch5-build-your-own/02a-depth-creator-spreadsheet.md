@@ -8,6 +8,8 @@ teaser: "Google Sheets instructions to create your very own rating matrix."
 voice: creator
 parent: null
 diagram: null
+recallQ: "Why can a spreadsheet help you build recommendations?"
+recallA: "Color-coded ratings reveal taste patterns visually — you can see who matches before doing any math."
 status: accepted
 ---
 

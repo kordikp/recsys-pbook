@@ -9,6 +9,8 @@ teaser: "Once you start looking, you can't stop seeing them."
 voice: universal
 parent: null
 diagram: kids-recommendations-everywhere
+recallQ: "Name 4 apps that use recommendation algorithms."
+recallA: "YouTube, TikTok, Spotify, Netflix, Amazon, Instagram, App Store — almost every app you use daily."
 status: accepted
 ---
 

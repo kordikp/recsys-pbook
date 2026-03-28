@@ -9,6 +9,8 @@ teaser: "Forget other people. What if the system just looked at WHAT the thing a
 voice: universal
 parent: null
 diagram: kids-content-based
+recallQ: "How does content-based filtering differ from collaborative?"
+recallA: "Content-based looks at item FEATURES (genre, tags). Collaborative looks at USER BEHAVIOR (who liked what)."
 status: accepted
 ---
 

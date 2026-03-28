@@ -8,6 +8,8 @@ teaser: "Even the world's top experts disagree on these. Your opinion is just as
 voice: thinker
 parent: null
 diagram: null
+recallQ: "Name a hard question about algorithms that nobody has answered yet."
+recallA: "Should kids get different algorithms? Who defines \"harmful\"? Should algorithms show disagreement? No right answers exist yet."
 status: accepted
 ---
 

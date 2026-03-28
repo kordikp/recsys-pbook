@@ -9,6 +9,8 @@ teaser: "When popular stuff gets MORE popular just because it's popular. A vicio
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is the \"rich-get-richer\" problem?"
+recallA: "Popular content gets more visibility → more views → stays popular. New creators get buried forever."
 status: accepted
 ---
 

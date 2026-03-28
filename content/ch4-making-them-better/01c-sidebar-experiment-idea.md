@@ -8,6 +8,8 @@ teaser: "A 5-minute experiment that proves YOU can control the algorithm. Grab y
 voice: creator
 parent: null
 diagram: null
+recallQ: "How can you break out of a filter bubble?"
+recallA: "Deliberately explore new content! Watch 3 videos on a new topic and your feed will start to change."
 status: accepted
 ---
 

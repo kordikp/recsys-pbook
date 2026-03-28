@@ -8,6 +8,8 @@ teaser: "Not all clicks are created equal. Can you tell which ones actually matt
 voice: explorer
 parent: null
 diagram: null
+recallQ: "What is the strongest signal you can send to an algorithm?"
+recallA: "Sharing something! It takes real effort, which tells the system you really care about that content."
 status: accepted
 ---
 

@@ -8,6 +8,8 @@ teaser: "A visual grid that shows exactly how the system finds your taste twins.
 voice: explorer
 parent: null
 diagram: null
+recallQ: "What are \"taste twins\" in collaborative filtering?"
+recallA: "People who liked the same things as you. If they also liked something new, you probably will too!"
 status: accepted
 ---
 

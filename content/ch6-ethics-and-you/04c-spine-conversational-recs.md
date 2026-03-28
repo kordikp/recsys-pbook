@@ -9,6 +9,8 @@ teaser: "What if instead of scrolling through recommendations, you could just AS
 voice: universal
 parent: null
 diagram: null
+recallQ: "How will LLMs change recommendations?"
+recallA: "You'll ASK for what you want instead of scrolling. LLMs understand language, recommenders have the data — together they're powerful."
 status: accepted
 ---
 

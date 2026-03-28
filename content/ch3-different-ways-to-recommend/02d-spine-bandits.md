@@ -9,6 +9,8 @@ teaser: "Should the algorithm show you something it KNOWS you'll like, or try so
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is the explore-exploit dilemma?"
+recallA: "Should the system show safe picks you'll like (exploit) or try new things you might discover (explore)? Both matter."
 status: accepted
 ---
 

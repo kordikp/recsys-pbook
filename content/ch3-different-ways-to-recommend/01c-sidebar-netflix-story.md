@@ -9,6 +9,8 @@ teaser: "Netflix offered $1,000,000 to anyone who could make their recommendatio
 voice: universal
 parent: null
 diagram: null
+recallQ: "What lesson did the Netflix Prize teach about algorithms?"
+recallA: "Better accuracy doesn't always win — speed and simplicity matter more than perfection in real systems."
 status: accepted
 ---
 

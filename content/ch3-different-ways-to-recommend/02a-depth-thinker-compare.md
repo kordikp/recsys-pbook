@@ -8,6 +8,8 @@ teaser: "Collaborative filtering or content-based? Each has strengths. The real 
 voice: thinker
 parent: null
 diagram: null
+recallQ: "When is content-based better than collaborative filtering?"
+recallA: "For new items with no ratings yet, and for niche interests. Collaborative is better for surprising discoveries."
 status: accepted
 ---
 

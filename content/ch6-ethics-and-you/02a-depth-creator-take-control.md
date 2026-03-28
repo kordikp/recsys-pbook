@@ -8,6 +8,8 @@ teaser: "Practical things you can do RIGHT NOW to become the boss of your algori
 voice: creator
 parent: null
 diagram: null
+recallQ: "What is the \"thumbnail test\"?"
+recallA: "Pause before clicking and ask: \"Do I actually WANT this?\" It breaks autopilot and puts you back in control."
 status: accepted
 ---
 

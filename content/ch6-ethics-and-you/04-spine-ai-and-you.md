@@ -9,6 +9,8 @@ teaser: "The people who built today's algorithms grew up without them. You didn'
 voice: universal
 parent: null
 diagram: null
+recallQ: "Why does YOUR generation understand algorithms better than most adults?"
+recallA: "You grew up WITH them — you notice weird recs, know how to game the algorithm, and feel the pull of infinite scroll."
 status: accepted
 ---
 

@@ -8,6 +8,8 @@ teaser: "The mind-boggling scale of YouTube's recommendation engine."
 voice: universal
 parent: null
 diagram: null
+recallQ: "What percentage of YouTube watch time comes from recommendations?"
+recallA: "70%! That means algorithms — not you searching — drive most of what people watch."
 status: accepted
 ---
 

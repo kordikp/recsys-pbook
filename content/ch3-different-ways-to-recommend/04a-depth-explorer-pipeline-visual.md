@@ -8,6 +8,8 @@ teaser: "Follow one recommendation from the moment you open the app to the momen
 voice: explorer
 parent: null
 diagram: null
+recallQ: "How does YouTube find 20 videos from 800 million in 0.2 seconds?"
+recallA: "Staged pipeline! Quick rough filters narrow 800M to 500 candidates, then careful ranking picks the best 20."
 status: accepted
 ---
 

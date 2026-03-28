@@ -9,6 +9,8 @@ teaser: "Let's skip the vague warnings and get specific. Here's what apps actual
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is a \"digital twin\"?"
+recallA: "A mathematical model of your behavior patterns — apps build one from your data without needing your name."
 status: accepted
 ---
 

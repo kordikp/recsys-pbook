@@ -9,6 +9,8 @@ teaser: "You know how algorithms pick content. Now flip it — how do you make t
 voice: universal
 parent: null
 diagram: null
+recallQ: "What matters more to YouTube: clicks or watch time?"
+recallA: "Watch time! A video 100 people watch fully beats 1,000 clicks that leave immediately."
 status: accepted
 ---
 

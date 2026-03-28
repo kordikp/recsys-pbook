@@ -9,6 +9,8 @@ teaser: "What happens when only the loud kids get called on? The same thing that
 voice: thinker
 parent: null
 diagram: null
+recallQ: "How can platforms make recommendations fairer?"
+recallA: "Random sampling, guaranteed visibility for new content, small-audience testing before scaling."
 status: accepted
 ---
 

@@ -9,6 +9,8 @@ teaser: "Item clues, person clues, and action clues -- the three ingredients in 
 voice: universal
 parent: null
 diagram: kids-cold-start
+recallQ: "Name the 3 types of clues recommenders use."
+recallA: "Item clues (what it IS), person clues (who YOU are), action clues (what you DO)."
 status: accepted
 ---
 

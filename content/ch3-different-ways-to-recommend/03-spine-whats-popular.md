@@ -9,6 +9,8 @@ teaser: "The simplest recommendation of all: just show everyone what's trending.
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is the biggest weakness of popularity-based recommendations?"
+recallA: "No personalization — everyone sees the same thing. It can't account for YOUR unique taste."
 status: accepted
 ---
 

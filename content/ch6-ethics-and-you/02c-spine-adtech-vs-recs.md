@@ -9,6 +9,8 @@ teaser: "That shoe ad following you everywhere is NOT a recommendation system. H
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is the difference between recommendations and ads?"
+recallA: "Recommendations help you within ONE app. Adtech tracks you across the ENTIRE internet to sell your attention."
 status: accepted
 ---
 

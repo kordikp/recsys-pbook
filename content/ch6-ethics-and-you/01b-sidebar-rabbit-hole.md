@@ -9,6 +9,8 @@ teaser: "You searched for card tricks. Twenty minutes later you're watching cons
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is the \"rabbit hole\" effect?"
+recallA: "Each recommended step feels small, but the accumulated path leads somewhere unexpected. The algorithm optimizes for the NEXT video, not the whole journey."
 status: accepted
 ---
 

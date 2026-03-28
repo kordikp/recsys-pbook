@@ -8,6 +8,8 @@ teaser: "Open your favorite apps and discover which recommendation model is secr
 voice: universal
 parent: null
 diagram: null
+recallQ: "Name 3 different recommendation models."
+recallA: "Friend-based, follow-based, interest-based, algorithm-based, and group-based. Most apps use hybrids."
 status: accepted
 ---
 

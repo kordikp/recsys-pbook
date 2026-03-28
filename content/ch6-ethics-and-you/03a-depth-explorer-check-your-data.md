@@ -8,6 +8,8 @@ teaser: "Step-by-step: how to actually SEE what data these apps have collected a
 voice: explorer
 parent: null
 diagram: null
+recallQ: "Where can you see what Google knows about you?"
+recallA: "myactivity.google.com — shows every search, video, and click. You can also auto-delete old data there."
 status: accepted
 ---
 

@@ -9,6 +9,8 @@ teaser: "Search engines and recommendation systems are merging. Here's how to be
 voice: universal
 parent: null
 diagram: null
+recallQ: "Why doesn't \"ranking #1 on Google\" exist anymore?"
+recallA: "Results are personalized — your content can be #1 for your audience and invisible to everyone else."
 status: accepted
 ---
 

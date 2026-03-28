@@ -9,6 +9,8 @@ teaser: "Use your similar users to predict ratings and make real recommendations
 voice: universal
 parent: null
 diagram: null
+recallQ: "How do you predict a rating for an unseen item?"
+recallA: "Find 2-3 most similar users who rated it → average their ratings. Above 4 stars = recommend it."
 status: accepted
 ---
 

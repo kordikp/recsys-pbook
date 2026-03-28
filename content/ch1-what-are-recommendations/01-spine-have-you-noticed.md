@@ -9,6 +9,8 @@ teaser: "YouTube somehow knows you love Minecraft videos. But how?"
 voice: universal
 parent: null
 diagram: null
+recallQ: "How do apps like YouTube seem to \"know\" what you want?"
+recallA: "They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content."
 status: accepted
 ---
 

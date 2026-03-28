@@ -8,6 +8,8 @@ teaser: "People build recommendation systems for a living. And it's an awesome c
 voice: universal
 parent: null
 diagram: null
+recallQ: "What skills does a recommendation engineer need?"
+recallA: "Math (statistics, linear algebra), programming (Python), creativity, and curiosity about user behavior."
 status: accepted
 ---
 

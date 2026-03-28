@@ -9,6 +9,8 @@ teaser: "Every recommender optimizes SOMETHING. The question is: whose goals doe
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is the algorithm actually trying to do?"
+recallA: "It depends! Subscription services optimize for YOUR happiness. Free/ad services optimize for ADVERTISER revenue."
 status: accepted
 ---
 

@@ -9,6 +9,8 @@ teaser: "Infinite scroll. Autoplay. 'Just one more.' These aren't accidents -- t
 voice: universal
 parent: null
 diagram: null
+recallQ: "Name 2 design tricks that keep you scrolling."
+recallA: "Infinite scroll (no end point) and autoplay (next video starts automatically). These are deliberate design choices."
 status: accepted
 ---
 

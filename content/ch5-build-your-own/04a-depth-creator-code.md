@@ -8,6 +8,8 @@ teaser: "A simple Python script that does everything you just learned -- in 20 l
 voice: creator
 parent: null
 diagram: null
+recallQ: "How many lines of Python does it take to build basic collaborative filtering?"
+recallA: "About 20! Data loading, similarity calculation, and prediction — the same logic Netflix uses, just smaller scale."
 status: accepted
 ---
 

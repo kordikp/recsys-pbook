@@ -8,6 +8,8 @@ teaser: "Your 5-friend recommender is cute. Real systems deal with numbers that 
 voice: thinker
 parent: null
 diagram: null
+recallQ: "How many possible user-item combinations does Netflix have?"
+recallA: "3.4 TRILLION! And most cells are empty. Finding patterns in this sparse data is the core challenge."
 status: accepted
 ---
 

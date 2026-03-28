@@ -9,6 +9,8 @@ teaser: "Popular creators get more popular. New creators stay invisible. Is that
 voice: universal
 parent: null
 diagram: null
+recallQ: "How can algorithms be unfair to new creators?"
+recallA: "Popular → more recommended → more popular (repeat). New creators never get seen. Good systems give everyone a fair start."
 status: accepted
 ---
 

@@ -8,6 +8,8 @@ teaser: "Collaborative filtering, content-based, or popularity? Can you tell the
 voice: explorer
 parent: null
 diagram: null
+recallQ: "\"Because you watched X\" uses which method?"
+recallA: "\"Fans also listen to\" is collaborative filtering. \"Because you watched\" is content-based!"
 status: accepted
 ---
 

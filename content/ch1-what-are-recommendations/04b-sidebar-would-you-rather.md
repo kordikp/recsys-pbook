@@ -8,6 +8,8 @@ teaser: "No right answers, just impossible choices. Welcome to the real dilemmas
 voice: thinker
 parent: null
 diagram: null
+recallQ: "What is the main trade-off in recommendations?"
+recallA: "Better recommendations need more data, but more data means companies know more about you. Privacy vs. personalization."
 status: accepted
 ---
 

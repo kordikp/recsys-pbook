@@ -8,6 +8,8 @@ teaser: "Grab your phone and investigate your algorithm in real time — you'll 
 voice: universal
 parent: null
 diagram: null
+recallQ: "Can you train the algorithm on purpose?"
+recallA: "Yes! Search for topics you want, like content deliberately, use \"Not Interested\" on what you don't want."
 status: accepted
 ---
 

@@ -9,6 +9,8 @@ teaser: "How do you know if a recommendation system actually works? Science!"
 voice: universal
 parent: null
 diagram: kids-ab-test
+recallQ: "What is an A/B test?"
+recallA: "Show version A to half the users, version B to the other half, compare real behavior. Data decides, not guessing."
 status: accepted
 ---
 

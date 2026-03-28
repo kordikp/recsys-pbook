@@ -9,6 +9,8 @@ teaser: "From Minecraft diamonds to weather forecasts -- patterns rule the world
 voice: thinker
 parent: null
 diagram: null
+recallQ: "Why is finding patterns a \"superpower\" for algorithms?"
+recallA: "Machines can spot patterns across millions of people simultaneously — connections no human could ever find manually."
 status: accepted
 ---
 

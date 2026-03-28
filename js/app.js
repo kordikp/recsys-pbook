@@ -1777,8 +1777,12 @@ class PBook {
     const id = block.meta?.id || block.id;
     const title = block.meta?.title || '';
     const body = (block.body || '').toLowerCase();
+    const meta = block.meta || {};
 
-    // Per-block unique questions keyed by ID — covers ALL spine blocks
+    // 1. Prefer frontmatter Q&A (editable by content creators)
+    if (meta.recallQ && meta.recallA) return { q: meta.recallQ, a: meta.recallA };
+
+    // 2. Fallback: hardcoded questions (kept for backwards compat)
     const QUESTIONS = {
       // ── Ch1: What Are Recommendations? ──
       'ch1-noticed': { q: 'How do apps like YouTube seem to "know" what you want?', a: 'They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content.' },

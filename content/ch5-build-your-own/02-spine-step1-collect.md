@@ -9,6 +9,8 @@ teaser: "Survey your friends, build a rating grid, and watch the pattern emerge.
 voice: universal
 parent: null
 diagram: null
+recallQ: "What is a rating matrix?"
+recallA: "Users as rows, items as columns, ratings in cells. Most cells are empty — that's what you predict."
 status: accepted
 ---
 

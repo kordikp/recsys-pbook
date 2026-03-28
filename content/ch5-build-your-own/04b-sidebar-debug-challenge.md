@@ -8,6 +8,8 @@ teaser: "Your prediction was wrong. Can you figure out why? Welcome to debugging
 voice: creator
 parent: null
 diagram: null
+recallQ: "Even Netflix's algorithm is wrong how often?"
+recallA: "20-30% of the time! Perfection isn't the goal — being right MOST of the time is what matters."
 status: accepted
 ---
 

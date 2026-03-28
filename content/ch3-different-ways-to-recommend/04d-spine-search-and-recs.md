@@ -9,6 +9,8 @@ teaser: "When you search for 'running shoes', the results aren't random — they
 voice: universal
 parent: null
 diagram: null
+recallQ: "Are search results the same for everyone?"
+recallA: "No! Search is increasingly personalized — what you see depends on your history, location, and past behavior."
 status: accepted
 ---
 

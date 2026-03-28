@@ -27,7 +27,9 @@
       "core": "true if essential for certificate",
       "status": "draft | review | accepted",
       "game": "Reference to games/*.json file (if type=game)",
-      "diagram": "Reference to images/*.svg file"
+      "diagram": "Reference to images/*.svg file",
+      "recallQ": "Spaced-repetition recall question (editable by creators)",
+      "recallA": "Answer to the recall question"
     }
   },
 

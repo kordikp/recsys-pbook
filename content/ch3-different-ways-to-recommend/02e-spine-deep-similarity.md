@@ -9,6 +9,8 @@ teaser: "A rock song and a jazz song might feel similar — warm, relaxing, acou
 voice: universal
 parent: null
 diagram: null
+recallQ: "What are \"embeddings\" in recommendation systems?"
+recallA: "Items turned into lists of numbers (vectors). Close vectors = similar items. Neural networks learn these patterns."
 status: accepted
 ---
 
