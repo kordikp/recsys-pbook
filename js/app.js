@@ -2072,16 +2072,6 @@ class PBook {
     const totalReps = Object.values(u.recall).reduce((s, c) => s + c.reps, 0);
     const quizStreak = parseInt(localStorage.getItem('pbook-quiz-streak') || '0');
 
-    const masteredCount = easyCards.length;
-    const masteredPct = totalRecall > 0 ? Math.round(masteredCount / totalRecall * 100) : 0;
-    h += `<div class="gami-stats" style="margin:0 1em .8em">
-      ${due.length > 0 ? `<div class="gami-stat"><span class="gs-num" style="color:var(--warn)">${due.length}</span><span class="gs-label">Due</span></div>` : ''}
-      <div class="gami-stat"><span class="gs-num">${totalRecall}</span><span class="gs-label">Tracked</span></div>
-      <div class="gami-stat"><span class="gs-num">${masteredPct}%</span><span class="gs-label">Mastered</span></div>
-      <div class="gami-stat"><span class="gs-num">${totalReps}</span><span class="gs-label">Reviews</span></div>
-      ${quizStreak > 0 ? `<div class="gami-stat"><span class="gs-num" style="color:var(--accent)">${quizStreak}\u{1F525}</span><span class="gs-label">Streak</span></div>` : ''}
-    </div>`;
-
     // ── Active mode: due cards shelf (answerable inline) ──
     if (due.length > 0) {
       const dueCards = due.slice(0, 10).map(r => {
@@ -2113,14 +2103,6 @@ class PBook {
       }).filter(Boolean);
       if (dueCards.length) h += this.shelf(`\u{1F525} Due now (${due.length})`, dueCards);
     }
-
-    // ── Practice modes ──
-    h += `<div style="padding:.5em 1em"><div style="display:flex;gap:.4em;flex-wrap:wrap">`;
-    h += `<button class="btn-primary" style="flex:1;min-width:140px;font-size:.78rem;padding:.5em" onclick="app.startPractice()">Test all ${totalRecall || totalRead} cards</button>`;
-    if (hardCards.length > 0) {
-      h += `<button class="btn-ghost" style="flex:1;min-width:120px;border:1.5px solid #dc2626;color:#dc2626;border-radius:8px;padding:.5em;font-size:.78rem" onclick="app._startHardMode()">Hard mode (${hardCards.length})</button>`;
-    }
-    h += `</div></div>`;
 
     // ── Unread blocks (haven't read yet = "Don't know") ──
     const allSpines = this.allBlocks.filter(b => b.meta.type === 'spine');
@@ -2222,14 +2204,19 @@ class PBook {
       </details>
     </div>`;
 
-    // ── Reading nudge ──
+    // ── Bottom actions ──
     const unread = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine' && !u.readBlocks.has(b.meta.id));
+    h += `<div style="padding:.8em 1em;display:flex;flex-direction:column;gap:.5em;align-items:center">`;
     if (unread.length > 0) {
-      h += `<div style="padding:.8em 1em;text-align:center">
-        <p style="font-size:.78rem;color:var(--text-3);margin-bottom:.4em">${unread.length} core sections still unread — reading creates new cards!</p>
-        <button class="btn-ghost" style="border:1px solid var(--accent);border-radius:8px;padding:.4em 1em;font-size:.78rem;color:var(--accent)" onclick="app.switchView('home')">Continue reading \u{1F4D6}</button>
-      </div>`;
+      h += `<button class="btn-primary" style="width:100%;max-width:320px;font-size:.82rem" onclick="app.switchView('home')">Continue reading \u{1F4D6} (${unread.length} unread)</button>`;
     }
+    if (totalRecall > 0) {
+      h += `<button class="btn-ghost" style="width:100%;max-width:320px;border:1.5px solid var(--accent);border-radius:8px;padding:.5em;font-size:.78rem;color:var(--accent)" onclick="app.startPractice()">Test all ${totalRecall} cards</button>`;
+    }
+    if (hardCards.length > 0) {
+      h += `<button class="btn-ghost" style="width:100%;max-width:320px;border:1.5px solid #dc2626;border-radius:8px;padding:.5em;font-size:.78rem;color:#dc2626" onclick="app._startHardMode()">Hard mode (${hardCards.length} struggling)</button>`;
+    }
+    h += `</div>`;
 
     el.innerHTML = h;
   }
