@@ -445,9 +445,9 @@ export class UserModel {
   scheduleRecall(blockId) {
     if (this.recall[blockId]) return; // already scheduled
     this.recall[blockId] = {
-      interval: 0,       // first review is same-session (10 min)
+      interval: 0,       // first review is same-session
       ease: 2.5,         // ease factor (Anki default)
-      nextReview: Date.now() + 10 * 60 * 1000, // 10 minutes from now
+      nextReview: Date.now() + 2 * 60 * 60 * 1000, // 2 hours from now
       lastReview: Date.now(),
       reps: 0
     };

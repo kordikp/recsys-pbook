@@ -433,7 +433,7 @@ class PBook {
     // Recall cards if due (guarded by spaceRepetition toggle)
     const dueRecalls = this._f('spaceRepetition') ? this.user.getDueRecalls() : [];
     if (dueRecalls.length > 0) {
-      const recallCards = dueRecalls.slice(0, 8).map(r => this._renderRecallCard(r)).filter(Boolean);
+      const recallCards = dueRecalls.slice(0, 8).map(r => this._recallCardHtml(r)).filter(Boolean);
       if (recallCards.length) html += this.shelf(`Do you remember? (${recallCards.length} due)`, recallCards);
     }
     // Practice button if user has any tracked recalls
@@ -1689,7 +1689,7 @@ class PBook {
     insertAfter.insertAdjacentHTML('afterend', html);
   }
 
-  _renderRecallCard(r) {
+  _recallCardHtml(r) {
     const block = this.findBlock(r.blockId);
     if (!block) return '';
     const quiz = this._getRecallQuestion(block);
@@ -1778,34 +1778,82 @@ class PBook {
     const title = block.meta?.title || '';
     const body = (block.body || '').toLowerCase();
 
-    // Per-block unique questions keyed by ID
+    // Per-block unique questions keyed by ID — covers ALL spine blocks
     const QUESTIONS = {
-      'ch1-noticed': { q: 'Have you noticed that apps like YouTube seem to "know" what you want? How?', a: 'They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content.' },
-      'ch1-everywhere': { q: 'Name 3 apps that use recommendation algorithms.', a: 'YouTube, TikTok, Spotify, Netflix, Amazon, Instagram — almost every app you use has a recommendation system.' },
-      'ch1-not-magic': { q: 'Recommendations feel like magic, but what are they really based on?', a: 'Patterns! The system is like a detective — it finds clues in your clicks and discovers connections between users and items.' },
-      'ch1-three-jobs': { q: 'What are the 3 jobs of a recommender system?', a: 'DISCOVER new things for you, FIND things faster, and KEEP you interested so you come back.' },
-      'ch2-footprints': { q: 'What are digital footprints and why do they matter?', a: 'Every click, watch, skip and search you make — like invisible tracks. Algorithms read these to understand your preferences.' },
-      'ch2-clues': { q: 'Name the 3 types of clues recommender systems use.', a: 'Item clues (what the thing IS), person clues (who YOU are), and action clues (what you DO — clicks, watches, skips).' },
-      'ch2-privacy': { q: 'What can you do to control your digital footprints?', a: 'Clear history, use "not interested" buttons, check app permissions, use separate profiles, and know your rights.' },
-      'ch2-myth': { q: 'True or false: your phone listens to your conversations for ads.', a: 'False! It seems that way because algorithms are so good at predicting from your clicks that it FEELS like they heard you.' },
-      'ch3-friends': { q: 'How does collaborative filtering work in one sentence?', a: 'Find people with similar taste to you, then recommend things THEY liked that you haven\'t seen yet.' },
-      'ch3-content': { q: 'How is content-based filtering different from collaborative?', a: 'Content-based looks at item FEATURES (genre, tags). Collaborative looks at USER BEHAVIOR (who liked what).' },
-      'ch3-popular': { q: 'Why is "just show what\'s popular" not a great recommendation strategy?', a: 'Because popular items are the same for everyone — they don\'t know YOUR unique taste.' },
-      'ch3-pipeline': { q: 'What are the 3 stages of a recommendation pipeline?', a: 'FIND (gather candidates), RANK (score each for you), CHECK (add diversity, remove duplicates).' },
-      'ch4-bubbles': { q: 'What is a filter bubble and how do you get stuck in one?', a: 'When the algorithm only shows you things you already like, you stop discovering anything new — trapped in a bubble of sameness.' },
-      'ch4-fairness': { q: 'How can recommendation systems be unfair to new creators?', a: 'Popular creators get recommended more → get more views → become even more popular. New creators barely get seen.' },
-      'ch4-testing': { q: 'What is an A/B test and why do companies use them?', a: 'Show version A to half the users, version B to the other half, compare results. It removes guessing — data decides.' },
-      'ch5-start': { q: 'What do you need to build a basic recommendation system?', a: 'Data! Start by collecting ratings or preferences from users about items. That grid of data is your foundation.' },
-      'ch5-collect': { q: 'What is a rating matrix?', a: 'A grid where rows are users, columns are items, and each cell is a rating. Most cells are empty — that\'s what you predict.' },
-      'ch5-similar': { q: 'How do you find "taste twins" — users with similar preferences?', a: 'Compare their ratings — if two people rated the same movies similarly, they probably have matching taste.' },
-      'ch5-recommend': { q: 'How do you predict if someone will like something they haven\'t seen?', a: 'Find 2-3 people with similar taste who DID see it, then average their ratings as your prediction.' },
-      'ch5-improve': { q: 'Name 2 ways to improve a basic recommendation system.', a: 'Get more data (more users, more ratings) and look at item features (genre, actors), not just ratings.' },
-      'ch5-get-recommended': { q: 'What matters more to YouTube: total clicks or watch time?', a: 'Watch time! A video that 100 people watch to the end beats one that 1,000 click and immediately leave. The algorithm measures what happens AFTER the click.' },
-      'ch5-seo-algorithms': { q: 'Why doesn\'t "ranking #1 on Google" exist anymore?', a: 'Search results are personalized — they depend on your past behavior, location, and device. Your content might be #1 for your target audience and #50 for everyone else.' },
-      'ch6-who-decides': { q: 'When you open TikTok, who decides what you see first?', a: 'The algorithm decides — not you, not your parents, not even a human at TikTok. Engineers designed it to maximize engagement.' },
-      'ch6-addictive': { q: 'Name 2 design tricks that keep you scrolling.', a: 'Infinite scroll (no natural stopping point) and autoplay (next video starts automatically).' },
-      'ch6-privacy-real': { q: 'What kind of data do apps actually collect about you?', a: 'Your location, device info, browsing history, search queries, how long you watch, what you skip, and sometimes your contacts.' },
-      'ch6-ai-future': { q: 'Why does YOUR generation understand algorithms better than most adults?', a: 'Because you grew up WITH them — you notice weird recommendations, know how to game the algorithm, and feel the pull of infinite scroll.' },
+      // ── Ch1: What Are Recommendations? ──
+      'ch1-noticed': { q: 'How do apps like YouTube seem to "know" what you want?', a: 'They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content.' },
+      'ch1-everywhere': { q: 'Name 4 apps that use recommendation algorithms.', a: 'YouTube, TikTok, Spotify, Netflix, Amazon, Instagram, App Store — almost every app you use daily.' },
+      'ch1-not-magic': { q: 'Recommendations feel like magic — what are they really based on?', a: 'Patterns! Watch → find patterns → predict. Like a detective finding clues in your clicks.' },
+      'ch1-wrong-sidebar': { q: 'Why do recommendations sometimes go hilariously wrong?', a: 'The system only sees clicks, not reasons. If your sibling watches cartoons on your account, it thinks YOU like cartoons!' },
+      'ch1-patterns-d-think': { q: 'Why is finding patterns a "superpower" for algorithms?', a: 'Machines can spot patterns across millions of people simultaneously — connections no human could ever find manually.' },
+      'ch1-three-jobs': { q: 'What are the 3 jobs of a recommender system?', a: 'DISCOVER new things, FIND things faster in huge catalogs, and ENGAGE — keep you interested.' },
+      'ch1-wyr': { q: 'What is the main trade-off in recommendations?', a: 'Better recommendations need more data, but more data means companies know more about you. Privacy vs. personalization.' },
+      'ch1-ws-match': { q: 'Name 3 different recommendation models.', a: 'Friend-based, follow-based, interest-based, algorithm-based, and group-based. Most apps use hybrids.' },
+      // ── Ch2: How They Learn About You ──
+      'ch2-footprints': { q: 'What are digital footprints?', a: 'Every click, watch, skip, and search — invisible tracks that teach the system about your taste.' },
+      'ch2-track-d-exp': { q: 'Which signal is stronger: clicking a video or watching it to the end?', a: 'Watching to the end is MUCH stronger. The system tracks watch time, not just clicks.' },
+      'ch2-guess-signal': { q: 'What is the strongest signal you can send to an algorithm?', a: 'Sharing something! It takes real effort, which tells the system you really care about that content.' },
+      'ch2-clues': { q: 'Name the 3 types of clues recommenders use.', a: 'Item clues (what it IS), person clues (who YOU are), action clues (what you DO).' },
+      'ch2-incognito-sidebar': { q: 'What is the "cold start" problem?', a: 'When you create a new account, the system has zero info — it shows popular stuff until it learns who you are.' },
+      'ch2-myth': { q: 'True or false: your phone listens to your conversations for ads.', a: 'False! Algorithms predict so well from your clicks that it FEELS like they heard you — but they didn\'t.' },
+      'ch2-privacy': { q: 'Name 3 tools you have to control your data.', a: '"Not Interested" button, clear history, separate profiles, incognito mode, and app settings.' },
+      'ch2-privacy-d-create': { q: 'How fast does an algorithm start personalizing for you?', a: 'Just 5-10 videos! Watch a few cooking videos and your feed fills with cooking in minutes.' },
+      'ch2-ws-detective': { q: 'Can you train the algorithm on purpose?', a: 'Yes! Search for topics you want, like content deliberately, use "Not Interested" on what you don\'t want.' },
+      // ── Ch3: Different Ways to Recommend ──
+      'ch3-friends': { q: 'How does collaborative filtering work?', a: 'Find people with similar taste → recommend what THEY liked that you haven\'t tried yet.' },
+      'ch3-cf-d-exp': { q: 'What are "taste twins" in collaborative filtering?', a: 'People who liked the same things as you. If they also liked something new, you probably will too!' },
+      'ch3-cf-d-create': { q: 'Can you build collaborative filtering without a computer?', a: 'Yes! Survey friends, create a rating grid on paper, find who matches you best, check what they liked.' },
+      'ch3-netflix-sidebar': { q: 'What lesson did the Netflix Prize teach about algorithms?', a: 'Better accuracy doesn\'t always win — speed and simplicity matter more than perfection in real systems.' },
+      'ch3-content': { q: 'How does content-based filtering differ from collaborative?', a: 'Content-based looks at item FEATURES (genre, tags). Collaborative looks at USER BEHAVIOR (who liked what).' },
+      'ch3-compare-d-think': { q: 'When is content-based better than collaborative filtering?', a: 'For new items with no ratings yet, and for niche interests. Collaborative is better for surprising discoveries.' },
+      'ch3-spot-method': { q: '"Because you watched X" uses which method?', a: 'Content-based filtering! It finds items similar to X. "Fans also listen to" is collaborative filtering.' },
+      'ch3-bandits': { q: 'What is the explore-exploit dilemma?', a: 'Should the system show safe picks you\'ll like (exploit) or try new things you might discover (explore)? Both matter.' },
+      'ch3-deep-similarity': { q: 'What are "embeddings" in recommendation systems?', a: 'Items turned into lists of numbers (vectors). Close vectors = similar items. Neural networks learn these patterns.' },
+      'ch3-popular': { q: 'What is the biggest weakness of popularity-based recommendations?', a: 'No personalization — everyone sees the same thing. It can\'t account for YOUR unique taste.' },
+      'ch3-popular-sidebar': { q: 'What is the "rich-get-richer" problem?', a: 'Popular content gets more visibility → more views → stays popular. New creators get buried forever.' },
+      'ch3-pipeline': { q: 'What are the 3 stages of a recommendation pipeline?', a: 'FIND candidates (fast + rough), RANK them (precise scoring), CHECK for diversity.' },
+      'ch3-pipeline-d-exp': { q: 'How does YouTube find 20 videos from 800 million in 0.2 seconds?', a: 'Staged pipeline! Quick rough filters narrow 800M to 500 candidates, then careful ranking picks the best 20.' },
+      'ch3-speed': { q: 'How long would it take a human to do what YouTube does in 1 second?', a: '25 YEARS! That\'s why we need algorithms — the scale is impossibly large for humans.' },
+      'ch3-search-recs': { q: 'Are search results the same for everyone?', a: 'No! Search is increasingly personalized — what you see depends on your history, location, and past behavior.' },
+      // ── Ch4: Making Recommendations Better ──
+      'ch4-bubbles': { q: 'What is a filter bubble?', a: 'When the algorithm only shows you things you already like — you never discover anything new. The bubble is invisible.' },
+      'ch4-echo-d-think': { q: 'How is an echo chamber worse than a filter bubble?', a: 'Echo chambers make you think EVERYONE agrees with you — different people see different realities about the same topic.' },
+      'ch4-experiment': { q: 'How can you break out of a filter bubble?', a: 'Deliberately explore new content! Watch 3 videos on a new topic and your feed will start to change.' },
+      'ch4-fairness': { q: 'How can algorithms be unfair to new creators?', a: 'Popular → more recommended → more popular (repeat). New creators never get seen. Good systems give everyone a fair start.' },
+      'ch4-youtube-sidebar': { q: 'What percentage of YouTube watch time comes from recommendations?', a: '70%! That means algorithms — not you searching — drive most of what people watch.' },
+      'ch4-unfair-game': { q: 'How can platforms make recommendations fairer?', a: 'Random sampling, guaranteed visibility for new content, small-audience testing before scaling.' },
+      'ch4-objectives': { q: 'What is the algorithm actually trying to do?', a: 'It depends! Subscription services optimize for YOUR happiness. Free/ad services optimize for ADVERTISER revenue.' },
+      'ch4-explainability': { q: 'Why can\'t platforms fully explain their recommendations?', a: 'Neural networks use hundreds of signals — even engineers can\'t trace exactly why one item was chosen over another.' },
+      'ch4-testing': { q: 'What is an A/B test?', a: 'Show version A to half the users, version B to the other half, compare real behavior. Data decides, not guessing.' },
+      'ch4-ab-d-exp': { q: 'Do personalized recommendations actually work better than "just show popular"?', a: 'Yes! Tests show 37% more songs played, 4x more artist discovery, and higher engagement with personalization.' },
+      // ── Ch5: Build Your Own! ──
+      'ch5-start': { q: 'What are the 4 steps to build a recommendation system?', a: 'Collect data → find similar users → make predictions → test and improve.' },
+      'ch5-collect': { q: 'What is a rating matrix?', a: 'Users as rows, items as columns, ratings in cells. Most cells are empty — that\'s what you predict.' },
+      'ch5-spread-d-create': { q: 'Why can a spreadsheet help you build recommendations?', a: 'Color-coded ratings reveal taste patterns visually — you can see who matches before doing any math.' },
+      'ch5-similar': { q: 'How do you find "taste neighbors"?', a: 'Compare ratings on shared items — lower average difference = more similar taste.' },
+      'ch5-math-d-think': { q: 'What does cosine similarity measure?', a: 'The angle between two preference vectors — so someone who rates everything low but in the same PATTERN as you is still similar.' },
+      'ch5-real-numbers': { q: 'How many possible user-item combinations does Netflix have?', a: '3.4 TRILLION! And most cells are empty. Finding patterns in this sparse data is the core challenge.' },
+      'ch5-recommend': { q: 'How do you predict a rating for an unseen item?', a: 'Find 2-3 most similar users who rated it → average their ratings. Above 4 stars = recommend it.' },
+      'ch5-code-d-create': { q: 'How many lines of Python does it take to build basic collaborative filtering?', a: 'About 20! Data loading, similarity calculation, and prediction — the same logic Netflix uses, just smaller scale.' },
+      'ch5-debug': { q: 'Even Netflix\'s algorithm is wrong how often?', a: '20-30% of the time! Perfection isn\'t the goal — being right MOST of the time is what matters.' },
+      'ch5-improve': { q: 'What is the single biggest improvement for a recommendation system?', a: 'More data! More users and more ratings create more connections, which means better matches and predictions.' },
+      'ch5-career-sidebar': { q: 'What skills does a recommendation engineer need?', a: 'Math (statistics, linear algebra), programming (Python), creativity, and curiosity about user behavior.' },
+      'ch5-get-recommended': { q: 'What matters more to YouTube: clicks or watch time?', a: 'Watch time! A video 100 people watch fully beats 1,000 clicks that leave immediately.' },
+      'ch5-seo-algorithms': { q: 'Why doesn\'t "ranking #1 on Google" exist anymore?', a: 'Results are personalized — your content can be #1 for your audience and invisible to everyone else.' },
+      // ── Ch6: Ethics and You ──
+      'ch6-who-decides': { q: 'Who decides what you see when you open TikTok?', a: 'The algorithm — not you, not your parents, not TikTok employees. It optimizes for "what keeps you watching longest."' },
+      'ch6-rabbit-sidebar': { q: 'What is the "rabbit hole" effect?', a: 'Each recommended step feels small, but the accumulated path leads somewhere unexpected. The algorithm optimizes for the NEXT video, not the whole journey.' },
+      'ch6-addictive': { q: 'Name 2 design tricks that keep you scrolling.', a: 'Infinite scroll (no end point) and autoplay (next video starts automatically). These are deliberate design choices.' },
+      'ch6-control-d-create': { q: 'What is the "thumbnail test"?', a: 'Pause before clicking and ask: "Do I actually WANT this?" It breaks autopilot and puts you back in control.' },
+      'ch6-dopamine-sidebar': { q: 'Why does watching "just one more video" feel so hard to resist?', a: 'Dopamine! Your brain releases it for anticipation + uncertainty — the same mechanism as slot machines.' },
+      'ch6-adtech-vs-recs': { q: 'What is the difference between recommendations and ads?', a: 'Recommendations help you within ONE app. Adtech tracks you across the ENTIRE internet to sell your attention.' },
+      'ch6-privacy-real': { q: 'What is a "digital twin"?', a: 'A mathematical model of your behavior patterns — apps build one from your data without needing your name.' },
+      'ch6-data-d-exp': { q: 'Where can you see what Google knows about you?', a: 'myactivity.google.com — shows every search, video, and click. You can also auto-delete old data there.' },
+      'ch6-age-sidebar': { q: 'Can algorithms guess your age? How?', a: 'Within 3-5 years! From when you watch, how fast you scroll, music taste, and meme preferences — no personal info needed.' },
+      'ch6-ai-future': { q: 'Why does YOUR generation understand algorithms better than most adults?', a: 'You grew up WITH them — you notice weird recs, know how to game the algorithm, and feel the pull of infinite scroll.' },
+      'ch6-hard-d-think': { q: 'Name a hard question about algorithms that nobody has answered yet.', a: 'Should kids get different algorithms? Who defines "harmful"? Should algorithms show disagreement? No right answers exist yet.' },
+      'ch6-law-sidebar': { q: 'What right did the EU give people regarding algorithms?', a: 'The right to opt OUT of algorithmic recommendations, and a ban on using kids\' personal data for targeting.' },
+      'ch6-conversational': { q: 'How will LLMs change recommendations?', a: 'You\'ll ASK for what you want instead of scrolling. LLMs understand language, recommenders have the data — together they\'re powerful.' },
     };
 
     // Direct match by block ID
@@ -2387,9 +2435,36 @@ class PBook {
         <div class="gami-stat"><span class="gs-num">${totalRecall}</span><span class="gs-label">Tracked</span></div>
         <div class="gami-stat"><span class="gs-num">${totalReps}</span><span class="gs-label">Reviews</span></div>
       </div>`;
+      // Show up to 3 due recall cards directly in profile
+      const dueInProfile = u.getDueRecalls().slice(0, 3);
+      if (dueInProfile.length) {
+        h += '<div style="margin:.6em 0">';
+        dueInProfile.forEach(r => {
+          const block = this.findBlock(r.blockId);
+          if (!block) return;
+          const quiz = this._getRecallQuestion(block);
+          if (!quiz) return;
+          h += `<div class="inline-recall" style="margin-bottom:.5em">
+            <div class="ir-header"><span class="ir-icon">\u{1F9E0}</span> Do you remember?</div>
+            <div class="ir-question">${quiz.q}</div>
+            <div class="ir-answer" id="pr-a-${r.blockId}" style="display:none">
+              <div class="ir-answer-text">${quiz.a}</div>
+              <div class="ir-from">From: ${block.meta.title}</div>
+              <div class="recall-buttons">
+                <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${r.blockId}',0);document.getElementById('pr-a-${r.blockId}').closest('.inline-recall').remove()">Forgot</button>
+                <button class="recall-btn recall-hard" onclick="app.scoreRecall('${r.blockId}',1);document.getElementById('pr-a-${r.blockId}').closest('.inline-recall').remove()">Hard</button>
+                <button class="recall-btn recall-good" onclick="app.scoreRecall('${r.blockId}',2);document.getElementById('pr-a-${r.blockId}').closest('.inline-recall').remove()">Good</button>
+                <button class="recall-btn recall-easy" onclick="app.scoreRecall('${r.blockId}',3);document.getElementById('pr-a-${r.blockId}').closest('.inline-recall').remove()">Easy!</button>
+              </div>
+            </div>
+            <button class="recall-reveal" onclick="document.getElementById('pr-a-${r.blockId}').style.display='block';this.style.display='none'">Show answer</button>
+          </div>`;
+        });
+        h += '</div>';
+      }
       h += `<div style="display:flex;gap:.4em;justify-content:center;margin-top:.5em">`;
-      if (dueCount > 0) h += `<button class="recall-reveal" onclick="app.startPractice(true)">${dueCount} due — review now</button>`;
-      h += `<button class="btn-ghost" style="border:1px solid var(--accent);border-radius:6px;padding:.3em .7em;font-size:.75rem;color:var(--accent)" onclick="app.startPractice()">Practice all</button>`;
+      if (dueCount > 0) h += `<button class="recall-reveal" onclick="app.startPractice(true)">\u{1F9E0} Review ${dueCount} due card${dueCount > 1 ? 's' : ''}</button>`;
+      h += `<button class="btn-ghost" style="border:1px solid var(--accent);border-radius:6px;padding:.3em .7em;font-size:.75rem;color:var(--accent)" onclick="app.startPractice()">Practice all ${totalRecall}</button>`;
       h += `</div></div>`;
     } else if (this._f('spaceRepetition')) {
       h += '<div class="profile-section"><h3>\u{1F9E0} Recall & Review</h3><p style="font-size:.8rem;color:var(--text-3)">Read some sections first — recall quizzes will appear to help you remember.</p></div>';
