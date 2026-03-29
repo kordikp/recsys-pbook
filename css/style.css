@@ -1022,7 +1022,7 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 .voice-bars { display: flex; flex-direction: column; gap: .4em; }
 .voice-bar { display: flex; align-items: center; gap: .6em; font-family: var(--font-ui); font-size: .8rem; }
 .voice-bar-fill { height: 6px; border-radius: 3px; transition: width .3s ease; }
-.voice-bar-label { width: 5em; font-weight: 600; text-transform: uppercase; font-size: .7rem; }
+.voice-bar-label { min-width: 5em; flex-shrink: 0; font-weight: 600; text-transform: uppercase; font-size: .7rem; }
 .saved-list { display: flex; flex-direction: column; gap: .3em; }
 .saved-item { font-family: var(--font-ui); font-size: .85rem; padding: .5em .7em; border-radius: var(--radius-sm); background: var(--border-light); cursor: pointer; transition: background var(--transition); }
 .saved-item:hover { background: var(--accent-bg); }
