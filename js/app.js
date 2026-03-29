@@ -915,7 +915,7 @@ class PBook {
 
             // After reading time: mark as "read"
             if (elapsed >= readTimeMs && !this.user.readBlocks.has(id)) {
-              this.user.trackRead(id);
+              this.user.trackRead(id, block?.voice);
               this.rc.sendView(id, Math.round(elapsed / 1000));
               e.target.querySelector('.block-status')?.classList.remove('seen');
               e.target.querySelector('.block-status')?.classList.add('read');
@@ -2990,13 +2990,33 @@ class PBook {
     h += '</div></div>';
 
 
-    // Voice preference
+    // Voice preference — computed from actually read non-core blocks by voice
     const voices = Object.keys(CONFIG.voices);
     if (voices.length) {
+      // Count read blocks by voice (only non-universal, non-core = elective content)
+      const voiceCounts = {};
+      voices.forEach(v => voiceCounts[v] = 0);
+      this.allBlocks.forEach(b => {
+        const v = b.meta.voice;
+        if (v && v !== 'universal' && !b.meta.core && u.readBlocks.has(b.meta.id)) {
+          voiceCounts[v] = (voiceCounts[v] || 0) + 1;
+        }
+      });
+      // Also add dwell-weighted interaction signals
+      this.allBlocks.forEach(b => {
+        const v = b.meta.voice;
+        if (v && v !== 'universal' && u.readBlocks.has(b.meta.id)) {
+          const sig = u.signals[b.meta.id];
+          if (sig?.dwellMs > 30000) voiceCounts[v] += 1; // extra point for deep reading (30s+)
+          if (sig?.rated >= 0.7) voiceCounts[v] += 1; // liked it
+          if (sig?.noted) voiceCounts[v] += 1; // took notes
+        }
+      });
+      const totalV = Object.values(voiceCounts).reduce((s, v) => s + v, 0) || 1;
       h += '<div class="profile-section"><h3>Your Style</h3>';
-      const totalV = voices.reduce((s, v) => s + (u.voiceScores[v] || 0), 0) || 1;
       voices.forEach(v => {
-        const pct = Math.round(((u.voiceScores[v] || 0) / totalV) * 100);
+        const count = voiceCounts[v] || 0;
+        const pct = Math.round((count / totalV) * 100);
         const vc = CONFIG.voices[v] || {};
         h += `<div class="voice-bar"><span class="voice-bar-label">${vc.icon || ''} ${vc.label || v}</span><div style="flex:1;height:6px;background:var(--border);border-radius:3px"><div class="voice-bar-fill" style="width:${pct}%;background:var(--accent)"></div></div><span style="font-size:.72rem;color:var(--text-3);width:2.5em;text-align:right">${pct}%</span></div>`;
       });

@@ -456,11 +456,15 @@ export class UserModel {
     this.save();
   }
 
-  trackRead(blockId) {
+  trackRead(blockId, voice) {
     this.readBlocks.add(blockId);
     this.seenBlocks.add(blockId);
     this._sig(blockId).read = true;
     this.totalInteractions++;
+    // Update voice profile based on what the user actually reads
+    if (voice && voice !== 'universal' && this.voiceScores[voice] !== undefined) {
+      this.voiceScores[voice] = (this.voiceScores[voice] || 0) + 1;
+    }
     if (CONFIG.features.gamification !== false) { this.addXP(10); this.checkAchievements(); }
     if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(blockId);
     this.save();
