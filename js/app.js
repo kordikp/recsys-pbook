@@ -942,7 +942,7 @@ class PBook {
           }
         }
       });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.05 }); // low threshold so tall blocks with diagrams still trigger
     } // end if (!this._observer)
 
     // Observe all block articles (new ones will just be added)
