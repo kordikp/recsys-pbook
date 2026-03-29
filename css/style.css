@@ -451,7 +451,8 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .feed-ch-divider::before { content: ''; display: block; height: 1px; background: var(--border); position: relative; top: .6em; }
 
 /* Block with side notes — margin notes on wide screens */
-.block-with-side { position: relative; }
+.block-with-side { position: relative; overflow: visible; }
+.block-main { min-width: 0; }
 .block-side { position: absolute; right: -190px; top: 0; width: 175px; display: flex; flex-direction: column; gap: .4em; }
 
 /* Unified sticky note style (AI + user) */

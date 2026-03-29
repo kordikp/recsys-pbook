@@ -1296,20 +1296,16 @@ class PBook {
     const text = sel.toString();
     try {
       const range = sel.getRangeAt(0);
-      try {
-        // Simple case: selection within one element
+      // Only wrap if selection is within a single parent (safe)
+      // Cross-element highlighting breaks DOM structure
+      if (range.startContainer.parentElement === range.endContainer.parentElement ||
+          range.startContainer === range.endContainer) {
         const mark = document.createElement('mark');
         mark.className = 'user-highlight';
         range.surroundContents(mark);
-      } catch (e) {
-        // Complex case: selection spans multiple elements — use CSS highlight via extractContents
-        const fragment = range.extractContents();
-        const mark = document.createElement('mark');
-        mark.className = 'user-highlight';
-        mark.appendChild(fragment);
-        range.insertNode(mark);
       }
-    } catch (e) { /* final fallback: do nothing visually */ }
+      // If cross-element: save the highlight data but skip visual markup
+    } catch (e) { /* surroundContents failed — skip visual markup */ }
     if (blockId) {
       this._saveHighlight(blockId, text);
       this.rc.sendRating(blockId, 0.8);
