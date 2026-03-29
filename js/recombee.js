@@ -527,25 +527,28 @@ export class UserModel {
     card.lastReview = Date.now();
 
     if (quality < 1) {
-      // Forgot — reset to 1 day
-      card.interval = 1;
+      // Forgot — review again in 4 hours
+      card.interval = 0;
       card.ease = Math.max(1.3, card.ease - 0.2);
     } else if (quality === 1) {
-      // Hard — small increase
-      card.interval = Math.max(1, Math.round(card.interval * 1.2));
+      // Hard — 1 day minimum, small increase
+      card.interval = Math.max(1, Math.round((card.interval || 1) * 1.2));
       card.ease = Math.max(1.3, card.ease - 0.15);
     } else if (quality === 2) {
-      // Good — normal increase
-      card.interval = Math.round(card.interval * card.ease);
+      // Good — normal increase (minimum 1 day for first review, then grows)
+      card.interval = Math.max(1, Math.round((card.interval || 1) * card.ease));
     } else {
-      // Easy — big increase
-      card.interval = Math.round(card.interval * card.ease * 1.3);
+      // Easy — big increase (minimum 3 days, then grows fast)
+      card.interval = Math.max(3, Math.round((card.interval || 1) * card.ease * 1.3));
       card.ease = Math.min(3.0, card.ease + 0.15);
     }
 
-    // Cap at 30 days for kids (don't want reviews too far apart)
+    // Cap at 30 days for kids
     card.interval = Math.min(30, card.interval);
-    card.nextReview = Date.now() + card.interval * 24 * 60 * 60 * 1000;
+    // Forgot (interval=0) → 4 hours. Everything else → interval in days.
+    card.nextReview = card.interval === 0
+      ? Date.now() + 4 * 60 * 60 * 1000
+      : Date.now() + card.interval * 24 * 60 * 60 * 1000;
 
     const xpReward = quality >= 2 ? 8 : quality === 1 ? 5 : 2;
     if (CONFIG.features.gamification !== false) { this.addXP(xpReward); this.checkAchievements(); }
