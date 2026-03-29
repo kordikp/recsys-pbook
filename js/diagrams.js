@@ -47,6 +47,20 @@ const DIAGRAM_FILES = {
   'blog-ch2-feedback': 'images/blog/ch2-03.png',         // Recommendation scenarios
   'blog-ch3-objectives': 'images/blog/ch3-01.png',       // 4-perspective taxonomy (user/content/biz/product)
   'blog-ch3-starplot': 'images/blog/ch3-02.png',         // Recombee Logics & Scenarios
+  // Diagram-prefixed aliases (frontmatter uses diagram-xxx format)
+  'diagram-pipeline': 'images/diagram-pipeline.svg',
+  'diagram-data-sources': 'images/diagram-data-sources.svg',
+  'diagram-stakeholders': 'images/diagram-stakeholders.svg',
+  'diagram-algorithm-taxonomy': 'images/diagram-algorithm-taxonomy.svg',
+  'diagram-eval-stack': 'images/diagram-eval-stack.svg',
+  'diagram-objectives': 'images/diagram-objectives.svg',
+  'diagram-cf-matrix': 'images/diagram-cf-matrix.svg',
+  'diagram-mf-decomposition': 'images/diagram-mf-decomposition.svg',
+  'diagram-embedding-space': 'images/diagram-embedding-space.svg',
+  'diagram-two-tower': 'images/diagram-two-tower.svg',
+  'diagram-attention': 'images/diagram-attention.svg',
+  'diagram-ann-search': 'images/diagram-ann-search.svg',
+  'diagram-bandit-exploration': 'images/diagram-bandit-exploration.svg',
   // Alias mappings (content references → available files)
   'sasrec-architecture': 'images/diagram-attention.svg',
   'two-tower-training': 'images/diagram-two-tower.svg',
