@@ -33,4 +33,6 @@ Doesn't matter. The first version uses nothing but a pencil, paper, and basic ma
 
 Four steps. That's it. By the end, you'll have built the same basic system that Netflix used when it first started recommending movies.
 
+> **Did you know?** The youngest person to build a working recommendation system and present it at a conference was 14 years old. You could be next!
+
 Ready to become a recommendation engineer? Let's go.

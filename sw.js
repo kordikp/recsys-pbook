@@ -1,6 +1,6 @@
 // Service Worker for p-book — full offline support
 // Pre-caches the entire book (~1.3 MB) on first visit
-const CACHE_NAME = 'pbook-v3';
+const CACHE_NAME = 'pbook-v4';
 
 const PRECACHE = [
   '/',
@@ -69,6 +69,7 @@ const PRECACHE = [
   '/content/ch2-how-they-learn/01a-depth-explorer-what-they-track.md',
   '/content/ch2-how-they-learn/01b-sidebar-guess-the-signal.md',
   '/content/ch2-how-they-learn/01c-game-signal-sort.md',
+  '/content/ch2-how-they-learn/01d-depth-thinker-interactions.md',
   '/content/ch2-how-they-learn/02-spine-three-types-of-clues.md',
   '/content/ch2-how-they-learn/02a-sidebar-incognito.md',
   '/content/ch2-how-they-learn/02b-sidebar-myth-buster.md',
@@ -88,6 +89,8 @@ const PRECACHE = [
   '/content/ch3-different-ways-to-recommend/02d-spine-bandits.md',
   '/content/ch3-different-ways-to-recommend/02e-spine-deep-similarity.md',
   '/content/ch3-different-ways-to-recommend/02f-depth-explorer-two-tower.md',
+  '/content/ch3-different-ways-to-recommend/02g-depth-thinker-matrix-factorization.md',
+  '/content/ch3-different-ways-to-recommend/02h-depth-thinker-attention.md',
   '/content/ch3-different-ways-to-recommend/03-spine-whats-popular.md',
   '/content/ch3-different-ways-to-recommend/03a-sidebar-popularity-trap.md',
   '/content/ch3-different-ways-to-recommend/04-spine-the-pipeline.md',

@@ -35,4 +35,6 @@ You didn't choose to only see Minecraft. The algorithm chose for you, based on o
 
 It's like a friend who mostly brings pizza (because they know you love it) but occasionally shows up with sushi and says, "Just try one piece." Sometimes you hate it. But sometimes? You discover your new favorite food.
 
+> **Did you know?** Researchers found that two people searching for the same word on Google can get completely different results based on their past behavior. Your Google is not my Google.
+
 **Think about it!** Have you ever discovered something awesome that you would NEVER have searched for yourself? How did you find it? Was it a recommendation, a friend, or just luck?

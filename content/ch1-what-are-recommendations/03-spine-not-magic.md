@@ -39,4 +39,6 @@ It's like detective work:
 
 The cool thing? The more you use an app, the more clues you leave behind. And the more clues the system has, the better its guesses get. That's why your recommendations today are better than they were when you first made your account.
 
+> **Did you know?** Spotify's Discover Weekly playlist is generated fresh every Monday for each of its 600+ million users. That's 600 million unique playlists created in one go!
+
 **Think about it!** Can you think of a pattern in YOUR life? Maybe you always want hot chocolate when it rains. Or you always play the same game after a tough day at school. Patterns are everywhere -- recommender systems just find them faster.

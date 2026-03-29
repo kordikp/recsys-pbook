@@ -58,4 +58,6 @@ On YouTube, this isn't just you and Maya. It's **billions** of users. The system
 
 The more people using the system, the better it gets. That's why big platforms like YouTube and TikTok have such good recommendations -- they have SO much data to work with.
 
+> **Did you know?** The Netflix Prize (2009) offered $1 million to anyone who could improve their recommendation algorithm by 10%. Over 40,000 teams from 186 countries competed!
+
 **Think about it!** Have you ever recommended a movie or song to a friend because you knew they'd like it? How did you know? You were doing collaborative filtering in your head!

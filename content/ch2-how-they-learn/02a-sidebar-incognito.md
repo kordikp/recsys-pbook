@@ -8,7 +8,7 @@ core: true
 teaser: "New account, zero clues -- now what?"
 voice: universal
 parent: null
-diagram: null
+diagram: kids-cold-start
 recallQ: "What is the \"cold start\" problem?"
 recallA: "When you create a new account, the system has zero info — it shows popular stuff until it learns who you are."
 status: accepted

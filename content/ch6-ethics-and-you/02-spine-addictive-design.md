@@ -34,4 +34,6 @@ The company makes money when you watch. The reminder is a small speed bump on a 
 
 This isn't about blaming anyone. The people who built these features aren't villains. They're solving a problem: "How do we make people enjoy our app?" The issue is that "enjoy" and "can't stop using" look almost identical from the outside -- but feel very different from the inside.
 
+> **Did you know?** The average TikTok user opens the app 19 times per day and spends 95 minutes total. That's more time than most people spend eating.
+
 **The good news:** you have more power than you think. Understanding HOW these systems work is the first step to using them instead of being used by them. You can't be tricked by a magic trick if you know how it works.

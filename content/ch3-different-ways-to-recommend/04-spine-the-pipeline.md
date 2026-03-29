@@ -70,4 +70,6 @@ After all three steps, you see about 10-20 items on your screen. Each one surviv
 
 All of this happens in **less than one second**. Every single time you open the app.
 
+> **Did you know?** Amazon once estimated that 35% of their revenue comes from recommendations. That's hundreds of billions of dollars — all from "You might also like..."
+
 **Think about it!** Next time you refresh your YouTube homepage, remember: in the time it took the page to load, the system evaluated thousands of videos, scored them all, checked for variety, and picked the best ones just for you. Under one second. That's incredible engineering.

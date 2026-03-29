@@ -7,7 +7,7 @@ standalone: false
 teaser: "A music app experiment: which recommendation strategy wins?"
 voice: explorer
 parent: null
-diagram: null
+diagram: kids-ab-test
 recallQ: "Do personalized recommendations actually work better than \"just show popular\"?"
 recallA: "Yes! Tests show 37% more songs played, 4x more artist discovery, and higher engagement with personalization."
 status: accepted

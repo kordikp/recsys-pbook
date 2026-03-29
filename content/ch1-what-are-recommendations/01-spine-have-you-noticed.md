@@ -38,4 +38,6 @@ In this book, we're going to pull back the curtain and see how it all works. You
 
 Ready? Let's go.
 
+> **Did you know?** YouTube's recommendation algorithm is responsible for 70% of all views on the platform — that's over 700 million hours of video watched per day, all chosen by AI.
+
 **Think about it!** Open any app right now -- YouTube, TikTok, Spotify, Netflix. Look at the first thing it shows you. Why do you think it picked THAT? Write down your guess. We'll come back to it later.

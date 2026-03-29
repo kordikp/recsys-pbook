@@ -48,3 +48,5 @@ This is how Spotify's "Discover Weekly" finds songs you've never heard that perf
 Modern recommender systems like [Recombee](https://www.recombee.com/blog/modern-recommender-systems-part-2-data) create embeddings from item descriptions, images, and user behavior all at once. This means a new item with just a title and description can immediately be matched to users who would like it — no ratings needed.
 
 **Why this matters for you**: When a recommendation feels eerily perfect — like the app "gets" you — it's because deep learning found the hidden patterns that connect your taste to new content. It's not reading your mind. It's reading millions of people's behavior and finding the mathematical structure of preference.
+
+![ANN Search](/images/diagram-ann-search.svg)

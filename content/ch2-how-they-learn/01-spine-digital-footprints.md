@@ -33,4 +33,8 @@ Here's the thing: most of these footprints are invisible to you. You don't think
 
 You're constantly teaching the recommender system about yourself -- even when you don't realize it.
 
+> **Did you know?** TikTok starts personalizing your feed after just 8 minutes of use — that's roughly 40 swipes. It's one of the fastest-learning algorithms ever built.
+
 **Think about it!** If someone could see EVERY click you made in the last week, what would they learn about you? What would surprise them? What would they get wrong?
+
+**Want to go deeper?** The next section shows exactly WHAT they track — with a ranking of which signals matter most.
