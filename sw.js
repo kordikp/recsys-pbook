@@ -1,6 +1,6 @@
 // Service Worker for p-book — full offline support
 // Pre-caches the entire book (~1.3 MB) on first visit
-const CACHE_NAME = 'pbook-v2';
+const CACHE_NAME = 'pbook-v3';
 
 const PRECACHE = [
   '/',
@@ -87,6 +87,7 @@ const PRECACHE = [
   '/content/ch3-different-ways-to-recommend/02c-game-method-match.md',
   '/content/ch3-different-ways-to-recommend/02d-spine-bandits.md',
   '/content/ch3-different-ways-to-recommend/02e-spine-deep-similarity.md',
+  '/content/ch3-different-ways-to-recommend/02f-depth-explorer-two-tower.md',
   '/content/ch3-different-ways-to-recommend/03-spine-whats-popular.md',
   '/content/ch3-different-ways-to-recommend/03a-sidebar-popularity-trap.md',
   '/content/ch3-different-ways-to-recommend/04-spine-the-pipeline.md',
@@ -114,6 +115,7 @@ const PRECACHE = [
   '/content/ch5-build-your-own/03-spine-step2-find-similar.md',
   '/content/ch5-build-your-own/03a-depth-thinker-math.md',
   '/content/ch5-build-your-own/03b-sidebar-real-numbers.md',
+  '/content/ch5-build-your-own/03c-depth-thinker-formulas.md',
   '/content/ch5-build-your-own/04-spine-step3-recommend.md',
   '/content/ch5-build-your-own/04a-depth-creator-code.md',
   '/content/ch5-build-your-own/04b-sidebar-debug-challenge.md',
