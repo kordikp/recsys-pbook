@@ -36,7 +36,7 @@ $$\text{sim}(A, B) = \frac{A \cdot B}{\|A\| \times \|B\|}$$
 
 **Why it matters:** Sam rates everything a bit lower, but in the SAME pattern. Cosine similarity catches this — it measures the direction, not the scale.
 
-## 2. Matrix Factorization — "Find the hidden reasons"
+## 2. Matrix Factorization & ALS — "Find the hidden reasons"
 
 $$R \approx U \times V^T$$
 
@@ -54,6 +54,20 @@ $$R \approx U \times V^T$$
 - You = [0.9 action, 0.2 comedy]
 - Movie A = [0.8 action, 0.1 comedy]
 - Predicted rating = 0.9 × 0.8 + 0.2 × 0.1 = 0.72 + 0.02 = **0.74** → You'll probably like it!
+
+**But how does the system LEARN those numbers?** That's where **ALS** (Alternating Least Squares) comes in. The key update rule:
+
+$$u_i = (V^T V + \lambda I)^{-1} V^T r_i$$
+
+**In plain English:**
+
+1. **Fix all item vectors** (V) and solve for the best user vectors (U)
+2. **Fix all user vectors** (U) and solve for the best item vectors (V)
+3. **Repeat** — alternating back and forth until the numbers stop changing
+
+The formula says: "To find user i's hidden preferences ($u_i$), look at all the items they rated ($r_i$), consider what those items represent ($V$), and find the combination that best explains the ratings." The $\lambda I$ part prevents overfitting — it's like saying "don't go crazy trying to fit every single rating perfectly."
+
+**Why ALS is elegant:** Each step has a clean mathematical solution (no guessing!). And because you fix one side at a time, you can parallelize massively — Netflix ran this on thousands of computers simultaneously.
 
 **Why it matters:** This is how Netflix, Spotify, and YouTube compress millions of ratings into a small, useful model. It's like summarizing a 1000-page book into a 10-word description — you lose some detail but capture the essence.
 

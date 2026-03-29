@@ -3936,14 +3936,48 @@ class PBook {
   async onSearch(query) {
     const el = document.getElementById('searchResults');
     if (!query || query.length < 2) { el.innerHTML = '<div class="search-empty">Type to search across all content...</div>'; return; }
-    const results = await this.rc.searchItems(query, 15, null, 'search');
-    if (!results?.recomms?.length) { el.innerHTML = '<div class="search-empty">No results found.</div>'; return; }
-    el.innerHTML = results.recomms.map(r => {
-      const b = this.findBlock(r.id);
-      const meta = b?.meta || r.values || {};
-      const badge = meta.voice && meta.voice !== 'universal' ? `<span class="card-badge ${meta.voice}">${CONFIG.voices[meta.voice]?.label || meta.voice}</span>` : '';
-      return `<div class="card" style="margin-bottom:.5em" onclick="app.openBlock('${r.id}','search');app.closeSearch()"><div class="card-chapter">${meta._chapterTitle || ''}</div><div class="card-title">${meta.title || r.id}</div><div class="card-meta">${badge}<span class="card-time">${meta.readingTime || 3} min</span></div></div>`;
-    }).join('');
+
+    // Local search (always works, even offline)
+    const q = query.toLowerCase();
+    const localResults = this.allBlocks
+      .map(b => {
+        const m = b.meta;
+        let score = 0;
+        if ((m.title || '').toLowerCase().includes(q)) score += 10;
+        if ((m.teaser || '').toLowerCase().includes(q)) score += 5;
+        if ((b.body || '').toLowerCase().includes(q)) score += 1;
+        return { block: b, score };
+      })
+      .filter(r => r.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 15);
+
+    // Also try Recombee (non-blocking, merge results)
+    const rcPromise = this.rc.searchItems(query, 10, null, 'search').catch(() => null);
+
+    // Show local results immediately
+    const renderResults = (results) => {
+      if (!results.length) { el.innerHTML = '<div class="search-empty">No results found.</div>'; return; }
+      el.innerHTML = results.map(r => {
+        const meta = r.meta || r;
+        const badge = meta.voice && meta.voice !== 'universal' ? `<span class="card-badge ${meta.voice}">${CONFIG.voices[meta.voice]?.label || meta.voice}</span>` : '';
+        return `<div class="card" style="margin-bottom:.5em" onclick="app.openBlock('${meta.id}','search');app.closeSearch()"><div class="card-chapter">${meta._chapterTitle || ''}</div><div class="card-title">${meta.title || meta.id}</div><div class="card-meta">${badge}<span class="card-time">${meta.readingTime || 3} min</span></div></div>`;
+      }).join('');
+    };
+
+    renderResults(localResults.map(r => r.block));
+
+    // Merge Recombee results when they arrive
+    const rcResults = await rcPromise;
+    if (rcResults?.recomms?.length) {
+      const localIds = new Set(localResults.map(r => r.block.meta.id));
+      const extra = rcResults.recomms
+        .filter(r => !localIds.has(r.id))
+        .map(r => this.findBlock(r.id))
+        .filter(Boolean)
+        .slice(0, 5);
+      if (extra.length) renderResults([...localResults.map(r => r.block), ...extra]);
+    }
   }
 
   // ===== INTERACTIONS =====
