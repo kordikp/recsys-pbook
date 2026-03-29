@@ -146,7 +146,7 @@
     <text x="155" y="48" text-anchor="middle" font-size="8" fill="#059669" font-weight="bold">[0.9, 0.1, 0.7]</text>
 
     <!-- Dot product arrow -->
-    <text x="105" y="50" text-anchor="middle" font-size="14" fill="#D97706" font-weight="bold">&middot;</text>
+    <text x="105" y="50" text-anchor="middle" font-size="14" fill="#D97706" font-weight="bold">·</text>
 
     <!-- Arrow down to result -->
     <line x1="105" y1="62" x2="105" y2="80" stroke="#D97706" stroke-width="1.5"/>
@@ -181,7 +181,7 @@
       <text x="35" y="44" text-anchor="middle" font-size="9" fill="#DC2626">90% missing</text>
 
       <!-- Arrow -->
-      <text x="90" y="30" text-anchor="middle" font-size="16" fill="#1C1917">&rarr;</text>
+      <text x="90" y="30" text-anchor="middle" font-size="16" fill="#1C1917">→</text>
 
       <!-- User matrix -->
       <rect x="108" y="0" width="40" height="50" rx="4" fill="#2563EB" fill-opacity="0.15" stroke="#2563EB" stroke-width="1"/>
@@ -189,14 +189,14 @@
       <text x="128" y="34" text-anchor="middle" font-size="8" fill="#2563EB">vectors</text>
 
       <!-- Times -->
-      <text x="162" y="30" text-anchor="middle" font-size="14" fill="#1C1917">&times;</text>
+      <text x="162" y="30" text-anchor="middle" font-size="14" fill="#1C1917">×</text>
 
       <!-- Item matrix -->
       <rect x="178" y="8" width="65" height="32" rx="4" fill="#059669" fill-opacity="0.15" stroke="#059669" stroke-width="1"/>
       <text x="210" y="28" text-anchor="middle" font-size="8" fill="#059669">Item vectors</text>
 
       <!-- Arrow -->
-      <text x="260" y="30" text-anchor="middle" font-size="16" fill="#1C1917">&rarr;</text>
+      <text x="260" y="30" text-anchor="middle" font-size="16" fill="#1C1917">→</text>
 
       <!-- Complete matrix -->
       <rect x="280" y="0" width="70" height="50" rx="4" fill="#D97706" fill-opacity="0.1" stroke="#D97706" stroke-width="1.5"/>
