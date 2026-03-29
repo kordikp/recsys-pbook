@@ -75,7 +75,9 @@ export class RecombeeClient {
     if (!queue.length) return;
 
     const remaining = [];
+    const maxAge = 24 * 60 * 60 * 1000; // drop entries older than 24h
     for (const entry of queue) {
+      if (entry.ts && Date.now() - entry.ts > maxAge) continue; // too old, drop
       try {
         if (entry.type === 'recombee' && this.enabled) {
           const res = await fetch('/.netlify/functions/recombee', {
@@ -83,14 +85,15 @@ export class RecombeeClient {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ endpoint: entry.endpoint, body: entry.body, method: entry.method }),
           });
-          if (!res.ok) remaining.push(entry);
+          // 409 = duplicate/conflict — already processed, drop it
+          if (!res.ok && res.status !== 409) remaining.push(entry);
         } else if (entry.type === 'log') {
           const res = await fetch('/.netlify/functions/log', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(entry.data),
           });
-          if (!res.ok) remaining.push(entry);
+          if (!res.ok && res.status !== 409) remaining.push(entry);
         } else {
           remaining.push(entry); // unknown type, keep
         }
