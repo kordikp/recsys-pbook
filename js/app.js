@@ -3,7 +3,7 @@
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
 import { RecombeeClient, UserModel } from './recombee.js?v=6';
-import { getDiagram } from './diagrams.js';
+import { getDiagram } from './diagrams.js?v=2';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
 class PBook {
