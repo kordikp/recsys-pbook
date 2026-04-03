@@ -1,7 +1,7 @@
 // Server-side interaction log — Supabase backend (Vercel version)
 
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tnjvbamehdhymmcktxuy.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_KEY || 'sb_publishable_7HdCbfsTLiI3IH7FFmEQdw_A9sIqTcI';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
 async function supabase(method, path, body) {
   const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {

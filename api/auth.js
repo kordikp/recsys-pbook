@@ -2,8 +2,8 @@
 // Table: user_profiles (email text UNIQUE, password_hash text, display_name text, profile_data jsonb, created_at, updated_at)
 const crypto = require('crypto');
 
-const SUPABASE_URL = process.env.SUPABASE_URL || 'https://tnjvbamehdhymmcktxuy.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_KEY || 'sb_publishable_7HdCbfsTLiI3IH7FFmEQdw_A9sIqTcI';
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
 async function supabase(method, path, body) {
   const headers = {
@@ -40,6 +40,7 @@ module.exports = async function handler(req, res) {
 
   const { action, email, password, displayName, profileData, token } = req.body || {};
 
+  if (!SUPABASE_URL || !SUPABASE_KEY) return res.status(500).json({ error: 'SUPABASE_URL and SUPABASE_KEY must be configured' });
   if (!action) return res.status(400).json({ error: 'action required' });
 
   try {
