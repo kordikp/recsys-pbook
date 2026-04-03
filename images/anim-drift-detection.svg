@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes drift {
+      0% { transform: translateX(0); }
+      60% { transform: translateX(80px); }
+      100% { transform: translateX(120px); }
+    }
+    @keyframes alertAppear {
+      0%, 70% { opacity: 0; transform: scale(0.5); }
+      80% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes alertPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes gapGrow {
+      0% { opacity: 0; }
+      70% { opacity: 0; }
+      100% { opacity: 0.2; }
+    }
+    .training-dist { animation: fadeIn 0.8s ease-out forwards; }
+    .production-dist { animation: drift 6s ease-in-out infinite alternate; }
+    .alert-label {
+      opacity: 0;
+      animation: alertAppear 1s ease-out 4s forwards, alertPulse 1s ease-in-out 5s infinite;
+    }
+    .gap-area { opacity: 0; animation: gapGrow 6s ease-in-out infinite alternate; }
+    .legend { opacity: 0; animation: fadeIn 0.5s ease-out 0.5s forwards; }
+    .axis-label { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
+  </style>
+
+  <defs>
+    <clipPath id="chartArea">
+      <rect x="50" y="40" width="450" height="200" />
+    </clipPath>
+  </defs>
+
+  <!-- Title -->
+  <text x="275" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Model Drift Detection</text>
+
+  <!-- Axes -->
+  <line x1="50" y1="240" x2="500" y2="240" stroke="#0b1225" stroke-width="1.5" />
+  <line x1="50" y1="240" x2="50" y2="50" stroke="#0b1225" stroke-width="1.5" />
+  <text class="axis-label" x="275" y="268" text-anchor="middle" font-size="10" fill="#0b1225">Feature Distribution</text>
+  <text class="axis-label" x="30" y="150" text-anchor="middle" font-size="10" fill="#0b1225" transform="rotate(-90,30,150)">Density</text>
+
+  <!-- Training distribution (fixed, teal) -->
+  <g class="training-dist" clip-path="url(#chartArea)">
+    <path d="M100,240 Q130,238 160,220 Q190,180 220,120 Q240,80 260,70 Q280,80 300,120 Q330,180 360,220 Q390,238 420,240 Z"
+          fill="#0c8383" fill-opacity="0.3" stroke="#0c8383" stroke-width="2" />
+  </g>
+
+  <!-- Production distribution (drifting, amber) -->
+  <g class="production-dist" clip-path="url(#chartArea)">
+    <path d="M100,240 Q130,238 160,220 Q190,180 220,120 Q240,80 260,70 Q280,80 300,120 Q330,180 360,220 Q390,238 420,240 Z"
+          fill="#f59e0b" fill-opacity="0.25" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3" />
+  </g>
+
+  <!-- Gap highlight area -->
+  <g class="gap-area" clip-path="url(#chartArea)">
+    <rect x="300" y="50" width="200" height="190" fill="#ef4444" />
+  </g>
+
+  <!-- Alert label -->
+  <g class="alert-label">
+    <rect x="380" y="55" width="100" height="36" rx="6" fill="#ef4444" />
+    <text x="430" y="70" text-anchor="middle" font-size="13" fill="#f5f5f4" font-weight="bold">ALERT</text>
+    <text x="430" y="84" text-anchor="middle" font-size="9" fill="#f5f5f4">Drift detected!</text>
+  </g>
+
+  <!-- KL divergence arrow -->
+  <g class="alert-label">
+    <line x1="260" y1="130" x2="340" y2="130" stroke="#ef4444" stroke-width="1.5" marker-start="url(#arrowLeft)" marker-end="url(#arrowRight)" />
+    <text x="300" y="125" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="bold">KL divergence</text>
+  </g>
+
+  <defs>
+    <marker id="arrowLeft" markerWidth="6" markerHeight="6" refX="0" refY="3" orient="auto">
+      <path d="M6,0 L0,3 L6,6" fill="#ef4444" />
+    </marker>
+    <marker id="arrowRight" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6" fill="#ef4444" />
+    </marker>
+  </defs>
+
+  <!-- Legend -->
+  <g class="legend">
+    <rect x="60" y="278" width="14" height="10" rx="2" fill="#0c8383" />
+    <text x="80" y="287" font-size="10" fill="#0b1225">Training distribution (fixed)</text>
+    <rect x="260" y="278" width="14" height="10" rx="2" fill="#f59e0b" />
+    <text x="280" y="287" font-size="10" fill="#0b1225">Production distribution (drifting)</text>
+  </g>
+</svg>

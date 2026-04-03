@@ -17,6 +17,8 @@ status: accepted
 
 Recommender systems have a surprisingly compact history. The entire field -- from first prototype to LLM-powered conversational recommendations -- spans roughly thirty years. Here's how it unfolded.
 
+![Recommender systems timeline from 1992 to 2024](/images/anim-history-timeline.svg)
+
 ## The Origins: Collaborative Filtering (1992--1998)
 
 **1992 -- Tapestry (Goldberg et al.)** Researchers at Xerox PARC built the first system that let users collaboratively filter email and newsgroup messages based on other users' reactions. The paper coined the term "collaborative filtering," giving the field its founding concept.

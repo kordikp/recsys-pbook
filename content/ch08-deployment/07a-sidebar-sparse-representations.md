@@ -18,6 +18,8 @@ The standard approach in modern recommendation systems is to represent users and
 
 Sparse representations offer a compelling alternative.
 
+![Dense to sparse embedding compression](/images/anim-sparse-vs-dense.svg)
+
 ## Dense vs. Sparse: The Core Distinction
 
 A **dense embedding** might look like:

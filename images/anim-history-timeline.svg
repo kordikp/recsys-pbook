@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes lineGrow {
+      from { stroke-dashoffset: 640; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes dotPop {
+      0% { r: 0; opacity: 0; }
+      60% { r: 8; opacity: 1; }
+      100% { r: 6; opacity: 1; }
+    }
+    @keyframes labelFadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .timeline-line {
+      stroke-dasharray: 640;
+      stroke-dashoffset: 640;
+      animation: lineGrow 2s ease-out 0.3s forwards;
+    }
+    .milestone-dot { opacity: 0; }
+    .milestone-label { opacity: 0; }
+    .m1 .milestone-dot { animation: dotPop 0.4s ease-out 0.8s forwards; }
+    .m1 .milestone-label { animation: labelFadeIn 0.4s ease-out 1.0s forwards; }
+    .m2 .milestone-dot { animation: dotPop 0.4s ease-out 1.3s forwards; }
+    .m2 .milestone-label { animation: labelFadeIn 0.4s ease-out 1.5s forwards; }
+    .m3 .milestone-dot { animation: dotPop 0.4s ease-out 1.8s forwards; }
+    .m3 .milestone-label { animation: labelFadeIn 0.4s ease-out 2.0s forwards; }
+    .m4 .milestone-dot { animation: dotPop 0.4s ease-out 2.3s forwards; }
+    .m4 .milestone-label { animation: labelFadeIn 0.4s ease-out 2.5s forwards; }
+    .m5 .milestone-dot { animation: dotPop 0.4s ease-out 2.8s forwards; }
+    .m5 .milestone-label { animation: labelFadeIn 0.4s ease-out 3.0s forwards; }
+    .m6 .milestone-dot { animation: dotPop 0.4s ease-out 3.3s forwards; }
+    .m6 .milestone-label { animation: labelFadeIn 0.4s ease-out 3.5s forwards; }
+    .m7 .milestone-dot { animation: dotPop 0.4s ease-out 3.8s forwards; }
+    .m7 .milestone-label { animation: labelFadeIn 0.4s ease-out 4.0s forwards; }
+  </style>
+
+  <!-- Title -->
+  <text x="350" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">RecSys History Timeline</text>
+
+  <!-- Timeline base line -->
+  <line class="timeline-line" x1="30" y1="100" x2="670" y2="100" stroke="#0b1225" stroke-width="2" stroke-linecap="round" />
+
+  <!-- Milestone 1: 1992 GroupLens -->
+  <g class="m1">
+    <circle class="milestone-dot" cx="60" cy="100" r="6" fill="#0c8383" />
+    <g class="milestone-label">
+      <text x="60" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">1992</text>
+      <text x="60" y="130" text-anchor="middle" font-size="9" fill="#0b1225">GroupLens</text>
+      <text x="60" y="142" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Collaborative</text>
+      <text x="60" y="153" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Filtering</text>
+    </g>
+  </g>
+
+  <!-- Milestone 2: 1998 Amazon -->
+  <g class="m2">
+    <circle class="milestone-dot" cx="160" cy="100" r="6" fill="#0c8383" />
+    <g class="milestone-label">
+      <text x="160" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">1998</text>
+      <text x="160" y="130" text-anchor="middle" font-size="9" fill="#0b1225">Amazon</text>
+      <text x="160" y="142" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Item-to-Item</text>
+      <text x="160" y="153" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">CF</text>
+    </g>
+  </g>
+
+  <!-- Milestone 3: 2006 Netflix Prize -->
+  <g class="m3">
+    <circle class="milestone-dot" cx="280" cy="100" r="6" fill="#f59e0b" />
+    <g class="milestone-label">
+      <text x="280" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">2006</text>
+      <text x="280" y="130" text-anchor="middle" font-size="9" fill="#0b1225">Netflix Prize</text>
+      <text x="280" y="142" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Matrix</text>
+      <text x="280" y="153" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Factorization</text>
+    </g>
+  </g>
+
+  <!-- Milestone 4: 2013 Word2Vec -->
+  <g class="m4">
+    <circle class="milestone-dot" cx="380" cy="100" r="6" fill="#3bc4a1" />
+    <g class="milestone-label">
+      <text x="380" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#3bc4a1">2013</text>
+      <text x="380" y="130" text-anchor="middle" font-size="9" fill="#0b1225">Word2Vec</text>
+      <text x="380" y="142" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Embeddings</text>
+      <text x="380" y="153" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Era</text>
+    </g>
+  </g>
+
+  <!-- Milestone 5: 2016 YouTube DNN -->
+  <g class="m5">
+    <circle class="milestone-dot" cx="470" cy="100" r="6" fill="#3bc4a1" />
+    <g class="milestone-label">
+      <text x="470" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#3bc4a1">2016</text>
+      <text x="470" y="130" text-anchor="middle" font-size="9" fill="#0b1225">YouTube DNN</text>
+      <text x="470" y="142" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Deep Learning</text>
+      <text x="470" y="153" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">RecSys</text>
+    </g>
+  </g>
+
+  <!-- Milestone 6: 2019 EASE -->
+  <g class="m6">
+    <circle class="milestone-dot" cx="560" cy="100" r="6" fill="#0c8383" />
+    <g class="milestone-label">
+      <text x="560" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">2019</text>
+      <text x="560" y="130" text-anchor="middle" font-size="9" fill="#0b1225">EASE</text>
+      <text x="560" y="142" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Simple</text>
+      <text x="560" y="153" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Baselines</text>
+    </g>
+  </g>
+
+  <!-- Milestone 7: 2024 beeFormer -->
+  <g class="m7">
+    <circle class="milestone-dot" cx="650" cy="100" r="6" fill="#ef4444" />
+    <g class="milestone-label">
+      <text x="650" y="80" text-anchor="middle" font-size="12" font-weight="bold" fill="#ef4444">2024</text>
+      <text x="650" y="130" text-anchor="middle" font-size="9" fill="#0b1225">beeFormer</text>
+      <text x="650" y="142" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Foundation</text>
+      <text x="650" y="153" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Models</text>
+    </g>
+  </g>
+
+  <!-- Era labels at bottom -->
+  <text x="110" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">Classical Era</text>
+  <text x="430" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">Deep Learning Era</text>
+  <text x="650" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">LLM Era</text>
+</svg>

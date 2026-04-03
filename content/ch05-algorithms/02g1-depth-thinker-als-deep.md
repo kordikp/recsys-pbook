@@ -13,6 +13,8 @@ status: accepted
 
 Matrix factorization is the conceptual foundation. ALS is the workhorse algorithm that makes it practical at scale. This section derives the algorithm from first principles, extends it to implicit feedback, and analyzes the computational properties that made it the dominant approach in distributed recommender systems.
 
+![Matrix factorization: sparse X decomposes into dense U and V](/images/anim-matrix-factorization.svg)
+
 ## The Optimization Problem
 
 Given a sparse ratings matrix $X \in \mathbb{R}^{m \times n}$ with $m$ users and $n$ items, we seek low-rank factor matrices $U \in \mathbb{R}^{m \times k}$ and $V \in \mathbb{R}^{n \times k}$ that minimize the regularized reconstruction error over observed entries:

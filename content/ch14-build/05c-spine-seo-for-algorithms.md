@@ -19,6 +19,8 @@ status: accepted
 
 SEO -- Search Engine Optimization -- used to mean keyword stuffing and link farming to climb Google's rankings. Today, search and recommendation systems have fundamentally converged, and the optimization landscape has shifted accordingly.
 
+![Old SEO vs new algorithmic discoverability](/images/anim-seo-algorithms.svg)
+
 ## Traditional SEO vs. Modern Content Discovery
 
 | Traditional SEO (2010s) | Modern Discovery (2020s+) |

@@ -13,6 +13,8 @@ status: accepted
 
 The parent section established that A/B testing is the gold standard for evaluating recommender systems. But A/B tests are expensive, slow, and risky. You cannot A/B test every idea -- you would need millions of users and months of experimentation time. This creates a fundamental tension: **offline evaluation is cheap but biased; online evaluation is trustworthy but scarce.** The field's central evaluation challenge is bridging this gap.
 
+![The evaluation funnel: offline to deployment](/images/anim-eval-funnel.svg)
+
 ## Offline Evaluation: Fast, Cheap, and Wrong
 
 Offline evaluation uses historical interaction data -- logs of what users clicked, watched, rated, or purchased under a previous recommendation policy. You hold out some interactions, train your model on the rest, and measure how well the model predicts the held-out data.

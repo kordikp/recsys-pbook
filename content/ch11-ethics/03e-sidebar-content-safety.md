@@ -19,6 +19,8 @@ A recommendation algorithm does not distinguish between a cooking tutorial and a
 
 This is the **amplification problem**: engagement is not quality. Content that provokes outrage, fear, or moral indignation tends to generate higher engagement than content that is accurate, nuanced, or constructive. An algorithm optimizing for clicks, watch time, or session depth will systematically surface content that exploits emotional reactivity -- not because it was designed to radicalize, but because radicalization is engaging.
 
+![Three layers of content safety filtering](/images/anim-content-safety-layers.svg)
+
 ## Algorithmic Rabbit Holes and Radicalization
 
 The pathway from mainstream content to extremist material is rarely a single jump. It follows the same greedy, step-by-step drift described in the rabbit hole effect, but with higher stakes. A user searching for fitness content might be recommended "natural health" videos, then anti-vaccine content, then full-spectrum conspiracy material. Each step is a small lateral move in embedding space. The accumulated trajectory is a radicalization pathway.

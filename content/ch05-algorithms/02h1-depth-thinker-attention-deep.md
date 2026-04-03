@@ -15,6 +15,8 @@ Every recommendation you receive carries an implicit assumption about how much y
 
 This section provides a complete architectural walkthrough of how transformer-based sequential recommenders work, from the foundational self-attention mechanism through production-deployed architectures.
 
+![Self-attention mechanism with animated weight connections](/images/anim-attention-mechanism.svg)
+
 ## Why Sequence Matters: Temporal Dynamics in Recommendation
 
 Consider two users who have each watched the same 50 films. If those 50 films were consumed in different orders, those users likely have very different current preferences. The user who recently binged science fiction has different immediate intent than the user who just finished a documentary marathon -- even if their all-time viewing histories are identical.

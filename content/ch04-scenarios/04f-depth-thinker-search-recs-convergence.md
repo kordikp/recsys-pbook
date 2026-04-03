@@ -17,6 +17,8 @@ status: accepted
 
 Search and recommendation have traditionally been treated as separate problems with separate teams, separate codebases, and separate models. But they're converging — and understanding why reveals fundamental truths about information retrieval.
 
+![Search and recommendation converging into unified retrieval](/images/anim-search-recs-merge.svg)
+
 ## The Structural Similarity
 
 **Search:** Given a query q and a corpus C, produce a ranked list of items.

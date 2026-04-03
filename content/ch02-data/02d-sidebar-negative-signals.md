@@ -16,6 +16,8 @@ status: accepted
 
 Recommendation systems are built primarily on positive signals -- clicks, watches, purchases. But some of the most informative data comes from what users **reject**.
 
+![Negative signal interpretation by watch duration](/images/anim-negative-signals.svg)
+
 ## Types of Negative Signals
 
 Negative signals span a spectrum from passive to active:

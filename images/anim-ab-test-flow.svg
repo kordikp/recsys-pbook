@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(-15px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes dotFlow {
+      0%   { offset-distance: 0%; opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { offset-distance: 100%; opacity: 0; }
+    }
+    @keyframes barGrowA {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+    @keyframes barGrowB {
+      from { transform: scaleY(0); }
+      to   { transform: scaleY(1); }
+    }
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(0.5); }
+      70%  { transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
+    .users { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
+    .randomize { opacity: 0; animation: popIn 0.5s ease-out 0.6s forwards; }
+    .groupA { opacity: 0; animation: slideRight 0.5s ease-out 1.0s forwards; }
+    .groupB { opacity: 0; animation: slideRight 0.5s ease-out 1.0s forwards; }
+
+    /* Flowing dots on path A */
+    .dotA { animation: dotFlow 2s linear infinite; }
+    .dotA1 { animation-delay: 1.5s; }
+    .dotA2 { animation-delay: 2.0s; }
+    .dotA3 { animation-delay: 2.5s; }
+    .dotA4 { animation-delay: 3.0s; }
+
+    /* Flowing dots on path B */
+    .dotB { animation: dotFlow 2s linear infinite; }
+    .dotB1 { animation-delay: 1.7s; }
+    .dotB2 { animation-delay: 2.2s; }
+    .dotB3 { animation-delay: 2.7s; }
+    .dotB4 { animation-delay: 3.2s; }
+
+    /* Result bars */
+    .bar-a { transform-origin: bottom center; transform: scaleY(0); animation: barGrowA 1s ease-out 3.0s forwards; }
+    .bar-b { transform-origin: bottom center; transform: scaleY(0); animation: barGrowB 1s ease-out 3.2s forwards; }
+    .result-label { opacity: 0; animation: fadeIn 0.4s ease-out 4.0s forwards; }
+    .confidence { opacity: 0; animation: fadeIn 0.5s ease-out 4.2s forwards; }
+    .winner { opacity: 0; animation: popIn 0.5s ease-out 4.5s forwards; }
+  </style>
+
+  <defs>
+    <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" />
+    </marker>
+    <!-- Path A: upper route -->
+    <path id="pathA" d="M160,110 C200,110 200,65 240,65 L370,65" fill="none" />
+    <!-- Path B: lower route -->
+    <path id="pathB" d="M160,110 C200,110 200,155 240,155 L370,155" fill="none" />
+  </defs>
+
+  <!-- Title -->
+  <text class="title" x="300" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">A/B Test Flow</text>
+
+  <!-- Users -->
+  <g class="users">
+    <rect x="20" y="90" width="80" height="40" rx="8" fill="#0b1225" />
+    <text x="60" y="113" text-anchor="middle" font-size="10" fill="#f5f5f4" font-weight="600">Users</text>
+    <line x1="102" y1="110" x2="130" y2="110" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+  </g>
+
+  <!-- Randomization point -->
+  <g class="randomize">
+    <circle cx="145" cy="110" r="18" fill="#f59e0b" />
+    <text x="145" y="106" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="700">Random</text>
+    <text x="145" y="116" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="700">Split</text>
+  </g>
+
+  <!-- Path lines -->
+  <g class="groupA">
+    <path d="M163,100 C190,90 200,65 240,65 L370,65" fill="none" stroke="#0c8383" stroke-width="2" stroke-dasharray="4,3" />
+    <text x="200" y="52" font-size="9" fill="#0c8383" font-weight="600">50%</text>
+  </g>
+  <g class="groupB">
+    <path d="M163,120 C190,130 200,155 240,155 L370,155" fill="none" stroke="#3bc4a1" stroke-width="2" stroke-dasharray="4,3" />
+    <text x="200" y="175" font-size="9" fill="#3bc4a1" font-weight="600">50%</text>
+  </g>
+
+  <!-- Group A box -->
+  <g class="groupA">
+    <rect x="260" y="44" width="100" height="40" rx="6" fill="#0c8383" />
+    <text x="310" y="62" text-anchor="middle" font-size="10" fill="#f5f5f4" font-weight="600">Group A</text>
+    <text x="310" y="75" text-anchor="middle" font-size="8" fill="#f5f5f4" opacity="0.8">Control</text>
+  </g>
+
+  <!-- Group B box -->
+  <g class="groupB">
+    <rect x="260" y="134" width="100" height="40" rx="6" fill="#3bc4a1" />
+    <text x="310" y="152" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">Group B</text>
+    <text x="310" y="165" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.8">Variant</text>
+  </g>
+
+  <!-- Flowing dots A -->
+  <circle class="dotA dotA1" r="3.5" fill="#0c8383">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="1.5s" path="M160,110 C200,110 200,65 240,65 L370,65" />
+  </circle>
+  <circle class="dotA dotA2" r="3.5" fill="#0c8383">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="2.1s" path="M160,110 C200,110 200,65 240,65 L370,65" />
+  </circle>
+  <circle class="dotA dotA3" r="3.5" fill="#0c8383">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="2.7s" path="M160,110 C200,110 200,65 240,65 L370,65" />
+  </circle>
+
+  <!-- Flowing dots B -->
+  <circle class="dotB dotB1" r="3.5" fill="#3bc4a1">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="1.7s" path="M160,110 C200,110 200,155 240,155 L370,155" />
+  </circle>
+  <circle class="dotB dotB2" r="3.5" fill="#3bc4a1">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="2.3s" path="M160,110 C200,110 200,155 240,155 L370,155" />
+  </circle>
+  <circle class="dotB dotB3" r="3.5" fill="#3bc4a1">
+    <animateMotion dur="2s" repeatCount="indefinite" begin="2.9s" path="M160,110 C200,110 200,155 240,155 L370,155" />
+  </circle>
+
+  <!-- Results section -->
+  <g class="groupA">
+    <line x1="362" y1="65" x2="400" y2="65" stroke="#0c8383" stroke-width="1.5" marker-end="url(#ah)" />
+  </g>
+  <g class="groupB">
+    <line x1="362" y1="155" x2="400" y2="155" stroke="#3bc4a1" stroke-width="1.5" marker-end="url(#ah)" />
+  </g>
+
+  <!-- Metric area -->
+  <g class="result-label">
+    <text x="485" y="48" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">CTR</text>
+    <rect x="410" y="52" width="150" height="170" rx="6" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.5" opacity="0.3" />
+  </g>
+
+  <!-- Bar A (CTR = 3.2%) -->
+  <rect class="bar-a" x="435" y="110" width="35" height="105" rx="3" fill="#0c8383" />
+  <text class="result-label" x="452" y="105" text-anchor="middle" font-size="10" fill="#0c8383" font-weight="700">3.2%</text>
+  <text class="result-label" x="452" y="230" text-anchor="middle" font-size="8" fill="#0b1225">A</text>
+
+  <!-- Bar B (CTR = 4.1%) - taller -->
+  <rect class="bar-b" x="510" y="80" width="35" height="135" rx="3" fill="#3bc4a1" />
+  <text class="result-label" x="527" y="75" text-anchor="middle" font-size="10" fill="#3bc4a1" font-weight="700">4.1%</text>
+  <text class="result-label" x="527" y="230" text-anchor="middle" font-size="8" fill="#0b1225">B</text>
+
+  <!-- Confidence interval whiskers -->
+  <g class="confidence">
+    <!-- A whisker -->
+    <line x1="452" y1="102" x2="452" y2="92" stroke="#0c8383" stroke-width="1.5" />
+    <line x1="446" y1="92" x2="458" y2="92" stroke="#0c8383" stroke-width="1.5" />
+    <!-- B whisker -->
+    <line x1="527" y1="72" x2="527" y2="62" stroke="#3bc4a1" stroke-width="1.5" />
+    <line x1="521" y1="62" x2="533" y2="62" stroke="#3bc4a1" stroke-width="1.5" />
+  </g>
+
+  <!-- Winner label -->
+  <g class="winner">
+    <text x="527" y="55" text-anchor="middle" font-size="8" fill="#3bc4a1" font-weight="700">+28% lift</text>
+    <text x="485" y="245" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">p &lt; 0.05</text>
+  </g>
+</svg>

@@ -17,6 +17,8 @@ status: accepted
 
 A user who just created an account and a user who has been active for three years are in fundamentally different situations. The new user has no history — the system knows nothing. The veteran has thousands of interactions — the system knows them deeply. Treating both the same is a common mistake.
 
+![User recommendation journey from cold start to maturity](/images/anim-recommendation-journey.svg)
+
 ## The Four Stages
 
 ### Stage 1: Cold Start (0–10 interactions)

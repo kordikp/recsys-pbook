@@ -1,0 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes splitLeft {
+      0% { transform: translate(0, 0); opacity: 1; }
+      30% { transform: translate(0, 0); opacity: 1; }
+      100% { transform: translate(-90px, 0); opacity: 1; }
+    }
+    @keyframes splitRight {
+      0% { transform: translate(0, 0); opacity: 1; }
+      30% { transform: translate(0, 0); opacity: 1; }
+      100% { transform: translate(90px, 0); opacity: 1; }
+    }
+    @keyframes matrixAppear {
+      0%, 50% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes approxAppear {
+      0%, 80% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    @keyframes dotBlink {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+    @keyframes symbolAppear {
+      0%, 60% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+    .big-matrix { animation: fadeIn 0.8s ease-out forwards; }
+    .u-matrix { opacity: 0; animation: matrixAppear 1.5s ease-out 1.5s forwards; }
+    .v-matrix { opacity: 0; animation: matrixAppear 1.5s ease-out 1.8s forwards; }
+    .approx-sign { opacity: 0; animation: symbolAppear 1.5s ease-out 1.5s forwards; }
+    .times-sign { opacity: 0; animation: symbolAppear 1.5s ease-out 2s forwards; }
+    .sparse-dot { animation: dotBlink 3s ease-in-out infinite; }
+    .dense-dot { opacity: 0; animation: matrixAppear 1.5s ease-out 2.2s forwards; }
+    .label { opacity: 0; animation: fadeIn 0.5s ease-out 2.5s forwards; }
+  </style>
+
+  <!-- Title -->
+  <text x="300" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Matrix Factorization</text>
+
+  <!-- Big sparse matrix X -->
+  <g class="big-matrix">
+    <rect x="30" y="55" width="120" height="150" rx="4" fill="none" stroke="#0b1225" stroke-width="2" />
+    <text x="90" y="48" text-anchor="middle" font-size="13" font-weight="bold" fill="#0b1225">X</text>
+    <!-- Sparse dots -->
+    <circle class="sparse-dot" cx="50" cy="75" r="3" fill="#0c8383" style="animation-delay:0s" />
+    <circle class="sparse-dot" cx="110" cy="75" r="3" fill="#0c8383" style="animation-delay:0.3s" />
+    <circle class="sparse-dot" cx="70" cy="95" r="3" fill="#0c8383" style="animation-delay:0.6s" />
+    <circle class="sparse-dot" cx="130" cy="110" r="3" fill="#0c8383" style="animation-delay:0.1s" />
+    <circle class="sparse-dot" cx="50" cy="130" r="3" fill="#0c8383" style="animation-delay:0.4s" />
+    <circle class="sparse-dot" cx="90" cy="145" r="3" fill="#0c8383" style="animation-delay:0.7s" />
+    <circle class="sparse-dot" cx="130" cy="160" r="3" fill="#0c8383" style="animation-delay:0.2s" />
+    <circle class="sparse-dot" cx="70" cy="175" r="3" fill="#0c8383" style="animation-delay:0.5s" />
+    <circle class="sparse-dot" cx="110" cy="190" r="3" fill="#0c8383" style="animation-delay:0.8s" />
+    <!-- Question marks for missing values -->
+    <text x="90" y="80" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="50" cy="100" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="130" y="95" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="70" y="115" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="110" y="135" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="50" y="155" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="130" y="145" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="90" y="170" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="50" y="195" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <!-- Labels -->
+    <text x="8" y="130" text-anchor="middle" font-size="9" fill="#0b1225" transform="rotate(-90,8,130)">users</text>
+    <text x="90" y="218" text-anchor="middle" font-size="9" fill="#0b1225">items</text>
+  </g>
+
+  <!-- Approx sign -->
+  <text class="approx-sign" x="175" y="138" text-anchor="middle" font-size="24" fill="#0b1225" font-weight="bold">&#x2248;</text>
+
+  <!-- U matrix (tall, narrow) -->
+  <g class="u-matrix">
+    <rect x="210" y="55" width="60" height="150" rx="4" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="2" />
+    <text x="240" y="48" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c8383">U</text>
+    <!-- Dense fill pattern -->
+    <g class="dense-dot">
+      <rect x="218" y="65" width="10" height="8" rx="1" fill="#0c8383" opacity="0.7" />
+      <rect x="232" y="65" width="10" height="8" rx="1" fill="#0c8383" opacity="0.4" />
+      <rect x="246" y="65" width="10" height="8" rx="1" fill="#0c8383" opacity="0.6" />
+      <rect x="218" y="80" width="10" height="8" rx="1" fill="#0c8383" opacity="0.5" />
+      <rect x="232" y="80" width="10" height="8" rx="1" fill="#0c8383" opacity="0.8" />
+      <rect x="246" y="80" width="10" height="8" rx="1" fill="#0c8383" opacity="0.3" />
+      <rect x="218" y="95" width="10" height="8" rx="1" fill="#0c8383" opacity="0.6" />
+      <rect x="232" y="95" width="10" height="8" rx="1" fill="#0c8383" opacity="0.4" />
+      <rect x="246" y="95" width="10" height="8" rx="1" fill="#0c8383" opacity="0.7" />
+      <rect x="218" y="110" width="10" height="8" rx="1" fill="#0c8383" opacity="0.3" />
+      <rect x="232" y="110" width="10" height="8" rx="1" fill="#0c8383" opacity="0.6" />
+      <rect x="246" y="110" width="10" height="8" rx="1" fill="#0c8383" opacity="0.5" />
+      <rect x="218" y="125" width="10" height="8" rx="1" fill="#0c8383" opacity="0.8" />
+      <rect x="232" y="125" width="10" height="8" rx="1" fill="#0c8383" opacity="0.4" />
+      <rect x="246" y="125" width="10" height="8" rx="1" fill="#0c8383" opacity="0.6" />
+      <rect x="218" y="140" width="10" height="8" rx="1" fill="#0c8383" opacity="0.5" />
+      <rect x="232" y="140" width="10" height="8" rx="1" fill="#0c8383" opacity="0.7" />
+      <rect x="246" y="140" width="10" height="8" rx="1" fill="#0c8383" opacity="0.4" />
+      <rect x="218" y="155" width="10" height="8" rx="1" fill="#0c8383" opacity="0.6" />
+      <rect x="232" y="155" width="10" height="8" rx="1" fill="#0c8383" opacity="0.5" />
+      <rect x="246" y="155" width="10" height="8" rx="1" fill="#0c8383" opacity="0.8" />
+      <rect x="218" y="170" width="10" height="8" rx="1" fill="#0c8383" opacity="0.4" />
+      <rect x="232" y="170" width="10" height="8" rx="1" fill="#0c8383" opacity="0.7" />
+      <rect x="246" y="170" width="10" height="8" rx="1" fill="#0c8383" opacity="0.5" />
+      <rect x="218" y="185" width="10" height="8" rx="1" fill="#0c8383" opacity="0.6" />
+      <rect x="232" y="185" width="10" height="8" rx="1" fill="#0c8383" opacity="0.3" />
+      <rect x="246" y="185" width="10" height="8" rx="1" fill="#0c8383" opacity="0.7" />
+    </g>
+    <text x="218" y="218" font-size="9" fill="#0b1225">users</text>
+  </g>
+
+  <!-- Times sign -->
+  <text class="times-sign" x="290" y="138" text-anchor="middle" font-size="20" fill="#0b1225" font-weight="bold">&#xd7;</text>
+
+  <!-- V^T matrix (short, wide) -->
+  <g class="v-matrix">
+    <rect x="310" y="80" width="120" height="60" rx="4" fill="#3bc4a1" fill-opacity="0.15" stroke="#3bc4a1" stroke-width="2" />
+    <text x="370" y="73" text-anchor="middle" font-size="13" font-weight="bold" fill="#3bc4a1">V&#x1d40;</text>
+    <!-- Dense fill pattern -->
+    <g class="dense-dot">
+      <rect x="318" y="88" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.7" />
+      <rect x="335" y="88" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.4" />
+      <rect x="352" y="88" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.6" />
+      <rect x="369" y="88" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.5" />
+      <rect x="386" y="88" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.8" />
+      <rect x="403" y="88" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.3" />
+
+      <rect x="318" y="101" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.5" />
+      <rect x="335" y="101" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.8" />
+      <rect x="352" y="101" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.3" />
+      <rect x="369" y="101" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.7" />
+      <rect x="386" y="101" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.4" />
+      <rect x="403" y="101" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.6" />
+
+      <rect x="318" y="114" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.6" />
+      <rect x="335" y="114" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.3" />
+      <rect x="352" y="114" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.7" />
+      <rect x="369" y="114" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.4" />
+      <rect x="386" y="114" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.5" />
+      <rect x="403" y="114" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.8" />
+
+      <rect x="318" y="127" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.4" />
+      <rect x="335" y="127" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.6" />
+      <rect x="352" y="127" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.5" />
+      <rect x="369" y="127" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.8" />
+      <rect x="386" y="127" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.3" />
+      <rect x="403" y="127" width="12" height="7" rx="1" fill="#3bc4a1" opacity="0.7" />
+    </g>
+    <text x="370" y="155" text-anchor="middle" font-size="9" fill="#0b1225">items</text>
+  </g>
+
+  <!-- Dimension labels -->
+  <g class="label">
+    <text x="240" y="235" text-anchor="middle" font-size="9" fill="#0c8383">k latent factors</text>
+    <line x1="210" y1="210" x2="270" y2="210" stroke="#0c8383" stroke-width="1" stroke-dasharray="3,2" />
+    <text x="370" y="73" text-anchor="middle" font-size="9" fill="#3bc4a1" opacity="0">k latent factors</text>
+
+    <!-- Explanation -->
+    <text x="450" y="175" font-size="10" fill="#0b1225">Sparse ratings</text>
+    <text x="450" y="190" font-size="10" fill="#0b1225">decomposed into</text>
+    <text x="450" y="205" font-size="10" fill="#0b1225">dense embeddings</text>
+    <text x="450" y="225" font-size="9" fill="#0b1225" opacity="0.5">k &lt;&lt; min(users, items)</text>
+  </g>
+</svg>

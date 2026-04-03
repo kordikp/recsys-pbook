@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeSlideRight {
+      from { opacity: 0; transform: translateX(-12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes drawLine {
+      from { stroke-dashoffset: 40; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes timerBuild {
+      0% { content: "0"; }
+      100% { content: "18"; }
+    }
+    @keyframes countUp18 {
+      0%   { opacity: 1; }
+      5%   { opacity: 1; }
+      100% { opacity: 1; }
+    }
+    @keyframes countUp6 {
+      0%   { opacity: 1; }
+      100% { opacity: 1; }
+    }
+    @keyframes growBar {
+      from { width: 0; }
+    }
+    @keyframes barGrowBuild {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes barGrowBuy {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes pulseLabel {
+      0%, 100% { opacity: 0.7; }
+      50% { opacity: 1; }
+    }
+    @keyframes highlightWin {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
+    .fork { opacity: 0; animation: fadeIn 0.4s ease-out 0.3s forwards; }
+
+    /* Build path boxes */
+    .build-box { opacity: 0; animation: fadeSlideRight 0.4s ease-out forwards; }
+    .b1 { animation-delay: 0.6s; }
+    .b2 { animation-delay: 1.0s; }
+    .b3 { animation-delay: 1.4s; }
+    .b4 { animation-delay: 1.8s; }
+    .b5 { animation-delay: 2.2s; }
+    .b6 { animation-delay: 2.6s; }
+
+    /* Build arrows */
+    .build-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.3s ease-out forwards; }
+    .ba1 { animation-delay: 0.9s; }
+    .ba2 { animation-delay: 1.3s; }
+    .ba3 { animation-delay: 1.7s; }
+    .ba4 { animation-delay: 2.1s; }
+    .ba5 { animation-delay: 2.5s; }
+
+    /* Buy path boxes */
+    .buy-box { opacity: 0; animation: fadeSlideRight 0.4s ease-out forwards; }
+    .y1 { animation-delay: 0.6s; }
+    .y2 { animation-delay: 0.9s; }
+    .y3 { animation-delay: 1.2s; }
+
+    /* Buy arrows */
+    .buy-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.3s ease-out forwards; }
+    .ya1 { animation-delay: 0.85s; }
+    .ya2 { animation-delay: 1.15s; }
+
+    /* Timer bars */
+    .timer-build-bar {
+      transform-origin: left center;
+      transform: scaleX(0);
+      animation: barGrowBuild 2.4s linear 0.6s forwards;
+    }
+    .timer-buy-bar {
+      transform-origin: left center;
+      transform: scaleX(0);
+      animation: barGrowBuy 0.9s linear 0.6s forwards;
+    }
+
+    /* Labels */
+    .timer-build-label { opacity: 0; animation: fadeIn 0.4s ease-out 3.0s forwards; }
+    .timer-buy-label   { opacity: 0; animation: fadeIn 0.4s ease-out 1.5s forwards; }
+
+    .result-msg { opacity: 0; animation: highlightWin 0.6s ease-out 3.4s forwards; }
+  </style>
+
+  <defs>
+    <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text class="title" x="300" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Build vs. Buy</text>
+
+  <!-- Fork point -->
+  <g class="fork">
+    <circle cx="38" cy="100" r="14" fill="#0b1225" />
+    <text x="38" y="104" text-anchor="middle" font-size="9" fill="#f5f5f4" font-weight="600">Start</text>
+    <line x1="52" y1="90" x2="72" y2="65" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+    <line x1="52" y1="110" x2="72" y2="165" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+    <text x="58" y="56" font-size="9" fill="#0b1225" font-weight="700">Build</text>
+    <text x="58" y="184" font-size="9" fill="#0b1225" font-weight="700">Buy</text>
+  </g>
+
+  <!-- BUILD PATH -->
+  <g class="build-box b1">
+    <rect x="78" y="42" width="62" height="30" rx="5" fill="#0c8383" />
+    <text x="109" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Design</text>
+  </g>
+  <line class="build-arr ba1" x1="142" y1="57" x2="158" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+
+  <g class="build-box b2">
+    <rect x="162" y="42" width="62" height="30" rx="5" fill="#0c8383" />
+    <text x="193" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Build</text>
+  </g>
+  <line class="build-arr ba2" x1="226" y1="57" x2="242" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+
+  <g class="build-box b3">
+    <rect x="246" y="42" width="62" height="30" rx="5" fill="#0c8383" />
+    <text x="277" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Test</text>
+  </g>
+  <line class="build-arr ba3" x1="310" y1="57" x2="326" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+
+  <g class="build-box b4">
+    <rect x="330" y="42" width="62" height="30" rx="5" fill="#0c8383" />
+    <text x="361" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Deploy</text>
+  </g>
+  <line class="build-arr ba4" x1="394" y1="57" x2="410" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+
+  <g class="build-box b5">
+    <rect x="414" y="42" width="62" height="30" rx="5" fill="#0c8383" />
+    <text x="445" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Monitor</text>
+  </g>
+  <line class="build-arr ba5" x1="478" y1="57" x2="494" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+
+  <g class="build-box b6">
+    <rect x="498" y="42" width="62" height="30" rx="5" fill="#ef4444" />
+    <text x="529" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Iterate</text>
+  </g>
+
+  <!-- BUY PATH -->
+  <g class="buy-box y1">
+    <rect x="78" y="152" width="74" height="30" rx="5" fill="#3bc4a1" />
+    <text x="115" y="171" text-anchor="middle" font-size="8.5" fill="#0b1225" font-weight="600">Integrate</text>
+  </g>
+  <line class="buy-arr ya1" x1="154" y1="167" x2="170" y2="167" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+
+  <g class="buy-box y2">
+    <rect x="174" y="152" width="74" height="30" rx="5" fill="#3bc4a1" />
+    <text x="211" y="171" text-anchor="middle" font-size="8.5" fill="#0b1225" font-weight="600">Configure</text>
+  </g>
+  <line class="buy-arr ya2" x1="250" y1="167" x2="266" y2="167" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+
+  <g class="buy-box y3">
+    <rect x="270" y="152" width="74" height="30" rx="5" fill="#3bc4a1" />
+    <text x="307" y="171" text-anchor="middle" font-size="8.5" fill="#0b1225" font-weight="600">Deploy</text>
+  </g>
+
+  <!-- Timer section -->
+  <text class="fork" x="78" y="215" font-size="10" fill="#0b1225" font-weight="600">Time to value</text>
+
+  <!-- Build timer bar -->
+  <rect x="78" y="222" width="482" height="8" rx="4" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" opacity="0.3" />
+  <rect class="timer-build-bar" x="78" y="222" width="482" height="8" rx="4" fill="#0c8383" opacity="0.6" />
+  <text class="timer-build-label" x="564" y="231" font-size="8" fill="#0c8383" font-weight="700">18 mo</text>
+
+  <!-- Buy timer bar -->
+  <rect x="78" y="235" width="482" height="8" rx="4" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" opacity="0.3" />
+  <rect class="timer-buy-bar" x="78" y="235" width="180" height="8" rx="4" fill="#3bc4a1" />
+  <text class="timer-buy-label" x="262" y="244" font-size="8" fill="#3bc4a1" font-weight="700">6 mo</text>
+
+  <!-- Result message -->
+  <text class="result-msg" x="430" y="172" font-size="10" fill="#3bc4a1" font-weight="700">3x faster</text>
+</svg>

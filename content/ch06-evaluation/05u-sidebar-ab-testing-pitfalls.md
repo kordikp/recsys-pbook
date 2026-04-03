@@ -17,6 +17,8 @@ status: accepted
 
 A/B testing is the gold standard for evaluating recommendation changes. In theory, it provides causal evidence that a new algorithm is better. In practice, most A/B tests are run incorrectly — producing results that look convincing but are unreliable.
 
+![A/B test flow: randomization, groups, and metric comparison](/images/anim-ab-test-flow.svg)
+
 ## Pitfall 1: Peeking
 
 **The problem:** You launch an A/B test. After 2 days, you check results: "Variant B has +3% CTR, p=0.04!" You declare victory and ship it.

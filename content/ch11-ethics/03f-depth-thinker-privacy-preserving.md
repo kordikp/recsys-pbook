@@ -21,6 +21,8 @@ Traditional recommender systems solve this by centralizing all user data on serv
 
 Several technical approaches attempt to thread this needle.
 
+![Privacy vs personalization balance](/images/anim-privacy-spectrum.svg)
+
 ## Federated Learning
 
 **Concept:** Train the model locally on each user's device. Only share model updates (gradients), never raw data. A central server aggregates updates from millions of devices to improve the global model.

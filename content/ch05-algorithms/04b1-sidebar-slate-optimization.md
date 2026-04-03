@@ -18,6 +18,8 @@ Most recommendation algorithms score items independently: compute a relevance sc
 
 If your top 10 items by independent score are all variations of the same topic, the user sees a wall of redundancy. The ninth-best item on a different topic would have been far more valuable than the third-best item on the same topic. Independent scoring cannot capture this.
 
+![Slate optimization: individual vs set-based scoring](/images/anim-slate-optimization.svg)
+
 ## The Page-Level Problem
 
 The real optimization target is the **utility of the entire slate** (the set of items displayed together), not the sum of individual item utilities:

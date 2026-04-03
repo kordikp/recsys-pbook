@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes denseReveal {
+      from { width: 0; }
+      to { width: 360; }
+    }
+    @keyframes denseBarGrow {
+      from { transform: scaleX(0); }
+      to { transform: scaleX(1); }
+    }
+    @keyframes compressAnim {
+      0%   { transform: scaleX(1); opacity: 1; }
+      50%  { transform: scaleX(0.5); opacity: 0.6; }
+      100% { transform: scaleX(0.08); opacity: 0; }
+    }
+    @keyframes sparseAppear {
+      from { opacity: 0; transform: scaleY(0); }
+      to { opacity: 1; transform: scaleY(1); }
+    }
+    @keyframes popIn {
+      0%   { opacity: 0; transform: scale(0.5); }
+      70%  { transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    @keyframes sparkle {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+
+    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
+
+    /* Dense section */
+    .dense-label { opacity: 0; animation: slideDown 0.4s ease-out 0.3s forwards; }
+    .dense-bar {
+      transform-origin: left center;
+      transform: scaleX(0);
+      animation: denseBarGrow 1s ease-out 0.6s forwards;
+    }
+    .dense-detail { opacity: 0; animation: fadeIn 0.4s ease-out 1.4s forwards; }
+
+    /* Compression arrow */
+    .compress-arrow { opacity: 0; animation: fadeIn 0.5s ease-out 2.0s forwards; }
+
+    /* Sparse section */
+    .sparse-label { opacity: 0; animation: slideDown 0.4s ease-out 2.2s forwards; }
+    .sparse-bg { opacity: 0; animation: fadeIn 0.4s ease-out 2.4s forwards; }
+
+    /* Sparse active dimensions */
+    .sparse-slot { opacity: 0; transform-origin: bottom center; }
+    .ss1 { animation: sparseAppear 0.3s ease-out 2.6s forwards; }
+    .ss2 { animation: sparseAppear 0.3s ease-out 2.8s forwards; }
+    .ss3 { animation: sparseAppear 0.3s ease-out 3.0s forwards; }
+    .ss4 { animation: sparseAppear 0.3s ease-out 3.2s forwards; }
+    .ss5 { animation: sparseAppear 0.3s ease-out 3.4s forwards; }
+    .ss6 { animation: sparseAppear 0.3s ease-out 3.1s forwards; }
+    .ss7 { animation: sparseAppear 0.3s ease-out 3.3s forwards; }
+
+    .sparse-detail { opacity: 0; animation: fadeIn 0.4s ease-out 3.4s forwards; }
+
+    /* Result */
+    .result { opacity: 0; animation: popIn 0.5s ease-out 3.8s forwards; }
+    .sparkle { animation: sparkle 1.5s ease-in-out infinite; }
+    .sp1 { animation-delay: 3.8s; }
+    .sp2 { animation-delay: 4.1s; }
+  </style>
+
+  <!-- Title -->
+  <text class="title" x="250" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Dense vs. Sparse Embeddings</text>
+
+  <!-- === DENSE === -->
+  <g class="dense-label">
+    <text x="30" y="58" font-size="12" fill="#0c8383" font-weight="700">Dense</text>
+    <text x="80" y="58" font-size="9" fill="#0b1225" opacity="0.5">768 dimensions</text>
+  </g>
+
+  <!-- Dense bar background -->
+  <rect x="30" y="68" width="360" height="28" rx="5" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" />
+
+  <!-- Dense bar filled (everything non-zero) -->
+  <rect class="dense-bar" x="30" y="68" width="360" height="28" rx="5" fill="#0c8383" opacity="0.7" />
+
+  <!-- Dense gradient overlay to show varying values -->
+  <g class="dense-detail">
+    <!-- Small intensity variations -->
+    <rect x="30" y="68" width="18" height="28" rx="0" fill="#0c8383" opacity="0.9" />
+    <rect x="48" y="68" width="18" height="28" fill="#0c8383" opacity="0.6" />
+    <rect x="66" y="68" width="18" height="28" fill="#0c8383" opacity="0.8" />
+    <rect x="84" y="68" width="18" height="28" fill="#0c8383" opacity="0.5" />
+    <rect x="102" y="68" width="18" height="28" fill="#0c8383" opacity="0.7" />
+    <rect x="120" y="68" width="18" height="28" fill="#0c8383" opacity="0.9" />
+    <rect x="138" y="68" width="18" height="28" fill="#0c8383" opacity="0.6" />
+    <rect x="156" y="68" width="18" height="28" fill="#0c8383" opacity="0.8" />
+    <rect x="174" y="68" width="18" height="28" fill="#0c8383" opacity="0.5" />
+    <rect x="192" y="68" width="18" height="28" fill="#0c8383" opacity="0.7" />
+    <rect x="210" y="68" width="18" height="28" fill="#0c8383" opacity="0.4" />
+    <rect x="228" y="68" width="18" height="28" fill="#0c8383" opacity="0.8" />
+    <rect x="246" y="68" width="18" height="28" fill="#0c8383" opacity="0.6" />
+    <rect x="264" y="68" width="18" height="28" fill="#0c8383" opacity="0.9" />
+    <rect x="282" y="68" width="18" height="28" fill="#0c8383" opacity="0.5" />
+    <rect x="300" y="68" width="18" height="28" fill="#0c8383" opacity="0.7" />
+    <rect x="318" y="68" width="18" height="28" fill="#0c8383" opacity="0.8" />
+    <rect x="336" y="68" width="18" height="28" fill="#0c8383" opacity="0.6" />
+    <rect x="354" y="68" width="18" height="28" fill="#0c8383" opacity="0.7" />
+    <rect x="372" y="68" width="18" height="28" rx="0 5 5 0" fill="#0c8383" opacity="0.5" />
+    <text x="405" y="86" font-size="8" fill="#0b1225" opacity="0.5">all non-zero</text>
+  </g>
+
+  <!-- Compression arrow -->
+  <g class="compress-arrow">
+    <text x="250" y="120" text-anchor="middle" font-size="16" fill="#0b1225">&#x2193;</text>
+    <text x="290" y="120" font-size="9" fill="#0b1225" font-weight="600" opacity="0.6">compress</text>
+  </g>
+
+  <!-- === SPARSE === -->
+  <g class="sparse-label">
+    <text x="30" y="150" font-size="12" fill="#3bc4a1" font-weight="700">Sparse</text>
+    <text x="88" y="150" font-size="9" fill="#0b1225" opacity="0.5">k active dims</text>
+  </g>
+
+  <!-- Sparse bar background (mostly empty) -->
+  <rect class="sparse-bg" x="30" y="160" width="360" height="28" rx="5" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.5" opacity="0.4" />
+
+  <!-- Sparse: few colored spots -->
+  <rect class="sparse-slot ss1" x="52" y="160" width="8" height="28" fill="#3bc4a1" opacity="0.9" />
+  <rect class="sparse-slot ss2" x="110" y="160" width="8" height="28" fill="#3bc4a1" opacity="0.7" />
+  <rect class="sparse-slot ss3" x="175" y="160" width="8" height="28" fill="#3bc4a1" opacity="0.85" />
+  <rect class="sparse-slot ss4" x="220" y="160" width="8" height="28" fill="#0c8383" opacity="0.9" />
+  <rect class="sparse-slot ss5" x="295" y="160" width="8" height="28" fill="#3bc4a1" opacity="0.6" />
+  <rect class="sparse-slot ss6" x="340" y="160" width="8" height="28" fill="#0c8383" opacity="0.75" />
+  <rect class="sparse-slot ss7" x="370" y="160" width="8" height="28" fill="#3bc4a1" opacity="0.8" />
+
+  <text class="sparse-detail" x="405" y="178" font-size="8" fill="#0b1225" opacity="0.5">mostly zero</text>
+
+  <!-- Result -->
+  <g class="result">
+    <rect x="100" y="210" width="300" height="30" rx="8" fill="#0b1225" />
+    <text x="250" y="229" text-anchor="middle" font-size="11" fill="#3bc4a1" font-weight="700">307 GB &#x2192; 26 GB (12x compression)</text>
+  </g>
+</svg>

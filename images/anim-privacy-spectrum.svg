@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes tiltLeft {
+      0%, 100% { transform: rotate(-8deg); }
+      50% { transform: rotate(8deg); }
+    }
+    @keyframes tiltRight {
+      0%, 100% { transform: rotate(8deg); }
+      50% { transform: rotate(-8deg); }
+    }
+    @keyframes beamTilt {
+      0%, 100% { transform: rotate(-6deg); }
+      50% { transform: rotate(6deg); }
+    }
+    @keyframes panLeft {
+      0%, 100% { transform: translateY(12px); }
+      50% { transform: translateY(-12px); }
+    }
+    @keyframes panRight {
+      0%, 100% { transform: translateY(-12px); }
+      50% { transform: translateY(12px); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes labelSlide {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .beam { transform-origin: 300px 90px; animation: beamTilt 4s ease-in-out infinite; }
+    .left-pan { animation: panLeft 4s ease-in-out infinite; }
+    .right-pan { animation: panRight 4s ease-in-out infinite; }
+    .method-label { opacity: 0; }
+    .ml1 { animation: labelSlide 0.5s ease-out 0.5s forwards; }
+    .ml2 { animation: labelSlide 0.5s ease-out 1.0s forwards; }
+    .ml3 { animation: labelSlide 0.5s ease-out 1.5s forwards; }
+    .fade-in { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
+  </style>
+
+  <!-- Title -->
+  <text x="300" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Privacy-Utility Tradeoff</text>
+
+  <!-- Balance stand -->
+  <g class="fade-in">
+    <rect x="293" y="88" width="14" height="100" rx="2" fill="#0b1225" />
+    <rect x="280" y="185" width="40" height="8" rx="4" fill="#0b1225" />
+    <circle cx="300" cy="90" r="8" fill="#0b1225" />
+  </g>
+
+  <!-- Beam (tilting) -->
+  <g class="beam">
+    <rect x="100" y="86" width="400" height="8" rx="4" fill="#0b1225" />
+
+    <!-- Left pan: Privacy -->
+    <g class="left-pan">
+      <!-- Strings -->
+      <line x1="130" y1="94" x2="115" y2="130" stroke="#0b1225" stroke-width="1.5" />
+      <line x1="170" y1="94" x2="185" y2="130" stroke="#0b1225" stroke-width="1.5" />
+      <!-- Pan -->
+      <ellipse cx="150" cy="134" rx="45" ry="10" fill="#0c8383" opacity="0.8" />
+      <!-- Lock icon -->
+      <rect x="138" y="114" width="24" height="18" rx="3" fill="#0c8383" />
+      <rect x="144" y="106" width="12" height="12" rx="6" fill="none" stroke="#0c8383" stroke-width="2.5" />
+      <circle cx="150" cy="125" r="2" fill="#f5f5f4" />
+      <!-- Label -->
+      <text x="150" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c8383">Privacy</text>
+    </g>
+
+    <!-- Right pan: Personalization Quality -->
+    <g class="right-pan">
+      <!-- Strings -->
+      <line x1="430" y1="94" x2="415" y2="130" stroke="#0b1225" stroke-width="1.5" />
+      <line x1="470" y1="94" x2="485" y2="130" stroke="#0b1225" stroke-width="1.5" />
+      <!-- Pan -->
+      <ellipse cx="450" cy="134" rx="45" ry="10" fill="#f59e0b" opacity="0.8" />
+      <!-- Star icon (quality) -->
+      <text x="450" y="127" text-anchor="middle" font-size="20" fill="#f59e0b">&#x2605;</text>
+      <!-- Label -->
+      <text x="450" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Personalization</text>
+      <text x="450" y="174" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Quality</text>
+    </g>
+  </g>
+
+  <!-- Spectrum labels along bottom -->
+  <line x1="100" y1="215" x2="500" y2="215" stroke="#0b1225" stroke-width="1" opacity="0.3" />
+
+  <g class="method-label ml1">
+    <circle cx="160" cy="215" r="4" fill="#0c8383" />
+    <text x="160" y="232" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">On-Device</text>
+    <text x="160" y="244" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Max privacy</text>
+  </g>
+
+  <g class="method-label ml2">
+    <circle cx="300" cy="215" r="4" fill="#3bc4a1" />
+    <text x="300" y="232" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">Federated Learning</text>
+    <text x="300" y="244" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Balanced</text>
+  </g>
+
+  <g class="method-label ml3">
+    <circle cx="440" cy="215" r="4" fill="#f59e0b" />
+    <text x="440" y="232" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">Differential Privacy</text>
+    <text x="440" y="244" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Tunable &#x3b5;</text>
+  </g>
+
+  <!-- More privacy arrow -->
+  <text x="100" y="210" text-anchor="middle" font-size="8" fill="#0c8383">&#x25c0; More privacy</text>
+  <text x="500" y="210" text-anchor="middle" font-size="8" fill="#f59e0b">Better recs &#x25b6;</text>
+</svg>

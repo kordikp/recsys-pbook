@@ -21,6 +21,8 @@ status: accepted
 
 A model trained on last month's data is making predictions in today's world. The gap between these two realities is drift -- and in recommender systems, drift is not an occasional anomaly but a continuous process.
 
+![Model drift: production distribution shifting from training](/images/anim-drift-detection.svg)
+
 ## The Four Types of Drift
 
 ### Feature Drift (Covariate Shift)

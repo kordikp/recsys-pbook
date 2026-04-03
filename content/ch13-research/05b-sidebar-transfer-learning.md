@@ -19,6 +19,8 @@ A recommendation system trained on millions of movie interactions has learned so
 
 But this knowledge is typically locked inside a movie-specific model. **Transfer learning** asks: can we extract this knowledge and apply it to a different domain — like books, podcasts, or products?
 
+![Knowledge transfer across domains via text bridge](/images/anim-transfer-learning.svg)
+
 ## Why Transfer Matters
 
 **Practical motivation:** Building a new recommendation system for a new domain means starting with zero interaction data. Cold-start is painful. If you could bootstrap with knowledge from an existing domain, you'd get useful recommendations much faster.

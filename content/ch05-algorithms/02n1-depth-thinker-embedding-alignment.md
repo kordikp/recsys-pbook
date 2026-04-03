@@ -21,6 +21,8 @@ Comparing them directly is meaningless. The cosine similarity between a text emb
 
 **Embedding alignment** maps embeddings from different sources into a shared space where cross-modal similarity becomes meaningful.
 
+![Text and behavior embedding spaces aligning](/images/anim-embedding-alignment.svg)
+
 ## Why Alignment Is Hard
 
 **The dimensionality problem.** Different encoders produce different-dimensional vectors. You can't even compute similarity without first projecting to a common dimensionality.

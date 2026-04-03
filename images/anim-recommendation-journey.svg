@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="system-ui, sans-serif">
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes drawTimeline {
+      from { stroke-dashoffset: 620; }
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes barGrow1 {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(0.25); }
+    }
+    @keyframes barGrow2 {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(0.5); }
+    }
+    @keyframes barGrow3 {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(0.8); }
+    }
+    @keyframes barGrow4 {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(1); }
+    }
+    @keyframes barShrink {
+      from { transform: scaleY(0); }
+      to { transform: scaleY(0.6); }
+    }
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateX(-8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes popQuestion {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
+
+    /* Timeline line */
+    .timeline {
+      stroke-dasharray: 620;
+      stroke-dashoffset: 620;
+      animation: drawTimeline 3s ease-out 0.3s forwards;
+    }
+
+    /* Phases */
+    .phase1 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 0.5s forwards; }
+    .phase2 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 1.2s forwards; }
+    .phase3 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 1.9s forwards; }
+    .phase4 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 2.6s forwards; }
+    .phase5 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 3.3s forwards; }
+    .phase6 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 4.0s forwards; }
+
+    /* Profile bars */
+    .bar-p1 { transform-origin: bottom; transform: scaleY(0); animation: barGrow1 0.5s ease-out 1.4s forwards; }
+    .bar-p2 { transform-origin: bottom; transform: scaleY(0); animation: barGrow2 0.5s ease-out 1.6s forwards; }
+    .bar-p3 { transform-origin: bottom; transform: scaleY(0); animation: barGrow3 0.5s ease-out 1.8s forwards; }
+    .bar-p4 { transform-origin: bottom; transform: scaleY(0); animation: barGrow4 0.5s ease-out 2.0s forwards; }
+
+    /* Fatigue declining bars */
+    .bar-f1 { transform-origin: bottom; transform: scaleY(0); animation: barGrow4 0.4s ease-out 4.2s forwards; }
+    .bar-f2 { transform-origin: bottom; transform: scaleY(0); animation: barGrow3 0.4s ease-out 4.4s forwards; }
+    .bar-f3 { transform-origin: bottom; transform: scaleY(0); animation: barShrink 0.4s ease-out 4.6s forwards; }
+
+    .question { opacity: 0; animation: popQuestion 1.5s ease-in-out 0.8s infinite; }
+  </style>
+
+  <defs>
+    <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" />
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text class="title" x="350" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b1225">User's Recommendation Journey</text>
+
+  <!-- Timeline -->
+  <line class="timeline" x1="40" y1="140" x2="660" y2="140" stroke="#0b1225" stroke-width="2" marker-end="url(#ah)" />
+
+  <!-- Phase 1: Cold Start -->
+  <g class="phase1">
+    <circle cx="70" cy="140" r="5" fill="#0b1225" />
+    <rect x="42" y="56" width="56" height="56" rx="8" fill="#f5f5f4" stroke="#ef4444" stroke-width="1.5" />
+    <text x="70" y="80" text-anchor="middle" font-size="20" fill="#ef4444">?</text>
+    <text x="70" y="98" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">No data</text>
+    <text x="70" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Cold Start</text>
+    <text x="70" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">New user</text>
+  </g>
+
+  <!-- Phase 2: First Interactions -->
+  <g class="phase2">
+    <circle cx="180" cy="140" r="5" fill="#0b1225" />
+    <rect x="152" y="70" width="56" height="42" rx="8" fill="#f5f5f4" stroke="#f59e0b" stroke-width="1.5" />
+    <text x="180" y="88" text-anchor="middle" font-size="8" fill="#f59e0b" font-weight="600">Clicks</text>
+    <text x="180" y="100" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.6">3-5 events</text>
+    <text x="180" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">First Actions</text>
+    <text x="180" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Signals arrive</text>
+  </g>
+
+  <!-- Phase 3: Profile Building (growing bars) -->
+  <g class="phase3">
+    <circle cx="300" cy="140" r="5" fill="#0b1225" />
+    <!-- Growing bar chart -->
+    <rect class="bar-p1" x="268" y="88" width="10" height="40" rx="2" fill="#0c8383" opacity="0.5" />
+    <rect class="bar-p2" x="282" y="68" width="10" height="60" rx="2" fill="#0c8383" opacity="0.6" />
+    <rect class="bar-p3" x="296" y="56" width="10" height="72" rx="2" fill="#0c8383" opacity="0.7" />
+    <rect class="bar-p4" x="310" y="48" width="10" height="80" rx="2" fill="#0c8383" opacity="0.85" />
+    <text x="300" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Profile Building</text>
+    <text x="300" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Data grows</text>
+  </g>
+
+  <!-- Phase 4: Personalized Recs -->
+  <g class="phase4">
+    <circle cx="420" cy="140" r="5" fill="#0b1225" />
+    <rect x="392" y="56" width="56" height="56" rx="8" fill="#3bc4a1" />
+    <text x="420" y="78" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="700">Personal</text>
+    <text x="420" y="92" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="700">Recs</text>
+    <text x="420" y="104" text-anchor="middle" font-size="14" fill="#0b1225">&#x2713;</text>
+    <text x="420" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Personalized</text>
+    <text x="420" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">High relevance</text>
+  </g>
+
+  <!-- Phase 5: Mature Profile -->
+  <g class="phase5">
+    <circle cx="530" cy="140" r="5" fill="#0b1225" />
+    <rect x="502" y="56" width="56" height="56" rx="8" fill="#0c8383" />
+    <text x="530" y="80" text-anchor="middle" font-size="9" fill="#f5f5f4" font-weight="700">Mature</text>
+    <text x="530" y="94" text-anchor="middle" font-size="9" fill="#f5f5f4" font-weight="700">Profile</text>
+    <text x="530" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Mature</text>
+    <text x="530" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Rich history</text>
+  </g>
+
+  <!-- Phase 6: Potential Fatigue -->
+  <g class="phase6">
+    <circle cx="630" cy="140" r="5" fill="#ef4444" />
+    <!-- Declining bars -->
+    <rect class="bar-f1" x="606" y="48" width="10" height="80" rx="2" fill="#ef4444" opacity="0.3" />
+    <rect class="bar-f2" x="620" y="56" width="10" height="72" rx="2" fill="#ef4444" opacity="0.4" />
+    <rect class="bar-f3" x="634" y="76" width="10" height="52" rx="2" fill="#ef4444" opacity="0.55" />
+    <text x="630" y="162" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Fatigue?</text>
+    <text x="630" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Filter bubble</text>
+  </g>
+
+  <!-- Bottom timeline labels -->
+  <text class="phase1" x="350" y="194" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.35">Time &#x2192;</text>
+</svg>
