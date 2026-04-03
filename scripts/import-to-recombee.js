@@ -60,7 +60,14 @@ function parseFrontmatter(text) {
     else if (/^\d+$/.test(val)) val = parseInt(val);
     meta[kv[1].trim()] = val;
   }
-  meta._wordCount = match[2].trim().split(/\s+/).length;
+  const body = match[2].trim();
+  meta._wordCount = body.split(/\s+/).length;
+  // Extract searchable text: strip markdown formatting, take first ~500 chars + headings + bold terms
+  const headings = (body.match(/^#{1,3}\s+(.+)$/gm) || []).map(h => h.replace(/^#+\s+/, '')).join('. ');
+  const boldTerms = (body.match(/\*\*([^*]+)\*\*/g) || []).map(b => b.replace(/\*\*/g, '')).join(', ');
+  const plainBody = body.replace(/[#*_\[\]|>`~]/g, '').replace(/\(http[^)]+\)/g, '').replace(/!\[lottie:[^\]]+\]\([^)]*\)/g, '');
+  const firstParagraphs = plainBody.substring(0, 600).trim();
+  meta._searchText = `${headings}. ${boldTerms}. ${firstParagraphs}`;
   return meta;
 }
 
@@ -73,6 +80,7 @@ async function main() {
     type: 'string', title: 'string', teaser: 'string', voice: 'string',
     readingTime: 'int', core: 'boolean', standalone: 'boolean',
     chapter: 'string', chapterNum: 'int', wordCount: 'int', publishedAt: 'timestamp',
+    searchText: 'string',
   };
 
   for (const [name, type] of Object.entries(properties)) {
@@ -112,6 +120,7 @@ async function main() {
           chapterNum: chapter.number,
           wordCount: meta._wordCount || 0,
           publishedAt: meta.publishedAt ? new Date(meta.publishedAt).toISOString() : null,
+          searchText: (meta._searchText || '').substring(0, 2000),
           '!cascadeCreate': true,
         }
       });
