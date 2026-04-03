@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 250" width="650" height="250" font-family="system-ui, sans-serif">
+
+  <!-- Background -->
+  <rect width="650" height="250" rx="12" fill="#f5f5f4"/>
+
+  <!-- Title -->
+  <text x="325" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Recommendation Explanation Types</text>
+  <text x="325" y="40" text-anchor="middle" font-size="10" fill="#6b7280">How to communicate "why this recommendation?" to users</text>
+
+  <!-- ===== Card 1: Item-based ===== -->
+  <g transform="translate(14, 56)">
+    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <!-- Card header -->
+    <rect x="0" y="0" width="118" height="28" rx="8" fill="#0c8383"/>
+    <rect x="0" y="14" width="118" height="14" fill="#0c8383"/>
+    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Item-Based</text>
+
+    <!-- Mockup content area -->
+    <rect x="10" y="36" width="98" height="14" rx="3" fill="#0c8383" fill-opacity="0.08"/>
+    <rect x="10" y="36" width="38" height="14" rx="3" fill="#0c8383" fill-opacity="0.15"/>
+    <rect x="10" y="56" width="98" height="14" rx="3" fill="#0c8383" fill-opacity="0.08"/>
+    <rect x="10" y="56" width="64" height="14" rx="3" fill="#0c8383" fill-opacity="0.15"/>
+
+    <!-- Explanation text -->
+    <rect x="8" y="82" width="102" height="34" rx="4" fill="#0c8383" fill-opacity="0.06"/>
+    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">"Because you</text>
+    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">watched X"</text>
+
+    <!-- Badge -->
+    <rect x="18" y="124" width="82" height="16" rx="8" fill="#0c8383" fill-opacity="0.12"/>
+    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#0c8383">Most common</text>
+  </g>
+
+  <!-- ===== Card 2: Social proof ===== -->
+  <g transform="translate(142, 56)">
+    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
+    <rect x="0" y="0" width="118" height="28" rx="8" fill="#3bc4a1"/>
+    <rect x="0" y="14" width="118" height="14" fill="#3bc4a1"/>
+    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Social Proof</text>
+
+    <!-- Mockup: location pin + people icons -->
+    <circle cx="30" cy="50" r="10" fill="#3bc4a1" fill-opacity="0.1" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="30" y="54" text-anchor="middle" font-size="10">&#x1F4CD;</text>
+    <circle cx="56" cy="50" r="8" fill="#3bc4a1" fill-opacity="0.1"/>
+    <circle cx="72" cy="50" r="8" fill="#3bc4a1" fill-opacity="0.1"/>
+    <circle cx="88" cy="50" r="8" fill="#3bc4a1" fill-opacity="0.1"/>
+    <text x="56" y="53" text-anchor="middle" font-size="8">&#x1F464;</text>
+    <text x="72" y="53" text-anchor="middle" font-size="8">&#x1F464;</text>
+    <text x="88" y="53" text-anchor="middle" font-size="8">&#x1F464;</text>
+
+    <!-- Explanation text -->
+    <rect x="8" y="82" width="102" height="34" rx="4" fill="#3bc4a1" fill-opacity="0.06"/>
+    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">"Popular in</text>
+    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">your area"</text>
+
+    <rect x="18" y="124" width="82" height="16" rx="8" fill="#3bc4a1" fill-opacity="0.12"/>
+    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#3bc4a1">Trust signal</text>
+  </g>
+
+  <!-- ===== Card 3: Collaborative ===== -->
+  <g transform="translate(270, 56)">
+    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="0" y="0" width="118" height="28" rx="8" fill="#f59e0b"/>
+    <rect x="0" y="14" width="118" height="14" fill="#f59e0b"/>
+    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Collaborative</text>
+
+    <!-- Mockup: user groups connected -->
+    <circle cx="35" cy="48" r="10" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1"/>
+    <text x="35" y="52" text-anchor="middle" font-size="10">&#x1F464;</text>
+    <line x1="45" y1="48" x2="65" y2="48" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="55" y="44" text-anchor="middle" font-size="7" fill="#f59e0b">likes</text>
+    <circle cx="80" cy="48" r="10" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1"/>
+    <text x="80" y="52" text-anchor="middle" font-size="8" fill="#f59e0b">X</text>
+    <line x1="55" y1="56" x2="55" y2="68" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="55" y="76" text-anchor="middle" font-size="7" fill="#b45309">also likes Y</text>
+
+    <!-- Explanation text -->
+    <rect x="8" y="82" width="102" height="34" rx="4" fill="#f59e0b" fill-opacity="0.06"/>
+    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">"Fans of X</text>
+    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">also like Y"</text>
+
+    <rect x="18" y="124" width="82" height="16" rx="8" fill="#f59e0b" fill-opacity="0.12"/>
+    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#b45309">Community taste</text>
+  </g>
+
+  <!-- ===== Card 4: Content-based ===== -->
+  <g transform="translate(398, 56)">
+    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <rect x="0" y="0" width="118" height="28" rx="8" fill="#0c8383"/>
+    <rect x="0" y="14" width="118" height="14" fill="#0c8383"/>
+    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Content-Based</text>
+
+    <!-- Mockup: bookmark / save icon -->
+    <rect x="14" y="38" width="32" height="32" rx="4" fill="#0c8383" fill-opacity="0.08" stroke="#0c8383" stroke-width="1"/>
+    <text x="30" y="58" text-anchor="middle" font-size="14">&#x1F516;</text>
+    <text x="60" y="48" font-size="7" fill="#6b7280">saved</text>
+    <line x1="52" y1="52" x2="90" y2="52" stroke="#0c8383" stroke-width="1" stroke-dasharray="3,2"/>
+    <text x="78" y="62" font-size="7" fill="#0c8383">similar</text>
+
+    <!-- Explanation text -->
+    <rect x="8" y="82" width="102" height="34" rx="4" fill="#0c8383" fill-opacity="0.06"/>
+    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">"Similar to</text>
+    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">saved items"</text>
+
+    <rect x="18" y="124" width="82" height="16" rx="8" fill="#0c8383" fill-opacity="0.12"/>
+    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#0c8383">Feature matching</text>
+  </g>
+
+  <!-- ===== Card 5: Confidence score ===== -->
+  <g transform="translate(526, 56)">
+    <rect x="0" y="0" width="110" height="150" rx="8" fill="#ffffff" stroke="#ef4444" stroke-width="1.5"/>
+    <rect x="0" y="0" width="110" height="28" rx="8" fill="#ef4444"/>
+    <rect x="0" y="14" width="110" height="14" fill="#ef4444"/>
+    <text x="55" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Confidence</text>
+
+    <!-- Mockup: percentage ring -->
+    <circle cx="55" cy="56" r="18" fill="none" stroke="#e5e7eb" stroke-width="4"/>
+    <circle cx="55" cy="56" r="18" fill="none" stroke="#ef4444" stroke-width="4"
+            stroke-dasharray="98.5 113" stroke-dashoffset="28" stroke-linecap="round"/>
+    <text x="55" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">87%</text>
+
+    <!-- Explanation text -->
+    <rect x="5" y="82" width="100" height="34" rx="4" fill="#ef4444" fill-opacity="0.06"/>
+    <text x="55" y="96" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">"87% match"</text>
+    <text x="55" y="108" text-anchor="middle" font-size="7" fill="#6b7280">based on profile</text>
+
+    <rect x="14" y="124" width="82" height="16" rx="8" fill="#ef4444" fill-opacity="0.12"/>
+    <text x="55" y="135" text-anchor="middle" font-size="7" fill="#ef4444">Quantified fit</text>
+  </g>
+
+  <!-- Bottom note -->
+  <text x="325" y="228" text-anchor="middle" font-size="9" fill="#6b7280">Explanations increase user trust, satisfaction, and willingness to try recommended items.</text>
+  <text x="325" y="242" text-anchor="middle" font-size="9" fill="#6b7280" font-style="italic">The best systems combine multiple explanation types depending on context and confidence.</text>
+</svg>

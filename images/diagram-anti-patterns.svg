@@ -1,0 +1,135 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350" width="700" height="350" font-family="system-ui, sans-serif">
+  <!-- Title -->
+  <text x="350" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">RecSys Anti-Patterns</text>
+  <text x="350" y="42" text-anchor="middle" font-size="11" fill="#78716C">Common pitfalls that silently degrade recommender systems</text>
+
+  <!-- Warning triangle template reused via groups -->
+  <!-- Row 1 -->
+
+  <!-- 1. Accuracy Trap -->
+  <g transform="translate(15, 60)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <!-- Warning triangle -->
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Accuracy Trap</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">Optimizing accuracy alone</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">recommends only popular items.</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">High nDCG, zero serendipity.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">Accuracy &#x2260; User Satisfaction</text>
+  </g>
+
+  <!-- 2. Popularity Loop -->
+  <g transform="translate(185, 60)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Popularity Loop</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">Popular items get recommended</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">more, collect more clicks,</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">become even more popular.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">Rich-get-richer feedback loop</text>
+  </g>
+
+  <!-- 3. Power User Bias -->
+  <g transform="translate(355, 60)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Power User Bias</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">1% of users generate 50%</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">of training data. Model over-</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">fits to power users' tastes.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">Majority of users underserved</text>
+  </g>
+
+  <!-- 4. Ignoring Temporal -->
+  <g transform="translate(525, 60)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Ignoring Temporal</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">Random train/test split leaks</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">future info into training.</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">Inflated offline metrics.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">Data leakage from the future</text>
+  </g>
+
+  <!-- Row 2 -->
+
+  <!-- 5. Cold Start Avoidance -->
+  <g transform="translate(15, 195)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#ef4444" stroke="#ef4444" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Cold Start Avoidance</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">Excluding new users/items</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">from evaluation. Model looks</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">great but fails in production.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">Survival bias in evaluation</text>
+  </g>
+
+  <!-- 6. Click Optimization -->
+  <g transform="translate(185, 195)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#ef4444" stroke="#ef4444" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Click Optimization</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">Maximizing clicks promotes</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">clickbait. Users click but</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">bounce immediately.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">Clicks &#x2260; Engagement</text>
+  </g>
+
+  <!-- 7. Feature Kitchen Sink -->
+  <g transform="translate(355, 195)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#ef4444" stroke="#ef4444" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Feature Kitchen Sink</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">Adding every available feature</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">without ablation. Noise drowns</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">signal, latency increases.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">More features &#x2260; Better model</text>
+  </g>
+
+  <!-- 8. Position Bias -->
+  <g transform="translate(525, 195)">
+    <rect x="0" y="0" width="160" height="120" rx="8" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1.2"/>
+    <g transform="translate(65, 10)">
+      <polygon points="15,0 30,26 0,26" fill="#ef4444" stroke="#ef4444" stroke-width="1"/>
+      <text x="15" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="white">!</text>
+    </g>
+    <text x="80" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Position Bias</text>
+    <text x="80" y="68" text-anchor="middle" font-size="8" fill="#78716C">Top-ranked items get clicked</text>
+    <text x="80" y="80" text-anchor="middle" font-size="8" fill="#78716C">regardless of relevance. Model</text>
+    <text x="80" y="92" text-anchor="middle" font-size="8" fill="#78716C">learns position, not quality.</text>
+    <rect x="15" y="100" width="130" height="14" rx="3" fill="#ef4444" fill-opacity="0.1"/>
+    <text x="80" y="111" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">Position &#x2260; Relevance</text>
+  </g>
+
+  <!-- Bottom note -->
+  <rect x="140" y="328" width="420" height="18" rx="4" fill="#0b1225"/>
+  <text x="350" y="341" text-anchor="middle" font-size="9" fill="#A8A29E">Each anti-pattern can persist undetected for months if only standard accuracy metrics are tracked.</text>
+</svg>

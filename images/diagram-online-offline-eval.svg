@@ -1,0 +1,105 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 350" width="650" height="350" font-family="system-ui, sans-serif">
+  <!-- Title -->
+  <text x="325" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Offline vs. Online Evaluation</text>
+  <text x="325" y="42" text-anchor="middle" font-size="11" fill="#78716C">Two complementary paradigms for measuring recommender quality</text>
+
+  <!-- Left Column: Offline Evaluation -->
+  <rect x="20" y="58" width="295" height="210" rx="10" fill="#f5f5f4" stroke="#0c8383" stroke-width="1.5"/>
+  <text x="167" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c8383">Offline Evaluation</text>
+
+  <!-- Dataset split icon -->
+  <g transform="translate(70, 94)">
+    <rect x="0" y="0" width="80" height="14" rx="3" fill="#0c8383" fill-opacity="0.25" stroke="#0c8383" stroke-width="1"/>
+    <rect x="0" y="0" width="52" height="14" rx="3" fill="#0c8383" fill-opacity="0.5"/>
+    <text x="26" y="11" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="600">Train</text>
+    <text x="66" y="11" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="600">Test</text>
+    <line x1="52" y1="0" x2="52" y2="14" stroke="#0c8383" stroke-width="1" stroke-dasharray="2,1"/>
+  </g>
+
+  <!-- Metrics -->
+  <text x="195" y="104" text-anchor="start" font-size="10" fill="#0b1225" font-weight="600">Metrics:</text>
+  <g transform="translate(195, 108)">
+    <rect x="0" y="0" width="42" height="16" rx="4" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="0.8"/>
+    <text x="21" y="12" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="600">nDCG</text>
+    <rect x="48" y="0" width="42" height="16" rx="4" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="0.8"/>
+    <text x="69" y="12" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="600">Recall</text>
+  </g>
+
+  <!-- Pros (green) -->
+  <circle cx="42" cy="145" r="5" fill="#3bc4a1"/>
+  <text x="52" y="148" font-size="9" fill="#0b1225">Fast, Cheap, Reproducible</text>
+
+  <!-- Cons (red) -->
+  <circle cx="42" cy="165" r="5" fill="#ef4444"/>
+  <text x="52" y="168" font-size="9" fill="#0b1225">Biased (MNAR), No real users</text>
+
+  <!-- Process description -->
+  <text x="167" y="195" text-anchor="middle" font-size="8.5" fill="#78716C">Split historical data into train/test.</text>
+  <text x="167" y="207" text-anchor="middle" font-size="8.5" fill="#78716C">Train model, predict on held-out items,</text>
+  <text x="167" y="219" text-anchor="middle" font-size="8.5" fill="#78716C">compare predictions to ground truth.</text>
+
+  <!-- Divider -->
+  <line x1="325" y1="68" x2="325" y2="258" stroke="#0b1225" stroke-width="1" stroke-dasharray="4,3" stroke-opacity="0.3"/>
+  <text x="325" y="140" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225" opacity="0.3">vs</text>
+
+  <!-- Right Column: Online Evaluation -->
+  <rect x="335" y="58" width="295" height="210" rx="10" fill="#f5f5f4" stroke="#3bc4a1" stroke-width="1.5"/>
+  <text x="482" y="82" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c8383">Online Evaluation (A/B Test)</text>
+
+  <!-- User split icon -->
+  <g transform="translate(370, 90)">
+    <!-- Group A -->
+    <rect x="0" y="0" width="40" height="22" rx="5" fill="#0c8383" fill-opacity="0.3" stroke="#0c8383" stroke-width="1"/>
+    <text x="20" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#0c8383">A</text>
+    <!-- Group B -->
+    <rect x="50" y="0" width="40" height="22" rx="5" fill="#3bc4a1" fill-opacity="0.3" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="70" y="15" text-anchor="middle" font-size="10" font-weight="bold" fill="#3bc4a1">B</text>
+    <!-- Users -->
+    <circle cx="12" cy="30" r="4" fill="#0c8383" fill-opacity="0.5"/>
+    <circle cx="28" cy="30" r="4" fill="#0c8383" fill-opacity="0.5"/>
+    <circle cx="62" cy="30" r="4" fill="#3bc4a1" fill-opacity="0.5"/>
+    <circle cx="78" cy="30" r="4" fill="#3bc4a1" fill-opacity="0.5"/>
+  </g>
+
+  <!-- Metrics -->
+  <text x="495" y="104" text-anchor="start" font-size="10" fill="#0b1225" font-weight="600">Metrics:</text>
+  <g transform="translate(495, 108)">
+    <rect x="0" y="0" width="36" height="16" rx="4" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="18" y="12" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="600">CTR</text>
+    <rect x="42" y="0" width="54" height="16" rx="4" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="69" y="12" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="600">Revenue</text>
+  </g>
+
+  <!-- Pros (green) -->
+  <circle cx="357" cy="145" r="5" fill="#3bc4a1"/>
+  <text x="367" y="148" font-size="9" fill="#0b1225">Causal evidence, Real behavior</text>
+
+  <!-- Cons (red) -->
+  <circle cx="357" cy="165" r="5" fill="#ef4444"/>
+  <text x="367" y="168" font-size="9" fill="#0b1225">Slow, Expensive, Risky</text>
+
+  <!-- Process description -->
+  <text x="482" y="195" text-anchor="middle" font-size="8.5" fill="#78716C">Randomly assign live users to control</text>
+  <text x="482" y="207" text-anchor="middle" font-size="8.5" fill="#78716C">vs. treatment. Measure real engagement</text>
+  <text x="482" y="219" text-anchor="middle" font-size="8.5" fill="#78716C">differences with statistical significance.</text>
+
+  <!-- Bottom Funnel Arrow -->
+  <rect x="30" y="280" width="590" height="50" rx="10" fill="#0b1225"/>
+
+  <!-- Arrow shape inside -->
+  <polygon points="45,305 595,305 605,305 595,305" fill="none"/>
+
+  <!-- Funnel stages -->
+  <text x="325" y="298" text-anchor="middle" font-size="10" font-weight="600" fill="white">The Evaluation Funnel</text>
+
+  <!-- Stage labels with arrows -->
+  <text x="70" y="318" text-anchor="middle" font-size="9" fill="#3bc4a1" font-weight="600">Offline</text>
+  <text x="135" y="318" text-anchor="middle" font-size="9" fill="#78716C">&#x2192;</text>
+  <text x="195" y="318" text-anchor="middle" font-size="9" fill="#3bc4a1" font-weight="600">Counterfactual</text>
+  <text x="265" y="318" text-anchor="middle" font-size="9" fill="#78716C">&#x2192;</text>
+  <text x="330" y="318" text-anchor="middle" font-size="9" fill="#3bc4a1" font-weight="600">Interleaving</text>
+  <text x="395" y="318" text-anchor="middle" font-size="9" fill="#78716C">&#x2192;</text>
+  <text x="445" y="318" text-anchor="middle" font-size="9" fill="#3bc4a1" font-weight="600">A/B Test</text>
+  <text x="500" y="318" text-anchor="middle" font-size="9" fill="#78716C">&#x2192;</text>
+  <text x="560" y="318" text-anchor="middle" font-size="9" fill="white" font-weight="700">Deploy</text>
+</svg>

@@ -1,0 +1,172 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 400" width="650" height="400" font-family="system-ui, sans-serif">
+  <!-- Title -->
+  <text x="325" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Transformer Block for Sequential Recommendation</text>
+
+  <!-- Side label -->
+  <g transform="translate(598, 130) rotate(90)">
+    <text x="0" y="0" text-anchor="middle" font-size="11" font-weight="600" fill="#0c8383" font-style="italic">SASRec / BERT4Rec Architecture</text>
+  </g>
+
+  <!-- === Bottom: Item Sequence === -->
+  <text x="60" y="370" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225">Item Sequence</text>
+
+  <!-- Item squares -->
+  <g transform="translate(120, 348)">
+    <rect x="0" y="0" width="36" height="36" rx="5" fill="#0c8383"/>
+    <text x="18" y="24" text-anchor="middle" font-size="13" fill="white" font-weight="600">i&#x2081;</text>
+
+    <rect x="56" y="0" width="36" height="36" rx="5" fill="#0c8383" fill-opacity="0.85"/>
+    <text x="74" y="24" text-anchor="middle" font-size="13" fill="white" font-weight="600">i&#x2082;</text>
+
+    <rect x="112" y="0" width="36" height="36" rx="5" fill="#3bc4a1"/>
+    <text x="130" y="24" text-anchor="middle" font-size="13" fill="white" font-weight="600">i&#x2083;</text>
+
+    <rect x="168" y="0" width="36" height="36" rx="5" fill="#3bc4a1" fill-opacity="0.85"/>
+    <text x="186" y="24" text-anchor="middle" font-size="13" fill="white" font-weight="600">i&#x2084;</text>
+
+    <rect x="224" y="0" width="36" height="36" rx="5" fill="#f59e0b"/>
+    <text x="242" y="24" text-anchor="middle" font-size="13" fill="white" font-weight="600">i&#x2085;</text>
+  </g>
+
+  <!-- === Positional Encoding === -->
+  <text x="60" y="332" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225">+ Positional</text>
+  <text x="60" y="344" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225">Encoding</text>
+
+  <!-- Plus signs above items -->
+  <g font-size="14" font-weight="bold" fill="#f59e0b">
+    <text x="138" y="345" text-anchor="middle">+</text>
+    <text x="194" y="345" text-anchor="middle">+</text>
+    <text x="250" y="345" text-anchor="middle">+</text>
+    <text x="306" y="345" text-anchor="middle">+</text>
+    <text x="362" y="345" text-anchor="middle">+</text>
+  </g>
+
+  <!-- Upward arrows from items to PE -->
+  <g stroke="#78716C" stroke-width="1" fill="none">
+    <line x1="138" y1="347" x2="138" y2="310"/>
+    <line x1="194" y1="347" x2="194" y2="310"/>
+    <line x1="250" y1="347" x2="250" y2="310"/>
+    <line x1="306" y1="347" x2="306" y2="310"/>
+    <line x1="362" y1="347" x2="362" y2="310"/>
+  </g>
+
+  <!-- Positional encoding bar -->
+  <rect x="115" y="295" width="270" height="16" rx="4" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="250" y="307" text-anchor="middle" font-size="8" fill="#f59e0b" font-weight="600">Positional Encoding (PE)</text>
+
+  <!-- Arrows up from PE to Self-Attention -->
+  <g stroke="#0b1225" stroke-width="1.2" fill="none" marker-end="url(#arrowUp)">
+    <line x1="250" y1="294" x2="250" y2="270"/>
+  </g>
+
+  <!-- Arrow marker -->
+  <defs>
+    <marker id="arrowUp" viewBox="0 0 10 10" refX="5" refY="10" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M0,10 L5,0 L10,10" fill="#0b1225"/>
+    </marker>
+    <marker id="arrowRight" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M0,0 L10,5 L0,10" fill="#0b1225"/>
+    </marker>
+  </defs>
+
+  <!-- === Self-Attention Block === -->
+  <rect x="90" y="145" width="320" height="125" rx="10" fill="#0c8383" fill-opacity="0.08" stroke="#0c8383" stroke-width="1.5"/>
+  <text x="250" y="165" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c8383">Self-Attention</text>
+
+  <!-- Q, K, V labels -->
+  <g transform="translate(110, 175)">
+    <rect x="0" y="0" width="30" height="20" rx="4" fill="#0c8383" fill-opacity="0.3" stroke="#0c8383" stroke-width="1"/>
+    <text x="15" y="14" text-anchor="middle" font-size="10" font-weight="bold" fill="#0c8383">Q</text>
+
+    <rect x="40" y="0" width="30" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.3" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="55" y="14" text-anchor="middle" font-size="10" font-weight="bold" fill="#3bc4a1">K</text>
+
+    <rect x="80" y="0" width="30" height="20" rx="4" fill="#f59e0b" fill-opacity="0.3" stroke="#f59e0b" stroke-width="1"/>
+    <text x="95" y="14" text-anchor="middle" font-size="10" font-weight="bold" fill="#f59e0b">V</text>
+  </g>
+
+  <!-- Arrows from Q,K,V to attention matrix -->
+  <line x1="220" y1="185" x2="250" y2="185" stroke="#78716C" stroke-width="1" marker-end="url(#arrowRight)"/>
+
+  <!-- Attention matrix visualization (5x5 grid with varying opacity) -->
+  <g transform="translate(260, 172)">
+    <!-- Row 1 -->
+    <rect x="0" y="0" width="12" height="12" fill="#0c8383" opacity="0.9"/>
+    <rect x="14" y="0" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <rect x="28" y="0" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <rect x="42" y="0" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <rect x="56" y="0" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <!-- Row 2 -->
+    <rect x="0" y="14" width="12" height="12" fill="#0c8383" opacity="0.4"/>
+    <rect x="14" y="14" width="12" height="12" fill="#0c8383" opacity="0.8"/>
+    <rect x="28" y="14" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <rect x="42" y="14" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <rect x="56" y="14" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <!-- Row 3 -->
+    <rect x="0" y="28" width="12" height="12" fill="#0c8383" opacity="0.2"/>
+    <rect x="14" y="28" width="12" height="12" fill="#0c8383" opacity="0.3"/>
+    <rect x="28" y="28" width="12" height="12" fill="#0c8383" opacity="0.7"/>
+    <rect x="42" y="28" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <rect x="56" y="28" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <!-- Row 4 -->
+    <rect x="0" y="42" width="12" height="12" fill="#0c8383" opacity="0.1"/>
+    <rect x="14" y="42" width="12" height="12" fill="#0c8383" opacity="0.5"/>
+    <rect x="28" y="42" width="12" height="12" fill="#0c8383" opacity="0.3"/>
+    <rect x="42" y="42" width="12" height="12" fill="#0c8383" opacity="0.85"/>
+    <rect x="56" y="42" width="12" height="12" fill="#0c8383" opacity="0.0"/>
+    <!-- Row 5 -->
+    <rect x="0" y="56" width="12" height="12" fill="#0c8383" opacity="0.15"/>
+    <rect x="14" y="56" width="12" height="12" fill="#0c8383" opacity="0.1"/>
+    <rect x="28" y="56" width="12" height="12" fill="#0c8383" opacity="0.6"/>
+    <rect x="42" y="56" width="12" height="12" fill="#0c8383" opacity="0.2"/>
+    <rect x="56" y="56" width="12" height="12" fill="#0c8383" opacity="0.9"/>
+    <!-- Grid border -->
+    <rect x="-1" y="-1" width="70" height="70" rx="3" fill="none" stroke="#0c8383" stroke-width="1"/>
+  </g>
+
+  <!-- Causal Mask triangle overlay -->
+  <g transform="translate(260, 172)">
+    <polygon points="14,0 70,0 70,56 28,14 42,28 56,42 70,56" fill="none"/>
+    <!-- Diagonal line representing mask boundary -->
+    <line x1="12" y1="0" x2="68" y2="56" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3,2"/>
+    <!-- X marks in masked area -->
+    <text x="35" y="10" font-size="7" fill="#ef4444" opacity="0.6">&#x2715;</text>
+    <text x="49" y="10" font-size="7" fill="#ef4444" opacity="0.6">&#x2715;</text>
+    <text x="63" y="10" font-size="7" fill="#ef4444" opacity="0.6">&#x2715;</text>
+    <text x="49" y="24" font-size="7" fill="#ef4444" opacity="0.6">&#x2715;</text>
+    <text x="63" y="24" font-size="7" fill="#ef4444" opacity="0.6">&#x2715;</text>
+    <text x="63" y="38" font-size="7" fill="#ef4444" opacity="0.6">&#x2715;</text>
+  </g>
+
+  <!-- Causal Mask label -->
+  <text x="350" y="210" font-size="9" fill="#ef4444" font-weight="600">Causal Mask</text>
+  <text x="350" y="222" font-size="8" fill="#78716C">(no peeking at future)</text>
+
+  <!-- Attention matrix label -->
+  <text x="292" y="252" text-anchor="middle" font-size="8" fill="#78716C">Attention scores</text>
+
+  <!-- Arrow up from Self-Attention to FFN -->
+  <line x1="250" y1="144" x2="250" y2="120" stroke="#0b1225" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+
+  <!-- === Feed-Forward Network === -->
+  <rect x="155" y="80" width="190" height="38" rx="8" fill="#3bc4a1" fill-opacity="0.15" stroke="#3bc4a1" stroke-width="1.5"/>
+  <text x="250" y="104" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">Feed-Forward Network</text>
+
+  <!-- Arrow up from FFN to prediction -->
+  <line x1="250" y1="79" x2="250" y2="58" stroke="#0b1225" stroke-width="1.5" marker-end="url(#arrowUp)"/>
+
+  <!-- === Top: Next Item Prediction === -->
+  <rect x="155" y="36" width="190" height="22" rx="6" fill="#0b1225"/>
+  <text x="250" y="52" text-anchor="middle" font-size="11" font-weight="bold" fill="white">Next Item Prediction &#x2192; i&#x2086;</text>
+
+  <!-- Residual connection + Layer Norm annotations -->
+  <g transform="translate(420, 100)">
+    <rect x="0" y="0" width="100" height="50" rx="6" fill="#f5f5f4" stroke="#78716C" stroke-width="0.8"/>
+    <text x="50" y="16" text-anchor="middle" font-size="8" fill="#78716C" font-weight="600">Also includes:</text>
+    <text x="50" y="30" text-anchor="middle" font-size="8" fill="#0c8383">+ Residual connections</text>
+    <text x="50" y="42" text-anchor="middle" font-size="8" fill="#0c8383">+ Layer normalization</text>
+  </g>
+
+  <!-- Formula annotation -->
+  <text x="250" y="390" text-anchor="middle" font-size="9" fill="#78716C">Attention(Q,K,V) = softmax(QK&#x1D40;/&#x221A;d&#x2096;) &#x00B7; V</text>
+</svg>

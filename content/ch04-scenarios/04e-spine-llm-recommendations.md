@@ -25,6 +25,8 @@ Large Language Models offer something fundamentally different: a **conversationa
 
 But does talking about recommendations make the recommendations better? The answer is nuanced.
 
+![Three LLM integration architectures for recommendation](/images/diagram-llm-recsys.svg)
+
 ## Three Architectures for LLM-Powered Recommendations
 
 The industry has converged on three distinct patterns for integrating LLMs into recommendation systems, each with different trade-offs.

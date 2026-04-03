@@ -17,6 +17,8 @@ status: accepted
 
 Every recommendation system that reaches production will eventually exhibit at least one of these failure modes. They are not signs of incompetence -- they emerge naturally from reasonable-sounding decisions. The difference between a mediocre system and a great one is how quickly the team recognizes these patterns and corrects course.
 
+![Eight common recommender system anti-patterns](/images/diagram-anti-patterns.svg)
+
 ## 1. The Accuracy Trap
 
 **The anti-pattern:** The team optimizes relentlessly for offline accuracy metrics -- precision, recall, RMSE -- and celebrates when the model achieves 0.95 recall on a held-out test set. Then they deploy it and users complain that recommendations feel repetitive, predictable, and boring.

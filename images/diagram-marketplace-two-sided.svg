@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 350" width="550" height="350" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrTeal" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0c8383"/>
+    </marker>
+    <marker id="arrGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#3bc4a1"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#f59e0b"/>
+    </marker>
+    <marker id="arrDark" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="550" height="350" rx="12" fill="#f5f5f4"/>
+
+  <!-- Title -->
+  <text x="275" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Two-Sided Marketplace Recommendations</text>
+
+  <!-- ===== Left: Buyers ===== -->
+  <g transform="translate(30, 54)">
+    <rect x="0" y="0" width="140" height="200" rx="10" fill="#0c8383" fill-opacity="0.06" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="70" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c8383">Buyers</text>
+
+    <!-- User icons -->
+    <circle cx="40" cy="56" r="16" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="40" y="52" text-anchor="middle" font-size="12">&#x1F464;</text>
+    <text x="40" y="62" text-anchor="middle" font-size="6" fill="#0c8383">B1</text>
+
+    <circle cx="100" cy="56" r="16" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="100" y="52" text-anchor="middle" font-size="12">&#x1F464;</text>
+    <text x="100" y="62" text-anchor="middle" font-size="6" fill="#0c8383">B2</text>
+
+    <circle cx="40" cy="104" r="16" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="40" y="100" text-anchor="middle" font-size="12">&#x1F464;</text>
+    <text x="40" y="110" text-anchor="middle" font-size="6" fill="#0c8383">B3</text>
+
+    <circle cx="100" cy="104" r="16" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="100" y="100" text-anchor="middle" font-size="12">&#x1F464;</text>
+    <text x="100" y="110" text-anchor="middle" font-size="6" fill="#0c8383">B4</text>
+
+    <!-- Want label -->
+    <rect x="12" y="140" width="116" height="24" rx="5" fill="#0c8383" fill-opacity="0.1"/>
+    <text x="70" y="150" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">Want: relevant items</text>
+    <text x="70" y="162" text-anchor="middle" font-size="7" fill="#6b7280">best match, fair price</text>
+
+    <!-- Goal icons -->
+    <text x="70" y="186" text-anchor="middle" font-size="9" fill="#6b7280">Discovery + Satisfaction</text>
+  </g>
+
+  <!-- ===== Right: Sellers ===== -->
+  <g transform="translate(380, 54)">
+    <rect x="0" y="0" width="140" height="200" rx="10" fill="#3bc4a1" fill-opacity="0.06" stroke="#3bc4a1" stroke-width="1.5"/>
+    <text x="70" y="22" text-anchor="middle" font-size="13" font-weight="bold" fill="#3bc4a1">Sellers</text>
+
+    <!-- Seller icons -->
+    <rect x="18" y="38" width="30" height="30" rx="6" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
+    <text x="33" y="57" text-anchor="middle" font-size="14">&#x1F3EA;</text>
+
+    <rect x="92" y="38" width="30" height="30" rx="6" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
+    <text x="107" y="57" text-anchor="middle" font-size="14">&#x1F3EA;</text>
+
+    <rect x="18" y="84" width="30" height="30" rx="6" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
+    <text x="33" y="103" text-anchor="middle" font-size="14">&#x1F3EA;</text>
+
+    <rect x="92" y="84" width="30" height="30" rx="6" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
+    <text x="107" y="103" text-anchor="middle" font-size="14">&#x1F3EA;</text>
+
+    <!-- Want label -->
+    <rect x="12" y="140" width="116" height="24" rx="5" fill="#3bc4a1" fill-opacity="0.1"/>
+    <text x="70" y="150" text-anchor="middle" font-size="8" fill="#3bc4a1" font-weight="bold">Want: visibility</text>
+    <text x="70" y="162" text-anchor="middle" font-size="7" fill="#6b7280">fair exposure, sales</text>
+
+    <text x="70" y="186" text-anchor="middle" font-size="9" fill="#6b7280">Exposure + Revenue</text>
+  </g>
+
+  <!-- ===== Center: Platform ===== -->
+  <g transform="translate(195, 84)">
+    <rect x="0" y="0" width="160" height="140" rx="10" fill="#ffffff" stroke="#0b1225" stroke-width="2"/>
+    <rect x="0" y="0" width="160" height="30" rx="10" fill="#0b1225"/>
+    <rect x="0" y="16" width="160" height="14" fill="#0b1225"/>
+    <text x="80" y="20" text-anchor="middle" font-size="11" font-weight="bold" fill="#ffffff">Platform</text>
+
+    <!-- RecSys engine box -->
+    <rect x="20" y="42" width="120" height="36" rx="6" fill="#0c8383" fill-opacity="0.1" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="80" y="58" text-anchor="middle" font-size="10" font-weight="bold" fill="#0c8383">RecSys Engine</text>
+    <text x="80" y="72" text-anchor="middle" font-size="7" fill="#6b7280">ranking + matching</text>
+
+    <!-- Balancing act -->
+    <rect x="20" y="88" width="120" height="36" rx="6" fill="#f59e0b" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1"/>
+    <text x="80" y="102" text-anchor="middle" font-size="8" font-weight="bold" fill="#b45309">Balancing objectives</text>
+    <text x="80" y="114" text-anchor="middle" font-size="7" fill="#6b7280">relevance vs. fairness</text>
+  </g>
+
+  <!-- ===== Flow arrows: Buyers to Platform ===== -->
+  <!-- Interactions arrow (top) -->
+  <line x1="170" y1="120" x2="192" y2="140" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arrTeal)"/>
+  <text x="165" y="115" text-anchor="end" font-size="7" fill="#0c8383">interactions</text>
+
+  <!-- Recommendations arrow (bottom, reversed) -->
+  <line x1="192" y1="190" x2="170" y2="210" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arrTeal)"/>
+  <text x="165" y="218" text-anchor="end" font-size="7" fill="#0c8383">recommendations</text>
+
+  <!-- ===== Flow arrows: Platform to Sellers ===== -->
+  <!-- Exposure arrow (top) -->
+  <line x1="358" y1="140" x2="380" y2="120" stroke="#3bc4a1" stroke-width="1.5" marker-end="url(#arrGreen)"/>
+  <text x="385" y="115" font-size="7" fill="#3bc4a1">exposure</text>
+
+  <!-- Listings arrow (bottom, reversed) -->
+  <line x1="380" y1="210" x2="358" y2="190" stroke="#3bc4a1" stroke-width="1.5" marker-end="url(#arrGreen)"/>
+  <text x="385" y="218" font-size="7" fill="#3bc4a1">listings</text>
+
+  <!-- ===== Bottom warning ===== -->
+  <rect x="90" y="280" width="370" height="48" rx="8" fill="#ef4444" fill-opacity="0.06" stroke="#ef4444" stroke-width="1.5"/>
+  <circle cx="115" cy="304" r="12" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="1"/>
+  <text x="115" y="308" text-anchor="middle" font-size="12" fill="#ef4444">&#x26A0;</text>
+  <text x="290" y="298" text-anchor="middle" font-size="10" font-weight="bold" fill="#0b1225">Optimizing for one side can harm the other</text>
+  <text x="290" y="314" text-anchor="middle" font-size="8" fill="#6b7280">e.g., showing only top sellers hurts new seller visibility; promoting new sellers may reduce buyer relevance</text>
+</svg>
