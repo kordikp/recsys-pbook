@@ -4030,19 +4030,33 @@ class PBook {
     if (!query || query.length < 2) { el.innerHTML = '<div class="search-empty">Type to search across all content...</div>'; return; }
 
     // Local search (always works, even offline)
-    const q = query.toLowerCase();
+    // Normalize: lowercase, replace hyphens/underscores with spaces, collapse whitespace
+    const normalize = s => (s || '').toLowerCase().replace(/[-_]/g, ' ').replace(/\s+/g, ' ');
+    const q = normalize(query);
+    const qWords = q.split(' ').filter(w => w.length >= 2);
     const localResults = this.allBlocks
       .map(b => {
         const m = b.meta;
+        const title = normalize(m.title);
+        const teaser = normalize(m.teaser);
+        const body = normalize(b.body);
         let score = 0;
-        if ((m.title || '').toLowerCase().includes(q)) score += 10;
-        if ((m.teaser || '').toLowerCase().includes(q)) score += 5;
-        if ((b.body || '').toLowerCase().includes(q)) score += 1;
+        // Exact phrase match
+        if (title.includes(q)) score += 20;
+        if (teaser.includes(q)) score += 10;
+        if (body.includes(q)) score += 3;
+        // Individual word match (fallback for partial queries)
+        if (score === 0 && qWords.length > 1) {
+          const allText = title + ' ' + teaser + ' ' + body;
+          const matched = qWords.filter(w => allText.includes(w));
+          if (matched.length === qWords.length) score += 5; // all words found
+          else if (matched.length >= qWords.length * 0.6) score += 2; // most words found
+        }
         return { block: b, score };
       })
       .filter(r => r.score > 0)
       .sort((a, b) => b.score - a.score)
-      .slice(0, 15);
+      .slice(0, 20);
 
     // Also try Recombee (non-blocking, merge results)
     const rcPromise = this.rc.searchItems(query, 10, null, 'search').catch(() => null);
