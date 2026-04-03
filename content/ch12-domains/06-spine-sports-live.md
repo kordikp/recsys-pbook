@@ -43,7 +43,7 @@ Sports recommendation operates at a pace no other domain matches. During a Premi
 
 **Live Game Alerts.** Push notifications when matches the user would care about are starting, or when key events (goals, upsets) happen in matches they're not watching.
 
-![Live game alerts showing real-time push notifications for match starts and key events](/images/domains/sports-and-live-events/live-game-alerts.png)
+![Live game alerts showing real-time push notifications for match starts and key events](/images/domains/sports-and-live-events/live-game-alerts-and-recommendations.png)
 
 **Highlight Reels.** Personalized compilations — "Your weekend highlights" featuring goals, saves, and key moments from matches the user cares about.
 
