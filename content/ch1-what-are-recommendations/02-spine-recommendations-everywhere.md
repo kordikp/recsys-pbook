@@ -9,37 +9,37 @@ teaser: "Once you start looking, you can't stop seeing them."
 voice: universal
 parent: null
 diagram: kids-recommendations-everywhere
-recallQ: "Name 4 apps that use recommendation algorithms."
-recallA: "YouTube, TikTok, Spotify, Netflix, Amazon, Instagram, App Store — almost every app you use daily."
+recallQ: "Name 4 platforms that use recommendation algorithms."
+recallA: "YouTube, Spotify, Netflix, Amazon, LinkedIn, Google News, Twitter/X — virtually every digital platform."
 status: accepted
 ---
 
-Once you know what to look for, you'll see recommendations EVERYWHERE. They're hiding in plain sight. Here's a tour:
+Once you know what to look for, you'll notice recommendations everywhere. They're embedded in nearly every digital interaction. Here's a tour:
 
-**YouTube -- "Up Next"**
-That sidebar of videos on the right? Or the autoplay that starts when your video ends? A recommender system picked those. It's trying to keep you watching by finding videos you'll love.
+**YouTube — "Up Next"**
+The sidebar suggestions and autoplay selections are all driven by a recommender system. It optimizes for continued engagement by predicting which videos will hold your attention.
 
-**TikTok -- "For You" Page**
-This is the big one. TikTok's entire experience IS a recommendation system. Every single video on your For You page was chosen by an algorithm that watched what you liked, what you skipped, and what you watched twice.
+**TikTok — "For You" Page**
+TikTok's entire user experience IS a recommendation system. Every video on the For You page was selected by an algorithm that analyzed what you engaged with, what you skipped, and what you replayed.
 
-**Spotify -- "Discover Weekly" and "Daily Mix"**
-Every Monday, Spotify builds you a personal playlist. It also creates Daily Mixes that blend your favorite artists with new ones. All powered by recommendations.
+**Spotify — "Discover Weekly" and "Daily Mix"**
+Every Monday, Spotify generates a personalized playlist. It also creates Daily Mixes that blend your listening history with algorithmically selected new artists.
 
-**Netflix -- "Because You Watched..."**
-Notice how Netflix says things like "Because you watched Stranger Things"? That's the system being honest about WHY it's recommending something.
+**Netflix — "Because You Watched..."**
+Netflix explicitly surfaces the reasoning behind its recommendations — a form of explainable AI that builds user trust while driving engagement.
 
-**App Store and Google Play**
-"You might also like..." underneath every app. The store is trying to help you find your next favorite game.
+**LinkedIn — "Jobs You Might Be Interested In"**
+Professional networking platforms use recommendations for job matching, content feeds, and connection suggestions — a high-stakes domain where recommendation quality directly impacts careers.
 
-**Amazon and Online Shops**
-"Customers who bought this also bought..." This is one of the oldest recommendation tricks on the internet.
+**Amazon and E-commerce**
+"Customers who bought this also bought..." This collaborative filtering approach is one of the earliest and most commercially successful recommendation techniques. Amazon attributes roughly 35% of its revenue to recommendations.
 
-**Roblox -- "Recommended For You"**
-Even Roblox uses recommendations to help you find games from millions of experiences.
+**News Aggregators — Google News, Apple News**
+These platforms curate entire information diets using recommendation algorithms, raising profound questions about epistemic diversity and information quality.
 
-**Google and Search Engines**
-Autocomplete suggestions? Those are recommendations for what you might be searching for, based on what other people searched.
+**Google Search**
+Autocomplete suggestions and personalized search results are recommendations — predictions about what you're likely looking for, influenced by your history and aggregate user behavior.
 
-That's at least **eight places** and we haven't even talked about Instagram, Pinterest, Twitter, or the news apps on your parents' phones.
+That's at least **eight domains**, and we haven't even covered dating apps, financial services, healthcare platforms, or enterprise tools like Slack and Microsoft Teams.
 
-**Think about it!** How many recommendations do you think you see in ONE day? Try counting tomorrow. The answer might surprise you -- most people see hundreds without even realizing it.
+**Consider this:** Try counting the recommendations you encounter in a single day. Research suggests the average person encounters hundreds of algorithmically curated items daily — most without even realizing it.

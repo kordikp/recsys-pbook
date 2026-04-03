@@ -5,37 +5,35 @@ title: "Who Decides What You See?"
 readingTime: 4
 standalone: true
 core: true
-teaser: "When you open TikTok, who chose what's on your screen? Not you. Not your parents. Not even a human."
+teaser: "When you open a social media platform, who chose what's on your screen? Not you. Not the editorial team. Not even a human."
 voice: universal
 parent: null
 diagram: null
-recallQ: "Who decides what you see when you open TikTok?"
-recallA: "The algorithm — not you, not your parents, not TikTok employees. It optimizes for \"what keeps you watching longest.\""
+recallQ: "Who decides what you see when you open a recommendation-driven platform?"
+recallA: "The algorithm — not you, not editors, not platform employees. It optimizes for proxy metrics like engagement, watch time, or click-through rate."
 status: accepted
 ---
 
-Quick experiment. Open TikTok, YouTube, or Instagram right now. Look at the first five things on your screen.
+Try a quick experiment. Open TikTok, YouTube, LinkedIn, or Instagram right now. Look at the first five items on your screen.
 
-Did you choose any of them? Nope. Did your parents? Nope. Did a person sitting in an office somewhere pick them just for you? Also nope.
+Did you choose any of them? No. Did a human editor curate them for you? No. Did a product manager in an office somewhere handpick them? Also no.
 
-An **algorithm** decided. A recommendation system -- built by engineers, trained on data from millions of users -- looked at everything it knows about you and said: "This. Show them this."
+An **algorithm** decided. A recommendation system -- built by engineers, trained on behavioral data from hundreds of millions of users -- evaluated everything it knows about you and determined: "This. Show them this."
 
-But here's where it gets interesting.
+Here is where it gets interesting.
 
-Those engineers had to make a choice. They had to define what "good" means. And most of the time, they chose something like this: **a good recommendation is one you click on, watch for a long time, or engage with.**
+Those engineers had to make a fundamental design choice. They had to define an **objective function** -- a mathematical definition of "good." And most of the time, they chose something like this: **a good recommendation is one the user clicks on, watches for a long time, or engages with.**
 
-Sounds reasonable, right?
+On the surface, that sounds reasonable.
 
-Except... think about it. Is "what keeps you watching longest" really the same as "what's best for you"?
+But consider the implications. Is "what keeps you engaged longest" really the same as "what's most valuable to you"? In the attention economy -- a term coined by Herbert Simon and popularized by researchers like Tim Wu -- your attention is the scarce resource that platforms compete for. Every minute you spend on one platform is a minute you are not spending elsewhere, and the platform's revenue model depends on winning that competition.
 
-You've probably had this experience: you LOVE a video, so you watch another, and another, and suddenly two hours have vanished. You meant to watch one thing. The algorithm succeeded at its job -- it kept you watching. But did it actually *help* you?
+You have almost certainly experienced this: you find a compelling video, then watch another, and another, and suddenly an hour has vanished. You intended to spend five minutes. The algorithm succeeded at its job -- it maximized your session duration. But did it actually *serve your interests*?
 
-Maybe. Maybe not.
+Sometimes recommender systems introduce you to a valuable new perspective, a career-relevant skill, or an important piece of research. Sometimes they trap you in a loop of content that leaves you feeling drained, anxious, or simply unproductive. Same algorithm. Same objective function. Very different outcomes.
 
-Sometimes the algorithm introduces you to an amazing new hobby. Sometimes it traps you in a loop of content that leaves you feeling weird, anxious, or just... empty. Same algorithm. Same logic. Very different outcomes.
+This is arguably the central design challenge in technology today. Not "can we build powerful recommendation systems?" -- that problem is solved. The question is: **what should they be optimizing for?**
 
-This is the biggest question in technology right now. Not "can we build powerful recommendation systems?" -- we already did. The question is: **what should they be trying to do?**
+The stakes are high. As regulators, technologists, and citizens, we are all part of the answer. Understanding how these systems work -- their architecture, incentives, and failure modes -- is no longer optional knowledge. It is foundational literacy for navigating modern life.
 
-And here's the wildest part: YOUR generation will answer that question. You're the first people in history who grew up with algorithms shaping what you see every single day. You understand them in a way that most adults -- even the ones who build them -- simply don't.
-
-So let's dig into what's really going on behind that screen.
+So let's examine what is really happening behind that screen.

@@ -4,42 +4,44 @@ type: spine
 title: "What Do They Actually Track?"
 readingTime: 2
 standalone: false
-teaser: "The full list of clues you're leaving behind. Some will surprise you."
+teaser: "The full inventory of behavioral signals you're generating. Some will surprise you."
 voice: explorer
 parent: null
 diagram: null
-recallQ: "Which signal is stronger: clicking a video or watching it to the end?"
-recallA: "Watching to the end is MUCH stronger. The system tracks watch time, not just clicks."
+recallQ: "Which signal is stronger: clicking on content or consuming it to the end?"
+recallA: "Consuming to the end is far stronger. The system tracks dwell time and completion rate, not just clicks."
 status: accepted
 ---
 
-Let's get specific. When you use an app like YouTube or TikTok, here's what the system can see. Some of these might surprise you:
+Let's get specific. When you use a platform like YouTube, LinkedIn, Amazon, or Spotify, here's what the system captures. Some of these may surprise you:
 
-**The Obvious Stuff:**
-- **Clicks** -- What you tapped on. This tells the system what caught your eye.
-- **Searches** -- What you typed in the search bar. This is HUGE because it shows what you actively want.
-- **Likes and dislikes** -- Thumbs up, hearts, the like button. This is you directly telling the system "yes" or "no."
+**The Obvious Signals:**
+- **Clicks** -- What you selected. This tells the system what caught your attention.
+- **Searches** -- What you typed in the search bar. This is enormously valuable because it reveals active intent.
+- **Likes and ratings** -- Thumbs up, hearts, star ratings. This is you directly communicating preference to the system.
 
-**The Sneaky Stuff:**
-- **Watch time** -- Did you watch 10 seconds or the whole thing? If you watched 100% of a 20-minute video, the system knows you LOVED it. If you left after 5 seconds, it knows you didn't.
-- **Replays** -- Watched something twice? The system takes extra notes on that one.
-- **Skips** -- Swiped past a TikTok in half a second? Message received: not interested.
-- **Speed** -- Watched a video at 2x speed? You might be interested but impatient. Paused and rewound? You're really paying attention.
+**The Less Obvious Signals:**
+- **Dwell time** -- Did you spend 10 seconds on a page or read the entire article? If you consumed 100% of a 20-minute video or a long-form report, the system infers strong engagement. If you bounced after 5 seconds, it registers disinterest.
+- **Repeat consumption** -- Read an article twice? Replayed a podcast segment? The system flags that as high-value content for your profile.
+- **Skips** -- Scrolled past a LinkedIn post in half a second? Signal received: not relevant.
+- **Consumption speed** -- Played a video at 2x speed? You may be interested but time-constrained. Paused and rewound? You're deeply engaged.
 
-**The Stuff You Didn't Think About:**
-- **Time of day** -- You watch different things at 8 AM vs midnight. The system knows your schedule.
-- **How long you spend looking** -- Even HOVERING over a thumbnail (on a computer) without clicking tells the system something.
-- **What you do AFTER** -- Did you subscribe after watching? Share it with a friend? Add it to a playlist? Each action tells a different story.
-- **Your device** -- Phone, tablet, TV, computer. People behave differently on different screens.
+**The Signals You Likely Haven't Considered:**
+- **Time of day** -- You consume different content at 8 AM versus midnight. The system maps your temporal preferences. In e-commerce, this extends to seasonal purchasing patterns.
+- **Hover and scroll behavior** -- Even hovering over a product listing or headline without clicking conveys information. Eye-tracking research has shown this correlates strongly with interest.
+- **Downstream actions** -- Did you subscribe after reading? Share it with a colleague? Add it to a wishlist or save it for later? Each action tells a qualitatively different story about engagement depth.
+- **Device and context** -- Phone during commute, laptop at work, tablet at home. Users behave measurably differently across devices, and platforms exploit this for better predictions.
 
-**What means the most?**
+**What carries the most weight?**
 
 Not all footprints are equal. Here's a rough ranking from STRONGEST signal to weakest:
 
-1. Buying something or subscribing (strongest)
-2. Watching all the way through or replaying
-3. Clicking like or adding to playlist
-4. Clicking to watch
-5. Hovering or scrolling past slowly (weakest)
+1. Purchasing or subscribing (strongest -- involves monetary commitment)
+2. Consuming content to completion or repeating it
+3. Explicitly rating, liking, or saving to a collection
+4. Clicking to view
+5. Hovering, pausing scroll, or briefly viewing (weakest)
 
-**Think about it!** Next time you skip a video, remember: you just told the algorithm something. What was it?
+This hierarchy is why conversion events dominate digital advertising models -- and why platforms invest heavily in tracking post-click behavior rather than just impressions.
+
+**Consider this:** Next time you bounce from an article after three seconds, remember: you just sent a signal to the algorithm. What inference did it draw?

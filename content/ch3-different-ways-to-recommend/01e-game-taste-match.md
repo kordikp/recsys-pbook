@@ -2,10 +2,10 @@
 id: ch3-game-taste
 type: game
 game: taste-match
-title: "Find Your Taste Twin!"
+title: "Find Your Preference Twin"
 readingTime: 1
 standalone: true
-teaser: "Look at the ratings. Who has the most similar taste to you? That's collaborative filtering!"
+teaser: "Examine the ratings matrix. Who has the most similar preference profile? That's collaborative filtering in action."
 voice: universal
 parent: null
 diagram: null

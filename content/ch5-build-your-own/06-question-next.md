@@ -4,27 +4,27 @@ type: question
 title: "What would YOU build recommendations for?"
 readingTime: 1
 standalone: false
-teaser: "You've got the skills. What's your dream project?"
+teaser: "You have the skills. What's your next recommender system project?"
 voice: universal
 parent: null
 diagram: null
 status: accepted
-description: "Now that you know how to build a recommendation system, what would you create one for?"
+description: "Now that you can build a recommendation system, what domain would you apply it to?"
 options:
-  - letter: A, text: Minecraft servers -- find the perfect world for your play style, voice: creator
-  - letter: B, text: Music genres -- discover sounds you never knew existed, voice: explorer
-  - letter: C, text: Books -- matched to your reading speed and interests, voice: thinker
-  - letter: D, text: Something totally new that nobody has thought of yet, voice: universal
+  - letter: A, text: Professional development -- recommend courses, conferences, and learning paths tailored to career goals, voice: creator
+  - letter: B, text: Content discovery -- surface niche content across genres and formats that users would never find on their own, voice: explorer
+  - letter: C, text: Research papers -- match researchers with relevant literature based on reading patterns and citation networks, voice: thinker
+  - letter: D, text: An entirely new domain that hasn't been explored yet, voice: universal
 ---
 
-You now know how recommendation systems work. You've built one with your own hands. The question is: **what would you build next?**
+You now understand how recommendation systems work. You've implemented one from scratch. The question is: **what would you build next?**
 
-**A) Minecraft Server Recommender** -- Imagine a system that learns what kind of Minecraft worlds you enjoy (survival, creative, minigames, parkour) and recommends the perfect servers for your play style. It could even suggest building techniques based on what you've built before.
+**A) Professional Development Recommender** -- A system that models your skills, career trajectory, and learning preferences to recommend courses, conferences, mentors, and career moves. It could factor in industry trends, skill gaps, and the career paths of professionals similar to you.
 
-**B) Music Genre Explorer** -- A system that doesn't just recommend songs you already like, but deliberately pushes you into new genres. You like pop? Here's some K-pop. Then some J-pop. Then some Afrobeats. An algorithm designed to expand your musical world.
+**B) Serendipity-Optimized Content Discovery** -- A recommender designed not to maximize engagement on familiar content, but to deliberately expand horizons. It would optimize for a diversity metric: introducing users to high-quality content in adjacent genres, unfamiliar formats, and underrepresented creators. The algorithmic antidote to filter bubbles.
 
-**C) Smart Book Finder** -- A recommendation system that knows how fast you read, what topics you're into, and how challenging you want the next book to be. It recommends books that are at exactly the right level -- challenging enough to grow, but not so hard you give up.
+**C) Academic Literature Navigator** -- A recommendation system that understands your research interests, reading history, and citation network to surface relevant papers you'd otherwise miss. It could model semantic similarity between papers, track emerging research fronts, and recommend both foundational works and cutting-edge preprints.
 
-**D) Something brand new** -- Maybe you've got an idea nobody has thought of yet. Recommending Roblox experiences? Suggesting study techniques? Finding the perfect pet? The best ideas often come from people who understand both the technology AND the problem they want to solve.
+**D) An unexplored domain** -- Perhaps recommending optimal team compositions for projects, matching patients with clinical trials, suggesting architectural design patterns, or recommending investment strategies. The most impactful applications often emerge when someone deeply understands both the algorithmic toolkit and the domain-specific problem.
 
-Whatever you choose, you've got the tools. Collect data. Find patterns. Make predictions. Test and improve. That's the recipe. Now go build something cool.
+Whatever you choose, you have the foundational methodology. Collect data. Compute similarity. Generate predictions. Evaluate and iterate. That's the recipe. Now go build something that matters.

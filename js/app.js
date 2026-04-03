@@ -3372,21 +3372,21 @@ class PBook {
   getMissions() {
     return [
       {
-        id: 'youtube', title: 'How Does YouTube Know?', icon: '\u{1F3AC}',
+        id: 'youtube', title: 'How Do Platforms Know?', icon: '\u{1F3AC}',
         difficulty: 'Beginner',
-        story: 'Your friend asks: "How does YouTube always know what I want to watch?" Can you figure out the answer and explain it?',
-        goal: 'Explain how recommendations work to a friend',
+        story: 'A colleague asks: "How does YouTube always know what I want to watch?" Can you explain the mechanisms behind recommendation systems?',
+        goal: 'Explain how recommendation algorithms work',
         reward: { title: 'Algorithm Explainer', xp: 20 },
         core: ['ch1-noticed', 'ch1-everywhere', 'ch1-not-magic', 'ch1-three-jobs', 'ch2-footprints', 'ch2-clues'],
         intros: [
-          "Let's start with something you already know. Have you ever noticed that YouTube seems to read your mind?",
-          "Recommendations aren't just on YouTube. Let's see how many you can spot in everyday apps.",
-          "So how does it actually work? Spoiler: it's not magic. It's pattern detection.",
-          "Every recommender has three jobs. Can you guess what they are before reading?",
-          "Now let's look at it from YOUR side. What clues are you leaving behind?",
-          "These clues come in different flavors. Understanding them is key to understanding the whole system."
+          "Let's start with something familiar. Have you noticed that platforms seem to anticipate your interests?",
+          "Recommendations aren't limited to YouTube. Let's map the recommendation landscape across platforms.",
+          "How does it actually work? It's not intuition — it's statistical pattern recognition at scale.",
+          "Every recommender serves three core functions. Consider what they might be before reading.",
+          "Now let's examine the user side. What behavioral signals are you generating?",
+          "These signals come in different types. Understanding the taxonomy is key to understanding the system."
         ],
-        boss: { q: 'Your friend asks: "So how DOES YouTube know what I want to watch?" Explain it in one paragraph.', hints: ['patterns', 'clicks', 'data', 'similar'] },
+        boss: { q: 'A colleague asks: "So how DO platforms know what I want to see?" Explain the mechanism in one paragraph.', hints: ['patterns', 'behavioral signals', 'data', 'collaborative filtering'] },
         branches: {
           explorer: { label: 'See it in action', blocks: ['ch2-track-d-exp', 'ch1-ws-match'] },
           creator: { label: 'Try it yourself', blocks: ['ch2-privacy-d-create'] },
@@ -3396,18 +3396,18 @@ class PBook {
       {
         id: 'detective', title: 'The Data Detective', icon: '\u{1F575}',
         difficulty: 'Beginner',
-        story: 'Your recommendations are terrible — Peppa Pig keeps showing up because your sibling used your account. Time to investigate what data the algorithm actually uses.',
-        goal: 'Understand what data apps collect and how signals work',
+        story: 'Your recommendations are corrupted — irrelevant content keeps appearing because a shared account or a gift search polluted your profile. Time to investigate what data the algorithm actually uses.',
+        goal: 'Understand what data platforms collect and how signals work',
         reward: { title: 'Data Detective', xp: 20 },
         core: ['ch2-footprints', 'ch2-clues', 'ch2-guess-signal', 'ch2-myth', 'ch2-privacy'],
         intros: [
-          "To fix bad recommendations, first understand what data you're leaving behind.",
-          "Not all data is equal. Some clues are powerful, others are noise.",
-          "Can you tell a strong signal from a weak one? This is what separates good detectives from bad ones.",
-          "Before we go further, let's bust some myths. Is your phone REALLY listening?",
-          "Now the big question: whose data is it anyway? And what can you do about it?"
+          "To fix poor recommendations, first understand what behavioral data you're generating.",
+          "Not all signals are equal. Some are strong indicators, others are noise.",
+          "Can you distinguish a strong signal from a weak one? This is what separates effective analysis from guesswork.",
+          "Before we go further, let's debunk some myths. Is your phone really listening to conversations?",
+          "Now the fundamental question: whose data is it, and what are your rights under GDPR/CCPA?"
         ],
-        boss: { q: 'You see Peppa Pig in your recommendations. As a Data Detective, explain: why is it there, and what would you do to fix it?', hints: ['sibling', 'signals', 'history', 'profile'] },
+        boss: { q: 'You notice irrelevant recommendations in your feed — content from a shared account or a one-time search has polluted your profile. Explain why this happened and what steps you would take to fix it.', hints: ['profile pollution', 'signals', 'history', 'preference model'] },
         branches: {
           explorer: { label: 'Investigate your data', blocks: ['ch2-track-d-exp', 'ch2-ws-detective'] },
           creator: { label: 'Run an experiment', blocks: ['ch2-privacy-d-create'] },
@@ -3417,19 +3417,19 @@ class PBook {
       {
         id: 'builder', title: 'Build a Recommender', icon: '\u{1F527}',
         difficulty: 'Intermediate',
-        story: 'Your class wants a movie recommender for Friday movie night. You volunteer to build one from scratch. Can you pull it off?',
+        story: 'Your team needs a content recommendation system. You volunteer to prototype one from scratch. Can you build a working collaborative filtering implementation?',
         goal: 'Build a working recommendation system step by step',
         reward: { title: 'Recommendation Engineer', xp: 30 },
         core: ['ch5-start', 'ch5-collect', 'ch3-friends', 'ch5-similar', 'ch5-recommend', 'ch5-improve'],
         intros: [
-          "You said you'd build a recommender. No backing out now! Let's see what you need.",
-          "Step 1: every recommender needs DATA. Time to survey your classmates.",
-          "The trick is finding people with matching taste. This is called collaborative filtering.",
-          "Now you need a way to MEASURE how similar two people are. Sounds hard? It's not!",
-          "You have the data. You found similar people. Now make actual predictions!",
-          "Your system works but... it's not great. Let's make it smarter."
+          "You committed to building a recommender prototype. Here's what you'll need.",
+          "Step 1: every recommender needs data. Time to collect preference signals.",
+          "The key technique is finding users with similar preferences — collaborative filtering.",
+          "Now you need a quantitative measure of similarity between users. This is where the math begins.",
+          "You have the data and similarity scores. Now generate actual predictions.",
+          "Your system works but could be better. Let's systematically improve it."
         ],
-        boss: { q: 'Your class tested the recommender. Someone complains: "It recommended me a movie I hate!" What went wrong, and how would you improve it?', hints: ['similar', 'data', 'diversity', 'cold start'] },
+        boss: { q: 'A stakeholder complains: "Your recommender suggested something completely irrelevant!" Diagnose what likely went wrong and propose three specific improvements.', hints: ['similarity', 'data sparsity', 'diversity', 'cold start'] },
         branches: {
           creator: { label: 'Build it for real', blocks: ['ch5-spread-d-create', 'ch5-code-d-create', 'ch5-debug'] },
           thinker: { label: 'Understand the math', blocks: ['ch5-math-d-think', 'ch5-real-numbers'] },
@@ -3439,84 +3439,108 @@ class PBook {
       {
         id: 'bubble', title: 'Pop the Bubble', icon: '\u{1FAE7}',
         difficulty: 'Intermediate',
-        story: 'You notice your news feed only shows one type of content. Your friend sees completely different things. Are you both trapped in filter bubbles?',
-        goal: 'Understand filter bubbles, echo chambers, and fairness',
-        reward: { title: 'Bubble Buster', xp: 25 },
+        story: 'You notice your news feed shows only one perspective. A colleague sees entirely different content. Are algorithmic filter bubbles shaping your information diet?',
+        goal: 'Understand filter bubbles, echo chambers, and algorithmic fairness',
+        reward: { title: 'Bubble Analyst', xp: 25 },
         core: ['ch4-bubbles', 'ch4-fairness', 'ch4-testing', 'ch3-popular', 'ch3-popular-sidebar'],
         intros: [
-          "Something feels off. Your feed only shows gaming videos. Your friend only sees cooking. Why?",
-          "Bubbles are one thing. But is the system actually FAIR to everyone?",
-          "How do companies even know if their recommendations are good? Science!",
-          "Let's look at the simplest recommendation: just show what's popular. What could go wrong?",
-          "The popularity trap is real. Popular things get MORE popular. Is that fair?"
+          "Something seems off. Your feed converges to a narrow content type. A colleague sees entirely different things. Why?",
+          "Filter bubbles are one concern. But is the system fair to all content creators and users?",
+          "How do organizations evaluate whether their recommendations are working? Rigorous experimentation.",
+          "Let's examine the simplest approach: recommend what's popular. What are the failure modes?",
+          "Preferential attachment — popular items get more popular — creates systemic bias. How do we address it?"
         ],
-        boss: { q: 'A new video app asks you to design their recommendation system. How would you prevent filter bubbles while still showing relevant content?', hints: ['diversity', 'explore', 'bubble', 'balance'] },
+        boss: { q: 'You are designing a recommendation system for a news platform. How would you balance personalization with information diversity to prevent filter bubbles? Discuss specific algorithmic approaches.', hints: ['diversity', 'exploration', 'MMR', 'balance', 'fairness metrics'] },
         branches: {
-          creator: { label: 'Pop your bubble', blocks: ['ch4-experiment'] },
-          thinker: { label: 'Think deeply', blocks: ['ch4-echo-d-think', 'ch4-unfair-game'] },
-          explorer: { label: 'Run an A/B test', blocks: ['ch4-ab-d-exp'] }
+          creator: { label: 'Run an experiment', blocks: ['ch4-experiment'] },
+          thinker: { label: 'Analyze deeply', blocks: ['ch4-echo-d-think', 'ch4-unfair-game'] },
+          explorer: { label: 'Design an A/B test', blocks: ['ch4-ab-d-exp'] }
         }
       },
       {
         id: 'control', title: 'Take Back Control', icon: '\u{1F6E1}',
         difficulty: 'Advanced',
-        story: 'Apps know more about you than your best friend. They track you across websites, guess your age, and use tricks to keep you scrolling. Time to fight back.',
-        goal: 'Digital literacy — understand privacy, manipulation, and your rights',
-        reward: { title: 'Digital Citizen', xp: 25 },
+        story: 'Platforms know more about your preferences than you do. They track behavior across websites, infer demographics, and use persuasive design to maximize engagement. Understanding these mechanisms is essential for informed digital citizenship.',
+        goal: 'Digital literacy — understand privacy, persuasive design, and your rights',
+        reward: { title: 'Informed Digital Citizen', xp: 25 },
         core: ['ch6-who-decides', 'ch6-addictive', 'ch6-privacy-real', 'ch6-ai-future'],
         intros: [
-          "When you open TikTok, who chose what's on your screen? The answer might surprise you.",
-          "Infinite scroll. Autoplay. 'One more video.' These aren't accidents.",
-          "Let's get specific: what do apps ACTUALLY know about you?",
-          "You've seen the problems. Now let's talk about solutions and the future."
+          "When you open a platform, who decided what appears on your screen? The answer reveals the incentive structure.",
+          "Infinite scroll. Autoplay. Variable rewards. These are deliberate persuasive design patterns.",
+          "Let's get specific: what do platforms actually know about you, and how did they learn it?",
+          "You've examined the challenges. Now let's discuss regulatory responses and the future landscape."
         ],
-        boss: { q: 'Your younger cousin (age 8) is getting addicted to TikTok. What 3 specific things would you tell them about how the algorithm works, and what should they do?', hints: ['autoplay', 'algorithm', 'choice', 'control', 'data'] },
+        boss: { q: 'A colleague asks for advice on managing their digital information diet. Describe 3 specific mechanisms platforms use to maximize engagement, and recommend concrete countermeasures.', hints: ['variable rewards', 'persuasive design', 'data audit', 'privacy settings', 'regulatory rights'] },
         branches: {
-          explorer: { label: 'Check your data', blocks: ['ch6-data-d-exp', 'ch6-age-sidebar'] },
-          creator: { label: 'Take control now', blocks: ['ch6-control-d-create'] },
-          thinker: { label: 'The big questions', blocks: ['ch6-hard-d-think', 'ch6-law-sidebar'] }
+          explorer: { label: 'Audit your data', blocks: ['ch6-data-d-exp', 'ch6-age-sidebar'] },
+          creator: { label: 'Reclaim control', blocks: ['ch6-control-d-create'] },
+          thinker: { label: 'The harder questions', blocks: ['ch6-hard-d-think', 'ch6-law-sidebar'] }
         }
       },
       {
         id: 'creator-boost', title: 'Get Your Content Recommended', icon: '\u{1F4F1}',
         difficulty: 'Intermediate',
-        story: "You just made an amazing video / drawing / song / game. But nobody sees it — the algorithm doesn't know it exists. Can you learn to speak the algorithm's language and get your content discovered?",
-        goal: 'Understand how to make YOUR content visible to recommendation algorithms',
+        story: "You've published content — an article, video, podcast, or product. But the algorithm doesn't surface it. Can you learn how recommendation and discovery systems work from the creator's perspective?",
+        goal: 'Understand how to make content visible to recommendation algorithms',
         reward: { title: 'Algorithm Whisperer', xp: 30 },
         core: ['ch5-get-recommended', 'ch5-seo-algorithms', 'ch3-pipeline', 'ch3-search-recs', 'ch3-popular'],
         intros: [
-          "You know how algorithms pick content for viewers. Now flip it — how do you make them pick YOURS?",
-          "Search and recommendations are merging. Mastering discoverability is a superpower.",
-          "To beat the system, you need to understand the system. How does the pipeline actually work?",
-          "When you search on YouTube, results are personalized. How do you show up for the RIGHT people?",
-          "Everyone starts with popularity. But how do you escape the popularity trap as a new creator?"
+          "You understand how algorithms select content for users. Now flip the perspective — how do you make them select yours?",
+          "Search and recommendations are converging. Understanding discoverability is essential for content strategy.",
+          "To work with the system, you need to understand the system. How does the recommendation pipeline operate?",
+          "Search results are personalized. How do you surface for the right audience segments?",
+          "Every creator starts in the cold-start zone. How do you escape the popularity trap?"
         ],
-        boss: { q: "You just uploaded a video about building a Minecraft castle. Describe 5 specific things you would do to maximize the chance the algorithm recommends it to the right audience — on YouTube AND TikTok.", hints: ['thumbnail', 'title', 'hook', 'watch time', 'trending', 'hashtag', 'first seconds', 'consistency'] },
+        boss: { q: "You've published a technical tutorial. Describe 5 specific strategies to maximize the probability that recommendation algorithms surface it to the right audience — across multiple platforms.", hints: ['title optimization', 'metadata', 'engagement signals', 'first impressions', 'consistency', 'cross-platform', 'content graph'] },
         branches: {
           explorer: { label: 'Study the pipeline', blocks: ['ch3-pipeline-d-exp'] },
           creator: { label: 'Build & optimize', blocks: ['ch5-spread-d-create'] },
-          thinker: { label: 'Ethics of gaming', blocks: ['ch4-objectives'] }
+          thinker: { label: 'Ethics of optimization', blocks: ['ch4-objectives'] }
+        }
+      },
+      {
+        id: 'research', title: 'The Research Journey', icon: '\u{1F52C}',
+        difficulty: 'Advanced',
+        story: 'Behind every recommendation is decades of mathematical research. Trace the journey from elegant formulas to production systems serving billions of users.',
+        goal: 'Understand how mathematical research drives recommender system evolution',
+        reward: { title: 'Research Explorer', xp: 35 },
+        core: ['ch7-why-research', 'ch7-simple-to-scalable', 'ch7-vasp-combining', 'ch7-bandits', 'ch7-cold-start-language', 'ch7-evaluation', 'ch7-production-scale', 'ch7-roadmap'],
+        intros: [
+          "Every recommendation you see is the product of mathematical research. Let's trace how theory becomes practice.",
+          "EASE: a single matrix inverse that outperforms deep learning. Elegant but unscalable. Enter ELSA.",
+          "Linear models find smooth patterns. Deep models find complex ones. VASP combines them with a clever trick.",
+          "Should you exploit what you know or explore the unknown? Bandit algorithms formalize this dilemma.",
+          "New items have zero interactions. beeFormer bridges the gap by teaching algorithms to read.",
+          "The biggest risk isn't a bad algorithm — it's measuring the wrong thing. The evaluation problem.",
+          "Research must survive the harsh reality of production: latency, memory, and billions of daily interactions.",
+          "The frontier: fairness guarantees, LLM integration, causal evaluation, and privacy-preserving personalization."
+        ],
+        boss: { q: 'Trace the research evolution from EASE to ELSA to beeFormer. For each step, explain what problem the new approach solved and what mathematical insight enabled the breakthrough.', hints: ['matrix inverse', 'low-rank', 'Eckart-Young', 'cold start', 'ELSA loss', 'Transformer'] },
+        branches: {
+          thinker: { label: 'Full derivations', blocks: ['ch7-ease-math', 'ch7-thompson-math', 'ch7-eval-math'] },
+          explorer: { label: 'Production systems', blocks: ['ch7-production-scale'] },
+          creator: { label: 'Build with code', blocks: ['ch5-code-d-create'] }
         }
       },
       {
         id: 'master', title: 'Recommendation Master', icon: '\u{1F451}',
         difficulty: 'Capstone',
-        story: "You've learned the pieces. Now put it all together. Can you explain the FULL journey of a recommendation — from the moment you click to the moment a new suggestion appears?",
-        goal: 'Deep mastery — understand the full pipeline, methods, and tradeoffs',
+        story: "You've studied the components. Now synthesize everything. Can you explain the full journey of a recommendation — from user interaction to algorithmic prediction to system response?",
+        goal: 'Deep mastery — understand the full pipeline, methods, and trade-offs',
         reward: { title: 'Recommendation Master', xp: 40 },
         prerequisite: 2,
         core: ['ch3-pipeline', 'ch3-content', 'ch3-friends', 'ch4-testing', 'ch5-improve', 'ch6-ai-future'],
         intros: [
-          "Welcome to the capstone. Real systems use EVERYTHING together in a pipeline.",
-          "One approach: look at the ITEM itself — its features, tags, description.",
-          "Another approach: look at the PEOPLE — find taste twins using collaborative filtering.",
-          "How do you know if the system works? You test it. Rigorously.",
-          "A working system isn't a finished system. There's always room to improve.",
-          "Finally: what does all of this mean for the future — and for YOU?"
+          "Welcome to the capstone. Production systems combine everything into a multi-stage pipeline.",
+          "One approach: analyze the item itself — its features, embeddings, and metadata.",
+          "Another approach: analyze user behavior — find preference similarities via collaborative filtering.",
+          "How do you validate that the system works? Rigorous experimentation and evaluation.",
+          "A working system isn't a finished system. Continuous improvement is the norm.",
+          "Finally: what does all of this mean for the future — and for your domain?"
         ],
-        boss: { q: 'Explain the full journey of a YouTube recommendation: from the moment you click a video to when new suggestions appear. Include at least 3 methods the system uses.', hints: ['pipeline', 'collaborative', 'content-based', 'candidate', 'ranking', 'diversity'] },
+        boss: { q: 'Explain the full journey of a platform recommendation: from user interaction to new suggestions appearing. Include at least 3 algorithmic approaches and discuss the trade-offs between them.', hints: ['pipeline', 'collaborative filtering', 'content-based', 'candidate generation', 'ranking', 'diversity', 'evaluation'] },
         branches: {
-          explorer: { label: 'Trace a real rec', blocks: ['ch3-pipeline-d-exp'] },
+          explorer: { label: 'Trace a real recommendation', blocks: ['ch3-pipeline-d-exp'] },
           creator: { label: 'Build CF system', blocks: ['ch3-cf-d-create'] },
           thinker: { label: 'Compare methods', blocks: ['ch3-compare-d-think', 'ch3-speed'] }
         }

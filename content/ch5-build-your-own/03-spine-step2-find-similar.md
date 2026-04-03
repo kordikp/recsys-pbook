@@ -1,58 +1,58 @@
 ---
 id: ch5-similar
 type: spine
-title: "Step 2: Find Similar People"
+title: "Step 2: Find Similar Users"
 readingTime: 3
 standalone: true
 core: true
-teaser: "Who has the same taste? Find your movie twins."
+teaser: "Who has correlated preferences? Identify your nearest neighbors."
 voice: universal
 parent: null
 diagram: null
 recallQ: "How do you find \"taste neighbors\"?"
-recallA: "Compare ratings on shared items — lower average difference = more similar taste."
+recallA: "Compare ratings on co-rated items — lower mean absolute difference = more similar preferences."
 status: accepted
 ---
 
-Now comes the detective work. You've got your rating matrix. Time to figure out: **who has similar taste?**
+Now comes the analytical core. You have your rating matrix. Time to determine: **which users have correlated preferences?**
 
-Let's look at an example. Here are three people's ratings:
+Consider three users' ratings:
 
-| | Frozen | Moana | Encanto | Spider-Verse |
+| | Shawshank | Parasite | Everything Everywhere | Oppenheimer |
 |---|---|---|---|---|
-| Alex | 5 | 4 | 5 | 3 |
-| Sam | 5 | 5 | 4 | 3 |
-| Jordan | 2 | 2 | 1 | 5 |
+| Alice | 5 | 4 | 5 | 3 |
+| Bob | 5 | 5 | 4 | 3 |
+| Carlos | 2 | 2 | 1 | 5 |
 
-Look at Alex and Sam. They both gave Frozen 5 stars. They both gave Spider-Verse 3 stars. Their Moana and Encanto ratings are close too. Alex and Sam have **similar taste**.
+Look at Alice and Bob. They both gave Shawshank 5 stars and Oppenheimer 3 stars. Their Parasite and Everything Everywhere ratings are close too. Alice and Bob have **correlated preferences**.
 
-Now look at Alex and Jordan. Alex loves Frozen (5 stars), Jordan doesn't (2 stars). Alex likes Moana (4), Jordan doesn't (2). They're basically opposites. Alex and Jordan have **different taste**.
+Now look at Alice and Carlos. Alice rates Shawshank highly (5), Carlos rates it low (2). Alice likes Parasite (4), Carlos doesn't (2). Their preferences are essentially anticorrelated.
 
-**Here's where the magic happens.**
+**This is the foundation of collaborative filtering.**
 
-Say Sam hasn't seen Inside Out 2, but Alex rated it 5 stars. Since Alex and Sam have similar taste, we can predict: **Sam will probably like Inside Out 2 too!**
+Suppose Bob hasn't seen Dune: Part Two, but Alice rated it 5 stars. Since Alice and Bob have similar taste, we can predict: **Bob will likely enjoy Dune: Part Two as well.**
 
-And if Jordan rated a movie 5 stars that Alex hasn't seen? We should probably NOT recommend it to Alex, because Jordan and Alex have opposite taste.
+Conversely, if Carlos rated a movie 5 stars that Alice hasn't seen, we should probably not recommend it to Alice, since their preferences are anticorrelated.
 
-**How to find similar people (the simple way):**
+**Computing similarity (the simple way):**
 
-For each pair of people, look at the movies they BOTH rated. Then check how close their ratings are.
+For each pair of users, identify the items they both rated (the co-rated set). Then compute the mean absolute difference (MAD).
 
-Alex vs Sam (movies both rated):
-- Frozen: Alex 5, Sam 5 (difference = 0)
-- Moana: Alex 4, Sam 5 (difference = 1)
-- Encanto: Alex 5, Sam 4 (difference = 1)
-- Spider-Verse: Alex 3, Sam 3 (difference = 0)
-- **Average difference: 0.5** (very similar!)
+Alice vs Bob (co-rated items):
+- Shawshank: Alice 5, Bob 5 (difference = 0)
+- Parasite: Alice 4, Bob 5 (difference = 1)
+- Everything Everywhere: Alice 5, Bob 4 (difference = 1)
+- Oppenheimer: Alice 3, Bob 3 (difference = 0)
+- **MAD: 0.5** (highly similar)
 
-Alex vs Jordan (movies both rated):
-- Frozen: Alex 5, Jordan 2 (difference = 3)
-- Moana: Alex 4, Jordan 2 (difference = 2)
-- Spider-Verse: Alex 3, Jordan 5 (difference = 2)
-- **Average difference: 2.3** (very different!)
+Alice vs Carlos (co-rated items):
+- Shawshank: Alice 5, Carlos 2 (difference = 3)
+- Parasite: Alice 4, Carlos 2 (difference = 2)
+- Oppenheimer: Alice 3, Carlos 5 (difference = 2)
+- **MAD: 2.3** (dissimilar)
 
-Lower average difference = more similar taste. It's that simple.
+Lower mean absolute difference = more similar preferences. This is the simplest form of a distance-based similarity measure.
 
-**Do this for every pair of people in your grid.** You'll end up with a list of who's most similar to who. These are your "taste neighbors" -- and they're the key to making predictions.
+**Compute this for every user pair in your matrix.** The result is a ranked list of nearest neighbors for each user -- and these neighbors are the key to generating predictions.
 
-**Think about it!** In your own data, who turned out to be the most similar pair? Were you surprised? Sometimes people you'd never expect turn out to have identical movie taste.
+**Consider this:** In your own data, which user pair turned out to be the most similar? The results can be surprising -- demographics or surface-level attributes often fail to predict preference alignment. That's precisely why data-driven approaches outperform intuition.

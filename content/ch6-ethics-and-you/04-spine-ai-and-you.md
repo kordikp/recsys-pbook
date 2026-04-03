@@ -1,39 +1,33 @@
 ---
 id: ch6-ai-future
 type: spine
-title: "The Future Is Yours to Shape"
+title: "The Future Is Ours to Shape"
 readingTime: 4
 standalone: true
 core: true
-teaser: "The people who built today's algorithms grew up without them. You didn't. That gives you an edge nobody else has."
+teaser: "Recommendation systems are becoming more powerful, more pervasive, and more consequential. The design choices being made now will shape information access for decades."
 voice: universal
 parent: null
 diagram: null
-recallQ: "Why does YOUR generation understand algorithms better than most adults?"
-recallA: "You grew up WITH them — you notice weird recs, know how to game the algorithm, and feel the pull of infinite scroll."
+recallQ: "Why is cross-disciplinary involvement in recommendation system design critical?"
+recallA: "Because these systems shape information access, public discourse, and economic opportunity — decisions that are too consequential to be left to engineers alone."
 status: accepted
 ---
 
-Here's something that most adults won't tell you, because most adults haven't realized it yet.
+Here is a structural observation about the current state of recommendation systems that deserves more attention.
 
-The people who design and build recommendation systems right now -- the engineers at YouTube, TikTok, Spotify, Netflix -- they mostly grew up WITHOUT those systems. They got their first smartphone in college or later. They discovered music from the radio and friends, not from an algorithm. They never experienced infinite scroll as a teenager.
+The people who design and build these systems -- the engineers at YouTube, TikTok, Spotify, Netflix, and Amazon -- are optimizing for metrics that are *proxies* for value, not value itself. Click-through rate, session duration, and return frequency are measurable. "Did this recommendation genuinely improve the user's life?" is not. And as Goodhart's Law reminds us: when a measure becomes a target, it ceases to be a good measure.
 
-You did.
+This gap between measurable proxies and actual value is not a technical limitation waiting to be solved. It is a fundamental design challenge that requires input from disciplines beyond engineering: behavioral science, ethics, public policy, economics, and the lived experience of users themselves.
 
-YOUR generation is the first in human history to grow up with algorithms shaping what you see, hear, and discover every single day. You've lived inside these systems since you were old enough to hold a tablet.
+We are all participants in this system -- as users, as professionals, as citizens. The depth of that participation matters.
 
-And that means you understand them in ways that the people who *built* them often don't.
+Those who work in technology carry a particular responsibility. If you build recommendation systems, you have the opportunity to design for user agency rather than mere engagement. Build systems that help people *discover*, not just consume. Build systems that are transparent about their optimization objectives and the trade-offs involved. Build systems that give users genuine control -- not a buried settings menu that satisfies a compliance checkbox, but real, intuitive, meaningful control over how their attention is directed.
 
-You notice when recommendations get weird. You know the tricks -- how to "reset" your feed, how to train the algorithm by liking certain things, how to create a new account when your old one gets stuck showing you stuff you've outgrown. You feel the pull of infinite scroll in your gut, not just as an abstract concept in a research paper.
+But the responsibility extends well beyond engineering. Policymakers need to understand these systems well enough to regulate them effectively -- which means grasping both their technical capabilities and their behavioral effects. Business leaders need to recognize when engagement metrics diverge from genuine user value, and have the institutional courage to optimize for the latter even when it costs short-term revenue. Researchers need to develop better frameworks for measuring the actual impact of recommendations on well-being, not just on engagement.
 
-**This knowledge is power.** Real, practical, world-changing power.
+And every user can become a more informed participant. Understanding how recommendation algorithms work -- their incentive structures, their failure modes, their influence on your attention and beliefs -- is no longer a specialized technical skill. It is civic literacy for the 21st century.
 
-Some of you will become software engineers who build the next generation of recommendation systems. When you do, you'll carry something that today's engineers had to learn secondhand: the memory of what it feels like to be a kid on the receiving end of an algorithm that doesn't always have your best interests at heart.
+The algorithms are not going away. They are going to become more powerful, more personalized, more integrated into every aspect of professional and personal life. Generative AI is accelerating this trend dramatically. The question is not whether these systems will exist. The question is: **whose interests will they serve, and who will have a voice in that decision?**
 
-Build systems that respect users. Build systems that help people *discover*, not just consume. Build systems that are transparent about what they're doing and why. Build systems that give people genuine control -- not a buried settings menu that nobody finds, but real, obvious, easy control.
-
-Some of you won't become engineers, and that's equally important. You'll be voters, parents, teachers, journalists, lawmakers. You'll make decisions about how these technologies should be regulated, used in schools, and integrated into society. Your firsthand experience matters in those conversations too.
-
-The algorithms aren't going away. They're going to get more powerful, more personalized, more embedded in daily life. The question isn't whether they'll exist. The question is: **who will they serve?**
-
-That's up to you. Literally.
+That is a question for all of us -- and the answer depends on whether we engage with it actively or let it be decided by default.

@@ -1,47 +1,47 @@
 ---
 id: ch2-guess-signal
 type: spine
-title: "Mini-Game: Strong Signal or Weak Signal?"
+title: "Exercise: Strong Signal or Weak Signal?"
 readingTime: 1
 standalone: true
-teaser: "Not all clicks are created equal. Can you tell which ones actually matter?"
+teaser: "Not all interactions carry equal weight. Can you rank them the way the algorithm does?"
 voice: explorer
 parent: null
 diagram: null
 recallQ: "What is the strongest signal you can send to an algorithm?"
-recallA: "Sharing something! It takes real effort, which tells the system you really care about that content."
+recallA: "Sharing content with someone. It requires deliberate effort, which tells the system you genuinely value that content."
 status: accepted
 ---
 
-Every action you take online sends a signal to the recommendation system. But not all signals are equal. Some scream "I LOVE THIS!" and others just whisper "meh, maybe."
+Every action you take online sends a signal to the recommendation system. But not all signals are equal. Some clearly indicate strong preference, while others are ambiguous noise.
 
-**Your job:** For each action below, guess whether it sends a **STRONG signal** (the system is very confident about what it means) or a **WEAK signal** (could mean lots of different things).
+**The exercise:** For each action below, determine whether it sends a **STRONG signal** (the system can make a confident inference) or a **WEAK signal** (the action is ambiguous and could mean many things).
 
-Write down your answers, then check below!
+Form your answers, then check below.
 
-1. You watch a video all the way to the end
-2. You click a thumbnail but leave after 2 seconds
-3. You search for "how to build a Minecraft house"
-4. You scroll past a video without clicking
-5. You watch the same video 3 times
-6. You share a video with a friend
+1. You read an article all the way to the end
+2. You click a headline but bounce after 2 seconds
+3. You search for "best CRM tools for small business"
+4. You scroll past a post without engaging
+5. You revisit the same report 3 times over a week
+6. You forward an article to a colleague
 
 ---
 
 ## Answers
 
-1. **STRONG.** Watching to the end is a clear sign you enjoyed it. The system takes notice.
+1. **STRONG.** Reading to the end is a clear indicator of engagement. The system treats completion as a high-confidence positive signal.
 
-2. **WEAK.** You clicked (that's something!) but left almost instantly. Maybe the thumbnail was clickbait. Maybe the video was boring. Maybe your mom called you. The system just isn't sure.
+2. **WEAK.** You clicked (that registers), but left almost instantly. Was the headline misleading? Was the content poor quality? Were you interrupted by a meeting? The system genuinely cannot differentiate between these scenarios.
 
-3. **SUPER STRONG.** A search is one of the loudest signals you can send. You actually typed words describing exactly what you want. The system loves this.
+3. **VERY STRONG.** A search query is one of the highest-fidelity signals you can generate. You explicitly articulated what you want in your own words. This is why search data is among the most valuable behavioral data in the industry.
 
-4. **VERY WEAK.** Did you skip it because you weren't interested? Or did you just not notice it? The system honestly can't tell the difference.
+4. **VERY WEAK.** Did you skip it because it was irrelevant? Or did you simply not notice it amid the feed? The system cannot reliably distinguish between these cases -- which is why impression-only data is notoriously noisy.
 
-5. **VERY STRONG.** Watching something once might be curiosity. Watching it THREE times? That's love. The system is very confident here.
+5. **VERY STRONG.** Viewing something once might be casual interest. Returning to it three times signals genuine utility or deep engagement. The system assigns high confidence here.
 
-6. **STRONGEST!** Sharing takes real effort. You liked it so much that you wanted someone else to see it too. This is the ultimate signal.
+6. **STRONGEST.** Sharing requires deliberate effort and social risk -- you're attaching your reputation to this content by recommending it to someone else. This is the ultimate signal of endorsement.
 
 ## The Pattern
 
-Notice anything? Actions that take **more effort** from you tend to be stronger signals. Clicking is easy. Searching, rewatching, sharing -- those take work. And the system knows it.
+Notice the theme? Actions that require **more deliberate effort** and **higher personal investment** tend to be stronger signals. Scrolling is passive. Searching, revisiting, sharing -- those are intentional behaviors. Recommender systems are engineered to weight signals accordingly, which is why engagement metrics in industry always prioritize depth over breadth of interaction.

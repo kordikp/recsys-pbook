@@ -1,60 +1,60 @@
 ---
 id: ch2-ws-detective
 type: spine
-title: "Be a Data Detective — Right Now!"
+title: "Be a Data Detective -- Right Now"
 readingTime: 10
 standalone: true
-teaser: "Grab your phone and investigate your algorithm in real time — you'll catch it learning!"
+teaser: "Open your most-used platform and investigate your algorithm in real time -- you'll observe it learning."
 voice: universal
 parent: null
 diagram: null
-recallQ: "Can you train the algorithm on purpose?"
-recallA: "Yes! Search for topics you want, like content deliberately, use \"Not Interested\" on what you don't want."
+recallQ: "Can you deliberately train the algorithm?"
+recallA: "Yes. Search for topics you want, engage with content deliberately, use \"Not Interested\" on what you want deprioritized."
 status: accepted
 ---
 
-Grab your phone. Open YouTube. We're going to investigate YOUR algorithm in real time. This whole thing takes about 10 minutes, and by the end you'll have proof of how fast the algorithm learns.
+Open your phone or laptop. Navigate to YouTube, LinkedIn, or your most-used recommendation-driven platform. We're going to investigate YOUR algorithm in real time. This takes about 10 minutes, and by the end you'll have firsthand evidence of how quickly the system adapts to behavioral signals.
 
 ---
 
-## Step 1: Survey the Scene
+## Step 1: Audit Your Current Feed
 
-Look at your YouTube homepage. Don't scroll yet — just check out the first 10 recommendations sitting right there.
+Look at your homepage or main feed. Don't scroll yet -- just examine the first 10 recommendations.
 
-How many of those 10 are about topics you've searched for or watched before? Probably most of them. The algorithm is showing you a mirror of your past behavior. Count them up in your head. Seven out of ten? Eight? That number tells you how confident the algorithm is about your taste.
-
----
-
-## Step 2: Spot the Odd One Out
-
-Now look for one recommendation that seems random — something you'd never search for. Found one?
-
-Think about why it's there. Did someone else use your phone or TV recently? Did you accidentally watch something weird last week? Or is the algorithm testing you — throwing in something new to see if you'll bite? (Spoiler: that last one happens more than you think. It's called **exploration**.)
+How many of those 10 relate to topics you've recently searched for, consumed, or engaged with? Probably the majority. The algorithm is reflecting your accumulated behavioral history back to you. Count them. Seven out of ten? Eight? That ratio tells you how confident the algorithm is in its model of your preferences -- and how deep your interaction history runs.
 
 ---
 
-## Step 3: Talk Back to the Algorithm
+## Step 2: Identify the Anomaly
 
-Pick a video you definitely DON'T want to watch. Tap the three dots next to it (or long-press on TikTok). Tap **"Not interested."**
+Now look for one recommendation that seems out of place -- something you'd never deliberately seek out. Found one?
 
-Now go back to your homepage. Pull down to refresh. Look around — did anything change? The algorithm just heard you say "no thanks" and adjusted. You gave it a signal, and it listened. That's one of the most powerful tools you have.
-
----
-
-## Step 4: The Big Experiment
-
-This is where it gets wild. Search for something you have NEVER searched before. Something totally random for you — try **"origami crane tutorial"** or **"how to juggle"** or **"underwater volcano footage."**
-
-Watch one video all the way through. At least 30 seconds, but more is better. Then go back to your homepage and refresh.
-
-Can you spot any new recommendations related to what you just watched? Look carefully — they might be mixed in between your usual stuff. One origami video. One "paper crafts for beginners." Maybe a "satisfying folding videos" compilation.
-
-You watched ONE video and it already started reshaping your feed. That's how fast the algorithm learns.
+Consider why it's there. Did someone else use your device or shared account recently? Did you briefly engage with something outside your usual patterns last week? Or is the algorithm deliberately introducing novelty to test your response? (That last scenario happens more often than most people realize. It's a technique called **exploration** -- the system sacrifices short-term relevance to gather information about potentially untapped preferences. This is a classic instance of the exploration-exploitation tradeoff in machine learning.)
 
 ---
 
-## What You Just Proved
+## Step 3: Send Deliberate Negative Feedback
 
-Every single action you take — watching, skipping, searching, tapping "not interested" — is a signal. The algorithm collects all those signals and builds a picture of you in real time. You just watched it happen with your own eyes.
+Pick a recommendation you definitely don't want. Tap the three dots next to it (or long-press on TikTok). Select **"Not interested"** or the equivalent feedback option.
 
-The takeaway? You're not just a viewer. Every time you use an app, you're training the algorithm. The question is: are you training it on purpose, or is it just happening to you?
+Now return to your homepage. Refresh. Look around -- did anything change? The algorithm just processed your explicit negative signal and adjusted its model. You gave it a high-confidence signal, and it responded. This is one of the most underutilized tools available to users.
+
+---
+
+## Step 4: The Real-Time Learning Test
+
+This is where it gets revealing. Search for something you have NEVER searched before on this platform. Something entirely outside your usual domain -- try **"supply chain optimization"** or **"architectural photography composition"** or **"deep sea bioluminescence."**
+
+Watch or read one piece of content all the way through. Then return to your homepage and refresh.
+
+Can you spot any new recommendations related to what you just consumed? Look carefully -- they may be interspersed with your usual content. One related video. One adjacent topic. Perhaps a tangentially related creator.
+
+You consumed ONE piece of content and the algorithm has already begun adjusting your feed. That's the speed of modern real-time recommendation updates -- and it's why a single interaction during a product demo or a guest browsing session can visibly shift what a platform shows you.
+
+---
+
+## What You Just Demonstrated
+
+Every single action you take -- consuming, skipping, searching, marking "not interested" -- is a behavioral signal. The algorithm aggregates these signals and updates its model of you continuously. You just observed this process firsthand.
+
+The implication? You're not a passive consumer. Every time you use a platform, you're training its recommendation model. The question worth reflecting on: are you training it deliberately and with awareness, or is the training simply happening to you as a byproduct of habitual usage?

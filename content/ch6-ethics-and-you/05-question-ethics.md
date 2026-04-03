@@ -1,30 +1,30 @@
 ---
 id: ch6-q1
 type: question
-title: "The Big Question"
+title: "The Design Choice"
 readingTime: 1
 standalone: true
-teaser: "How should recommendation algorithms treat you? There's no wrong answer -- but your answer says a lot about what you value."
+teaser: "What should recommendation algorithms optimize for? There is no consensus -- but your answer reveals your priorities and values."
 voice: universal
 parent: null
 diagram: null
 status: accepted
 ---
 
-You've seen how recommendation systems work, what they optimize for, and how they affect you. Now it's your turn.
+You have examined how recommendation systems work, what they optimize for, and the trade-offs they embody. Now consider your own position.
 
-**What do you think algorithms should do?**
+**What should recommendation algorithms optimize for?**
 
-**A:** "I think algorithms should show me what I want -- even if it means I only see things I already like and agree with. It's MY feed. I should enjoy it."
+**A:** "Algorithms should optimize for my stated preferences and satisfaction -- even if it means I primarily see content that reinforces my existing views. It is my feed, and relevance to me should be the primary objective."
 
-**B:** "I think I should be able to completely turn off algorithmic recommendations and just see content in order, or search for exactly what I want. Give me the controls."
+**B:** "I should have full control: the ability to disable algorithmic recommendations entirely, use chronological feeds, or rely exclusively on explicit search. Maximum user agency is the priority."
 
-**C:** "I think algorithms should be required to show diverse viewpoints and content I wouldn't normally see. They have a responsibility to broaden my world, not shrink it."
+**C:** "Algorithms should be designed -- or required by regulation -- to surface diverse perspectives and serendipitous content. They have a systemic responsibility to support informed citizenship, not just individual satisfaction."
 
-**D:** "I think it's complicated and there's no single right answer. It depends on the situation, the platform, and the person."
+**D:** "The right answer depends on context: the platform, the use case, the user's current intent, and the societal implications. No single optimization objective works universally."
 
-There's no trick here. No answer is "correct." But notice what each answer reveals about what you value most: personal enjoyment, personal control, social responsibility, or nuance.
+There is no trick here. No answer is definitively correct. But notice what each answer prioritizes: personal satisfaction, individual autonomy, social responsibility, or contextual nuance.
 
-The best part? You don't have to pick just one forever. You might want option A on a Friday night when you're tired, option B when you're researching for a school project, and option C when you're trying to understand a topic you don't know much about.
+The key insight is that these are not permanent positions. You might prefer option A when unwinding after a long day, option B when conducting professional research, and option C when trying to understand a complex public issue you have limited exposure to.
 
-Maybe the real answer is: **you should get to choose which mode you're in.** And maybe THAT's what the next generation of recommendation systems should be built to offer.
+Perhaps the most defensible design principle is this: **users should be able to choose their recommendation mode intentionally, and switch between modes transparently.** That is arguably what the next generation of recommendation systems should be engineered to provide -- not a single algorithm optimizing a single objective, but a configurable system that serves different goals in different contexts, with the user maintaining meaningful control over which mode is active.

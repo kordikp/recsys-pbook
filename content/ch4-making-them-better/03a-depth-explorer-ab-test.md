@@ -1,57 +1,57 @@
 ---
 id: ch4-ab-d-exp
 type: spine
-title: "Run Your Own A/B Test"
+title: "Anatomy of an A/B Test"
 readingTime: 3
 standalone: false
-teaser: "A music app experiment: which recommendation strategy wins?"
+teaser: "A detailed walkthrough of a music streaming experiment: which recommendation strategy wins, and how do you know the result is real?"
 voice: explorer
 parent: null
 diagram: kids-ab-test
-recallQ: "Do personalized recommendations actually work better than \"just show popular\"?"
-recallA: "Yes! Tests show 37% more songs played, 4x more artist discovery, and higher engagement with personalization."
+recallQ: "Do personalized recommendations actually outperform popularity-based baselines?"
+recallA: "Typically yes. In this example: 37% more tracks played, 4x more artist discovery, and significantly higher retention with personalization -- with all differences statistically significant."
 status: accepted
 ---
 
-Let's walk through a real A/B test, step by step. You're the lead engineer at a music streaming app called "TuneUp." Your mission: figure out the best way to recommend songs.
+Let us walk through a realistic A/B test, step by step. You are the lead recommendation engineer at a music streaming service called "TuneUp." Your objective: determine which recommendation strategy drives better user outcomes.
 
-**The Experiment:**
+**The Experiment Design:**
 
-You have two recommendation strategies:
+You have two candidate strategies:
 
-**Strategy A -- "Popular Picks"**
-Show everyone the same 30 most-played songs of the week. Simple. Everyone gets the hit parade.
+**Strategy A -- "Popular Picks" (Baseline)**
+Surface the same 30 most-played tracks of the week to all users. Simple, low-cost, no personalization. Everyone sees the same hit parade.
 
-**Strategy B -- "Personal Mix"**
-Analyze each person's listening history. Find users with similar taste. Recommend songs those similar users loved but this person hasn't heard yet.
+**Strategy B -- "Personal Mix" (Treatment)**
+Analyze each user's listening history. Identify users with similar taste profiles using collaborative filtering. Recommend tracks that similar users engaged with but this user has not yet encountered.
 
-**Your Users:**
+**Sample and Randomization:**
 
-You randomly split 10,000 users into two equal groups. For two weeks, Group A gets Popular Picks and Group B gets Personal Mix.
+You randomly assign 10,000 users into two equal groups using a hash-based assignment (e.g., user_id mod 2) to ensure stable, balanced assignment. You run a pre-experiment check (an A/A test) to confirm the two groups are statistically equivalent on baseline metrics before introducing the treatment. The experiment runs for two weeks -- a duration chosen based on a power analysis indicating you need approximately 5,000 users per group to detect a 10% difference in daily tracks played at 80% power and 95% confidence.
 
 **The Results:**
 
-| What you measured | Strategy A (Popular) | Strategy B (Personal) |
-|---|---|---|
-| Songs played per day | 8 | 11 |
-| Songs skipped (within 10 seconds) | 35% | 15% |
-| New artists discovered per week | 1 | 4 |
-| Users who came back every day | 60% | 78% |
-| Users who said "I love this app" in survey | 45% | 72% |
+| Metric | Strategy A (Popular) | Strategy B (Personal) | Relative Change | p-value |
+|---|---|---|---|---|
+| Tracks played per day | 8.0 | 11.0 | +37.5% | < 0.001 |
+| Skip rate (within 10 seconds) | 35% | 15% | -57.1% | < 0.001 |
+| New artists discovered per week | 1.0 | 4.0 | +300% | < 0.001 |
+| Daily active user retention | 60% | 78% | +30.0% | < 0.001 |
+| User satisfaction (survey: "I value this app") | 45% | 72% | +60.0% | < 0.001 |
 
 **Analyzing the results:**
 
-Strategy B (Personal Mix) wins on EVERY metric:
-- People listened to **37% more songs** (11 vs 8)
-- They skipped way less (**15% vs 35%**) -- meaning the recommendations were more accurate
-- They discovered **4x more new artists** -- the system introduced them to music they wouldn't have found
-- More people came back daily (**78% vs 60%**) -- they were more engaged
-- Way more people loved the app (**72% vs 45%**)
+Strategy B (Personal Mix) outperforms on every measured metric, and all differences are statistically significant (p < 0.001 after Bonferroni correction for 5 simultaneous comparisons):
+- Users played **37.5% more tracks** (11 vs 8 per day)
+- Skip rate dropped dramatically (**15% vs 35%**) -- indicating substantially better recommendation accuracy
+- Users discovered **4x more new artists** -- the system successfully introduced content beyond their existing knowledge
+- Daily retention increased from **60% to 78%** -- a meaningful engagement improvement
+- Self-reported satisfaction nearly doubled (**72% vs 45%**)
 
-**But wait -- there's a catch!**
+**But there is an important tradeoff:**
 
-Look more carefully. Strategy A has one hidden advantage: it's MUCH cheaper to run. You just need a list of popular songs. Strategy B requires powerful computers crunching data for each of the 10,000 users individually.
+Strategy A has one significant operational advantage: it is far cheaper to serve. It requires only a single precomputed popularity list. Strategy B requires per-user model inference -- compute-intensive processing for each of the 10,000 users individually, with associated infrastructure and latency costs.
 
-**The real question:** Is Strategy B worth the extra cost? In this case, absolutely yes. The difference is huge. But sometimes the results are closer, and you have to decide whether a small improvement is worth the extra complexity.
+**The real decision:** Is Strategy B worth the additional infrastructure investment? In this case, the answer is clearly yes -- the magnitude of improvement justifies the cost. But in practice, many A/B tests produce results where the treatment wins by a much smaller margin (e.g., +2% on the primary metric), and the cost-benefit analysis becomes genuinely difficult. Teams must weigh the statistical significance and practical significance of the improvement against the engineering complexity and operational cost of the more sophisticated approach.
 
-**Your turn:** What ELSE would you want to measure? Think about things that might take longer to show up -- like whether people keep using the app after a month, or whether they tell their friends about it. The best A/B tests don't just measure what happens THIS week. They think about the long game.
+**Further considerations:** What additional metrics would you want to track? Consider outcomes that take longer to manifest -- 30-day retention, subscription conversion rate, organic referrals (users recommending the app to colleagues), or long-term listening diversity trends. The best experimentation programs measure not just what happens during the test window but also the **downstream and long-term effects** of the change. They also monitor for unintended consequences: does the personalization strategy inadvertently create deeper filter bubbles? Does it disadvantage new artists relative to the popularity baseline? These second-order effects matter.

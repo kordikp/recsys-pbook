@@ -5,74 +5,74 @@ title: "Step 3: Make Your Predictions"
 readingTime: 3
 standalone: true
 core: true
-teaser: "Use your similar users to predict ratings and make real recommendations."
+teaser: "Use nearest neighbors to predict ratings and generate actionable recommendations."
 voice: universal
 parent: null
 diagram: null
 recallQ: "How do you predict a rating for an unseen item?"
-recallA: "Find 2-3 most similar users who rated it → average their ratings. Above 4 stars = recommend it."
+recallA: "Find 2-3 most similar users who rated it → compute weighted average of their ratings. Above threshold = recommend."
 status: accepted
 ---
 
-You've got your rating matrix. You know who's similar to who. Now for the big moment: **predicting ratings and making recommendations.**
+You have your rating matrix. You know each user's nearest neighbors. Now for the core step: **predicting ratings and generating recommendations.**
 
-**The Method:**
+**The Method (k-Nearest Neighbors):**
 
-For every empty cell in your matrix (a movie someone hasn't seen), do this:
+For every empty cell in your matrix (an item a user hasn't rated), follow this procedure:
 
-1. Find the 2-3 most similar people who DID rate that movie
-2. Look at their ratings
-3. Calculate the average
+1. Identify the k most similar users (k=2 or k=3 is a good starting point) who DID rate that item
+2. Collect their ratings
+3. Compute the (optionally weighted) average
 4. That average is your **predicted rating**
 
 **Example:**
 
-Sam hasn't seen The Super Mario Bros. Movie. Who are Sam's most similar users?
+Bob hasn't rated The Grand Budapest Hotel. Who are Bob's nearest neighbors?
 
-From Step 2, we know:
-- Alex is very similar to Sam (similarity score: high)
-- Maya is somewhat similar to Sam (similarity score: medium)
+From Step 2, we determined:
+- Alice is very similar to Bob (low distance / high similarity)
+- Diana is moderately similar to Bob (medium similarity)
 
-Alex rated Mario: **3 stars**
-Maya rated Mario: **4 stars**
+Alice rated Grand Budapest Hotel: **3 stars**
+Diana rated Grand Budapest Hotel: **4 stars**
 
-Predicted rating for Sam = (3 + 4) / 2 = **3.5 stars**
+Predicted rating for Bob = (3 + 4) / 2 = **3.5 stars**
 
-Not bad! That's a "they'll probably think it's okay but not amazing" prediction.
+A moderate prediction -- suggests Bob would find it decent but not outstanding.
 
-**Making the Recommendation:**
+**Generating the Recommendation List:**
 
-Now do this for EVERY movie Sam hasn't seen. You might get:
+Apply this for every item Bob hasn't rated:
 
-| Movie Sam hasn't seen | Predicted rating |
+| Item Bob hasn't rated | Predicted rating |
 |---|---|
-| The Super Mario Bros. Movie | 3.5 |
-| Inside Out 2 | 4.5 |
-| Dune | 2.0 |
-| Kung Fu Panda 4 | 4.0 |
+| The Grand Budapest Hotel | 3.5 |
+| Dune: Part Two | 4.5 |
+| No Country for Old Men | 2.0 |
+| Interstellar | 4.0 |
 
-**Your recommendation rule:** Anything predicted at **4 stars or above** gets recommended!
+**Your recommendation threshold:** Items predicted at **4 stars or above** get recommended.
 
-So you'd recommend to Sam:
-1. Inside Out 2 (predicted: 4.5)
-2. Kung Fu Panda 4 (predicted: 4.0)
+Recommendations for Bob:
+1. Dune: Part Two (predicted: 4.5)
+2. Interstellar (predicted: 4.0)
 
-And you'd skip Dune (predicted: 2.0) and Mario (predicted: 3.5).
+Items below threshold are filtered: No Country for Old Men (2.0) and Grand Budapest Hotel (3.5).
 
-**Now test it!**
+**Now validate!**
 
-This is the most important part. Go back to Sam (or whoever you made predictions for) and ask: "Have you seen Inside Out 2? What did you think?"
+This is the most critical step. Return to Bob (or whichever user you generated predictions for) and collect their actual ratings on the predicted items. This is your **ground truth** for evaluation.
 
-If Sam says "I loved it!" -- your system worked!
-If Sam says "Meh, it was boring" -- your system needs improvement.
+If Bob rates Dune: Part Two a 5 -- your system performed well.
+If Bob rates it a 2 -- your model needs refinement.
 
-**Keep score:**
+**Track your results:**
 
-| Person | Movie predicted | Predicted rating | Actual rating | Close? |
+| User | Item predicted | Predicted rating | Actual rating | Absolute error |
 |---|---|---|---|---|
-| Sam | Inside Out 2 | 4.5 | ? | |
-| Sam | Kung Fu Panda 4 | 4.0 | ? | |
+| Bob | Dune: Part Two | 4.5 | ? | |
+| Bob | Interstellar | 4.0 | ? | |
 
-If your predicted ratings are within 1 star of the actual ratings most of the time, you've built a genuinely useful recommendation system. Congratulations -- you're officially a recommendation engineer!
+Compute the **Mean Absolute Error (MAE)** across all predictions: MAE = (1/n) × Σ|predicted - actual|. If your MAE is below 1.0, you've built a genuinely useful recommendation system. For reference, the Netflix Prize baseline had an RMSE of about 0.95 on a 1-5 scale.
 
-**Think about it!** How accurate were your predictions? If some were way off, what do you think went wrong? Maybe you needed more data, or maybe those people are just unpredictable. That's totally normal -- even Netflix can't get it right every time.
+**Consider this:** How accurate were your predictions? If some were significantly off, analyze why. Possible causes include insufficient co-rated items, outlier preferences, or context-dependent ratings (mood, time of day). This is normal -- even Netflix's production model has substantial prediction error on individual ratings. The value is in being right *on average* and *most of the time*.

@@ -5,42 +5,42 @@ title: "Three Types of Clues"
 readingTime: 2
 standalone: true
 core: true
-teaser: "Item clues, person clues, and action clues -- the three ingredients in every recommendation."
+teaser: "Item features, user profiles, and behavioral signals -- the three pillars of every recommendation."
 voice: universal
 parent: null
 diagram: diagram-data-sources
-recallQ: "Name the 3 types of clues recommenders use."
-recallA: "Item clues (what it IS), person clues (who YOU are), action clues (what you DO)."
+recallQ: "Name the 3 types of data recommenders use."
+recallA: "Item metadata (what it IS), user attributes (who YOU are), interaction data (what you DO)."
 status: accepted
 ---
 
-A recommender system uses three types of clues to figure out what to show you. Think of them like three ingredients in a recipe. You need all three for the best results.
+A recommender system draws on three fundamental types of data to determine what to present to you. Think of them as three pillars -- you need all three for robust recommendations, and each compensates for the others' blind spots.
 
-## Clue Type 1: What's Available
+## Data Type 1: Item Metadata (What's Available)
 
-Imagine you're a librarian. Before you can recommend a book, you need to know what's on the shelves! You need to know which books are about adventure, which are funny, which are for younger kids, and which are for teens.
+Before any recommendation can happen, the system needs a comprehensive understanding of its inventory. An e-commerce platform must know every product's attributes; a content platform must understand every piece of content in its catalog.
 
-Recommender systems work the same way. They know A LOT about every item:
-- A YouTube video has a title, description, category, length, and upload date
-- A Spotify song has an artist, genre, tempo, energy level, and mood
-- A Netflix show has actors, genre, rating, and language
+Recommender systems maintain rich metadata about every item:
+- A YouTube video has a title, description, category, duration, upload date, creator history, and auto-generated tags
+- A Spotify track has an artist, genre, tempo, energy level, key, danceability, and acoustic fingerprint
+- An Amazon product has a category taxonomy, price point, brand, customer segments, and related items
 
-This is like the system's catalog. It knows every single item inside and out.
+This metadata forms the system's knowledge base -- a structured representation of every item that enables content-based filtering and feature engineering.
 
-## Clue Type 2: Who You Are
+## Data Type 2: User Attributes (Who You Are)
 
-The system also knows some basic things about YOU. Not your deepest secrets -- just things like:
-- Your language and country
-- Your age range (based on your account)
-- How long you've been using the app
-- What device you're on
+The system also maintains a profile with basic attributes about YOU. Not necessarily personal details, but contextual information such as:
+- Your language, locale, and timezone
+- Your age bracket or demographic segment (based on account information or inferred)
+- Your tenure on the platform and engagement history
+- Your device type, operating system, and connection context
 
-This helps because a 10-year-old in Japan probably wants different recommendations than a 40-year-old in Brazil.
+These attributes matter because a software engineer in Berlin likely has different content preferences than a marketing director in Sao Paulo -- even if both are browsing the same platform. Under GDPR and similar regulations, the collection and use of these attributes is subject to strict consent and transparency requirements.
 
-## Clue Type 3: What You DO
+## Data Type 3: Interaction Data (What You DO)
 
-This is the most important clue of all. Your actions. Your footprints. Everything we talked about in the last section -- clicks, watches, skips, searches, likes.
+This is the most powerful data source by far. Your actions. Your digital footprints. Everything covered in the previous section -- clicks, consumption patterns, skips, searches, saves, purchases, and shares.
 
-Why is this the most important? Because what you DO reveals who you REALLY are. You might say you love documentaries, but if you actually spend 5 hours watching comedy videos... well, the system believes your actions, not your words.
+Why is this the most important? Because behavior reveals actual preferences far more reliably than stated preferences. You might list "industry analysis" as an interest in your profile, but if you actually spend three hours a day consuming product design content... the system trusts your behavior, not your self-reported preferences. This is a well-established finding in behavioral psychology known as the attitude-behavior gap.
 
-**Think about it!** Which clue type do you think is most useful for making good recommendations? What would happen if a system only had one of the three?
+**Consider this:** Which data type do you think is most valuable for generating high-quality recommendations? What would happen if a system had access to only one of the three? (Hint: this is not a hypothetical -- early recommender systems often operated with just one, and their limitations directly motivated the multi-signal architectures used today.)

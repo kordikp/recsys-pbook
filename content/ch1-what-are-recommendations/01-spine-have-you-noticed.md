@@ -5,39 +5,37 @@ title: "Have You Ever Noticed?"
 readingTime: 2
 standalone: true
 core: true
-teaser: "YouTube somehow knows you love Minecraft videos. But how?"
+teaser: "Every platform you use curates your experience. But what's behind it?"
 voice: universal
 parent: null
 diagram: null
-recallQ: "How do apps like YouTube seem to \"know\" what you want?"
-recallA: "They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content."
+recallQ: "How do platforms like YouTube seem to \"know\" what you want?"
+recallA: "They track your clicks, watches, and skips to build a profile of your preferences — then use algorithms to surface similar content."
 status: accepted
 ---
 
-You open YouTube. Right there on your home page: a Minecraft build tutorial, a funny cat video, and that creator you watched yesterday. You didn't search for any of them. They just... appeared.
+You open YouTube. Right on your home page: a tech talk you'd find interesting, a documentary trailer, and a channel you watched yesterday. You didn't search for any of them. They just appeared.
 
 How did YouTube know?
 
-Open TikTok. Your For You page is completely different from your friend's. You see skateboarding tricks. They see baking videos. Same app, totally different experience.
+Open TikTok or Instagram Reels. Your feed is completely different from your colleague's. You see industry commentary. They see cooking tutorials. Same platform, entirely different experience.
 
-Spotify does it too. Every Monday, it drops a playlist called Discover Weekly -- thirty songs picked just for you. Songs you've never heard before. And somehow, most of them are actually good?
+Spotify does it too. Every Monday, it generates a playlist called Discover Weekly — thirty songs picked specifically for you. Tracks you've never heard before. And surprisingly, most of them actually resonate.
 
-Here's the secret: **recommender systems**.
+The mechanism behind all this: **recommender systems**.
 
-A recommender system is like having a super-smart friend who:
-- Remembers every video you've ever watched
-- Knows what millions of other people liked
-- Never sleeps
-- Gets better at guessing what you want every single day
+A recommender system is essentially a software layer that:
+- Tracks every interaction you've ever had with the platform
+- Aggregates behavioral signals from millions of other users
+- Operates continuously in real time
+- Improves its predictions with every additional data point
 
-These systems are running behind the scenes on almost every app you use. They're the reason your Netflix homepage looks nothing like your parents'. They're why Amazon shows you cool stuff before you even knew you wanted it.
+These systems run behind the scenes on virtually every digital platform you use. They're the reason your Netflix homepage looks nothing like your partner's. They're why Amazon surfaces relevant products before you've even articulated a need.
 
-And here's the wild part -- they're not magic. They're not reading your mind. They're using **math, data, and really clever tricks** to figure out what you'll probably enjoy.
+The key insight: they're not magic. They're not reading your mind. They're using **mathematics, data, and increasingly sophisticated algorithms** to predict what you'll probably find valuable.
 
-In this book, we're going to pull back the curtain and see how it all works. You'll learn how these systems think, how they learn about you, and even how to build one yourself.
+In this book, we're going to examine how it all works. You'll understand how these systems learn, what trade-offs they navigate, and even how to build one yourself.
 
-Ready? Let's go.
+> **Did you know?** YouTube's recommendation algorithm drives over 70% of all views on the platform — that's more than 700 million hours of video watched per day, all selected by AI. This makes it arguably the most consequential content curation system ever built.
 
-> **Did you know?** YouTube's recommendation algorithm is responsible for 70% of all views on the platform — that's over 700 million hours of video watched per day, all chosen by AI.
-
-**Think about it!** Open any app right now -- YouTube, TikTok, Spotify, Netflix. Look at the first thing it shows you. Why do you think it picked THAT? Write down your guess. We'll come back to it later.
+**Consider this:** Open any platform right now — YouTube, Spotify, Netflix, Amazon. Look at the first thing it shows you. What data points do you think it used to make that choice? Keep your hypothesis in mind — we'll revisit it.

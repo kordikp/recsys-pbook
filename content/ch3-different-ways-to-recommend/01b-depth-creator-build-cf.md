@@ -4,68 +4,70 @@ type: spine
 title: "Build Your Own Taste-Matching System"
 readingTime: 4
 standalone: false
-teaser: "Survey your classmates, build a spreadsheet, and discover hidden taste twins."
+teaser: "Survey your colleagues, build an interaction matrix, and discover hidden preference clusters."
 voice: creator
 parent: null
 diagram: null
 recallQ: "Can you build collaborative filtering without a computer?"
-recallA: "Yes! Survey friends, create a rating grid on paper, find who matches you best, check what they liked."
+recallA: "Yes. Survey a group, create a rating matrix on paper, compute similarity scores, and predict preferences for unseen items."
 status: accepted
 ---
 
-You don't need a computer to try collaborative filtering. You can do it right now with a pencil, some paper, and about 10 friends.
+You don't need a production system to try collaborative filtering. You can do it right now with a spreadsheet and about 10 willing participants.
 
 ## What You'll Need
 
-- A sheet of paper (or a spreadsheet app)
-- 10 classmates willing to answer a quick survey
+- A spreadsheet application (or pen and paper)
+- 10 colleagues or friends willing to answer a quick survey
 - 5 minutes
 
-## Step 1: Pick Your Movies
+## Step 1: Select Your Items
 
-Choose 8 popular movies or shows that most kids your age have seen. For example:
+Choose 8 widely-known items that most people in your group have experienced. For example:
 
-1. Spider-Verse
-2. Encanto
-3. Stranger Things
-4. Minecraft Movie
-5. Wonka
-6. Wednesday
-7. Elemental
-8. The Super Mario Bros. Movie
+1. Breaking Bad
+2. Succession
+3. The Bear
+4. Oppenheimer
+5. Dune: Part Two
+6. Shogun
+7. The Last of Us
+8. Andor
 
-## Step 2: Survey Time
+## Step 2: Collect Ratings
 
-Ask each classmate: "Did you like this movie? Yes or No?" (Skip movies they haven't seen.)
+Ask each participant: "Did you enjoy this? Yes or No?" (Skip items they haven't experienced.)
 
-Make a grid. Put names down the side, movies across the top. Write Y for yes, N for no, and leave blanks for "haven't seen."
+Create a matrix. Names down the rows, items across the columns. Write Y for yes, N for no, and leave blanks for "haven't seen."
 
-## Step 3: Find the Pairs
+## Step 3: Compute Pairwise Similarity
 
-Now comes the fun part. For each pair of classmates, count how many movies they agreed on (both said Y or both said N).
+Now comes the interesting part. For each pair of participants, count how many items they agreed on (both said Y or both said N).
 
 Example:
-- Classmate A and Classmate B agreed on 6 out of 7 movies they both saw. Strong match!
-- Classmate A and Classmate C agreed on 2 out of 6. Weak match.
+- Participant A and Participant B agreed on 6 out of 7 shared items. Strong similarity!
+- Participant A and Participant C agreed on 2 out of 6. Weak similarity.
 
-## Step 4: Make Predictions
+For a more rigorous approach, compute cosine similarity or Pearson correlation between their rating vectors.
 
-Find a classmate who HASN'T seen one of the movies. Look at their closest match -- someone who agreed with them on almost everything. Did the match like that movie? If yes, predict your classmate will like it too.
+## Step 4: Generate Predictions
 
-## Step 5: Check Your Accuracy
+Find a participant who HASN'T experienced one of the items. Look at their most similar neighbor -- someone who agreed with them on nearly everything. Did the neighbor enjoy that item? If yes, predict the participant will too.
 
-Here's the big test. Ask: "Would you want to watch this movie?" See if your prediction was right.
+## Step 5: Validate Your Predictions
 
-Try 10 predictions. How many were correct?
+Here's the empirical test. Ask: "Would you be interested in trying this?" See if your prediction aligns.
 
-- **7-10 correct**: Your system works great! You're a natural recommender.
-- **4-6 correct**: Not bad! Real systems get better with more data.
-- **0-3 correct**: Hmm. Maybe you need more movies in your survey, or more people.
+Try 10 predictions. How many were accurate?
 
-## What You Just Learned
+- **7-10 correct**: Your system has solid predictive power. The similarity signal is strong.
+- **4-6 correct**: Reasonable baseline. Production systems improve with more data and better similarity metrics.
+- **0-3 correct**: The dataset may be too sparse, or the item set doesn't capture enough preference variance.
 
-This is EXACTLY what Netflix, Spotify, and YouTube do. They just do it with millions of people and millions of items, using computers that can crunch all those numbers in milliseconds.
+## What You Just Built
 
-The more people you survey and the more movies you include, the better your predictions get. That's why big platforms have such an advantage -- they have enormous amounts of data.
+This is EXACTLY what Netflix, Spotify, and YouTube do. They operate at the scale of millions of users and millions of items, using distributed computing to process those similarity computations in milliseconds.
 
-**Challenge**: Try it with songs instead of movies. Is it easier or harder to predict music taste? Why do you think that is?
+The more participants you survey and the more items you include, the better your predictions become. This is the **data network effect** -- the fundamental reason large platforms have such a competitive advantage in recommendation quality.
+
+**Extension**: Try the same exercise with music, podcasts, or restaurants. Do different domains produce different similarity structures? You'll likely find that preference correlation varies significantly by domain -- a key insight that motivates domain-specific recommendation strategies.

@@ -1,56 +1,54 @@
 ---
 id: ch1-ws-match
 type: spine
-title: "Which Model Powers Your Favorite App?"
+title: "Which Model Powers Your Favorite Platform?"
 readingTime: 5
 standalone: true
-teaser: "Open your favorite apps and discover which recommendation model is secretly running the show!"
+teaser: "Examine the content distribution models behind the platforms you use daily."
 voice: universal
 parent: null
 diagram: null
-recallQ: "Name 3 different recommendation models."
-recallA: "Friend-based, follow-based, interest-based, algorithm-based, and group-based. Most apps use hybrids."
+recallQ: "Name 3 different content distribution models."
+recallA: "Social graph, subscription, community-curated, algorithmic, and group-based. Most platforms use hybrid approaches."
 status: accepted
 ---
 
-Every app you use has a secret recipe for deciding what to show you. Let's figure out which recipe each app is using — by actually opening them up and looking!
+Every platform uses a specific content distribution model — or more often, a combination of models. Understanding which model drives what you see is the first step to understanding the platform's incentive structure.
 
-First, meet the five models:
+Here are the five primary models:
 
-- **A) Friend-based** — Shows you stuff your friends like and share. Your feed = your social circle's greatest hits.
-- **B) Follow-based** — You pick who to follow. You're the boss — but you only see what you chose.
-- **C) Interest-based** — You join communities around topics you care about. The community decides what's hot, not a robot.
-- **D) Algorithm-based** — You don't choose anything. The AI watches what you watch, what you skip, and how long you stay — then it picks what's next. It knows you better than you think.
-- **E) Group-based** — You join groups and chat servers. Content lives inside those rooms, and you only see it if you walk in.
+- **A) Social-graph-based** — Surfaces content from your social connections. Your feed reflects your network's activity.
+- **B) Subscription-based** — You choose sources to follow. You control the input, but may miss relevant content from outside your selections.
+- **C) Community-curated** — Content is organized around topics, with community voting or moderation determining visibility.
+- **D) Algorithmic** — The system observes your behavior — views, dwell time, skips, engagement — and autonomously selects content. No explicit user curation required.
+- **E) Group-based** — Content is confined to specific channels or groups you've joined. Visibility is determined by membership, not algorithms.
 
-Now let's investigate your apps one by one.
+Now let's examine specific platforms:
 
-**Open TikTok.** Look at your For You page. Did you hand-pick these creators? Nope — the ALGORITHM picked them for you. That's **model D**.
+**TikTok.** Your For You page is almost entirely **model D** — pure algorithmic selection. You didn't choose these creators; the recommendation engine did, based on behavioral signals.
 
-**Open Reddit** (or think about how it works). You joined subreddits like r/Minecraft or r/memes because YOU chose those topics. That's **model C** — interest-based.
+**Reddit.** You subscribe to subreddits organized by topic, with community upvoting determining visibility. That's **model C** — community-curated, with elements of B.
 
-**Open Discord.** You're in servers — little rooms you joined. You only see what's posted in YOUR servers. That's **model E** — group-based.
+**Slack/Discord.** Content lives in channels and servers you've joined. That's **model E** — group-based. You only see what's posted in your spaces.
 
-**Open Facebook** (or ask a parent to show you theirs). The feed is packed with posts from friends and family. That's **model A** — friend-based.
+**Facebook/LinkedIn.** The feed surfaces content from your connections — **model A** — but increasingly filtered and re-ranked by algorithms (**model D**).
 
-**Now open YouTube.** You subscribe to channels (that's follow-based, model B). But look at your homepage — half those videos are from channels you've NEVER subscribed to. The algorithm snuck them in. YouTube uses **both B and D**.
+**YouTube.** You subscribe to channels (**model B**), but your homepage is dominated by algorithmically recommended videos from channels you've never subscribed to (**model D**). The balance has shifted heavily toward algorithmic curation over the past decade.
 
-**Same with Instagram.** Your main feed shows people you follow (B), but tap the Reels tab and suddenly it's TikTok-style algorithm picks (D). **Both B and D again.**
+**Instagram/X (Twitter).** Both platforms originally used subscription models (**B**) but have progressively shifted toward algorithmic feeds (**D**). The "For You" tab is now the default view.
 
-**And X (Twitter).** You follow people for their posts, but the "For You" tab is pure algorithm. **B and D once more.**
-
-Notice the pattern? YouTube, Instagram, and X all use BOTH following AND algorithms. The algorithm is taking over everywhere!
+**The trend is clear:** platforms are converging toward algorithmic content distribution. Even platforms that started with user-controlled models are layering algorithms on top — because algorithmic curation drives higher engagement metrics.
 
 ---
 
 **type: question**
 
-Which model do you think gives YOU the most control over what you see?
+Which model gives you the most control over what you see?
 
-- A) Friend-based
-- B) Follow-based
-- C) Interest-based
-- D) Algorithm-based
+- A) Social-graph-based
+- B) Subscription-based
+- C) Community-curated
+- D) Algorithmic
 - E) Group-based
 
-Think about it: with follow-based and interest-based, YOU decide. With algorithm-based, the AI decides. Which one do you actually prefer — and is it the same one you spend the most time on?
+Consider: the models that give you the most control (B, C, E) may not be the ones where you spend the most time. What does that tell you about the relationship between user agency and engagement?

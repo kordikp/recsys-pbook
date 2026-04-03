@@ -5,7 +5,7 @@ game: cold-start
 title: "Cold Start Challenge"
 readingTime: 1
 standalone: true
-teaser: "A new user just signed up with zero history. Which strategies actually work?"
+teaser: "A new user just registered with zero interaction history. Which onboarding strategies actually work?"
 voice: universal
 parent: null
 diagram: null

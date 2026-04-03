@@ -1,52 +1,52 @@
 ---
 id: ch4-unfair-game
 type: spine
-title: "The Unfair Classroom"
+title: "The Unfair Marketplace"
 readingTime: 1
 standalone: true
 core: true
-teaser: "What happens when only the loud kids get called on? The same thing that happens with popular videos."
+teaser: "What happens when only established players get visibility? The same dynamic that governs popular content on every platform."
 voice: thinker
 parent: null
 diagram: null
 recallQ: "How can platforms make recommendations fairer?"
-recallA: "Random sampling, guaranteed visibility for new content, small-audience testing before scaling."
+recallA: "Random sampling for new items, guaranteed minimum exposure for new providers, small-audience testing before scaling to broader distribution."
 status: accepted
 ---
 
-Let's play an imagination game. Picture this classroom:
+Consider the following scenario in a professional setting:
 
 ## The Setup
 
-It's Monday. The teacher asks a question. Five kids raise their hands. The teacher picks one of them -- let's call her Maya. Maya gives a great answer. The teacher remembers Maya.
+It is Q1. A company solicits proposals from consulting firms. Five established firms submit. The procurement team selects one -- call it Apex Consulting. Apex delivers strong results. The procurement team remembers Apex.
 
-Tuesday. Another question. This time, the teacher looks at Maya first. Maya raises her hand again (she's feeling confident now), and the teacher calls on her. Great answer again.
+Q2. Another project opens. This time, the procurement team reaches out to Apex first. Apex submits a proposal (they have the relationship now), and they win again. Strong delivery once more.
 
-By Friday, the teacher calls on Maya almost every time. Maya's confidence is sky-high. She speaks up more and more.
+By Q4, Apex is the default vendor. They receive every RFP. Their pipeline is full. Their brand equity compounds.
 
-Meanwhile, there's Kai. Kai is smart too. But on Monday, he was a little shy. Didn't raise his hand. The teacher didn't notice him. On Tuesday, Kai tried to raise his hand, but Maya was already talking. By Friday, Kai has stopped trying.
+Meanwhile, there is Nova Partners. Nova is equally capable. But in Q1, they were new to the market. Did not have existing relationships. The procurement team did not know them. In Q2, Nova submitted a proposal, but Apex already had the inside track. By Q4, Nova has stopped bidding on that client's work.
 
-**Maya gets heard because she was heard before. Kai stays silent because he was silent before.**
+**Apex gets selected because they were selected before. Nova stays invisible because they were invisible before.**
 
-## Sound Familiar?
+## Recognize the Pattern?
 
-This is EXACTLY what happens with recommendations.
+This is precisely what happens with algorithmic recommendations:
 
-- A video gets popular and gets recommended to more people
-- More people watch it, so it gets even MORE popular
-- It gets recommended even MORE
-- Meanwhile, a brilliant new video from a small creator never gets shown to anyone
-- Nobody watches it, so it never gets recommended
-- Nobody watches it, so...
+- Content gains initial traction and gets recommended to more users
+- More users engage with it, generating even stronger engagement signal
+- It gets recommended even more aggressively
+- Meanwhile, excellent new content from an unknown provider is never surfaced
+- No one engages with it, so it never enters the recommendation pipeline
+- No one engages with it, so it remains invisible indefinitely
 
-Engineers call this the **"rich get richer"** problem. Or the **Matthew Effect** (named after a line in the Bible: "For to everyone who has, more will be given").
+Researchers call this the **"rich get richer" problem**, or the **Matthew Effect** (named after a passage in the Gospel of Matthew: "For to everyone who has, more will be given"). In network science, it is formalized as **preferential attachment** -- the probability of receiving a new connection is proportional to the number of connections you already have.
 
-## What Would YOU Do?
+## What Are the Solutions?
 
-If you were the teacher, how would you fix this? Here are some ideas -- real classrooms AND real algorithms use these:
+If you were redesigning the system, how would you address this? Here are strategies that real platforms and well-designed recommendation systems employ:
 
-- **Random cold-calls:** Sometimes call on kids who DIDN'T raise their hand. (Algorithms do this by randomly showing new content to small groups.)
-- **Assigned turns:** Make sure everyone gets to answer at least once per week. (Some platforms guarantee new creators a minimum number of views.)
-- **Small group work:** Let quiet kids shine in a smaller setting first. (TikTok tests new videos with small audiences before going big.)
+- **Random exploration:** Periodically surface content from unknown providers to a random sample of users, decoupling recommendation from existing popularity signal. This is the algorithmic analog of a procurement process that requires evaluation of at least one new vendor per cycle.
+- **Guaranteed minimum exposure:** Ensure every new item or provider receives a baseline level of visibility before the algorithm makes a judgment about its quality. Some platforms guarantee new content a minimum number of impressions.
+- **Small-audience testing:** Test new content with a small, representative audience before deciding whether to scale distribution. TikTok's approach is a well-known example: every video, regardless of the creator's following, is initially shown to a small cohort, and scaling decisions are based on that cohort's engagement.
 
-Good recommendation systems are like good teachers -- they don't just reward the loudest voice in the room. They make sure every voice gets a chance to be heard.
+Well-designed recommendation systems function like well-designed markets -- they do not simply reward incumbents with the most established signal. They build in mechanisms to ensure that quality can be discovered regardless of starting position.

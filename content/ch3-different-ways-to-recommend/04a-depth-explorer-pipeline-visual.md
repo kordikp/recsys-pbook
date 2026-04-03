@@ -1,86 +1,88 @@
 ---
 id: ch3-pipeline-d-exp
 type: spine
-title: "Trace a Real YouTube Recommendation"
+title: "Trace a Production Recommendation Request"
 readingTime: 3
 standalone: false
-teaser: "Follow one recommendation from the moment you open the app to the moment it appears on screen."
+teaser: "Follow one recommendation request from app launch to rendered feed -- stage by stage, millisecond by millisecond."
 voice: explorer
 parent: null
 diagram: null
 recallQ: "How does YouTube find 20 videos from 800 million in 0.2 seconds?"
-recallA: "Staged pipeline! Quick rough filters narrow 800M to 500 candidates, then careful ranking picks the best 20."
+recallA: "Multi-stage pipeline: fast retrieval narrows 800M to ~1000 candidates, cross-feature ranking scores those candidates, re-ranking applies diversity and policy constraints."
 status: accepted
 ---
 
-Let's follow exactly what happens from the moment you tap the YouTube app to the moment recommendations appear on your home screen. This all happens in under one second.
+Let's trace exactly what happens from the moment you open a platform like YouTube to the moment recommendations render on your screen. This entire flow completes in under one second.
 
-## 0.0 seconds: You Open the App
+## 0.0 seconds: Request Initiated
 
-You tap the YouTube icon. Your phone sends a request to YouTube's servers: "Hey, this user just opened the app. What should we show them?"
+You open the app. Your device sends an HTTP request to the platform's edge servers, which route it to the recommendation serving infrastructure: "User session started. Generate home feed."
 
-The servers know who you are. They pull up your profile instantly.
+The servers authenticate you and load your profile from the feature store.
 
-## 0.1 seconds: Your Profile Snapshot
+## 0.1 seconds: Feature Assembly
 
-The system grabs a quick summary of you:
+The system assembles your user feature vector:
 
-- **Last 10 videos watched**: 6 were Minecraft, 2 were funny animals, 1 was a science experiment, 1 was a music video
-- **Time of day**: It's 4pm on Saturday (you usually watch longer videos on weekends)
-- **Recent searches**: "minecraft castle tutorial", "best redstone builds"
-- **Subscriptions**: 3 Minecraft channels, 2 gaming channels, 1 science channel
+- **Recent interaction sequence**: Last 10 items consumed -- 6 were systems engineering content, 2 were product design, 1 was economics, 1 was music
+- **Temporal context**: Saturday 4pm (historically correlates with longer-form content consumption)
+- **Recent queries**: "distributed consensus algorithms", "raft vs paxos"
+- **Subscriptions/follows**: 3 engineering channels, 2 tech commentary, 1 science channel
+- **Device and network**: Mobile on Wi-Fi (may influence preferred content length)
 
-## 0.2 seconds: FIND -- Cast the Net
+## 0.2 seconds: RETRIEVAL -- Parallel Candidate Generation
 
-The system fires off multiple searches at the same time:
+Multiple retrieval sources fire simultaneously:
 
-- **Collaborative**: "Users with similar history watched these..." -- pulls 200 candidates
-- **Content-based**: "Videos similar to your last 10..." -- pulls 150 candidates
-- **Subscriptions**: "New uploads from channels you follow" -- pulls 30 candidates
-- **Trending**: "Popular videos in your region" -- pulls 50 candidates
-- **Exploration**: "Random promising videos you might discover" -- pulls 70 candidates
+- **Two-tower ANN search**: User embedding → nearest items in pre-built HNSW index -- 200 candidates
+- **Content-based**: Items similar to recent consumption (feature vector similarity) -- 150 candidates
+- **Subscription feed**: New uploads from followed channels -- 30 candidates
+- **Trending**: Popular items in user's region/language -- 50 candidates
+- **Exploration pool**: Bandit-selected items for preference discovery -- 70 candidates
 
-Total: roughly **500 candidates** gathered in a fraction of a second.
+Total: roughly **500 candidates** gathered in parallel, de-duplicated and merged.
 
-## 0.4 seconds: RANK -- Score Everything
+## 0.4 seconds: SCORING -- Cross-Feature Ranking
 
-Now each of those 500 videos gets a score. The system predicts:
+Each of those 500 candidates is scored by the ranking model, which predicts multiple engagement signals:
 
-| Video | Click Chance | Watch Time | Like Chance | Final Score |
+| Item | P(click) | E[watch time] | P(like) | Composite Score |
 |---|---|---|---|---|
-| Minecraft mega build | 85% | 12 min | 70% | 0.94 |
-| Funny cat compilation | 60% | 4 min | 50% | 0.71 |
-| New redstone tutorial | 75% | 8 min | 65% | 0.82 |
-| Science volcano experiment | 40% | 6 min | 45% | 0.55 |
+| Distributed systems deep dive | 85% | 12 min | 70% | 0.94 |
+| Cat compilation (viral) | 60% | 4 min | 50% | 0.71 |
+| Consensus protocol tutorial | 75% | 8 min | 65% | 0.82 |
+| Physics experiment | 40% | 6 min | 45% | 0.55 |
 | Trending pop music video | 30% | 3 min | 20% | 0.38 |
 | ... | ... | ... | ... | ... |
 
-The exact formula is secret, but it combines click probability, expected watch time, and likelihood of a positive reaction.
+The composite score is a learned weighted combination of predicted engagement signals, calibrated to optimize for long-term user satisfaction (not just clicks).
 
-## 0.7 seconds: CHECK -- Final Touches
+## 0.7 seconds: RE-RANKING -- Diversity and Policy
 
-The top 30 videos by score go through final checks:
+The top 30 items by score go through post-processing:
 
-- 8 out of the top 10 are Minecraft? Swap some out for variety. Keep 4 Minecraft, add the cat video, the science video, a new gaming video, and a surprise.
-- Already watched that redstone tutorial yesterday? Remove it.
-- One video is 45 minutes long? Maybe save that for later. Show a mix of short and medium videos.
-- Everything age-appropriate? Check.
+- 8 of the top 10 are systems engineering content? Apply MMR to inject diversity. Keep 4 engineering, add the product design piece, the physics video, a new discovery, and a serendipity pick.
+- Already consumed that consensus tutorial yesterday? Filter it.
+- One item is 45 minutes? Mix content lengths based on session context.
+- All content passes policy/safety checks? Verified.
+- Apply position bias calibration for the final ordering.
 
-## 0.9 seconds: DELIVER
+## 0.9 seconds: RESPONSE
 
-The final 20 videos appear on your home screen. Thumbnails load. You see:
+The final 20 items render on your screen. Thumbnails and metadata load:
 
-1. Minecraft mega castle build (top match)
-2. New video from a subscribed channel
-3. Funny cat compilation
-4. Redstone tutorial (different from yesterday's)
-5. Science experiment
-6. ...and 15 more carefully chosen videos
+1. Distributed systems architecture deep dive (top match)
+2. New upload from followed channel
+3. Viral but relevant content
+4. Related tutorial (different from yesterday's)
+5. Cross-domain discovery item
+6. ...and 15 more carefully assembled items
 
-You tap the first one without thinking twice. The system nailed it.
+You tap the first one without hesitation. The system's prediction was accurate.
 
-## The Mind-Blowing Part
+## The Engineering Reality
 
-This entire process -- from app open to recommendations displayed -- took less than one second. And it happened not just for you, but for the **2 billion other people** using YouTube at the same time.
+This entire flow -- from request to rendered feed -- completed in under one second. And it happened not just for you, but for the **2 billion other users** making concurrent requests.
 
-That's the engineering behind the "simple" home screen you see every day. Not so simple after all.
+That's the distributed systems engineering behind the "simple" home feed you see every day. Candidate generation, feature assembly, model inference, diversity optimization, and response serialization -- all within a strict latency budget, at global scale.

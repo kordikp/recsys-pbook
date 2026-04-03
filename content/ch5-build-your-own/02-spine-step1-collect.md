@@ -5,7 +5,7 @@ title: "Step 1: Collect the Data"
 readingTime: 3
 standalone: true
 core: true
-teaser: "Survey your friends, build a rating grid, and watch the pattern emerge."
+teaser: "Survey your team, build a rating matrix, and watch the patterns emerge."
 voice: universal
 parent: null
 diagram: null
@@ -14,49 +14,49 @@ recallA: "Users as rows, items as columns, ratings in cells. Most cells are empt
 status: accepted
 ---
 
-Every recommendation system starts with data. And YOUR data is going to come from real people -- your friends, family, classmates, anyone you can convince to answer a quick survey.
+Every recommendation system starts with data. Your data will come from real people -- colleagues, team members, or anyone willing to participate in a quick survey.
 
 **The Survey:**
 
-Pick **10 movies** that most people have heard of. Mix it up -- some action, some comedy, some animated, some older, some new. Here's an example list:
+Pick **10 items** that most participants are likely to have experience with. For a movie recommender, choose a mix of genres, eras, and styles. Here's an example list:
 
-1. Frozen
-2. Spider-Man: Across the Spider-Verse
-3. Moana
-4. The Super Mario Bros. Movie
-5. Encanto
-6. Wonka
-7. Inside Out 2
-8. Kung Fu Panda 4
-9. Dune
-10. Ghostbusters: Frozen Empire
+1. The Shawshank Redemption
+2. Oppenheimer
+3. Parasite
+4. The Dark Knight
+5. Everything Everywhere All at Once
+6. Pulp Fiction
+7. Dune: Part Two
+8. The Grand Budapest Hotel
+9. Interstellar
+10. No Country for Old Men
 
-Now find **at least 10 people** and ask each one:
+Now recruit **at least 10 participants** and ask each one:
 
 "Rate each movie from 1 to 5 stars. If you haven't seen it, leave it blank."
 
-- 1 star = hated it
-- 2 stars = didn't like it
-- 3 stars = it was okay
-- 4 stars = liked it
-- 5 stars = loved it
+- 1 star = strongly disliked
+- 2 stars = disliked
+- 3 stars = neutral
+- 4 stars = liked
+- 5 stars = strongly liked
 
-**Build Your Grid:**
+**Build Your Rating Matrix:**
 
-Draw a big grid. People down the left side. Movies across the top. Fill in the ratings.
+Construct a grid with users as rows and items as columns. Fill in the ratings.
 
-| | Frozen | Spider-Verse | Moana | Mario | Encanto |
+| | Shawshank | Oppenheimer | Parasite | Dark Knight | Everything Everywhere |
 |---|---|---|---|---|---|
-| Alex | 5 | 4 | 5 | 3 | 4 |
-| Sam | 5 | 3 | 5 | | 5 |
-| Jordan | 2 | 5 | 3 | 5 | |
-| Maya | 4 | | 4 | 4 | 3 |
-| Leo | | 5 | | 5 | 2 |
+| Alice | 5 | 4 | 5 | 3 | 4 |
+| Bob | 5 | 3 | 5 | | 5 |
+| Carlos | 2 | 5 | 3 | 5 | |
+| Diana | 4 | | 4 | 4 | 3 |
+| Ethan | | 5 | | 5 | 2 |
 
-See those empty cells? Those are movies the person hasn't seen. And those empty cells are exactly what your recommendation system is going to **predict**.
+The empty cells represent items the user hasn't rated. These missing values are exactly what your recommendation system will **predict**.
 
-This grid has a fancy name: it's called a **rating matrix**. And it's the foundation of your entire recommendation system.
+This structure is called a **rating matrix** (or user-item matrix), denoted as **R** with dimensions *m x n* where *m* is the number of users and *n* is the number of items. It is the foundation of your entire recommendation system.
 
-**Notice something?** Most of the grid is probably empty. People haven't seen every movie. That's normal -- and it's actually the whole point. If everyone had seen everything, there would be nothing to recommend!
+**Notice the sparsity.** Most of the matrix will be empty -- users haven't interacted with every item. This is expected and is in fact the core challenge. If the matrix were fully populated, there would be nothing left to recommend.
 
-**Think about it!** Look at your grid. Can you already spot people who seem to have similar taste? Just by scanning the numbers, you might see patterns. That's your brain doing what the algorithm is about to do -- but with math.
+**Consider this:** Examine your matrix. Can you already identify users with correlated preferences? The patterns you spot visually are exactly what the algorithm will quantify mathematically.

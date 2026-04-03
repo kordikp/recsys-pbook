@@ -5,36 +5,36 @@ title: "Your Digital Footprints"
 readingTime: 2
 standalone: true
 core: true
-teaser: "Every click, every skip, every replay -- you're leaving a trail."
+teaser: "Every click, every skip, every replay -- you're leaving a trail of behavioral data."
 voice: universal
 parent: null
 diagram: kids-digital-footprints
 recallQ: "What are digital footprints?"
-recallA: "Every click, watch, skip, and search — invisible tracks that teach the system about your taste."
+recallA: "Every click, view, skip, and search — behavioral traces that feed the system's model of your preferences."
 status: accepted
 ---
 
-Imagine walking through fresh snow. Every step you take leaves a footprint behind you. Someone could follow your trail and figure out exactly where you went.
+Imagine walking through fresh snow. Every step leaves a footprint behind you. Someone could follow your trail and reconstruct exactly where you went and how long you lingered.
 
-The internet works the same way -- except instead of snow, it's data. And instead of feet, it's your clicks, watches, skips, and searches.
+Digital platforms work the same way -- except instead of snow, it's data. And instead of feet, it's your clicks, views, skips, and searches.
 
-**Every single thing you do on an app leaves a digital footprint.**
+**Every single interaction you have with a platform leaves a digital footprint.**
 
-Tap on a video? Footprint. Watch it for 3 seconds and swipe away? Footprint. Watch the whole thing twice? Big footprint. Search for "how to train a dragon"? Footprint. Add a song to your playlist? Footprint.
+Click on an article? Footprint. Open a product page for 3 seconds and bounce? Footprint. Read the whole thing and bookmark it? Big footprint. Search for "best project management tools for remote teams"? Footprint. Add an item to your cart or save a playlist? Footprint.
 
-The more footprints you leave, the better the recommender system knows you. It's like the difference between a stranger and a best friend:
+The more footprints you leave, the more precisely the recommender system models your preferences. Consider the difference between a new colleague and a long-time collaborator:
 
-- **A stranger** knows nothing about you. They'd recommend random stuff. "Do you like... jazz? Cooking? Rock climbing?" Total guesses.
-- **Your best friend** knows you LOVE pizza with pepperoni (no mushrooms), you're obsessed with space, and you always pick the blue character in every game. They'd nail the recommendation every time.
+- **A new colleague** knows nothing about your work style. They'd suggest generic tools and approaches. "Do you prefer... Slack? Email? Spreadsheets?" Total guesses.
+- **A long-time collaborator** knows you prefer concise summaries over long reports, that you favor data-driven arguments, and that you always read industry news before your morning coffee. Their recommendations would be spot-on.
 
-A recommender system starts out as a stranger. But with every footprint you leave, it gets a little closer to being that best friend.
+A recommender system starts out as that new colleague. But with every footprint you leave, it builds an increasingly accurate profile of your preferences.
 
-Here's the thing: most of these footprints are invisible to you. You don't think about it when you skip a video. But the system noticed. You didn't mean to tell it anything when you watched a video at 2x speed. But the system noticed that too.
+Here's the critical insight: most of these footprints are invisible to you. You don't consciously register that you skipped a LinkedIn post. But the system logged it. You didn't intend to signal anything by listening to a podcast at 2x speed. But the system captured that behavioral cue as well.
 
-You're constantly teaching the recommender system about yourself -- even when you don't realize it.
+You're continuously training the recommender system about your preferences -- even when you're entirely unaware of it.
 
-> **Did you know?** TikTok starts personalizing your feed after just 8 minutes of use — that's roughly 40 swipes. It's one of the fastest-learning algorithms ever built.
+> **Did you know?** TikTok starts personalizing your feed after just 8 minutes of use -- roughly 40 swipes. Research from the Wall Street Journal confirmed it's one of the fastest-learning algorithms ever deployed, and this rapid profiling has drawn scrutiny from regulators worldwide, including the EU's Digital Services Act investigations.
 
-**Think about it!** If someone could see EVERY click you made in the last week, what would they learn about you? What would surprise them? What would they get wrong?
+**Consider this:** If a data analyst could review EVERY interaction you made across platforms in the last week, what profile would they construct? What patterns would emerge that you'd never have articulated yourself? And where would their inferences be wrong?
 
-**Want to go deeper?** The next section shows exactly WHAT they track — with a ranking of which signals matter most.
+**Want to go deeper?** The next section shows exactly WHAT platforms track -- with a ranking of which signals carry the most weight.

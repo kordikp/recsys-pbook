@@ -4,58 +4,58 @@ type: spine
 title: "Build It in a Spreadsheet"
 readingTime: 3
 standalone: false
-teaser: "Google Sheets instructions to create your very own rating matrix."
+teaser: "Google Sheets or Excel instructions to construct and visualize your rating matrix."
 voice: creator
 parent: null
 diagram: null
 recallQ: "Why can a spreadsheet help you build recommendations?"
-recallA: "Color-coded ratings reveal taste patterns visually — you can see who matches before doing any math."
+recallA: "Color-coded ratings reveal preference patterns visually — you can identify user clusters before running any algorithm."
 status: accepted
 ---
 
-Paper is great for starting out, but if you want to go bigger -- more people, more movies -- a spreadsheet is your best friend. Here's exactly how to set it up in Google Sheets (or Excel, or any spreadsheet app).
+A notebook is fine for prototyping, but once you scale beyond a handful of users and items, a spreadsheet becomes an invaluable tool. Here's exactly how to set it up in Google Sheets (or Excel, or any spreadsheet application).
 
 **Step 1: Create the sheet**
 
-Open Google Sheets (sheets.google.com) and start a new blank spreadsheet. Name it "My Recommendation System."
+Open Google Sheets (sheets.google.com) and start a new blank spreadsheet. Name it "Recommendation System Prototype."
 
 **Step 2: Set up the columns**
 
-- Cell A1: type "Name"
-- Cell B1: type your first movie title (like "Frozen")
-- Cell C1: second movie title
-- Keep going across the top row for all 10 movies
+- Cell A1: type "User"
+- Cell B1: type your first item title (e.g., "The Shawshank Redemption")
+- Cell C1: second item title
+- Continue across the top row for all items in your catalog
 
-**Step 3: Add the people**
+**Step 3: Add the users**
 
-- Cell A2: first person's name (like "Alex")
-- Cell A3: second person's name
-- Keep going down for all your survey responses
+- Cell A2: first user identifier (e.g., "Alice")
+- Cell A3: second user identifier
+- Continue down for all survey responses
 
 **Step 4: Fill in the ratings**
 
-For each person, enter their rating (1-5) in the matching cell. If they haven't seen the movie, **leave the cell empty**. Don't put 0 -- that would mean something different. Empty means "unknown."
+For each user, enter their rating (1-5) in the corresponding cell. If they haven't rated the item, **leave the cell empty**. Do not enter 0 -- that would carry a different semantic meaning. Empty cells represent missing data, not zero preference.
 
 Your sheet should look something like this:
 
-| Name | Frozen | Spider-Verse | Moana | Mario | Encanto |
+| User | Shawshank | Oppenheimer | Parasite | Dark Knight | Everything Everywhere |
 |---|---|---|---|---|---|
-| Alex | 5 | 4 | 5 | 3 | 4 |
-| Sam | 5 | 3 | 5 | | 5 |
-| Jordan | 2 | 5 | 3 | 5 | |
-| Maya | 4 | | 4 | 4 | 3 |
+| Alice | 5 | 4 | 5 | 3 | 4 |
+| Bob | 5 | 3 | 5 | | 5 |
+| Carlos | 2 | 5 | 3 | 5 | |
+| Diana | 4 | | 4 | 4 | 3 |
 
-**Step 5: Make it visual**
+**Step 5: Visualize the data**
 
-Here's a fun trick: select all the rating cells and use **conditional formatting** (Format > Conditional formatting) to color-code them:
+Select all rating cells and apply **conditional formatting** (Format > Conditional formatting) to create a heatmap:
 - 5 stars: dark green
 - 4 stars: light green
 - 3 stars: yellow
 - 2 stars: orange
 - 1 star: red
 
-Now you can literally SEE the patterns. Rows that have similar colors = people with similar taste!
+This heatmap makes preference patterns immediately visible. Rows with similar color distributions indicate users with correlated tastes -- you can often identify user clusters before running any formal similarity computation.
 
-**Pro tip:** Add a row at the bottom that calculates the **average rating** for each movie using `=AVERAGE(B2:B11)`. This tells you which movies are generally popular and which are divisive.
+**Pro tip:** Add a summary row that calculates the **mean rating** for each item using `=AVERAGE(B2:B11)` and a **standard deviation** using `=STDEV(B2:B11)`. The mean tells you overall popularity; the standard deviation reveals which items are divisive (high variance) versus universally liked or disliked (low variance).
 
-This spreadsheet IS your rating matrix. It's exactly what Netflix and Spotify use -- just way, way bigger. Netflix's matrix has over 200 million rows (users) and tens of thousands of columns (movies). Yours is a mini version of the same thing.
+This spreadsheet is your rating matrix **R**. It is structurally identical to what Netflix and Spotify use -- just at a different scale. Netflix's matrix has over 200 million rows (users) and tens of thousands of columns (titles). Yours is a tractable version of the same data structure.

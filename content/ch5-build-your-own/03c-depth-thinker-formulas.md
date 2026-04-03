@@ -2,71 +2,99 @@
 id: ch5-formulas
 type: spine
 title: "The Math Behind Recommendations"
-readingTime: 4
+readingTime: 5
 standalone: false
-teaser: "Cosine similarity, matrix factorization, and nDCG — the formulas that power every recommender, explained so a 12-year-old gets it."
+teaser: "Cosine similarity, matrix factorization, precision, recall, and nDCG — the core formulas behind every production recommender system."
 voice: thinker
 parent: null
 diagram: null
 core: false
 recallQ: "What does cosine similarity actually measure?"
-recallA: "The angle between two vectors of preferences. If two people rate things in the same pattern (even at different scales), the angle is small and similarity is high."
+recallA: "The angle between two vectors of preferences. If two users rate things in the same pattern (even at different scales), the angle is small and similarity is high."
 status: accepted
 ---
 
-Don't worry — you don't need to memorize these formulas. The goal is to **recognize** them when you see them, understand what they measure, and know why they matter. Think of it like reading a recipe: you don't need to cook it right now, but you should understand what the dish is.
+This section provides a reference for the key mathematical formulas underlying recommendation systems. The goal is not rote memorization but rather building fluency -- you should be able to recognize each formula, understand what it measures, and know when to apply it.
 
 ## 1. Cosine Similarity — "Are we pointing the same direction?"
 
-$$\text{sim}(A, B) = \frac{A \cdot B}{\|A\| \times \|B\|}$$
+$$\text{sim}(A, B) = \frac{A \cdot B}{\|A\| \times \|B\|} = \frac{\sum_{i=1}^{n} a_i b_i}{\sqrt{\sum_{i=1}^{n} a_i^2} \times \sqrt{\sum_{i=1}^{n} b_i^2}}$$
 
-**What it means in plain English:**
+**Components:**
 
-- **A** and **B** are two people's ratings, written as lists of numbers (vectors)
-- **A · B** (dot product) = multiply each pair of ratings together and add them up
-- **||A||** = the "length" of A's vector (how far the arrow reaches)
-- The result is a number between **-1** and **1**
+- **A** and **B** are user rating vectors over co-rated items
+- **A · B** (dot product) = the sum of element-wise products
+- **||A||** = the L2 norm (Euclidean length) of vector A
+- The result is bounded: **-1 ≤ sim(A, B) ≤ 1**
 
-**Example:** Alex rates [5, 4, 5] and Sam rates [4, 3, 4].
+**Example:** Alice rates [5, 4, 5] and Bob rates [4, 3, 4].
 
 - A · B = 5×4 + 4×3 + 5×4 = 20 + 12 + 20 = **52**
 - ||A|| = √(25 + 16 + 25) = √66 ≈ **8.12**
 - ||B|| = √(16 + 9 + 16) = √41 ≈ **6.40**
-- sim = 52 / (8.12 × 6.40) = 52 / 51.97 ≈ **1.00** (almost perfect match!)
+- sim = 52 / (8.12 × 6.40) = 52 / 51.97 ≈ **1.00** (near-perfect alignment)
 
-**Why it matters:** Sam rates everything a bit lower, but in the SAME pattern. Cosine similarity catches this — it measures the direction, not the scale.
+**Interpretation:** Bob rates everything slightly lower, but in the same pattern. Cosine similarity captures this -- it measures direction (relative ordering), not magnitude (absolute scale).
 
-## 2. Matrix Factorization & ALS — "Find the hidden reasons"
+**Variant -- Adjusted Cosine Similarity:** To account for user rating bias, subtract each user's mean rating μ before computing cosine:
 
-For the full story on matrix factorization — how it decomposes a giant ratings matrix into hidden taste dimensions, how the ALS algorithm learns those dimensions, and why it won the Netflix Prize — see the dedicated section in Chapter 3.
+$$\text{sim}_{\text{adj}}(A, B) = \frac{\sum_{i \in I_{AB}} (a_i - \bar{a})(b_i - \bar{b})}{\sqrt{\sum_{i \in I_{AB}} (a_i - \bar{a})^2} \times \sqrt{\sum_{i \in I_{AB}} (b_i - \bar{b})^2}}$$
 
-## 3. nDCG — "How good is this ranked list?"
+where I_AB is the set of co-rated items and ā, b̄ are the respective user means. This is equivalent to Pearson correlation and is often preferred in practice.
 
-$$\text{DCG} = \sum_{i=1}^{k} \frac{\text{relevance}_i}{\log_2(i + 1)}$$
+## 2. Matrix Factorization & ALS — "Find the hidden dimensions"
 
-$$\text{nDCG} = \frac{\text{DCG}}{\text{ideal DCG}}$$
+For the full treatment of matrix factorization -- how it decomposes the rating matrix **R ≈ P × Qᵀ** into low-rank user and item factor matrices, how the ALS (Alternating Least Squares) algorithm optimizes the latent factors, and why this approach won the Netflix Prize -- see the dedicated section in Chapter 3.
 
-**What it means:**
+## 3. Precision and Recall — "Did we recommend the right items?"
 
-- You have a list of recommended items, ranked from #1 to #k
-- Each item has a **relevance score** (how good it is for the user — e.g., 0, 1, 2, or 3)
-- Items higher in the list get a **bonus** (dividing by log makes position 1 worth much more than position 10)
-- **nDCG** normalizes the score to be between 0 and 1 by comparing to the **perfect** ranking
+Before measuring ranking quality, it's essential to understand two fundamental classification metrics:
 
-**Example:** A system recommends [Great, OK, Bad, Great] in that order.
+$$\text{Precision@k} = \frac{|\text{relevant items in top-k}|}{k}$$
 
-- DCG = 3/log₂(2) + 1/log₂(3) + 0/log₂(4) + 3/log₂(5) = 3 + 0.63 + 0 + 1.29 = **4.92**
-- Perfect order would be [Great, Great, OK, Bad] = 3 + 1.89 + 0.5 + 0 = **5.39**
-- nDCG = 4.92 / 5.39 = **0.91** (pretty good!)
+$$\text{Recall@k} = \frac{|\text{relevant items in top-k}|}{|\text{total relevant items}|}$$
 
-**Why it matters:** nDCG answers the question every recommendation team asks: "How close is our ranking to perfect?" A score of 1.0 means perfect. Most real systems score 0.3-0.7 because the problem is genuinely hard.
+**Precision** answers: "Of the items we recommended, how many were actually relevant?" A Precision@10 of 0.6 means 6 out of 10 recommended items were relevant.
 
-## Putting It Together
+**Recall** answers: "Of all relevant items, how many did we manage to recommend?" A Recall@10 of 0.3 means we surfaced 30% of the user's relevant items in our top-10 list.
 
-| Formula | What it does | Where it's used |
-|---------|-------------|----------------|
-| Cosine similarity | Finds similar users/items | Collaborative filtering |
-| Matrix factorization | Discovers hidden preferences | Training recommendation models (see Ch. 3) |
-| nDCG | Measures ranking quality | Evaluating if the system is good |
+**The precision-recall tradeoff:** Recommending more items typically increases recall (you capture more relevant items) but decreases precision (you also include more irrelevant ones). The optimal balance depends on the application -- an e-commerce site may favor precision (don't waste screen space), while a music playlist may favor recall (don't miss good songs).
 
-These three formulas are the foundation. Real systems add many more — but if you understand these, you understand the core math of recommendation systems.
+**F1 Score** combines both into a single metric:
+
+$$F_1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}}$$
+
+## 4. nDCG — "How good is this ranked list?"
+
+$$\text{DCG@k} = \sum_{i=1}^{k} \frac{2^{\text{rel}_i} - 1}{\log_2(i + 1)}$$
+
+$$\text{nDCG@k} = \frac{\text{DCG@k}}{\text{IDCG@k}}$$
+
+**Components:**
+
+- A ranked list of recommended items, positions 1 through k
+- Each item has a graded **relevance score** rel_i (e.g., 0, 1, 2, or 3)
+- The logarithmic denominator applies a **position discount** -- items ranked higher contribute more to the score
+- **IDCG** (Ideal DCG) is computed from the best possible ranking
+- **nDCG** is normalized to [0, 1] by dividing by IDCG
+
+**Example:** A system returns [Great(3), OK(1), Bad(0), Great(3)]:
+
+- DCG = (2³-1)/log₂(2) + (2¹-1)/log₂(3) + (2⁰-1)/log₂(4) + (2³-1)/log₂(5) = 7/1 + 1/1.58 + 0/2 + 7/2.32 = 7 + 0.63 + 0 + 3.02 = **10.65**
+- Ideal ordering [Great, Great, OK, Bad]: IDCG = 7/1 + 7/1.58 + 1/2 + 0/2.32 = 7 + 4.43 + 0.5 + 0 = **11.93**
+- nDCG = 10.65 / 11.93 = **0.893**
+
+**Why it matters:** nDCG answers the central evaluation question: "How close is our ranking to the ideal?" A score of 1.0 means perfect ranking. Production systems typically achieve nDCG values of 0.3-0.7, reflecting the inherent difficulty of preference prediction.
+
+## Summary
+
+| Formula | What it measures | Application |
+|---------|-----------------|-------------|
+| Cosine similarity | Direction alignment between preference vectors | User-user or item-item collaborative filtering |
+| Adjusted cosine / Pearson | Mean-centered pattern similarity | Bias-aware collaborative filtering |
+| Matrix factorization | Latent factor decomposition | Model training (see Ch. 3) |
+| Precision@k | Fraction of relevant items in top-k | Recommendation quality (relevance) |
+| Recall@k | Fraction of relevant items captured | Recommendation quality (coverage) |
+| nDCG@k | Ranking quality with position discounting | Evaluation of ranked recommendation lists |
+
+These formulas constitute the mathematical core. Production systems layer additional techniques on top -- learning-to-rank models, multi-objective optimization, contextual bandits -- but fluency with these fundamentals provides the foundation for understanding any recommender system.
