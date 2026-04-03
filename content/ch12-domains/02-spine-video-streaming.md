@@ -35,6 +35,8 @@ Video streaming is where recommendation systems are most visible — and most co
 
 **Content licensing.** Unlike music (available indefinitely), video content has licensing windows. A movie available today might expire next month. Recommending expiring content requires "Last Chance" scenarios — and never recommending content that's already gone.
 
+![The recommendation pipeline: retrieve, score, re-rank, serve](/images/diagram-pipeline-animated.svg)
+
 ## The 12 Key Scenarios
 
 **Homepage Personalization**

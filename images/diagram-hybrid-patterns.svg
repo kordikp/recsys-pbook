@@ -1,0 +1,145 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0c8383"/>
+    </marker>
+    <marker id="arrDark" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225"/>
+    </marker>
+  </defs>
+
+  <!-- Background -->
+  <rect width="700" height="400" rx="12" fill="#f5f5f4"/>
+
+  <!-- Title -->
+  <text x="350" y="28" text-anchor="middle" font-size="17" font-weight="bold" fill="#0b1225">Hybrid Recommender Patterns</text>
+  <text x="350" y="46" text-anchor="middle" font-size="11" fill="#6b7280">Five common strategies for combining recommendation approaches</text>
+
+  <!-- ===== Pattern 1: Weighted ===== -->
+  <g transform="translate(15, 62)">
+    <rect x="0" y="0" width="200" height="140" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="100" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">Weighted</text>
+    <!-- A box -->
+    <rect x="15" y="38" width="50" height="26" rx="4" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="1"/>
+    <text x="40" y="55" text-anchor="middle" font-size="10" fill="#0b1225">A</text>
+    <!-- B box -->
+    <rect x="15" y="74" width="50" height="26" rx="4" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="40" y="91" text-anchor="middle" font-size="10" fill="#0b1225">B</text>
+    <!-- Arrows to sum -->
+    <line x1="65" y1="51" x2="95" y2="69" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="65" y1="87" x2="95" y2="69" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- Weighted sum circle -->
+    <circle cx="105" cy="69" r="14" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="105" y="73" text-anchor="middle" font-size="10" font-weight="bold" fill="#b45309">w</text>
+    <!-- Arrow to output -->
+    <line x1="119" y1="69" x2="150" y2="69" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- Output -->
+    <rect x="155" y="56" width="30" height="26" rx="4" fill="#0c8383" fill-opacity="0.8"/>
+    <text x="170" y="73" text-anchor="middle" font-size="9" fill="#ffffff" font-weight="bold">out</text>
+    <!-- Labels -->
+    <text x="25" y="118" font-size="9" fill="#6b7280">Scores from A and B</text>
+    <text x="25" y="130" font-size="9" fill="#6b7280">combined with weights</text>
+  </g>
+
+  <!-- ===== Pattern 2: Switching ===== -->
+  <g transform="translate(245, 62)">
+    <rect x="0" y="0" width="200" height="140" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="100" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">Switching</text>
+    <!-- Decision diamond -->
+    <polygon points="55,68 80,50 105,68 80,86" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1.5"/>
+    <text x="80" y="72" text-anchor="middle" font-size="9" font-weight="bold" fill="#b45309">?</text>
+    <!-- A path (top) -->
+    <line x1="92" y1="54" x2="120" y2="42" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <rect x="124" y="32" width="30" height="20" rx="4" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="1"/>
+    <text x="139" y="46" text-anchor="middle" font-size="9" fill="#0b1225">A</text>
+    <!-- B path (bottom) -->
+    <line x1="92" y1="82" x2="120" y2="92" stroke="#3bc4a1" stroke-width="1.5" marker-end="url(#arr)"/>
+    <rect x="124" y="82" width="30" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="139" y="96" text-anchor="middle" font-size="9" fill="#0b1225">B</text>
+    <!-- Context arrow in -->
+    <line x1="20" y1="68" x2="52" y2="68" stroke="#0b1225" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arrDark)"/>
+    <text x="18" y="62" font-size="8" fill="#6b7280">context</text>
+    <!-- Labels -->
+    <text x="20" y="118" font-size="9" fill="#6b7280">Pick A or B based</text>
+    <text x="20" y="130" font-size="9" fill="#6b7280">on current context</text>
+  </g>
+
+  <!-- ===== Pattern 3: Cascade ===== -->
+  <g transform="translate(35, 222)">
+    <rect x="0" y="0" width="330" height="140" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="165" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">Cascade</text>
+    <!-- Stage A -->
+    <rect x="15" y="48" width="62" height="30" rx="5" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="1"/>
+    <text x="46" y="60" text-anchor="middle" font-size="9" fill="#0b1225">A</text>
+    <text x="46" y="71" text-anchor="middle" font-size="7" fill="#6b7280">rough</text>
+    <!-- Arrow -->
+    <line x1="77" y1="63" x2="100" y2="63" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- Stage B -->
+    <rect x="105" y="48" width="62" height="30" rx="5" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="136" y="60" text-anchor="middle" font-size="9" fill="#0b1225">B</text>
+    <text x="136" y="71" text-anchor="middle" font-size="7" fill="#6b7280">precise</text>
+    <!-- Arrow -->
+    <line x1="167" y1="63" x2="190" y2="63" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- Stage C -->
+    <rect x="195" y="48" width="62" height="30" rx="5" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+    <text x="226" y="60" text-anchor="middle" font-size="9" fill="#0b1225">C</text>
+    <text x="226" y="71" text-anchor="middle" font-size="7" fill="#6b7280">diversify</text>
+    <!-- Arrow to output -->
+    <line x1="257" y1="63" x2="278" y2="63" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- Output -->
+    <rect x="283" y="50" width="30" height="26" rx="4" fill="#0c8383" fill-opacity="0.8"/>
+    <text x="298" y="67" text-anchor="middle" font-size="9" fill="#ffffff" font-weight="bold">out</text>
+    <!-- Funnel indicator -->
+    <text x="46" y="42" text-anchor="middle" font-size="8" fill="#6b7280">1000s</text>
+    <text x="136" y="42" text-anchor="middle" font-size="8" fill="#6b7280">100s</text>
+    <text x="226" y="42" text-anchor="middle" font-size="8" fill="#6b7280">10s</text>
+    <!-- Labels -->
+    <text x="20" y="100" font-size="9" fill="#6b7280">Sequential filtering: each stage refines</text>
+    <text x="20" y="112" font-size="9" fill="#6b7280">the candidate set from the previous one</text>
+  </g>
+
+  <!-- ===== Pattern 4: Feature Augmentation ===== -->
+  <g transform="translate(385, 222)">
+    <rect x="0" y="0" width="148" height="140" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="74" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">Feature Aug.</text>
+    <!-- A box -->
+    <rect x="15" y="44" width="35" height="26" rx="4" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="1"/>
+    <text x="32" y="61" text-anchor="middle" font-size="10" fill="#0b1225">A</text>
+    <!-- Arrow A to features -->
+    <line x1="50" y1="57" x2="60" y2="57" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- Features -->
+    <rect x="65" y="44" width="24" height="26" rx="3" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1"/>
+    <text x="77" y="61" text-anchor="middle" font-size="7" fill="#b45309">feat</text>
+    <!-- Arrow features to B -->
+    <line x1="89" y1="57" x2="99" y2="57" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- B box -->
+    <rect x="104" y="44" width="35" height="26" rx="4" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="121" y="61" text-anchor="middle" font-size="10" fill="#0b1225">B</text>
+    <!-- Labels -->
+    <text x="15" y="90" font-size="9" fill="#6b7280">A's output feeds</text>
+    <text x="15" y="102" font-size="9" fill="#6b7280">as features to B</text>
+  </g>
+
+  <!-- ===== Pattern 5: Meta-level ===== -->
+  <g transform="translate(548, 62)">
+    <rect x="0" y="0" width="140" height="140" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="70" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#0c8383">Meta-level</text>
+    <!-- A box -->
+    <rect x="20" y="36" width="100" height="24" rx="4" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="1"/>
+    <text x="70" y="52" text-anchor="middle" font-size="10" fill="#0b1225">A</text>
+    <!-- Arrow down -->
+    <line x1="70" y1="60" x2="70" y2="68" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- Embeddings -->
+    <rect x="20" y="72" width="100" height="20" rx="3" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1"/>
+    <text x="70" y="86" text-anchor="middle" font-size="8" fill="#b45309">embeddings</text>
+    <!-- Arrow down -->
+    <line x1="70" y1="92" x2="70" y2="100" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
+    <!-- B box -->
+    <rect x="20" y="104" width="100" height="24" rx="4" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="70" y="120" text-anchor="middle" font-size="10" fill="#0b1225">B</text>
+    <!-- Labels (outside box due to space) -->
+  </g>
+
+  <!-- Footer note -->
+  <text x="350" y="388" text-anchor="middle" font-size="10" fill="#6b7280">Each pattern trades off complexity, interpretability, and performance differently</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrowStrength" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto">
+      <path d="M0,0 L4,6 L8,0" fill="#0c8383"/>
+    </marker>
+    <linearGradient id="strengthGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="30%" stop-color="#d1d5db"/>
+      <stop offset="60%" stop-color="#3bc4a1"/>
+      <stop offset="100%" stop-color="#0c8383"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="500" height="400" rx="12" fill="#f5f5f4"/>
+
+  <!-- Title -->
+  <text x="280" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#0b1225">Implicit Feedback Signals</text>
+  <text x="280" y="48" text-anchor="middle" font-size="11" fill="#6b7280">Ranked by signal strength (strongest at top)</text>
+
+  <!-- Signal strength arrow on left -->
+  <line x1="58" y1="82" x2="58" y2="345" stroke="url(#strengthGrad)" stroke-width="4"/>
+  <path d="M52,82 L58,68 L64,82" fill="#0c8383"/>
+  <text x="58" y="362" text-anchor="middle" font-size="9" fill="#6b7280">Weak</text>
+  <text x="58" y="64" text-anchor="middle" font-size="9" fill="#6b7280">Strong</text>
+  <text x="30" y="218" text-anchor="middle" font-size="10" font-weight="bold" fill="#0c8383" transform="rotate(-90, 30, 218)">Signal Strength</text>
+
+  <!-- Bar 1: Purchase (strongest) -->
+  <g transform="translate(90, 78)">
+    <rect x="0" y="0" width="370" height="36" rx="6" fill="#0c8383" fill-opacity="0.9"/>
+    <text x="16" y="23" font-size="13" font-weight="bold" fill="#ffffff">Purchase / Subscribe</text>
+    <text x="354" y="23" text-anchor="end" font-size="10" fill="#ffffff" opacity="0.8">strongest</text>
+  </g>
+
+  <!-- Bar 2: Save/Bookmark -->
+  <g transform="translate(90, 124)">
+    <rect x="0" y="0" width="310" height="36" rx="6" fill="#0c8383" fill-opacity="0.65"/>
+    <text x="16" y="23" font-size="13" font-weight="bold" fill="#ffffff">Save / Bookmark / Favorite</text>
+  </g>
+
+  <!-- Bar 3: Complete -->
+  <g transform="translate(90, 170)">
+    <rect x="0" y="0" width="260" height="36" rx="6" fill="#3bc4a1" fill-opacity="0.85"/>
+    <text x="16" y="23" font-size="13" font-weight="bold" fill="#0b1225">Complete (watch/read 80%+)</text>
+  </g>
+
+  <!-- Bar 4: Click/View -->
+  <g transform="translate(90, 216)">
+    <rect x="0" y="0" width="200" height="36" rx="6" fill="#3bc4a1" fill-opacity="0.5"/>
+    <text x="16" y="23" font-size="12" font-weight="bold" fill="#0b1225">Click / View</text>
+  </g>
+
+  <!-- Bar 5: Impression -->
+  <g transform="translate(90, 262)">
+    <rect x="0" y="0" width="130" height="36" rx="6" fill="#d1d5db" fill-opacity="0.8"/>
+    <text x="16" y="23" font-size="11" font-weight="bold" fill="#6b7280">Impression</text>
+  </g>
+
+  <!-- Bar 6: Skip/Dismiss (negative) -->
+  <g transform="translate(90, 308)">
+    <rect x="0" y="0" width="160" height="36" rx="6" fill="#ef4444" fill-opacity="0.15" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="16" y="23" font-size="12" font-weight="bold" fill="#ef4444">Skip / Dismiss</text>
+    <text x="144" y="23" text-anchor="end" font-size="9" fill="#ef4444">negative</text>
+  </g>
+
+  <!-- Explanatory notes on the right -->
+  <g transform="translate(395, 130)">
+    <text x="0" y="0" font-size="9" fill="#6b7280" text-anchor="start">Explicit</text>
+    <text x="0" y="12" font-size="9" fill="#6b7280" text-anchor="start">commitment</text>
+  </g>
+  <g transform="translate(360, 232)">
+    <text x="0" y="0" font-size="9" fill="#6b7280" text-anchor="start">Low effort,</text>
+    <text x="0" y="12" font-size="9" fill="#6b7280" text-anchor="start">high volume</text>
+  </g>
+
+  <!-- Dashed separator between positive and negative -->
+  <line x1="90" y1="303" x2="460" y2="303" stroke="#ef4444" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+</svg>

@@ -134,6 +134,8 @@ This normalization prevents systematic bias toward long-form content. Without it
 
 ## Multi-Signal Fusion
 
+![Implicit feedback signal strength hierarchy from purchase to skip](/images/diagram-implicit-feedback.svg)
+
 Real-world systems observe multiple implicit signals simultaneously, and these signals carry different levels of intent:
 
 | Signal | Strength | Ambiguity |

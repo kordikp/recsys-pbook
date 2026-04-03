@@ -12,6 +12,8 @@ status: accepted
 
 The cold-start problem splits into two distinct challenges, each with its own set of solutions. A new user arrives with no interaction history -- the system knows nothing about their preferences. A new item enters the catalog with zero interactions -- collaborative filtering has no signal to work with. The solutions for each case overlap in philosophy but differ substantially in mechanism.
 
+![Cold start solutions radiating from the new user/item problem](/images/diagram-cold-start.svg)
+
 ## New User Cold Start
 
 When a user first arrives, the system must make reasonable recommendations with zero behavioral data. Five approaches have emerged in practice, each trading off different costs and benefits.

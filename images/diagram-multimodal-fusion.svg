@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 300" width="700" height="300" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrowR" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225"/>
+    </marker>
+    <marker id="arrowRTeal" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0c8383"/>
+    </marker>
+    <marker id="arrowRGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#3bc4a1"/>
+    </marker>
+    <marker id="arrowRDark" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="350" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#0b1225">Multimodal Fusion Strategies</text>
+  <text x="350" y="42" text-anchor="middle" font-size="11" fill="#78716C">How to combine text, image, and audio signals in recommendations</text>
+
+  <!-- Column separator lines -->
+  <line x1="233" y1="55" x2="233" y2="280" stroke="#E7E5E4" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="467" y1="55" x2="467" y2="280" stroke="#E7E5E4" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- === COLUMN 1: Early Fusion === -->
+  <g transform="translate(117, 0)">
+    <rect x="-95" y="56" width="190" height="28" rx="6" fill="#0c8383"/>
+    <text x="0" y="75" text-anchor="middle" font-size="12" font-weight="600" fill="white">Early Fusion</text>
+
+    <!-- Input modalities -->
+    <rect x="-70" y="100" width="46" height="22" rx="4" fill="#0c8383" fill-opacity="0.12" stroke="#0c8383" stroke-width="1"/>
+    <text x="-47" y="115" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="500">Text</text>
+
+    <rect x="-18" y="100" width="46" height="22" rx="4" fill="#0c8383" fill-opacity="0.12" stroke="#0c8383" stroke-width="1"/>
+    <text x="5" y="115" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="500">Image</text>
+
+    <rect x="34" y="100" width="46" height="22" rx="4" fill="#0c8383" fill-opacity="0.12" stroke="#0c8383" stroke-width="1"/>
+    <text x="57" y="115" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="500">Audio</text>
+
+    <!-- Merge arrows -->
+    <line x1="-47" y1="122" x2="-10" y2="142" stroke="#0c8383" stroke-width="1"/>
+    <line x1="5" y1="122" x2="0" y2="142" stroke="#0c8383" stroke-width="1"/>
+    <line x1="57" y1="122" x2="10" y2="142" stroke="#0c8383" stroke-width="1"/>
+
+    <!-- Concatenate box -->
+    <rect x="-40" y="142" width="80" height="22" rx="4" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+    <text x="0" y="157" text-anchor="middle" font-size="8" fill="#f59e0b" font-weight="600">Concatenate</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="164" x2="0" y2="177" stroke="#0c8383" stroke-width="1.5"/>
+
+    <!-- Model box -->
+    <rect x="-45" y="177" width="90" height="28" rx="6" fill="#0c8383" fill-opacity="0.08" stroke="#0c8383" stroke-width="1"/>
+    <text x="0" y="195" text-anchor="middle" font-size="9" fill="#0c8383" font-weight="500">Shared Model</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="205" x2="0" y2="218" stroke="#0c8383" stroke-width="1.5"/>
+
+    <!-- Output -->
+    <rect x="-35" y="218" width="70" height="22" rx="4" fill="#0c8383"/>
+    <text x="0" y="233" text-anchor="middle" font-size="9" font-weight="500" fill="white">Output</text>
+
+    <!-- Description -->
+    <text x="0" y="258" text-anchor="middle" font-size="8" fill="#78716C">Combine raw features first,</text>
+    <text x="0" y="270" text-anchor="middle" font-size="8" fill="#78716C">then learn jointly</text>
+  </g>
+
+  <!-- === COLUMN 2: Late Fusion === -->
+  <g transform="translate(350, 0)">
+    <rect x="-95" y="56" width="190" height="28" rx="6" fill="#3bc4a1"/>
+    <text x="0" y="75" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">Late Fusion</text>
+
+    <!-- Three parallel model tracks -->
+    <!-- Text track -->
+    <rect x="-80" y="100" width="42" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.12" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="-59" y="114" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="500">Text</text>
+    <line x1="-59" y1="120" x2="-59" y2="133" stroke="#3bc4a1" stroke-width="1"/>
+    <rect x="-80" y="133" width="42" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.06" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="-59" y="147" text-anchor="middle" font-size="7" fill="#0b1225">Model 1</text>
+
+    <!-- Image track -->
+    <rect x="-22" y="100" width="42" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.12" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="-1" y="114" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="500">Image</text>
+    <line x1="-1" y1="120" x2="-1" y2="133" stroke="#3bc4a1" stroke-width="1"/>
+    <rect x="-22" y="133" width="42" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.06" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="-1" y="147" text-anchor="middle" font-size="7" fill="#0b1225">Model 2</text>
+
+    <!-- Audio track -->
+    <rect x="36" y="100" width="42" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.12" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="57" y="114" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="500">Audio</text>
+    <line x1="57" y1="120" x2="57" y2="133" stroke="#3bc4a1" stroke-width="1"/>
+    <rect x="36" y="133" width="42" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.06" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="57" y="147" text-anchor="middle" font-size="7" fill="#0b1225">Model 3</text>
+
+    <!-- Merge arrows -->
+    <line x1="-59" y1="153" x2="-10" y2="172" stroke="#3bc4a1" stroke-width="1"/>
+    <line x1="-1" y1="153" x2="0" y2="172" stroke="#3bc4a1" stroke-width="1"/>
+    <line x1="57" y1="153" x2="10" y2="172" stroke="#3bc4a1" stroke-width="1"/>
+
+    <!-- Combine box -->
+    <rect x="-40" y="172" width="80" height="22" rx="4" fill="#f59e0b" fill-opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+    <text x="0" y="187" text-anchor="middle" font-size="8" fill="#f59e0b" font-weight="600">Combine</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="194" x2="0" y2="218" stroke="#3bc4a1" stroke-width="1.5"/>
+
+    <!-- Output -->
+    <rect x="-35" y="218" width="70" height="22" rx="4" fill="#3bc4a1"/>
+    <text x="0" y="233" text-anchor="middle" font-size="9" font-weight="500" fill="#0b1225">Output</text>
+
+    <!-- Description -->
+    <text x="0" y="258" text-anchor="middle" font-size="8" fill="#78716C">Independent models per modality,</text>
+    <text x="0" y="270" text-anchor="middle" font-size="8" fill="#78716C">combine predictions at the end</text>
+  </g>
+
+  <!-- === COLUMN 3: Cross-Attention === -->
+  <g transform="translate(583, 0)">
+    <rect x="-95" y="56" width="190" height="28" rx="6" fill="#0b1225"/>
+    <text x="0" y="75" text-anchor="middle" font-size="12" font-weight="600" fill="white">Cross-Attention</text>
+
+    <!-- Three modality boxes with bidirectional arrows -->
+    <rect x="-70" y="100" width="42" height="22" rx="4" fill="#0b1225" fill-opacity="0.08" stroke="#0b1225" stroke-width="1"/>
+    <text x="-49" y="115" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="500">Text</text>
+
+    <rect x="-18" y="100" width="42" height="22" rx="4" fill="#0b1225" fill-opacity="0.08" stroke="#0b1225" stroke-width="1"/>
+    <text x="3" y="115" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="500">Image</text>
+
+    <rect x="34" y="100" width="42" height="22" rx="4" fill="#0b1225" fill-opacity="0.08" stroke="#0b1225" stroke-width="1"/>
+    <text x="55" y="115" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="500">Audio</text>
+
+    <!-- Bidirectional arrows between modalities -->
+    <line x1="-28" y1="106" x2="-18" y2="106" stroke="#ef4444" stroke-width="1.2"/>
+    <line x1="-18" y1="116" x2="-28" y2="116" stroke="#ef4444" stroke-width="1.2"/>
+    <line x1="24" y1="106" x2="34" y2="106" stroke="#ef4444" stroke-width="1.2"/>
+    <line x1="34" y1="116" x2="24" y2="116" stroke="#ef4444" stroke-width="1.2"/>
+
+    <!-- Cross-attention block -->
+    <rect x="-55" y="138" width="110" height="35" rx="6" fill="#ef4444" fill-opacity="0.08" stroke="#ef4444" stroke-width="1"/>
+    <text x="0" y="155" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Cross-Attention</text>
+    <text x="0" y="166" text-anchor="middle" font-size="7" fill="#78716C">Q, K, V across modalities</text>
+
+    <!-- Arrows from modalities to cross-attention -->
+    <line x1="-49" y1="122" x2="-30" y2="138" stroke="#0b1225" stroke-width="0.8"/>
+    <line x1="3" y1="122" x2="0" y2="138" stroke="#0b1225" stroke-width="0.8"/>
+    <line x1="55" y1="122" x2="30" y2="138" stroke="#0b1225" stroke-width="0.8"/>
+
+    <!-- Fused representation -->
+    <line x1="0" y1="173" x2="0" y2="186" stroke="#0b1225" stroke-width="1"/>
+    <rect x="-50" y="186" width="100" height="24" rx="5" fill="#0b1225" fill-opacity="0.06" stroke="#0b1225" stroke-width="0.8"/>
+    <text x="0" y="202" text-anchor="middle" font-size="8" fill="#0b1225">Fused Representation</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="210" x2="0" y2="218" stroke="#0b1225" stroke-width="1.5"/>
+
+    <!-- Output -->
+    <rect x="-35" y="218" width="70" height="22" rx="4" fill="#0b1225"/>
+    <text x="0" y="233" text-anchor="middle" font-size="9" font-weight="500" fill="white">Output</text>
+
+    <!-- Description -->
+    <text x="0" y="258" text-anchor="middle" font-size="8" fill="#78716C">Modalities attend to each other,</text>
+    <text x="0" y="270" text-anchor="middle" font-size="8" fill="#78716C">learning cross-modal interactions</text>
+  </g>
+</svg>

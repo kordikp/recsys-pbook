@@ -37,6 +37,8 @@ where $\pi$ is the recommendation policy and $f_1, \ldots, f_m$ are the $m$ comp
 
 ## Pareto Optimality: The Frontier of Trade-Offs
 
+![Pareto frontier showing engagement-diversity trade-off](/images/diagram-multi-objective.svg)
+
 The central concept in multi-objective optimization is the **Pareto frontier** (also called the Pareto front or Pareto optimal set).
 
 **Definition.** A solution $\pi^*$ is **Pareto optimal** if there exists no other feasible solution $\pi'$ such that $f_k(\pi') \geq f_k(\pi^*)$ for all objectives $k$ and $f_j(\pi') > f_j(\pi^*)$ for at least one objective $j$. In other words, you cannot improve any objective without making at least one other objective worse.

@@ -73,6 +73,8 @@ Music and audio recommendation benefit enormously from processing the audio sign
 
 The central engineering question in multimodal recommendation is how to combine information from different modalities. Three strategies dominate, each with distinct trade-offs.
 
+![Three multimodal fusion strategies: early, late, and cross-attention](/images/diagram-multimodal-fusion.svg)
+
 ### Early Fusion: Concatenate Before the Model
 
 Extract feature vectors from each modality independently (text embedding, image embedding, audio embedding), then **concatenate** them into a single long vector that serves as input to the recommendation model.

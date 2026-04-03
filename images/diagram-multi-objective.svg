@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrowAxis" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#0b1225"/>
+    </marker>
+    <marker id="arrowAxisUp" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto-start-reverse">
+      <path d="M0,6 L4,0 L8,6" fill="#0b1225"/>
+    </marker>
+    <marker id="arrowMove" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#0c8383"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="250" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#0b1225">Multi-Objective Optimization</text>
+  <text x="250" y="42" text-anchor="middle" font-size="11" fill="#78716C">Pareto frontier: trade-offs between competing objectives</text>
+
+  <!-- Axes -->
+  <!-- X axis -->
+  <line x1="70" y1="340" x2="460" y2="340" stroke="#0b1225" stroke-width="1.5" marker-end="url(#arrowAxis)"/>
+  <text x="270" y="370" text-anchor="middle" font-size="13" font-weight="600" fill="#0b1225">Engagement</text>
+
+  <!-- Y axis -->
+  <line x1="70" y1="340" x2="70" y2="58" stroke="#0b1225" stroke-width="1.5" marker-end="url(#arrowAxisUp)"/>
+  <text x="30" y="200" text-anchor="middle" font-size="13" font-weight="600" fill="#0b1225" transform="rotate(-90, 30, 200)">Diversity</text>
+
+  <!-- Axis tick marks -->
+  <line x1="160" y1="340" x2="160" y2="345" stroke="#0b1225" stroke-width="1"/>
+  <line x1="260" y1="340" x2="260" y2="345" stroke="#0b1225" stroke-width="1"/>
+  <line x1="360" y1="340" x2="360" y2="345" stroke="#0b1225" stroke-width="1"/>
+  <line x1="70" y1="270" x2="65" y2="270" stroke="#0b1225" stroke-width="1"/>
+  <line x1="70" y1="200" x2="65" y2="200" stroke="#0b1225" stroke-width="1"/>
+  <line x1="70" y1="130" x2="65" y2="130" stroke="#0b1225" stroke-width="1"/>
+
+  <!-- Infeasible region (above frontier) -->
+  <text x="180" y="95" font-size="12" fill="#ef4444" fill-opacity="0.6" font-style="italic">Infeasible</text>
+
+  <!-- Suboptimal region (below frontier) -->
+  <text x="300" y="300" font-size="12" fill="#78716C" fill-opacity="0.6" font-style="italic">Suboptimal</text>
+
+  <!-- Subtle shading for infeasible region -->
+  <path d="M100,80 C180,78 280,95 350,120 L400,180 L440,300 L440,60 L100,60 Z" fill="#ef4444" fill-opacity="0.03"/>
+
+  <!-- Pareto frontier curve -->
+  <path d="M100,80 C160,82 230,100 290,140 C330,168 370,220 400,300" fill="none" stroke="#0c8383" stroke-width="3"/>
+
+  <!-- Shading below frontier -->
+  <path d="M100,80 C160,82 230,100 290,140 C330,168 370,220 400,300 L400,340 L70,340 L70,80 Z" fill="#0c8383" fill-opacity="0.04"/>
+
+  <!-- Pareto frontier label -->
+  <text x="148" y="72" font-size="10" font-weight="600" fill="#0c8383">Pareto Frontier</text>
+
+  <!-- Point A: High Diversity, Low Engagement -->
+  <circle cx="118" cy="84" r="6" fill="#3bc4a1" stroke="white" stroke-width="2"/>
+  <text x="100" y="110" font-size="9" font-weight="600" fill="#3bc4a1">Max Diversity</text>
+  <text x="100" y="122" font-size="8" fill="#78716C">Low engagement</text>
+
+  <!-- Point B: Balanced -->
+  <circle cx="230" cy="104" r="6" fill="#0c8383" stroke="white" stroke-width="2"/>
+  <text x="240" y="98" font-size="9" font-weight="600" fill="#0c8383">Balanced</text>
+
+  <!-- Point C: Current system (suboptimal, off the frontier) -->
+  <circle cx="270" cy="210" r="8" fill="#f59e0b" stroke="white" stroke-width="2"/>
+  <rect x="284" y="196" width="100" height="30" rx="5" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1"/>
+  <text x="334" y="210" text-anchor="middle" font-size="9" font-weight="600" fill="#f59e0b">Current System</text>
+  <text x="334" y="222" text-anchor="middle" font-size="8" fill="#78716C">room to improve</text>
+
+  <!-- Point D: Target on the frontier -->
+  <circle cx="310" cy="130" r="8" fill="#0b1225" stroke="white" stroke-width="2"/>
+  <rect x="320" y="118" width="70" height="24" rx="5" fill="#0b1225" fill-opacity="0.08" stroke="#0b1225" stroke-width="1"/>
+  <text x="355" y="134" text-anchor="middle" font-size="9" font-weight="700" fill="#0b1225">Target</text>
+
+  <!-- Arrow from current to target -->
+  <line x1="275" y1="203" x2="304" y2="137" stroke="#0c8383" stroke-width="2" stroke-dasharray="5,3" marker-end="url(#arrowMove)"/>
+
+  <!-- Point E: High Engagement, Low Diversity -->
+  <circle cx="390" cy="270" r="6" fill="#ef4444" stroke="white" stroke-width="2"/>
+  <text x="370" y="260" font-size="9" font-weight="600" fill="#ef4444">Max Engagement</text>
+  <text x="382" y="294" font-size="8" fill="#78716C">Filter bubble risk</text>
+
+  <!-- Legend -->
+  <rect x="80" y="374" width="340" height="20" rx="4" fill="#f5f5f4"/>
+  <circle cx="100" cy="384" r="3" fill="#0c8383"/>
+  <text x="108" y="388" font-size="8" fill="#78716C">On frontier (optimal trade-off)</text>
+  <circle cx="240" cy="384" r="3" fill="#f59e0b"/>
+  <text x="248" y="388" font-size="8" fill="#78716C">Off frontier (can improve both)</text>
+</svg>

@@ -17,6 +17,8 @@ status: accepted
 
 The algorithms you have explored throughout this book -- collaborative filtering, content-based similarity, matrix factorization -- are the mathematical core of a recommender system. But algorithms alone do not produce recommendations. In production, each algorithm lives inside a multi-layered technology stack that ingests raw user behavior, transforms it into features, trains and evaluates models, serves predictions at low latency, and continuously monitors the entire pipeline for degradation.
 
+![The recommendation system technology stack: data, training, serving, orchestration](/images/diagram-recsys-tech-stack.svg)
+
 This sidebar maps the complete stack, layer by layer.
 
 ## The Architecture at a Glance

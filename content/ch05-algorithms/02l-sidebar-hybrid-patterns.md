@@ -12,6 +12,8 @@ status: accepted
 
 No single recommendation method dominates in every scenario. Collaborative filtering excels at capturing taste but fails on new items. Content-based filtering handles cold start but struggles with serendipity. Popularity-based methods are robust but impersonal. The question isn't which method to use -- it's how to combine them.
 
+![Five hybrid recommendation architecture patterns](/images/diagram-hybrid-patterns.svg)
+
 Hybrid recommender systems combine multiple recommendation strategies into a unified architecture. The literature identifies several distinct patterns for doing so, each with different trade-offs in complexity, performance, and operational cost. Understanding these patterns is essential for anyone designing a production system, because the choice of hybridization strategy often matters more than the choice of individual algorithms.
 
 ## Pattern 1: Weighted Hybrid

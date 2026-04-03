@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450" width="600" height="450" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrowUpTeal" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <path d="M0,6 L4,0 L8,6" fill="#0c8383"/>
+    </marker>
+    <marker id="arrowUpGreen2" markerWidth="8" markerHeight="6" refX="4" refY="6" orient="auto">
+      <path d="M0,6 L4,0 L8,6" fill="#3bc4a1"/>
+    </marker>
+    <marker id="arrowRightDark" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#0b1225"/>
+    </marker>
+    <marker id="arrowDownDk" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto">
+      <path d="M0,0 L4,6 L8,0" fill="#0b1225"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="300" y="24" text-anchor="middle" font-size="16" font-weight="700" fill="#0b1225">Two-Tower Architecture</text>
+  <text x="300" y="42" text-anchor="middle" font-size="11" fill="#78716C">Decoupled encoding for scalable retrieval</text>
+
+  <!-- === Score output at top center === -->
+  <rect x="235" y="52" width="130" height="32" rx="8" fill="#0b1225"/>
+  <text x="300" y="73" text-anchor="middle" font-size="12" font-weight="600" fill="white">Score = u . v</text>
+
+  <!-- Dot product box -->
+  <rect x="248" y="92" width="104" height="26" rx="6" fill="#f5f5f4" stroke="#0b1225" stroke-width="1.5"/>
+  <text x="300" y="109" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="500">Dot Product</text>
+
+  <!-- Arrow from dot product to score -->
+  <line x1="300" y1="92" x2="300" y2="86" stroke="#0b1225" stroke-width="1.5" marker-end="url(#arrowUpTeal)"/>
+
+  <!-- Arrows from towers to dot product -->
+  <line x1="160" y1="150" x2="260" y2="118" stroke="#0c8383" stroke-width="1.5"/>
+  <line x1="440" y1="150" x2="340" y2="118" stroke="#3bc4a1" stroke-width="1.5"/>
+
+  <!-- === USER TOWER (left) === -->
+  <g transform="translate(70, 0)">
+    <!-- Tower outline -->
+    <rect x="0" y="140" width="180" height="220" rx="8" fill="#0c8383" fill-opacity="0.04" stroke="#0c8383" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="90" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#0c8383">User Tower</text>
+
+    <!-- User embedding output -->
+    <rect x="25" y="170" width="130" height="24" rx="5" fill="#0c8383" fill-opacity="0.15" stroke="#0c8383" stroke-width="1"/>
+    <text x="90" y="186" text-anchor="middle" font-size="9" font-weight="600" fill="#0c8383">User Embedding (128-d)</text>
+
+    <!-- Dense layers -->
+    <line x1="90" y1="194" x2="90" y2="204" stroke="#0c8383" stroke-width="1" opacity="0.5"/>
+    <rect x="30" y="204" width="120" height="22" rx="5" fill="#0c8383" fill-opacity="0.10" stroke="#0c8383" stroke-width="0.8"/>
+    <text x="90" y="219" text-anchor="middle" font-size="9" fill="#0c8383">Dense (256) + ReLU</text>
+
+    <line x1="90" y1="226" x2="90" y2="236" stroke="#0c8383" stroke-width="1" opacity="0.5"/>
+    <rect x="30" y="236" width="120" height="22" rx="5" fill="#0c8383" fill-opacity="0.06" stroke="#0c8383" stroke-width="0.8"/>
+    <text x="90" y="251" text-anchor="middle" font-size="9" fill="#0c8383">Dense (512) + ReLU</text>
+
+    <line x1="90" y1="258" x2="90" y2="268" stroke="#0c8383" stroke-width="1" opacity="0.5"/>
+
+    <!-- Input features -->
+    <rect x="15" y="270" width="150" height="80" rx="6" fill="white" stroke="#0c8383" stroke-width="1"/>
+    <text x="90" y="287" text-anchor="middle" font-size="9" font-weight="600" fill="#0c8383">User Features</text>
+    <g font-size="8" fill="#78716C">
+      <circle cx="30" cy="301" r="2.5" fill="#0c8383" opacity="0.5"/>
+      <text x="38" y="304">Watch / click history</text>
+      <circle cx="30" cy="316" r="2.5" fill="#0c8383" opacity="0.5"/>
+      <text x="38" y="319">Demographics</text>
+      <circle cx="30" cy="331" r="2.5" fill="#0c8383" opacity="0.5"/>
+      <text x="38" y="334">Context (time, device)</text>
+    </g>
+  </g>
+
+  <!-- Online label for user tower -->
+  <rect x="80" y="366" width="160" height="20" rx="4" fill="#0c8383" fill-opacity="0.08"/>
+  <text x="160" y="380" text-anchor="middle" font-size="9" font-weight="600" fill="#0c8383">Online (per request)</text>
+
+  <!-- === ITEM TOWER (right) === -->
+  <g transform="translate(350, 0)">
+    <!-- Tower outline -->
+    <rect x="0" y="140" width="180" height="220" rx="8" fill="#3bc4a1" fill-opacity="0.04" stroke="#3bc4a1" stroke-width="1.5" stroke-dasharray="6,3"/>
+    <text x="90" y="160" text-anchor="middle" font-size="13" font-weight="700" fill="#3bc4a1">Item Tower</text>
+
+    <!-- Item embedding output -->
+    <rect x="25" y="170" width="130" height="24" rx="5" fill="#3bc4a1" fill-opacity="0.15" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="90" y="186" text-anchor="middle" font-size="9" font-weight="600" fill="#0b1225">Item Embedding (128-d)</text>
+
+    <!-- Dense layers -->
+    <line x1="90" y1="194" x2="90" y2="204" stroke="#3bc4a1" stroke-width="1" opacity="0.5"/>
+    <rect x="30" y="204" width="120" height="22" rx="5" fill="#3bc4a1" fill-opacity="0.10" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="90" y="219" text-anchor="middle" font-size="9" fill="#0b1225">Dense (256) + ReLU</text>
+
+    <line x1="90" y1="226" x2="90" y2="236" stroke="#3bc4a1" stroke-width="1" opacity="0.5"/>
+    <rect x="30" y="236" width="120" height="22" rx="5" fill="#3bc4a1" fill-opacity="0.06" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="90" y="251" text-anchor="middle" font-size="9" fill="#0b1225">Dense (512) + ReLU</text>
+
+    <line x1="90" y1="258" x2="90" y2="268" stroke="#3bc4a1" stroke-width="1" opacity="0.5"/>
+
+    <!-- Input features -->
+    <rect x="15" y="270" width="150" height="80" rx="6" fill="white" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="90" y="287" text-anchor="middle" font-size="9" font-weight="600" fill="#3bc4a1">Item Features</text>
+    <g font-size="8" fill="#78716C">
+      <circle cx="30" cy="301" r="2.5" fill="#3bc4a1" opacity="0.5"/>
+      <text x="38" y="304">Title and description</text>
+      <circle cx="30" cy="316" r="2.5" fill="#3bc4a1" opacity="0.5"/>
+      <text x="38" y="319">Category and tags</text>
+      <circle cx="30" cy="331" r="2.5" fill="#3bc4a1" opacity="0.5"/>
+      <text x="38" y="334">Image / audio embedding</text>
+    </g>
+  </g>
+
+  <!-- Offline label for item tower -->
+  <rect x="360" y="366" width="160" height="20" rx="4" fill="#3bc4a1" fill-opacity="0.08"/>
+  <text x="440" y="380" text-anchor="middle" font-size="9" font-weight="600" fill="#3bc4a1">Offline (pre-computed)</text>
+
+  <!-- === ANN Index section at bottom === -->
+  <rect x="100" y="400" width="400" height="38" rx="8" fill="#f59e0b" fill-opacity="0.08" stroke="#f59e0b" stroke-width="1"/>
+  <text x="300" y="418" text-anchor="middle" font-size="11" font-weight="600" fill="#f59e0b">ANN Index</text>
+  <text x="300" y="432" text-anchor="middle" font-size="9" fill="#78716C">Pre-computed item embeddings stored for fast nearest-neighbor lookup</text>
+
+  <!-- Arrow from item tower to ANN index -->
+  <line x1="440" y1="388" x2="440" y2="398" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3,2"/>
+</svg>

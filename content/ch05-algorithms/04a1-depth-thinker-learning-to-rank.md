@@ -17,6 +17,8 @@ This section formalizes the three families of Learning to Rank (LTR) approaches,
 
 ## The Ranking Problem Formulation
 
+![Learning to Rank approaches: pointwise, pairwise, listwise](/images/diagram-learning-to-rank.svg)
+
 Given a user $u$ and a set of candidate items $\mathcal{C} = \{i_1, i_2, \ldots, i_n\}$, a ranking model produces a scoring function $f(u, i) \in \mathbb{R}$ that induces an ordering over $\mathcal{C}$. The goal is to learn $f$ such that the induced ordering maximizes a ranking quality metric (e.g., NDCG, MAP) on held-out data.
 
 The ground truth is typically a set of relevance labels $y_j \in \{0, 1, \ldots, L\}$ for each item $j$ in $\mathcal{C}$, where higher values indicate greater relevance. In implicit feedback settings, $y_j \in \{0, 1\}$ (clicked or not). In graded relevance settings (e.g., web search), $y_j$ ranges from 0 (irrelevant) to 4 (perfectly relevant).

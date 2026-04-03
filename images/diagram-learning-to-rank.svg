@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 350" width="650" height="350" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrowDown" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto">
+      <path d="M0,0 L4,6 L8,0" fill="#0b1225"/>
+    </marker>
+    <marker id="arrowDownTeal" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto">
+      <path d="M0,0 L4,6 L8,0" fill="#0c8383"/>
+    </marker>
+    <marker id="arrowDownGreen" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto">
+      <path d="M0,0 L4,6 L8,0" fill="#3bc4a1"/>
+    </marker>
+    <marker id="arrowDownDark" markerWidth="8" markerHeight="6" refX="4" refY="0" orient="auto">
+      <path d="M0,0 L4,6 L8,0" fill="#0b1225"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="325" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0b1225">Learning to Rank Approaches</text>
+  <text x="325" y="46" text-anchor="middle" font-size="11" fill="#78716C">Three paradigms for training ranking models</text>
+
+  <!-- Column separator lines -->
+  <line x1="217" y1="60" x2="217" y2="290" stroke="#E7E5E4" stroke-width="1" stroke-dasharray="4,3"/>
+  <line x1="433" y1="60" x2="433" y2="290" stroke="#E7E5E4" stroke-width="1" stroke-dasharray="4,3"/>
+
+  <!-- === COLUMN 1: Pointwise === -->
+  <g transform="translate(108, 0)">
+    <!-- Header -->
+    <rect x="-80" y="60" width="160" height="32" rx="6" fill="#0c8383"/>
+    <text x="0" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="white">Pointwise</text>
+
+    <!-- Single item icon -->
+    <rect x="-40" y="108" width="80" height="55" rx="6" fill="#f5f5f4" stroke="#0c8383" stroke-width="1.5"/>
+    <rect x="-28" y="118" width="56" height="8" rx="2" fill="#0c8383" fill-opacity="0.2"/>
+    <rect x="-28" y="130" width="40" height="6" rx="2" fill="#0c8383" fill-opacity="0.12"/>
+    <text x="28" y="154" text-anchor="end" font-size="11" font-weight="600" fill="#0c8383">3.5</text>
+    <text x="-20" y="154" font-size="8" fill="#78716C">score =</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="163" x2="0" y2="188" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arrowDownTeal)"/>
+
+    <!-- Loss function -->
+    <rect x="-50" y="195" width="100" height="28" rx="6" fill="#0c8383" fill-opacity="0.1" stroke="#0c8383" stroke-width="1"/>
+    <text x="0" y="213" text-anchor="middle" font-size="10" fill="#0c8383" font-weight="500">MSE / Cross-Entropy</text>
+
+    <!-- Description -->
+    <text x="0" y="244" text-anchor="middle" font-size="9" fill="#78716C">Predict absolute score</text>
+    <text x="0" y="256" text-anchor="middle" font-size="9" fill="#78716C">for each item independently</text>
+  </g>
+
+  <!-- === COLUMN 2: Pairwise === -->
+  <g transform="translate(325, 0)">
+    <!-- Header -->
+    <rect x="-80" y="60" width="160" height="32" rx="6" fill="#3bc4a1"/>
+    <text x="0" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="#0b1225">Pairwise</text>
+
+    <!-- Item pair icon -->
+    <rect x="-50" y="108" width="100" height="55" rx="6" fill="#f5f5f4" stroke="#3bc4a1" stroke-width="1.5"/>
+    <!-- Item A -->
+    <rect x="-40" y="116" width="34" height="18" rx="3" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="-23" y="129" text-anchor="middle" font-size="8" fill="#3bc4a1">item A</text>
+    <!-- Greater than -->
+    <text x="0" y="130" text-anchor="middle" font-size="14" font-weight="700" fill="#0b1225">&gt;</text>
+    <!-- Item B -->
+    <rect x="6" y="116" width="34" height="18" rx="3" fill="#3bc4a1" fill-opacity="0.1" stroke="#3bc4a1" stroke-width="0.8"/>
+    <text x="23" y="129" text-anchor="middle" font-size="8" fill="#3bc4a1">item B</text>
+    <!-- Probability -->
+    <text x="0" y="154" text-anchor="middle" font-size="10" font-weight="500" fill="#0b1225">P(A &gt; B) = ?</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="163" x2="0" y2="188" stroke="#3bc4a1" stroke-width="1.5" marker-end="url(#arrowDownGreen)"/>
+
+    <!-- Loss function -->
+    <rect x="-50" y="195" width="100" height="28" rx="6" fill="#3bc4a1" fill-opacity="0.1" stroke="#3bc4a1" stroke-width="1"/>
+    <text x="0" y="213" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="500">BPR / Hinge Loss</text>
+
+    <!-- Description -->
+    <text x="0" y="244" text-anchor="middle" font-size="9" fill="#78716C">Learn relative ordering</text>
+    <text x="0" y="256" text-anchor="middle" font-size="9" fill="#78716C">between item pairs</text>
+  </g>
+
+  <!-- === COLUMN 3: Listwise === -->
+  <g transform="translate(542, 0)">
+    <!-- Header -->
+    <rect x="-80" y="60" width="160" height="32" rx="6" fill="#0b1225"/>
+    <text x="0" y="81" text-anchor="middle" font-size="13" font-weight="600" fill="white">Listwise</text>
+
+    <!-- Ranked list icon -->
+    <rect x="-40" y="108" width="80" height="55" rx="6" fill="#f5f5f4" stroke="#0b1225" stroke-width="1.5"/>
+    <rect x="-30" y="114" width="60" height="10" rx="2" fill="#0b1225" fill-opacity="0.25"/>
+    <text x="-32" y="122" font-size="7" fill="#0b1225" font-weight="600">1</text>
+    <rect x="-30" y="127" width="50" height="10" rx="2" fill="#0b1225" fill-opacity="0.15"/>
+    <text x="-32" y="135" font-size="7" fill="#0b1225" font-weight="600">2</text>
+    <rect x="-30" y="140" width="40" height="10" rx="2" fill="#0b1225" fill-opacity="0.08"/>
+    <text x="-32" y="148" font-size="7" fill="#0b1225" font-weight="600">3</text>
+    <text x="0" y="160" text-anchor="middle" font-size="8" fill="#78716C">full ranking</text>
+
+    <!-- Arrow down -->
+    <line x1="0" y1="163" x2="0" y2="188" stroke="#0b1225" stroke-width="1.5" marker-end="url(#arrowDownDark)"/>
+
+    <!-- Loss function -->
+    <rect x="-50" y="195" width="100" height="28" rx="6" fill="#0b1225" fill-opacity="0.08" stroke="#0b1225" stroke-width="1"/>
+    <text x="0" y="213" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="500">NDCG Optimization</text>
+
+    <!-- Description -->
+    <text x="0" y="244" text-anchor="middle" font-size="9" fill="#78716C">Directly optimize the</text>
+    <text x="0" y="256" text-anchor="middle" font-size="9" fill="#78716C">entire ranked list metric</text>
+  </g>
+
+  <!-- === Bottom comparison row === -->
+  <rect x="30" y="278" width="590" height="52" rx="8" fill="#f5f5f4" stroke="#E7E5E4" stroke-width="1"/>
+  <text x="325" y="296" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225">Comparison</text>
+
+  <!-- Pointwise -->
+  <text x="108" y="296" text-anchor="middle" font-size="9" font-weight="600" fill="#0c8383">Complexity</text>
+  <text x="108" y="320" text-anchor="middle" font-size="11" fill="#0c8383">Simple</text>
+
+  <!-- Pairwise -->
+  <text x="325" y="296" text-anchor="middle" font-size="9" font-weight="600" fill="#3bc4a1">Complexity</text>
+  <text x="325" y="320" text-anchor="middle" font-size="11" fill="#3bc4a1">Medium</text>
+
+  <!-- Listwise -->
+  <text x="542" y="296" text-anchor="middle" font-size="9" font-weight="600" fill="#0b1225">Complexity</text>
+  <text x="542" y="320" text-anchor="middle" font-size="11" fill="#0b1225">Highest</text>
+
+  <!-- Arrow showing quality progression -->
+  <line x1="148" y1="340" x2="502" y2="340" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowDown)"/>
+  <defs>
+    <marker id="arrowRightAmber" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#f59e0b"/>
+    </marker>
+  </defs>
+  <line x1="148" y1="340" x2="502" y2="340" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowRightAmber)"/>
+  <text x="325" y="338" text-anchor="middle" font-size="9" fill="#f59e0b" font-weight="600">Ranking quality improvement</text>
+</svg>

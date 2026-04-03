@@ -17,6 +17,8 @@ This section formalizes the training objectives, negative sampling strategies, a
 
 ## The Independence Assumption
 
+![Two-tower architecture with user and item towers converging to similarity score](/images/diagram-two-tower-architecture.svg)
+
 In a general scoring model, relevance is a function of the joint input:
 
 $$s(u, i) = f(x_u, x_i)$$
