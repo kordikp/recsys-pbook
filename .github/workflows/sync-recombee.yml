@@ -1,0 +1,23 @@
+name: Sync Content to Recombee
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'content/**'
+  workflow_dispatch: # manual trigger from GitHub UI
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Sync items to Recombee
+        env:
+          RECOMBEE_DB: ${{ secrets.RECOMBEE_DB }}
+          RECOMBEE_TOKEN: ${{ secrets.RECOMBEE_TOKEN }}
+          RECOMBEE_REGION: ${{ secrets.RECOMBEE_REGION || 'rapi-eu-west' }}
+        run: node scripts/import-to-recombee.js

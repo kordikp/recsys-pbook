@@ -216,6 +216,7 @@ if(localStorage.getItem('pbook-admin-session')==='1') document.getElementById('l
     <div class="spacer"></div>
     <button onclick="newBlock()" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;background:var(--accent);color:#fff">+ New Block</button>
     <button onclick="showRCSetup()" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">Recombee</button>
+    <button onclick="syncRecombee()" id="syncBtn" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">Sync Items</button>
     <button onclick="changePwd()" style="font-size:.65rem;color:var(--text3)">Change password</button>
     <button onclick="localStorage.removeItem('pbook-admin-session');location.reload()" style="font-size:.65rem;color:var(--text3)">Logout</button>
     <span class="hstat" id="hstat"></span>
@@ -1195,6 +1196,23 @@ function renderFeedback(el){
 
   el.innerHTML=h;
 }
+
+// ---- Sync items to Recombee ----
+window.syncRecombee=async function(){
+  const btn=document.getElementById('syncBtn');
+  btn.textContent='Syncing...';btn.disabled=true;btn.style.opacity='.6';
+  try{
+    const res=await fetch('/api/sync-recombee',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({secret:localStorage.getItem('pbook-admin-pwd')||''})});
+    const data=await res.json();
+    if(data.ok){
+      btn.textContent=`Synced ${data.imported}/${data.total}`;btn.style.color='#10B981';
+    }else{
+      btn.textContent='Sync failed';btn.style.color='#EF4444';
+      alert('Sync error: '+(data.error||'unknown'));
+    }
+  }catch(e){btn.textContent='Sync error';btn.style.color='#EF4444';alert(e.message);}
+  setTimeout(()=>{btn.textContent='Sync Items';btn.disabled=false;btn.style.opacity='1';btn.style.color='#10B981';},3000);
+};
 
 // ---- Recombee setup ----
 window.showRCSetup=function(){
