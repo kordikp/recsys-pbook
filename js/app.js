@@ -3371,11 +3371,11 @@ class PBook {
           "Now let's examine the user side. What behavioral signals are you generating?",
           "These signals come in different types. Understanding the taxonomy is key to understanding the system."
         ],
-        boss: { q: 'A colleague asks: "So how DO platforms know what I want to see?" Explain the mechanism in one paragraph.', hints: ['patterns', 'behavioral signals', 'data', 'collaborative filtering'] },
+        boss: { q: 'A colleague asks: "So how DO platforms know what I want to see?" Explain the mechanism in one paragraph, covering both the data side and the algorithmic side.', hints: ['patterns', 'behavioral signals', 'data', 'collaborative filtering', 'content-based'] },
         branches: {
-          explorer: { label: 'See it in action', blocks: ['ch2-track-d-exp', 'ch1-ws-match'] },
+          explorer: { label: 'See it in action', blocks: ['ch2-track-d-exp', 'ch1-ws-match', 'ch1-history'] },
           creator: { label: 'Try it yourself', blocks: ['ch2-privacy-d-create'] },
-          thinker: { label: 'Understand patterns', blocks: ['ch1-patterns-d-think'] }
+          thinker: { label: 'Understand patterns', blocks: ['ch1-patterns-d-think', 'ch1-personalization-spectrum'] }
         }
       },
       {
@@ -3392,11 +3392,11 @@ class PBook {
           "Before we go further, let's debunk some myths. Is your phone really listening to conversations?",
           "Now the fundamental question: whose data is it, and what are your rights under GDPR/CCPA?"
         ],
-        boss: { q: 'You notice irrelevant recommendations in your feed — content from a shared account or a one-time search has polluted your profile. Explain why this happened and what steps you would take to fix it.', hints: ['profile pollution', 'signals', 'history', 'preference model'] },
+        boss: { q: 'You notice irrelevant recommendations in your feed — content from a shared account or a one-time search has polluted your profile. Explain why this happened and what steps you would take to fix it.', hints: ['profile pollution', 'signals', 'history', 'preference model', 'negative signals'] },
         branches: {
-          explorer: { label: 'Investigate your data', blocks: ['ch2-track-d-exp', 'ch2-ws-detective'] },
+          explorer: { label: 'Investigate your data', blocks: ['ch2-track-d-exp', 'ch2-ws-detective', 'ch2-negative-signals'] },
           creator: { label: 'Run an experiment', blocks: ['ch2-privacy-d-create'] },
-          thinker: { label: 'Think about privacy', blocks: ['ch2-myth'] }
+          thinker: { label: 'Analyze signals deeply', blocks: ['ch2-implicit-feedback', 'ch2-user-lifecycle'] }
         }
       },
       {
@@ -3414,59 +3414,83 @@ class PBook {
           "You have the data and similarity scores. Now generate actual predictions.",
           "Your system works but could be better. Let's systematically improve it."
         ],
-        boss: { q: 'A stakeholder complains: "Your recommender suggested something completely irrelevant!" Diagnose what likely went wrong and propose three specific improvements.', hints: ['similarity', 'data sparsity', 'diversity', 'cold start'] },
+        boss: { q: 'A stakeholder complains: "Your recommender suggested something completely irrelevant!" Diagnose what likely went wrong and propose three specific improvements.', hints: ['similarity', 'data sparsity', 'diversity', 'cold start', 'evaluation'] },
         branches: {
           creator: { label: 'Build it for real', blocks: ['ch5-spread-d-create', 'ch5-code-d-create', 'ch5-debug'] },
-          thinker: { label: 'Understand the math', blocks: ['ch5-math-d-think', 'ch5-real-numbers'] },
-          explorer: { label: 'See CF in action', blocks: ['ch3-cf-d-exp'] }
+          thinker: { label: 'Understand the math', blocks: ['ch5-math-d-think', 'ch5-formulas'] },
+          explorer: { label: 'See CF in action', blocks: ['ch3-cf-d-exp', 'ch3-cf-limitations'] }
+        }
+      },
+      {
+        id: 'algorithms', title: 'The Algorithm Zoo', icon: '\u{1F9EC}',
+        difficulty: 'Intermediate',
+        story: 'Collaborative filtering, content-based, bandits, graph networks, transformers, LLMs — the recommendation landscape is vast. Can you navigate it and understand when to use what?',
+        goal: 'Understand the major algorithm families and their trade-offs',
+        reward: { title: 'Algorithm Navigator', xp: 30 },
+        core: ['ch3-friends', 'ch3-content', 'ch3-bandits', 'ch3-deep-similarity', 'ch3-graph-methods', 'ch3-session-based', 'ch3-llm-recs'],
+        intros: [
+          "The oldest trick in recommendations: find people like you and suggest what they liked.",
+          "A completely different approach: ignore users, analyze the items themselves.",
+          "How much should you exploit what works vs. explore the unknown? Bandits solve this dilemma.",
+          "Modern systems represent everything as vectors in high-dimensional space. Here's why that works.",
+          "Users and items form a graph. Graph neural networks exploit this network structure directly.",
+          "When you don't know the user, you must work with just the current session. Session-based methods handle this.",
+          "LLMs are reshaping the interface. Can they replace traditional methods, or do they complement them?"
+        ],
+        boss: { q: 'You are architecting a recommendation system for a new platform with 10M items. Describe which algorithm family you would use for each pipeline stage (retrieval, scoring, re-ranking) and justify your choices.', hints: ['two-tower', 'collaborative filtering', 'content-based', 'bandits', 'diversity', 'LTR', 'cold start'] },
+        branches: {
+          thinker: { label: 'Deep math', blocks: ['ch3-matrix-factorization', 'ch3-attention', 'ch3-feature-interactions'] },
+          explorer: { label: 'See architectures', blocks: ['ch3-two-tower', 'ch3-hybrid-patterns', 'ch3-multimodal'] },
+          creator: { label: 'Choose your tools', blocks: ['ch5-model-selection', 'ch5-open-source'] }
         }
       },
       {
         id: 'bubble', title: 'Pop the Bubble', icon: '\u{1FAE7}',
         difficulty: 'Intermediate',
         story: 'You notice your news feed shows only one perspective. A colleague sees entirely different content. Are algorithmic filter bubbles shaping your information diet?',
-        goal: 'Understand filter bubbles, echo chambers, and algorithmic fairness',
+        goal: 'Understand filter bubbles, fairness, bias, and how to measure quality',
         reward: { title: 'Bubble Analyst', xp: 25 },
-        core: ['ch4-bubbles', 'ch4-fairness', 'ch4-testing', 'ch3-popular', 'ch3-popular-sidebar'],
+        core: ['ch4-bubbles', 'ch4-fairness', 'ch4-long-tail', 'ch4-satisfaction', 'ch4-testing'],
         intros: [
           "Something seems off. Your feed converges to a narrow content type. A colleague sees entirely different things. Why?",
-          "Filter bubbles are one concern. But is the system fair to all content creators and users?",
-          "How do organizations evaluate whether their recommendations are working? Rigorous experimentation.",
-          "Let's examine the simplest approach: recommend what's popular. What are the failure modes?",
-          "Preferential attachment — popular items get more popular — creates systemic bias. How do we address it?"
+          "Bubbles are one concern. But is the system fair to all content creators and users?",
+          "The long tail: 80% of items never get recommended. Is popularity-based selection inevitable?",
+          "Engagement and satisfaction are not the same thing. What should we actually optimize for?",
+          "How do organizations evaluate whether their recommendations are working? Rigorous experimentation."
         ],
-        boss: { q: 'You are designing a recommendation system for a news platform. How would you balance personalization with information diversity to prevent filter bubbles? Discuss specific algorithmic approaches.', hints: ['diversity', 'exploration', 'MMR', 'balance', 'fairness metrics'] },
+        boss: { q: 'You are designing a recommendation system for a news platform. How would you balance personalization with information diversity while ensuring both user satisfaction and creator fairness? Discuss specific approaches.', hints: ['diversity', 'MMR', 'long tail', 'satisfaction', 'exploration', 'fairness metrics'] },
         branches: {
-          creator: { label: 'Run an experiment', blocks: ['ch4-experiment'] },
-          thinker: { label: 'Analyze deeply', blocks: ['ch4-echo-d-think', 'ch4-unfair-game'] },
-          explorer: { label: 'Design an A/B test', blocks: ['ch4-ab-d-exp'] }
+          thinker: { label: 'Bias & metrics', blocks: ['ch4-bias-types', 'ch4-diversity-metrics', 'ch4-polarization'] },
+          creator: { label: 'Run experiments', blocks: ['ch4-experiment', 'ch4-interleaving'] },
+          explorer: { label: 'Design A/B tests', blocks: ['ch4-ab-d-exp', 'ch4-online-offline'] }
         }
       },
       {
         id: 'control', title: 'Take Back Control', icon: '\u{1F6E1}',
         difficulty: 'Advanced',
-        story: 'Platforms know more about your preferences than you do. They track behavior across websites, infer demographics, and use persuasive design to maximize engagement. Understanding these mechanisms is essential for informed digital citizenship.',
-        goal: 'Digital literacy — understand privacy, persuasive design, and your rights',
+        story: 'Platforms know more about your preferences than you do. They use persuasive design, dark patterns, and behavioral inference to maximize engagement. Understanding these mechanisms is essential.',
+        goal: 'Digital literacy — understand privacy, persuasive design, the attention economy, and your rights',
         reward: { title: 'Informed Digital Citizen', xp: 25 },
-        core: ['ch6-who-decides', 'ch6-addictive', 'ch6-privacy-real', 'ch6-ai-future'],
+        core: ['ch6-who-decides', 'ch6-addictive', 'ch6-privacy-real', 'ch6-ai-future', 'ch6-attention-economy'],
         intros: [
           "When you open a platform, who decided what appears on your screen? The answer reveals the incentive structure.",
           "Infinite scroll. Autoplay. Variable rewards. These are deliberate persuasive design patterns.",
           "Let's get specific: what do platforms actually know about you, and how did they learn it?",
-          "You've examined the challenges. Now let's discuss regulatory responses and the future landscape."
+          "You've examined the challenges. Now let's discuss AI's role in the future of recommendations.",
+          "The attention economy frames all of this: your attention is the product being sold."
         ],
-        boss: { q: 'A colleague asks for advice on managing their digital information diet. Describe 3 specific mechanisms platforms use to maximize engagement, and recommend concrete countermeasures.', hints: ['variable rewards', 'persuasive design', 'data audit', 'privacy settings', 'regulatory rights'] },
+        boss: { q: 'Describe the attention economy model, explain 3 specific persuasive design patterns platforms use, and recommend concrete countermeasures for each. Reference relevant regulations.', hints: ['attention economy', 'dark patterns', 'variable rewards', 'GDPR', 'DSA', 'privacy audit'] },
         branches: {
-          explorer: { label: 'Audit your data', blocks: ['ch6-data-d-exp', 'ch6-age-sidebar'] },
-          creator: { label: 'Reclaim control', blocks: ['ch6-control-d-create'] },
-          thinker: { label: 'The harder questions', blocks: ['ch6-hard-d-think', 'ch6-law-sidebar'] }
+          explorer: { label: 'Audit your data', blocks: ['ch6-data-d-exp', 'ch6-dark-patterns'] },
+          creator: { label: 'Reclaim control', blocks: ['ch6-control-d-create', 'ch6-ethics-checklist'] },
+          thinker: { label: 'Deeper analysis', blocks: ['ch6-hard-d-think', 'ch6-law-sidebar', 'ch6-privacy-preserving'] }
         }
       },
       {
         id: 'creator-boost', title: 'Get Your Content Recommended', icon: '\u{1F4F1}',
         difficulty: 'Intermediate',
         story: "You've published content — an article, video, podcast, or product. But the algorithm doesn't surface it. Can you learn how recommendation and discovery systems work from the creator's perspective?",
-        goal: 'Understand how to make content visible to recommendation algorithms',
+        goal: 'Understand discoverability, the pipeline, and the creator-algorithm relationship',
         reward: { title: 'Algorithm Whisperer', xp: 30 },
         core: ['ch5-get-recommended', 'ch5-seo-algorithms', 'ch3-pipeline', 'ch3-search-recs', 'ch3-popular'],
         intros: [
@@ -3476,11 +3500,54 @@ class PBook {
           "Search results are personalized. How do you surface for the right audience segments?",
           "Every creator starts in the cold-start zone. How do you escape the popularity trap?"
         ],
-        boss: { q: "You've published a technical tutorial. Describe 5 specific strategies to maximize the probability that recommendation algorithms surface it to the right audience — across multiple platforms.", hints: ['title optimization', 'metadata', 'engagement signals', 'first impressions', 'consistency', 'cross-platform', 'content graph'] },
+        boss: { q: "You've published a technical tutorial. Describe 5 specific strategies to maximize algorithmic discovery. Then discuss: where is the ethical line between optimization and manipulation?", hints: ['metadata', 'engagement signals', 'first impressions', 'consistency', 'cold start', 'creator economy'] },
         branches: {
-          explorer: { label: 'Study the pipeline', blocks: ['ch3-pipeline-d-exp'] },
-          creator: { label: 'Build & optimize', blocks: ['ch5-spread-d-create'] },
-          thinker: { label: 'Ethics of optimization', blocks: ['ch4-objectives'] }
+          explorer: { label: 'Study the pipeline', blocks: ['ch3-pipeline-d-exp', 'ch3-search-recs-convergence'] },
+          creator: { label: 'Build & optimize', blocks: ['ch5-spread-d-create', 'ch5-case-studies'] },
+          thinker: { label: 'Creator economy ethics', blocks: ['ch6-creator-economy', 'ch4-objectives'] }
+        }
+      },
+      {
+        id: 'production', title: 'Ship It: Production RecSys', icon: '\u{1F680}',
+        difficulty: 'Advanced',
+        story: 'Your algorithm works in a notebook. Now deploy it to serve 10,000 requests per second with p99 latency under 200ms. Welcome to production recommendation engineering.',
+        goal: 'Understand the full production stack — from feature stores to monitoring to incident response',
+        reward: { title: 'Production Engineer', xp: 35 },
+        core: ['ch5-tech-stack', 'ch5-model-selection', 'ch5-monitoring', 'ch5-caching', 'ch5-scale'],
+        intros: [
+          "A production RecSys is 10% algorithm, 90% infrastructure. Let's examine the full stack.",
+          "With so many algorithms available, choosing the right one for your problem is the first critical decision.",
+          "Your system is live. How do you know it's working? Monitoring and observability are your lifeline.",
+          "Latency is tight. Caching helps — but introduces freshness trade-offs.",
+          "The architecture that works for 10K items is wrong for 100M items. Scale changes everything."
+        ],
+        boss: { q: 'Design a production recommendation system for a platform with 50M items and 10M daily active users. Describe the architecture, the latency budget per component, and the monitoring strategy.', hints: ['two-tower', 'ANN index', 'feature store', 'caching', 'candidate generation', 're-ranking', 'monitoring', 'latency'] },
+        branches: {
+          explorer: { label: 'Production ops', blocks: ['ch5-observability', 'ch5-realtime', 'ch5-continual-learning'] },
+          creator: { label: 'Build the stack', blocks: ['ch5-open-source', 'ch5-feature-eng'] },
+          thinker: { label: 'Production math', blocks: ['ch5-ab-pitfalls', 'ch5-anti-patterns'] }
+        }
+      },
+      {
+        id: 'ethics-deep', title: 'The Responsible Recommender', icon: '\u{2696}',
+        difficulty: 'Advanced',
+        story: 'Recommendation algorithms shape what billions of people see, read, and buy. With that power comes responsibility. Can you navigate the ethical landscape?',
+        goal: 'Understand algorithmic accountability, fairness definitions, content safety, and global regulatory context',
+        reward: { title: 'Responsible Technologist', xp: 30 },
+        core: ['ch4-bias-types', 'ch4-multi-objective', 'ch6-content-safety', 'ch4-accountability', 'ch6-ethics-checklist', 'ch6-global'],
+        intros: [
+          "Bias in recommender systems isn't a single problem — it's a taxonomy. Selection bias, position bias, popularity bias, and more.",
+          "When goals conflict — engagement vs. diversity vs. fairness vs. revenue — how do you decide? Multi-objective optimization provides a framework.",
+          "Algorithms can amplify harmful content. Content safety is a design requirement, not an afterthought.",
+          "When recommendations fail, who is responsible? Algorithmic accountability is both a legal and organizational challenge.",
+          "Before launch, run through this checklist: user impact, fairness, privacy, safety, transparency, accountability.",
+          "Recommendations work differently across cultures. What's effective in the US may fail in Japan."
+        ],
+        boss: { q: 'A news platform asks you to audit their recommendation system for bias and fairness. Describe your methodology: what would you measure, what frameworks would you apply, and what regulatory requirements must be met?', hints: ['bias types', 'fairness definitions', 'DSA', 'GDPR', 'content safety', 'Pareto', 'auditing'] },
+        branches: {
+          thinker: { label: 'Formal frameworks', blocks: ['ch4-diversity-metrics', 'ch4-counterfactual', 'ch4-reward-design'] },
+          explorer: { label: 'Real-world context', blocks: ['ch6-creator-economy', 'ch6-dark-patterns', 'ch4-polarization'] },
+          creator: { label: 'Apply in practice', blocks: ['ch6-privacy-preserving', 'ch4-explanation-ux'] }
         }
       },
       {
@@ -3502,32 +3569,55 @@ class PBook {
         ],
         boss: { q: 'Trace the research evolution from EASE to ELSA to beeFormer. For each step, explain what problem the new approach solved and what mathematical insight enabled the breakthrough.', hints: ['matrix inverse', 'low-rank', 'Eckart-Young', 'cold start', 'ELSA loss', 'Transformer'] },
         branches: {
-          thinker: { label: 'Full derivations', blocks: ['ch7-ease-math', 'ch7-thompson-math', 'ch7-eval-math'] },
-          explorer: { label: 'Production systems', blocks: ['ch7-production-scale'] },
-          creator: { label: 'Build with code', blocks: ['ch5-code-d-create'] }
+          thinker: { label: 'Full derivations', blocks: ['ch7-ease-math', 'ch7-thompson-math', 'ch7-eval-math', 'ch7-regularization'] },
+          explorer: { label: 'Production & tools', blocks: ['ch7-sparse-reps', 'ch7-realm', 'ch7-repsys'] },
+          creator: { label: 'Build with code', blocks: ['ch5-code-d-create', 'ch5-open-source'] }
+        }
+      },
+      {
+        id: 'deep-tech', title: 'The Deep Tech Dive', icon: '\u{1F9E0}',
+        difficulty: 'Advanced',
+        story: 'You want the full mathematical picture — derivations, proofs, complexity analysis. This mission takes you through the hardest technical content in the book.',
+        goal: 'Master the mathematical foundations: matrix factorization, attention, bandits, evaluation theory',
+        reward: { title: 'RecSys Theorist', xp: 40 },
+        core: ['ch3-matrix-factorization', 'ch3-als-deep', 'ch3-attention-deep', 'ch7-ease-math', 'ch7-thompson-math', 'ch7-eval-math'],
+        intros: [
+          "Matrix factorization decomposes user-item interactions into latent factor spaces. Here's the full formulation.",
+          "ALS solves the factorization problem via alternating ridge regressions. Every step has a closed-form solution.",
+          "Self-attention computes context-dependent importance weights. The scaling, the multi-head trick, the causal mask — all derived.",
+          "EASE's beauty: one matrix inverse, one diagonal constraint, and the precision matrix interpretation.",
+          "Thompson Sampling is Bayesian-optimal. Here's the proof, the regret bound, and the Lai-Robbins connection.",
+          "The offline evaluation bias formalizes why good models can look bad. MNAR, IPS, and the LLOO+β correction."
+        ],
+        boss: { q: 'Derive the ALS update step from the matrix factorization objective. Then explain why EASE outperforms deep models despite being linear, using the bias-variance trade-off framework.', hints: ['ridge regression', 'closed-form', 'sparse data', 'variance', 'spectral shrinkage', 'nuclear norm'] },
+        branches: {
+          thinker: { label: 'More theory', blocks: ['ch7-causal-bandits', 'ch7-regularization', 'ch3-two-tower-math'] },
+          explorer: { label: 'See in practice', blocks: ['ch7-vasp-ablation', 'ch7-distillation', 'ch7-transfer-learning'] },
+          creator: { label: 'Implement it', blocks: ['ch5-code-d-create', 'ch5-feature-eng'] }
         }
       },
       {
         id: 'master', title: 'Recommendation Master', icon: '\u{1F451}',
         difficulty: 'Capstone',
-        story: "You've studied the components. Now synthesize everything. Can you explain the full journey of a recommendation — from user interaction to algorithmic prediction to system response?",
-        goal: 'Deep mastery — understand the full pipeline, methods, and trade-offs',
-        reward: { title: 'Recommendation Master', xp: 40 },
-        prerequisite: 2,
-        core: ['ch3-pipeline', 'ch3-content', 'ch3-friends', 'ch4-testing', 'ch5-improve', 'ch6-ai-future'],
+        story: "You've studied the components. Now synthesize everything — algorithms, production, ethics, research. Can you design a complete, responsible recommendation system?",
+        goal: 'Deep mastery — synthesize the full picture across all dimensions',
+        reward: { title: 'Recommendation Master', xp: 50 },
+        prerequisite: 3,
+        core: ['ch3-pipeline', 'ch3-content', 'ch3-friends', 'ch4-testing', 'ch5-improve', 'ch6-ai-future', 'ch7-roadmap'],
         intros: [
           "Welcome to the capstone. Production systems combine everything into a multi-stage pipeline.",
           "One approach: analyze the item itself — its features, embeddings, and metadata.",
           "Another approach: analyze user behavior — find preference similarities via collaborative filtering.",
           "How do you validate that the system works? Rigorous experimentation and evaluation.",
           "A working system isn't a finished system. Continuous improvement is the norm.",
-          "Finally: what does all of this mean for the future — and for your domain?"
+          "The future: LLMs, multimodal understanding, and the open research frontier.",
+          "What does responsible, effective recommendation look like? This is where it all comes together."
         ],
-        boss: { q: 'Explain the full journey of a platform recommendation: from user interaction to new suggestions appearing. Include at least 3 algorithmic approaches and discuss the trade-offs between them.', hints: ['pipeline', 'collaborative filtering', 'content-based', 'candidate generation', 'ranking', 'diversity', 'evaluation'] },
+        boss: { q: 'Design a complete recommendation system for a new content platform. Cover: algorithm selection per pipeline stage, cold-start strategy, evaluation methodology, fairness safeguards, and production architecture. Justify each decision.', hints: ['pipeline', 'collaborative filtering', 'content-based', 'cold start', 'beeFormer', 'A/B testing', 'fairness', 'monitoring', 'diversity'] },
         branches: {
-          explorer: { label: 'Trace a real recommendation', blocks: ['ch3-pipeline-d-exp'] },
-          creator: { label: 'Build CF system', blocks: ['ch3-cf-d-create'] },
-          thinker: { label: 'Compare methods', blocks: ['ch3-compare-d-think', 'ch3-speed'] }
+          explorer: { label: 'Case studies', blocks: ['ch5-case-studies', 'ch5-ecommerce', 'ch5-news-recs'] },
+          creator: { label: 'Full production', blocks: ['ch5-tech-stack', 'ch5-flywheel', 'ch5-continual-learning'] },
+          thinker: { label: 'Theory meets practice', blocks: ['ch7-emerging', 'ch4-counterfactual', 'ch4-multi-objective'] }
         }
       }
     ];
