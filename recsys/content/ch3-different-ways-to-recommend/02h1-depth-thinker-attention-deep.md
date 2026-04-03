@@ -6,7 +6,7 @@ readingTime: 6
 standalone: false
 core: false
 voice: thinker
-parent: ch3-attention
+parent: ch3-attention-d-think
 status: accepted
 ---
 

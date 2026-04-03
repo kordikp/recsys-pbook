@@ -6,7 +6,7 @@ readingTime: 5
 standalone: false
 core: false
 voice: thinker
-parent: ch3-two-tower
+parent: ch3-two-tower-d-exp
 status: accepted
 ---
 

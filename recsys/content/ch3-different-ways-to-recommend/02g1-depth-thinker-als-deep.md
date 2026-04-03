@@ -6,7 +6,7 @@ readingTime: 6
 standalone: false
 core: false
 voice: thinker
-parent: ch3-matrix-factorization
+parent: ch3-mf-d-think
 status: accepted
 ---
 
