@@ -1643,19 +1643,12 @@ class PBook {
     const block = this.findBlock(blockId);
     if (!block) return;
     const url = window.location.origin + window.location.pathname + '#' + blockId;
-    const title = (block.meta.title || '').replace(/&[^;]+;/g, '').replace(/\\"/g, '"');
-    const teaser = (block.meta.teaser || '').replace(/&[^;]+;/g, '').replace(/\\"/g, '"');
-    const text = teaser || 'Check out this section from How Recommendations Work';
 
-    if (navigator.share) {
-      navigator.share({ title, text, url }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(`${title} — ${url}`).then(() => {
-        this.showXPToast('Link copied!', 'info');
-      }).catch(() => {
-        prompt('Share this link:', url);
-      });
-    }
+    navigator.clipboard.writeText(url).then(() => {
+      this.showXPToast('Link copied!', 'info');
+    }).catch(() => {
+      prompt('Copy this link:', url);
+    });
     this.rc.logEvent('share', { blockId, mode: 'share' });
   }
 
@@ -1663,16 +1656,10 @@ class PBook {
     const m = this.getMissions().find(x => x.id === missionId);
     if (!m) return;
     const url = window.location.origin + window.location.pathname + '#mission-' + missionId;
-    const title = m.title;
-    const text = m.story.substring(0, 100);
 
-    if (navigator.share) {
-      navigator.share({ title, text, url }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(url).then(() => {
-        this.showXPToast('Mission link copied!', 'info');
-      }).catch(() => { prompt('Share this link:', url); });
-    }
+    navigator.clipboard.writeText(url).then(() => {
+      this.showXPToast('Link copied!', 'info');
+    }).catch(() => { prompt('Copy this link:', url); });
     this.rc.logEvent('share', { missionId, mode: 'share_mission' });
   }
 
@@ -2397,12 +2384,10 @@ class PBook {
     const quiz = this._getRecallQuestion(block);
     if (!quiz) return;
     const url = window.location.origin + window.location.pathname + '#quiz-' + blockId;
-    const text = `Can you answer this? "${quiz.q}" — from "How Recommendations Work"`;
-    if (navigator.share) {
-      navigator.share({ title: quiz.q, text, url }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(url).then(() => this.showXPToast('Link copied!', 'info'));
-    }
+
+    navigator.clipboard.writeText(url).then(() => {
+      this.showXPToast('Link copied!', 'info');
+    }).catch(() => { prompt('Copy this link:', url); });
   }
 
   _answerRecall(blockId, quality) {
