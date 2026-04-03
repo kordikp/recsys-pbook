@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Name 3 mechanisms you have to control your recommendation data."
 recallA: "\"Not Interested\" feedback, history deletion, separate profiles, private browsing, platform privacy settings, and GDPR data access requests."
+highlights:
+  - "Concrete tools exist: 'Not Interested,' clear history, separate profiles, privacy settings"
+  - "Data is a trade: personal information in exchange for better personalization"
+  - "Under GDPR/CCPA, users have legal rights to access, port, and delete their data"
 status: accepted
 ---
 

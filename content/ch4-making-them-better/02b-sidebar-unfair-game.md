@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "How can platforms make recommendations fairer?"
 recallA: "Random sampling for new items, guaranteed minimum exposure for new providers, small-audience testing before scaling to broader distribution."
+highlights:
+  - "Preferential attachment: items recommended more get more data, reinforcing their advantage"
+  - "Fair systems guarantee initial exposure before judging quality"
 status: accepted
 ---
 

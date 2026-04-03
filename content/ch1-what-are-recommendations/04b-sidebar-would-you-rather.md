@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "What is the main trade-off in recommendations?"
 recallA: "Better recommendations need more data, but more data raises privacy concerns. Exploitation vs. exploration, accuracy vs. diversity, personalization vs. privacy."
+highlights:
+  - "Better personalization requires more data -- but more data means less privacy"
+  - "Exploitation vs. exploration: safe picks or risky discoveries?"
+  - "These are not hypothetical -- they are engineering trade-offs teams face daily"
 status: accepted
 ---
 

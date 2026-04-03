@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "How many lines of Python does it take to build basic collaborative filtering?"
 recallA: "Under 50 lines for a complete pipeline: data loading, similarity computation, prediction, and evaluation — the same core logic behind production systems."
+highlights:
+  - "A complete collaborative filtering implementation fits in ~30 lines of Python"
+  - "Code automates the manual process and scales to larger datasets"
 status: accepted
 ---
 

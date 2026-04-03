@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "Can you build collaborative filtering without a computer?"
 recallA: "Yes. Survey a group, create a rating matrix on paper, compute similarity scores, and predict preferences for unseen items."
+highlights:
+  - "CF can be prototyped with a spreadsheet — the logic is simple"
+  - "More users and items improve predictions through denser co-occurrence data"
+  - "Production systems use the exact same logic, just with millions of data points"
 status: accepted
 ---
 

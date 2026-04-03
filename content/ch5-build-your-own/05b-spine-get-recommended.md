@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "What matters more to YouTube: clicks or watch time?"
 recallA: "Watch time. A video 100 people watch fully beats 1,000 clicks that bounce immediately."
+highlights:
+  - "Platforms reward engagement rate over total views, and strong first impressions"
+  - "Each platform has different key metrics: YouTube = watch time, TikTok = completion"
 status: accepted
 ---
 

@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Why can't platforms fully explain their recommendations?"
 recallA: "Modern neural recommendation systems process hundreds or thousands of features through nonlinear transformations -- even the engineers who built them cannot trace exactly why one item was ranked above another for a specific user."
+highlights:
+  - "'Because you watched X' is often an approximate post-hoc explanation, not the actual reason"
+  - "Neural networks use hundreds of features — full transparency is technically intractable"
+  - "The DSA and GDPR now require platforms to explain recommendation parameters"
 status: accepted
 ---
 

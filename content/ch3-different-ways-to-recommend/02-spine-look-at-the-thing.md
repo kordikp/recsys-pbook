@@ -11,6 +11,10 @@ parent: null
 diagram: kids-content-based
 recallQ: "How does content-based filtering differ from collaborative?"
 recallA: "Content-based analyzes item FEATURES (genre, tags, text, metadata). Collaborative analyzes USER BEHAVIOR (co-consumption patterns). Content-based solves cold start; collaborative excels at serendipity."
+highlights:
+  - "Content-based filtering analyzes item features: genre, tags, description, audio signals"
+  - "Solves cold start — works for new items with zero interaction data"
+  - "Doesn't need other users — only item metadata and user preferences"
 status: accepted
 ---
 

@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Are search results the same for everyone?"
 recallA: "No. Modern search is deeply personalized -- result ranking depends on user history, location, behavioral signals, and learned query-user relevance models."
+highlights:
+  - "Search results are personalized — the same query returns different results per user"
+  - "Search and recommendation share the same retrieval infrastructure"
+  - "Modern platforms run both through a unified embedding-based pipeline"
 status: accepted
 ---
 

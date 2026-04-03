@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What lesson did the Netflix Prize teach about algorithms?"
 recallA: "Better accuracy doesn't always win in production -- engineering constraints like latency, maintainability, and scalability often matter more than marginal accuracy gains."
+highlights:
+  - "Netflix Prize lesson: better algorithms don't win if they can't run in production"
+  - "Speed and simplicity consistently beat marginal accuracy improvements"
+  - "The competition transformed the field even though the winning solution was never deployed"
 status: accepted
 ---
 

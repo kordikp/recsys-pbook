@@ -11,6 +11,10 @@ parent: null
 diagram: kids-cold-start
 recallQ: "What is the \"cold start\" problem?"
 recallA: "When a new user arrives with zero interaction history, the system has no personalization signal — it falls back to popularity-based recommendations until it accumulates enough behavioral data."
+highlights:
+  - "New accounts face the cold-start problem: zero behavioral data to work with"
+  - "Systems default to popularity-based recommendations until they learn individual preferences"
+  - "Onboarding preference selection accelerates the learning curve significantly"
 status: accepted
 ---
 

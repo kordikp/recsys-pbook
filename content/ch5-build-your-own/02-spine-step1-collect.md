@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What is a rating matrix?"
 recallA: "Users as rows, items as columns, ratings in cells. Most cells are empty — that's what you predict."
+highlights:
+  - "The rating matrix: users as rows, items as columns, ratings in cells"
+  - "Empty cells represent what the system needs to predict"
+  - "Sparsity (>99% empty) is the fundamental challenge of collaborative filtering"
 status: accepted
 ---
 

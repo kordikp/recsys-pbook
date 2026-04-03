@@ -11,6 +11,10 @@ parent: null
 diagram: kids-pattern-detective
 recallQ: "Recommendations feel like magic — what are they really based on?"
 recallA: "Patterns! Observe behavior → detect patterns → predict preferences. Statistical pattern recognition at massive scale."
+highlights:
+  - "The core loop: observe behavior, detect patterns, predict preferences"
+  - "More data yields more accurate models -- each interaction improves predictions"
+  - "Cross-user patterns across millions reveal connections no human could spot"
 status: accepted
 ---
 

@@ -11,6 +11,10 @@ parent: null
 diagram: diagram-stakeholders
 recallQ: "How can algorithms be unfair to new content providers?"
 recallA: "Popular items receive more recommendations, which generate more engagement, which triggers even more recommendations -- a self-reinforcing cycle. New providers never gain visibility. Well-designed systems build in mechanisms for fair initial exposure."
+highlights:
+  - "Popularity creates a self-reinforcing cycle: visible → popular → more visible"
+  - "New content creators face systematic invisibility in algorithmically curated feeds"
+  - "Solutions: exploration slots, freshness boosts, fair exposure constraints"
 status: accepted
 ---
 

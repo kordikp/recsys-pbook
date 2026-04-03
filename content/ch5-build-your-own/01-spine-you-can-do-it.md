@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "What are the 4 steps to build a recommendation system?"
 recallA: "Collect data → find similar users → make predictions → test and improve."
+highlights:
+  - "The recommendation loop: collect data → find similar users → predict → test → improve"
+  - "Start with a manual prototype before writing code"
 status: accepted
 ---
 

@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "How do you find \"taste neighbors\"?"
 recallA: "Compare ratings on co-rated items — lower mean absolute difference = more similar preferences."
+highlights:
+  - "Compare ratings on shared items — lower average difference = more similar"
+  - "Taste neighbors form the foundation of collaborative filtering"
 status: accepted
 ---
 

@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "How long would it take a human to do what YouTube does in 1 second?"
 recallA: "Approximately 25 YEARS to manually evaluate 800 million items. That's why algorithmic retrieval and staged pipelines are essential."
+highlights:
+  - "YouTube selects 20 optimal videos from 800M in 0.2 seconds"
+  - "A human reviewing 1 video/second would need 25 years for YouTube's 1-second task"
+  - "Multi-stage pipeline makes the computationally impossible achievable"
 status: accepted
 ---
 

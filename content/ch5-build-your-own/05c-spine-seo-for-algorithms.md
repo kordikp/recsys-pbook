@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "Why doesn't \"ranking #1 on Google\" exist anymore?"
 recallA: "Results are personalized — your content can be #1 for your target audience and invisible to everyone else."
+highlights:
+  - "Personalized search means there's no universal 'rank #1' anymore"
+  - "Success formula: content quality x algorithmic discoverability"
 status: accepted
 ---
 

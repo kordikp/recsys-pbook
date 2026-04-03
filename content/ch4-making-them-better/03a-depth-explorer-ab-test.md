@@ -10,6 +10,10 @@ parent: null
 diagram: kids-ab-test
 recallQ: "Do personalized recommendations actually outperform popularity-based baselines?"
 recallA: "Typically yes. In this example: 37% more tracks played, 4x more artist discovery, and significantly higher retention with personalization -- with all differences statistically significant."
+highlights:
+  - "Personalized recommendations outperform popularity baselines significantly"
+  - "Engineering decisions balance accuracy improvement against complexity cost"
+  - "Statistical significance alone doesn't guarantee practical significance"
 status: accepted
 ---
 

@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "How is an echo chamber worse than a filter bubble?"
 recallA: "Echo chambers create the illusion of consensus -- users believe their perspective is universally shared, while different populations see entirely different realities about the same topic."
+highlights:
+  - "Echo chambers create divergent information realities on the same topic"
+  - "Research shows algorithmic effects are real but smaller than user self-selection"
+  - "Responsible systems expose multiple perspectives without dictating conclusions"
 status: accepted
 ---
 

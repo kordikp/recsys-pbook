@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "What is a \"digital twin\" in the context of recommender systems?"
 recallA: "A mathematical model of your behavioral patterns — platforms construct one from your interaction data without necessarily needing your real identity."
+highlights:
+  - "Platforms build behavioral profiles — 'digital twins' — from interaction patterns"
+  - "The question isn't whether they collect data, but whether you understand and consent"
 status: accepted
 ---
 

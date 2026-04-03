@@ -10,6 +10,10 @@ parent: null
 diagram: diagram-mf-decomposition
 recallQ: "What does matrix factorization do to a giant ratings matrix?"
 recallA: "It decomposes it into two lower-rank matrices -- one for users and one for items -- each containing learned latent factors. Their product approximates the original matrix, filling in missing entries with predicted ratings."
+highlights:
+  - "Decompose a sparse million×million matrix into two compact factor matrices"
+  - "Latent dimensions are learned automatically — each captures a taste factor"
+  - "ALS alternates between solving for users and items, each step in closed form"
 status: accepted
 ---
 

@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "Can algorithms infer your demographics from behavior alone?"
 recallA: "Yes — within 3-5 years for age, and with high accuracy for gender, income bracket, and education level. Behavioral signals like activity timing, scroll speed, content preferences, and language patterns are sufficient."
+highlights:
+  - "Behavioral patterns (scroll speed, content timing, preferences) predict demographics"
+  - "'Anonymous' data isn't anonymous when behavioral profiles are sufficiently detailed"
 status: accepted
 ---
 

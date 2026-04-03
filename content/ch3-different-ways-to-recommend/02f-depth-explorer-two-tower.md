@@ -10,6 +10,10 @@ parent: null
 diagram: diagram-two-tower
 recallQ: "What are the two towers in the two-tower architecture?"
 recallA: "A user encoder (processes interaction history, demographics, context) and an item encoder (processes title, category, features). Both produce embeddings in the same vector space -- proximity indicates relevance."
+highlights:
+  - "Dual encoder: user tower and item tower produce embeddings in the same space"
+  - "Item embeddings are pre-computed; only user embedding is computed per request"
+  - "Enables retrieval from millions of items in single-digit milliseconds"
 status: accepted
 ---
 

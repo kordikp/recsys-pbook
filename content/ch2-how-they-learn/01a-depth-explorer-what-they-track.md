@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "Which signal is stronger: clicking on content or consuming it to the end?"
 recallA: "Consuming to the end is far stronger. The system tracks dwell time and completion rate, not just clicks."
+highlights:
+  - "Platforms track subtle signals: scroll speed, hover time, replay behavior"
+  - "Signal hierarchy: purchase > save > complete > click > impression"
+  - "Completion rate matters far more than initial click for quality assessment"
 status: accepted
 ---
 

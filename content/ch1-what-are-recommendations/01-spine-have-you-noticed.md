@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "How do platforms like YouTube seem to \"know\" what you want?"
 recallA: "They track your clicks, watches, and skips to build a profile of your preferences — then use algorithms to surface similar content."
+highlights:
+  - "Every user's feed is unique -- no two people see the same recommendations"
+  - "Algorithms determine what surfaces based on every interaction recorded"
+  - "Each platform personalizes differently using statistical pattern recognition"
 status: accepted
 ---
 

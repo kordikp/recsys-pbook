@@ -11,6 +11,10 @@ parent: null
 diagram: kids-recommendations-everywhere
 recallQ: "Name 4 platforms that use recommendation algorithms."
 recallA: "YouTube, Spotify, Netflix, Amazon, LinkedIn, Google News, Twitter/X — virtually every digital platform."
+highlights:
+  - "Recommendations are embedded in 8+ types of platforms used daily"
+  - "The average person encounters hundreds of algorithmic suggestions per day"
+  - "Once you learn to identify them, you see them everywhere"
 status: accepted
 ---
 

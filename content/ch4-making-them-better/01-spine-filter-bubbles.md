@@ -11,6 +11,10 @@ parent: null
 diagram: kids-filter-bubble
 recallQ: "What is a filter bubble?"
 recallA: "When an algorithm exclusively surfaces content aligned with known preferences, users never encounter novel items. The bubble is invisible because users cannot see what is being withheld."
+highlights:
+  - "Filter bubble: the algorithm only shows content confirming existing preferences"
+  - "The bubble is invisible — you never see what you're missing"
+  - "Effective systems inject diversity to balance comfort with discovery"
 status: accepted
 ---
 

@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Why do recommendations sometimes go wrong?"
 recallA: "The system only sees actions, not intent. Shared accounts, gift searches, and noisy signals all corrupt the user model."
+highlights:
+  - "A single stray interaction can flood the feed -- systems overreact to sparse signals"
+  - "Recommendations optimize for user engagement; ads optimize for advertiser revenue"
+  - "Both use data and algorithms, but serve fundamentally different stakeholders"
 status: accepted
 ---
 

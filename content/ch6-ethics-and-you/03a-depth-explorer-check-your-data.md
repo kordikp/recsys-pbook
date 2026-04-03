@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "Where can you access what Google knows about you?"
 recallA: "myactivity.google.com — shows every search, video, and click with timestamps. You can also configure auto-deletion policies there."
+highlights:
+  - "Download your data: Google Takeout, TikTok settings, Instagram data export"
+  - "Most people are surprised by the volume and precision of stored behavioral data"
 status: accepted
 ---
 

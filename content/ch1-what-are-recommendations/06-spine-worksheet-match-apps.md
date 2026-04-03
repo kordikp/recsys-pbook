@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "Name 3 different content distribution models."
 recallA: "Social graph, subscription, community-curated, algorithmic, and group-based. Most platforms use hybrid approaches."
+highlights:
+  - "Five distribution models: social-graph, subscription, community, algorithmic, group-based"
+  - "Platforms are converging toward algorithmic curation -- the algorithm is taking over"
+  - "The models giving users the most control are not where they spend the most time"
 status: accepted
 ---
 

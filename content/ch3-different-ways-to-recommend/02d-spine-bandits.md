@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What is the explore-exploit dilemma?"
 recallA: "Should the system serve items with known high reward (exploit) or test uncertain items that might yield higher reward (explore)? Optimal strategies balance both using bandit algorithms."
+highlights:
+  - "The exploration-exploitation trade-off is the central dilemma in recommendation"
+  - "Thompson Sampling balances both automatically via Bayesian posterior sampling"
+  - "Contextual bandits add features — time of day, device, user segment"
 status: accepted
 ---
 

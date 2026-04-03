@@ -11,6 +11,10 @@ diagram: diagram-attention
 core: false
 recallQ: "Why doesn't a recommender treat all past interactions equally?"
 recallA: "Recent interactions and contextually relevant interactions carry more predictive signal. Self-attention lets the model learn adaptive, position-aware weights over the interaction history."
+highlights:
+  - "Self-attention weights interaction history: recent and relevant items get higher weight"
+  - "Multi-head attention captures different relationship types simultaneously"
+  - "The same transformer technology behind ChatGPT now powers sequential recommendation"
 status: accepted
 ---
 

@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "\"Because you watched X\" uses which method?"
 recallA: "\"Fans also listen to\" is collaborative filtering. \"Because you watched\" is content-based!"
+highlights:
+  - "'Trending' = popularity-based. 'Because you watched' = content-based"
+  - "'Fans also listen to' = collaborative filtering"
+  - "Production systems layer multiple methods in a single recommendation"
 status: accepted
 ---
 

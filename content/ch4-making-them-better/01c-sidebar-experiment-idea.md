@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "How can you break out of a filter bubble?"
 recallA: "By deliberately engaging with content outside your established pattern. Even a few intentional interactions on a new topic will shift algorithmic recommendations."
+highlights:
+  - "A few deliberate interactions visibly change your feed within minutes"
+  - "You are an active trainer of the algorithm, not a passive recipient"
+  - "Controlled behavioral experiments reveal the system's true responsiveness"
 status: accepted
 ---
 

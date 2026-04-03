@@ -11,6 +11,10 @@ parent: null
 diagram: kids-digital-footprints
 recallQ: "What are digital footprints?"
 recallA: "Every click, view, skip, and search — behavioral traces that feed the system's model of your preferences."
+highlights:
+  - "Every interaction -- click, view, skip, dwell time -- is a behavioral signal"
+  - "Users continuously train the system through implicit feedback"
+  - "The system evolves from knowing nothing to modeling preferences in detail"
 status: accepted
 ---
 

@@ -10,6 +10,10 @@ parent: null
 diagram: diagram-cf-matrix
 recallQ: "What are \"taste twins\" in collaborative filtering?"
 recallA: "Users whose interaction patterns closely overlap with yours. If they also engaged with something new, the system predicts you will too."
+highlights:
+  - "Taste twins: users who rated the same items similarly form the basis of CF"
+  - "Items your twins liked but you haven't seen are the recommendation candidates"
+  - "The same logic runs at Netflix, Spotify, and YouTube — just at million-user scale"
 status: accepted
 ---
 

@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "When is content-based better than collaborative filtering?"
 recallA: "For new items with no interaction data, for long-tail content, and for new users. Collaborative excels at serendipitous discovery and cross-domain recommendations."
+highlights:
+  - "CF produces surprising cross-domain discoveries but fails on new items"
+  - "Content-based works immediately but can narrow the content diet"
+  - "Hybrid approaches combine both — CF for serendipity, content-based for cold start"
 status: accepted
 ---
 

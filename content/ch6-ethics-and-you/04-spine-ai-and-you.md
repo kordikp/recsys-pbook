@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "Why is cross-disciplinary involvement in recommendation system design critical?"
 recallA: "Because these systems shape information access, public discourse, and economic opportunity — decisions that are too consequential to be left to engineers alone."
+highlights:
+  - "The current generation will either build, regulate, or be shaped by these systems"
+  - "The fundamental question: whose interests will recommendation algorithms serve?"
 status: accepted
 ---
 

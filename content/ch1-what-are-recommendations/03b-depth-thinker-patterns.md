@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Why is pattern recognition so powerful for recommendation algorithms?"
 recallA: "Algorithms can detect statistical patterns across millions of users simultaneously — correlations no human analyst could identify manually."
+highlights:
+  - "Pattern recognition is the foundation of science, finance, and recommendation alike"
+  - "Algorithms detect statistical patterns across millions that no analyst could find manually"
+  - "Spurious correlations -- noise mistaken for signal -- are a real failure mode"
 status: accepted
 ---
 

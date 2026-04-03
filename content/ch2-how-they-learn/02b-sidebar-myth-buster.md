@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "True or false: your phone listens to your conversations for ad targeting."
 recallA: "False. Algorithms predict so accurately from your behavioral data that it FEELS like eavesdropping — but they're inferring, not recording."
+highlights:
+  - "Platforms do not listen via microphone -- they read clicks, searches, and engagement patterns"
+  - "One anomalous interaction will not permanently corrupt a profile -- recency dominates"
+  - "Users can deliberately retrain the algorithm through intentional behavior changes"
 status: accepted
 ---
 

@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What is the \"rich-get-richer\" problem?"
 recallA: "Popular items receive more exposure, generating more engagement, which increases their popularity further. New and niche content gets systematically suppressed."
+highlights:
+  - "The rich-get-richer dynamic: popular items accumulate more visibility"
+  - "New content gets systematically buried by established hits"
+  - "TikTok's testing pools give every piece of content a fair initial audience"
 status: accepted
 ---
 

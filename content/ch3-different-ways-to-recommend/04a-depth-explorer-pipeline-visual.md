@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "How does YouTube find 20 videos from 800 million in 0.2 seconds?"
 recallA: "Multi-stage pipeline: fast retrieval narrows 800M to ~1000 candidates, cross-feature ranking scores those candidates, re-ranking applies diversity and policy constraints."
+highlights:
+  - "Retrieval casts a wide net (~1000 candidates from millions)"
+  - "Scoring evaluates each candidate with the full feature set"
+  - "Re-ranking enforces diversity, business rules, and freshness constraints"
 status: accepted
 ---
 

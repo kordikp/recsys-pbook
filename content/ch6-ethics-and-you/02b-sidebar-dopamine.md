@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "Why does \"just one more\" feel so hard to resist in recommendation feeds?"
 recallA: "Variable reward schedules trigger dopamine release tied to anticipation and uncertainty — the same mechanism underlying slot machine design."
+highlights:
+  - "Variable reward schedules — the same mechanism behind slot machines — drive engagement"
+  - "Recognizing the anticipation-uncertainty loop is the first step to managing it"
 status: accepted
 ---
 

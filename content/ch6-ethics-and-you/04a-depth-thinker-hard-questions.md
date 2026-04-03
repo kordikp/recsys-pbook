@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "Name an open question in recommendation system ethics that lacks consensus."
 recallA: "Who defines 'harmful' content? Should algorithms be required to show diverse viewpoints? Should predictive personalization have limits? These involve fundamental trade-offs between competing stakeholder interests."
+highlights:
+  - "Who defines 'harmful content'? When does transparency itself cause harm?"
+  - "These questions have no definitive answers — but engaging with them is essential"
 status: accepted
 ---
 

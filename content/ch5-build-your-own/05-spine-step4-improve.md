@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "What is the single biggest improvement for a recommendation system?"
 recallA: "More data. More users and more ratings increase matrix density, which means better neighbor matching and more accurate predictions."
+highlights:
+  - "More data is the single biggest improvement — more connections to discover"
+  - "Test each change individually to isolate its impact"
 status: accepted
 ---
 

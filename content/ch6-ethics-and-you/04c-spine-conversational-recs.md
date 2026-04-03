@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "How are LLMs changing the recommendation paradigm?"
 recallA: "LLMs enable natural language preference articulation and explanation, but lack access to real-time catalog data and user history — the future is hybrid architectures combining LLMs with traditional recommender systems."
+highlights:
+  - "LLMs understand nuanced preference expression but lack real-time behavioral data"
+  - "The future is hybrid: LLM language understanding + RecSys behavioral prediction"
 status: accepted
 ---
 

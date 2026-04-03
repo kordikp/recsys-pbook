@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "What is the strongest signal you can send to an algorithm?"
 recallA: "Sharing content with someone. It requires deliberate effort, which tells the system you genuinely value that content."
+highlights:
+  - "High-effort actions (search, share, save) are the strongest preference signals"
+  - "Sharing is the strongest signal -- it associates content with personal identity"
+  - "Passive signals like scrolling past are weak and highly ambiguous"
 status: accepted
 ---
 

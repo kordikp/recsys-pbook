@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "What is the difference between recommendations and ads?"
 recallA: "Recommendations operate within ONE platform using first-party data to improve user experience. Adtech tracks you across the ENTIRE internet using third-party data to sell your attention to the highest bidder."
+highlights:
+  - "Recommenders use first-party data within one platform; AdTech tracks across the internet"
+  - "Retargeting ads following you across sites are AdTech, not the platform's recommender"
 status: accepted
 ---
 

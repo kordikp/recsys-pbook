@@ -11,6 +11,10 @@ parent: null
 diagram: diagram-eval-stack
 recallQ: "What is an A/B test?"
 recallA: "A controlled online experiment: randomly assign users to variant A or B, measure behavioral outcomes, and use statistical tests to determine which variant performs better. Data decides -- not opinion."
+highlights:
+  - "A/B testing measures real behavioral impact, not predicted or self-reported preferences"
+  - "Proper testing requires statistical power analysis and multiple testing correction"
+  - "Long-term retention metrics matter more than short-term engagement spikes"
 status: accepted
 ---
 

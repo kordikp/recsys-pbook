@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "What percentage of YouTube watch time comes from recommendations?"
 recallA: "Over 70%. Algorithms -- not user-initiated search -- drive the majority of consumption on the platform."
+highlights:
+  - "70% of YouTube watch time comes from algorithmic recommendations, not user search"
+  - "A single algorithm change shifts billions of daily views instantly"
 status: accepted
 ---
 

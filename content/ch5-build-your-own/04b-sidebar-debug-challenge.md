@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "Even Netflix's algorithm is wrong how often?"
 recallA: "20-30% of the time. Perfection isn't the goal — minimizing aggregate error while maintaining useful signal is what matters."
+highlights:
+  - "Even Netflix is wrong 20-30% of the time — perfection is not the goal"
+  - "Root cause analysis: weak taste twins, stale data, context changes, mood shifts"
 status: accepted
 ---
 

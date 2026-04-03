@@ -11,6 +11,10 @@ parent: null
 diagram: kids-pipeline
 recallQ: "What are the 3 stages of a recommendation pipeline?"
 recallA: "RETRIEVE candidates (fast, high recall), RANK them (precise scoring model), RE-RANK for business logic and diversity."
+highlights:
+  - "Production systems combine methods in 3 stages: Retrieve → Score → Re-rank"
+  - "Retrieval is fast and rough; scoring is precise; re-ranking adds diversity"
+  - "The entire pipeline runs in under 200 milliseconds"
 status: accepted
 ---
 

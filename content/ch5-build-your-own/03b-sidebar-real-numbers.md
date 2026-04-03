@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "How many possible user-item combinations does Netflix have?"
 recallA: "3.4 TRILLION. And most cells are empty. Finding patterns in this extremely sparse data is the core engineering challenge."
+highlights:
+  - "Netflix: 3.4 trillion cells. YouTube: 2.16 quintillion. >99% are empty."
+  - "Matrix factorization finds patterns in this extreme sparsity"
 status: accepted
 ---
 

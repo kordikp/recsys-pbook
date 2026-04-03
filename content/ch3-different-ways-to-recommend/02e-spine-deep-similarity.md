@@ -11,6 +11,10 @@ parent: null
 diagram: diagram-embedding-space
 recallQ: "What are \"embeddings\" in recommendation systems?"
 recallA: "Dense vector representations where items are mapped to points in a continuous space. Proximity in the space corresponds to semantic or behavioral similarity. Learned via neural networks from interaction data."
+highlights:
+  - "Embeddings represent items as vectors where proximity = behavioral similarity"
+  - "Neural networks discover latent qualities that handcrafted features miss"
+  - "ANN search finds nearest neighbors among billions of vectors in milliseconds"
 status: accepted
 ---
 

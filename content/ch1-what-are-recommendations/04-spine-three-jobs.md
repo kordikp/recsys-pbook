@@ -11,6 +11,10 @@ parent: null
 diagram: kids-three-jobs
 recallQ: "What are the 3 core functions of a recommender system?"
 recallA: "DISCOVER new items, NAVIGATE large catalogs efficiently, and ENGAGE — sustain user interest over time."
+highlights:
+  - "DISCOVER: surface items users would not find through search alone"
+  - "NAVIGATE: reduce cognitive load in massive catalogs"
+  - "ENGAGE: sustain attention -- beneficial when aligned with user value, problematic when not"
 status: accepted
 ---
 

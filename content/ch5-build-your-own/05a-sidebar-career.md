@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "What skills does a recommendation engineer need?"
 recallA: "Math (statistics, linear algebra, optimization), programming (Python, distributed systems), experimental design, and deep understanding of user behavior."
+highlights:
+  - "RecSys engineering requires: statistics, linear algebra, Python, and curiosity"
+  - "The field is expanding into healthcare, education, finance, and scientific discovery"
 status: accepted
 ---
 

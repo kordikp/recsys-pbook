@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "How do you predict a rating for an unseen item?"
 recallA: "Find 2-3 most similar users who rated it → compute weighted average of their ratings. Above threshold = recommend."
+highlights:
+  - "Predict ratings by averaging similar users' ratings for unseen items"
+  - "Test predictions against held-out ratings — within 1 star = acceptable"
 status: accepted
 ---
 

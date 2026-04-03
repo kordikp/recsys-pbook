@@ -11,6 +11,10 @@ parent: null
 diagram: diagram-objectives
 recallQ: "What is the algorithm actually trying to do?"
 recallA: "It depends on the objective function. Subscription services tend to optimize for user satisfaction (retention-driven). Ad-supported services optimize for engagement that maximizes advertising revenue."
+highlights:
+  - "Every algorithm optimizes for an objective: engagement, revenue, or satisfaction"
+  - "Subscription models (Netflix) align better with user satisfaction than ad models"
+  - "Users, creators, and platform operators have structurally different interests"
 status: accepted
 ---
 

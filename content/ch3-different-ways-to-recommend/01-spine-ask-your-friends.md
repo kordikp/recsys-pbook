@@ -11,6 +11,10 @@ parent: null
 diagram: kids-collaborative-filtering
 recallQ: "How does collaborative filtering work?"
 recallA: "Find users with similar preferences → recommend what THEY engaged with that you haven't tried yet. Can be user-user (find similar users) or item-item (find items co-consumed by the same users)."
+highlights:
+  - "Collaborative filtering: find users with similar preferences, recommend what they liked"
+  - "No need to describe preferences — similar users' behavior does it implicitly"
+  - "Item-item CF scales better than user-user; Amazon proved this in 2003"
 status: accepted
 ---
 

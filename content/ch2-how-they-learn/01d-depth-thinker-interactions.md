@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "Why do modern recommender systems prefer implicit feedback over explicit ratings?"
 recallA: "Because users rarely rate things, ratings suffer from systematic biases (mood, social desirability, scale inconsistency), and implicit signals like dwell time, skips, and completions are collected automatically for every interaction."
+highlights:
+  - "Implicit signals (watch time, skips) are trusted more than explicit ratings"
+  - "Implicit data wins: automatically collected, less biased, and 100x more volume"
+  - "Netflix replaced stars with thumbs; YouTube optimizes watch time, not likes"
 status: accepted
 ---
 

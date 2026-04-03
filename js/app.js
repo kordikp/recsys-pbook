@@ -954,96 +954,9 @@ class PBook {
     });
   }
 
-  // Generate AI highlights/takeaways from block content
+  // Highlights come exclusively from frontmatter `highlights` array — no auto-generation
   _getHighlights(block) {
-    const body = (block.body || '').toLowerCase();
-    const id = block.id;
-    // Hand-crafted key takeaways for core blocks
-    const HIGHLIGHTS = {
-      // ── Chapter 1: What Are Recommendations? ──
-      'ch1-noticed': ['Your feed is unique — nobody else sees the same thing', 'Algorithms decide what you see based on everything you do', 'Every app personalizes differently using math and data'],
-      'ch1-everywhere': ['Recommendations hide in 8+ apps: YouTube, TikTok, Spotify, Netflix, App Store, Amazon...', 'You see hundreds of recommendations per day without realizing', 'Once you learn to spot them, you\'ll see them everywhere'],
-      'ch1-not-magic': ['It\'s detective work: watch → find patterns → predict', 'More data = smarter system (more clues to work with)', 'Compare you to millions of people to find what you\'ll like'],
-      'ch1-wrong-sidebar': ['One video can flood your feed — the system over-reacts', 'Recommendations help YOU find things; ads help COMPANIES sell things', 'Both use data, but their goals are completely different'],
-      'ch1-patterns-d-think': ['Pattern-finding is everywhere: nature, science, games — and algorithms', 'Machines spot patterns across millions of people that no human could', 'Danger: some patterns look real but are just coincidences'],
-      'ch1-three-jobs': ['Job 1: DISCOVER — find things you didn\'t know existed', 'Job 2: FIND — locate what you want in massive catalogs', 'Job 3: ENGAGE — keep you interested (helpful but risky)'],
-      'ch1-wyr': ['Better recs require more data → more data means less privacy', 'Surprise vs. accuracy: safe picks or risky discoveries?', 'No perfect answer — every choice has a trade-off'],
-      'ch1-ws-match': ['5 models: friend-based, follow-based, interest-based, algorithm-based, group-based', 'Most apps now use hybrids (follow + algorithm together)', 'Algorithm-based = app controls; follow-based = YOU control'],
-      // ── Chapter 2: How They Learn About You ──
-      'ch2-footprints': ['Every click, watch, skip, and search = a digital footprint', 'You\'re constantly teaching the system without realizing', 'The system starts as a stranger but learns to know you better than friends'],
-      'ch2-track-d-exp': ['Sneaky signals: watch speed, hover time, pauses, scroll patterns', 'Finishing a video ≫ clicking and leaving (watch time is king)', 'Signal strength: buying > rewatching > liking > clicking > hovering'],
-      'ch2-guess-signal': ['Actions requiring effort (search, share) = strongest signals', 'Sharing = strongest signal — you chose to show it to someone', 'Passive actions like scrolling are weak and ambiguous'],
-      'ch2-clues': ['Three clue types: what items ARE, who YOU are, what you DO', 'Your actions reveal who you really are — better than words', 'All three together make recommendations work; missing one = worse recs'],
-      'ch2-incognito-sidebar': ['New accounts = cold start problem: zero info about you', 'System shows popular stuff to everyone until it learns who you are', 'Picking interests on signup helps skip ahead and learn faster'],
-      'ch2-myth': ['Your phone doesn\'t listen — it reads your clicks, searches, messages', 'One weird video won\'t ruin your feed forever (recent behavior wins)', 'You can deliberately train the algorithm on purpose'],
-      'ch2-privacy': ['5 data superpowers: "Not Interested," clear history, separate profiles, incognito, settings', 'Data is a trade: your info for better recommendations', 'You\'re in control — you can always change things'],
-      'ch2-privacy-d-create': ['Clear history + watch 5-10 videos = algorithm reshapes fast', 'The system over-reacts to new topics (2 cooking videos → cooking flood)', 'Great experiment: watch something new and observe the feed change'],
-      'ch2-ws-detective': ['Check recs → tap "Not Interested" → watch the feed adjust instantly', 'One new video reshapes your feed in real time', 'You either train the algorithm on purpose or it happens to you'],
-      // ── Chapter 3: Different Ways to Recommend ──
-      'ch3-friends': ['Collaborative filtering: find taste twins → recommend what THEY liked', 'No need to describe what you like — similar users do it for you', '"People who liked X also liked Y" — simple but powerful'],
-      'ch3-cf-d-exp': ['Find taste twins: people who liked the same movies as you', 'Check what your twins liked that you haven\'t tried → that\'s the rec', 'Netflix, Spotify, YouTube all work this way at massive scale'],
-      'ch3-cf-d-create': ['You can build collaborative filtering with pencil + paper', 'More people + more items = better predictions', 'Real platforms use the exact same logic but with millions of users'],
-      'ch3-netflix-sidebar': ['Netflix Prize: better algorithms don\'t win if they\'re too slow', 'Speed and simplicity often beat perfect accuracy', 'The competition changed the field even though the winner\'s solution wasn\'t used'],
-      'ch3-content': ['Content-based: analyze what items ARE (genre, tags, tempo, description)', 'Solves cold start — works for brand new items with zero ratings', 'Doesn\'t need other users — just item data'],
-      'ch3-compare-d-think': ['Collaborative = surprising recs but fails with new items (cold start)', 'Content-based = works instantly but can create filter bubbles', 'Best systems use BOTH — hybrid approach for different situations'],
-      'ch3-spot-method': ['Trending = popularity. "Because you watched" = content-based', '"Fans also listen to" = collaborative filtering', 'Real apps mix multiple methods together'],
-      'ch3-bandits': ['Explore-exploit dilemma: safe picks vs. risky discoveries', 'Bandit algorithms balance both by learning success rates over time', 'Context matters: what you want at 8am ≠ Friday night'],
-      'ch3-deep-similarity': ['Embeddings: items become lists of numbers (vectors) in similarity space', 'Neural networks learn hidden qualities that simple tags miss', 'Close vectors = similar items — solves cold start with math, not ratings'],
-      'ch3-popular': ['Simplest method: just show what everyone\'s watching right now', 'Works for new users with zero data + culturally relevant', 'No personalization — treats everyone identically'],
-      'ch3-popular-sidebar': ['Popularity = rich-get-richer: popular content stays on top forever', 'New creators get buried while hits keep winning', 'TikTok\'s testing pools give ALL content a fair first chance'],
-      'ch3-pipeline': ['Real systems combine ALL methods in 3 stages: Find → Rank → Check', 'Stage 1 is fast + rough, Stage 2 is precise, Stage 3 adds diversity', 'The whole pipeline runs in under 1 second'],
-      'ch3-pipeline-d-exp': ['Find: cast wide net (500 candidates). Rank: score each carefully. Check: filter for variety', 'The system never looks at all 800M videos — fast filters narrow it first', 'All three stages run in parallel for speed'],
-      'ch3-speed': ['YouTube picks the best 20 from 800 million videos in 0.2 seconds', 'A human would need 25 YEARS to do what YouTube does in 1 second', 'Staged pipeline (rough → precise) makes the impossible possible'],
-      'ch3-search-recs': ['Search results are personalized — what YOU see differs from others', 'Search suggestions use collaborative filtering + content similarity + popularity', 'Modern platforms run search and recs on the same engine'],
-      // ── Chapter 4: Making Recommendations Better ──
-      'ch4-bubbles': ['Filter bubble = only seeing what you already like', 'You never see what you\'re missing — the bubble is invisible', 'Good systems mix in surprises to balance comfort with discovery'],
-      'ch4-echo-d-think': ['Echo chambers: different people see different realities about the same topic', 'During your opinion-forming years, multiple perspectives are crucial', 'Good systems show all sides and let YOU decide'],
-      'ch4-experiment': ['Watch 3 cooking videos → your homepage visibly changes in minutes', 'You are an active TRAINER of the algorithm, not a passive victim', 'Exploring new content deliberately can break filter bubbles'],
-      'ch4-fairness': ['Popularity creates rich-get-richer: popular → more visible → more popular', 'New creators stay invisible while hits keep winning', 'Solutions: exploration slots, freshness boosts, diversity rules'],
-      'ch4-youtube-sidebar': ['70% of YouTube watch time comes from recommendations, not search', 'One algorithm change = billions of views shifted instantly', 'Even YouTube engineers can\'t fully explain every decision'],
-      'ch4-unfair-game': ['Popular content gets recommended more → gets more popular → repeat', 'Good systems guarantee visibility for new content before judging it', 'Every voice should get heard, not just the loudest'],
-      'ch4-objectives': ['Every algorithm optimizes for something: watch time, purchases, or satisfaction', 'Subscription (Netflix) = optimizes for YOU. Free (YouTube) = optimizes for ADS', 'Users, creators, and businesses all want different things'],
-      'ch4-explainability': ['Neural networks use hundreds of signals — impossible to fully explain', '"Because you watched X" is often a simplified guess, not the real reason', 'EU law now requires platforms to explain their recommendations'],
-      'ch4-testing': ['A/B tests: split users in two groups, change one thing, measure the difference', 'Measures real behavior, not guesses or opinions', 'The best teams measure long-term satisfaction, not just clicks'],
-      'ch4-ab-d-exp': ['Personalized recs beat generic popular picks: 37% more songs, 4x more discovery', 'Simple systems are cheaper — engineers balance accuracy vs. cost', 'Long-term metrics matter more than short-term engagement'],
-      // ── Chapter 5: Build Your Own! ──
-      'ch5-start': ['Recommendation systems use simple logic: collect → find similar → predict → test', 'You can build one by hand with pencil and paper first', 'Understanding the system = you\'ll design better ones in the future'],
-      'ch5-collect': ['Rating matrix: people as rows, items as columns, ratings in the cells', 'Empty cells = what the system needs to predict', 'Sparse data (mostly empty) is the fundamental challenge'],
-      'ch5-spread-d-create': ['Spreadsheets scale the pencil-and-paper method to more data', 'Color-coded ratings reveal taste patterns visually', 'Each cell mirrors exactly what Netflix uses at massive scale'],
-      'ch5-similar': ['Compare ratings on shared items → lower difference = more similar', '"Taste neighbors" are the foundation of collaborative filtering', 'Predict by averaging your most similar users\' ratings'],
-      'ch5-math-d-think': ['Cosine similarity measures angle between preference vectors', 'Someone who rates everything low but in the SAME pattern = still similar', 'Real systems test multiple similarity measures to find the best one'],
-      'ch5-real-numbers': ['Netflix: 3.4 trillion possible combinations. YouTube: 2.16 quintillion', 'These grids are mostly empty — the math trick is finding patterns in sparse data', 'Your 5-friend grid uses the same logic as Netflix\'s massive one'],
-      'ch5-recommend': ['Find 2-3 most similar users who rated the item → average their ratings', 'Above 4 stars = recommend it. Below = skip it', 'Test your predictions against real ratings — are you within 1 star?'],
-      'ch5-code-d-create': ['20 lines of Python = complete collaborative filtering algorithm', 'Code automates the manual process and scales to larger datasets', 'Tweak parameters like thresholds to experiment and improve'],
-      'ch5-debug': ['Errors come from: weak taste twins, old data, context changes, mood shifts', 'Even Netflix is wrong 20-30% of the time — perfection isn\'t the goal', 'Ask "why was I wrong?" to improve one mistake at a time'],
-      'ch5-improve': ['6 upgrades: more data, genres, freshness, anti-popularity bias, all interactions, A/B tests', 'More data is the single biggest improvement (more connections to discover)', 'Test each change individually to measure if it actually helps'],
-      'ch5-career-sidebar': ['Recommendation engineer = real job at major companies', 'Requires: math (stats, linear algebra), Python, creativity, curiosity', 'Expanding into education, medicine, self-driving cars, personalized learning'],
-      'ch5-get-recommended': ['Platforms reward: engagement rate > total views, strong first impressions, consistency', 'YouTube = watch time. TikTok = completion rate. Instagram = saves. Spotify = 30 seconds', 'Quality content is essential — optimization without quality is unsustainable'],
-      'ch5-seo-algorithms': ['Search and recommendations are merging — there\'s no single "top rank" anymore', 'Help algorithms categorize you: clear titles, descriptions, tags, content graphs', 'Success formula: quality × discoverability'],
-      'ch5-formulas': ['Cosine similarity measures the ANGLE between taste vectors — same pattern = similar, regardless of scale', 'nDCG scores how close a ranking is to perfect (1.0 = ideal). Real systems score 0.3-0.7', 'You don\'t need to memorize formulas — just know WHAT they measure and WHY they matter'],
-      'ch3-matrix-factorization': ['Giant sparse matrix (millions × millions, 99% empty) → decompose into two small matrices', 'Each user and item becomes a short vector of hidden "taste dimensions" learned automatically', 'ALS: fix items, solve users, fix users, solve items, repeat — Netflix ran this on thousands of machines'],
-      'ch3-two-tower': ['Two neural networks: one encodes YOU, one encodes ITEMS — both into the same vector space', 'Items pre-computed and indexed. Only YOUR embedding computed fresh → search takes milliseconds', 'Used for fast retrieval (find 500 from millions), then a precise model ranks those 500'],
-      'ch2-interactions': ['Ratings = what you SAY. Watch time, skips = what you DO. Systems trust actions more.', 'Implicit data wins: collected automatically, no bias, and 100× more coverage than ratings', 'Netflix dropped stars for thumbs. YouTube measures watch time, not likes. TikTok tracks if you watched till the end.'],
-      'ch3-attention': ['Not all history matters equally — yesterday\'s click is way more relevant than one from 3 months ago', 'Self-attention assigns weights: high for recent/relevant items, low for old/random ones', 'Same tech as ChatGPT (transformers) — now used by YouTube, Spotify, TikTok for personalization'],
-      // ── Chapter 6: Ethics and You ──
-      'ch6-who-decides': ['Algorithms decide what you see — not humans, not editors, not your parents', '"What keeps you watching longest" ≠ "what\'s best for you"', 'Your generation understands these systems better than the adults who built them'],
-      'ch6-rabbit-sidebar': ['Each recommended step feels small — but the accumulated path leads somewhere unexpected', 'Algorithms optimize for the NEXT video, not the whole session trajectory', 'Scroll back through your history to see the path you actually took'],
-      'ch6-addictive': ['Infinite scroll, autoplay, notification badges = deliberate design choices', 'The system always has a perfect next item ready — no natural stopping point', '"Take a break" reminders exist, but the system still rewards engagement'],
-      'ch6-control-d-create': ['Tools: time limits, disable autoplay, "Not Interested," separate accounts, search > scroll', 'The thumbnail test: pause and ask "do I actually WANT this?"', 'Goal isn\'t to quit apps — it\'s to use them on YOUR terms'],
-      'ch6-dopamine-sidebar': ['Dopamine = anticipation + uncertainty (same as slot machines)', 'Unpredictable rewards keep you hooked — the system exploits this accidentally', 'Recognizing the dopamine urge is a superpower most adults don\'t have'],
-      'ch6-adtech-vs-recs': ['Recommender = helps you within ONE app (Netflix, Spotify)', 'Adtech = tracks you across the ENTIRE internet to sell your attention', 'That shoe ad following you everywhere? Adtech, not recommendations'],
-      'ch6-privacy-real': ['Apps track everything: watch timing, skip speed, hover time, mood patterns', 'Your data builds a "digital twin" — a math model of you without your name', 'The question isn\'t IF they collect data — it\'s whether you understand and consent'],
-      'ch6-data-d-exp': ['Download your data: myactivity.google.com (Google), TikTok settings, Instagram', 'You can clean up: auto-delete old history to limit how far back algorithms remember', 'Most people are shocked at the volume and precision of stored data'],
-      'ch6-age-sidebar': ['Algorithms can guess your age within 3-5 years from behavior alone', 'When you watch, how fast you scroll, music taste, meme preferences = age signals', '"Anonymous" data isn\'t anonymous when behavioral profiles are detailed enough'],
-      'ch6-ai-future': ['Your generation is the first to grow up with algorithms', 'You\'ll either BUILD the next systems or REGULATE them as voters and lawmakers', 'The question: who will algorithms serve? Your generation decides'],
-      'ch6-hard-d-think': ['Should algorithms show disagreement? Should kids get different algorithms?', 'Who defines "harmful"? When is transparency itself harmful?', 'No right answers — but thinking about these puts you ahead of most adults'],
-      'ch6-law-sidebar': ['EU Digital Services Act: opt-out algorithms + transparency required', 'Technology moves faster than law — global companies exploit legal gaps', 'User knowledge from below is more effective than regulation from above'],
-      'ch6-conversational': ['Conversational recs: ASK for what you want instead of scrolling', 'LLMs understand nuance but lack real-time personal data and inventory', 'The future: LLMs (language) + recommenders (data) working together'],
-    };
-    if (HIGHLIGHTS[id]) return HIGHLIGHTS[id];
-    // Check frontmatter highlights array
     if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights;
-    // No highlights available — return null rather than auto-generating low-quality excerpts
     return null;
   }
 

@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "Can you deliberately train the algorithm?"
 recallA: "Yes. Search for topics you want, engage with content deliberately, use \"Not Interested\" on what you want deprioritized."
+highlights:
+  - "The 'Not Interested' button triggers immediate recommendation adjustments"
+  - "A single new interaction can visibly reshape the feed in real time"
+  - "Either you train the algorithm deliberately, or it trains on unintentional behavior"
 status: accepted
 ---
 

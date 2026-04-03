@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "What is the \"intent test\"?"
 recallA: "Pause before clicking and ask: \"Does this serve my actual goal right now?\" It interrupts autopilot behavior and restores intentional choice."
+highlights:
+  - "Practical tools: time limits, disable autoplay, 'Not Interested,' separate profiles"
+  - "The goal isn't to quit platforms — it's to use them intentionally"
 status: accepted
 ---
 

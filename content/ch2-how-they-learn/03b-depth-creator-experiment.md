@@ -10,6 +10,10 @@ parent: null
 diagram: null
 recallQ: "How fast does an algorithm start personalizing for you?"
 recallA: "Roughly 5-10 deliberate interactions. Engage with a specific topic and your feed begins reflecting it within minutes."
+highlights:
+  - "The algorithm reshapes quickly -- clear history plus 5-10 new interactions changes the feed"
+  - "Systems overreact to new topics: 2 articles on a new subject can flood recommendations"
+  - "Running controlled experiments reveals how responsive the system really is"
 status: accepted
 ---
 

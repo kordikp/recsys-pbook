@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What is the biggest weakness of popularity-based recommendations?"
 recallA: "No personalization -- every user sees the same ranked list. It cannot account for individual preferences, leading to homogeneous experiences."
+highlights:
+  - "Popularity-based: show what's trending — no personalization required"
+  - "Surprisingly strong baseline, especially for new users with zero history"
+  - "No personalization means treating every user identically"
 status: accepted
 ---
 

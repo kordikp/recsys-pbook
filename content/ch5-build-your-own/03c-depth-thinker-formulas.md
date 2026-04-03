@@ -11,6 +11,9 @@ diagram: null
 core: false
 recallQ: "What does cosine similarity actually measure?"
 recallA: "The angle between two vectors of preferences. If two users rate things in the same pattern (even at different scales), the angle is small and similarity is high."
+highlights:
+  - "nDCG measures how close a ranking is to ideal — real systems score 0.3-0.7"
+  - "Know WHAT formulas measure and WHY — the intuition matters more than memorization"
 status: accepted
 ---
 

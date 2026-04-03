@@ -10,6 +10,9 @@ parent: null
 diagram: null
 recallQ: "What rights do the DSA and GDPR give users regarding algorithmic recommendations?"
 recallA: "The right to opt out of profiling-based recommendations, the right to explanation, restrictions on profiling minors, and the right to access and delete personal data."
+highlights:
+  - "The DSA mandates algorithmic transparency and non-profiling recommendation options"
+  - "Technology evolves faster than regulation — enforcement perpetually lags"
 status: accepted
 ---
 

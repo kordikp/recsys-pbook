@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "Who decides what you see when you open a recommendation-driven platform?"
 recallA: "The algorithm — not you, not editors, not platform employees. It optimizes for proxy metrics like engagement, watch time, or click-through rate."
+highlights:
+  - "Algorithms, not humans, determine what billions of people see daily"
+  - "Maximizing engagement and maximizing user well-being are different objectives"
 status: accepted
 ---
 

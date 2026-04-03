@@ -11,6 +11,10 @@ parent: null
 diagram: diagram-data-sources
 recallQ: "Name the 3 types of data recommenders use."
 recallA: "Item metadata (what it IS), user attributes (who YOU are), interaction data (what you DO)."
+highlights:
+  - "Three signal types: item attributes, user demographics, and behavioral interactions"
+  - "Behavioral signals reveal preferences more reliably than stated preferences"
+  - "Missing any one signal type significantly degrades recommendation quality"
 status: accepted
 ---
 

@@ -11,6 +11,9 @@ parent: null
 diagram: null
 recallQ: "Name 2 design patterns that maximize session duration."
 recallA: "Infinite scroll (eliminates natural stopping points) and autoplay (removes the decision to continue). Both exploit default bias from behavioral economics."
+highlights:
+  - "Infinite scroll, autoplay, and notification badges are deliberate persuasive design"
+  - "Default bias is powerful — 80-90% of users never change default settings"
 status: accepted
 ---
 
