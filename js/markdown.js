@@ -250,7 +250,10 @@ function parseYaml(yaml) {
     if (am && ck) {
       if (!ca) ca = [];
       const val = am[1].trim();
-      if (val.includes(':')) {
+      // If value is quoted, treat as plain string (don't parse colons as key-value)
+      if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
+        ca.push(cleanVal(val));
+      } else if (val.includes(':')) {
         const obj = {};
         for (const part of val.split(/,\s*/)) { const [k, ...v] = part.split(':'); if (k && v.length) obj[k.trim()] = cleanVal(v.join(':').trim()); }
         ca.push(obj);
