@@ -75,34 +75,48 @@ E-commerce is the domain where recommendation quality translates most directly i
 
 ## Implementation Recipe
 
-Concrete configurations for the highest-impact e-commerce scenarios. Each maps directly to an API call with specific logic and parameters.
+Concrete configurations for the highest-impact e-commerce scenarios. Each maps directly to an API call with specific scenario ID, logic, and parameters.
 
-**Frequently Bought Together (Cart Cross-Sell).** When the user views their cart, show complementary products that other buyers purchased alongside the cart items. Use `e-commerce:frequently-bought-together` logic with the current cart items as the context. This is the classic "phone + case + screen protector" pattern.
+**"For You" Homepage.** The primary personalized homepage row. Use scenario `just-for-you` with logic `ecommerce:homepage`. Optionally filter to new arrivals (items added within a number of days) or to a specific category. Use a booster to promote items on sale. When building a multi-row homepage, set `distinctRecomms: true` across batch calls to deduplicate items across rows.
 
 ```
-logic: "e-commerce:frequently-bought-together"
-# Context: current cart item IDs
+scenario: "just-for-you"
+logic: "ecommerce:homepage"
+filter: "'category' == \"Electronics\""                 # optional category filter
+booster: "if 'on_sale' then 2 else 1"                   # promote sale items
+cascadeCreate: true
+distinctRecomms: true                                    # deduplicate across homepage rows
+```
+
+**Cart Cross-Sell.** When the user views their cart, show complementary products that other buyers purchased alongside the cart items. Use scenario `cart` with logic `ecommerce:cross-sell` and Items to User recommendation type. The system needs historical purchase data to learn co-purchase patterns. This is the classic "phone + case + screen protector" pattern.
+
+```
+scenario: "cart"
+logic: "ecommerce:cross-sell"
+# Type: Items to User (uses the user's current cart context)
+# Requires: historical purchase interaction data
 cascadeCreate: true
 # Placement: shopping cart page, "Complete your order" row
 ```
 
-**Alternative Products.** On the product detail page, show substitute products that compete for the same purchase intent. Use `e-commerce:similar-to-item` logic with the currently viewed product as the source item. Useful when a product is out of stock, overpriced, or the user is comparison shopping.
+**Bought Together (PDP).** On the product detail page, show products frequently purchased alongside the viewed item. Use scenario `pdp-bought-together` with logic `ecommerce:cross-sell` and Items to Item recommendation type. The source item is the currently viewed product. Requires purchase history for the collaborative signal.
 
 ```
-logic: "e-commerce:similar-to-item"
+scenario: "pdp-bought-together"
+logic: "ecommerce:cross-sell"
+# Type: Items to Item (source = currently viewed product ID)
+# Requires: historical purchase interaction data
+cascadeCreate: true
+# Placement: product detail page, "Frequently bought together" section
+```
+
+**Alternative Products.** On the product detail page, show substitute products that compete for the same purchase intent. This uses an item-to-item similarity scenario with the currently viewed product as the source. Useful when a product is out of stock, overpriced, or the user is comparison shopping.
+
+```
+# Item-to-item similarity on PDP
 # Source: currently viewed product ID
 cascadeCreate: true
 # Placement: product detail page, "You might also like" section
-```
-
-**Personalized Homepage Sections.** Build a homepage with category-based rows personalized to the shopper. This uses a composite pattern: first determine which category segments are most relevant to the user (personalized section ordering), then fill each section with recommended items from that category using `recombee:personal` with a category filter.
-
-```
-# Step 1: Get personalized category segments for the user
-# Step 2: For each top category, fetch items:
-logic: "recombee:personal"
-filter: "'category' == \"Electronics\""
-cascadeCreate: true
 ```
 
 **Category Page Personalization.** When a user browses a category, personalize the item ranking within it. Use `recombee:personal` with a category filter so the user's preferred brands, price ranges, and styles appear first.
@@ -128,8 +142,6 @@ cascadeCreate: true
 diversity: "at most 2 per 'brand'"
 # Applied as a sliding window across the returned items
 ```
-
-**Quick Search.** Semantic search with category facets — the user types a query and gets personalized results grouped by category. This combines text understanding with the user's preference profile to rank results.
 
 For the full recipe catalog including upsell, next basket prediction, and personalized email rotation, see the [e-commerce recommendation recipes](https://docs.recombee.com/recipes/e-commerce).
 

@@ -69,34 +69,49 @@ News recommendation faces the sharpest version of the filter bubble problem. Sta
 
 Concrete configurations for news and media scenarios. News has the tightest time constraints of any domain — these recipes account for content velocity and editorial control.
 
-**Personalized Feed with Freshness Boost.** The core reading experience. Use `recombee:personal` logic and add a booster that rewards recently published articles. Without the freshness boost, a strong older article can outrank a relevant breaking story.
+**Personalized Feed.** The core reading experience. Use scenario `personalized-feed` with logic `news:personal`. Add a recency filter to restrict to articles published within the last few days (e.g., 3 days). Filter by category with ReQL: `'category' == "sport"` for a single-value property or `"sport" in 'categories'` for a set property. Boost editorially important articles by adding a booster for an `editorsPick` property. Control topic diversity with absolute limits (e.g., at most 3 articles per topic) or relative limits (e.g., max 50% from any single topic). For infinite scroll, use the `Recommend Next Items` endpoint with the `recommId` returned from the initial call.
 
 ```
-logic: "recombee:personal"
-booster: "if 'publishedAt' > now() - 3600 then 2.0 else if 'publishedAt' > now() - 86400 then 1.5 else 1.0"
-# Articles < 1 hour old get 2x boost, < 24 hours get 1.5x
+scenario: "personalized-feed"
+logic: "news:personal"
+filter: "'publishedAt' > now() - 259200"                       # last 3 days
+# Category filter examples:
+#   "'category' == \"sport\""
+#   "\"sport\" in 'categories'"
+booster: "if 'editorsPick' then 2 else 1"                      # boost editor picks
+# Diversity options:
+#   absolute: at most 3 per 'topic'
+#   relative: at most 50% per 'topic'
 cascadeCreate: true
+# Infinite scroll: call Recommend Next Items with recommId from first response
 ```
 
-**Personalized Editors' Picks.** Editors select a curated pool of important stories (20-50 articles). The algorithm then personalizes the ordering of that pool per user — each reader sees the editors' selections, but ranked by individual relevance. Use `recombee:personal` with a filter that restricts to the editor-curated set.
+**Editors' Picks.** Editors supply a curated list of important articles. Use scenario `editors-picks` with logic `news:editors-picks`. Pass the article list via the `picks` parameter. Set `excludeAlreadyRead: true` so returning readers see fresh picks. Personalized reordering is enabled by default (`personalizedReordering: true`), ranking the editors' selections by individual relevance.
 
 ```
-logic: "recombee:personal"
-filter: "'editorsPick' == true"
+scenario: "editors-picks"
+logic: "news:editors-picks"
+picks: ["article-id-1", "article-id-2", "article-id-3"]        # editor-curated list
+excludeAlreadyRead: true
+personalizedReordering: true                                    # default: true
 cascadeCreate: true
 # Editors control WHAT is shown; the algorithm controls the ORDER
 ```
 
-**Read Next.** Post-article continuation — shown at the bottom of an article to keep the reader engaged. Use `news:read-next` logic with the current article as the source. Returns related articles by topic, entities, and collaborative signals.
+**Read Next.** Post-article continuation — shown at the bottom of an article to keep the reader engaged. Use scenario `read-next` with logic `news:read-next` (Items to Item type). The current article is the source. An alternative logic is `news:related`. Add a recency filter (e.g., last 30 days) and optionally a same-category filter to keep suggestions topically coherent.
 
 ```
-logic: "news:read-next"
-# Source: current article ID
+scenario: "read-next"
+logic: "news:read-next"                   # alternative: "news:related"
+# Type: Items to Item (source = current article ID)
+filter: "'publishedAt' > now() - 2592000"  # last 30 days
+# Optional same-category filter:
+#   "'category' == \"politics\""
 cascadeCreate: true
 # Placement: end of article, "Read next" section
 ```
 
-**Top Stories (Trending).** What readers are engaging with right now. Use `recombee:popular` with a short time window to capture velocity rather than cumulative volume.
+**Top Stories (Trending).** What readers are engaging with right now. Based on `recombee:popular` with a short time window to capture velocity rather than cumulative volume.
 
 ```
 logic: "recombee:popular"
@@ -123,8 +138,6 @@ rotationType: "smart"
 rotationType: "total"
 rotationTime: 604800   # 7 days exclusion window
 ```
-
-**Latest News.** Chronological feed with personalized re-ranking. Start with the newest articles and re-order them by relevance to the user — so readers still see fresh content, but the most relevant new articles appear first.
 
 For the full recipe catalog including breaking news handling and section personalization, see the [news recommendation recipes](https://docs.recombee.com/recipes/news).
 
