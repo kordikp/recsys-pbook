@@ -7,6 +7,7 @@ standalone: false
 core: false
 voice: thinker
 parent: ch4-bubbles
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

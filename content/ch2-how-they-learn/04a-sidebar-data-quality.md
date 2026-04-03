@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the three most common data quality issues in recommender systems?"
 recallA: "Bot traffic (fake interactions), duplicate items (fragmenting signals), and stale data (outdated items still in the catalog). Each requires specific detection and mitigation strategies."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

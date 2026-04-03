@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the levels of the personalization spectrum?"
 recallA: "Non-personalized (same for everyone) → segment-based (grouped by demographics) → personalized (individual history) → contextual (individual + current context) → hyper-personalized (real-time, multi-signal)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

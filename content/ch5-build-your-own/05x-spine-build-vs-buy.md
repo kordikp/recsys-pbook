@@ -15,6 +15,7 @@ highlights:
   - "Teams build a prototype in 3 months, then spend 18 months on operations"
   - "Build when personalization IS your product; buy when it's a feature"
   - "The real question is opportunity cost: what else could your team build?"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

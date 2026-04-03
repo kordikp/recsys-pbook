@@ -15,6 +15,7 @@ highlights:
   - "Formal fairness definitions often conflict -- satisfying one can violate another"
   - "LLMs can understand complex preferences but hallucinate nonexistent items"
   - "Optimal, fair, profitable, and private are four goals in permanent tension"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

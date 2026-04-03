@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What is the Spotify paradox and what does it reveal about recommendation optimization?"
 recallA: "Personalized podcast recs increased streams by 29% but reduced listening diversity by 11%. Users engaged more but in narrower patterns. This demonstrates that optimizing for engagement can reduce the variety that users experience."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

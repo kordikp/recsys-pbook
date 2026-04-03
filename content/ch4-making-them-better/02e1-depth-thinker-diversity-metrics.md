@@ -7,6 +7,7 @@ standalone: false
 core: false
 voice: thinker
 parent: ch4-explainability
+publishedAt: "2026-04-03"
 status: accepted
 teaser: "Everyone agrees recommender systems should be diverse -- but what does that mean precisely? Formal metrics give us the vocabulary to quantify variety, novelty, and surprise."
 recallQ: "Why is intra-list diversity (ILD) not sufficient on its own as a diversity metric?"

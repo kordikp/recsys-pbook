@@ -15,6 +15,7 @@ highlights:
   - "YouTube optimizes expected watch time, not clicks -- clickbait kills engagement"
   - "Netflix personalized thumbnails boosted engagement without changing the algorithm"
   - "The competitive moat is infrastructure, not algorithms -- the algorithms are known"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What does research say about whether recommendation algorithms cause political polarization?"
 recallA: "Evidence is mixed. Bakshy et al. (2015) found algorithms have modest effect compared to user choice. Guess et al. (2023) found removing algorithms changed content consumption but not political attitudes. The effect exists but is smaller than commonly claimed."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

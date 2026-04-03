@@ -10,6 +10,7 @@ highlights:
   - "Two dresses labeled 'elegant evening wear' look nothing alike -- images fix that"
   - "CLIP maps images and text into one space, enabling cross-modal search"
   - "beeFormer embeds content by behavioral similarity, not semantic similarity"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

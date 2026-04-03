@@ -8,6 +8,7 @@ teaser: "Choose the research frontier that resonates with your perspective."
 voice: universal
 parent: null
 diagram: null
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

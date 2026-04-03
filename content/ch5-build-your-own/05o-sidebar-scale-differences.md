@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "How does the optimal RecSys architecture change with scale?"
 recallA: "Small: simple CF or popularity-based. Medium: matrix factorization + content features. Large: multi-stage pipeline with retrieval, scoring, and re-ranking. Each scale introduces new constraints."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

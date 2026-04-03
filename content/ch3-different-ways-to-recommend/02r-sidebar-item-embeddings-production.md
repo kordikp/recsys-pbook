@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the key engineering challenges of serving item embeddings in production?"
 recallA: "Storage (100M items × 768 dims = 307GB), index updates (new items must be indexed without downtime), staleness (embeddings should reflect recent interactions), and consistency (training and serving must use the same embedding version)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

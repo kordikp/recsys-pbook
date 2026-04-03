@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the main recommendation scenarios and how do they differ?"
 recallA: "Homepage (personalized discovery), item detail (similar/complementary items), cart/checkout (cross-sell), search results (personalized ranking), email/newsletter (re-engagement with rotation), and continue-watching (resume). Each requires different algorithms and constraints."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

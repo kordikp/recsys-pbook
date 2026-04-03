@@ -15,6 +15,7 @@ highlights:
   - "Breakthroughs come from mathematical insight, not engineering brute force"
   - "EASE (2019) -- a single matrix inverse -- outperforms deep neural networks"
   - "Every Recombee research paper runs in production serving 500+ customers"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

@@ -15,6 +15,7 @@ highlights:
   - "On Spotify, roughly 80% of tracks have never been streamed even once"
   - "The Matthew effect: popularity is self-reinforcing via the feedback loop"
   - "Users who discover niche content become more loyal and less likely to churn"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

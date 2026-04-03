@@ -15,6 +15,7 @@ highlights:
   - "Your preferences are real but context decides which ones are active right now"
   - "Three approaches: pre-filter, post-filter, or model context directly"
   - "Context shifts in seconds -- batch-only systems cannot keep up"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "Why is reward design so critical and what can go wrong?"
 recallA: "The reward function defines what 'success' means for the algorithm. Poorly designed rewards create perverse incentives: optimizing for clicks produces clickbait, optimizing for watch time produces addictive loops. The reward must align with actual user value."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

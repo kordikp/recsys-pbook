@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What does it mean for a recommender system to be well-calibrated?"
 recallA: "A well-calibrated system's confidence matches its accuracy: when it says 80% confidence, approximately 80% of those recommendations are correct. Over-confidence erodes trust; under-confidence wastes opportunities."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

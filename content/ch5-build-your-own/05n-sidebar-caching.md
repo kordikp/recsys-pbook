@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What is the main trade-off in recommendation caching?"
 recallA: "Speed vs. freshness — cached recommendations are fast and cheap but may not reflect the user's most recent behavior or new items in the catalog."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

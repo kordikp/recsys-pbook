@@ -15,6 +15,7 @@ highlights:
   - "Netflix's best predictor of satisfaction: 'Would you watch this again?'"
   - "Ad-supported platforms optimize time spent; subscription platforms optimize retention"
   - "Clickbait scores high on CTR but leaves users feeling deceived"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

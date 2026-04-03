@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What is visibility bias and why is it problematic for recommender systems?"
 recallA: "Users can only interact with items they actually see. Items placed below the fold or at the bottom of a list receive fewer interactions regardless of relevance. The system incorrectly interprets low interaction as low interest, creating a self-reinforcing cycle."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

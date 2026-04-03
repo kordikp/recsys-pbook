@@ -11,6 +11,7 @@ parent: ch7-cold-start-language
 diagram: null
 recallQ: "How does beeFormer enable zero-shot transfer across domains?"
 recallA: "By training a text encoder with ELSA's recommendation loss, beeFormer learns a general mapping from text to behavioral similarity. Text descriptions bridge domains — the concept of 'character-driven narrative' applies to both movies and books."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

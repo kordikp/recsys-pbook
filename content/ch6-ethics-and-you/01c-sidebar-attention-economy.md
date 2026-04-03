@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What is the attention economy and how do recommender systems fit into it?"
 recallA: "The attention economy treats human attention as a scarce resource to be captured and monetized. Recommender systems are the primary tool for maximizing attention capture — making them both economically essential and ethically fraught."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

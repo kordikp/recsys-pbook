@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "How should recommendation strategy change across the user lifecycle?"
 recallA: "New users: popularity + onboarding (cold-start). Growing users: exploration + collaborative filtering. Mature users: deep personalization + diversity. Declining users: re-engagement + novelty."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

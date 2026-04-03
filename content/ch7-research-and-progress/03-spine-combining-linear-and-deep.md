@@ -15,6 +15,7 @@ highlights:
   - "Multiply (not add) outputs -- both paths must agree, filtering false positives"
   - "Removing the linear path hurts more than removing the deep path"
   - "For sparse data, the linear model is the essential one, not deep learning"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

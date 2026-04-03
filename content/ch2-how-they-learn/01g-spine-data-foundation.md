@@ -15,6 +15,7 @@ highlights:
   - "Three pillars: item catalog, user catalog, and interactions -- skip none"
   - "Data quality trumps data quantity -- clean metadata beats massive click logs"
   - "When recommendations fail, the root cause is usually data, not the algorithm"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

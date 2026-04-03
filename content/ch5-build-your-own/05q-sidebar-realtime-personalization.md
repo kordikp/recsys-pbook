@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the key challenges of real-time personalization?"
 recallA: "Feature freshness (using the latest interaction immediately), latency constraints (computing within the request cycle), and model consistency (ensuring the model reflects current state without full retrain)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

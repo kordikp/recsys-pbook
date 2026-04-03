@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What is the main challenge of incremental model updates?"
 recallA: "Catastrophic forgetting — new data can overwrite patterns learned from historical data. Solutions include replay buffers, warm-starting, and scheduled full retrains."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

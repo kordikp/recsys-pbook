@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "Why is monitoring recommender systems harder than monitoring traditional software?"
 recallA: "Recommender systems create feedback loops (recommendations influence the data they learn from), operate on constantly shifting distributions (user tastes change, catalogs evolve), and produce outcomes that are delayed and ambiguous (a bad recommendation today may not show up in churn metrics for weeks)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

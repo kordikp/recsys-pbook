@@ -15,6 +15,7 @@ highlights:
   - "Graphs preserve multi-hop paths that matrix factorization flattens away"
   - "LightGCN with one layer approximates EASE; deeper layers go beyond it"
   - "PinSage proved graph methods work at 3 billion nodes and 18 billion edges"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

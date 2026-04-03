@@ -15,6 +15,7 @@ highlights:
   - "CompresSAE: 12x embedding compression (307 GB to 26 GB), only 1.35% CTR loss"
   - "Sparse ELSA gets slightly better accuracy than dense -- sparsity regularizes"
   - "Mathematical elegance in research translates to robustness in production"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

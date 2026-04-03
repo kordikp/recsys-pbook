@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "Why can recommendation systems amplify harmful content, and what are the three layers of content safety?"
 recallA: "Because engagement metrics reward emotionally provocative content regardless of quality or safety. The three layers are: content moderation (classify and remove), recommendation filtering (don't recommend even if not removed), and contextual safety (content safe in one context but harmful in another)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

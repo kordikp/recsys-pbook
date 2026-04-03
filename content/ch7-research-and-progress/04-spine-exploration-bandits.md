@@ -15,6 +15,7 @@ highlights:
   - "Thompson Sampling auto-balances explore vs. exploit -- no manual tuning needed"
   - "BMAB resets priors at change points so trending content surfaces in minutes"
   - "Bandit regret is provably near-optimal: O(sqrt(KT log T))"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

@@ -15,6 +15,7 @@ highlights:
   - "beeFormer learns 'who would like this' from text, not 'what this is about'"
   - "Zero-shot transfer to unseen domains: +131% Recall without any retraining"
   - "Cold start has economic implications -- new creators can't compete without it"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

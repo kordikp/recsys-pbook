@@ -6,6 +6,7 @@ readingTime: 3
 standalone: true
 core: false
 voice: universal
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

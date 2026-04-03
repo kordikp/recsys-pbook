@@ -497,6 +497,15 @@ class PBook {
       html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
 
+    // Recently added — new content in the last 30 days
+    const newBlocks = this.allBlocks
+      .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
+      .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt))
+      .slice(0, 12);
+    if (newBlocks.length) {
+      html += this.shelf('Recently added', newBlocks.map(b => this.cardHtml(b.meta)));
+    }
+
     // Recall cards — show due + almost due (within 30 min)
     if (this._f('spaceRepetition')) {
       const now = Date.now();
@@ -670,10 +679,19 @@ class PBook {
     right.classList.toggle('arrow-hidden', !canScrollRight);
   }
 
+  _isNew(block) {
+    if (!block.publishedAt) return false;
+    const pub = new Date(block.publishedAt);
+    const age = Date.now() - pub.getTime();
+    return age < 30 * 24 * 60 * 60 * 1000; // 30 days
+  }
+
   cardHtml(block, hero = false) {
     const chLabel = block._chapterTitle || this.getChapterLabel(block);
     const isRead = this.user.readBlocks.has(block.id);
+    const isNew = this._isNew(block);
     const badge = block.type === 'depth' ? `<span class="card-badge ${block.voice}">${CONFIG.voices[block.voice]?.label || block.voice}</span>` : '';
+    const newBadge = isNew ? '<span class="card-badge-new">NEW</span>' : '';
     const teaser = block.teaser ? `<div class="card-teaser">${block.teaser}</div>` : '';
 
     // Visual preview strip: detect content type from body
@@ -707,7 +725,7 @@ class PBook {
       <div class="card-title">${block.title}</div>
       ${teaser}
       ${topicHtml}
-      <div class="card-meta">${badge}<span class="card-time">${block.readingTime || 3} min</span></div>
+      <div class="card-meta">${newBadge}${badge}<span class="card-time">${block.readingTime || 3} min</span></div>
     </div>`;
   }
 

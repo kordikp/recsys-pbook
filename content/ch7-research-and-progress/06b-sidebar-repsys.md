@@ -11,6 +11,7 @@ parent: ch7-evaluation
 diagram: null
 recallQ: "What does RepSys provide that standard evaluation metrics don't?"
 recallA: "Qualitative, visual comparison of recommendation models. You can see actual recommended items side by side, explore user segments, and understand failure modes that aggregate metrics hide."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

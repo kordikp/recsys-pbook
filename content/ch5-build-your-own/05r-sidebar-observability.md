@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the three pillars of RecSys observability?"
 recallA: "Metrics (what happened), logs (what the system did), and traces (how a specific recommendation was generated). Together they enable rapid root cause analysis."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

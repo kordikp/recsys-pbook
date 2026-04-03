@@ -15,6 +15,7 @@ highlights:
   - "60-80% of e-commerce visits are anonymous -- session-based is the norm"
   - "Simple item-KNN often matches or beats deep models on short sessions"
   - "Dwell time and scroll depth reveal intent that click sequences alone miss"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

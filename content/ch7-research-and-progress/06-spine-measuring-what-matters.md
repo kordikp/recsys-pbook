@@ -15,6 +15,7 @@ highlights:
   - "Offline evaluation is biased -- better models can look worse in offline tests"
   - "Popularity penalization (beta=0.30) triples model selection accuracy"
   - "Goodhart's Law: optimizing for a metric makes it stop measuring what matters"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

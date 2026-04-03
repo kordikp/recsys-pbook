@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the main layers of a production recommender system's technology stack?"
 recallA: "Data layer (event streaming, feature stores, data warehouses), model training (offline pipelines, experiment tracking, hyperparameter tuning), serving layer (model serving, embedding storage, real-time features), and orchestration (ML pipelines, A/B testing, monitoring)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

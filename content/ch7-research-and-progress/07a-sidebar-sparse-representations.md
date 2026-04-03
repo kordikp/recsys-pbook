@@ -10,6 +10,7 @@ parent: ch7-production-scale
 diagram: null
 recallQ: "Why are sparse embeddings sometimes better than dense ones?"
 recallA: "Sparse embeddings offer interpretability (each dimension has meaning), compression (fewer non-zero values), faster retrieval (inverted index compatible), and lower memory footprint -- often with minimal quality loss."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

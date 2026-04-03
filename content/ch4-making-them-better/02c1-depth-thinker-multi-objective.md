@@ -7,6 +7,7 @@ standalone: false
 core: false
 voice: thinker
 parent: ch4-objectives
+publishedAt: "2026-04-03"
 status: accepted
 teaser: "When a recommender must be relevant, diverse, fair, and profitable all at once, simple optimization breaks down. Multi-objective methods navigate the trade-offs."
 recallQ: "Why can't a multi-objective recommender simply maximize all objectives at once?"

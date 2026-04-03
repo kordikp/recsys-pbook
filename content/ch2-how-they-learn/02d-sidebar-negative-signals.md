@@ -10,6 +10,7 @@ parent: ch2-interactions
 diagram: null
 recallQ: "Why are negative signals often more informative than positive ones?"
 recallA: "Negative actions (skip, hide, downvote) are conscious rejections, making them more reliable indicators of true preference than positive signals, which can result from accidental engagement or curiosity clicks."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

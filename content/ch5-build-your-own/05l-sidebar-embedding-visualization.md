@@ -10,6 +10,7 @@ parent: null
 diagram: null
 recallQ: "What is the key difference between t-SNE and UMAP for embedding visualization?"
 recallA: "t-SNE preserves local neighborhood structure but distorts global distances. UMAP preserves both local and global structure more faithfully, making it better for understanding the overall layout of the embedding space."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

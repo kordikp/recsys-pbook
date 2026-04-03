@@ -11,6 +11,7 @@ parent: ch3-multimodal
 diagram: null
 recallQ: "Why is embedding alignment necessary and what are the main approaches?"
 recallA: "Different modalities produce embeddings in incomparable spaces. Alignment maps them to a shared space where cross-modal similarity is meaningful. Approaches: joint training (CLIP), projection heads, contrastive loss, and the ELSA-loss approach (beeFormer)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

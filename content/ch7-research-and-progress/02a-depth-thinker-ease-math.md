@@ -11,6 +11,7 @@ parent: ch7-simple-to-scalable
 diagram: null
 recallQ: "What is the precision matrix in EASE and why is it significant?"
 recallA: "P̂ = (X^TX + λI)^{-1} is the regularized precision matrix. In a Gaussian MRF, its entries encode conditional independence between items — P̂_ij = 0 iff items i and j are conditionally independent given all others."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

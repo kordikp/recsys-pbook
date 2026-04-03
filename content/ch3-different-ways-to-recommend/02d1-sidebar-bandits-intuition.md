@@ -11,6 +11,7 @@ parent: ch3-bandits
 diagram: null
 recallQ: "How does the restaurant analogy explain the exploration-exploitation trade-off?"
 recallA: "Always going to your favorite restaurant (exploitation) means missing better options. Always trying new places (exploration) wastes meals on bad ones. The optimal strategy mixes both."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What is the most common A/B testing mistake in recommender systems?"
 recallA: "Peeking — checking results before the test reaches statistical significance, then stopping when results look favorable. This inflates false positive rates from 5% to 20-30%."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

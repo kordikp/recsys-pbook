@@ -15,6 +15,7 @@ highlights:
   - "LLMs can confidently recommend items that do not exist -- hallucination is critical"
   - "Six months of behavioral data beats any LLM prompt on personalization"
   - "Best results: LLM as interface and reasoning, traditional RecSys as backbone"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

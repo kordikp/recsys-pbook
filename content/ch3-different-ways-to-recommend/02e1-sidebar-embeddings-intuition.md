@@ -11,6 +11,7 @@ parent: ch3-deep-similarity
 diagram: null
 recallQ: "What is an embedding and why is it useful for recommendation?"
 recallA: "An embedding is a vector (list of numbers) representing an item in a space where distance = dissimilarity. Nearby items are similar, distant items are different. This enables fast similarity search."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

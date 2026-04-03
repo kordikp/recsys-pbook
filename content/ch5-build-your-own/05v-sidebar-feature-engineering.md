@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are the four categories of features used in recommender systems?"
 recallA: "User features (demographics, history aggregations), item features (content attributes, popularity stats), interaction features (context, sequence), and cross features (user×item interactions, historical engagement)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

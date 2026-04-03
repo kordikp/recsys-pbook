@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "How does the RAG pattern apply to recommendation systems?"
 recallA: "An LLM generates recommendation explanations or conversational responses, but actual item selection is grounded in a traditional RecSys retrieval pipeline. This prevents hallucination (recommending nonexistent items) while preserving natural language interaction."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

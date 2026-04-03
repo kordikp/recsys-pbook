@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are dark patterns in recommendation interfaces?"
 recallA: "Deceptive UX designs that manipulate user behavior: disguised ads as recommendations, forced continuity (autoplay), hidden opt-outs for tracking, confirmshaming (making privacy choices feel wrong), and engagement bait (notifications for non-events)."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

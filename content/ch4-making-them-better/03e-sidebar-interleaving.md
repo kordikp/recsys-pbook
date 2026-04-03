@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "How does interleaving compare to A/B testing for evaluating recommender systems?"
 recallA: "Interleaving shows items from two models interleaved in a single list, then counts which model's items the user engages with. It requires ~100× fewer users to detect the same difference, making it much faster than standard A/B tests."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

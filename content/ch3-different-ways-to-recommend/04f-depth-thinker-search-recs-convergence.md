@@ -11,6 +11,7 @@ parent: ch3-search-recs
 diagram: null
 recallQ: "Why are search and recommendation converging, and what does the unified architecture look like?"
 recallA: "Both produce ranked lists from a large corpus using user context. The unified architecture uses shared embeddings, with search adding query encoding and recommendation adding user history encoding. Dense retrieval (semantic search) uses the same infrastructure as embedding-based recommendation."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

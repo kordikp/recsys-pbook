@@ -11,6 +11,7 @@ parent: ch7-evaluation
 diagram: null
 recallQ: "Why does standard offline evaluation systematically favor exploitative algorithms?"
 recallA: "Because the observation probability P(O_ij=1) depends on the logging policy — items the old system showed have interactions, items it didn't show have none. This is MNAR (Missing Not At Random), not MCAR as metrics assume."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

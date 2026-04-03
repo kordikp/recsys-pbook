@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What are composite recommendations and why do they matter?"
 recallA: "A composite recommendation returns both a 'source' (e.g., a category or previously consumed item) and a set of related items in a single request. This enables personalized homepage rows like 'Because you watched X' or 'Top picks from your favorite genre.'"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

@@ -11,6 +11,7 @@ parent: null
 diagram: null
 recallQ: "What major phases has recommender systems research gone through?"
 recallA: "Collaborative filtering origins (1990s), industrial scale-up (2000s), deep learning revolution (2010s), and the current era blending LLMs with efficient linear models."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

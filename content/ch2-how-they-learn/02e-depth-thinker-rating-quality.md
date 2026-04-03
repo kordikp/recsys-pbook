@@ -11,6 +11,7 @@ parent: ch2-interactions
 diagram: null
 recallQ: "Why should recommender systems weight ratings differently based on quality?"
 recallA: "Noisy ratings propagate through collaborative filtering — one unreliable rating can affect predictions for thousands of users. Weighting by review quality (comprehensiveness, consistency) improves model accuracy by reducing noise propagation."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

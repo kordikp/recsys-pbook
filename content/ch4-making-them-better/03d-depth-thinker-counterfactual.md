@@ -11,6 +11,7 @@ parent: ch4-testing
 diagram: null
 recallQ: "What is counterfactual evaluation and why does it matter for recommender systems?"
 recallA: "Counterfactual evaluation estimates what would have happened under a different recommendation policy, using logged data from the current policy. It separates the algorithm's causal contribution from confounding factors like item popularity."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

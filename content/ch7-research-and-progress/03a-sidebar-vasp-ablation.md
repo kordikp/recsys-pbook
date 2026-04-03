@@ -11,6 +11,7 @@ parent: ch7-vasp-combining
 diagram: null
 recallQ: "What did VASP's ablation studies reveal about the relative importance of linear vs. deep components?"
 recallA: "Removing the linear path (ELSA) hurt performance significantly more than removing the deep path (FLVAE). The linear model provides the reliable foundation; the deep model adds refinement. This challenges the assumption that deep learning is always superior."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

@@ -15,6 +15,7 @@ highlights:
   - "EASE's entire algorithm is one matrix inverse -- and it beats deep learning"
   - "ELSA drops complexity from O(n cubed) to O(nd squared) via low-rank factorization"
   - "ELSA's embeddings discover genre structure purely from user behavior"
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

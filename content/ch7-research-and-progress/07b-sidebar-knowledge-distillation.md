@@ -11,6 +11,7 @@ parent: ch7-production-scale
 diagram: null
 recallQ: "Why do soft labels from a teacher model contain more information than hard labels?"
 recallA: "Soft labels encode the teacher's uncertainty — a movie rated 0.8 action and 0.3 romance carries more information than just 'action'. This inter-class similarity information helps the student generalize better."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 

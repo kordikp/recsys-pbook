@@ -11,6 +11,7 @@ parent: ch7-bandits
 diagram: null
 recallQ: "What is the regret bound for Thompson Sampling and why is it near-optimal?"
 recallA: "O(√(KT log T)) regret, matching the Lai-Robbins lower bound Ω(√(KT)) up to logarithmic factors. It achieves this by being Bayesian-optimal: selecting the arm with highest posterior probability of being optimal."
+publishedAt: "2026-04-03"
 status: accepted
 ---
 
