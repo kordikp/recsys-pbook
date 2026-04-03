@@ -26,13 +26,13 @@ Production recommender systems operate under constraints that benchmark papers r
 
 **Memory:** 100 million items × 768-dimensional embeddings = **307 GB** of raw embedding storage. That's before considering user embeddings, feature stores, or model weights.
 
-**Throughput:** Recombee processes billions of interactions daily across hundreds of customers, each with different catalog sizes, interaction patterns, and business rules.
+**Throughput:** Recombee processes billions of interactions daily across hundreds of customers, each with different catalog sizes, interaction patterns, and business rules. See [how Recombee achieves performance at scale](https://www.recombee.com/how-it-works/performance-at-scale).
 
 **Reliability:** A research prototype that crashes once a week is fine. A production system with 99.9% SLA cannot afford that — 0.1% downtime is 8.7 hours per year.
 
 ## CompresSAE: Solving the Memory Problem
 
-CompresSAE (RecSys 2025) addresses the memory bottleneck with a sparse autoencoder that compresses dense item embeddings:
+[CompresSAE](https://github.com/recombee/CompresSAE) (RecSys 2025) addresses the memory bottleneck with a sparse autoencoder that compresses dense item embeddings:
 
 **The encoder:**
 $$\mathbf{s} = \phi(\mathbf{W}_{\text{enc}} \bar{\mathbf{x}} + \mathbf{b}_{\text{enc}}, k)$$

@@ -57,6 +57,6 @@ VASP consistently outperforms both EASE and deep models alone on standard benchm
 
 This finding challenges the prevailing narrative that deep learning is always superior. For sparse collaborative filtering data, the linear model is not just a useful component — it's the essential one.
 
-> **Research publication:** Vančura & Kordík, "Deep Variational Autoencoder with Shallow Parallel Path for Top-N Recommendation," RecSys 2021.
+> **Research publication:** Vančura & Kordík, "Deep Variational Autoencoder with Shallow Parallel Path for Top-N Recommendation," RecSys 2021. VASP is part of the broader research program at the [Recombee research lab](https://www.recombee.com/research).
 
 **Consider this:** The VASP principle — combining a reliable, interpretable model with a flexible, expressive one — applies far beyond recommendation. It's a general strategy for any domain where data is sparse but patterns are both simple and complex.

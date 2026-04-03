@@ -24,7 +24,7 @@ Imagine a row of slot machines (one-armed bandits), each with a different — un
 
 If you only pull the machine that paid best so far (exploitation), you might miss one that's actually better but had a few bad early outcomes. If you keep trying new machines (exploration), you waste pulls on bad ones you've already identified.
 
-This directly maps to recommendation: each item is a "machine," the payout is whether the user engages, and each recommendation is a "pull."
+This directly maps to recommendation: each item is a "machine," the payout is whether the user engages, and each recommendation is a "pull." For a practical perspective on how bandits drive content discovery, see Recombee's post on [exploiting popularity and curiosity to recommend trending content](https://www.recombee.com/blog/bandit-models-exploiting-popularity-and-curiosity-to-recommend-trending-content).
 
 ## Thompson Sampling: The Bayesian Solution
 
@@ -48,7 +48,7 @@ The balance is **automatic**: as evidence accumulates, variance decreases, and t
 
 Standard bandit theory assumes item quality is constant. In reality, content quality changes: videos go viral, news breaks, seasonal trends emerge.
 
-BMAB (Burst-aware Multi-Armed Bandits) addresses this by modeling each item's engagement as a mixture of two Poisson processes:
+[BMAB](https://www.recombee.com/blog/are-you-here-to-stay-unraveling-the-dynamics-of-stable-and-curious-audiences-in-web-systems) (Burst-aware Multi-Armed Bandits) addresses this by modeling each item's engagement as a mixture of two Poisson processes:
 
 - **Loyal process:** Stable baseline interest (people who always like this type of content)
 - **Curious process:** Bursty, event-driven interest (people drawn by a trending topic)

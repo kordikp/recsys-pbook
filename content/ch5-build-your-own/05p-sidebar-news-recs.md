@@ -73,6 +73,8 @@ Standard RecSys metrics (CTR, session length) are insufficient for news:
 
 ## The Telegraph Case Study
 
-The Daily Telegraph (from the MFF UK presentation) uses sparse autoencoders to map articles to semantic "neurons" described by an LLM. This enables real-time analytics showing which reader segments engage with which topics — Labour/Tax, F1 Racing, Tory Politics, Justice, Middle East. Editors use this to understand their audience, not just serve them algorithmically.
+[The Daily Telegraph](https://www.recombee.com/case-studies) (from the MFF UK presentation) uses sparse autoencoders to map articles to semantic "neurons" described by an LLM. This enables real-time analytics showing which reader segments engage with which topics — Labour/Tax, F1 Racing, Tory Politics, Justice, Middle East. Editors use this to understand their audience, not just serve them algorithmically.
+
+For a deeper dive into the unique challenges of [news and media recommendations](https://www.recombee.com/domains/articles-news-media), including practical implementation patterns, see the [news recipe documentation](https://docs.recombee.com/recipes/news).
 
 **Consider this:** News recommendation sits at the intersection of technology, editorial judgment, and democratic responsibility. Getting it right requires all three — no algorithm alone can solve it.

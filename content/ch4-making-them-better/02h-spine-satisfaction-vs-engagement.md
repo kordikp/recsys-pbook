@@ -69,7 +69,7 @@ This structural difference explains why Netflix (subscription) invests heavily i
 
 ## What Can Be Done
 
-**Dual objective optimization.** Optimize for engagement in the short term AND retention in the long term. If a recommendation strategy increases watch time today but decreases return rate next week, the system should detect and correct this.
+**Dual objective optimization.** Optimize for engagement in the short term AND retention in the long term, as discussed in detail in this analysis of [recommender system objectives](https://www.recombee.com/blog/modern-recommender-systems-part-3-objectives). If a recommendation strategy increases watch time today but decreases return rate next week, the system should detect and correct this.
 
 **Satisfaction surveys at scale.** YouTube now asks "Was this video worth your time?" on a random sample of views. This generates ground-truth satisfaction labels that can train models to predict satisfaction from behavioral signals.
 

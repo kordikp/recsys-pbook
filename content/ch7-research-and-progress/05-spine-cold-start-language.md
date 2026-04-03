@@ -31,7 +31,7 @@ None of these solutions leverage the deep understanding that collaborative filte
 
 ## beeFormer: Bridging Text and Behavior
 
-beeFormer (RecSys 2024) proposes an elegant solution: **train a language model to produce embeddings that predict user behavior, not just semantic similarity.**
+[beeFormer](https://www.recombee.com/blog/introducing-beeformer-a-framework-for-training-foundational-models-for-recommender-systems) (RecSys 2024) proposes an elegant solution: **train a language model to produce embeddings that predict user behavior, not just semantic similarity.**
 
 The architecture:
 1. **Input:** Item text (title, description, metadata) and optionally images
@@ -71,6 +71,6 @@ In practice, Recombee uses a hybrid approach:
 
 This graceful degradation ensures that every item gets a fair chance at discovery, while established items benefit from the richer behavioral signal.
 
-> **Research publication:** Vančura, Kordík & Straka, "beeFormer: Bridging the Gap Between Semantic and Interaction Similarity," RecSys 2024.
+> **Research publication:** Vančura, Kordík & Straka, "beeFormer: Bridging the Gap Between Semantic and Interaction Similarity," RecSys 2024. The framework is [open-source on GitHub](https://github.com/recombee/beeFormer).
 
 **Consider this:** The cold-start problem isn't just technical — it has economic and cultural implications. If new items can't get recommended, established content has an insurmountable advantage. beeFormer doesn't just solve a technical problem; it creates a more level playing field for new creators and content.

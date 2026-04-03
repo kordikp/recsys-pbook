@@ -192,7 +192,7 @@ This approach is particularly valuable because it requires no infrastructure bey
 
 ## RepSys: Interactive Evaluation for Practitioners
 
-For teams seeking to build intuition about evaluation trade-offs before committing to expensive online experiments, the **RepSys** open-source framework provides an interactive environment for exploring recommender system behavior. RepSys allows practitioners to visualize how different models rank items, compare recommendation lists across user segments, and inspect the interplay between accuracy, diversity, novelty, and fairness metrics -- all within an interactive interface.
+For teams seeking to build intuition about evaluation trade-offs before committing to expensive online experiments, the **[RepSys](https://github.com/cowjen01/repsys)** open-source framework provides an interactive environment for exploring recommender system behavior. RepSys allows practitioners to visualize how different models rank items, compare recommendation lists across user segments, and inspect the interplay between accuracy, diversity, novelty, and fairness metrics -- all within an [interactive interface](https://www.recombee.com/blog/repsys-opensource-library-for-interactive-evaluation-of-recommendation-systems).
 
 Tools like RepSys complement the evaluation funnel by providing qualitative insight alongside quantitative metrics. A model might achieve strong nDCG but produce visually monotonous recommendation lists that an experienced practitioner would immediately flag. Interactive exploration surfaces these patterns before they reach users.
 

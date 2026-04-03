@@ -26,7 +26,7 @@ Several formal definitions compete:
 - **Individual fairness:** Similar items receive similar exposure
 - **Supplier fairness:** Content creators receive exposure proportional to their quality
 
-These definitions often **conflict** — satisfying one can violate another. Recent work on minimum exposure guarantees (Lopes, Alves et al., Expert Systems 2024) and SAGEA (RecSys 2025) provides mathematical frameworks for navigating these tensions.
+These definitions often **conflict** — satisfying one can violate another. Recent work on [minimum exposure guarantees](https://www.recombee.com/blog/making-recommendations-fairer-a-new-way-to-guarantee-exposure-for-all) (Lopes, Alves et al., Expert Systems 2024) and SAGEA (RecSys 2025) provides mathematical frameworks for navigating these tensions.
 
 ## 2. LLM-Powered Recommendation
 
@@ -37,7 +37,7 @@ Large Language Models can understand natural language queries ("I want something
 - **Evaluation difficulty:** How do you evaluate a conversational recommendation system? Standard metrics don't apply to open-ended dialogue
 - **Latency:** LLM inference is orders of magnitude slower than embedding lookup
 
-The SHIELD framework (UMAP 2025) addresses one aspect — semantic search safety — but the broader integration challenge remains open.
+The [SHIELD framework](https://www.recombee.com/blog/shield-the-universal-framework-making-ai-search-safer-for-everyone) (UMAP 2025, [open-source on GitHub](https://github.com/flpspacek/SHIELD)) addresses one aspect — semantic search safety — but the broader integration challenge remains open.
 
 ## 3. Causal Evaluation
 
@@ -59,7 +59,7 @@ beeFormer demonstrated that recommendation knowledge can transfer across domains
 
 ## 6. Privacy-Preserving Personalization
 
-Can we build highly personalized recommendations without centralizing user data? Federated learning, differential privacy, and on-device processing offer partial solutions, but each introduces trade-offs:
+Can we build highly personalized recommendations without centralizing user data? Federated learning, differential privacy, and on-device processing offer partial solutions, but each introduces trade-offs (for an overview of practical approaches, see Recombee's post on [the building blocks of privacy-friendly personalization](https://www.recombee.com/blog/the-building-blocks-of-privacy-friendly-personalization)):
 
 - Federated learning requires coordinating model updates across millions of devices
 - Differential privacy adds noise that degrades recommendation quality

@@ -32,7 +32,7 @@ The problem: the system converges on a narrow preference model. Maybe you'd deep
 
 ## Bandit Algorithms: Principled Exploration
 
-Computer scientists formalized this trade-off through **bandit algorithms** (named after multi-armed slot machines -- "one-armed bandits" -- in casinos). The multi-armed bandit (MAB) problem has been studied since the 1930s (Thompson, 1933; Robbins, 1952) and remains central to modern recommendation systems.
+Computer scientists formalized this trade-off through **bandit algorithms** (named after multi-armed slot machines -- "one-armed bandits" -- in casinos). The multi-armed bandit (MAB) problem has been studied since the 1930s (Thompson, 1933; Robbins, 1952) and remains central to modern recommendation systems. For a practical look at how bandits power content discovery in production, see Recombee's post on [exploiting popularity and curiosity to recommend trending content](https://www.recombee.com/blog/bandit-models-exploiting-popularity-and-curiosity-to-recommend-trending-content).
 
 ### Thompson Sampling
 

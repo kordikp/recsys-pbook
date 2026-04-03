@@ -89,4 +89,6 @@ Price creates unique challenges:
 | Return rate | Post-purchase satisfaction | Quality of recommendations |
 | Revenue per recommendation | Incremental value | Measures true causal impact |
 
+For practical implementation guidance, see the [e-commerce recommendation recipes](https://docs.recombee.com/recipes/e-commerce) and an overview of [e-commerce domain solutions](https://www.recombee.com/domains/e-commerce).
+
 **Consider this:** E-commerce recommendation is the domain where the ROI of a better algorithm is most directly measurable. A 1% improvement in recommendation relevance can translate to millions in incremental revenue for a large retailer. This direct feedback loop makes e-commerce both the most rewarding and the most competitive domain for RecSys.

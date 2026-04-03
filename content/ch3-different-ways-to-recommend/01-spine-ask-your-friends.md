@@ -22,7 +22,7 @@ If you're like most people, you rely on trusted sources. A colleague mentions a 
 
 Now imagine you could do that with a MILLION people. Not just your immediate social circle, but a million strangers who happen to share your exact preferences.
 
-That's **collaborative filtering** (CF). It's one of the oldest and most powerful techniques in the recommendation playbook, first formalized in the early 1990s by researchers at Xerox PARC and the GroupLens project at the University of Minnesota.
+That's **collaborative filtering** (CF). It's one of the oldest and most powerful techniques in the recommendation playbook, first formalized in the early 1990s by researchers at Xerox PARC and the GroupLens project at the University of Minnesota. For a broader introduction to how CF fits into modern recommender systems, see Recombee's [introduction to modern recommender systems](https://www.recombee.com/blog/modern-recommender-systems-part-1-introduction).
 
 ## How It Works
 

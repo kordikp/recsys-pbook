@@ -200,8 +200,10 @@ function inlineFmt(text) {
 
   // Images
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;">');
-  // Links
+  // Links (explicit markdown)
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
+  // Auto-link bare URLs (not already inside an href or markdown link)
+  text = text.replace(/(?<!="|'>)(https?:\/\/[^\s<),]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
   // Bold+italic
   text = text.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
   // Bold

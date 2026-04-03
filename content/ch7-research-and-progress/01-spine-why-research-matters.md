@@ -24,9 +24,9 @@ The history of recommender systems reveals a consistent pattern: **breakthroughs
 
 Consider this timeline:
 - **2003:** Amazon publishes item-based collaborative filtering — a simple idea grounded in set theory that drives 35% of their revenue to this day.
-- **2006–2009:** The Netflix Prize ($1M competition) catalyzes a wave of matrix factorization research. The winning solution combines 800+ models but is too complex for production. The real prize? Singular Value Decomposition and Alternating Least Squares enter mainstream RecSys engineering.
-- **2019:** Harald Steck publishes EASE (Embarrassingly Shallow Autoencoders) — a single matrix inverse that outperforms deep neural networks on standard benchmarks. The paper demonstrates that mathematical elegance can beat computational power.
-- **2022–2024:** ELSA, beeFormer, and CompresSAE emerge from the Recombee research lab at FIT CTU Prague, showing how to scale linear models to billions of items while adding language understanding and compression.
+- **2006–2009:** The Netflix Prize ($1M competition) catalyzes a wave of matrix factorization research. The winning solution combines 800+ models but is too complex for production. The real prize? Singular Value Decomposition and Alternating Least Squares enter [mainstream RecSys engineering](https://www.recombee.com/blog/modern-recommender-systems-part-1-introduction).
+- **2019:** Harald Steck publishes EASE (Embarrassingly Shallow Autoencoders) — a single matrix inverse that outperforms deep neural networks on standard benchmarks. The paper demonstrates that [mathematical elegance can beat computational power](https://www.recombee.com/blog/linear-methods-and-autoencoders-in-recommender-systems).
+- **2022–2024:** ELSA, beeFormer, and CompresSAE emerge from the [Recombee research lab](https://www.recombee.com/research) at FIT CTU Prague, showing how to scale linear models to billions of items while adding language understanding and compression.
 
 **The pattern is clear:** production systems don't improve through incremental engineering. They improve through research that changes the fundamental approach.
 

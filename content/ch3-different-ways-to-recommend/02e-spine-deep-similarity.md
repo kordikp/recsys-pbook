@@ -65,6 +65,6 @@ These enable querying billions of embeddings in single-digit milliseconds -- mak
 
 Modern recommender systems like [Recombee](https://www.recombee.com/blog/modern-recommender-systems-part-2-data) create embeddings from item descriptions, images, and user behavior simultaneously. This means a new item with just a title and description can immediately be positioned in the embedding space and matched to users who would appreciate it -- no interaction history needed.
 
-**Why this matters**: When a recommendation feels remarkably well-calibrated -- as if the system genuinely understands your preferences -- it's because deep learning has identified the latent structure connecting your taste to new content. It's not reading your mind. It's reading millions of users' behavioral signals and discovering the mathematical geometry of preference.
+**Why this matters**: When a recommendation feels remarkably well-calibrated -- as if the system genuinely understands your preferences -- it's because deep learning has identified the latent structure connecting your taste to new content. It's not reading your mind. It's reading millions of users' behavioral signals and discovering the mathematical geometry of preference. To learn more about how these techniques work in practice, see Recombee's overview of [AI and machine learning in recommender systems](https://www.recombee.com/how-it-works/ai-and-machine-learning).
 
 ![ANN Search](/images/diagram-ann-search.svg)

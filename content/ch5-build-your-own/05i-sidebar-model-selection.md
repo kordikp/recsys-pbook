@@ -89,7 +89,7 @@ START
 
 ## The "Start Simple" Principle
 
-The most important lesson from two decades of recommendation system development is: **start with the simplest model that could work, and add complexity only when you have evidence that it helps.**
+The most important lesson from two decades of recommendation system development is: **start with the simplest model that could work, and add complexity only when you have evidence that it helps.** For many teams, this means evaluating the [build vs. buy decision](https://www.recombee.com/blog/build-vs-buy-deciding-the-best-approach-for-your-recommender-system) early -- a managed recommendation [API](https://docs.recombee.com/) can deliver strong results without the engineering investment of a custom pipeline.
 
 This is not an appeal to laziness. It is a reflection of empirical reality. In 2019, Dacrema, Cremonesi, and Jannach published a now-famous study ("Are We Really Making Much Progress?") that attempted to reproduce the results of 18 deep learning recommendation papers published at top venues. They found that, in the majority of cases, a well-tuned baseline -- often a simple nearest-neighbor method or EASE (Embarrassingly Shallow Autoencoders) -- matched or outperformed the proposed deep learning models. The deep models were compared against poorly tuned baselines, evaluated on favorable dataset splits, or measured on metrics that did not reflect meaningful improvement.
 

@@ -134,7 +134,7 @@ The deeper challenge is that these domains are fundamentally different. An e-com
 
 ### The Solution
 
-Recombee operates a **multi-tenant recommendation platform** serving 500+ customers across 40+ countries, spanning e-commerce, news, video, music, job boards, real estate, and more. The architecture must solve a problem that no single-domain system faces: one codebase, one infrastructure, vastly different recommendation semantics.
+Recombee operates a **multi-tenant recommendation platform** serving [500+ customers across 40+ countries](https://www.recombee.com/case-studies), spanning e-commerce, news, video, music, job boards, real estate, and more. The architecture must solve a problem that no single-domain system faces: one codebase, one infrastructure, vastly different recommendation semantics.
 
 Key architectural decisions:
 

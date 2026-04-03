@@ -40,7 +40,7 @@ Effective content safety in recommendation systems requires defense in depth. No
 
 The rise of semantic search and large language models introduces a new dimension to content safety. Traditional keyword-based content filters are relatively straightforward to implement: block queries containing specific terms. But semantic search understands *meaning*, not just words. A user can formulate a harmful query without using any flagged keywords, and the system will retrieve relevant results because it understands the semantic intent.
 
-The **SHIELD framework** (Spacek, Vancura, Kordik -- presented at UMAP 2025) addresses this challenge directly. The core insight is that protecting semantic search requires semantic understanding of harmful intent, not just lexical pattern matching.
+The **[SHIELD](https://www.recombee.com/blog/shield-the-universal-framework-making-ai-search-safer-for-everyone) framework** (Spacek, Vancura, Kordik -- presented at UMAP 2025) addresses this challenge directly. The core insight is that protecting semantic search requires semantic understanding of harmful intent, not just lexical pattern matching.
 
 SHIELD's approach has several components:
 

@@ -106,7 +106,7 @@ The field has not yet converged on standard evaluation protocols for conversatio
 
 Deploying LLMs in recommendation contexts introduces safety considerations beyond those in traditional systems. An LLM might recommend harmful content, generate biased descriptions, or produce outputs that violate content policies.
 
-The SHIELD framework (presented at UMAP 2025) addresses one dimension of this problem: ensuring that semantic search systems do not surface harmful or unsafe content even when queries are semantically similar to dangerous material. SHIELD demonstrates that safety constraints can be integrated into the embedding and retrieval layers without catastrophic degradation of recommendation quality -- but it covers only the retrieval safety aspect, not the broader challenge of safe generative recommendation.
+The [SHIELD framework](https://www.recombee.com/blog/shield-the-universal-framework-making-ai-search-safer-for-everyone) (presented at UMAP 2025) addresses one dimension of this problem: ensuring that semantic search systems do not surface harmful or unsafe content even when queries are semantically similar to dangerous material. SHIELD demonstrates that safety constraints can be integrated into the embedding and retrieval layers without catastrophic degradation of recommendation quality -- but it covers only the retrieval safety aspect, not the broader challenge of safe generative recommendation.
 
 ## When LLMs Win, and When They Don't
 

@@ -31,6 +31,8 @@ All of this data feeds a **behavioral model** -- essentially a digital twin. It 
 
 Is this "surveillance"? The legal answer depends on jurisdiction. Under GDPR, much of this data constitutes personal data and requires explicit consent and a lawful basis for processing. Under CCPA, consumers have the right to know what is collected and to opt out of its sale. In practice, consent is obtained through terms-of-service agreements that fewer than 1% of users actually read (McDonald & Cranor, 2008).
 
+Responsible platforms are exploring ways to deliver personalization while minimizing data exposure -- an approach explored in depth in [the building blocks of privacy-friendly personalization](https://www.recombee.com/blog/the-building-blocks-of-privacy-friendly-personalization). Regulatory frameworks like [GDPR](https://www.recombee.com/gdpr) set a legal baseline, but genuine privacy protection requires architectural commitment, not just compliance.
+
 **The real question is not whether platforms collect data** -- of course they do; that is how recommendation systems function. The question is: **are you aware of the scope of what is collected? Do you understand how it can be aggregated and re-identified? And have you made an informed decision about whether the value you receive justifies the data you provide?**
 
 If you could not answer those questions before reading this page, that is a systemic problem -- not a personal failing, but a failure of transparency and informed consent design.

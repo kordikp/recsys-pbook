@@ -30,7 +30,7 @@ where $\hat{\mathbf{P}} = (\mathbf{X}^\top\mathbf{X} + \lambda\mathbf{I})^{-1}$ 
 
 **One matrix inverse. That's the entire algorithm.**
 
-And it works remarkably well. EASE consistently outperforms deep learning approaches like NCF (Neural Collaborative Filtering) on standard benchmarks — a finding confirmed by the landmark paper "Are We Really Making Much Progress?" (Dacrema et al., RecSys 2019).
+And it works remarkably well. EASE consistently outperforms deep learning approaches like NCF (Neural Collaborative Filtering) on standard benchmarks — a finding confirmed by the landmark paper "Are We Really Making Much Progress?" (Dacrema et al., RecSys 2019). For a deeper dive into why these simple approaches work so well, see Recombee's technical blog post on [linear methods and autoencoders in recommender systems](https://www.recombee.com/blog/linear-methods-and-autoencoders-in-recommender-systems).
 
 ## The Scalability Wall
 
@@ -69,6 +69,6 @@ In experiments on library datasets, individual embedding dimensions activate for
 
 This isn't just an academic curiosity — it means ELSA's embeddings can be used for content understanding, user segmentation, and explainability, all as side effects of the recommendation objective.
 
-> **Research publication:** Vančura et al., "Scalable Linear Shallow Autoencoder for Collaborative Filtering," RecSys 2022. Joint work between Recombee and FIT CTU Prague.
+> **Research publication:** Vančura et al., "Scalable Linear Shallow Autoencoder for Collaborative Filtering," RecSys 2022. Joint work between Recombee and FIT CTU Prague. Read more about [ELSA's scalability approach](https://www.recombee.com/blog/making-linear-autoencoders-work-for-large-scale-recommendation-systems) and explore the [open-source implementation on GitHub](https://github.com/recombee/ELSA).
 
 **Consider this:** The EASE-to-ELSA progression illustrates a common pattern in applied mathematics: a beautiful closed-form solution hits practical limits, and the path forward requires understanding the *structure* of the solution (its rank, its sparsity, its spectrum) to find a tractable approximation. The mathematics isn't just ornamental — it's the engine of scalability.

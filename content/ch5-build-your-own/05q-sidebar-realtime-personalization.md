@@ -103,4 +103,6 @@ Session Buffer              User Features (fresh)
          Response (< 100ms)
 ```
 
+For a production perspective on these techniques, see this discussion of [real-time personalization of content with AI-powered recommendations](https://www.recombee.com/blog/real-time-personalization-of-content-with-ai-powered-recommendations) and the [platform features](https://www.recombee.com/features) that make sub-200ms serving possible at scale.
+
 **Consider this:** Real-time personalization is the difference between a system that knows who you are and a system that knows who you are *right now*. The technical challenge is significant, but the user experience difference is dramatic — recommendations that adapt to your current mood and intent feel qualitatively different from static profile-based suggestions.

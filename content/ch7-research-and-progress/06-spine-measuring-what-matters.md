@@ -74,7 +74,7 @@ The evaluation problem extends beyond metric design. Even with perfect offline-o
 
 Engagement metrics (clicks, watch time, session length) are easy to measure but may not align with user well-being. A user who spent 3 hours in a recommendation rabbit hole had high "engagement" but might not be satisfied.
 
-The field is increasingly exploring **beyond-accuracy metrics**:
+The field is increasingly exploring **beyond-accuracy metrics** (tools like [RepSys](https://www.recombee.com/blog/repsys-opensource-library-for-interactive-evaluation-of-recommendation-systems), an [open-source evaluation library](https://github.com/cowjen01/repsys), help researchers interactively compare these dimensions):
 - **Diversity:** Are recommendations varied, or repetitive?
 - **Serendipity:** Do users discover genuinely unexpected items?
 - **Fairness:** Do all content creators get a fair chance at exposure?

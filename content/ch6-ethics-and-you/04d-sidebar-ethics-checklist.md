@@ -46,7 +46,7 @@ This is not a compliance form. It is a thinking tool. The value is not in checki
 
 **Can users access and delete their data?** This is a legal requirement in many jurisdictions (GDPR Article 15, CCPA), but it should also be a design requirement. Users should be able to see what the system knows about them, download it in a usable format, and request deletion. Deletion should mean actual deletion, not merely hiding the data from the user interface while retaining it in backend systems.
 
-**Is the system GDPR/CCPA compliant?** Compliance is the floor, not the ceiling. But it is a necessary floor. Ensure that data processing has a lawful basis, that data protection impact assessments have been conducted for high-risk processing, that cross-border data transfers comply with applicable frameworks, and that breach notification procedures are in place.
+**Is the system [GDPR](https://www.recombee.com/gdpr)/CCPA compliant?** Compliance is the floor, not the ceiling. But it is a necessary floor. Ensure that data processing has a lawful basis, that data protection impact assessments have been conducted for high-risk processing, that cross-border data transfers comply with applicable frameworks, and that breach notification procedures are in place.
 
 ## Safety
 
