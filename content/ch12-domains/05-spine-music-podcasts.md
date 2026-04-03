@@ -57,6 +57,64 @@ Music is the only recommendation domain where suggesting the same item repeatedl
 
 Spotify's podcast personalization experiment revealed a critical tension: personalized recommendations increased podcast streams by 29% but reduced listening diversity by 11%. Users listened more but explored less. This is the central challenge of music recommendation — engagement optimization can narrow the content diet.
 
+## Implementation Recipe
+
+Concrete configurations for music and podcast scenarios. Music is the most context-dependent domain — these recipes account for mood, sequential flow, and the unique signal structure of audio consumption.
+
+**Play Next with Mood-Aware Context.** When the current track ends or the queue is empty, serve the next track that matches the listener's current mood and energy — not just their long-term taste profile. Pass the currently playing track (or the last few tracks) as context so the model can infer the active listening session's character. Apply a booster for tracks matching the current mood or energy cluster.
+
+```
+logic: "recombee:personal"
+# Context: last 3-5 played track IDs to capture current session mood
+booster: "if 'energy' >= 0.7 then 1.5 else 1.0"
+# Adjust energy threshold dynamically based on session context
+cascadeCreate: true
+# Placement: autoplay / "Play Next" queue
+```
+
+**Playlist Generation (Sequential Recommendations).** Building a coherent playlist is not one recommendation call — it is a sequence of calls where each step feeds back into the next. Start with a seed (a track, artist, or mood), get the first recommendation, then use it as context for the second, and so on. This chaining ensures smooth transitions in tempo, energy, and genre across the playlist.
+
+```
+# Step 1: Seed with user-selected track or mood
+recommendNextItem(userId, seedTrackId)
+# Step 2: Use result as context for next pick
+recommendNextItem(userId, previousResultId)
+# Repeat for desired playlist length (e.g., 30 tracks)
+# Each step considers the growing playlist context to avoid repetition
+# and maintain energy/mood flow
+```
+
+**Skip Signal Handling.** Skips are the richest implicit signal in music. Treat them with granularity:
+
+| Skip Timing | Interpretation | Signal Weight |
+|-------------|---------------|---------------|
+| < 5 seconds | Strong negative — wrong track entirely | High negative |
+| 5-30 seconds | Mild negative — sampled and rejected | Medium negative |
+| > 50% listened | Neutral to weak positive — enjoyed partially | Low positive |
+| > 90% listened | Strong positive — engaged with full track | High positive |
+
+Configure your interaction pipeline to send different event types based on these thresholds. A skip under 5 seconds should carry significantly more negative weight than a skip at 30 seconds. This prevents the model from recommending tracks in the "immediately skipped" category while allowing partial listens to still contribute positively.
+
+```
+# Interaction events by listening percentage:
+# < 5s:  detailView with weight = -1.0  (strong negative)
+# 5-30s: detailView with weight = -0.3  (mild negative)
+# > 50%: detailView with weight = 0.5   (partial positive)
+# > 90%: detailView with weight = 1.0   (full positive)
+cascadeCreate: true
+```
+
+**Discover Weekly / Personalized Discovery.** A blend of familiar taste and new discoveries. Use `recombee:personal` with a diversity constraint to ensure the playlist spans multiple genres and artists rather than clustering around the listener's most-played pocket.
+
+```
+logic: "recombee:personal"
+diversity: "at most 2 per 'artist'"
+filter: "'releaseDate' > now() - 2592000"   # Prioritize tracks from last 30 days
+cascadeCreate: true
+```
+
+For the full domain overview including podcast-specific scenarios and cross-format recommendations, see the [music & podcasts domain overview](https://docs.recombee.com/domains/music-podcasts).
+
 ## Real-World Results
 
 - **Audiomack:** [+206% monthly plays](https://www.recombee.com/case-studies/audiomack) and +67% weekly follows through personalized discovery

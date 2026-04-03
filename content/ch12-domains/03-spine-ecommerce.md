@@ -73,6 +73,66 @@ E-commerce is the domain where recommendation quality translates most directly i
 | Return rate | Recommendation quality (negative) | Minimize |
 | Revenue per recommendation | Incremental value of recs | Causal attribution |
 
+## Implementation Recipe
+
+Concrete configurations for the highest-impact e-commerce scenarios. Each maps directly to an API call with specific logic and parameters.
+
+**Frequently Bought Together (Cart Cross-Sell).** When the user views their cart, show complementary products that other buyers purchased alongside the cart items. Use `e-commerce:frequently-bought-together` logic with the current cart items as the context. This is the classic "phone + case + screen protector" pattern.
+
+```
+logic: "e-commerce:frequently-bought-together"
+# Context: current cart item IDs
+cascadeCreate: true
+# Placement: shopping cart page, "Complete your order" row
+```
+
+**Alternative Products.** On the product detail page, show substitute products that compete for the same purchase intent. Use `e-commerce:similar-to-item` logic with the currently viewed product as the source item. Useful when a product is out of stock, overpriced, or the user is comparison shopping.
+
+```
+logic: "e-commerce:similar-to-item"
+# Source: currently viewed product ID
+cascadeCreate: true
+# Placement: product detail page, "You might also like" section
+```
+
+**Personalized Homepage Sections.** Build a homepage with category-based rows personalized to the shopper. This uses a composite pattern: first determine which category segments are most relevant to the user (personalized section ordering), then fill each section with recommended items from that category using `recombee:personal` with a category filter.
+
+```
+# Step 1: Get personalized category segments for the user
+# Step 2: For each top category, fetch items:
+logic: "recombee:personal"
+filter: "'category' == \"Electronics\""
+cascadeCreate: true
+```
+
+**Category Page Personalization.** When a user browses a category, personalize the item ranking within it. Use `recombee:personal` with a category filter so the user's preferred brands, price ranges, and styles appear first.
+
+```
+logic: "recombee:personal"
+filter: "'category' == \"Running Shoes\""
+cascadeCreate: true
+```
+
+**Bestsellers.** Show popular products within a category or across the store. Use `recombee:popular` with an optional category filter.
+
+```
+logic: "recombee:popular"
+filter: "'category' == \"Headphones\""
+cascadeCreate: true
+```
+
+**Diversity Constraints.** Prevent any single brand from dominating recommendation rows. Apply a diversity rule such as "at most 2 items per brand" with a sliding window across the result set. This ensures the user sees a varied selection even when one brand dominates their interaction history.
+
+```
+# Diversity setting: at most 2 items per segment (brand)
+diversity: "at most 2 per 'brand'"
+# Applied as a sliding window across the returned items
+```
+
+**Quick Search.** Semantic search with category facets — the user types a query and gets personalized results grouped by category. This combines text understanding with the user's preference profile to rank results.
+
+For the full recipe catalog including upsell, next basket prediction, and personalized email rotation, see the [e-commerce recommendation recipes](https://docs.recombee.com/recipes/e-commerce).
+
 ## Real-World Results
 
 - **Slickdeals:** [+70% CTR](https://www.recombee.com/case-studies/slickdeals) to detail page views

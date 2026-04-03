@@ -79,6 +79,66 @@ Content expiring soon from the platform. Creates urgency and ensures users don't
 | Churn rate | Platform retention | The ultimate metric — did they cancel? |
 | Content coverage | Catalog utilization | Are long-tail titles getting discovered? |
 
+## Implementation Recipe
+
+Here is a concrete configuration for the most important video scenarios. Each one maps to a single API call with specific logic and parameters — ready to wire into your front end.
+
+**Continue Watching.** Surfaces titles the viewer started but did not finish. Set the logic to `video:continue-watching` with `watchingStartedPercentage=10` (the user must have passed the 10% mark to count as "started") and `watchingCompletedPercentage=90` (anything above 90% counts as finished and drops off the row). Add `maxDaysAgo=30` so stale half-watched titles from months ago do not clutter the row. This is typically the highest-engagement placement on the homepage.
+
+```
+logic: "video:continue-watching"
+watchingStartedPercentage: 10
+watchingCompletedPercentage: 90
+maxDaysAgo: 30
+cascadeCreate: true
+```
+
+**Because You Watched.** A composite recommendation anchored to a specific title the viewer recently finished. The system first identifies a source item (a title watched above the `minWatchedPercentage=75` threshold within `maxDaysAgo=30`), then returns similar items. Use `video:because-you-watched` logic. The row title becomes "Because You Watched [Title]," giving the user a clear explanation for why these items appear.
+
+```
+logic: "video:because-you-watched"
+minWatchedPercentage: 75
+maxDaysAgo: 30
+# Composite pattern: source = recently watched item, result = similar items
+```
+
+**Watch Next (Post-Playback).** Shown when credits roll. For episodic content the system automatically advances to the next episode. For standalone content (movies, documentaries), use `video:watch-next` logic to surface similar titles or content from the same director, actor, or genre. This is a high-stakes placement — the autoplay countdown creates urgency.
+
+```
+logic: "video:watch-next"
+# Placement: post-playback screen
+# For series: automatically resolves to next unwatched episode
+# For movies: returns similar standalone titles
+```
+
+**Recommended For You.** The general personalization row. Use `recombee:personal` logic for a user-level recommendation that draws on the full viewing history.
+
+```
+logic: "recombee:personal"
+cascadeCreate: true
+```
+
+**Popular & Trending.** Regional popularity over a rolling window. Use `recombee:popular` with a `timePeriod` of 1209600 seconds (14 days). Add a country filter for regional relevance.
+
+```
+logic: "recombee:popular"
+timePeriod: 1209600   # 14 days in seconds
+filter: "'country' == \"US\""
+```
+
+**Homepage Assembly.** A fully personalized homepage is built from 5-6 parallel recommendation calls — one per row. A typical layout:
+
+1. Continue Watching (`video:continue-watching`)
+2. Because You Watched (`video:because-you-watched`)
+3. Top Genres For You (composite: personalized genre segments, then items per genre)
+4. Recommended For You (`recombee:personal`)
+5. Popular & Trending (`recombee:popular`)
+6. New Releases (filter by publish date, personalized ranking)
+
+Fire all calls in parallel and assemble the rows on the client. Each call returns 10-20 items; the front end renders them as horizontally scrollable carousels.
+
+For the full recipe catalog including Editors' Picks For You and Last Chance scenarios, see the [video recommendation recipes](https://docs.recombee.com/recipes/video).
+
 ## Real-World Results
 
 - **FTV Prima:** [+34% video views](https://www.recombee.com/case-studies/ftv-prima) on their VOD platform after implementing personalized recommendations
