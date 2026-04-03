@@ -845,6 +845,7 @@ class PBook {
           }
         }
         this.renderMath();
+        this._initLottieAnimations();
       }
       this._isLoadingMore = false;
     };
@@ -1227,17 +1228,24 @@ class PBook {
 
   // Initialize Lottie animations in rendered content
   _initLottieAnimations() {
-    if (typeof lottie === 'undefined') return;
-    document.querySelectorAll('.lottie-anim:not([data-loaded])').forEach(el => {
-      el.dataset.loaded = '1';
-      lottie.loadAnimation({
-        container: el,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        path: el.dataset.animationPath,
+    const init = () => {
+      document.querySelectorAll('.lottie-anim:not([data-loaded])').forEach(el => {
+        el.dataset.loaded = '1';
+        lottie.loadAnimation({
+          container: el,
+          renderer: 'svg',
+          loop: true,
+          autoplay: true,
+          path: el.dataset.animationPath,
+        });
       });
-    });
+    };
+    if (typeof lottie !== 'undefined') { init(); return; }
+    // Lottie not loaded yet (defer) — wait for it
+    const check = setInterval(() => {
+      if (typeof lottie !== 'undefined') { clearInterval(check); init(); }
+    }, 200);
+    setTimeout(() => clearInterval(check), 10000); // give up after 10s
   }
 
   // ===== TEXT HIGHLIGHT & NOTE =====
