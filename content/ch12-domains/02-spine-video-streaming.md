@@ -36,14 +36,20 @@ Video streaming is where recommendation systems are most visible — and most co
 **Homepage Personalization**
 The fully personalized homepage is the crown jewel — multiple rows, each with a different recommendation logic, all personalized per user. "Because You Watched Succession," "Top Thrillers For You," "Trending Now," "New Releases." Each row is a separate recommendation call with distinct parameters.
 
+![Fully personalized video streaming homepage with multiple recommendation rows tailored to the viewer](/images/domains/video/fully-personalized-homepage.png)
+
 **Continue Watching**
 Resume unfinished content or advance to the next episode. Deceptively simple but critical — this is often the highest-engagement placement. A user who started a series and sees it prominently on return is far more likely to continue than one who has to search for it. Typical threshold: [started > 10%, completed < 90%](https://docs.recombee.com/recipes/video).
+
+![Continue Watching row showing unfinished movies and series with progress indicators](/images/domains/video/continue-watching.png)
 
 **Watch Next (Post-Playback)**
 What to show when the credits roll. For episodic content: the next episode (obvious). For movies and standalone content: similar items or items from the same director/actor/genre. The few seconds of the post-playback screen are a high-stakes recommendation moment.
 
 **Because You Watched**
 Item-based recommendations using a specific recently-watched title as the anchor. "Because you watched Breaking Bad: Better Call Saul, Ozark, Fargo." Typically filtered to items watched > 75% to ensure genuine engagement.
+
+![Because You Watched row showing recommendations anchored to a specific title the viewer recently finished](/images/domains/video/because-you-watched.png)
 
 **Top Genres For You**
 Composite recommendation: first determine which genres the user prefers (personalized), then recommend top items within each genre. The genre selection itself is personalized — a thriller fan sees "Mind-Bending Thrillers" while a comedy fan sees "Stand-Up Specials."

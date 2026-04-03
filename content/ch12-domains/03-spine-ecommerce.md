@@ -35,11 +35,17 @@ E-commerce is the domain where recommendation quality translates most directly i
 
 **Personalized Homepage.** Multiple recommendation rows: "Recommended for You," "Based on Recent Browsing," "Top Brands For You," "New Arrivals." Each row uses different logic — collaborative filtering for personalization, trending for social proof, recency for freshness.
 
+![Fully personalized e-commerce homepage with product recommendation rows tailored to the shopper](/images/domains/e-commerce/fully-personalized-homepage.png)
+
 **Product Detail Page — Similar Products.** "You might also like" — items similar to the one being viewed. Can use content-based (same category, similar features) or collaborative (users who viewed this also viewed).
 
 **Product Detail Page — Alternative Products.** Subtly different from similar: alternatives are *substitutes* that compete for the same purchase intent. "Instead of this laptop, consider these." Useful when a product is out of stock or highly priced.
 
 **Shopping Cart — Cross-Sell.** "Frequently bought together." Items that complement what's already in the cart: phone case for a phone, batteries for a toy, matching accessories. These should be low-consideration, easy add-ons.
+
+![Shopping cart page with cross-sell recommendations showing complementary products](/images/domains/e-commerce/shopping-cart.png)
+
+![Cross-sell suggestions displaying frequently bought together items alongside the current product](/images/domains/e-commerce/cross-sell.png)
 
 **Upsell.** Higher-end versions of the item being viewed or in the cart. "Upgrade to the Pro model" or "Premium version with extended warranty." Must be subtle — overly aggressive upselling erodes trust.
 

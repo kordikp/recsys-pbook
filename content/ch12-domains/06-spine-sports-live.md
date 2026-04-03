@@ -35,7 +35,11 @@ Sports recommendation operates at a pace no other domain matches. During a Premi
 
 **Personalized Homepage.** Upcoming matches for teams the user follows, live streams relevant to their preferences, recommended replays, and trending content — all personalized and updating in real-time.
 
+![Fully personalized sports homepage showing upcoming matches, live streams, and replays tailored to fan preferences](/images/domains/sports-and-live-events/fully-personalized-homepage.png)
+
 **Live Game Alerts.** Push notifications when matches the user would care about are starting, or when key events (goals, upsets) happen in matches they're not watching.
+
+![Live game alerts showing real-time push notifications for match starts and key events](/images/domains/sports-and-live-events/live-game-alerts.png)
 
 **Highlight Reels.** Personalized compilations — "Your weekend highlights" featuring goals, saves, and key moments from matches the user cares about.
 

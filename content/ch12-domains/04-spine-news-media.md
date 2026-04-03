@@ -35,9 +35,13 @@ News is the most time-sensitive recommendation domain. A breaking story needs to
 
 **Personalized Feed.** The core experience — a stream of articles ranked by relevance to the individual user. Must balance personalization with editorial diversity (topic breadth, viewpoint diversity, local vs. national news).
 
+![Personalized news feed with articles ranked by individual reader relevance and topic diversity](/images/domains/articles-news-media/personalized-news-feed.png)
+
 **Related Articles.** "Read also" sidebar on article pages. Content-based similarity (same topic, same entities) combined with collaborative signals (readers who read this also read...).
 
 **Trending.** What's being read right now — by region, by topic, by demographic. Important for social proof and cultural relevance.
+
+![Trending articles section showing the most-read stories across regions and topics](/images/domains/articles-news-media/trending-articles.png)
 
 **Sections For You.** Personalized ordering of news sections (Politics, Sports, Tech, Local). Each user sees sections in the order that matches their reading patterns.
 

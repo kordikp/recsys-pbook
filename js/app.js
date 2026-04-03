@@ -2453,12 +2453,19 @@ class PBook {
     // Chapter reading order — which chapters should come before which
     const chapterPrereqs = {
       0: [],           // Ch1 Introduction — start here
-      1: [0],          // Ch2 Data — read after Intro
-      2: [0, 1],       // Ch3 Objectives — read after Intro + Data
-      3: [2],          // Ch4 Scenarios — read after Objectives
-      4: [2, 3],       // Ch5 Tasks — read after Objectives + Scenarios
-      5: [4],          // Ch6 Algorithms — read after Tasks
-      6: [2, 5]        // Ch7 Evaluation — read after Objectives + Algorithms
+      1: [0],          // Ch2 Data — after Intro
+      2: [0, 1],       // Ch3 Objectives — after Intro + Data
+      3: [2],          // Ch4 Scenarios — after Objectives
+      4: [2],          // Ch5 Algorithms — after Objectives
+      5: [4],          // Ch6 Evaluation — after Algorithms
+      6: [5],          // Ch7 Explainability — after Evaluation
+      7: [4],          // Ch8 Deployment — after Algorithms
+      8: [7],          // Ch9 Monitoring — after Deployment
+      9: [4],          // Ch10 Customization — after Algorithms
+      10: [0],         // Ch11 Ethics — after Intro
+      11: [2],         // Ch12 Domains — after Objectives
+      12: [4],         // Ch13 Research — after Algorithms
+      13: [4],         // Ch14 Build Your Own — after Algorithms
     };
 
     // Find suggested next block
@@ -2475,6 +2482,14 @@ class PBook {
 
       html += `<div class="map-chapter fade-up">`;
 
+      // Chapter image (if available)
+      const chImages = {
+        'ch12-domains': '/images/domains/e-commerce.png',
+        'ch05-algorithms': '/images/kids-pipeline.svg',
+        'ch01-introduction': '/images/hero-recsys.svg',
+      };
+      const chImg = chImages[ch.id] ? `<img src="${chImages[ch.id]}" class="map-ch-img" alt="">` : '';
+
       html += `<div class="map-ch-head" onclick="app.goChapter(${ci})">
         <div class="map-ch-ring" data-pct="${chPct}">
           <svg viewBox="0 0 36 36"><circle cx="18" cy="18" r="16" fill="none" stroke="var(--border)" stroke-width="2.5"/>
@@ -2486,6 +2501,7 @@ class PBook {
           <div class="map-ch-sub">${ch.subtitle}</div>
           <div class="map-ch-stats">${readCount}/${totalCount} read &middot; ${coreRead}/${coreCount} core</div>
         </div>
+        ${chImg}
         <div class="map-ch-arrow">&rsaquo;</div>
       </div>`;
 

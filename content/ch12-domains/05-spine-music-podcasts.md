@@ -35,11 +35,15 @@ Music is the only recommendation domain where suggesting the same item repeatedl
 
 **Discover Weekly / Personalized Playlists.** Weekly or daily personalized playlists blending familiar taste patterns with new discoveries. The defining Spotify feature — generating [2 billion listening hours](https://www.recombee.com/blog/modern-recommender-systems-part-3-objectives) from algorithmic playlists.
 
+![Personalized playlists made for the listener based on taste profile and discovery preferences](/images/domains/music-podcasts/playlists-made-for-you.png)
+
 **Play Next / Autoplay.** When the current queue ends, what plays next? Must match the current listening mood and energy, not just the user's overall profile.
 
 **Similar Artists/Songs.** Item-based recommendations using the current track as an anchor. Useful for exploration within a genre or mood.
 
 **Personalized Homepage.** "Made For You" section with playlists organized by mood, activity, genre, and listening history.
+
+![Fully personalized music homepage with curated playlists and recommendations based on listening history](/images/domains/music-podcasts/fully-personalized-homepage.png)
 
 **New Releases.** Fresh content matched to user preferences — a personalized filter over the thousands of new tracks released daily.
 
