@@ -277,8 +277,11 @@
       "files": [
         "01-spine-why-domains-matter.md",
         "02-spine-video-streaming.md",
+        "02a-sidebar-video-recipes.md",
         "03-spine-ecommerce.md",
+        "03a-sidebar-ecommerce-recipes.md",
         "04-spine-news-media.md",
+        "04a-sidebar-news-recipes.md",
         "05-spine-music-podcasts.md",
         "06-spine-sports-live.md",
         "07-spine-marketplaces.md",
