@@ -90,6 +90,16 @@ export function renderMarkdown(text) {
     // Close list on empty line
     if (inList && line.trim() === '') { result.push(closeList(listType)); inList = false; continue; }
 
+    // Lottie animation: ![lottie:slug](caption)
+    const lottieMatch = line.match(/^!\[lottie:([^\]]+)\]\(([^)]*)\)\s*$/);
+    if (lottieMatch) {
+      if (inList) { result.push(closeList(listType)); inList = false; }
+      const slug = lottieMatch[1].trim();
+      const caption = lottieMatch[2].trim();
+      result.push(`<figure class="md-figure"><div class="lottie-anim" data-animation-path="/images/domains/animations/${slug}/${slug}.json" style="max-width:500px;margin:1em auto"></div>${caption ? `<figcaption style="text-align:center;font-size:.78rem;color:var(--text-3);margin-top:.3em">${caption}</figcaption>` : ''}</figure>`);
+      continue;
+    }
+
     // Standalone image (block-level, not wrapped in <p>)
     const imgMatch = line.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
     if (imgMatch) {

@@ -27,6 +27,8 @@ Music is the only recommendation domain where suggesting the same item repeatedl
 
 **Context dominates preference.** The same user wants energetic music at the gym, ambient music while working, relaxing music before sleep, and upbeat music at a party. Long-term taste profile matters less than *current context*. This makes music the most context-dependent recommendation domain.
 
+![lottie:provide-real-time-responses-to-mood-changes](Adapting music recommendations in real time as the listener's mood and activity shift)
+
 **The playlist as a unit.** Unlike video (where each recommendation is independent), music recommendations often form a *sequence* — a playlist. The transitions between songs matter: energy level, tempo, mood, and genre should flow naturally. Recommending 30 great songs that don't work together produces a bad playlist.
 
 **Skip behavior as rich signal.** A skip within the first 5 seconds means "wrong choice." A skip at 30 seconds means "I sampled it and it's not for me." Listening to 90% means "I liked it but was ready to move on." Each behavior carries different information about the match quality.
@@ -46,6 +48,8 @@ Music is the only recommendation domain where suggesting the same item repeatedl
 ![Fully personalized music homepage with curated playlists and recommendations based on listening history](/images/domains/music-podcasts/fully-personalized-homepage.png)
 
 **New Releases.** Fresh content matched to user preferences — a personalized filter over the thousands of new tracks released daily.
+
+![lottie:recommend-songs-albums-artists-and-podcasts](Recommending across songs, albums, artists, and podcasts to cover every listening scenario)
 
 **Trending in Your Country.** Regional popularity charts, important for cultural relevance and social connection around music.
 

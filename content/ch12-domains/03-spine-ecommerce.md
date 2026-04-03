@@ -31,11 +31,15 @@ E-commerce is the domain where recommendation quality translates most directly i
 
 **Anonymous visitors.** A large fraction of e-commerce traffic is anonymous — first-time visitors with zero history. The system must provide useful recommendations from the very first page view, using contextual signals (referral source, device, geography) and popularity-based approaches. For strategies to handle anonymous users, see [e-commerce recipes](https://docs.recombee.com/recipes/e-commerce).
 
+![lottie:utilize-instant-user-understanding](Instantly understanding new visitors through contextual signals and real-time behavior)
+
 ## The 12 Key Scenarios
 
 **Personalized Homepage.** Multiple recommendation rows: "Recommended for You," "Based on Recent Browsing," "Top Brands For You," "New Arrivals." Each row uses different logic — collaborative filtering for personalization, trending for social proof, recency for freshness.
 
 ![Fully personalized e-commerce homepage with product recommendation rows tailored to the shopper](/images/domains/e-commerce/fully-personalized-homepage.png)
+
+![lottie:optimize-product-discovery](Optimizing product discovery through personalized homepage rows and smart categorization)
 
 **Product Detail Page — Similar Products.** "You might also like" — items similar to the one being viewed. Can use content-based (same category, similar features) or collaborative (users who viewed this also viewed).
 
@@ -52,6 +56,8 @@ E-commerce is the domain where recommendation quality translates most directly i
 **Personalized Category Browsing.** When a user browses "Running Shoes," the ranking within the category is personalized — their preferred brands and price ranges appear first.
 
 **Next Basket Prediction.** For repeat-purchase categories (groceries, consumables, pet supplies): predict what the user will buy next based on purchase history and typical repurchase cycles. This is where [sequential models like ReALM](https://www.recombee.com/research-publications) excel.
+
+![lottie:drive-sales-with-next-basket-prediction](Predicting the next purchase based on buying patterns and repurchase cycles)
 
 **Personalized Search.** Search results re-ranked by user preferences. Two users searching "winter jacket" see different results based on their brand preferences, price sensitivity, and style history.
 

@@ -781,8 +781,9 @@ class PBook {
       window.scrollTo(0, 0);
     }
 
-    // Render math, observe blocks
+    // Render math, observe blocks, init animations
     this.renderMath();
+    this._initLottieAnimations();
     this._observeBlocks(ch);
     this._updateMissionBar();
     this._showMissionIntro();
@@ -1223,6 +1224,21 @@ class PBook {
   }
 
   escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  // Initialize Lottie animations in rendered content
+  _initLottieAnimations() {
+    if (typeof lottie === 'undefined') return;
+    document.querySelectorAll('.lottie-anim:not([data-loaded])').forEach(el => {
+      el.dataset.loaded = '1';
+      lottie.loadAnimation({
+        container: el,
+        renderer: 'svg',
+        loop: true,
+        autoplay: true,
+        path: el.dataset.animationPath,
+      });
+    });
+  }
 
   // ===== TEXT HIGHLIGHT & NOTE =====
   highlightSelection() {

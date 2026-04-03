@@ -25,9 +25,13 @@ Video streaming is where recommendation systems are most visible — and most co
 
 **Content hierarchy.** A movie is a single item. A TV series is a complex structure: series → seasons → episodes. Recommending "Stranger Things" means the system must also determine *which season and episode* to suggest — the next unwatched one, the first of a new season, or a rewatch prompt.
 
+![lottie:recommendations-of-series-seasons-and-episodes](Navigating the series-season-episode hierarchy to surface the right content at the right level)
+
 **Watch progress as rich signal.** Unlike binary interactions (click/no-click), video generates granular signals: the user watched 10% (sampled and left), 50% (lost interest), 90% (engaged but didn't finish), or 100% (completed). Each threshold conveys different intent. Production systems track [watch milestones](https://docs.recombee.com/recipes/video) at configurable percentages.
 
 **Multi-platform delivery.** The same user watches on mobile during commute, smart TV at home, and laptop at work. Recommendations must be consistent across devices but context-aware — a 2-hour movie suggestion makes sense on the TV but not on mobile during a 15-minute break.
+
+![lottie:recommend-video-content-in-real-time](Adapting video recommendations in real time as viewer context and behavior change)
 
 **Content licensing.** Unlike music (available indefinitely), video content has licensing windows. A movie available today might expire next month. Recommending expiring content requires "Last Chance" scenarios — and never recommending content that's already gone.
 
@@ -37,6 +41,8 @@ Video streaming is where recommendation systems are most visible — and most co
 The fully personalized homepage is the crown jewel — multiple rows, each with a different recommendation logic, all personalized per user. "Because You Watched Succession," "Top Thrillers For You," "Trending Now," "New Releases." Each row is a separate recommendation call with distinct parameters.
 
 ![Fully personalized video streaming homepage with multiple recommendation rows tailored to the viewer](/images/domains/video/fully-personalized-homepage.png)
+
+![lottie:set-up-your-homepage-with-netflix-like-rows](Building a Netflix-style homepage with multiple personalized recommendation rows)
 
 **Continue Watching**
 Resume unfinished content or advance to the next episode. Deceptively simple but critical — this is often the highest-engagement placement. A user who started a series and sees it prominently on return is far more likely to continue than one who has to search for it. Typical threshold: [started > 10%, completed < 90%](https://docs.recombee.com/recipes/video).

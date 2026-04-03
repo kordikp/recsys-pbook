@@ -24,9 +24,13 @@ Deal aggregators (Slickdeals, Pepper, HotUKDeals) aggregate time-limited offers 
 
 **Extreme time sensitivity.** Deals have lifecycles measured in hours, not days. The system must surface a new deal to interested users within minutes of publication — there's no time for collaborative filtering to accumulate interaction data.
 
+![lottie:display-emerging-time-sensitive-offers](Surfacing emerging time-sensitive deals to the right users before offers expire)
+
 **Commission-based ranking.** Not all affiliate partners are equal. Premium partners pay higher commissions, and the platform needs to balance user relevance with [revenue from promoted deals](https://www.recombee.com/domains/deal-aggregators). Boosting is essential — but over-boosting erodes user trust.
 
 **Geographic targeting.** A deal on a restaurant in Munich is irrelevant to a user in Berlin. Local deals need geographic filtering; global deals (online retailers) need no geographic constraint. The system must handle both.
+
+![lottie:overcome-cold-start-problem-with-real-time-model-training](Overcoming the cold-start problem with real-time model training to match new deals instantly)
 
 ## Real-World Results
 

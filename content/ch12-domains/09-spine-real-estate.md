@@ -24,6 +24,8 @@ Real estate is where recommendation mistakes cost the most time and where good r
 
 **Geographic complexity.** Real estate recommendations require [best-in-class geographic functions](https://www.recombee.com/domains/real-estate): polygon-based neighborhood search, commute-time radius calculation, ZIP code mapping, and proximity to amenities (schools, transit, parks). These geographic features are first-class ranking signals, not just filters.
 
+![lottie:employ-best-in-class-geographic-functions](Leveraging advanced geographic functions for polygon search, commute radius, and proximity-based ranking)
+
 **Rapidly changing inventory.** Listings appear and disappear daily. The model must retrain in real-time as properties enter and leave the market.
 
 **Sparse user data.** People search for homes rarely — once every few years. There's minimal historical interaction data per user. The system relies heavily on explicit preferences (budget, bedrooms, location) and session behavior (which listings get clicks, saves, inquiries).

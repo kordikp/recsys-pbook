@@ -29,7 +29,11 @@ News is the most time-sensitive recommendation domain. A breaking story needs to
 
 **Editorial responsibility.** A music recommender that plays only pop is a mild annoyance. A news recommender that shows only one political perspective is a societal failure. News platforms have a responsibility that entertainment platforms arguably don't — maintaining information diversity and quality. This is why [human-in-the-loop editorial curation](https://www.recombee.com/domains/articles-news-media) matters more here than in any other domain.
 
+![lottie:human-in-the-loop-achieve-better-results-with-editors-in-charge](Editors guiding algorithmic recommendations to maintain journalistic standards and diversity)
+
 **Breaking news detection.** The system must identify sudden emerging topics and surface them immediately — before there's enough interaction data to know they're important. NLP-based topic detection and velocity monitoring are essential.
+
+![lottie:deliver-breaking-news-in-real-time](Detecting and surfacing breaking stories within minutes of publication)
 
 ## Key Scenarios
 
@@ -58,6 +62,8 @@ News recommendation faces the sharpest version of the filter bubble problem. Sta
 - **Viewpoint diversity:** For political topics, include coverage from different editorial perspectives
 - **Serendipity slots:** Reserve positions for articles outside the user's typical interests
 - **Editorial overrides:** Editors can pin important stories that all users should see, regardless of personalization
+
+![lottie:enhance-content-discoverability-with-diverse-recommendations](Enhancing content discoverability through topic diversity and serendipitous suggestions)
 
 ## Real-World Results
 

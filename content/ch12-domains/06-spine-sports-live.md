@@ -25,7 +25,11 @@ Sports recommendation operates at a pace no other domain matches. During a Premi
 
 **Real-time adaptation.** During a live match, user behavior changes minute by minute. A goal, a red card, or a controversial decision triggers a spike in interest that the recommendation system must detect and respond to immediately. [Real-time play-by-play ML engines](https://www.recombee.com/domains/sports-and-live-events) process these signals during the event.
 
+![lottie:real-time-play-by-play-personalization](Personalizing content play by play as live match events unfold in real time)
+
 **Massive traffic spikes.** A regular Tuesday might see baseline traffic. A World Cup final sees 100× that volume. The infrastructure must scale elastically — and the recommendation quality must hold under load.
+
+![lottie:handle-massive-matchday-traffic-global-tournaments](Scaling infrastructure to handle massive traffic spikes during global tournaments and matchdays)
 
 **Content format diversity.** Sports content spans: live streams, full match replays, curated highlights, post-match analysis, press conferences, statistics pages, transfer news, and preview articles. Each format serves a different user intent at a different moment.
 
