@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What is the offline evaluation bias and how can it be corrected?"
 recallA: "Offline data reflects the OLD system — new models recommending different items look worse because those items were never shown. Correction: LLOO with popularity penalization (β ≈ 0.30) improves model selection accuracy from 12.9% to 34.3%."
+highlights:
+  - "Offline evaluation is biased -- better models can look worse in offline tests"
+  - "Popularity penalization (beta=0.30) triples model selection accuracy"
+  - "Goodhart's Law: optimizing for a metric makes it stop measuring what matters"
 status: accepted
 ---
 

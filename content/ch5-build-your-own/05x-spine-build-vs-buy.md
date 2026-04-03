@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What are the key factors in the build vs. buy decision for recommender systems?"
 recallA: "Core competency (is personalization your competitive advantage?), hidden costs (monitoring, A/B testing, incident response, scaling), time to value, and team expertise. Most teams underestimate the operational cost of running RecSys in production."
+highlights:
+  - "Teams build a prototype in 3 months, then spend 18 months on operations"
+  - "Build when personalization IS your product; buy when it's a feature"
+  - "The real question is opportunity cost: what else could your team build?"
 status: accepted
 ---
 

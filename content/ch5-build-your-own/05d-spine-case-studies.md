@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What is the key lesson that recurs across production recommender systems at Spotify, YouTube, Netflix, and others?"
 recallA: "Decompose the problem into stages (candidate generation → ranking → re-ranking), optimize for long-term engagement rather than clicks, and continuously experiment — the system is never finished."
+highlights:
+  - "YouTube optimizes expected watch time, not clicks -- clickbait kills engagement"
+  - "Netflix personalized thumbnails boosted engagement without changing the algorithm"
+  - "The competitive moat is infrastructure, not algorithms -- the algorithms are known"
 status: accepted
 ---
 

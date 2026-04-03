@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "How does beeFormer solve the cold-start problem?"
 recallA: "It trains a Transformer on item text/images using ELSA's recommendation loss, learning to map descriptions to embeddings that predict user behavior — enabling recommendation of items with zero interactions."
+highlights:
+  - "beeFormer learns 'who would like this' from text, not 'what this is about'"
+  - "Zero-shot transfer to unseen domains: +131% Recall without any retraining"
+  - "Cold start has economic implications -- new creators can't compete without it"
 status: accepted
 ---
 

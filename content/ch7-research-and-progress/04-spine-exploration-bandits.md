@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What is the exploration-exploitation trade-off and how does Thompson Sampling address it?"
 recallA: "Exploitation serves known-good items; exploration tries uncertain ones to learn. Thompson Sampling balances this by sampling from posterior distributions — uncertain items naturally get explored more."
+highlights:
+  - "Thompson Sampling auto-balances explore vs. exploit -- no manual tuning needed"
+  - "BMAB resets priors at change points so trending content surfaces in minutes"
+  - "Bandit regret is provably near-optimal: O(sqrt(KT log T))"
 status: accepted
 ---
 

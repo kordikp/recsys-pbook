@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What advantage do Graph Neural Networks (like LightGCN) have over matrix factorization for recommendation?"
 recallA: "GNNs capture multi-hop neighborhood structure in the user-item graph. By aggregating information across multiple layers, they encode higher-order collaborative signals -- e.g., 'users who share neighbors of neighbors' -- that matrix factorization compresses into a single latent space and cannot explicitly represent."
+highlights:
+  - "Graphs preserve multi-hop paths that matrix factorization flattens away"
+  - "LightGCN with one layer approximates EASE; deeper layers go beyond it"
+  - "PinSage proved graph methods work at 3 billion nodes and 18 billion edges"
 status: accepted
 ---
 

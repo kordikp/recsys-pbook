@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Why do simple baselines like item-KNN often outperform deep learning models in session-based recommendation?"
 recallA: "Sessions are typically very short (3-10 items), providing minimal sequential signal for complex models to exploit. Simple co-occurrence patterns -- 'users who clicked X in this session also clicked Y' -- capture most of the useful information. Deep models need longer sequences to learn meaningful temporal dependencies that justify their added complexity."
+highlights:
+  - "60-80% of e-commerce visits are anonymous -- session-based is the norm"
+  - "Simple item-KNN often matches or beats deep models on short sessions"
+  - "Dwell time and scroll depth reveal intent that click sequences alone miss"
 status: accepted
 ---
 

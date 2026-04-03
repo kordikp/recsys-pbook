@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Why does VASP use Hadamard product instead of addition to combine linear and deep paths?"
 recallA: "Hadamard (element-wise multiply) acts as logical AND — both paths must agree, filtering false positives. Addition acts as OR — either path can contribute, amplifying false positives."
+highlights:
+  - "Multiply (not add) outputs -- both paths must agree, filtering false positives"
+  - "Removing the linear path hurts more than removing the deep path"
+  - "For sparse data, the linear model is the essential one, not deep learning"
 status: accepted
 ---
 

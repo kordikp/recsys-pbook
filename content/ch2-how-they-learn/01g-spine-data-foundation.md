@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What are the three data pillars of a recommender system?"
 recallA: "The Item Catalog (what's available and its attributes), the User Catalog (who the users are), and User-Item Interactions (the behavioral signal connecting them). The interaction data is the most critical — without it, there's no personalization."
+highlights:
+  - "Three pillars: item catalog, user catalog, and interactions -- skip none"
+  - "Data quality trumps data quantity -- clean metadata beats massive click logs"
+  - "When recommendations fail, the root cause is usually data, not the algorithm"
 status: accepted
 ---
 

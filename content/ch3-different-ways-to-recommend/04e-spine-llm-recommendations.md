@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What are the key strengths and limitations of using LLMs for recommendations?"
 recallA: "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff."
+highlights:
+  - "LLMs can confidently recommend items that do not exist -- hallucination is critical"
+  - "Six months of behavioral data beats any LLM prompt on personalization"
+  - "Best results: LLM as interface and reasoning, traditional RecSys as backbone"
 status: accepted
 ---
 

@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "How does CompresSAE achieve 12× embedding compression with minimal quality loss?"
 recallA: "A sparse autoencoder compresses dense embeddings using top-k sparsification. The kernel trick enables O(k²) retrieval on sparse codes instead of O(d) on dense vectors. Result: 307 GB → 26 GB with only 1.35% CTR loss."
+highlights:
+  - "CompresSAE: 12x embedding compression (307 GB to 26 GB), only 1.35% CTR loss"
+  - "Sparse ELSA gets slightly better accuracy than dense -- sparsity regularizes"
+  - "Mathematical elegance in research translates to robustness in production"
 status: accepted
 ---
 

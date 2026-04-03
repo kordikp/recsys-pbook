@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Why is academic research essential for improving recommender systems?"
 recallA: "Research provides mathematical foundations, discovers scalable algorithms, identifies failure modes, and bridges the gap between theory and production systems serving billions."
+highlights:
+  - "Breakthroughs come from mathematical insight, not engineering brute force"
+  - "EASE (2019) -- a single matrix inverse -- outperforms deep neural networks"
+  - "Every Recombee research paper runs in production serving 500+ customers"
 status: accepted
 ---
 

@@ -506,6 +506,9 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 /* Same for depth and sidebar content */
 
 /* Block footer with reactions and actions */
+.key-takeaway { margin: 1.5em 0 1em; padding: 1em 1.2em; background: var(--bg-card); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; }
+.key-takeaway-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: .4em; }
+.key-takeaway-text { font-size: .92rem; line-height: 1.5; color: var(--text-1); }
 .block-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.2em; padding-top: .8em; border-top: 1px solid var(--border); }
 .block-reactions { display: flex; gap: .3em; }
 .like-btn { display: flex; align-items: center; gap: .3em; padding: .35em .8em; border-radius: 20px; border: 1.5px solid var(--border); font-size: .82rem; font-family: var(--font-ui); color: var(--text-3); transition: all var(--transition); }

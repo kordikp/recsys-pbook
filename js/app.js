@@ -1041,10 +1041,9 @@ class PBook {
       'ch6-conversational': ['Conversational recs: ASK for what you want instead of scrolling', 'LLMs understand nuance but lack real-time personal data and inventory', 'The future: LLMs (language) + recommenders (data) working together'],
     };
     if (HIGHLIGHTS[id]) return HIGHLIGHTS[id];
-    // Auto-generate from content: extract sentences with bold markers, skip tables/headings
-    const lines = (block.body || '').split('\n').filter(l => !l.startsWith('|') && !l.startsWith('#') && !l.startsWith('---'));
-    const sentences = lines.join(' ').split(/[.!?]\s/).filter(s => s.includes('**') || s.length > 40 && s.length < 150);
-    if (sentences.length >= 2) return sentences.slice(0, 3).map(s => s.replace(/[*#_\[\]|]/g, '').trim());
+    // Check frontmatter highlights array
+    if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights;
+    // No highlights available — return null rather than auto-generating low-quality excerpts
     return null;
   }
 
@@ -1097,6 +1096,7 @@ class PBook {
         </div>
         ${sideHtml}
       </div>
+      ${block.keyTakeaway ? `<div class="key-takeaway"><div class="key-takeaway-label">Key Takeaway</div><div class="key-takeaway-text">${block.keyTakeaway}</div></div>` : ''}
       <div class="block-footer">
         <div class="block-reactions" data-block="${block.id}">
           <button class="like-btn ${this.user.ratings.get(block.id)>=0.7?'liked':''}" onclick="app.toggleLike('${block.id}')">
@@ -1667,7 +1667,7 @@ class PBook {
     const block = this.findBlock(blockId);
     if (!block) { this.openBlock(blockId); return; }
     const m = block.meta;
-    const teaser = m.teaser || (block.body || '').substring(0, 200).replace(/[#*_\[\]]/g, '').trim();
+    const teaser = m.teaser || m.keyTakeaway || '';
 
     // Remove existing preview
     document.getElementById('previewPanel')?.remove();

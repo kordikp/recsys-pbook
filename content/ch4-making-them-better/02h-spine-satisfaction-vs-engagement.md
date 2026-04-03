@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "Why are engagement metrics poor proxies for user satisfaction?"
 recallA: "Engagement measures behavior (clicks, watch time) not value. A user who doom-scrolls for 3 hours has high engagement but low satisfaction. Retention and voluntary return rate are better satisfaction proxies."
+highlights:
+  - "Netflix's best predictor of satisfaction: 'Would you watch this again?'"
+  - "Ad-supported platforms optimize time spent; subscription platforms optimize retention"
+  - "Clickbait scores high on CTR but leaves users feeling deceived"
 status: accepted
 ---
 

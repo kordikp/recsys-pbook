@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What are the three main architectural approaches to incorporating context into a recommender system?"
 recallA: "Pre-filtering (narrow candidates by context before scoring), post-filtering (score all candidates then re-rank by context), and contextual modeling (include context features directly in the scoring model so the model learns context-dependent preferences)."
+highlights:
+  - "Your preferences are real but context decides which ones are active right now"
+  - "Three approaches: pre-filter, post-filter, or model context directly"
+  - "Context shifts in seconds -- batch-only systems cannot keep up"
 status: accepted
 ---
 

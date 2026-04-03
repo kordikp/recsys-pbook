@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What are the key open research challenges in recommender systems?"
 recallA: "Fairness guarantees with mathematical foundations, LLM integration without hallucination, causal evaluation beyond correlation, multi-stakeholder optimization, and privacy-preserving personalization."
+highlights:
+  - "Formal fairness definitions often conflict -- satisfying one can violate another"
+  - "LLMs can understand complex preferences but hallucinate nonexistent items"
+  - "Optimal, fair, profitable, and private are four goals in permanent tension"
 status: accepted
 ---
 

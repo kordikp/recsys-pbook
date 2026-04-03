@@ -11,6 +11,10 @@ parent: null
 diagram: null
 recallQ: "What problem does ELSA solve that EASE cannot?"
 recallA: "EASE requires O(n³) computation (inverting the full item×item matrix), making it impossible for large catalogs. ELSA uses low-rank factorization to achieve O(nd²), scaling to millions of items."
+highlights:
+  - "EASE's entire algorithm is one matrix inverse -- and it beats deep learning"
+  - "ELSA drops complexity from O(n cubed) to O(nd squared) via low-rank factorization"
+  - "ELSA's embeddings discover genre structure purely from user behavior"
 status: accepted
 ---
 
