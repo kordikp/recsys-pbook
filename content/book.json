@@ -255,6 +255,26 @@
         "09-question-research.md",
         "10-spine-glossary.md"
       ]
+    },
+    {
+      "id": "ch13-domains",
+      "number": 8,
+      "title": "Domains",
+      "subtitle": "How recommendations work differently across industries",
+      "directory": "ch13-domains",
+      "files": [
+        "01-spine-why-domains-matter.md",
+        "02-spine-video-streaming.md",
+        "03-spine-ecommerce.md",
+        "04-spine-news-media.md",
+        "05-spine-music-podcasts.md",
+        "06-spine-sports-live.md",
+        "07-spine-marketplaces.md",
+        "08-spine-deals.md",
+        "09-spine-real-estate.md",
+        "10-spine-travel-jobs-edu.md",
+        "11-question-domain.md"
+      ]
     }
   ]
 }
