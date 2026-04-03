@@ -65,9 +65,9 @@ In email outreach systems, this becomes particularly important: you can't spam u
 
 Recent work at Recombee applied this to outreach platforms processing 15 million interactions, reducing spam-like behavior while accelerating preference learning.
 
-> **Research publications:**
-> - Alves, Ledent, Kloft — "Burst-aware Multi-Armed Bandits," RecSys 2021
-> - Alves et al. — "BPoP: Unraveling Dynamics," WWW 2024
-> - Zid, Alves, Kordík — "Active Recommendation for Email Outreach," CIKM 2025
+> **Research publications:** See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
+> - Alves, Ledent, Kloft — "[Burst-aware Multi-Armed Bandits](https://www.recombee.com/research-publications)," RecSys 2021.
+> - Alves et al. — "[BPoP: Unraveling Dynamics](https://doi.org/10.1145/3589334.3645473)," WWW 2024.
+> - Zid, Alves, Kordík — "[Active Recommendation for Email Outreach](https://www.recombee.com/research-publications)," CIKM 2025.
 
 **Consider this:** The exploration-exploitation trade-off appears everywhere in life: trying a new restaurant vs. going to your favorite, reading a new author vs. re-reading a classic, exploring a new career path vs. deepening your current expertise. Bandit algorithms formalize the optimal strategy — and the answer is always a carefully calibrated mix of both.

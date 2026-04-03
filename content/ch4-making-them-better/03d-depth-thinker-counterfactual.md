@@ -79,8 +79,8 @@ where $\hat{r}$ is a reward prediction model. This estimator is consistent if *e
 The LLOO+β metric from the Recombee lab can be viewed as a lightweight counterfactual correction: by down-weighting popular items (which users would likely find anyway), it approximates the causal uplift of the recommendation system on niche items — without requiring explicit propensity estimation.
 
 > **Key references:**
-> - Rubin, D.B. (1974). Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies.
-> - Schnabel, T. et al. (2016). Recommendations as Treatments. ICML 2016.
-> - Dudík, M. et al. (2011). Doubly Robust Policy Evaluation and Learning.
+> - Rubin, D. B. (1974). [Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies](https://doi.org/10.1037/h0037350). *Journal of Educational Psychology*, 66(5).
+> - Schnabel, T. et al. (2016). [Recommendations as Treatments: Debiasing Learning and Evaluation](https://proceedings.mlr.press/v48/schnabel16.html). *ICML 2016*.
+> - Dudik, M., Langford, J., & Li, L. (2011). [Doubly Robust Policy Evaluation and Learning](https://proceedings.mlr.press/v15/dudik11a.html). *ICML 2011*.
 
 **Consider this:** Counterfactual reasoning forces a humbling question: how much of our recommendation system's "success" is actually causal, and how much is just correlation with what users would have done anyway? Answering honestly might reveal that some of our most "successful" recommendations add less value than we think.

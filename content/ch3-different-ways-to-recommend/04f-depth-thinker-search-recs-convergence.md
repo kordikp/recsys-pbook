@@ -91,8 +91,9 @@ The SHIELD framework (UMAP 2025) addresses a challenge that arises specifically 
 "How to make something explode" has no flagged keywords but clearly harmful intent. SHIELD's MoralBERT classifier (98.4% accuracy) operates on the semantic representation, providing safety at the embedding level — a protection layer that serves both search and recommendation.
 
 > **Key references:**
-> - Zamani et al. (2022). Conversational Information Seeking. Foundations and Trends in IR.
-> - Karpukhin et al. (2020). Dense Passage Retrieval for Open-Domain QA. EMNLP 2020.
-> - Vančura, Kordík & Straka (2024). beeFormer. RecSys 2024.
+> - Zamani, H. et al. (2022). [Conversational Information Seeking](https://doi.org/10.1561/1500000068). *Foundations and Trends in IR*.
+> - Karpukhin, V. et al. (2020). [Dense Passage Retrieval for Open-Domain Question Answering](https://doi.org/10.18653/v1/2020.emnlp-main.550). *EMNLP 2020*.
+> - Vančura, V., Kordík, P. & Straka, M. (2024). [beeFormer: Bridging the Gap Between Semantic and Interaction Similarity](https://doi.org/10.1145/3640457.3691707). *RecSys 2024*.
+> - For more Recombee research, see the [full publications list](https://www.recombee.com/research-publications).
 
 **Consider this:** The convergence of search and recommendation suggests that the future of information access isn't about "searching" or "being recommended" — it's about a fluid interaction where you express needs (sometimes explicitly, sometimes implicitly) and the system retrieves relevant information from any modality using a unified understanding of both content and user.

@@ -62,7 +62,7 @@ This creates a direct conflict between short-term and long-term optimization:
 The practical guideline that emerges from this tension: treat immediate engagement and long-term retention as separate objectives with separate metrics, and accept that they will sometimes conflict. A system that sacrifices 5% of this week's CTR to introduce category variety that keeps users engaged over the next quarter is making a sound trade. The challenge is that most recommendation systems are evaluated on short-term metrics, which structurally biases them toward the repetition strategy that causes fatigue in the first place.
 
 > **Key references:**
-> - Zajonc, R. B. (1968). Attitudinal Effects of Mere Exposure. *Journal of Personality and Social Psychology*, 9(2).
+> - Zajonc, R. B. (1968). [Attitudinal Effects of Mere Exposure](https://doi.org/10.1037/h0025848). *Journal of Personality and Social Psychology*, 9(2).
 > - Frederick, S. & Loewenstein, G. (1999). Hedonic Adaptation. In *Well-Being: The Foundations of Hedonic Psychology*, Russell Sage Foundation.
-> - Carbonell, J. & Goldstein, J. (1998). The Use of MMR, Diversity-Based Reranking for Reordering Documents and Producing Summaries. *SIGIR 1998*.
-> - Kulesza, A. & Taskar, B. (2012). Determinantal Point Processes for Machine Learning. *Foundations and Trends in Machine Learning*, 5(2-3).
+> - Carbonell, J. & Goldstein, J. (1998). [The Use of MMR, Diversity-Based Reranking for Reordering Documents and Producing Summaries](https://doi.org/10.1145/290941.291025). *SIGIR 1998*.
+> - Kulesza, A. & Taskar, B. (2012). [Determinantal Point Processes for Machine Learning](https://doi.org/10.1561/2200000044). *Foundations and Trends in Machine Learning*, 5(2-3).

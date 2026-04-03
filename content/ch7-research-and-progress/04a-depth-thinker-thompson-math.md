@@ -107,9 +107,9 @@ $$\lambda_{\text{SFP}}(t) = \sum_{t_i < t} \phi(t - t_i)$$
 
 where φ is a triggering kernel — each event increases the probability of future events, modeling viral cascades.
 
-> **Key references:**
+> **Key references:** See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 > - Thompson, W.R. (1933). On the likelihood that one unknown probability exceeds another.
 > - Li et al. (2010). A Contextual-Bandit Approach to Personalized News Article Recommendation. WWW 2010.
 > - Agrawal & Goyal (2012). Analysis of Thompson Sampling for the Multi-Armed Bandit Problem.
-> - Alves et al. (2021). Burst-aware Multi-Armed Bandits. RecSys 2021.
-> - Alves et al. (2024). BPoP: Unraveling Dynamics. WWW 2024.
+> - Alves et al. (2021). [Burst-aware Multi-Armed Bandits](https://www.recombee.com/research-publications). RecSys 2021.
+> - Alves et al. (2024). [BPoP: Unraveling Dynamics](https://doi.org/10.1145/3589334.3645473). WWW 2024.

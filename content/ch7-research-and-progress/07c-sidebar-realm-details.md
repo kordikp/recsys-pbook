@@ -54,6 +54,6 @@ If you're building a recommendation system for a domain with:
 
 **Start with a linear model.** You might be surprised how competitive it is — and how much engineering complexity you save. Add deep components only when you have clear evidence that they improve metrics on your specific data.
 
-> **Research publication:** Zmeškalová et al., "ReALM: Next-Basket Recommendation with Autoregressive Linear Models," RecSys 2025.
+> **Research publication:** Zmeškalová et al., "[ReALM: Next-Basket Recommendation with Autoregressive Linear Models](https://dl.acm.org/doi/full/10.1145/3705328.3759313)," RecSys 2025. See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 
 **Consider this:** ReALM's training time is measured in seconds. A Transformer's in hours. If both achieve similar quality, the seconds option gives you faster iteration, cheaper experiments, and simpler production deployment. Simplicity isn't just elegant — it's practical.

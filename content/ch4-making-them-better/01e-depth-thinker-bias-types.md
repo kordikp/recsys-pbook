@@ -210,11 +210,11 @@ Bias auditing should be a continuous practice, not a one-time check. The followi
 **6. Close the loop with online experiments.** Counterfactual evaluation is an estimate. Validate it with A/B tests. Compare the debiased model against the production model on both accuracy metrics *and* bias metrics. A model that is slightly less accurate but substantially less biased may be the better choice for long-term health of the system.
 
 > **Key references:**
-> - Schnabel, T., Swaminathan, A., Singh, A., Chandak, N., & Joachims, T. (2016). Recommendations as Treatments: Debiasing Learning and Evaluation. *ICML 2016*.
-> - Chen, J., Dong, H., Wang, X., Feng, F., Wang, M., & He, X. (2020). Bias and Debias in Recommender System: A Survey and Future Directions. *arXiv:2010.03240*.
-> - Joachims, T., Swaminathan, A., & Schnabel, T. (2017). Unbiased Learning-to-Rank with Biased Feedback. *WSDM 2017*.
-> - Chaney, A. J. B., Stewart, B. M., & Engelhardt, B. E. (2018). How Algorithmic Confounding in Recommendation Systems Increases Homogeneity and Decreases Utility. *RecSys 2018*.
-> - Swaminathan, A. & Joachims, T. (2015). The Self-Normalized Estimator for Counterfactual Learning. *NeurIPS 2015*.
-> - Muchnik, L., Aral, S., & Taylor, S. J. (2013). Social Influence Bias: A Randomized Experiment. *Science*, 341(6146).
+> - Schnabel, T., Swaminathan, A., Singh, A., Chandak, N., & Joachims, T. (2016). [Recommendations as Treatments: Debiasing Learning and Evaluation](https://proceedings.mlr.press/v48/schnabel16.html). *ICML 2016*.
+> - Chen, J., Dong, H., Wang, X., Feng, F., Wang, M., & He, X. (2020). [Bias and Debias in Recommender System: A Survey and Future Directions](https://arxiv.org/abs/2010.03240). *arXiv:2010.03240*.
+> - Joachims, T., Swaminathan, A., & Schnabel, T. (2017). [Unbiased Learning-to-Rank with Biased Feedback](https://doi.org/10.1145/3018661.3018699). *WSDM 2017*.
+> - Chaney, A. J. B., Stewart, B. M., & Engelhardt, B. E. (2018). [How Algorithmic Confounding in Recommendation Systems Increases Homogeneity and Decreases Utility](https://doi.org/10.1145/3240323.3240370). *RecSys 2018*.
+> - Swaminathan, A. & Joachims, T. (2015). [The Self-Normalized Estimator for Counterfactual Learning](https://proceedings.neurips.cc/paper/2015/hash/39027f33e6c862f3af3a1eb51a1a3165-Abstract.html). *NeurIPS 2015*.
+> - Muchnik, L., Aral, S., & Taylor, S. J. (2013). [Social Influence Bias: A Randomized Experiment](https://doi.org/10.1126/science.1240466). *Science*, 341(6146).
 > - Abdollahpouri, H., Mansoury, M., Burke, R., & Mobasher, B. (2019). The Unfairness of Popularity Bias in Recommendation. *RecSys Workshop on Recommendation in Multistakeholder Environments*.
-> - MFF LLOO+$\beta$ framework: Evaluating recommendation quality with leave-last-one-out protocol and popularity damping to measure genuine algorithmic value-add.
+> - LLOO+$\beta$ framework: Evaluating recommendation quality with leave-last-one-out protocol and popularity damping to measure genuine algorithmic value-add. For more on this and related Recombee research, see the [full publications list](https://www.recombee.com/research-publications).

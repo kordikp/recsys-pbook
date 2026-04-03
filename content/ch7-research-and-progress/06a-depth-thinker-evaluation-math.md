@@ -89,7 +89,7 @@ An important subtlety: a model can have high aggregate nDCG but perform poorly f
 
 The β-penalization explicitly addresses this form of Simpson's paradox by down-weighting the "easy" popular-item predictions that dominate the aggregate.
 
-> **Key references:**
+> **Key references:** See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 > - Järvelin & Kekäläinen (2002). Cumulated Gain-Based Evaluation of IR Techniques.
 > - Schnabel et al. (2016). Recommendations as Treatments. ICML 2016.
-> - Kasalický et al. (2023). Bridging Offline-Online Evaluation. evalRS@KDD 2023.
+> - Kasalický et al. (2023). [Bridging Offline-Online Evaluation](https://www.recombee.com/research-publications). evalRS@KDD 2023.

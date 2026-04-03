@@ -140,6 +140,6 @@ For practitioners building or evaluating recommender systems, a reasonable start
 5. **Never optimize diversity in isolation.** A random recommender achieves near-perfect diversity and coverage scores. The goal is diversity *conditional on relevance* -- a system that shows users things they did not expect but will genuinely appreciate.
 
 > **Key references:**
-> - Ziegler, C.-N., McNee, S. M., Konstan, J. A., & Lausen, G. (2005). Improving Recommendation Lists Through Topic Diversification. *WWW 2005*.
-> - Carbonell, J. & Goldstein, J. (1998). The Use of MMR, Diversity-Based Reranking for Reordering Documents and Producing Summaries. *SIGIR 1998*.
-> - Kulesza, A. & Taskar, B. (2012). Determinantal Point Processes for Machine Learning. *Foundations and Trends in Machine Learning*, 5(2-3).
+> - Ziegler, C.-N., McNee, S. M., Konstan, J. A., & Lausen, G. (2005). [Improving Recommendation Lists Through Topic Diversification](https://doi.org/10.1145/1060745.1060754). *WWW 2005*.
+> - Carbonell, J. & Goldstein, J. (1998). [The Use of MMR, Diversity-Based Reranking for Reordering Documents and Producing Summaries](https://doi.org/10.1145/290941.291025). *SIGIR 1998*.
+> - Kulesza, A. & Taskar, B. (2012). [Determinantal Point Processes for Machine Learning](https://doi.org/10.1561/2200000044). *Foundations and Trends in Machine Learning*, 5(2-3).

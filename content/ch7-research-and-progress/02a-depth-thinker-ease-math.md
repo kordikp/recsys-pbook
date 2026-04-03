@@ -85,7 +85,7 @@ While ELSA uses a low-rank approximation of the weight matrix, SANSA (from MFF U
 
 **The trade-off:** ELSA gives dense embeddings (useful for ANN search, transfer learning). SANSA gives a sparse weight matrix (closer to the true EASE solution, but no embeddings for downstream tasks).
 
-> **Key references:**
+> **Key references:** See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 > - Steck, H. (2019). Embarrassingly Shallow Autoencoders for Sparse Data. WWW 2019.
-> - Vančura et al. (2022). Scalable Linear Shallow Autoencoder. RecSys 2022.
-> - Vančura et al. (2026). Sparse ELSA. WWW 2026.
+> - Vančura et al. (2022). [Scalable Linear Shallow Autoencoder](https://github.com/recombee/ELSA). RecSys 2022.
+> - Vančura et al. (2026). [Sparse ELSA](https://www.recombee.com/research-publications). WWW 2026.

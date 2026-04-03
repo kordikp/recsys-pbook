@@ -203,8 +203,8 @@ The offline-online gap is not a problem to be solved once and forgotten. It is a
 The ultimate test of any recommendation system is whether real users, over sustained periods, find genuine value in its suggestions. Every other evaluation method is an approximation of that test -- some better than others, but none a substitute.
 
 > **Key references:**
-> - Chapelle, O., Joachims, T., Radlinski, F., & Yue, Y. (2012). Large-scale Validation and Analysis of Interleaved Search Evaluation. *TOIS*, 30(1).
-> - Gilotte, A., Calauzenes, C., Nedelec, T., Abraham, A., & Dolle, S. (2018). Offline A/B Testing for Recommender Systems. *WSDM 2018*.
-> - Kasalicky, F., Alves, R., & Kordik, P. (2023). Bridging Offline-Online Evaluation with Popularity Debiasing. *evalRS@KDD 2023*.
-> - Schnabel, T., Swaminathan, A., Singh, A., Chandak, N., & Joachims, T. (2016). Recommendations as Treatments: Debiasing Learning and Evaluation. *ICML 2016*.
+> - Chapelle, O., Joachims, T., Radlinski, F., & Yue, Y. (2012). [Large-scale Validation and Analysis of Interleaved Search Evaluation](https://doi.org/10.1145/2094072.2094078). *TOIS*, 30(1).
+> - Gilotte, A., Calauzenes, C., Nedelec, T., Abraham, A., & Dolle, S. (2018). [Offline A/B Testing for Recommender Systems](https://doi.org/10.1145/3159652.3159687). *WSDM 2018*.
+> - Kasalicky, F., Alves, R., & Kordik, P. (2023). [Bridging Offline-Online Evaluation with a Rejection Sampling Estimator](https://ceur-ws.org/Vol-3450/). *evalRS@KDD 2023*. See also the [Recombee publications list](https://www.recombee.com/research-publications).
+> - Schnabel, T., Swaminathan, A., Singh, A., Chandak, N., & Joachims, T. (2016). [Recommendations as Treatments: Debiasing Learning and Evaluation](https://proceedings.mlr.press/v48/schnabel16.html). *ICML 2016*.
 > - Kohavi, R., Tang, D., & Xu, Y. (2020). *Trustworthy Online Controlled Experiments: A Practical Guide to A/B Testing*. Cambridge University Press.

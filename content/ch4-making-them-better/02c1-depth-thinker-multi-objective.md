@@ -206,8 +206,8 @@ As Recombee's objectives framework illustrates, effective recommendation design 
 5. **Make the trade-offs explicit and auditable.** The weights $w_k$ in a scalarization, or the thresholds $\varepsilon_k$ in a constraint formulation, encode value judgments. They should be documented, reviewed, and debated -- not buried in a configuration file.
 
 > **Key references:**
-> - Carbonell, J. & Goldstein, J. (1998). The Use of MMR, Diversity-Based Reranking for Reordering Documents and Producing Summaries. *SIGIR 1998*.
-> - Zhao, Z., Hong, L., Wei, L., et al. (2019). Recommending What Video to Watch Next: A Multitask Ranking System. *RecSys 2019*.
-> - Steck, H. (2018). Calibrated Recommendations. *RecSys 2018*.
-> - Mehrotra, R., McInerney, J., Bouchard, H., Lalmas, M., & Diaz, F. (2018). Towards a Fair Marketplace: Counterfactual Evaluation of the Trade-off Between Relevance, Fairness & Satisfaction in Recommendation Systems. *CIKM 2018*.
-> - Recombee (2024). Modern Recommender Systems, Part 3: Objectives. *recombee.com/blog*.
+> - Carbonell, J. & Goldstein, J. (1998). [The Use of MMR, Diversity-Based Reranking for Reordering Documents and Producing Summaries](https://doi.org/10.1145/290941.291025). *SIGIR 1998*.
+> - Zhao, Z., Hong, L., Wei, L., et al. (2019). [Recommending What Video to Watch Next: A Multitask Ranking System](https://doi.org/10.1145/3298689.3346997). *RecSys 2019*.
+> - Steck, H. (2018). [Calibrated Recommendations](https://doi.org/10.1145/3240323.3240372). *RecSys 2018*.
+> - Mehrotra, R., McInerney, J., Bouchard, H., Lalmas, M., & Diaz, F. (2018). [Towards a Fair Marketplace: Counterfactual Evaluation of the Trade-off Between Relevance, Fairness & Satisfaction in Recommendation Systems](https://doi.org/10.1145/3269206.3271744). *CIKM 2018*.
+> - Recombee (2024). [Modern Recommender Systems, Part 3: Objectives](https://www.recombee.com/blog). *recombee.com/blog*. For more Recombee research, see the [full publications list](https://www.recombee.com/research-publications).

@@ -93,7 +93,7 @@ The LLOO+β metric from the Recombee lab (evalRS@KDD 2023) can be understood thr
 
 This connection reveals why β ≈ 0.30 is optimal: it approximates the true propensity distribution of the logging policy without needing to estimate individual propensities — a pragmatic shortcut that achieves 34.3% Model Selection Recall.
 
-> **Key references:**
+> **Key references:** See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 > - Lattimore, T. & Szepesvári, C. (2020). Bandit Algorithms. Cambridge University Press.
 > - Li, L. et al. (2011). Unbiased Offline Evaluation of Contextual-Bandit-Based News Article Recommendation. WSDM 2011.
 > - Swaminathan, A. & Joachims, T. (2015). Batch Learning from Logged Bandit Feedback. ICML 2015.

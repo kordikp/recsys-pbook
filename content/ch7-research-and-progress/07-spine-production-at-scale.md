@@ -95,9 +95,9 @@ A compelling real-world application: The Daily Telegraph uses sparse autoencoder
 
 This is recommendation infrastructure being used not just for serving readers, but for **understanding audience behavior** at a level that was previously impossible.
 
-> **Research publications:**
-> - Kasalický et al., "CompresSAE: Embedding Compression via Sparse Autoencoders," RecSys 2025.
-> - Vančura et al., "Sparse ELSA," WWW 2026.
-> - Telegraph case study, INRA@RecSys 2025.
+> **Research publications:** See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
+> - Kasalický et al., "[CompresSAE: Embedding Compression via Sparse Autoencoders](https://dl.acm.org/doi/full/10.1145/3705328.3748147)," RecSys 2025.
+> - Vančura et al., "[Sparse ELSA](https://www.recombee.com/research-publications)," WWW 2026.
+> - Telegraph case study, [INRA@RecSys 2025](https://www.recombee.com/research-publications).
 
 **Consider this:** The gap between research and production is where most algorithms die. The ones that survive are typically those with strong mathematical properties (closed-form solutions, provable guarantees, interpretable structure) — because these properties translate directly into engineering virtues (efficiency, predictability, debuggability). Elegance in mathematics often corresponds to robustness in production.

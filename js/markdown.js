@@ -98,6 +98,18 @@ export function renderMarkdown(text) {
       continue;
     }
 
+    // Blockquote
+    if (line.startsWith('> ') || line === '>') {
+      if (inList) { result.push(closeList(listType)); inList = false; }
+      const bqLines = [line.replace(/^>\s?/, '')];
+      while (i + 1 < lines.length && (lines[i + 1].startsWith('> ') || lines[i + 1] === '>')) {
+        i++;
+        bqLines.push(lines[i].replace(/^>\s?/, ''));
+      }
+      result.push(`<blockquote>${bqLines.map(l => l.trim() ? inlineFmt(l) : '<br>').join(' ')}</blockquote>`);
+      continue;
+    }
+
     // Empty line
     if (line.trim() === '') continue;
 
@@ -130,7 +142,8 @@ function closeList(type) { return type === 'ul' ? '</ul>' : '</ol>'; }
 function isBlockStart(line) {
   return /^#{1,6}\s/.test(line) || /^[-*]\s/.test(line) || /^\d+[.)]\s/.test(line) ||
     /^---+\s*$/.test(line) || /^\*\*\*+\s*$/.test(line) || /^\|/.test(line) || /^%%/.test(line) ||
-    /^!\[/.test(line); // standalone image
+    /^!\[/.test(line) || // standalone image
+    /^>\s?/.test(line); // blockquote
 }
 
 function escapeHtml(s) {
@@ -202,8 +215,10 @@ function inlineFmt(text) {
   text = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;">');
   // Links (explicit markdown)
   text = text.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
-  // Auto-link bare URLs (not already inside an href or markdown link)
-  text = text.replace(/(?<!="|'>)(https?:\/\/[^\s<),]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
+  // Auto-link bare URLs (skip those already wrapped in <a> tags)
+  text = text.replace(/(^|[^"'>])(https?:\/\/[^\s<),\]]+)/g, (m, pre, url) => {
+    return pre + '<a href="' + url + '" target="_blank" rel="noopener">' + url + '</a>';
+  });
   // Bold+italic
   text = text.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>');
   // Bold
