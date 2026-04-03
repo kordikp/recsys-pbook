@@ -80,6 +80,8 @@
       "subtitle": "Where recommendations appear and how to design for each context",
       "directory": "ch04-scenarios",
       "files": [
+        "01-spine-what-are-scenarios.md",
+        "02-sidebar-scenario-canvas.md",
         "05y-sidebar-recommendation-scenarios.md",
         "05z-sidebar-composite-recommendations.md",
         "02j-spine-context-aware.md",
@@ -175,8 +177,12 @@
       "subtitle": "Making recommendations transparent and trustworthy",
       "directory": "ch07-explainability",
       "files": [
+        "01-spine-why-explainability.md",
         "02d-spine-explainability.md",
-        "02d1-sidebar-explanation-ux.md"
+        "02d1-sidebar-explanation-ux.md",
+        "03-spine-technical-approaches.md",
+        "04-sidebar-transparency-spectrum.md",
+        "05-question-explain.md"
       ]
     },
     {
@@ -205,10 +211,13 @@
       "subtitle": "Keeping your recommender healthy in production",
       "directory": "ch09-monitoring",
       "files": [
+        "01-spine-why-monitoring.md",
+        "02-sidebar-drift-detection.md",
         "05g-sidebar-monitoring.md",
         "05r-sidebar-observability.md",
         "05m-sidebar-continual-learning.md",
-        "05w-sidebar-data-flywheel.md"
+        "05w-sidebar-data-flywheel.md",
+        "06-sidebar-incident-response.md"
       ]
     },
     {
