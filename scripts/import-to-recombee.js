@@ -62,12 +62,12 @@ function parseFrontmatter(text) {
   }
   const body = match[2].trim();
   meta._wordCount = body.split(/\s+/).length;
-  // Extract searchable text: strip markdown formatting, take first ~500 chars + headings + bold terms
+  // Extract searchable text: headings + bold terms + recall Q&A + body summary
   const headings = (body.match(/^#{1,3}\s+(.+)$/gm) || []).map(h => h.replace(/^#+\s+/, '')).join('. ');
-  const boldTerms = (body.match(/\*\*([^*]+)\*\*/g) || []).map(b => b.replace(/\*\*/g, '')).join(', ');
-  const plainBody = body.replace(/[#*_\[\]|>`~]/g, '').replace(/\(http[^)]+\)/g, '').replace(/!\[lottie:[^\]]+\]\([^)]*\)/g, '');
-  const firstParagraphs = plainBody.substring(0, 600).trim();
-  meta._searchText = `${headings}. ${boldTerms}. ${firstParagraphs}`;
+  const boldTerms = [...new Set((body.match(/\*\*([^*]+)\*\*/g) || []).map(b => b.replace(/\*\*/g, '')))].join(', ');
+  const recallQA = [meta.recallQ, meta.recallA].filter(Boolean).join('. ');
+  const plainBody = body.replace(/[#*_\[\]|>`~]/g, '').replace(/\(http[^)]+\)/g, '').replace(/!\[lottie:[^\]]+\]\([^)]*\)/g, '').replace(/\n+/g, ' ');
+  meta._searchText = `${meta.title || ''}. ${headings}. ${boldTerms}. ${recallQA}. ${plainBody}`.substring(0, 3000);
   return meta;
 }
 
@@ -120,7 +120,7 @@ async function main() {
           chapterNum: chapter.number,
           wordCount: meta._wordCount || 0,
           publishedAt: meta.publishedAt ? new Date(meta.publishedAt).toISOString() : null,
-          searchText: (meta._searchText || '').substring(0, 2000),
+          searchText: (meta._searchText || '').substring(0, 3000),
           '!cascadeCreate': true,
         }
       });
