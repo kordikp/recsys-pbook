@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 400" width="650" height="400" font-family="system-ui, sans-serif">
+  <defs>
+    <marker id="arrD" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <polygon points="0,0 6,2 0,4" fill="#999"/>
+    </marker>
+  </defs>
+
+  <rect width="650" height="400" rx="8" fill="#f5f5f4"/>
+  <text x="325" y="24" text-anchor="middle" fill="#0b1225" font-size="14" font-weight="700">Model Selection Decision Tree</text>
+
+  <!-- Root diamond: How much data? -->
+  <polygon points="325,50 425,90 325,130 225,90" fill="white" stroke="#0c8383" stroke-width="1.5"/>
+  <text x="325" y="87" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">How much</text>
+  <text x="325" y="99" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">data?</text>
+
+  <!-- Branch labels from root -->
+  <!-- Left: Sparse -->
+  <line x1="225" y1="90" x2="110" y2="170" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
+  <text x="155" y="125" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="600">Sparse</text>
+  <text x="155" y="135" text-anchor="middle" fill="#ef4444" font-size="7">&lt;100K</text>
+
+  <!-- Middle: Medium -->
+  <line x1="325" y1="130" x2="325" y2="175" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
+  <text x="345" y="155" fill="#f59e0b" font-size="8" font-weight="600">Medium</text>
+
+  <!-- Right: Dense -->
+  <line x1="425" y1="90" x2="540" y2="170" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
+  <text x="495" y="125" text-anchor="middle" fill="#3bc4a1" font-size="8" font-weight="600">Dense</text>
+  <text x="495" y="135" text-anchor="middle" fill="#3bc4a1" font-size="7">&gt;10M</text>
+
+  <!-- === Sparse branch: answer box === -->
+  <rect x="30" y="174" width="160" height="50" rx="10" fill="white" stroke="#ef4444" stroke-width="1.2"/>
+  <text x="110" y="195" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Popularity</text>
+  <text x="110" y="210" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">+ Simple CF</text>
+  <text x="110" y="240" text-anchor="middle" fill="#999" font-size="7">ItemKNN, co-occurrence</text>
+  <text x="110" y="252" text-anchor="middle" fill="#999" font-size="7">Start simple, validate first</text>
+
+  <!-- === Medium branch: decision diamond === -->
+  <polygon points="325,180 415,215 325,250 235,215" fill="white" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="325" y="212" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">Need</text>
+  <text x="325" y="223" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">cold-start?</text>
+
+  <!-- Medium -> Yes -->
+  <line x1="235" y1="215" x2="170" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
+  <text x="195" y="258" text-anchor="middle" fill="#3bc4a1" font-size="9" font-weight="600">Yes</text>
+
+  <!-- Medium -> No -->
+  <line x1="415" y1="215" x2="430" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
+  <text x="430" y="258" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="600">No</text>
+
+  <!-- Yes answer: Hybrid/beeFormer -->
+  <rect x="70" y="298" width="160" height="50" rx="10" fill="white" stroke="#3bc4a1" stroke-width="1.2"/>
+  <text x="150" y="318" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Hybrid / beeFormer</text>
+  <text x="150" y="334" text-anchor="middle" fill="#999" font-size="8">Content features bootstrap</text>
+  <text x="150" y="346" text-anchor="middle" fill="#999" font-size="8">new users &amp; items</text>
+
+  <!-- No answer: ALS/EASE -->
+  <rect x="360" y="298" width="140" height="50" rx="10" fill="white" stroke="#f59e0b" stroke-width="1.2"/>
+  <text x="430" y="318" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">ALS / EASE</text>
+  <text x="430" y="334" text-anchor="middle" fill="#999" font-size="8">Efficient, strong baselines</text>
+  <text x="430" y="346" text-anchor="middle" fill="#999" font-size="8">low engineering cost</text>
+
+  <!-- === Dense branch: decision diamond === -->
+  <polygon points="540,175 620,210 540,245 460,210" fill="white" stroke="#3bc4a1" stroke-width="1.5"/>
+  <text x="540" y="207" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">Latency</text>
+  <text x="540" y="218" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">budget?</text>
+
+  <!-- Dense -> <50ms -->
+  <line x1="540" y1="245" x2="540" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
+  <text x="520" y="272" fill="#0c8383" font-size="8" font-weight="600">&lt;50ms</text>
+
+  <!-- Dense -> >200ms -->
+  <line x1="620" y1="210" x2="620" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
+  <text x="628" y="258" fill="#ef4444" font-size="8" font-weight="600">&gt;200ms</text>
+
+  <!-- <50ms answer -->
+  <rect x="470" y="298" width="140" height="50" rx="10" fill="white" stroke="#0c8383" stroke-width="1.2"/>
+  <text x="540" y="316" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Two-Tower</text>
+  <text x="540" y="329" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">+ ANN</text>
+  <text x="540" y="346" text-anchor="middle" fill="#999" font-size="8">Precompute + fast lookup</text>
+
+  <!-- >200ms answer (shifted right, slightly outside) -->
+  <rect x="555" y="298" width="90" height="50" rx="10" fill="white" stroke="#ef4444" stroke-width="1.2"/>
+  <!-- Overlap correction: move >200ms box -->
+
+  <!-- Legend -->
+  <rect x="15" y="370" width="620" height="22" rx="4" fill="white" opacity="0.7"/>
+  <polygon points="30,376 42,381 30,386 18,381" fill="white" stroke="#999" stroke-width="0.5"/>
+  <text x="48" y="384" fill="#666" font-size="8">Decision</text>
+  <rect x="100" y="376" width="24" height="10" rx="5" fill="white" stroke="#999" stroke-width="0.5"/>
+  <text x="130" y="384" fill="#666" font-size="8">Answer</text>
+  <text x="300" y="384" text-anchor="middle" fill="#999" font-size="8">Start simple. Upgrade only when you have evidence that complexity pays off.</text>
+
+  <!-- Fix: >200ms answer repositioned -->
+  <rect x="580" y="298" width="60" height="50" rx="10" fill="white" stroke="#ef4444" stroke-width="1.2"/>
+  <text x="610" y="314" text-anchor="middle" fill="#0b1225" font-size="8" font-weight="600">Deep</text>
+  <text x="610" y="325" text-anchor="middle" fill="#0b1225" font-size="8" font-weight="600">Ranking</text>
+  <text x="610" y="340" text-anchor="middle" fill="#999" font-size="6">DeepFM</text>
+  <text x="610" y="350" text-anchor="middle" fill="#999" font-size="6">DCN</text>
+</svg>

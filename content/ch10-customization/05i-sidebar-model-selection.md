@@ -12,6 +12,8 @@ status: accepted
 
 There is no universally best recommendation algorithm. The right choice depends on your data, your constraints, and the problem you are actually trying to solve -- not the problem that produced the most impressive result in the last paper you read. This section provides a structured decision framework for matching algorithms to real-world conditions.
 
+![Model selection decision tree](/images/diagram-model-selection-tree.svg)
+
 ## The Six Decision Factors
 
 Before comparing algorithms, characterize your problem along six axes. Each one narrows the field of viable approaches.

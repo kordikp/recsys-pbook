@@ -13,6 +13,8 @@ status: accepted
 
 Matrix factorization captures interactions between users and items -- but what about interactions between *features*? A 25-year-old male who watches sci-fi on weekday evenings is a very different signal than any of those features alone. The challenge is modeling these combinatorial feature interactions efficiently and at scale.
 
+![Feature interaction models: FM, DeepFM, DCN](/images/diagram-feature-interactions.svg)
+
 ## Why Feature Interactions Matter
 
 Consider a simple linear model for click-through rate prediction:

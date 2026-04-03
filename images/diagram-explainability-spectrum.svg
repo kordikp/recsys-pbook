@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" width="600" height="250" font-family="system-ui, sans-serif">
+  <rect width="600" height="250" rx="8" fill="#f5f5f4"/>
+
+  <text x="300" y="24" text-anchor="middle" fill="#0b1225" font-size="13" font-weight="700">Explainability Spectrum</text>
+
+  <!-- Top label: accuracy vs interpretability -->
+  <text x="100" y="48" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="500">More accurate</text>
+  <text x="300" y="48" text-anchor="middle" fill="#999" font-size="9">Trade-off</text>
+  <text x="500" y="48" text-anchor="middle" fill="#3bc4a1" font-size="9" font-weight="500">More interpretable</text>
+
+  <!-- Connecting arrows -->
+  <defs>
+    <marker id="arrLeft" markerWidth="6" markerHeight="4" refX="0" refY="2" orient="auto">
+      <polygon points="6,0 0,2 6,4" fill="#0c8383"/>
+    </marker>
+    <marker id="arrRight" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
+      <polygon points="0,0 6,2 0,4" fill="#3bc4a1"/>
+    </marker>
+  </defs>
+  <line x1="150" y1="45" x2="60" y2="45" stroke="#0c8383" stroke-width="1" marker-end="url(#arrLeft)"/>
+  <line x1="450" y1="45" x2="540" y2="45" stroke="#3bc4a1" stroke-width="1" marker-end="url(#arrRight)"/>
+
+  <!-- Main spectrum bar -->
+  <rect x="40" y="60" width="520" height="45" rx="22" fill="url(#spectrumGrad)"/>
+  <defs>
+    <linearGradient id="spectrumGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#0b1225"/>
+      <stop offset="50%" stop-color="#666"/>
+      <stop offset="100%" stop-color="#e5e7eb"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Black box section label -->
+  <text x="130" y="79" text-anchor="middle" fill="white" font-size="11" font-weight="600">Black Box</text>
+  <text x="130" y="94" text-anchor="middle" fill="rgba(255,255,255,0.6)" font-size="8">Opaque</text>
+
+  <!-- Gray box section label -->
+  <text x="300" y="79" text-anchor="middle" fill="white" font-size="11" font-weight="600">Gray Box</text>
+  <text x="300" y="94" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-size="8">Semi-transparent</text>
+
+  <!-- Glass box section label -->
+  <text x="470" y="79" text-anchor="middle" fill="#0b1225" font-size="11" font-weight="600">Glass Box</text>
+  <text x="470" y="94" text-anchor="middle" fill="#666" font-size="8">Transparent</text>
+
+  <!-- Divider dots on spectrum -->
+  <circle cx="215" cy="82" r="2" fill="rgba(255,255,255,0.3)"/>
+  <circle cx="385" cy="82" r="2" fill="rgba(255,255,255,0.4)"/>
+
+  <!-- Model examples below spectrum -->
+  <!-- Black Box models -->
+  <rect x="50" y="118" width="160" height="55" rx="6" fill="white" stroke="#0b1225" stroke-width="0.8" opacity="0.9"/>
+  <text x="130" y="136" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">Deep Learning</text>
+  <rect x="65" y="142" width="55" height="14" rx="3" fill="#0b1225" opacity="0.06"/>
+  <text x="92" y="152" text-anchor="middle" fill="#666" font-size="7">Transformers</text>
+  <rect x="125" y="142" width="45" height="14" rx="3" fill="#0b1225" opacity="0.06"/>
+  <text x="147" y="152" text-anchor="middle" fill="#666" font-size="7">Ensembles</text>
+  <rect x="65" y="158" width="55" height="14" rx="3" fill="#0b1225" opacity="0.06"/>
+  <text x="92" y="168" text-anchor="middle" fill="#666" font-size="7">Deep MF</text>
+  <rect x="125" y="158" width="70" height="14" rx="3" fill="#0b1225" opacity="0.06"/>
+  <text x="160" y="168" text-anchor="middle" fill="#666" font-size="7">GNN models</text>
+
+  <!-- Gray Box models -->
+  <rect x="220" y="118" width="160" height="55" rx="6" fill="white" stroke="#888" stroke-width="0.8"/>
+  <text x="300" y="136" text-anchor="middle" fill="#555" font-size="9" font-weight="600">Post-hoc Explanations</text>
+  <rect x="235" y="142" width="65" height="14" rx="3" fill="#888" opacity="0.06"/>
+  <text x="267" y="152" text-anchor="middle" fill="#666" font-size="7">Attention wts</text>
+  <rect x="305" y="142" width="35" height="14" rx="3" fill="#888" opacity="0.06"/>
+  <text x="322" y="152" text-anchor="middle" fill="#666" font-size="7">SHAP</text>
+  <rect x="345" y="142" width="30" height="14" rx="3" fill="#888" opacity="0.06"/>
+  <text x="360" y="152" text-anchor="middle" fill="#666" font-size="7">LIME</text>
+  <rect x="235" y="158" width="60" height="14" rx="3" fill="#888" opacity="0.06"/>
+  <text x="265" y="168" text-anchor="middle" fill="#666" font-size="7">Saliency maps</text>
+  <rect x="300" y="158" width="70" height="14" rx="3" fill="#888" opacity="0.06"/>
+  <text x="335" y="168" text-anchor="middle" fill="#666" font-size="7">Counterfactual</text>
+
+  <!-- Glass Box models -->
+  <rect x="390" y="118" width="160" height="55" rx="6" fill="white" stroke="#3bc4a1" stroke-width="0.8"/>
+  <text x="470" y="136" text-anchor="middle" fill="#2a9a7e" font-size="9" font-weight="600">Inherently Interpretable</text>
+  <rect x="405" y="142" width="55" height="14" rx="3" fill="#3bc4a1" opacity="0.06"/>
+  <text x="432" y="152" text-anchor="middle" fill="#666" font-size="7">Decision tree</text>
+  <rect x="465" y="142" width="35" height="14" rx="3" fill="#3bc4a1" opacity="0.06"/>
+  <text x="482" y="152" text-anchor="middle" fill="#666" font-size="7">k-NN</text>
+  <rect x="505" y="142" width="40" height="14" rx="3" fill="#3bc4a1" opacity="0.06"/>
+  <text x="525" y="152" text-anchor="middle" fill="#666" font-size="7">Linear</text>
+  <rect x="405" y="158" width="60" height="14" rx="3" fill="#3bc4a1" opacity="0.06"/>
+  <text x="435" y="168" text-anchor="middle" fill="#666" font-size="7">Rule-based</text>
+  <rect x="470" y="158" width="55" height="14" rx="3" fill="#3bc4a1" opacity="0.06"/>
+  <text x="497" y="168" text-anchor="middle" fill="#666" font-size="7">ItemKNN</text>
+
+  <!-- DSA/GDPR requirement indicator -->
+  <rect x="40" y="195" width="520" height="42" rx="6" fill="white" stroke="#f59e0b" stroke-width="1" stroke-dasharray="4,2"/>
+
+  <!-- Shield icon -->
+  <path d="M60,206 L60,220 Q60,226 70,228 Q80,226 80,220 L80,206 Q70,202 60,206 Z"
+    fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="1"/>
+  <text x="70" y="220" text-anchor="middle" fill="#f59e0b" font-size="8" font-weight="700">!</text>
+
+  <text x="95" y="213" fill="#0b1225" font-size="9" font-weight="600">DSA / GDPR Requirement</text>
+  <text x="95" y="228" fill="#666" font-size="8">EU Digital Services Act requires platforms to explain "the main parameters" of recommender systems.</text>
+  <text x="490" y="228" text-anchor="end" fill="#f59e0b" font-size="8" font-weight="600">Art. 27 DSA</text>
+</svg>

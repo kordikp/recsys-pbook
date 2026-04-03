@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400" font-family="system-ui, sans-serif">
+  <rect width="500" height="400" rx="8" fill="#f5f5f4"/>
+
+  <text x="250" y="24" text-anchor="middle" fill="#0b1225" font-size="13" font-weight="700">Learned Embedding Space</text>
+  <text x="250" y="39" text-anchor="middle" fill="#999" font-size="9">(no metadata used -- purely behavioral)</text>
+
+  <!-- Main plot area -->
+  <rect x="30" y="50" width="440" height="300" rx="4" fill="white" stroke="#e5e7eb" stroke-width="0.5"/>
+
+  <!-- Cluster 1: Action/Thriller (teal, top-left area) -->
+  <circle cx="100" cy="110" r="5" fill="#0c8383" opacity="0.7"/>
+  <circle cx="120" cy="95" r="4" fill="#0c8383" opacity="0.6"/>
+  <circle cx="115" cy="120" r="5" fill="#0c8383" opacity="0.75"/>
+  <circle cx="135" cy="105" r="4" fill="#0c8383" opacity="0.65"/>
+  <circle cx="90" cy="125" r="3" fill="#0c8383" opacity="0.55"/>
+  <circle cx="128" cy="130" r="4" fill="#0c8383" opacity="0.7"/>
+  <circle cx="105" cy="100" r="5" fill="#0c8383" opacity="0.8"/>
+  <circle cx="140" cy="120" r="3" fill="#0c8383" opacity="0.6"/>
+  <circle cx="95" cy="135" r="4" fill="#0c8383" opacity="0.65"/>
+  <circle cx="110" cy="90" r="3" fill="#0c8383" opacity="0.5"/>
+  <circle cx="82" cy="105" r="4" fill="#0c8383" opacity="0.6"/>
+  <circle cx="125" cy="85" r="3" fill="#0c8383" opacity="0.55"/>
+  <!-- Cluster label -->
+  <rect x="60" y="65" width="95" height="18" rx="9" fill="#0c8383" opacity="0.12"/>
+  <text x="107" y="78" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="600">Action / Thriller</text>
+
+  <!-- Cluster 2: Romance/Drama (pink, bottom-left area) -->
+  <circle cx="110" cy="260" r="5" fill="#e879a0" opacity="0.7"/>
+  <circle cx="130" cy="275" r="4" fill="#e879a0" opacity="0.6"/>
+  <circle cx="95" cy="280" r="5" fill="#e879a0" opacity="0.75"/>
+  <circle cx="125" cy="250" r="4" fill="#e879a0" opacity="0.65"/>
+  <circle cx="85" cy="265" r="3" fill="#e879a0" opacity="0.55"/>
+  <circle cx="140" cy="265" r="4" fill="#e879a0" opacity="0.7"/>
+  <circle cx="115" cy="285" r="5" fill="#e879a0" opacity="0.8"/>
+  <circle cx="100" cy="250" r="3" fill="#e879a0" opacity="0.6"/>
+  <circle cx="145" cy="280" r="3" fill="#e879a0" opacity="0.55"/>
+  <circle cx="120" cy="295" r="4" fill="#e879a0" opacity="0.65"/>
+  <circle cx="80" cy="278" r="3" fill="#e879a0" opacity="0.5"/>
+  <!-- Cluster label -->
+  <rect x="62" y="300" width="100" height="18" rx="9" fill="#e879a0" opacity="0.12"/>
+  <text x="112" y="313" text-anchor="middle" fill="#c4577a" font-size="9" font-weight="600">Romance / Drama</text>
+
+  <!-- Cluster 3: Sci-Fi (blue, top-right area) -->
+  <circle cx="370" cy="100" r="5" fill="#4a90d9" opacity="0.7"/>
+  <circle cx="390" cy="115" r="4" fill="#4a90d9" opacity="0.6"/>
+  <circle cx="355" cy="120" r="5" fill="#4a90d9" opacity="0.75"/>
+  <circle cx="385" cy="95" r="4" fill="#4a90d9" opacity="0.65"/>
+  <circle cx="400" cy="105" r="3" fill="#4a90d9" opacity="0.55"/>
+  <circle cx="365" cy="90" r="4" fill="#4a90d9" opacity="0.7"/>
+  <circle cx="375" cy="130" r="5" fill="#4a90d9" opacity="0.8"/>
+  <circle cx="410" cy="120" r="3" fill="#4a90d9" opacity="0.6"/>
+  <circle cx="350" cy="105" r="4" fill="#4a90d9" opacity="0.65"/>
+  <circle cx="395" cy="135" r="3" fill="#4a90d9" opacity="0.5"/>
+  <circle cx="360" cy="135" r="3" fill="#4a90d9" opacity="0.55"/>
+  <!-- Cluster label -->
+  <rect x="345" y="65" width="65" height="18" rx="9" fill="#4a90d9" opacity="0.12"/>
+  <text x="377" y="78" text-anchor="middle" fill="#4a90d9" font-size="9" font-weight="600">Sci-Fi</text>
+
+  <!-- Cluster 4: Documentary (green, bottom-right area) -->
+  <circle cx="370" cy="270" r="5" fill="#3bc4a1" opacity="0.7"/>
+  <circle cx="390" cy="285" r="4" fill="#3bc4a1" opacity="0.6"/>
+  <circle cx="355" cy="260" r="5" fill="#3bc4a1" opacity="0.75"/>
+  <circle cx="405" cy="268" r="4" fill="#3bc4a1" opacity="0.65"/>
+  <circle cx="380" cy="255" r="3" fill="#3bc4a1" opacity="0.55"/>
+  <circle cx="365" cy="290" r="4" fill="#3bc4a1" opacity="0.7"/>
+  <circle cx="395" cy="250" r="5" fill="#3bc4a1" opacity="0.8"/>
+  <circle cx="350" cy="280" r="3" fill="#3bc4a1" opacity="0.6"/>
+  <circle cx="410" cy="285" r="4" fill="#3bc4a1" opacity="0.65"/>
+  <circle cx="385" cy="300" r="3" fill="#3bc4a1" opacity="0.5"/>
+  <!-- Cluster label -->
+  <rect x="340" y="305" width="95" height="18" rx="9" fill="#3bc4a1" opacity="0.12"/>
+  <text x="387" y="318" text-anchor="middle" fill="#2a9a7e" font-size="9" font-weight="600">Documentary</text>
+
+  <!-- Cross-genre items (between clusters) -->
+  <circle cx="230" cy="170" r="4" fill="#999" opacity="0.5"/>
+  <circle cx="250" cy="190" r="3.5" fill="#999" opacity="0.45"/>
+  <circle cx="210" cy="200" r="3" fill="#999" opacity="0.4"/>
+  <circle cx="270" cy="165" r="3" fill="#999" opacity="0.4"/>
+  <circle cx="240" cy="210" r="3.5" fill="#999" opacity="0.45"/>
+
+  <!-- Cross-genre annotation -->
+  <rect x="255" y="178" width="85" height="18" rx="9" fill="#999" opacity="0.08"/>
+  <text x="297" y="190" text-anchor="middle" fill="#999" font-size="7">cross-genre items</text>
+
+  <!-- Annotation arrow: items close together -->
+  <defs>
+    <marker id="arrAnno" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <polygon points="0,0 7,2.5 0,5" fill="#0b1225"/>
+    </marker>
+  </defs>
+
+  <!-- Arrow pointing to cluster -->
+  <line x1="240" y1="100" x2="155" y2="115" stroke="#0b1225" stroke-width="1" marker-end="url(#arrAnno)"/>
+  <rect x="200" y="80" width="175" height="16" rx="4" fill="#0b1225" opacity="0.06"/>
+  <text x="287" y="91" text-anchor="middle" fill="#0b1225" font-size="8" font-weight="500">Items close together = behaviorally similar</text>
+
+  <!-- Bottom note -->
+  <rect x="80" y="365" width="340" height="22" rx="4" fill="#0c8383" opacity="0.06"/>
+  <text x="250" y="380" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="500">Learned embedding space (no metadata used!)</text>
+
+  <!-- Dimension labels -->
+  <text x="250" y="360" text-anchor="middle" fill="#bbb" font-size="7">t-SNE / UMAP projection of learned embeddings</text>
+</svg>

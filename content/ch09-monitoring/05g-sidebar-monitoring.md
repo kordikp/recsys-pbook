@@ -19,6 +19,8 @@ A recommendation system can return HTTP 200 on every request, meet its latency S
 
 This is why recommender systems demand a monitoring philosophy that goes far beyond uptime and error rates. You are monitoring a system that learns from its own output, operates on non-stationary data, and produces effects that may not be visible for days or weeks.
 
+![Production monitoring dashboard](/images/diagram-monitoring-dashboard.svg)
+
 ## Why RecSys Monitoring Is Different
 
 Three properties make recommender systems uniquely challenging to monitor.

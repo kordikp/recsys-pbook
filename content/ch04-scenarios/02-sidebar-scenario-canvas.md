@@ -23,6 +23,8 @@ status: accepted
 
 The canvas works for any recommendation placement in any domain. Below is the framework, followed by two worked examples that show how the same eight questions produce radically different designs for different contexts.
 
+![The Scenario Canvas: 8 design elements](/images/diagram-scenario-canvas.svg)
+
 ## The Eight Elements
 
 ### 1. Entry Point

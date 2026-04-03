@@ -18,6 +18,8 @@ You have trained a recommendation model and produced embeddings -- 128-dimension
 
 You cannot inspect 128 dimensions directly. But you can project them down to 2 or 3 dimensions and look at the result. This is embedding visualization, and it is one of the most powerful tools for understanding, debugging, and communicating what recommendation models do.
 
+![Embedding space visualization with genre clusters](/images/diagram-embedding-visualization.svg)
+
 ## PCA: The Fast First Look
 
 **Principal Component Analysis** projects high-dimensional data onto the directions of maximum variance. It is linear, deterministic, and fast -- you can run it on a million embeddings in seconds.

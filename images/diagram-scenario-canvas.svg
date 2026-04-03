@@ -1,0 +1,127 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 350" width="650" height="350" font-family="system-ui, sans-serif">
+  <defs>
+    <filter id="cardShadow" x="-3%" y="-3%" width="106%" height="106%">
+      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <rect width="650" height="350" rx="8" fill="#f5f5f4"/>
+
+  <!-- Title -->
+  <text x="325" y="28" text-anchor="middle" fill="#0b1225" font-size="14" font-weight="700">The Scenario Canvas</text>
+  <text x="325" y="44" text-anchor="middle" fill="#999" font-size="9">Define each element before choosing an algorithm</text>
+
+  <!-- Card grid: 4 columns x 2 rows -->
+  <!-- Row 1 -->
+
+  <!-- Card 1: Entry Point -->
+  <rect x="20" y="60" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="20" y="60" width="143" height="4" rx="8" fill="#0c8383"/>
+  <circle cx="91" cy="96" r="18" fill="#0c8383" opacity="0.08"/>
+  <!-- Door icon -->
+  <rect x="82" y="83" width="14" height="20" rx="1" fill="none" stroke="#0c8383" stroke-width="1.5"/>
+  <rect x="82" y="83" width="14" height="3" rx="1" fill="#0c8383" opacity="0.3"/>
+  <circle cx="93" cy="94" r="1.5" fill="#0c8383"/>
+  <text x="91" y="120" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Entry Point</text>
+  <text x="91" y="134" text-anchor="middle" fill="#999" font-size="7">Where does the user</text>
+  <text x="91" y="144" text-anchor="middle" fill="#999" font-size="7">encounter recs?</text>
+  <text x="31" y="170" fill="#0c8383" font-size="8" font-weight="600">1</text>
+
+  <!-- Card 2: User State -->
+  <rect x="175" y="60" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="175" y="60" width="143" height="4" rx="8" fill="#0c8383"/>
+  <circle cx="246" cy="96" r="18" fill="#0c8383" opacity="0.08"/>
+  <!-- User icon -->
+  <circle cx="246" cy="88" r="5" fill="none" stroke="#0c8383" stroke-width="1.5"/>
+  <path d="M237,103 Q237,96 246,96 Q255,96 255,103" fill="none" stroke="#0c8383" stroke-width="1.5"/>
+  <text x="246" y="120" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">User State</text>
+  <text x="246" y="134" text-anchor="middle" fill="#999" font-size="7">New, returning,</text>
+  <text x="246" y="144" text-anchor="middle" fill="#999" font-size="7">or anonymous?</text>
+  <text x="186" y="170" fill="#0c8383" font-size="8" font-weight="600">2</text>
+
+  <!-- Card 3: Latency Budget -->
+  <rect x="330" y="60" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="330" y="60" width="143" height="4" rx="8" fill="#3bc4a1"/>
+  <circle cx="401" cy="96" r="18" fill="#3bc4a1" opacity="0.08"/>
+  <!-- Clock icon -->
+  <circle cx="401" cy="95" r="8" fill="none" stroke="#3bc4a1" stroke-width="1.5"/>
+  <line x1="401" y1="95" x2="401" y2="89" stroke="#3bc4a1" stroke-width="1.5"/>
+  <line x1="401" y1="95" x2="406" y2="97" stroke="#3bc4a1" stroke-width="1.5"/>
+  <text x="401" y="120" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Latency Budget</text>
+  <text x="401" y="134" text-anchor="middle" fill="#999" font-size="7">Real-time, near-time,</text>
+  <text x="401" y="144" text-anchor="middle" fill="#999" font-size="7">or batch?</text>
+  <text x="341" y="170" fill="#3bc4a1" font-size="8" font-weight="600">3</text>
+
+  <!-- Card 4: Candidate Pool -->
+  <rect x="485" y="60" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="485" y="60" width="143" height="4" rx="8" fill="#3bc4a1"/>
+  <circle cx="556" cy="96" r="18" fill="#3bc4a1" opacity="0.08"/>
+  <!-- Database icon -->
+  <ellipse cx="556" cy="88" rx="9" ry="4" fill="none" stroke="#3bc4a1" stroke-width="1.5"/>
+  <path d="M547,88 L547,100 Q547,104 556,104 Q565,104 565,100 L565,88" fill="none" stroke="#3bc4a1" stroke-width="1.5"/>
+  <ellipse cx="556" cy="94" rx="9" ry="3" fill="none" stroke="#3bc4a1" stroke-width="0.8" opacity="0.5"/>
+  <text x="556" y="120" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Candidate Pool</text>
+  <text x="556" y="134" text-anchor="middle" fill="#999" font-size="7">How many items</text>
+  <text x="556" y="144" text-anchor="middle" fill="#999" font-size="7">to choose from?</text>
+  <text x="496" y="170" fill="#3bc4a1" font-size="8" font-weight="600">4</text>
+
+  <!-- Row 2 -->
+
+  <!-- Card 5: Constraints -->
+  <rect x="20" y="195" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="20" y="195" width="143" height="4" rx="8" fill="#f59e0b"/>
+  <circle cx="91" cy="231" r="18" fill="#f59e0b" opacity="0.08"/>
+  <!-- Lock icon -->
+  <rect x="84" y="231" width="14" height="12" rx="2" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+  <path d="M87,231 L87,226 Q87,222 91,222 Q95,222 95,226 L95,231" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+  <circle cx="91" cy="237" r="1.5" fill="#f59e0b"/>
+  <text x="91" y="257" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Constraints</text>
+  <text x="91" y="271" text-anchor="middle" fill="#999" font-size="7">Business rules,</text>
+  <text x="91" y="281" text-anchor="middle" fill="#999" font-size="7">legal, editorial?</text>
+  <text x="31" y="305" fill="#f59e0b" font-size="8" font-weight="600">5</text>
+
+  <!-- Card 6: Exploration Policy -->
+  <rect x="175" y="195" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="175" y="195" width="143" height="4" rx="8" fill="#f59e0b"/>
+  <circle cx="246" cy="231" r="18" fill="#f59e0b" opacity="0.08"/>
+  <!-- Compass icon -->
+  <circle cx="246" cy="231" r="9" fill="none" stroke="#f59e0b" stroke-width="1.5"/>
+  <polygon points="246,223 248,230 246,233 244,230" fill="#f59e0b" opacity="0.5"/>
+  <polygon points="246,239 244,232 246,229 248,232" fill="#f59e0b"/>
+  <text x="246" y="257" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Exploration Policy</text>
+  <text x="246" y="271" text-anchor="middle" fill="#999" font-size="7">How much to explore</text>
+  <text x="246" y="281" text-anchor="middle" fill="#999" font-size="7">vs exploit?</text>
+  <text x="186" y="305" fill="#f59e0b" font-size="8" font-weight="600">6</text>
+
+  <!-- Card 7: Success Metrics -->
+  <rect x="330" y="195" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="330" y="195" width="143" height="4" rx="8" fill="#ef4444"/>
+  <circle cx="401" cy="231" r="18" fill="#ef4444" opacity="0.08"/>
+  <!-- Chart icon -->
+  <rect x="390" y="236" width="4" height="10" rx="1" fill="#ef4444" opacity="0.5"/>
+  <rect x="396" y="230" width="4" height="16" rx="1" fill="#ef4444" opacity="0.7"/>
+  <rect x="402" y="226" width="4" height="20" rx="1" fill="#ef4444"/>
+  <rect x="408" y="233" width="4" height="13" rx="1" fill="#ef4444" opacity="0.6"/>
+  <text x="401" y="257" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Success Metrics</text>
+  <text x="401" y="271" text-anchor="middle" fill="#999" font-size="7">CTR, revenue,</text>
+  <text x="401" y="281" text-anchor="middle" fill="#999" font-size="7">engagement, diversity?</text>
+  <text x="341" y="305" fill="#ef4444" font-size="8" font-weight="600">7</text>
+
+  <!-- Card 8: Evaluation Plan -->
+  <rect x="485" y="195" width="143" height="120" rx="8" fill="white" filter="url(#cardShadow)" stroke="#e5e7eb" stroke-width="0.5"/>
+  <rect x="485" y="195" width="143" height="4" rx="8" fill="#ef4444"/>
+  <circle cx="556" cy="231" r="18" fill="#ef4444" opacity="0.08"/>
+  <!-- Clipboard icon -->
+  <rect x="548" y="226" width="16" height="20" rx="2" fill="none" stroke="#ef4444" stroke-width="1.5"/>
+  <rect x="552" y="223" width="8" height="5" rx="1" fill="none" stroke="#ef4444" stroke-width="1"/>
+  <line x1="552" y1="234" x2="560" y2="234" stroke="#ef4444" stroke-width="0.8" opacity="0.5"/>
+  <line x1="552" y1="238" x2="560" y2="238" stroke="#ef4444" stroke-width="0.8" opacity="0.5"/>
+  <line x1="552" y1="242" x2="558" y2="242" stroke="#ef4444" stroke-width="0.8" opacity="0.5"/>
+  <text x="556" y="257" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Evaluation Plan</text>
+  <text x="556" y="271" text-anchor="middle" fill="#999" font-size="7">Offline, A/B test,</text>
+  <text x="556" y="281" text-anchor="middle" fill="#999" font-size="7">or interleaving?</text>
+  <text x="496" y="305" fill="#ef4444" font-size="8" font-weight="600">8</text>
+
+  <!-- Bottom note -->
+  <text x="325" y="340" text-anchor="middle" fill="#999" font-size="8">Fill in all 8 elements for each recommendation scenario before choosing an approach.</text>
+</svg>

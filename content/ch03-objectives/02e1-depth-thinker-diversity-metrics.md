@@ -18,6 +18,8 @@ Recommender systems that optimize purely for relevance tend to converge on a nar
 
 The research community has developed a family of formal metrics to quantify different dimensions of what we loosely call "diversity." These metrics are not interchangeable -- each captures a distinct aspect of variety, and a system can score well on one while failing badly on another.
 
+![Diversity metrics: ILD, coverage, novelty, serendipity](/images/diagram-diversity-metrics.svg)
+
 ## Why Diversity Matters
 
 Three distinct concerns motivate diversity in recommendation:

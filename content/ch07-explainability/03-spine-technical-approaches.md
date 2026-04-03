@@ -21,6 +21,8 @@ status: accepted
 
 A recommendation system can be made explainable in two fundamentally different ways: build a model that is transparent by design, or build a powerful model and then construct explanations after the fact. Each approach involves real engineering tradeoffs, and understanding those tradeoffs is essential for choosing the right strategy.
 
+![Explainability spectrum from black box to glass box](/images/diagram-explainability-spectrum.svg)
+
 ## Intrinsic Methods: Models You Can Read
 
 Some model families produce predictions whose logic can be directly inspected. These are **intrinsically interpretable** -- the explanation is the model itself.

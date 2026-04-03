@@ -14,6 +14,8 @@ Not all content ages the same way. A breaking news article about an earthquake i
 
 This is the freshness problem, and it's one of the most domain-dependent challenges in recommendation design.
 
+![Freshness decay curves across domains](/images/diagram-freshness-decay.svg)
+
 ## The Shelf Life of Content
 
 Different domains have radically different freshness windows:

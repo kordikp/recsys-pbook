@@ -21,6 +21,8 @@ status: accepted
 
 Academic papers give you the theory. Benchmarks give you a leaderboard. But production systems give you the truth: what actually works when millions of users interact with your recommendations every day. These five case studies span music, video, news, and multi-domain platforms — each revealing lessons that no benchmark can teach.
 
+![Measured impact across domains](/images/diagram-case-study-results.svg)
+
 ## 1. Spotify Discover Weekly
 
 ### The Problem
