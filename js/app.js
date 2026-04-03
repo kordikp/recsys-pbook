@@ -497,13 +497,26 @@ class PBook {
       html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
 
-    // Recently added — new content in the last 30 days
-    const newBlocks = this.allBlocks
-      .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
-      .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt))
-      .slice(0, 12);
-    if (newBlocks.length) {
-      html += this.shelf('Recently added', newBlocks.map(b => this.cardHtml(b.meta)));
+    // Recently added — new content (publishedAt within 30 days)
+    // Try Recombee first with publishedAt filter, fallback to local
+    let newCards = [];
+    try {
+      const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
+      const newRecs = await this.rc.getRecsForUser('homepage-personal', 12,
+        `'type' == "spine" AND 'publishedAt' >= "${cutoff}"`, this.rc.reqlBoost(this.user));
+      if (newRecs?.recomms?.length) {
+        newCards = newRecs.recomms.map(r => this.cardFromRec(r)).filter(Boolean);
+      }
+    } catch(e) { /* Recombee unavailable, use fallback */ }
+    if (!newCards.length) {
+      const newBlocks = this.allBlocks
+        .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
+        .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt))
+        .slice(0, 12);
+      newCards = newBlocks.map(b => this.cardHtml(b.meta));
+    }
+    if (newCards.length) {
+      html += this.shelf('Recently added', newCards);
     }
 
     // Recall cards — show due + almost due (within 30 min)
@@ -1150,7 +1163,7 @@ class PBook {
   }
   _renderSideNote(blockId, n) {
     const icon = n.type === 'user' ? '\u{1F4DD}' : '\u{1F4CC}';
-    const searchText = n.type === 'user' ? (n.quote || '') : n.text;
+    const searchText = n.type === 'user' ? (n.quote || '') : (typeof n.text === 'string' ? n.text : String(n.text || ''));
     const clickAttr = searchText ? ` onclick="app.scrollToHighlight('${blockId}','${searchText.substring(0, 60).replace(/'/g, "\\'").replace(/\n/g, ' ')}')"` : '';
     if (n.type === 'user') {
       const quoteHtml = n.quote ? `<span class="snote-quote">"${this.escHtml(n.quote)}"</span>` : '';
