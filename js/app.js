@@ -497,26 +497,15 @@ class PBook {
       html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
     }
 
-    // Recently added — new content (publishedAt within 30 days)
-    // Try Recombee first with publishedAt filter, fallback to local
-    let newCards = [];
-    try {
-      const cutoff = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10);
-      const newRecs = await this.rc.getRecsForUser('homepage-personal', 12,
-        `'type' == "spine" AND 'publishedAt' >= "${cutoff}"`, this.rc.reqlBoost(this.user));
-      if (newRecs?.recomms?.length) {
-        newCards = newRecs.recomms.map(r => this.cardFromRec(r)).filter(Boolean);
-      }
-    } catch(e) { /* Recombee unavailable, use fallback */ }
-    if (!newCards.length) {
+    // Recently added — new content (publishedAt within 30 days), local only
+    {
       const newBlocks = this.allBlocks
         .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
         .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt))
         .slice(0, 12);
-      newCards = newBlocks.map(b => this.cardHtml(b.meta));
-    }
-    if (newCards.length) {
-      html += this.shelf('Recently added', newCards);
+      if (newBlocks.length) {
+        html += this.shelf('Recently added', newBlocks.map(b => this.cardHtml(b.meta)));
+      }
     }
 
     // Recall cards — show due + almost due (within 30 min)

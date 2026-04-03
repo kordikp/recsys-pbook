@@ -269,6 +269,10 @@ export class RecombeeClient {
         delete body.scenario;
         result = await this.api('POST', `/recomms/users/${this.userId}/items/`, body);
       }
+      // Retry with minimal params if still failing (filter/booster might be invalid)
+      if (!result) {
+        result = await this.api('POST', `/recomms/users/${this.userId}/items/`, { count, cascadeCreate: true });
+      }
       if (result) {
         if (result.recommId) this._lastRecommId = result.recommId;
         return result;
