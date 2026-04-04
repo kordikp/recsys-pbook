@@ -12,6 +12,8 @@ status: accepted
 
 Building a recommender system from scratch is instructive, but in practice you rarely start from zero. A rich ecosystem of open-source libraries and frameworks covers everything from rapid prototyping of collaborative filtering algorithms to serving billion-scale embedding indices in production. This section surveys the most useful tools, organized by where they fit in a typical recommendation pipeline.
 
+![Open-source RecSys ecosystem: learning, production, research](/images/anim-open-source-ecosystem.svg)
+
 ## Python Libraries for Prototyping and Research
 
 These libraries let you train and evaluate recommendation models in a notebook environment with minimal boilerplate. They are the right starting point for understanding algorithm behavior, running offline experiments, and establishing baselines before committing to a production architecture.

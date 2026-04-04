@@ -12,6 +12,8 @@ status: accepted
 
 Most recommendation systems have one job: find the best items for a user. Marketplaces have two. An Airbnb search must satisfy the guest looking for a place to stay *and* the host deciding whether to accept the booking. An Uber dispatch must match a rider who wants a fast pickup *and* a driver who wants a profitable trip. A job platform must surface candidates that employers want to interview *and* jobs that candidates actually want to apply for. When both sides of the transaction have preferences, constraints, and economic incentives, the recommendation problem changes in fundamental ways.
 
+![Marketplace recommendation patterns](/images/anim-benchmark-comparison.svg)
+
 ## The Two-Sided Problem
 
 In a one-sided system like Netflix, the catalog is passive. A movie does not reject a viewer. The system ranks items by predicted relevance, and the user chooses. In a two-sided marketplace, the "items" are active participants with their own preferences and constraints. This creates a matching problem rather than a pure ranking problem.

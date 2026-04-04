@@ -21,6 +21,8 @@ Counterfactual reasoning asks the harder question: **"Would users have interacte
 
 ![Counterfactual: what happened vs what would have happened](/images/anim-counterfactual.svg)
 
+![Correlation vs causation in recommendation evaluation](/images/anim-causal-vs-correlation.svg)
+
 ## Why Correlation Isn't Enough
 
 Consider this scenario: you recommend a blockbuster movie to 1,000 users. 500 of them watch it. Great performance?

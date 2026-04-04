@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 200" font-family="system-ui,sans-serif">
+  <style>
+    .alert { opacity: 0; animation: fadeIn 0.5s ease forwards; }
+    .a1{animation-delay:.3s} .a2{animation-delay:.9s} .a3{animation-delay:1.5s}
+    @keyframes fadeIn { to { opacity: 1; } }
+    .pulse-green { animation: pulseG 3s ease-in-out infinite; animation-delay:1s; }
+    .pulse-amber { animation: pulseA 1.5s ease-in-out infinite; animation-delay:1.5s; }
+    .pulse-red { animation: pulseR 0.6s ease-in-out infinite; animation-delay:2s; }
+    @keyframes pulseG { 0%,100%{opacity:.6} 50%{opacity:1} }
+    @keyframes pulseA { 0%,100%{opacity:.6} 50%{opacity:1} }
+    @keyframes pulseR { 0%,100%{opacity:.7} 50%{opacity:1} }
+  </style>
+  <rect width="550" height="200" fill="#f5f5f4" rx="12"/>
+  <text x="275" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#0b1225">Alert Severity Levels</text>
+  <!-- INFO -->
+  <g class="alert a1"><rect x="15" y="45" width="165" height="140" rx="8" fill="#10B981" opacity="0.1" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="97" cy="80" r="18" fill="#10B981" class="pulse-green"/><text x="97" y="85" text-anchor="middle" font-size="14" fill="white" font-weight="700">✓</text>
+    <text x="97" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#10B981">INFO</text>
+    <text x="97" y="132" text-anchor="middle" font-size="10" fill="#666">Metrics normal</text>
+    <text x="97" y="147" text-anchor="middle" font-size="10" fill="#666">No action needed</text>
+    <text x="97" y="170" text-anchor="middle" font-size="9" fill="#10B981">Weekly review</text></g>
+  <!-- WARNING -->
+  <g class="alert a2"><rect x="192" y="45" width="165" height="140" rx="8" fill="#f59e0b" opacity="0.1" stroke="#f59e0b" stroke-width="1.5"/>
+    <circle cx="274" cy="80" r="18" fill="#f59e0b" class="pulse-amber"/><text x="274" y="86" text-anchor="middle" font-size="16" fill="white" font-weight="700">!</text>
+    <text x="274" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#f59e0b">WARNING</text>
+    <text x="274" y="132" text-anchor="middle" font-size="10" fill="#666">Drift detected</text>
+    <text x="274" y="147" text-anchor="middle" font-size="10" fill="#666">Investigate within 24h</text>
+    <text x="274" y="170" text-anchor="middle" font-size="9" fill="#f59e0b">Slack notification</text></g>
+  <!-- CRITICAL -->
+  <g class="alert a3"><rect x="370" y="45" width="165" height="140" rx="8" fill="#ef4444" opacity="0.1" stroke="#ef4444" stroke-width="2"/>
+    <circle cx="452" cy="80" r="18" fill="#ef4444" class="pulse-red"/><text x="452" y="86" text-anchor="middle" font-size="16" fill="white" font-weight="700">✕</text>
+    <text x="452" y="115" text-anchor="middle" font-size="13" font-weight="700" fill="#ef4444">CRITICAL</text>
+    <text x="452" y="132" text-anchor="middle" font-size="10" fill="#666">System degraded</text>
+    <text x="452" y="147" text-anchor="middle" font-size="10" fill="#666">Activate fallback NOW</text>
+    <text x="452" y="170" text-anchor="middle" font-size="9" fill="#ef4444">Page on-call engineer</text></g>
+</svg>

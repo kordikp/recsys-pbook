@@ -21,6 +21,8 @@ status: accepted
 
 Every software system needs monitoring. But recommendation systems need a fundamentally different kind of monitoring than traditional applications -- and the teams that discover this late pay for it with silent degradation, user churn, and weeks of debugging that could have been minutes.
 
+![Alert severity levels: info, warning, critical](/images/anim-monitoring-alerts.svg)
+
 ## The Illusion of Health
 
 A standard web service has clear failure modes: it crashes, it returns errors, it exceeds latency budgets. Monitoring these is well-understood. Prometheus, Grafana, PagerDuty -- the toolchain is mature, and the failure signals are unambiguous.

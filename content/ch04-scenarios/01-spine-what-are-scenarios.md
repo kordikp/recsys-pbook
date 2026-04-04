@@ -23,6 +23,8 @@ One of the most consequential mistakes in recommendation engineering is treating
 
 The concept of a **recommendation scenario** formalizes this insight: each placement where recommendations appear in a product is a distinct scenario with its own configuration, algorithm selection, business rules, and success metrics.
 
+![Six recommendation scenario types](/images/anim-scenario-types.svg)
+
 ## Why Context Changes Everything
 
 Consider two recommendation placements on the same e-commerce platform:

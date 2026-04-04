@@ -21,6 +21,8 @@ status: accepted
 
 A recommendation system will fail. Not might -- will. The model will serve degenerate results. A data pipeline will silently break. A deployment will ship the wrong artifact. The question is not whether an incident will occur but whether the team has a response plan that minimizes user impact and maximizes learning.
 
+![Incident response lifecycle: detect to post-mortem](/images/anim-incident-response.svg)
+
 ## Step 1: Detection
 
 The hardest part of a recommendation incident is knowing it is happening. Unlike a service outage, where users see error pages and support tickets spike immediately, a recommendation quality failure is often **silent**. The system continues serving results. The results are just wrong.

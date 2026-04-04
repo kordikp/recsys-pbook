@@ -21,6 +21,8 @@ You've studied how recommendation systems work from the consumer's side. Now let
 
 This isn't about gaming the system. It's about understanding what recommendation algorithms value and aligning your content strategy accordingly.
 
+![Content discoverability funnel](/images/anim-get-recommended.svg)
+
 ## Universal Principles (Cross-Platform)
 
 Every recommendation system, regardless of platform, optimizes around these signals:

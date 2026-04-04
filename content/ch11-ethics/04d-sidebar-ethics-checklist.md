@@ -19,6 +19,8 @@ Building a recommendation system that works is an engineering problem. Building 
 
 This is not a compliance form. It is a thinking tool. The value is not in checking boxes -- it is in the conversations each question forces your team to have.
 
+![Ethics checklist with animated checkmarks](/images/anim-ethics-checklist.svg)
+
 ## User Impact
 
 **Does the system optimize for user well-being, not just engagement?** Engagement metrics -- clicks, watch time, session depth -- are easy to measure but are poor proxies for user satisfaction. A system that maximizes watch time may be exploiting compulsive behavior rather than delivering value. Define what "well-being" means for your specific user population and measure it directly, even if the metrics are noisier and harder to collect.

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui,sans-serif">
+  <style>
+    .stage{opacity:0;animation:fadeIn .5s ease forwards}
+    .st1{animation-delay:.2s}.st2{animation-delay:.6s}.st3{animation-delay:1.0s}.st4{animation-delay:1.4s}.st5{animation-delay:1.8s}
+    @keyframes fadeIn{to{opacity:1}}
+    .funnel{animation:narrow 2s ease-in-out infinite;animation-delay:2.5s}
+    @keyframes narrow{0%,100%{opacity:1}50%{opacity:.7}}
+  </style>
+  <rect width="600" height="250" fill="#f5f5f4" rx="12"/>
+  <text x="300" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#0b1225">Content Discoverability Funnel</text>
+  <g class="stage st1"><rect x="20" y="50" width="100" height="70" rx="8" fill="#0c8383"/><text x="70" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="white">PUBLISH</text><text x="70" y="93" text-anchor="middle" font-size="18" fill="white">1000</text><text x="70" y="108" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.7)">new items/day</text></g>
+  <path d="M125 85 L145 85" stroke="#0b1225" stroke-width="1.5" fill="none" marker-end="url(#ah2)" class="stage st1"/>
+  <g class="stage st2"><rect x="150" y="55" width="100" height="60" rx="8" fill="#3bc4a1"/><text x="200" y="80" text-anchor="middle" font-size="10" font-weight="700" fill="white">DISCOVER</text><text x="200" y="98" text-anchor="middle" font-size="16" fill="white">200</text></g>
+  <path d="M255 85 L275 85" stroke="#0b1225" stroke-width="1.5" fill="none" marker-end="url(#ah2)" class="stage st2"/>
+  <g class="stage st3"><rect x="280" y="60" width="100" height="50" rx="8" fill="#f59e0b"/><text x="330" y="82" text-anchor="middle" font-size="10" font-weight="700" fill="white">TEST</text><text x="330" y="98" text-anchor="middle" font-size="14" fill="white">50</text></g>
+  <path d="M385 85 L405 85" stroke="#0b1225" stroke-width="1.5" fill="none" marker-end="url(#ah2)" class="stage st3"/>
+  <g class="stage st4"><rect x="410" y="65" width="90" height="40" rx="8" fill="#0b1225"/><text x="455" y="84" text-anchor="middle" font-size="10" font-weight="700" fill="white">SCALE</text><text x="455" y="98" text-anchor="middle" font-size="12" fill="#3bc4a1">10</text></g>
+  <path d="M505 85 L520 85" stroke="#0b1225" stroke-width="1.5" fill="none" marker-end="url(#ah2)" class="stage st4"/>
+  <g class="stage st5"><rect x="525" y="68" width="60" height="35" rx="8" fill="#ef4444" opacity=".8"/><text x="555" y="86" text-anchor="middle" font-size="9" font-weight="700" fill="white">VIRAL</text><text x="555" y="98" text-anchor="middle" font-size="10" fill="white">1?</text></g>
+  <g class="stage st5">
+    <text x="300" y="160" text-anchor="middle" font-size="11" fill="#0b1225" font-weight="600">Key levers at each stage:</text>
+    <text x="300" y="178" text-anchor="middle" font-size="10" fill="#666">Metadata + SEO → Algorithm match → First 3 seconds → Engagement signals → Sharing</text>
+    <text x="300" y="198" text-anchor="middle" font-size="10" fill="#0c8383" font-weight="600">Quality x Discoverability = Success</text>
+  </g>
+  <defs><marker id="ah2" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#0b1225"/></marker></defs>
+</svg>

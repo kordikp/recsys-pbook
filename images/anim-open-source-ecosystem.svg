@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" font-family="system-ui,sans-serif">
+  <style>
+    .col { opacity: 0; animation: fadeIn 0.5s ease forwards; }
+    .c1 { animation-delay: 0.2s; } .c2 { animation-delay: 0.8s; } .c3 { animation-delay: 1.4s; }
+    .tool { opacity: 0; animation: slideUp 0.4s ease forwards; }
+    .t1{animation-delay:.4s} .t2{animation-delay:.6s} .t3{animation-delay:1.0s}
+    .t4{animation-delay:1.2s} .t5{animation-delay:1.6s} .t6{animation-delay:1.8s} .t7{animation-delay:2.0s}
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes slideUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  </style>
+  <rect width="650" height="300" fill="#f5f5f4" rx="12"/>
+  <text x="325" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#0b1225">Open-Source RecSys Ecosystem</text>
+  <g class="col c1"><rect x="20" y="45" width="195" height="240" rx="10" fill="#0c8383" opacity="0.08"/><text x="117" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#0c8383">Learning</text></g>
+  <g class="tool t1"><rect x="35" y="80" width="165" height="42" rx="6" fill="white" stroke="#0c8383" stroke-width="1.5"/><text x="117" y="98" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">Surprise</text><text x="117" y="113" text-anchor="middle" font-size="9" fill="#666">Simple CF algorithms</text></g>
+  <g class="tool t2"><rect x="35" y="130" width="165" height="42" rx="6" fill="white" stroke="#0c8383" stroke-width="1.5"/><text x="117" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">RecBole</text><text x="117" y="163" text-anchor="middle" font-size="9" fill="#666">70+ models, benchmarks</text></g>
+  <g class="tool t2"><rect x="35" y="180" width="165" height="42" rx="6" fill="white" stroke="#0c8383" stroke-width="1.5"/><text x="117" y="198" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">Implicit</text><text x="117" y="213" text-anchor="middle" font-size="9" fill="#666">ALS, BPR (fast C++)</text></g>
+  <g class="col c2"><rect x="228" y="45" width="195" height="240" rx="10" fill="#3bc4a1" opacity="0.08"/><text x="325" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#3bc4a1">Production</text></g>
+  <g class="tool t3"><rect x="243" y="80" width="165" height="42" rx="6" fill="white" stroke="#3bc4a1" stroke-width="1.5"/><text x="325" y="98" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">Merlin (NVIDIA)</text><text x="325" y="113" text-anchor="middle" font-size="9" fill="#666">GPU-accelerated pipeline</text></g>
+  <g class="tool t4"><rect x="243" y="130" width="165" height="42" rx="6" fill="white" stroke="#3bc4a1" stroke-width="1.5"/><text x="325" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">TFRS</text><text x="325" y="163" text-anchor="middle" font-size="9" fill="#666">TF ecosystem, two-tower</text></g>
+  <g class="tool t4"><rect x="243" y="180" width="165" height="42" rx="6" fill="white" stroke="#3bc4a1" stroke-width="1.5"/><text x="325" y="198" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">FAISS (Meta)</text><text x="325" y="213" text-anchor="middle" font-size="9" fill="#666">Billion-scale ANN search</text></g>
+  <g class="col c3"><rect x="436" y="45" width="195" height="240" rx="10" fill="#f59e0b" opacity="0.08"/><text x="533" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#f59e0b">Research</text></g>
+  <g class="tool t5"><rect x="451" y="80" width="165" height="42" rx="6" fill="white" stroke="#f59e0b" stroke-width="1.5"/><text x="533" y="98" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">ELSA</text><text x="533" y="113" text-anchor="middle" font-size="9" fill="#666">Scalable linear autoencoder</text></g>
+  <g class="tool t6"><rect x="451" y="130" width="165" height="42" rx="6" fill="white" stroke="#f59e0b" stroke-width="1.5"/><text x="533" y="148" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">beeFormer</text><text x="533" y="163" text-anchor="middle" font-size="9" fill="#666">Text to behavioral embeddings</text></g>
+  <g class="tool t7"><rect x="451" y="180" width="165" height="42" rx="6" fill="white" stroke="#f59e0b" stroke-width="1.5"/><text x="533" y="198" text-anchor="middle" font-size="12" font-weight="600" fill="#0b1225">CompresSAE</text><text x="533" y="213" text-anchor="middle" font-size="9" fill="#666">12x embedding compression</text></g>
+</svg>

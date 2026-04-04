@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" font-family="system-ui,sans-serif">
+  <style>
+    .item { opacity: 0; animation: slideIn 0.4s ease forwards; }
+    .i1{animation-delay:.2s} .i2{animation-delay:.5s} .i3{animation-delay:.8s}
+    .i4{animation-delay:1.1s} .i5{animation-delay:1.4s} .i6{animation-delay:1.7s}
+    .check { stroke-dasharray: 20; stroke-dashoffset: 20; animation: drawCheck 0.4s ease forwards; }
+    .ck1{animation-delay:.5s} .ck2{animation-delay:.8s} .ck3{animation-delay:1.1s}
+    .ck4{animation-delay:1.4s} .ck5{animation-delay:1.7s} .ck6{animation-delay:2.0s}
+    @keyframes slideIn { from { opacity:0; transform:translateX(-20px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+  </style>
+  <rect width="500" height="350" fill="#f5f5f4" rx="12"/>
+  <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#0b1225">RecSys Ethics Checklist</text>
+  <!-- Items -->
+  <g class="item i1"><rect x="30" y="50" width="440" height="38" rx="6" fill="white" stroke="#0c8383" stroke-width="1.5"/>
+    <circle cx="55" cy="69" r="12" fill="#0c8383" opacity="0.15"/><path d="M49 69 L53 73 L61 65" fill="none" stroke="#0c8383" stroke-width="2.5" stroke-linecap="round" class="check ck1"/>
+    <text x="75" y="73" font-size="12" font-weight="600" fill="#0b1225">User Impact</text><text x="280" y="73" font-size="10" fill="#666">Optimize for well-being, not just engagement</text></g>
+  <g class="item i2"><rect x="30" y="96" width="440" height="38" rx="6" fill="white" stroke="#3bc4a1" stroke-width="1.5"/>
+    <circle cx="55" cy="115" r="12" fill="#3bc4a1" opacity="0.15"/><path d="M49 115 L53 119 L61 111" fill="none" stroke="#3bc4a1" stroke-width="2.5" stroke-linecap="round" class="check ck2"/>
+    <text x="75" y="119" font-size="12" font-weight="600" fill="#0b1225">Fairness</text><text x="280" y="119" font-size="10" fill="#666">Equitable exposure across creators</text></g>
+  <g class="item i3"><rect x="30" y="142" width="440" height="38" rx="6" fill="white" stroke="#f59e0b" stroke-width="1.5"/>
+    <circle cx="55" cy="161" r="12" fill="#f59e0b" opacity="0.15"/><path d="M49 161 L53 165 L61 157" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" class="check ck3"/>
+    <text x="75" y="165" font-size="12" font-weight="600" fill="#0b1225">Privacy</text><text x="280" y="165" font-size="10" fill="#666">Collect only necessary data, GDPR/CCPA</text></g>
+  <g class="item i4"><rect x="30" y="188" width="440" height="38" rx="6" fill="white" stroke="#ef4444" stroke-width="1.5"/>
+    <circle cx="55" cy="207" r="12" fill="#ef4444" opacity="0.15"/><path d="M49 207 L53 211 L61 203" fill="none" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round" class="check ck4"/>
+    <text x="75" y="211" font-size="12" font-weight="600" fill="#0b1225">Safety</text><text x="280" y="211" font-size="10" fill="#666">Content moderation, no radicalization</text></g>
+  <g class="item i5"><rect x="30" y="234" width="440" height="38" rx="6" fill="white" stroke="#0b1225" stroke-width="1.5"/>
+    <circle cx="55" cy="253" r="12" fill="#0b1225" opacity="0.15"/><path d="M49 253 L53 257 L61 249" fill="none" stroke="#0b1225" stroke-width="2.5" stroke-linecap="round" class="check ck5"/>
+    <text x="75" y="257" font-size="12" font-weight="600" fill="#0b1225">Transparency</text><text x="280" y="257" font-size="10" fill="#666">Document objectives, explain decisions</text></g>
+  <g class="item i6"><rect x="30" y="280" width="440" height="38" rx="6" fill="white" stroke="#0c8383" stroke-width="1.5"/>
+    <circle cx="55" cy="299" r="12" fill="#0c8383" opacity="0.15"/><path d="M49 299 L53 303 L61 295" fill="none" stroke="#0c8383" stroke-width="2.5" stroke-linecap="round" class="check ck6"/>
+    <text x="75" y="303" font-size="12" font-weight="600" fill="#0b1225">Accountability</text><text x="280" y="303" font-size="10" fill="#666">Clear ownership, incident response</text></g>
+</svg>

@@ -19,6 +19,8 @@ status: accepted
 
 This section provides a reference for the key mathematical formulas underlying recommendation systems. The goal is not rote memorization but rather building fluency -- you should be able to recognize each formula, understand what it measures, and know when to apply it.
 
+![Key RecSys formulas: cosine similarity, nDCG, BPR](/images/anim-formulas-overview.svg)
+
 ## 1. Cosine Similarity — "Are we pointing the same direction?"
 
 $$\text{sim}(A, B) = \frac{A \cdot B}{\|A\| \times \|B\|} = \frac{\sum_{i=1}^{n} a_i b_i}{\sqrt{\sum_{i=1}^{n} a_i^2} \times \sqrt{\sum_{i=1}^{n} b_i^2}}$$
