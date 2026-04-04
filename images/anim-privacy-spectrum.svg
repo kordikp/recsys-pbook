@@ -1,41 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes tiltLeft {
-      0%, 100% { transform: rotate(-8deg); }
-      50% { transform: rotate(8deg); }
-    }
-    @keyframes tiltRight {
-      0%, 100% { transform: rotate(8deg); }
-      50% { transform: rotate(-8deg); }
-    }
-    @keyframes beamTilt {
-      0%, 100% { transform: rotate(-6deg); }
-      50% { transform: rotate(6deg); }
-    }
-    @keyframes panLeft {
-      0%, 100% { transform: translateY(12px); }
-      50% { transform: translateY(-12px); }
-    }
-    @keyframes panRight {
-      0%, 100% { transform: translateY(-12px); }
-      50% { transform: translateY(12px); }
-    }
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes labelSlide {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes labelFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    .beam { transform-origin: 300px 90px; animation: beamTilt 4s ease-in-out infinite; }
-    .left-pan { animation: panLeft 4s ease-in-out infinite; }
-    .right-pan { animation: panRight 4s ease-in-out infinite; }
+    @keyframes privacyPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+    @keyframes qualityPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
     .method-label { opacity: 0; }
-    .ml1 { animation: labelSlide 0.5s ease-out 0.5s forwards; }
-    .ml2 { animation: labelSlide 0.5s ease-out 1.0s forwards; }
-    .ml3 { animation: labelSlide 0.5s ease-out 1.5s forwards; }
+    .ml1 { animation: labelFadeIn 0.5s ease-out 0.5s forwards; }
+    .ml2 { animation: labelFadeIn 0.5s ease-out 1.0s forwards; }
+    .ml3 { animation: labelFadeIn 0.5s ease-out 1.5s forwards; }
     .fade-in { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
+    .privacy-glow { animation: privacyPulse 3s ease-in-out 2s infinite; }
+    .quality-glow { animation: qualityPulse 3s ease-in-out 2s infinite; }
   </style>
 
   <!-- Title -->
@@ -48,12 +35,12 @@
     <circle cx="300" cy="90" r="8" fill="#0b1225" />
   </g>
 
-  <!-- Beam (tilting) -->
-  <g class="beam">
+  <!-- Static beam (slightly tilted via coordinates to suggest tension) -->
+  <g class="fade-in">
     <rect x="100" y="86" width="400" height="8" rx="4" fill="#0b1225" />
 
     <!-- Left pan: Privacy -->
-    <g class="left-pan">
+    <g>
       <!-- Strings -->
       <line x1="130" y1="94" x2="115" y2="130" stroke="#0b1225" stroke-width="1.5" />
       <line x1="170" y1="94" x2="185" y2="130" stroke="#0b1225" stroke-width="1.5" />
@@ -63,12 +50,12 @@
       <rect x="138" y="114" width="24" height="18" rx="3" fill="#0c8383" />
       <rect x="144" y="106" width="12" height="12" rx="6" fill="none" stroke="#0c8383" stroke-width="2.5" />
       <circle cx="150" cy="125" r="2" fill="#f5f5f4" />
-      <!-- Label -->
-      <text x="150" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c8383">Privacy</text>
+      <!-- Label with pulse -->
+      <text class="privacy-glow" x="150" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c8383">Privacy</text>
     </g>
 
     <!-- Right pan: Personalization Quality -->
-    <g class="right-pan">
+    <g>
       <!-- Strings -->
       <line x1="430" y1="94" x2="415" y2="130" stroke="#0b1225" stroke-width="1.5" />
       <line x1="470" y1="94" x2="485" y2="130" stroke="#0b1225" stroke-width="1.5" />
@@ -76,9 +63,9 @@
       <ellipse cx="450" cy="134" rx="45" ry="10" fill="#f59e0b" opacity="0.8" />
       <!-- Star icon (quality) -->
       <text x="450" y="127" text-anchor="middle" font-size="20" fill="#f59e0b">&#x2605;</text>
-      <!-- Label -->
-      <text x="450" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Personalization</text>
-      <text x="450" y="174" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Quality</text>
+      <!-- Label with pulse -->
+      <text class="quality-glow" x="450" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Personalization</text>
+      <text class="quality-glow" x="450" y="174" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Quality</text>
     </g>
   </g>
 

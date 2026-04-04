@@ -1,18 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeSlideUp {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes redMark {
-      0%, 50% { opacity: 0; }
-      60% { opacity: 1; transform: scale(1.2); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes greenMark {
-      0%, 70% { opacity: 0; }
-      80% { opacity: 1; transform: scale(1.2); }
-      100% { opacity: 1; transform: scale(1); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes bracketAppear {
       0%, 40% { opacity: 0; }
@@ -22,17 +12,13 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes rightSlideIn {
-      0%, 50% { opacity: 0; transform: translateX(20px); }
-      100% { opacity: 1; transform: translateX(0); }
-    }
-    .left-panel { opacity: 0; animation: fadeSlideUp 0.6s ease-out 0.3s forwards; }
-    .right-panel { opacity: 0; animation: rightSlideIn 0.8s ease-out 2s forwards; }
-    .red-highlight { opacity: 0; animation: redMark 1.5s ease-out 1.2s forwards; }
-    .green-highlight { opacity: 0; animation: greenMark 1.5s ease-out 3s forwards; }
+    .left-panel { opacity: 0; animation: fadeIn 0.6s ease-out 0.3s forwards; }
+    .right-panel { opacity: 0; animation: fadeIn 0.8s ease-out 2s forwards; }
+    .red-highlight { opacity: 0; animation: fadeIn 1.5s ease-out 1.2s forwards; }
+    .green-highlight { opacity: 0; animation: fadeIn 1.5s ease-out 3s forwards; }
     .score-label { opacity: 0; animation: scoreAppear 0.4s ease-out 0.8s forwards; }
     .bracket { opacity: 0; animation: bracketAppear 1s ease-out 1.5s forwards; }
-    .vs-label { opacity: 0; animation: fadeSlideUp 0.5s ease-out 1.8s forwards; }
+    .vs-label { opacity: 0; animation: fadeIn 0.5s ease-out 1.8s forwards; }
     .slate-score { opacity: 0; animation: scoreAppear 0.4s ease-out 2.5s forwards; }
   </style>
 

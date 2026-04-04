@@ -1,19 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes layerSlideIn {
-      from { transform: translateX(-40px); opacity: 0; }
-      to { transform: translateX(0); opacity: 1; }
-    }
-    @keyframes itemFlow {
-      0% { transform: translateX(-30px); opacity: 0; }
-      10% { transform: translateX(0); opacity: 1; }
-      90% { transform: translateX(0); opacity: 1; }
-      100% { transform: translateX(30px); opacity: 0; }
-    }
-    @keyframes xAppear {
-      0%, 40% { opacity: 0; transform: scale(0); }
-      60% { opacity: 1; transform: scale(1.3); }
-      100% { opacity: 1; transform: scale(1); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes checkAppear {
       0%, 60% { opacity: 0; }
@@ -23,19 +12,19 @@
       from { stroke-dashoffset: 16; }
       to { stroke-dashoffset: 0; }
     }
+    @keyframes xFadeIn {
+      0%, 40% { opacity: 0; }
+      100% { opacity: 1; }
+    }
     .layer { opacity: 0; }
-    .layer-1 { animation: layerSlideIn 0.6s ease-out 0.3s forwards; }
-    .layer-2 { animation: layerSlideIn 0.6s ease-out 0.7s forwards; }
-    .layer-3 { animation: layerSlideIn 0.6s ease-out 1.1s forwards; }
-
-    .item-flow { opacity: 0; animation: itemFlow 4s ease-in-out 1.8s infinite; }
-    .item-flow-2 { animation-delay: 2.5s; }
-    .item-flow-3 { animation-delay: 3.2s; }
+    .layer-1 { animation: fadeIn 0.6s ease-out 0.3s forwards; }
+    .layer-2 { animation: fadeIn 0.6s ease-out 0.7s forwards; }
+    .layer-3 { animation: fadeIn 0.6s ease-out 1.1s forwards; }
 
     .x-mark { opacity: 0; }
-    .x1 { animation: xAppear 0.8s ease-out 2.5s forwards; }
-    .x2 { animation: xAppear 0.8s ease-out 3.0s forwards; }
-    .x3 { animation: xAppear 0.8s ease-out 3.5s forwards; }
+    .x1 { animation: xFadeIn 0.8s ease-out 2.5s forwards; }
+    .x2 { animation: xFadeIn 0.8s ease-out 3.0s forwards; }
+    .x3 { animation: xFadeIn 0.8s ease-out 3.5s forwards; }
 
     .pass-check { opacity: 0; animation: checkAppear 0.5s ease-out 4s forwards; }
     .flow-line { stroke-dasharray: 8,4; animation: flowDash 0.6s linear infinite; }

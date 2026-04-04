@@ -4,48 +4,29 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes slideFromLeft {
-      from { opacity: 0; transform: translateX(-20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slideFromRight {
-      from { opacity: 0; transform: translateX(20px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
     @keyframes engineGlow {
       0%, 100% { filter: drop-shadow(0 0 3px #0c8383); }
       50% { filter: drop-shadow(0 0 12px #0c8383); }
     }
-    @keyframes particleLeft {
-      0% { opacity: 0; transform: translateX(0); }
+    @keyframes particlePulse {
+      0% { opacity: 0; }
       15% { opacity: 1; }
       85% { opacity: 1; }
-      100% { opacity: 0; transform: translateX(100px); }
-    }
-    @keyframes particleRight {
-      0% { opacity: 0; transform: translateX(0); }
-      15% { opacity: 1; }
-      85% { opacity: 1; }
-      100% { opacity: 0; transform: translateX(100px); }
-    }
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.6); }
-      70% { transform: scale(1.08); }
-      100% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; }
     }
     .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .sellers { opacity: 0; animation: slideFromLeft 0.6s ease-out 0.4s forwards; }
-    .engine { opacity: 0; animation: popIn 0.6s ease-out 0.8s forwards; }
+    .sellers { opacity: 0; animation: fadeIn 0.6s ease-out 0.4s forwards; }
+    .engine { opacity: 0; animation: fadeIn 0.6s ease-out 0.8s forwards; }
     .engine-inner { animation: engineGlow 2s ease-in-out 1.5s infinite; }
-    .buyers { opacity: 0; animation: slideFromRight 0.6s ease-out 1.2s forwards; }
+    .buyers { opacity: 0; animation: fadeIn 0.6s ease-out 1.2s forwards; }
     .val-label { opacity: 0; animation: fadeIn 0.4s ease-out 2s forwards; }
 
-    .p-left1 { opacity: 0; animation: particleLeft 1.8s linear 1.5s infinite; }
-    .p-left2 { opacity: 0; animation: particleLeft 1.8s linear 2.1s infinite; }
-    .p-left3 { opacity: 0; animation: particleLeft 1.8s linear 2.7s infinite; }
-    .p-right1 { opacity: 0; animation: particleRight 1.8s linear 1.8s infinite; }
-    .p-right2 { opacity: 0; animation: particleRight 1.8s linear 2.4s infinite; }
-    .p-right3 { opacity: 0; animation: particleRight 1.8s linear 3.0s infinite; }
+    .p-left1 { opacity: 0; animation: particlePulse 1.8s linear 1.5s infinite; }
+    .p-left2 { opacity: 0; animation: particlePulse 1.8s linear 2.1s infinite; }
+    .p-left3 { opacity: 0; animation: particlePulse 1.8s linear 2.7s infinite; }
+    .p-right1 { opacity: 0; animation: particlePulse 1.8s linear 1.8s infinite; }
+    .p-right2 { opacity: 0; animation: particlePulse 1.8s linear 2.4s infinite; }
+    .p-right3 { opacity: 0; animation: particlePulse 1.8s linear 3.0s infinite; }
   </style>
 
   <!-- Title -->
@@ -63,10 +44,10 @@
     <text x="80" y="200" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Post listings</text>
   </g>
 
-  <!-- Particles flowing left to center -->
-  <rect class="p-left1" x="140" y="130" width="12" height="8" rx="2" fill="#0c8383"/>
-  <rect class="p-left2" x="140" y="150" width="12" height="8" rx="2" fill="#3bc4a1"/>
-  <rect class="p-left3" x="140" y="170" width="12" height="8" rx="2" fill="#0c8383"/>
+  <!-- Particles flowing left to center (pre-positioned along path) -->
+  <rect class="p-left1" x="160" y="130" width="12" height="8" rx="2" fill="#0c8383"/>
+  <rect class="p-left2" x="175" y="150" width="12" height="8" rx="2" fill="#3bc4a1"/>
+  <rect class="p-left3" x="190" y="170" width="12" height="8" rx="2" fill="#0c8383"/>
 
   <!-- Arrow left -->
   <g class="engine">
@@ -94,10 +75,10 @@
     <line x1="355" y1="150" x2="405" y2="150" stroke="#0b1225" stroke-width="1.5" stroke-dasharray="4,3"/>
   </g>
 
-  <!-- Particles flowing center to right -->
-  <rect class="p-right1" x="355" y="130" width="12" height="8" rx="2" fill="#3bc4a1"/>
-  <rect class="p-right2" x="355" y="150" width="12" height="8" rx="2" fill="#0c8383"/>
-  <rect class="p-right3" x="355" y="170" width="12" height="8" rx="2" fill="#3bc4a1"/>
+  <!-- Particles flowing center to right (pre-positioned along path) -->
+  <rect class="p-right1" x="365" y="130" width="12" height="8" rx="2" fill="#3bc4a1"/>
+  <rect class="p-right2" x="380" y="150" width="12" height="8" rx="2" fill="#0c8383"/>
+  <rect class="p-right3" x="395" y="170" width="12" height="8" rx="2" fill="#3bc4a1"/>
 
   <!-- Buyers side -->
   <g class="buyers">

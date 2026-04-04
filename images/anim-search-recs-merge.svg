@@ -1,29 +1,32 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes moveRight {
-      0% { transform: translateX(0); }
-      40% { transform: translateX(0); }
-      100% { transform: translateX(70px); }
-    }
-    @keyframes moveLeft {
-      0% { transform: translateX(0); }
-      40% { transform: translateX(0); }
-      100% { transform: translateX(-70px); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes overlapAppear {
       0%, 60% { opacity: 0; }
       100% { opacity: 1; }
     }
     @keyframes labelFadeIn {
-      0%, 70% { opacity: 0; transform: translateY(5px); }
-      100% { opacity: 1; transform: translateY(0); }
+      0%, 70% { opacity: 0; }
+      100% { opacity: 1; }
     }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    /* Search circle fades out as overlap appears */
+    @keyframes searchFade {
+      0% { opacity: 1; }
+      40% { opacity: 1; }
+      100% { opacity: 0.35; }
     }
-    .search-group { animation: moveRight 3s ease-in-out forwards; }
-    .recs-group { animation: moveLeft 3s ease-in-out forwards; }
+    /* Recs circle fades out as overlap appears */
+    @keyframes recsFade {
+      0% { opacity: 1; }
+      40% { opacity: 1; }
+      100% { opacity: 0.35; }
+    }
+
+    .search-circle { animation: searchFade 3s ease-in-out forwards; }
+    .recs-circle { animation: recsFade 3s ease-in-out forwards; }
     .overlap-content { opacity: 0; animation: overlapAppear 1.5s ease-out 2.5s forwards; }
     .merge-label { opacity: 0; animation: labelFadeIn 1s ease-out 3s forwards; }
     .sub-label { opacity: 0; animation: labelFadeIn 0.8s ease-out 3.5s forwards; }
@@ -33,29 +36,29 @@
   <!-- Title -->
   <text x="300" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Search and Recommendation Convergence</text>
 
-  <!-- Search circle (moves right) -->
-  <g class="search-group">
-    <circle cx="185" cy="135" r="85" fill="#0c8383" fill-opacity="0.2" stroke="#0c8383" stroke-width="2.5" />
+  <!-- Search circle (pre-positioned overlapping) -->
+  <g class="search-circle">
+    <circle cx="255" cy="135" r="85" fill="#0c8383" fill-opacity="0.2" stroke="#0c8383" stroke-width="2.5" />
     <g class="initial-fade">
       <!-- Magnifying glass icon -->
-      <circle cx="165" cy="115" r="12" fill="none" stroke="#0c8383" stroke-width="2.5" />
-      <line x1="173" y1="123" x2="182" y2="132" stroke="#0c8383" stroke-width="2.5" stroke-linecap="round" />
-      <text x="165" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c8383">Search</text>
-      <text x="165" y="166" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Query-driven</text>
-      <text x="165" y="178" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Explicit intent</text>
+      <circle cx="225" cy="115" r="12" fill="none" stroke="#0c8383" stroke-width="2.5" />
+      <line x1="233" y1="123" x2="242" y2="132" stroke="#0c8383" stroke-width="2.5" stroke-linecap="round" />
+      <text x="225" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c8383">Search</text>
+      <text x="225" y="166" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Query-driven</text>
+      <text x="225" y="178" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Explicit intent</text>
     </g>
   </g>
 
-  <!-- Recommendation circle (moves left) -->
-  <g class="recs-group">
-    <circle cx="415" cy="135" r="85" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="2.5" />
+  <!-- Recommendation circle (pre-positioned overlapping) -->
+  <g class="recs-circle">
+    <circle cx="345" cy="135" r="85" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="2.5" />
     <g class="initial-fade">
       <!-- User icon -->
-      <circle cx="435" cy="108" r="8" fill="none" stroke="#3bc4a1" stroke-width="2" />
-      <path d="M420,132 Q427,120 435,120 Q443,120 450,132" fill="none" stroke="#3bc4a1" stroke-width="2" />
-      <text x="435" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#3bc4a1">Recommendation</text>
-      <text x="435" y="166" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">User-driven</text>
-      <text x="435" y="178" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Implicit signals</text>
+      <circle cx="375" cy="108" r="8" fill="none" stroke="#3bc4a1" stroke-width="2" />
+      <path d="M360,132 Q367,120 375,120 Q383,120 390,132" fill="none" stroke="#3bc4a1" stroke-width="2" />
+      <text x="375" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#3bc4a1">Recommendation</text>
+      <text x="375" y="166" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">User-driven</text>
+      <text x="375" y="178" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Implicit signals</text>
     </g>
   </g>
 

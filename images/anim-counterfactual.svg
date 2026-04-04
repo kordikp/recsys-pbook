@@ -7,18 +7,9 @@
     @keyframes drawLine {
       to { stroke-dashoffset: 0; }
     }
-    @keyframes slideRight {
-      from { opacity: 0; transform: translateX(-10px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes popIn {
-      0%   { opacity: 0; transform: scale(0.4); }
-      70%  { transform: scale(1.15); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    @keyframes pulsate {
-      0%, 100% { opacity: 0.6; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.05); }
+    @keyframes opacityPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
     }
     @keyframes questionMark {
       0%, 100% { opacity: 0.4; }
@@ -34,10 +25,10 @@
       stroke-dashoffset: 400;
       animation: drawLine 1.5s ease-out 0.6s forwards;
     }
-    .fact-node1 { opacity: 0; animation: slideRight 0.4s ease-out 0.8s forwards; }
-    .fact-node2 { opacity: 0; animation: slideRight 0.4s ease-out 1.3s forwards; }
-    .fact-node3 { opacity: 0; animation: slideRight 0.4s ease-out 1.8s forwards; }
-    .fact-node4 { opacity: 0; animation: slideRight 0.4s ease-out 2.3s forwards; }
+    .fact-node1 { opacity: 0; animation: fadeIn 0.4s ease-out 0.8s forwards; }
+    .fact-node2 { opacity: 0; animation: fadeIn 0.4s ease-out 1.3s forwards; }
+    .fact-node3 { opacity: 0; animation: fadeIn 0.4s ease-out 1.8s forwards; }
+    .fact-node4 { opacity: 0; animation: fadeIn 0.4s ease-out 2.3s forwards; }
 
     /* Counterfactual timeline (bottom) */
     .cf-label { opacity: 0; animation: fadeIn 0.5s ease-out 2.8s forwards; }
@@ -46,8 +37,8 @@
       stroke-dashoffset: 400;
       animation: drawLine 1.5s ease-out 3.0s forwards;
     }
-    .cf-node1 { opacity: 0; animation: slideRight 0.4s ease-out 3.2s forwards; }
-    .cf-node2 { opacity: 0; animation: slideRight 0.4s ease-out 3.7s forwards; }
+    .cf-node1 { opacity: 0; animation: fadeIn 0.4s ease-out 3.2s forwards; }
+    .cf-node2 { opacity: 0; animation: fadeIn 0.4s ease-out 3.7s forwards; }
     .cf-branch { opacity: 0; animation: fadeIn 0.5s ease-out 4.2s forwards; }
     .cf-q1 { opacity: 0; animation: questionMark 1.5s ease-in-out 4.5s infinite; }
     .cf-q2 { opacity: 0; animation: questionMark 1.5s ease-in-out 4.8s infinite; }
@@ -55,7 +46,7 @@
     /* Key question */
     .question-box {
       opacity: 0;
-      animation: pulsate 2s ease-in-out 5.2s infinite;
+      animation: opacityPulse 2s ease-in-out 5.2s infinite;
     }
     .question-text { opacity: 0; animation: fadeIn 0.6s ease-out 5.2s forwards; }
   </style>

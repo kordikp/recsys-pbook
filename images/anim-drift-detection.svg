@@ -1,35 +1,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes drift {
-      0% { transform: translateX(0); }
-      60% { transform: translateX(80px); }
-      100% { transform: translateX(120px); }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    @keyframes alertAppear {
-      0%, 70% { opacity: 0; transform: scale(0.5); }
-      80% { opacity: 1; transform: scale(1.15); }
-      100% { opacity: 1; transform: scale(1); }
+    @keyframes alertFadeIn {
+      0%, 70% { opacity: 0; }
+      100% { opacity: 1; }
     }
     @keyframes alertPulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.6; }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
     }
     @keyframes gapGrow {
       0% { opacity: 0; }
       70% { opacity: 0; }
       100% { opacity: 0.2; }
     }
+    @keyframes driftedAppear {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
     .training-dist { animation: fadeIn 0.8s ease-out forwards; }
-    .production-dist { animation: drift 6s ease-in-out infinite alternate; }
+    .production-dist { opacity: 0; animation: driftedAppear 2s ease-out 2s forwards; }
     .alert-label {
       opacity: 0;
-      animation: alertAppear 1s ease-out 4s forwards, alertPulse 1s ease-in-out 5s infinite;
+      animation: alertFadeIn 1s ease-out 4s forwards, alertPulse 1s ease-in-out 5s infinite;
     }
-    .gap-area { opacity: 0; animation: gapGrow 6s ease-in-out infinite alternate; }
+    .gap-area { opacity: 0; animation: gapGrow 3s ease-in-out 2s forwards; }
     .legend { opacity: 0; animation: fadeIn 0.5s ease-out 0.5s forwards; }
     .axis-label { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
   </style>
@@ -55,9 +53,9 @@
           fill="#0c8383" fill-opacity="0.3" stroke="#0c8383" stroke-width="2" />
   </g>
 
-  <!-- Production distribution (drifting, amber) -->
+  <!-- Production distribution (pre-positioned offset to right, fades in) -->
   <g class="production-dist" clip-path="url(#chartArea)">
-    <path d="M100,240 Q130,238 160,220 Q190,180 220,120 Q240,80 260,70 Q280,80 300,120 Q330,180 360,220 Q390,238 420,240 Z"
+    <path d="M220,240 Q250,238 280,220 Q310,180 340,120 Q360,80 380,70 Q400,80 420,120 Q450,180 480,220 Q500,238 530,240 Z"
           fill="#f59e0b" fill-opacity="0.25" stroke="#f59e0b" stroke-width="2" stroke-dasharray="6,3" />
   </g>
 
@@ -75,8 +73,8 @@
 
   <!-- KL divergence arrow -->
   <g class="alert-label">
-    <line x1="260" y1="130" x2="340" y2="130" stroke="#ef4444" stroke-width="1.5" marker-start="url(#arrowLeft)" marker-end="url(#arrowRight)" />
-    <text x="300" y="125" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="bold">KL divergence</text>
+    <line x1="260" y1="130" x2="380" y2="130" stroke="#ef4444" stroke-width="1.5" marker-start="url(#arrowLeft)" marker-end="url(#arrowRight)" />
+    <text x="320" y="125" text-anchor="middle" font-size="9" fill="#ef4444" font-weight="bold">KL divergence</text>
   </g>
 
   <defs>
@@ -93,6 +91,6 @@
     <rect x="60" y="278" width="14" height="10" rx="2" fill="#0c8383" />
     <text x="80" y="287" font-size="10" fill="#0b1225">Training distribution (fixed)</text>
     <rect x="260" y="278" width="14" height="10" rx="2" fill="#f59e0b" />
-    <text x="280" y="287" font-size="10" fill="#0b1225">Production distribution (drifting)</text>
+    <text x="280" y="287" font-size="10" fill="#0b1225">Production distribution (drifted)</text>
   </g>
 </svg>
