@@ -2676,43 +2676,62 @@ class PBook {
       }
     }
     const mapData = this._visualMapData;
-    const W = 920, H = 620;
+    const W = 1100, H = 700;
 
-    let svg = `<div class="visual-map-wrap"><svg viewBox="0 0 ${W} ${H}" class="visual-map">`;
+    let svg = `<div class="visual-map-wrap" style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H}" class="visual-map" style="min-width:700px">`;
     svg += `<defs>
-      <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <style>.vnode:hover .vlabel{opacity:1!important}.vnode:hover circle{r:12}.vlabel{transition:opacity .2s;pointer-events:none}</style>
     </defs>
     <rect width="${W}" height="${H}" fill="var(--bg)" rx="12"/>`;
 
-    // Chapter labels (at centroids)
+    // Chapter labels at centroids
     mapData.chapters.forEach(ch => {
-      svg += `<text x="${ch.cx}" y="${ch.cy - 20}" text-anchor="middle" font-size="9" font-weight="700" fill="${ch.color}" opacity="0.6">${ch.title}</text>`;
+      svg += `<text x="${ch.cx}" y="${ch.cy - 25}" text-anchor="middle" font-size="12" font-weight="800" fill="${ch.color}" opacity="0.3" letter-spacing="0.5">${ch.title.toUpperCase()}</text>`;
     });
 
-    // Draw item dots
+    // Draw items
     mapData.items.forEach(item => {
       const isRead = this.user.readBlocks.has(item.id);
       const isSaved = this.user.savedBlocks.has(item.id);
+      const isCore = item.core;
       const color = mapData.colors[item.chapter] || '#666';
-      const r = Math.round(item.r);
-      const opacity = isRead ? '1' : '0.5';
-      const stroke = isSaved ? 'stroke="#f59e0b" stroke-width="2"' : isRead ? `stroke="${color}" stroke-width="1.5"` : '';
+      const r = isCore ? 8 : 5;
+      const opacity = isRead ? '1.0' : isCore ? '0.7' : '0.35';
+      let stroke = '';
+      if (isSaved) stroke = 'stroke="#f59e0b" stroke-width="2.5"';
+      else if (isRead) stroke = 'stroke="#10B981" stroke-width="2"';
+      else if (isCore) stroke = 'stroke="white" stroke-width="1.5"';
       const filter = isSaved ? 'filter="url(#glow)"' : '';
+      const labelOpacity = isCore ? '0.8' : '0';
+      const t = item.title.length > 30 ? item.title.substring(0, 28) + '…' : item.title;
 
-      svg += `<circle cx="${item.x}" cy="${item.y}" r="${r}" fill="${color}" opacity="${opacity}" ${stroke} ${filter} style="cursor:pointer" onclick="app.openBlock('${item.id}')">
-        <title>${item.title} (Ch${item.chNum})</title>
-      </circle>`;
+      svg += `<g class="vnode" style="cursor:pointer" onclick="app.openBlock('${item.id}')">
+        <circle cx="${item.x}" cy="${item.y}" r="${r}" fill="${color}" opacity="${opacity}" ${stroke} ${filter}/>
+        <text class="vlabel" x="${item.x}" y="${item.y - r - 4}" text-anchor="middle" font-size="8" fill="var(--text-1)" opacity="${labelOpacity}" font-weight="${isCore ? '600' : '400'}">${this.escHtml(t)}</text>
+      </g>`;
     });
 
     svg += '</svg>';
 
-    // Legend
-    svg += '<div class="vmap-legend" style="display:flex;flex-wrap:wrap;gap:.4em .8em;padding:.5em;font-size:.7rem">';
+    // Stats + legend
+    const readCount = mapData.items.filter(i => this.user.readBlocks.has(i.id)).length;
+    const coreCount = mapData.items.filter(i => i.core).length;
+    const coreRead = mapData.items.filter(i => i.core && this.user.readBlocks.has(i.id)).length;
+
+    svg += '<div style="display:flex;flex-wrap:wrap;gap:.3em .6em;padding:.5em .2em;font-size:.68rem;align-items:center">';
     mapData.chapters.forEach(ch => {
-      svg += `<span style="display:inline-flex;align-items:center;gap:.25em"><span style="width:8px;height:8px;border-radius:50%;background:${ch.color};display:inline-block"></span>${ch.title}</span>`;
+      svg += `<span style="display:inline-flex;align-items:center;gap:.2em;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${ch.color};display:inline-block;flex-shrink:0"></span>${ch.title}</span>`;
     });
-    svg += '<span style="margin-left:auto;color:var(--text-3)">Size = word count · Bright = read · Gold ring = saved</span>';
-    svg += '</div></div>';
+    svg += '</div>';
+    svg += `<div style="font-size:.7rem;color:var(--text-3);padding:0 .3em .5em;display:flex;gap:1em;flex-wrap:wrap">
+      <span>Read: ${readCount}/${mapData.items.length}</span>
+      <span>Core: ${coreRead}/${coreCount}</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;border:2px solid white;vertical-align:middle"></span> core</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;border:2px solid #10B981;vertical-align:middle"></span> read</span>
+      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;border:2px solid #f59e0b;vertical-align:middle"></span> saved</span>
+      <span style="margin-left:auto">Hover for titles · Click to read</span>
+    </div></div>`;
     return svg;
   }
 
