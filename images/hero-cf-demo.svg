@@ -1,82 +1,96 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" font-family="system-ui,sans-serif">
   <style>
-    @keyframes ratingAppear { 0%,100% { opacity: 0; } 5%,45% { opacity: 1; } 50% { opacity: 0; } }
-    @keyframes matchGlow { 0%,20%,100% { opacity: 0; } 25%,45% { opacity: 1; } 50% { opacity: 0; } }
-    @keyframes recAppear { 0%,35%,100% { opacity: 0; } 40%,48% { opacity: 1; } 50% { opacity: 0; } }
-    @keyframes arrowDraw { 0%,30%,100% { stroke-dashoffset: 40; opacity: 0; } 35%,46% { stroke-dashoffset: 0; opacity: 1; } 50% { stroke-dashoffset: 40; opacity: 0; } }
-    .p1 { opacity: 0; animation: ratingAppear 12s ease-in-out infinite; }
-    .p1a{animation-delay:0s} .p1b{animation-delay:.2s} .p1c{animation-delay:.4s} .p1d{animation-delay:.6s}
-    .match { opacity: 0; animation: matchGlow 12s ease-in-out infinite; }
-    .rec { opacity: 0; animation: recAppear 12s ease-in-out infinite; }
-    .fa { stroke-dasharray: 40; stroke-dashoffset: 40; opacity: 0; animation: arrowDraw 12s ease-in-out infinite; }
-  </style>
-  <rect width="640" height="180" fill="#0b1225" rx="12"/>
+    @keyframes appear { 0%,100% { opacity: 0; } 4%,42% { opacity: 1; } 46% { opacity: 0; } }
+    @keyframes matchAppear { 0%,18%,100% { opacity: 0; } 22%,42% { opacity: 1; } 46% { opacity: 0; } }
+    @keyframes recAppear { 0%,30%,100% { opacity: 0; } 34%,44% { opacity: 1; } 46% { opacity: 0; } }
+    @keyframes arrowDraw { 0%,26%,100% { stroke-dashoffset: 50; opacity: 0; } 30%,43% { stroke-dashoffset: 0; opacity: 1; } 46% { stroke-dashoffset: 50; opacity: 0; } }
 
-  <!-- Left: Rating matrix (compact) -->
-  <text x="15" y="18" font-size="9" font-weight="600" fill="#3bc4a1">Rating Matrix</text>
-  <!-- Headers -->
-  <text x="100" y="32" text-anchor="middle" font-size="9" fill="#0c8383">🎬</text>
-  <text x="130" y="32" text-anchor="middle" font-size="9" fill="#0c8383">📚</text>
-  <text x="160" y="32" text-anchor="middle" font-size="9" fill="#0c8383">🎵</text>
-  <text x="190" y="32" text-anchor="middle" font-size="9" fill="#0c8383">🎮</text>
+    .r1 { opacity: 0; animation: appear 20s ease-in-out infinite; }
+    .r1a{animation-delay:0s} .r1b{animation-delay:.4s} .r1c{animation-delay:.8s} .r1d{animation-delay:1.2s} .r1e{animation-delay:1.6s} .r1f{animation-delay:2.0s}
+    .match { opacity: 0; animation: matchAppear 20s ease-in-out infinite; }
+    .rec { opacity: 0; animation: recAppear 20s ease-in-out infinite; }
+    .fa { stroke-dasharray: 50; stroke-dashoffset: 50; opacity: 0; animation: arrowDraw 20s ease-in-out infinite; }
+  </style>
+
+  <!-- Light background -->
+  <rect width="640" height="180" fill="#f5f5f4" rx="12"/>
+  <rect width="640" height="180" fill="none" stroke="#e5e5e4" stroke-width="1" rx="12"/>
+
+  <!-- LEFT: Rating matrix -->
+  <text x="18" y="16" font-size="10" font-weight="700" fill="#0b1225">Interaction Matrix</text>
+
+  <!-- Column headers -->
+  <text x="115" y="30" text-anchor="middle" font-size="7" fill="#888">Sci-Fi</text>
+  <text x="148" y="30" text-anchor="middle" font-size="7" fill="#888">Drama</text>
+  <text x="181" y="30" text-anchor="middle" font-size="7" fill="#888">Action</text>
+  <text x="214" y="30" text-anchor="middle" font-size="7" fill="#888">Comedy</text>
 
   <!-- You -->
-  <rect x="12" y="38" width="195" height="22" rx="3" fill="#0c8383" opacity="0.15"/>
-  <text x="52" y="53" text-anchor="middle" font-size="9" font-weight="700" fill="#0c8383">You</text>
-  <text x="100" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#3bc4a1" class="p1 p1a">★5</text>
-  <text x="130" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#3bc4a1" class="p1 p1b">★4</text>
-  <text x="160" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#666" class="p1 p1c">★2</text>
-  <text x="190" y="54" text-anchor="middle" font-size="12" font-weight="700" fill="#f59e0b" class="p1 p1d">?</text>
+  <rect x="12" y="35" width="218" height="20" rx="3" fill="#0c8383" opacity="0.08"/>
+  <text x="60" y="49" text-anchor="middle" font-size="9" font-weight="700" fill="#0c8383">You</text>
+  <text x="115" y="49" text-anchor="middle" font-size="11" fill="#0c8383" class="r1 r1a">👍</text>
+  <text x="148" y="49" text-anchor="middle" font-size="11" fill="#0c8383" class="r1 r1b">👍</text>
+  <text x="181" y="49" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1c">·</text>
+  <text x="214" y="49" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1d">·</text>
 
   <!-- Alice -->
-  <rect x="12" y="63" width="195" height="22" rx="3" fill="#3bc4a1" opacity="0.06"/>
-  <text x="52" y="78" text-anchor="middle" font-size="9" fill="#888">Alice</text>
-  <text x="100" y="79" text-anchor="middle" font-size="12" fill="#3bc4a1" class="p1 p1a">★5</text>
-  <text x="130" y="79" text-anchor="middle" font-size="12" fill="#3bc4a1" class="p1 p1b">★4</text>
-  <text x="160" y="79" text-anchor="middle" font-size="12" fill="#666" class="p1 p1c">★3</text>
-  <text x="190" y="79" text-anchor="middle" font-size="12" fill="#3bc4a1" class="p1 p1d">★5</text>
+  <rect x="12" y="58" width="218" height="20" rx="3" fill="#3bc4a1" opacity="0.06"/>
+  <text x="60" y="72" text-anchor="middle" font-size="9" fill="#666">Alice</text>
+  <text x="115" y="72" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1a">👍</text>
+  <text x="148" y="72" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1b">👍</text>
+  <text x="181" y="72" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1e">👍</text>
+  <text x="214" y="72" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1f">·</text>
 
   <!-- Bob -->
-  <text x="52" y="101" text-anchor="middle" font-size="9" fill="#555">Bob</text>
-  <text x="100" y="102" text-anchor="middle" font-size="12" fill="#666" class="p1 p1a">★2</text>
-  <text x="130" y="102" text-anchor="middle" font-size="12" fill="#666" class="p1 p1b">★1</text>
-  <text x="160" y="102" text-anchor="middle" font-size="12" fill="#3bc4a1" class="p1 p1c">★5</text>
-  <text x="190" y="102" text-anchor="middle" font-size="12" fill="#666" class="p1 p1d">★3</text>
+  <text x="60" y="93" text-anchor="middle" font-size="9" fill="#999">Bob</text>
+  <text x="115" y="93" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1a">·</text>
+  <text x="148" y="93" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1b">·</text>
+  <text x="181" y="93" text-anchor="middle" font-size="11" fill="#666" class="r1 r1c">👍</text>
+  <text x="214" y="93" text-anchor="middle" font-size="11" fill="#666" class="r1 r1d">👍</text>
 
   <!-- Carol -->
-  <text x="52" y="123" text-anchor="middle" font-size="9" fill="#888">Carol</text>
-  <text x="100" y="124" text-anchor="middle" font-size="12" fill="#3bc4a1" class="p1 p1a">★4</text>
-  <text x="130" y="124" text-anchor="middle" font-size="12" fill="#3bc4a1" class="p1 p1b">★5</text>
-  <text x="160" y="124" text-anchor="middle" font-size="12" fill="#666" class="p1 p1c">★1</text>
-  <text x="190" y="124" text-anchor="middle" font-size="12" fill="#3bc4a1" class="p1 p1d">★4</text>
+  <text x="60" y="114" text-anchor="middle" font-size="9" fill="#666">Carol</text>
+  <text x="115" y="114" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1a">👍</text>
+  <text x="148" y="114" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1b">·</text>
+  <text x="181" y="114" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1c">·</text>
+  <text x="214" y="114" text-anchor="middle" font-size="11" fill="#666" class="r1 r1d">👍</text>
+
+  <!-- Sparse note -->
+  <text x="130" y="135" text-anchor="middle" font-size="7" fill="#bbb" class="r1 r1a">· = not seen yet (sparse data)</text>
 
   <!-- Match highlight -->
-  <rect x="10" y="36" width="199" height="25" rx="4" fill="none" stroke="#3bc4a1" stroke-width="1.5" class="match"/>
-  <rect x="10" y="61" width="199" height="25" rx="4" fill="none" stroke="#3bc4a1" stroke-width="1.5" class="match"/>
-  <text x="140" y="150" text-anchor="middle" font-size="8" font-weight="600" fill="#3bc4a1" class="match">Taste Twin found!</text>
+  <rect x="10" y="33" width="222" height="24" rx="4" fill="none" stroke="#0c8383" stroke-width="1.5" stroke-dasharray="4 2" class="match"/>
+  <rect x="10" y="56" width="222" height="24" rx="4" fill="none" stroke="#0c8383" stroke-width="1.5" stroke-dasharray="4 2" class="match"/>
+  <text x="130" y="155" text-anchor="middle" font-size="8" font-weight="600" fill="#0c8383" class="match">Similar users found</text>
 
-  <!-- Center: Arrow -->
-  <line x1="215" y1="70" x2="280" y2="70" stroke="#f59e0b" stroke-width="2" class="fa" stroke-linecap="round"/>
-  <text x="248" y="62" text-anchor="middle" font-size="8" fill="#f59e0b" class="rec">predict</text>
+  <!-- CENTER: Arrow -->
+  <line x1="240" y1="65" x2="290" y2="65" stroke="#0c8383" stroke-width="1.5" class="fa" stroke-linecap="round" marker-end="url(#ah)"/>
+  <text x="265" y="58" text-anchor="middle" font-size="7" fill="#0c8383" class="rec">predict</text>
 
-  <!-- Right: Recommendation -->
-  <rect x="285" y="20" width="340" height="130" rx="10" fill="#0c8383" opacity="0.1" class="rec"/>
-  <text x="455" y="40" text-anchor="middle" font-size="11" font-weight="700" fill="#3bc4a1" class="rec">Recommendation for You</text>
+  <!-- RIGHT: Recommendation -->
+  <rect x="298" y="15" width="330" height="145" rx="10" fill="#0c8383" opacity="0.05" class="rec"/>
+  <text x="463" y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#0c8383" class="rec">Recommended for You</text>
+  <text x="463" y="48" text-anchor="middle" font-size="8" fill="#888" class="rec">Items you haven't seen — predicted from similar users</text>
 
   <g class="rec">
-    <rect x="300" y="52" width="145" height="45" rx="6" fill="#0c8383" opacity="0.25"/>
-    <text x="372" y="72" text-anchor="middle" font-size="16">🎮</text>
-    <text x="372" y="90" text-anchor="middle" font-size="9" font-weight="600" fill="white">Predicted: ★5</text>
+    <rect x="315" y="58" width="140" height="50" rx="6" fill="#0c8383" opacity="0.1" stroke="#0c8383" stroke-width="1"/>
+    <text x="385" y="77" text-anchor="middle" font-size="14">🎬</text>
+    <text x="385" y="93" text-anchor="middle" font-size="9" font-weight="600" fill="#0b1225">Action Movie</text>
+    <text x="385" y="104" text-anchor="middle" font-size="7" fill="#0c8383">Alice 👍 → likely for you</text>
   </g>
+
   <g class="rec">
-    <rect x="460" y="52" width="145" height="45" rx="6" fill="#0b1225" opacity="0.4"/>
-    <text x="532" y="72" text-anchor="middle" font-size="16">📱</text>
-    <text x="532" y="90" text-anchor="middle" font-size="9" fill="#888">Not recommended</text>
+    <rect x="470" y="58" width="140" height="50" rx="6" fill="#f5f5f4" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="540" y="77" text-anchor="middle" font-size="14">😄</text>
+    <text x="540" y="93" text-anchor="middle" font-size="9" fill="#999">Comedy</text>
+    <text x="540" y="104" text-anchor="middle" font-size="7" fill="#bbb">No similar user signal</text>
   </g>
 
-  <text x="455" y="120" text-anchor="middle" font-size="8" fill="#555" class="rec">Alice ★5 · Carol ★4 → You'll love it</text>
-  <text x="455" y="140" text-anchor="middle" font-size="7" fill="#444" class="rec">Similar users → Their preferences → Your prediction</text>
+  <text x="463" y="130" text-anchor="middle" font-size="8" fill="#888" class="rec">Find similar users → See what they liked → Recommend unseen items</text>
+  <text x="463" y="145" text-anchor="middle" font-size="7" fill="#bbb" class="rec">This is how Netflix, Spotify, and Amazon work at scale</text>
 
-  <!-- Bottom bar -->
-  <text x="320" y="170" text-anchor="middle" font-size="8" fill="#444">How Collaborative Filtering Works — powering Netflix, Spotify, Amazon</text>
+  <!-- Bottom -->
+  <text x="320" y="172" text-anchor="middle" font-size="8" fill="#bbb">Collaborative Filtering — the foundation of modern recommender systems</text>
+
+  <defs><marker id="ah" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#0c8383"/></marker></defs>
 </svg>
