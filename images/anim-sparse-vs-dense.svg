@@ -5,30 +5,29 @@
       to { opacity: 1; }
     }
     @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes denseReveal {
       from { width: 0; }
       to { width: 360; }
     }
     @keyframes denseBarGrow {
-      from { transform: scaleX(0); }
-      to { transform: scaleX(1); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes compressAnim {
-      0%   { transform: scaleX(1); opacity: 1; }
-      50%  { transform: scaleX(0.5); opacity: 0.6; }
-      100% { transform: scaleX(0.08); opacity: 0; }
+      0%   { opacity: 1; }
+      50%  { opacity: 0.6; }
+      100% { opacity: 0; }
     }
     @keyframes sparseAppear {
-      from { opacity: 0; transform: scaleY(0); }
-      to { opacity: 1; transform: scaleY(1); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes popIn {
-      0%   { opacity: 0; transform: scale(0.5); }
-      70%  { transform: scale(1.1); }
-      100% { opacity: 1; transform: scale(1); }
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
     }
     @keyframes sparkle {
       0%, 100% { opacity: 0.4; }
@@ -40,8 +39,7 @@
     /* Dense section */
     .dense-label { opacity: 0; animation: slideDown 0.4s ease-out 0.3s forwards; }
     .dense-bar {
-      transform-origin: left center;
-      transform: scaleX(0);
+      opacity: 0;
       animation: denseBarGrow 1s ease-out 0.6s forwards;
     }
     .dense-detail { opacity: 0; animation: fadeIn 0.4s ease-out 1.4s forwards; }
@@ -54,7 +52,7 @@
     .sparse-bg { opacity: 0; animation: fadeIn 0.4s ease-out 2.4s forwards; }
 
     /* Sparse active dimensions */
-    .sparse-slot { opacity: 0; transform-origin: bottom center; }
+    .sparse-slot { opacity: 0; }
     .ss1 { animation: sparseAppear 0.3s ease-out 2.6s forwards; }
     .ss2 { animation: sparseAppear 0.3s ease-out 2.8s forwards; }
     .ss3 { animation: sparseAppear 0.3s ease-out 3.0s forwards; }

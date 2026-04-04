@@ -5,8 +5,8 @@
       to { opacity: 1; }
     }
     @keyframes bubbleGrow {
-      from { opacity: 0; transform: scale(0.7); }
-      to { opacity: 1; transform: scale(1); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes drawArrow {
       from { stroke-dashoffset: 200; }
@@ -19,9 +19,8 @@
       100% { opacity: 0; }
     }
     @keyframes popIn {
-      0%   { opacity: 0; transform: scale(0.3); }
-      70%  { transform: scale(1.15); }
-      100% { opacity: 1; transform: scale(1); }
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
     }
     @keyframes glow {
       0%, 100% { filter: drop-shadow(0 0 3px rgba(59,196,161,0)); }

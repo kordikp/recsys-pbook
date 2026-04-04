@@ -5,8 +5,8 @@
       to { opacity: 1; }
     }
     @keyframes tokenAppear {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes lineGrow {
       from { stroke-dashoffset: 200; opacity: 0.2; }
@@ -21,8 +21,8 @@
       50% { opacity: 0.3; }
     }
     @keyframes outputAppear {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     @keyframes weightFade {
       from { opacity: 0; }
