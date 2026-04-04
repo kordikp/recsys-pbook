@@ -1,22 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 180" font-family="system-ui,sans-serif">
   <style>
-    @keyframes appear { 0%,100% { opacity: 0; } 4%,42% { opacity: 1; } 46% { opacity: 0; } }
-    @keyframes matchAppear { 0%,18%,100% { opacity: 0; } 22%,42% { opacity: 1; } 46% { opacity: 0; } }
-    @keyframes recAppear { 0%,30%,100% { opacity: 0; } 34%,44% { opacity: 1; } 46% { opacity: 0; } }
-    @keyframes arrowDraw { 0%,26%,100% { stroke-dashoffset: 50; opacity: 0; } 30%,43% { stroke-dashoffset: 0; opacity: 1; } 46% { stroke-dashoffset: 50; opacity: 0; } }
+    /* 24s cycle: matrix 0-30%, match 30-45%, predict 45-75% visible, fade 75-80%, pause 80-100% */
+    @keyframes appear { 0%,100% { opacity: 0; } 3%,72% { opacity: 1; } 78% { opacity: 0; } }
+    @keyframes matchAppear { 0%,28%,100% { opacity: 0; } 32%,72% { opacity: 1; } 78% { opacity: 0; } }
+    @keyframes recAppear { 0%,42%,100% { opacity: 0; } 46%,72% { opacity: 1; } 78% { opacity: 0; } }
+    @keyframes arrowDraw { 0%,38%,100% { stroke-dashoffset: 50; opacity: 0; } 43%,72% { stroke-dashoffset: 0; opacity: 1; } 78% { stroke-dashoffset: 50; opacity: 0; } }
 
-    .r1 { opacity: 0; animation: appear 20s ease-in-out infinite; }
-    .r1a{animation-delay:0s} .r1b{animation-delay:.4s} .r1c{animation-delay:.8s} .r1d{animation-delay:1.2s} .r1e{animation-delay:1.6s} .r1f{animation-delay:2.0s}
-    .match { opacity: 0; animation: matchAppear 20s ease-in-out infinite; }
-    .rec { opacity: 0; animation: recAppear 20s ease-in-out infinite; }
-    .fa { stroke-dasharray: 50; stroke-dashoffset: 50; opacity: 0; animation: arrowDraw 20s ease-in-out infinite; }
+    .r1 { opacity: 0; animation: appear 24s ease-in-out infinite; }
+    .r1a{animation-delay:0s} .r1b{animation-delay:.3s} .r1c{animation-delay:.6s} .r1d{animation-delay:.9s} .r1e{animation-delay:1.2s}
+    .match { opacity: 0; animation: matchAppear 24s ease-in-out infinite; }
+    .rec { opacity: 0; animation: recAppear 24s ease-in-out infinite; }
+    .fa { stroke-dasharray: 50; stroke-dashoffset: 50; opacity: 0; animation: arrowDraw 24s ease-in-out infinite; }
   </style>
 
   <!-- Light background -->
   <rect width="640" height="180" fill="#f5f5f4" rx="12"/>
   <rect width="640" height="180" fill="none" stroke="#e5e5e4" stroke-width="1" rx="12"/>
 
-  <!-- LEFT: Rating matrix -->
+  <!-- LEFT: Interaction matrix -->
   <text x="18" y="16" font-size="10" font-weight="700" fill="#0b1225">Interaction Matrix</text>
 
   <!-- Column headers -->
@@ -25,7 +26,7 @@
   <text x="181" y="30" text-anchor="middle" font-size="7" fill="#888">Action</text>
   <text x="214" y="30" text-anchor="middle" font-size="7" fill="#888">Comedy</text>
 
-  <!-- You -->
+  <!-- You (row 1) -->
   <rect x="12" y="35" width="218" height="20" rx="3" fill="#0c8383" opacity="0.08"/>
   <text x="60" y="49" text-anchor="middle" font-size="9" font-weight="700" fill="#0c8383">You</text>
   <text x="115" y="49" text-anchor="middle" font-size="11" fill="#0c8383" class="r1 r1a">👍</text>
@@ -33,64 +34,66 @@
   <text x="181" y="49" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1c">·</text>
   <text x="214" y="49" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1d">·</text>
 
-  <!-- Alice -->
-  <rect x="12" y="58" width="218" height="20" rx="3" fill="#3bc4a1" opacity="0.06"/>
-  <text x="60" y="72" text-anchor="middle" font-size="9" fill="#666">Alice</text>
-  <text x="115" y="72" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1a">👍</text>
-  <text x="148" y="72" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1b">👍</text>
-  <text x="181" y="72" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1e">👍</text>
-  <text x="214" y="72" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1f">·</text>
+  <!-- Bob (row 2) -->
+  <text x="60" y="71" text-anchor="middle" font-size="9" fill="#999">Bob</text>
+  <text x="115" y="71" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1a">·</text>
+  <text x="148" y="71" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1b">·</text>
+  <text x="181" y="71" text-anchor="middle" font-size="11" fill="#666" class="r1 r1c">👍</text>
+  <text x="214" y="71" text-anchor="middle" font-size="11" fill="#666" class="r1 r1d">👍</text>
 
-  <!-- Bob -->
-  <text x="60" y="93" text-anchor="middle" font-size="9" fill="#999">Bob</text>
-  <text x="115" y="93" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1a">·</text>
-  <text x="148" y="93" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1b">·</text>
-  <text x="181" y="93" text-anchor="middle" font-size="11" fill="#666" class="r1 r1c">👍</text>
-  <text x="214" y="93" text-anchor="middle" font-size="11" fill="#666" class="r1 r1d">👍</text>
+  <!-- Carol (row 3) -->
+  <text x="60" y="92" text-anchor="middle" font-size="9" fill="#666">Carol</text>
+  <text x="115" y="92" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1a">👍</text>
+  <text x="148" y="92" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1b">·</text>
+  <text x="181" y="92" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1c">·</text>
+  <text x="214" y="92" text-anchor="middle" font-size="11" fill="#666" class="r1 r1d">👍</text>
 
-  <!-- Carol -->
-  <text x="60" y="114" text-anchor="middle" font-size="9" fill="#666">Carol</text>
-  <text x="115" y="114" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1a">👍</text>
-  <text x="148" y="114" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1b">·</text>
-  <text x="181" y="114" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1c">·</text>
-  <text x="214" y="114" text-anchor="middle" font-size="11" fill="#666" class="r1 r1d">👍</text>
+  <!-- Alice (row 4 — last, the similar user) -->
+  <rect x="12" y="99" width="218" height="20" rx="3" fill="#3bc4a1" opacity="0.06"/>
+  <text x="60" y="113" text-anchor="middle" font-size="9" fill="#666">Alice</text>
+  <text x="115" y="113" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1a">👍</text>
+  <text x="148" y="113" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1b">👍</text>
+  <text x="181" y="113" text-anchor="middle" font-size="11" fill="#3bc4a1" class="r1 r1e">👍</text>
+  <text x="214" y="113" text-anchor="middle" font-size="9" fill="#ccc" class="r1 r1e">·</text>
 
   <!-- Sparse note -->
-  <text x="130" y="135" text-anchor="middle" font-size="7" fill="#bbb" class="r1 r1a">· = not seen yet (sparse data)</text>
+  <text x="130" y="135" text-anchor="middle" font-size="7" fill="#bbb" class="r1 r1a">· = not seen yet</text>
 
-  <!-- Match highlight -->
+  <!-- Match highlight: You + Alice -->
   <rect x="10" y="33" width="222" height="24" rx="4" fill="none" stroke="#0c8383" stroke-width="1.5" stroke-dasharray="4 2" class="match"/>
-  <rect x="10" y="56" width="222" height="24" rx="4" fill="none" stroke="#0c8383" stroke-width="1.5" stroke-dasharray="4 2" class="match"/>
+  <rect x="10" y="97" width="222" height="24" rx="4" fill="none" stroke="#0c8383" stroke-width="1.5" stroke-dasharray="4 2" class="match"/>
   <text x="130" y="155" text-anchor="middle" font-size="8" font-weight="600" fill="#0c8383" class="match">Similar users found</text>
 
   <!-- CENTER: Arrow -->
-  <line x1="240" y1="65" x2="290" y2="65" stroke="#0c8383" stroke-width="1.5" class="fa" stroke-linecap="round" marker-end="url(#ah)"/>
-  <text x="265" y="58" text-anchor="middle" font-size="7" fill="#0c8383" class="rec">predict</text>
+  <line x1="240" y1="72" x2="292" y2="72" stroke="#0c8383" stroke-width="1.5" class="fa" stroke-linecap="round" marker-end="url(#ah)"/>
+  <text x="266" y="64" text-anchor="middle" font-size="7" fill="#0c8383" class="rec">predict</text>
 
   <!-- RIGHT: Recommendation -->
-  <rect x="298" y="15" width="330" height="145" rx="10" fill="#0c8383" opacity="0.05" class="rec"/>
+  <rect x="298" y="15" width="330" height="148" rx="10" fill="white" stroke="#e8e8e8" stroke-width="1" class="rec"/>
   <text x="463" y="35" text-anchor="middle" font-size="11" font-weight="700" fill="#0c8383" class="rec">Recommended for You</text>
-  <text x="463" y="48" text-anchor="middle" font-size="8" fill="#888" class="rec">Items you haven't seen — predicted from similar users</text>
+  <text x="463" y="48" text-anchor="middle" font-size="8" fill="#999" class="rec">Items you haven't seen — predicted from similar users</text>
 
+  <!-- Recommended item -->
   <g class="rec">
-    <rect x="315" y="58" width="140" height="50" rx="6" fill="#0c8383" opacity="0.1" stroke="#0c8383" stroke-width="1"/>
-    <text x="385" y="77" text-anchor="middle" font-size="14">🎬</text>
-    <text x="385" y="93" text-anchor="middle" font-size="9" font-weight="600" fill="#0b1225">Action Movie</text>
-    <text x="385" y="104" text-anchor="middle" font-size="7" fill="#0c8383">Alice 👍 → likely for you</text>
+    <rect x="315" y="58" width="140" height="52" rx="6" fill="#f0faf8" stroke="#0c8383" stroke-width="1"/>
+    <text x="385" y="78" text-anchor="middle" font-size="15">🎬</text>
+    <text x="385" y="94" text-anchor="middle" font-size="9" font-weight="600" fill="#0b1225">Action Movie</text>
+    <text x="385" y="106" text-anchor="middle" font-size="7" fill="#0c8383">Alice 👍 → likely for you</text>
   </g>
 
+  <!-- Not recommended item -->
   <g class="rec">
-    <rect x="470" y="58" width="140" height="50" rx="6" fill="#f5f5f4" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="540" y="77" text-anchor="middle" font-size="14">😄</text>
-    <text x="540" y="93" text-anchor="middle" font-size="9" fill="#999">Comedy</text>
-    <text x="540" y="104" text-anchor="middle" font-size="7" fill="#bbb">No similar user signal</text>
+    <rect x="470" y="58" width="140" height="52" rx="6" fill="#fafafa" stroke="#eee" stroke-width="1"/>
+    <text x="540" y="78" text-anchor="middle" font-size="15">😄</text>
+    <text x="540" y="94" text-anchor="middle" font-size="9" fill="#bbb">Comedy</text>
+    <text x="540" y="106" text-anchor="middle" font-size="7" fill="#ccc">No similar user signal</text>
   </g>
 
-  <text x="463" y="130" text-anchor="middle" font-size="8" fill="#888" class="rec">Find similar users → See what they liked → Recommend unseen items</text>
-  <text x="463" y="145" text-anchor="middle" font-size="7" fill="#bbb" class="rec">This is how Netflix, Spotify, and Amazon work at scale</text>
+  <text x="463" y="132" text-anchor="middle" font-size="8" fill="#999" class="rec">Find similar users → See what they liked → Recommend unseen items</text>
+  <text x="463" y="148" text-anchor="middle" font-size="7" fill="#ccc" class="rec">This is how Netflix, Spotify, and Amazon work at scale</text>
 
-  <!-- Bottom -->
-  <text x="320" y="172" text-anchor="middle" font-size="8" fill="#bbb">Collaborative Filtering — the foundation of modern recommender systems</text>
+  <!-- Bottom label -->
+  <text x="320" y="174" text-anchor="middle" font-size="7" fill="#ccc">Collaborative Filtering — the foundation of modern recommender systems</text>
 
   <defs><marker id="ah" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#0c8383"/></marker></defs>
 </svg>
