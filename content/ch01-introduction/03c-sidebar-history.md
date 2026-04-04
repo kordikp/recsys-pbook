@@ -5,7 +5,7 @@ title: "A Brief History of Recommender Systems"
 readingTime: 3
 standalone: true
 core: false
-teaser: "From GroupLens to LLM-powered recommendations -- three decades of evolution, swinging between simplicity and complexity."
+teaser: "From GroupLens to LLM-powered recommendations -- three decades of evolution that transformed how we discover content."
 voice: universal
 parent: null
 diagram: null
@@ -63,12 +63,8 @@ Recommender systems have a surprisingly compact history. The entire field -- fro
 
 **2025--26 -- Sparse ELSA, ReALM, SHIELD** The current frontier combines sparsity, retrieval-augmented generation, and privacy-preserving techniques. Sparse ELSA achieves near-dense performance with a fraction of the parameters. ReALM integrates retrieval with language model reasoning for recommendation. SHIELD addresses the growing demand for recommendation systems that protect user data by design. The field is moving simultaneously toward greater efficiency and greater responsibility.
 
-## The Pendulum
+## What This History Teaches
 
-Looking at this timeline, a pattern emerges. The field has swung like a pendulum:
+Three decades of recommender systems reveal a field driven by practical impact, not just algorithmic novelty. The systems that transformed industries — Amazon's item-based CF, Netflix's matrix factorization, YouTube's deep retrieval — succeeded because they solved real problems at real scale, not because they were the most mathematically sophisticated.
 
-**Simple** (1990s collaborative filtering) → **Complex** (2010s deep learning arms race) → **Simple-but-better** (2019+ linear models that outperform deep networks).
-
-Each swing of the pendulum doesn't return to the starting point -- it returns to simplicity armed with hard-won knowledge about what actually matters. The EASE model of 2019 is "simple," but it's simple in a way that would have been impossible without the deep learning detour that revealed which inductive biases matter and which are dead weight.
-
-This is perhaps the deepest lesson from thirty years of recommender systems research: progress isn't a straight line toward greater complexity. It's a spiral, where each revolution strips away unnecessary machinery and preserves only what genuinely improves the user's experience.
+For a deeper exploration of how modern recommender systems have evolved and how they differ from advertising technology, see Recombee's [introduction to modern recommender systems](https://www.recombee.com/blog/modern-recommender-systems-part-1-introduction).
