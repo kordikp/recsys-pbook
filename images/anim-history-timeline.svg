@@ -34,7 +34,10 @@
     .m6 .milestone-label { animation: labelFadeIn 0.4s ease-out 3.5s forwards; }
     .m7 .milestone-dot { animation: dotPop 0.4s ease-out 3.8s forwards; }
     .m7 .milestone-label { animation: labelFadeIn 0.4s ease-out 4.0s forwards; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text x="350" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">RecSys History Timeline</text>
@@ -123,4 +126,5 @@
   <text x="110" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">Classical Era</text>
   <text x="430" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">Deep Learning Era</text>
   <text x="650" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">LLM Era</text>
+</g>
 </svg>

@@ -57,7 +57,10 @@
     .result-label { opacity: 0; animation: fadeIn 0.4s ease-out 4.0s forwards; }
     .confidence { opacity: 0; animation: fadeIn 0.5s ease-out 4.2s forwards; }
     .winner { opacity: 0; animation: popIn 0.5s ease-out 4.5s forwards; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <defs>
     <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -171,4 +174,5 @@
     <text x="527" y="55" text-anchor="middle" font-size="8" fill="#3bc4a1" font-weight="700">+28% lift</text>
     <text x="485" y="245" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">p &lt; 0.05</text>
   </g>
+</g>
 </svg>

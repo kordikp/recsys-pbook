@@ -41,7 +41,10 @@
     .gap-fill { opacity: 0; animation: gapReveal 0.8s ease-out 2.5s forwards; }
     .gap-label { opacity: 0; animation: popIn 0.5s ease-out 3.0s forwards; }
     .gap-pulse { animation: pulse 2s ease-in-out 3.0s infinite; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <defs>
     <marker id="ah" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
@@ -102,4 +105,5 @@
     <rect x="155" y="238" width="190" height="22" rx="6" fill="#0b1225" />
     <text x="250" y="253" text-anchor="middle" font-size="9.5" fill="#ef4444" font-weight="600">The gap that matters</text>
   </g>
+</g>
 </svg>

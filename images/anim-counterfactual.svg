@@ -49,7 +49,10 @@
       animation: opacityPulse 2s ease-in-out 5.2s infinite;
     }
     .question-text { opacity: 0; animation: fadeIn 0.6s ease-out 5.2s forwards; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <defs>
     <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -139,4 +142,5 @@
     <rect x="120" y="258" width="310" height="32" rx="8" fill="#0b1225" />
   </g>
   <text class="question-text" x="275" y="279" text-anchor="middle" font-size="10.5" fill="#f5f5f4" font-weight="600">How much did the recommendation actually cause?</text>
+</g>
 </svg>

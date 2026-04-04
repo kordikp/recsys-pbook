@@ -20,7 +20,10 @@
     .bracket { opacity: 0; animation: bracketAppear 1s ease-out 1.5s forwards; }
     .vs-label { opacity: 0; animation: fadeIn 0.5s ease-out 1.8s forwards; }
     .slate-score { opacity: 0; animation: scoreAppear 0.4s ease-out 2.5s forwards; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text x="275" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Slate vs Individual Optimization</text>
@@ -114,4 +117,5 @@
     <text x="125" y="285" text-anchor="middle" font-size="9" fill="#ef4444">Slate utility: lower</text>
     <text x="420" y="285" text-anchor="middle" font-size="9" fill="#3bc4a1" font-weight="bold">Slate utility: higher</text>
   </g>
+</g>
 </svg>

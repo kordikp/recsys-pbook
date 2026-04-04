@@ -28,7 +28,10 @@
 
     .pass-check { opacity: 0; animation: checkAppear 0.5s ease-out 4s forwards; }
     .flow-line { stroke-dasharray: 8,4; animation: flowDash 0.6s linear infinite; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text x="275" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Content Safety Layers</text>
@@ -101,4 +104,5 @@
     <text x="520" y="167" text-anchor="middle" font-size="8" fill="#f59e0b">~5%</text>
     <text x="520" y="242" text-anchor="middle" font-size="8" fill="#0c8383">~3%</text>
   </g>
+</g>
 </svg>

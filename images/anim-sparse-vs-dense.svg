@@ -68,7 +68,10 @@
     .sparkle { animation: sparkle 1.5s ease-in-out infinite; }
     .sp1 { animation-delay: 3.8s; }
     .sp2 { animation-delay: 4.1s; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text class="title" x="250" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Dense vs. Sparse Embeddings</text>
@@ -142,4 +145,5 @@
     <rect x="100" y="210" width="300" height="30" rx="8" fill="#0b1225" />
     <text x="250" y="229" text-anchor="middle" font-size="11" fill="#3bc4a1" font-weight="700">307 GB &#x2192; 26 GB (12x compression)</text>
   </g>
+</g>
 </svg>

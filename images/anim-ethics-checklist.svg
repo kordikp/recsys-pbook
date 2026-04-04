@@ -8,7 +8,10 @@
     .ck4{animation-delay:1.4s} .ck5{animation-delay:1.7s} .ck6{animation-delay:2.0s}
     @keyframes slideIn { from { opacity:0; } to { opacity:1; } }
     @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
   <rect width="500" height="350" fill="#f5f5f4" rx="12"/>
   <text x="250" y="30" text-anchor="middle" font-size="15" font-weight="700" fill="#0b1225">RecSys Ethics Checklist</text>
   <!-- Items -->
@@ -30,4 +33,5 @@
   <g class="item i6"><rect x="30" y="280" width="440" height="38" rx="6" fill="white" stroke="#0c8383" stroke-width="1.5"/>
     <circle cx="55" cy="299" r="12" fill="#0c8383" opacity="0.15"/><path d="M49 299 L53 303 L61 295" fill="none" stroke="#0c8383" stroke-width="2.5" stroke-linecap="round" class="check ck6"/>
     <text x="75" y="303" font-size="12" font-weight="600" fill="#0b1225">Accountability</text><text x="280" y="303" font-size="10" fill="#666">Clear ownership, incident response</text></g>
+</g>
 </svg>

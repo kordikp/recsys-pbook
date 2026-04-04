@@ -58,7 +58,10 @@
     .weight-label { opacity: 0; animation: weightFade 0.4s ease-out forwards; }
     .w1 { animation-delay: 3.5s; }
     .w2 { animation-delay: 3.7s; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text x="300" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Self-Attention Mechanism</text>
@@ -136,4 +139,5 @@
   <!-- Annotation -->
   <text x="300" y="178" text-anchor="middle" font-size="10" fill="#0b1225" opacity="0.6">Attention weights for i&#x2083; shown</text>
   <text x="300" y="192" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.4">Thicker line = higher attention weight</text>
+</g>
 </svg>

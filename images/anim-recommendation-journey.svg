@@ -70,7 +70,10 @@
     .bar-f3 { opacity: 0; animation: barShrink 0.4s ease-out 4.6s forwards; }
 
     .question { opacity: 0; animation: popQuestion 1.5s ease-in-out 0.8s infinite; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <defs>
     <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -150,4 +153,5 @@
 
   <!-- Bottom timeline labels -->
   <text class="phase1" x="350" y="194" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.35">Time &#x2192;</text>
+</g>
 </svg>

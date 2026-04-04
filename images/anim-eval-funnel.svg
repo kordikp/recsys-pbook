@@ -30,7 +30,10 @@
     .speed-bar { opacity: 0; animation: speedBarGrow 1.5s ease-out 3s forwards; }
     .conf-bar { opacity: 0; animation: speedBarGrow 1.5s ease-out 3.3s forwards; }
     .bar-label { opacity: 0; animation: fadeSlideIn 0.5s ease-out 3s forwards; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text x="300" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Evaluation Funnel</text>
@@ -104,4 +107,5 @@
 
   <!-- Funnel shape hint -->
   <text x="300" y="285" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.5">Fewer experiments pass each stage</text>
+</g>
 </svg>

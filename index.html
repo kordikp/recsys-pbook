@@ -5,28 +5,28 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#FAFAF7">
-<title>How Recommendations Work — p-book for Kids</title>
-<meta name="description" content="A free interactive book about recommendation systems for ages 8-15. Learn how YouTube, TikTok, and Spotify decide what you see — with games, quizzes, and missions. By Pavel Kordik (Recombee).">
-<meta name="author" content="Pavel Kordik">
+<title>How Recommendations Work — by Recombee</title>
+<meta name="description" content="An interactive book about recommender systems. Understand the algorithms behind YouTube, Spotify, Netflix, and Amazon — from collaborative filtering to production deployment. By Recombee.">
+<meta name="author" content="Pavel Kordík and the Recombee team">
 <meta name="keywords" content="recommendation systems, algorithms, kids, education, YouTube algorithm, TikTok, collaborative filtering, filter bubble, AI, machine learning, personalization, digital literacy">
-<link rel="canonical" href="https://recsysbook-kids.vercel.app/">
+<link rel="canonical" href="https://recsys-pbook.vercel.app/">
 <!-- Open Graph -->
 <meta property="og:type" content="book">
-<meta property="og:title" content="How Recommendations Work — A p-book for Kids">
-<meta property="og:description" content="A free interactive book about recommendation systems for ages 8-15. Learn how YouTube, TikTok, and Spotify decide what you see.">
-<meta property="og:url" content="https://recsysbook-kids.vercel.app/">
+<meta property="og:title" content="How Recommendations Work — A by Recombee">
+<meta property="og:description" content="A free interactive book about recommendation systems for professionals and curious minds. Learn how YouTube, TikTok, and Spotify decide what you see.">
+<meta property="og:url" content="https://recsys-pbook.vercel.app/">
 <meta property="og:site_name" content="p-book: How Recommendations Work">
-<meta property="og:image" content="https://recsysbook-kids.vercel.app/images/og-cover.svg">
+<meta property="og:image" content="https://recsys-pbook.vercel.app/images/og-cover.svg">
 <meta property="og:locale" content="en_US">
-<meta property="book:author" content="Pavel Kordik">
+<meta property="book:author" content="Pavel Kordík and the Recombee team">
 <meta property="book:tag" content="recommendation systems">
-<meta property="book:tag" content="algorithms for kids">
+<meta property="book:tag" content="recommender systems">
 <meta property="book:tag" content="digital literacy">
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="How Recommendations Work — p-book for Kids">
-<meta name="twitter:description" content="Free interactive book: learn how YouTube, TikTok & Spotify algorithms work. Ages 8-15.">
-<meta name="twitter:image" content="https://recsysbook-kids.vercel.app/images/og-cover.svg">
+<meta name="twitter:title" content="How Recommendations Work — by Recombee">
+<meta name="twitter:description" content="Interactive book about recommender systems — algorithms, production, ethics.">
+<meta name="twitter:image" content="https://recsys-pbook.vercel.app/images/og-cover.svg">
 <!-- Structured Data -->
 <script type="application/ld+json">
 {
@@ -36,20 +36,20 @@
   "alternateName": "p-book: How Recommendations Work",
   "author": {
     "@type": "Person",
-    "name": "Pavel Kordik",
+    "name": "Pavel Kordík and the Recombee team",
     "jobTitle": "Co-founder of Recombee",
-    "affiliation": { "@type": "Organization", "name": "Recombee" }
+    "affiliation": { "@type": "Organization", "name": "Pavel Kordík and the Recombee team" }
   },
-  "description": "A free interactive book about recommendation systems for ages 8-15. Covers collaborative filtering, content-based methods, filter bubbles, fairness, privacy, and building your own recommender.",
-  "url": "https://recsysbook-kids.vercel.app/",
+  "description": "A free interactive book about recommendation systems for professionals and curious minds. Covers collaborative filtering, content-based methods, filter bubbles, fairness, privacy, and building your own recommender.",
+  "url": "https://recsys-pbook.vercel.app/",
   "inLanguage": "en",
-  "audience": { "@type": "EducationalAudience", "educationalRole": "student", "typicalAgeRange": "8-15" },
-  "educationalLevel": "middle school",
+  "audience": { "@type": "EducationalAudience", "educationalRole": "professional", "typicalAgeRange": "18+" },
+  "educationalLevel": "professional",
   "genre": ["Education", "Technology", "Computer Science"],
-  "numberOfPages": 81,
+  "numberOfPages": 213,
   "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
   "isAccessibleForFree": true,
-  "publisher": { "@type": "Organization", "name": "Recombee", "url": "https://www.recombee.com" }
+  "publisher": { "@type": "Organization", "name": "Pavel Kordík and the Recombee team", "url": "https://www.recombee.com" }
 }
 </script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -66,13 +66,13 @@
     <!-- Step 0: Welcome screen -->
     <div class="step active" data-step="0">
       <h1 class="intro-title">How Recommendations Work</h1>
-      <img src="images/hero-recsys.svg" alt="How recommendations work" class="intro-hero">
-      <p class="intro-tagline">Understand the algorithms that decide what you see</p>
+      <img src="images/hero-cf-demo.svg" alt="Collaborative filtering demo" class="intro-hero" style="max-width:480px;border-radius:16px">
+      <p class="intro-tagline">From algorithms to production &mdash; the complete guide to recommender systems</p>
 
       <div class="intro-author-visible">
-        <p class="intro-author-name"><a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a></p>
-        <p class="intro-author-role">Co-founder of <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> &amp; <a href="https://aidetem.cz" target="_blank" rel="noopener">AI&nbsp;d&#283;tem</a> &middot; Assoc. Professor at <a href="https://kam.fit.cvut.cz" target="_blank" rel="noopener">CTU in Prague</a></p>
-        <p class="intro-author-text">Every day, recommendation algorithms suggest thousands of items to you &mdash; on social media, streaming services, online stores. You should know how they work.</p>
+        <p class="intro-author-name"><a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a> and the <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> team</p>
+        <p class="intro-author-role">Built on research from <a href="https://recombee.com/research" target="_blank" rel="noopener">Recombee Labs</a> &amp; <a href="https://kam.fit.cvut.cz" target="_blank" rel="noopener">FIT CTU Prague</a></p>
+        <p class="intro-author-text">Every day, recommendation algorithms select thousands of items for you &mdash; on streaming platforms, online stores, and social media. This book explains how they work, from mathematical foundations to production deployment.</p>
       </div>
 
       <button class="btn-primary btn-large" onclick="app.startRandom()">Start reading &#128640;</button>

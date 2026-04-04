@@ -58,7 +58,10 @@
       stroke-dashoffset: 120;
       animation: barGrow4 1.0s ease-out 4.6s forwards;
     }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text class="title" x="250" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Signal Interpretation</text>
@@ -125,4 +128,5 @@
     <text x="396" y="270" text-anchor="middle" font-size="22" fill="#0c8383" font-weight="bold">&#x2713;&#x2713;</text>
     <text x="440" y="270" font-size="9" fill="#0c8383" font-weight="600">Loved it</text>
   </g>
+</g>
 </svg>

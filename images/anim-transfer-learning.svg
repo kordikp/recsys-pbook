@@ -56,7 +56,10 @@
     /* Result label */
     .result { opacity: 0; animation: popIn 0.5s ease-out 3.5s forwards; }
     .result-glow { animation: glow 2s ease-in-out 3.5s infinite; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <defs>
     <marker id="ah" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
@@ -124,4 +127,5 @@
     <rect x="195" y="210" width="210" height="30" rx="8" fill="#0b1225" />
     <text x="300" y="230" text-anchor="middle" font-size="11" fill="#3bc4a1" font-weight="700">+131% Recall@20 (zero-shot)</text>
   </g>
+</g>
 </svg>

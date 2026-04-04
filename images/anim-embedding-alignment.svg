@@ -69,7 +69,10 @@
     /* Result label */
     .result { opacity: 0; animation: fadeIn 0.6s ease-out 4.2s forwards; }
     .aligned-label { opacity: 0; animation: fadeIn 0.5s ease-out 4.5s forwards; }
+  
+    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
+<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
 
   <!-- Title -->
   <text class="title" x="300" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Embedding Space Alignment</text>
@@ -124,4 +127,5 @@
     <rect x="160" y="260" width="280" height="30" rx="8" fill="#0b1225" />
     <text x="300" y="280" text-anchor="middle" font-size="10.5" fill="#f5f5f4" font-weight="600">beeFormer: ELSA loss aligns text to behavior</text>
   </g>
+</g>
 </svg>
