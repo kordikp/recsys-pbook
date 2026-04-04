@@ -1,0 +1,2051 @@
+{
+  "items": [
+    {
+      "id": "ch1-noticed",
+      "title": "Have You Ever Noticed?",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 89.7,
+      "y": 450.6,
+      "r": 4
+    },
+    {
+      "id": "ch1-everywhere",
+      "title": "Recommendations Are Everywhere",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 60.6,
+      "y": 516.2,
+      "r": 4
+    },
+    {
+      "id": "ch1-not-magic",
+      "title": "It's Not Magic \u2014 It's Patterns",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 48.5,
+      "y": 469.6,
+      "r": 4
+    },
+    {
+      "id": "ch1-wrong-sidebar",
+      "title": "When Recommendations Go Wrong",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 126.2,
+      "y": 452.7,
+      "r": 4
+    },
+    {
+      "id": "ch1-patterns-d-think",
+      "title": "Patterns Are Everywhere",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 56.0,
+      "y": 443.1,
+      "r": 4
+    },
+    {
+      "id": "ch1-history",
+      "title": "A Brief History of Recommender Systems",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 162.4,
+      "y": 469.6,
+      "r": 4
+    },
+    {
+      "id": "ch1-three-jobs",
+      "title": "The Three Jobs of a Recommender",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 74.1,
+      "y": 486.9,
+      "r": 4
+    },
+    {
+      "id": "ch1-wyr",
+      "title": "The Core Trade-offs",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 92.2,
+      "y": 516.5,
+      "r": 4
+    },
+    {
+      "id": "ch1-personalization-spectrum",
+      "title": "The Personalization Spectrum: From Gener",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 132.0,
+      "y": 492.1,
+      "r": 4
+    },
+    {
+      "id": "ch1-q1",
+      "title": "What's Your Learning Priority?",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 35.9,
+      "y": 494.4,
+      "r": 4
+    },
+    {
+      "id": "ch1-ws-match",
+      "title": "Which Model Powers Your Favorite Platfor",
+      "chapter": "ch01-introduction",
+      "chNum": 1,
+      "x": 104.6,
+      "y": 479.4,
+      "r": 4
+    },
+    {
+      "id": "ch2-footprints",
+      "title": "Your Digital Footprints",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 88.8,
+      "y": 295.6,
+      "r": 4
+    },
+    {
+      "id": "ch2-track-d-exp",
+      "title": "What Do They Actually Track?",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 129.6,
+      "y": 282.4,
+      "r": 4
+    },
+    {
+      "id": "ch2-guess-signal",
+      "title": "Exercise: Strong Signal or Weak Signal?",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 61.2,
+      "y": 266.5,
+      "r": 4
+    },
+    {
+      "id": "ch2-game-signal",
+      "title": "Signal Sort Challenge",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 37.8,
+      "y": 278.2,
+      "r": 4
+    },
+    {
+      "id": "ch2-interactions",
+      "title": "Explicit vs. Implicit: Two Kinds of Feed",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 131.7,
+      "y": 253.5,
+      "r": 4
+    },
+    {
+      "id": "ch2-implicit-feedback",
+      "title": "Implicit Feedback: The Mathematics of Be",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 153.3,
+      "y": 279.2,
+      "r": 5.943333333333333
+    },
+    {
+      "id": "ch2-user-lifecycle",
+      "title": "The User Lifecycle: From First Click to ",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 83.2,
+      "y": 252.7,
+      "r": 4
+    },
+    {
+      "id": "ch2-data-foundation",
+      "title": "The Data Foundation: Three Pillars of Ev",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 53.1,
+      "y": 247.4,
+      "r": 4
+    },
+    {
+      "id": "ch2-clues",
+      "title": "Three Types of Clues",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 84.5,
+      "y": 274.4,
+      "r": 4
+    },
+    {
+      "id": "ch2-incognito-sidebar",
+      "title": "The Cold Start Problem",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 44.2,
+      "y": 307.3,
+      "r": 4
+    },
+    {
+      "id": "ch2-negative-signals",
+      "title": "Negative Signals: What Skips and Exits T",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 106.9,
+      "y": 250.1,
+      "r": 4
+    },
+    {
+      "id": "ch2-rating-quality",
+      "title": "The Anna vs. Bob Problem: Not All Rating",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 61.6,
+      "y": 288.2,
+      "r": 4
+    },
+    {
+      "id": "ch2-visibility-bias",
+      "title": "Visibility Bias: You Can't Click What Yo",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 109.4,
+      "y": 274.5,
+      "r": 4
+    },
+    {
+      "id": "ch2-myth",
+      "title": "Myth Busters: True or False?",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 94.2,
+      "y": 323.3,
+      "r": 4
+    },
+    {
+      "id": "ch2-game-cold",
+      "title": "Cold Start Challenge",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 70.8,
+      "y": 308.3,
+      "r": 4
+    },
+    {
+      "id": "ch2-privacy",
+      "title": "Your Data, Your Choice",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 138.3,
+      "y": 309.0,
+      "r": 4
+    },
+    {
+      "id": "ch2-privacy-d-create",
+      "title": "The Algorithm Experiment",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 89.9,
+      "y": 231.0,
+      "r": 4
+    },
+    {
+      "id": "ch2-data-ownership",
+      "title": "Data Ownership: Who Owns Your Behavioral",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 67.3,
+      "y": 329.9,
+      "r": 4
+    },
+    {
+      "id": "ch2-ws-detective",
+      "title": "Be a Data Detective -- Right Now",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 116.7,
+      "y": 323.8,
+      "r": 4
+    },
+    {
+      "id": "ch2-data-quality",
+      "title": "Data Quality: Garbage In, Garbage Out",
+      "chapter": "ch02-data",
+      "chNum": 2,
+      "x": 112.4,
+      "y": 299.6,
+      "r": 4
+    },
+    {
+      "id": "ch4-objectives",
+      "title": "What Is the Algorithm Actually Trying to",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 150.8,
+      "y": 111.7,
+      "r": 4
+    },
+    {
+      "id": "ch4-multi-objective",
+      "title": "Multi-Objective Optimization: When Goals",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 116.7,
+      "y": 83.8,
+      "r": 7.5
+    },
+    {
+      "id": "ch4-fairness",
+      "title": "Is It Fair?",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 99.8,
+      "y": 55.0,
+      "r": 4
+    },
+    {
+      "id": "ch4-youtube-sidebar",
+      "title": "YouTube by the Numbers",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 121.6,
+      "y": 118.4,
+      "r": 4
+    },
+    {
+      "id": "ch4-unfair-game",
+      "title": "The Unfair Marketplace",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 127.4,
+      "y": 51.0,
+      "r": 4
+    },
+    {
+      "id": "ch4-diversity-metrics",
+      "title": "Diversity Metrics: Measuring What Variet",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 153.5,
+      "y": 36.1,
+      "r": 6.153333333333333
+    },
+    {
+      "id": "ch4-long-tail",
+      "title": "The Long Tail: Why Most Items Never Get ",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 180.5,
+      "y": 71.9,
+      "r": 4.61
+    },
+    {
+      "id": "ch4-user-fatigue",
+      "title": "User Fatigue: When Good Recommendations ",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 140.6,
+      "y": 89.0,
+      "r": 4.543333333333333
+    },
+    {
+      "id": "ch4-satisfaction",
+      "title": "Satisfaction vs. Engagement: Measuring W",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 205.4,
+      "y": 121.0,
+      "r": 4
+    },
+    {
+      "id": "ch4-trust",
+      "title": "Trust and Calibration: Why Confidence Ma",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 93.8,
+      "y": 98.8,
+      "r": 4
+    },
+    {
+      "id": "ch4-reward-design",
+      "title": "Reward Design: You Get What You Optimize",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 181.4,
+      "y": 112.5,
+      "r": 4
+    },
+    {
+      "id": "ch4-spotify-paradox",
+      "title": "The Spotify Paradox: +29% Streams, -11% ",
+      "chapter": "ch03-objectives",
+      "chNum": 3,
+      "x": 153.3,
+      "y": 67.0,
+      "r": 4
+    },
+    {
+      "id": "ch4-what-scenarios",
+      "title": "What Are Recommendation Scenarios?",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 319.7,
+      "y": 220.4,
+      "r": 4
+    },
+    {
+      "id": "ch4-canvas",
+      "title": "The Scenario Canvas: A Design Framework",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 264.3,
+      "y": 233.1,
+      "r": 4.53
+    },
+    {
+      "id": "ch5-rec-scenarios",
+      "title": "Recommendation Scenarios: Different Cont",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 358.1,
+      "y": 182.9,
+      "r": 4
+    },
+    {
+      "id": "ch5-composite-recs",
+      "title": "Composite Recommendations: Building Pers",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 340.1,
+      "y": 209.0,
+      "r": 4
+    },
+    {
+      "id": "ch3-context-aware",
+      "title": "Context-Aware Recommendation: It's Not J",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 301.5,
+      "y": 195.1,
+      "r": 5.006666666666667
+    },
+    {
+      "id": "ch3-session-based",
+      "title": "Session-Based Recommendation: When You D",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 298.8,
+      "y": 251.1,
+      "r": 5.71
+    },
+    {
+      "id": "ch3-search-recs",
+      "title": "Search and Recommendations: Two Sides of",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 258.8,
+      "y": 178.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-search-recs-convergence",
+      "title": "The Convergence of Search and Recommenda",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 284.8,
+      "y": 171.1,
+      "r": 4
+    },
+    {
+      "id": "ch3-llm-recs",
+      "title": "LLM-Powered Recommendations: A New Parad",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 292.6,
+      "y": 224.6,
+      "r": 5.26
+    },
+    {
+      "id": "ch3-rag-recs",
+      "title": "Retrieval-Augmented Recommendation: RAG ",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 255.5,
+      "y": 206.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-autoplay",
+      "title": "The Autoplay Problem: When Engagement Is",
+      "chapter": "ch04-scenarios",
+      "chNum": 4,
+      "x": 319.2,
+      "y": 167.9,
+      "r": 4
+    },
+    {
+      "id": "ch3-friends",
+      "title": "Ask Your Friends",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 378.9,
+      "y": 478.7,
+      "r": 4
+    },
+    {
+      "id": "ch3-cf-d-exp",
+      "title": "See Collaborative Filtering in Action",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 320.2,
+      "y": 447.6,
+      "r": 4
+    },
+    {
+      "id": "ch3-cf-d-create",
+      "title": "Build Your Own Taste-Matching System",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 301.9,
+      "y": 420.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-netflix-sidebar",
+      "title": "The Million-Dollar Recommendation Challe",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 362.1,
+      "y": 495.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-cf-limitations",
+      "title": "The Limits of Collaborative Filtering",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 341.2,
+      "y": 387.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-game-taste",
+      "title": "Find Your Preference Twin",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 333.0,
+      "y": 436.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-content",
+      "title": "Look at the Thing Itself",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 387.3,
+      "y": 438.7,
+      "r": 4
+    },
+    {
+      "id": "ch3-compare-d-think",
+      "title": "Collaborative vs. Content-Based: Trade-o",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 386.7,
+      "y": 419.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-spot-method",
+      "title": "Spot the Method",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 349.4,
+      "y": 420.2,
+      "r": 4
+    },
+    {
+      "id": "ch3-game-method",
+      "title": "Name That Method",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 290.5,
+      "y": 472.2,
+      "r": 4
+    },
+    {
+      "id": "ch3-bandits",
+      "title": "The Explore-Exploit Dilemma",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 391.0,
+      "y": 461.7,
+      "r": 4
+    },
+    {
+      "id": "ch3-bandits-intuition",
+      "title": "The Restaurant Analogy: Understanding Ex",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 316.3,
+      "y": 501.2,
+      "r": 4
+    },
+    {
+      "id": "ch3-deep-similarity",
+      "title": "How Computers Understand Similarity",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 317.3,
+      "y": 413.2,
+      "r": 4
+    },
+    {
+      "id": "ch3-embeddings-intuition",
+      "title": "Embeddings: Giving Items an Address in S",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 283.3,
+      "y": 435.0,
+      "r": 4
+    },
+    {
+      "id": "ch3-two-tower",
+      "title": "The Two-Tower Architecture",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 302.1,
+      "y": 437.9,
+      "r": 4
+    },
+    {
+      "id": "ch3-two-tower-math",
+      "title": "Two-Tower Architecture: Training, Servin",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 362.9,
+      "y": 465.7,
+      "r": 8.5
+    },
+    {
+      "id": "ch3-matrix-factorization",
+      "title": "Matrix Factorization: The Netflix Method",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 298.4,
+      "y": 488.8,
+      "r": 4
+    },
+    {
+      "id": "ch3-als-deep",
+      "title": "ALS: The Complete Algorithm",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 326.4,
+      "y": 488.7,
+      "r": 9.19
+    },
+    {
+      "id": "ch3-attention",
+      "title": "Self-Attention: Not All Interactions Mat",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 367.6,
+      "y": 438.2,
+      "r": 4
+    },
+    {
+      "id": "ch3-attention-deep",
+      "title": "Transformers for Sequential Recommendati",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 341.9,
+      "y": 499.1,
+      "r": 9.183333333333334
+    },
+    {
+      "id": "ch3-graph-methods",
+      "title": "Graph-Based Methods: Recommendations as ",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 356.0,
+      "y": 481.0,
+      "r": 5.0
+    },
+    {
+      "id": "ch3-feature-interactions",
+      "title": "Feature Interaction Models: From Factori",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 350.0,
+      "y": 436.1,
+      "r": 5.133333333333334
+    },
+    {
+      "id": "ch3-hybrid-patterns",
+      "title": "Hybrid Architectures: Combining Methods ",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 357.1,
+      "y": 450.5,
+      "r": 5.916666666666667
+    },
+    {
+      "id": "ch3-multimodal",
+      "title": "Multimodal Recommendation: Beyond Text a",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 326.2,
+      "y": 463.5,
+      "r": 8.146666666666667
+    },
+    {
+      "id": "ch3-embedding-alignment",
+      "title": "Embedding Alignment: Making Different Sp",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 366.9,
+      "y": 422.2,
+      "r": 4
+    },
+    {
+      "id": "ch3-rl-recsys",
+      "title": "Reinforcement Learning for Recommendatio",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 327.1,
+      "y": 399.9,
+      "r": 4.023333333333333
+    },
+    {
+      "id": "ch3-social-rec",
+      "title": "Social Recommendation: Your Friends as S",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 338.7,
+      "y": 451.3,
+      "r": 4
+    },
+    {
+      "id": "ch3-neg-sampling",
+      "title": "Negative Sampling Strategies: Learning F",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 348.1,
+      "y": 403.0,
+      "r": 4
+    },
+    {
+      "id": "ch3-item-emb-prod",
+      "title": "Item Embeddings in Production: From Trai",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 367.1,
+      "y": 403.9,
+      "r": 4
+    },
+    {
+      "id": "ch3-geographic",
+      "title": "Geographic Recommendations: Where You Ar",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 297.0,
+      "y": 453.3,
+      "r": 4
+    },
+    {
+      "id": "ch3-popular",
+      "title": "What's Popular Right Now?",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 311.9,
+      "y": 478.1,
+      "r": 4
+    },
+    {
+      "id": "ch3-popular-sidebar",
+      "title": "The Popularity Trap",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 307.4,
+      "y": 398.1,
+      "r": 4
+    },
+    {
+      "id": "ch3-freshness",
+      "title": "The Freshness Problem: When Relevance Ha",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 310.5,
+      "y": 461.4,
+      "r": 4.15
+    },
+    {
+      "id": "ch3-pipeline",
+      "title": "The Recommendation Pipeline",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 280.1,
+      "y": 455.4,
+      "r": 4
+    },
+    {
+      "id": "ch3-pipeline-d-exp",
+      "title": "Trace a Production Recommendation Reques",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 345.9,
+      "y": 465.8,
+      "r": 4
+    },
+    {
+      "id": "ch3-ltr",
+      "title": "Learning to Rank: From Pointwise to List",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 375.6,
+      "y": 453.9,
+      "r": 9.466666666666667
+    },
+    {
+      "id": "ch3-speed",
+      "title": "The Scale of Modern Recommendation",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 335.3,
+      "y": 476.5,
+      "r": 4
+    },
+    {
+      "id": "ch3-slate",
+      "title": "Slate Optimization: Recommending Sets, N",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 287.3,
+      "y": 412.9,
+      "r": 4
+    },
+    {
+      "id": "ch3-game-pipeline",
+      "title": "Assemble the Pipeline",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 317.3,
+      "y": 431.1,
+      "r": 4
+    },
+    {
+      "id": "ch3-q1",
+      "title": "Which Method Would You Deploy First?",
+      "chapter": "ch05-algorithms",
+      "chNum": 5,
+      "x": 333.6,
+      "y": 419.2,
+      "r": 4
+    },
+    {
+      "id": "ch4-testing",
+      "title": "Testing, Testing, 1-2-3",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 356.9,
+      "y": 55.8,
+      "r": 4
+    },
+    {
+      "id": "ch4-ab-d-exp",
+      "title": "Anatomy of an A/B Test",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 440.3,
+      "y": 30.6,
+      "r": 4
+    },
+    {
+      "id": "ch4-game-ab",
+      "title": "A/B Test Judge",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 420.8,
+      "y": 30,
+      "r": 4
+    },
+    {
+      "id": "ch4-online-offline",
+      "title": "Online vs. Offline Evaluation: Bridging ",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 394.0,
+      "y": 59.2,
+      "r": 9.323333333333334
+    },
+    {
+      "id": "ch4-counterfactual",
+      "title": "Counterfactual Reasoning: What Would Hav",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 377.1,
+      "y": 52.4,
+      "r": 4
+    },
+    {
+      "id": "ch4-interleaving",
+      "title": "Interleaving: The Faster Alternative to ",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 368.6,
+      "y": 95.3,
+      "r": 4
+    },
+    {
+      "id": "ch4-bubbles",
+      "title": "Trapped in a Bubble",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 333.1,
+      "y": 33.4,
+      "r": 4
+    },
+    {
+      "id": "ch4-echo-d-think",
+      "title": "Echo Chambers: When Bubbles Get Serious",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 353.0,
+      "y": 78.9,
+      "r": 4
+    },
+    {
+      "id": "ch4-bias-types",
+      "title": "A Taxonomy of Bias in Recommender System",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 424.3,
+      "y": 88.5,
+      "r": 9.706666666666667
+    },
+    {
+      "id": "ch4-polarization",
+      "title": "Algorithmic Polarization: What the Resea",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 385.7,
+      "y": 30,
+      "r": 4
+    },
+    {
+      "id": "ch4-experiment",
+      "title": "Try This Right Now",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 333.3,
+      "y": 61.9,
+      "r": 4
+    },
+    {
+      "id": "ch4-game-bubble",
+      "title": "Pop the Filter Bubble",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 351.6,
+      "y": 30,
+      "r": 4
+    },
+    {
+      "id": "ch4-accountability",
+      "title": "Algorithmic Accountability: Who Is Respo",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 414.3,
+      "y": 49.9,
+      "r": 4
+    },
+    {
+      "id": "ch4-q1",
+      "title": "What matters most in a recommendation sy",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 398.1,
+      "y": 98.1,
+      "r": 4
+    },
+    {
+      "id": "ch5-ab-pitfalls",
+      "title": "A/B Testing Pitfalls: How to Get Reliabl",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 402.3,
+      "y": 30,
+      "r": 4
+    },
+    {
+      "id": "ch5-benchmarks",
+      "title": "RecSys Benchmarks: Standard Datasets and",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 435.7,
+      "y": 58.3,
+      "r": 6.386666666666667
+    },
+    {
+      "id": "ch7-evaluation",
+      "title": "Measuring What Matters: The Evaluation P",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 410.0,
+      "y": 71.8,
+      "r": 4
+    },
+    {
+      "id": "ch7-eval-math",
+      "title": "Evaluation Metrics: The Mathematical Det",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 385.6,
+      "y": 80.4,
+      "r": 4
+    },
+    {
+      "id": "ch7-repsys",
+      "title": "RepSys: Interactive Evaluation You Can S",
+      "chapter": "ch06-evaluation",
+      "chNum": 6,
+      "x": 368.8,
+      "y": 30,
+      "r": 4
+    },
+    {
+      "id": "ch7-why-explain",
+      "title": "Why Explainability Matters",
+      "chapter": "ch07-explainability",
+      "chNum": 7,
+      "x": 483.6,
+      "y": 125.8,
+      "r": 4
+    },
+    {
+      "id": "ch4-explainability",
+      "title": "Why Did It Recommend THAT?",
+      "chapter": "ch07-explainability",
+      "chNum": 7,
+      "x": 515.5,
+      "y": 136.3,
+      "r": 4
+    },
+    {
+      "id": "ch4-explanation-ux",
+      "title": "Designing Recommendation Explanations: W",
+      "chapter": "ch07-explainability",
+      "chNum": 7,
+      "x": 456.6,
+      "y": 152.0,
+      "r": 5.22
+    },
+    {
+      "id": "ch7-explain-tech",
+      "title": "Technical Approaches to Explainability",
+      "chapter": "ch07-explainability",
+      "chNum": 7,
+      "x": 537.1,
+      "y": 79.1,
+      "r": 4.816666666666666
+    },
+    {
+      "id": "ch7-transparency",
+      "title": "The Transparency Spectrum: From Black Bo",
+      "chapter": "ch07-explainability",
+      "chNum": 7,
+      "x": 506.5,
+      "y": 94.6,
+      "r": 4
+    },
+    {
+      "id": "ch7-explain-q1",
+      "title": "How Much Should Users Know?",
+      "chapter": "ch07-explainability",
+      "chNum": 7,
+      "x": 544.3,
+      "y": 128.9,
+      "r": 4
+    },
+    {
+      "id": "ch5-tech-stack",
+      "title": "The RecSys Technology Stack: An End-to-E",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 437.5,
+      "y": 270.5,
+      "r": 8.44
+    },
+    {
+      "id": "ch5-scale",
+      "title": "Recommendation at Different Scales: Star",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 461.7,
+      "y": 243.6,
+      "r": 4
+    },
+    {
+      "id": "ch5-realtime",
+      "title": "Real-Time Personalization: Reacting in M",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 389.8,
+      "y": 286.0,
+      "r": 4
+    },
+    {
+      "id": "ch5-caching",
+      "title": "Recommendation Caching: The Speed-Freshn",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 416.9,
+      "y": 292.3,
+      "r": 4
+    },
+    {
+      "id": "ch5-embedding-viz",
+      "title": "Visualizing Embeddings: Seeing What Algo",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 430.6,
+      "y": 245.4,
+      "r": 4.056666666666667
+    },
+    {
+      "id": "ch5-build-vs-buy",
+      "title": "Build vs. Buy: The Strategic Decision",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 402.2,
+      "y": 256.5,
+      "r": 4
+    },
+    {
+      "id": "ch7-production-scale",
+      "title": "Production at Scale: From Papers to Bill",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 447.7,
+      "y": 297.0,
+      "r": 4
+    },
+    {
+      "id": "ch7-sparse-reps",
+      "title": "Why Sparsity Matters: From Dense to Spar",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 397.5,
+      "y": 228.0,
+      "r": 4
+    },
+    {
+      "id": "ch7-distillation",
+      "title": "Knowledge Distillation: Making Big Model",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 426.4,
+      "y": 217.2,
+      "r": 4
+    },
+    {
+      "id": "ch7-realm",
+      "title": "ReALM: When Linear Models Beat Transform",
+      "chapter": "ch08-deployment",
+      "chNum": 8,
+      "x": 458.3,
+      "y": 214.1,
+      "r": 4
+    },
+    {
+      "id": "ch9-why-monitor",
+      "title": "Why RecSys Monitoring Is Different",
+      "chapter": "ch09-monitoring",
+      "chNum": 9,
+      "x": 518.6,
+      "y": 543.1,
+      "r": 4
+    },
+    {
+      "id": "ch9-drift",
+      "title": "Drift Detection: When Your Model Goes St",
+      "chapter": "ch09-monitoring",
+      "chNum": 9,
+      "x": 543.6,
+      "y": 528.2,
+      "r": 4
+    },
+    {
+      "id": "ch5-monitoring",
+      "title": "Production Monitoring: Keeping Your Reco",
+      "chapter": "ch09-monitoring",
+      "chNum": 9,
+      "x": 489.7,
+      "y": 550.6,
+      "r": 8.646666666666667
+    },
+    {
+      "id": "ch5-observability",
+      "title": "RecSys Observability: When Things Go Wro",
+      "chapter": "ch09-monitoring",
+      "chNum": 9,
+      "x": 574.7,
+      "y": 548.6,
+      "r": 4
+    },
+    {
+      "id": "ch5-continual-learning",
+      "title": "Continual Learning: Keeping Models Fresh",
+      "chapter": "ch09-monitoring",
+      "chNum": 9,
+      "x": 564.7,
+      "y": 570,
+      "r": 4
+    },
+    {
+      "id": "ch5-flywheel",
+      "title": "The Data Flywheel: How Good Recommendati",
+      "chapter": "ch09-monitoring",
+      "chNum": 9,
+      "x": 539.0,
+      "y": 569.4,
+      "r": 4
+    },
+    {
+      "id": "ch9-incidents",
+      "title": "Incident Response: When Recommendations ",
+      "chapter": "ch09-monitoring",
+      "chNum": 9,
+      "x": 512.8,
+      "y": 570,
+      "r": 4
+    },
+    {
+      "id": "ch5-business-rules",
+      "title": "Business Rules: When Product Managers Ov",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 527.9,
+      "y": 235.8,
+      "r": 4
+    },
+    {
+      "id": "ch5-model-selection",
+      "title": "Model Selection: Choosing the Right Algo",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 468.8,
+      "y": 339.6,
+      "r": 6.23
+    },
+    {
+      "id": "ch5-cold-start",
+      "title": "Cold Start Solutions: A Systematic Compa",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 490.0,
+      "y": 317.6,
+      "r": 5.62
+    },
+    {
+      "id": "ch5-anti-patterns",
+      "title": "RecSys Anti-Patterns: Mistakes Everyone ",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 476.6,
+      "y": 289.8,
+      "r": 7.196666666666666
+    },
+    {
+      "id": "ch5-open-source",
+      "title": "Open-Source RecSys Tools: A Practitioner",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 557.4,
+      "y": 273.1,
+      "r": 6.746666666666667
+    },
+    {
+      "id": "ch5-marketplace",
+      "title": "Recommendations in Marketplaces: When Bo",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 563.3,
+      "y": 234.2,
+      "r": 5.403333333333333
+    },
+    {
+      "id": "ch5-education-recs",
+      "title": "Recommendations for Education: Learning ",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 529.6,
+      "y": 281.6,
+      "r": 4
+    },
+    {
+      "id": "ch5-feature-eng",
+      "title": "Feature Engineering for RecSys: What to ",
+      "chapter": "ch10-customization",
+      "chNum": 10,
+      "x": 500.9,
+      "y": 261.8,
+      "r": 4
+    },
+    {
+      "id": "ch6-who-decides",
+      "title": "Who Decides What You See?",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 583.6,
+      "y": 341.9,
+      "r": 4
+    },
+    {
+      "id": "ch6-rabbit-sidebar",
+      "title": "The Rabbit Hole Effect",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 548.6,
+      "y": 412.2,
+      "r": 4
+    },
+    {
+      "id": "ch6-attention-economy",
+      "title": "The Attention Economy: You Are the Produ",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 548.3,
+      "y": 369.3,
+      "r": 4
+    },
+    {
+      "id": "ch6-addictive",
+      "title": "Designed to Keep You Engaged",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 565.3,
+      "y": 426.8,
+      "r": 4
+    },
+    {
+      "id": "ch6-control-d-create",
+      "title": "Take Control: Your Digital Toolkit",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 551.3,
+      "y": 388.4,
+      "r": 4
+    },
+    {
+      "id": "ch6-dopamine-sidebar",
+      "title": "The Dopamine Connection",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 608.9,
+      "y": 442.5,
+      "r": 4
+    },
+    {
+      "id": "ch6-adtech-vs-recs",
+      "title": "Recommendations vs. Ads: Know the Differ",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 631.7,
+      "y": 352.0,
+      "r": 4
+    },
+    {
+      "id": "ch6-creator-economy",
+      "title": "The Creator Economy: How Algorithms Shap",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 569.3,
+      "y": 400.9,
+      "r": 4
+    },
+    {
+      "id": "ch6-dark-patterns",
+      "title": "Dark Patterns in Recommendation UX",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 588.8,
+      "y": 406.6,
+      "r": 4
+    },
+    {
+      "id": "ch6-privacy-real",
+      "title": "Your Data: What They Actually Know",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 609.9,
+      "y": 340.7,
+      "r": 4
+    },
+    {
+      "id": "ch6-data-d-exp",
+      "title": "Audit It Yourself",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 579.1,
+      "y": 383.7,
+      "r": 4
+    },
+    {
+      "id": "ch6-age-sidebar",
+      "title": "Behavioral Inference: What the Algorithm",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 560.5,
+      "y": 351.4,
+      "r": 4
+    },
+    {
+      "id": "ch6-game-privacy",
+      "title": "Privacy Spotter",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 600.5,
+      "y": 362.1,
+      "r": 4
+    },
+    {
+      "id": "ch6-content-safety",
+      "title": "Content Safety: When Recommendations Go ",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 626.3,
+      "y": 421.9,
+      "r": 4
+    },
+    {
+      "id": "ch6-privacy-preserving",
+      "title": "Privacy-Preserving Recommendation: Techn",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 601.3,
+      "y": 422.4,
+      "r": 4
+    },
+    {
+      "id": "ch6-ai-future",
+      "title": "The Future Is Ours to Shape",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 611.2,
+      "y": 401.9,
+      "r": 4
+    },
+    {
+      "id": "ch6-hard-d-think",
+      "title": "Open Questions in Recommendation Ethics",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 640.3,
+      "y": 377.7,
+      "r": 4
+    },
+    {
+      "id": "ch6-law-sidebar",
+      "title": "The Regulatory Landscape: Laws Catching ",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 619.8,
+      "y": 371.7,
+      "r": 4
+    },
+    {
+      "id": "ch6-conversational",
+      "title": "Conversational Recommendation: The LLM F",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 582.3,
+      "y": 436.6,
+      "r": 4
+    },
+    {
+      "id": "ch6-ethics-checklist",
+      "title": "The RecSys Ethics Checklist: Questions t",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 578.6,
+      "y": 364.1,
+      "r": 5.056666666666667
+    },
+    {
+      "id": "ch6-global",
+      "title": "Global Perspectives: Recommendations Acr",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 632.4,
+      "y": 398.7,
+      "r": 4
+    },
+    {
+      "id": "ch6-q1",
+      "title": "The Design Choice",
+      "chapter": "ch11-ethics",
+      "chNum": 11,
+      "x": 602.4,
+      "y": 384.1,
+      "r": 4
+    },
+    {
+      "id": "ch13-domains-intro",
+      "title": "Why Domains Matter: One Algorithm Doesn'",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 685.7,
+      "y": 92.2,
+      "r": 4
+    },
+    {
+      "id": "ch13-video",
+      "title": "Video & Streaming: Keeping Viewers Engag",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 689.3,
+      "y": 138.1,
+      "r": 4.123333333333333
+    },
+    {
+      "id": "ch12-video-recipes",
+      "title": "Video Recipes: Complete Scenario Referen",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 716.8,
+      "y": 95.1,
+      "r": 4
+    },
+    {
+      "id": "ch13-ecommerce",
+      "title": "E-Commerce: Where Recommendations Drive ",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 663.7,
+      "y": 139.6,
+      "r": 4.16
+    },
+    {
+      "id": "ch12-ecommerce-recipes",
+      "title": "E-Commerce Recipes: Complete Scenario Re",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 667.4,
+      "y": 112.2,
+      "r": 4
+    },
+    {
+      "id": "ch13-news",
+      "title": "News & Media: Racing Against the Clock",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 723.3,
+      "y": 144.3,
+      "r": 4.05
+    },
+    {
+      "id": "ch12-news-recipes",
+      "title": "News Recipes: Complete Scenario Referenc",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 699.2,
+      "y": 112.7,
+      "r": 4
+    },
+    {
+      "id": "ch13-music",
+      "title": "Music & Podcasts: The Mood Machine",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 719.7,
+      "y": 122.8,
+      "r": 4
+    },
+    {
+      "id": "ch13-sports",
+      "title": "Sports & Live Events: Real-Time Personal",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 741.9,
+      "y": 72.0,
+      "r": 4
+    },
+    {
+      "id": "ch13-marketplaces",
+      "title": "P2P Marketplaces: When Every Item Is Uni",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 706.2,
+      "y": 163.1,
+      "r": 4
+    },
+    {
+      "id": "ch13-deals",
+      "title": "Deal Aggregators: Time-Sensitive Recomme",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 708.9,
+      "y": 71.5,
+      "r": 4
+    },
+    {
+      "id": "ch13-real-estate",
+      "title": "Real Estate: High-Stakes Geographic Matc",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 767.1,
+      "y": 103.5,
+      "r": 4
+    },
+    {
+      "id": "ch13-travel-jobs-edu",
+      "title": "Travel, Jobs, and Education: Specialized",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 765.5,
+      "y": 134.3,
+      "r": 4
+    },
+    {
+      "id": "ch13-q1",
+      "title": "Which Domain Interests You Most?",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 745.5,
+      "y": 157.0,
+      "r": 4
+    },
+    {
+      "id": "ch5-news-recs",
+      "title": "Recommendations for News: When Every Min",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 739.4,
+      "y": 97.9,
+      "r": 4
+    },
+    {
+      "id": "ch5-ecommerce",
+      "title": "Recommendations for E-commerce: Where Mo",
+      "chapter": "ch12-domains",
+      "chNum": 12,
+      "x": 743.5,
+      "y": 122.4,
+      "r": 4
+    },
+    {
+      "id": "ch7-why-research",
+      "title": "Why Research Matters",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 777.2,
+      "y": 440.6,
+      "r": 4
+    },
+    {
+      "id": "ch7-simple-to-scalable",
+      "title": "From Simple to Scalable: The EASE-to-ELS",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 693.0,
+      "y": 454.1,
+      "r": 4
+    },
+    {
+      "id": "ch7-ease-math",
+      "title": "The Mathematics of EASE: A Complete Deri",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 733.5,
+      "y": 444.1,
+      "r": 4
+    },
+    {
+      "id": "ch7-vasp-combining",
+      "title": "Combining Linear and Deep: The VASP Arch",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 714.7,
+      "y": 471.4,
+      "r": 4
+    },
+    {
+      "id": "ch7-vasp-ablation",
+      "title": "What VASP Teaches About Model Design: Ab",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 765.8,
+      "y": 463.9,
+      "r": 4
+    },
+    {
+      "id": "ch7-bandits",
+      "title": "The Exploration Problem: Bandit Algorith",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 729.4,
+      "y": 419.9,
+      "r": 4
+    },
+    {
+      "id": "ch7-thompson-math",
+      "title": "Thompson Sampling: The Full Mathematical",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 740.2,
+      "y": 468.8,
+      "r": 4
+    },
+    {
+      "id": "ch7-causal-bandits",
+      "title": "Causal Bandits: When Correlation Isn't E",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 713.4,
+      "y": 371.1,
+      "r": 4
+    },
+    {
+      "id": "ch7-cold-start-language",
+      "title": "Cold Start and Language: Teaching Algori",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 679.9,
+      "y": 402.6,
+      "r": 4
+    },
+    {
+      "id": "ch7-regularization",
+      "title": "Regularization in RecSys: Why Constraint",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 706.0,
+      "y": 428.4,
+      "r": 4
+    },
+    {
+      "id": "ch7-transfer-learning",
+      "title": "Transfer Learning: Knowledge That Travel",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 776.3,
+      "y": 411.7,
+      "r": 4
+    },
+    {
+      "id": "ch7-roadmap",
+      "title": "The Research Roadmap: What's Next",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 754.5,
+      "y": 425.3,
+      "r": 4
+    },
+    {
+      "id": "ch7-emerging",
+      "title": "Emerging Directions: What's Next for Rec",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 727.1,
+      "y": 396.3,
+      "r": 4
+    },
+    {
+      "id": "ch7-q1",
+      "title": "Which Research Direction Interests You M",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 755.1,
+      "y": 392.2,
+      "r": 4
+    },
+    {
+      "id": "ch7-glossary",
+      "title": "RecSys Glossary: Key Terms and Concepts",
+      "chapter": "ch13-research",
+      "chNum": 13,
+      "x": 666.9,
+      "y": 432.6,
+      "r": 7.873333333333333
+    },
+    {
+      "id": "ch5-start",
+      "title": "You Can Actually Do This",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 870,
+      "y": 272.2,
+      "r": 4
+    },
+    {
+      "id": "ch5-collect",
+      "title": "Step 1: Collect the Data",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 870,
+      "y": 336.3,
+      "r": 4
+    },
+    {
+      "id": "ch5-spread-d-create",
+      "title": "Build It in a Spreadsheet",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 870,
+      "y": 304.6,
+      "r": 4
+    },
+    {
+      "id": "ch5-similar",
+      "title": "Step 2: Find Similar Users",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 837.6,
+      "y": 307.9,
+      "r": 4
+    },
+    {
+      "id": "ch5-math-d-think",
+      "title": "The Math Behind Similarity",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 838.1,
+      "y": 331.3,
+      "r": 4
+    },
+    {
+      "id": "ch5-real-numbers",
+      "title": "Real-World Numbers",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 870,
+      "y": 289.0,
+      "r": 4
+    },
+    {
+      "id": "ch5-formulas",
+      "title": "The Math Behind Recommendations",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 804.8,
+      "y": 302.5,
+      "r": 4
+    },
+    {
+      "id": "ch5-recommend",
+      "title": "Step 3: Make Your Predictions",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 811.8,
+      "y": 280.0,
+      "r": 4
+    },
+    {
+      "id": "ch5-code-d-create",
+      "title": "Code It!",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 866.7,
+      "y": 253.2,
+      "r": 4
+    },
+    {
+      "id": "ch5-debug",
+      "title": "Debug Challenge",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 847.5,
+      "y": 360.5,
+      "r": 4
+    },
+    {
+      "id": "ch5-improve",
+      "title": "Step 4: Make It Better",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 811.1,
+      "y": 329.6,
+      "r": 4
+    },
+    {
+      "id": "ch5-career-sidebar",
+      "title": "Career Paths in Recommender Systems",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 870,
+      "y": 355.6,
+      "r": 4
+    },
+    {
+      "id": "ch5-get-recommended",
+      "title": "How to Get YOUR Content Recommended",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 749.4,
+      "y": 295.3,
+      "r": 4
+    },
+    {
+      "id": "ch5-seo-algorithms",
+      "title": "SEO for the Algorithm Age",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 838.9,
+      "y": 285.1,
+      "r": 4
+    },
+    {
+      "id": "ch5-case-studies",
+      "title": "Real-World Case Studies: How Industry Do",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 870,
+      "y": 319.7,
+      "r": 7.993333333333333
+    },
+    {
+      "id": "ch5-q1",
+      "title": "What would YOU build recommendations for",
+      "chapter": "ch14-build",
+      "chNum": 14,
+      "x": 835.9,
+      "y": 260.0,
+      "r": 4
+    }
+  ],
+  "chapters": [
+    {
+      "id": "ch01-introduction",
+      "title": "Introduction",
+      "num": 1,
+      "cx": 89.3,
+      "cy": 479.2,
+      "color": "#0c8383"
+    },
+    {
+      "id": "ch02-data",
+      "title": "Data",
+      "num": 2,
+      "cx": 91.7,
+      "cy": 283.7,
+      "color": "#3bc4a1"
+    },
+    {
+      "id": "ch03-objectives",
+      "title": "Objectives",
+      "num": 3,
+      "cx": 143.7,
+      "cy": 84.7,
+      "color": "#f59e0b"
+    },
+    {
+      "id": "ch04-scenarios",
+      "title": "Scenarios",
+      "num": 4,
+      "cx": 299.4,
+      "cy": 203.6,
+      "color": "#ef4444"
+    },
+    {
+      "id": "ch05-algorithms",
+      "title": "Algorithms",
+      "num": 5,
+      "cx": 334.9,
+      "cy": 446.6,
+      "color": "#6366f1"
+    },
+    {
+      "id": "ch06-evaluation",
+      "title": "Evaluation",
+      "num": 6,
+      "cx": 387.0,
+      "cy": 56.0,
+      "color": "#ec4899"
+    },
+    {
+      "id": "ch07-explainability",
+      "title": "Explainability & Insights",
+      "num": 7,
+      "cx": 507.3,
+      "cy": 119.5,
+      "color": "#14b8a6"
+    },
+    {
+      "id": "ch08-deployment",
+      "title": "Deployment & Scale",
+      "num": 8,
+      "cx": 426.9,
+      "cy": 255.1,
+      "color": "#f97316"
+    },
+    {
+      "id": "ch09-monitoring",
+      "title": "Maintenance & Monitoring",
+      "num": 9,
+      "cx": 534.7,
+      "cy": 554.3,
+      "color": "#8b5cf6"
+    },
+    {
+      "id": "ch10-customization",
+      "title": "Customization & Business Rules",
+      "num": 10,
+      "cx": 514.3,
+      "cy": 279.2,
+      "color": "#06b6d4"
+    },
+    {
+      "id": "ch11-ethics",
+      "title": "Ethics & Responsibility",
+      "num": 11,
+      "cx": 592.7,
+      "cy": 389.0,
+      "color": "#84cc16"
+    },
+    {
+      "id": "ch12-domains",
+      "title": "Domains",
+      "num": 12,
+      "cx": 717.7,
+      "cy": 117.4,
+      "color": "#e11d48"
+    },
+    {
+      "id": "ch13-research",
+      "title": "Research & Progress",
+      "num": 13,
+      "cx": 728.9,
+      "cy": 428.2,
+      "color": "#0ea5e9"
+    },
+    {
+      "id": "ch14-build",
+      "title": "Build Your Own",
+      "num": 14,
+      "cx": 841.4,
+      "cy": 305.2,
+      "color": "#a855f7"
+    }
+  ],
+  "colors": {
+    "ch01-introduction": "#0c8383",
+    "ch02-data": "#3bc4a1",
+    "ch03-objectives": "#f59e0b",
+    "ch04-scenarios": "#ef4444",
+    "ch05-algorithms": "#6366f1",
+    "ch06-evaluation": "#ec4899",
+    "ch07-explainability": "#14b8a6",
+    "ch08-deployment": "#f97316",
+    "ch09-monitoring": "#8b5cf6",
+    "ch10-customization": "#06b6d4",
+    "ch11-ethics": "#84cc16",
+    "ch12-domains": "#e11d48",
+    "ch13-research": "#0ea5e9",
+    "ch14-build": "#a855f7"
+  }
+}

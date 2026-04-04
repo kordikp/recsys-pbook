@@ -2417,7 +2417,7 @@ class PBook {
   }
 
   // ===== MAP VIEW =====
-  renderMap() {
+  async renderMap() {
     const el = document.getElementById('mapContent');
     const prog = this.user.getProgress(this.allBlocks);
     const visibleVoices = this.user.getVisibleVoices();
@@ -2461,7 +2461,7 @@ class PBook {
     }
 
     if (mapMode === 'visual') {
-      html += this.renderVisualMap(visibleVoices);
+      html += await this.renderVisualMap(visibleVoices);
       el.innerHTML = html;
       return;
     }
@@ -2665,134 +2665,54 @@ class PBook {
 
 
   // ===== VISUAL RPG MAP =====
-  renderVisualMap(visibleVoices) {
-    // Build prereqs and layout dynamically from book chapters
-    const numCh = this.book.chapters.length;
-    const chapterPrereqs = {};
-    for (let i = 0; i < numCh; i++) {
-      chapterPrereqs[i] = i === 0 ? [] : [i - 1]; // linear: each chapter requires the previous
+  async renderVisualMap(visibleVoices) {
+    // Load precomputed similarity-based layout
+    if (!this._visualMapData) {
+      try {
+        const res = await fetch('/content/visual-map-data.json');
+        this._visualMapData = await res.json();
+      } catch (e) {
+        return '<div style="padding:2em;text-align:center;color:var(--text-3)">Visual map loading...</div>';
+      }
     }
-    const suggestedNext = this.getSuggestedNext(chapterPrereqs);
+    const mapData = this._visualMapData;
+    const W = 920, H = 620;
 
-    // Layout: position chapters dynamically on a grid
-    const layout = this.book.chapters.map((ch, i) => {
-      const cols = Math.min(numCh, 4);
-      const row = Math.floor(i / cols);
-      const col = i % cols;
-      return { ci: i, x: 50 + col * 170, y: 40 + row * 80, label: ch.title.split(/[:(]/)[0].trim().substring(0, 14) };
-    });
-
-    // Connections: linear chain
-    const connections = [];
-    for (let i = 0; i < numCh - 1; i++) connections.push([i, i + 1]);
-
-    // Compute stats per chapter
-    const chData = layout.map(l => {
-      const blocks = this.chapters[l.ci]?.blocks || [];
-      const spines = blocks.filter(b => b.type === 'spine');
-      const depths = blocks.filter(b => b.type === 'depth');
-      const readSpines = spines.filter(b => this.user.readBlocks.has(b.id)).length;
-      const total = spines.length;
-      const pct = Math.round((readSpines / Math.max(total, 1)) * 100);
-      const hasNext = spines.some(b => b.id === suggestedNext);
-      const depthCount = depths.filter(d => visibleVoices.includes(d.voice)).length;
-      const savedCount = spines.filter(b => this.user.savedBlocks.has(b.id)).length;
-      const ratedCount = spines.filter(b => this.user.ratings.has(b.id) && this.user.ratings.get(b.id) >= 0.7).length;
-      return { ...l, spines, depths, readSpines, total, pct, hasNext, depthCount, savedCount, ratedCount };
-    });
-
-    const cols = Math.min(numCh, 4);
-    const rows = Math.ceil(numCh / cols);
-    const W = Math.max(680, 50 + cols * 170), H = 40 + rows * 80 + 60;
     let svg = `<div class="visual-map-wrap"><svg viewBox="0 0 ${W} ${H}" class="visual-map">`;
-
-    // Background grid pattern
     svg += `<defs>
-      <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 20 0 L 0 0 0 20" fill="none" stroke="var(--border)" stroke-width="0.3" opacity="0.5"/></pattern>
-      <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
     </defs>
-    <rect width="${W}" height="${H}" fill="url(#grid)" rx="12"/>`;
+    <rect width="${W}" height="${H}" fill="var(--bg)" rx="12"/>`;
 
-    // Draw connections first (behind nodes)
-    connections.forEach(([from, to]) => {
-      const a = chData[from], b = chData[to];
-      const ax = a.x + 40, ay = a.y + 15;
-      const bx = b.x, by = b.y + 15;
-      // Curved path
-      const mx = (ax + bx) / 2, my = (ay + by) / 2;
-      const color = a.pct >= 50 ? 'var(--product)' : 'var(--border)';
-      const opacity = a.pct >= 50 ? '0.6' : '0.3';
-      svg += `<path d="M${ax},${ay} Q${mx},${ay} ${bx},${by}" fill="none" stroke="${color}" stroke-width="2" opacity="${opacity}" stroke-dasharray="${a.pct >= 50 ? 'none' : '4 4'}"/>`;
+    // Chapter labels (at centroids)
+    mapData.chapters.forEach(ch => {
+      svg += `<text x="${ch.cx}" y="${ch.cy - 20}" text-anchor="middle" font-size="9" font-weight="700" fill="${ch.color}" opacity="0.6">${ch.title}</text>`;
     });
 
-    // Draw chapter nodes
-    chData.forEach(ch => {
-      const nodeW = 110, nodeH = 50;
-      const isComplete = ch.pct === 100;
-      const isStarted = ch.readSpines > 0;
-      const isNext = ch.hasNext;
+    // Draw item dots
+    mapData.items.forEach(item => {
+      const isRead = this.user.readBlocks.has(item.id);
+      const isSaved = this.user.savedBlocks.has(item.id);
+      const color = mapData.colors[item.chapter] || '#666';
+      const r = Math.round(item.r);
+      const opacity = isRead ? '1' : '0.5';
+      const stroke = isSaved ? 'stroke="#f59e0b" stroke-width="2"' : isRead ? `stroke="${color}" stroke-width="1.5"` : '';
+      const filter = isSaved ? 'filter="url(#glow)"' : '';
 
-      // Node background
-      const fillColor = isComplete ? 'var(--product-bg)' : isStarted ? 'var(--accent-bg)' : 'var(--surface)';
-      const strokeColor = isComplete ? 'var(--product)' : isNext ? 'var(--accent)' : 'var(--border)';
-      const strokeW = isNext ? '2' : '1.5';
-
-      svg += `<g class="map-node" onclick="app.goChapter(${ch.ci})" style="cursor:pointer">`;
-
-      // Glow for suggested next
-      if (isNext) {
-        svg += `<rect x="${ch.x - 4}" y="${ch.y - 4}" width="${nodeW + 8}" height="${nodeH + 8}" rx="14" fill="var(--accent)" opacity="0.12"/>`;
-      }
-
-      // Main rect
-      svg += `<rect x="${ch.x}" y="${ch.y}" width="${nodeW}" height="${nodeH}" rx="10" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeW}"/>`;
-
-      // Chapter number badge
-      const badgeColor = isComplete ? 'var(--product)' : 'var(--accent)';
-      svg += `<circle cx="${ch.x + 14}" cy="${ch.y + 14}" r="9" fill="${badgeColor}"/>`;
-      svg += `<text x="${ch.x + 14}" y="${ch.y + 18}" text-anchor="middle" font-family="system-ui" font-size="9" font-weight="700" fill="white">${this.book.chapters[ch.ci].number}</text>`;
-
-      // Title
-      svg += `<text x="${ch.x + 28}" y="${ch.y + 17}" font-family="system-ui" font-size="9.5" font-weight="700" fill="var(--text)">${ch.label}</text>`;
-
-      // Progress bar inside node
-      const barX = ch.x + 8, barY = ch.y + 28, barW = nodeW - 16, barH = 4;
-      svg += `<rect x="${barX}" y="${barY}" width="${barW}" height="${barH}" rx="2" fill="var(--border)"/>`;
-      svg += `<rect x="${barX}" y="${barY}" width="${barW * ch.pct / 100}" height="${barH}" rx="2" fill="${isComplete ? 'var(--product)' : 'var(--accent)'}"/>`;
-
-      // Stats line
-      svg += `<text x="${ch.x + 8}" y="${ch.y + 44}" font-family="system-ui" font-size="7.5" fill="var(--text-3)">${ch.readSpines}/${ch.total} spine`;
-      if (ch.depthCount > 0) svg += ` · ${ch.depthCount} depth`;
-      svg += `</text>`;
-
-      // Icons for saved/liked
-      let iconX = ch.x + nodeW - 8;
-      if (ch.savedCount > 0) {
-        svg += `<text x="${iconX}" y="${ch.y + 44}" text-anchor="end" font-size="8">&#128278;${ch.savedCount}</text>`;
-        iconX -= 20;
-      }
-      if (ch.ratedCount > 0) {
-        svg += `<text x="${iconX}" y="${ch.y + 44}" text-anchor="end" font-size="8">&#128293;${ch.ratedCount}</text>`;
-      }
-
-      svg += '</g>';
+      svg += `<circle cx="${item.x}" cy="${item.y}" r="${r}" fill="${color}" opacity="${opacity}" ${stroke} ${filter} style="cursor:pointer" onclick="app.openBlock('${item.id}')">
+        <title>${item.title} (Ch${item.chNum})</title>
+      </circle>`;
     });
 
     svg += '</svg>';
 
-    // Legend below SVG
-    svg += `<div class="vmap-legend">
-      <span><svg width="12" height="12"><rect width="12" height="12" rx="3" fill="var(--product-bg)" stroke="var(--product)" stroke-width="1.5"/></svg> Complete</span>
-      <span><svg width="16" height="16"><rect x="2" y="2" width="12" height="12" rx="3" fill="var(--accent-bg)" stroke="var(--accent)" stroke-width="2"/></svg> In progress / Next</span>
-      <span><svg width="12" height="12"><rect width="12" height="12" rx="3" fill="var(--surface)" stroke="var(--border)" stroke-width="1.5"/></svg> Not started</span>
-      <span>&#128278; Saved</span>
-      <span>&#128293; Liked</span>
-      <span style="color:var(--text-3)">--- Prerequisites not met</span>
-    </div>`;
-
-    // Spine block detail below (expandable per chapter)
-    svg += '<div class="vmap-detail" id="vmapDetail"></div>';
-    svg += '</div>';
+    // Legend
+    svg += '<div class="vmap-legend" style="display:flex;flex-wrap:wrap;gap:.4em .8em;padding:.5em;font-size:.7rem">';
+    mapData.chapters.forEach(ch => {
+      svg += `<span style="display:inline-flex;align-items:center;gap:.25em"><span style="width:8px;height:8px;border-radius:50%;background:${ch.color};display:inline-block"></span>${ch.title}</span>`;
+    });
+    svg += '<span style="margin-left:auto;color:var(--text-3)">Size = word count · Bright = read · Gold ring = saved</span>';
+    svg += '</div></div>';
     return svg;
   }
 
