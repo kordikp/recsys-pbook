@@ -127,7 +127,7 @@
   <text x="300" y="262" text-anchor="middle" fill="#999" font-size="8">Optimizing only for accuracy creates filter bubbles. These metrics measure recommendation quality holistically.</text>
 
   <!-- Connecting dots decoration -->
-  <circle cx="155" y="208" r="2" fill="#e5e7eb"/>
-  <circle cx="300" y="208" r="2" fill="#e5e7eb"/>
-  <circle cx="449" y="208" r="2" fill="#e5e7eb"/>
+  <circle cx="155" cy="208" r="2" fill="#e5e7eb"/>
+  <circle cx="300" cy="208" r="2" fill="#e5e7eb"/>
+  <circle cx="449" cy="208" r="2" fill="#e5e7eb"/>
 </svg>

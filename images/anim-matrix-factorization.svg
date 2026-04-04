@@ -59,7 +59,7 @@
     <circle class="sparse-dot" cx="110" cy="190" r="3" fill="#0c8383" style="animation-delay:0.8s" />
     <!-- Question marks for missing values -->
     <text x="90" y="80" font-size="8" fill="#0b1225" opacity="0.2">?</text>
-    <text x="50" cy="100" font-size="8" fill="#0b1225" opacity="0.2">?</text>
+    <text x="50" y="100" font-size="8" fill="#0b1225" opacity="0.2">?</text>
     <text x="130" y="95" font-size="8" fill="#0b1225" opacity="0.2">?</text>
     <text x="70" y="115" font-size="8" fill="#0b1225" opacity="0.2">?</text>
     <text x="110" y="135" font-size="8" fill="#0b1225" opacity="0.2">?</text>

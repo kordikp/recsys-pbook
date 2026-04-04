@@ -123,7 +123,6 @@
   <text x="542" y="320" text-anchor="middle" font-size="11" fill="#0b1225">Highest</text>
 
   <!-- Arrow showing quality progression -->
-  <line x1="148" y1="340" x2="502" y2="340" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#arrowDown)"/>
   <defs>
     <marker id="arrowRightAmber" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
       <path d="M0,0 L8,3 L0,6" fill="#f59e0b"/>
