@@ -2463,6 +2463,7 @@ class PBook {
     if (mapMode === 'visual') {
       html += await this.renderVisualMap(visibleVoices);
       el.innerHTML = html;
+      this._vmapInitZoom();
       return;
     }
 
@@ -2666,7 +2667,6 @@ class PBook {
 
   // ===== VISUAL RPG MAP =====
   async renderVisualMap(visibleVoices) {
-    // Load precomputed similarity-based layout
     if (!this._visualMapData) {
       try {
         const res = await fetch('/content/visual-map-data.json');
@@ -2676,63 +2676,133 @@ class PBook {
       }
     }
     const mapData = this._visualMapData;
-    const W = 1100, H = 700;
+    const W = 1200, H = 800;
+    const readSet = this.user.readBlocks;
+    const savedSet = this.user.savedBlocks;
+    const readCount = mapData.items.filter(i => readSet.has(i.id)).length;
+    const coreCount = mapData.items.filter(i => i.core).length;
+    const coreRead = mapData.items.filter(i => i.core && readSet.has(i.id)).length;
 
-    let svg = `<div class="visual-map-wrap" style="overflow-x:auto"><svg viewBox="0 0 ${W} ${H}" class="visual-map" style="min-width:700px">`;
-    svg += `<defs>
-      <filter id="glow"><feGaussianBlur stdDeviation="3" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-      <style>.vnode:hover .vlabel{opacity:1!important}.vnode:hover circle{r:12}.vlabel{transition:opacity .2s;pointer-events:none}</style>
-    </defs>
-    <rect width="${W}" height="${H}" fill="var(--bg)" rx="12"/>`;
+    // Filter bar
+    let html = `<div class="vmap-container">
+    <div class="vmap-toolbar" style="display:flex;gap:.4em;padding:.4em;flex-wrap:wrap;align-items:center;font-size:.72rem">
+      <button class="vmap-filter-btn active" data-filter="all" onclick="app._vmapFilter('all',this)">All (${mapData.items.length})</button>
+      <button class="vmap-filter-btn" data-filter="core" onclick="app._vmapFilter('core',this)">Core (${coreCount})</button>
+      <button class="vmap-filter-btn" data-filter="unread" onclick="app._vmapFilter('unread',this)">Unread (${mapData.items.length - readCount})</button>
+      <button class="vmap-filter-btn" data-filter="read" onclick="app._vmapFilter('read',this)">Read (${readCount})</button>
+      <span style="margin-left:auto;color:var(--text-3)">Scroll to zoom · Drag to pan</span>
+    </div>
+    <div class="vmap-canvas" id="vmapCanvas" style="overflow:hidden;position:relative;border:1px solid var(--border);border-radius:8px;touch-action:none;cursor:grab">
+      <svg id="vmapSvg" viewBox="0 0 ${W} ${H}" style="width:100%;display:block">
+      <rect width="${W}" height="${H}" fill="var(--bg)"/>`;
 
-    // Chapter labels at centroids
+    // Edges (similarity lines)
+    if (mapData.edges) {
+      mapData.edges.forEach(e => {
+        html += `<line class="vmap-edge" x1="${e.fx}" y1="${e.fy}" x2="${e.tx}" y2="${e.ty}" stroke="var(--border)" stroke-width="0.5" opacity="0.3"/>`;
+      });
+    }
+
+    // Chapter labels
     mapData.chapters.forEach(ch => {
-      svg += `<text x="${ch.cx}" y="${ch.cy - 25}" text-anchor="middle" font-size="12" font-weight="800" fill="${ch.color}" opacity="0.3" letter-spacing="0.5">${ch.title.toUpperCase()}</text>`;
+      html += `<text x="${ch.cx}" y="${ch.cy - 28}" text-anchor="middle" font-size="13" font-weight="800" fill="${ch.color}" opacity="0.25" letter-spacing="0.5" class="vmap-ch-label">${ch.title.toUpperCase()}</text>`;
+      html += `<text x="${ch.cx}" y="${ch.cy - 15}" text-anchor="middle" font-size="9" fill="${ch.color}" opacity="0.2">${ch.count} sections</text>`;
     });
 
-    // Draw items
+    // Items
     mapData.items.forEach(item => {
-      const isRead = this.user.readBlocks.has(item.id);
-      const isSaved = this.user.savedBlocks.has(item.id);
+      const isRead = readSet.has(item.id);
+      const isSaved = savedSet.has(item.id);
       const isCore = item.core;
       const color = mapData.colors[item.chapter] || '#666';
-      const r = isCore ? 8 : 5;
-      const opacity = isRead ? '1.0' : isCore ? '0.7' : '0.35';
+      const r = isCore ? 7 : 4;
+      const opacity = isRead ? '1.0' : isCore ? '0.65' : '0.3';
       let stroke = '';
-      if (isSaved) stroke = 'stroke="#f59e0b" stroke-width="2.5"';
-      else if (isRead) stroke = 'stroke="#10B981" stroke-width="2"';
-      else if (isCore) stroke = 'stroke="white" stroke-width="1.5"';
-      const filter = isSaved ? 'filter="url(#glow)"' : '';
-      const labelOpacity = isCore ? '0.8' : '0';
-      const t = item.title.length > 30 ? item.title.substring(0, 28) + '…' : item.title;
+      if (isSaved) stroke = `stroke="#f59e0b" stroke-width="2"`;
+      else if (isRead) stroke = `stroke="#10B981" stroke-width="1.5"`;
+      else if (isCore) stroke = `stroke="rgba(255,255,255,0.6)" stroke-width="1"`;
+      const t = this.escHtml(item.title.length > 35 ? item.title.substring(0, 33) + '…' : item.title);
+      const cls = `vmap-node${isCore ? ' vn-core' : ''}${isRead ? ' vn-read' : ''}${isSaved ? ' vn-saved' : ''}`;
 
-      svg += `<g class="vnode" style="cursor:pointer" onclick="app.openBlock('${item.id}')">
-        <circle cx="${item.x}" cy="${item.y}" r="${r}" fill="${color}" opacity="${opacity}" ${stroke} ${filter}/>
-        <text class="vlabel" x="${item.x}" y="${item.y - r - 4}" text-anchor="middle" font-size="8" fill="var(--text-1)" opacity="${labelOpacity}" font-weight="${isCore ? '600' : '400'}">${this.escHtml(t)}</text>
+      html += `<g class="${cls}" data-id="${item.id}" data-ch="${item.chapter}" style="cursor:pointer" onclick="app.openBlock('${item.id}')">
+        <circle cx="${item.x}" cy="${item.y}" r="${r}" fill="${color}" opacity="${opacity}" ${stroke}/>
+        <text class="vmap-label" x="${item.x}" y="${item.y - r - 3}" text-anchor="middle" font-size="7.5" fill="var(--text-1)" opacity="${isCore ? '0.75' : '0'}" font-weight="${isCore ? '600' : '400'}">${t}</text>
       </g>`;
     });
 
-    svg += '</svg>';
+    html += `</svg></div>`;
 
-    // Stats + legend
-    const readCount = mapData.items.filter(i => this.user.readBlocks.has(i.id)).length;
-    const coreCount = mapData.items.filter(i => i.core).length;
-    const coreRead = mapData.items.filter(i => i.core && this.user.readBlocks.has(i.id)).length;
-
-    svg += '<div style="display:flex;flex-wrap:wrap;gap:.3em .6em;padding:.5em .2em;font-size:.68rem;align-items:center">';
+    // Legend
+    html += `<div style="display:flex;flex-wrap:wrap;gap:.3em .5em;padding:.4em .2em;font-size:.65rem;align-items:center">`;
     mapData.chapters.forEach(ch => {
-      svg += `<span style="display:inline-flex;align-items:center;gap:.2em;white-space:nowrap"><span style="width:8px;height:8px;border-radius:50%;background:${ch.color};display:inline-block;flex-shrink:0"></span>${ch.title}</span>`;
+      html += `<span class="vmap-ch-pill" data-ch="${ch.id}" onclick="app._vmapHighlightCh('${ch.id}')" style="display:inline-flex;align-items:center;gap:.2em;cursor:pointer;padding:.1em .4em;border-radius:10px;white-space:nowrap;border:1.5px solid transparent"><span style="width:7px;height:7px;border-radius:50%;background:${ch.color};display:inline-block;flex-shrink:0"></span>${ch.title}</span>`;
     });
-    svg += '</div>';
-    svg += `<div style="font-size:.7rem;color:var(--text-3);padding:0 .3em .5em;display:flex;gap:1em;flex-wrap:wrap">
-      <span>Read: ${readCount}/${mapData.items.length}</span>
-      <span>Core: ${coreRead}/${coreCount}</span>
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;border:2px solid white;vertical-align:middle"></span> core</span>
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;border:2px solid #10B981;vertical-align:middle"></span> read</span>
-      <span><span style="display:inline-block;width:8px;height:8px;border-radius:50%;border:2px solid #f59e0b;vertical-align:middle"></span> saved</span>
-      <span style="margin-left:auto">Hover for titles · Click to read</span>
+    html += `</div>`;
+    html += `<div style="font-size:.65rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
+      <span>Progress: ${readCount}/${mapData.items.length} read · ${coreRead}/${coreCount} core</span>
+      <span>◉ core · <span style="color:#10B981">◉</span> read · <span style="color:#f59e0b">◉</span> saved</span>
     </div></div>`;
-    return svg;
+    return html;
+  }
+
+  // Visual map interactions
+  _vmapInitZoom() {
+    const container = document.getElementById('vmapCanvas');
+    const svg = document.getElementById('vmapSvg');
+    if (!container || !svg) return;
+    let scale = 1, panX = 0, panY = 0, dragging = false, startX, startY;
+    const vb = svg.viewBox.baseVal;
+    const update = () => { svg.setAttribute('viewBox', `${-panX/scale} ${-panY/scale} ${vb.width/scale} ${vb.height/scale}`); };
+
+    container.addEventListener('wheel', e => {
+      e.preventDefault();
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      scale = Math.max(0.3, Math.min(4, scale * delta));
+      update();
+    }, { passive: false });
+
+    container.addEventListener('pointerdown', e => { dragging = true; startX = e.clientX; startY = e.clientY; container.style.cursor = 'grabbing'; });
+    container.addEventListener('pointermove', e => { if (!dragging) return; panX += e.clientX - startX; panY += e.clientY - startY; startX = e.clientX; startY = e.clientY; update(); });
+    container.addEventListener('pointerup', () => { dragging = false; container.style.cursor = 'grab'; });
+    container.addEventListener('pointerleave', () => { dragging = false; container.style.cursor = 'grab'; });
+
+    // Hover labels
+    svg.querySelectorAll('.vmap-node').forEach(g => {
+      g.addEventListener('mouseenter', () => { const lbl = g.querySelector('.vmap-label'); if (lbl) lbl.setAttribute('opacity', '1'); });
+      g.addEventListener('mouseleave', () => { const lbl = g.querySelector('.vmap-label'); if (lbl && !g.classList.contains('vn-core')) lbl.setAttribute('opacity', '0'); });
+    });
+  }
+
+  _vmapFilter(filter, btn) {
+    document.querySelectorAll('.vmap-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.vmap-node').forEach(g => {
+      const isCore = g.classList.contains('vn-core');
+      const isRead = g.classList.contains('vn-read');
+      let show = true;
+      if (filter === 'core') show = isCore;
+      else if (filter === 'unread') show = !isRead;
+      else if (filter === 'read') show = isRead;
+      g.style.display = show ? '' : 'none';
+    });
+  }
+
+  _vmapHighlightCh(chId) {
+    const pills = document.querySelectorAll('.vmap-ch-pill');
+    const isActive = [...pills].find(p => p.dataset.ch === chId)?.classList.contains('vmap-ch-active');
+    pills.forEach(p => { p.classList.remove('vmap-ch-active'); p.style.borderColor = 'transparent'; });
+    if (isActive) {
+      // Deselect: show all
+      document.querySelectorAll('.vmap-node').forEach(g => { g.style.opacity = ''; });
+      document.querySelectorAll('.vmap-edge').forEach(e => { e.style.opacity = ''; });
+      return;
+    }
+    const pill = [...pills].find(p => p.dataset.ch === chId);
+    if (pill) { pill.classList.add('vmap-ch-active'); pill.style.borderColor = 'var(--accent)'; }
+    document.querySelectorAll('.vmap-node').forEach(g => {
+      g.style.opacity = g.dataset.ch === chId ? '1' : '0.1';
+    });
+    document.querySelectorAll('.vmap-edge').forEach(e => { e.style.opacity = '0.05'; });
   }
 
   // ===== PROFILE VIEW =====
