@@ -2745,26 +2745,106 @@ class PBook {
     return html;
   }
 
-  // Visual map interactions
+  // Visual map interactions — zoom, pan, pinch (desktop + mobile)
   _vmapInitZoom() {
     const container = document.getElementById('vmapCanvas');
     const svg = document.getElementById('vmapSvg');
     if (!container || !svg) return;
-    let scale = 1, panX = 0, panY = 0, dragging = false, startX, startY;
-    const vb = svg.viewBox.baseVal;
-    const update = () => { svg.setAttribute('viewBox', `${-panX/scale} ${-panY/scale} ${vb.width/scale} ${vb.height/scale}`); };
 
+    const origW = 1200, origH = 800;
+    let vx = 0, vy = 0, vw = origW, vh = origH;
+    let dragging = false, startX, startY, startVx, startVy;
+    let pinchDist0 = 0, pinchVw0 = 0, pinchVh0 = 0;
+
+    const clamp = () => {
+      vw = Math.max(200, Math.min(origW * 2, vw));
+      vh = vw * (origH / origW);
+      vx = Math.max(-origW * 0.5, Math.min(origW - vw * 0.3, vx));
+      vy = Math.max(-origH * 0.5, Math.min(origH - vh * 0.3, vy));
+    };
+    const apply = () => { clamp(); svg.setAttribute('viewBox', `${vx} ${vy} ${vw} ${vh}`); };
+
+    // Zoom buttons
+    const zoomBar = document.createElement('div');
+    zoomBar.style.cssText = 'position:absolute;top:8px;right:8px;display:flex;flex-direction:column;gap:4px;z-index:2';
+    zoomBar.innerHTML = `
+      <button onclick="app._vmapZoom(-1)" style="width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--bg);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">+</button>
+      <button onclick="app._vmapZoom(1)" style="width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--bg);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center">−</button>
+      <button onclick="app._vmapZoom(0)" style="width:32px;height:32px;border-radius:6px;border:1px solid var(--border);background:var(--bg);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center">⟲</button>`;
+    container.appendChild(zoomBar);
+
+    this._vmapZoom = (dir) => {
+      if (dir === 0) { vx = 0; vy = 0; vw = origW; vh = origH; }
+      else { const f = dir > 0 ? 1.3 : 0.77; const cx = vx + vw/2; const cy = vy + vh/2; vw *= f; vh *= f; vx = cx - vw/2; vy = cy - vh/2; }
+      apply();
+    };
+
+    // Desktop: wheel zoom (only when pointer is inside the map)
     container.addEventListener('wheel', e => {
       e.preventDefault();
-      const delta = e.deltaY > 0 ? 0.9 : 1.1;
-      scale = Math.max(0.3, Math.min(4, scale * delta));
-      update();
+      const rect = container.getBoundingClientRect();
+      const mx = (e.clientX - rect.left) / rect.width;
+      const my = (e.clientY - rect.top) / rect.height;
+      const f = e.deltaY > 0 ? 1.15 : 0.87;
+      const cx = vx + vw * mx;
+      const cy = vy + vh * my;
+      vw *= f; vh *= f;
+      vx = cx - vw * mx;
+      vy = cy - vh * my;
+      apply();
     }, { passive: false });
 
-    container.addEventListener('pointerdown', e => { dragging = true; startX = e.clientX; startY = e.clientY; container.style.cursor = 'grabbing'; });
-    container.addEventListener('pointermove', e => { if (!dragging) return; panX += e.clientX - startX; panY += e.clientY - startY; startX = e.clientX; startY = e.clientY; update(); });
-    container.addEventListener('pointerup', () => { dragging = false; container.style.cursor = 'grab'; });
-    container.addEventListener('pointerleave', () => { dragging = false; container.style.cursor = 'grab'; });
+    // Pointer drag (desktop + mobile single finger)
+    container.addEventListener('pointerdown', e => {
+      if (e.pointerType === 'touch' && container._touchCount > 1) return;
+      dragging = true; startX = e.clientX; startY = e.clientY; startVx = vx; startVy = vy;
+      container.setPointerCapture(e.pointerId);
+      container.style.cursor = 'grabbing';
+    });
+    container.addEventListener('pointermove', e => {
+      if (!dragging) return;
+      const rect = container.getBoundingClientRect();
+      const dx = (e.clientX - startX) / rect.width * vw;
+      const dy = (e.clientY - startY) / rect.height * vh;
+      vx = startVx - dx; vy = startVy - dy;
+      apply();
+    });
+    const endDrag = () => { dragging = false; container.style.cursor = 'grab'; };
+    container.addEventListener('pointerup', endDrag);
+    container.addEventListener('pointercancel', endDrag);
+
+    // Mobile: pinch to zoom
+    container._touchCount = 0;
+    container.addEventListener('touchstart', e => {
+      container._touchCount = e.touches.length;
+      if (e.touches.length === 2) {
+        dragging = false;
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        pinchDist0 = Math.sqrt(dx*dx + dy*dy);
+        pinchVw0 = vw; pinchVh0 = vh;
+      }
+    }, { passive: true });
+    container.addEventListener('touchmove', e => {
+      if (e.touches.length === 2) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.sqrt(dx*dx + dy*dy);
+        const f = pinchDist0 / Math.max(dist, 1);
+        const cx = vx + vw/2; const cy = vy + vh/2;
+        vw = pinchVw0 * f; vh = pinchVh0 * f;
+        vx = cx - vw/2; vy = cy - vh/2;
+        apply();
+      }
+    }, { passive: false });
+    container.addEventListener('touchend', e => { container._touchCount = e.touches.length; });
+
+    // Hover labels (desktop only)
+    svg.querySelectorAll('.vmap-node').forEach(g => {
+      g.addEventListener('mouseenter', () => { const l = g.querySelector('.vmap-label'); if (l) l.setAttribute('opacity', '1'); });
+      g.addEventListener('mouseleave', () => { const l = g.querySelector('.vmap-label'); if (l && !g.classList.contains('vn-core')) l.setAttribute('opacity', '0'); });
+    });
 
     // Hover labels
     svg.querySelectorAll('.vmap-node').forEach(g => {
