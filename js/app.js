@@ -2676,7 +2676,7 @@ class PBook {
       }
     }
     const mapData = this._visualMapData;
-    const W = 1200, H = 800;
+    const W = mapData.width || 1400, H = mapData.height || 900;
     const readSet = this.user.readBlocks;
     const savedSet = this.user.savedBlocks;
     const readCount = mapData.items.filter(i => readSet.has(i.id)).length;
@@ -2724,7 +2724,7 @@ class PBook {
       const t = this.escHtml(item.title.length > 35 ? item.title.substring(0, 33) + '…' : item.title);
       const cls = `vmap-node${isCore ? ' vn-core' : ''}${isRead ? ' vn-read' : ''}${isSaved ? ' vn-saved' : ''}`;
 
-      html += `<g class="${cls}" data-id="${item.id}" data-ch="${item.chapter}" style="cursor:pointer" onclick="app.openBlock('${item.id}')">
+      html += `<g class="${cls}" data-id="${item.id}" data-ch="${item.chapter}" style="cursor:pointer" onclick="window.open('#${item.id}','_blank')">
         <circle cx="${item.x}" cy="${item.y}" r="${r}" fill="${color}" opacity="${opacity}" ${stroke}/>
         <text class="vmap-label" x="${item.x}" y="${item.y - r - 3}" text-anchor="middle" font-size="7.5" fill="var(--text-1)" opacity="${isCore ? '0.75' : '0'}" font-weight="${isCore ? '600' : '400'}">${t}</text>
       </g>`;
@@ -2751,7 +2751,8 @@ class PBook {
     const svg = document.getElementById('vmapSvg');
     if (!container || !svg) return;
 
-    const origW = 1200, origH = 800;
+    const vbAttr = svg.getAttribute('viewBox').split(' ');
+    const origW = parseFloat(vbAttr[2]), origH = parseFloat(vbAttr[3]);
     let vx = 0, vy = 0, vw = origW, vh = origH;
     let dragging = false, startX, startY, startVx, startVy;
     let pinchDist0 = 0, pinchVw0 = 0, pinchVh0 = 0;
