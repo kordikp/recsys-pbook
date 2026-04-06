@@ -17,16 +17,14 @@
       50% { opacity: 0.6; }
     }
     .method-label { opacity: 0; }
-    .ml1 { animation: labelFadeIn 0.5s ease-out 0.5s forwards; }
-    .ml2 { animation: labelFadeIn 0.5s ease-out 1.0s forwards; }
-    .ml3 { animation: labelFadeIn 0.5s ease-out 1.5s forwards; }
-    .fade-in { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
+    .ml1 { animation: labelFadeIn 1.5s ease-out 1.5s infinite; }
+    .ml2 { animation: labelFadeIn 1.5s ease-out 1.0s infinite; }
+    .ml3 { animation: labelFadeIn 1.5s ease-out 1.5s infinite; }
+    .fade-in { opacity: 0; animation: fadeIn 1.5s ease-out 0.3s infinite; }
     .privacy-glow { animation: privacyPulse 3s ease-in-out 2s infinite; }
     .quality-glow { animation: qualityPulse 3s ease-in-out 2s infinite; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text x="300" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Privacy-Utility Tradeoff</text>
@@ -96,5 +94,4 @@
   <!-- More privacy arrow -->
   <text x="100" y="210" text-anchor="middle" font-size="8" fill="#0c8383">&#x25c0; More privacy</text>
   <text x="500" y="210" text-anchor="middle" font-size="8" fill="#f59e0b">Better recs &#x25b6;</text>
-</g>
 </svg>

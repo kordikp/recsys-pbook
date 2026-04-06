@@ -1,15 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" font-family="system-ui,sans-serif">
   <style>
-    .bar{transform-origin:bottom;animation:grow .8s ease-out forwards;transform:scaleY(0)}
+    .bar{transform-origin:bottom;animation:grow .8s ease-out infinite;transform:scaleY(0)}
     .b1{animation-delay:.3s}.b2{animation-delay:.6s}.b3{animation-delay:.9s}.b4{animation-delay:1.2s}.b5{animation-delay:1.5s}
     @keyframes grow{to{transform:scaleY(1)}}
-    .label{opacity:0;animation:fadeIn .3s ease forwards}
+    .label{opacity:0;animation:fadeIn .3s ease infinite}
     .l1{animation-delay:.5s}.l2{animation-delay:.8s}.l3{animation-delay:1.1s}.l4{animation-delay:1.4s}.l5{animation-delay:1.7s}
     @keyframes fadeIn{to{opacity:1}}
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
   <rect width="600" height="300" fill="#f5f5f4" rx="12"/>
   <text x="300" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#0b1225">Standard RecSys Benchmarks</text>
   <line x1="60" y1="240" x2="570" y2="240" stroke="#0b1225" stroke-width="1"/>
@@ -29,5 +27,4 @@
   <text x="475" y="258" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225" class="label l5">KuaiRand</text>
   <text x="475" y="195" text-anchor="middle" font-size="9" fill="#ef4444" class="label l5">Randomized!</text>
   <text x="300" y="285" text-anchor="middle" font-size="10" fill="#666">KuaiRand is rare: randomized exposure enables unbiased evaluation</text>
-</g>
 </svg>

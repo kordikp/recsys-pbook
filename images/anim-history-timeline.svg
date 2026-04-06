@@ -16,28 +16,26 @@
     .timeline-line {
       stroke-dasharray: 640;
       stroke-dashoffset: 640;
-      animation: lineGrow 2s ease-out 0.3s forwards;
+      animation: lineGrow 2s ease-out 0.3s infinite;
     }
     .milestone-dot { opacity: 0; }
     .milestone-label { opacity: 0; }
-    .m1 .milestone-dot { animation: dotPop 0.4s ease-out 0.8s forwards; }
-    .m1 .milestone-label { animation: labelFadeIn 0.4s ease-out 1.0s forwards; }
-    .m2 .milestone-dot { animation: dotPop 0.4s ease-out 1.3s forwards; }
-    .m2 .milestone-label { animation: labelFadeIn 0.4s ease-out 1.5s forwards; }
-    .m3 .milestone-dot { animation: dotPop 0.4s ease-out 1.8s forwards; }
-    .m3 .milestone-label { animation: labelFadeIn 0.4s ease-out 2.0s forwards; }
-    .m4 .milestone-dot { animation: dotPop 0.4s ease-out 2.3s forwards; }
-    .m4 .milestone-label { animation: labelFadeIn 0.4s ease-out 2.5s forwards; }
-    .m5 .milestone-dot { animation: dotPop 0.4s ease-out 2.8s forwards; }
-    .m5 .milestone-label { animation: labelFadeIn 0.4s ease-out 3.0s forwards; }
-    .m6 .milestone-dot { animation: dotPop 0.4s ease-out 3.3s forwards; }
-    .m6 .milestone-label { animation: labelFadeIn 0.4s ease-out 3.5s forwards; }
-    .m7 .milestone-dot { animation: dotPop 0.4s ease-out 3.8s forwards; }
-    .m7 .milestone-label { animation: labelFadeIn 0.4s ease-out 4.0s forwards; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+    .m1 .milestone-dot { animation: dotPop 1.2s ease-out 0.8s infinite; }
+    .m1 .milestone-label { animation: labelFadeIn 1.2s ease-out 1.0s infinite; }
+    .m2 .milestone-dot { animation: dotPop 1.2s ease-out 1.3s infinite; }
+    .m2 .milestone-label { animation: labelFadeIn 1.2s ease-out 1.5s infinite; }
+    .m3 .milestone-dot { animation: dotPop 1.2s ease-out 1.8s infinite; }
+    .m3 .milestone-label { animation: labelFadeIn 1.2s ease-out 2.0s infinite; }
+    .m4 .milestone-dot { animation: dotPop 1.2s ease-out 2.3s infinite; }
+    .m4 .milestone-label { animation: labelFadeIn 1.2s ease-out 2.5s infinite; }
+    .m5 .milestone-dot { animation: dotPop 1.2s ease-out 2.8s infinite; }
+    .m5 .milestone-label { animation: labelFadeIn 1.2s ease-out 3.0s infinite; }
+    .m6 .milestone-dot { animation: dotPop 1.2s ease-out 3.3s infinite; }
+    .m6 .milestone-label { animation: labelFadeIn 1.2s ease-out 3.5s infinite; }
+    .m7 .milestone-dot { animation: dotPop 1.2s ease-out 3.8s infinite; }
+    .m7 .milestone-label { animation: labelFadeIn 1.2s ease-out 4.0s infinite; }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text x="350" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">RecSys History Timeline</text>
@@ -126,5 +124,4 @@
   <text x="110" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">Classical Era</text>
   <text x="430" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">Deep Learning Era</text>
   <text x="650" y="185" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.3">LLM Era</text>
-</g>
 </svg>

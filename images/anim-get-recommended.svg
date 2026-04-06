@@ -1,14 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui,sans-serif">
   <style>
-    .stage{opacity:0;animation:fadeIn .5s ease forwards}
+    .stage{opacity:0;animation:fadeIn .5s ease infinite}
     .st1{animation-delay:.2s}.st2{animation-delay:.6s}.st3{animation-delay:1.0s}.st4{animation-delay:1.4s}.st5{animation-delay:1.8s}
     @keyframes fadeIn{to{opacity:1}}
     .funnel{animation:narrow 2s ease-in-out infinite;animation-delay:2.5s}
     @keyframes narrow{0%,100%{opacity:1}50%{opacity:.7}}
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
   <rect width="600" height="250" fill="#f5f5f4" rx="12"/>
   <text x="300" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#0b1225">Content Discoverability Funnel</text>
   <g class="stage st1"><rect x="20" y="50" width="100" height="70" rx="8" fill="#0c8383"/><text x="70" y="78" text-anchor="middle" font-size="10" font-weight="700" fill="white">PUBLISH</text><text x="70" y="93" text-anchor="middle" font-size="18" fill="white">1000</text><text x="70" y="108" text-anchor="middle" font-size="8" fill="rgba(255,255,255,.7)">new items/day</text></g>
@@ -26,5 +24,4 @@
     <text x="300" y="198" text-anchor="middle" font-size="10" fill="#0c8383" font-weight="600">Quality x Discoverability = Success</text>
   </g>
   <defs><marker id="ah2" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#0b1225"/></marker></defs>
-</g>
 </svg>

@@ -23,28 +23,26 @@
       50% { opacity: 1; }
     }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .axes { opacity: 0; animation: fadeIn 0.4s ease-out 0.3s forwards; }
-    .legend { opacity: 0; animation: fadeIn 0.4s ease-out 0.5s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .axes { opacity: 0; animation: fadeIn 1.2s ease-out 0.3s infinite; }
+    .legend { opacity: 0; animation: fadeIn 1.2s ease-out 0.5s infinite; }
 
     .engagement-line {
       stroke-dasharray: 500;
       stroke-dashoffset: 500;
-      animation: drawEngagement 2s ease-out 0.8s forwards;
+      animation: drawEngagement 2s ease-out 0.8s infinite;
     }
     .satisfaction-line {
       stroke-dasharray: 500;
       stroke-dashoffset: 500;
-      animation: drawSatisfaction 2s ease-out 1.0s forwards;
+      animation: drawSatisfaction 2s ease-out 1.0s infinite;
     }
 
-    .gap-fill { opacity: 0; animation: gapReveal 0.8s ease-out 2.5s forwards; }
-    .gap-label { opacity: 0; animation: popIn 0.5s ease-out 3.0s forwards; }
+    .gap-fill { opacity: 0; animation: gapReveal 2.4s ease-out 2.5s infinite; }
+    .gap-label { opacity: 0; animation: popIn 1.5s ease-out 3.0s infinite; }
     .gap-pulse { animation: pulse 2s ease-in-out 3.0s infinite; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <defs>
     <marker id="ah" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
@@ -105,5 +103,4 @@
     <rect x="155" y="238" width="190" height="22" rx="6" fill="#0b1225" />
     <text x="250" y="253" text-anchor="middle" font-size="9.5" fill="#ef4444" font-weight="600">The gap that matters</text>
   </g>
-</g>
 </svg>

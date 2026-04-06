@@ -16,30 +16,30 @@
       50% { opacity: 1; }
     }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
 
     /* Factual timeline (top) */
-    .fact-label { opacity: 0; animation: fadeIn 0.5s ease-out 0.4s forwards; }
+    .fact-label { opacity: 0; animation: fadeIn 1.5s ease-out 0.4s infinite; }
     .fact-line {
       stroke-dasharray: 400;
       stroke-dashoffset: 400;
-      animation: drawLine 1.5s ease-out 0.6s forwards;
+      animation: drawLine 4.5s ease-out 0.6s infinite;
     }
-    .fact-node1 { opacity: 0; animation: fadeIn 0.4s ease-out 0.8s forwards; }
-    .fact-node2 { opacity: 0; animation: fadeIn 0.4s ease-out 1.3s forwards; }
-    .fact-node3 { opacity: 0; animation: fadeIn 0.4s ease-out 1.8s forwards; }
-    .fact-node4 { opacity: 0; animation: fadeIn 0.4s ease-out 2.3s forwards; }
+    .fact-node1 { opacity: 0; animation: fadeIn 1.2s ease-out 0.8s infinite; }
+    .fact-node2 { opacity: 0; animation: fadeIn 1.2s ease-out 1.3s infinite; }
+    .fact-node3 { opacity: 0; animation: fadeIn 1.2s ease-out 1.8s infinite; }
+    .fact-node4 { opacity: 0; animation: fadeIn 1.2s ease-out 2.3s infinite; }
 
     /* Counterfactual timeline (bottom) */
-    .cf-label { opacity: 0; animation: fadeIn 0.5s ease-out 2.8s forwards; }
+    .cf-label { opacity: 0; animation: fadeIn 1.5s ease-out 2.8s infinite; }
     .cf-line {
       stroke-dasharray: 10, 8;
       stroke-dashoffset: 400;
-      animation: drawLine 1.5s ease-out 3.0s forwards;
+      animation: drawLine 4.5s ease-out 3.0s infinite;
     }
-    .cf-node1 { opacity: 0; animation: fadeIn 0.4s ease-out 3.2s forwards; }
-    .cf-node2 { opacity: 0; animation: fadeIn 0.4s ease-out 3.7s forwards; }
-    .cf-branch { opacity: 0; animation: fadeIn 0.5s ease-out 4.2s forwards; }
+    .cf-node1 { opacity: 0; animation: fadeIn 1.2s ease-out 3.2s infinite; }
+    .cf-node2 { opacity: 0; animation: fadeIn 1.2s ease-out 3.7s infinite; }
+    .cf-branch { opacity: 0; animation: fadeIn 1.5s ease-out 4.2s infinite; }
     .cf-q1 { opacity: 0; animation: questionMark 1.5s ease-in-out 4.5s infinite; }
     .cf-q2 { opacity: 0; animation: questionMark 1.5s ease-in-out 4.8s infinite; }
 
@@ -48,11 +48,9 @@
       opacity: 0;
       animation: opacityPulse 2s ease-in-out 5.2s infinite;
     }
-    .question-text { opacity: 0; animation: fadeIn 0.6s ease-out 5.2s forwards; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+    .question-text { opacity: 0; animation: fadeIn 1.8s ease-out 5.2s infinite; }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <defs>
     <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -142,5 +140,4 @@
     <rect x="120" y="258" width="310" height="32" rx="8" fill="#0b1225" />
   </g>
   <text class="question-text" x="275" y="279" text-anchor="middle" font-size="10.5" fill="#f5f5f4" font-weight="600">How much did the recommendation actually cause?</text>
-</g>
 </svg>

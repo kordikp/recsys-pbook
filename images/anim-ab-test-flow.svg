@@ -8,12 +8,7 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes dotFlow {
-      0%   { offset-distance: 0%; opacity: 0; }
-      10%  { opacity: 1; }
-      90%  { opacity: 1; }
-      100% { offset-distance: 100%; opacity: 0; }
-    }
+    @keyframes dotFlow { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
     @keyframes barGrowA {
       from { opacity: 0; }
       to   { opacity: 1; }
@@ -31,11 +26,11 @@
       50% { opacity: 1; }
     }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .users { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
-    .randomize { opacity: 0; animation: popIn 0.5s ease-out 0.6s forwards; }
-    .groupA { opacity: 0; animation: slideRight 0.5s ease-out 1.0s forwards; }
-    .groupB { opacity: 0; animation: slideRight 0.5s ease-out 1.0s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .users { opacity: 0; animation: fadeIn 1.5s ease-out 0.3s infinite; }
+    .randomize { opacity: 0; animation: popIn 1.5s ease-out 0.6s infinite; }
+    .groupA { opacity: 0; animation: slideRight 1.5s ease-out 1.0s infinite; }
+    .groupB { opacity: 0; animation: slideRight 1.5s ease-out 1.0s infinite; }
 
     /* Flowing dots on path A */
     .dotA { animation: dotFlow 2s linear infinite; }
@@ -52,15 +47,13 @@
     .dotB4 { animation-delay: 3.2s; }
 
     /* Result bars */
-    .bar-a { opacity: 0; animation: barGrowA 1s ease-out 3.0s forwards; }
-    .bar-b { opacity: 0; animation: barGrowB 1s ease-out 3.2s forwards; }
-    .result-label { opacity: 0; animation: fadeIn 0.4s ease-out 4.0s forwards; }
-    .confidence { opacity: 0; animation: fadeIn 0.5s ease-out 4.2s forwards; }
-    .winner { opacity: 0; animation: popIn 0.5s ease-out 4.5s forwards; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+    .bar-a { opacity: 0; animation: barGrowA 1s ease-out 3.0s infinite; }
+    .bar-b { opacity: 0; animation: barGrowB 1s ease-out 3.2s infinite; }
+    .result-label { opacity: 0; animation: fadeIn 1.2s ease-out 4.0s infinite; }
+    .confidence { opacity: 0; animation: fadeIn 1.5s ease-out 4.2s infinite; }
+    .winner { opacity: 0; animation: popIn 1.5s ease-out 4.5s infinite; }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <defs>
     <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -174,5 +167,4 @@
     <text x="527" y="55" text-anchor="middle" font-size="8" fill="#3bc4a1" font-weight="700">+28% lift</text>
     <text x="485" y="245" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">p &lt; 0.05</text>
   </g>
-</g>
 </svg>

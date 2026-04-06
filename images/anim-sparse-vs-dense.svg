@@ -34,44 +34,42 @@
       50% { opacity: 1; }
     }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
 
     /* Dense section */
-    .dense-label { opacity: 0; animation: slideDown 0.4s ease-out 0.3s forwards; }
+    .dense-label { opacity: 0; animation: slideDown 1.2s ease-out 0.3s infinite; }
     .dense-bar {
       opacity: 0;
-      animation: denseBarGrow 1s ease-out 0.6s forwards;
+      animation: denseBarGrow 1s ease-out 0.6s infinite;
     }
-    .dense-detail { opacity: 0; animation: fadeIn 0.4s ease-out 1.4s forwards; }
+    .dense-detail { opacity: 0; animation: fadeIn 1.2s ease-out 1.4s infinite; }
 
     /* Compression arrow */
-    .compress-arrow { opacity: 0; animation: fadeIn 0.5s ease-out 2.0s forwards; }
+    .compress-arrow { opacity: 0; animation: fadeIn 1.5s ease-out 2.0s infinite; }
 
     /* Sparse section */
-    .sparse-label { opacity: 0; animation: slideDown 0.4s ease-out 2.2s forwards; }
-    .sparse-bg { opacity: 0; animation: fadeIn 0.4s ease-out 2.4s forwards; }
+    .sparse-label { opacity: 0; animation: slideDown 1.2s ease-out 2.2s infinite; }
+    .sparse-bg { opacity: 0; animation: fadeIn 1.2s ease-out 2.4s infinite; }
 
     /* Sparse active dimensions */
     .sparse-slot { opacity: 0; }
-    .ss1 { animation: sparseAppear 0.3s ease-out 2.6s forwards; }
-    .ss2 { animation: sparseAppear 0.3s ease-out 2.8s forwards; }
-    .ss3 { animation: sparseAppear 0.3s ease-out 3.0s forwards; }
-    .ss4 { animation: sparseAppear 0.3s ease-out 3.2s forwards; }
-    .ss5 { animation: sparseAppear 0.3s ease-out 3.4s forwards; }
-    .ss6 { animation: sparseAppear 0.3s ease-out 3.1s forwards; }
-    .ss7 { animation: sparseAppear 0.3s ease-out 3.3s forwards; }
+    .ss1 { animation: sparseAppear 0.9s ease-out 2.6s infinite; }
+    .ss2 { animation: sparseAppear 0.9s ease-out 2.8s infinite; }
+    .ss3 { animation: sparseAppear 0.9s ease-out 3.0s infinite; }
+    .ss4 { animation: sparseAppear 0.9s ease-out 3.2s infinite; }
+    .ss5 { animation: sparseAppear 0.9s ease-out 3.4s infinite; }
+    .ss6 { animation: sparseAppear 0.9s ease-out 3.1s infinite; }
+    .ss7 { animation: sparseAppear 0.9s ease-out 3.3s infinite; }
 
-    .sparse-detail { opacity: 0; animation: fadeIn 0.4s ease-out 3.4s forwards; }
+    .sparse-detail { opacity: 0; animation: fadeIn 1.2s ease-out 3.4s infinite; }
 
     /* Result */
-    .result { opacity: 0; animation: popIn 0.5s ease-out 3.8s forwards; }
+    .result { opacity: 0; animation: popIn 1.5s ease-out 3.8s infinite; }
     .sparkle { animation: sparkle 1.5s ease-in-out infinite; }
     .sp1 { animation-delay: 3.8s; }
     .sp2 { animation-delay: 4.1s; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text class="title" x="250" y="26" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Dense vs. Sparse Embeddings</text>
@@ -145,5 +143,4 @@
     <rect x="100" y="210" width="300" height="30" rx="8" fill="#0b1225" />
     <text x="250" y="229" text-anchor="middle" font-size="11" fill="#3bc4a1" font-weight="700">307 GB &#x2192; 26 GB (12x compression)</text>
   </g>
-</g>
 </svg>

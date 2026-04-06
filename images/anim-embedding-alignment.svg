@@ -31,48 +31,46 @@
     @keyframes dot-br7 { 0% { cx: 510; cy: 170; } 100% { cx: 355; cy: 165; } }
     @keyframes dot-br8 { 0% { cx: 480; cy: 200; } 100% { cx: 340; cy: 200; } }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .space-label { opacity: 0; animation: fadeIn 0.5s ease-out 0.4s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .space-label { opacity: 0; animation: fadeIn 1.5s ease-out 0.4s infinite; }
 
     /* Text space dots */
-    .td1 { animation: dot-tl1 2s ease-in-out 2s forwards; }
-    .td2 { animation: dot-tl2 2s ease-in-out 2s forwards; }
-    .td3 { animation: dot-tl3 2s ease-in-out 2s forwards; }
-    .td4 { animation: dot-tl4 2s ease-in-out 2s forwards; }
-    .td5 { animation: dot-tl5 2s ease-in-out 2s forwards; }
-    .td6 { animation: dot-tl6 2s ease-in-out 2s forwards; }
-    .td7 { animation: dot-tl7 2s ease-in-out 2s forwards; }
-    .td8 { animation: dot-tl8 2s ease-in-out 2s forwards; }
+    .td1 { animation: dot-tl1 2s ease-in-out 2s infinite; }
+    .td2 { animation: dot-tl2 2s ease-in-out 2s infinite; }
+    .td3 { animation: dot-tl3 2s ease-in-out 2s infinite; }
+    .td4 { animation: dot-tl4 2s ease-in-out 2s infinite; }
+    .td5 { animation: dot-tl5 2s ease-in-out 2s infinite; }
+    .td6 { animation: dot-tl6 2s ease-in-out 2s infinite; }
+    .td7 { animation: dot-tl7 2s ease-in-out 2s infinite; }
+    .td8 { animation: dot-tl8 2s ease-in-out 2s infinite; }
 
     /* Behavior space dots */
-    .bd1 { animation: dot-br1 2s ease-in-out 2s forwards; }
-    .bd2 { animation: dot-br2 2s ease-in-out 2s forwards; }
-    .bd3 { animation: dot-br3 2s ease-in-out 2s forwards; }
-    .bd4 { animation: dot-br4 2s ease-in-out 2s forwards; }
-    .bd5 { animation: dot-br5 2s ease-in-out 2s forwards; }
-    .bd6 { animation: dot-br6 2s ease-in-out 2s forwards; }
-    .bd7 { animation: dot-br7 2s ease-in-out 2s forwards; }
-    .bd8 { animation: dot-br8 2s ease-in-out 2s forwards; }
+    .bd1 { animation: dot-br1 2s ease-in-out 2s infinite; }
+    .bd2 { animation: dot-br2 2s ease-in-out 2s infinite; }
+    .bd3 { animation: dot-br3 2s ease-in-out 2s infinite; }
+    .bd4 { animation: dot-br4 2s ease-in-out 2s infinite; }
+    .bd5 { animation: dot-br5 2s ease-in-out 2s infinite; }
+    .bd6 { animation: dot-br6 2s ease-in-out 2s infinite; }
+    .bd7 { animation: dot-br7 2s ease-in-out 2s infinite; }
+    .bd8 { animation: dot-br8 2s ease-in-out 2s infinite; }
 
     /* Space boundaries merge */
     .text-boundary {
-      animation: mergeLeft 2s ease-in-out 2s forwards;
+      animation: mergeLeft 2s ease-in-out 2s infinite;
     }
     .behavior-boundary {
-      animation: mergeRight 2s ease-in-out 2s forwards;
+      animation: mergeRight 2s ease-in-out 2s infinite;
     }
 
     /* Labels fade and move */
-    .text-label-move { animation: mergeLeft 2s ease-in-out 2s forwards; }
-    .behav-label-move { animation: mergeRight 2s ease-in-out 2s forwards; }
+    .text-label-move { animation: mergeLeft 2s ease-in-out 2s infinite; }
+    .behav-label-move { animation: mergeRight 2s ease-in-out 2s infinite; }
 
     /* Result label */
-    .result { opacity: 0; animation: fadeIn 0.6s ease-out 4.2s forwards; }
-    .aligned-label { opacity: 0; animation: fadeIn 0.5s ease-out 4.5s forwards; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+    .result { opacity: 0; animation: fadeIn 1.8s ease-out 4.2s infinite; }
+    .aligned-label { opacity: 0; animation: fadeIn 1.5s ease-out 4.5s infinite; }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text class="title" x="300" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Embedding Space Alignment</text>
@@ -127,5 +125,4 @@
     <rect x="160" y="260" width="280" height="30" rx="8" fill="#0b1225" />
     <text x="300" y="280" text-anchor="middle" font-size="10.5" fill="#f5f5f4" font-weight="600">beeFormer: ELSA loss aligns text to behavior</text>
   </g>
-</g>
 </svg>

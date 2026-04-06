@@ -17,11 +17,11 @@
       to   { stroke-dashoffset: 0; }
     }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .fork { opacity: 0; animation: fadeIn 0.4s ease-out 0.3s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .fork { opacity: 0; animation: fadeIn 1.2s ease-out 0.3s infinite; }
 
     /* Build path boxes */
-    .build-box { opacity: 0; animation: fadeIn 0.4s ease-out forwards; }
+    .build-box { opacity: 0; animation: fadeIn 1.2s ease-out infinite; }
     .b1 { animation-delay: 0.6s; }
     .b2 { animation-delay: 1.0s; }
     .b3 { animation-delay: 1.4s; }
@@ -30,7 +30,7 @@
     .b6 { animation-delay: 2.6s; }
 
     /* Build arrows */
-    .build-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.3s ease-out forwards; }
+    .build-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.9s ease-out infinite; }
     .ba1 { animation-delay: 0.9s; }
     .ba2 { animation-delay: 1.3s; }
     .ba3 { animation-delay: 1.7s; }
@@ -38,13 +38,13 @@
     .ba5 { animation-delay: 2.5s; }
 
     /* Buy path boxes */
-    .buy-box { opacity: 0; animation: fadeIn 0.4s ease-out forwards; }
+    .buy-box { opacity: 0; animation: fadeIn 1.2s ease-out infinite; }
     .y1 { animation-delay: 0.6s; }
     .y2 { animation-delay: 0.9s; }
     .y3 { animation-delay: 1.2s; }
 
     /* Buy arrows */
-    .buy-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.3s ease-out forwards; }
+    .buy-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.9s ease-out infinite; }
     .ya1 { animation-delay: 0.85s; }
     .ya2 { animation-delay: 1.15s; }
 
@@ -52,23 +52,21 @@
     .timer-build-bar {
       stroke-dasharray: 482;
       stroke-dashoffset: 482;
-      animation: barGrowBuild 2.4s linear 0.6s forwards;
+      animation: barGrowBuild 7.2s linear 0.6s infinite;
     }
     .timer-buy-bar {
       stroke-dasharray: 180;
       stroke-dashoffset: 180;
-      animation: barGrowBuy 0.9s linear 0.6s forwards;
+      animation: barGrowBuy 2.7s linear 0.6s infinite;
     }
 
     /* Labels */
-    .timer-build-label { opacity: 0; animation: fadeIn 0.4s ease-out 3.0s forwards; }
-    .timer-buy-label   { opacity: 0; animation: fadeIn 0.4s ease-out 1.5s forwards; }
+    .timer-build-label { opacity: 0; animation: fadeIn 1.2s ease-out 3.0s infinite; }
+    .timer-buy-label   { opacity: 0; animation: fadeIn 1.2s ease-out 1.5s infinite; }
 
-    .result-msg { opacity: 0; animation: fadeIn 0.6s ease-out 3.4s forwards; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+    .result-msg { opacity: 0; animation: fadeIn 1.8s ease-out 3.4s infinite; }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <defs>
     <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -158,5 +156,4 @@
 
   <!-- Result message -->
   <text class="result-msg" x="430" y="172" font-size="10" fill="#3bc4a1" font-weight="700">3x faster</text>
-</g>
 </svg>

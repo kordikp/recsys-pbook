@@ -24,44 +24,42 @@
       from { stroke-dashoffset: 120; }
       to { stroke-dashoffset: 0; }
     }
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .player-icon { opacity: 0; animation: fadeIn 0.5s ease-out 0.3s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .player-icon { opacity: 0; animation: fadeIn 1.5s ease-out 0.3s infinite; }
 
-    .row1 { opacity: 0; animation: fadeIn 0.5s ease-out 0.8s forwards; }
-    .signal1 { opacity: 0; animation: fadeIn 0.4s ease-out 1.4s forwards; }
+    .row1 { opacity: 0; animation: fadeIn 1.5s ease-out 0.8s infinite; }
+    .signal1 { opacity: 0; animation: fadeIn 1.2s ease-out 1.4s infinite; }
     .bar1 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow1 0.5s ease-out 1.0s forwards;
+      animation: barGrow1 1.5s ease-out 1.0s infinite;
     }
 
-    .row2 { opacity: 0; animation: fadeIn 0.5s ease-out 2.0s forwards; }
-    .signal2 { opacity: 0; animation: fadeIn 0.4s ease-out 2.6s forwards; }
+    .row2 { opacity: 0; animation: fadeIn 1.5s ease-out 2.0s infinite; }
+    .signal2 { opacity: 0; animation: fadeIn 1.2s ease-out 2.6s infinite; }
     .bar2 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow2 0.8s ease-out 2.2s forwards;
+      animation: barGrow2 2.4s ease-out 2.2s infinite;
     }
 
-    .row3 { opacity: 0; animation: fadeIn 0.5s ease-out 3.2s forwards; }
-    .signal3 { opacity: 0; animation: fadeIn 0.4s ease-out 3.8s forwards; }
+    .row3 { opacity: 0; animation: fadeIn 1.5s ease-out 3.2s infinite; }
+    .signal3 { opacity: 0; animation: fadeIn 1.2s ease-out 3.8s infinite; }
     .bar3 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow3 1.0s ease-out 3.4s forwards;
+      animation: barGrow3 3.0s ease-out 3.4s infinite;
     }
 
-    .row4 { opacity: 0; animation: fadeIn 0.5s ease-out 4.4s forwards; }
-    .signal4 { opacity: 0; animation: fadeIn 0.4s ease-out 5.0s forwards; }
+    .row4 { opacity: 0; animation: fadeIn 1.5s ease-out 4.4s infinite; }
+    .signal4 { opacity: 0; animation: fadeIn 1.2s ease-out 5.0s infinite; }
     .bar4 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow4 1.0s ease-out 4.6s forwards;
+      animation: barGrow4 3.0s ease-out 4.6s infinite;
     }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text class="title" x="250" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Signal Interpretation</text>
@@ -128,5 +126,4 @@
     <text x="396" y="270" text-anchor="middle" font-size="22" fill="#0c8383" font-weight="bold">&#x2713;&#x2713;</text>
     <text x="440" y="270" font-size="9" fill="#0c8383" font-weight="600">Loved it</text>
   </g>
-</g>
 </svg>

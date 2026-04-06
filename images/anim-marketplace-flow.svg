@@ -8,18 +8,13 @@
       0%, 100% { filter: drop-shadow(0 0 3px #0c8383); }
       50% { filter: drop-shadow(0 0 12px #0c8383); }
     }
-    @keyframes particlePulse {
-      0% { opacity: 0; }
-      15% { opacity: 1; }
-      85% { opacity: 1; }
-      100% { opacity: 0; }
-    }
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .sellers { opacity: 0; animation: fadeIn 0.6s ease-out 0.4s forwards; }
-    .engine { opacity: 0; animation: fadeIn 0.6s ease-out 0.8s forwards; }
+    @keyframes particlePulse { 0%,100% { opacity: 0.2; } 50% { opacity: 0.8; } }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .sellers { opacity: 0; animation: fadeIn 1.8s ease-out 0.4s infinite; }
+    .engine { opacity: 0; animation: fadeIn 1.8s ease-out 0.8s infinite; }
     .engine-inner { animation: engineGlow 2s ease-in-out 1.5s infinite; }
-    .buyers { opacity: 0; animation: fadeIn 0.6s ease-out 1.2s forwards; }
-    .val-label { opacity: 0; animation: fadeIn 0.4s ease-out 2s forwards; }
+    .buyers { opacity: 0; animation: fadeIn 1.8s ease-out 1.2s infinite; }
+    .val-label { opacity: 0; animation: fadeIn 1.2s ease-out 2s infinite; }
 
     .p-left1 { opacity: 0; animation: particlePulse 1.8s linear 1.5s infinite; }
     .p-left2 { opacity: 0; animation: particlePulse 1.8s linear 2.1s infinite; }

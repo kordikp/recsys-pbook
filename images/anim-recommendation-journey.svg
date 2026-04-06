@@ -41,39 +41,37 @@
       50% { opacity: 1; }
     }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
 
     /* Timeline line */
     .timeline {
       stroke-dasharray: 620;
       stroke-dashoffset: 620;
-      animation: drawTimeline 3s ease-out 0.3s forwards;
+      animation: drawTimeline 3s ease-out 0.3s infinite;
     }
 
     /* Phases */
-    .phase1 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 0.5s forwards; }
-    .phase2 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 1.2s forwards; }
-    .phase3 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 1.9s forwards; }
-    .phase4 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 2.6s forwards; }
-    .phase5 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 3.3s forwards; }
-    .phase6 { opacity: 0; animation: fadeSlideIn 0.4s ease-out 4.0s forwards; }
+    .phase1 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 0.5s infinite; }
+    .phase2 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 1.2s infinite; }
+    .phase3 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 1.9s infinite; }
+    .phase4 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 2.6s infinite; }
+    .phase5 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 3.3s infinite; }
+    .phase6 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 4.0s infinite; }
 
     /* Profile bars */
-    .bar-p1 { opacity: 0; animation: barGrow1 0.5s ease-out 1.4s forwards; }
-    .bar-p2 { opacity: 0; animation: barGrow2 0.5s ease-out 1.6s forwards; }
-    .bar-p3 { opacity: 0; animation: barGrow3 0.5s ease-out 1.8s forwards; }
-    .bar-p4 { opacity: 0; animation: barGrow4 0.5s ease-out 2.0s forwards; }
+    .bar-p1 { opacity: 0; animation: barGrow1 1.5s ease-out 1.4s infinite; }
+    .bar-p2 { opacity: 0; animation: barGrow2 1.5s ease-out 1.6s infinite; }
+    .bar-p3 { opacity: 0; animation: barGrow3 1.5s ease-out 1.8s infinite; }
+    .bar-p4 { opacity: 0; animation: barGrow4 1.5s ease-out 2.0s infinite; }
 
     /* Fatigue declining bars */
-    .bar-f1 { opacity: 0; animation: barGrow4 0.4s ease-out 4.2s forwards; }
-    .bar-f2 { opacity: 0; animation: barGrow3 0.4s ease-out 4.4s forwards; }
-    .bar-f3 { opacity: 0; animation: barShrink 0.4s ease-out 4.6s forwards; }
+    .bar-f1 { opacity: 0; animation: barGrow4 1.2s ease-out 4.2s infinite; }
+    .bar-f2 { opacity: 0; animation: barGrow3 1.2s ease-out 4.4s infinite; }
+    .bar-f3 { opacity: 0; animation: barShrink 1.2s ease-out 4.6s infinite; }
 
     .question { opacity: 0; animation: popQuestion 1.5s ease-in-out 0.8s infinite; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <defs>
     <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
@@ -153,5 +151,4 @@
 
   <!-- Bottom timeline labels -->
   <text class="phase1" x="350" y="194" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.35">Time &#x2192;</text>
-</g>
 </svg>

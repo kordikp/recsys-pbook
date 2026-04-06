@@ -13,47 +13,45 @@
       to   { opacity: 0.6; }
     }
 
-    .title { opacity: 0; animation: fadeIn 0.5s ease-out 0.1s forwards; }
-    .divider { opacity: 0; animation: fadeIn 0.6s ease-out 0.3s forwards; }
+    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .divider { opacity: 0; animation: fadeIn 1.8s ease-out 0.3s infinite; }
 
     /* Old SEO items fade in then fade out */
-    .old-header { opacity: 0; animation: fadeIn 0.4s ease-out 0.5s forwards; }
-    .old-item { opacity: 0; animation: fadeIn 0.4s ease-out forwards; }
+    .old-header { opacity: 0; animation: fadeIn 1.2s ease-out 0.5s infinite; }
+    .old-item { opacity: 0; animation: fadeIn 1.2s ease-out infinite; }
     .old1 { animation-delay: 0.8s; }
     .old2 { animation-delay: 1.1s; }
     .old3 { animation-delay: 1.4s; }
 
     /* X marks on old items */
-    .old-x { opacity: 0; animation: fadeIn 0.3s ease-out forwards; }
+    .old-x { opacity: 0; animation: fadeIn 0.9s ease-out infinite; }
     .ox1 { animation-delay: 1.8s; }
     .ox2 { animation-delay: 2.0s; }
     .ox3 { animation-delay: 2.2s; }
 
     /* Strike-through lines - use opacity instead of scaleX */
-    .strike { opacity: 0; animation: strikeFadeIn 0.4s ease-out forwards; }
+    .strike { opacity: 0; animation: strikeFadeIn 1.2s ease-out infinite; }
     .s1 { animation-delay: 1.8s; }
     .s2 { animation-delay: 2.0s; }
     .s3 { animation-delay: 2.2s; }
 
     /* Old side fades out */
-    .old-group { animation: fadeOut 1s ease-out 3.0s forwards; }
+    .old-group { animation: fadeOut 1s ease-out 3.0s infinite; }
 
     /* New SEO items */
-    .new-header { opacity: 0; animation: fadeIn 0.4s ease-out 0.5s forwards; }
-    .new-item { opacity: 0; animation: fadeIn 0.5s ease-out forwards; }
+    .new-header { opacity: 0; animation: fadeIn 1.2s ease-out 0.5s infinite; }
+    .new-item { opacity: 0; animation: fadeIn 1.5s ease-out infinite; }
     .new1 { animation-delay: 2.8s; }
     .new2 { animation-delay: 3.1s; }
     .new3 { animation-delay: 3.4s; }
 
     /* Check marks on new items */
-    .new-check { opacity: 0; animation: fadeIn 0.3s ease-out forwards; }
+    .new-check { opacity: 0; animation: fadeIn 0.9s ease-out infinite; }
     .nc1 { animation-delay: 3.3s; }
     .nc2 { animation-delay: 3.6s; }
     .nc3 { animation-delay: 3.9s; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text class="title" x="275" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Old SEO vs. New SEO</text>
@@ -115,5 +113,4 @@
     <text x="324" y="209" font-size="11" fill="#0b1225">Consistent quality</text>
   </g>
   <text class="new-check nc3" x="494" y="212" font-size="18" fill="#3bc4a1" font-weight="bold">&#x2713;</text>
-</g>
 </svg>

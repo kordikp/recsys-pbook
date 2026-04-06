@@ -29,10 +29,10 @@
       100% { opacity: 1; }
     }
     .node { opacity: 0; }
-    .node-1 { animation: fadeIn 0.5s ease-out 0.3s forwards; }
-    .node-2 { animation: fadeIn 0.5s ease-out 0.6s forwards; }
-    .node-3 { animation: fadeIn 0.5s ease-out 0.9s forwards; }
-    .node-4 { animation: fadeIn 0.5s ease-out 1.2s forwards; }
+    .node-1 { animation: fadeIn 1.5s ease-out 0.3s infinite; }
+    .node-2 { animation: fadeIn 1.5s ease-out 0.6s infinite; }
+    .node-3 { animation: fadeIn 1.5s ease-out 0.9s infinite; }
+    .node-4 { animation: fadeIn 1.5s ease-out 1.2s infinite; }
     .flow-arrow {
       stroke-dasharray: 8,4;
       animation: dashFlow 0.8s linear infinite;

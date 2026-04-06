@@ -28,14 +28,14 @@
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    .input-token { opacity: 0; animation: tokenAppear 0.4s ease-out forwards; }
+    .input-token { opacity: 0; animation: tokenAppear 1.2s ease-out infinite; }
     .t1 { animation-delay: 0.2s; }
     .t2 { animation-delay: 0.4s; }
     .t3 { animation-delay: 0.6s; }
     .t4 { animation-delay: 0.8s; }
     .t5 { animation-delay: 1.0s; }
 
-    .attn-line { stroke-dasharray: 200; stroke-dashoffset: 200; opacity: 0.2; animation: lineGrow 0.6s ease-out forwards; }
+    .attn-line { stroke-dasharray: 200; stroke-dashoffset: 200; opacity: 0.2; animation: lineGrow 1.8s ease-out infinite; }
     .al1 { animation-delay: 1.5s; }
     .al2 { animation-delay: 1.7s; }
     .al3 { animation-delay: 1.9s; }
@@ -48,20 +48,18 @@
     .strong-pulse { animation: pulseStrong 2s ease-in-out 3.5s infinite; }
     .weak-pulse { animation: pulseWeak 2s ease-in-out 3.5s infinite; }
 
-    .output-token { opacity: 0; animation: outputAppear 0.5s ease-out forwards; }
+    .output-token { opacity: 0; animation: outputAppear 1.5s ease-out infinite; }
     .o1 { animation-delay: 3.2s; }
     .o2 { animation-delay: 3.4s; }
     .o3 { animation-delay: 3.6s; }
     .o4 { animation-delay: 3.8s; }
     .o5 { animation-delay: 4.0s; }
 
-    .weight-label { opacity: 0; animation: weightFade 0.4s ease-out forwards; }
+    .weight-label { opacity: 0; animation: weightFade 1.2s ease-out infinite; }
     .w1 { animation-delay: 3.5s; }
     .w2 { animation-delay: 3.7s; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text x="300" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Self-Attention Mechanism</text>
@@ -139,5 +137,4 @@
   <!-- Annotation -->
   <text x="300" y="178" text-anchor="middle" font-size="10" fill="#0b1225" opacity="0.6">Attention weights for i&#x2083; shown</text>
   <text x="300" y="192" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.4">Thicker line = higher attention weight</text>
-</g>
 </svg>

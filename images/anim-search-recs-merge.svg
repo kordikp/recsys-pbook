@@ -25,16 +25,14 @@
       100% { opacity: 0.35; }
     }
 
-    .search-circle { animation: searchFade 3s ease-in-out forwards; }
-    .recs-circle { animation: recsFade 3s ease-in-out forwards; }
-    .overlap-content { opacity: 0; animation: overlapAppear 1.5s ease-out 2.5s forwards; }
-    .merge-label { opacity: 0; animation: labelFadeIn 1s ease-out 3s forwards; }
-    .sub-label { opacity: 0; animation: labelFadeIn 0.8s ease-out 3.5s forwards; }
-    .initial-fade { opacity: 0; animation: fadeIn 0.6s ease-out 0.3s forwards; }
-  
-    @keyframes loopCycle { 0% { opacity: 0; } 3% { opacity: 1; } 47% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 0; } }
+    .search-circle { animation: searchFade 3s ease-in-out infinite; }
+    .recs-circle { animation: recsFade 3s ease-in-out infinite; }
+    .overlap-content { opacity: 0; animation: overlapAppear 4.5s ease-out 2.5s infinite; }
+    .merge-label { opacity: 0; animation: labelFadeIn 1s ease-out 3s infinite; }
+    .sub-label { opacity: 0; animation: labelFadeIn 2.4s ease-out 3.5s infinite; }
+    .initial-fade { opacity: 0; animation: fadeIn 1.8s ease-out 0.3s infinite; }
   </style>
-<g class="loop-wrapper" style="animation: loopCycle 14s ease-in-out infinite">
+
 
   <!-- Title -->
   <text x="300" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Search and Recommendation Convergence</text>
@@ -84,5 +82,4 @@
     <!-- Bottom annotation -->
     <text x="300" y="230" text-anchor="middle" font-size="10" fill="#0b1225" opacity="0.5">Modern systems blend query understanding with personalization</text>
   </g>
-</g>
 </svg>
