@@ -1,41 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes tokenAppear {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes lineGrow {
-      from { stroke-dashoffset: 200; opacity: 0.2; }
-      to { stroke-dashoffset: 0; opacity: 1; }
-    }
-    @keyframes pulseStrong {
-      0%, 100% { opacity: 0.6; stroke-width: 1; }
-      50% { opacity: 1; stroke-width: 3; }
-    }
-    @keyframes pulseWeak {
-      0%, 100% { opacity: 0.15; }
-      50% { opacity: 0.3; }
-    }
-    @keyframes outputAppear {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes weightFade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .input-token { opacity: 0; animation: tokenAppear 1.2s ease-out infinite; }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes tokenAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes lineGrow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulseStrong { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulseWeak { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes outputAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes weightFade { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .input-token { opacity: 0; animation: tokenAppear 18s ease-out infinite; }
     .t1 { animation-delay: 0.2s; }
     .t2 { animation-delay: 0.4s; }
     .t3 { animation-delay: 0.6s; }
     .t4 { animation-delay: 0.8s; }
     .t5 { animation-delay: 1.0s; }
 
-    .attn-line { stroke-dasharray: 200; stroke-dashoffset: 200; opacity: 0.2; animation: lineGrow 1.8s ease-out infinite; }
+    .attn-line { stroke-dasharray: 200; stroke-dashoffset: 200; opacity: 0.2; animation: lineGrow 18s ease-out infinite; }
     .al1 { animation-delay: 1.5s; }
     .al2 { animation-delay: 1.7s; }
     .al3 { animation-delay: 1.9s; }
@@ -45,17 +24,17 @@
     .al7 { animation-delay: 2.7s; }
     .al8 { animation-delay: 2.9s; }
 
-    .strong-pulse { animation: pulseStrong 2s ease-in-out 3.5s infinite; }
-    .weak-pulse { animation: pulseWeak 2s ease-in-out 3.5s infinite; }
+    .strong-pulse { animation: pulseStrong 18s ease-in-out 3.5s infinite; }
+    .weak-pulse { animation: pulseWeak 18s ease-in-out 3.5s infinite; }
 
-    .output-token { opacity: 0; animation: outputAppear 1.5s ease-out infinite; }
+    .output-token { opacity: 0; animation: outputAppear 18s ease-out infinite; }
     .o1 { animation-delay: 3.2s; }
     .o2 { animation-delay: 3.4s; }
     .o3 { animation-delay: 3.6s; }
     .o4 { animation-delay: 3.8s; }
     .o5 { animation-delay: 4.0s; }
 
-    .weight-label { opacity: 0; animation: weightFade 1.2s ease-out infinite; }
+    .weight-label { opacity: 0; animation: weightFade 18s ease-out infinite; }
     .w1 { animation-delay: 3.5s; }
     .w2 { animation-delay: 3.7s; }
   </style>

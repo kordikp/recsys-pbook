@@ -1,35 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes alertFadeIn {
-      0%, 70% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes alertPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
-    @keyframes gapGrow {
-      0% { opacity: 0; }
-      70% { opacity: 0; }
-      100% { opacity: 0.2; }
-    }
-    @keyframes driftedAppear {
-      0% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    .training-dist { animation: fadeIn 2.4s ease-out infinite; }
-    .production-dist { opacity: 0; animation: driftedAppear 2s ease-out 2s infinite; }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes alertFadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes alertPulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes gapGrow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes driftedAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .training-dist { animation: fadeIn 18s ease-out infinite; }
+    .production-dist { opacity: 0; animation: driftedAppear 18s ease-out 2s infinite; }
     .alert-label {
       opacity: 0;
-      animation: alertFadeIn 1s ease-out 4s infinite, alertPulse 1s ease-in-out 5s infinite;
+      animation: alertFadeIn 1s ease-out 4s infinite, alertPulse 18s ease-in-out 5s infinite;
     }
-    .gap-area { opacity: 0; animation: gapGrow 3s ease-in-out 2s infinite; }
-    .legend { opacity: 0; animation: fadeIn 1.5s ease-out 1.5s infinite; }
-    .axis-label { opacity: 0; animation: fadeIn 1.5s ease-out 0.3s infinite; }
+    .gap-area { opacity: 0; animation: gapGrow 18s ease-in-out 2s infinite; }
+    .legend { opacity: 0; animation: fadeIn 18s ease-out 1.5s infinite; }
+    .axis-label { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
   </style>
 
 

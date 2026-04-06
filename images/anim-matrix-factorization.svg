@@ -1,43 +1,20 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes splitLeft {
-      0% { opacity: 1; }
-      30% { opacity: 1; }
-      100% { opacity: 1; }
-    }
-    @keyframes splitRight {
-      0% { opacity: 1; }
-      30% { opacity: 1; }
-      100% { opacity: 1; }
-    }
-    @keyframes matrixAppear {
-      0%, 50% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes approxAppear {
-      0%, 80% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes dotBlink {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-    @keyframes symbolAppear {
-      0%, 60% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    .big-matrix { animation: fadeIn 2.4s ease-out infinite; }
-    .u-matrix { opacity: 0; animation: matrixAppear 4.5s ease-out 4.5s infinite; }
-    .v-matrix { opacity: 0; animation: matrixAppear 4.5s ease-out 1.8s infinite; }
-    .approx-sign { opacity: 0; animation: symbolAppear 4.5s ease-out 4.5s infinite; }
-    .times-sign { opacity: 0; animation: symbolAppear 4.5s ease-out 2s infinite; }
-    .sparse-dot { animation: dotBlink 3s ease-in-out infinite; }
-    .dense-dot { opacity: 0; animation: matrixAppear 4.5s ease-out 2.2s infinite; }
-    .label { opacity: 0; animation: fadeIn 1.5s ease-out 2.5s infinite; }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes splitLeft { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes splitRight { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes matrixAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes approxAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes dotBlink { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes symbolAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .big-matrix { animation: fadeIn 18s ease-out infinite; }
+    .u-matrix { opacity: 0; animation: matrixAppear 18s ease-out 4.5s infinite; }
+    .v-matrix { opacity: 0; animation: matrixAppear 18s ease-out 1.8s infinite; }
+    .approx-sign { opacity: 0; animation: symbolAppear 18s ease-out 4.5s infinite; }
+    .times-sign { opacity: 0; animation: symbolAppear 18s ease-out 2s infinite; }
+    .sparse-dot { animation: dotBlink 18s ease-in-out infinite; }
+    .dense-dot { opacity: 0; animation: matrixAppear 18s ease-out 2.2s infinite; }
+    .label { opacity: 0; animation: fadeIn 18s ease-out 2.5s infinite; }
   </style>
 
 

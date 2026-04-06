@@ -1,28 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes labelFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes privacyPulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
-    @keyframes qualityPulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.6; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes labelFadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes privacyPulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes qualityPulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     .method-label { opacity: 0; }
-    .ml1 { animation: labelFadeIn 1.5s ease-out 1.5s infinite; }
-    .ml2 { animation: labelFadeIn 1.5s ease-out 1.0s infinite; }
-    .ml3 { animation: labelFadeIn 1.5s ease-out 1.5s infinite; }
-    .fade-in { opacity: 0; animation: fadeIn 1.5s ease-out 0.3s infinite; }
-    .privacy-glow { animation: privacyPulse 3s ease-in-out 2s infinite; }
-    .quality-glow { animation: qualityPulse 3s ease-in-out 2s infinite; }
+    .ml1 { animation: labelFadeIn 18s ease-out 1.5s infinite; }
+    .ml2 { animation: labelFadeIn 18s ease-out 1.0s infinite; }
+    .ml3 { animation: labelFadeIn 18s ease-out 1.5s infinite; }
+    .fade-in { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
+    .privacy-glow { animation: privacyPulse 18s ease-in-out 2s infinite; }
+    .quality-glow { animation: qualityPulse 18s ease-in-out 2s infinite; }
   </style>
 
 

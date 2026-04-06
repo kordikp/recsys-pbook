@@ -1,62 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; }
-    }
-    @keyframes barGrow1 {
-      from { stroke-dashoffset: 120; }
-      to { stroke-dashoffset: 114; }
-    }
-    @keyframes barGrow2 {
-      from { stroke-dashoffset: 120; }
-      to { stroke-dashoffset: 84; }
-    }
-    @keyframes barGrow3 {
-      from { stroke-dashoffset: 120; }
-      to { stroke-dashoffset: 12; }
-    }
-    @keyframes barGrow4 {
-      from { stroke-dashoffset: 120; }
-      to { stroke-dashoffset: 0; }
-    }
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
-    .player-icon { opacity: 0; animation: fadeIn 1.5s ease-out 0.3s infinite; }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barGrow1 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
+    @keyframes barGrow2 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
+    @keyframes barGrow3 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
+    @keyframes barGrow4 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
+    .player-icon { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
 
-    .row1 { opacity: 0; animation: fadeIn 1.5s ease-out 0.8s infinite; }
-    .signal1 { opacity: 0; animation: fadeIn 1.2s ease-out 1.4s infinite; }
+    .row1 { opacity: 0; animation: fadeIn 18s ease-out 0.8s infinite; }
+    .signal1 { opacity: 0; animation: fadeIn 18s ease-out 1.4s infinite; }
     .bar1 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow1 1.5s ease-out 1.0s infinite;
+      animation: barGrow1 18s ease-out 1.0s infinite;
     }
 
-    .row2 { opacity: 0; animation: fadeIn 1.5s ease-out 2.0s infinite; }
-    .signal2 { opacity: 0; animation: fadeIn 1.2s ease-out 2.6s infinite; }
+    .row2 { opacity: 0; animation: fadeIn 18s ease-out 2.0s infinite; }
+    .signal2 { opacity: 0; animation: fadeIn 18s ease-out 2.6s infinite; }
     .bar2 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow2 2.4s ease-out 2.2s infinite;
+      animation: barGrow2 18s ease-out 2.2s infinite;
     }
 
-    .row3 { opacity: 0; animation: fadeIn 1.5s ease-out 3.2s infinite; }
-    .signal3 { opacity: 0; animation: fadeIn 1.2s ease-out 3.8s infinite; }
+    .row3 { opacity: 0; animation: fadeIn 18s ease-out 3.2s infinite; }
+    .signal3 { opacity: 0; animation: fadeIn 18s ease-out 3.8s infinite; }
     .bar3 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow3 3.0s ease-out 3.4s infinite;
+      animation: barGrow3 18s ease-out 3.4s infinite;
     }
 
-    .row4 { opacity: 0; animation: fadeIn 1.5s ease-out 4.4s infinite; }
-    .signal4 { opacity: 0; animation: fadeIn 1.2s ease-out 5.0s infinite; }
+    .row4 { opacity: 0; animation: fadeIn 18s ease-out 4.4s infinite; }
+    .signal4 { opacity: 0; animation: fadeIn 18s ease-out 5.0s infinite; }
     .bar4 {
       stroke-dasharray: 120;
       stroke-dashoffset: 120;
-      animation: barGrow4 3.0s ease-out 4.6s infinite;
+      animation: barGrow4 18s ease-out 4.6s infinite;
     }
   </style>
 

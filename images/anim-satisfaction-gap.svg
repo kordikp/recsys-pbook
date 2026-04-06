@@ -1,46 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes drawEngagement {
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes drawSatisfaction {
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes gapReveal {
-      from { opacity: 0; }
-      to { opacity: 0.2; }
-    }
-    @keyframes popIn {
-      0%   { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.7; }
-      50% { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes drawEngagement { 0% { stroke-dashoffset: 0; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+    @keyframes drawSatisfaction { 0% { stroke-dashoffset: 0; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+    @keyframes gapReveal { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes popIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
 
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
-    .axes { opacity: 0; animation: fadeIn 1.2s ease-out 0.3s infinite; }
-    .legend { opacity: 0; animation: fadeIn 1.2s ease-out 0.5s infinite; }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
+    .axes { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
+    .legend { opacity: 0; animation: fadeIn 18s ease-out 0.5s infinite; }
 
     .engagement-line {
       stroke-dasharray: 500;
       stroke-dashoffset: 500;
-      animation: drawEngagement 2s ease-out 0.8s infinite;
+      animation: drawEngagement 18s ease-out 0.8s infinite;
     }
     .satisfaction-line {
       stroke-dasharray: 500;
       stroke-dashoffset: 500;
-      animation: drawSatisfaction 2s ease-out 1.0s infinite;
+      animation: drawSatisfaction 18s ease-out 1.0s infinite;
     }
 
-    .gap-fill { opacity: 0; animation: gapReveal 2.4s ease-out 2.5s infinite; }
-    .gap-label { opacity: 0; animation: popIn 1.5s ease-out 3.0s infinite; }
-    .gap-pulse { animation: pulse 2s ease-in-out 3.0s infinite; }
+    .gap-fill { opacity: 0; animation: gapReveal 18s ease-out 2.5s infinite; }
+    .gap-label { opacity: 0; animation: popIn 18s ease-out 3.0s infinite; }
+    .gap-pulse { animation: pulse 18s ease-in-out 3.0s infinite; }
   </style>
 
 

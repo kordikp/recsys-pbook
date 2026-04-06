@@ -1,27 +1,24 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     @keyframes engineGlow {
       0%, 100% { filter: drop-shadow(0 0 3px #0c8383); }
       50% { filter: drop-shadow(0 0 12px #0c8383); }
     }
-    @keyframes particlePulse { 0%,100% { opacity: 0.2; } 50% { opacity: 0.8; } }
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
-    .sellers { opacity: 0; animation: fadeIn 1.8s ease-out 0.4s infinite; }
-    .engine { opacity: 0; animation: fadeIn 1.8s ease-out 0.8s infinite; }
+    @keyframes particlePulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
+    .sellers { opacity: 0; animation: fadeIn 18s ease-out 0.4s infinite; }
+    .engine { opacity: 0; animation: fadeIn 18s ease-out 0.8s infinite; }
     .engine-inner { animation: engineGlow 2s ease-in-out 1.5s infinite; }
-    .buyers { opacity: 0; animation: fadeIn 1.8s ease-out 1.2s infinite; }
-    .val-label { opacity: 0; animation: fadeIn 1.2s ease-out 2s infinite; }
+    .buyers { opacity: 0; animation: fadeIn 18s ease-out 1.2s infinite; }
+    .val-label { opacity: 0; animation: fadeIn 18s ease-out 2s infinite; }
 
-    .p-left1 { opacity: 0; animation: particlePulse 1.8s linear 1.5s infinite; }
-    .p-left2 { opacity: 0; animation: particlePulse 1.8s linear 2.1s infinite; }
-    .p-left3 { opacity: 0; animation: particlePulse 1.8s linear 2.7s infinite; }
-    .p-right1 { opacity: 0; animation: particlePulse 1.8s linear 1.8s infinite; }
-    .p-right2 { opacity: 0; animation: particlePulse 1.8s linear 2.4s infinite; }
-    .p-right3 { opacity: 0; animation: particlePulse 1.8s linear 3.0s infinite; }
+    .p-left1 { opacity: 0; animation: particlePulse 18s linear 1.5s infinite; }
+    .p-left2 { opacity: 0; animation: particlePulse 18s linear 2.1s infinite; }
+    .p-left3 { opacity: 0; animation: particlePulse 18s linear 2.7s infinite; }
+    .p-right1 { opacity: 0; animation: particlePulse 18s linear 1.8s infinite; }
+    .p-right2 { opacity: 0; animation: particlePulse 18s linear 2.4s infinite; }
+    .p-right3 { opacity: 0; animation: particlePulse 18s linear 3.0s infinite; }
   </style>
 
   <!-- Title -->

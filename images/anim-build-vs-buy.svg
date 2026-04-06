@@ -1,27 +1,15 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes drawLine {
-      from { stroke-dashoffset: 40; }
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes barGrowBuild {
-      from { stroke-dashoffset: 482; }
-      to   { stroke-dashoffset: 0; }
-    }
-    @keyframes barGrowBuy {
-      from { stroke-dashoffset: 180; }
-      to   { stroke-dashoffset: 0; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes drawLine { 0% { stroke-dashoffset: 40; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 40; } }
+    @keyframes barGrowBuild { 0% { stroke-dashoffset: 482; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 482; } 100% { stroke-dashoffset: 482; } }
+    @keyframes barGrowBuy { 0% { stroke-dashoffset: 180; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 180; } 100% { stroke-dashoffset: 180; } }
 
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
-    .fork { opacity: 0; animation: fadeIn 1.2s ease-out 0.3s infinite; }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
+    .fork { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
 
     /* Build path boxes */
-    .build-box { opacity: 0; animation: fadeIn 1.2s ease-out infinite; }
+    .build-box { opacity: 0; animation: fadeIn 18s ease-out infinite; }
     .b1 { animation-delay: 0.6s; }
     .b2 { animation-delay: 1.0s; }
     .b3 { animation-delay: 1.4s; }
@@ -30,7 +18,7 @@
     .b6 { animation-delay: 2.6s; }
 
     /* Build arrows */
-    .build-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.9s ease-out infinite; }
+    .build-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 18s ease-out infinite; }
     .ba1 { animation-delay: 0.9s; }
     .ba2 { animation-delay: 1.3s; }
     .ba3 { animation-delay: 1.7s; }
@@ -38,13 +26,13 @@
     .ba5 { animation-delay: 2.5s; }
 
     /* Buy path boxes */
-    .buy-box { opacity: 0; animation: fadeIn 1.2s ease-out infinite; }
+    .buy-box { opacity: 0; animation: fadeIn 18s ease-out infinite; }
     .y1 { animation-delay: 0.6s; }
     .y2 { animation-delay: 0.9s; }
     .y3 { animation-delay: 1.2s; }
 
     /* Buy arrows */
-    .buy-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 0.9s ease-out infinite; }
+    .buy-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 18s ease-out infinite; }
     .ya1 { animation-delay: 0.85s; }
     .ya2 { animation-delay: 1.15s; }
 
@@ -52,19 +40,19 @@
     .timer-build-bar {
       stroke-dasharray: 482;
       stroke-dashoffset: 482;
-      animation: barGrowBuild 7.2s linear 0.6s infinite;
+      animation: barGrowBuild 18s linear 0.6s infinite;
     }
     .timer-buy-bar {
       stroke-dasharray: 180;
       stroke-dashoffset: 180;
-      animation: barGrowBuy 2.7s linear 0.6s infinite;
+      animation: barGrowBuy 18s linear 0.6s infinite;
     }
 
     /* Labels */
-    .timer-build-label { opacity: 0; animation: fadeIn 1.2s ease-out 3.0s infinite; }
-    .timer-buy-label   { opacity: 0; animation: fadeIn 1.2s ease-out 1.5s infinite; }
+    .timer-build-label { opacity: 0; animation: fadeIn 18s ease-out 3.0s infinite; }
+    .timer-buy-label   { opacity: 0; animation: fadeIn 18s ease-out 1.5s infinite; }
 
-    .result-msg { opacity: 0; animation: fadeIn 1.8s ease-out 3.4s infinite; }
+    .result-msg { opacity: 0; animation: fadeIn 18s ease-out 3.4s infinite; }
   </style>
 
 

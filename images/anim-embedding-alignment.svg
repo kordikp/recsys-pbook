@@ -1,17 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes mergeLeft {
-      0%   { opacity: 1; }
-      100% { opacity: 1; }
-    }
-    @keyframes mergeRight {
-      0%   { opacity: 1; }
-      100% { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes mergeLeft { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes mergeRight { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     /* Individual dot movements for alignment */
     @keyframes dot-tl1 { 0% { cx: 80; cy: 100; } 100% { cx: 220; cy: 115; } }
     @keyframes dot-tl2 { 0% { cx: 100; cy: 140; } 100% { cx: 240; cy: 145; } }
@@ -31,8 +22,8 @@
     @keyframes dot-br7 { 0% { cx: 510; cy: 170; } 100% { cx: 355; cy: 165; } }
     @keyframes dot-br8 { 0% { cx: 480; cy: 200; } 100% { cx: 340; cy: 200; } }
 
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
-    .space-label { opacity: 0; animation: fadeIn 1.5s ease-out 0.4s infinite; }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
+    .space-label { opacity: 0; animation: fadeIn 18s ease-out 0.4s infinite; }
 
     /* Text space dots */
     .td1 { animation: dot-tl1 2s ease-in-out 2s infinite; }
@@ -56,19 +47,19 @@
 
     /* Space boundaries merge */
     .text-boundary {
-      animation: mergeLeft 2s ease-in-out 2s infinite;
+      animation: mergeLeft 18s ease-in-out 2s infinite;
     }
     .behavior-boundary {
-      animation: mergeRight 2s ease-in-out 2s infinite;
+      animation: mergeRight 18s ease-in-out 2s infinite;
     }
 
     /* Labels fade and move */
-    .text-label-move { animation: mergeLeft 2s ease-in-out 2s infinite; }
-    .behav-label-move { animation: mergeRight 2s ease-in-out 2s infinite; }
+    .text-label-move { animation: mergeLeft 18s ease-in-out 2s infinite; }
+    .behav-label-move { animation: mergeRight 18s ease-in-out 2s infinite; }
 
     /* Result label */
-    .result { opacity: 0; animation: fadeIn 1.8s ease-out 4.2s infinite; }
-    .aligned-label { opacity: 0; animation: fadeIn 1.5s ease-out 4.5s infinite; }
+    .result { opacity: 0; animation: fadeIn 18s ease-out 4.2s infinite; }
+    .aligned-label { opacity: 0; animation: fadeIn 18s ease-out 4.5s infinite; }
   </style>
 
 

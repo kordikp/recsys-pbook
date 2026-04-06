@@ -1,39 +1,29 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="system-ui, sans-serif">
   <style>
-    @keyframes lineGrow {
-      from { stroke-dashoffset: 640; }
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes dotPop {
-      0% { r: 0; opacity: 0; }
-      60% { r: 8; opacity: 1; }
-      100% { r: 6; opacity: 1; }
-    }
-    @keyframes labelFadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    @keyframes lineGrow { 0% { stroke-dashoffset: 640; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 640; } 100% { stroke-dashoffset: 640; } }
+    @keyframes dotPop { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes labelFadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     .timeline-line {
       stroke-dasharray: 640;
       stroke-dashoffset: 640;
-      animation: lineGrow 2s ease-out 0.3s infinite;
+      animation: lineGrow 18s ease-out 0.3s infinite;
     }
     .milestone-dot { opacity: 0; }
     .milestone-label { opacity: 0; }
-    .m1 .milestone-dot { animation: dotPop 1.2s ease-out 0.8s infinite; }
-    .m1 .milestone-label { animation: labelFadeIn 1.2s ease-out 1.0s infinite; }
-    .m2 .milestone-dot { animation: dotPop 1.2s ease-out 1.3s infinite; }
-    .m2 .milestone-label { animation: labelFadeIn 1.2s ease-out 1.5s infinite; }
-    .m3 .milestone-dot { animation: dotPop 1.2s ease-out 1.8s infinite; }
-    .m3 .milestone-label { animation: labelFadeIn 1.2s ease-out 2.0s infinite; }
-    .m4 .milestone-dot { animation: dotPop 1.2s ease-out 2.3s infinite; }
-    .m4 .milestone-label { animation: labelFadeIn 1.2s ease-out 2.5s infinite; }
-    .m5 .milestone-dot { animation: dotPop 1.2s ease-out 2.8s infinite; }
-    .m5 .milestone-label { animation: labelFadeIn 1.2s ease-out 3.0s infinite; }
-    .m6 .milestone-dot { animation: dotPop 1.2s ease-out 3.3s infinite; }
-    .m6 .milestone-label { animation: labelFadeIn 1.2s ease-out 3.5s infinite; }
-    .m7 .milestone-dot { animation: dotPop 1.2s ease-out 3.8s infinite; }
-    .m7 .milestone-label { animation: labelFadeIn 1.2s ease-out 4.0s infinite; }
+    .m1 .milestone-dot { animation: dotPop 18s ease-out 0.8s infinite; }
+    .m1 .milestone-label { animation: labelFadeIn 18s ease-out 1.0s infinite; }
+    .m2 .milestone-dot { animation: dotPop 18s ease-out 1.3s infinite; }
+    .m2 .milestone-label { animation: labelFadeIn 18s ease-out 1.5s infinite; }
+    .m3 .milestone-dot { animation: dotPop 18s ease-out 1.8s infinite; }
+    .m3 .milestone-label { animation: labelFadeIn 18s ease-out 2.0s infinite; }
+    .m4 .milestone-dot { animation: dotPop 18s ease-out 2.3s infinite; }
+    .m4 .milestone-label { animation: labelFadeIn 18s ease-out 2.5s infinite; }
+    .m5 .milestone-dot { animation: dotPop 18s ease-out 2.8s infinite; }
+    .m5 .milestone-label { animation: labelFadeIn 18s ease-out 3.0s infinite; }
+    .m6 .milestone-dot { animation: dotPop 18s ease-out 3.3s infinite; }
+    .m6 .milestone-label { animation: labelFadeIn 18s ease-out 3.5s infinite; }
+    .m7 .milestone-dot { animation: dotPop 18s ease-out 3.8s infinite; }
+    .m7 .milestone-label { animation: labelFadeIn 18s ease-out 4.0s infinite; }
   </style>
 
 

@@ -1,75 +1,45 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideUp {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes drawTimeline {
-      from { stroke-dashoffset: 620; }
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes barGrow1 {
-      from { opacity: 0; }
-      to { opacity: 0.25; }
-    }
-    @keyframes barGrow2 {
-      from { opacity: 0; }
-      to { opacity: 0.5; }
-    }
-    @keyframes barGrow3 {
-      from { opacity: 0; }
-      to { opacity: 0.8; }
-    }
-    @keyframes barGrow4 {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes barShrink {
-      from { opacity: 0; }
-      to { opacity: 0.6; }
-    }
-    @keyframes fadeSlideIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes popQuestion {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes slideUp { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes drawTimeline { 0% { stroke-dashoffset: 620; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 620; } 100% { stroke-dashoffset: 620; } }
+    @keyframes barGrow1 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barGrow2 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barGrow3 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barGrow4 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barShrink { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes fadeSlideIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes popQuestion { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
 
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
 
     /* Timeline line */
     .timeline {
       stroke-dasharray: 620;
       stroke-dashoffset: 620;
-      animation: drawTimeline 3s ease-out 0.3s infinite;
+      animation: drawTimeline 18s ease-out 0.3s infinite;
     }
 
     /* Phases */
-    .phase1 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 0.5s infinite; }
-    .phase2 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 1.2s infinite; }
-    .phase3 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 1.9s infinite; }
-    .phase4 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 2.6s infinite; }
-    .phase5 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 3.3s infinite; }
-    .phase6 { opacity: 0; animation: fadeSlideIn 1.2s ease-out 4.0s infinite; }
+    .phase1 { opacity: 0; animation: fadeSlideIn 18s ease-out 0.5s infinite; }
+    .phase2 { opacity: 0; animation: fadeSlideIn 18s ease-out 1.2s infinite; }
+    .phase3 { opacity: 0; animation: fadeSlideIn 18s ease-out 1.9s infinite; }
+    .phase4 { opacity: 0; animation: fadeSlideIn 18s ease-out 2.6s infinite; }
+    .phase5 { opacity: 0; animation: fadeSlideIn 18s ease-out 3.3s infinite; }
+    .phase6 { opacity: 0; animation: fadeSlideIn 18s ease-out 4.0s infinite; }
 
     /* Profile bars */
-    .bar-p1 { opacity: 0; animation: barGrow1 1.5s ease-out 1.4s infinite; }
-    .bar-p2 { opacity: 0; animation: barGrow2 1.5s ease-out 1.6s infinite; }
-    .bar-p3 { opacity: 0; animation: barGrow3 1.5s ease-out 1.8s infinite; }
-    .bar-p4 { opacity: 0; animation: barGrow4 1.5s ease-out 2.0s infinite; }
+    .bar-p1 { opacity: 0; animation: barGrow1 18s ease-out 1.4s infinite; }
+    .bar-p2 { opacity: 0; animation: barGrow2 18s ease-out 1.6s infinite; }
+    .bar-p3 { opacity: 0; animation: barGrow3 18s ease-out 1.8s infinite; }
+    .bar-p4 { opacity: 0; animation: barGrow4 18s ease-out 2.0s infinite; }
 
     /* Fatigue declining bars */
-    .bar-f1 { opacity: 0; animation: barGrow4 1.2s ease-out 4.2s infinite; }
-    .bar-f2 { opacity: 0; animation: barGrow3 1.2s ease-out 4.4s infinite; }
-    .bar-f3 { opacity: 0; animation: barShrink 1.2s ease-out 4.6s infinite; }
+    .bar-f1 { opacity: 0; animation: barGrow4 18s ease-out 4.2s infinite; }
+    .bar-f2 { opacity: 0; animation: barGrow3 18s ease-out 4.4s infinite; }
+    .bar-f3 { opacity: 0; animation: barShrink 18s ease-out 4.6s infinite; }
 
-    .question { opacity: 0; animation: popQuestion 1.5s ease-in-out 0.8s infinite; }
+    .question { opacity: 0; animation: popQuestion 18s ease-in-out 0.8s infinite; }
   </style>
 
 

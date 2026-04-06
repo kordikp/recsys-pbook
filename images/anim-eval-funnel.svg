@@ -1,35 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeSlideIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes arrowDraw {
-      from { stroke-dashoffset: 20; opacity: 0; }
-      to { stroke-dashoffset: 0; opacity: 1; }
-    }
+    @keyframes fadeSlideIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes arrowDraw { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     @keyframes barGrow {
       from { width: 0; }
       to { width: 100%; }
     }
-    @keyframes speedBarGrow {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .stage { opacity: 0; animation: fadeSlideIn 1.5s ease-out infinite; }
+    @keyframes speedBarGrow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .stage { opacity: 0; animation: fadeSlideIn 18s ease-out infinite; }
     .stage-1 { animation-delay: 0.3s; }
     .stage-2 { animation-delay: 0.8s; }
     .stage-3 { animation-delay: 1.3s; }
     .stage-4 { animation-delay: 1.8s; }
     .stage-5 { animation-delay: 2.3s; }
-    .arrow { stroke-dasharray: 20; stroke-dashoffset: 20; opacity: 0; animation: arrowDraw 1.2s ease-out infinite; }
+    .arrow { stroke-dasharray: 20; stroke-dashoffset: 20; opacity: 0; animation: arrowDraw 18s ease-out infinite; }
     .arrow-1 { animation-delay: 0.6s; }
     .arrow-2 { animation-delay: 1.1s; }
     .arrow-3 { animation-delay: 1.6s; }
     .arrow-4 { animation-delay: 2.1s; }
-    .speed-bar { opacity: 0; animation: speedBarGrow 4.5s ease-out 3s infinite; }
-    .conf-bar { opacity: 0; animation: speedBarGrow 4.5s ease-out 3.3s infinite; }
-    .bar-label { opacity: 0; animation: fadeSlideIn 1.5s ease-out 3s infinite; }
+    .speed-bar { opacity: 0; animation: speedBarGrow 18s ease-out 3s infinite; }
+    .conf-bar { opacity: 0; animation: speedBarGrow 18s ease-out 3.3s infinite; }
+    .bar-label { opacity: 0; animation: fadeSlideIn 18s ease-out 3s infinite; }
   </style>
 
 

@@ -1,57 +1,39 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideRight {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes dotFlow { 0%,100% { opacity: 0.3; } 50% { opacity: 1; } }
-    @keyframes barGrowA {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes barGrowB {
-      from { opacity: 0; }
-      to   { opacity: 1; }
-    }
-    @keyframes popIn {
-      0%   { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes pulse {
-      0%, 100% { opacity: 0.6; }
-      50% { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes slideRight { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes dotFlow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barGrowA { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barGrowB { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes popIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
 
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
-    .users { opacity: 0; animation: fadeIn 1.5s ease-out 0.3s infinite; }
-    .randomize { opacity: 0; animation: popIn 1.5s ease-out 0.6s infinite; }
-    .groupA { opacity: 0; animation: slideRight 1.5s ease-out 1.0s infinite; }
-    .groupB { opacity: 0; animation: slideRight 1.5s ease-out 1.0s infinite; }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
+    .users { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
+    .randomize { opacity: 0; animation: popIn 18s ease-out 0.6s infinite; }
+    .groupA { opacity: 0; animation: slideRight 18s ease-out 1.0s infinite; }
+    .groupB { opacity: 0; animation: slideRight 18s ease-out 1.0s infinite; }
 
     /* Flowing dots on path A */
-    .dotA { animation: dotFlow 2s linear infinite; }
+    .dotA { animation: dotFlow 18s linear infinite; }
     .dotA1 { animation-delay: 1.5s; }
     .dotA2 { animation-delay: 2.0s; }
     .dotA3 { animation-delay: 2.5s; }
     .dotA4 { animation-delay: 3.0s; }
 
     /* Flowing dots on path B */
-    .dotB { animation: dotFlow 2s linear infinite; }
+    .dotB { animation: dotFlow 18s linear infinite; }
     .dotB1 { animation-delay: 1.7s; }
     .dotB2 { animation-delay: 2.2s; }
     .dotB3 { animation-delay: 2.7s; }
     .dotB4 { animation-delay: 3.2s; }
 
     /* Result bars */
-    .bar-a { opacity: 0; animation: barGrowA 1s ease-out 3.0s infinite; }
-    .bar-b { opacity: 0; animation: barGrowB 1s ease-out 3.2s infinite; }
-    .result-label { opacity: 0; animation: fadeIn 1.2s ease-out 4.0s infinite; }
-    .confidence { opacity: 0; animation: fadeIn 1.5s ease-out 4.2s infinite; }
-    .winner { opacity: 0; animation: popIn 1.5s ease-out 4.5s infinite; }
+    .bar-a { opacity: 0; animation: barGrowA 18s ease-out 3.0s infinite; }
+    .bar-b { opacity: 0; animation: barGrowB 18s ease-out 3.2s infinite; }
+    .result-label { opacity: 0; animation: fadeIn 18s ease-out 4.0s infinite; }
+    .confidence { opacity: 0; animation: fadeIn 18s ease-out 4.2s infinite; }
+    .winner { opacity: 0; animation: popIn 18s ease-out 4.5s infinite; }
   </style>
 
 

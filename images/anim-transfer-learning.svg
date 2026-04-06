@@ -1,55 +1,43 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes bubbleGrow {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes drawArrow {
-      from { stroke-dashoffset: 200; }
-      to { stroke-dashoffset: 0; }
-    }
-    @keyframes particleFlow { 0%,100% { opacity: 0; } 30%,70% { opacity: 1; } }
-    @keyframes popIn {
-      0%   { opacity: 0; }
-      100% { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes bubbleGrow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes drawArrow { 0% { stroke-dashoffset: 200; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 200; } 100% { stroke-dashoffset: 200; } }
+    @keyframes particleFlow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes popIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     @keyframes glow {
       0%, 100% { filter: drop-shadow(0 0 3px rgba(59,196,161,0)); }
       50% { filter: drop-shadow(0 0 8px rgba(59,196,161,0.4)); }
     }
 
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
 
     /* Source domain */
-    .source-bubble { opacity: 0; animation: bubbleGrow 1.8s ease-out 0.4s infinite; }
-    .source-icon { opacity: 0; animation: fadeIn 1.2s ease-out 0.7s infinite; }
+    .source-bubble { opacity: 0; animation: bubbleGrow 18s ease-out 0.4s infinite; }
+    .source-icon { opacity: 0; animation: fadeIn 18s ease-out 0.7s infinite; }
 
     /* Target domain */
-    .target-bubble { opacity: 0; animation: bubbleGrow 1.8s ease-out 1.8s infinite; }
-    .target-icon { opacity: 0; animation: fadeIn 1.2s ease-out 0.9s infinite; }
+    .target-bubble { opacity: 0; animation: bubbleGrow 18s ease-out 1.8s infinite; }
+    .target-icon { opacity: 0; animation: fadeIn 18s ease-out 0.9s infinite; }
 
     /* Bridge arrow */
     .bridge-line {
       stroke-dasharray: 200;
       stroke-dashoffset: 200;
-      animation: drawArrow 1s ease-out 1.2s infinite;
+      animation: drawArrow 18s ease-out 1.2s infinite;
     }
-    .bridge-label { opacity: 0; animation: fadeIn 1.5s ease-out 1.5s infinite; }
+    .bridge-label { opacity: 0; animation: fadeIn 18s ease-out 1.5s infinite; }
 
     /* Particles flowing */
     .particle { opacity: 0; }
-    .p1 { animation: particleFlow 1.5s ease-in-out 2.0s infinite; }
-    .p2 { animation: particleFlow 1.5s ease-in-out 2.3s infinite; }
-    .p3 { animation: particleFlow 1.5s ease-in-out 2.6s infinite; }
-    .p4 { animation: particleFlow 1.5s ease-in-out 2.9s infinite; }
-    .p5 { animation: particleFlow 1.5s ease-in-out 3.2s infinite; }
+    .p1 { animation: particleFlow 18s ease-in-out 2.0s infinite; }
+    .p2 { animation: particleFlow 18s ease-in-out 2.3s infinite; }
+    .p3 { animation: particleFlow 18s ease-in-out 2.6s infinite; }
+    .p4 { animation: particleFlow 18s ease-in-out 2.9s infinite; }
+    .p5 { animation: particleFlow 18s ease-in-out 3.2s infinite; }
 
     /* Result label */
-    .result { opacity: 0; animation: popIn 1.5s ease-out 3.5s infinite; }
+    .result { opacity: 0; animation: popIn 18s ease-out 3.5s infinite; }
     .result-glow { animation: glow 2s ease-in-out 3.5s infinite; }
   </style>
 

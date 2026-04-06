@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 200" font-family="system-ui,sans-serif">
   <style>
-    .alert { opacity: 0; animation: fadeIn 1.5s ease infinite; }
+    .alert { opacity: 0; animation: fadeIn 18s ease infinite; }
     .a1{animation-delay:.3s} .a2{animation-delay:.9s} .a3{animation-delay:1.5s}
-    @keyframes fadeIn { to { opacity: 1; } }
-    .pulse-green { animation: pulseG 3s ease-in-out infinite; animation-delay:1s; }
-    .pulse-amber { animation: pulseA 1.5s ease-in-out infinite; animation-delay:1.5s; }
-    .pulse-red { animation: pulseR 0.6s ease-in-out infinite; animation-delay:2s; }
-    @keyframes pulseG { 0%,100%{opacity:.6} 50%{opacity:1} }
-    @keyframes pulseA { 0%,100%{opacity:.6} 50%{opacity:1} }
-    @keyframes pulseR { 0%,100%{opacity:.7} 50%{opacity:1} }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .pulse-green { animation: pulseG 18s ease-in-out infinite; animation-delay:1s; }
+    .pulse-amber { animation: pulseA 18s ease-in-out infinite; animation-delay:1.5s; }
+    .pulse-red { animation: pulseR 18s ease-in-out infinite; animation-delay:2s; }
+    @keyframes pulseG { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulseA { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulseR { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
   </style>
   <rect width="550" height="200" fill="#f5f5f4" rx="12"/>
   <text x="275" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#0b1225">Alert Severity Levels</text>

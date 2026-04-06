@@ -1,71 +1,49 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes slideDown {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes slideDown { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     @keyframes denseReveal {
       from { width: 0; }
       to { width: 360; }
     }
-    @keyframes denseBarGrow {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes compressAnim {
-      0%   { opacity: 1; }
-      50%  { opacity: 0.6; }
-      100% { opacity: 0; }
-    }
-    @keyframes sparseAppear {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes popIn {
-      0%   { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes sparkle {
-      0%, 100% { opacity: 0.4; }
-      50% { opacity: 1; }
-    }
+    @keyframes denseBarGrow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes compressAnim { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes sparseAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes popIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes sparkle { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
 
-    .title { opacity: 0; animation: fadeIn 1.5s ease-out 0.1s infinite; }
+    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
 
     /* Dense section */
-    .dense-label { opacity: 0; animation: slideDown 1.2s ease-out 0.3s infinite; }
+    .dense-label { opacity: 0; animation: slideDown 18s ease-out 0.3s infinite; }
     .dense-bar {
       opacity: 0;
-      animation: denseBarGrow 1s ease-out 0.6s infinite;
+      animation: denseBarGrow 18s ease-out 0.6s infinite;
     }
-    .dense-detail { opacity: 0; animation: fadeIn 1.2s ease-out 1.4s infinite; }
+    .dense-detail { opacity: 0; animation: fadeIn 18s ease-out 1.4s infinite; }
 
     /* Compression arrow */
-    .compress-arrow { opacity: 0; animation: fadeIn 1.5s ease-out 2.0s infinite; }
+    .compress-arrow { opacity: 0; animation: fadeIn 18s ease-out 2.0s infinite; }
 
     /* Sparse section */
-    .sparse-label { opacity: 0; animation: slideDown 1.2s ease-out 2.2s infinite; }
-    .sparse-bg { opacity: 0; animation: fadeIn 1.2s ease-out 2.4s infinite; }
+    .sparse-label { opacity: 0; animation: slideDown 18s ease-out 2.2s infinite; }
+    .sparse-bg { opacity: 0; animation: fadeIn 18s ease-out 2.4s infinite; }
 
     /* Sparse active dimensions */
     .sparse-slot { opacity: 0; }
-    .ss1 { animation: sparseAppear 0.9s ease-out 2.6s infinite; }
-    .ss2 { animation: sparseAppear 0.9s ease-out 2.8s infinite; }
-    .ss3 { animation: sparseAppear 0.9s ease-out 3.0s infinite; }
-    .ss4 { animation: sparseAppear 0.9s ease-out 3.2s infinite; }
-    .ss5 { animation: sparseAppear 0.9s ease-out 3.4s infinite; }
-    .ss6 { animation: sparseAppear 0.9s ease-out 3.1s infinite; }
-    .ss7 { animation: sparseAppear 0.9s ease-out 3.3s infinite; }
+    .ss1 { animation: sparseAppear 18s ease-out 2.6s infinite; }
+    .ss2 { animation: sparseAppear 18s ease-out 2.8s infinite; }
+    .ss3 { animation: sparseAppear 18s ease-out 3.0s infinite; }
+    .ss4 { animation: sparseAppear 18s ease-out 3.2s infinite; }
+    .ss5 { animation: sparseAppear 18s ease-out 3.4s infinite; }
+    .ss6 { animation: sparseAppear 18s ease-out 3.1s infinite; }
+    .ss7 { animation: sparseAppear 18s ease-out 3.3s infinite; }
 
-    .sparse-detail { opacity: 0; animation: fadeIn 1.2s ease-out 3.4s infinite; }
+    .sparse-detail { opacity: 0; animation: fadeIn 18s ease-out 3.4s infinite; }
 
     /* Result */
-    .result { opacity: 0; animation: popIn 1.5s ease-out 3.8s infinite; }
-    .sparkle { animation: sparkle 1.5s ease-in-out infinite; }
+    .result { opacity: 0; animation: popIn 18s ease-out 3.8s infinite; }
+    .sparkle { animation: sparkle 18s ease-in-out infinite; }
     .sp1 { animation-delay: 3.8s; }
     .sp2 { animation-delay: 4.1s; }
   </style>

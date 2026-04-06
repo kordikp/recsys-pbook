@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 250" font-family="system-ui,sans-serif">
   <style>
-    .side{opacity:0;animation:fadeIn .5s ease infinite}
+    .side{opacity:0;animation:fadeIn 18s ease infinite}
     .left{animation-delay:.3s}.right{animation-delay:1.2s}
-    @keyframes fadeIn{to{opacity:1}}
-    .qmark{animation:pulse 1.5s ease-in-out infinite;animation-delay:.8s}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-    .causal-arrow{stroke-dasharray:100;stroke-dashoffset:100;animation:draw 1s ease infinite;animation-delay:1.5s}
-    @keyframes draw{to{stroke-dashoffset:0}}
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .qmark{animation:pulse 18s ease-in-out infinite;animation-delay:.8s}
+    @keyframes pulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .causal-arrow{stroke-dasharray:100;stroke-dashoffset:100;animation:draw 18s ease infinite;animation-delay:1.5s}
+    @keyframes draw { 0% { stroke-dashoffset: 0; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
   </style>
 
   <rect width="550" height="250" fill="#f5f5f4" rx="12"/>

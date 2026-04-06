@@ -1,25 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes bracketAppear {
-      0%, 40% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes scoreAppear {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    .left-panel { opacity: 0; animation: fadeIn 1.8s ease-out 0.3s infinite; }
-    .right-panel { opacity: 0; animation: fadeIn 2.4s ease-out 2s infinite; }
-    .red-highlight { opacity: 0; animation: fadeIn 4.5s ease-out 1.2s infinite; }
-    .green-highlight { opacity: 0; animation: fadeIn 4.5s ease-out 3s infinite; }
-    .score-label { opacity: 0; animation: scoreAppear 1.2s ease-out 0.8s infinite; }
-    .bracket { opacity: 0; animation: bracketAppear 1s ease-out 1.5s infinite; }
-    .vs-label { opacity: 0; animation: fadeIn 1.5s ease-out 1.8s infinite; }
-    .slate-score { opacity: 0; animation: scoreAppear 1.2s ease-out 2.5s infinite; }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes bracketAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes scoreAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .left-panel { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
+    .right-panel { opacity: 0; animation: fadeIn 18s ease-out 2s infinite; }
+    .red-highlight { opacity: 0; animation: fadeIn 18s ease-out 1.2s infinite; }
+    .green-highlight { opacity: 0; animation: fadeIn 18s ease-out 3s infinite; }
+    .score-label { opacity: 0; animation: scoreAppear 18s ease-out 0.8s infinite; }
+    .bracket { opacity: 0; animation: bracketAppear 18s ease-out 1.5s infinite; }
+    .vs-label { opacity: 0; animation: fadeIn 18s ease-out 1.8s infinite; }
+    .slate-score { opacity: 0; animation: scoreAppear 18s ease-out 2.5s infinite; }
   </style>
 
 

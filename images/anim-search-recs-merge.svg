@@ -1,36 +1,19 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
   <style>
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-    @keyframes overlapAppear {
-      0%, 60% { opacity: 0; }
-      100% { opacity: 1; }
-    }
-    @keyframes labelFadeIn {
-      0%, 70% { opacity: 0; }
-      100% { opacity: 1; }
-    }
+    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes overlapAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes labelFadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     /* Search circle fades out as overlap appears */
-    @keyframes searchFade {
-      0% { opacity: 1; }
-      40% { opacity: 1; }
-      100% { opacity: 0.35; }
-    }
+    @keyframes searchFade { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
     /* Recs circle fades out as overlap appears */
-    @keyframes recsFade {
-      0% { opacity: 1; }
-      40% { opacity: 1; }
-      100% { opacity: 0.35; }
-    }
+    @keyframes recsFade { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
 
-    .search-circle { animation: searchFade 3s ease-in-out infinite; }
-    .recs-circle { animation: recsFade 3s ease-in-out infinite; }
-    .overlap-content { opacity: 0; animation: overlapAppear 4.5s ease-out 2.5s infinite; }
-    .merge-label { opacity: 0; animation: labelFadeIn 1s ease-out 3s infinite; }
-    .sub-label { opacity: 0; animation: labelFadeIn 2.4s ease-out 3.5s infinite; }
-    .initial-fade { opacity: 0; animation: fadeIn 1.8s ease-out 0.3s infinite; }
+    .search-circle { animation: searchFade 18s ease-in-out infinite; }
+    .recs-circle { animation: recsFade 18s ease-in-out infinite; }
+    .overlap-content { opacity: 0; animation: overlapAppear 18s ease-out 2.5s infinite; }
+    .merge-label { opacity: 0; animation: labelFadeIn 18s ease-out 3s infinite; }
+    .sub-label { opacity: 0; animation: labelFadeIn 18s ease-out 3.5s infinite; }
+    .initial-fade { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
   </style>
 
 
