@@ -98,11 +98,4 @@
     <text x="455" y="200" text-anchor="middle" font-size="7" fill="#888">Same user, same model — just one neuron boosted. No retraining.</text>
   </g>
 
-  <!-- Bottom explanation -->
-  <g class="p1 p1a">
-    <text x="325" y="240" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="600">SAE disentangles preferences into individual concept neurons</text>
-    <text x="325" y="255" text-anchor="middle" font-size="8" fill="#666">Each neuron = a knob. Boost it → recommendations shift toward that concept.</text>
-    <text x="325" y="270" text-anchor="middle" font-size="8" fill="#888">User steering · Editorial campaigns · Rabbit hole exit</text>
-    <text x="325" y="290" text-anchor="middle" font-size="7" fill="#bbb">Spišák, Peška, Škoda, Vančura, Alves — Recombee &amp; Charles University</text>
-  </g>
 </svg>
