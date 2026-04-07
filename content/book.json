@@ -1,6 +1,6 @@
 {
   "title": "How Recommendations Work",
-  "author": "Pavel Kordík and the Recombee team",
+  "author": "Pavel Kord\u00edk and the Recombee team",
   "version": "1.0",
   "chapters": [
     {
@@ -182,6 +182,7 @@
         "02d1-sidebar-explanation-ux.md",
         "03-spine-technical-approaches.md",
         "04-sidebar-transparency-spectrum.md",
+        "02e-spine-steerable-recs.md",
         "05-question-explain.md"
       ]
     },
@@ -311,6 +312,7 @@
         "05-spine-cold-start-language.md",
         "05a-depth-thinker-regularization.md",
         "05b-sidebar-transfer-learning.md",
+        "05c-spine-knobs-steering.md",
         "08-spine-research-roadmap.md",
         "08a-sidebar-emerging-directions.md",
         "09-question-research.md",
