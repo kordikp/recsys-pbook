@@ -1,167 +1,108 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 380" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" font-family="system-ui,sans-serif">
   <style>
     @keyframes appear { 0% { opacity: 0; } 5% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes steerAppear { 0%,25% { opacity: 0; } 30% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes resultAppear { 0%,40% { opacity: 0; } 45% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes flowDash { 0% { stroke-dashoffset: 12; } 100% { stroke-dashoffset: 0; } }
+    @keyframes steerAppear { 0%,22% { opacity: 0; } 27% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes resultAppear { 0%,35% { opacity: 0; } 40% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
 
     .p1 { opacity: 0; animation: appear 20s ease-in-out infinite; }
-    .p1a{animation-delay:0s} .p1b{animation-delay:.3s} .p1c{animation-delay:.6s} .p1d{animation-delay:.9s}
+    .p1a{animation-delay:0s} .p1b{animation-delay:.3s} .p1c{animation-delay:.6s}
     .steer { opacity: 0; animation: steerAppear 20s ease-in-out infinite; }
-    .sa{animation-delay:0s} .sb{animation-delay:.4s} .sc{animation-delay:.8s}
     .res { opacity: 0; animation: resultAppear 20s ease-in-out infinite; }
-    .flow { stroke-dasharray: 6 6; animation: flowDash 1s linear infinite; }
+    .ra{animation-delay:0s} .rb{animation-delay:.2s} .rc{animation-delay:.4s} .rd{animation-delay:.6s}
   </style>
 
-  <rect width="700" height="380" fill="#f5f5f4" rx="12"/>
+  <rect width="650" height="300" fill="#f5f5f4" rx="12"/>
+  <text x="325" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#0b1225">Steerable Recommendations: Turning Knobs</text>
 
-  <!-- Title -->
-  <text x="350" y="20" text-anchor="middle" font-size="12" font-weight="700" fill="#0b1225">From Knots to Knobs: Steerable Recommendation Pipeline</text>
-
-  <!-- ═══ TOP ROW: Pipeline ═══ -->
-
-  <!-- Input: User interactions -->
+  <!-- LEFT: Control Panel -->
   <g class="p1 p1a">
-    <rect x="15" y="35" width="80" height="45" rx="6" fill="white" stroke="#0b1225" stroke-width="1"/>
-    <text x="55" y="53" text-anchor="middle" font-size="8" font-weight="600" fill="#0b1225">Input: user</text>
-    <text x="55" y="64" text-anchor="middle" font-size="8" fill="#0b1225">interactions</text>
-  </g>
-
-  <!-- Arrow -->
-  <line x1="98" y1="57" x2="118" y2="57" stroke="#0b1225" stroke-width="1" class="p1 p1a" marker-end="url(#arr)"/>
-
-  <!-- CFAE Encode -->
-  <g class="p1 p1b">
-    <rect x="120" y="38" width="72" height="38" rx="6" fill="#0c8383"/>
-    <text x="156" y="55" text-anchor="middle" font-size="8" font-weight="600" fill="white">CFAE</text>
-    <text x="156" y="66" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.8)">Encode</text>
-  </g>
-
-  <!-- Arrow -->
-  <line x1="194" y1="57" x2="214" y2="57" stroke="#0b1225" stroke-width="1" class="p1 p1b" marker-end="url(#arr)"/>
-
-  <!-- Dense embedding -->
-  <g class="p1 p1c">
-    <rect x="216" y="35" width="85" height="45" rx="6" fill="#0b1225" opacity="0.07" stroke="#0b1225" stroke-width="1"/>
-    <text x="258" y="52" text-anchor="middle" font-size="7" font-weight="600" fill="#0b1225">Latent user</text>
-    <text x="258" y="62" text-anchor="middle" font-size="7" fill="#0b1225">embedding</text>
-    <text x="258" y="74" text-anchor="middle" font-size="7" fill="#888">(dense)</text>
-  </g>
-
-  <!-- Arrow into SAE box -->
-  <line x1="303" y1="57" x2="318" y2="57" stroke="#0c8383" stroke-width="1.5" class="p1 p1c" marker-end="url(#arr-teal)"/>
-
-  <!-- SAE Hook (highlighted box) -->
-  <g class="p1 p1d">
-    <rect x="320" y="30" width="110" height="55" rx="8" fill="#0c8383" opacity="0.1" stroke="#0c8383" stroke-width="2" stroke-dasharray="4 2"/>
-    <text x="375" y="48" text-anchor="middle" font-size="8" font-weight="700" fill="#0c8383">SAE Encode</text>
-    <text x="375" y="60" text-anchor="middle" font-size="7" fill="#0c8383">↕ disentangle</text>
-    <text x="375" y="72" text-anchor="middle" font-size="8" font-weight="700" fill="#0c8383">SAE Decode</text>
-  </g>
-
-  <!-- Arrow out -->
-  <line x1="432" y1="57" x2="452" y2="57" stroke="#0b1225" stroke-width="1" class="p1 p1d" marker-end="url(#arr)"/>
-
-  <!-- CFAE Decode -->
-  <g class="p1 p1d">
-    <rect x="454" y="38" width="72" height="38" rx="6" fill="#3bc4a1"/>
-    <text x="490" y="55" text-anchor="middle" font-size="8" font-weight="600" fill="white">CFAE</text>
-    <text x="490" y="66" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.8)">Decode</text>
-  </g>
-
-  <!-- Arrow -->
-  <line x1="528" y1="57" x2="548" y2="57" stroke="#0b1225" stroke-width="1" class="p1 p1d" marker-end="url(#arr)"/>
-
-  <!-- Recommendations -->
-  <g class="res">
-    <rect x="550" y="32" width="75" height="50" rx="6" fill="white" stroke="#3bc4a1" stroke-width="1.5"/>
-    <text x="587" y="50" text-anchor="middle" font-size="8" font-weight="600" fill="#0b1225">Recommended</text>
-    <text x="587" y="61" text-anchor="middle" font-size="8" fill="#0b1225">items</text>
-    <text x="587" y="75" text-anchor="middle" font-size="7" fill="#3bc4a1">Top N</text>
-  </g>
-
-  <!-- Label: + SAE Steering -->
-  <g class="steer sa">
-    <text x="375" y="100" text-anchor="middle" font-size="9" font-weight="700" fill="#0c8383">+ SAE Steering</text>
-    <line x1="375" y1="87" x2="375" y2="104" stroke="#0c8383" stroke-width="1" stroke-dasharray="3 2"/>
-  </g>
-
-  <!-- ═══ BOTTOM: Control Panel with 3 use cases ═══ -->
-
-  <!-- User profile -->
-  <g class="steer sa">
-    <rect x="15" y="115" width="190" height="55" rx="8" fill="white" stroke="#0b1225" stroke-width="1"/>
-    <text x="110" y="132" text-anchor="middle" font-size="8" fill="#0b1225">🔷 Likes classic Hollywood,</text>
-    <text x="110" y="144" text-anchor="middle" font-size="8" fill="#0b1225">musicals, film noir</text>
-    <text x="110" y="160" text-anchor="middle" font-size="7" fill="#888">Default user profile</text>
-  </g>
-
-  <!-- Use case 1: Date night -->
-  <g class="steer sb">
-    <rect x="15" y="185" width="205" height="85" rx="8" fill="#ec4899" opacity="0.06" stroke="#ec4899" stroke-width="1.5"/>
-    <text x="117" y="202" text-anchor="middle" font-size="9" font-weight="700" fill="#ec4899">Special occasion: Date night 💕</text>
-    <text x="117" y="218" text-anchor="middle" font-size="8" fill="#666">Amplify love story neuron ❤</text>
-    <!-- Arrow to result -->
-    <line x1="222" y1="228" x2="245" y2="228" stroke="#ec4899" stroke-width="1.5" class="flow" marker-end="url(#arr-pink)"/>
-    <rect x="248" y="210" width="165" height="40" rx="6" fill="#ec4899" opacity="0.1" stroke="#ec4899" stroke-width="1"/>
-    <text x="330" y="228" text-anchor="middle" font-size="8" font-weight="600" fill="#ec4899">Tailored love story boosting</text>
-    <text x="330" y="242" text-anchor="middle" font-size="7" fill="#888">Personalized romantic picks</text>
-  </g>
-
-  <!-- Use case 2: Editorial campaign -->
-  <g class="steer sc">
-    <rect x="15" y="285" width="205" height="85" rx="8" fill="#6366f1" opacity="0.06" stroke="#6366f1" stroke-width="1.5"/>
-    <text x="117" y="302" text-anchor="middle" font-size="9" font-weight="700" fill="#6366f1">Editorial: Essential Directors</text>
-    <text x="117" y="318" text-anchor="middle" font-size="8" fill="#666">Activate David Lynch neuron</text>
-    <!-- Arrow to result -->
-    <line x1="222" y1="328" x2="245" y2="328" stroke="#6366f1" stroke-width="1.5" class="flow" marker-end="url(#arr-indigo)"/>
-    <rect x="248" y="310" width="165" height="40" rx="6" fill="#6366f1" opacity="0.1" stroke="#6366f1" stroke-width="1"/>
-    <text x="330" y="328" text-anchor="middle" font-size="8" font-weight="600" fill="#6366f1">Personalized Lynch promotion</text>
-    <text x="330" y="342" text-anchor="middle" font-size="7" fill="#888">Different Lynch picks per user</text>
-  </g>
-
-  <!-- Control Panel label -->
-  <g class="steer sa">
-    <rect x="440" y="115" width="245" height="250" rx="10" fill="white" stroke="#0c8383" stroke-width="1.5"/>
-    <text x="562" y="135" text-anchor="middle" font-size="10" font-weight="700" fill="#0c8383">Control Panel</text>
-    <text x="562" y="148" text-anchor="middle" font-size="7" fill="#888">Disentangled sparse user embedding</text>
+    <rect x="20" y="38" width="200" height="220" rx="10" fill="white" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="120" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#0c8383">Control Panel</text>
+    <text x="120" y="72" text-anchor="middle" font-size="7" fill="#888">SAE-discovered concept neurons</text>
   </g>
 
   <!-- Knobs -->
-  <g class="steer sa">
-    <rect x="455" y="158" width="215" height="18" rx="3" fill="#0c8383" opacity="0.1"/><text x="465" y="170" font-size="8" fill="#0b1225">Classic Hollywood</text><rect x="580" y="161" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="161" width="65" height="12" rx="5" fill="#0c8383"/>
+  <g class="p1 p1a">
+    <text x="40" y="95" font-size="9" fill="#0b1225">Classic Hollywood</text>
+    <rect x="40" y="100" width="160" height="6" rx="3" fill="#e8e8e8"/>
+    <rect x="40" y="100" width="130" height="6" rx="3" fill="#0c8383"/>
   </g>
-  <g class="steer sa">
-    <rect x="455" y="180" width="215" height="18" rx="3" fill="#0c8383" opacity="0.08"/><text x="465" y="192" font-size="8" fill="#0b1225">Musicals</text><rect x="580" y="183" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="183" width="50" height="12" rx="5" fill="#0c8383"/>
+  <g class="p1 p1b">
+    <text x="40" y="122" font-size="9" fill="#0b1225">Musicals</text>
+    <rect x="40" y="127" width="160" height="6" rx="3" fill="#e8e8e8"/>
+    <rect x="40" y="127" width="100" height="6" rx="3" fill="#0c8383"/>
   </g>
-  <g class="steer sa">
-    <rect x="455" y="202" width="215" height="18" rx="3" fill="#0c8383" opacity="0.06"/><text x="465" y="214" font-size="8" fill="#0b1225">Film Noir</text><rect x="580" y="205" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="205" width="45" height="12" rx="5" fill="#0c8383"/>
-  </g>
-  <g class="steer sb">
-    <rect x="455" y="228" width="215" height="18" rx="3" fill="#ec4899" opacity="0.15"/><text x="465" y="240" font-size="8" font-weight="600" fill="#ec4899">❤ Love Story</text><rect x="580" y="231" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="231" width="70" height="12" rx="5" fill="#ec4899"/>
-    <text x="668" y="240" font-size="7" fill="#ec4899">↑ boosted</text>
-  </g>
-  <g class="steer sc">
-    <rect x="455" y="254" width="215" height="18" rx="3" fill="#6366f1" opacity="0.15"/><text x="465" y="266" font-size="8" font-weight="600" fill="#6366f1">🎬 David Lynch</text><rect x="580" y="257" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="257" width="60" height="12" rx="5" fill="#6366f1"/>
-    <text x="668" y="266" font-size="7" fill="#6366f1">↑ activated</text>
-  </g>
-  <g class="steer sa">
-    <rect x="455" y="278" width="215" height="18" rx="3" fill="#e5e5e4" opacity="0.5"/><text x="465" y="290" font-size="8" fill="#ccc">Horror</text><rect x="580" y="281" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="281" width="8" height="12" rx="5" fill="#ccc"/>
-  </g>
-  <g class="steer sa">
-    <rect x="455" y="300" width="215" height="18" rx="3" fill="#e5e5e4" opacity="0.5"/><text x="465" y="312" font-size="8" fill="#ccc">Sci-Fi</text><rect x="580" y="303" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="303" width="12" height="12" rx="5" fill="#ccc"/>
-  </g>
-  <g class="steer sa">
-    <rect x="455" y="322" width="215" height="18" rx="3" fill="#e5e5e4" opacity="0.5"/><text x="465" y="334" font-size="8" fill="#ccc">Comedy</text><rect x="580" y="325" width="80" height="12" rx="5" fill="#e5e5e4"/><rect x="580" y="325" width="5" height="12" rx="5" fill="#ccc"/>
+  <g class="p1 p1c">
+    <text x="40" y="149" font-size="9" fill="#0b1225">Film Noir</text>
+    <rect x="40" y="154" width="160" height="6" rx="3" fill="#e8e8e8"/>
+    <rect x="40" y="154" width="85" height="6" rx="3" fill="#0c8383"/>
   </g>
 
-  <!-- Bottom label -->
-  <text x="350" y="372" text-anchor="middle" font-size="8" fill="#888">Spišák, Peška, Škoda, Vančura, Alves — Recombee &amp; Charles University</text>
+  <!-- Boosted knob (appears with steering phase) -->
+  <g class="steer">
+    <text x="40" y="180" font-size="9" font-weight="700" fill="#ec4899">❤ Love Story</text>
+    <rect x="40" y="185" width="160" height="8" rx="4" fill="#e8e8e8"/>
+    <rect x="40" y="185" width="145" height="8" rx="4" fill="#ec4899"/>
+    <text x="190" y="192" font-size="7" fill="#ec4899">↑ boosted</text>
+  </g>
 
-  <defs>
-    <marker id="arr" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#0b1225"/></marker>
-    <marker id="arr-teal" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#0c8383"/></marker>
-    <marker id="arr-pink" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#ec4899"/></marker>
-    <marker id="arr-indigo" markerWidth="6" markerHeight="5" refX="6" refY="2.5" orient="auto"><path d="M0,0 L6,2.5 L0,5" fill="#6366f1"/></marker>
-  </defs>
+  <!-- Low knobs -->
+  <g class="p1 p1c">
+    <text x="40" y="212" font-size="8" fill="#bbb">Horror</text>
+    <rect x="40" y="216" width="160" height="5" rx="2" fill="#e8e8e8"/>
+    <rect x="40" y="216" width="15" height="5" rx="2" fill="#ccc"/>
+    <text x="40" y="240" font-size="8" fill="#bbb">Sci-Fi</text>
+    <rect x="40" y="244" width="160" height="5" rx="2" fill="#e8e8e8"/>
+    <rect x="40" y="244" width="20" height="5" rx="2" fill="#ccc"/>
+  </g>
+
+  <!-- CENTER: Arrow -->
+  <g class="steer">
+    <text x="248" y="140" font-size="9" fill="#0c8383" font-weight="600">→</text>
+  </g>
+
+  <!-- RIGHT: Default recommendations -->
+  <g class="p1 p1b">
+    <text x="280" y="50" font-size="9" font-weight="600" fill="#0b1225">Default recommendations</text>
+    <rect x="275" y="58" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="285" y="73" font-size="8" fill="#0b1225">Casablanca</text><text x="445" y="73" text-anchor="end" font-size="7" fill="#888">classic</text>
+    <rect x="275" y="84" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="285" y="99" font-size="8" fill="#0b1225">Singin' in the Rain</text><text x="445" y="99" text-anchor="end" font-size="7" fill="#888">musical</text>
+    <rect x="275" y="110" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="285" y="125" font-size="8" fill="#0b1225">The Third Man</text><text x="445" y="125" text-anchor="end" font-size="7" fill="#888">noir</text>
+    <rect x="275" y="136" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="285" y="151" font-size="8" fill="#0b1225">Sunset Boulevard</text><text x="445" y="151" text-anchor="end" font-size="7" fill="#888">classic</text>
+  </g>
+
+  <!-- RIGHT: Steered recommendations (appear after boost) -->
+  <g class="res">
+    <text x="480" y="50" font-size="9" font-weight="600" fill="#ec4899">After boosting ❤</text>
+
+    <rect x="475" y="58" width="160" height="22" rx="4" fill="#ec4899" opacity="0.08" stroke="#ec4899" stroke-width="1"/>
+    <text x="485" y="73" font-size="8" font-weight="600" fill="#ec4899">Roman Holiday</text><text x="623" y="73" text-anchor="end" font-size="7" fill="#ec4899">romance</text>
+
+    <rect x="475" y="84" width="160" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="485" y="99" font-size="8" fill="#0b1225">Casablanca</text><text x="623" y="99" text-anchor="end" font-size="7" fill="#888">classic</text>
+
+    <rect x="475" y="110" width="160" height="22" rx="4" fill="#ec4899" opacity="0.08" stroke="#ec4899" stroke-width="1"/>
+    <text x="485" y="125" font-size="8" font-weight="600" fill="#ec4899">An Affair to Remember</text><text x="623" y="125" text-anchor="end" font-size="7" fill="#ec4899">romance</text>
+
+    <rect x="475" y="136" width="160" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="485" y="151" font-size="8" fill="#0b1225">Singin' in the Rain</text><text x="623" y="151" text-anchor="end" font-size="7" fill="#888">musical</text>
+  </g>
+
+  <!-- Bottom: what happened -->
+  <g class="res">
+    <rect x="275" y="170" width="360" height="42" rx="6" fill="#0c8383" opacity="0.05" stroke="#0c8383" stroke-width="1"/>
+    <text x="455" y="186" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">What changed: romantic films rose in ranking</text>
+    <text x="455" y="200" text-anchor="middle" font-size="7" fill="#888">Same user, same model — just one neuron boosted. No retraining.</text>
+  </g>
+
+  <!-- Bottom explanation -->
+  <g class="p1 p1a">
+    <text x="325" y="240" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="600">SAE disentangles preferences into individual concept neurons</text>
+    <text x="325" y="255" text-anchor="middle" font-size="8" fill="#666">Each neuron = a knob. Boost it → recommendations shift toward that concept.</text>
+    <text x="325" y="270" text-anchor="middle" font-size="8" fill="#888">User steering · Editorial campaigns · Rabbit hole exit</text>
+    <text x="325" y="290" text-anchor="middle" font-size="7" fill="#bbb">Spišák, Peška, Škoda, Vančura, Alves — Recombee &amp; Charles University</text>
+  </g>
 </svg>
