@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 320" font-family="system-ui,sans-serif">
+  <style>
+    @keyframes appear { 0% { opacity: 0; } 6% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes knobTurn { 0%,15% { opacity: 0.3; } 25% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0.3; } 100% { opacity: 0.3; } }
+    @keyframes resultShift { 0%,30% { opacity: 0; } 38% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes barGrow { 0%,20% { opacity: 0; } 28% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+
+    .phase1 { opacity: 0; animation: appear 18s ease-in-out infinite; }
+    .p1a{animation-delay:0s} .p1b{animation-delay:.3s} .p1c{animation-delay:.6s}
+    .knob { opacity: 0.3; animation: knobTurn 18s ease-in-out infinite; }
+    .k1{animation-delay:0s} .k2{animation-delay:.4s} .k3{animation-delay:.8s}
+    .result { opacity: 0; animation: resultShift 18s ease-in-out infinite; }
+    .bar { opacity: 0; animation: barGrow 18s ease-in-out infinite; }
+    .ba{animation-delay:.2s} .bb{animation-delay:.5s} .bc{animation-delay:.8s} .bd{animation-delay:1.1s}
+  </style>
+
+  <rect width="650" height="320" fill="#f5f5f4" rx="12"/>
+  <text x="325" y="24" text-anchor="middle" font-size="14" font-weight="700" fill="#0b1225">From Knots to Knobs: Steerable Recommendations</text>
+
+  <!-- Left: Dense embedding (entangled) -->
+  <g class="phase1 p1a">
+    <rect x="20" y="45" width="145" height="110" rx="8" fill="#0b1225" opacity="0.05" stroke="#0b1225" stroke-width="1"/>
+    <text x="92" y="62" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225">Dense Embedding</text>
+    <text x="92" y="78" text-anchor="middle" font-size="8" fill="#888">256 dimensions</text>
+    <!-- Entangled bars -->
+    <rect x="35" y="88" width="115" height="8" rx="2" fill="#0c8383" opacity="0.4"/>
+    <rect x="35" y="100" width="95" height="8" rx="2" fill="#3bc4a1" opacity="0.5"/>
+    <rect x="35" y="112" width="108" height="8" rx="2" fill="#f59e0b" opacity="0.3"/>
+    <rect x="35" y="124" width="80" height="8" rx="2" fill="#ef4444" opacity="0.35"/>
+    <rect x="35" y="136" width="100" height="8" rx="2" fill="#6366f1" opacity="0.45"/>
+    <text x="92" y="160" text-anchor="middle" font-size="7" fill="#bbb">Everything mixed together</text>
+  </g>
+
+  <!-- Arrow: SAE -->
+  <g class="phase1 p1b">
+    <rect x="180" y="75" width="60" height="35" rx="6" fill="#0c8383"/>
+    <text x="210" y="90" text-anchor="middle" font-size="9" font-weight="700" fill="white">SAE</text>
+    <text x="210" y="102" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.8)">disentangle</text>
+  </g>
+
+  <!-- Center: Sparse neurons (knobs) -->
+  <g class="phase1 p1c">
+    <rect x="255" y="40" width="155" height="180" rx="8" fill="white" stroke="#0c8383" stroke-width="1.5"/>
+    <text x="332" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#0c8383">Control Panel</text>
+  </g>
+
+  <!-- Individual knobs with labels -->
+  <g class="knob k1">
+    <rect x="270" y="68" width="125" height="22" rx="4" fill="#0c8383" opacity="0.12"/>
+    <circle cx="285" cy="79" r="7" fill="#0c8383"/><text x="285" y="82" text-anchor="middle" font-size="7" fill="white" font-weight="700">H</text>
+    <text x="305" y="83" font-size="9" fill="#0b1225" font-weight="600">Sci-Fi</text>
+    <rect x="350" y="75" width="40" height="8" rx="3" fill="#e5e5e4"/><rect x="350" y="75" width="35" height="8" rx="3" fill="#0c8383"/>
+  </g>
+  <g class="knob k2">
+    <rect x="270" y="96" width="125" height="22" rx="4" fill="#3bc4a1" opacity="0.12"/>
+    <circle cx="285" cy="107" r="7" fill="#3bc4a1"/><text x="285" y="110" text-anchor="middle" font-size="7" fill="white" font-weight="700">♥</text>
+    <text x="305" y="111" font-size="9" fill="#0b1225" font-weight="600">Romance</text>
+    <rect x="350" y="103" width="40" height="8" rx="3" fill="#e5e5e4"/><rect x="350" y="103" width="12" height="8" rx="3" fill="#3bc4a1"/>
+  </g>
+  <g class="knob k1">
+    <rect x="270" y="124" width="125" height="22" rx="4" fill="#f59e0b" opacity="0.12"/>
+    <circle cx="285" cy="135" r="7" fill="#f59e0b"/><text x="285" y="138" text-anchor="middle" font-size="7" fill="white" font-weight="700">Q</text>
+    <text x="305" y="139" font-size="9" fill="#0b1225" font-weight="600">Tarantino</text>
+    <rect x="350" y="131" width="40" height="8" rx="3" fill="#e5e5e4"/><rect x="350" y="131" width="28" height="8" rx="3" fill="#f59e0b"/>
+  </g>
+  <g class="knob k3">
+    <rect x="270" y="152" width="125" height="22" rx="4" fill="#6366f1" opacity="0.12"/>
+    <circle cx="285" cy="163" r="7" fill="#6366f1"/><text x="285" y="166" text-anchor="middle" font-size="7" fill="white" font-weight="700">🎵</text>
+    <text x="305" y="167" font-size="9" fill="#0b1225" font-weight="600">Indie Music</text>
+    <rect x="350" y="159" width="40" height="8" rx="3" fill="#e5e5e4"/><rect x="350" y="159" width="20" height="8" rx="3" fill="#6366f1"/>
+  </g>
+  <g class="knob k2">
+    <rect x="270" y="180" width="125" height="22" rx="4" fill="#ef4444" opacity="0.08"/>
+    <circle cx="285" cy="191" r="7" fill="#ef4444" opacity="0.4"/><text x="285" y="194" text-anchor="middle" font-size="7" fill="white" font-weight="700">×</text>
+    <text x="305" y="195" font-size="9" fill="#bbb">Horror</text>
+    <rect x="350" y="187" width="40" height="8" rx="3" fill="#e5e5e4"/><rect x="350" y="187" width="5" height="8" rx="3" fill="#ef4444" opacity="0.4"/>
+  </g>
+
+  <!-- Arrow to results -->
+  <g class="result">
+    <text x="435" y="97" font-size="8" fill="#0c8383" font-weight="600">steer →</text>
+  </g>
+
+  <!-- Right: Steered recommendations -->
+  <g class="result">
+    <rect x="465" y="40" width="170" height="180" rx="8" fill="#0c8383" opacity="0.06" stroke="#0c8383" stroke-width="1"/>
+    <text x="550" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#0c8383">Recommendations</text>
+    <text x="550" y="72" text-anchor="middle" font-size="8" fill="#888">Steered for you</text>
+  </g>
+
+  <!-- Result items -->
+  <g class="bar ba"><rect x="480" y="82" width="140" height="18" rx="4" fill="#0c8383" opacity="0.15"/><text x="490" y="95" font-size="8" fill="#0b1225">🚀 Interstellar</text><text x="610" y="95" text-anchor="end" font-size="7" fill="#0c8383">sci-fi</text></g>
+  <g class="bar bb"><rect x="480" y="104" width="140" height="18" rx="4" fill="#f59e0b" opacity="0.15"/><text x="490" y="117" font-size="8" fill="#0b1225">🎬 Pulp Fiction</text><text x="610" y="117" text-anchor="end" font-size="7" fill="#f59e0b">tarantino</text></g>
+  <g class="bar bc"><rect x="480" y="126" width="140" height="18" rx="4" fill="#0c8383" opacity="0.1"/><text x="490" y="139" font-size="8" fill="#0b1225">🌌 Blade Runner</text><text x="610" y="139" text-anchor="end" font-size="7" fill="#0c8383">sci-fi</text></g>
+  <g class="bar bd"><rect x="480" y="148" width="140" height="18" rx="4" fill="#6366f1" opacity="0.1"/><text x="490" y="161" font-size="8" fill="#0b1225">🎵 Indie Drama</text><text x="610" y="161" text-anchor="end" font-size="7" fill="#6366f1">indie</text></g>
+
+  <!-- Bottom: explanation -->
+  <g class="result">
+    <rect x="20" y="240" width="610" height="65" rx="8" fill="white" stroke="#e5e5e4" stroke-width="1"/>
+    <text x="325" y="260" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225">How it works</text>
+    <text x="325" y="278" text-anchor="middle" font-size="8" fill="#666">Dense user embedding → SAE disentangles into sparse concept neurons → Each neuron = a knob</text>
+    <text x="325" y="293" text-anchor="middle" font-size="8" fill="#0c8383">Boost a knob → recommendations shift toward that concept. No retraining needed.</text>
+  </g>
+</svg>

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" font-family="system-ui,sans-serif">
+  <style>
+    @keyframes narrowing { 0% { opacity: 0; } 5% { opacity: 1; } 30% { opacity: 1; } 35% { opacity: 0.3; } 100% { opacity: 0.3; } }
+    @keyframes alert { 0%,30% { opacity: 0; } 35% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes widening { 0%,40% { opacity: 0; } 45% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    @keyframes pulseWarn { 0%,100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+    .narrow { opacity: 0; animation: narrowing 18s ease-in-out infinite; }
+    .na{animation-delay:0s} .nb{animation-delay:.3s} .nc{animation-delay:.6s}
+    .alertbox { opacity: 0; animation: alert 18s ease-in-out infinite; }
+    .widen { opacity: 0; animation: widening 18s ease-in-out infinite; }
+    .wa{animation-delay:0s} .wb{animation-delay:.3s} .wc{animation-delay:.6s}
+    .warn-pulse { animation: pulseWarn 1.5s ease-in-out infinite; }
+  </style>
+
+  <rect width="600" height="280" fill="#f5f5f4" rx="12"/>
+  <text x="300" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#0b1225">Exiting the Rabbit Hole</text>
+
+  <!-- Phase 1: Narrowing -->
+  <g class="narrow na">
+    <text x="25" y="48" font-size="9" font-weight="600" fill="#ef4444">Before: Narrowing</text>
+    <rect x="20" y="55" width="170" height="140" rx="8" fill="white" stroke="#ef4444" stroke-width="1" opacity="0.5"/>
+
+    <!-- Active neurons narrowing -->
+    <rect x="35" y="68" width="140" height="14" rx="3" fill="#ef4444" opacity="0.7"/>
+    <text x="45" y="79" font-size="8" fill="white" font-weight="600">True Crime ████████</text>
+
+    <rect x="35" y="86" width="140" height="14" rx="3" fill="#ef4444" opacity="0.5"/>
+    <text x="45" y="97" font-size="8" fill="white" font-weight="600">Murder Mystery ██████</text>
+
+    <rect x="35" y="104" width="140" height="14" rx="3" fill="#ef4444" opacity="0.3"/>
+    <text x="45" y="115" font-size="8" fill="white">Serial Killer Docs ████</text>
+
+    <!-- Suppressed neurons -->
+    <rect x="35" y="126" width="140" height="10" rx="3" fill="#e5e5e4"/>
+    <text x="45" y="134" font-size="7" fill="#ccc">Comedy ░░</text>
+    <rect x="35" y="140" width="140" height="10" rx="3" fill="#e5e5e4"/>
+    <text x="45" y="148" font-size="7" fill="#ccc">Science ░</text>
+    <rect x="35" y="154" width="140" height="10" rx="3" fill="#e5e5e4"/>
+    <text x="45" y="162" font-size="7" fill="#ccc">Music ░</text>
+    <rect x="35" y="168" width="140" height="10" rx="3" fill="#e5e5e4"/>
+    <text x="45" y="176" font-size="7" fill="#ccc">Travel</text>
+
+    <text x="105" y="198" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">3 active neurons</text>
+    <text x="105" y="210" text-anchor="middle" font-size="7" fill="#999">was 8 last month</text>
+  </g>
+
+  <!-- Phase 2: Alert -->
+  <g class="alertbox">
+    <rect x="210" y="70" width="180" height="80" rx="10" fill="#ef4444" opacity="0.08" stroke="#ef4444" stroke-width="1.5"/>
+    <text x="300" y="95" text-anchor="middle" font-size="11" font-weight="700" fill="#ef4444" class="warn-pulse">⚠ Rabbit Hole Detected</text>
+    <text x="300" y="112" text-anchor="middle" font-size="8" fill="#666">Neuron concentration increasing</text>
+    <text x="300" y="126" text-anchor="middle" font-size="8" fill="#666">Interests narrowing over time</text>
+    <text x="300" y="145" text-anchor="middle" font-size="9" fill="#0c8383" font-weight="600">→ Gentle diversification</text>
+  </g>
+
+  <!-- Phase 3: Widened -->
+  <g class="widen wa">
+    <text x="415" y="48" font-size="9" font-weight="600" fill="#0c8383">After: Diversified</text>
+    <rect x="410" y="55" width="170" height="140" rx="8" fill="white" stroke="#0c8383" stroke-width="1.5"/>
+
+    <!-- Balanced neurons -->
+    <rect x="425" y="68" width="140" height="14" rx="3" fill="#ef4444" opacity="0.4"/>
+    <text x="435" y="79" font-size="8" fill="white">True Crime ████</text>
+
+    <rect x="425" y="86" width="140" height="14" rx="3" fill="#0c8383" opacity="0.5"/>
+    <text x="435" y="97" font-size="8" fill="white" font-weight="600">Investigative Journalism ███</text>
+
+    <rect x="425" y="104" width="140" height="14" rx="3" fill="#3bc4a1" opacity="0.5"/>
+    <text x="435" y="115" font-size="8" fill="white" font-weight="600">Legal Thriller ████</text>
+
+    <rect x="425" y="122" width="140" height="14" rx="3" fill="#6366f1" opacity="0.4"/>
+    <text x="435" y="133" font-size="8" fill="white" font-weight="600">Psychology ███</text>
+
+    <rect x="425" y="140" width="140" height="10" rx="3" fill="#f59e0b" opacity="0.3"/>
+    <text x="435" y="148" font-size="7" fill="white">Documentary ██</text>
+
+    <rect x="425" y="154" width="140" height="10" rx="3" fill="#e5e5e4"/>
+    <text x="435" y="162" font-size="7" fill="#ccc">Comedy ░</text>
+    <rect x="425" y="168" width="140" height="10" rx="3" fill="#e5e5e4"/>
+    <text x="435" y="176" font-size="7" fill="#ccc">Music ░</text>
+
+    <text x="495" y="198" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="600">5 active neurons</text>
+    <text x="495" y="210" text-anchor="middle" font-size="7" fill="#3bc4a1">Adjacent concepts boosted</text>
+  </g>
+
+  <!-- Bottom explanation -->
+  <g class="widen wb">
+    <rect x="30" y="230" width="540" height="38" rx="6" fill="white" stroke="#e5e5e4" stroke-width="1"/>
+    <text x="300" y="248" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="600">Not random exploration — boost concepts adjacent to existing interests</text>
+    <text x="300" y="261" text-anchor="middle" font-size="8" fill="#888">True crime → investigative journalism, legal thrillers, psychology (natural expansion)</text>
+  </g>
+</svg>

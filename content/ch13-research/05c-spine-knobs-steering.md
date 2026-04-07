@@ -25,6 +25,8 @@ Traditional recommender systems are black boxes: they take your interaction hist
 
 Research from [Recombee and Charles University](https://www.recombee.com/research-publications) proposes exactly this: a technique that transforms the opaque internal representations of collaborative filtering models into a structured "control panel" of interpretable knobs that users and editors can manipulate.
 
+![SAE disentangles dense embeddings into interpretable knobs for steering](/images/anim-knobs-steering.svg)
+
 ## The Core Idea
 
 Collaborative filtering autoencoders (CFAEs) — including [EASE, ELSA](https://www.recombee.com/blog/linear-methods-and-autoencoders-in-recommender-systems), and MultVAE — compress user interaction histories into dense embedding vectors. These embeddings are powerful but entangled: each dimension encodes a mix of preferences with no clear semantic meaning.
@@ -41,7 +43,7 @@ Dense embeddings are like mixed paint — every dimension contains a bit of ever
 
 Sparse embeddings are like a palette with individual color wells. Each active neuron represents one distinct concept. A user who likes Tarantino, sci-fi, and indie music has exactly those three neurons active — not a murky blend across hundreds of dimensions.
 
-This mirrors findings from [mechanistic interpretability research in LLMs](https://www.recombee.com/blog/linear-methods-and-autoencoders-in-recommender-systems) (Anthropic's work on sparse autoencoders for understanding Claude), but applied to recommendation: the SAE discovers the "atoms of preference" that the CFAE has learned to represent.
+This mirrors findings from mechanistic interpretability research in LLMs — notably Anthropic's work on using sparse autoencoders to understand Claude's internal representations. The same principle applies to recommendation: the SAE discovers the "atoms of preference" that the CFAE has learned to represent.
 
 ## The Control Panel
 
