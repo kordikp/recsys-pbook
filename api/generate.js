@@ -390,9 +390,10 @@ module.exports = async function handler(req, res) {
       const chapters = (Array.isArray(req.body.chapters) ? req.body.chapters : [])
         .filter(c => typeof c === 'string').map(c => c.slice(0, 40)).slice(0, 30);
       if (!signals.trim()) return res.status(400).json({ ok: false, error: 'signals digest required' });
+      const count = Math.min(5, Math.max(1, parseInt(req.body.count, 10) || 0)) || null;
 
       const system = `You help maintain "How Recommendations Work", a living book about recommender systems. Editors keep a closed inventory of CONCEPTS (units of understanding, each with a human-approved contract). Your job: from reader-demand evidence, draft proposals for concepts the book is MISSING. Rules:
-- Propose 3-5 genuinely new concepts. NEVER propose anything already covered by the existing list (including near-synonyms).
+- Propose ${count ? `exactly ${count}` : "3-5"} genuinely new concept(s). NEVER propose anything already covered by the existing list (including near-synonyms).
 - slug: short kebab-case noun phrase naming the IDEA (like "item-cold-start", "filter-bubbles") — no chapter prefixes.
 - Each proposal is a draft CONTRACT: objective (one sentence), 2-4 mustCover points, one canonical recallQ with recallA, plus a one-sentence rationale citing the evidence.
 - chapter: pick the best fit from the provided list (prerequisite-ordered book); the stop-test applies: a reader who finished the preceding chapters must be able to understand this concept.

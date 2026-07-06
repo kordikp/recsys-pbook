@@ -153,8 +153,8 @@
       }
     },
     {
-      "id": "platform-models",
-      "title": "Which model powers which platform",
+      "id": "distribution-models",
+      "title": "Content distribution models",
       "chapter": "ch01-introduction",
       "anchor": "ch1-ws-match",
       "anchorPath": "ch01-introduction/06-spine-worksheet-match-apps.md",
@@ -347,8 +347,8 @@
       }
     },
     {
-      "id": "data-detective",
-      "title": "Be a data detective",
+      "id": "algorithm-training",
+      "title": "Training your own algorithm",
       "chapter": "ch02-data",
       "anchor": "ch2-ws-detective",
       "anchorPath": "ch02-data/04-spine-worksheet-data-detective.md",

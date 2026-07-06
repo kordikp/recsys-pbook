@@ -362,66 +362,115 @@ async function _loadCoverageData(){
   }
 }
 
+// All tagging dimensions for the Catalog matrix (values mirror config.js)
+const ADMIN_FACETS = {
+  lens: ['generic','ecommerce','media','social-feeds','education','jobs'],
+  depth: ['intro','standard','technical','research'],
+  visuality: ['text-first','balanced','visual-first'],
+  genre: ['explainer','story','worked-example','code-walkthrough','comic','animation'],
+  lang: ['en','cs'],
+  carriers: ['prose','table','diagram','image','animation','formula','code'],
+};
+window._catDim = window._catDim || 'lens';
+
 async function renderCatalog(m){
   m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading catalog (content + community)…</div>';
   await _loadCoverageData();
   const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-  // Concept × lens matrix — the source-of-truth view. Editors go first: fill the
-  // gaps that matter before demand piles up; ⚠ = contract debt blocking generation.
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">📚 Catalog — concept × lens</h2>';
-  h+='<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Each cell: what tellings exist for that concept in that example world. <b style="color:#7C3AED">■ core</b> · <b style="color:#10B981">■ edited</b> · <b style="color:#D97706">■ community</b> (reader-generated, not editor-verified) · empty = gap. Contract gaps flagged ⚠ (they block generation for that concept — fix first).</p>';
-  h+='<div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:.7rem;width:100%">';
-  h+='<tr><th style="text-align:left;padding:.3em .5em;position:sticky;left:0;background:var(--bg)">Concept</th>'+LENSES.map(l=>`<th style="padding:.3em .5em">${l}</th>`).join('')+'</tr>';
-  for(const c of _concepts){
-    const gap=!c.contract?.recallQ||!(c.contract?.mustCover||[]).length;
-    h+=`<tr><td style="padding:.25em .5em;border-top:1px solid var(--border);position:sticky;left:0;background:var(--bg);white-space:nowrap">${gap?'<span title="contract incomplete (missing recallQ or mustCover)">⚠</span> ':''}${esc(c.title)}<span style="color:var(--text3)"> · ${esc(c.chapter)}</span></td>`;
-    for(const lens of LENSES){
-      const git=allBlocks.filter(b=>String(b.concept||'').split('|').includes(c.id)&&facetCovers(b.lens,lens,LENS_ORDER));
-      const comm=_commItems.filter(i=>String(i.concept||'').split('|').includes(c.id)&&facetCovers(i.lens,lens,LENS_ORDER));
-      const cells=[];
-      if(git.some(b=>b.state==='core'))cells.push(`<span style="color:#7C3AED" title="core">■${git.filter(b=>b.state==='core').length}</span>`);
-      if(git.some(b=>b.state!=='core'))cells.push(`<span style="color:#10B981" title="edited">■${git.filter(b=>b.state!=='core').length}</span>`);
-      if(comm.length)cells.push(`<span style="color:#D97706" title="community">■${comm.length}</span>`);
-      h+=`<td style="padding:.25em .5em;border-top:1px solid var(--border);text-align:center">${cells.join(' ')||'<span style="color:var(--border)">·</span>'}</td>`;
-    }
-    h+='</tr>';
-  }
-  h+='</table></div>';
-
-  // Concepts → articles (aggregated; an article may serve several concepts)
+  const dim=window._catDim, VALS=ADMIN_FACETS[dim];
   const conceptsOfBlock=b=>String(b.concept||'').split('|').map(s=>s.trim()).filter(Boolean);
   const chips=b=>{
     const bits=[];
     if(b.lens&&b.lens!=='generic')bits.push(b.lens);
-    if(b.lang&&b.lang!=='en')bits.push(b.lang.toUpperCase());
+    if(b.lang&&b.lang!=='en')bits.push(String(b.lang).toUpperCase());
     if(b.depth)bits.push(b.depth);
     if(b.visuality&&b.visuality!=='text-first')bits.push(b.visuality);
     if(b.genre&&b.genre!=='explainer')bits.push(b.genre);
     return bits.map(x=>`<span style="font-size:.6rem;border:1px solid var(--border);border-radius:999px;padding:.02em .4em;color:var(--text3)">${esc(x)}</span>`).join(' ');
   };
-  h+='<h3 style="font-size:.9rem;font-weight:700;margin:1.5em 0 .4em">Concepts → articles</h3>';
-  h+=`<p style="font-size:.72rem;color:var(--text3)">Articles aggregated under their concepts; an article listed with <b>a|b</b> membership appears under each. ⚓ = anchor. Community items included where shared.</p>`;
+
+  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">📚 Catalog — source of truth</h2>';
+  h+=`<div style="display:flex;align-items:center;gap:.6em;flex-wrap:wrap;margin:.3em 0 .6em">
+    <label style="font-size:.72rem">Dimension:
+      <select onchange="window._catDim=this.value;ST('📚 Catalog')" style="font-size:.72rem;padding:.15em .3em;border-radius:5px;border:1px solid var(--border)">
+        ${Object.keys(ADMIN_FACETS).map(d=>`<option value="${d}" ${d===dim?'selected':''}>${d}</option>`).join('')}
+      </select></label>
+    <button onclick="ST('🌱 Proposals')" style="font-size:.72rem;padding:.25em .7em;border:1.5px solid var(--accent);border-radius:6px;color:var(--accent)">＋ Propose new concept</button>
+    <span style="font-size:.68rem;color:var(--text3)">Editors go first: fill the gaps that matter, then Sync Items (top right). Click a concept to see its articles + actions; ↗ opens the anchor in the book.</span>
+  </div>`;
+  h+=`<p style="font-size:.72rem;color:var(--text3);margin-bottom:.5em"><b style="color:#7C3AED">■ core</b> · <b style="color:#10B981">■ edited</b> · <b style="color:#D97706">■ community</b> · · = gap (＋ downloads a prefilled draft). ⚠ = incomplete contract (blocks generation).</p>`;
+  h+='<div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:.7rem;width:100%">';
+  h+='<tr><th style="text-align:left;padding:.3em .5em;position:sticky;left:0;background:var(--bg)">Concept</th>'+VALS.map(l=>`<th style="padding:.3em .5em">${l}</th>`).join('')+'</tr>';
   for(const c of _concepts){
+    const gap=!c.contract?.recallQ||!(c.contract?.mustCover||[]).length;
     const arts=allBlocks.filter(b=>conceptsOfBlock(b).includes(c.id));
     const comm=_commItems.filter(i=>String(i.concept||'').split('|').includes(c.id));
-    h+=`<details style="margin:.25em 0"><summary style="font-size:.78rem;cursor:pointer"><b>${esc(c.title)}</b> <span style="color:var(--text3);font-size:.66rem">· ${esc(c.chapter)} · ${arts.length+comm.length} article${arts.length+comm.length!==1?'s':''}</span></summary>
-      <div style="padding:.25em 0 .35em 1.1em">`;
-    for(const b of arts){
-      const multi=conceptsOfBlock(b).length>1;
-      const col=b.state==='core'?'#7C3AED':'#10B981';
-      h+=`<div style="font-size:.72rem;padding:.12em 0">
-        <span style="color:${col}">●</span> ${b.id===c.anchor?'⚓ ':''}${esc(b.title)}
-        ${multi?`<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em" title="also a telling of: ${esc(conceptsOfBlock(b).filter(x=>x!==c.id).join(', '))}">multi</span>`:''}
-        ${chips(b)} <span style="color:var(--text3);font-size:.62rem">${esc(b._f||'')}</span></div>`;
+    // řádek s rozbalením: články + akce přímo pod konceptem
+    h+=`<tr><td style="padding:.25em .5em;border-top:1px solid var(--border);position:sticky;left:0;background:var(--bg);white-space:nowrap">
+      <details style="display:inline-block"><summary style="cursor:pointer;list-style:none">${gap?'<span title="contract incomplete (missing recallQ or mustCover)">⚠</span> ':''}<b>${esc(c.title)}</b><span style="color:var(--text3)"> · ${esc(c.chapter)} · ${arts.length+comm.length}</span></summary>
+        <div style="padding:.3em 0 .4em .8em;white-space:normal;max-width:34em">
+          <div style="margin:.15em 0"><a href="/#${esc(c.anchor)}" target="_blank" style="color:var(--accent);font-size:.68rem">↗ open anchor in the book</a>
+            <span style="color:var(--text3);font-size:.64rem"> · recallQ: ${esc(c.contract?.recallQ||'—')}</span></div>
+          ${arts.map(b=>`<div style="font-size:.7rem;padding:.08em 0"><span style="color:${b.state==='core'?'#7C3AED':'#10B981'}">●</span> ${b.id===c.anchor?'⚓ ':''}<a href="/#${esc(b.id)}" target="_blank" style="color:inherit">${esc(b.title)}</a> ${conceptsOfBlock(b).length>1?'<span style="font-size:.58rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .25em">multi</span>':''} ${chips(b)}</div>`).join('')}
+          ${comm.map(i=>`<div style="font-size:.7rem;padding:.08em 0"><span style="color:#D97706">●</span> ⚡ ${esc(i.title||i.itemId)} ${chips(i)} <span style="color:var(--text3);font-size:.6rem">by ${esc(i.sharedAs||'anonymous')}</span></div>`).join('')}
+        </div>
+      </details></td>`;
+    for(const val of VALS){
+      const git=arts.filter(b=>facetCovers(b[dim],val,VALS));
+      const cm=comm.filter(i=>facetCovers(i[dim],val,VALS));
+      const cells=[];
+      if(git.some(b=>b.state==='core'))cells.push(`<span style="color:#7C3AED">■${git.filter(b=>b.state==='core').length}</span>`);
+      if(git.some(b=>b.state!=='core'))cells.push(`<span style="color:#10B981">■${git.filter(b=>b.state!=='core').length}</span>`);
+      if(cm.length)cells.push(`<span style="color:#D97706">■${cm.length}</span>`);
+      h+=`<td style="padding:.25em .5em;border-top:1px solid var(--border);text-align:center">${cells.join(' ')||`<button title="no ${val} telling — download a prefilled draft" onclick="downloadTellingSkeleton('${esc(c.id)}','${dim}','${esc(val)}')" style="border:none;background:none;color:var(--text3);cursor:pointer">＋</button>`}</td>`;
     }
-    for(const i of comm){
-      h+=`<div style="font-size:.72rem;padding:.12em 0"><span style="color:#D97706">●</span> ⚡ ${esc(i.title||i.itemId)} ${chips(i)} <span style="color:var(--text3);font-size:.62rem">shared by ${esc(i.sharedAs||'anonymous')}</span></div>`;
-    }
-    h+='</div></details>';
+    h+='</tr>';
   }
+  h+='</table></div>';
   m.innerHTML=h;
 }
+
+// Prefilled .md draft for a (concept × dimension value) gap — editors go first.
+window.downloadTellingSkeleton=function(conceptId,dim,val){
+  const c=_concepts.find(x=>x.id===conceptId);if(!c)return;
+  const f={lens:'generic',depth:'standard',visuality:'text-first',formalism:'none',lengthBand:'standard',genre:'explainer',lang:'en'};
+  if(dim in f)f[dim]=val;
+  const slugVal=String(val).replace(/[^a-z0-9]+/gi,'-');
+  const md=`---
+id: ${conceptId}-${slugVal}-draft
+type: spine
+title: "${(c.title||conceptId)} — ${val} telling (DRAFT)"
+readingTime: 3
+standalone: true
+core: false
+status: draft
+voice: universal
+concept: ${conceptId}
+recallQ: "${(c.contract?.recallQ||'').replace(/"/g,"'")}"
+recallA: "${(c.contract?.recallA||'').replace(/"/g,"'")}"
+state: edited
+lens: ${f.lens}
+visuality: ${f.visuality}
+depth: ${f.depth}
+formalism: ${f.formalism}
+lengthBand: ${f.lengthBand}
+genre: ${f.genre}
+lang: ${f.lang}
+---
+
+<!-- DRAFT skeleton for the ${dim}=${val} gap of concept "${conceptId}".
+Contract (every telling must let the reader answer the recallQ):
+${(c.contract?.mustCover||[]).map(mc=>'- '+(mc.point||mc)).join('\n')}
+Place into content/${c.chapter}/NN?-sidebar-*.md AFTER the anchor, register in book.json, migrate + validate. -->
+
+# ${(c.title||conceptId)}
+
+*(write the ${val} telling here)*
+`;
+  const blob=new Blob([md],{type:'text/markdown'});
+  const aEl=document.createElement('a');aEl.href=URL.createObjectURL(blob);
+  aEl.download=`${conceptId}--${dim}-${slugVal}.md`;aEl.click();
+};
 
 async function renderDemand(m){
   m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading reader demand (logs)…</div>';
@@ -520,11 +569,62 @@ async function renderProposals(m){
       <div style="margin:.2em 0;font-size:.7rem">${esc(p.objective)}</div>
       <div style="font-size:.68rem;color:var(--text3)">interest: <b style="color:#10B981">${s.want.size} want</b> · ${s.skip.size} skip · ${s.seen.size} seen — threshold ${WRITE_K} distinct readers</div>
     </div>`;}).join(''):'<p style="font-size:.72rem;color:var(--text3)">No proposals file yet — draft below, then commit to content/concept-proposals.json to start interest testing.</p>';
+  // Vlastní návrh editora: popis + kapitola (nebo nová) → AI dotáhne kontrakt + metadata
+  h+=`<h3 style="font-size:.85rem;font-weight:700;margin:1.2em 0 .3em">✍️ Your own proposal</h3>
+    <div style="border:1.5px solid var(--border);border-radius:8px;padding:.6em .7em;font-size:.74rem">
+      <textarea id="epDesc" rows="2" style="width:100%;font-size:.74rem;padding:.35em;border:1px solid var(--border);border-radius:6px" placeholder="Describe the concept in your own words — what should the reader understand after it? (AI completes the contract: objective, mustCover, recallQ/A)"></textarea>
+      <div style="display:flex;gap:.5em;align-items:center;margin-top:.4em;flex-wrap:wrap">
+        <label>Chapter:
+          <select id="epChapter" onchange="document.getElementById('epNewChap').style.display=this.value==='__new'?'inline-block':'none'" style="font-size:.72rem;padding:.15em .3em;border-radius:5px;border:1px solid var(--border)">
+            ${[...new Set(_concepts.map(c=>c.chapter))].map(ch=>`<option value="${ch}">${ch}</option>`).join('')}
+            <option value="__new">➕ new chapter…</option>
+          </select></label>
+        <input id="epNewChap" style="display:none;font-size:.72rem;padding:.15em .4em;border:1px solid var(--border);border-radius:5px;width:14em" placeholder="chNN-slug (e.g. ch15-agents)">
+        <button onclick="editorPropose()" id="epBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ Complete with AI</button>
+      </div>
+      <div style="font-size:.64rem;color:var(--text3);margin-top:.3em">A new chapter is an arbiter decision (AGENTS.md stop-test) — the AI will place the concept there, but creating the chapter directory + book.json entry stays with you.</div>
+    </div>`;
+
   h+=`<div style="margin-top:.8em"><button onclick="draftConceptProposals()" id="propBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ Draft proposals from demand signals</button>
   <span style="font-size:.66rem;color:var(--text3)"> — mines wishes + honest misses + flags from 📥 Demand; drafts contracts for YOUR approval (nothing is created automatically)</span></div>
   <div id="conceptProposals"></div>`;
   m.innerHTML=h;
 }
+
+// Editor-seeded proposal: description is authoritative, AI completes the contract
+window.editorPropose=async function(){
+  const desc=(document.getElementById('epDesc')?.value||'').trim();
+  if(desc.length<15){alert('Describe the concept in at least a sentence.');return;}
+  const sel=document.getElementById('epChapter').value;
+  const newChap=(document.getElementById('epNewChap')?.value||'').trim();
+  const chapter=sel==='__new'?(newChap||'chXX-new'):sel;
+  const chapters=[...new Set(_concepts.map(c=>c.chapter))];
+  if(!chapters.includes(chapter))chapters.push(chapter);
+  const btn=document.getElementById('epBtn');btn.disabled=true;btn.textContent='Completing… (~20 s)';
+  try{
+    const signals=`EDITOR PROPOSAL (authoritative seed — keep the intent, complete a full contract):\n${desc}\nTARGET CHAPTER: ${chapter}${sel==='__new'?' (a NEW chapter the editor is founding — use exactly this id)':''}`;
+    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:'propose-concepts',signals,count:1,existing:_concepts.map(c=>({id:c.id,title:c.title})),chapters})});
+    const data=await res.json();
+    if(!data.ok)throw new Error(data.error||'completion failed');
+    window._draftedProposals=(window._draftedProposals||[]).concat(data.proposals);
+    const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const el=document.getElementById('conceptProposals');
+    el.innerHTML=(el.innerHTML||'')+data.proposals.map(p=>`<div style="border:1.5px solid var(--accent);border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
+      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter)}</span> <span style="font-size:.6rem;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 .3em">editor-seeded</span>
+      <div style="margin:.25em 0">${esc(p.objective)}</div>
+      <div style="font-size:.68rem;color:var(--text3)">must cover: ${p.mustCover.map(esc).join(' · ')}</div>
+      <div style="font-size:.68rem;color:var(--text3)">recall: ${esc(p.recallQ)}</div>
+      <button onclick='downloadProposal(${JSON.stringify('${JSON_PLACEHOLDER}')})' data-p='' style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">⬇ Anchor draft .md</button>
+      <button onclick="downloadProposalsJson()" style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ concept-proposals.json</button>
+    </div>`).join('');
+    // napojit korektně payload na tlačítko (bez šablonových kliček)
+    const btns=el.querySelectorAll("button[data-p='']");
+    btns.forEach((bt,i)=>{const p=data.proposals[i];bt.removeAttribute('data-p');bt.onclick=()=>downloadProposal(JSON.stringify(p));});
+    document.getElementById('epDesc').value='';
+  }catch(e){alert('Editor proposal error: '+e.message);}
+  btn.disabled=false;btn.textContent='✨ Complete with AI';
+};
 
 // AI-drafted new-concept proposals from demand evidence (mode: propose-concepts)
 window.draftConceptProposals=async function(){
@@ -617,11 +717,13 @@ async function renderHealth(m){
 
   // Per-block signal aggregation from the interaction log
   const sig={};
-  const S=id=>sig[id]=sig[id]||{viewers:new Set(),views:0,likes:new Set(),dislikes:new Set(),steerAway:0,praise:0,remixReq:0,dwell:0,dwellN:0};
+  const S=id=>sig[id]=sig[id]||{viewers:new Set(),views:0,fin:0,likes:new Set(),dislikes:new Set(),steerAway:0,praise:0,remixReq:0,dwell:0,dwellN:0};
   for(const r of _logRows){
     const d=r.data||r;const id=r.item_id||d.itemId||d.blockId;if(!id)continue;const s=S(id);const uid=r.user_id||d.userId||'?';
     const t=r.type||d.type,ev=r.event||d.event;
-    if(t==='detailview'){s.viewers.add(uid);s.views++;if(d.duration){s.dwell+=d.duration;s.dwellN++}}
+    if(t==='detailview'){s.viewers.add(uid);s.views++;if(d.duration){s.dwell+=d.duration;s.dwellN++}
+      const _b=allBlocks.find(x=>x.id===id);const _thr=Math.min(12,((_b?_b.readingTime:3)||3)*60*0.15);
+      if((d.duration||0)>=_thr)s.fin++;}
     if(t==='rating'&&(r.rating??d.rating)>=0.7)s.likes.add(uid);
     if(t==='rating'&&(r.rating??d.rating)<0.5)s.dislikes.add(uid);
     if(ev==='steer'&&d.action==='praise')s.praise++;
@@ -654,7 +756,7 @@ async function renderHealth(m){
   const top=rows.filter(r=>r.readers>0).sort((a,x)=>x.readers-a.readers).slice(0,8);
   if(top.length){
     h+='<h3 style="font-size:.9rem;font-weight:700;margin:1em 0 .4em">📖 Most read right now</h3>';
-    h+=top.map(r=>`<span style="display:inline-block;font-size:.7rem;border:1px solid var(--border);border-radius:999px;padding:.15em .6em;margin:.15em">${esc(r.b.title)} <b>${r.readers}</b>👁 ${r.likes?`<span style="color:#10B981">${r.likes}❤</span>`:''}</span>`).join('');
+    h+=top.map(r=>`<span style="display:inline-block;font-size:.7rem;border:1px solid var(--border);border-radius:999px;padding:.15em .6em;margin:.15em" title="${r.s.views} served · ${r.s.fin} finished · ${r.s.views-r.s.fin} skipped">${esc(r.b.title)} <b>${r.s.views}</b> served · <b style="color:#10B981">${r.s.fin}</b> fin · ${r.s.views-r.s.fin} skip ${r.likes?`<span style="color:#10B981">${r.likes}❤</span>`:''}</span>`).join('');
   }
 
   h+='<h3 style="font-size:.9rem;font-weight:700;margin:1.2em 0 .4em">🚑 Problem content (ranked)</h3>';
@@ -666,6 +768,7 @@ async function renderHealth(m){
     if(r.s.steerAway)why.push(`${r.s.steerAway}× steered away`);
     if(r.s.remixReq)why.push(`${r.s.remixReq}× remix-requested`);
     if(r.shallow)why.push(`shallow reading (avg ${Math.round(r.avgDwell)}s of ~${Math.round((r.b.readingTime||3)*60*0.15)}s)`);
+    why.push(`${r.s.views} served → ${r.s.fin} finished / ${r.s.views-r.s.fin} skipped`);
     const flagTexts=(flagsBy[r.b.id]||[]).map(f=>f.text).filter(Boolean).slice(0,2);
     h+=`<div style="border:1.5px solid ${r.isParked?'var(--border)':'#EF4444'};border-radius:10px;padding:.5em .7em;margin:.4em 0;font-size:.75rem;${r.isParked?'opacity:.6':''}">
       <b>${esc(r.b.title)}</b> <span style="color:var(--text3)">· ${esc(r.b._ch)}/${esc(r.b._f)} · score ${r.score}</span> ${r.isParked?'<span style="color:#D97706;font-weight:700">⏸ PARKED</span>':''}
@@ -904,10 +1007,14 @@ async function renderAnalytics(el){
   // Top items
   if (topItems.length) {
     h += '<h3 style="font-size:.9rem;font-weight:700;margin:1.5em 0 .5em">Most Read Sections</h3>';
+    h += '<p style="font-size:.68rem;color:var(--text3)">served = views · finished = dwell ≥ min(12 s, 15 % of reading time) · skipped = the rest</p>';
     h += '<div class="cl">';
     topItems.forEach(([itemId, count]) => {
       const b = allBlocks.find(x => x.id === itemId);
-      h += `<div class="cl-item" style="grid-template-columns:1fr auto"><span class="cl-title">${b ? b.title : itemId}</span><span style="font-size:.72rem;color:var(--text3)">${count} views</span></div>`;
+      const thr = Math.min(12, ((b?.readingTime) || 3) * 60 * 0.15);
+      const fin = views.filter(v => (v.itemId === itemId) && (v.duration || 0) >= thr).length;
+      const skip = count - fin;
+      h += `<div class="cl-item" style="grid-template-columns:1fr auto"><span class="cl-title">${b ? b.title : itemId}</span><span style="font-size:.72rem;color:var(--text3)">${count} served · <b style="color:#10B981">${fin} finished</b> · ${skip} skipped</span></div>`;
     });
     h += '</div>';
   }
@@ -917,7 +1024,7 @@ async function renderAnalytics(el){
     h += '<details style="margin-top:1.5em"><summary style="font-size:.82rem;font-weight:600;cursor:pointer">Event Timeline (last 50)</summary>';
     h += '<div class="cl" style="margin-top:.5em;font-size:.72rem">';
     timeline.forEach(i => {
-      const time = new Date(i.ts).toLocaleString();
+      const time = i.ts && isFinite(i.ts) ? new Date(i.ts).toLocaleString() : '—';
       const label = i.event ? `${i.event}: ${i.mode||''}` : `${i.type}: ${i.itemId||''}`;
       h += `<div class="cl-item" style="grid-template-columns:auto 1fr;gap:.5em;padding:.2em .4em">
         <span style="color:var(--text3);white-space:nowrap">${time}</span>

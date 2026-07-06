@@ -15,8 +15,8 @@ highlights:
   - "Platforms are converging toward algorithmic curation -- the algorithm is taking over"
   - "The models giving users the most control are not where they spend the most time"
 status: accepted
-concept: platform-models
-conceptTitle: "Which model powers which platform"
+concept: distribution-models
+conceptTitle: "Content distribution models"
 state: edited
 lens: generic
 visuality: text-first

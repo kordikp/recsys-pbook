@@ -15,8 +15,8 @@ highlights:
   - "A single new interaction can visibly reshape the feed in real time"
   - "Either you train the algorithm deliberately, or it trains on unintentional behavior"
 status: accepted
-concept: data-detective
-conceptTitle: "Be a data detective"
+concept: algorithm-training
+conceptTitle: "Training your own algorithm"
 state: edited
 lens: generic
 visuality: text-first
