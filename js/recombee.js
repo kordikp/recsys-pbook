@@ -37,7 +37,7 @@ export class RecombeeClient {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 1500);
-      const res = await fetch('/.netlify/functions/recombee', {
+      const res = await fetch('/api/recombee', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ endpoint, body, method }),
@@ -80,7 +80,7 @@ export class RecombeeClient {
       if (entry.ts && Date.now() - entry.ts > maxAge) continue; // too old, drop
       try {
         if (entry.type === 'recombee' && this.enabled) {
-          const res = await fetch('/.netlify/functions/recombee', {
+          const res = await fetch('/api/recombee', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ endpoint: entry.endpoint, body: entry.body, method: entry.method }),
@@ -88,7 +88,7 @@ export class RecombeeClient {
           // 409 = duplicate/conflict — already processed, drop it
           if (!res.ok && res.status !== 409) remaining.push(entry);
         } else if (entry.type === 'log') {
-          const res = await fetch('/.netlify/functions/log', {
+          const res = await fetch('/api/log', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(entry.data),
@@ -192,7 +192,7 @@ export class RecombeeClient {
       return;
     }
     try {
-      fetch('/.netlify/functions/log', {
+      fetch('/api/log', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(entry)

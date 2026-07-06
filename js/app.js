@@ -4186,6 +4186,7 @@ class PBook {
   _authEndpoint() {
     // Detect Netlify vs Vercel
     if (location.hostname.includes('netlify')) return '/.netlify/functions/auth';
+    if (true) return '/api/auth';
     return '/api/auth';
   }
 
@@ -5508,6 +5509,27 @@ class PBook {
     box.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
+  // Selection comes from the RENDERED text; the source is markdown. Locate the
+  // quote by comparing only [a-z0-9] streams (survives **bold**, list markers,
+  // dashes, quotes, collapsed whitespace) and map back to source offsets.
+  _locateQuote(source, quote) {
+    let i = source.indexOf(quote);
+    if (i !== -1) return [i, i + quote.length];
+    const norm = s => {
+      const chars = [], map = [];
+      for (let j = 0; j < s.length; j++) {
+        const c = s[j];
+        if (/[a-z0-9]/i.test(c)) { chars.push(c.toLowerCase()); map.push(j); }
+      }
+      return { str: chars.join(''), map };
+    };
+    const S = norm(source), Q = norm(quote);
+    if (Q.str.length < 12) return null;
+    const at = S.str.indexOf(Q.str);
+    if (at === -1) return null;
+    return [S.map[at], S.map[at + Q.str.length - 1] + 1];
+  }
+
   async submitRemix(blockId) {
     const instruction = document.getElementById(`remix-prompt-${blockId}`)?.value?.trim();
     const quote = this._remixQuote;
@@ -5519,6 +5541,16 @@ class PBook {
     this.rc.logEvent('remix_request', { blockId, concept: this._conceptIds(entry.meta)[0], instruction: instruction.slice(0, 200) });
 
     try {
+      // locate FIRST — and rewrite the exact SOURCE slice (markdown-accurate)
+      let base = entry.body || '';
+      let span = this._locateQuote(base, quote);
+      if (!span) {
+        base = base.replace(/⟦\/?rx⟧/g, '');               // selection may overlap an older mark
+        span = this._locateQuote(base, quote);
+      }
+      if (!span) throw new Error('could not locate the selected passage in the source — try selecting a slightly longer stretch');
+      const sourceQuote = base.slice(span[0], span[1]);
+
       const res = await fetch(CONFIG.steering.generateEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -5526,24 +5558,16 @@ class PBook {
           mode: 'remix',
           concept: entry.meta.concept || null,
           facets: this._blockFacets(entry.meta) || {},
-          selection: quote.slice(0, 2000),
+          selection: sourceQuote.slice(0, 2000),
           instruction: instruction.slice(0, 500),
-          context: (entry.body || '').replace(/⟦\/?rx⟧/g, '').slice(0, 6000),
+          context: base.slice(0, 6000),
         }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || 'remix failed');
       const replacement = data.replacement;
 
-      // Build the remixed private copy: replace the selection, mark the change
-      let base = entry.body || '';
-      let matchBody = base;
-      if (!base.includes(quote)) {
-        matchBody = base.replace(/⟦\/?rx⟧/g, '');           // selection may overlap an older mark
-        if (!matchBody.includes(quote)) throw new Error('could not locate the selected passage in the source');
-        base = matchBody;                                    // older marks dropped for this edge case
-      }
-      const newBody = base.replace(quote, `⟦rx⟧${replacement}⟦/rx⟧`);
+      const newBody = base.slice(0, span[0]) + `⟦rx⟧${replacement}⟦/rx⟧` + base.slice(span[1]);
 
       const src = entry.meta;
       const rootId = src.remixOf || src.id;
