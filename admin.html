@@ -353,8 +353,10 @@ async function _loadCoverageData(){
   if(!_commItems){
     try{
       const r=await fetch('/.netlify/functions/recombee',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({endpoint:'/items/',method:'GET',body:{filter:`'state' == "community"`,returnProperties:true,count:200}})});
-      const d=r.ok?await r.json():[];_commItems=Array.isArray(d)?d:[];
+        body:JSON.stringify({endpoint:'/recomms/users/admin-console/items/',method:'POST',
+          body:{filter:`'state' == "community"`,returnProperties:true,count:200,cascadeCreate:true}})});
+      const d=r.ok?await r.json():{};
+      _commItems=Array.isArray(d)?d:(d.recomms||[]).map(x=>({itemId:x.id,...(x.values||{})}));
     }catch(e){_commItems=[]}
   }
   if(!_logRows){

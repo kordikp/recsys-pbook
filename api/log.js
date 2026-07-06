@@ -28,7 +28,8 @@ module.exports = async function handler(req, res) {
   if (req.method === 'GET') {
     try {
       const data = await supabase('GET', 'interactions?order=created_at.desc&limit=2000');
-      return res.status(200).json(data);
+      // Supabase errors come back as objects — never leak a non-array to the admin
+      return res.status(200).json(Array.isArray(data) ? data : []);
     } catch(e) { return res.status(200).json([]); }
   }
 
@@ -51,8 +52,8 @@ module.exports = async function handler(req, res) {
 
       const result = await supabase('POST', 'interactions', row);
       if (result.ok) return res.status(200).json({ ok: true });
-      return res.status(500).json({ error: 'Supabase insert failed: ' + result.status });
-    } catch(e) { return res.status(500).json({ error: e.message }); }
+      return res.status(500).json({ error: 'Supabase insert failed: HTTP ' + result.status + ' (check SUPABASE_KEY role + RLS policy on interactions)' });
+    } catch(e) { return res.status(500).json({ error: 'Supabase unreachable: ' + e.message + ' (paused project?)' }); }
   }
 
   return res.status(405).json({ error: 'method not allowed' });
