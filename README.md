@@ -26,13 +26,31 @@ A p-book is a book that adapts to the reader. Instead of a fixed linear text, co
 
 ### Features (all optional, can be toggled on/off)
 
-- **Gamification** — XP, levels, badges, completion certificate
+- **Gamification** — XP, levels, badges, tiered certificate (Foundations / Practitioner / Guru)
 - **Spaced repetition** — Anki-style recall quizzes for long-term retention
-- **Personalization** — Recombee-powered recommendations, voice-based content paths
+- **Personalization** — Recombee-powered recommendations, facet-based reader profile
+- **Steering knobs** — per-section: simpler / deeper / more visual / examples from your world
+- **Living book** — readers can generate missing tellings (private), share them (community), editors adopt the best (see [PERSONALIZATION.md](PERSONALIZATION.md))
 - **Mini-games** — 8 interactive click-based games with auto-hide timer
-- **Missions** — 6 story-driven learning paths with branching and boss quizzes
+- **Missions** — story-driven learning paths with branching and boss quizzes
 - **Knowledge cloud** — Visual word cloud of concepts you've learned
 - **Analytics** — Per-interaction mode tracking for research
+
+### The Living Book (v2 personalization)
+
+Content is organized as **concepts** (what must be learned — with human-anchored contracts) told through **variant blocks** (how — each tagged with a facet-vector: `lens`, `visuality`, `depth`, `formalism`, `lengthBand`, `genre`, `lang`). The recommender learns which facets each reader responds to and serves matching tellings; readers steer per block, and can generate missing variants on demand (segment-scoped, contract-constrained, validated). Reader-shared variants form a labelled community layer; popular ones get nominated for editorial adoption. The book about recommender systems personalizes itself with one.
+
+## Deploying to recsys-pbook.vercel.app
+
+The repo is Vercel-ready (static site + `/api/*` serverless functions; `vercel.json` rewrites the legacy `/.netlify/functions/*` paths). To deploy:
+
+1. Vercel project → import this repo, no build step (`outputDirectory: .`).
+2. Environment variables: `RECOMBEE_DB`, `RECOMBEE_TOKEN` (private token), `ANTHROPIC_API_KEY` (generation + examiner; `OPENAI_API_KEY`/`OPENAI_MODEL` work as a fallback), `SYNC_SECRET` (protects catalog sync).
+3. After the first deploy: open `/admin` → 📚 Catalog → **Sync Items** (pushes blocks + facets to Recombee), then check 🌱 Proposals (ghost items live immediately from `content/concept-proposals.json`).
+4. Growth loops built in: every reader has a personal invite link in Profile (`?invite=R-…`, +25 XP welcome); **editor invites** are generated in admin → 📈 Reach (`?invite=E-…` grants the 🛠 editor role and points at the console); adoption/mission/contribution share buttons use the native share sheet. OG cards are set for link previews.
+5. Editorial rhythm: the admin tabs follow the content lifecycle — 📥 Demand → 🌱 Proposals → ⚡ Community → 🩺 Health, with 📚 Catalog as the source of truth and 📈 Reach for growth. Editors go first: fill Catalog gaps for the concepts you care about before opening the gates wide.
+
+**Guides:** [HUMANS.md](HUMANS.md) — readers, contributors, editors · [AGENTS.md](AGENTS.md) — AI collaborators (facet metadata duties) · [PERSONALIZATION.md](PERSONALIZATION.md) — implementation reference · `_design-collective-pbook.md` — design rationale.
 
 ## Content Structure
 

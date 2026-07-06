@@ -2,6 +2,10 @@
 
 Thanks for helping make this book better! This guide explains how to contribute content.
 
+> **Start with [HUMANS.md](HUMANS.md)** — the guide to working with the living book as a reader, contributor, or editor (steering, generating, remixing, sharing, adoption). This file covers the low-level mechanics of content files and PRs.
+>
+> **AI collaborators:** read [AGENTS.md](AGENTS.md) — the facet metadata system is maintained by AI, and that file contains the binding decision procedures, calibration examples and autonomy boundaries. Humans own facts (contracts, core); AI owns metadata.
+
 ## Content types
 
 | Type | Description | Frontmatter `type` |

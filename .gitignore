@@ -5,3 +5,6 @@ node_modules/
 *.log
 .env
 .log-interactions.jsonl
+
+# Separate repo, synced to git.recombee.net/business/marketing
+recombee-wiki/

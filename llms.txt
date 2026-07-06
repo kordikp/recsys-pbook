@@ -4,6 +4,10 @@
 > By Pavel Kordik (Recombee co-founder, Czech Technical University).
 > License: CC BY-NC-SA 4.0
 
+## For AI agents
+
+If you are an LLM collaborating on this book (tagging, writing, or maintaining content), read **/AGENTS.md first** — it specifies the facet metadata system (the load-bearing structure of personalization), operational decision procedures for every dimension, subspace declaration rules, calibration examples, and what you may change autonomously vs. what needs a human. Machine-readable manifest: /pbook.json · concept index: /content/concepts.json.
+
 ## What this book teaches
 
 This book explains how recommendation algorithms work — the systems behind YouTube, TikTok, Spotify, Netflix, and every app that shows "personalized" content. Written for kids aged 8-15 but accessible to anyone.
