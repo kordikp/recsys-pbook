@@ -1,247 +1,105 @@
-# p-book: Personalized Interactive Books
+# How Recommendations Work — a self-recommending living book
 
-**p-book** is an open-source standard for creating personalized, interactive digital books powered by recommendation engines. This repository contains the first p-book: **"How Recommendations Work"** — an interactive book about recommendation systems for ages 8-15.
+**A book about recommender systems that personalizes itself with one — and lets its readers extend it.**
 
-> **Version 1.0** — This is the first public release. The project will continue to evolve based on user feedback and research studying the effects of individual features on learning quality and reader well-being.
+**Live: [recsys-pbook.vercel.app](https://recsys-pbook.vercel.app)** · RecSys '26 demo · CC BY-NC-SA 4.0
 
-## Live Demo
+![How Recommendations Work](images/og-cover.png)
 
-**[recsysbook-kids.vercel.app](https://recsysbook-kids.vercel.app)**
+A recommendation platform normally decides three things for you: **how** content is served, **how** each piece is told, and **what** exists in the catalog at all. This book inverts all three:
 
-![p-book screenshot](images/pbook-recsys4kids.jpeg)
+1. **Serving** — the reader picks the consumption paradigm (story missions, carousels, an algorithmic feed, a map) and can switch anytime. The initial paradigm is randomized; every switch is logged, so the deployment doubles as a research instrument.
+2. **Telling** — every concept can be told many ways: another example world, deeper or gentler, more visual, as a story or a comic, in another language. The reader steers each section; the catalog answers first, and a missing telling is an honestly reported gap — never a silent near-match.
+3. **Catalog** — on a real gap, readers generate a new telling (contract-constrained, validated) or remix any passage, diagram, or animation. Shared creations climb a curation ladder — private → community → edited → core — with full provenance; **editorship itself is earned** through adopted contributions. Readers can even propose whole missing concepts, which are then shown to others as *proposed, not written yet* cards — demand is measured before anyone writes.
 
-## What is a p-book?
+Because a book teaching recommender systems is personalized *by* one, readers watch the mechanisms they are reading about act on their own behavior.
 
-A p-book is a book that adapts to the reader. Instead of a fixed linear text, content is organized as independent blocks that can be served through multiple reading modes, personalized by a recommendation engine, and enriched with interactive elements.
+## The content model
 
-### Reading Modes
+Content separates *what must be learned* from *how it is told*:
 
-| Mode | Description |
-|------|-------------|
-| **Missions** | Story-driven quests with guided steps and a final boss quiz |
-| **Browse** | Netflix-style shelves — pick what interests you |
-| **Read** | Chapter-by-chapter with infinite scroll |
-| **Map** | Visual overview — see everything, pick your path |
-| **Tutor** | AI assistant that answers questions about the content |
+- A **concept** is a unit of understanding with a human-owned **contract**: learning objective, must-cover points, one canonical recall question + answer, forbidden claims. Contracts live in [`content/concepts.json`](content/concepts.json).
+- A **telling** is one presentation of a concept, tagged on the facet taxonomy below. A telling declares the **subspace** it covers — ranges `a..b` on ordered dimensions, sets `a|b` on categorical ones (and on the concept axis: one telling may serve several concepts).
 
-### Features (all optional, can be toggled on/off)
+| Dimension | What it captures | Values (subset shown) |
+|---|---|---|
+| lens | the world all examples come from | generic · e-commerce · media · social feeds · education · job boards |
+| depth | assumed reader background | intro · standard · technical · research |
+| visuality | how much visuals carry the point | text-first · balanced · visual-first |
+| formalism | amount of math | none · light · full |
+| length | reading commitment | tl;dr · standard · deep |
+| genre | structural form | explainer · story · worked example · code walkthrough · comic · animation |
+| language | natural language | English · Czech |
+| carriers | building blocks present (derived from content) | prose · table · diagram · image · animation · formula · code |
+| trust state | provenance rung; controls serving, labels, certification | private → community → edited → core |
 
-- **Gamification** — XP, levels, badges, tiered certificate (Foundations / Practitioner / Guru)
-- **Spaced repetition** — Anki-style recall quizzes for long-term retention
-- **Personalization** — Recombee-powered recommendations, facet-based reader profile
-- **Steering knobs** — per-section: simpler / deeper / more visual / examples from your world
-- **Living book** — readers can generate missing tellings (private), share them (community), editors adopt the best (see [PERSONALIZATION.md](PERSONALIZATION.md))
-- **Mini-games** — 8 interactive click-based games with auto-hide timer
-- **Missions** — story-driven learning paths with branching and boss quizzes
-- **Knowledge cloud** — Visual word cloud of concepts you've learned
-- **Analytics** — Per-interaction mode tracking for research
+The recommender ([Recombee](https://www.recombee.com)) receives facets as item properties and learns per-reader facet affinities; the reader sees and can override that profile (open learner model). Generation is **segment-scoped** — written for everyone who shares the requested facets, never addressed to an individual — and passes a mechanical gate (contract coverage, formalism/length lints, honest visuality) before display. The certificate reads **human-verified core content only**: co-creation grows the catalog without lowering the certified bar.
 
-### The Living Book (v2 personalization)
+## Roles
 
-Content is organized as **concepts** (what must be learned — with human-anchored contracts) told through **variant blocks** (how — each tagged with a facet-vector: `lens`, `visuality`, `depth`, `formalism`, `lengthBand`, `genre`, `lang`). The recommender learns which facets each reader responds to and serves matching tellings; readers steer per block, and can generate missing variants on demand (segment-scoped, contract-constrained, validated). Reader-shared variants form a labelled community layer; popular ones get nominated for editorial adoption. The book about recommender systems personalizes itself with one.
+**Readers steer · contributors share · editors verify · the arbiter decides.**
 
-## Deploying to recsys-pbook.vercel.app
+- **Readers** — onboard in two taps, optionally state a learning goal (the book composes a 🎯 personal mission from matching concepts), steer any section, vote on proposed concepts, earn XP.
+- **Contributors** — flag issues, share their generated/remixed tellings, or author tellings as PRs. Every profile has an invite link (`?invite=R-…`).
+- **Editors** — run the demand-driven redaction from [`/admin`](https://recsys-pbook.vercel.app/admin): 📥 Demand → 🌱 Proposals → ⚡ Community → 🩺 Health → 📚 Catalog → 📈 Reach → ✍️ Studio. Editorship is **earned** (an adopted telling promotes you) or **invited** (`?invite=E-…` links, generated in Reach).
 
-The repo is Vercel-ready (static site + `/api/*` serverless functions; `vercel.json` rewrites the legacy `/.netlify/functions/*` paths). To deploy:
+Full guides: **[HUMANS.md](HUMANS.md)** (readers / contributors / editors) · **[AGENTS.md](AGENTS.md)** (binding rules for AI collaborators — the facet metadata is AI-maintained under the governance split *humans own the facts, AI maintains the metadata*) · **[PERSONALIZATION.md](PERSONALIZATION.md)** (implementation reference) · `_design-collective-pbook.md` (design rationale) · `_editorial.md` (log of record).
 
-1. Vercel project → import this repo, no build step (`outputDirectory: .`).
-2. Environment variables: `RECOMBEE_DB`, `RECOMBEE_TOKEN` (private token), `ANTHROPIC_API_KEY` (generation + examiner; `OPENAI_API_KEY`/`OPENAI_MODEL` work as a fallback), `SYNC_SECRET` (protects catalog sync).
-3. After the first deploy: open `/admin` → 📚 Catalog → **Sync Items** (pushes blocks + facets to Recombee), then check 🌱 Proposals (ghost items live immediately from `content/concept-proposals.json`).
-4. Growth loops built in: every reader has a personal invite link in Profile (`?invite=R-…`, +25 XP welcome); **editor invites** are generated in admin → 📈 Reach (`?invite=E-…` grants the 🛠 editor role and points at the console); adoption/mission/contribution share buttons use the native share sheet. OG cards are set for link previews.
-5. Editorial rhythm: the admin tabs follow the content lifecycle — 📥 Demand → 🌱 Proposals → ⚡ Community → 🩺 Health, with 📚 Catalog as the source of truth and 📈 Reach for growth. Editors go first: fill Catalog gaps for the concepts you care about before opening the gates wide.
-
-**Guides:** [HUMANS.md](HUMANS.md) — readers, contributors, editors · [AGENTS.md](AGENTS.md) — AI collaborators (facet metadata duties) · [PERSONALIZATION.md](PERSONALIZATION.md) — implementation reference · `_design-collective-pbook.md` — design rationale.
-
-## Content Structure
-
-Content is organized as markdown files with YAML frontmatter:
+## Repository layout
 
 ```
-content/
-  book.json              # Chapter index
-  ch1-what-are-recommendations/
-    01-spine-have-you-noticed.md
-    02-spine-recommendations-everywhere.md
-    01c-game-signal-sort.md
-    05-question-what-type.md
-    ...
-games/
-  signal-sort.json       # Game data definitions
-  taste-match.json
-  ...
-images/
-  kids-footprints.svg    # SVG diagrams
-  ...
+content/            chapters as markdown blocks with YAML frontmatter (facets included)
+content/book.json   reading order (satellites follow their concept's anchor)
+content/concepts.json        concept index + contracts (generated — never hand-edit)
+content/concept-proposals.json  concepts under interest testing (ghost items)
+api/                Vercel serverless: generate (variants·remix·svg-remix·propose-concepts),
+                    boss (AI examiner), recombee (signing proxy), log (Supabase), sync-recombee
+js/, css/, index.html   the reader app (no build step, offline-capable PWA)
+admin.html          the editorial console
+scripts/migrate-facets.js       concept grouping + derived facets (idempotent)
+.github/scripts/validate-content.js   CI validation (schema, subspaces, links, honesty lints)
 ```
 
-### Content File Format
-
-```yaml
----
-id: ch1-noticed
-type: spine              # spine | question | game
-title: "Have You Ever Noticed?"
-readingTime: 2
-teaser: "YouTube somehow knows you love Minecraft videos. But how?"
-voice: universal         # universal | explorer | creator | thinker
-core: true               # Required for certificate
-status: accepted         # draft | review | accepted
----
-
-Your markdown content here...
-```
-
-### Content Types
-
-| Type | Description |
-|------|-------------|
-| `spine` | Regular content section (reading material) |
-| `question` | Interactive quiz with multiple choice options |
-| `game` | Mini-game with data from `games/*.json` |
-
-### Game Format
-
-Small JSON files in `games/` directory:
-
-```json
-{
-  "type": "sort",
-  "title": "Signal Sort",
-  "instruction": "Is this a strong or weak signal?",
-  "buckets": ["Strong signal", "Weak signal"],
-  "items": [
-    { "text": "Watched a video to the end", "answer": 0 },
-    { "text": "Skipped after 2 seconds", "answer": 1 }
-  ]
-}
-```
-
-Game types: `sort` (classify), `match` (find twin), `pop` (click to collect), `order` (sequence).
-
-## For LLMs and Bots
-
-p-book is designed to be easily indexed and co-authored by AI:
-
-- **`/.well-known/pbook.json`** — Discovery manifest for bots
-- **`/pbook.json`** — Full project manifest with schema docs
-- **`/content/book.json`** — Structured chapter/file index
-- **Content files** — Plain markdown with machine-readable YAML frontmatter
-- **Status field** — `draft → review → accepted` workflow for AI-contributed content
-
-LLMs can read, index, and contribute to p-books using standard file operations. See [CONTRIBUTING.md](CONTRIBUTING.md) for the content format and PR workflow.
-
-## Create Your Own p-book
-
-1. **Fork this repository**
-2. **Edit `content/book.json`** — define your chapters
-3. **Write content** in `content/chN-*/` as markdown files with frontmatter
-4. **Customize `js/config.js`** — title, author, voices, features
-5. **Deploy** to Vercel or Netlify (or any static host)
-
-### Without Recombee (works out of the box)
-
-The book works fully without Recombee — all recommendation features have local fallbacks (random/sequential content). Set `recombee.enabled: false` in config.js or simply don't configure a token.
-
-### With Recombee (personalized recommendations)
-
-1. Create a free database at [recombee.com](https://recombee.com)
-2. Set `RECOMBEE_TOKEN` environment variable
-3. Create scenarios in Recombee admin: `homepage-personal`, `homepage-voice`, `next-read`, `context-related`, `search`
-
-## Local Development
+## Run it locally
 
 ```bash
-# Create .env with your Recombee token (optional)
-echo "RECOMBEE_TOKEN=your_token_here" > .env
-
-# Start dev server (static files + Recombee proxy)
-node serve-local.js
-
-# Or with shell script
-sh serve.sh
-
-# Open http://localhost:8000
+git clone https://github.com/kordikp/recsys-pbook && cd recsys-pbook
+node serve-local.js 8777          # static + /api shims, no dependencies
+# open http://localhost:8777
 ```
 
-The dev server includes a Recombee API proxy at `/.netlify/functions/recombee`, so everything works locally including recommendations.
+Optional env (put in `.env` or export): `OPENAI_API_KEY` or `ANTHROPIC_API_KEY` enables generation + the examiner locally; `RECOMBEE_DB`/`RECOMBEE_TOKEN` enable live recommendations (local fallbacks cover everything else). Useful flags: `?seed=demo` fills a plausible reading history (screenshots, booth demos); `#view-<name>` deep-links a view; `#c/<concept-slug>` links a concept.
 
-### Content Validation
+After editing content:
 
 ```bash
-node .github/scripts/validate-content.js
+node scripts/migrate-facets.js            # regroup concepts, derive carriers
+node .github/scripts/validate-content.js  # must pass before committing
 ```
 
-Validates all content files: frontmatter schema, unique IDs, book.json consistency, game references.
+## Deploy your own
 
-## Deployment
+The repo is Vercel-ready (no build step; `vercel.json` maps legacy function paths). Environment variables:
 
-### Vercel
+| Variable | Purpose |
+|---|---|
+| `RECOMBEE_DB`, `RECOMBEE_TOKEN` | recommendations + community layer (private token, server-side only) |
+| `ANTHROPIC_API_KEY` *(preferred)* or `OPENAI_API_KEY`+`OPENAI_MODEL` | generation, remix, AI examiner, concept drafting |
+| `SUPABASE_URL`, `SUPABASE_KEY` | interaction log (`interactions` table) powering the admin |
+| `SYNC_SECRET` | protects `/api/sync-recombee` |
 
-1. Import repo on [vercel.com](https://vercel.com)
-2. Set env var: `RECOMBEE_TOKEN`
-3. Deploy — no build step needed
+First run: `/admin` → 📚 Catalog → **Sync Items** (pushes blocks + facet properties to Recombee). Then invite editors from 📈 Reach and fill the gaps that matter — editors go first, demand does the rest.
 
-### Netlify
-
-1. Connect repo on [netlify.com](https://netlify.com)
-2. Set env var: `RECOMBEE_TOKEN`
-3. Deploy — functions auto-detected from `netlify/functions/`
-
-### Any Static Host
-
-Works as a static site without Recombee. Just serve the root directory.
-
-## Architecture
-
-```
-index.html          # Reader app (single page)
-admin.html          # Admin dashboard
-js/
-  app.js            # Main application (~3000 lines)
-  config.js         # Configuration and feature flags
-  recombee.js       # Recombee client + UserModel + gamification
-  tutor.js          # AI tutor engine (mock, ready for LLM)
-  markdown.js       # Markdown→HTML renderer with math/table support
-  diagrams.js       # SVG diagram renderer
-css/style.css       # All styles
-content/            # Markdown content files
-games/              # Game data (JSON)
-images/             # SVG diagrams
-netlify/functions/  # Serverless proxy (Netlify)
-api/                # Serverless proxy (Vercel)
-```
-
-## Future Integrations
-
-### Tiny Learning Platform
-Integration with [Tiny School](https://www.tiny.school) for:
-- Argumentative and critic chatbots during reading
-- Progress reporting to teacher/parent profiles
-- Cross-platform learning analytics
-
-### LLM Author Persona
-The tutor system (`js/tutor.js`) is built with a `TutorEngine` abstraction ready for LLM integration:
-- `MockTutorEngine` — current keyword-search implementation
-- `LLMTutorEngine` — future drop-in replacement via serverless function → Claude/GPT API
-- Author escalation — "Message the real author" with conversation queue
-
-### Research Analytics
-Every interaction logs the discovery mode (`netflix`, `read`, `mission`, `map`, `search`, `tutor`), enabling research comparing:
-- Personalized vs. non-personalized content delivery
-- Mission-based vs. free-browse learning
-- Effects of gamification on engagement and retention
-- Impact of spaced repetition on knowledge retention
+To create a **different book** on the same engine, replace `content/` (see the frontmatter format in [`pbook.json`](pbook.json) and the authoring rules in AGENTS.md/HUMANS.md); everything else — steering, generation, curation, admin — is content-agnostic.
 
 ## Contributing
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for content format, style guide, and PR workflow.
+Three paths, lightest first: **flag** an issue in the app (🚩) · **share** a telling you generated or remixed (like it → consent → community layer; editors adopt the best) · **author** content as a PR — serve an existing concept's contract, declare facets honestly (AGENTS.md has the operational tests), register in `book.json`, and make the validator pass. Notable contributions can earn you editor status.
 
-## License
+## Research
 
-Content: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
-Code: [MIT](LICENSE)
+The deployment is an open instrument: paradigm switches, steering, honest misses, generation, ghost votes, and shares are logged (anonymized) for studying interface-level personalization, LLM content quality under contracts, and the economics of elastic catalogs. A RecSys '26 demo paper describes the system; analytics are visible in `/admin` → 📈 Reach.
 
-## Authors
+## License & credits
 
-- **Pavel Kordík** — Author, co-founder of [Recombee](https://recombee.com) & [AI dětem](https://aidetem.cz), assoc. professor at [CTU in Prague](https://kam.fit.cvut.cz)
-- AI-assisted development with Claude (Anthropic)
+Content and code: **CC BY-NC-SA 4.0**. Created by [Pavel Kordík](https://www.recombee.com) (Recombee, CTU Prague) with Eva Nečasová (AI dětem) and the Recombee team. Supported by Recombee, [AI dětem](https://aidetem.cz), Google.org and TAČR.
