@@ -1,60 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="system-ui,sans-serif">
-  <!-- Item cold start on a streaming platform: a fresh track has no plays →
-       audio/genre features slot it into a matching playlist → first listener ▶.
-       10s loop, three phases. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    .ph { opacity: 0; animation: ph 10s ease-in-out infinite; }
-    .p1 { animation-name: ph1; } .p2 { animation-name: ph2; } .p3 { animation-name: ph3; }
-    @keyframes ph1 { 0%,4% {opacity:0} 8%,92% {opacity:1} 97%,100% {opacity:0} }
-    @keyframes ph2 { 0%,30% {opacity:0} 36%,92% {opacity:1} 97%,100% {opacity:0} }
-    @keyframes ph3 { 0%,60% {opacity:0} 66%,92% {opacity:1} 97%,100% {opacity:0} }
-    .dash { stroke-dasharray: 5 4; animation: dashmove 1.2s linear infinite; }
-    @keyframes dashmove { to { stroke-dashoffset: -9; } }
-    .eq rect { animation: eq 1s ease-in-out infinite alternate; }
-    .eq rect:nth-child(2) { animation-delay: .2s; } .eq rect:nth-child(3) { animation-delay: .4s; }
-    @keyframes eq { from { height: 6px; y: 224px; } to { height: 18px; y: 212px; } }
-    .pop { animation: pop 10s ease-in-out infinite; transform-origin: 560px 210px; }
-    @keyframes pop { 0%,72% {opacity:0; transform:scale(.4)} 78%,92% {opacity:1; transform:scale(1)} 97%,100% {opacity:0} }
+    .stage{animation:st 7.5s ease-in-out infinite}
+    .stage.s2{animation-delay:2.5s}.stage.s3{animation-delay:5s}
+    @keyframes st{0%,33%,100%{stroke-width:2;transform:translateY(0)}5%,28%{stroke-width:3.5;transform:translateY(-4px)}}
+    .note{animation:np 2.4s ease-in-out infinite}
+    @keyframes np{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">A Brand-New Track Meets the Recommender</text>
 
-  <text x="320" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">A brand-new track meets the recommender</text>
+  <g class="note"><text x="65" y="120" font-size="30">🎵</text></g>
 
-  <!-- phase 1: the new track, zero plays -->
-  <g class="ph p1">
-    <circle cx="120" cy="120" r="34" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="120" y="129" text-anchor="middle" font-size="24">🎵</text>
-    <rect x="98" y="74" width="44" height="16" rx="8" fill="#D97706"/>
-    <text x="120" y="86" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">NEW</text>
-    <text x="120" y="176" text-anchor="middle" font-size="11" fill="#6B7280">0 plays · 0 saves</text>
-    <text x="120" y="192" text-anchor="middle" font-size="11" fill="#6B7280">no listener overlap to learn from</text>
-  </g>
-
-  <!-- phase 2: audio + genre features match a playlist -->
-  <g class="ph p2">
-    <rect x="196" y="96" width="78" height="18" rx="9" fill="#EDE9FE"/>
-    <text x="235" y="109" text-anchor="middle" font-size="10" fill="#7C3AED">lo-fi · 72 bpm</text>
-    <rect x="196" y="120" width="78" height="18" rx="9" fill="#EDE9FE"/>
-    <text x="235" y="133" text-anchor="middle" font-size="10" fill="#7C3AED">instrumental</text>
-    <path class="dash" d="M278 120 C 330 120, 360 120, 402 120" fill="none" stroke="#7C3AED" stroke-width="2"/>
-    <rect x="406" y="76" width="180" height="92" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-    <text x="496" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">Playlist: Deep Focus</text>
-    <line x1="422" y1="112" x2="570" y2="112" stroke="#E5E7EB" stroke-width="1.5"/>
-    <text x="430" y="130" font-size="10" fill="#6B7280">♪ Rainy Keys</text>
-    <text x="430" y="148" font-size="10" fill="#6B7280">♪ Slow Circuits</text>
-    <text x="430" y="163" font-size="10" fill="#D97706" font-weight="700">♪ ← the new track slots in here</text>
-    <text x="320" y="200" text-anchor="middle" font-size="11" fill="#7C3AED">audio features say: "this belongs with these" — before anyone played it</text>
-  </g>
-
-  <!-- phase 3: first listener, equalizer + heart -->
-  <g class="ph p3">
-    <circle cx="496" cy="222" r="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    <circle cx="496" cy="207" r="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    <g class="eq">
-      <rect x="524" y="218" width="5" height="12" fill="#10B981"/>
-      <rect x="532" y="218" width="5" height="12" fill="#10B981"/>
-      <rect x="540" y="218" width="5" height="12" fill="#10B981"/>
+  <g text-anchor="middle" font-size="12">
+    <g class="stage">
+    <rect x="110" y="80" width="190" height="150" rx="12" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="205" y="108" font-size="14" font-weight="800" fill="#4C1D95">1 · DAY ZERO</text>
+    <text x="205" y="132" fill="#4C1D95">0 plays · 0 skips</text>
+    <text x="205" y="152" fill="#6B7280">CF is blind — nobody</text>
+    <text x="205" y="170" fill="#6B7280">co-listened to anything</text>
+    <text x="205" y="196" fill="#4C1D95" font-weight="700">only metadata exists:</text>
+    <text x="205" y="214" fill="#6B7280">"indie folk · slow · acoustic"</text>
     </g>
-    <text x="320" y="268" text-anchor="middle" font-size="11" font-weight="600" fill="#10B981">first plays land → listener overlap forms → behavioral signal takes over</text>
+    <g class="stage s2">
+    <rect x="330" y="80" width="190" height="150" rx="12" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="425" y="108" font-size="14" font-weight="800" fill="#065F46">2 · SOUND BRIDGE</text>
+    <text x="425" y="132" fill="#065F46">audio + text embedding</text>
+    <text x="425" y="152" fill="#6B7280">lands next to tracks</text>
+    <text x="425" y="170" fill="#6B7280">that SOUND like it</text>
+    <text x="425" y="196" fill="#065F46" font-weight="700">borrowed audience:</text>
+    <text x="425" y="214" fill="#6B7280">folk-playlist listeners</text>
+    </g>
+    <g class="stage s3">
+    <rect x="550" y="80" width="190" height="150" rx="12" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="645" y="108" font-size="14" font-weight="800" fill="#92400E">3 · FIRST WEEK</text>
+    <text x="645" y="132" fill="#92400E">real plays &amp; saves arrive</text>
+    <text x="645" y="152" fill="#6B7280">skips prune the wrong</text>
+    <text x="645" y="170" fill="#6B7280">audience, saves confirm</text>
+    <text x="645" y="196" fill="#92400E" font-weight="700">behavior takes over —</text>
+    <text x="645" y="214" fill="#6B7280">CF wakes up</text>
+    </g>
   </g>
-  <text class="pop" x="560" y="216" font-size="20" fill="#10B981">❤</text>
+  <g stroke="#9CA3AF" stroke-width="2" fill="none">
+    <path d="M300 155 L326 155" marker-end="url(#ar)"/><path d="M520 155 L546 155" marker-end="url(#ar)"/>
+  </g>
+  <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#9CA3AF"/></marker></defs>
+
+  <rect x="150" y="272" width="500" height="66" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text x="400" y="298" text-anchor="middle" font-size="13" fill="#1E1B4B" font-weight="600">content features carry the first days; behavior carries the rest</text>
+  <text x="400" y="320" text-anchor="middle" font-size="12" fill="#6B7280">the hand-off is gradual — each play shifts weight from "sounds like" to "is loved by"</text>
+  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Same recipe as every cold start: borrow an audience through content, then let real reactions correct the guess.</text>
 </svg>
