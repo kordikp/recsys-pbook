@@ -1118,3 +1118,123 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
   .home-mode-label { font-size: .82rem; }
 }
 @media print { .topbar, .bottom-nav, .feedback-bar, .q-block, .settings-drawer, .search-overlay, .game-block { display: none !important; } #appMain { padding: 0; } .read-pane { max-width: 100%; } }
+
+/* ===== Steering knobs + generation (living book) ===== */
+.steer-bar { display: flex; align-items: center; gap: .4em; flex-wrap: wrap; margin: .3em 0 .8em; font-size: .72rem; }
+.steer-label { opacity: .7; cursor: help; }
+.steer-chip { font-size: .7rem; padding: .25em .6em; border-radius: 999px; border: 1px solid var(--border); background: var(--bg-2, var(--bg)); color: var(--text-2); cursor: pointer; transition: all .15s; }
+.steer-chip:hover { border-color: var(--accent); color: var(--accent); }
+.steer-lens { appearance: none; max-width: 7.5em; }
+.steer-variants { font-size: .65rem; color: var(--text-3); margin-left: auto; }
+.steer-gen { border-color: var(--accent); color: var(--accent); font-weight: 600; }
+.variant-notice { display: flex; align-items: center; justify-content: space-between; gap: .6em; flex-wrap: wrap; font-size: .72rem; color: var(--text-2); background: var(--bg-2, rgba(125,125,125,.06)); border: 1px dashed var(--border); border-radius: 10px; padding: .45em .7em; margin: .6em 0 .4em; }
+.gen-badge { font-size: .62rem; color: var(--warn, #D97706); border: 1px solid currentColor; border-radius: 999px; padding: .05em .5em; margin-left: .4em; white-space: nowrap; }
+.gen-offer { font-size: .74rem; color: var(--text-2); background: var(--bg-2, rgba(125,125,125,.06)); border: 1px dashed var(--accent); border-radius: 10px; padding: .5em .7em; margin: .3em 0 .7em; display: flex; align-items: center; gap: .6em; flex-wrap: wrap; }
+.gen-spinner { animation: genPulse 1.2s ease-in-out infinite; }
+@keyframes genPulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+.share-consent { border: 1.5px solid var(--accent); border-radius: 12px; padding: .8em; margin: .6em 0; font-size: .78rem; background: var(--bg-2, rgba(125,125,125,.05)); }
+.share-consent b { color: var(--accent); }
+.share-consent .note-actions { margin-top: .5em; }
+
+/* ===== Tellings panel + end-of-block feedback (living book, iteration 2) ===== */
+.tellings-indicator { margin: .2em 0 .6em; }
+.tellings-panel { border: 1.5px solid var(--border); border-radius: 12px; padding: .6em .8em; margin-top: .4em; background: var(--bg-2, rgba(125,125,125,.04)); font-size: .75rem; }
+.tellings-title { font-weight: 700; font-size: .78rem; margin-bottom: .4em; }
+.tellings-miss { color: var(--warn, #D97706); border: 1px dashed currentColor; border-radius: 8px; padding: .35em .6em; margin-bottom: .45em; font-size: .72rem; }
+.telling-row { display: flex; align-items: center; gap: .45em; flex-wrap: wrap; padding: .3em 0; border-top: 1px solid var(--border); }
+.telling-row:first-of-type { border-top: none; }
+.telling-row.current { opacity: .75; }
+.telling-title { font-weight: 600; }
+.telling-chip { font-size: .62rem; border: 1px solid var(--border); border-radius: 999px; padding: .05em .5em; color: var(--text-2); white-space: nowrap; }
+.telling-badge { font-size: .58rem; font-weight: 700; border: 1px solid; border-radius: 4px; padding: .05em .35em; letter-spacing: .5px; white-space: nowrap; }
+.tellings-gen { display: flex; align-items: center; gap: .5em; flex-wrap: wrap; margin-top: .5em; padding-top: .5em; border-top: 1px dashed var(--border); font-size: .73rem; color: var(--text-2); }
+.feedback-bar { justify-content: flex-start; border-top: 1px dashed var(--border); padding-top: .6em; margin-top: 1em; }
+.feedback-bar .steer-label { font-size: .72rem; color: var(--text-2); }
+
+/* Boss AI examiner */
+.boss-examiner-note { font-size: .65rem; color: var(--text-3); margin-left: .6em; }
+.boss-score-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin: .3em 0 .15em; }
+.boss-score-fill { height: 100%; border-radius: 4px; transition: width .6s ease; }
+
+/* Living book coverage map */
+.covmap-intro { padding: .4em .2em .8em; }
+.covmap { border-collapse: collapse; font-size: .72rem; width: 100%; }
+.covmap th { padding: .3em .45em; font-size: .62rem; color: var(--text-2); text-align: center; }
+.covmap th div { font-size: .55rem; font-weight: 400; }
+.covmap-chapter td { font-weight: 700; font-size: .68rem; color: var(--accent); padding: .7em .3em .2em; }
+.covmap-concept { padding: .22em .4em; cursor: pointer; white-space: nowrap; max-width: 16em; overflow: hidden; text-overflow: ellipsis; }
+.covmap-concept:hover { color: var(--accent); }
+.covmap-cell { text-align: center; padding: .15em .3em; border: 1px solid var(--border); cursor: pointer; min-width: 3em; }
+.covmap-cell:hover { background: var(--bg-2, rgba(125,125,125,.07)); }
+.covmap-gap button { color: var(--text-3); font-size: .8rem; width: 100%; }
+.covmap-gap button:hover { color: var(--accent); }
+.covmap-mylens { background: rgba(124, 58, 237, .06); }
+
+/* ===== Remix (reader-tuned passages) ===== */
+mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #D97706; border-radius: 2px; padding: 0 .1em; color: inherit; }
+.remix-form textarea:focus { border-color: var(--accent); outline: none; }
+.gen-wish { flex: 1 1 220px; min-width: 180px; padding: .3em .55em; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: .7rem; }
+.gen-wish:focus { border-color: var(--accent); outline: none; }
+.highlight-popup button { min-width: 2em; }
+
+/* Diagram remix */
+.diagram-wrap { position: relative; }
+.diagram-remix-btn { position: absolute; top: .4em; right: .4em; opacity: 0; transition: opacity .15s; font-size: .85rem; background: var(--bg); border: 1.5px solid var(--border); border-radius: 999px; width: 2em; height: 2em; cursor: pointer; z-index: 2; }
+.diagram-wrap:hover .diagram-remix-btn { opacity: 1; }
+.diagram-remix-btn:hover { border-color: #D97706; }
+.diagram-remixed { outline: 2px dashed rgba(217,119,6,.45); outline-offset: 4px; border-radius: 8px; }
+
+/* Onboarding: living-book opt-in + pick hint */
+.intro-onboard-hint { font-size: .72rem; color: var(--text-2); margin: .3em auto .8em; max-width: 480px; min-height: 2em; }
+.intro-livingbook { display: flex; gap: .5em; align-items: flex-start; max-width: 480px; margin: .4em auto 1em; text-align: left; border: 1.5px dashed #10B981; border-radius: 12px; padding: .55em .7em; }
+
+/* Reading DNA */
+.dna-row { display: flex; gap: .7em; align-items: flex-start; margin: .45em 0; }
+.dna-label { font-size: .7rem; color: var(--text-2); width: 8.5em; flex-shrink: 0; padding-top: .1em; }
+.dna-bars { flex: 1; display: flex; flex-direction: column; gap: .2em; }
+.dna-bar-line { display: flex; align-items: center; gap: .5em; }
+.dna-val { font-size: .68rem; width: 11em; flex-shrink: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.dna-track { flex: 1; height: 6px; background: var(--border); border-radius: 3px; }
+.dna-fill { height: 100%; border-radius: 3px; background: var(--accent); }
+.dna-pct { font-size: .62rem; color: var(--text-3); width: 2.6em; text-align: right; }
+.dna-contrib { font-size: .74rem; margin-top: .7em; padding-top: .6em; border-top: 1px dashed var(--border); }
+
+/* Tellings dimension picker (subspace explorer) */
+.tellings-dims { display: flex; gap: .3em; flex-wrap: wrap; margin: .4em 0 .3em; padding-bottom: .35em; border-bottom: 1px dashed var(--border); }
+.tellings-dims .dim-active { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.tellings-dimvals { display: flex; gap: .3em; flex-wrap: wrap; margin: .2em 0 .4em; }
+.dimval.dim-current { border-color: var(--accent); background: rgba(124,58,237,.08); }
+.dimval.dim-empty { border-style: dashed; color: var(--text-3); }
+.dimcount { font-size: .58rem; background: var(--border); border-radius: 999px; padding: 0 .4em; }
+
+/* Coverage map v2: chapter sections, per-cell inspector */
+.covmap-chapter-sec { margin: .5em 0; }
+.covmap-chapter-sec summary { font-size: .74rem; font-weight: 700; color: var(--accent); cursor: pointer; padding: .3em 0; }
+.covmap-mini { font-size: .58rem; color: var(--text-3); font-weight: 400; }
+.cov-inspector { border: 1.5px solid var(--accent); border-radius: 12px; padding: .6em .8em; margin: .5em 0 .8em; background: var(--bg-2, rgba(124,58,237,.04)); font-size: .75rem; }
+
+/* Feedback bar lifecycle */
+.feedback-bar { position: relative; padding-right: 2em; transition: opacity .6s ease, max-height .6s ease .3s, margin .6s ease .3s, padding .6s ease .3s; max-height: 6em; overflow: hidden; }
+.feedback-bar.fb-away { opacity: 0; max-height: 0; margin: 0; padding-top: 0; padding-bottom: 0; pointer-events: none; border: none; }
+.fb-close { position: absolute; top: .15em; right: .2em; font-size: 1rem; line-height: 1; color: var(--text-3); background: none; border: none; cursor: pointer; padding: .15em .3em; }
+.fb-close:hover { color: var(--text); }
+
+/* Coverage map v2.1: count badges + chapter heat strip */
+.covcount { display: inline-block; min-width: 1.5em; padding: .05em .3em; border-radius: 999px; color: #fff; font-size: .62rem; font-weight: 700; }
+.cov-heatrow { margin-left: .6em; display: inline-flex; gap: 2px; vertical-align: middle; }
+.cov-heat { display: inline-flex; align-items: center; justify-content: center; width: 1.5em; height: 1.15em; border-radius: 3px; font-size: .55rem; }
+
+/* Keep inline forms/panels clear of the bottom nav when scrolled into view */
+.share-consent, .remix-form, .tellings-panel, .gen-offer, .cov-inspector { scroll-margin-bottom: 110px; }
+.share-consent { margin-bottom: .8em; }
+
+/* Editor track */
+.editor-badge { display: inline-block; background: linear-gradient(135deg, #7C3AED, #4C1D95); color: #fff; font-size: .62rem; font-weight: 800; letter-spacing: .08em; padding: .18em .55em; border-radius: 999px; vertical-align: middle; }
+
+/* Composed generate target row in the tellings panel */
+.tellings-target { display: flex; flex-wrap: wrap; align-items: center; gap: .3em; margin: .5em 0 .2em; padding-top: .45em; border-top: 1px dashed var(--border); }
+
+/* Tellings compose form (panel v3) */
+.tellings-compose { border-top: 1px dashed var(--border); margin-top: .5em; padding-top: .2em; }
+.tellings-compose .dna-label { min-width: 6.2em; font-size: .68rem; }
+.tellings-compose .steer-chip.dimval { font-size: .66rem; padding: .12em .45em; }

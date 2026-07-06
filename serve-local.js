@@ -133,12 +133,15 @@ async function handleLog(req, res) {
   } catch(e) { res.writeHead(500, { ...CORS, 'Content-Type': 'application/json' }); res.end(JSON.stringify({ error: e.message })); }
 }
 
-// --- Auth proxy (delegates to the same logic as api/auth.js) ---
-async function handleAuth(req, res) {
+// --- Vercel function shim (delegates to the same logic as api/*.js) ---
+async function handleVercelFn(req, res, modulePath) {
   let body = ''; for await (const c of req) body += c;
-  const authHandler = require('./api/auth.js');
+  delete require.cache[require.resolve(modulePath)]; // dev: always serve fresh handler code
+  const handler = require(modulePath);
   // Simulate Vercel req/res
-  const fakeReq = { method: req.method, body: JSON.parse(body || '{}') };
+  let parsedBody = {};
+  try { parsedBody = JSON.parse(body || '{}'); } catch (e) {}
+  const fakeReq = { method: req.method, body: parsedBody, headers: req.headers };
   const fakeRes = {
     _status: 200, _headers: {}, _body: '',
     setHeader(k, v) { this._headers[k] = v; },
@@ -150,9 +153,11 @@ async function handleAuth(req, res) {
       res.end(this._body);
     }
   };
-  try { await authHandler(fakeReq, fakeRes); }
+  try { await handler(fakeReq, fakeRes); }
   catch(e) { res.writeHead(500, { ...CORS, 'Content-Type': 'application/json' }); res.end(JSON.stringify({ error: e.message })); }
 }
+
+async function handleAuth(req, res) { return handleVercelFn(req, res, './api/auth.js'); }
 
 const server = http.createServer(async (req, res) => {
   // Auth endpoint
@@ -165,6 +170,24 @@ const server = http.createServer(async (req, res) => {
   if (req.url === '/.netlify/functions/log' || req.url === '/api/log') {
     if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
     await handleLog(req, res); return;
+  }
+
+  // On-demand variant generation (living book) — same handler as Vercel /api/generate
+  if (req.url === '/api/generate') {
+    if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
+    await handleVercelFn(req, res, './api/generate.js'); return;
+  }
+
+  // AI examiner for mission boss quizzes
+  if (req.url === '/api/boss') {
+    if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
+    await handleVercelFn(req, res, './api/boss.js'); return;
+  }
+
+  // Catalog sync to Recombee (admin "Sync Items")
+  if (req.url === '/api/sync-recombee') {
+    if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
+    await handleVercelFn(req, res, './api/sync-recombee.js'); return;
   }
 
   // Recombee proxy

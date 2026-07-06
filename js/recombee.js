@@ -248,12 +248,18 @@ export class RecombeeClient {
   }
 
   reqlBoost(userModel) {
-    // Boost items matching user's preferred voice
-    const voice = userModel.preferredVoice;
-    if (voice && voice !== 'universal') {
-      return `if 'voice' == "${voice}" then 2.0 else if 'voice' == "universal" then 1.0 else 0.7`;
+    // Boost items matching the reader's FACET profile (lens exact > generic > other;
+    // depth soft-matched). Replaces the legacy voice boost — facets are the taxonomy.
+    const target = userModel.getTargetFacets ? userModel.getTargetFacets() : {};
+    const parts = [];
+    if (target.lens && target.lens !== 'generic') {
+      parts.push(`(if 'lens' == "${target.lens}" then 2.0 else if 'lens' == "generic" then 1.2 else 0.8)`);
     }
-    return undefined;
+    if (target.depth) {
+      parts.push(`(if 'depth' == "${target.depth}" then 1.5 else 1.0)`);
+    }
+    if (!parts.length) return undefined;
+    return parts.join(' * ');
   }
 
   // --- Recommendations (Recombee API with local fallback) ---
@@ -294,6 +300,40 @@ export class RecombeeClient {
       }
     }
     return this._localRecsForItem(itemId, count);
+  }
+
+  // Share a reader-generated block into the community catalog (share gate, spec §6).
+  // The block becomes a Recombee item with state="community" — recommendable to similar
+  // readers immediately, body carried as an item property. Requires properties to exist
+  // in the DB (created by /api/sync-recombee ensure step).
+  async shareCommunityBlock(props) {
+    if (!this.enabled) return false;
+    const { itemId, ...values } = props;
+    const res = await this.api('POST', `/items/${encodeURIComponent(itemId)}`, {
+      ...values,
+      state: 'community',
+      sharedAt: new Date().toISOString(),
+      '!cascadeCreate': true,
+    });
+    return res !== null;
+  }
+
+  // Community blocks live in the Recombee catalog (state == "community") — the book's
+  // shared layer needs no extra storage and is immediately recommendable. Graceful [].
+  async listCommunityBlocks(conceptId, count = 10) {
+    if (!this.enabled) return [];
+    const filter = `'state' == "community"` + (conceptId ? ` AND 'concept' == "${conceptId}"` : '');
+    const res = await this.api('GET', '/items/', { filter, count, returnProperties: true });
+    if (!Array.isArray(res)) return [];
+    return res.filter(it => it.body).map(it => {
+      const meta = { ...it, id: it.itemId, type: 'spine', state: 'community', generated: true };
+      // honest visuality for reader-shared items (mirrors api/generate.js clamp)
+      const words = (it.body || '').split(/\s+/).filter(Boolean).length;
+      if (meta.diagramSvg || /<svg/i.test(it.body)) meta.visuality = words < 130 ? 'visual-first' : 'balanced';
+      else if (/\n\|[^\n]*\|\s*\n\|[\s:|-]+\|/.test(it.body)) { if (meta.visuality === 'visual-first') meta.visuality = 'balanced'; }
+      else if (meta.visuality && meta.visuality !== 'text-first') meta.visuality = 'text-first';
+      return { meta, body: it.body };
+    });
   }
 
   async searchItems(query, count, filter, scenario) {
@@ -362,6 +402,12 @@ export class RecombeeClient {
 export class UserModel {
   constructor() {
     this.voiceScores = { explorer: 0, creator: 0, thinker: 0 };
+    // Facet affinities — learned distribution over facet values (soft, drifts with signals)
+    this.facetAffinity = {};      // { lens: {ecommerce: 3.5, ...}, depth: {...}, ... }
+    // Explicit steering preferences — strongest signal, set via knobs/onboarding/profile correction
+    this.steerPrefs = {};         // { lens: 'ecommerce', visuality: 'visual-first', ... }
+    this.goal = null;             // understand | build | decide | protect (onboarding)
+    this.readerMode = 'safe';     // 'safe' = core+edited only · 'open' = + community + generation
     this.readBlocks = new Set();
     this.seenBlocks = new Set();
     this.savedBlocks = new Set();
@@ -419,6 +465,11 @@ export class UserModel {
       if (s.completedMissions) this.completedMissions = s.completedMissions;
       if (s.missionTitles) this.missionTitles = s.missionTitles;
       if (s.missionBranches) this.missionBranches = s.missionBranches;
+      if (s.facetAffinity) this.facetAffinity = s.facetAffinity;
+      if (s.steerPrefs) this.steerPrefs = s.steerPrefs;
+      if (s.goal) this.goal = s.goal;
+      if (s.personalMission) this.personalMission = s.personalMission;
+      if (s.readerMode) this.readerMode = s.readerMode;
     } catch (e) {}
   }
 
@@ -446,8 +497,64 @@ export class UserModel {
         completedMissions: this.completedMissions,
         missionTitles: this.missionTitles,
         missionBranches: this.missionBranches,
+        facetAffinity: this.facetAffinity,
+        steerPrefs: this.steerPrefs,
+        goal: this.goal,
+        personalMission: this.personalMission || null,
+        readerMode: this.readerMode,
       }));
     } catch (e) {}
+  }
+
+  // --- Facet affinity model (see _design-collective-pbook.md §4) ---
+  // Weight guide: read=1, like=2, explicit steer=3 (strongest — a labelled preference statement)
+  updateFacetAffinity(facets, weight = 1) {
+    if (!facets) return;
+    for (const [facet, value] of Object.entries(facets)) {
+      if (value === null || value === undefined || facet === 'concept' || facet === 'state') continue;
+      if (!this.facetAffinity[facet]) this.facetAffinity[facet] = {};
+      this.facetAffinity[facet][value] = (this.facetAffinity[facet][value] || 0) + weight;
+    }
+    this.save();
+  }
+
+  // Explicit preference (knobs, onboarding, profile correction) — overrides learned affinity
+  setSteerPref(facet, value) {
+    if (value === null || value === undefined) delete this.steerPrefs[facet];
+    else this.steerPrefs[facet] = value;
+    this.save();
+  }
+
+  // The reader's current target facet-vector: explicit prefs win, then learned argmax, then defaults
+  getTargetFacets() {
+    const defaults = { lens: 'generic', lang: 'en', visuality: 'balanced', depth: 'standard', formalism: 'none', lengthBand: 'standard' };
+    const target = { ...defaults };
+    for (const facet of Object.keys(defaults)) {
+      const learned = this.facetAffinity[facet];
+      if (learned) {
+        const entries = Object.entries(learned).sort((a, b) => b[1] - a[1]);
+        const total = entries.reduce((s, [, v]) => s + v, 0);
+        // only trust learned affinity once there's real signal (≥3 weighted interactions)
+        if (entries.length && total >= 3) target[facet] = entries[0][0];
+      }
+      if (this.steerPrefs[facet]) target[facet] = this.steerPrefs[facet];
+    }
+    // carriers: preference-only dimension (no default — absent means "no constraint");
+    // items carry it as a derived composition tag, readers may pin what they prefer
+    if (this.steerPrefs.carriers) target.carriers = this.steerPrefs.carriers;
+    return target;
+  }
+
+  // Human-readable affinity summary for the transparent profile view
+  getAffinitySummary() {
+    const out = [];
+    for (const [facet, values] of Object.entries(this.facetAffinity)) {
+      const entries = Object.entries(values).sort((a, b) => b[1] - a[1]);
+      const total = entries.reduce((s, [, v]) => s + v, 0);
+      if (!entries.length || total < 3) continue;
+      out.push({ facet, top: entries[0][0], pct: Math.round((entries[0][1] / total) * 100), explicit: !!this.steerPrefs[facet] });
+    }
+    return out;
   }
 
   _sig(id) { if (!this.signals[id]) this.signals[id] = {}; return this.signals[id]; }
@@ -460,7 +567,7 @@ export class UserModel {
     this.save();
   }
 
-  trackRead(blockId, voice) {
+  trackRead(blockId, voice, facets) {
     this.readBlocks.add(blockId);
     this.seenBlocks.add(blockId);
     this._sig(blockId).read = true;
@@ -469,6 +576,8 @@ export class UserModel {
     if (voice && voice !== 'universal' && this.voiceScores[voice] !== undefined) {
       this.voiceScores[voice] = (this.voiceScores[voice] || 0) + 1;
     }
+    // Drift facet affinities from actual reading behaviour (weight 1)
+    if (facets) this.updateFacetAffinity(facets, 1);
     if (CONFIG.features.gamification !== false) { this.addXP(10); this.checkAchievements(); }
     if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(blockId);
     this.save();
@@ -641,10 +750,21 @@ export class UserModel {
       .filter((v, i, a) => a.indexOf(v) === i);
   }
 
+  // LEGACY VIEW: voice is no longer a first-class preference — it is DERIVED from the
+  // facet model so legacy call sites (mission branches, old content voice tags) keep
+  // working. Source of truth: facetAffinity + steerPrefs.
   getTopVoice() {
-    if (this.preferredVoice && this.preferredVoice !== 'universal') return this.preferredVoice;
-    const entries = Object.entries(this.voiceScores).sort((a, b) => b[1] - a[1]);
-    return entries[0] && entries[0][1] > 0 ? entries[0][0] : null;
+    if (this.preferredVoice && this.preferredVoice !== 'universal') return this.preferredVoice; // old stored picks respected
+    const g = this.facetAffinity.genre || {};
+    const d = this.facetAffinity.depth || {};
+    const f = this.facetAffinity.formalism || {};
+    const scores = {
+      creator: (g['worked-example'] || 0) + (g['code-walkthrough'] || 0),
+      thinker: (d.technical || 0) + (d.research || 0) + (f.light || 0) + (f.full || 0),
+      explorer: (g.story || 0) + (g.explainer || 0) * 0.5 + (d.intro || 0),
+    };
+    const entries = Object.entries(scores).sort((x, y) => y[1] - x[1]);
+    return entries[0][1] >= 2 ? entries[0][0] : null;
   }
 
   getProgress(allBlocks) {
@@ -744,6 +864,10 @@ export class UserModel {
     this.completedMissions = [];
     this.missionTitles = [];
     this.missionBranches = {};
+    this.facetAffinity = {};
+    this.steerPrefs = {};
+    this.goal = null;
+    this.readerMode = 'safe';
     this.save();
   }
 }

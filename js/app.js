@@ -28,6 +28,40 @@ class PBook {
 
   // ===== INIT =====
   async init() {
+    // Demo seeding for screenshots/booth mode: ?seed=demo populates a plausible
+    // reading history once (12 read blocks, recall cards due, XP) — never in normal use.
+    if (location.search.includes('seed=demo') && !localStorage.getItem('pbook-demo-seeded')) {
+      localStorage.setItem('pbook-demo-seeded', '1');
+      const ids = ['ch1-noticed','ch1-everywhere','ch1-not-magic','ch1-wrong-sidebar','ch1-patterns-d-think','ch1-history','ch1-three-jobs','ch1-wyr','ch1-personalization-spectrum','ch1-ws-match','ch2-footprints','ch2-track-d-exp'];
+      const now = Date.now();
+      const recall = {};
+      ids.slice(0, 8).forEach((id, i) => { recall[id] = { reps: (i % 3) + 1, ease: 1.6 + (i % 4) * 0.35, interval: 1, nextReview: now - (i < 5 ? 3600000 * (i + 1) : -86400000), lastReview: now - 86400000 }; });
+      localStorage.setItem('pbook-user', JSON.stringify({
+        readBlocks: ids, seenBlocks: ids, savedBlocks: ['ch2-clues'], ratings: [], notes: [],
+        signals: {}, totalInteractions: 40, currentChapter: 1, xp: 175, level: 4,
+        achievements: [{ id: 'first_read' }, { id: 'reader_5' }], recall,
+        completedMissions: ['m1'], missionTitles: { m1: 'The Curious Beginning' },
+        facetAffinity: { lens: { ecommerce: 4 }, depth: { standard: 3 } }, steerPrefs: {}, goal: 'understand', readerMode: 'open',
+      }));
+      this.user.load();   // UserModel was constructed before init — re-read the seeded state
+    }
+
+    // Invite links: ?invite=R-xxxx (friend referral, +25 XP welcome) or ?invite=E-xxxx
+    // (editor invite for senior collaborators: sets the 🛠 editor role, opens the console).
+    const inviteMatch = location.search.match(/[?&]invite=([\w-]+)/);
+    if (inviteMatch && !localStorage.getItem('pbook-invite-used')) {
+      const code = inviteMatch[1];
+      localStorage.setItem('pbook-invite-used', code);
+      if (/^E-/i.test(code)) {
+        localStorage.setItem('pbook-role', 'editor');
+        this.rc.logEvent('editor_invite_accepted', { code });
+        setTimeout(() => this.showXPToast('🛠 Welcome to the editorial team — your console is in Profile', 'achievement'), 1500);
+      } else {
+        this.rc.logEvent('invite_accepted', { code });
+        if (this._f('gamification')) { this.user.addXP(25); this.user.save(); }
+        setTimeout(() => this.showXPToast('🎁 +25 XP — a friend invited you. Welcome!', 'achievement'), 1500);
+      }
+    }
     try {
       this.book = await (await fetch(CONFIG.book.bookIndex)).json();
     } catch (e) {
@@ -37,6 +71,10 @@ class PBook {
     // Preload all content for search and map
     await this.loadAllContent();
     this.autoTagBlocks();
+    await this.loadConcepts();   // concept index + contracts (graceful if missing)
+    await this._loadProposals(); // concept proposals under interest testing (ghost items)
+    this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
+    this._checkAdoptions();      // shared telling merged into the book? → +100 XP, editor track
     this.rc.setAllBlocks(this.allBlocks);
     this.rc._loadInteractions(); // Restore persisted interactions
 
@@ -59,6 +97,12 @@ class PBook {
         sessions: this.user.sessionCount,
         completedMissions: (this.user.completedMissions || []).length,
         activePath: this.user.activePath || '',
+        // Facet profile (P0) — lets Recombee scenarios boost by facet affinity
+        prefLens: this.user.getTargetFacets().lens,
+        prefDepth: this.user.getTargetFacets().depth,
+        prefVisuality: this.user.getTargetFacets().visuality,
+        goal: this.user.goal || '',
+        readerMode: this.user.readerMode || 'safe',
       });
     }
 
@@ -86,6 +130,18 @@ class PBook {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
         this.switchView('quiz');
+      } else if (hash.startsWith('view-')) {
+        // generic view deep link (screenshots, demos): #view-missions, #view-home, ...
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.switchView(hash.slice(5));
+      } else if (hash === 'coverage') {
+        // deep link to the living-book coverage map (also used for paper screenshots)
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this._mapMode = 'coverage';
+        this.switchView('map');
+        setTimeout(() => document.querySelectorAll('.covmap-chapter-sec').forEach((d, i) => { if (i < 2) d.open = true; }), 1500);
       } else if (hash.startsWith('quiz-')) {
         // Single quiz card deep link — show in quiz view
         const blockId = hash.replace('quiz-', '');
@@ -94,7 +150,10 @@ class PBook {
         this._sharedQuizBlock = blockId;
         this.switchView('quiz');
       } else if (this.findBlock(hash)) {
-        // Block deep link
+        // Block deep link — seed facet affinity from the landing block: an anonymous
+        // arrival on a variant is a hint about which audience/telling fits them
+        const landing = this.findBlock(hash);
+        if (landing) this.user.updateFacetAffinity(this._blockFacets(landing.meta), 1);
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
         this.openBlock(hash, 'share');
@@ -191,6 +250,576 @@ class PBook {
     });
   }
 
+  // ===== CONCEPTS & FACETS (see _design-collective-pbook.md) =====
+  async loadConcepts() {
+    this.concepts = {};        // conceptId → concept record (with contract)
+    this.conceptBlocks = {};   // conceptId → [block refs from allBlocks]
+    try {
+      const data = await (await fetch(`${CONFIG.book.contentDir}/concepts.json`)).json();
+      (data.concepts || []).forEach(c => { this.concepts[c.id] = c; });
+    } catch (e) { /* concepts.json missing — steering degrades gracefully */ }
+    this.allBlocks.forEach(b => {
+      for (const cid of this._conceptIds(b.meta)) {
+        if (!this.conceptBlocks[cid]) this.conceptBlocks[cid] = [];
+        this.conceptBlocks[cid].push(b);      // multi-concept blocks appear in every pool
+      }
+    });
+  }
+
+  // A block may be a telling of SEVERAL concepts ("concept: a|b") — e.g. a cold-start
+  // story that also teaches exploration. First listed = primary (panel title, chapter).
+  _conceptIds(meta) {
+    return String(meta?.concept || '').split('|').map(s => s.trim()).filter(Boolean);
+  }
+
+  // Extract the facet-vector of a block (works for git content and generated blocks)
+  _blockFacets(meta) {
+    if (!meta) return null;
+    const f = {};
+    for (const k of Object.keys(CONFIG.facets)) { if (meta[k]) f[k] = meta[k]; }
+    return Object.keys(f).length ? f : null;
+  }
+
+  _facetDefault(dim) {
+    return { lens: 'generic', lang: 'en', visuality: 'text-first', depth: 'standard', formalism: 'none', lengthBand: 'standard', genre: 'explainer' }[dim] || null;
+  }
+
+  // SUBSPACE COVERAGE (spec: dimensions are not orthogonal; a telling covers a
+  // region, not a point). Parse a block's declared coverage on one dimension:
+  //   "standard"              → [standard]
+  //   "standard..technical"   → [standard, technical]      (range on ordered scales)
+  //   "ecommerce|media"       → [ecommerce, media]         (set on categorical ones)
+  _facetValues(meta, dim) {
+    const vals = CONFIG.facets[dim]?.values || [];
+    const raw = meta?.[dim];
+    if (!raw) { const d = this._facetDefault(dim); return d ? [d] : []; }
+    const s = String(raw);
+    if (s.includes('..')) {
+      const [a, b] = s.split('..').map(x => x.trim());
+      const i = vals.indexOf(a), j = vals.indexOf(b);
+      if (i >= 0 && j >= i) return vals.slice(i, j + 1);
+    }
+    const set = s.split('|').map(x => x.trim()).filter(x => vals.includes(x));
+    return set.length ? set : (this._facetDefault(dim) ? [this._facetDefault(dim)] : []);
+  }
+
+  // Does this block's declared subspace cover the target value on a dimension?
+  _covers(meta, dim, value) { return this._facetValues(meta, dim).includes(value); }
+
+  // Facet match score 0..1 between a block's SUBSPACE and a target point.
+  // lens and language dominate (most audience-defining), depth/visuality next.
+  _facetMatch(meta, target) {
+    const W = { lens: 3, lang: 3, depth: 2, visuality: 2, formalism: 1, lengthBand: 0.5, genre: 1, carriers: 1.5 };
+    let score = 0, max = 0;
+    for (const [facet, w] of Object.entries(W)) {
+      if (!target[facet]) continue;
+      max += w;
+      const set = this._facetValues(meta, facet);
+      if (!set.length) { score += w * 0.4; continue; }        // unknown → mild partial credit
+      const wanted = String(target[facet]).split('|').filter(Boolean);
+      if (wanted.length > 1) {                                  // multi-value target (carriers): fraction present
+        score += w * (wanted.filter(v => set.includes(v)).length / wanted.length);
+        continue;
+      }
+      if (set.includes(target[facet])) { score += w; continue; }  // covered → full credit
+      if (facet === 'lens' && set.includes('generic')) { score += w * 0.6; continue; } // generic serves any world, imperfectly
+      // ordered scales: distance from target to the nearest edge of the covered range
+      const order = CONFIG.facets[facet]?.values || [];
+      const ti = order.indexOf(target[facet]);
+      const d = Math.min(...set.map(v => Math.abs(order.indexOf(v) - ti)));
+      if (d === 1) score += w * 0.5;
+    }
+    return max ? score / max : 0;
+  }
+
+  // ===== STEERING (knobs + retrieve-before-generate, spec §5) =====
+
+  // Private generated blocks — visible only to this reader until shared
+  _loadPrivateBlocks() {
+    try { this.privateBlocks = JSON.parse(localStorage.getItem('pbook-private-blocks') || '{}'); }
+    catch (e) { this.privateBlocks = {}; }
+    // Honest-visuality sweep: blocks stored before the server-side clamp may carry the
+    // REQUESTED visuality ("visual-first" with zero visuals). Re-derive from what the
+    // block actually contains; deletion test, same rules as api/generate.js.
+    let fixed = 0;
+    for (const b of Object.values(this.privateBlocks)) {
+      const honest = this._honestVisuality(b.meta, b.body);
+      if (honest !== b.meta.visuality) { b.meta.visuality = honest; fixed++; }
+    }
+    if (fixed) { try { localStorage.setItem('pbook-private-blocks', JSON.stringify(this.privateBlocks)); } catch (e) {} }
+  }
+
+  // What can this block's visuality HONESTLY claim? (client mirror of the server clamp)
+  _honestVisuality(meta, body) {
+    const words = (body || '').split(/\s+/).filter(Boolean).length;
+    const hasSvg = !!meta.diagramSvg || /<svg/i.test(body || '');
+    const hasImg = /!\[/.test(body || '') || !!meta.diagram;
+    const hasTable = /\n\|[^\n]*\|\s*\n\|[\s:|-]+\|/.test(body || '');
+    if (hasSvg || hasImg) return words < 130 ? 'visual-first' : 'balanced';
+    if (hasTable) return meta.visuality === 'text-first' ? 'text-first' : 'balanced';
+    return 'text-first';
+  }
+  _savePrivateBlock(block) {
+    this.privateBlocks[block.meta.id] = block;
+    try { localStorage.setItem('pbook-private-blocks', JSON.stringify(this.privateBlocks)); } catch (e) {}
+  }
+
+  // The variant pool for a concept: git blocks + own private + community (open mode, cached)
+  _conceptPool(conceptId) {
+    const pool = [...(this.conceptBlocks[conceptId] || [])];
+    for (const pb of Object.values(this.privateBlocks || {})) {
+      if (this._conceptIds(pb.meta).includes(conceptId)) pool.push(pb);
+    }
+    if (this.user.readerMode === 'open' && this._communityCache?.[conceptId]) {
+      pool.push(...this._communityCache[conceptId]);
+    }
+    return pool;
+  }
+
+  // Lazily fetch community variants for a concept (open mode only; graceful empty)
+  async _fetchCommunity(conceptId) {
+    if (!this._f('community') || this.user.readerMode !== 'open') return [];
+    if (!this._communityCache) this._communityCache = {};
+    if (this._communityCache[conceptId]) return this._communityCache[conceptId];
+    const items = await this.rc.listCommunityBlocks(conceptId);
+    this._communityCache[conceptId] = items;
+    return items;
+  }
+
+  // Slim indicator at the top of a block: how many other tellings exist, click to see them
+  _renderTellingsIndicator(block) {
+    if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
+    const others = this._conceptPool(block.concept).filter(b => (b.meta?.id || b.id) !== block.id).length;
+    return `<div class="tellings-indicator">
+      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>
+      <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
+    </div>`;
+  }
+
+  // End-of-block steering: ask AFTER the reader finished the telling.
+  // Dismissible (✕) and auto-fades ~25 s after becoming visible if untouched;
+  // any interaction inside cancels the fade. The tellings indicator stays.
+  _renderFeedbackBar(block) {
+    if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
+    const lensVals = CONFIG.facets.lens.values;
+    const lensIcons = CONFIG.facets.lens.icons || {};
+    const canSimpler = (block.depth || 'standard') !== 'intro';
+    const canDeeper = (block.depth || 'standard') !== 'research';
+    return `<div class="steer-bar feedback-bar" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
+      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss">&times;</button>
+      <span class="steer-label">How was this telling?</span>
+      <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Great</button>
+      ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="Same idea, gentler telling">&#128315; Simpler</button>` : ''}
+      ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="Same idea, more depth">&#128316; Deeper</button>` : ''}
+      ${block.visuality !== 'visual-first' ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="Same idea, more visual">&#128444;&#65039; More visual</button>` : ''}
+      <select class="steer-chip steer-lens" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="Examples from your world">
+        <option value="">&#127758; my world&hellip;</option>
+        ${lensVals.filter(l => l !== (block.lens || 'generic')).map(l => `<option value="${l}">${lensIcons[l] || ''} ${l}</option>`).join('')}
+      </select>
+    </div>`;
+  }
+
+  // Feedback-bar lifecycle: arm a 25 s fade when it first becomes visible (called
+  // from the dwell observer), pin on any interaction, dismiss on ✕.
+  _armFeedbackBar(blockId) {
+    const bar = document.getElementById(`steer-${blockId}`);
+    if (!bar || !bar.classList.contains('feedback-bar') || bar.dataset.armed) return;
+    bar.dataset.armed = '1';
+    if (!this._fbTimers) this._fbTimers = {};
+    this._fbTimers[blockId] = setTimeout(() => {
+      if (!bar.dataset.pinned) bar.classList.add('fb-away');
+    }, 25000);
+  }
+  _pinFeedbackBar(blockId) {
+    const bar = document.getElementById(`steer-${blockId}`);
+    if (bar) { bar.dataset.pinned = '1'; bar.classList.remove('fb-away'); }
+    if (this._fbTimers?.[blockId]) clearTimeout(this._fbTimers[blockId]);
+  }
+  _dismissFeedbackBar(blockId) {
+    document.getElementById(`steer-${blockId}`)?.classList.add('fb-away');
+    if (this._fbTimers?.[blockId]) clearTimeout(this._fbTimers[blockId]);
+  }
+
+  // Render a block's covered subspace as chips: sets "a · b", ranges "a–b"
+  _facetChips(meta) {
+    const lensIcons = CONFIG.facets.lens.icons || {};
+    const show = (dim, always) => {
+      const set = this._facetValues(meta, dim);
+      const def = this._facetDefault(dim);
+      if (!always && set.length === 1 && set[0] === def) return null;
+      const ordered = CONFIG.facets[dim]?.ordered;
+      const label = ordered && set.length > 1 ? `${set[0]}–${set[set.length - 1]}` : set.join(' · ');
+      const icon = dim === 'lens' ? (set.length === 1 ? lensIcons[set[0]] || '' : '🌐') : dim === 'lang' ? '🌍' : '';
+      return `<span class="telling-chip">${icon ? icon + ' ' : ''}${label}</span>`;
+    };
+    return [show('lens', true), show('lang', false), show('depth', true), show('visuality', false), show('genre', false), show('lengthBand', false)]
+      .filter(Boolean).join('');
+  }
+
+  _stateBadge(meta) {
+    const s = meta.state || 'edited';
+    if (meta.remixOf) {
+      return s === 'community'
+        ? '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ reader remix</span>'
+        : '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ your remix</span>';
+    }
+    if (s === 'core') return '<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED">CORE</span>';
+    if (s === 'community') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ reader-shared</span>';
+    if (s === 'private') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ yours</span>';
+    return '<span class="telling-badge" style="color:#10B981;border-color:#10B981">edited</span>';
+  }
+
+  // The tellings panel: SEE what exists before generating anything.
+  // missMsg/presetTarget come from a steer that found no matching telling.
+  async toggleTellings(blockId, missMsg, presetTarget) {
+    const panel = document.getElementById(`tellings-${blockId}`);
+    if (!panel) return;
+    if (panel.style.display !== 'none' && !missMsg) { panel.style.display = 'none'; return; }
+
+    const entry = this._findAnyBlock(blockId);
+    const conceptId = this._conceptIds(entry?.meta)[0];
+    if (!conceptId) return;
+    panel.style.display = 'block';
+    panel.innerHTML = '<div style="padding:.5em;color:var(--text-3);font-size:.75rem">Loading tellings…</div>';
+    await this._fetchCommunity(conceptId);
+
+    const concept = this.concepts?.[conceptId];
+    const pool = this._conceptPool(conceptId);
+    // COMPOSED REQUEST: the profile only seeds the target once; after that every
+    // dimension the reader picks in this panel sticks until the panel is reset.
+    if (!this._steerTargets) this._steerTargets = {};
+    // keyed by CONCEPT: the composed request survives swaps, "Original" and
+    // opening the panel from any other telling of the same concept
+    const target = presetTarget
+      ? { ...this.user.getTargetFacets(), ...presetTarget }
+      : (this._steerTargets[conceptId] || { ...this.user.getTargetFacets() });
+    this._steerTargets[conceptId] = target;
+
+    let h = `<div class="tellings-title">Tellings of &ldquo;${this.escHtml(concept?.title || conceptId)}&rdquo;</div>`;
+    if (missMsg && missMsg.trim()) h += `<div class="tellings-miss">${missMsg}</div>`;
+
+    // COMPOSE FORM — the whole telling space on one screen, pre-filled from the
+    // reader's profile. Clicking only changes the request (no hidden accordions,
+    // no silent swaps); serving/generating happens on the buttons below.
+    const DIMS = [
+      { dim: 'lens', label: '🌐 World' }, { dim: 'lang', label: '🌍 Language' },
+      { dim: 'genre', label: '✒️ Genre' }, { dim: 'depth', label: '📏 Depth' },
+      { dim: 'visuality', label: '🖼 Form' }, { dim: 'lengthBand', label: '⏱ Length' },
+      { dim: 'carriers', label: '🧩 Blocks' },
+    ];
+    const curMeta = entry.meta;
+    const profile = this.user.getTargetFacets();
+    const changed = DIMS.filter(({ dim }) => (target[dim] || '') !== (profile[dim] || '')).length;
+
+    h += pool.map(b => {
+      const m = b.meta;
+      const isCurrent = m.id === blockId;
+      return `<div class="telling-row ${isCurrent ? 'current' : ''}">
+        ${this._stateBadge(m)}
+        <span class="telling-title">${this.escHtml(m.title || m.id)}</span>
+        ${this._facetChips(m)}
+        ${isCurrent ? '<span class="telling-chip" style="opacity:.6">reading now</span>'
+          : `<button class="steer-chip" onclick="app.pickTelling('${blockId}','${m.id}')">Read</button>`}
+      </div>`;
+    }).join('');
+
+    h += `<div class="tellings-compose">
+      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">Pre-filled from your profile — click what doesn't fit${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
+      ${DIMS.map(({ dim, label }) => `<div class="dna-row" style="align-items:flex-start"><span class="dna-label" style="padding-top:.2em">${label}</span>
+        <div class="tellings-dimvals" style="margin:0">${this._renderDimValues(blockId, dim, pool, curMeta)}</div></div>`).join('')}
+    </div>`;
+
+    // Serve-or-generate, honestly: if an existing telling covers the composed
+    // target, offer it to read; only a real gap offers generation (+ optional note).
+    const best = pool.filter(b => b.meta.id !== blockId)
+      .map(b => ({ b, s: this._facetMatch(b.meta, target) }))
+      .sort((x, y) => y.s - x.s)[0];
+    const covered = best && best.s >= CONFIG.steering.serveThreshold;
+    const canGen = this._f('generation') && await this._probeGeneration();
+    const wish = this._steerWish?.[conceptId] || '';
+    h += `<div class="tellings-gen" id="gen-offer-${blockId}">`;
+    if (covered) {
+      h += `<span>✓ Your target is covered: <b>${this.escHtml(best.b.meta.title || best.b.meta.id)}</b> (${Math.round(best.s * 100)}% match)</span>
+        <button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.pickTelling('${blockId}','${best.b.meta.id}')">Read it</button>`;
+    } else if (canGen && this.user.readerMode === 'open') {
+      h += `<span>No telling covers this yet${best ? ` (closest: ${Math.round(best.s * 100)}%)` : ''}.</span>
+        <input type="text" id="gen-wish-${blockId}" class="gen-wish" maxlength="300" value="${this.escHtml(wish)}"
+          oninput="(app._steerWish=app._steerWish||{})['${conceptId}']=this.value"
+          placeholder="Optional note: anything specific? (e.g. 'use a running-shop example')">
+        <button class="steer-chip steer-gen" onclick="app.generateVariant('${blockId}','${conceptId}')">&#10024; Generate exactly this (~30 s)</button>
+        ${(target.visuality === 'visual-first' || /diagram|image|animation/.test(target.carriers || '')) ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">Generated text can deliver prose, tables, formulas and code — not new diagrams/images. For those, hover an existing diagram and ✨ remix it.</span>` : ''}`;
+    } else if (canGen) {
+      h += `<span>No telling covers this yet — turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> to generate it.</span>`;
+    } else {
+      h += `<span>No telling covers this yet — your interest was recorded and helps editors decide what to write next. &#128203;</span>`;
+    }
+    h += '</div>';
+    h += `<div style="font-size:.68rem;color:var(--text-3);margin-top:.35em">These are tellings of one concept. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a> (+10 XP).</div>`;
+    panel.innerHTML = h;
+  }
+
+  // Dimension picker interactions
+  pickDim(blockId) {   // legacy alias — the compose form shows all dimensions at once
+    this.toggleTellings(blockId, ' ');
+  }
+
+  _renderDimValues(blockId, dim, pool, curMeta) {
+    const conf = CONFIG.facets[dim];
+    if (!conf) return '';
+    const icons = conf.icons || {};
+    const current = this._facetValues(curMeta, dim);
+    const cid = this._conceptIds(curMeta)[0];
+    const selRaw = this._steerTargets?.[cid]?.[dim];
+    const selSet = String(selRaw || '').split('|').filter(Boolean);
+    return conf.values.map(v => {
+      const count = pool.filter(b => this._covers(b.meta, dim, v)).length;
+      const isCur = current.includes(v);
+      const isSel = selSet.includes(v);
+      return `<button class="steer-chip dimval ${isCur ? 'dim-current' : ''} ${isSel ? 'dim-active' : ''} ${count ? '' : 'dim-empty'}"
+        onclick="app.steerDim('${blockId}','${dim}','${v}')" title="${isSel ? 'in your target (click to remove) · ' : ''}${count ? count + ' telling(s) cover this' : 'no telling yet — be the first'}">
+        ${icons[v] ? icons[v] + ' ' : ''}${v}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
+    }).join('');
+  }
+
+  resetPanelTarget(blockId) {
+    const entry = this._findAnyBlock(blockId);
+    const cid = this._conceptIds(entry?.meta)[0];
+    if (this._steerTargets && cid) delete this._steerTargets[cid];
+    this.toggleTellings(blockId, ' ');
+  }
+
+  pickTelling(blockId, variantId) {
+    const variant = this._findAnyBlock(variantId);
+    if (!variant) return;
+    this.user.updateFacetAffinity(this._blockFacets(variant.meta), 2); // choosing a telling is a strong signal
+    this.rc.logEvent('steer', { blockId, action: 'pick', servedId: variantId, result: 'served' });
+    this._swapBlock(blockId, variant, this._blockFacets(variant.meta) || {});
+  }
+
+  // Steering with an honest miss path: the steered facet must actually move —
+  // we never silently swap in a telling that ignores what the reader asked for.
+  async steerBlock(blockId, action, value) {
+    const entry = this._findAnyBlock(blockId);
+    if (!entry) return;
+    const meta = entry.meta;
+    const conceptId = this._conceptIds(meta)[0];
+    if (!conceptId) return;
+
+    // 👍 praise: positive affinity for THIS telling's facets, no swap
+    if (action === 'praise') {
+      this.user.updateFacetAffinity(this._blockFacets(meta), 2);
+      this.rc.logEvent('steer', { blockId, concept: conceptId, action: 'praise' });
+      this.showXPToast('Noted — more tellings like this one 👍', 'achievement');
+      return;
+    }
+
+    const order = f => CONFIG.facets[f].values;
+    const target = { ...(this._blockFacets(meta) || {}) };
+    let facet, dir = 0; // dir: +1 up the ordered scale, -1 down, 0 exact match required
+    if (action === 'simpler') {
+      facet = 'depth'; dir = -1;
+      const d = order('depth'); target.depth = d[Math.max(0, d.indexOf(meta.depth || 'standard') - 1)];
+      target.formalism = 'none';
+    } else if (action === 'deeper') {
+      facet = 'depth'; dir = +1;
+      const d = order('depth'); target.depth = d[Math.min(d.length - 1, d.indexOf(meta.depth || 'standard') + 1)];
+    } else if (action === 'visual') {
+      facet = 'visuality'; dir = +1; target.visuality = 'visual-first';
+    } else if (action === 'lens') {
+      facet = 'lens'; target.lens = value;
+    } else return;
+
+    // Every steer is a labelled preference statement (strongest affinity signal)
+    if (action === 'lens') this.user.setSteerPref('lens', value);
+    this.user.updateFacetAffinity({ [facet]: target[facet] }, 3);
+
+    // Retrieve before generate — but candidates must MOVE on the steered facet
+    // (subspace semantics: a candidate's covered range must reach past the current value)
+    const vals = order(facet);
+    const curSet = this._facetValues(meta, facet);
+    const curBest = dir > 0 ? Math.max(...curSet.map(v => vals.indexOf(v))) : Math.min(...curSet.map(v => vals.indexOf(v)));
+    const candidateFilter = b => {
+      if (facet === 'lens') return this._covers(b.meta, 'lens', target.lens);   // lens: must cover that world
+      const set = this._facetValues(b.meta, facet);
+      return dir > 0 ? set.some(v => vals.indexOf(v) > curBest) : set.some(v => vals.indexOf(v) < curBest);
+    };
+    const icons = CONFIG.facets.lens.icons || {};
+    const askLabel = facet === 'lens' ? `${icons[value] || ''} ${value}` : action === 'visual' ? 'more visual' : `${action} (${target.depth})`;
+    await this._serveOrMiss(blockId, conceptId, target, candidateFilter, { action, value, askLabel });
+  }
+
+  // Dimension picker: jump straight to a value on ANY dimension (subspace-aware)
+  async steerDim(blockId, facet, value) {
+    // Compose-only: the form click changes the REQUEST. Reading/generating is an
+    // explicit button below — no silent swaps while the reader is still composing.
+    const entry = this._findAnyBlock(blockId);
+    if (!entry || !this._conceptIds(entry.meta).length) return;
+    const cid = this._conceptIds(entry.meta)[0];
+    if (!this._steerTargets) this._steerTargets = {};
+    const target = { ...(this._steerTargets[cid] || this.user.getTargetFacets()) };
+    if (facet === 'carriers') {
+      const set = String(target.carriers || '').split('|').filter(Boolean);
+      const i = set.indexOf(value);
+      if (i >= 0) set.splice(i, 1); else set.push(value);
+      if (set.length) target.carriers = set.join('|'); else delete target.carriers;
+    } else if (target[facet] === value) {
+      const profile = this.user.getTargetFacets();
+      if (profile[facet] && profile[facet] !== value) target[facet] = profile[facet];
+      else delete target[facet];
+    } else {
+      target[facet] = value;
+      if (facet === 'lens' || facet === 'lang') this.user.setSteerPref(facet, value);
+      this.user.updateFacetAffinity({ [facet]: value }, 3);
+    }
+    this._steerTargets[cid] = target;
+    this.rc.logEvent('steer', { blockId, action: 'compose', facet, value });
+    this.toggleTellings(blockId, ' ');
+  }
+
+  // Shared serve/honest-miss tail of every steer
+  async _serveOrMiss(blockId, conceptId, target, candidateFilter, info) {
+    await this._fetchCommunity(conceptId);
+    const pool = this._conceptPool(conceptId).filter(b => (b.meta?.id || b.id) !== blockId);
+    const candidates = pool.filter(candidateFilter);
+    let best = null, bestScore = 0;
+    for (const b of candidates) {
+      const s = this._facetMatch(b.meta, target);
+      if (s > bestScore) { best = b; bestScore = s; }
+    }
+    const logBase = { blockId, concept: conceptId, action: info.action, facet: info.facet || null, value: info.value || null, target, matchScore: Math.round(bestScore * 100) / 100 };
+    if (best) {
+      this.rc.logEvent('steer', { ...logBase, result: 'served', servedId: best.meta.id });
+      this._swapBlock(blockId, best, target);
+    } else {
+      // Honest miss: nothing in the catalog does what was asked → show what exists + generate CTA
+      this.rc.logEvent('steer_miss', logBase);
+      this.toggleTellings(blockId, `No <b>${info.askLabel}</b> telling of this concept yet — here's what exists:`, target);
+      document.getElementById(`tellings-${blockId}`)?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  _findAnyBlock(blockId) {
+    const git = this.allBlocks.find(b => b.meta.id === blockId);
+    if (git) return git;
+    if (this.privateBlocks?.[blockId]) return this.privateBlocks[blockId];
+    for (const list of Object.values(this._communityCache || {})) {
+      const hit = list.find(b => b.meta.id === blockId);
+      if (hit) return hit;
+    }
+    return null;
+  }
+
+  // Swap the rendered article for a variant of the same concept, with undo
+  async _swapBlock(originalId, variantEntry, target, offerGenerate = false) {
+    const el = document.getElementById(`b-${originalId}`);
+    if (!el) return;
+    const vMeta = variantEntry.meta;
+    const vBlock = { ...vMeta, body: variantEntry.body, _chapterNum: vMeta._chapterNum || this._findAnyBlock(originalId)?.meta?._chapterNum, _chapterTitle: vMeta._chapterTitle || '' };
+    const html = await this.renderSpine(vBlock);
+    if (!this._swapHistory) this._swapHistory = {};
+    this._swapHistory[vMeta.id] = originalId;
+
+    const isGenerated = vMeta.state === 'private' || vMeta.state === 'community';
+    const noticeBits = [];
+    if (vMeta.lens && vMeta.lens !== 'generic') noticeBits.push(`${(CONFIG.facets.lens.icons || {})[vMeta.lens] || ''} ${vMeta.lens} examples`);
+    if (vMeta.depth) noticeBits.push(`${vMeta.depth} depth`);
+    const provenance = vMeta.state === 'community'
+      ? `<span class="gen-badge">shared by a reader &middot; not yet editor-verified</span>`
+      : vMeta.state === 'private'
+        ? `<span class="gen-badge">&#9889; generated for your settings &middot; not yet editor-verified</span>`
+        : '';
+    const notice = `<div class="variant-notice">
+      <span>&#127899;&#65039; Different telling: ${noticeBits.join(' &middot; ') || 'variant'} ${provenance}</span>
+      <span>
+        <button class="steer-chip" onclick="app.toggleTellings('${vMeta.id}')">&#127899;&#65039; All tellings</button>
+        <button class="steer-chip" onclick="app.unswapBlock('${vMeta.id}')">&#8617; Original</button>
+      </span>
+    </div>`;
+
+    el.outerHTML = notice + html;
+    // Register the variant for dwell tracking (falls back to default reading time)
+    const newEl = document.getElementById(`b-${vMeta.id}`);
+    if (newEl && this._observer) { newEl.dataset.observed = '1'; this._observer.observe(newEl); }
+    if (isGenerated) this.rc.setContext('steer', { variant: vMeta.id });
+    // store the target so a follow-up generate uses exactly what the reader asked for
+    if (!this._steerTargets) this._steerTargets = {};
+    const swapCid = this._conceptIds(vMeta)[0];
+    if (swapCid) this._steerTargets[swapCid] = target;
+  }
+
+  async unswapBlock(variantId) {
+    const originalId = this._swapHistory?.[variantId];
+    if (!originalId) return;
+    const orig = this._findAnyBlock(originalId);
+    const el = document.getElementById(`b-${variantId}`);
+    if (!orig || !el) return;
+    const html = await this.renderSpine({ ...orig.meta, body: orig.body });
+    // remove the notice bar directly above the swapped article
+    const prev = el.previousElementSibling;
+    if (prev?.classList?.contains('variant-notice')) prev.remove();
+    el.outerHTML = html;
+    const newEl = document.getElementById(`b-${originalId}`);
+    if (newEl && this._observer) { newEl.dataset.observed = '1'; this._observer.observe(newEl); }
+    this.rc.logEvent('steer_undo', { variantId, originalId });
+  }
+
+  // ===== ON-DEMAND GENERATION (client side, spec §5+§10) =====
+
+  // Probe /api/generate once — the button only appears when the endpoint is configured
+  async _probeGeneration() {
+    if (this._genAvailable !== undefined) return this._genAvailable;
+    if (!this._f('generation')) { this._genAvailable = false; return false; }
+    try {
+      const res = await fetch(CONFIG.steering.generateEndpoint, { method: 'GET' });
+      const data = res.ok ? await res.json() : {};
+      this._genAvailable = !!data.available;
+    } catch (e) { this._genAvailable = false; }
+    return this._genAvailable;
+  }
+
+  offerGenerate(blockId) {
+    // legacy hook — the tellings panel is now the single offer surface
+    this.toggleTellings(blockId);
+  }
+
+  // Generate a segment-scoped variant: cache-keyed server side, lands PRIVATE to this reader
+  async generateVariant(blockId, conceptId) {
+    const target = this._steerTargets?.[conceptId] || this.user.getTargetFacets();
+    const offer = document.getElementById(`gen-offer-${blockId}`);
+    if (offer) offer.innerHTML = '<span class="gen-spinner">&#9889; Writing your telling&hellip; (~30 s — same concept, checked against its contract)</span>';
+    this.rc.logEvent('generate_request', { concept: conceptId, target });
+    try {
+      const existingVariants = this._conceptPool(conceptId).map(b => {
+        const m = b.meta || {};
+        return `"${m.title}" (${m.lens || 'generic'}, ${m.depth || 'standard'}, ${m.visuality || 'text-first'})`;
+      });
+      // Reader's optional wish — refines the telling within the contract (never overrides it)
+      const instructions = document.getElementById(`gen-wish-${blockId}`)?.value?.trim().slice(0, 300) || undefined;
+      const res = await fetch(CONFIG.steering.generateEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ concept: conceptId, facets: target, existingVariants, instructions }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'generation failed');
+      const block = {
+        meta: { ...data.block.facets, id: data.block.id, title: data.block.title, type: 'spine',
+                concept: conceptId, state: 'private', generated: true,
+                readingTime: Math.max(1, Math.round((data.block.body.split(/\s+/).length) / 200)),
+                recallQ: data.block.recallQ || null, recallA: data.block.recallA || null },
+        body: data.block.body,
+      };
+      this._savePrivateBlock(block);
+      if (offer) offer.remove();
+      this._swapBlock(blockId, block, target);
+      this.rc.logEvent('generate_served', { concept: conceptId, variantId: block.meta.id, cached: !!data.cached });
+      if (this._f('gamification')) { this.user.addXP(2); this.user.save(); this.updateXPBadge(); }
+    } catch (e) {
+      if (offer) offer.innerHTML = `<span>Generation didn't work out (${this.escHtml(e.message)}). Your request was recorded for the editors.</span>`;
+      this.rc.logEvent('generate_failed', { concept: conceptId, error: String(e.message).slice(0, 200) });
+    }
+  }
+
   // ===== ONBOARDING =====
   showStep(n) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
@@ -234,10 +863,36 @@ class PBook {
     }
   }
 
+  // One-tap onboarding pick with immediate, visible effect (selection + preview line)
+  onboardPick(kind, value, el) {
+    const row = el.closest('.intro-voices');
+    row?.querySelectorAll('.intro-voice').forEach(v => v.classList.remove('selected'));
+    el.classList.add('selected');
+    const lens = document.querySelector('#introLens .intro-voice.selected')?.dataset.lens || 'generic';
+    const goal = document.querySelector('#introGoal .intro-voice.selected')?.dataset.goal || 'understand';
+    const WORLD = { generic: 'a mix of platforms', ecommerce: 'shops, carts and "customers also bought"', media: 'playlists, autoplay and watch history', 'social-feeds': 'feeds, follows and creators', education: 'courses, exercises and learners' };
+    const GOAL = { understand: 'clear explanations first', build: 'hands-on and technical depth when you want it', decide: 'trade-offs and evaluation focus', protect: 'your data, your controls, your rights' };
+    const hint = document.getElementById('onboardHint');
+    if (hint) hint.innerHTML = `→ Examples will come from <b>${WORLD[lens]}</b> · ${GOAL[goal]}. You can steer any section later.`;
+  }
+
   startWithVoiceAndGo(view) {
-    // Pick voice from inline selector on welcome screen
-    const sel = document.querySelector('.intro-voice.selected');
-    if (sel) this.user.setVoice(sel.dataset.voice);
+    // (voice picker removed — the facet taxonomy replaced learning styles; legacy name kept)
+    // Onboarding calibration (P0): lens + goal — light, skippable, seeds the facet profile
+    const lensSel = document.querySelector('#introLens .intro-voice.selected');
+    if (lensSel && lensSel.dataset.lens !== 'generic') {
+      this.user.setSteerPref('lens', lensSel.dataset.lens);
+      this.user.updateFacetAffinity({ lens: lensSel.dataset.lens }, 3);
+    }
+    const goalSel = document.querySelector('#introGoal .intro-voice.selected');
+    if (goalSel) { this.user.goal = goalSel.dataset.goal; }
+    const goalText = document.getElementById('introGoalText')?.value?.trim();
+    if (goalText) this.composePersonalMission(goalText);
+    // Living book opt-in right at the door (open mode = community + generation + remix)
+    const openMode = document.getElementById('optOpenMode')?.checked;
+    if (openMode) { this.user.readerMode = 'open'; this.rc.setUserProperties({ readerMode: 'open' }); }
+    this.user.save();
+    this.rc.logEvent('onboarding', { lens: lensSel?.dataset.lens, goal: goalSel?.dataset.goal, openMode: !!openMode });
     this.startAndGo(view);
   }
 
@@ -558,18 +1213,46 @@ class PBook {
       if (forYouCards.length) html += this.shelf('Picked for you', forYouCards);
     }
 
-    // 3. Matching your interest (Recombee scenario: homepage-voice)
-    const topVoice = this.user.getTopVoice();
-    if (topVoice) {
-      const voiceLabel = CONFIG.voices[topVoice]?.label || topVoice;
-      const voiceRecs = await this.rc.getRecsForUser('homepage-voice', 8, this.rc.reql({ voice: [topVoice] }));
-      const voiceCards = voiceRecs?.recomms?.length ? voiceRecs.recomms.map(r => this.cardFromRec(r)).filter(Boolean) : [];
-      if (voiceCards.length) {
-        html += this.shelf(`${voiceLabel} picks`, voiceCards);
-      } else {
-        const voiceBlocks = this.allBlocks.filter(b => b.meta.voice === topVoice && b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id)).slice(0, 10);
-        if (voiceBlocks.length) html += this.shelf(`${voiceLabel} picks`, voiceBlocks.map(b => this.cardHtml(b.meta)));
-      }
+    // Community layer (open mode only, spec §6): tellings other readers generated & shared,
+    // clearly labelled, blended into discovery — the living part of the book
+    if (this._f('community') && this.user.readerMode === 'open') {
+      try {
+        const shared = await this.rc.listCommunityBlocks(null, 8);
+        if (shared.length) {
+          const cards = shared.map(b => {
+            const m = b.meta;
+            const facetLine = [m.lens, m.depth].filter(v => v && v !== 'generic').join(' · ');
+            return `<div class="card" style="border-top:3px solid var(--warn,#D97706);flex:0 0 240px;cursor:pointer" onclick="app.openCommunityBlock('${this.escHtml(m.id)}')">
+              <div class="card-chapter" style="color:var(--warn,#D97706);font-weight:700">⚡ reader-generated</div>
+              <div class="card-title">${this.escHtml(m.title || m.id)}</div>
+              <div class="card-teaser" style="font-size:.7rem">${facetLine ? this.escHtml(facetLine) + ' · ' : ''}shared by ${this.escHtml(m.sharedAs || 'a reader')}</div>
+            </div>`;
+          });
+          html += this.shelf('From fellow readers 🌱', cards);
+        }
+      } catch (e) { /* community shelf is best-effort */ }
+    }
+
+    // Interest testing: proposed concepts as clearly labeled ghost items — demand
+    // is measured before anyone writes (the pre-mint stage of the elastic catalog)
+    const ghosts = this._unvotedProposals();
+    if (ghosts.length) {
+      html += this.shelf('Should we write this? 🌱 Vote on proposed concepts',
+        ghosts.slice(0, 4).map(p => this._ghostCardHtml(p, 'home')));
+    }
+
+    // 3. Told your way — facet-matched picks: unread tellings whose subspace best
+    // covers the reader's target facets (local subspace scoring, no scenario needed)
+    const target = this.user.getTargetFacets();
+    const isDefaultTarget = Object.values(this.user.steerPrefs || {}).every(v => !v) && this.user.getAffinitySummary().total < 3;
+    if (!isDefaultTarget) {
+      const scored = this.allBlocks
+        .filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id))
+        .map(b => ({ b, s: this._facetMatch(b.meta, target) }))
+        .filter(x => x.s >= 0.7)
+        .sort((x, y) => y.s - x.s)
+        .slice(0, 10);
+      if (scored.length >= 3) html += this.shelf('🎛 Told your way', scored.map(x => this.cardHtml(x.b.meta)));
     }
 
     // 4. Quick reads
@@ -797,6 +1480,14 @@ class PBook {
       if (block.type === 'spine') {
         html += await this.renderSpine(block);
         spineCount++;
+        // Interest-testing interstitial: one proposed-concept card per chapter
+        if (spineCount === 4) {
+          const gp = this._unvotedProposals();
+          if (gp.length) {
+            const pick = gp[idx % gp.length];
+            html += `<div class="fade-up" style="margin:1.2em 0;display:flex;justify-content:center">${this._ghostCardHtml(pick, 'feed' + idx)}</div>`;
+          }
+        }
         // Insert inline quiz every 2-3 spine blocks
         if (spineCount % 3 === 0) {
           const quizHtml = this._generateQuiz(block);
@@ -927,6 +1618,7 @@ class PBook {
             const elapsed = Date.now() - startTime;
 
             // After 3s: mark as "seen" + update sidebar context
+            if (elapsed >= 3000) this._armFeedbackBar(id);   // start the feedback bar's fade window
             if (elapsed >= 3000 && !this.user.seenBlocks.has(id)) {
               this.user.trackSeen(id);
               this.rc.sendView(id, Math.round(elapsed / 1000));
@@ -937,7 +1629,7 @@ class PBook {
 
             // After reading time: mark as "read"
             if (elapsed >= readTimeMs && !this.user.readBlocks.has(id)) {
-              this.user.trackRead(id, block?.voice);
+              this.user.trackRead(id, block?.voice, this._blockFacets(block));
               this.rc.sendView(id, Math.round(elapsed / 1000));
               e.target.querySelector('.block-status')?.classList.remove('seen');
               e.target.querySelector('.block-status')?.classList.add('read');
@@ -984,8 +1676,19 @@ class PBook {
 
   async renderSpine(block) {
     let bodyHtml = renderMarkdown(block.body);
+    // Remixed passages carry ⟦rx⟧…⟦/rx⟧ markers — render as visible "changed by you" marks
+    if (bodyHtml.includes('⟦rx⟧')) {
+      bodyHtml = bodyHtml.replace(/⟦rx⟧/g, '<mark class="remix-mark" title="Remixed passage — changed from the original">')
+                         .replace(/⟦\/rx⟧/g, '</mark>');
+    }
     let diagramHtml = '';
-    if (block.diagram) { const svg = await getDiagram(block.diagram); diagramHtml = `<div class="diagram-wrap">${svg}</div>`; }
+    if (block.diagramSvg) {
+      // reader-remixed diagram (private/community copy) — sanitized inline SVG override
+      diagramHtml = `<div class="diagram-wrap diagram-remixed" id="dg-${block.id}">${this._sanitizeSvgClient(block.diagramSvg) || ''}${this._diagramRemixBtn(block)}</div>`;
+    } else if (block.diagram) {
+      const svg = await getDiagram(block.diagram);
+      diagramHtml = `<div class="diagram-wrap" id="dg-${block.id}">${svg}${this._diagramRemixBtn(block)}</div>`;
+    }
     const isRead = this.user.readBlocks.has(block.id);
     const userNotes = this.getNotes(block.id);
     const highlights = CONFIG.features.highlights !== false ? this._getHighlights(block) : null;
@@ -1024,6 +1727,7 @@ class PBook {
           <span>${block.readingTime || 3} min read</span>
         </div>
       </div>
+      ${this._renderTellingsIndicator(block)}
       <div class="block-with-side">
         <div class="block-main">
           ${diagramHtml}
@@ -1032,6 +1736,7 @@ class PBook {
         ${sideHtml}
       </div>
       ${block.keyTakeaway ? `<div class="key-takeaway"><div class="key-takeaway-label">Key Takeaway</div><div class="key-takeaway-text">${block.keyTakeaway}</div></div>` : ''}
+      ${this._renderFeedbackBar(block)}
       <div class="block-footer">
         <div class="block-reactions" data-block="${block.id}">
           <button class="like-btn ${this.user.ratings.get(block.id)>=0.7?'liked':''}" onclick="app.toggleLike('${block.id}')">
@@ -1214,13 +1919,16 @@ class PBook {
       flags.push({ blockId, type, text, timestamp: new Date().toISOString() });
       localStorage.setItem('pbook-flags', JSON.stringify(flags));
     } catch(e) {}
+    // reported issues feed the editor track (editorship is earned)
+    if (this._f('gamification')) { this.user.addXP(5); this.user.save(); this.updateXPBadge(); }
+    this.rc.logEvent('flag', { blockId, type, text: (text || '').slice(0, 300) });
     this.flagBlock(blockId); // close form
     // Show confirmation
     const form = document.getElementById(`flag-${blockId}`);
     if (form) {
       form.style.display = 'block';
-      form.innerHTML = '<div style="padding:.8em;color:var(--product);font-size:.85rem">Thanks! Your feedback has been recorded for the author.</div>';
-      setTimeout(() => { form.style.display = 'none'; }, 2000);
+      form.innerHTML = '<div style="padding:.8em;color:var(--product);font-size:.85rem">Thanks! +5 XP — reported issues count toward your 🛠 Editor track.</div>';
+      setTimeout(() => { form.style.display = 'none'; }, 2500);
     }
   }
 
@@ -1667,7 +2375,7 @@ class PBook {
     // Toggle recall card inline below this block
     const existing = document.getElementById(`block-recall-${blockId}`);
     if (existing) { existing.remove(); return; }
-    const block = this.findBlock(blockId);
+    const block = this._findAnyBlock(blockId);
     if (!block) return;
     const quiz = this._getRecallQuestion(block);
     if (!quiz) return;
@@ -1702,7 +2410,7 @@ class PBook {
       .map(([blockId, card]) => ({ blockId, ...card }));
     if (!due.length) return;
     const r = due[0];
-    const block = this.findBlock(r.blockId);
+    const block = this._findAnyBlock(r.blockId);
     if (!block) return;
     const quiz = this._getRecallQuestion(block);
     if (!quiz) return;
@@ -1732,7 +2440,7 @@ class PBook {
   }
 
   _recallCardHtml(r) {
-    const block = this.findBlock(r.blockId);
+    const block = this._findAnyBlock(r.blockId);
     if (!block) return '';
     const quiz = this._getRecallQuestion(block);
     if (!quiz) return '';
@@ -1816,6 +2524,7 @@ class PBook {
 
   // --- Spaced repetition recall ---
   _getRecallQuestion(block) {
+    if (!block) return null;   // recall may reference a variant that no longer resolves
     const id = block.meta?.id || block.id;
     const title = block.meta?.title || '';
     const body = (block.body || '').toLowerCase();
@@ -2020,6 +2729,15 @@ class PBook {
       return;
     }
 
+    // Self-heal: prune recall cards whose git block no longer exists (renamed/removed).
+    // Reader-generated ids (gen--/remix--) are kept — they resolve via the private store
+    // or the community cache and are simply skipped from display when uncached.
+    let pruned = false;
+    Object.keys(u.recall).forEach(id => {
+      if (!/^(gen--|remix--)/.test(id) && !this._findAnyBlock(id)) { delete u.recall[id]; pruned = true; }
+    });
+    if (pruned) u.save();
+
     // ── Stats row ──
     const hardCards = Object.entries(u.recall).filter(([_, c]) => c.ease < 1.8);
     const medCards = Object.entries(u.recall).filter(([_, c]) => c.ease >= 1.8 && c.ease < 2.5);
@@ -2029,7 +2747,7 @@ class PBook {
     // ── Active mode: due cards shelf (answerable inline) ──
     if (due.length > 0) {
       const dueCards = due.slice(0, 10).map(r => {
-        const block = this.findBlock(r.blockId);
+        const block = this._findAnyBlock(r.blockId);
         if (!block) return '';
         const quiz = this._getRecallQuestion(block);
         if (!quiz) return '';
@@ -2066,13 +2784,15 @@ class PBook {
 
     // ── Confidence map: each card is a small colored cell, hover shows title ──
     // Build ordered list: struggling → new → learning → confident → unread
+    // resolve via _findAnyBlock (covers private/community variants); skip what can't resolve
+    const qFor = id => this._getRecallQuestion(this._findAnyBlock(id))?.q;
     const allCards = [
-      ...hardCards.map(([id, c]) => ({ id, color: '#dc2626', label: 'Struggling', q: this._getRecallQuestion(this.findBlock(id))?.q || id })),
-      ...newCards.map(id => ({ id, color: 'var(--accent)', label: 'New', q: this._getRecallQuestion(this.findBlock(id))?.q || id })),
-      ...medCards.map(([id, c]) => ({ id, color: 'var(--warn)', label: 'Learning', q: this._getRecallQuestion(this.findBlock(id))?.q || id })),
-      ...easyCards.map(([id, c]) => ({ id, color: 'var(--product)', label: 'Confident', q: this._getRecallQuestion(this.findBlock(id))?.q || id })),
+      ...hardCards.map(([id]) => ({ id, color: '#dc2626', label: 'Struggling', q: qFor(id) })),
+      ...newCards.map(id => ({ id, color: 'var(--accent)', label: 'New', q: qFor(id) })),
+      ...medCards.map(([id]) => ({ id, color: 'var(--warn)', label: 'Learning', q: qFor(id) })),
+      ...easyCards.map(([id]) => ({ id, color: 'var(--product)', label: 'Confident', q: qFor(id) })),
       ...unreadBlocks.map(b => ({ id: b.meta.id, color: 'var(--border)', label: 'Unread', q: b.meta.title })),
-    ];
+    ].filter(c => c.q);
     if (allCards.length > 0) {
       const cellW = Math.max(4, Math.min(12, Math.floor((window.innerWidth - 32) / allCards.length)));
       h += `<div style="padding:.5em 1em .6em">
@@ -2094,7 +2814,7 @@ class PBook {
     // Due now (top priority)
     if (due.length > 0) {
       const dueCards = due.slice(0, 12).map(r => {
-        const block = this.findBlock(r.blockId);
+        const block = this._findAnyBlock(r.blockId);
         if (!block) return '';
         const quiz = this._getRecallQuestion(block);
         if (!quiz) return '';
@@ -2290,7 +3010,7 @@ class PBook {
     }
 
     const item = q[idx];
-    const block = this.findBlock(item.blockId);
+    const block = this._findAnyBlock(item.blockId);
     if (!block) { this._recallIdx++; this._renderQuizCard(); return; }
     const quiz = this._getRecallQuestion(block);
     const card = this.user.recall[item.blockId];
@@ -2442,11 +3162,22 @@ class PBook {
       <div class="map-mode-toggle">
         <button class="map-mode-btn ${mapMode === 'visual' ? 'active' : ''}" onclick="app.setMapMode('visual')">Visual</button>
         <button class="map-mode-btn ${mapMode === 'list' ? 'active' : ''}" onclick="app.setMapMode('list')">Detail List</button>
+        ${this._f('steering') ? `<button class="map-mode-btn ${mapMode === 'coverage' ? 'active' : ''}" onclick="app.setMapMode('coverage')">🌱 Living book</button>` : ''}
         <button class="map-mode-btn ${mapMode === 'saved' ? 'active' : ''}" onclick="app.setMapMode('saved')">Saved${this.user.savedBlocks.size ? ' (' + this.user.savedBlocks.size + ')' : ''}</button>
         <button class="map-mode-btn ${mapMode === 'notes' ? 'active' : ''}" onclick="app.setMapMode('notes')">Notes${this._getNoteCount() ? ' (' + this._getNoteCount() + ')' : ''}</button>
       </div>
       <button class="map-reset-btn" onclick="app.resetAll()">Reset progress</button>
     </div>`;
+
+    if (mapMode === 'coverage') {
+      html += '<div id="coverageMapWrap" class="fade-up"><div style="padding:1.5em;color:var(--text-3);font-size:.8rem">Mapping the living book…</div></div>';
+      el.innerHTML = html;
+      this._renderCoverageMap().then(inner => {
+        const wrap = document.getElementById('coverageMapWrap');
+        if (wrap) wrap.innerHTML = inner;
+      });
+      return;
+    }
 
     if (mapMode === 'notes') {
       html += this._renderNotesList();
@@ -2572,6 +3303,159 @@ class PBook {
   }
 
   setMapMode(mode) { this._mapMode = mode; this.renderMap(); }
+
+  // ===== LIVING BOOK COVERAGE MAP (reader-facing) =====
+  // Rows are ARTICLES — every telling in the book plus your private and reader-shared
+  // ones — grouped by chapter. Pick a dimension; each row marks the values its
+  // subspace covers (one article can serve several). Click a row to read it.
+  async _renderCoverageMap() {
+    if (!this._covDim) this._covDim = 'lens';
+    const dim = this._covDim;
+    let community = this._covCommunity;
+    if (!community) {
+      try { community = await this.rc.listCommunityBlocks(null, 200); } catch (e) { community = []; }
+      this._covCommunity = community;
+    }
+
+    const conf = CONFIG.facets[dim];
+    const values = conf.values;
+    const icons = conf.icons || {};
+    const myVal = this.user.getTargetFacets()[dim] || this._facetDefault(dim);
+    const DIM_LABELS = { lens: '🌐 World', depth: '📏 Depth', visuality: '🖼 Form', carriers: '🧩 Blocks', genre: '✒️ Genre', lang: '🌍 Language', lengthBand: '⏱ Length' };
+
+    // non-git articles land in the chapter of their (primary) concept's anchor
+    const chapterOfConcept = cid => this.concepts?.[cid]?.chapter;
+    const extraRows = {}; // chapterId → [{meta, kind}]
+    community.forEach(b => {
+      const ch = chapterOfConcept(this._conceptIds(b.meta)[0]);
+      if (ch) (extraRows[ch] = extraRows[ch] || []).push({ meta: b.meta, kind: 'shared' });
+    });
+    Object.values(this.privateBlocks || {}).forEach(b => {
+      if (b.meta.state === 'community') return; // already listed via community sweep when shared
+      const ch = chapterOfConcept(this._conceptIds(b.meta)[0]);
+      if (ch) (extraRows[ch] = extraRows[ch] || []).push({ meta: b.meta, kind: 'yours' });
+    });
+
+    const stateColor = m => m.state === 'core' ? '#7C3AED' : (m.state === 'community' || m.state === 'private') ? '#D97706' : '#10B981';
+    let totalArticles = 0;
+    const coveringCount = {}; values.forEach(v => coveringCount[v] = 0);
+
+    const rowHtml = (meta, extraBadge) => {
+      totalArticles++;
+      const set = this._facetValues(meta, dim);
+      set.forEach(v => { if (coveringCount[v] !== undefined) coveringCount[v]++; });
+      const color = stateColor(meta);
+      const cells = values.map(v => {
+        const my = v === myVal ? ' covmap-mylens' : '';
+        return set.includes(v)
+          ? `<td class="covmap-cell${my}" onclick="app.openTelling('${meta.id}')" title="covers ${v} — read"><span style="color:${color};font-size:.85rem">●</span></td>`
+          : `<td class="covmap-cell${my}" style="cursor:default"><span style="color:var(--border)">·</span></td>`;
+      }).join('');
+      return `<tr><td class="covmap-concept" onclick="app.openTelling('${meta.id}')" title="Read">
+        ${extraBadge || ''}${this.escHtml(meta.title || meta.id)}</td>${cells}</tr>`;
+    };
+
+    let sections = '';
+    for (let i = 0; i < this.book.chapters.length; i++) {
+      const ch = this.book.chapters[i];
+      const blocks = (this.chapters[i]?.blocks || []);
+      const extras = extraRows[ch.id] || [];
+      if (!blocks.length && !extras.length) continue;
+      let rows = '';
+      blocks.forEach(b => { rows += rowHtml(b); });
+      extras.forEach(({ meta, kind }) => {
+        rows += rowHtml(meta, `<span class="telling-badge" style="color:#D97706;border-color:#D97706">${kind === 'yours' ? '✨ yours' : '⚡ shared'}</span> `);
+      });
+      // chapter heat: share of this chapter's articles covering each value
+      const chMetas = blocks.concat(extras.map(e => e.meta));
+      const heat = values.map(v => {
+        const n = chMetas.filter(m => this._facetValues(m, dim).includes(v)).length;
+        const pct = chMetas.length ? n / chMetas.length : 0;
+        const bg = pct === 0 ? 'var(--border)' : pct < 0.34 ? '#FDE68A' : pct < 0.85 ? '#A7F3D0' : '#6EE7B7';
+        return `<span class="cov-heat" style="background:${bg}" title="${v}: ${n}/${chMetas.length} articles">${icons[v] || v[0]}</span>`;
+      }).join('');
+      sections += `<details class="covmap-chapter-sec"><summary>Ch${ch.number} · ${this.escHtml(ch.title)}
+          <span class="covmap-mini">${chMetas.length} articles</span>
+          <span class="cov-heatrow">${heat}</span></summary>
+        <div style="overflow-x:auto"><table class="covmap">
+          <tr><th></th>${values.map(v => `<th class="${v === myVal ? 'covmap-mylens' : ''}">${icons[v] || ''}<div>${v}</div></th>`).join('')}</tr>
+          ${rows}
+        </table></div></details>`;
+    }
+
+    return `<div class="covmap-intro">
+        <div class="tellings-dims" style="margin-bottom:.4em">${Object.entries(DIM_LABELS).map(([d, l]) =>
+          `<button class="steer-chip ${d === dim ? 'dim-active' : ''}" onclick="app.setCovDim('${d}')">${l}</button>`).join('')}
+        </div>
+        <p style="font-size:.78rem;margin-bottom:.3em">Every article of the living book — <b>${totalArticles}</b> rows; per value:${values.map(v => ` ${icons[v] || v} <b>${coveringCount[v]}</b>`).join(' ·')}. ● marks the values an article's subspace covers — one article can serve several${myVal && myVal !== this._facetDefault(dim) ? `; your setting <b>${icons[myVal] || ''} ${myVal}</b> is highlighted` : ''}. Click a row to read; to request or generate a missing telling, use the 🎛 panel inside any section. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a>.</p>
+        <p style="font-size:.68rem;color:var(--text-3)">● color = state: <span style="color:#7C3AED">■</span> core · <span style="color:#10B981">■</span> edited · <span style="color:#D97706">■</span> reader content (✨ yours / ⚡ shared)</p>
+      </div>
+      <div id="covInspector"></div>
+      ${sections}`;
+  }
+
+  setCovDim(dim) { this._covDim = dim; this.renderMap(); }
+
+  // Cell inspector: the assignment, made visible — every telling in (concept × value)
+  // with its FULL covered subspace, or a gap CTA.
+  covInspect(conceptId, value) {
+    const dim = this._covDim || 'lens';
+    const c = this.concepts?.[conceptId];
+    const box = document.getElementById('covInspector');
+    if (!c || !box) return;
+    this.rc.logEvent('coverage_click', { concept: conceptId, dim, value });
+
+    const inCell = [];
+    (this.conceptBlocks[conceptId] || []).forEach(b => { if (this._covers(b.meta, dim, value)) inCell.push({ b, kind: 'git' }); });
+    (this._covCommunity || []).forEach(b => { if (this._conceptIds(b.meta).includes(conceptId) && this._covers(b.meta, dim, value)) inCell.push({ b, kind: 'community' }); });
+    Object.values(this.privateBlocks || {}).forEach(b => { if (this._conceptIds(b.meta).includes(conceptId) && this._covers(b.meta, dim, value)) inCell.push({ b, kind: 'private' }); });
+
+    const icons = CONFIG.facets[dim].icons || {};
+    let h = `<div class="cov-inspector">
+      <div class="tellings-title" style="display:flex;justify-content:space-between;align-items:center">
+        <span>${this.escHtml(c.title)} × ${icons[value] || ''} ${value}</span>
+        <button class="steer-chip" onclick="document.getElementById('covInspector').innerHTML=''">✕ close</button>
+      </div>`;
+    if (!inCell.length) {
+      h += `<div class="tellings-miss">Nothing assigned here yet — this cell is an invitation.</div>
+        <button class="steer-chip steer-gen" onclick="app.coverageGap('${conceptId}','${value}')">Open the concept &amp; request / generate this telling →</button>`;
+    } else {
+      h += inCell.map(({ b }) => `<div class="telling-row">
+          ${this._stateBadge(b.meta)}
+          <span class="telling-title">${this.escHtml(b.meta.title || b.meta.id)}</span>
+          ${this._facetChips(b.meta)}
+          <button class="steer-chip" onclick="app.openTelling('${b.meta.id}')">Read</button>
+        </div>`).join('');
+      h += `<div style="font-size:.66rem;color:var(--text-3);margin-top:.4em">Chips show each telling's full covered subspace — one telling can serve several cells of this map.</div>`;
+    }
+    h += '</div>';
+    box.innerHTML = h;
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Open any telling by id: git blocks directly, community/private via anchor + swap
+  openTelling(id) {
+    if (this.findBlock(id)) { this.openBlock(id, 'coverage'); return; }
+    const entry = this._findAnyBlock(id);
+    const anchor = this.concepts?.[entry?.meta?.concept]?.anchor;
+    if (!entry || !anchor || !this.findBlock(anchor)) return;
+    this.openBlock(anchor, 'coverage');
+    setTimeout(() => this._swapBlock(anchor, entry, this._blockFacets(entry.meta) || {}), 600);
+  }
+
+  // A gap was clicked: open the concept's anchor and steer toward that value on the
+  // current dimension — serves a matching telling if one exists, else the generate CTA
+  coverageGap(conceptId, value) {
+    const dim = this._covDim || 'lens';
+    const c = this.concepts?.[conceptId];
+    if (!c || !this.findBlock(c.anchor)) return;
+    this.openBlock(c.anchor, 'coverage');
+    setTimeout(() => {
+      const anchorMeta = this.findBlock(c.anchor)?.meta;
+      if (this._covers(anchorMeta, dim, value)) this.toggleTellings(c.anchor);
+      else this.steerDim(c.anchor, dim, value);
+    }, 600);
+  }
 
   _renderSavedList() {
     const savedIds = [...this.user.savedBlocks];
@@ -2886,6 +3770,112 @@ class PBook {
     document.querySelectorAll('.vmap-edge').forEach(e => { e.style.opacity = '0.05'; });
   }
 
+  // ===== TRANSPARENT FACET PROFILE =====
+  // Shows the learned preference model in plain words and lets the reader correct it.
+  // A correction is itself the strongest signal (explicit steer pref).
+  _renderFacetProfile() {
+    const u = this.user;
+    const target = u.getTargetFacets();
+    const summary = u.getAffinitySummary();
+    const FACET_WORDS = {
+      lens: { generic: 'examples from everywhere', ecommerce: 'shopping examples', media: 'music & video examples', 'social-feeds': 'social feed examples', education: 'learning examples' },
+      visuality: { 'text-first': 'text explanations', balanced: 'a mix of text and diagrams', 'visual-first': 'visual explanations' },
+      depth: { intro: 'gentle introductions', standard: 'standard depth', technical: 'technical depth', research: 'research-level depth' },
+      formalism: { none: 'no formulas', light: 'a few formulas', full: 'full math' },
+    };
+    let h = '<div class="profile-section"><h3>&#129516; Your Reading DNA</h3>';
+    h += '<p style="font-size:.78rem;color:var(--text-2);margin-bottom:.6em">The preference model the book has learned about you — the same kind every recommender builds. Correct it anytime; your corrections always win.</p>';
+
+    // Visual affinity bars (top values per primary facet)
+    const FACET_LABELS = { lens: '🌐 Example world', depth: '📏 Depth', visuality: '🖼 Visual style' };
+    let hasBars = false;
+    for (const facet of ['lens', 'depth', 'visuality']) {
+      const aff = u.facetAffinity[facet];
+      if (!aff) continue;
+      const entries = Object.entries(aff).sort((a, b) => b[1] - a[1]);
+      const total = entries.reduce((s, [, v]) => s + v, 0);
+      if (!entries.length || total < 2) continue;
+      hasBars = true;
+      h += `<div class="dna-row"><span class="dna-label">${FACET_LABELS[facet]}</span><div class="dna-bars">`;
+      entries.slice(0, 3).forEach(([val, score]) => {
+        const pct = Math.round((score / total) * 100);
+        const word = (FACET_WORDS[facet] || {})[val] || val;
+        const pinned = u.steerPrefs[facet] === val;
+        h += `<div class="dna-bar-line"><span class="dna-val">${word}${pinned ? ' 📌' : ''}</span>
+          <div class="dna-track"><div class="dna-fill" style="width:${pct}%"></div></div>
+          <span class="dna-pct">${pct}%</span></div>`;
+      });
+      h += '</div></div>';
+    }
+    if (!hasBars) {
+      h += '<p style="font-size:.85rem;margin-bottom:.7em">Still learning about you — read a few sections, tap 👍 or steer any telling, and this fills in.</p>';
+    }
+
+    // Contributions to the living book
+    const priv = Object.values(this.privateBlocks || {});
+    const remixes = priv.filter(b => b.meta.remixOf).length;
+    const generated = priv.length - remixes;
+    const shared = priv.filter(b => b.meta.state === 'community').length;
+    if (priv.length || this.user.readerMode === 'open') {
+      const sharedList = priv.filter(b => b.meta.state === 'community');
+      const shareRows = sharedList.slice(0, 5).map(b =>
+        `<div style="font-size:.72rem;padding:.1em 0">⚡ ${this.escHtml(b.meta.title || b.meta.id)}
+          <button class="steer-chip" style="font-size:.62rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
+      h += (shareRows ? `<div style="margin:.3em 0">${shareRows}</div>` : '');
+      h += `<div class="dna-contrib">🌱 <b>Your living-book contributions:</b>
+        ${generated ? `${generated} generated telling${generated > 1 ? 's' : ''} · ` : ''}${remixes ? `${remixes} remix${remixes > 1 ? 'es' : ''} · ` : ''}${shared ? `<b>${shared} shared with readers</b> · ` : ''}${!priv.length ? 'none yet — select any passage and hit ✨, or find a gap on the ' : 'see the '}<a href="#" onclick="app.switchView('map');app.setMapMode('coverage');return false">🌱 map</a></div>`;
+    }
+
+    // Format preferences — explicit pins over the telling taxonomy. One tap per
+    // dimension; "auto" = let the learned model decide. This replaces the legacy
+    // Explorer/Creator/Thinker bars (voice still feeds ranking silently).
+    const PREF_DIMS = [
+      { facet: 'lang', label: '🌍 Language', words: { en: 'English', cs: 'česky' } },
+      { facet: 'lengthBand', label: '⏱ Length', words: { tldr: 'short & sharp', standard: 'standard', deep: 'long form' } },
+      { facet: 'visuality', label: '🖼 Form', words: FACET_WORDS.visuality },
+      { facet: 'depth', label: '📏 Depth', words: FACET_WORDS.depth },
+      { facet: 'lens', label: '🌐 World', words: FACET_WORDS.lens },
+      { facet: 'carriers', label: '🧩 Blocks', words: { prose: 'text', table: 'tables', diagram: 'diagrams', image: 'images', animation: 'animations', formula: 'formulas', code: 'code' } },
+    ];
+    h += '<div style="margin-top:.6em;padding-top:.5em;border-top:1px solid var(--border)"><b style="font-size:.8rem">🎛 Format preferences</b><p style="font-size:.68rem;color:var(--text-3);margin:.15em 0 .4em">How should the book tell things to you? Explicit picks always beat the learned model.</p>';
+    PREF_DIMS.forEach(({ facet, label, words }) => {
+      const vals = CONFIG.facets[facet].values.filter(v => facet !== 'lens' || v !== 'generic');
+      const pinned = u.steerPrefs[facet] || '';
+      h += `<div class="dna-row" style="align-items:center"><span class="dna-label">${label}</span><div style="display:flex;flex-wrap:wrap;gap:.3em">
+        <button class="steer-chip ${!pinned ? 'dim-active' : ''}" onclick="app.correctFacetPref('${facet}','')">auto</button>
+        ${vals.map(v => `<button class="steer-chip ${pinned === v ? 'dim-active' : ''}" onclick="app.correctFacetPref('${facet}','${v}')">${(words || {})[v] || v}</button>`).join('')}
+      </div></div>`;
+    });
+    h += '</div>';
+
+    // Reader mode: safe (verified only) vs open (community + generation)
+    if (this._f('community') || this._f('generation')) {
+      h += `<div style="margin-top:.8em;padding-top:.6em;border-top:1px solid var(--border)">
+        <label class="intro-toggle" style="display:flex;gap:.5em;align-items:flex-start">
+          <input type="checkbox" ${u.readerMode === 'open' ? 'checked' : ''} onchange="app.setReaderMode(this.checked ? 'open' : 'safe')">
+          <div><b>Open mode</b> — living book<br><span class="toggle-desc" style="font-size:.7rem">Also show content generated on demand and variants shared by other readers (clearly labelled, not yet editor-verified). Off = verified content only.</span></div>
+        </label></div>`;
+    }
+    h += '</div>';
+    return h;
+  }
+
+  correctFacetPref(facet, value) {
+    this.user.setSteerPref(facet, value || null);
+    if (value) this.user.updateFacetAffinity({ [facet]: value }, 3);
+    this.rc.logEvent('profile_correction', { facet, value: value || 'auto' });
+    this.rc.setUserProperties({ ['pref' + facet.charAt(0).toUpperCase() + facet.slice(1)]: value || '' });
+    this.showXPToast('Preference saved', 'achievement');
+    if (this.currentView === 'profile') this.renderProfile();
+  }
+
+  setReaderMode(mode) {
+    this.user.readerMode = mode === 'open' ? 'open' : 'safe';
+    this.user.save();
+    this.rc.logEvent('reader_mode', { mode: this.user.readerMode });
+    this.rc.setUserProperties({ readerMode: this.user.readerMode });
+  }
+
   // ===== PROFILE VIEW =====
   renderProfile() {
     const el = document.getElementById('profileContent');
@@ -3038,37 +4028,8 @@ class PBook {
 
 
     // Voice preference — computed from actually read non-core blocks by voice
-    const voices = Object.keys(CONFIG.voices);
-    if (voices.length) {
-      // Count read blocks by voice (only non-universal, non-core = elective content)
-      const voiceCounts = {};
-      voices.forEach(v => voiceCounts[v] = 0);
-      this.allBlocks.forEach(b => {
-        const v = b.meta.voice;
-        if (v && v !== 'universal' && !b.meta.core && u.readBlocks.has(b.meta.id)) {
-          voiceCounts[v] = (voiceCounts[v] || 0) + 1;
-        }
-      });
-      // Also add dwell-weighted interaction signals
-      this.allBlocks.forEach(b => {
-        const v = b.meta.voice;
-        if (v && v !== 'universal' && u.readBlocks.has(b.meta.id)) {
-          const sig = u.signals[b.meta.id];
-          if (sig?.dwellMs > 30000) voiceCounts[v] += 1; // extra point for deep reading (30s+)
-          if (sig?.rated >= 0.7) voiceCounts[v] += 1; // liked it
-          if (sig?.noted) voiceCounts[v] += 1; // took notes
-        }
-      });
-      const totalV = Object.values(voiceCounts).reduce((s, v) => s + v, 0) || 1;
-      h += '<div class="profile-section"><h3>Your Style</h3>';
-      voices.forEach(v => {
-        const count = voiceCounts[v] || 0;
-        const pct = Math.round((count / totalV) * 100);
-        const vc = CONFIG.voices[v] || {};
-        h += `<div class="voice-bar"><span class="voice-bar-label">${vc.icon || ''} ${vc.label || v}</span><div style="flex:1;height:6px;background:var(--border);border-radius:3px"><div class="voice-bar-fill" style="width:${pct}%;background:var(--accent)"></div></div><span style="font-size:.72rem;color:var(--text-3);width:2.5em;text-align:right">${pct}%</span></div>`;
-      });
-      h += '</div>';
-    }
+    // Transparent facet profile — the book shows you your own preference model (and lets you fix it)
+    h += this._renderFacetProfile();
 
     // Activity heatmap (last 8 weeks, GitHub-style, inline SVG)
     h += this._renderActivityHeatmap();
@@ -3134,29 +4095,59 @@ class PBook {
       h += '</div></div>';
     }
 
-    // Certificate — requires all CORE blocks read
-    const coreBlocks = this.allBlocks.filter(b => b.meta.core);
-    const coreRead = coreBlocks.filter(b => u.readBlocks.has(b.meta.id)).length;
-    const coreTotal = coreBlocks.length;
-    const certReady = coreRead >= coreTotal && coreTotal > 0;
+    // Editor track — readers earn editorship through accepted contributions:
+    // reported issues, shared tellings, and tellings adopted into the book.
+    const et = this.getEditorTrack();
+    const etBar = (label, cur, goal) => `<div class="dna-row"><span class="dna-label">${label}</span>
+      <div class="dna-bar"><div class="dna-fill" style="width:${Math.min(100, Math.round(cur / goal * 100))}%"></div></div>
+      <span class="dna-val">${cur}/${goal}</span></div>`;
+    h += `<div class="profile-section"><h3>🛠 Editor track</h3>
+      <div style="font-size:.8rem;margin-bottom:.4em">${
+        et.tier === 'editor'
+          ? `<span class="editor-badge">🛠 EDITOR</span> ${et.invited ? 'Invited to the editorial team — welcome.' : "You've earned editorship — your contributions shape the book."} <a href="admin.html" style="color:var(--accent)">Open the editor console</a> · <a href="HUMANS.md" style="color:var(--accent)">duties</a>`
+          : et.tier === 'contributor'
+            ? `<b>Contributor.</b> Keep going — editorship is earned, not appointed:`
+            : `<b>Reader.</b> Editorship is earned, not appointed — report issues, share tellings:`}</div>
+      ${etBar('🚩 issues reported', et.flags, 5)}
+      ${etBar('⚡ tellings shared', et.shared, 5)}
+      ${etBar('📖 adopted into book', et.adopted, 1)}
+      <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
+      ${et.adopted >= 1 ? `<button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('My telling made it into the book', 'My explanation was adopted into the living book “How Recommendations Work” 📖', location.origin + '/#' + (Object.values(app.privateBlocks).find(b => (b.meta.sharedAt || b.meta.state === 'community') && app.findBlock(b.meta.id))?.meta.id || ''))">📣 Brag about your adoption</button>` : ''}
+    </div>
+
+    <div class="profile-section"><h3>📣 Invite friends</h3>
+      <p style="font-size:.78rem;color:var(--text-2)">The book gets better with more readers — every vote, steer and wish shapes what gets written. Invited friends start with <b>+25 XP</b>.</p>
+      <div style="display:flex;gap:.4em;flex-wrap:wrap;align-items:center">
+        <code style="font-size:.7rem;user-select:all;padding:.25em .5em;border:1px solid var(--border);border-radius:6px" id="inviteLink">${location.origin + '/?invite=R-' + (this.rc.userId || 'me').replace(/[^\w-]/g, '').slice(0, 8)}</code>
+        <button class="steer-chip" onclick="navigator.clipboard.writeText(document.getElementById('inviteLink').textContent).then(()=>app.showXPToast('🔗 Invite link copied','achievement'))">copy</button>
+        <button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('How Recommendations Work','I\'m reading a living book that explains how recommender systems work — and adapts to you. Join me:', document.getElementById('inviteLink').textContent)">share</button>
+      </div>
+    </div>`;
+
+    // Tiered certificate (spec: Foundations / Practitioner / Guru) — certifies demonstrated
+    // understanding by depth level, missions and recall — computed from verified core only
+    const { tiers, achievedIdx } = this.getCertTiers();
     h += '<div class="profile-section"><h3>Certificate</h3>';
-    if (certReady) {
+    if (achievedIdx >= 0) {
+      const t = tiers[achievedIdx];
       const savedName = localStorage.getItem('pbook-cert-name') || '';
       h += `<div class="cert-ready">
-        <p style="font-size:.85rem;margin-bottom:.6em">You've read all <strong>${coreTotal} core sections</strong>. You've earned your certificate!</p>
-        <button class="cert-btn" onclick="app.showCertificateModal()">Get Your Certificate</button>
+        <p style="font-size:.85rem;margin-bottom:.6em">${t.icon} You've earned the <strong>${t.title}</strong> certificate — ${t.subtitle}.</p>
+        <button class="cert-btn" onclick="app.showCertificateModal()">Get Your ${t.title} Certificate</button>
         ${savedName ? `<p style="font-size:.75rem;color:var(--text-3);margin-top:.4em">Certificate issued to: ${this.escHtml(savedName)}</p>` : ''}
       </div>`;
-    } else {
-      h += `<div class="cert-locked">
-        <p style="font-size:.85rem;color:var(--text-2)">Read all core sections to earn your certificate!</p>
-        <div style="font-size:.8rem;color:var(--text-3);margin-top:.3em">${coreRead}/${coreTotal} core sections read</div>
-        <div class="cert-progress">
-          <div class="cert-progress-fill" style="width:${Math.round((coreRead / Math.max(coreTotal, 1)) * 100)}%"></div>
-        </div>
-      </div>`;
     }
-    h += '</div>';
+    // Tier ladder with live requirements — always show the path ahead
+    h += '<div style="display:flex;flex-direction:column;gap:.5em;margin-top:.6em">';
+    tiers.forEach((t, i) => {
+      const achieved = i <= achievedIdx;
+      const isNext = i === achievedIdx + 1;
+      h += `<div style="border:1.5px solid ${achieved ? t.color : 'var(--border)'};border-radius:10px;padding:.5em .7em;opacity:${achieved || isNext ? 1 : 0.55}">
+        <div style="font-size:.82rem;font-weight:700;color:${achieved ? t.color : 'var(--text-2)'}">${t.icon} ${t.title} ${achieved ? '✓' : ''}<span style="font-weight:400;color:var(--text-3);font-size:.72rem"> — ${t.subtitle}</span></div>
+        ${!achieved ? `<div style="font-size:.72rem;color:var(--text-3);margin-top:.25em">${t.reqs.map(r => `${r.done ? '☑' : '☐'} ${r.label}`).join(' &middot; ')}</div>` : ''}
+      </div>`;
+    });
+    h += '</div></div>';
     } // end gamification guard
 
     // Settings link
@@ -3704,6 +4695,84 @@ class PBook {
     return completed < mission.prerequisite;
   }
 
+  // Personal mission: the reader says what they want to learn; the book composes
+  // a mission from matching concepts (keyword match over contracts — works offline;
+  // an LLM pass can re-rank later). Steps = concept anchors in book order.
+  composePersonalMission(text) {
+    const goal = (text || '').trim();
+    if (goal.length < 6 || !this.concepts) return null;
+    const stop = new Set(['what', 'how', 'the', 'and', 'for', 'with', 'about', 'learn', 'want', 'chci', 'jak', 'co', 'a', 'se', 'na', 'proc', 'why', 'does', 'know', 'more']);
+    const tokens = goal.toLowerCase().split(/[^a-z0-9á-žà-ü-]+/i).filter(w => w.length > 3 && !stop.has(w));
+    if (!tokens.length) return null;
+    const chOrder = Object.fromEntries(this.book.chapters.map((c, i) => [c.id, i]));
+    const scored = Object.values(this.concepts).map(c => {
+      const head = `${c.id} ${c.title}`.toLowerCase();
+      const body = [c.contract?.objective, c.contract?.recallQ,
+        ...(c.contract?.mustCover || []).map(mc => mc.point)].join(' ').toLowerCase();
+      // light stemming (trailing s) + id/title hits count triple
+      const score = tokens.reduce((s, tok) => {
+        const t2 = tok.replace(/s$/, '');
+        if (head.includes(tok) || head.includes(t2)) return s + 3;
+        if (body.includes(tok) || body.includes(t2)) return s + 1;
+        return s;
+      }, 0);
+      return { c, score };
+    }).filter(x => x.score >= 2)
+      .sort((x, y) => y.score - x.score || (chOrder[x.c.chapter] ?? 99) - (chOrder[y.c.chapter] ?? 99))
+      .slice(0, 6)
+      .sort((x, y) => (chOrder[x.c.chapter] ?? 99) - (chOrder[y.c.chapter] ?? 99));
+    if (scored.length < 2) return null;
+    const mission = {
+      goal: goal.slice(0, 120),
+      ids: scored.map(x => x.c.anchor),
+      concepts: scored.map(x => x.c.id),
+      created: new Date().toISOString(),
+    };
+    this.user.personalMission = mission;
+    this.user.save();
+    this.rc.logEvent('personal_mission', { goal: mission.goal, concepts: mission.concepts });
+    return mission;
+  }
+
+  _personalMissionCard() {
+    const pm = this.user.personalMission;
+    if (!pm) return '';
+    const read = pm.ids.filter(id => this.user.readBlocks.has(id)).length;
+    const done = read >= pm.ids.length;
+    if (done && !pm.rewarded) {
+      pm.rewarded = true; this.user.save();
+      if (this._f('gamification')) { this.user.addXP(50); this.user.save(); this.updateXPBadge(); }
+      setTimeout(() => this.showXPToast('🎯 Personal mission complete! +50 XP', 'achievement'), 800);
+    }
+    const steps = pm.ids.map(id => {
+      const b = this.findBlock(id);
+      const isRead = this.user.readBlocks.has(id);
+      return `<div class="mission-step ${isRead ? 'step-done' : ''}" onclick="app.openBlock('${id}')" style="cursor:pointer">
+        <span>${isRead ? '✅' : '○'}</span> <span>${this.escHtml(b?.meta?.title || id)}</span></div>`;
+    }).join('');
+    return `<div class="mission-card mission-active" style="border:2px solid var(--accent)">
+      <div class="mission-icon">🎯</div>
+      <div class="mission-info">
+        <div class="mission-title-row"><span class="mission-title">Your mission: ${this.escHtml(pm.goal)}</span>
+          <span class="mission-diff" style="background:var(--accent)">PERSONAL</span></div>
+        <div style="font-size:.72rem;color:var(--text-3);margin:.2em 0">Composed from ${pm.ids.length} concepts matching your goal — read them all to complete. <a href="#" onclick="event.preventDefault();app.editPersonalMission()" style="color:var(--accent)">change goal</a></div>
+        ${steps}
+        <div style="font-size:.72rem;color:var(--text-2);margin-top:.3em">${read}/${pm.ids.length} read${done ? ' · complete 🎉' : ''}
+          ${done ? `<button class="steer-chip" style="margin-left:.5em;border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('Mission complete', 'I just finished my personal mission “${this.escHtml(pm.goal)}” in the living book How Recommendations Work 🎯', location.origin)">📣 share</button>` : ''}</div>
+      </div>
+    </div>`;
+  }
+
+  editPersonalMission() {
+    const cur = this.user.personalMission?.goal || '';
+    const text = window.prompt('🎯 What do you want to learn? The book will compose a mission from matching concepts.', cur);
+    if (text === null) return;
+    if (!text.trim()) { this.user.personalMission = null; this.user.save(); this.renderMissions(); return; }
+    const m = this.composePersonalMission(text);
+    if (!m) this.showXPToast('No matching concepts found — try different words', 'achievement');
+    this.renderMissions();
+  }
+
   renderMissions() {
     const el = document.getElementById('glossaryContent');
     const missions = this.getMissions();
@@ -3711,6 +4780,7 @@ class PBook {
 
     let html = '<div class="missions-inner">';
     html += '<div class="missions-head"><h2>Missions</h2><p>Choose your adventure. Each mission tells a story and teaches you something new.</p></div>';
+    html += this._personalMissionCard() || `<div style="font-size:.75rem;color:var(--text-3);margin:.2em 0 .6em">🎯 <a href="#" onclick="event.preventDefault();app.editPersonalMission()" style="color:var(--accent)">Tell the book what you want to learn</a> — it will compose a personal mission from matching concepts.</div>`;
 
     missions.forEach(m => {
       const prog = this._getMissionProgress(m);
@@ -3984,42 +5054,103 @@ class PBook {
       <textarea class="boss-answer" id="bossAnswer" placeholder="Type your answer here..." rows="4"></textarea>
       <div class="boss-hint" id="bossHint" style="display:none"></div>
       <div class="boss-actions">
-        <button class="boss-submit" onclick="app._checkBossAnswer('${m.id}')">Check my answer</button>
+        <button class="boss-submit" id="bossSubmit" onclick="app._checkBossAnswer('${m.id}')">Check my answer</button>
+        <span class="boss-examiner-note" id="bossExaminerNote"></span>
       </div>
     </div>`;
 
     html += '</div>';
     el.innerHTML = html;
     window.scrollTo(0, 0);
+    // Show whether the AI examiner is on duty (async probe, non-blocking)
+    this._probeBoss().then(on => {
+      const note = document.getElementById('bossExaminerNote');
+      if (note) note.textContent = on ? '🤖 graded by the AI examiner' : '';
+    });
   }
 
-  _checkBossAnswer(missionId) {
+  async _probeBoss() {
+    if (this._bossAvailable !== undefined) return this._bossAvailable;
+    try {
+      const res = await fetch('/api/boss');
+      this._bossAvailable = res.ok && !!(await res.json()).available;
+    } catch (e) { this._bossAvailable = false; }
+    return this._bossAvailable;
+  }
+
+  async _checkBossAnswer(missionId) {
     const m = this._wizardMission;
     if (!m) return;
-    const answer = document.getElementById('bossAnswer')?.value?.toLowerCase() || '';
+    const rawAnswer = document.getElementById('bossAnswer')?.value?.trim() || '';
+    const hintEl = document.getElementById('bossHint');
+    if (!hintEl) return;
+
+    if (rawAnswer.length < 20) {
+      hintEl.style.display = 'block';
+      hintEl.className = 'boss-hint boss-retry';
+      hintEl.innerHTML = 'Write a bit more! Try to explain in at least a few sentences.';
+      return;
+    }
+
+    // AI examiner grades substance; keyword check is the offline fallback
+    if (await this._probeBoss()) {
+      const btn = document.getElementById('bossSubmit');
+      if (btn) { btn.disabled = true; btn.textContent = 'The examiner is reading… 🧐'; }
+      hintEl.style.display = 'block';
+      hintEl.className = 'boss-hint';
+      hintEl.innerHTML = '<span class="gen-spinner">The dragon considers your answer…</span>';
+      try {
+        const res = await fetch('/api/boss', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question: m.boss.q, hints: m.boss.hints || [], answer: rawAnswer, missionTitle: m.title }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || 'grading failed');
+        const g = data.grade;
+        this.rc.logEvent('boss_graded', { missionId, score: g.score, verdict: g.verdict });
+        const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:${g.verdict === 'pass' ? '#10B981' : g.verdict === 'almost' ? '#D97706' : '#EF4444'}"></div></div>
+          <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
+        if (g.verdict === 'pass') {
+          hintEl.className = 'boss-hint boss-pass';
+          hintEl.innerHTML = `${bar}<b>Passed!</b> ${this.escHtml(g.feedback)}`;
+          setTimeout(() => this.completeMission(missionId), 2000);
+        } else {
+          hintEl.className = 'boss-hint boss-retry';
+          hintEl.innerHTML = `${bar}${this.escHtml(g.feedback)}
+            ${g.missing?.length ? `<div style="margin-top:.4em">Still missing: ${g.missing.map(x => `<b>${this.escHtml(x)}</b>`).join(' · ')}</div>` : ''}
+            ${g.followUp ? `<div style="margin-top:.4em">🐉 <i>${this.escHtml(g.followUp)}</i></div>` : ''}
+            <div style="margin-top:.5em">
+              <button class="wizard-nav-btn" onclick="document.getElementById('bossAnswer').focus()">Improve my answer</button>
+              <button class="wizard-nav-btn" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button>
+            </div>`;
+        }
+        if (btn) { btn.disabled = false; btn.textContent = 'Check my answer'; }
+        return;
+      } catch (e) {
+        if (btn) { btn.disabled = false; btn.textContent = 'Check my answer'; }
+        /* examiner down → fall through to keyword check */
+      }
+    }
+    this._checkBossAnswerLocal(missionId, rawAnswer.toLowerCase(), hintEl);
+  }
+
+  _checkBossAnswerLocal(missionId, answer, hintEl) {
+    const m = this._wizardMission;
     const hints = m.boss.hints || [];
     const found = hints.filter(h => answer.includes(h));
     const score = found.length / Math.max(hints.length, 1);
 
-    const hintEl = document.getElementById('bossHint');
-    if (!hintEl) return;
-
     if (score >= 0.5 || answer.length > 80) {
-      // Pass! Complete the mission
       hintEl.style.display = 'block';
       hintEl.className = 'boss-hint boss-pass';
       hintEl.innerHTML = `<b>Awesome!</b> You mentioned ${found.length} key concepts. You clearly understand this topic!`;
       setTimeout(() => this.completeMission(missionId), 1500);
-    } else if (answer.length < 20) {
-      hintEl.style.display = 'block';
-      hintEl.className = 'boss-hint boss-retry';
-      hintEl.innerHTML = 'Write a bit more! Try to explain in at least a few sentences.';
     } else {
       const missing = hints.filter(h => !answer.includes(h)).slice(0, 2);
       hintEl.style.display = 'block';
       hintEl.className = 'boss-hint boss-retry';
       hintEl.innerHTML = `Good start! But try to also mention: <b>${missing.join('</b> and <b>')}</b>. Go back and re-read if you need to!`;
-      // Add a "go back" button
       hintEl.innerHTML += `<br><button class="wizard-nav-btn" style="margin-top:.4em" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button>`;
     }
   }
@@ -4190,11 +5321,14 @@ class PBook {
     el.closest('.q-opts').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     this.rc.sendRating(qId, 1);
+    // voice answers now seed the FACET model (voice is a retired taxonomy; the
+    // question options still carry legacy voice tags in content)
     if (voice && voice !== 'universal') {
-      this.user.setVoice(voice);
-      this.user.voiceScores[voice] = Math.max(this.user.voiceScores[voice] || 0, 1);
+      const hint = voice === 'thinker' ? { depth: 'technical' }
+        : voice === 'creator' ? { genre: 'worked-example' }
+        : { genre: 'story' };
+      this.user.updateFacetAffinity(hint, 2);
       this.user.save();
-      this.updateVoiceBadge();
     }
 
     const qBlock = el.closest('.q-block');
@@ -4292,6 +5426,313 @@ class PBook {
     if (btn) {
       btn.classList.toggle('liked', newRating >= 0.7);
       btn.innerHTML = newRating >= 0.7 ? '&#10084;&#65039; <span>Liked</span>' : '&#9825; <span>Like</span>';
+    }
+    // Share gate (spec §6): liking your own generated block opens the consent prompt —
+    // the ONLY door from private to the shared community catalog
+    if (newRating >= 0.7 && this.privateBlocks?.[blockId] && this._f('community')) {
+      this._showShareConsent(blockId);
+    }
+  }
+
+  // Open a community block: land on its concept's anchor in real reading context,
+  // then swap in the shared variant (keeps navigation, dwell tracking and steering alive)
+  async openCommunityBlock(itemId) {
+    let entry = this._findAnyBlock(itemId);
+    if (!entry) {
+      const list = await this.rc.listCommunityBlocks(null, 50);
+      entry = list.find(b => b.meta.id === itemId);
+      if (entry && this._conceptIds(entry.meta)[0]) {
+        if (!this._communityCache) this._communityCache = {};
+        (this._communityCache[this._conceptIds(entry.meta)[0]] = this._communityCache[this._conceptIds(entry.meta)[0]] || []).push(entry);
+      }
+    }
+    if (!entry) return;
+    this.rc.setContext('community', { itemId });
+    this.rc.sendView(itemId);
+    const concept = this.concepts?.[this._conceptIds(entry.meta)[0]];
+    const anchorId = concept?.anchor;
+    if (anchorId && this.findBlock(anchorId)) {
+      this.openBlock(anchorId, 'community');
+      setTimeout(() => this._swapBlock(anchorId, entry, this._blockFacets(entry.meta) || {}), 500);
+    }
+  }
+
+  // ===== REMIX: select any passage → describe the change → improved version =====
+  // Works on ANY content (core/edited/generated). The original stays untouched —
+  // a remix is a private variant of the same concept with the changed span marked,
+  // shareable through the same ladder (private → community → edited → core).
+
+  remixSelection() {
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) return;
+    const quote = sel.toString().trim();
+    const anchor = sel.anchorNode?.parentElement?.closest('.block-article');
+    const blockId = anchor?.id?.replace('b-', '');
+    sel.removeAllRanges();
+    const popup = document.getElementById('highlightPopup');
+    if (popup) popup.style.display = 'none';
+    if (!blockId || quote.length < 10) { this.showXPToast('Select a longer passage to remix', 'xp'); return; }
+    this._openRemixForm(blockId, quote);
+  }
+
+  async _openRemixForm(blockId, quote) {
+    const el = document.getElementById(`b-${blockId}`);
+    if (!el) return;
+    document.getElementById(`remix-form-${blockId}`)?.remove();
+
+    const canGen = this._f('generation') && await this._probeGeneration();
+    const box = document.createElement('div');
+    box.id = `remix-form-${blockId}`;
+    box.className = 'share-consent remix-form';
+    if (!canGen) {
+      box.innerHTML = `<b>✨ Remix</b><div style="font-size:.72rem;color:var(--text-3);margin-top:.3em">Generation isn't configured right now — your wish was recorded for the editors.</div>`;
+      this.rc.logEvent('remix_miss', { blockId, quote: quote.slice(0, 120) });
+    } else if (this.user.readerMode !== 'open') {
+      box.innerHTML = `<b>✨ Remix</b><div style="font-size:.75rem;margin-top:.3em">Remixing creates your own private version of this section. Turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> first.</div>`;
+    } else {
+      this._remixQuote = quote;
+      box.innerHTML = `
+        <b>✨ Remix this part</b>
+        <div class="note-quote-preview" style="display:block;margin:.3em 0">"${this.escHtml(quote.slice(0, 220))}${quote.length > 220 ? '…' : ''}"</div>
+        <textarea id="remix-prompt-${blockId}" rows="2" placeholder="How should it change? e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'"
+          style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>
+        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version with the change highlighted. You can share it later.</div>
+        <div class="note-actions">
+          <button class="note-save" onclick="app.submitRemix('${blockId}')">✨ Generate improved version</button>
+          <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
+        </div>
+        <div id="remix-status-${blockId}"></div>`;
+    }
+    el.querySelector('.block-footer')?.after(box);
+    box.querySelector('textarea')?.focus();
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  async submitRemix(blockId) {
+    const instruction = document.getElementById(`remix-prompt-${blockId}`)?.value?.trim();
+    const quote = this._remixQuote;
+    if (!instruction || instruction.length < 3 || !quote) return;
+    const entry = this._findAnyBlock(blockId);
+    if (!entry) return;
+    const status = document.getElementById(`remix-status-${blockId}`);
+    if (status) status.innerHTML = '<span class="gen-spinner">✨ Rewriting that part… (~20 s)</span>';
+    this.rc.logEvent('remix_request', { blockId, concept: this._conceptIds(entry.meta)[0], instruction: instruction.slice(0, 200) });
+
+    try {
+      const res = await fetch(CONFIG.steering.generateEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'remix',
+          concept: entry.meta.concept || null,
+          facets: this._blockFacets(entry.meta) || {},
+          selection: quote.slice(0, 2000),
+          instruction: instruction.slice(0, 500),
+          context: (entry.body || '').replace(/⟦\/?rx⟧/g, '').slice(0, 6000),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'remix failed');
+      const replacement = data.replacement;
+
+      // Build the remixed private copy: replace the selection, mark the change
+      let base = entry.body || '';
+      let matchBody = base;
+      if (!base.includes(quote)) {
+        matchBody = base.replace(/⟦\/?rx⟧/g, '');           // selection may overlap an older mark
+        if (!matchBody.includes(quote)) throw new Error('could not locate the selected passage in the source');
+        base = matchBody;                                    // older marks dropped for this edge case
+      }
+      const newBody = base.replace(quote, `⟦rx⟧${replacement}⟦/rx⟧`);
+
+      const src = entry.meta;
+      const rootId = src.remixOf || src.id;
+      const isReRemix = !!src.remixOf;                       // remixing your remix edits it in place
+      const id = isReRemix ? src.id : `remix--${rootId}--${Date.now().toString(36)}`;
+      const log = [...(src.remixLog || []), { quote: quote.slice(0, 120), instruction: instruction.slice(0, 200), ts: Date.now() }];
+      const block = {
+        meta: {
+          ...src, id, state: 'private', generated: true, remixOf: rootId, remixLog: log,
+          core: false, status: undefined,
+          readingTime: Math.max(1, Math.round(newBody.split(/\s+/).length / 200)),
+        },
+        body: newBody,
+      };
+      this._savePrivateBlock(block);
+      document.getElementById(`remix-form-${blockId}`)?.remove();
+      this._swapBlock(blockId, block, this._blockFacets(block.meta) || {});
+      this.rc.logEvent('remix_served', { blockId, remixId: id });
+      this.showXPToast('+3 XP ✨ Your remix is ready — like it to share it', 'achievement');
+      if (this._f('gamification')) { this.user.addXP(3); this.user.save(); this.updateXPBadge(); }
+    } catch (e) {
+      if (status) status.innerHTML = `<span style="color:var(--warn,#D97706);font-size:.72rem">Remix didn't work out (${this.escHtml(String(e.message).slice(0, 120))}). Your wish was recorded.</span>`;
+      this.rc.logEvent('remix_failed', { blockId, error: String(e.message).slice(0, 150) });
+    }
+  }
+
+  // ===== DIAGRAM/ANIMATION REMIX (SVG via prompt) =====
+  // Same idea as text remix: describe the change, get your own version of the
+  // diagram or animation, visibly marked, original untouched, shareable.
+
+  _diagramRemixBtn(block) {
+    if (!this._f('steering') || !this._f('generation')) return '';
+    return `<button class="diagram-remix-btn" onclick="app.remixDiagram('${block.id}')" title="✨ Remix this diagram — describe what should change">✨</button>`;
+  }
+
+  _sanitizeSvgClient(svg) {
+    if (!svg || typeof svg !== 'string') return null;
+    let s = svg.trim();
+    const start = s.indexOf('<svg');
+    if (start === -1) return null;
+    s = s.slice(start);
+    const end = s.lastIndexOf('</svg>');
+    if (end === -1) return null;
+    s = s.slice(0, end + 6);
+    return s.replace(/<script[\s\S]*?<\/script>/gi, '')
+            .replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi, '')
+            .replace(/\son\w+\s*=\s*"[^"]*"/gi, '')
+            .replace(/\son\w+\s*=\s*'[^']*'/gi, '')
+            .replace(/javascript:/gi, '')
+            .replace(/(xlink:href|href)\s*=\s*"(?!#)[^"]*"/gi, '')
+            .replace(/(xlink:href|href)\s*=\s*'(?!#)[^']*'/gi, '');
+  }
+
+  async remixDiagram(blockId) {
+    const el = document.getElementById(`b-${blockId}`);
+    if (!el) return;
+    document.getElementById(`remix-form-${blockId}`)?.remove();
+    const canGen = this._f('generation') && await this._probeGeneration();
+    const box = document.createElement('div');
+    box.id = `remix-form-${blockId}`;
+    box.className = 'share-consent remix-form';
+    if (!canGen) {
+      box.innerHTML = `<b>✨ Remix diagram</b><div style="font-size:.72rem;color:var(--text-3);margin-top:.3em">Generation isn't configured right now — your wish was recorded for the editors.</div>`;
+      this.rc.logEvent('remix_miss', { blockId, diagram: true });
+    } else if (this.user.readerMode !== 'open') {
+      box.innerHTML = `<b>✨ Remix diagram</b><div style="font-size:.75rem;margin-top:.3em">Remixing creates your own private version of this section. Turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> first.</div>`;
+    } else {
+      box.innerHTML = `
+        <b>✨ Remix this diagram${el.querySelector('animate, animateTransform, animateMotion') ? ' / animation' : ''}</b>
+        <textarea id="remix-prompt-${blockId}" rows="2" placeholder="What should change? e.g. 'make the products running shoes', 'slow the animation down', 'add a third user to the example'"
+          style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem;margin-top:.3em"></textarea>
+        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
+        <div class="note-actions">
+          <button class="note-save" onclick="app.submitDiagramRemix('${blockId}')">✨ Generate improved version</button>
+          <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
+        </div>
+        <div id="remix-status-${blockId}"></div>`;
+    }
+    el.querySelector('.block-footer')?.after(box);
+    box.querySelector('textarea')?.focus();
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  async submitDiagramRemix(blockId) {
+    const instruction = document.getElementById(`remix-prompt-${blockId}`)?.value?.trim();
+    if (!instruction || instruction.length < 3) return;
+    const entry = this._findAnyBlock(blockId);
+    if (!entry) return;
+    const status = document.getElementById(`remix-status-${blockId}`);
+    if (status) status.innerHTML = '<span class="gen-spinner">✨ Redrawing… (~30–60 s for animations)</span>';
+    this.rc.logEvent('remix_request', { blockId, diagram: true, instruction: instruction.slice(0, 200) });
+
+    try {
+      // source of truth: prior remix override, else the original file via the diagram loader
+      let srcSvg = entry.meta.diagramSvg;
+      if (!srcSvg && entry.meta.diagram) srcSvg = await getDiagram(entry.meta.diagram);
+      srcSvg = this._sanitizeSvgClient(srcSvg);
+      if (!srcSvg) throw new Error('no remixable inline SVG found for this block');
+      if (srcSvg.length > 60000) throw new Error('this diagram is too complex for remix (yet)');
+
+      const res = await fetch(CONFIG.steering.generateEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          mode: 'svg-remix',
+          concept: entry.meta.concept || null,
+          facets: this._blockFacets(entry.meta) || {},
+          svg: srcSvg,
+          instruction: instruction.slice(0, 500),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'svg remix failed');
+      const cleanSvg = this._sanitizeSvgClient(data.svg);
+      if (!cleanSvg) throw new Error('remixed SVG failed the safety check');
+
+      const src = entry.meta;
+      const rootId = src.remixOf || src.id;
+      const isReRemix = !!src.remixOf;
+      const id = isReRemix ? src.id : `remix--${rootId}--${Date.now().toString(36)}`;
+      const log = [...(src.remixLog || []), { diagram: true, instruction: instruction.slice(0, 200), ts: Date.now() }];
+      const block = {
+        meta: { ...src, id, state: 'private', generated: true, remixOf: rootId, remixLog: log,
+                diagramSvg: cleanSvg, core: false, status: undefined },
+        body: entry.body,
+      };
+      this._savePrivateBlock(block);
+      document.getElementById(`remix-form-${blockId}`)?.remove();
+      this._swapBlock(blockId, block, this._blockFacets(block.meta) || {});
+      this.rc.logEvent('remix_served', { blockId, remixId: id, diagram: true });
+      this.showXPToast('+3 XP ✨ Your diagram remix is ready', 'achievement');
+      if (this._f('gamification')) { this.user.addXP(3); this.user.save(); this.updateXPBadge(); }
+    } catch (e) {
+      if (status) status.innerHTML = `<span style="color:var(--warn,#D97706);font-size:.72rem">Remix didn't work out (${this.escHtml(String(e.message).slice(0, 140))}). Your wish was recorded.</span>`;
+      this.rc.logEvent('remix_failed', { blockId, diagram: true, error: String(e.message).slice(0, 150) });
+    }
+  }
+
+  // ===== SHARE GATE → COMMUNITY LAYER (spec §6-§7) =====
+  _showShareConsent(blockId) {
+    const el = document.getElementById(`b-${blockId}`);
+    if (!el || document.getElementById(`share-consent-${blockId}`)) return;
+    const box = document.createElement('div');
+    box.id = `share-consent-${blockId}`;
+    box.className = 'share-consent';
+    box.innerHTML = `
+      <b>Glad you liked it!</b> Share this telling into the book so other readers with similar settings can discover it?
+      <div style="font-size:.7rem;color:var(--text-3);margin:.3em 0">Shared anonymously by default. It stays labelled as reader-generated until an editor reviews it. You can keep it private — it stays yours either way.</div>
+      <input type="text" id="share-nick-${blockId}" placeholder="Optional nickname for credit (leave empty = anonymous)" maxlength="40"
+        style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
+      <div class="note-actions">
+        <button class="note-save" onclick="app.shareGeneratedBlock('${blockId}')">Share into the book</button>
+        <button class="note-cancel" onclick="document.getElementById('share-consent-${blockId}').remove()">Keep private</button>
+      </div>`;
+    el.querySelector('.block-footer')?.after(box);
+  }
+
+  async shareGeneratedBlock(blockId) {
+    const block = this.privateBlocks?.[blockId];
+    if (!block) return;
+    const nick = document.getElementById(`share-nick-${blockId}`)?.value?.trim() || '';
+    const meta = block.meta;
+    // Community store = the Recombee catalog (state == "community") — immediately recommendable,
+    // no extra infrastructure. Body rides as an item property.
+    const ok = await this.rc.shareCommunityBlock({
+      itemId: meta.id,
+      title: meta.title,
+      body: block.body,
+      concept: meta.concept,
+      lens: meta.lens, visuality: meta.visuality, depth: meta.depth,
+      formalism: meta.formalism, lengthBand: meta.lengthBand,
+      recallQ: meta.recallQ || '', recallA: meta.recallA || '',
+      sharedAs: nick || 'anonymous',
+      // Remix provenance: what was changed and the wishes behind it travel with the block
+      remixOf: meta.remixOf || '',
+      remixLog: meta.remixLog ? JSON.stringify(meta.remixLog).slice(0, 1500) : '',
+      diagramSvg: meta.diagramSvg || '',
+    });
+    // Log regardless — the editorial nomination queue reads these events
+    this.rc.logEvent('community_share', { blockId, concept: meta.concept, sharedAs: nick ? 'nick' : 'anonymous', ok });
+    document.getElementById(`share-consent-${blockId}`)?.remove();
+    if (ok) {
+      block.meta.state = 'community';
+      this._savePrivateBlock(block);
+      if (this._communityCache?.[meta.concept]) delete this._communityCache[meta.concept];
+      this.showXPToast('+10 XP 📖 You enriched the book!', 'achievement');
+      if (this._f('gamification')) { this.user.addXP(10); this.user.save(); this.updateXPBadge(); }
+    } else {
+      this.showXPToast('Sharing failed — kept private, request logged', 'xp');
     }
   }
 
@@ -4743,7 +6184,9 @@ class PBook {
     if (!this._f('gamification')) { el.style.display = 'none'; return; }
     el.style.display = '';
     const reward = this.getLevelRewards().filter(r => r.level <= this.user.level).pop();
-    el.textContent = (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP';
+    const editor = this.getEditorTrack?.().tier === 'editor' ? '🛠 ' : '';
+    el.textContent = editor + (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP';
+    el.title = editor ? 'Editor — earned through accepted contributions' : '';
     // Apply cosmetic theme
     this._applyLevelTheme();
     // Update quiz tab badge
@@ -4802,6 +6245,161 @@ class PBook {
   }
 
 
+  // ===== TIERED CERTIFICATE (Foundations / Practitioner / Guru) =====
+  // Tiers certify demonstrated understanding: what depth of verified core content was read,
+  // which mission bosses were beaten, how much recall practice happened. Cumulative ladder.
+  // Readers can demand more than tellings: propose a MISSING CONCEPT. The wish is
+  // logged (cross-user aggregation in admin) and recorded locally (feeds the editor
+  // track); the drafting AI turns ranked wishes into contract proposals for editors.
+  proposeConcept(seed) {
+    const text = (window.prompt('🌱 What concept is missing from this book?\n\nDescribe it in a sentence or two — editors (and the drafting AI) review every proposal.', seed || '') || '').trim();
+    if (!text || text.length < 8) return;
+    try {
+      const flags = JSON.parse(localStorage.getItem('pbook-flags') || '[]');
+      flags.push({ blockId: 'book', type: 'concept-wish', text, timestamp: new Date().toISOString() });
+      localStorage.setItem('pbook-flags', JSON.stringify(flags));
+    } catch (e) {}
+    this.rc.logEvent('concept_wish', { text: text.slice(0, 300) });
+    if (this._f('gamification')) { this.user.addXP(10); this.user.save(); this.updateXPBadge(); }
+    this.showXPToast('🌱 +10 XP — concept proposal recorded for the editors', 'achievement');
+  }
+
+  // Share helper: native share sheet where available, clipboard elsewhere.
+  async shareThing(title, text, url) {
+    const payload = { title, text, url };
+    try {
+      if (navigator.share) { await navigator.share(payload); this.rc.logEvent('share', { what: title, via: 'native' }); return; }
+    } catch (e) { if (e.name === 'AbortError') return; }
+    try {
+      await navigator.clipboard.writeText(`${text} ${url}`);
+      this.showXPToast('🔗 Link copied — paste it to a friend', 'achievement');
+      this.rc.logEvent('share', { what: title, via: 'clipboard' });
+    } catch (e) {}
+  }
+
+  // ===== GHOST ITEMS: concept proposals under interest testing =====
+  // Proposals are recommended to readers as clearly labeled "proposed / not written
+  // yet" cards. Votes measure demand BEFORE anyone invests writing effort — the
+  // pre-mint stage of the elastic catalog. Curated in content/concept-proposals.json.
+  async _loadProposals() {
+    this.proposals = [];
+    try {
+      const res = await fetch('content/concept-proposals.json');
+      if (res.ok) this.proposals = (await res.json()).proposals || [];
+    } catch (e) { /* optional file */ }
+  }
+  _ghostVotes() {
+    try { return JSON.parse(localStorage.getItem('pbook-ghost-votes') || '{}'); } catch (e) { return {}; }
+  }
+  _unvotedProposals() {
+    const votes = this._ghostVotes();
+    return (this.proposals || []).filter(p => !(p.slug in votes));
+  }
+  _ghostCardHtml(p, ctx) {
+    if (!this._ghostSeen) this._ghostSeen = new Set();
+    if (!this._ghostSeen.has(p.slug)) {
+      this._ghostSeen.add(p.slug);
+      this.rc.logEvent('ghost_view', { slug: p.slug, ctx });
+    }
+    return `<div class="card ghost-card" style="flex:0 0 262px;border-top:3px solid #0EA5E9">
+      <div class="card-chapter" style="color:#0EA5E9;font-weight:700">🌱 PROPOSED · not written yet</div>
+      <div class="card-title">${this.escHtml(p.title)}</div>
+      <div class="card-teaser" style="font-size:.72rem">${this.escHtml(p.objective)}</div>
+      <div style="font-size:.64rem;color:var(--text-3);font-style:italic;margin:.3em 0">You'd be able to answer: ${this.escHtml(p.recallQ)}</div>
+      <div id="ghost-${p.slug}-${ctx}" style="display:flex;gap:.4em;margin-top:.35em">
+        <button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9" onclick="app.ghostVote('${p.slug}',1,'${ctx}')">👍 I'd read this</button>
+        <button class="steer-chip" onclick="app.ghostVote('${p.slug}',-1,'${ctx}')">Not for me</button>
+      </div>
+    </div>`;
+  }
+  ghostVote(slug, v, ctx) {
+    const votes = this._ghostVotes();
+    votes[slug] = v;
+    localStorage.setItem('pbook-ghost-votes', JSON.stringify(votes));
+    this.rc.logEvent(v > 0 ? 'ghost_want' : 'ghost_skip', { slug });
+    if (v > 0 && this._f('gamification')) { this.user.addXP(2); this.user.save(); this.updateXPBadge(); }
+    const el = document.getElementById(`ghost-${slug}-${ctx}`);
+    if (el) {
+      el.innerHTML = v > 0
+        ? `<span style="font-size:.7rem;color:#0EA5E9">✓ +2 XP — demand recorded, editors see the totals. <a href="#" onclick="event.preventDefault();app.proposeConcept('${this.escHtml(slug)}: ')" style="color:var(--accent)">add your angle</a></span>`
+        : `<span style="font-size:.7rem;color:var(--text-3)">✓ noted — you won't see this one again</span>`;
+    }
+  }
+
+  // ===== EDITOR TRACK =====
+  // Editorship is earned, not appointed. All three signals are client-verifiable:
+  // - flags: issues this reader reported (pbook-flags)
+  // - shared: own tellings consciously shared into the community layer
+  // - adopted: shared tellings whose id now exists in the git corpus — i.e. an
+  //   editor reviewed the nomination and merged it into the book
+  getEditorTrack() {
+    let flags = 0;
+    try { flags = JSON.parse(localStorage.getItem('pbook-flags') || '[]').length; } catch (e) {}
+    const mine = Object.values(this.privateBlocks || {});
+    const shared = mine.filter(b => b.meta.sharedAt || b.meta.state === 'community');
+    const adopted = shared.filter(b => this.findBlock(b.meta.id));
+    const invited = localStorage.getItem('pbook-role') === 'editor';
+    const tier = (invited || adopted.length >= 1 || (shared.length >= 5 && flags >= 5)) ? 'editor'
+      : (shared.length >= 1 || flags >= 3) ? 'contributor' : 'reader';
+    return { tier, invited, flags, shared: shared.length, adopted: adopted.length };
+  }
+
+  // Detect fresh adoptions (my shared telling merged into the book) → celebrate once.
+  _checkAdoptions() {
+    let awarded;
+    try { awarded = new Set(JSON.parse(localStorage.getItem('pbook-adoption-awarded') || '[]')); } catch (e) { awarded = new Set(); }
+    let changed = false;
+    for (const b of Object.values(this.privateBlocks || {})) {
+      const id = b.meta.id;
+      if ((b.meta.sharedAt || b.meta.state === 'community') && this.findBlock(id) && !awarded.has(id)) {
+        awarded.add(id); changed = true;
+        if (this._f('gamification')) { this.user.addXP(100); this.user.save(); }
+        setTimeout(() => this.showXPToast('📖 Your telling was adopted into the book! +100 XP — Editor track', 'achievement'), 1200);
+      }
+    }
+    if (changed) {
+      localStorage.setItem('pbook-adoption-awarded', JSON.stringify([...awarded]));
+      this.updateXPBadge();
+    }
+  }
+
+  getCertTiers() {
+    const u = this.user;
+    const core = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine');
+    const byDepth = want => core.filter(b => want.includes(b.meta.depth || 'standard'));
+    const readCount = list => list.filter(b => u.readBlocks.has(b.meta.id)).length;
+    const readAll = list => list.length === 0 || list.every(b => u.readBlocks.has(b.meta.id));
+
+    const base = byDepth(['intro', 'standard']);
+    const tech = byDepth(['technical']);
+    const research = byDepth(['research']);
+    const missions = this._f('missions') ? this.getMissions() : [];
+    const done = u.completedMissions || [];
+    const advancedDone = done.filter(id => missions.find(m => m.id === id)?.difficulty === 'Advanced').length;
+    const recallReps = Object.values(u.recall || {}).reduce((s, c) => s + (c.reps || 0), 0);
+
+    const tiers = [
+      { id: 'foundations', icon: '\u{1F949}', title: 'Foundations', subtitle: 'Understands Recommendations', color: '#B45309',
+        reqs: [{ label: `core essentials read (${readCount(base)}/${base.length})`, done: readAll(base) }] },
+      { id: 'practitioner', icon: '\u{1F948}', title: 'Practitioner', subtitle: 'Can Build Recommenders', color: '#64748B',
+        reqs: [
+          { label: `technical core read (${readCount(tech)}/${tech.length})`, done: readAll(tech) },
+          { label: `missions completed (${Math.min(done.length, 2)}/2)`, done: done.length >= 2 },
+        ] },
+      { id: 'guru', icon: '\u{1F947}', title: 'Recommendation Guru', subtitle: 'Masters the Algorithms', color: '#CA8A04',
+        reqs: [
+          { label: `research-level core read (${readCount(research)}/${research.length})`, done: readAll(research) },
+          { label: `advanced mission boss beaten (${Math.min(advancedDone, 1)}/1)`, done: advancedDone >= 1 },
+          { label: `recall reviews (${Math.min(recallReps, 10)}/10)`, done: recallReps >= 10 },
+        ] },
+    ];
+    let achievedIdx = -1;
+    for (let i = 0; i < tiers.length; i++) {
+      if (i === achievedIdx + 1 && tiers[i].reqs.every(r => r.done)) achievedIdx = i;
+    }
+    return { tiers, achievedIdx };
+  }
+
   showCertificateModal() {
     const savedName = localStorage.getItem('pbook-cert-name') || '';
     const savedEmail = localStorage.getItem('pbook-cert-email') || '';
@@ -4845,12 +6443,23 @@ class PBook {
     const u = this.user;
     const p = u.getProfile(this.allBlocks);
     const date = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-    const topVoice = u.getTopVoice();
-    const voiceLabel = CONFIG.voices[topVoice]?.label || 'Universal';
+    // Specialization line from the facet profile (voice is legacy)
+    const _tf = u.getTargetFacets();
+    const voiceLabel = [
+      _tf.depth && _tf.depth !== 'standard' ? `${_tf.depth} depth` : null,
+      _tf.lens && _tf.lens !== 'generic' ? `${_tf.lens} world` : null,
+      _tf.lang === 'cs' ? 'Czech edition' : null,
+    ].filter(Boolean).join(' · ') || 'Universal';
     const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     const displayName = esc(name || 'Anonymous Reader');
     // Adjust font size for long names
     const nameSize = displayName.length > 25 ? 18 : displayName.length > 18 ? 21 : 24;
+    // Tier (Foundations / Practitioner / Guru) — header, subtitle and accent follow the achieved tier
+    const { tiers, achievedIdx } = this.getCertTiers();
+    const tier = tiers[Math.max(achievedIdx, 0)];
+    const tierHeader = achievedIdx >= 0 ? `CERTIFICATE • ${tier.title.toUpperCase()}` : 'CERTIFICATE OF COMPLETION';
+    const tierLine = achievedIdx >= 0 ? esc(`${tier.subtitle} — verified core content at ${tier.id === 'guru' ? 'research' : tier.id === 'practitioner' ? 'technical' : 'foundational'} depth`) : 'has successfully completed the study of Modern Recommender Systems';
+    const tierColor = achievedIdx >= 0 ? tier.color : '#7C3AED';
 
     return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 566" width="800" height="566">
@@ -4865,7 +6474,7 @@ class PBook {
   <rect x="30" y="30" width="740" height="506" fill="none" stroke="#7C3AED" stroke-width="1" rx="10" opacity=".3"/>
 
   <!-- Header -->
-  <text x="400" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#A78BFA" letter-spacing="6">CERTIFICATE OF COMPLETION</text>
+  <text x="400" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="${tierColor}" letter-spacing="6">${tierHeader}</text>
   <line x1="200" y1="95" x2="600" y2="95" stroke="#C4B5FD" stroke-width="1"/>
 
   <!-- Title -->
@@ -4878,7 +6487,7 @@ class PBook {
   <line x1="250" y1="260" x2="550" y2="260" stroke="#D4B5FD" stroke-width="1"/>
 
   <!-- Achievement stats -->
-  <text x="400" y="295" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#6B7280">has successfully completed the study of Modern Recommender Systems</text>
+  <text x="400" y="295" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#6B7280">${tierLine}</text>
 
   <text x="200" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#7C3AED" font-weight="600">${p.progress.read} sections read</text>
   <text x="400" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#7C3AED" font-weight="600">Level ${u.level} \u2022 ${u.xp} XP</text>
@@ -5069,6 +6678,32 @@ function _showHighlightPopup() {
   popup.style.left = Math.max(8, Math.min(rect.left + rect.width / 2 - 40, window.innerWidth - 90)) + 'px';
 }
 document.addEventListener('mouseup', _showHighlightPopup);
+// Right-click on a selection inside a block → our action menu (highlight / note / remix) at the cursor
+// Concept cross-links (AGENTS.md convention): [text](#c/<slug>) resolves through the
+// concept index to its anchor — links survive re-tagging, swaps and chapter moves.
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('a[href^="#c/"]');
+  if (!a) return;
+  e.preventDefault();
+  const slug = a.getAttribute('href').slice(3);
+  const concept = app?.concepts?.[slug];
+  if (concept?.anchor && app.findBlock(concept.anchor)) {
+    app.rc.logEvent('concept_link', { slug });
+    app.openBlock(concept.anchor, 'crosslink');
+  }
+});
+
+document.addEventListener('contextmenu', (e) => {
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !sel.toString().trim()) return;
+  if (!e.target.closest?.('.spine-body, .d-content, .sb-block')) return;
+  const popup = document.getElementById('highlightPopup');
+  if (!popup) return;
+  e.preventDefault();
+  popup.style.display = 'flex';
+  popup.style.top = (e.clientY + window.scrollY - 44) + 'px';
+  popup.style.left = Math.max(8, Math.min(e.clientX - 40, window.innerWidth - 130)) + 'px';
+});
 // Mobile: selectionchange fires when user adjusts selection handles
 document.addEventListener('selectionchange', () => {
   clearTimeout(window._hlDebounce);

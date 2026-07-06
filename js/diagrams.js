@@ -33,6 +33,12 @@ const DIAGRAM_FILES = {
   'comic-cf': 'images/comic-cf.svg',
   'comic-mf': 'images/comic-mf.svg',
   'comic-bandits': 'images/comic-bandits.svg',
+  // Item cold start breadth showcase (concept told across formats/worlds/languages)
+  'cold-start-bridge': 'images/cold-start-bridge.svg',
+  'comic-cold-start': 'images/comic-cold-start.svg',
+  'anim-cold-start-shop': 'images/anim-cold-start-shop.svg',
+  'anim-cold-start-media': 'images/anim-cold-start-media.svg',
+  'anim-cold-start-jobs': 'images/anim-cold-start-jobs.svg',
   // Blog images from recombee.com/blog (Ch1 Introduction, Ch2 Data, Ch3 Objectives)
   'blog-ch1-adtech': 'images/blog/ch1-01.png',           // Targeted advertising illustration
   'blog-ch1-history-svg': 'images/blog/ch1-02.svg',      // YouTube revenue graph

@@ -12,11 +12,13 @@
 <link rel="canonical" href="https://recsys-pbook.vercel.app/">
 <!-- Open Graph -->
 <meta property="og:type" content="book">
-<meta property="og:title" content="How Recommendations Work — A by Recombee">
+<meta property="og:title" content="How Recommendations Work — a living book about recommender systems">
 <meta property="og:description" content="A free interactive book about recommendation systems for professionals and curious minds. Learn how YouTube, TikTok, and Spotify decide what you see.">
 <meta property="og:url" content="https://recsys-pbook.vercel.app/">
 <meta property="og:site_name" content="p-book: How Recommendations Work">
-<meta property="og:image" content="https://recsys-pbook.vercel.app/images/og-cover.svg">
+<meta property="og:image" content="https://recsys-pbook.vercel.app/images/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
 <meta property="book:author" content="Pavel Kordík and the Recombee team">
 <meta property="book:tag" content="recommendation systems">
@@ -26,7 +28,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="How Recommendations Work — by Recombee">
 <meta name="twitter:description" content="Interactive book about recommender systems — algorithms, production, ethics.">
-<meta name="twitter:image" content="https://recsys-pbook.vercel.app/images/og-cover.svg">
+<meta name="twitter:image" content="https://recsys-pbook.vercel.app/images/og-cover.png">
 <!-- Structured Data -->
 <script type="application/ld+json">
 {
@@ -54,7 +56,7 @@
 </script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<link rel="stylesheet" href="css/style.css?v=3.5.0">
+<link rel="stylesheet" href="css/style.css?v=3.6.0">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 </head>
 <body>
@@ -77,21 +79,47 @@
 
       <button class="btn-primary btn-large" onclick="app.startRandom()">Start reading &#128640;</button>
 
-      <h3 class="intro-section-title">Your learning style</h3>
-      <div class="intro-voices">
-        <button class="intro-voice" data-voice="explorer" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
-          <span>&#128269;</span> Explorer
+      <h3 class="intro-section-title">Make it yours <span class="toggle-hint">(two taps — everything else adapts as you read)</span></h3>
+      <div class="intro-voices" id="introLens">
+        <button class="intro-voice selected" data-lens="generic" onclick="app.onboardPick('lens','generic',this)">
+          <span>&#127760;</span> Everywhere
         </button>
-        <button class="intro-voice" data-voice="creator" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
-          <span>&#127912;</span> Creator
+        <button class="intro-voice" data-lens="ecommerce" onclick="app.onboardPick('lens','ecommerce',this)">
+          <span>&#128722;</span> Shopping
         </button>
-        <button class="intro-voice" data-voice="thinker" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
-          <span>&#129504;</span> Thinker
+        <button class="intro-voice" data-lens="media" onclick="app.onboardPick('lens','media',this)">
+          <span>&#127925;</span> Music &amp; Video
         </button>
-        <button class="intro-voice selected" data-voice="universal" onclick="document.querySelectorAll('.intro-voice').forEach(v=>v.classList.remove('selected'));this.classList.add('selected')">
-          <span>&#128218;</span> All
+        <button class="intro-voice" data-lens="social-feeds" onclick="app.onboardPick('lens','social-feeds',this)">
+          <span>&#128241;</span> Social feeds
+        </button>
+        <button class="intro-voice" data-lens="education" onclick="app.onboardPick('lens','education',this)">
+          <span>&#127891;</span> Learning
         </button>
       </div>
+      <div class="intro-voices" id="introGoal">
+        <button class="intro-voice selected" data-goal="understand" onclick="app.onboardPick('goal','understand',this)">
+          <span>&#128161;</span> Understand
+        </button>
+        <button class="intro-voice" data-goal="build" onclick="app.onboardPick('goal','build',this)">
+          <span>&#128295;</span> Build one
+        </button>
+        <button class="intro-voice" data-goal="decide" onclick="app.onboardPick('goal','decide',this)">
+          <span>&#9878;&#65039;</span> Make decisions
+        </button>
+        <button class="intro-voice" data-goal="protect" onclick="app.onboardPick('goal','protect',this)">
+          <span>&#128737;&#65039;</span> Protect myself
+        </button>
+      </div>
+      <input type="text" id="introGoalText" maxlength="200" class="gen-wish" style="margin-top:.5em;width:100%"
+        placeholder="…or type what you want to learn — the book will build a personal mission (optional)">
+      <p class="intro-onboard-hint" id="onboardHint">Pick your world and your goal — the book will tell every concept your way.</p>
+
+      <label class="intro-toggle intro-livingbook" id="introLiving">
+        <input type="checkbox" id="optOpenMode">
+        <div><b>&#127793; Living book</b> <span class="toggle-hint">(recommended)</span><br>
+        <span class="toggle-desc">See tellings shared by other readers, and generate or ✨ remix your own — text, diagrams, even animations. Clearly labelled; the verified core stays untouched.</span></div>
+      </label>
 
       <h3 class="intro-section-title">Or choose how to read</h3>
       <div class="home-modes" style="padding:0;margin-bottom:.6em">
@@ -254,6 +282,7 @@
 <div class="highlight-popup" id="highlightPopup" style="display:none">
   <button onclick="app.highlightSelection()" title="Highlight">&#127912;</button>
   <button onclick="app.highlightAndNote()" title="Highlight + Note">&#128221;</button>
+  <button onclick="app.remixSelection()" title="Remix this part — describe how it should change">&#10024;</button>
 </div>
 
 <!-- BOTTOM TAB NAV -->
@@ -331,7 +360,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
-<script type="module" src="js/app.js?v=5.3.0"></script>
+<script type="module" src="js/app.js?v=5.4.0"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 </body>
 </html>
