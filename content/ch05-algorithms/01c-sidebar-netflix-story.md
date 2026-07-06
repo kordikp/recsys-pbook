@@ -16,6 +16,15 @@ highlights:
   - "Speed and simplicity consistently beat marginal accuracy improvements"
   - "The competition transformed the field even though the winning solution was never deployed"
 status: accepted
+concept: collaborative-filtering
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 In 2006, Netflix did something unprecedented. They said: "We'll give **one million dollars** to anyone who can make our movie recommendations just 10% better."

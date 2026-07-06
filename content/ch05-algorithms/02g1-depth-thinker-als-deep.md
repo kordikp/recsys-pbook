@@ -9,6 +9,15 @@ voice: thinker
 parent: ch3-matrix-factorization
 publishedAt: "2026-04-03"
 status: accepted
+concept: embeddings
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: code-walkthrough
+carriers: prose|table|image|formula|code
 ---
 
 Matrix factorization is the conceptual foundation. ALS is the workhorse algorithm that makes it practical at scale. This section derives the algorithm from first principles, extends it to implicit feedback, and analyzes the computational properties that made it the dominant approach in distributed recommender systems.

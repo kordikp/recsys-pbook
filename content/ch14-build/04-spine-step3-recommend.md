@@ -15,6 +15,16 @@ highlights:
   - "Predict ratings by averaging similar users' ratings for unseen items"
   - "Test predictions against held-out ratings — within 1 star = acceptable"
 status: accepted
+concept: diy-predict
+conceptTitle: "Build your own: predict"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 You have your rating matrix. You know each user's nearest neighbors. Now for the core step: **predicting ratings and generating recommendations.**

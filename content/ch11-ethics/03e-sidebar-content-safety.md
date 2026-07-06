@@ -13,6 +13,15 @@ recallQ: "Why can recommendation systems amplify harmful content, and what are t
 recallA: "Because engagement metrics reward emotionally provocative content regardless of quality or safety. The three layers are: content moderation (classify and remove), recommendation filtering (don't recommend even if not removed), and contextual safety (content safe in one context but harmful in another)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: privacy-reality
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A recommendation algorithm does not distinguish between a cooking tutorial and a radicalization video. Both are items. Both generate engagement signals. And if the radicalization video produces longer watch times, more shares, and more return visits, the algorithm learns to recommend more of it.

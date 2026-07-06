@@ -13,6 +13,15 @@ recallQ: "What is the regret bound for Thompson Sampling and why is it near-opti
 recallA: "O(√(KT log T)) regret, matching the Lai-Robbins lower bound Ω(√(KT)) up to logarithmic factors. It achieves this by being Bayesian-optimal: selecting the arm with highest posterior probability of being optimal."
 publishedAt: "2026-04-03"
 status: accepted
+concept: bandits-in-practice
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|formula
 ---
 
 Thompson Sampling is one of the oldest algorithms in machine learning (1933) and one of the most theoretically elegant. Here's the complete mathematical framework.

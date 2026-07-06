@@ -17,6 +17,16 @@ highlights:
   - "Rabbit holes can be detected by monitoring neuron concentration and gently diversified"
 publishedAt: "2026-04-07"
 status: accepted
+concept: steerability
+conceptTitle: "Steerable recommendations"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 The dominant paradigm in recommendation is **opaque optimization**: the algorithm observes your behavior, builds a model, and serves results. You can like, dislike, or "not interested" — but these are blunt instruments. You can't say "I liked this movie for the cinematography, not the genre" or "I'm in a different mood today."

@@ -13,6 +13,15 @@ recallQ: "Why is regularization especially important for recommender systems?"
 recallA: "Interaction data is extremely sparse (<1% observed). Without regularization, models memorize the training data perfectly but generalize poorly — predicting noise instead of signal."
 publishedAt: "2026-04-03"
 status: accepted
+concept: beeformer
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|formula
 ---
 
 Recommender systems operate in one of the most challenging statistical regimes: **extremely sparse data**. A typical user-item interaction matrix has <1% of entries observed. Without regularization, models inevitably overfit — memorizing the specific interactions they've seen rather than learning generalizable preference patterns.

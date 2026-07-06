@@ -8,6 +8,15 @@ core: false
 voice: universal
 publishedAt: "2026-04-03"
 status: accepted
+concept: business-rules
+state: edited
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|table|image|code
 ---
 
 There is no universally best recommendation algorithm. The right choice depends on your data, your constraints, and the problem you are actually trying to solve -- not the problem that produced the most impressive result in the last paper you read. This section provides a structured decision framework for matching algorithms to real-world conditions.

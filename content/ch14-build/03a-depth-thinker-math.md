@@ -14,6 +14,15 @@ highlights:
   - "Cosine similarity measures the angle between preference vectors, ignoring scale"
   - "A tough rater and a generous rater can be similar if their patterns match"
 status: accepted
+concept: diy-similar-users
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 The mean absolute difference method from the main section works for a quick prototype. But production recommendation systems require a more principled similarity measure. The most widely used is **cosine similarity**, and its geometric interpretation makes it remarkably intuitive.

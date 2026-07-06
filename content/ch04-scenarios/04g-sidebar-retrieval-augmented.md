@@ -13,6 +13,15 @@ recallQ: "How does the RAG pattern apply to recommendation systems?"
 recallA: "An LLM generates recommendation explanations or conversational responses, but actual item selection is grounded in a traditional RecSys retrieval pipeline. This prevents hallucination (recommending nonexistent items) while preserving natural language interaction."
 publishedAt: "2026-04-03"
 status: accepted
+concept: llm-recommenders
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|code
 ---
 
 Retrieval-Augmented Generation (RAG) — the pattern of grounding LLM outputs in retrieved documents — is rapidly entering the recommendation space. The motivation is simple: LLMs are great at understanding user intent but terrible at knowing your catalog.

@@ -1,0 +1,2638 @@
+{
+  "version": 1,
+  "generatedBy": "scripts/migrate-facets.js",
+  "concepts": [
+    {
+      "id": "everyday-recommendations",
+      "title": "Everyday recommendations",
+      "chapter": "ch01-introduction",
+      "anchor": "ch1-noticed",
+      "anchorPath": "ch01-introduction/01-spine-have-you-noticed.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch1-noticed"
+      ],
+      "contract": {
+        "objective": "Every platform you use curates your experience. But what's behind it?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Every user's feed is unique -- no two people see the same recommendations",
+            "modality": "prose"
+          },
+          {
+            "point": "Algorithms determine what surfaces based on every interaction recorded",
+            "modality": "prose"
+          },
+          {
+            "point": "Each platform personalizes differently using statistical pattern recognition",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How do platforms like YouTube seem to \\\"know\\\" what you want?",
+        "recallA": "They track your clicks, watches, and skips to build a profile of your preferences — then use algorithms to surface similar content.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "ubiquity",
+      "title": "Ubiquity of recommenders",
+      "chapter": "ch01-introduction",
+      "anchor": "ch1-everywhere",
+      "anchorPath": "ch01-introduction/02-spine-recommendations-everywhere.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch1-everywhere"
+      ],
+      "contract": {
+        "objective": "Once you start looking, you can't stop seeing them.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Recommendations are embedded in 8+ types of platforms used daily",
+            "modality": "prose"
+          },
+          {
+            "point": "The average person encounters hundreds of algorithmic suggestions per day",
+            "modality": "prose"
+          },
+          {
+            "point": "Once you learn to identify them, you see them everywhere",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Name 4 platforms that use recommendation algorithms.",
+        "recallA": "YouTube, Spotify, Netflix, Amazon, LinkedIn, Google News, Twitter/X — virtually every digital platform.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "patterns-not-magic",
+      "title": "Patterns, not magic",
+      "chapter": "ch01-introduction",
+      "anchor": "ch1-not-magic",
+      "anchorPath": "ch01-introduction/03-spine-not-magic.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch1-not-magic",
+        "ch1-wrong-sidebar",
+        "ch1-patterns-d-think",
+        "ch1-history"
+      ],
+      "contract": {
+        "objective": "Recommender systems are pattern-recognition engines. Here's how they work.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The core loop: observe behavior, detect patterns, predict preferences",
+            "modality": "prose"
+          },
+          {
+            "point": "More data yields more accurate models -- each interaction improves predictions",
+            "modality": "prose"
+          },
+          {
+            "point": "Cross-user patterns across millions reveal connections no human could spot",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Recommendations feel like magic — what are they really based on?",
+        "recallA": "Patterns! Observe behavior → detect patterns → predict preferences. Statistical pattern recognition at massive scale.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "three-jobs",
+      "title": "Three jobs of a recommender",
+      "chapter": "ch01-introduction",
+      "anchor": "ch1-three-jobs",
+      "anchorPath": "ch01-introduction/04-spine-three-jobs.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch1-three-jobs",
+        "ch1-wyr",
+        "ch1-personalization-spectrum",
+        "ch1-q1"
+      ],
+      "contract": {
+        "objective": "Discovery, navigation, and engagement — the three core functions.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "DISCOVER: surface items users would not find through search alone",
+            "modality": "prose"
+          },
+          {
+            "point": "NAVIGATE: reduce cognitive load in massive catalogs",
+            "modality": "prose"
+          },
+          {
+            "point": "ENGAGE: sustain attention -- beneficial when aligned with user value, problematic when not",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the 3 core functions of a recommender system?",
+        "recallA": "DISCOVER new items, NAVIGATE large catalogs efficiently, and ENGAGE — sustain user interest over time.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "platform-models",
+      "title": "Which model powers which platform",
+      "chapter": "ch01-introduction",
+      "anchor": "ch1-ws-match",
+      "anchorPath": "ch01-introduction/06-spine-worksheet-match-apps.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch1-ws-match"
+      ],
+      "contract": {
+        "objective": "Examine the content distribution models behind the platforms you use daily.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Five distribution models: social-graph, subscription, community, algorithmic, group-based",
+            "modality": "prose"
+          },
+          {
+            "point": "Platforms are converging toward algorithmic curation -- the algorithm is taking over",
+            "modality": "prose"
+          },
+          {
+            "point": "The models giving users the most control are not where they spend the most time",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Name 3 different content distribution models.",
+        "recallA": "Social graph, subscription, community-curated, algorithmic, and group-based. Most platforms use hybrid approaches.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "digital-footprints",
+      "title": "Digital footprints",
+      "chapter": "ch02-data",
+      "anchor": "ch2-footprints",
+      "anchorPath": "ch02-data/01-spine-digital-footprints.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch2-footprints",
+        "ch2-track-d-exp",
+        "ch2-guess-signal",
+        "ch2-game-signal",
+        "ch2-interactions",
+        "ch2-implicit-feedback",
+        "ch2-user-lifecycle"
+      ],
+      "contract": {
+        "objective": "Every click, every skip, every replay -- you're leaving a trail of behavioral data.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Every interaction -- click, view, skip, dwell time -- is a behavioral signal",
+            "modality": "prose"
+          },
+          {
+            "point": "Users continuously train the system through implicit feedback",
+            "modality": "prose"
+          },
+          {
+            "point": "The system evolves from knowing nothing to modeling preferences in detail",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are digital footprints?",
+        "recallA": "Every click, view, skip, and search — behavioral traces that feed the system's model of your preferences.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "data-pillars",
+      "title": "Three pillars of recommendation data",
+      "chapter": "ch02-data",
+      "anchor": "ch2-data-foundation",
+      "anchorPath": "ch02-data/01g-spine-data-foundation.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch2-data-foundation"
+      ],
+      "contract": {
+        "objective": "Every recommendation system rests on three data pillars: what items exist, who the users are, and how they interact. Get the foundation wrong and no algorithm can save you.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Three pillars: item catalog, user catalog, and interactions -- skip none",
+            "modality": "prose"
+          },
+          {
+            "point": "Data quality trumps data quantity -- clean metadata beats massive click logs",
+            "modality": "prose"
+          },
+          {
+            "point": "When recommendations fail, the root cause is usually data, not the algorithm",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the three data pillars of a recommender system?",
+        "recallA": "The Item Catalog (what's available and its attributes), the User Catalog (who the users are), and User-Item Interactions (the behavioral signal connecting them). The interaction data is the most critical — without it, there's no personalization.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "feedback-signals",
+      "title": "Explicit and implicit feedback",
+      "chapter": "ch02-data",
+      "anchor": "ch2-clues",
+      "anchorPath": "ch02-data/02-spine-three-types-of-clues.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch2-clues",
+        "ch2-incognito-sidebar",
+        "ch2-negative-signals",
+        "ch2-rating-quality",
+        "ch2-visibility-bias",
+        "ch2-myth",
+        "ch2-game-cold"
+      ],
+      "contract": {
+        "objective": "Item features, user profiles, and behavioral signals -- the three pillars of every recommendation.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Three signal types: item attributes, user demographics, and behavioral interactions",
+            "modality": "prose"
+          },
+          {
+            "point": "Behavioral signals reveal preferences more reliably than stated preferences",
+            "modality": "prose"
+          },
+          {
+            "point": "Missing any one signal type significantly degrades recommendation quality",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Name the 3 types of data recommenders use.",
+        "recallA": "Item metadata (what it IS), user attributes (who YOU are), interaction data (what you DO).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "data-control",
+      "title": "Your data, your choice",
+      "chapter": "ch02-data",
+      "anchor": "ch2-privacy",
+      "anchorPath": "ch02-data/03-spine-your-data-your-choice.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch2-privacy",
+        "ch2-privacy-d-create",
+        "ch2-data-ownership"
+      ],
+      "contract": {
+        "objective": "You have more control over your digital footprints than you think. Here's the toolkit.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Concrete tools exist: 'Not Interested,' clear history, separate profiles, privacy settings",
+            "modality": "prose"
+          },
+          {
+            "point": "Data is a trade: personal information in exchange for better personalization",
+            "modality": "prose"
+          },
+          {
+            "point": "Under GDPR/CCPA, users have legal rights to access, port, and delete their data",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Name 3 mechanisms you have to control your recommendation data.",
+        "recallA": "\\\"Not Interested\\\" feedback, history deletion, separate profiles, private browsing, platform privacy settings, and GDPR data access requests.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "data-detective",
+      "title": "Be a data detective",
+      "chapter": "ch02-data",
+      "anchor": "ch2-ws-detective",
+      "anchorPath": "ch02-data/04-spine-worksheet-data-detective.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch2-ws-detective",
+        "ch2-data-quality"
+      ],
+      "contract": {
+        "objective": "Open your most-used platform and investigate your algorithm in real time -- you'll observe it learning.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The 'Not Interested' button triggers immediate recommendation adjustments",
+            "modality": "prose"
+          },
+          {
+            "point": "A single new interaction can visibly reshape the feed in real time",
+            "modality": "prose"
+          },
+          {
+            "point": "Either you train the algorithm deliberately, or it trains on unintentional behavior",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Can you deliberately train the algorithm?",
+        "recallA": "Yes. Search for topics you want, engage with content deliberately, use \\\"Not Interested\\\" on what you want deprioritized.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "item-cold-start",
+      "title": "Item cold start",
+      "chapter": "ch02-data",
+      "anchor": "item-cold-start",
+      "anchorPath": "ch02-data/05-spine-item-cold-start.md",
+      "provenance": "anchored",
+      "blocks": [
+        "item-cold-start",
+        "item-cold-start-tldr",
+        "item-cold-start-formal",
+        "item-cold-start-visual",
+        "item-cold-start-comic",
+        "item-cold-start-anim-shop",
+        "item-cold-start-anim-media",
+        "item-cold-start-anim-jobs",
+        "item-cold-start-ecommerce",
+        "item-cold-start-media",
+        "item-cold-start-jobs",
+        "item-cold-start-long",
+        "item-cold-start-cs",
+        "item-cold-start-cs-shop"
+      ],
+      "contract": {
+        "objective": "A brand-new item has zero interactions. How does a recommender give it a fair first day?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "A new item has zero interactions -- collaborative filtering is blind to it",
+            "modality": "prose"
+          },
+          {
+            "point": "Content and metadata bridge the gap: similar by what it IS, not by who clicked it",
+            "modality": "prose"
+          },
+          {
+            "point": "A small exploration budget buys the first real signals, then behavior takes over",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why can't collaborative filtering recommend a brand-new item, and what two bridges fix it?",
+        "recallA": "CF needs co-interaction patterns and a new item has none; content/metadata similarity places it next to known items, and a small exploration budget buys the first real interactions.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "objectives",
+      "title": "Optimization objectives",
+      "chapter": "ch03-objectives",
+      "anchor": "ch4-objectives",
+      "anchorPath": "ch03-objectives/02c-spine-objectives.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-objectives",
+        "ch4-multi-objective"
+      ],
+      "contract": {
+        "objective": "Every recommender optimizes a specific objective function. The critical question is: whose goals does that function serve?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Every algorithm optimizes for an objective: engagement, revenue, or satisfaction",
+            "modality": "prose"
+          },
+          {
+            "point": "Subscription models (Netflix) align better with user satisfaction than ad models",
+            "modality": "prose"
+          },
+          {
+            "point": "Users, creators, and platform operators have structurally different interests",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the algorithm actually trying to do?",
+        "recallA": "It depends on the objective function. Subscription services tend to optimize for user satisfaction (retention-driven). Ad-supported services optimize for engagement that maximizes advertising revenue.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "fairness",
+      "title": "Fairness",
+      "chapter": "ch03-objectives",
+      "anchor": "ch4-fairness",
+      "anchorPath": "ch03-objectives/02-spine-fairness.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-fairness",
+        "ch4-youtube-sidebar",
+        "ch4-unfair-game",
+        "ch4-diversity-metrics"
+      ],
+      "contract": {
+        "objective": "Dominant suppliers get more exposure. New entrants remain invisible. What does fairness actually mean in this context?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Popularity creates a self-reinforcing cycle: visible → popular → more visible",
+            "modality": "prose"
+          },
+          {
+            "point": "New content creators face systematic invisibility in algorithmically curated feeds",
+            "modality": "prose"
+          },
+          {
+            "point": "Solutions: exploration slots, freshness boosts, fair exposure constraints",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How can algorithms be unfair to new content providers?",
+        "recallA": "Popular items receive more recommendations, which generate more engagement, which triggers even more recommendations -- a self-reinforcing cycle. New providers never gain visibility. Well-designed systems build in mechanisms for fair initial exposure.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "long-tail",
+      "title": "The long tail",
+      "chapter": "ch03-objectives",
+      "anchor": "ch4-long-tail",
+      "anchorPath": "ch03-objectives/02f-spine-long-tail.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-long-tail",
+        "ch4-user-fatigue"
+      ],
+      "contract": {
+        "objective": "In most recommendation datasets, a tiny fraction of items accounts for the vast majority of interactions. This power law distribution shapes everything -- and algorithms often make it worse.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "On Spotify, roughly 80% of tracks have never been streamed even once",
+            "modality": "prose"
+          },
+          {
+            "point": "The Matthew effect: popularity is self-reinforcing via the feedback loop",
+            "modality": "prose"
+          },
+          {
+            "point": "Users who discover niche content become more loyal and less likely to churn",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why do recommendation algorithms tend to ignore long-tail items?",
+        "recallA": "More interactions mean better predictions, which generate more recommendations, which produce more interactions -- a self-reinforcing cycle known as the Matthew effect. Items with few interactions never accumulate enough signal to be confidently recommended.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "satisfaction-vs-engagement",
+      "title": "Satisfaction vs. engagement",
+      "chapter": "ch03-objectives",
+      "anchor": "ch4-satisfaction",
+      "anchorPath": "ch03-objectives/02h-spine-satisfaction-vs-engagement.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-satisfaction",
+        "ch4-trust",
+        "ch4-reward-design",
+        "ch4-spotify-paradox"
+      ],
+      "contract": {
+        "objective": "High engagement doesn't mean high satisfaction. 'I can't stop watching' and 'I'm glad I watched' are very different things.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Netflix's best predictor of satisfaction: 'Would you watch this again?'",
+            "modality": "prose"
+          },
+          {
+            "point": "Ad-supported platforms optimize time spent; subscription platforms optimize retention",
+            "modality": "prose"
+          },
+          {
+            "point": "Clickbait scores high on CTR but leaves users feeling deceived",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why are engagement metrics poor proxies for user satisfaction?",
+        "recallA": "Engagement measures behavior (clicks, watch time) not value. A user who doom-scrolls for 3 hours has high engagement but low satisfaction. Retention and voluntary return rate are better satisfaction proxies.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "scenarios",
+      "title": "Recommendation scenarios",
+      "chapter": "ch04-scenarios",
+      "anchor": "ch4-what-scenarios",
+      "anchorPath": "ch04-scenarios/01-spine-what-are-scenarios.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-what-scenarios",
+        "ch4-canvas",
+        "ch5-rec-scenarios",
+        "ch5-composite-recs"
+      ],
+      "contract": {
+        "objective": "A homepage recommendation and a cart cross-sell serve completely different purposes, face different constraints, and should use different algorithms. The scenario concept formalizes this: each placement gets its own strategy.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "A scenario = a specific placement + its own algorithm, constraints, metrics, and evaluation plan",
+            "modality": "prose"
+          },
+          {
+            "point": "Homepage ≠ product detail ≠ cart ≠ email ≠ search results -- each requires a different strategy",
+            "modality": "prose"
+          },
+          {
+            "point": "The scenario canvas defines 8 elements: entry point, user state, latency budget, candidate pool, constraints, exploration, metrics, evaluation",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is a recommendation scenario and why does it matter?",
+        "recallA": "A scenario is a specific placement where recommendations appear (homepage, product detail, cart, email, search results), with its own logic, constraints, latency budget, success metrics, and evaluation plan. Treating all placements identically leads to suboptimal results because each context has different user intent and different definitions of success.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "context-awareness",
+      "title": "Context-aware recommendation",
+      "chapter": "ch04-scenarios",
+      "anchor": "ch3-context-aware",
+      "anchorPath": "ch04-scenarios/02j-spine-context-aware.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-context-aware"
+      ],
+      "contract": {
+        "objective": "The same person wants different things at different times. Context-aware systems recognize that preferences aren't fixed -- they shift with time, place, device, and intent.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Your preferences are real but context decides which ones are active right now",
+            "modality": "prose"
+          },
+          {
+            "point": "Three approaches: pre-filter, post-filter, or model context directly",
+            "modality": "prose"
+          },
+          {
+            "point": "Context shifts in seconds -- batch-only systems cannot keep up",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the three main architectural approaches to incorporating context into a recommender system?",
+        "recallA": "Pre-filtering (narrow candidates by context before scoring), post-filtering (score all candidates then re-rank by context), and contextual modeling (include context features directly in the scoring model so the model learns context-dependent preferences).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "session-based",
+      "title": "Session-based recommendation",
+      "chapter": "ch04-scenarios",
+      "anchor": "ch3-session-based",
+      "anchorPath": "ch04-scenarios/02m-spine-session-based.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-session-based"
+      ],
+      "contract": {
+        "objective": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleeting trail of intent.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "60-80% of e-commerce visits are anonymous -- session-based is the norm",
+            "modality": "prose"
+          },
+          {
+            "point": "Simple item-KNN often matches or beats deep models on short sessions",
+            "modality": "prose"
+          },
+          {
+            "point": "Dwell time and scroll depth reveal intent that click sequences alone miss",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why do simple baselines like item-KNN often outperform deep learning models in session-based recommendation?",
+        "recallA": "Sessions are typically very short (3-10 items), providing minimal sequential signal for complex models to exploit. Simple co-occurrence patterns -- 'users who clicked X in this session also clicked Y' -- capture most of the useful information. Deep models need longer sequences to learn meaningful temporal dependencies that justify their added complexity.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "search-vs-recs",
+      "title": "Search vs. recommendations",
+      "chapter": "ch04-scenarios",
+      "anchor": "ch3-search-recs",
+      "anchorPath": "ch04-scenarios/04d-spine-search-and-recs.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-search-recs",
+        "ch3-search-recs-convergence"
+      ],
+      "contract": {
+        "objective": "When you search for 'running shoes', the results aren't random -- they're personalized recommendations layered on top of information retrieval.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Search results are personalized — the same query returns different results per user",
+            "modality": "prose"
+          },
+          {
+            "point": "Search and recommendation share the same retrieval infrastructure",
+            "modality": "prose"
+          },
+          {
+            "point": "Modern platforms run both through a unified embedding-based pipeline",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Are search results the same for everyone?",
+        "recallA": "No. Modern search is deeply personalized -- result ranking depends on user history, location, behavioral signals, and learned query-user relevance models.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "llm-recommenders",
+      "title": "LLM-powered recommendation",
+      "chapter": "ch04-scenarios",
+      "anchor": "ch3-llm-recs",
+      "anchorPath": "ch04-scenarios/04e-spine-llm-recommendations.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-llm-recs",
+        "ch3-rag-recs",
+        "ch3-autoplay"
+      ],
+      "contract": {
+        "objective": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better than a well-tuned collaborative filter?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "LLMs can confidently recommend items that do not exist -- hallucination is critical",
+            "modality": "prose"
+          },
+          {
+            "point": "Six months of behavioral data beats any LLM prompt on personalization",
+            "modality": "prose"
+          },
+          {
+            "point": "Best results: LLM as interface and reasoning, traditional RecSys as backbone",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the key strengths and limitations of using LLMs for recommendations?",
+        "recallA": "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "collaborative-filtering",
+      "title": "Collaborative filtering",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-friends",
+      "anchorPath": "ch05-algorithms/01-spine-ask-your-friends.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-friends",
+        "ch3-cf-d-exp",
+        "ch3-cf-d-create",
+        "ch3-netflix-sidebar",
+        "ch3-cf-limitations",
+        "ch3-game-taste"
+      ],
+      "contract": {
+        "objective": "What if a million users with your exact preferences could recommend items to you?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Collaborative filtering: find users with similar preferences, recommend what they liked",
+            "modality": "prose"
+          },
+          {
+            "point": "No need to describe preferences — similar users' behavior does it implicitly",
+            "modality": "prose"
+          },
+          {
+            "point": "Item-item CF scales better than user-user; Amazon proved this in 2003",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How does collaborative filtering work?",
+        "recallA": "Find users with similar preferences → recommend what THEY engaged with that you haven't tried yet. Can be user-user (find similar users) or item-item (find items co-consumed by the same users).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "content-based",
+      "title": "Content-based recommendation",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-content",
+      "anchorPath": "ch05-algorithms/02-spine-look-at-the-thing.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-content",
+        "ch3-compare-d-think",
+        "ch3-spot-method",
+        "ch3-game-method"
+      ],
+      "contract": {
+        "objective": "Forget other users. What if the system analyzed the ITEM's intrinsic properties instead?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Content-based filtering analyzes item features: genre, tags, description, audio signals",
+            "modality": "prose"
+          },
+          {
+            "point": "Solves cold start — works for new items with zero interaction data",
+            "modality": "prose"
+          },
+          {
+            "point": "Doesn't need other users — only item metadata and user preferences",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How does content-based filtering differ from collaborative?",
+        "recallA": "Content-based analyzes item FEATURES (genre, tags, text, metadata). Collaborative analyzes USER BEHAVIOR (co-consumption patterns). Content-based solves cold start; collaborative excels at serendipity.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "explore-exploit",
+      "title": "Explore–exploit dilemma",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-bandits",
+      "anchorPath": "ch05-algorithms/02d-spine-bandits.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-bandits",
+        "ch3-bandits-intuition"
+      ],
+      "contract": {
+        "objective": "Should the algorithm serve a proven winner or test an unknown candidate? This is one of the most fundamental trade-offs in recommendations.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The exploration-exploitation trade-off is the central dilemma in recommendation",
+            "modality": "prose"
+          },
+          {
+            "point": "Thompson Sampling balances both automatically via Bayesian posterior sampling",
+            "modality": "prose"
+          },
+          {
+            "point": "Contextual bandits add features — time of day, device, user segment",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the explore-exploit dilemma?",
+        "recallA": "Should the system serve items with known high reward (exploit) or test uncertain items that might yield higher reward (explore)? Optimal strategies balance both using bandit algorithms.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "embeddings",
+      "title": "Embeddings and similarity",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-deep-similarity",
+      "anchorPath": "ch05-algorithms/02e-spine-deep-similarity.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-deep-similarity",
+        "ch3-embeddings-intuition",
+        "ch3-two-tower",
+        "ch3-two-tower-math",
+        "ch3-matrix-factorization",
+        "ch3-als-deep",
+        "ch3-attention",
+        "ch3-attention-deep"
+      ],
+      "contract": {
+        "objective": "A jazz ballad and an ambient electronic track might evoke similar feelings. How does a machine learn to capture that?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Embeddings represent items as vectors where proximity = behavioral similarity",
+            "modality": "prose"
+          },
+          {
+            "point": "Neural networks discover latent qualities that handcrafted features miss",
+            "modality": "prose"
+          },
+          {
+            "point": "ANN search finds nearest neighbors among billions of vectors in milliseconds",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are \\\"embeddings\\\" in recommendation systems?",
+        "recallA": "Dense vector representations where items are mapped to points in a continuous space. Proximity in the space corresponds to semantic or behavioral similarity. Learned via neural networks from interaction data.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "graph-methods",
+      "title": "Graph-based methods",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-graph-methods",
+      "anchorPath": "ch05-algorithms/02i-spine-graph-methods.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-graph-methods",
+        "ch3-feature-interactions",
+        "ch3-hybrid-patterns"
+      ],
+      "contract": {
+        "objective": "What if the best way to recommend isn't to decompose a matrix, but to traverse a network? Graph methods reveal structural patterns that linear algebra alone cannot see.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Graphs preserve multi-hop paths that matrix factorization flattens away",
+            "modality": "prose"
+          },
+          {
+            "point": "LightGCN with one layer approximates EASE; deeper layers go beyond it",
+            "modality": "prose"
+          },
+          {
+            "point": "PinSage proved graph methods work at 3 billion nodes and 18 billion edges",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What advantage do Graph Neural Networks (like LightGCN) have over matrix factorization for recommendation?",
+        "recallA": "GNNs capture multi-hop neighborhood structure in the user-item graph. By aggregating information across multiple layers, they encode higher-order collaborative signals -- e.g., 'users who share neighbors of neighbors' -- that matrix factorization compresses into a single latent space and cannot explicitly represent.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "multimodal",
+      "title": "Multimodal recommendation",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-multimodal",
+      "anchorPath": "ch05-algorithms/02n-spine-multimodal.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-multimodal",
+        "ch3-embedding-alignment",
+        "ch3-rl-recsys",
+        "ch3-social-rec",
+        "ch3-neg-sampling",
+        "ch3-item-emb-prod",
+        "ch3-geographic"
+      ],
+      "contract": {
+        "objective": "Multimodal recommendation",
+        "objectiveSource": "title-bootstrap",
+        "mustCover": [
+          {
+            "point": "Two dresses labeled 'elegant evening wear' look nothing alike -- images fix that",
+            "modality": "prose"
+          },
+          {
+            "point": "CLIP maps images and text into one space, enabling cross-modal search",
+            "modality": "prose"
+          },
+          {
+            "point": "beeFormer embeds content by behavioral similarity, not semantic similarity",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": null,
+        "recallA": null,
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "popularity",
+      "title": "Popularity and trends",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-popular",
+      "anchorPath": "ch05-algorithms/03-spine-whats-popular.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-popular",
+        "ch3-popular-sidebar",
+        "ch3-freshness"
+      ],
+      "contract": {
+        "objective": "The simplest recommendation strategy: just surface what's trending. No personalization required.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Popularity-based: show what's trending — no personalization required",
+            "modality": "prose"
+          },
+          {
+            "point": "Surprisingly strong baseline, especially for new users with zero history",
+            "modality": "prose"
+          },
+          {
+            "point": "No personalization means treating every user identically",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the biggest weakness of popularity-based recommendations?",
+        "recallA": "No personalization -- every user sees the same ranked list. It cannot account for individual preferences, leading to homogeneous experiences.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "pipeline",
+      "title": "The recommendation pipeline",
+      "chapter": "ch05-algorithms",
+      "anchor": "ch3-pipeline",
+      "anchorPath": "ch05-algorithms/04-spine-the-pipeline.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch3-pipeline",
+        "ch3-pipeline-d-exp",
+        "ch3-ltr",
+        "ch3-speed",
+        "ch3-slate",
+        "ch3-game-pipeline",
+        "ch3-q1"
+      ],
+      "contract": {
+        "objective": "Production systems don't use just one method. They orchestrate ALL of them in a multi-stage pipeline.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Production systems combine methods in 3 stages: Retrieve → Score → Re-rank",
+            "modality": "prose"
+          },
+          {
+            "point": "Retrieval is fast and rough; scoring is precise; re-ranking adds diversity",
+            "modality": "prose"
+          },
+          {
+            "point": "The entire pipeline runs in under 200 milliseconds",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the 3 stages of a recommendation pipeline?",
+        "recallA": "RETRIEVE candidates (fast, high recall), RANK them (precise scoring model), RE-RANK for business logic and diversity.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "ab-testing",
+      "title": "A/B testing",
+      "chapter": "ch06-evaluation",
+      "anchor": "ch4-testing",
+      "anchorPath": "ch06-evaluation/03-spine-testing.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-testing",
+        "ch4-ab-d-exp",
+        "ch4-game-ab",
+        "ch4-online-offline",
+        "ch4-counterfactual",
+        "ch4-interleaving"
+      ],
+      "contract": {
+        "objective": "How do you know if a recommendation system actually works? Rigorous experimentation -- not intuition.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "A/B testing measures real behavioral impact, not predicted or self-reported preferences",
+            "modality": "prose"
+          },
+          {
+            "point": "Proper testing requires statistical power analysis and multiple testing correction",
+            "modality": "prose"
+          },
+          {
+            "point": "Long-term retention metrics matter more than short-term engagement spikes",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is an A/B test?",
+        "recallA": "A controlled online experiment: randomly assign users to variant A or B, measure behavioral outcomes, and use statistical tests to determine which variant performs better. Data decides -- not opinion.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "filter-bubbles",
+      "title": "Filter bubbles and diversity",
+      "chapter": "ch06-evaluation",
+      "anchor": "ch4-bubbles",
+      "anchorPath": "ch06-evaluation/01-spine-filter-bubbles.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-bubbles",
+        "ch4-echo-d-think",
+        "ch4-bias-types",
+        "ch4-polarization",
+        "ch4-experiment",
+        "ch4-game-bubble",
+        "ch4-accountability",
+        "ch4-q1",
+        "ch5-ab-pitfalls",
+        "ch5-benchmarks"
+      ],
+      "contract": {
+        "objective": "When recommendations are too effective, users only encounter what they already prefer -- and never realize what they are missing.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Filter bubble: the algorithm only shows content confirming existing preferences",
+            "modality": "prose"
+          },
+          {
+            "point": "The bubble is invisible — you never see what you're missing",
+            "modality": "prose"
+          },
+          {
+            "point": "Effective systems inject diversity to balance comfort with discovery",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is a filter bubble?",
+        "recallA": "When an algorithm exclusively surfaces content aligned with known preferences, users never encounter novel items. The bubble is invisible because users cannot see what is being withheld.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "evaluation-metrics",
+      "title": "Evaluation metrics",
+      "chapter": "ch06-evaluation",
+      "anchor": "ch7-evaluation",
+      "anchorPath": "ch06-evaluation/06-spine-measuring-what-matters.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-evaluation",
+        "ch7-eval-math",
+        "ch7-repsys"
+      ],
+      "contract": {
+        "objective": "The biggest risk in recommender systems isn't a bad algorithm — it's measuring the wrong thing.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Offline evaluation is biased -- better models can look worse in offline tests",
+            "modality": "prose"
+          },
+          {
+            "point": "Popularity penalization (beta=0.30) triples model selection accuracy",
+            "modality": "prose"
+          },
+          {
+            "point": "Goodhart's Law: optimizing for a metric makes it stop measuring what matters",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the offline evaluation bias and how can it be corrected?",
+        "recallA": "Offline data reflects the OLD system — new models recommending different items look worse because those items were never shown. Correction: LLOO with popularity penalization (β ≈ 0.30) improves model selection accuracy from 12.9% to 34.3%.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "why-explain",
+      "title": "Why explainability matters",
+      "chapter": "ch07-explainability",
+      "anchor": "ch7-why-explain",
+      "anchorPath": "ch07-explainability/01-spine-why-explainability.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-why-explain"
+      ],
+      "contract": {
+        "objective": "Users who understand why they received a recommendation get more value from it. Developers who can explain their system can debug it. Regulators who can audit it can protect the public. Explainability is where trust, engineering, and law converge.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Users who see why a recommendation was made are more likely to trust it and act on it",
+            "modality": "prose"
+          },
+          {
+            "point": "Engineers need explainability to debug model failures and catch silent degradation",
+            "modality": "prose"
+          },
+          {
+            "point": "GDPR Article 22 and the DSA now legally require meaningful algorithmic transparency",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the three main stakeholders who benefit from recommendation explainability?",
+        "recallA": "Users (trust and control), developers (debugging and improvement), and regulators (audit and compliance). Each group needs different levels and forms of explanation.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "explanations",
+      "title": "Explanations",
+      "chapter": "ch07-explainability",
+      "anchor": "ch4-explainability",
+      "anchorPath": "ch07-explainability/02d-spine-explainability.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch4-explainability",
+        "ch4-explanation-ux"
+      ],
+      "contract": {
+        "objective": "An unexpected item appears at the top of your feed. Why? The answer is more complex than most people realize.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "'Because you watched X' is often an approximate post-hoc explanation, not the actual reason",
+            "modality": "prose"
+          },
+          {
+            "point": "Neural networks use hundreds of features — full transparency is technically intractable",
+            "modality": "prose"
+          },
+          {
+            "point": "The DSA and GDPR now require platforms to explain recommendation parameters",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why can't platforms fully explain their recommendations?",
+        "recallA": "Modern neural recommendation systems process hundreds or thousands of features through nonlinear transformations -- even the engineers who built them cannot trace exactly why one item was ranked above another for a specific user.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "explanation-methods",
+      "title": "Explanation methods",
+      "chapter": "ch07-explainability",
+      "anchor": "ch7-explain-tech",
+      "anchorPath": "ch07-explainability/03-spine-technical-approaches.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-explain-tech",
+        "ch7-transparency"
+      ],
+      "contract": {
+        "objective": "From transparent models you can read directly to post-hoc methods that approximate what a black box is doing -- every explainability approach trades off between fidelity and interpretability.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Intrinsic methods (decision trees, k-NN, linear models) are transparent but often less accurate on complex tasks",
+            "modality": "prose"
+          },
+          {
+            "point": "Post-hoc methods (LIME, SHAP, counterfactuals) can explain any model but are approximations, not ground truth",
+            "modality": "prose"
+          },
+          {
+            "point": "Model-agnostic explainers work on any model; model-specific methods exploit internal structure for richer explanations",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the difference between intrinsic and post-hoc explainability methods?",
+        "recallA": "Intrinsic methods use models that are inherently interpretable (decision trees, linear models, k-NN). Post-hoc methods explain an already-trained black-box model after the fact (LIME, SHAP, counterfactual explanations). Intrinsic methods are faithful by construction; post-hoc methods are approximations.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "steerability",
+      "title": "Steerable recommendations",
+      "chapter": "ch07-explainability",
+      "anchor": "ch7-steerable",
+      "anchorPath": "ch07-explainability/02e-spine-steerable-recs.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-steerable",
+        "ch7-explain-q1"
+      ],
+      "contract": {
+        "objective": "What if you could tell the algorithm 'more of this, less of that' — not by fighting it, but by turning its own knobs?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Steerability transforms the user-algorithm relationship from passive to collaborative",
+            "modality": "prose"
+          },
+          {
+            "point": "SAE-based knobs work because sparse neurons naturally align with semantic concepts",
+            "modality": "prose"
+          },
+          {
+            "point": "Rabbit holes can be detected by monitoring neuron concentration and gently diversified",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is a steerable recommendation system and how does it differ from a traditional one?",
+        "recallA": "A steerable system exposes interpretable controls (knobs) that let users and editors adjust recommendation behavior without retraining. Traditional systems are black boxes where only the algorithm decides.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "build-vs-buy",
+      "title": "Build vs. buy",
+      "chapter": "ch08-deployment",
+      "anchor": "ch5-build-vs-buy",
+      "anchorPath": "ch08-deployment/05x-spine-build-vs-buy.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-tech-stack",
+        "ch5-scale",
+        "ch5-realtime",
+        "ch5-caching",
+        "ch5-embedding-viz",
+        "ch5-build-vs-buy"
+      ],
+      "contract": {
+        "objective": "Should you build a recommendation system from scratch or use a managed service? The answer depends on factors most teams underestimate.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Teams build a prototype in 3 months, then spend 18 months on operations",
+            "modality": "prose"
+          },
+          {
+            "point": "Build when personalization IS your product; buy when it's a feature",
+            "modality": "prose"
+          },
+          {
+            "point": "The real question is opportunity cost: what else could your team build?",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the key factors in the build vs. buy decision for recommender systems?",
+        "recallA": "Core competency (is personalization your competitive advantage?), hidden costs (monitoring, A/B testing, incident response, scaling), time to value, and team expertise. Most teams underestimate the operational cost of running RecSys in production.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "production-scale",
+      "title": "Production at scale",
+      "chapter": "ch08-deployment",
+      "anchor": "ch7-production-scale",
+      "anchorPath": "ch08-deployment/07-spine-production-at-scale.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-production-scale",
+        "ch7-sparse-reps",
+        "ch7-distillation",
+        "ch7-realm"
+      ],
+      "contract": {
+        "objective": "Research algorithms must survive the harsh reality of production: latency budgets, memory limits, and billions of daily interactions.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "CompresSAE: 12x embedding compression (307 GB to 26 GB), only 1.35% CTR loss",
+            "modality": "prose"
+          },
+          {
+            "point": "Sparse ELSA gets slightly better accuracy than dense -- sparsity regularizes",
+            "modality": "prose"
+          },
+          {
+            "point": "Mathematical elegance in research translates to robustness in production",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How does CompresSAE achieve 12× embedding compression with minimal quality loss?",
+        "recallA": "A sparse autoencoder compresses dense embeddings using top-k sparsification. The kernel trick enables O(k²) retrieval on sparse codes instead of O(d) on dense vectors. Result: 307 GB → 26 GB with only 1.35% CTR loss.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "monitoring",
+      "title": "Monitoring recommender systems",
+      "chapter": "ch09-monitoring",
+      "anchor": "ch9-why-monitor",
+      "anchorPath": "ch09-monitoring/01-spine-why-monitoring.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch9-why-monitor",
+        "ch9-drift",
+        "ch5-monitoring",
+        "ch5-observability",
+        "ch5-continual-learning",
+        "ch5-flywheel",
+        "ch9-incidents"
+      ],
+      "contract": {
+        "objective": "A recommendation system can return HTTP 200 on every request and still be catastrophically broken. Traditional software monitoring catches crashes. RecSys monitoring must catch silent degradation in a system that learns from its own output.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Feedback loops mean the model shapes the data it learns from, creating self-reinforcing biases",
+            "modality": "prose"
+          },
+          {
+            "point": "Non-stationary distributions make yesterday's model slightly wrong today -- and the gap widens over time",
+            "modality": "prose"
+          },
+          {
+            "point": "Traditional uptime and latency monitoring misses the most dangerous failures: correct-looking but wrong recommendations",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why is traditional software monitoring insufficient for recommendation systems?",
+        "recallA": "Recommender systems have feedback loops (the model influences its own training data), operate on non-stationary distributions (user tastes and catalogs constantly change), produce delayed outcomes (a bad recommendation today may not show up in churn for weeks), and can fail silently in ways that pass all health checks.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "business-rules",
+      "title": "Business rules and merchandising",
+      "chapter": "ch10-customization",
+      "anchor": "ch5-business-rules",
+      "anchorPath": null,
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-business-rules",
+        "ch5-model-selection",
+        "ch5-cold-start",
+        "ch5-anti-patterns",
+        "ch5-open-source",
+        "ch5-marketplace",
+        "ch5-education-recs",
+        "ch5-feature-eng"
+      ],
+      "contract": {
+        "objective": "The algorithm says 'recommend item X.' The product manager says 'but X is out of stock.' Business rules bridge the gap between algorithmic optimization and real-world constraints.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [],
+        "recallQ": "Why are business rules essential in production recommender systems?",
+        "recallA": "Algorithms optimize for relevance, but real-world constraints (inventory, licensing, legal requirements, business strategy) must be enforced separately. Business rules act as a constraint layer that filters and adjusts algorithmic output.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "who-decides",
+      "title": "Who decides what you see",
+      "chapter": "ch11-ethics",
+      "anchor": "ch6-who-decides",
+      "anchorPath": "ch11-ethics/01-spine-who-decides.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch6-who-decides",
+        "ch6-rabbit-sidebar",
+        "ch6-attention-economy"
+      ],
+      "contract": {
+        "objective": "When you open a social media platform, who chose what's on your screen? Not you. Not the editorial team. Not even a human.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Algorithms, not humans, determine what billions of people see daily",
+            "modality": "prose"
+          },
+          {
+            "point": "Maximizing engagement and maximizing user well-being are different objectives",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Who decides what you see when you open a recommendation-driven platform?",
+        "recallA": "The algorithm — not you, not editors, not platform employees. It optimizes for proxy metrics like engagement, watch time, or click-through rate.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "addictive-design",
+      "title": "Addictive design",
+      "chapter": "ch11-ethics",
+      "anchor": "ch6-addictive",
+      "anchorPath": "ch11-ethics/02-spine-addictive-design.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch6-addictive",
+        "ch6-control-d-create",
+        "ch6-dopamine-sidebar"
+      ],
+      "contract": {
+        "objective": "Infinite scroll. Autoplay. 'Just one more.' These aren't accidents -- they're deliberate design patterns rooted in behavioral economics.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Infinite scroll, autoplay, and notification badges are deliberate persuasive design",
+            "modality": "prose"
+          },
+          {
+            "point": "Default bias is powerful — 80-90% of users never change default settings",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Name 2 design patterns that maximize session duration.",
+        "recallA": "Infinite scroll (eliminates natural stopping points) and autoplay (removes the decision to continue). Both exploit default bias from behavioral economics.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "ads-vs-recs",
+      "title": "Ads vs. recommendations",
+      "chapter": "ch11-ethics",
+      "anchor": "ch6-adtech-vs-recs",
+      "anchorPath": "ch11-ethics/02c-spine-adtech-vs-recs.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch6-adtech-vs-recs",
+        "ch6-creator-economy",
+        "ch6-dark-patterns"
+      ],
+      "contract": {
+        "objective": "That product ad following you across the internet is NOT a recommendation system. The distinction has major privacy and regulatory implications.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Recommenders use first-party data within one platform; AdTech tracks across the internet",
+            "modality": "prose"
+          },
+          {
+            "point": "Retargeting ads following you across sites are AdTech, not the platform's recommender",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the difference between recommendations and ads?",
+        "recallA": "Recommendations operate within ONE platform using first-party data to improve user experience. Adtech tracks you across the ENTIRE internet using third-party data to sell your attention to the highest bidder.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "privacy-reality",
+      "title": "What platforms actually know",
+      "chapter": "ch11-ethics",
+      "anchor": "ch6-privacy-real",
+      "anchorPath": "ch11-ethics/03-spine-privacy-for-real.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch6-privacy-real",
+        "ch6-data-d-exp",
+        "ch6-age-sidebar",
+        "ch6-game-privacy",
+        "ch6-content-safety",
+        "ch6-privacy-preserving"
+      ],
+      "contract": {
+        "objective": "Skip the vague privacy warnings. Here is exactly what platforms collect, how they model you, and why re-identification is easier than you think.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Platforms build behavioral profiles — 'digital twins' — from interaction patterns",
+            "modality": "prose"
+          },
+          {
+            "point": "The question isn't whether they collect data, but whether you understand and consent",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is a \\\"digital twin\\\" in the context of recommender systems?",
+        "recallA": "A mathematical model of your behavioral patterns — platforms construct one from your interaction data without necessarily needing your real identity.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "ai-future",
+      "title": "Shaping the AI future",
+      "chapter": "ch11-ethics",
+      "anchor": "ch6-ai-future",
+      "anchorPath": "ch11-ethics/04-spine-ai-and-you.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch6-ai-future",
+        "ch6-hard-d-think",
+        "ch6-law-sidebar"
+      ],
+      "contract": {
+        "objective": "Recommendation systems are becoming more powerful, more pervasive, and more consequential. The design choices being made now will shape information access for decades.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The current generation will either build, regulate, or be shaped by these systems",
+            "modality": "prose"
+          },
+          {
+            "point": "The fundamental question: whose interests will recommendation algorithms serve?",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why is cross-disciplinary involvement in recommendation system design critical?",
+        "recallA": "Because these systems shape information access, public discourse, and economic opportunity — decisions that are too consequential to be left to engineers alone.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "conversational-recs",
+      "title": "Conversational recommendation",
+      "chapter": "ch11-ethics",
+      "anchor": "ch6-conversational",
+      "anchorPath": "ch11-ethics/04c-spine-conversational-recs.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch6-conversational",
+        "ch6-ethics-checklist",
+        "ch6-global",
+        "ch6-q1"
+      ],
+      "contract": {
+        "objective": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this real -- but the challenges are substantial.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "LLMs understand nuanced preference expression but lack real-time behavioral data",
+            "modality": "prose"
+          },
+          {
+            "point": "The future is hybrid: LLM language understanding + RecSys behavioral prediction",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How are LLMs changing the recommendation paradigm?",
+        "recallA": "LLMs enable natural language preference articulation and explanation, but lack access to real-time catalog data and user history — the future is hybrid architectures combining LLMs with traditional recommender systems.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "domain-differences",
+      "title": "Why domains differ",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-domains-intro",
+      "anchorPath": "ch12-domains/01-spine-why-domains-matter.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-domains-intro"
+      ],
+      "contract": {
+        "objective": "The same algorithm that works for Netflix will fail for a job board. Domain-specific constraints shape every design decision.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Domain constraints shape every layer: data, algorithms, evaluation, and UX",
+            "modality": "prose"
+          },
+          {
+            "point": "The same metric (CTR) means fundamentally different things in news vs. e-commerce",
+            "modality": "prose"
+          },
+          {
+            "point": "Understanding your domain's unique dynamics is more important than choosing the right algorithm",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why can't you use the same recommendation approach across all domains?",
+        "recallA": "Domains differ in: consumption patterns (repeat vs. one-time), item lifecycle (minutes for news vs. years for movies), feedback signals (watch time vs. purchase vs. application), and constraints (availability, geography, fairness).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "video-domain",
+      "title": "Video & streaming",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-video",
+      "anchorPath": "ch12-domains/02-spine-video-streaming.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-video",
+        "ch12-video-recipes"
+      ],
+      "contract": {
+        "objective": "Video recommendation is the most visible application of RecSys — and one of the most complex, with content hierarchies, watch progress tracking, and multi-platform delivery.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Continue Watching and Watch Next are the highest-engagement placements on most platforms",
+            "modality": "prose"
+          },
+          {
+            "point": "Watch progress events (10%, 50%, 90% completion) are richer signals than binary views",
+            "modality": "prose"
+          },
+          {
+            "point": "Content hierarchy (series→season→episode) requires special handling in the pipeline",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the key recommendation scenarios for a video streaming platform?",
+        "recallA": "Personalized homepage, Because You Watched, Continue Watching (resume unfinished), Watch Next (post-playback), Top Genres For You, New Releases, Trending, and Last Chance (expiring titles).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "ecommerce-domain",
+      "title": "E-commerce",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-ecommerce",
+      "anchorPath": "ch12-domains/03-spine-ecommerce.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-ecommerce",
+        "ch12-ecommerce-recipes"
+      ],
+      "contract": {
+        "objective": "Amazon attributes 35% of revenue to recommendations. E-commerce is where RecSys has the most directly measurable business impact.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Cross-sell and upsell are distinct scenarios with different algorithmic approaches",
+            "modality": "prose"
+          },
+          {
+            "point": "Next basket prediction uses sequential models to anticipate regular purchases",
+            "modality": "prose"
+          },
+          {
+            "point": "Return rate is a critical negative signal unique to e-commerce",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the key e-commerce recommendation scenarios beyond 'similar products'?",
+        "recallA": "Shopping cart (cross-sell), alternative products, upsell (higher-end versions), next basket prediction, personalized category browsing, top brands for you, and new arrivals personalized to taste.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "news-domain",
+      "title": "News & media",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-news",
+      "anchorPath": "ch12-domains/04-spine-news-media.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-news",
+        "ch12-news-recipes"
+      ],
+      "contract": {
+        "objective": "News recommendation is a race against time — content goes stale in hours, and the stakes include an informed society.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Every article is a cold-start item — CF is nearly useless without content features",
+            "modality": "prose"
+          },
+          {
+            "point": "Editorial voice preservation (human-in-the-loop) is a key differentiator",
+            "modality": "prose"
+          },
+          {
+            "point": "Topic diversity isn't optional — it's a democratic responsibility",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What makes news recommendation the hardest domain in RecSys?",
+        "recallA": "Extreme content velocity (articles stale in hours), no repeat consumption, editorial responsibility for information quality, filter bubble risks, and the need for human-in-the-loop editorial curation.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "music-domain",
+      "title": "Music & podcasts",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-music",
+      "anchorPath": "ch12-domains/05-spine-music-podcasts.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-music"
+      ],
+      "contract": {
+        "objective": "Music recommendation must adapt to mood, context, and the unique dynamic where repeat listening is a feature, not a bug.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Repeat listening is a positive signal — unlike every other domain",
+            "modality": "prose"
+          },
+          {
+            "point": "Context (time, activity, mood) matters more than long-term preferences",
+            "modality": "prose"
+          },
+          {
+            "point": "The playlist is the recommendation unit, not individual tracks",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What makes music recommendation fundamentally different from video recommendation?",
+        "recallA": "High repeat consumption (same song hundreds of times), strong contextual dependence (gym vs. office vs. sleep), mood sensitivity, and the playlist as a recommendation unit rather than individual items.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "sports-domain",
+      "title": "Sports & live events",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-sports",
+      "anchorPath": "ch12-domains/06-spine-sports-live.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-sports"
+      ],
+      "contract": {
+        "objective": "When the final whistle blows, millions of fans need their next recommendation in seconds — not minutes. Sports recommendation operates at the speed of live events.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Play-by-play ML engines process live interactions during matches",
+            "modality": "prose"
+          },
+          {
+            "point": "Matchday traffic spikes demand elastic infrastructure",
+            "modality": "prose"
+          },
+          {
+            "point": "Semantic search handles complex queries like 'UFC finishes in round 1'",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What makes sports recommendation uniquely challenging?",
+        "recallA": "Real-time play-by-play personalization during live events, massive traffic spikes on match days, blending live + VOD + archive content, and multi-format delivery (highlights, replays, stats, analysis).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "marketplace-domain",
+      "title": "P2P marketplaces",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-marketplaces",
+      "anchorPath": "ch12-domains/07-spine-marketplaces.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-marketplaces"
+      ],
+      "contract": {
+        "objective": "In a marketplace, each listing can only be sold once. This changes everything about how recommendations work.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Each item sells once — recommending a sold item is a failure",
+            "modality": "prose"
+          },
+          {
+            "point": "Seller fairness matters: every listing needs initial visibility",
+            "modality": "prose"
+          },
+          {
+            "point": "User-generated content (photos, descriptions) requires NLP and vision processing",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the fundamental constraint of marketplace recommendation?",
+        "recallA": "Items are unique and one-time — once sold, they're gone. This creates extreme sparsity, requires instant cold-start handling for new listings, and demands fair visibility distribution across sellers.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "deals-domain",
+      "title": "Deal aggregators",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-deals",
+      "anchorPath": "ch12-domains/08-spine-deals.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-deals"
+      ],
+      "contract": {
+        "objective": "A deal that expires in 2 hours needs instant matching — the cold-start problem measured in minutes, not days.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Deal cold-start must be solved in minutes, not days",
+            "modality": "prose"
+          },
+          {
+            "point": "Commission-based boosting balances user relevance with affiliate revenue",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is unique about deal aggregator recommendations?",
+        "recallA": "Extreme time sensitivity (deals expire in hours), cold-start at the minute level (new deals need instant matching), geographic relevance, and commission-based ranking where affiliate partner visibility matters.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "real-estate-domain",
+      "title": "Real estate",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-real-estate",
+      "anchorPath": "ch12-domains/09-spine-real-estate.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-real-estate"
+      ],
+      "contract": {
+        "objective": "Real estate is the highest-stakes recommendation domain — a wrong suggestion wastes hours of viewing time; a good one leads to a life decision.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Geographic functions (polygon search, commute radius) are first-class features",
+            "modality": "prose"
+          },
+          {
+            "point": "Watchdog alerts notify users when matching listings appear",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What makes real estate recommendation especially challenging?",
+        "recallA": "High-stakes decisions (buying a home), strong geographic constraints (neighborhoods, commute times), rapidly changing inventory (listings appear and disappear daily), and very sparse user data (people search for homes rarely).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "specialized-domains",
+      "title": "Travel, jobs & education",
+      "chapter": "ch12-domains",
+      "anchor": "ch13-travel-jobs-edu",
+      "anchorPath": "ch12-domains/10-spine-travel-jobs-edu.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-travel-jobs-edu",
+        "ch13-q1",
+        "ch5-news-recs",
+        "ch5-ecommerce"
+      ],
+      "contract": {
+        "objective": "Three domains where recommendation quality directly impacts life outcomes — vacations, careers, and learning.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Travel: converting 'lookers into bookers' with sparse interaction data",
+            "modality": "prose"
+          },
+          {
+            "point": "Jobs: two-sided matching where both candidate and employer must be satisfied",
+            "modality": "prose"
+          },
+          {
+            "point": "Education: optimizing for learning outcomes, not engagement",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What do travel, job, and education recommendation have in common?",
+        "recallA": "All three involve infrequent, high-stakes decisions with sparse user data. Users interact rarely but the outcomes matter enormously. All three require strong contextual constraints (dates, qualifications, prerequisites).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "why-research",
+      "title": "Why research matters",
+      "chapter": "ch13-research",
+      "anchor": "ch7-why-research",
+      "anchorPath": "ch13-research/01-spine-why-research-matters.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-why-research"
+      ],
+      "contract": {
+        "objective": "Behind every recommendation you see is decades of mathematical research. Here's why it matters.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Breakthroughs come from mathematical insight, not engineering brute force",
+            "modality": "prose"
+          },
+          {
+            "point": "EASE (2019) -- a single matrix inverse -- outperforms deep neural networks",
+            "modality": "prose"
+          },
+          {
+            "point": "Every Recombee research paper runs in production serving 500+ customers",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why is academic research essential for improving recommender systems?",
+        "recallA": "Research provides mathematical foundations, discovers scalable algorithms, identifies failure modes, and bridges the gap between theory and production systems serving billions.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "ease-elsa",
+      "title": "EASE to ELSA",
+      "chapter": "ch13-research",
+      "anchor": "ch7-simple-to-scalable",
+      "anchorPath": "ch13-research/02-spine-from-simple-to-scalable.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-simple-to-scalable",
+        "ch7-ease-math"
+      ],
+      "contract": {
+        "objective": "How a single matrix inverse led to one of the most elegant recommendation algorithms — and why it needed to evolve.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "EASE's entire algorithm is one matrix inverse -- and it beats deep learning",
+            "modality": "prose"
+          },
+          {
+            "point": "ELSA drops complexity from O(n cubed) to O(nd squared) via low-rank factorization",
+            "modality": "prose"
+          },
+          {
+            "point": "ELSA's embeddings discover genre structure purely from user behavior",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What problem does ELSA solve that EASE cannot?",
+        "recallA": "EASE requires O(n³) computation (inverting the full item×item matrix), making it impossible for large catalogs. ELSA uses low-rank factorization to achieve O(nd²), scaling to millions of items.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "vasp",
+      "title": "VASP architecture",
+      "chapter": "ch13-research",
+      "anchor": "ch7-vasp-combining",
+      "anchorPath": "ch13-research/03-spine-combining-linear-and-deep.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-vasp-combining",
+        "ch7-vasp-ablation"
+      ],
+      "contract": {
+        "objective": "Linear models find smooth patterns. Deep models find complex clusters. What happens when you combine them?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Multiply (not add) outputs -- both paths must agree, filtering false positives",
+            "modality": "prose"
+          },
+          {
+            "point": "Removing the linear path hurts more than removing the deep path",
+            "modality": "prose"
+          },
+          {
+            "point": "For sparse data, the linear model is the essential one, not deep learning",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why does VASP use Hadamard product instead of addition to combine linear and deep paths?",
+        "recallA": "Hadamard (element-wise multiply) acts as logical AND — both paths must agree, filtering false positives. Addition acts as OR — either path can contribute, amplifying false positives.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "bandits-in-practice",
+      "title": "Bandits in practice",
+      "chapter": "ch13-research",
+      "anchor": "ch7-bandits",
+      "anchorPath": "ch13-research/04-spine-exploration-bandits.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-bandits",
+        "ch7-thompson-math",
+        "ch7-causal-bandits"
+      ],
+      "contract": {
+        "objective": "Should you recommend what you know works, or take a risk on something new? Bandit algorithms solve this fundamental dilemma.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Thompson Sampling auto-balances explore vs. exploit -- no manual tuning needed",
+            "modality": "prose"
+          },
+          {
+            "point": "BMAB resets priors at change points so trending content surfaces in minutes",
+            "modality": "prose"
+          },
+          {
+            "point": "Bandit regret is provably near-optimal: O(sqrt(KT log T))",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the exploration-exploitation trade-off and how does Thompson Sampling address it?",
+        "recallA": "Exploitation serves known-good items; exploration tries uncertain ones to learn. Thompson Sampling balances this by sampling from posterior distributions — uncertain items naturally get explored more.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "beeformer",
+      "title": "beeFormer: text meets interactions",
+      "chapter": "ch13-research",
+      "anchor": "ch7-cold-start-language",
+      "anchorPath": "ch13-research/05-spine-cold-start-language.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-cold-start-language",
+        "ch7-regularization",
+        "ch7-transfer-learning"
+      ],
+      "contract": {
+        "objective": "New items have zero interactions. How do you recommend something nobody has seen? The answer involves teaching computers to read.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "beeFormer learns 'who would like this' from text, not 'what this is about'",
+            "modality": "prose"
+          },
+          {
+            "point": "Zero-shot transfer to unseen domains: +131% Recall without any retraining",
+            "modality": "prose"
+          },
+          {
+            "point": "Cold start has economic implications -- new creators can't compete without it",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How does beeFormer solve the cold-start problem?",
+        "recallA": "It trains a Transformer on item text/images using ELSA's recommendation loss, learning to map descriptions to embeddings that predict user behavior — enabling recommendation of items with zero interactions.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "steering-knobs",
+      "title": "Steering knobs",
+      "chapter": "ch13-research",
+      "anchor": "ch13-knobs",
+      "anchorPath": "ch13-research/05c-spine-knobs-steering.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch13-knobs"
+      ],
+      "contract": {
+        "objective": "What if users could turn knobs to steer their recommendations — boosting 'date night movies' or promoting a favorite director? Sparse autoencoders make this possible.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "SAE neurons map to interpretable concepts — genres, directors, moods — without using any metadata",
+            "modality": "prose"
+          },
+          {
+            "point": "Steering = boosting a neuron activation to shift recommendations toward a concept",
+            "modality": "prose"
+          },
+          {
+            "point": "Enables user control panels, editorial campaigns, and rabbit hole exits",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How do sparse autoencoders enable steerable recommendations?",
+        "recallA": "SAEs disentangle dense CFAE embeddings into sparse, interpretable neurons. Each neuron corresponds to a concept (genre, director, mood). Boosting a neuron's activation steers recommendations toward that concept without retraining.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "research-roadmap",
+      "title": "Research roadmap",
+      "chapter": "ch13-research",
+      "anchor": "ch7-roadmap",
+      "anchorPath": "ch13-research/08-spine-research-roadmap.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-roadmap",
+        "ch7-emerging",
+        "ch7-q1"
+      ],
+      "contract": {
+        "objective": "Open problems in recommender systems — from fairness guarantees to LLM-powered recommendations.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Formal fairness definitions often conflict -- satisfying one can violate another",
+            "modality": "prose"
+          },
+          {
+            "point": "LLMs can understand complex preferences but hallucinate nonexistent items",
+            "modality": "prose"
+          },
+          {
+            "point": "Optimal, fair, profitable, and private are four goals in permanent tension",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the key open research challenges in recommender systems?",
+        "recallA": "Fairness guarantees with mathematical foundations, LLM integration without hallucination, causal evaluation beyond correlation, multi-stakeholder optimization, and privacy-preserving personalization.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "glossary",
+      "title": "Glossary",
+      "chapter": "ch13-research",
+      "anchor": "ch7-glossary",
+      "anchorPath": "ch13-research/10-spine-glossary.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch7-glossary"
+      ],
+      "contract": {
+        "objective": "Glossary",
+        "objectiveSource": "title-bootstrap",
+        "mustCover": [],
+        "recallQ": null,
+        "recallA": null,
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "diy-start",
+      "title": "Build your own: start",
+      "chapter": "ch14-build",
+      "anchor": "ch5-start",
+      "anchorPath": "ch14-build/01-spine-you-can-do-it.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-start"
+      ],
+      "contract": {
+        "objective": "You understand how recommender systems work. Now it's time to build one from scratch.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The recommendation loop: collect data → find similar users → predict → test → improve",
+            "modality": "prose"
+          },
+          {
+            "point": "Start with a manual prototype before writing code",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the 4 steps to build a recommendation system?",
+        "recallA": "Collect data → find similar users → make predictions → test and improve.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "diy-collect-data",
+      "title": "Build your own: collect data",
+      "chapter": "ch14-build",
+      "anchor": "ch5-collect",
+      "anchorPath": "ch14-build/02-spine-step1-collect.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-collect",
+        "ch5-spread-d-create"
+      ],
+      "contract": {
+        "objective": "Survey your team, build a rating matrix, and watch the patterns emerge.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The rating matrix: users as rows, items as columns, ratings in cells",
+            "modality": "prose"
+          },
+          {
+            "point": "Empty cells represent what the system needs to predict",
+            "modality": "prose"
+          },
+          {
+            "point": "Sparsity (>99% empty) is the fundamental challenge of collaborative filtering",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is a rating matrix?",
+        "recallA": "Users as rows, items as columns, ratings in cells. Most cells are empty — that's what you predict.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "diy-similar-users",
+      "title": "Build your own: similar users",
+      "chapter": "ch14-build",
+      "anchor": "ch5-similar",
+      "anchorPath": "ch14-build/03-spine-step2-find-similar.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-similar",
+        "ch5-math-d-think",
+        "ch5-real-numbers",
+        "ch5-formulas"
+      ],
+      "contract": {
+        "objective": "Who has correlated preferences? Identify your nearest neighbors.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Compare ratings on shared items — lower average difference = more similar",
+            "modality": "prose"
+          },
+          {
+            "point": "Taste neighbors form the foundation of collaborative filtering",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How do you find \\\"taste neighbors\\\"?",
+        "recallA": "Compare ratings on co-rated items — lower mean absolute difference = more similar preferences.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "diy-predict",
+      "title": "Build your own: predict",
+      "chapter": "ch14-build",
+      "anchor": "ch5-recommend",
+      "anchorPath": "ch14-build/04-spine-step3-recommend.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-recommend",
+        "ch5-code-d-create",
+        "ch5-debug"
+      ],
+      "contract": {
+        "objective": "Use nearest neighbors to predict ratings and generate actionable recommendations.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Predict ratings by averaging similar users' ratings for unseen items",
+            "modality": "prose"
+          },
+          {
+            "point": "Test predictions against held-out ratings — within 1 star = acceptable",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How do you predict a rating for an unseen item?",
+        "recallA": "Find 2-3 most similar users who rated it → compute weighted average of their ratings. Above threshold = recommend.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "diy-improve",
+      "title": "Build your own: improve",
+      "chapter": "ch14-build",
+      "anchor": "ch5-improve",
+      "anchorPath": "ch14-build/05-spine-step4-improve.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-improve",
+        "ch5-career-sidebar"
+      ],
+      "contract": {
+        "objective": "Your system works. Now let's iterate toward production quality.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "More data is the single biggest improvement — more connections to discover",
+            "modality": "prose"
+          },
+          {
+            "point": "Test each change individually to isolate its impact",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the single biggest improvement for a recommendation system?",
+        "recallA": "More data. More users and more ratings increase matrix density, which means better neighbor matching and more accurate predictions.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "creator-visibility",
+      "title": "Getting your content recommended",
+      "chapter": "ch14-build",
+      "anchor": "ch5-get-recommended",
+      "anchorPath": "ch14-build/05b-spine-get-recommended.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-get-recommended"
+      ],
+      "contract": {
+        "objective": "You understand how algorithms select content. Now flip the perspective — how do you optimize for algorithmic distribution?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Platforms reward engagement rate over total views, and strong first impressions",
+            "modality": "prose"
+          },
+          {
+            "point": "Each platform has different key metrics: YouTube = watch time, TikTok = completion",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What matters more to YouTube: clicks or watch time?",
+        "recallA": "Watch time. A video 100 people watch fully beats 1,000 clicks that bounce immediately.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "algorithmic-seo",
+      "title": "SEO for the algorithm age",
+      "chapter": "ch14-build",
+      "anchor": "ch5-seo-algorithms",
+      "anchorPath": "ch14-build/05c-spine-seo-for-algorithms.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-seo-algorithms"
+      ],
+      "contract": {
+        "objective": "Search engines and recommendation systems are converging. Here's how to optimize for both.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Personalized search means there's no universal 'rank #1' anymore",
+            "modality": "prose"
+          },
+          {
+            "point": "Success formula: content quality x algorithmic discoverability",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why doesn't \\\"ranking #1 on Google\\\" exist anymore?",
+        "recallA": "Results are personalized — your content can be #1 for your target audience and invisible to everyone else.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "case-studies",
+      "title": "Industry case studies",
+      "chapter": "ch14-build",
+      "anchor": "ch5-case-studies",
+      "anchorPath": "ch14-build/05d-spine-case-studies.md",
+      "provenance": "anchored",
+      "blocks": [
+        "ch5-case-studies",
+        "ch5-q1"
+      ],
+      "contract": {
+        "objective": "The best way to learn recommender systems is to study production systems at scale — where theory meets the chaos of real users, real latency budgets, and real business metrics.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "YouTube optimizes expected watch time, not clicks -- clickbait kills engagement",
+            "modality": "prose"
+          },
+          {
+            "point": "Netflix personalized thumbnails boosted engagement without changing the algorithm",
+            "modality": "prose"
+          },
+          {
+            "point": "The competitive moat is infrastructure, not algorithms -- the algorithms are known",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the key lesson that recurs across production recommender systems at Spotify, YouTube, Netflix, and others?",
+        "recallA": "Decompose the problem into stages (candidate generation → ranking → re-ranking), optimize for long-term engagement rather than clicks, and continuously experiment — the system is never finished.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    }
+  ]
+}

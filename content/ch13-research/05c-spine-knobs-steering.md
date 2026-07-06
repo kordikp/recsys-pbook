@@ -17,6 +17,16 @@ highlights:
   - "Enables user control panels, editorial campaigns, and rabbit hole exits"
 publishedAt: "2026-04-07"
 status: accepted
+concept: steering-knobs
+conceptTitle: "Steering knobs"
+state: core
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 Traditional recommender systems are black boxes: they take your interaction history and produce a ranked list. You can't tell the system "more like this, less like that" in any meaningful way. The system decides; you consume.

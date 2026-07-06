@@ -13,6 +13,15 @@ recallQ: "What are the key news recommendation logics?"
 recallA: "news:personal (feed), news:daily-news (top stories), news:editors-picks (curated), news:recent (latest), news:read-next (article continuation), news:emailing (newsletter). All support freshness filters and editorial boosts."
 publishedAt: "2026-04-04"
 status: accepted
+concept: news-domain
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: deep
+genre: explainer
+carriers: prose|table
 ---
 
 A complete reference for implementing news recommendation scenarios with exact logic names, parameters, and ReQL examples from [production systems](https://docs.recombee.com/recipes/news).

@@ -13,6 +13,15 @@ recallQ: "What is the difference between standard and causal bandit algorithms?"
 recallA: "Standard bandits learn correlational reward patterns (arm A yields high reward). Causal bandits learn causal mechanisms (arm A works BECAUSE of feature X), enabling transfer to new contexts and identification of confounders."
 publishedAt: "2026-04-03"
 status: accepted
+concept: bandits-in-practice
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 Standard multi-armed bandits learn through trial and error: pull arm A, observe reward, update belief. This works well when the reward distribution is stationary and the arms are independent. But in recommendation, neither assumption holds.

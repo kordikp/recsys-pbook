@@ -17,6 +17,15 @@ highlights:
   - "Every incident should produce at least one new monitor or automated check that would have caught it earlier"
 publishedAt: "2026-04-03"
 status: accepted
+concept: monitoring
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A recommendation system will fail. Not might -- will. The model will serve degenerate results. A data pipeline will silently break. A deployment will ship the wrong artifact. The question is not whether an incident will occur but whether the team has a response plan that minimizes user impact and maximizes learning.

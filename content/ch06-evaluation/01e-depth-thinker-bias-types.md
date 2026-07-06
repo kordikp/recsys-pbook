@@ -9,6 +9,15 @@ voice: thinker
 parent: ch4-bubbles
 publishedAt: "2026-04-03"
 status: accepted
+concept: filter-bubbles
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 The parent section introduced filter bubbles as a visible symptom of algorithmic narrowing. But bubbles are only one manifestation of a deeper, more pervasive problem: **bias**. Recommender systems are bias-generating machines -- not because they are poorly engineered, but because they learn from data that is itself the product of biased processes. Understanding where bias enters, how it propagates, and how to mitigate it is arguably the most important unsolved problem in recommendation research.

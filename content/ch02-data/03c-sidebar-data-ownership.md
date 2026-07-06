@@ -13,6 +13,15 @@ recallQ: "What is the current legal framework for behavioral data ownership?"
 recallA: "GDPR treats users as data subjects with rights over their personal data (access, portability, deletion). But 'ownership' is legally ambiguous — platforms claim the aggregated/derived data as their intellectual property."
 publishedAt: "2026-04-03"
 status: accepted
+concept: data-control
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Every interaction you have with a platform generates data. Your clicks, views, purchases, dwell times, and scrolls are recorded, processed, and monetized. But who owns this data?

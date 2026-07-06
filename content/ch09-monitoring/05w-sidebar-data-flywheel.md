@@ -13,6 +13,15 @@ recallQ: "What is the data flywheel in recommendation systems?"
 recallA: "A virtuous cycle: better recommendations → more user engagement → more interaction data → better model training → even better recommendations. This creates a compounding competitive advantage that's difficult for newcomers to replicate."
 publishedAt: "2026-04-03"
 status: accepted
+concept: monitoring
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 The most powerful advantage in recommendation isn't a better algorithm — it's a **data flywheel** that compounds over time.

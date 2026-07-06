@@ -15,6 +15,14 @@ options:
   - letter: B, text: Content discovery -- surface niche content across genres and formats that users would never find on their own, voice: explorer
   - letter: C, text: Research papers -- match researchers with relevant literature based on reading patterns and citation networks, voice: thinker
   - letter: D, text: An entirely new domain that hasn't been explored yet, voice: universal
+concept: case-studies
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 You now understand how recommendation systems work. You've implemented one from scratch. The question is: **what would you build next?**

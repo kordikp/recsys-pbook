@@ -13,6 +13,15 @@ recallQ: "Why does standard offline evaluation systematically favor exploitative
 recallA: "Because the observation probability P(O_ij=1) depends on the logging policy — items the old system showed have interactions, items it didn't show have none. This is MNAR (Missing Not At Random), not MCAR as metrics assume."
 publishedAt: "2026-04-03"
 status: accepted
+concept: evaluation-metrics
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|formula
 ---
 
 Evaluation in recommender systems requires careful mathematical thinking. Here's the full framework, from standard metrics to the corrections needed for unbiased assessment.

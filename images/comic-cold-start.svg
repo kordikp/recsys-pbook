@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 500" font-family="system-ui,sans-serif">
+  <!-- "Find the Tribe" — item cold start as audience discovery:
+       P1 we have NO idea who will like the new item →
+       P2 show it to a small varied sample (exploration) →
+       P3 the pattern appears: one tribe loves it →
+       P4 recommend it to everyone SIMILAR to that tribe.
+       Two visual tribes: TRIANGLE-badge users (teal) and CIRCLE-badge users (gray).
+       Clean vector, 2px strokes, no emoji. -->
+  <defs>
+    <!-- triangle-tribe user (teal shirt, triangle badge) -->
+    <g id="uA">
+      <circle cy="-14" r="8" fill="#FDE68A" stroke="#374151" stroke-width="2"/>
+      <circle cx="-3" cy="-16" r="1.2" fill="#374151"/><circle cx="3" cy="-16" r="1.2" fill="#374151"/>
+      <rect x="-9" y="-5" width="18" height="20" rx="4" fill="#99F6E4" stroke="#374151" stroke-width="2"/>
+      <path d="M0 0 L4 7 L-4 7 Z" fill="#0D9488"/>
+      <line x1="-9" y1="0" x2="-14" y2="10" stroke="#374151" stroke-width="2"/>
+      <line x1="9" y1="0" x2="14" y2="10" stroke="#374151" stroke-width="2"/>
+      <line x1="-4" y1="15" x2="-4" y2="26" stroke="#374151" stroke-width="2"/>
+      <line x1="4" y1="15" x2="4" y2="26" stroke="#374151" stroke-width="2"/>
+    </g>
+    <!-- circle-tribe user (gray shirt, ring badge) -->
+    <g id="uB">
+      <circle cy="-14" r="8" fill="#FDE68A" stroke="#374151" stroke-width="2"/>
+      <circle cx="-3" cy="-16" r="1.2" fill="#374151"/><circle cx="3" cy="-16" r="1.2" fill="#374151"/>
+      <rect x="-9" y="-5" width="18" height="20" rx="4" fill="#E5E7EB" stroke="#374151" stroke-width="2"/>
+      <circle cy="3.5" r="3.6" fill="none" stroke="#6B7280" stroke-width="2.2"/>
+      <line x1="-9" y1="0" x2="-14" y2="10" stroke="#374151" stroke-width="2"/>
+      <line x1="9" y1="0" x2="14" y2="10" stroke="#374151" stroke-width="2"/>
+      <line x1="-4" y1="15" x2="-4" y2="26" stroke="#374151" stroke-width="2"/>
+      <line x1="4" y1="15" x2="4" y2="26" stroke="#374151" stroke-width="2"/>
+    </g>
+    <!-- the recommender robot -->
+    <g id="bot">
+      <rect x="-15" y="-13" width="30" height="24" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+      <circle cx="-6" cy="-3" r="3" fill="#7C3AED"/><circle cx="6" cy="-3" r="3" fill="#7C3AED"/>
+      <line x1="0" y1="-13" x2="0" y2="-20" stroke="#7C3AED" stroke-width="2"/>
+      <circle cy="-22" r="2.6" fill="#7C3AED"/>
+      <rect x="-11" y="11" width="22" height="14" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    </g>
+    <!-- the new item -->
+    <g id="item">
+      <rect x="-13" y="-13" width="26" height="26" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+      <text y="6" text-anchor="middle" font-size="15" fill="#D97706" font-weight="800">?</text>
+    </g>
+    <path id="heart" d="M0 2 C0 -1.5 4.5 -1.5 4.5 1.5 C4.5 -1.5 9 -1.5 9 2 C9 5.5 4.5 8.5 4.5 8.5 C4.5 8.5 0 5.5 0 2 Z"/>
+  </defs>
+
+  <!-- ============ PANEL FRAMES ============ -->
+  <rect x="10" y="10" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
+  <rect x="335" y="10" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
+  <rect x="10" y="255" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
+  <rect x="335" y="255" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
+  <text x="22" y="30" font-size="12" font-weight="800" fill="#9CA3AF">1</text>
+  <text x="347" y="30" font-size="12" font-weight="800" fill="#9CA3AF">2</text>
+  <text x="22" y="275" font-size="12" font-weight="800" fill="#9CA3AF">3</text>
+  <text x="347" y="275" font-size="12" font-weight="800" fill="#9CA3AF">4</text>
+
+  <!-- ============ P1: no idea who will like it ============ -->
+  <use href="#bot" x="70" y="165"/>
+  <use href="#item" x="112" y="172"/>
+  <!-- mixed crowd, tribes shuffled -->
+  <use href="#uA" x="185" y="185"/>
+  <use href="#uB" x="222" y="185"/>
+  <use href="#uA" x="259" y="185"/>
+  <use href="#uB" x="296" y="185"/>
+  <use href="#uB" x="203" y="130"/>
+  <use href="#uA" x="240" y="130"/>
+  <use href="#uB" x="277" y="130"/>
+  <!-- question marks hovering over the crowd -->
+  <text x="203" y="96" text-anchor="middle" font-size="14" font-weight="800" fill="#D97706">?</text>
+  <text x="240" y="90" text-anchor="middle" font-size="17" font-weight="800" fill="#D97706">?</text>
+  <text x="277" y="96" text-anchor="middle" font-size="14" font-weight="800" fill="#D97706">?</text>
+  <!-- robot speech -->
+  <rect x="26" y="42" width="176" height="52" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <path d="M70 94 l-4 16 l14 -12 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <line x1="74" y1="95" x2="81" y2="96" stroke="#fff" stroke-width="3"/>
+  <text x="114" y="63" text-anchor="middle" font-size="11" fill="#374151">Brand-new item. Zero history.</text>
+  <text x="114" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">I have NO idea who'll like it.</text>
+  <text x="167" y="230" text-anchor="middle" font-size="10" fill="#9CA3AF">two kinds of users are out there — the badges hint at taste</text>
+
+  <!-- ============ P2: try it on a small varied sample ============ -->
+  <use href="#bot" x="392" y="160"/>
+  <!-- sample row: two of each tribe -->
+  <use href="#uA" x="465" y="185"/>
+  <use href="#uA" x="510" y="185"/>
+  <use href="#uB" x="562" y="185"/>
+  <use href="#uB" x="607" y="185"/>
+  <!-- offers: arrows from robot to each -->
+  <line x1="415" y1="162" x2="452" y2="172" stroke="#9CA3AF" stroke-width="1.6"/>
+  <line x1="415" y1="158" x2="498" y2="170" stroke="#9CA3AF" stroke-width="1.6"/>
+  <line x1="415" y1="154" x2="550" y2="168" stroke="#9CA3AF" stroke-width="1.6"/>
+  <line x1="415" y1="150" x2="595" y2="166" stroke="#9CA3AF" stroke-width="1.6"/>
+  <!-- reactions: triangles love it, circles shrug -->
+  <use href="#heart" x="458" y="140" fill="#EF4444"/>
+  <use href="#heart" x="503" y="140" fill="#EF4444"/>
+  <text x="562" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#9CA3AF">meh</text>
+  <text x="607" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#9CA3AF">meh</text>
+  <!-- speech -->
+  <rect x="352" y="42" width="200" height="52" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <path d="M400 94 l-4 16 l14 -12 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <line x1="404" y1="95" x2="411" y2="96" stroke="#fff" stroke-width="3"/>
+  <text x="452" y="63" text-anchor="middle" font-size="11" fill="#374151">Experiment: offer it to a FEW</text>
+  <text x="452" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">people of each kind, and watch.</text>
+  <text x="492" y="230" text-anchor="middle" font-size="10" fill="#9CA3AF">a small exploration budget — every reaction is gold</text>
+
+  <!-- ============ P3: the pattern appears ============ -->
+  <use href="#bot" x="80" y="390"/>
+  <!-- results board -->
+  <rect x="150" y="300" width="150" height="110" rx="8" fill="#fff" stroke="#374151" stroke-width="2"/>
+  <text x="225" y="320" text-anchor="middle" font-size="11" font-weight="800" fill="#374151">WHO LOVED IT?</text>
+  <line x1="162" y1="328" x2="288" y2="328" stroke="#E5E7EB" stroke-width="2"/>
+  <!-- triangle tribe row: 2/2 hearts -->
+  <path d="M172 344 L179 356 L165 356 Z" fill="#0D9488"/>
+  <rect x="192" y="342" width="84" height="13" rx="6" fill="#D1FAE5"/>
+  <use href="#heart" x="196" y="344" fill="#EF4444" transform="scale(1)"/>
+  <use href="#heart" x="210" y="344" fill="#EF4444"/>
+  <text x="284" y="354" text-anchor="middle" font-size="10" font-weight="700" fill="#10B981">2/2</text>
+  <!-- circle tribe row: 0/2 -->
+  <circle cx="172" cy="378" r="6.5" fill="none" stroke="#6B7280" stroke-width="2.4"/>
+  <rect x="192" y="371" width="84" height="13" rx="6" fill="#F3F4F6"/>
+  <text x="234" y="381" text-anchor="middle" font-size="9" fill="#9CA3AF">— — </text>
+  <text x="284" y="382" text-anchor="middle" font-size="10" font-weight="700" fill="#9CA3AF">0/2</text>
+  <!-- speech -->
+  <rect x="26" y="424" width="284" height="40" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <path d="M92 424 l-2 -12 l12 10 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <line x1="96" y1="423" x2="102" y2="422" stroke="#fff" stroke-width="3"/>
+  <text x="168" y="448" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">A pattern! The triangle crowd LOVES it.</text>
+
+  <!-- ============ P4: serve everyone similar ============ -->
+  <use href="#item" x="392" y="360"/>
+  <!-- all triangle users get it -->
+  <use href="#uA" x="470" y="330"/>
+  <use href="#uA" x="520" y="330"/>
+  <use href="#uA" x="570" y="330"/>
+  <use href="#uA" x="495" y="395"/>
+  <use href="#uA" x="545" y="395"/>
+  <line x1="408" y1="352" x2="456" y2="322" stroke="#10B981" stroke-width="1.8"/>
+  <line x1="410" y1="356" x2="506" y2="320" stroke="#10B981" stroke-width="1.8"/>
+  <line x1="412" y1="358" x2="556" y2="320" stroke="#10B981" stroke-width="1.8"/>
+  <line x1="408" y1="366" x2="481" y2="388" stroke="#10B981" stroke-width="1.8"/>
+  <line x1="410" y1="370" x2="531" y2="390" stroke="#10B981" stroke-width="1.8"/>
+  <use href="#heart" x="463" y="288" fill="#EF4444"/>
+  <use href="#heart" x="513" y="288" fill="#EF4444"/>
+  <use href="#heart" x="563" y="288" fill="#EF4444"/>
+  <use href="#heart" x="488" y="428" fill="#EF4444"/>
+  <use href="#heart" x="538" y="428" fill="#EF4444"/>
+  <!-- circle users, politely left alone -->
+  <use href="#uB" x="622" y="395"/>
+  <text x="622" y="352" text-anchor="middle" font-size="9" fill="#9CA3AF">not bothered</text>
+  <!-- speech -->
+  <rect x="352" y="286" width="120" height="40" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <path d="M398 326 l-4 14 l13 -11 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
+  <line x1="402" y1="327" x2="408" y2="328" stroke="#fff" stroke-width="3"/>
+  <text x="412" y="303" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">Now everyone</text>
+  <text x="412" y="317" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">SIMILAR gets it.</text>
+  <text x="492" y="479" text-anchor="middle" font-size="10" font-style="italic" fill="#9CA3AF">Try a few → find the tribe → serve the whole tribe. That's the cold start ending.</text>
+</svg>

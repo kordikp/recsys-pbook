@@ -13,6 +13,15 @@ recallQ: "How can geographic information improve recommendations?"
 recallA: "Geographic location correlates with preferences (local cuisine, events, weather-dependent products). Inductive matrix factorization with geographic features discovers 'macro-regions' of similar taste, even across distant locations."
 publishedAt: "2026-04-03"
 status: accepted
+concept: multimodal
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 Where you are shapes what you want. A restaurant recommendation in Tokyo should differ fundamentally from one in Austin. A clothing suggestion in Helsinki (where it's -15°C) should look nothing like one in Sydney (where it's 35°C). A news recommendation in São Paulo should prioritize different stories than one in Berlin.

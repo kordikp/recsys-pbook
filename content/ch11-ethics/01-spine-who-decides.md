@@ -15,6 +15,16 @@ highlights:
   - "Algorithms, not humans, determine what billions of people see daily"
   - "Maximizing engagement and maximizing user well-being are different objectives"
 status: accepted
+concept: who-decides
+conceptTitle: "Who decides what you see"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Try a quick experiment. Open TikTok, YouTube, LinkedIn, or Instagram right now. Look at the first five items on your screen.

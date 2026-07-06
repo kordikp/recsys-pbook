@@ -16,6 +16,15 @@ highlights:
   - "Multi-head attention captures different relationship types simultaneously"
   - "The same transformer technology behind ChatGPT now powers sequential recommendation"
 status: accepted
+concept: embeddings
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram|formula
 ---
 
 You've consumed 500 items this year. When the system decides what to surface next, should it weight all 500 equally? Obviously not -- the technical deep dive you read yesterday is far more predictive of your current interests than the travel article you skimmed three months ago.

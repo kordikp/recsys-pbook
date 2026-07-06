@@ -13,6 +13,15 @@ recallQ: "What are composite recommendations and why do they matter?"
 recallA: "A composite recommendation returns both a 'source' (e.g., a category or previously consumed item) and a set of related items in a single request. This enables personalized homepage rows like 'Because you watched X' or 'Top picks from your favorite genre.'"
 publishedAt: "2026-04-03"
 status: accepted
+concept: scenarios
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|code
 ---
 
 When you open Netflix, you don't see a single list of recommendations. You see a **page of recommendation rows**, each telling a different story:

@@ -17,6 +17,16 @@ highlights:
   - "Education: optimizing for learning outcomes, not engagement"
 publishedAt: "2026-04-03"
 status: accepted
+concept: specialized-domains
+conceptTitle: "Travel, jobs & education"
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Some domains don't generate enough content for a full chapter but share a common characteristic: **infrequent, high-stakes decisions** where recommendation quality directly impacts life outcomes.

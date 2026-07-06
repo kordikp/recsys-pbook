@@ -16,6 +16,15 @@ highlights:
   - "Research shows algorithmic effects are real but smaller than user self-selection"
   - "Responsible systems expose multiple perspectives without dictating conclusions"
 status: accepted
+concept: filter-bubbles
+state: core
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Filter bubbles in entertainment -- music, videos, product recommendations -- are one concern. But the stakes escalate dramatically when the same dynamic affects **news, political discourse, and public opinion**.

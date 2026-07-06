@@ -15,6 +15,15 @@ highlights:
   - "Preferential attachment: items recommended more get more data, reinforcing their advantage"
   - "Fair systems guarantee initial exposure before judging quality"
 status: accepted
+concept: fairness
+state: core
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose
 ---
 
 Consider the following scenario in a professional setting:

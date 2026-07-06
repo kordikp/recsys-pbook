@@ -16,6 +16,16 @@ highlights:
   - "More data yields more accurate models -- each interaction improves predictions"
   - "Cross-user patterns across millions reveal connections no human could spot"
 status: accepted
+concept: patterns-not-magic
+conceptTitle: "Patterns, not magic"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 Recommender systems can feel almost uncanny in their accuracy. But there's no mystery behind them — they're fundamentally **pattern-recognition engines.**

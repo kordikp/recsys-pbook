@@ -15,6 +15,16 @@ highlights:
   - "Personalized search means there's no universal 'rank #1' anymore"
   - "Success formula: content quality x algorithmic discoverability"
 status: accepted
+concept: algorithmic-seo
+conceptTitle: "SEO for the algorithm age"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 SEO -- Search Engine Optimization -- used to mean keyword stuffing and link farming to climb Google's rankings. Today, search and recommendation systems have fundamentally converged, and the optimization landscape has shifted accordingly.

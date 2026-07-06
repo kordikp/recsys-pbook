@@ -15,6 +15,15 @@ highlights:
   - "A human reviewing 1 video/second would need 25 years for YouTube's 1-second task"
   - "Multi-stage pipeline makes the computationally impossible achievable"
 status: accepted
+concept: pipeline
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose|table
 ---
 
 Let's quantify just how demanding the computational requirements are behind a production recommendation system. We'll use YouTube as our reference case.

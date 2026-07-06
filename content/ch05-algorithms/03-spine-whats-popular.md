@@ -16,6 +16,16 @@ highlights:
   - "Surprisingly strong baseline, especially for new users with zero history"
   - "No personalization means treating every user identically"
 status: accepted
+concept: popularity
+conceptTitle: "Popularity and trends"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Before we examine sophisticated algorithms, there's a far simpler approach. So simple that you might not even categorize it as a recommendation.

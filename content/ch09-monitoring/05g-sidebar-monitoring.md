@@ -13,6 +13,15 @@ recallQ: "Why is monitoring recommender systems harder than monitoring tradition
 recallA: "Recommender systems create feedback loops (recommendations influence the data they learn from), operate on constantly shifting distributions (user tastes change, catalogs evolve), and produce outcomes that are delayed and ambiguous (a bad recommendation today may not show up in churn metrics for weeks)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: monitoring
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A recommendation system can return HTTP 200 on every request, meet its latency SLA, and still be catastrophically broken. The model might be serving stale embeddings from a failed pipeline run. A feature could be silently returning nulls after an upstream schema change. The system might be recommending the same 50 items to every user because a candidate generation index was not refreshed. None of these failures trigger a traditional alert. The application is "up." The recommendations are just wrong.

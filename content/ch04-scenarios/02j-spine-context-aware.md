@@ -17,6 +17,16 @@ highlights:
   - "Context shifts in seconds -- batch-only systems cannot keep up"
 publishedAt: "2026-04-03"
 status: accepted
+concept: context-awareness
+conceptTitle: "Context-aware recommendation"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You love death metal. But not at a funeral. You devour long-form investigative journalism. But not while sprinting to catch a train. Your preferences are real -- but they are not the whole story. **Context** determines which preferences are active right now.

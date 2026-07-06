@@ -13,6 +13,15 @@ recallQ: "What is the main trade-off in recommendation caching?"
 recallA: "Speed vs. freshness — cached recommendations are fast and cheap but may not reflect the user's most recent behavior or new items in the catalog."
 publishedAt: "2026-04-03"
 status: accepted
+concept: build-vs-buy
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 Computing personalized recommendations in real-time for every request is expensive. At scale — millions of users, millions of items, thousands of requests per second — the compute cost and latency add up. **Caching** pre-computes recommendations and stores the results, serving them instantly on subsequent requests.

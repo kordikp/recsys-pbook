@@ -13,6 +13,15 @@ recallQ: "Why is negative sampling strategy important and what are the main appr
 recallA: "Models need negative examples but can't use all unobserved items. Random sampling is biased toward easy negatives. Hard negative mining improves discrimination but risks false negatives. Mixed strategies (random + hard) offer the best balance."
 publishedAt: "2026-04-03"
 status: accepted
+concept: multimodal
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|formula
 ---
 
 In recommendation training, the model learns from positive examples (items the user interacted with) and negative examples (items the user did not interact with). The challenge: there are millions of potential negatives for each positive, and you can only sample a fraction.

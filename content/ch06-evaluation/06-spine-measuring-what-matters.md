@@ -17,6 +17,16 @@ highlights:
   - "Goodhart's Law: optimizing for a metric makes it stop measuring what matters"
 publishedAt: "2026-04-03"
 status: accepted
+concept: evaluation-metrics
+conceptTitle: "Evaluation metrics"
+state: core
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 You've built a promising new recommendation algorithm. It outperforms the baseline on all your offline metrics. You deploy it — and user engagement drops. What happened?

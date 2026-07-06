@@ -17,6 +17,16 @@ highlights:
   - "Topic diversity isn't optional — it's a democratic responsibility"
 publishedAt: "2026-04-03"
 status: accepted
+concept: news-domain
+conceptTitle: "News & media"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|image|code
 ---
 
 News is the most time-sensitive recommendation domain. A breaking story needs to reach users within minutes. An analysis piece has a few days of relevance. Yesterday's headlines are worthless. This extreme content velocity makes news recommendation fundamentally different from every other domain.

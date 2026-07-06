@@ -13,6 +13,15 @@ recallQ: "Why is reward design so critical and what can go wrong?"
 recallA: "The reward function defines what 'success' means for the algorithm. Poorly designed rewards create perverse incentives: optimizing for clicks produces clickbait, optimizing for watch time produces addictive loops. The reward must align with actual user value."
 publishedAt: "2026-04-03"
 status: accepted
+concept: satisfaction-vs-engagement
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|formula
 ---
 
 Every recommender system optimizes for something — a **reward signal** that tells the algorithm what "good" looks like. The choice of reward function is arguably the most consequential design decision you'll make, because **you get exactly what you optimize for** — including all the unintended consequences.

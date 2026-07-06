@@ -13,6 +13,15 @@ recallQ: "Why is embedding alignment necessary and what are the main approaches?
 recallA: "Different modalities produce embeddings in incomparable spaces. Alignment maps them to a shared space where cross-modal similarity is meaningful. Approaches: joint training (CLIP), projection heads, contrastive loss, and the ELSA-loss approach (beeFormer)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: multimodal
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 A text encoder produces a 768-dimensional embedding for an item's description. A vision model produces a 512-dimensional embedding for its image. A collaborative filtering model produces a 256-dimensional embedding from user interactions. These three vectors describe the same item — but they live in completely different mathematical spaces.

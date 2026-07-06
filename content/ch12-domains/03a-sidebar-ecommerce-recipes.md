@@ -13,6 +13,15 @@ recallQ: "What are the key e-commerce recommendation logics?"
 recallA: "ecommerce:homepage (for-you), ecommerce:bestseller (popular), ecommerce:cross-sell (cart + bought-together), ecommerce:similar-products (PDP alternatives), search:personalized (search), recombee:personal (category pages)."
 publishedAt: "2026-04-04"
 status: accepted
+concept: ecommerce-domain
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: light
+lengthBand: deep
+genre: code-walkthrough
+carriers: prose|table|formula|code
 ---
 
 A complete reference for implementing e-commerce recommendation scenarios with exact logic names, parameters, and ReQL examples from [production systems](https://docs.recombee.com/recipes/e-commerce).

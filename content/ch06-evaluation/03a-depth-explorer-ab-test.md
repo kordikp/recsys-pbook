@@ -15,6 +15,15 @@ highlights:
   - "Engineering decisions balance accuracy improvement against complexity cost"
   - "Statistical significance alone doesn't guarantee practical significance"
 status: accepted
+concept: ab-testing
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|diagram
 ---
 
 Let us walk through a realistic A/B test, step by step. You are the lead recommendation engineer at a music streaming service called "TuneUp." Your objective: determine which recommendation strategy drives better user outcomes.

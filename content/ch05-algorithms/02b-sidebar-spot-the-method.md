@@ -15,6 +15,15 @@ highlights:
   - "'Fans also listen to' = collaborative filtering"
   - "Production systems layer multiple methods in a single recommendation"
 status: accepted
+concept: content-based
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose
 ---
 
 Now that you understand the three primary recommendation paradigms, let's see if you can identify them in real-world systems. Match each example to the correct method:

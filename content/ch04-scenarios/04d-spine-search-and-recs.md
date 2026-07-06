@@ -16,6 +16,16 @@ highlights:
   - "Search and recommendation share the same retrieval infrastructure"
   - "Modern platforms run both through a unified embedding-based pipeline"
 status: accepted
+concept: search-vs-recs
+conceptTitle: "Search vs. recommendations"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You might think search and recommendations are fundamentally different systems. Search = the user expresses explicit intent. Recommendations = the system infers latent intent. But modern production systems have blurred this boundary almost completely.

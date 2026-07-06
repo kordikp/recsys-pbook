@@ -15,6 +15,14 @@ options:
   - letter: B, text: Fairness -- ensure equitable exposure for all content providers, voice: thinker
   - letter: C, text: Diversity -- inject serendipity so users are not trapped in filter bubbles, voice: creator
   - letter: D, text: All of them -- design a multi-objective system that balances all three, voice: universal
+concept: filter-bubbles
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 You are designing a recommendation system for a new content platform. Millions of users will rely on it. You can only prioritize ONE objective in the initial release. What do you choose?

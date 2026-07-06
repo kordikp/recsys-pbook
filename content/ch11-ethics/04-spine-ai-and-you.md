@@ -15,6 +15,16 @@ highlights:
   - "The current generation will either build, regulate, or be shaped by these systems"
   - "The fundamental question: whose interests will recommendation algorithms serve?"
 status: accepted
+concept: ai-future
+conceptTitle: "Shaping the AI future"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Here is a structural observation about the current state of recommendation systems that deserves more attention.

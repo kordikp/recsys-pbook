@@ -13,6 +13,15 @@ recallQ: "Why does autoplay create problems for recommender systems?"
 recallA: "Autoplay generates passive consumption that looks like engagement but doesn't reflect genuine interest. The system can't distinguish 'I chose to watch this' from 'it played while I wasn't paying attention,' corrupting the training signal."
 publishedAt: "2026-04-03"
 status: accepted
+concept: llm-recommenders
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 Autoplay is one of the most successful engagement features in digital media. When a video ends, the next one starts automatically. Session lengths increase. Watch time increases. Every metric the recommendation team reports goes up.

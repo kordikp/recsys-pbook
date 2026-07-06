@@ -16,6 +16,16 @@ highlights:
   - "Neural networks use hundreds of features — full transparency is technically intractable"
   - "The DSA and GDPR now require platforms to explain recommendation parameters"
 status: accepted
+concept: explanations
+conceptTitle: "Explanations"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You open Netflix and see a documentary about octopus intelligence at position #1. You have never watched anything about marine biology. Why is it there?

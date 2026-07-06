@@ -13,6 +13,16 @@ recallQ: "Why are business rules essential in production recommender systems?"
 recallA: "Algorithms optimize for relevance, but real-world constraints (inventory, licensing, legal requirements, business strategy) must be enforced separately. Business rules act as a constraint layer that filters and adjusts algorithmic output."
 publishedAt: "2026-04-03"
 status: accepted
+concept: business-rules
+conceptTitle: "Business rules and merchandising"
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|code
 ---
 
 A perfectly trained recommendation algorithm is useless if it recommends out-of-stock products, age-restricted content to minors, or items that violate contractual obligations.

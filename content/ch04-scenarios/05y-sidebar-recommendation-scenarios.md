@@ -13,6 +13,15 @@ recallQ: "What are the main recommendation scenarios and how do they differ?"
 recallA: "Homepage (personalized discovery), item detail (similar/complementary items), cart/checkout (cross-sell), search results (personalized ranking), email/newsletter (re-engagement with rotation), and continue-watching (resume). Each requires different algorithms and constraints."
 publishedAt: "2026-04-03"
 status: accepted
+concept: scenarios
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 One of the most common mistakes in recommendation engineering is treating all recommendation contexts the same. A homepage recommendation and a "you might also like" suggestion on a product page serve fundamentally different purposes — and should use different strategies.

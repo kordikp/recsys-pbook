@@ -17,6 +17,16 @@ highlights:
   - "ELSA's embeddings discover genre structure purely from user behavior"
 publishedAt: "2026-04-03"
 status: accepted
+concept: ease-elsa
+conceptTitle: "EASE to ELSA"
+state: core
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|formula
 ---
 
 In 2019, Harald Steck at Netflix published a paper with a provocative title: "Embarrassingly Shallow Autoencoders for Sparse Data." The algorithm, called EASE, challenged the deep learning consensus with a radical claim: **a single matrix inverse outperforms sophisticated neural networks for collaborative filtering.**

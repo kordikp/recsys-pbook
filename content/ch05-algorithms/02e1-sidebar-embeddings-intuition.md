@@ -13,6 +13,15 @@ recallQ: "What is an embedding and why is it useful for recommendation?"
 recallA: "An embedding is a vector (list of numbers) representing an item in a space where distance = dissimilarity. Nearby items are similar, distant items are different. This enables fast similarity search."
 publishedAt: "2026-04-03"
 status: accepted
+concept: embeddings
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Imagine you want to explain to a computer which movies are similar. You could write rules: "action movies are similar to action movies." But that misses nuance. *The Dark Knight* is an action movie, but it shares more DNA with *Se7en* (dark tone, complex villain) than with *Fast & Furious* (action, but pure spectacle).

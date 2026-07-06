@@ -16,6 +16,16 @@ highlights:
   - "Retrieval is fast and rough; scoring is precise; re-ranking adds diversity"
   - "The entire pipeline runs in under 200 milliseconds"
 status: accepted
+concept: pipeline
+conceptTitle: "The recommendation pipeline"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 Here's a critical architectural insight: production recommendation systems don't commit to a single method. They don't say "we're a collaborative filtering company" or "we only use content-based approaches."

@@ -15,6 +15,16 @@ highlights:
   - "The recommendation loop: collect data → find similar users → predict → test → improve"
   - "Start with a manual prototype before writing code"
 status: accepted
+concept: diy-start
+conceptTitle: "Build your own: start"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 At this point, you have a solid understanding of how recommendation systems work. You know about collaborative filtering, content-based filtering, filter bubbles, fairness, and A/B testing. That puts you ahead of the vast majority of professionals who interact with these systems daily without understanding their mechanics.

@@ -15,6 +15,15 @@ highlights:
   - "Exploitation vs. exploration: safe picks or risky discoveries?"
   - "These are not hypothetical -- they are engineering trade-offs teams face daily"
 status: accepted
+concept: three-jobs
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose
 ---
 
 Every recommendation system involves fundamental trade-offs. There are no right answers — these are genuine engineering dilemmas that teams at major tech companies debate continuously.

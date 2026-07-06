@@ -17,6 +17,16 @@ highlights:
   - "Traditional uptime and latency monitoring misses the most dangerous failures: correct-looking but wrong recommendations"
 publishedAt: "2026-04-03"
 status: accepted
+concept: monitoring
+conceptTitle: "Monitoring recommender systems"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 Every software system needs monitoring. But recommendation systems need a fundamentally different kind of monitoring than traditional applications -- and the teams that discover this late pay for it with silent degradation, user churn, and weeks of debugging that could have been minutes.

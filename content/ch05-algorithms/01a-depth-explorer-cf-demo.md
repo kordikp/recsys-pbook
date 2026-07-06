@@ -15,6 +15,15 @@ highlights:
   - "Items your twins liked but you haven't seen are the recommendation candidates"
   - "The same logic runs at Netflix, Spotify, and YouTube — just at million-user scale"
 status: accepted
+concept: collaborative-filtering
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|diagram
 ---
 
 Let's build a concrete example. Imagine six users and five items. A checkmark means they rated the item positively:

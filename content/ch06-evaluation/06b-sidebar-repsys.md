@@ -13,6 +13,15 @@ recallQ: "What does RepSys provide that standard evaluation metrics don't?"
 recallA: "Qualitative, visual comparison of recommendation models. You can see actual recommended items side by side, explore user segments, and understand failure modes that aggregate metrics hide."
 publishedAt: "2026-04-03"
 status: accepted
+concept: evaluation-metrics
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Standard recommendation evaluation produces a table: Model A nDCG@10 = 0.342, Model B nDCG@10 = 0.351. Model B wins. Ship it.

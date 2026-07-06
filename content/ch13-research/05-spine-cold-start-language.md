@@ -17,6 +17,16 @@ highlights:
   - "Cold start has economic implications -- new creators can't compete without it"
 publishedAt: "2026-04-03"
 status: accepted
+concept: beeformer
+conceptTitle: "beeFormer: text meets interactions"
+state: core
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 Every recommendation system faces a chicken-and-egg problem: **you can't recommend items nobody has interacted with, but nobody can interact with items that aren't recommended.**

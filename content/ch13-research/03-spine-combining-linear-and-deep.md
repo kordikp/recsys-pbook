@@ -17,6 +17,16 @@ highlights:
   - "For sparse data, the linear model is the essential one, not deep learning"
 publishedAt: "2026-04-03"
 status: accepted
+concept: vasp
+conceptTitle: "VASP architecture"
+state: core
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 EASE and ELSA are impressively effective, but they have a fundamental limitation: they're **linear models**. They can capture smooth, gradual patterns in user behavior (action fans tend to like sci-fi) but struggle with complex, non-linear clusters (users who like *both* art films and comic book movies but nothing in between).

@@ -16,6 +16,16 @@ highlights:
   - "New content creators face systematic invisibility in algorithmically curated feeds"
   - "Solutions: exploration slots, freshness boosts, fair exposure constraints"
 status: accepted
+concept: fairness
+conceptTitle: "Fairness"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 Picture an industry conference where the keynote slots always go to last year's keynote speakers. They get the main stage, the prime time slots, and the largest audience. New speakers? They are assigned to a breakout room at 7 AM, where almost no one shows up.

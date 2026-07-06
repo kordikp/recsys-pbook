@@ -15,6 +15,16 @@ highlights:
   - "A single new interaction can visibly reshape the feed in real time"
   - "Either you train the algorithm deliberately, or it trains on unintentional behavior"
 status: accepted
+concept: data-detective
+conceptTitle: "Be a data detective"
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: deep
+genre: worked-example
+carriers: prose
 ---
 
 Open your phone or laptop. Navigate to YouTube, LinkedIn, or your most-used recommendation-driven platform. We're going to investigate YOUR algorithm in real time. This takes about 10 minutes, and by the end you'll have firsthand evidence of how quickly the system adapts to behavioral signals.

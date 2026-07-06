@@ -15,6 +15,15 @@ highlights:
   - "Item embeddings are pre-computed; only user embedding is computed per request"
   - "Enables retrieval from millions of items in single-digit milliseconds"
 status: accepted
+concept: embeddings
+state: edited
+lens: generic
+visuality: balanced
+depth: technical
+formalism: light
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram|formula
 ---
 
 You understand how embeddings map items to vectors where similar items cluster together. But how do you match a USER to relevant items -- not just compute item-item similarity?

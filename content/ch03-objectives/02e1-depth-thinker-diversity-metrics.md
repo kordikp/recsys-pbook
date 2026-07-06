@@ -12,6 +12,15 @@ status: accepted
 teaser: "Everyone agrees recommender systems should be diverse -- but what does that mean precisely? Formal metrics give us the vocabulary to quantify variety, novelty, and surprise."
 recallQ: "Why is intra-list diversity (ILD) not sufficient on its own as a diversity metric?"
 recallA: "ILD measures only pairwise dissimilarity within a single recommendation list. It says nothing about whether the system covers the full catalog, surfaces novel items, or surprises users with unexpected-but-relevant discoveries. A complete picture requires complementary metrics: coverage, novelty, and serendipity."
+concept: fairness
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 Recommender systems that optimize purely for relevance tend to converge on a narrow slice of the item catalog -- the most popular items, the safest bets, the things most users have already seen. The result is a system that is technically accurate but experientially monotonous: every recommendation list looks the same.

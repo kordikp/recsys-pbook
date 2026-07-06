@@ -13,6 +13,15 @@ recallQ: "Why does ReALM outperform deep models for next-basket prediction?"
 recallA: "Grocery shopping sequences are short (5-20 visits), highly habitual, and repetitive. Linear models capture 'if you bought X last time, you'll probably buy X again' without overfitting — deep models have too many parameters for this amount of data."
 publishedAt: "2026-04-03"
 status: accepted
+concept: production-scale
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 In the age of Transformers and billion-parameter models, a research team at FIT CTU Prague and Recombee showed that a **linear model** with a closed-form solution outperforms LSTMs and Transformers for next-basket prediction.

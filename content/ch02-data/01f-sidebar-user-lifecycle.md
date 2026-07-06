@@ -13,6 +13,15 @@ recallQ: "How should recommendation strategy change across the user lifecycle?"
 recallA: "New users: popularity + onboarding (cold-start). Growing users: exploration + collaborative filtering. Mature users: deep personalization + diversity. Declining users: re-engagement + novelty."
 publishedAt: "2026-04-03"
 status: accepted
+concept: digital-footprints
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 A user who just created an account and a user who has been active for three years are in fundamentally different situations. The new user has no history — the system knows nothing. The veteran has thousands of interactions — the system knows them deeply. Treating both the same is a common mistake.

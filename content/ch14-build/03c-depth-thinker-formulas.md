@@ -15,6 +15,15 @@ highlights:
   - "nDCG measures how close a ranking is to ideal — real systems score 0.3-0.7"
   - "Know WHAT formulas measure and WHY — the intuition matters more than memorization"
 status: accepted
+concept: diy-similar-users
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 This section provides a reference for the key mathematical formulas underlying recommendation systems. The goal is not rote memorization but rather building fluency -- you should be able to recognize each formula, understand what it measures, and know when to apply it.

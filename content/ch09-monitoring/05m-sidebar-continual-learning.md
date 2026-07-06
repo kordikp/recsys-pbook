@@ -13,6 +13,15 @@ recallQ: "What is the main challenge of incremental model updates?"
 recallA: "Catastrophic forgetting — new data can overwrite patterns learned from historical data. Solutions include replay buffers, warm-starting, and scheduled full retrains."
 publishedAt: "2026-04-03"
 status: accepted
+concept: monitoring
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|formula
 ---
 
 A recommender system trained on yesterday's data is already slightly wrong today. User preferences shift, new items appear, trends emerge. But retraining a model from scratch every few hours is computationally expensive and wasteful — most of the learned patterns haven't changed.

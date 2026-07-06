@@ -8,6 +8,15 @@ core: false
 voice: universal
 publishedAt: "2026-04-03"
 status: accepted
+concept: long-tail
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A recommendation system can be doing everything right -- surfacing relevant items, matching user preferences, optimizing for engagement -- and still lose users over time. The culprit is often not inaccuracy but monotony. When the system keeps delivering the same *type* of content, even if each individual recommendation is technically relevant, users gradually disengage. This is user fatigue, and it is one of the most insidious failure modes in production recommender systems because it does not show up as a sudden drop. It manifests as a slow, steady erosion of engagement that is easy to mistake for seasonal variation or external factors.

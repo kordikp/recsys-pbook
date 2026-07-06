@@ -16,6 +16,16 @@ highlights:
   - "Algorithms determine what surfaces based on every interaction recorded"
   - "Each platform personalizes differently using statistical pattern recognition"
 status: accepted
+concept: everyday-recommendations
+conceptTitle: "Everyday recommendations"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You open YouTube. Right on your home page: a tech talk you'd find interesting, a documentary trailer, and a channel you watched yesterday. You didn't search for any of them. They just appeared.

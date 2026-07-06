@@ -10,6 +10,14 @@ parent: null
 diagram: null
 publishedAt: "2026-04-03"
 status: accepted
+concept: research-roadmap
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 You've explored the research landscape behind modern recommender systems — from mathematical foundations to production systems. Which direction do you find most compelling?

@@ -17,6 +17,16 @@ highlights:
   - "Optimal, fair, profitable, and private are four goals in permanent tension"
 publishedAt: "2026-04-03"
 status: accepted
+concept: research-roadmap
+conceptTitle: "Research roadmap"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 The research landscape in recommender systems is vibrant and rapidly evolving. Here are the frontiers where mathematical insight is needed most.

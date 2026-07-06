@@ -13,6 +13,15 @@ recallQ: "What are the four categories of features used in recommender systems?"
 recallA: "User features (demographics, history aggregations), item features (content attributes, popularity stats), interaction features (context, sequence), and cross features (user×item interactions, historical engagement)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: business-rules
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 A well-featured simple model consistently outperforms a poorly-featured complex model. Feature engineering — the art of extracting informative signals from raw data — remains one of the highest-leverage activities in recommendation engineering.

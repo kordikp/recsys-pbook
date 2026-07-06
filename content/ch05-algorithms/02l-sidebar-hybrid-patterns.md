@@ -8,6 +8,15 @@ core: false
 voice: universal
 publishedAt: "2026-04-03"
 status: accepted
+concept: graph-methods
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 No single recommendation method dominates in every scenario. Collaborative filtering excels at capturing taste but fails on new items. Content-based filtering handles cold start but struggles with serendipity. Popularity-based methods are robust but impersonal. The question isn't which method to use -- it's how to combine them.

@@ -14,6 +14,15 @@ highlights:
   - "Even Netflix is wrong 20-30% of the time — perfection is not the goal"
   - "Root cause analysis: weak taste twins, stale data, context changes, mood shifts"
 status: accepted
+concept: diy-predict
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: worked-example
+carriers: prose
 ---
 
 Your recommendation system predicted that **Bob** would rate *The Grand Budapest Hotel* 4 out of 5 stars. The reasoning was sound -- Bob's nearest neighbor loved it, and Bob's profile suggests an affinity for well-crafted dramas.

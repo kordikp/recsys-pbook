@@ -16,6 +16,16 @@ highlights:
   - "Solves cold start — works for new items with zero interaction data"
   - "Doesn't need other users — only item metadata and user preferences"
 status: accepted
+concept: content-based
+conceptTitle: "Content-based recommendation"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image|diagram
 ---
 
 Collaborative filtering is powerful. But it has a fundamental limitation.

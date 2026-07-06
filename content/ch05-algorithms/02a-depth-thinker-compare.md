@@ -15,6 +15,15 @@ highlights:
   - "Content-based works immediately but can narrow the content diet"
   - "Hybrid approaches combine both — CF for serendipity, content-based for cold start"
 status: accepted
+concept: content-based
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 We've covered two fundamental paradigms for generating recommendations. Let's compare them systematically -- examining where each excels and where it falls short.

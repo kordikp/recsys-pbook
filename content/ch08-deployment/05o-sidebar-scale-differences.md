@@ -13,6 +13,15 @@ recallQ: "How does the optimal RecSys architecture change with scale?"
 recallA: "Small: simple CF or popularity-based. Medium: matrix factorization + content features. Large: multi-stage pipeline with retrieval, scoring, and re-ranking. Each scale introduces new constraints."
 publishedAt: "2026-04-03"
 status: accepted
+concept: build-vs-buy
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 A common mistake in recommendation engineering: designing for the wrong scale. The architecture that works for Netflix (15,000 titles) would fail catastrophically at YouTube (800M videos), and vice versa. Scale isn't just a performance concern — it fundamentally changes which algorithms, architectures, and trade-offs are appropriate.

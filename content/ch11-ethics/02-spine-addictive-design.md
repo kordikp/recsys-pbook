@@ -15,6 +15,16 @@ highlights:
   - "Infinite scroll, autoplay, and notification badges are deliberate persuasive design"
   - "Default bias is powerful — 80-90% of users never change default settings"
 status: accepted
+concept: addictive-design
+conceptTitle: "Addictive design"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Here is a challenge. Name one popular digital platform that has a natural stopping point -- a moment where the interface says "You've reached the end. Come back later."

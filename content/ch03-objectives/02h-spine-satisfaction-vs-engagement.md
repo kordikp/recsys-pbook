@@ -17,6 +17,16 @@ highlights:
   - "Clickbait scores high on CTR but leaves users feeling deceived"
 publishedAt: "2026-04-03"
 status: accepted
+concept: satisfaction-vs-engagement
+conceptTitle: "Satisfaction vs. engagement"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A user watches YouTube for 4 hours straight. From an engagement perspective, this is a triumph — maximum watch time, high session length, strong click-through rate on recommendations.

@@ -13,6 +13,15 @@ recallQ: "What major phases has recommender systems research gone through?"
 recallA: "Collaborative filtering origins (1990s), industrial scale-up (2000s), deep learning revolution (2010s), and the current era blending LLMs with efficient linear models."
 publishedAt: "2026-04-03"
 status: accepted
+concept: patterns-not-magic
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 Recommender systems have a surprisingly compact history. The entire field -- from first prototype to LLM-powered conversational recommendations -- spans roughly thirty years. Here's how it unfolded.

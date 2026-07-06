@@ -17,6 +17,15 @@ highlights:
   - "The most commonly skipped element is the evaluation plan -- and it is the most important"
 publishedAt: "2026-04-03"
 status: accepted
+concept: scenarios
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 "Add recommendations to the product page" is not a specification. It is a wish. A specification answers eight questions, and the scenario canvas is a structured way to answer all of them before writing code.

@@ -16,6 +16,16 @@ highlights:
   - "Neural networks discover latent qualities that handcrafted features miss"
   - "ANN search finds nearest neighbors among billions of vectors in milliseconds"
 status: accepted
+concept: embeddings
+conceptTitle: "Embeddings and similarity"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: light
+lengthBand: standard
+genre: explainer
+carriers: prose|image|diagram|formula
 ---
 
 You can intuitively sense that two items "feel similar" even across genres or categories. A machine has no such intuition -- so how does it compute similarity?

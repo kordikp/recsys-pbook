@@ -9,6 +9,15 @@ voice: thinker
 parent: ch3-attention
 publishedAt: "2026-04-03"
 status: accepted
+concept: embeddings
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 Every recommendation you receive carries an implicit assumption about how much your past matters -- and *which* parts of your past matter most. Sequential recommendation models take this seriously: they treat your interaction history not as a bag of events but as an ordered narrative, where timing, ordering, and context all carry predictive signal.

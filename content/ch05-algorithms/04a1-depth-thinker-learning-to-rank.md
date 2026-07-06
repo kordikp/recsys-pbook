@@ -9,6 +9,15 @@ voice: thinker
 parent: ch3-pipeline
 publishedAt: "2026-04-03"
 status: accepted
+concept: pipeline
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 The ranking stage of a recommendation pipeline takes a set of candidate items and must order them by predicted relevance to the user. This is fundamentally a **ranking problem**, not a regression or classification problem -- yet the distinction is surprisingly subtle and has profound consequences for model design.

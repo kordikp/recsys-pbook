@@ -13,6 +13,15 @@ recallQ: "What are the key challenges of real-time personalization?"
 recallA: "Feature freshness (using the latest interaction immediately), latency constraints (computing within the request cycle), and model consistency (ensuring the model reflects current state without full retrain)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: build-vs-buy
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: full
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|table|formula|code
 ---
 
 A user opens your platform and clicks on a machine learning tutorial. Then a data engineering article. Then a cloud architecture guide. In 30 seconds, you have three strong signals about their current intent. Can your system adjust recommendations before they scroll past the fourth item?

@@ -13,6 +13,15 @@ recallQ: "What are the levels of the personalization spectrum?"
 recallA: "Non-personalized (same for everyone) → segment-based (grouped by demographics) → personalized (individual history) → contextual (individual + current context) → hyper-personalized (real-time, multi-signal)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: three-jobs
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 "Personalized recommendation" suggests every user gets a unique experience. In reality, there's a spectrum — and the right level depends on your data, your domain, and your users.

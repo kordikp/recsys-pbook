@@ -16,6 +16,16 @@ highlights:
   - "Empty cells represent what the system needs to predict"
   - "Sparsity (>99% empty) is the fundamental challenge of collaborative filtering"
 status: accepted
+concept: diy-collect-data
+conceptTitle: "Build your own: collect data"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 Every recommendation system starts with data. Your data will come from real people -- colleagues, team members, or anyone willing to participate in a quick survey.

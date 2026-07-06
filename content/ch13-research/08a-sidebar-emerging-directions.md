@@ -13,6 +13,15 @@ recallQ: "What are the three most promising emerging directions in RecSys resear
 recallA: "Foundation models for recommendation (pre-trained on massive interaction data, fine-tuned per domain), causal recommendation (moving beyond correlation), and responsible/auditable recommendation systems."
 publishedAt: "2026-04-03"
 status: accepted
+concept: research-roadmap
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 The RecSys research landscape is shifting rapidly. Several emerging directions will likely reshape the field over the next 3–5 years.

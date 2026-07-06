@@ -16,6 +16,16 @@ highlights:
   - "Proper testing requires statistical power analysis and multiple testing correction"
   - "Long-term retention metrics matter more than short-term engagement spikes"
 status: accepted
+concept: ab-testing
+conceptTitle: "A/B testing"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 You have built a recommendation system. You believe it performs well. But how do you actually know?

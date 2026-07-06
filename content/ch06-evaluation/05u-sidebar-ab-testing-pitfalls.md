@@ -13,6 +13,15 @@ recallQ: "What is the most common A/B testing mistake in recommender systems?"
 recallA: "Peeking — checking results before the test reaches statistical significance, then stopping when results look favorable. This inflates false positive rates from 5% to 20-30%."
 publishedAt: "2026-04-03"
 status: accepted
+concept: filter-bubbles
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A/B testing is the gold standard for evaluating recommendation changes. In theory, it provides causal evidence that a new algorithm is better. In practice, most A/B tests are run incorrectly — producing results that look convincing but are unreliable.

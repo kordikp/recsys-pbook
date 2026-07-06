@@ -13,6 +13,15 @@ recallQ: "What are dark patterns in recommendation interfaces?"
 recallA: "Deceptive UX designs that manipulate user behavior: disguised ads as recommendations, forced continuity (autoplay), hidden opt-outs for tracking, confirmshaming (making privacy choices feel wrong), and engagement bait (notifications for non-events)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: ads-vs-recs
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 Not all recommendation interfaces are designed in good faith. **Dark patterns** are user interface designs that manipulate users into behaviors they wouldn't choose if fully informed.

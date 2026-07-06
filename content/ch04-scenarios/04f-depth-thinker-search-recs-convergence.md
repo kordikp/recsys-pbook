@@ -13,6 +13,15 @@ recallQ: "Why are search and recommendation converging, and what does the unifie
 recallA: "Both produce ranked lists from a large corpus using user context. The unified architecture uses shared embeddings, with search adding query encoding and recommendation adding user history encoding. Dense retrieval (semantic search) uses the same infrastructure as embedding-based recommendation."
 publishedAt: "2026-04-03"
 status: accepted
+concept: search-vs-recs
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 Search and recommendation have traditionally been treated as separate problems with separate teams, separate codebases, and separate models. But they're converging — and understanding why reveals fundamental truths about information retrieval.

@@ -12,6 +12,16 @@ highlights:
   - "beeFormer embeds content by behavioral similarity, not semantic similarity"
 publishedAt: "2026-04-03"
 status: accepted
+concept: multimodal
+conceptTitle: "Multimodal recommendation"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A product listing has a title, a photograph, maybe a video review, and thousands of behavioral signals from users who browsed, clicked, and purchased it. Traditional recommender systems pick one of these signals -- typically user behavior or text metadata -- and ignore the rest. **Multimodal recommendation** uses all of them simultaneously, building a richer understanding of items than any single data source can provide.

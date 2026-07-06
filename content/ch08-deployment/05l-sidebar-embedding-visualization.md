@@ -12,6 +12,15 @@ recallQ: "What is the key difference between t-SNE and UMAP for embedding visual
 recallA: "t-SNE preserves local neighborhood structure but distorts global distances. UMAP preserves both local and global structure more faithfully, making it better for understanding the overall layout of the embedding space."
 publishedAt: "2026-04-03"
 status: accepted
+concept: build-vs-buy
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 You have trained a recommendation model and produced embeddings -- 128-dimensional vectors for every item in your catalog. The model works. Metrics look good. But what has it actually *learned*? Which items does it consider similar? Are there natural clusters? Are there surprising neighborhoods?

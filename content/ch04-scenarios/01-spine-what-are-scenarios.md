@@ -17,6 +17,16 @@ highlights:
   - "The scenario canvas defines 8 elements: entry point, user state, latency budget, candidate pool, constraints, exploration, metrics, evaluation"
 publishedAt: "2026-04-03"
 status: accepted
+concept: scenarios
+conceptTitle: "Recommendation scenarios"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 One of the most consequential mistakes in recommendation engineering is treating "recommendations" as a single feature. It is not. It is a family of features, each serving a different purpose in a different context with different constraints -- and each requiring its own strategy.

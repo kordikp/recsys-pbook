@@ -12,6 +12,15 @@ recallQ: "Why is recommending items independently suboptimal?"
 recallA: "Scoring items independently ignores interactions between them -- you get redundant recommendations. Slate optimization selects a diverse, complementary set that maximizes the value of the entire page."
 publishedAt: "2026-04-03"
 status: accepted
+concept: pipeline
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 Most recommendation algorithms score items independently: compute a relevance score for each candidate, sort by score, take the top $k$. This feels natural but misses something fundamental -- the user sees a **set** of recommendations, not individual items in isolation.

@@ -17,6 +17,16 @@ highlights:
   - "User-generated content (photos, descriptions) requires NLP and vision processing"
 publishedAt: "2026-04-03"
 status: accepted
+concept: marketplace-domain
+conceptTitle: "P2P marketplaces"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 P2P marketplaces (eBay, Craigslist, Vinted, OLX) face a recommendation challenge that no other domain shares: **most items can only be purchased once.** A used bicycle, a vintage dress, or a second-hand phone — once it's sold, it's gone forever.

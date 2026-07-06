@@ -13,6 +13,15 @@ recallQ: "What are the three main limitations of collaborative filtering?"
 recallA: "Cold-start (new items/users have no interactions), popularity bias (popular items dominate), and sparsity (most user-item pairs are unobserved, making pattern detection difficult)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: collaborative-filtering
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Collaborative filtering is the workhorse of modern recommendation — but it has fundamental limitations that no amount of engineering can fully overcome.

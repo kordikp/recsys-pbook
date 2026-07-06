@@ -13,6 +13,15 @@ recallQ: "What is counterfactual evaluation and why does it matter for recommend
 recallA: "Counterfactual evaluation estimates what would have happened under a different recommendation policy, using logged data from the current policy. It separates the algorithm's causal contribution from confounding factors like item popularity."
 publishedAt: "2026-04-03"
 status: accepted
+concept: ab-testing
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 Standard recommendation evaluation asks: **"Did users interact with what we recommended?"** This is a correlational question. The answer conflates the algorithm's contribution with pre-existing user intent, item popularity, and position effects.

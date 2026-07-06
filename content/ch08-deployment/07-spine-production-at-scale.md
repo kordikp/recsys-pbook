@@ -17,6 +17,16 @@ highlights:
   - "Mathematical elegance in research translates to robustness in production"
 publishedAt: "2026-04-03"
 status: accepted
+concept: production-scale
+conceptTitle: "Production at scale"
+state: core
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|formula
 ---
 
 A research algorithm that works on a benchmark dataset and a production system serving billions of interactions daily are very different things. The gap between "achieves state-of-the-art nDCG on MovieLens" and "serves 500+ customers across 40 countries in under 200 milliseconds" is enormous.

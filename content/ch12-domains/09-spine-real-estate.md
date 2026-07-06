@@ -16,6 +16,16 @@ highlights:
   - "Watchdog alerts notify users when matching listings appear"
 publishedAt: "2026-04-03"
 status: accepted
+concept: real-estate-domain
+conceptTitle: "Real estate"
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 Real estate is where recommendation mistakes cost the most time and where good recommendations create the most value. Viewing a property takes hours (travel + tour + evaluation). A recommendation system that sends users to irrelevant viewings wastes their most precious resource. One that surfaces their dream property creates a life-changing outcome.

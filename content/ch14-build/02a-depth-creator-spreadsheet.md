@@ -11,6 +11,15 @@ diagram: null
 recallQ: "Why can a spreadsheet help you build recommendations?"
 recallA: "Color-coded ratings reveal preference patterns visually — you can identify user clusters before running any algorithm."
 status: accepted
+concept: diy-collect-data
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: worked-example
+carriers: prose|table
 ---
 
 A notebook is fine for prototyping, but once you scale beyond a handful of users and items, a spreadsheet becomes an invaluable tool. Here's exactly how to set it up in Google Sheets (or Excel, or any spreadsheet application).

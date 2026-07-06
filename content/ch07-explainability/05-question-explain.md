@@ -15,6 +15,14 @@ options:
   - letter: B, text: Let users drill down -- summary first with details on demand, voice: thinker
   - letter: C, text: Full transparency -- show every factor and its weight, voice: creator
   - letter: D, text: It depends on the stakes -- low-risk recommendations need less explanation than high-risk ones, voice: universal
+concept: steerability
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 Your team is designing the explanation interface for a recommendation system. The algorithm uses collaborative filtering, content features, popularity signals, and business rules. You need to decide how much of this to expose to users. There is no wrong answer -- each choice reflects a different philosophy about the relationship between a system and its users.

@@ -12,6 +12,15 @@ status: accepted
 teaser: "When a recommender must be relevant, diverse, fair, and profitable all at once, simple optimization breaks down. Multi-objective methods navigate the trade-offs."
 recallQ: "Why can't a multi-objective recommender simply maximize all objectives at once?"
 recallA: "Because objectives conflict — improving one (e.g., diversity) necessarily degrades another (e.g., click-through rate). The best achievable solutions form a Pareto frontier where no objective can improve without sacrificing another."
+concept: objectives
+state: edited
+lens: generic
+visuality: balanced
+depth: technical..research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 The parent section established that every recommender optimizes an objective function, and that different stakeholders want different things. This section confronts the mathematical reality of what happens when you try to optimize for *all of them at once*.

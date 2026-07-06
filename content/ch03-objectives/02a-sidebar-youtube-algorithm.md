@@ -14,6 +14,15 @@ highlights:
   - "70% of YouTube watch time comes from algorithmic recommendations, not user search"
   - "A single algorithm change shifts billions of daily views instantly"
 status: accepted
+concept: fairness
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 YouTube operates one of the largest recommendation engines ever built. The scale is worth examining concretely:

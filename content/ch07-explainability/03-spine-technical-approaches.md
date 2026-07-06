@@ -17,6 +17,16 @@ highlights:
   - "Model-agnostic explainers work on any model; model-specific methods exploit internal structure for richer explanations"
 publishedAt: "2026-04-03"
 status: accepted
+concept: explanation-methods
+conceptTitle: "Explanation methods"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 A recommendation system can be made explainable in two fundamentally different ways: build a model that is transparent by design, or build a powerful model and then construct explanations after the fact. Each approach involves real engineering tradeoffs, and understanding those tradeoffs is essential for choosing the right strategy.

@@ -9,6 +9,15 @@ voice: thinker
 parent: ch4-testing
 publishedAt: "2026-04-03"
 status: accepted
+concept: ab-testing
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 The parent section established that A/B testing is the gold standard for evaluating recommender systems. But A/B tests are expensive, slow, and risky. You cannot A/B test every idea -- you would need millions of users and months of experimentation time. This creates a fundamental tension: **offline evaluation is cheap but biased; online evaluation is trustworthy but scarce.** The field's central evaluation challenge is bridging this gap.

@@ -9,6 +9,15 @@ voice: thinker
 parent: ch3-deep-similarity
 publishedAt: "2026-04-03"
 status: accepted
+concept: graph-methods
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 Matrix factorization captures interactions between users and items -- but what about interactions between *features*? A 25-year-old male who watches sci-fi on weekday evenings is a very different signal than any of those features alone. The challenge is modeling these combinatorial feature interactions efficiently and at scale.

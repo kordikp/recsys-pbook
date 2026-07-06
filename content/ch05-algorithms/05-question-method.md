@@ -14,6 +14,14 @@ options:
   - letter: B, text: Content-based -- understand the item catalog!, voice: thinker
   - letter: C, text: Hybrid -- combine multiple signals from day one!, voice: creator
   - letter: D, text: Popularity -- start with the simplest baseline!, voice: universal
+concept: pipeline
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 You've just been tasked with building a recommendation system for a new platform. You need to select your initial approach. There's no wrong answer -- each choice reveals a different engineering philosophy.

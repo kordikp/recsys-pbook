@@ -15,6 +15,16 @@ highlights:
   - "Platforms build behavioral profiles — 'digital twins' — from interaction patterns"
   - "The question isn't whether they collect data, but whether you understand and consent"
 status: accepted
+concept: privacy-reality
+conceptTitle: "What platforms actually know"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Privacy advice often amounts to vague warnings: "be careful with your data online." That is well-intentioned but unhelpful without specifics. So let's be precise about what platforms actually collect.

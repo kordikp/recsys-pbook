@@ -8,6 +8,15 @@ core: false
 voice: explorer
 publishedAt: "2026-04-03"
 status: accepted
+concept: business-rules
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 Building a recommender system from scratch is instructive, but in practice you rarely start from zero. A rich ecosystem of open-source libraries and frameworks covers everything from rapid prototyping of collaborative filtering algorithms to serving billion-scale embedding indices in production. This section surveys the most useful tools, organized by where they fit in a typical recommendation pipeline.

@@ -13,6 +13,15 @@ recallQ: "Why do soft labels from a teacher model contain more information than 
 recallA: "Soft labels encode the teacher's uncertainty — a movie rated 0.8 action and 0.3 romance carries more information than just 'action'. This inter-class similarity information helps the student generalize better."
 publishedAt: "2026-04-03"
 status: accepted
+concept: production-scale
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 You've trained a massive ensemble model. It's state-of-the-art on every metric. But it takes 500ms to score candidates — five times your latency budget. You can't serve it.

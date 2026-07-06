@@ -13,6 +13,15 @@ recallQ: "What are the main challenges of algorithmic accountability in recommen
 recallA: "Diffuse responsibility (engineer vs. PM vs. executive vs. algorithm), emergent behavior (no one designed the failure), scale amplification (small biases cause massive harm), and opacity (it's hard to explain why a specific recommendation was made)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: filter-bubbles
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 A recommendation algorithm surfaces extremist content to a vulnerable user. A hiring recommendation system systematically disadvantages certain demographics. A news recommender amplifies misinformation during an election.

@@ -13,6 +13,15 @@ recallQ: "What is visibility bias and why is it problematic for recommender syst
 recallA: "Users can only interact with items they actually see. Items placed below the fold or at the bottom of a list receive fewer interactions regardless of relevance. The system incorrectly interprets low interaction as low interest, creating a self-reinforcing cycle."
 publishedAt: "2026-04-03"
 status: accepted
+concept: feedback-signals
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 You open a news app. The algorithm shows you 50 articles. You read 3 — the ones at the top of the page. The system logs 3 positive interactions and 47 "non-interactions."

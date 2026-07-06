@@ -16,6 +16,15 @@ highlights:
   - "New content gets systematically buried by established hits"
   - "TikTok's testing pools give every piece of content a fair initial audience"
 status: accepted
+concept: popularity
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 There's a pernicious dynamic that emerges with popularity-based recommendations. It's called the **rich-get-richer effect** (also known as the Matthew effect, after Merton, 1968), and once you recognize it, you'll see it everywhere.

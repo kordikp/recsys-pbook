@@ -15,6 +15,15 @@ highlights:
   - "Scoring evaluates each candidate with the full feature set"
   - "Re-ranking enforces diversity, business rules, and freshness constraints"
 status: accepted
+concept: pipeline
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 Let's trace exactly what happens from the moment you open a platform like YouTube to the moment recommendations render on your screen. This entire flow completes in under one second.

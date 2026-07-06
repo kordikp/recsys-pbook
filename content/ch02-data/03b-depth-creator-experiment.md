@@ -15,6 +15,15 @@ highlights:
   - "Systems overreact to new topics: 2 articles on a new subject can flood recommendations"
   - "Running controlled experiments reveals how responsive the system really is"
 status: accepted
+concept: data-control
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: worked-example
+carriers: prose
 ---
 
 Here's a practical experiment you can run yourself. You're going to empirically test how quickly a recommendation system converges on your preferences. It takes about 15 minutes of active effort spread over three days.

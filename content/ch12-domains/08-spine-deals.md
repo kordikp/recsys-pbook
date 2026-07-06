@@ -16,6 +16,16 @@ highlights:
   - "Commission-based boosting balances user relevance with affiliate revenue"
 publishedAt: "2026-04-03"
 status: accepted
+concept: deals-domain
+conceptTitle: "Deal aggregators"
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 Deal aggregators (Slickdeals, Pepper, HotUKDeals) aggregate time-limited offers from hundreds of affiliate partners. A deal posted at 10 AM might expire by noon. The recommendation system must match users to relevant deals **immediately** — before the offer disappears.

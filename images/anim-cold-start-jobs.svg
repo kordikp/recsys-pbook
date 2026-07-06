@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="system-ui,sans-serif">
+  <!-- Item cold start on a job board: a freshly posted job has no applications →
+       skill requirements match candidate profiles → right candidates see it first.
+       10s loop, three phases. -->
+  <style>
+    .ph { opacity: 0; animation: ph 10s ease-in-out infinite; }
+    .p1 { animation-name: ph1; } .p2 { animation-name: ph2; } .p3 { animation-name: ph3; }
+    @keyframes ph1 { 0%,4% {opacity:0} 8%,92% {opacity:1} 97%,100% {opacity:0} }
+    @keyframes ph2 { 0%,30% {opacity:0} 36%,92% {opacity:1} 97%,100% {opacity:0} }
+    @keyframes ph3 { 0%,60% {opacity:0} 66%,92% {opacity:1} 97%,100% {opacity:0} }
+    .dash { stroke-dasharray: 5 4; animation: dashmove 1.2s linear infinite; }
+    @keyframes dashmove { to { stroke-dashoffset: -9; } }
+    .glow { animation: glow 10s ease-in-out infinite; }
+    @keyframes glow { 0%,32% {fill:#EDE9FE} 40%,92% {fill:#DDD6FE} 97%,100% {fill:#EDE9FE} }
+    .pop { animation: pop 10s ease-in-out infinite; transform-origin: 0 0; }
+    @keyframes pop { 0%,74% {opacity:0} 80%,92% {opacity:1} 97%,100% {opacity:0} }
+  </style>
+
+  <text x="320" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">A job posted five minutes ago finds its candidates</text>
+
+  <!-- phase 1: fresh posting, no applications -->
+  <g class="ph p1">
+    <rect x="40" y="60" width="200" height="120" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="2"/>
+    <rect x="52" y="48" width="44" height="16" rx="8" fill="#D97706"/>
+    <text x="74" y="60" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">NEW</text>
+    <text x="140" y="86" text-anchor="middle" font-size="12" font-weight="700" fill="#374151">Data Engineer</text>
+    <text x="140" y="102" text-anchor="middle" font-size="10" fill="#6B7280">Brno · hybrid</text>
+    <rect class="glow" x="58" y="116" width="50" height="18" rx="9"/>
+    <text x="83" y="129" text-anchor="middle" font-size="10" fill="#7C3AED">SQL</text>
+    <rect class="glow" x="114" y="116" width="58" height="18" rx="9"/>
+    <text x="143" y="129" text-anchor="middle" font-size="10" fill="#7C3AED">Python</text>
+    <rect class="glow" x="178" y="116" width="48" height="18" rx="9"/>
+    <text x="202" y="129" text-anchor="middle" font-size="10" fill="#7C3AED">ETL</text>
+    <text x="140" y="162" text-anchor="middle" font-size="10" fill="#9CA3AF">0 views · 0 applications</text>
+    <text x="140" y="204" text-anchor="middle" font-size="11" fill="#6B7280">nobody clicked it yet, so</text>
+    <text x="140" y="219" text-anchor="middle" font-size="11" fill="#6B7280">click-based ranking is blind</text>
+  </g>
+
+  <!-- candidates (always visible) -->
+  <g>
+    <circle cx="440" cy="84" r="17" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="440" y="90" text-anchor="middle" font-size="13">🧑</text>
+    <text x="486" y="80" font-size="9" fill="#6B7280">skills: SQL · Python</text>
+    <circle cx="440" cy="150" r="17" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="440" y="156" text-anchor="middle" font-size="13">👩</text>
+    <text x="486" y="146" font-size="9" fill="#6B7280">skills: ETL · Python</text>
+    <circle cx="440" cy="216" r="17" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="440" y="222" text-anchor="middle" font-size="13">🧔</text>
+    <text x="486" y="212" font-size="9" fill="#6B7280">skills: graphic design</text>
+  </g>
+
+  <!-- phase 2: skill match lines to the two fitting candidates -->
+  <g class="ph p2">
+    <path class="dash" d="M244 110 C 320 96, 360 88, 419 84" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <path class="dash" d="M244 128 C 320 136, 360 144, 419 150" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <text x="330" y="66" text-anchor="middle" font-size="11" fill="#7C3AED">required skills ↔ candidate profiles: match by content, not clicks</text>
+    <text x="530" y="220" font-size="10" fill="#9CA3AF">(no match — not shown)</text>
+  </g>
+
+  <!-- phase 3: the matched candidates see it first, one applies -->
+  <g class="ph p3">
+    <text class="pop" x="466" y="62" font-size="14" fill="#10B981">✓ shown</text>
+    <text class="pop" x="466" y="132" font-size="14" fill="#10B981">✓ shown</text>
+    <rect x="380" y="252" width="130" height="24" rx="12" fill="#D1FAE5"/>
+    <text x="445" y="268" text-anchor="middle" font-size="11" font-weight="600" fill="#065F46">first application ✓</text>
+    <text x="180" y="266" text-anchor="middle" font-size="11" font-weight="600" fill="#10B981">…and every application teaches the ranker who else fits</text>
+  </g>
+</svg>

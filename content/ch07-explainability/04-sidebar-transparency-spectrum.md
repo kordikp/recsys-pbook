@@ -17,6 +17,15 @@ highlights:
   - "More transparency is not always better -- it can enable gaming and overwhelm users"
 publishedAt: "2026-04-03"
 status: accepted
+concept: explanation-methods
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Transparency in recommendation systems is not binary. Between a fully opaque black box and a fully open glass box lies a spectrum with meaningful stops, each carrying distinct costs and benefits.

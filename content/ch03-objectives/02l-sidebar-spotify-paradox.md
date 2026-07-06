@@ -13,6 +13,15 @@ recallQ: "What is the Spotify paradox and what does it reveal about recommendati
 recallA: "Personalized podcast recs increased streams by 29% but reduced listening diversity by 11%. Users engaged more but in narrower patterns. This demonstrates that optimizing for engagement can reduce the variety that users experience."
 publishedAt: "2026-04-03"
 status: accepted
+concept: satisfaction-vs-engagement
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 In a field experiment reported in the [Recombee objectives analysis](https://www.recombee.com/blog/modern-recommender-systems-part-3-objectives), Spotify found that personalized podcast recommendations produced a striking result:

@@ -17,6 +17,16 @@ highlights:
   - "The competitive moat is infrastructure, not algorithms -- the algorithms are known"
 publishedAt: "2026-04-03"
 status: accepted
+concept: case-studies
+conceptTitle: "Industry case studies"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: deep
+genre: explainer
+carriers: prose|image
 ---
 
 Academic papers give you the theory. Benchmarks give you a leaderboard. But production systems give you the truth: what actually works when millions of users interact with your recommendations every day. These five case studies span music, video, news, and multi-domain platforms — each revealing lessons that no benchmark can teach.

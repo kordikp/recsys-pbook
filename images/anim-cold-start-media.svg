@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="system-ui,sans-serif">
+  <!-- Item cold start on a streaming platform: a fresh track has no plays →
+       audio/genre features slot it into a matching playlist → first listener ▶.
+       10s loop, three phases. -->
+  <style>
+    .ph { opacity: 0; animation: ph 10s ease-in-out infinite; }
+    .p1 { animation-name: ph1; } .p2 { animation-name: ph2; } .p3 { animation-name: ph3; }
+    @keyframes ph1 { 0%,4% {opacity:0} 8%,92% {opacity:1} 97%,100% {opacity:0} }
+    @keyframes ph2 { 0%,30% {opacity:0} 36%,92% {opacity:1} 97%,100% {opacity:0} }
+    @keyframes ph3 { 0%,60% {opacity:0} 66%,92% {opacity:1} 97%,100% {opacity:0} }
+    .dash { stroke-dasharray: 5 4; animation: dashmove 1.2s linear infinite; }
+    @keyframes dashmove { to { stroke-dashoffset: -9; } }
+    .eq rect { animation: eq 1s ease-in-out infinite alternate; }
+    .eq rect:nth-child(2) { animation-delay: .2s; } .eq rect:nth-child(3) { animation-delay: .4s; }
+    @keyframes eq { from { height: 6px; y: 224px; } to { height: 18px; y: 212px; } }
+    .pop { animation: pop 10s ease-in-out infinite; transform-origin: 560px 210px; }
+    @keyframes pop { 0%,72% {opacity:0; transform:scale(.4)} 78%,92% {opacity:1; transform:scale(1)} 97%,100% {opacity:0} }
+  </style>
+
+  <text x="320" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">A brand-new track meets the recommender</text>
+
+  <!-- phase 1: the new track, zero plays -->
+  <g class="ph p1">
+    <circle cx="120" cy="120" r="34" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <text x="120" y="129" text-anchor="middle" font-size="24">🎵</text>
+    <rect x="98" y="74" width="44" height="16" rx="8" fill="#D97706"/>
+    <text x="120" y="86" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">NEW</text>
+    <text x="120" y="176" text-anchor="middle" font-size="11" fill="#6B7280">0 plays · 0 saves</text>
+    <text x="120" y="192" text-anchor="middle" font-size="11" fill="#6B7280">no listener overlap to learn from</text>
+  </g>
+
+  <!-- phase 2: audio + genre features match a playlist -->
+  <g class="ph p2">
+    <rect x="196" y="96" width="78" height="18" rx="9" fill="#EDE9FE"/>
+    <text x="235" y="109" text-anchor="middle" font-size="10" fill="#7C3AED">lo-fi · 72 bpm</text>
+    <rect x="196" y="120" width="78" height="18" rx="9" fill="#EDE9FE"/>
+    <text x="235" y="133" text-anchor="middle" font-size="10" fill="#7C3AED">instrumental</text>
+    <path class="dash" d="M278 120 C 330 120, 360 120, 402 120" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <rect x="406" y="76" width="180" height="92" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="496" y="98" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">Playlist: Deep Focus</text>
+    <line x1="422" y1="112" x2="570" y2="112" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="430" y="130" font-size="10" fill="#6B7280">♪ Rainy Keys</text>
+    <text x="430" y="148" font-size="10" fill="#6B7280">♪ Slow Circuits</text>
+    <text x="430" y="163" font-size="10" fill="#D97706" font-weight="700">♪ ← the new track slots in here</text>
+    <text x="320" y="200" text-anchor="middle" font-size="11" fill="#7C3AED">audio features say: "this belongs with these" — before anyone played it</text>
+  </g>
+
+  <!-- phase 3: first listener, equalizer + heart -->
+  <g class="ph p3">
+    <circle cx="496" cy="222" r="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <circle cx="496" cy="207" r="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <g class="eq">
+      <rect x="524" y="218" width="5" height="12" fill="#10B981"/>
+      <rect x="532" y="218" width="5" height="12" fill="#10B981"/>
+      <rect x="540" y="218" width="5" height="12" fill="#10B981"/>
+    </g>
+    <text x="320" y="268" text-anchor="middle" font-size="11" font-weight="600" fill="#10B981">first plays land → listener overlap forms → behavioral signal takes over</text>
+  </g>
+  <text class="pop" x="560" y="216" font-size="20" fill="#10B981">❤</text>
+</svg>

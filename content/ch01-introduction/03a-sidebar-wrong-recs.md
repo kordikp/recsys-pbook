@@ -16,6 +16,15 @@ highlights:
   - "Recommendations optimize for user engagement; ads optimize for advertiser revenue"
   - "Both use data and algorithms, but serve fundamentally different stakeholders"
 status: accepted
+concept: patterns-not-magic
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Recommender systems are sophisticated, but they have fundamental limitations. Here are common failure modes:

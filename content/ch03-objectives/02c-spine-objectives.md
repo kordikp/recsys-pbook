@@ -16,6 +16,16 @@ highlights:
   - "Subscription models (Netflix) align better with user satisfaction than ad models"
   - "Users, creators, and platform operators have structurally different interests"
 status: accepted
+concept: objectives
+conceptTitle: "Optimization objectives"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|diagram
 ---
 
 Here is a fundamental truth that many users overlook: every recommendation algorithm optimizes a **goal** -- a quantity it is trying to maximize (or minimize). This is called the **objective function**, and it determines virtually everything about what the system surfaces.

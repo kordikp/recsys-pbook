@@ -13,6 +13,15 @@ recallQ: "What does research say about whether recommendation algorithms cause p
 recallA: "Evidence is mixed. Bakshy et al. (2015) found algorithms have modest effect compared to user choice. Guess et al. (2023) found removing algorithms changed content consumption but not political attitudes. The effect exists but is smaller than commonly claimed."
 publishedAt: "2026-04-03"
 status: accepted
+concept: filter-bubbles
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 The narrative is compelling: recommendation algorithms create filter bubbles, which create echo chambers, which cause political polarization. It's a clean causal story — and it's probably too simple.

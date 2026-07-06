@@ -17,6 +17,16 @@ highlights:
   - "Understanding your domain's unique dynamics is more important than choosing the right algorithm"
 publishedAt: "2026-04-03"
 status: accepted
+concept: domain-differences
+conceptTitle: "Why domains differ"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 A recommendation algorithm that excels for movie suggestions will fail spectacularly for job listings. One that drives podcast discovery will be useless for real estate. The reason isn't algorithmic quality — it's **domain structure**.

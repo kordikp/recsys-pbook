@@ -13,6 +13,15 @@ recallQ: "Why should recommender systems weight ratings differently based on qua
 recallA: "Noisy ratings propagate through collaborative filtering — one unreliable rating can affect predictions for thousands of users. Weighting by review quality (comprehensiveness, consistency) improves model accuracy by reducing noise propagation."
 publishedAt: "2026-04-03"
 status: accepted
+concept: feedback-signals
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 Consider two users rating the same product:

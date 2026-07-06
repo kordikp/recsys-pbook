@@ -9,6 +9,15 @@ voice: thinker
 parent: ch2-interactions
 publishedAt: "2026-04-03"
 status: accepted
+concept: digital-footprints
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 The previous section established that implicit feedback -- what users *do* rather than what they *say* -- is the dominant signal in modern recommender systems. But implicit data introduces mathematical challenges that explicit ratings don't have. Here we formalize those challenges and examine the key frameworks that address them.

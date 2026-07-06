@@ -9,6 +9,15 @@ voice: thinker
 parent: ch3-two-tower
 publishedAt: "2026-04-03"
 status: accepted
+concept: embeddings
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: deep
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 The two-tower architecture achieves its scalability through a single structural commitment: **the independence assumption**. The user encoder and item encoder never share intermediate representations at inference time. This means the item tower's output for a given item is identical regardless of which user is being scored -- and that invariance is what makes the entire serving infrastructure possible.

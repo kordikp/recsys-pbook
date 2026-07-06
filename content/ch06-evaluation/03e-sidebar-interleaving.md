@@ -13,6 +13,15 @@ recallQ: "How does interleaving compare to A/B testing for evaluating recommende
 recallA: "Interleaving shows items from two models interleaved in a single list, then counts which model's items the user engages with. It requires ~100× fewer users to detect the same difference, making it much faster than standard A/B tests."
 publishedAt: "2026-04-03"
 status: accepted
+concept: ab-testing
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 A/B testing is the gold standard for recommendation evaluation, but it's **slow**. Detecting a 1% improvement with statistical significance can require weeks of traffic. Interleaving offers a much faster alternative.

@@ -13,6 +13,15 @@ recallQ: "How does the restaurant analogy explain the exploration-exploitation t
 recallA: "Always going to your favorite restaurant (exploitation) means missing better options. Always trying new places (exploration) wastes meals on bad ones. The optimal strategy mixes both."
 publishedAt: "2026-04-03"
 status: accepted
+concept: explore-exploit
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Here's a dilemma you face every day: **where to eat lunch.**

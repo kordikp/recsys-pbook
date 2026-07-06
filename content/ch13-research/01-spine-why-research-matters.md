@@ -17,6 +17,16 @@ highlights:
   - "Every Recombee research paper runs in production serving 500+ customers"
 publishedAt: "2026-04-03"
 status: accepted
+concept: why-research
+conceptTitle: "Why research matters"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Every time you open YouTube, Spotify, or Amazon, you interact with algorithms that emerged from academic research labs. The recommendation you see in 200 milliseconds is the product of decades of mathematical investigation — from linear algebra and optimization theory to information theory and causal inference.

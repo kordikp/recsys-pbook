@@ -15,6 +15,16 @@ highlights:
   - "LLMs understand nuanced preference expression but lack real-time behavioral data"
   - "The future is hybrid: LLM language understanding + RecSys behavioral prediction"
 status: accepted
+concept: conversational-recs
+conceptTitle: "Conversational recommendation"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Consider this scenario: instead of scrolling through a streaming service hoping to find something relevant, you say: "I want a well-reviewed thriller from the last two years, under two hours, with strong character development and no gratuitous violence."

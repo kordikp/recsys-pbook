@@ -14,6 +14,15 @@ highlights:
   - "Behavioral patterns (scroll speed, content timing, preferences) predict demographics"
   - "'Anonymous' data isn't anonymous when behavioral profiles are sufficiently detailed"
 status: accepted
+concept: privacy-reality
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You never entered your birthday. You never disclosed your age, income, or education level. So the platform does not know those things, right?

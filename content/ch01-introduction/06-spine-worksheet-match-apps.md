@@ -15,6 +15,16 @@ highlights:
   - "Platforms are converging toward algorithmic curation -- the algorithm is taking over"
   - "The models giving users the most control are not where they spend the most time"
 status: accepted
+concept: platform-models
+conceptTitle: "Which model powers which platform"
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: deep
+genre: worked-example
+carriers: prose
 ---
 
 Every platform uses a specific content distribution model — or more often, a combination of models. Understanding which model drives what you see is the first step to understanding the platform's incentive structure.

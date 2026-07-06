@@ -13,6 +13,15 @@ recallQ: "How does beeFormer enable zero-shot transfer across domains?"
 recallA: "By training a text encoder with ELSA's recommendation loss, beeFormer learns a general mapping from text to behavioral similarity. Text descriptions bridge domains — the concept of 'character-driven narrative' applies to both movies and books."
 publishedAt: "2026-04-03"
 status: accepted
+concept: beeformer
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A recommendation system trained on millions of movie interactions has learned something profound about human preferences: that people who enjoy character-driven dramas also tend to appreciate literary fiction, that fans of fast-paced action films are drawn to thriller novels, that users who seek intellectual stimulation in documentaries often enjoy popular science books.

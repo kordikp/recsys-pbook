@@ -15,6 +15,16 @@ highlights:
   - "Compare ratings on shared items — lower average difference = more similar"
   - "Taste neighbors form the foundation of collaborative filtering"
 status: accepted
+concept: diy-similar-users
+conceptTitle: "Build your own: similar users"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 Now comes the analytical core. You have your rating matrix. Time to determine: **which users have correlated preferences?**

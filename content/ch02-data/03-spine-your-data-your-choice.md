@@ -16,6 +16,16 @@ highlights:
   - "Data is a trade: personal information in exchange for better personalization"
   - "Under GDPR/CCPA, users have legal rights to access, port, and delete their data"
 status: accepted
+concept: data-control
+conceptTitle: "Your data, your choice"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Here's something important: all those digital footprints we discussed? Under modern privacy regulations, they're legally YOURS. And you have more control over them than most people realize.

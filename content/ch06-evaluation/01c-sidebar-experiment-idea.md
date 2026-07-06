@@ -15,6 +15,15 @@ highlights:
   - "You are an active trainer of the algorithm, not a passive recipient"
   - "Controlled behavioral experiments reveal the system's true responsiveness"
 status: accepted
+concept: filter-bubbles
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: tldr
+genre: worked-example
+carriers: prose
 ---
 
 Enough theory. Here is a hands-on experiment that demonstrates how directly you can shape your own recommendation environment -- in under 5 minutes.

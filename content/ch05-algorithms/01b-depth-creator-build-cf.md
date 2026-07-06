@@ -15,6 +15,15 @@ highlights:
   - "More users and items improve predictions through denser co-occurrence data"
   - "Production systems use the exact same logic, just with millions of data points"
 status: accepted
+concept: collaborative-filtering
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: worked-example
+carriers: prose
 ---
 
 You don't need a production system to try collaborative filtering. You can do it right now with a spreadsheet and about 10 willing participants.

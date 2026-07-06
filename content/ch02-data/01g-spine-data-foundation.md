@@ -17,6 +17,16 @@ highlights:
   - "When recommendations fail, the root cause is usually data, not the algorithm"
 publishedAt: "2026-04-03"
 status: accepted
+concept: data-pillars
+conceptTitle: "Three pillars of recommendation data"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 Before any algorithm can make a recommendation, it needs data. And not just any data — it needs three specific types, each serving a distinct purpose. This [three-pillar data model](https://www.recombee.com/blog/modern-recommender-systems-part-2-data) is the foundation of every production recommender system.

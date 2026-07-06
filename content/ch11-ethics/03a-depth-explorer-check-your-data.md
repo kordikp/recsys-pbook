@@ -14,6 +14,15 @@ highlights:
   - "Download your data: Google Takeout, TikTok settings, Instagram data export"
   - "Most people are surprised by the volume and precision of stored behavioral data"
 status: accepted
+concept: privacy-reality
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Take a few minutes to exercise your data access rights. Under GDPR (Article 15) and CCPA (Section 1798.100), you have a legal right to access the personal data companies hold about you. Seeing your own data is worth a thousand abstractions.

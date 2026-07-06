@@ -17,6 +17,15 @@ highlights:
   - "Not all drift requires retraining -- moderate feature drift is normal; concept drift almost always demands action"
 publishedAt: "2026-04-03"
 status: accepted
+concept: monitoring
+state: edited
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 A model trained on last month's data is making predictions in today's world. The gap between these two realities is drift -- and in recommender systems, drift is not an occasional anomaly but a continuous process.

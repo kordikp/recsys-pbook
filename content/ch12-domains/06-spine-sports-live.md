@@ -17,6 +17,16 @@ highlights:
   - "Semantic search handles complex queries like 'UFC finishes in round 1'"
 publishedAt: "2026-04-03"
 status: accepted
+concept: sports-domain
+conceptTitle: "Sports & live events"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|image|code
 ---
 
 Sports recommendation operates at a pace no other domain matches. During a Premier League match day, a Champions League final, or the Super Bowl, millions of fans simultaneously need personalized content — live streams, highlights, replays, stats, analysis — and the system must adapt in real-time as the event unfolds.

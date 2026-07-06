@@ -16,6 +16,16 @@ highlights:
   - "Behavioral signals reveal preferences more reliably than stated preferences"
   - "Missing any one signal type significantly degrades recommendation quality"
 status: accepted
+concept: feedback-signals
+conceptTitle: "Explicit and implicit feedback"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 A recommender system draws on three fundamental types of data to determine what to present to you. Think of them as three pillars -- you need all three for robust recommendations, and each compensates for the others' blind spots.

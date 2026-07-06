@@ -13,6 +13,15 @@ recallQ: "What is the most dangerous recommender system anti-pattern?"
 recallA: "The Popularity Feedback Loop -- popular items get recommended more, receive more interactions, and become even more popular, while new and niche content is permanently buried. It is self-reinforcing and, once entrenched, extremely difficult to reverse."
 publishedAt: "2026-04-03"
 status: accepted
+concept: business-rules
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 Every recommendation system that reaches production will eventually exhibit at least one of these failure modes. They are not signs of incompetence -- they emerge naturally from reasonable-sounding decisions. The difference between a mediocre system and a great one is how quickly the team recognizes these patterns and corrects course.

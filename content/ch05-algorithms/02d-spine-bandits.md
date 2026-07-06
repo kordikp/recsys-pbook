@@ -16,6 +16,16 @@ highlights:
   - "Thompson Sampling balances both automatically via Bayesian posterior sampling"
   - "Contextual bandits add features — time of day, device, user segment"
 status: accepted
+concept: explore-exploit
+conceptTitle: "Explore–exploit dilemma"
+state: core
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 ![The Explore-Exploit Restaurant](/images/comic-bandits.svg)

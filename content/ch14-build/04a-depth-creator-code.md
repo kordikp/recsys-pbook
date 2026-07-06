@@ -14,6 +14,15 @@ highlights:
   - "A complete collaborative filtering implementation fits in ~30 lines of Python"
   - "Code automates the manual process and scales to larger datasets"
 status: accepted
+concept: diy-predict
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: deep
+genre: code-walkthrough
+carriers: prose|code
 ---
 
 Let's translate the recommendation pipeline into working Python code. This implementation covers data loading, similarity computation, prediction, and basic evaluation -- all with clear structure and documentation.

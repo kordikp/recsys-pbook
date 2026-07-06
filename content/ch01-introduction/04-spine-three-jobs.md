@@ -16,6 +16,16 @@ highlights:
   - "NAVIGATE: reduce cognitive load in massive catalogs"
   - "ENGAGE: sustain attention -- beneficial when aligned with user value, problematic when not"
 status: accepted
+concept: three-jobs
+conceptTitle: "Three jobs of a recommender"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 Every recommender system serves three fundamental functions. Whether it's a streaming platform, e-commerce site, or enterprise knowledge base, it's optimizing for these objectives:

@@ -10,6 +10,14 @@ parent: null
 diagram: null
 publishedAt: "2026-04-03"
 status: accepted
+concept: specialized-domains
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 You've explored recommendation challenges across multiple domains. Which one resonates most with your work or interests?

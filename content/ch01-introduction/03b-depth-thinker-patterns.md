@@ -16,6 +16,15 @@ highlights:
   - "Algorithms detect statistical patterns across millions that no analyst could find manually"
   - "Spurious correlations -- noise mistaken for signal -- are a real failure mode"
 status: accepted
+concept: patterns-not-magic
+state: core
+lens: generic
+visuality: text-first
+depth: standard..technical
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Recommender systems find patterns in behavior. But pattern recognition is actually one of the most fundamental ideas in science, mathematics, and engineering. Let's put it in context.

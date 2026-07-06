@@ -14,6 +14,15 @@ highlights:
   - "Who defines 'harmful content'? When does transparency itself cause harm?"
   - "These questions have no definitive answers — but engaging with them is essential"
 status: accepted
+concept: ai-future
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 What follows are genuine open questions that researchers, regulators, platform executives, and ethicists are actively debating. No consensus exists. That is precisely what makes them important -- and what makes a structured analytical approach essential.

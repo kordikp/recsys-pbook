@@ -17,6 +17,16 @@ highlights:
   - "Return rate is a critical negative signal unique to e-commerce"
 publishedAt: "2026-04-03"
 status: accepted
+concept: ecommerce-domain
+conceptTitle: "E-commerce"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|table|image|code
 ---
 
 E-commerce is the domain where recommendation quality translates most directly into revenue. Amazon's famous "Customers who bought this also bought" is one of the oldest and most profitable recommendation features in existence — [driving roughly 35% of total revenue](https://www.recombee.com/blog/modern-recommender-systems-part-1-introduction).

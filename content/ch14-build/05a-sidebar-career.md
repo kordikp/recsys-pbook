@@ -14,6 +14,15 @@ highlights:
   - "RecSys engineering requires: statistics, linear algebra, Python, and curiosity"
   - "The field is expanding into healthcare, education, finance, and scientific discovery"
 status: accepted
+concept: diy-improve
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 The skills you've just exercised -- data collection, pattern detection, prediction, and empirical validation -- are the same competencies used daily by recommendation professionals at the world's most influential technology companies.

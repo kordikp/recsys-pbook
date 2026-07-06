@@ -13,6 +13,15 @@ recallQ: "What are the key video recommendation scenarios and their logic names?
 recallA: "video:personal (for-you), video:continue-watching (resume), video:because-you-watched (composite), video:watch-next (post-playback), video:popular (trending), video:editorial-picks (curated)."
 publishedAt: "2026-04-04"
 status: accepted
+concept: video-domain
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: deep
+genre: explainer
+carriers: prose|table
 ---
 
 A complete reference for implementing video recommendation scenarios. Each entry includes the exact scenario ID, logic name, recommendation type, and key parameters as used in [production video systems](https://docs.recombee.com/recipes/video).

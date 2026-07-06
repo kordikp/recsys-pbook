@@ -13,6 +13,15 @@ recallQ: "How can social network data improve recommendations?"
 recallA: "Friends tend to share preferences (social homophily). Trust-weighted social CF uses friend ratings as additional signals. Social influence also shapes preferences — people are more likely to engage with content their friends liked."
 publishedAt: "2026-04-03"
 status: accepted
+concept: multimodal
+state: edited
+lens: generic
+visuality: text-first
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|formula
 ---
 
 Before algorithms, recommendations were social: "My friend said this movie is great." Social recommendation systems attempt to replicate this dynamic at scale, using social network structure as an additional signal for preference prediction.

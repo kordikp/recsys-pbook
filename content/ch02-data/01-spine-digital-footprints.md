@@ -16,6 +16,16 @@ highlights:
   - "Users continuously train the system through implicit feedback"
   - "The system evolves from knowing nothing to modeling preferences in detail"
 status: accepted
+concept: digital-footprints
+conceptTitle: "Digital footprints"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 Imagine walking through fresh snow. Every step leaves a footprint behind you. Someone could follow your trail and reconstruct exactly where you went and how long you lingered.

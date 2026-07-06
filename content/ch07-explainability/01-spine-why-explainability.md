@@ -17,6 +17,16 @@ highlights:
   - "GDPR Article 22 and the DSA now legally require meaningful algorithmic transparency"
 publishedAt: "2026-04-03"
 status: accepted
+concept: why-explain
+conceptTitle: "Why explainability matters"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 A recommendation system that works perfectly but cannot explain itself has a problem. Not a theoretical problem -- a practical one that affects adoption, debugging, and legal compliance simultaneously.

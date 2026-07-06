@@ -17,6 +17,16 @@ highlights:
   - "Dwell time and scroll depth reveal intent that click sequences alone miss"
 publishedAt: "2026-04-03"
 status: accepted
+concept: session-based
+conceptTitle: "Session-based recommendation"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 A customer lands on your e-commerce site. They haven't logged in. They have no account. You have never seen them before. They click on a winter jacket, then a pair of hiking boots, then a fleece pullover. Within these three clicks, you must figure out what to show them next.

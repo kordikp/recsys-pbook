@@ -10,4 +10,12 @@ voice: universal
 parent: null
 diagram: null
 status: accepted
+concept: digital-footprints
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---

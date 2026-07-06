@@ -9,6 +9,14 @@ voice: universal
 parent: null
 diagram: null
 status: accepted
+concept: conversational-recs
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 You have examined how recommendation systems work, what they optimize for, and the trade-offs they embody. Now consider your own position.

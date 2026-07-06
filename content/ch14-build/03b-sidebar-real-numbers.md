@@ -14,6 +14,15 @@ highlights:
   - "Netflix: 3.4 trillion cells. YouTube: 2.16 quintillion. >99% are empty."
   - "Matrix factorization finds patterns in this extreme sparsity"
 status: accepted
+concept: diy-similar-users
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose
 ---
 
 You've been building a prototype recommendation system -- perhaps 5 users and 6 items. That's a matrix with 30 cells. Entirely manageable by hand.

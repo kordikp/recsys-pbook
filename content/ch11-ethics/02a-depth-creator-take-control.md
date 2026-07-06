@@ -14,6 +14,15 @@ highlights:
   - "Practical tools: time limits, disable autoplay, 'Not Interested,' separate profiles"
   - "The goal isn't to quit platforms — it's to use them intentionally"
 status: accepted
+concept: addictive-design
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: worked-example
+carriers: prose
 ---
 
 Understanding how recommendation systems work is not just intellectually interesting -- it is practically useful. Here are concrete strategies you can implement today to shift the balance of control back in your favor.

@@ -16,6 +16,16 @@ highlights:
   - "No need to describe preferences — similar users' behavior does it implicitly"
   - "Item-item CF scales better than user-user; Amazon proved this in 2003"
 status: accepted
+concept: collaborative-filtering
+conceptTitle: "Collaborative filtering"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image|diagram
 ---
 
 Here's a fundamental question: how do you usually discover new content to consume?

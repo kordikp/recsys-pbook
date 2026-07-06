@@ -12,6 +12,15 @@ recallQ: "How does reinforcement learning differ from bandit approaches in recom
 recallA: "Bandits optimize single-step reward (1-step horizon). RL optimizes cumulative long-term reward over a sequence of recommendations, modeling how today's recommendation affects tomorrow's user behavior."
 publishedAt: "2026-04-03"
 status: accepted
+concept: multimodal
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 Bandit algorithms solve one step at a time: given this user in this context, which item maximizes immediate reward? But recommendation is inherently sequential. The article you show now changes what the user wants next. A short-term click-maximizer that exhausts a user's patience with clickbait is optimizing the wrong objective.

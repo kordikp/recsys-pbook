@@ -15,6 +15,15 @@ highlights:
   - "Each step feels small, but the accumulated path leads somewhere unintended"
   - "Algorithms optimize for the next item, not the session trajectory"
 status: accepted
+concept: who-decides
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You search for "best noise-cancelling headphones 2025."

@@ -15,6 +15,16 @@ highlights:
   - "More data is the single biggest improvement — more connections to discover"
   - "Test each change individually to isolate its impact"
 status: accepted
+concept: diy-improve
+conceptTitle: "Build your own: improve"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You've built a working recommendation system. If you've evaluated it, you've likely noticed that some predictions are accurate while others are significantly off.

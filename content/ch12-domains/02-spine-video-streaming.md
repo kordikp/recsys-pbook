@@ -17,6 +17,16 @@ highlights:
   - "Content hierarchy (series→season→episode) requires special handling in the pipeline"
 publishedAt: "2026-04-03"
 status: accepted
+concept: video-domain
+conceptTitle: "Video & streaming"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|table|image|code
 ---
 
 Video streaming is where recommendation systems are most visible — and most consequential. Netflix attributes 80% of content discovery to its recommendation engine. YouTube's algorithm drives 70% of all watch time. The quality of video recommendations directly determines platform retention and content ROI.

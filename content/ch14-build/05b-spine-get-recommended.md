@@ -15,6 +15,16 @@ highlights:
   - "Platforms reward engagement rate over total views, and strong first impressions"
   - "Each platform has different key metrics: YouTube = watch time, TikTok = completion"
 status: accepted
+concept: creator-visibility
+conceptTitle: "Getting your content recommended"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: deep
+genre: explainer
+carriers: prose|image
 ---
 
 You've studied how recommendation systems work from the consumer's side. Now let's examine the creator's perspective. If you produce content -- articles, videos, podcasts, courses, products -- how do you optimize for algorithmic distribution?

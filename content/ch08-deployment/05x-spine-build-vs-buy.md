@@ -17,6 +17,16 @@ highlights:
   - "The real question is opportunity cost: what else could your team build?"
 publishedAt: "2026-04-03"
 status: accepted
+concept: build-vs-buy
+conceptTitle: "Build vs. buy"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 You've decided your product needs recommendations. Now comes a strategic decision that will shape your engineering organization for years: **build it yourself, or use a managed service?**

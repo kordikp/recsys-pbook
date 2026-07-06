@@ -13,6 +13,15 @@ recallQ: "What are the main layers of a production recommender system's technolo
 recallA: "Data layer (event streaming, feature stores, data warehouses), model training (offline pipelines, experiment tracking, hyperparameter tuning), serving layer (model serving, embedding storage, real-time features), and orchestration (ML pipelines, A/B testing, monitoring)."
 publishedAt: "2026-04-03"
 status: accepted
+concept: build-vs-buy
+state: edited
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|image|code
 ---
 
 The algorithms you have explored throughout this book -- collaborative filtering, content-based similarity, matrix factorization -- are the mathematical core of a recommender system. But algorithms alone do not produce recommendations. In production, each algorithm lives inside a multi-layered technology stack that ingests raw user behavior, transforms it into features, trains and evaluates models, serves predictions at low latency, and continuously monitors the entire pipeline for degradation.

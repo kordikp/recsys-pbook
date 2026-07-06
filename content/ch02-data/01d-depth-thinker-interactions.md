@@ -15,6 +15,15 @@ highlights:
   - "Implicit data wins: automatically collected, less biased, and 100x more volume"
   - "Netflix replaced stars with thumbs; YouTube optimizes watch time, not likes"
 status: accepted
+concept: digital-footprints
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table
 ---
 
 When you give a product 4 stars, that's you **telling** the system what you think. But when you binge-watch a series until 3 AM on a work night, that's the system **observing** what you actually do. These two types of information are called **explicit** and **implicit** feedback -- and they behave very differently in practice.

@@ -13,6 +13,15 @@ recallQ: "What are the three pillars of RecSys observability?"
 recallA: "Metrics (what happened), logs (what the system did), and traces (how a specific recommendation was generated). Together they enable rapid root cause analysis."
 publishedAt: "2026-04-03"
 status: accepted
+concept: monitoring
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|table|code
 ---
 
 It's 3 AM. An alert fires: recommendation CTR dropped 15% in the last hour. Is it a model bug? A data pipeline failure? A catalog issue? A seasonal pattern? Without proper observability, you're guessing in the dark.

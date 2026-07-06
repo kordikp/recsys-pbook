@@ -8,6 +8,15 @@ core: false
 voice: universal
 publishedAt: "2026-04-03"
 status: accepted
+concept: popularity
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 Not all content ages the same way. A breaking news article about an earthquake is critically important for hours, then fades into historical record. A tutorial on linear algebra remains useful for decades. A viral meme peaks in two days and becomes cringe-worthy in two weeks. Recommendation systems that ignore this temporal dimension will inevitably serve stale content to users who want the latest -- or chase trends for users who want timeless depth.

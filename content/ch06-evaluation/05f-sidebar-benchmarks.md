@@ -8,6 +8,15 @@ core: false
 voice: explorer
 publishedAt: "2026-04-03"
 status: accepted
+concept: filter-bubbles
+state: edited
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image
 ---
 
 Recommender systems research depends on shared benchmarks. Without common datasets, results from different papers cannot be compared, and progress cannot be measured. Over the past two decades, a small number of datasets have become the de facto standard -- each with distinct strengths and, critically, distinct blind spots that every practitioner should understand before drawing conclusions from experimental results.

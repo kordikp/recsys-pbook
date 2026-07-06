@@ -13,6 +13,15 @@ recallQ: "What is differential privacy and how does it apply to recommender syst
 recallA: "Differential privacy adds calibrated noise to data or model outputs so that no individual's data can be identified. The privacy parameter ε controls the noise-privacy tradeoff. In RecSys, it protects user interaction histories but degrades recommendation quality."
 publishedAt: "2026-04-03"
 status: accepted
+concept: privacy-reality
+state: edited
+lens: generic
+visuality: balanced
+depth: technical
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|table|image|formula
 ---
 
 The fundamental tension in recommender systems: **better personalization requires more data, but more data means more privacy risk.** Every interaction you have with a platform reveals something about you — your interests, your schedule, your social connections, your vulnerabilities.

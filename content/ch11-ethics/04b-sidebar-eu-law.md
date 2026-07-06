@@ -14,6 +14,15 @@ highlights:
   - "The DSA mandates algorithmic transparency and non-profiling recommendation options"
   - "Technology evolves faster than regulation — enforcement perpetually lags"
 status: accepted
+concept: ai-future
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Governments globally are building regulatory frameworks for recommendation algorithms. The legislative pace has accelerated significantly, but enforcement and practical impact remain uneven.

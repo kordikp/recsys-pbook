@@ -15,6 +15,15 @@ highlights:
   - "Variable reward schedules — the same mechanism behind slot machines — drive engagement"
   - "Recognizing the anticipation-uncertainty loop is the first step to managing it"
 status: accepted
+concept: addictive-design
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 The human brain has a reward system mediated by the neurotransmitter **dopamine**. When something novel, surprising, or rewarding occurs, the brain releases a burst of dopamine. It produces a feeling of satisfaction and, critically, a desire for more.

@@ -17,6 +17,16 @@ highlights:
   - "Bandit regret is provably near-optimal: O(sqrt(KT log T))"
 publishedAt: "2026-04-03"
 status: accepted
+concept: bandits-in-practice
+conceptTitle: "Bandits in practice"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Every recommender system faces a fundamental dilemma: **should it recommend items it's confident about (exploitation) or try items it's uncertain about (exploration)?**

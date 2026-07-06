@@ -17,6 +17,16 @@ highlights:
   - "Users who discover niche content become more loyal and less likely to churn"
 publishedAt: "2026-04-03"
 status: accepted
+concept: long-tail
+conceptTitle: "The long tail"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|image
 ---
 
 Imagine a bookstore with a million titles. A hundred bestsellers sit on the front tables and account for half of all sales. Another few thousand popular titles fill the main shelves and account for most of the rest. The remaining 990,000 books are in the warehouse -- technically available, but effectively invisible.

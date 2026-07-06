@@ -17,6 +17,16 @@ highlights:
   - "The playlist is the recommendation unit, not individual tracks"
 publishedAt: "2026-04-03"
 status: accepted
+concept: music-domain
+conceptTitle: "Music & podcasts"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|table|image|code
 ---
 
 Music is the only recommendation domain where suggesting the same item repeatedly is a feature, not a bug. You'll happily listen to a favorite song hundreds of times, but you'd never re-read a news article or re-purchase the same product. This fundamental difference shapes every aspect of music recommendation.

@@ -16,6 +16,15 @@ highlights:
   - "One anomalous interaction will not permanently corrupt a profile -- recency dominates"
   - "Users can deliberately retrain the algorithm through intentional behavior changes"
 status: accepted
+concept: feedback-signals
+state: core
+lens: generic
+visuality: text-first
+depth: technical
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose
 ---
 
 You've probably encountered some persistent misconceptions about how recommendation systems work -- in conversations, on social media, even in news coverage. Let's separate fact from fiction. For each claim, form your own judgment before reading the analysis.

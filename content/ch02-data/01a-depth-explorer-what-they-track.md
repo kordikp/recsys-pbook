@@ -15,6 +15,15 @@ highlights:
   - "Signal hierarchy: purchase > save > complete > click > impression"
   - "Completion rate matters far more than initial click for quality assessment"
 status: accepted
+concept: digital-footprints
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 Let's get specific. When you use a platform like YouTube, LinkedIn, Amazon, or Spotify, here's what the system captures. Some of these may surprise you:

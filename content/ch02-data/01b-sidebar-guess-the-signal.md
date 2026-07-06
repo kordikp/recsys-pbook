@@ -15,6 +15,15 @@ highlights:
   - "Sharing is the strongest signal -- it associates content with personal identity"
   - "Passive signals like scrolling past are weak and highly ambiguous"
 status: accepted
+concept: digital-footprints
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose
 ---
 
 Every action you take online sends a signal to the recommendation system. But not all signals are equal. Some clearly indicate strong preference, while others are ambiguous noise.

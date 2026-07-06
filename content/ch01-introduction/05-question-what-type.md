@@ -9,6 +9,14 @@ voice: universal
 parent: null
 diagram: null
 status: accepted
+concept: three-jobs
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: tldr
+carriers: prose
 ---
 
 You've covered the fundamentals of what recommender systems are. Now choose the reading path that best matches your interests and goals.

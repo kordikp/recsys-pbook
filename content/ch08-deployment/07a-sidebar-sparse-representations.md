@@ -12,6 +12,15 @@ recallQ: "Why are sparse embeddings sometimes better than dense ones?"
 recallA: "Sparse embeddings offer interpretability (each dimension has meaning), compression (fewer non-zero values), faster retrieval (inverted index compatible), and lower memory footprint -- often with minimal quality loss."
 publishedAt: "2026-04-03"
 status: accepted
+concept: production-scale
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 The standard approach in modern recommendation systems is to represent users and items as **dense vectors** -- 128, 256, or 768 dimensions, every element a non-zero floating-point value. These embeddings are powerful, but they carry substantial costs: storage (millions of items times hundreds of dimensions), retrieval complexity (approximate nearest neighbor search in high-dimensional space), and opacity (what does dimension 347 mean?).

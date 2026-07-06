@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="system-ui,sans-serif">
+  <!-- Item cold start in an e-shop: NEW product arrives → tag links it to a similar
+       product → gets recommended → first ❤. 10s loop, three phases. -->
+  <style>
+    .ph { opacity: 0; animation: ph 10s ease-in-out infinite; }
+    .p1 { animation-name: ph1; } .p2 { animation-name: ph2; } .p3 { animation-name: ph3; }
+    @keyframes ph1 { 0%,4% {opacity:0} 8%,92% {opacity:1} 97%,100% {opacity:0} }
+    @keyframes ph2 { 0%,30% {opacity:0} 36%,92% {opacity:1} 97%,100% {opacity:0} }
+    @keyframes ph3 { 0%,60% {opacity:0} 66%,92% {opacity:1} 97%,100% {opacity:0} }
+    .slide { animation: slide 10s ease-in-out infinite; }
+    @keyframes slide { 0%,3% {transform:translateX(-140px);opacity:0} 10% {opacity:1}
+                       12%,92% {transform:translateX(0);opacity:1} 97%,100% {transform:translateX(0);opacity:0} }
+    .dash { stroke-dasharray: 5 4; animation: dashmove 1.2s linear infinite; }
+    @keyframes dashmove { to { stroke-dashoffset: -9; } }
+    .pop { animation: pop 10s ease-in-out infinite; transform-origin: 566px 118px; }
+    @keyframes pop { 0%,70% {opacity:0; transform:scale(.4)} 76%,92% {opacity:1; transform:scale(1)} 97%,100% {opacity:0} }
+  </style>
+
+  <text x="320" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">A new product's first day in the shop</text>
+
+  <!-- shelf of known products -->
+  <line x1="60" y1="180" x2="420" y2="180" stroke="#E5E7EB" stroke-width="3"/>
+  <g>
+    <rect x="80" y="120" width="56" height="56" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="108" y="152" text-anchor="middle" font-size="20">👟</text>
+    <text x="108" y="200" text-anchor="middle" font-size="10" fill="#D97706">★★★★</text>
+    <rect x="164" y="120" width="56" height="56" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="192" y="152" text-anchor="middle" font-size="20">🎒</text>
+    <text x="192" y="200" text-anchor="middle" font-size="10" fill="#D97706">★★★</text>
+    <rect x="248" y="120" width="56" height="56" rx="8" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="276" y="152" text-anchor="middle" font-size="20">🧦</text>
+    <text x="276" y="200" text-anchor="middle" font-size="10" fill="#D97706">★★★★</text>
+  </g>
+
+  <!-- phase 1: the NEW product slides in with no stars -->
+  <g class="slide">
+    <rect x="340" y="120" width="56" height="56" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <text x="368" y="152" text-anchor="middle" font-size="20">🥾</text>
+    <rect x="344" y="108" width="34" height="16" rx="8" fill="#D97706"/>
+    <text x="361" y="120" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">NEW</text>
+    <text x="368" y="200" text-anchor="middle" font-size="10" fill="#9CA3AF">— no stars yet —</text>
+  </g>
+  <text class="ph p1" x="368" y="228" text-anchor="middle" font-size="11" fill="#6B7280">0 clicks · "customers also bought" has nothing to work with</text>
+
+  <!-- phase 2: content tag bridges to the similar product -->
+  <g class="ph p2">
+    <rect x="322" y="86" width="92" height="18" rx="9" fill="#EDE9FE"/>
+    <text x="368" y="99" text-anchor="middle" font-size="10" fill="#7C3AED">tag: hiking</text>
+    <path class="dash" d="M340 130 C 300 92, 150 92, 112 118" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <text x="226" y="82" text-anchor="middle" font-size="11" fill="#7C3AED">similar by attributes → shown next to the trail shoe</text>
+  </g>
+
+  <!-- phase 3: recommended to a shopper, first heart -->
+  <g class="ph p3">
+    <circle cx="500" cy="148" r="18" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <circle cx="500" cy="131" r="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <line x1="402" y1="148" x2="474" y2="148" stroke="#9CA3AF" stroke-width="2"/>
+    <path d="M474 148 l-8 -4 v8 z" fill="#9CA3AF"/>
+    <text x="500" y="186" text-anchor="middle" font-size="10" fill="#6B7280">small exploration slot</text>
+  </g>
+  <text class="pop" x="566" y="124" font-size="22" fill="#10B981">❤</text>
+  <text class="ph p3" x="320" y="262" text-anchor="middle" font-size="11" font-weight="600" fill="#10B981">first real signal collected — collaborative filtering can finally see it</text>
+</svg>

@@ -8,6 +8,16 @@ core: true
 voice: universal
 publishedAt: "2026-04-03"
 status: accepted
+concept: glossary
+conceptTitle: "Glossary"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: deep
+genre: explainer
+carriers: prose
 ---
 
 A comprehensive reference of essential recommender systems terminology, organized alphabetically.

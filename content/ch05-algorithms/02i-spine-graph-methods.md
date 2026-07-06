@@ -17,6 +17,16 @@ highlights:
   - "PinSage proved graph methods work at 3 billion nodes and 18 billion edges"
 publishedAt: "2026-04-03"
 status: accepted
+concept: graph-methods
+conceptTitle: "Graph-based methods"
+state: core
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|formula
 ---
 
 A recommendation dataset is, at its core, a network. Users and items are entities; interactions are connections between them. Matrix factorization collapses this network into vectors. But what if we worked with the graph directly?

@@ -8,6 +8,15 @@ core: false
 voice: universal
 publishedAt: "2026-04-03"
 status: accepted
+concept: explanations
+state: edited
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 A recommendation engine can be exquisitely accurate, but if users do not understand *why* an item appeared, they are less likely to trust it, engage with it, or return to the platform. Explanation design is not a cosmetic layer added after the algorithm ships. It is a core product decision that directly affects user behavior, retention, and regulatory compliance.

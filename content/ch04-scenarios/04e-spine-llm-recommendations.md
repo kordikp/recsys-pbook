@@ -17,6 +17,16 @@ highlights:
   - "Best results: LLM as interface and reasoning, traditional RecSys as backbone"
 publishedAt: "2026-04-03"
 status: accepted
+concept: llm-recommenders
+conceptTitle: "LLM-powered recommendation"
+state: core
+lens: generic
+visuality: balanced
+depth: technical
+formalism: none
+lengthBand: standard
+genre: code-walkthrough
+carriers: prose|image|code
 ---
 
 For decades, the recommendation interface has been a ranked list. Ten items, ordered by predicted relevance, presented in a grid or feed. The user scrolls, clicks, or skips. The system observes and adapts.

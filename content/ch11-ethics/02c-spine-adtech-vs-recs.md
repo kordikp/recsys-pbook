@@ -15,6 +15,16 @@ highlights:
   - "Recommenders use first-party data within one platform; AdTech tracks across the internet"
   - "Retargeting ads following you across sites are AdTech, not the platform's recommender"
 status: accepted
+concept: ads-vs-recs
+conceptTitle: "Ads vs. recommendations"
+state: core
+lens: generic
+visuality: text-first
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose
 ---
 
 You browsed noise-cancelling headphones on one website. Now headphone ads follow you across Instagram, YouTube, and news sites. That feels intrusive. But is it a recommendation system?

@@ -16,6 +16,15 @@ highlights:
   - "Systems default to popularity-based recommendations until they learn individual preferences"
   - "Onboarding preference selection accelerates the learning curve significantly"
 status: accepted
+concept: feedback-signals
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: tldr
+genre: explainer
+carriers: prose|diagram
 ---
 
 Have you ever created a brand new account on a platform? Remember what happened?

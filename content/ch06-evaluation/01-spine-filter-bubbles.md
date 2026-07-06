@@ -16,6 +16,16 @@ highlights:
   - "The bubble is invisible — you never see what you're missing"
   - "Effective systems inject diversity to balance comfort with discovery"
 status: accepted
+concept: filter-bubbles
+conceptTitle: "Filter bubbles and diversity"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 Imagine a colleague learns you enjoy Italian cuisine. From that point on, every team lunch, every conference dinner, every client meeting -- Italian. No Thai, no Mexican, no Ethiopian. Just Italian, indefinitely.

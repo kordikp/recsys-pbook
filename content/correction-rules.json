@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "description": "Correction ledger (spec §7.1) — distilled rules from editorial corrections, arbiter-curated. The top rules ride in every generation prompt so the generator stops doing what editors most often fix. Append new rules when a generated→edited promotion diff reveals a recurring correction.",
+  "rules": [
+    "Cut hype adjectives (powerful, amazing, revolutionary, game-changing) — make plain statements instead",
+    "Prefer one concrete number or named example over vague quantifiers like 'many platforms' or 'significantly better'",
+    "At most one sentence of introduction before the substance begins",
+    "Do not open sections with rhetorical questions",
+    "Define terms on first use at intro and standard depth; never re-define basics at research depth",
+    "Bold the key concept phrases (matching the book's existing style), not whole sentences",
+    "End with a forward hook or a concrete takeaway, not a summary that repeats the text"
+  ]
+}

@@ -15,6 +15,15 @@ highlights:
   - "Latent dimensions are learned automatically — each captures a taste factor"
   - "ALS alternates between solving for users and items, each step in closed form"
 status: accepted
+concept: embeddings
+state: edited
+lens: generic
+visuality: balanced
+depth: research
+formalism: full
+lengthBand: standard
+genre: explainer
+carriers: prose|image|diagram|formula
 ---
 
 ![Matrix Factorization Story](/images/comic-mf.svg)

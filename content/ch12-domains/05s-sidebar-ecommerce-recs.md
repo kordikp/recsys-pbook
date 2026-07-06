@@ -13,6 +13,15 @@ recallQ: "What makes e-commerce recommendation different from media recommendati
 recallA: "Transactions are infrequent and high-stakes, the purchase funnel has distinct stages (browse → consider → purchase), product availability changes in real-time, and recommendations directly drive measurable revenue."
 publishedAt: "2026-04-03"
 status: accepted
+concept: specialized-domains
+state: edited
+lens: generic
+visuality: text-first
+depth: technical
+formalism: light
+lengthBand: standard
+genre: explainer
+carriers: prose|table|formula
 ---
 
 E-commerce is where recommendation systems have the most directly measurable impact. Amazon famously attributes 35% of its revenue to recommendations. The reason is straightforward: in a catalog of millions of products, helping users find what they need translates directly into sales.

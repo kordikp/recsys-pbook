@@ -16,6 +16,16 @@ highlights:
   - "The average person encounters hundreds of algorithmic suggestions per day"
   - "Once you learn to identify them, you see them everywhere"
 status: accepted
+concept: ubiquity
+conceptTitle: "Ubiquity of recommenders"
+state: core
+lens: generic
+visuality: balanced
+depth: standard
+formalism: none
+lengthBand: standard
+genre: explainer
+carriers: prose|diagram
 ---
 
 Once you know what to look for, you'll notice recommendations everywhere. They're embedded in nearly every digital interaction. Here's a tour:
