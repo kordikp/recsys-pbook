@@ -1,19 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 250" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    .card { opacity: 0; animation: popIn 18s ease infinite; }
-    .cd1{animation-delay:.2s} .cd2{animation-delay:.4s} .cd3{animation-delay:.6s}
-    .cd4{animation-delay:.8s} .cd5{animation-delay:1.0s} .cd6{animation-delay:1.2s}
-    @keyframes popIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .card{animation:c 7.2s ease-in-out infinite}
+    .card:nth-of-type(2){animation-delay:1.2s}.card:nth-of-type(3){animation-delay:2.4s}
+    .card:nth-of-type(4){animation-delay:3.6s}.card:nth-of-type(5){animation-delay:4.8s}.card:nth-of-type(6){animation-delay:6s}
+    @keyframes c{0%,14%,100%{transform:translateY(0)}5%,9%{transform:translateY(-6px)}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Six Places a Recommender Shows Up</text>
 
-  <rect width="650" height="250" fill="#f5f5f4" rx="12"/>
-  <text x="325" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#0b1225">Recommendation Scenarios</text>
-  <!-- Row 1 -->
-  <g class="card cd1"><rect x="20" y="50" width="190" height="80" rx="8" fill="#0c8383"/><text x="115" y="78" text-anchor="middle" font-size="22">🏠</text><text x="115" y="100" text-anchor="middle" font-size="12" font-weight="600" fill="white">Homepage</text><text x="115" y="116" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Personalized discovery</text></g>
-  <g class="card cd2"><rect x="230" y="50" width="190" height="80" rx="8" fill="#3bc4a1"/><text x="325" y="78" text-anchor="middle" font-size="22">📦</text><text x="325" y="100" text-anchor="middle" font-size="12" font-weight="600" fill="white">Product Detail</text><text x="325" y="116" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Similar &amp; complementary</text></g>
-  <g class="card cd3"><rect x="440" y="50" width="190" height="80" rx="8" fill="#f59e0b"/><text x="535" y="78" text-anchor="middle" font-size="22">🛒</text><text x="535" y="100" text-anchor="middle" font-size="12" font-weight="600" fill="white">Cart / Checkout</text><text x="535" y="116" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Cross-sell add-ons</text></g>
-  <!-- Row 2 -->
-  <g class="card cd4"><rect x="20" y="150" width="190" height="80" rx="8" fill="#0b1225"/><text x="115" y="178" text-anchor="middle" font-size="22">🔍</text><text x="115" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="white">Search</text><text x="115" y="216" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.7)">Personalized ranking</text></g>
-  <g class="card cd5"><rect x="230" y="150" width="190" height="80" rx="8" fill="#ef4444" opacity="0.85"/><text x="325" y="178" text-anchor="middle" font-size="22">📧</text><text x="325" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="white">Email / Newsletter</text><text x="325" y="216" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Re-engagement + rotation</text></g>
-  <g class="card cd6"><rect x="440" y="150" width="190" height="80" rx="8" fill="#0c8383" opacity="0.8"/><text x="535" y="178" text-anchor="middle" font-size="22">▶️</text><text x="535" y="200" text-anchor="middle" font-size="12" font-weight="600" fill="white">Continue / Watch Next</text><text x="535" y="216" text-anchor="middle" font-size="9" fill="rgba(255,255,255,0.8)">Resume &amp; post-playback</text></g>
+  <g text-anchor="middle" font-size="12">
+    <g class="card"><rect x="55" y="70" width="215" height="130" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+      <text x="162" y="100" font-size="20">🏠</text><text x="162" y="126" font-size="14" font-weight="800" fill="#4C1D95">Homepage</text>
+      <text x="162" y="148" fill="#4C1D95">personalized discovery</text><text x="162" y="166" fill="#6B7280">"picked for you"</text></g>
+    <g class="card"><rect x="292" y="70" width="215" height="130" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+      <text x="400" y="100" font-size="20">📄</text><text x="400" y="126" font-size="14" font-weight="800" fill="#065F46">Item detail</text>
+      <text x="400" y="148" fill="#065F46">similar &amp; complementary</text><text x="400" y="166" fill="#6B7280">"customers also bought"</text></g>
+    <g class="card"><rect x="529" y="70" width="215" height="130" rx="12" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+      <text x="637" y="100" font-size="20">🛒</text><text x="637" y="126" font-size="14" font-weight="800" fill="#92400E">Cart / checkout</text>
+      <text x="637" y="148" fill="#92400E">cross-sell add-ons</text><text x="637" y="166" fill="#6B7280">batteries with the toy</text></g>
+    <g class="card"><rect x="55" y="216" width="215" height="130" rx="12" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+      <text x="162" y="246" font-size="20">🔍</text><text x="162" y="272" font-size="14" font-weight="800" fill="#075985">Search</text>
+      <text x="162" y="294" fill="#075985">personalized ranking</text><text x="162" y="312" fill="#6B7280">same query ≠ same results</text></g>
+    <g class="card"><rect x="292" y="216" width="215" height="130" rx="12" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+      <text x="400" y="246" font-size="20">📧</text><text x="400" y="272" font-size="14" font-weight="800" fill="#B91C1C">Email / push</text>
+      <text x="400" y="294" fill="#B91C1C">re-engagement picks</text><text x="400" y="312" fill="#6B7280">"we found this for you"</text></g>
+    <g class="card"><rect x="529" y="216" width="215" height="130" rx="12" fill="#F3E8FF" stroke="#A855F7" stroke-width="2"/>
+      <text x="637" y="246" font-size="20">▶️</text><text x="637" y="272" font-size="14" font-weight="800" fill="#7E22CE">Next-item feed</text>
+      <text x="637" y="294" fill="#7E22CE">session continuation</text><text x="637" y="312" fill="#6B7280">autoplay, infinite scroll</text></g>
+  </g>
+  <text x="400" y="384" text-anchor="middle" font-size="13" fill="#6B7280">Same engine, different contracts: each scenario has its own candidates, constraints and success metric.</text>
 </svg>

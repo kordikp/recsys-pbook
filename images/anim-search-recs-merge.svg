@@ -1,68 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes overlapAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes labelFadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    /* Search circle fades out as overlap appears */
-    @keyframes searchFade { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    /* Recs circle fades out as overlap appears */
-    @keyframes recsFade { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-
-    .search-circle { animation: searchFade 18s ease-in-out infinite; }
-    .recs-circle { animation: recsFade 18s ease-in-out infinite; }
-    .overlap-content { opacity: 0; animation: overlapAppear 18s ease-out 2.5s infinite; }
-    .merge-label { opacity: 0; animation: labelFadeIn 18s ease-out 3s infinite; }
-    .sub-label { opacity: 0; animation: labelFadeIn 18s ease-out 3.5s infinite; }
-    .initial-fade { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
+    .mergeL{animation:mL 5s ease-in-out infinite}
+    .mergeR{animation:mR 5s ease-in-out infinite}
+    @keyframes mL{0%,15%{transform:translate(0,0)}55%,85%{transform:translate(105px,0)}100%{transform:translate(0,0)}}
+    @keyframes mR{0%,15%{transform:translate(0,0)}55%,85%{transform:translate(-105px,0)}100%{transform:translate(0,0)}}
+    .core{animation:g 5s ease-in-out infinite}
+    @keyframes g{0%,15%,100%{opacity:.55}55%,85%{opacity:1}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Search and Recommendations Are Converging</text>
 
-
-  <!-- Title -->
-  <text x="300" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Search and Recommendation Convergence</text>
-
-  <!-- Search circle (pre-positioned overlapping) -->
-  <g class="search-circle">
-    <circle cx="255" cy="135" r="85" fill="#0c8383" fill-opacity="0.2" stroke="#0c8383" stroke-width="2.5" />
-    <g class="initial-fade">
-      <!-- Magnifying glass icon -->
-      <circle cx="225" cy="115" r="12" fill="none" stroke="#0c8383" stroke-width="2.5" />
-      <line x1="233" y1="123" x2="242" y2="132" stroke="#0c8383" stroke-width="2.5" stroke-linecap="round" />
-      <text x="225" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#0c8383">Search</text>
-      <text x="225" y="166" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Query-driven</text>
-      <text x="225" y="178" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Explicit intent</text>
-    </g>
+  <g class="mergeL" text-anchor="middle">
+    <rect x="80" y="110" width="230" height="180" rx="14" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2.5"/>
+    <text x="195" y="142" font-size="16" font-weight="800" fill="#075985">SEARCH</text>
+    <text x="195" y="168" font-size="12.5" fill="#075985">explicit intent: a query</text>
+    <text x="195" y="190" font-size="12.5" fill="#075985">"running shoes 44"</text>
+    <text x="195" y="222" font-size="12.5" fill="#6B7280">answers what you ASK</text>
+    <text x="195" y="266" font-size="12" fill="#6B7280">retrieval → ranking</text>
   </g>
-
-  <!-- Recommendation circle (pre-positioned overlapping) -->
-  <g class="recs-circle">
-    <circle cx="345" cy="135" r="85" fill="#3bc4a1" fill-opacity="0.2" stroke="#3bc4a1" stroke-width="2.5" />
-    <g class="initial-fade">
-      <!-- User icon -->
-      <circle cx="375" cy="108" r="8" fill="none" stroke="#3bc4a1" stroke-width="2" />
-      <path d="M360,132 Q367,120 375,120 Q383,120 390,132" fill="none" stroke="#3bc4a1" stroke-width="2" />
-      <text x="375" y="150" text-anchor="middle" font-size="14" font-weight="bold" fill="#3bc4a1">Recommendation</text>
-      <text x="375" y="166" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">User-driven</text>
-      <text x="375" y="178" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Implicit signals</text>
-    </g>
+  <g class="mergeR" text-anchor="middle">
+    <rect x="490" y="110" width="230" height="180" rx="14" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
+    <text x="605" y="142" font-size="16" font-weight="800" fill="#4C1D95">RECOMMENDATIONS</text>
+    <text x="605" y="168" font-size="12.5" fill="#4C1D95">implicit intent: behavior</text>
+    <text x="605" y="190" font-size="12.5" fill="#4C1D95">clicks · dwell · history</text>
+    <text x="605" y="222" font-size="12.5" fill="#6B7280">answers what you MEAN</text>
+    <text x="605" y="266" font-size="12" fill="#6B7280">retrieval → ranking</text>
   </g>
-
-  <!-- Overlap area content (appears after merge) -->
-  <g class="overlap-content">
-    <rect x="268" y="95" width="64" height="80" rx="6" fill="#0b1225" fill-opacity="0.08" />
+  <g class="core" text-anchor="middle">
+    <rect x="330" y="150" width="140" height="100" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="3"/>
+    <text x="400" y="184" font-size="14" font-weight="800" fill="#065F46">ONE ENGINE</text>
+    <text x="400" y="206" font-size="12" fill="#065F46">shared embeddings</text>
+    <text x="400" y="224" font-size="12" fill="#065F46">personalized ranking</text>
   </g>
-
-  <!-- Merge label -->
-  <g class="merge-label">
-    <text x="300" y="125" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Unified</text>
-    <text x="300" y="140" text-anchor="middle" font-size="11" font-weight="bold" fill="#0b1225">Retrieval</text>
-  </g>
-
-  <!-- Sub-labels in overlap -->
-  <g class="sub-label">
-    <text x="300" y="158" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="600">Dense retrieval</text>
-    <text x="300" y="170" text-anchor="middle" font-size="8" fill="#3bc4a1" font-weight="600">Sparse retrieval</text>
-
-    <!-- Bottom annotation -->
-    <text x="300" y="230" text-anchor="middle" font-size="10" fill="#0b1225" opacity="0.5">Modern systems blend query understanding with personalization</text>
-  </g>
+  <text x="400" y="330" text-anchor="middle" font-size="13.5" fill="#1E1B4B" font-weight="600">query + profile → the same candidate machinery</text>
+  <text x="400" y="368" text-anchor="middle" font-size="13" fill="#6B7280">Personalized search IS recommendation with a query attached — the stacks merged years before the org charts did.</text>
 </svg>

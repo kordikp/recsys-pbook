@@ -1,111 +1,34 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes pulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes barGrow1 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
-    @keyframes barGrow2 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
-    @keyframes barGrow3 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
-    @keyframes barGrow4 { 0% { stroke-dashoffset: 120; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 120; } 100% { stroke-dashoffset: 120; } }
-    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
-    .player-icon { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
-
-    .row1 { opacity: 0; animation: fadeIn 18s ease-out 0.8s infinite; }
-    .signal1 { opacity: 0; animation: fadeIn 18s ease-out 1.4s infinite; }
-    .bar1 {
-      stroke-dasharray: 120;
-      stroke-dashoffset: 120;
-      animation: barGrow1 18s ease-out 1.0s infinite;
-    }
-
-    .row2 { opacity: 0; animation: fadeIn 18s ease-out 2.0s infinite; }
-    .signal2 { opacity: 0; animation: fadeIn 18s ease-out 2.6s infinite; }
-    .bar2 {
-      stroke-dasharray: 120;
-      stroke-dashoffset: 120;
-      animation: barGrow2 18s ease-out 2.2s infinite;
-    }
-
-    .row3 { opacity: 0; animation: fadeIn 18s ease-out 3.2s infinite; }
-    .signal3 { opacity: 0; animation: fadeIn 18s ease-out 3.8s infinite; }
-    .bar3 {
-      stroke-dasharray: 120;
-      stroke-dashoffset: 120;
-      animation: barGrow3 18s ease-out 3.4s infinite;
-    }
-
-    .row4 { opacity: 0; animation: fadeIn 18s ease-out 4.4s infinite; }
-    .signal4 { opacity: 0; animation: fadeIn 18s ease-out 5.0s infinite; }
-    .bar4 {
-      stroke-dasharray: 120;
-      stroke-dashoffset: 120;
-      animation: barGrow4 18s ease-out 4.6s infinite;
-    }
+    .bar{animation:grow 4s ease-in-out infinite}
+    @keyframes grow{0%,15%{transform:scaleX(.4)}55%,85%{transform:scaleX(1)}100%{transform:scaleX(.4)}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">What a Skip Means Depends on WHEN You Skip</text>
 
+  <g font-size="13">
+    <text x="70" y="102" font-weight="700" fill="#B91C1C">skip &lt; 5 s</text>
+    <rect x="190" y="86" width="380" height="24" rx="12" fill="#FEE2E2"/>
+    <rect class="bar" x="190" y="86" width="330" height="24" rx="12" fill="#EF4444" style="transform-origin:190px 98px"/>
+    <text x="586" y="103" font-weight="700" fill="#B91C1C">strong negative</text>
+    <text x="190" y="130" fill="#6B7280" font-size="12">"not this, not now" — thumbnail or mood mismatch; demote hard</text>
 
-  <!-- Title -->
-  <text class="title" x="250" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Signal Interpretation</text>
+    <text x="70" y="182" font-weight="700" fill="#92400E">skip mid-way</text>
+    <rect x="190" y="166" width="380" height="24" rx="12" fill="#FEF3C7"/>
+    <rect class="bar" x="190" y="166" width="200" height="24" rx="12" fill="#D97706" style="transform-origin:190px 178px"/>
+    <text x="586" y="183" font-weight="700" fill="#92400E">mild negative</text>
+    <text x="190" y="210" fill="#6B7280" font-size="12">hooked, then lost — content promised more than it delivered</text>
 
-  <!-- Video player icon -->
-  <g class="player-icon">
-    <rect x="20" y="42" width="56" height="38" rx="5" fill="#0b1225" />
-    <polygon points="40,52 56,61 40,70" fill="#f5f5f4" />
-    <text x="48" y="92" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.6">User action</text>
-  </g>
+    <text x="70" y="262" font-weight="700" fill="#4B5563">skip at 90 %</text>
+    <rect x="190" y="246" width="380" height="24" rx="12" fill="#E5E7EB"/>
+    <rect class="bar" x="190" y="246" width="60" height="24" rx="12" fill="#9CA3AF" style="transform-origin:190px 258px"/>
+    <text x="586" y="263" font-weight="700" fill="#4B5563">barely negative</text>
+    <text x="190" y="290" fill="#6B7280" font-size="12">practically finished — often just the outro; treat as near-complete</text>
 
-  <!-- Headers -->
-  <g class="player-icon">
-    <text x="240" y="56" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.5">Watch progress</text>
-    <text x="410" y="56" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.5">Signal</text>
+    <text x="70" y="342" font-weight="700" fill="#065F46">replay / save</text>
+    <rect x="190" y="326" width="380" height="24" rx="12" fill="#D1FAE5"/>
+    <rect class="bar" x="190" y="326" width="360" height="24" rx="12" fill="#10B981" style="transform-origin:190px 338px"/>
+    <text x="586" y="343" font-weight="700" fill="#065F46">strong positive</text>
   </g>
-
-  <!-- Row 1: Skip <5s -->
-  <g class="row1">
-    <text x="100" y="110" font-size="11" fill="#0b1225" font-weight="600">Skip &lt;5s</text>
-    <text x="100" y="124" font-size="8" fill="#0b1225" opacity="0.5">Immediate rejection</text>
-    <!-- Progress bar background -->
-    <rect x="195" y="100" width="120" height="10" rx="5" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" />
-    <!-- Progress fill using stroke-dashoffset -->
-    <line class="bar1" x1="200" y1="105" x2="310" y2="105" stroke="#ef4444" stroke-width="8" stroke-linecap="round" />
-  </g>
-  <g class="signal1">
-    <text x="400" y="114" text-anchor="middle" font-size="22" fill="#ef4444" font-weight="bold">&#x2717;</text>
-    <text x="430" y="114" font-size="9" fill="#ef4444" font-weight="600">Strong reject</text>
-  </g>
-
-  <!-- Row 2: Watch 30s, skip -->
-  <g class="row2">
-    <text x="100" y="162" font-size="11" fill="#0b1225" font-weight="600">Watch 30s, skip</text>
-    <text x="100" y="176" font-size="8" fill="#0b1225" opacity="0.5">Sampled, not interested</text>
-    <rect x="195" y="152" width="120" height="10" rx="5" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" />
-    <line class="bar2" x1="200" y1="157" x2="310" y2="157" stroke="#f59e0b" stroke-width="8" stroke-linecap="round" />
-  </g>
-  <g class="signal2">
-    <text x="398" y="168" text-anchor="middle" font-size="22" fill="#f59e0b" font-weight="bold">?</text>
-    <text x="426" y="166" font-size="9" fill="#f59e0b" font-weight="600">Ambiguous</text>
-  </g>
-
-  <!-- Row 3: Watch 90% -->
-  <g class="row3">
-    <text x="100" y="214" font-size="11" fill="#0b1225" font-weight="600">Watch 90%</text>
-    <text x="100" y="228" font-size="8" fill="#0b1225" opacity="0.5">Engaged viewing</text>
-    <rect x="195" y="204" width="120" height="10" rx="5" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" />
-    <line class="bar3" x1="200" y1="209" x2="310" y2="209" stroke="#3bc4a1" stroke-width="8" stroke-linecap="round" />
-  </g>
-  <g class="signal3">
-    <text x="400" y="218" text-anchor="middle" font-size="22" fill="#3bc4a1" font-weight="bold">&#x2713;</text>
-    <text x="430" y="218" font-size="9" fill="#3bc4a1" font-weight="600">Engaged</text>
-  </g>
-
-  <!-- Row 4: Watch 100% + share -->
-  <g class="row4">
-    <text x="100" y="266" font-size="11" fill="#0b1225" font-weight="600">100% + share</text>
-    <text x="100" y="280" font-size="8" fill="#0b1225" opacity="0.5">Full watch + social action</text>
-    <rect x="195" y="256" width="120" height="10" rx="5" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" />
-    <line class="bar4" x1="200" y1="261" x2="310" y2="261" stroke="#0c8383" stroke-width="8" stroke-linecap="round" />
-  </g>
-  <g class="signal4">
-    <text x="396" y="270" text-anchor="middle" font-size="22" fill="#0c8383" font-weight="bold">&#x2713;&#x2713;</text>
-    <text x="440" y="270" font-size="9" fill="#0c8383" font-weight="600">Loved it</text>
-  </g>
+  <text x="400" y="398" text-anchor="middle" font-size="13" fill="#6B7280">One event type, four meanings — duration turns "skip" from a click into a sentence.</text>
 </svg>

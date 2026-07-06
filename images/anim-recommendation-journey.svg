@@ -1,124 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 200" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes slideUp { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes drawTimeline { 0% { stroke-dashoffset: 620; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 620; } 100% { stroke-dashoffset: 620; } }
-    @keyframes barGrow1 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes barGrow2 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes barGrow3 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes barGrow4 { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes barShrink { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes fadeSlideIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes popQuestion { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-
-    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
-
-    /* Timeline line */
-    .timeline {
-      stroke-dasharray: 620;
-      stroke-dashoffset: 620;
-      animation: drawTimeline 18s ease-out 0.3s infinite;
-    }
-
-    /* Phases */
-    .phase1 { opacity: 0; animation: fadeSlideIn 18s ease-out 0.5s infinite; }
-    .phase2 { opacity: 0; animation: fadeSlideIn 18s ease-out 1.2s infinite; }
-    .phase3 { opacity: 0; animation: fadeSlideIn 18s ease-out 1.9s infinite; }
-    .phase4 { opacity: 0; animation: fadeSlideIn 18s ease-out 2.6s infinite; }
-    .phase5 { opacity: 0; animation: fadeSlideIn 18s ease-out 3.3s infinite; }
-    .phase6 { opacity: 0; animation: fadeSlideIn 18s ease-out 4.0s infinite; }
-
-    /* Profile bars */
-    .bar-p1 { opacity: 0; animation: barGrow1 18s ease-out 1.4s infinite; }
-    .bar-p2 { opacity: 0; animation: barGrow2 18s ease-out 1.6s infinite; }
-    .bar-p3 { opacity: 0; animation: barGrow3 18s ease-out 1.8s infinite; }
-    .bar-p4 { opacity: 0; animation: barGrow4 18s ease-out 2.0s infinite; }
-
-    /* Fatigue declining bars */
-    .bar-f1 { opacity: 0; animation: barGrow4 18s ease-out 4.2s infinite; }
-    .bar-f2 { opacity: 0; animation: barGrow3 18s ease-out 4.4s infinite; }
-    .bar-f3 { opacity: 0; animation: barShrink 18s ease-out 4.6s infinite; }
-
-    .question { opacity: 0; animation: popQuestion 18s ease-in-out 0.8s infinite; }
+    .walker{animation:w 7s ease-in-out infinite}
+    @keyframes w{0%,8%{transform:translateX(0)}30%{transform:translateX(170px)}55%{transform:translateX(360px)}80%,92%{transform:translateX(545px)}100%{transform:translateX(0)}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">A Reader's Journey Through the Recommender</text>
 
+  <line x1="70" y1="300" x2="730" y2="300" stroke="#E5E7EB" stroke-width="3"/>
+  <g class="walker"><text x="95" y="284" font-size="26" text-anchor="middle">🚶</text></g>
 
-  <defs>
-    <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" />
-    </marker>
-  </defs>
+  <g text-anchor="middle" font-size="12.5">
+    <circle cx="95" cy="300" r="8" fill="#EF4444"/>
+    <rect x="35" y="90" width="130" height="120" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <text x="100" y="115" font-weight="800" fill="#B91C1C">DAY 0 · cold</text>
+    <text x="100" y="138" fill="#B91C1C">zero history</text>
+    <text x="100" y="158" fill="#6B7280">popular + onboarding</text>
+    <text x="100" y="178" fill="#6B7280">picks carry the day</text>
 
-  <!-- Title -->
-  <text class="title" x="350" y="22" text-anchor="middle" font-size="14" font-weight="bold" fill="#0b1225">User's Recommendation Journey</text>
+    <circle cx="270" cy="300" r="8" fill="#D97706"/>
+    <rect x="205" y="90" width="130" height="120" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <text x="270" y="115" font-weight="800" fill="#92400E">WEEK 1 · warm</text>
+    <text x="270" y="138" fill="#92400E">a dozen signals</text>
+    <text x="270" y="158" fill="#6B7280">CF wakes up, mixes</text>
+    <text x="270" y="178" fill="#6B7280">with content features</text>
 
-  <!-- Timeline -->
-  <line class="timeline" x1="40" y1="140" x2="660" y2="140" stroke="#0b1225" stroke-width="2" marker-end="url(#ah)" />
+    <circle cx="455" cy="300" r="8" fill="#0EA5E9"/>
+    <rect x="390" y="90" width="130" height="120" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="455" y="115" font-weight="800" fill="#075985">MONTH 1 · known</text>
+    <text x="455" y="138" fill="#075985">stable taste profile</text>
+    <text x="455" y="158" fill="#6B7280">personalized shelves,</text>
+    <text x="455" y="178" fill="#6B7280">exploration ~10 %</text>
 
-  <!-- Phase 1: Cold Start -->
-  <g class="phase1">
-    <circle cx="70" cy="140" r="5" fill="#0b1225" />
-    <rect x="42" y="56" width="56" height="56" rx="8" fill="#f5f5f4" stroke="#ef4444" stroke-width="1.5" />
-    <text x="70" y="80" text-anchor="middle" font-size="20" fill="#ef4444">?</text>
-    <text x="70" y="98" text-anchor="middle" font-size="7" fill="#ef4444" font-weight="600">No data</text>
-    <text x="70" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Cold Start</text>
-    <text x="70" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">New user</text>
+    <circle cx="640" cy="300" r="8" fill="#10B981"/>
+    <rect x="575" y="90" width="130" height="120" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="640" y="115" font-weight="800" fill="#065F46">MATURE</text>
+    <text x="640" y="138" fill="#065F46">risk: the loop closes</text>
+    <text x="640" y="158" fill="#6B7280">diversity + novelty</text>
+    <text x="640" y="178" fill="#6B7280">keep it breathing</text>
   </g>
-
-  <!-- Phase 2: First Interactions -->
-  <g class="phase2">
-    <circle cx="180" cy="140" r="5" fill="#0b1225" />
-    <rect x="152" y="70" width="56" height="42" rx="8" fill="#f5f5f4" stroke="#f59e0b" stroke-width="1.5" />
-    <text x="180" y="88" text-anchor="middle" font-size="8" fill="#f59e0b" font-weight="600">Clicks</text>
-    <text x="180" y="100" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.6">3-5 events</text>
-    <text x="180" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">First Actions</text>
-    <text x="180" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Signals arrive</text>
-  </g>
-
-  <!-- Phase 3: Profile Building (growing bars) -->
-  <g class="phase3">
-    <circle cx="300" cy="140" r="5" fill="#0b1225" />
-    <!-- Growing bar chart -->
-    <rect class="bar-p1" x="268" y="88" width="10" height="40" rx="2" fill="#0c8383" opacity="0.5" />
-    <rect class="bar-p2" x="282" y="68" width="10" height="60" rx="2" fill="#0c8383" opacity="0.6" />
-    <rect class="bar-p3" x="296" y="56" width="10" height="72" rx="2" fill="#0c8383" opacity="0.7" />
-    <rect class="bar-p4" x="310" y="48" width="10" height="80" rx="2" fill="#0c8383" opacity="0.85" />
-    <text x="300" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Profile Building</text>
-    <text x="300" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Data grows</text>
-  </g>
-
-  <!-- Phase 4: Personalized Recs -->
-  <g class="phase4">
-    <circle cx="420" cy="140" r="5" fill="#0b1225" />
-    <rect x="392" y="56" width="56" height="56" rx="8" fill="#3bc4a1" />
-    <text x="420" y="78" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="700">Personal</text>
-    <text x="420" y="92" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="700">Recs</text>
-    <text x="420" y="104" text-anchor="middle" font-size="14" fill="#0b1225">&#x2713;</text>
-    <text x="420" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Personalized</text>
-    <text x="420" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">High relevance</text>
-  </g>
-
-  <!-- Phase 5: Mature Profile -->
-  <g class="phase5">
-    <circle cx="530" cy="140" r="5" fill="#0b1225" />
-    <rect x="502" y="56" width="56" height="56" rx="8" fill="#0c8383" />
-    <text x="530" y="80" text-anchor="middle" font-size="9" fill="#f5f5f4" font-weight="700">Mature</text>
-    <text x="530" y="94" text-anchor="middle" font-size="9" fill="#f5f5f4" font-weight="700">Profile</text>
-    <text x="530" y="162" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">Mature</text>
-    <text x="530" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Rich history</text>
-  </g>
-
-  <!-- Phase 6: Potential Fatigue -->
-  <g class="phase6">
-    <circle cx="630" cy="140" r="5" fill="#ef4444" />
-    <!-- Declining bars -->
-    <rect class="bar-f1" x="606" y="48" width="10" height="80" rx="2" fill="#ef4444" opacity="0.3" />
-    <rect class="bar-f2" x="620" y="56" width="10" height="72" rx="2" fill="#ef4444" opacity="0.4" />
-    <rect class="bar-f3" x="634" y="76" width="10" height="52" rx="2" fill="#ef4444" opacity="0.55" />
-    <text x="630" y="162" text-anchor="middle" font-size="8" fill="#ef4444" font-weight="600">Fatigue?</text>
-    <text x="630" y="174" text-anchor="middle" font-size="7" fill="#0b1225" opacity="0.5">Filter bubble</text>
-  </g>
-
-  <!-- Bottom timeline labels -->
-  <text class="phase1" x="350" y="194" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.35">Time &#x2192;</text>
+  <text x="400" y="355" text-anchor="middle" font-size="13" fill="#6B7280">The right algorithm depends on where the reader stands — a mature profile needs freshness more than accuracy.</text>
 </svg>
