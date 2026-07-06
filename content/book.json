@@ -1,6 +1,6 @@
 {
   "title": "How Recommendations Work",
-  "author": "Pavel Kord\u00edk and the Recombee team",
+  "author": "Pavel Kordík and the Recombee team",
   "version": "1.0",
   "chapters": [
     {
@@ -39,6 +39,7 @@
         "01f-sidebar-user-lifecycle.md",
         "01g-spine-data-foundation.md",
         "02-spine-three-types-of-clues.md",
+        "02g-sidebar-signals-feed-tldr.md",
         "02a-sidebar-incognito.md",
         "02d-sidebar-negative-signals.md",
         "02e-depth-thinker-rating-quality.md",
@@ -80,6 +81,7 @@
         "02b-sidebar-unfair-game.md",
         "02e1-depth-thinker-diversity-metrics.md",
         "02f-spine-long-tail.md",
+        "02f1-sidebar-long-tail-media-tldr.md",
         "02g-sidebar-user-fatigue.md",
         "02h-spine-satisfaction-vs-engagement.md",
         "02i-sidebar-trust-calibration.md",
@@ -115,6 +117,8 @@
       "directory": "ch05-algorithms",
       "files": [
         "01-spine-ask-your-friends.md",
+        "01g-sidebar-cf-jobs.md",
+        "01h-sidebar-cf-cs-tldr.md",
         "01a-depth-explorer-cf-demo.md",
         "01b-depth-creator-build-cf.md",
         "01c-sidebar-netflix-story.md",
@@ -125,8 +129,10 @@
         "02b-sidebar-spot-the-method.md",
         "02c-game-method-match.md",
         "02d-spine-bandits.md",
+        "02d1-sidebar-bandits-radio-story.md",
         "02d1-sidebar-bandits-intuition.md",
         "02e-spine-deep-similarity.md",
+        "02e1-sidebar-embeddings-education.md",
         "02e1-sidebar-embeddings-intuition.md",
         "02f-depth-explorer-two-tower.md",
         "02f1-depth-thinker-two-tower-math.md",
@@ -164,12 +170,14 @@
       "directory": "ch06-evaluation",
       "files": [
         "03-spine-testing.md",
+        "03d-sidebar-abtest-shop-example.md",
         "03a-depth-explorer-ab-test.md",
         "03b-game-ab-test.md",
         "03c-depth-thinker-online-offline.md",
         "03d-depth-thinker-counterfactual.md",
         "03e-sidebar-interleaving.md",
         "01-spine-filter-bubbles.md",
+        "01f-sidebar-bubble-social-story.md",
         "01a-depth-thinker-echo-chamber.md",
         "01e-depth-thinker-bias-types.md",
         "01f-sidebar-polarization-research.md",

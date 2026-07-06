@@ -275,6 +275,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch2-clues",
+        "signals-feed-tldr",
         "ch2-incognito-sidebar",
         "ch2-negative-signals",
         "ch2-rating-quality",
@@ -517,6 +518,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-long-tail",
+        "long-tail-media-tldr",
         "ch4-user-fatigue"
       ],
       "contract": {
@@ -779,6 +781,8 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-friends",
+        "cf-jobs-example",
+        "cf-cs-tldr",
         "ch3-cf-d-exp",
         "ch3-cf-d-create",
         "ch3-netflix-sidebar",
@@ -859,6 +863,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-bandits",
+        "bandits-radio-story",
         "ch3-bandits-intuition"
       ],
       "contract": {
@@ -896,6 +901,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-deep-similarity",
+        "embeddings-education",
         "ch3-embeddings-intuition",
         "ch3-two-tower",
         "ch3-two-tower-math",
@@ -1099,6 +1105,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-testing",
+        "abtest-shop-example",
         "ch4-ab-d-exp",
         "ch4-game-ab",
         "ch4-online-offline",
@@ -1140,6 +1147,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-bubbles",
+        "filter-bubble-feed-story",
         "ch4-echo-d-think",
         "ch4-bias-types",
         "ch4-polarization",
