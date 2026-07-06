@@ -1,152 +1,52 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes slideRight { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes dotFlow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes barGrowA { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes barGrowB { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes popIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes pulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-
-    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
-    .users { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
-    .randomize { opacity: 0; animation: popIn 18s ease-out 0.6s infinite; }
-    .groupA { opacity: 0; animation: slideRight 18s ease-out 1.0s infinite; }
-    .groupB { opacity: 0; animation: slideRight 18s ease-out 1.0s infinite; }
-
-    /* Flowing dots on path A */
-    .dotA { animation: dotFlow 18s linear infinite; }
-    .dotA1 { animation-delay: 1.5s; }
-    .dotA2 { animation-delay: 2.0s; }
-    .dotA3 { animation-delay: 2.5s; }
-    .dotA4 { animation-delay: 3.0s; }
-
-    /* Flowing dots on path B */
-    .dotB { animation: dotFlow 18s linear infinite; }
-    .dotB1 { animation-delay: 1.7s; }
-    .dotB2 { animation-delay: 2.2s; }
-    .dotB3 { animation-delay: 2.7s; }
-    .dotB4 { animation-delay: 3.2s; }
-
-    /* Result bars */
-    .bar-a { opacity: 0; animation: barGrowA 18s ease-out 3.0s infinite; }
-    .bar-b { opacity: 0; animation: barGrowB 18s ease-out 3.2s infinite; }
-    .result-label { opacity: 0; animation: fadeIn 18s ease-out 4.0s infinite; }
-    .confidence { opacity: 0; animation: fadeIn 18s ease-out 4.2s infinite; }
-    .winner { opacity: 0; animation: popIn 18s ease-out 4.5s infinite; }
+    .flow{stroke-dasharray:6 6;animation:f 1.2s linear infinite}
+    @keyframes f{to{stroke-dashoffset:-12}}
+    .pulseA{animation:pa 3s ease-in-out infinite}
+    .pulseB{animation:pb 3s ease-in-out infinite}
+    @keyframes pa{0%,45%,100%{opacity:1}55%,90%{opacity:.55}}
+    @keyframes pb{0%,45%,100%{opacity:.55}55%,90%{opacity:1}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">A/B Test: One Question, Two Realities</text>
 
-
-  <defs>
-    <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" />
-    </marker>
-    <!-- Path A: upper route -->
-    <path id="pathA" d="M160,110 C200,110 200,65 240,65 L370,65" fill="none" />
-    <!-- Path B: lower route -->
-    <path id="pathB" d="M160,110 C200,110 200,155 240,155 L370,155" fill="none" />
-  </defs>
-
-  <!-- Title -->
-  <text class="title" x="300" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">A/B Test Flow</text>
-
-  <!-- Users -->
-  <g class="users">
-    <rect x="20" y="90" width="80" height="40" rx="8" fill="#0b1225" />
-    <text x="60" y="113" text-anchor="middle" font-size="10" fill="#f5f5f4" font-weight="600">Users</text>
-    <line x1="102" y1="110" x2="130" y2="110" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+  <!-- users in -->
+  <g fill="#6B7280" font-size="12">
+    <circle cx="80" cy="180" r="13" fill="#E5E7EB" stroke="#9CA3AF"/><text x="80" y="185" text-anchor="middle" fill="#1E1B4B">👤</text>
+    <circle cx="80" cy="215" r="13" fill="#E5E7EB" stroke="#9CA3AF"/><text x="80" y="220" text-anchor="middle" fill="#1E1B4B">👤</text>
+    <circle cx="80" cy="250" r="13" fill="#E5E7EB" stroke="#9CA3AF"/><text x="80" y="255" text-anchor="middle" fill="#1E1B4B">👤</text>
+    <text x="80" y="290" text-anchor="middle">all users</text>
   </g>
 
-  <!-- Randomization point -->
-  <g class="randomize">
-    <circle cx="145" cy="110" r="18" fill="#f59e0b" />
-    <text x="145" y="106" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="700">Random</text>
-    <text x="145" y="116" text-anchor="middle" font-size="7" fill="#0b1225" font-weight="700">Split</text>
+  <!-- randomizer -->
+  <rect x="150" y="185" width="120" height="58" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="210" y="209" text-anchor="middle" font-size="14" font-weight="700" fill="#7C3AED">RANDOM</text>
+  <text x="210" y="228" text-anchor="middle" font-size="12" fill="#6B7280">coin flip 50/50</text>
+  <line class="flow" x1="100" y1="214" x2="148" y2="214" stroke="#9CA3AF" stroke-width="2"/>
+
+  <!-- branch A -->
+  <path class="flow" d="M272 200 C320 170 340 140 380 128" fill="none" stroke="#10B981" stroke-width="2"/>
+  <g class="pulseA">
+    <rect x="384" y="92" width="220" height="72" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="494" y="118" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Group A · old ranker</text>
+    <text x="494" y="140" text-anchor="middle" font-size="12" fill="#065F46">sees recommendations as before</text>
+    <text x="640" y="122" font-size="13" fill="#065F46">CTR</text>
+    <rect x="640" y="130" width="90" height="10" rx="5" fill="#E5E7EB"/>
+    <rect x="640" y="130" width="58" height="10" rx="5" fill="#10B981"/>
+    <text x="740" y="140" font-size="12" fill="#065F46">5.8%</text>
   </g>
 
-  <!-- Path lines -->
-  <g class="groupA">
-    <path d="M163,100 C190,90 200,65 240,65 L370,65" fill="none" stroke="#0c8383" stroke-width="2" stroke-dasharray="4,3" />
-    <text x="200" y="52" font-size="9" fill="#0c8383" font-weight="600">50%</text>
-  </g>
-  <g class="groupB">
-    <path d="M163,120 C190,130 200,155 240,155 L370,155" fill="none" stroke="#3bc4a1" stroke-width="2" stroke-dasharray="4,3" />
-    <text x="200" y="175" font-size="9" fill="#3bc4a1" font-weight="600">50%</text>
-  </g>
-
-  <!-- Group A box -->
-  <g class="groupA">
-    <rect x="260" y="44" width="100" height="40" rx="6" fill="#0c8383" />
-    <text x="310" y="62" text-anchor="middle" font-size="10" fill="#f5f5f4" font-weight="600">Group A</text>
-    <text x="310" y="75" text-anchor="middle" font-size="8" fill="#f5f5f4" opacity="0.8">Control</text>
+  <!-- branch B -->
+  <path class="flow" d="M272 228 C320 258 340 288 380 300" fill="none" stroke="#7C3AED" stroke-width="2"/>
+  <g class="pulseB">
+    <rect x="384" y="264" width="220" height="72" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="494" y="290" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Group B · new ranker</text>
+    <text x="494" y="312" text-anchor="middle" font-size="12" fill="#4C1D95">sees the candidate change</text>
+    <text x="640" y="294" font-size="13" fill="#4C1D95">CTR</text>
+    <rect x="640" y="302" width="90" height="10" rx="5" fill="#E5E7EB"/>
+    <rect x="640" y="302" width="72" height="10" rx="5" fill="#7C3AED"/>
+    <text x="740" y="312" font-size="12" fill="#4C1D95">7.2%</text>
   </g>
 
-  <!-- Group B box -->
-  <g class="groupB">
-    <rect x="260" y="134" width="100" height="40" rx="6" fill="#3bc4a1" />
-    <text x="310" y="152" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">Group B</text>
-    <text x="310" y="165" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.8">Variant</text>
-  </g>
-
-  <!-- Flowing dots A -->
-  <circle class="dotA dotA1" r="3.5" fill="#0c8383">
-    <animateMotion dur="2s" repeatCount="indefinite" begin="1.5s" path="M160,110 C200,110 200,65 240,65 L370,65" />
-  </circle>
-  <circle class="dotA dotA2" r="3.5" fill="#0c8383">
-    <animateMotion dur="2s" repeatCount="indefinite" begin="2.1s" path="M160,110 C200,110 200,65 240,65 L370,65" />
-  </circle>
-  <circle class="dotA dotA3" r="3.5" fill="#0c8383">
-    <animateMotion dur="2s" repeatCount="indefinite" begin="2.7s" path="M160,110 C200,110 200,65 240,65 L370,65" />
-  </circle>
-
-  <!-- Flowing dots B -->
-  <circle class="dotB dotB1" r="3.5" fill="#3bc4a1">
-    <animateMotion dur="2s" repeatCount="indefinite" begin="1.7s" path="M160,110 C200,110 200,155 240,155 L370,155" />
-  </circle>
-  <circle class="dotB dotB2" r="3.5" fill="#3bc4a1">
-    <animateMotion dur="2s" repeatCount="indefinite" begin="2.3s" path="M160,110 C200,110 200,155 240,155 L370,155" />
-  </circle>
-  <circle class="dotB dotB3" r="3.5" fill="#3bc4a1">
-    <animateMotion dur="2s" repeatCount="indefinite" begin="2.9s" path="M160,110 C200,110 200,155 240,155 L370,155" />
-  </circle>
-
-  <!-- Results section -->
-  <g class="groupA">
-    <line x1="362" y1="65" x2="400" y2="65" stroke="#0c8383" stroke-width="1.5" marker-end="url(#ah)" />
-  </g>
-  <g class="groupB">
-    <line x1="362" y1="155" x2="400" y2="155" stroke="#3bc4a1" stroke-width="1.5" marker-end="url(#ah)" />
-  </g>
-
-  <!-- Metric area -->
-  <g class="result-label">
-    <text x="485" y="48" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">CTR</text>
-    <rect x="410" y="52" width="150" height="170" rx="6" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.5" opacity="0.3" />
-  </g>
-
-  <!-- Bar A (CTR = 3.2%) -->
-  <rect class="bar-a" x="435" y="110" width="35" height="105" rx="3" fill="#0c8383" />
-  <text class="result-label" x="452" y="105" text-anchor="middle" font-size="10" fill="#0c8383" font-weight="700">3.2%</text>
-  <text class="result-label" x="452" y="230" text-anchor="middle" font-size="8" fill="#0b1225">A</text>
-
-  <!-- Bar B (CTR = 4.1%) - taller -->
-  <rect class="bar-b" x="510" y="80" width="35" height="135" rx="3" fill="#3bc4a1" />
-  <text class="result-label" x="527" y="75" text-anchor="middle" font-size="10" fill="#3bc4a1" font-weight="700">4.1%</text>
-  <text class="result-label" x="527" y="230" text-anchor="middle" font-size="8" fill="#0b1225">B</text>
-
-  <!-- Confidence interval whiskers -->
-  <g class="confidence">
-    <!-- A whisker -->
-    <line x1="452" y1="102" x2="452" y2="92" stroke="#0c8383" stroke-width="1.5" />
-    <line x1="446" y1="92" x2="458" y2="92" stroke="#0c8383" stroke-width="1.5" />
-    <!-- B whisker -->
-    <line x1="527" y1="72" x2="527" y2="62" stroke="#3bc4a1" stroke-width="1.5" />
-    <line x1="521" y1="62" x2="533" y2="62" stroke="#3bc4a1" stroke-width="1.5" />
-  </g>
-
-  <!-- Winner label -->
-  <g class="winner">
-    <text x="527" y="55" text-anchor="middle" font-size="8" fill="#3bc4a1" font-weight="700">+28% lift</text>
-    <text x="485" y="245" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">p &lt; 0.05</text>
-  </g>
+  <text x="400" y="398" text-anchor="middle" font-size="13" fill="#6B7280">Same time, same world — the only difference is the ranker. The metric gap is the causal effect.</text>
 </svg>

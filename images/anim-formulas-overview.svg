@@ -1,28 +1,27 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 280" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    .formula{opacity:0;animation:fadeIn 18s ease infinite}
-    .f1{animation-delay:.3s}.f2{animation-delay:1.0s}.f3{animation-delay:1.7s}
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .hl{animation:h 6s ease-in-out infinite}
+    .hl2{animation:h 6s ease-in-out infinite;animation-delay:2s}
+    .hl3{animation:h 6s ease-in-out infinite;animation-delay:4s}
+    @keyframes h{0%,28%,100%{stroke-width:2;filter:none}8%,20%{stroke-width:3.5}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Three Formulas That Run Recommendations</text>
 
-  <rect width="600" height="280" fill="#f5f5f4" rx="12"/>
-  <text x="300" y="25" text-anchor="middle" font-size="14" font-weight="700" fill="#0b1225">Key RecSys Formulas</text>
-  <g class="formula f1">
-    <rect x="20" y="45" width="560" height="65" rx="8" fill="white" stroke="#0c8383" stroke-width="1.5"/>
-    <text x="40" y="68" font-size="12" font-weight="700" fill="#0c8383">Cosine Similarity</text>
-    <text x="40" y="90" font-size="14" fill="#0b1225" font-style="italic">cos(A,B) = A·B / (||A|| × ||B||)</text>
-    <text x="420" y="80" font-size="10" fill="#666">Measures direction, not magnitude</text>
-  </g>
-  <g class="formula f2">
-    <rect x="20" y="125" width="560" height="65" rx="8" fill="white" stroke="#3bc4a1" stroke-width="1.5"/>
-    <text x="40" y="148" font-size="12" font-weight="700" fill="#3bc4a1">nDCG@K</text>
-    <text x="40" y="172" font-size="14" fill="#0b1225" font-style="italic">DCG = Σ rel_i / log₂(i+1),  nDCG = DCG / IDCG</text>
-    <text x="420" y="160" font-size="10" fill="#666">Ranking quality (0-1)</text>
-  </g>
-  <g class="formula f3">
-    <rect x="20" y="205" width="560" height="65" rx="8" fill="white" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="40" y="228" font-size="12" font-weight="700" fill="#f59e0b">BPR Loss</text>
-    <text x="40" y="252" font-size="14" fill="#0b1225" font-style="italic">L = -Σ ln σ(x̂_ui - x̂_uj) + λ||θ||²</text>
-    <text x="420" y="240" font-size="10" fill="#666">Pairwise ranking objective</text>
+  <g font-size="14">
+    <rect class="hl" x="55" y="70" width="690" height="94" rx="12" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="80" y="100" font-weight="800" fill="#4C1D95">Cosine similarity</text>
+    <text x="80" y="124" font-family="Georgia,serif" font-style="italic" font-size="17" fill="#1E1B4B">sim(u, v) = (u · v) / (‖u‖ ‖v‖)</text>
+    <text x="80" y="148" fill="#6B7280" font-size="12.5">how close two taste vectors point — the workhorse of "similar items" and "users like you"</text>
+
+    <rect class="hl2" x="55" y="178" width="690" height="94" rx="12" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="80" y="208" font-weight="800" fill="#065F46">nDCG (ranking quality)</text>
+    <text x="80" y="232" font-family="Georgia,serif" font-style="italic" font-size="17" fill="#1E1B4B">DCG = Σ ( (2^relᵢ − 1) / log₂(i + 1) ) ,   nDCG = DCG / IDCG</text>
+    <text x="80" y="256" fill="#6B7280" font-size="12.5">rewards putting good items HIGH — position i discounts logarithmically, exactly like attention does</text>
+
+    <rect class="hl3" x="55" y="286" width="690" height="94" rx="12" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="80" y="316" font-weight="800" fill="#92400E">BPR (learning from pairs)</text>
+    <text x="80" y="340" font-family="Georgia,serif" font-style="italic" font-size="17" fill="#1E1B4B">L = − Σ ln σ( score(u, i⁺) − score(u, i⁻) )</text>
+    <text x="80" y="364" fill="#6B7280" font-size="12.5">no ratings needed: just push what the user chose (i⁺) above what they skipped (i⁻)</text>
   </g>
 </svg>

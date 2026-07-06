@@ -1,94 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes engineGlow {
-      0%, 100% { filter: drop-shadow(0 0 3px #0c8383); }
-      50% { filter: drop-shadow(0 0 12px #0c8383); }
-    }
-    @keyframes particlePulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
-    .sellers { opacity: 0; animation: fadeIn 18s ease-out 0.4s infinite; }
-    .engine { opacity: 0; animation: fadeIn 18s ease-out 0.8s infinite; }
-    .engine-inner { animation: engineGlow 2s ease-in-out 1.5s infinite; }
-    .buyers { opacity: 0; animation: fadeIn 18s ease-out 1.2s infinite; }
-    .val-label { opacity: 0; animation: fadeIn 18s ease-out 2s infinite; }
-
-    .p-left1 { opacity: 0; animation: particlePulse 18s linear 1.5s infinite; }
-    .p-left2 { opacity: 0; animation: particlePulse 18s linear 2.1s infinite; }
-    .p-left3 { opacity: 0; animation: particlePulse 18s linear 2.7s infinite; }
-    .p-right1 { opacity: 0; animation: particlePulse 18s linear 1.8s infinite; }
-    .p-right2 { opacity: 0; animation: particlePulse 18s linear 2.4s infinite; }
-    .p-right3 { opacity: 0; animation: particlePulse 18s linear 3.0s infinite; }
+    .flowr{stroke-dasharray:7 6;animation:fr 1.4s linear infinite}
+    @keyframes fr{to{stroke-dashoffset:-13}}
+    .flowl{stroke-dasharray:7 6;animation:fl 1.4s linear infinite}
+    @keyframes fl{to{stroke-dashoffset:13}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Marketplace Recommendations Serve Two Sides</text>
 
-  <!-- Title -->
-  <text class="title" x="275" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Marketplace Recommendation Flow</text>
+  <g text-anchor="middle">
+    <rect x="55" y="110" width="180" height="200" rx="12" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="145" y="140" font-size="16" font-weight="800" fill="#075985">BUYERS</text>
+    <text x="145" y="168" font-size="12.5" fill="#075985">want: relevant finds,</text>
+    <text x="145" y="186" font-size="12.5" fill="#075985">fair prices, trust</text>
+    <text x="145" y="226" font-size="26">🧑‍🤝‍🧑</text>
+    <text x="145" y="272" font-size="12" fill="#6B7280">signals: views, saves,</text>
+    <text x="145" y="290" font-size="12" fill="#6B7280">messages, purchases</text>
 
-  <!-- Sellers side -->
-  <g class="sellers">
-    <rect x="20" y="80" width="120" height="140" rx="10" fill="#f5f5f4" stroke="#0c8383" stroke-width="2"/>
-    <text x="80" y="110" text-anchor="middle" font-size="13" fill="#0c8383" font-weight="700">Sellers</text>
-    <!-- Listing icons -->
-    <rect x="40" y="122" width="30" height="25" rx="4" fill="#0c8383" opacity="0.3"/>
-    <rect x="78" y="122" width="30" height="25" rx="4" fill="#0c8383" opacity="0.5"/>
-    <rect x="40" y="155" width="30" height="25" rx="4" fill="#0c8383" opacity="0.4"/>
-    <rect x="78" y="155" width="30" height="25" rx="4" fill="#0c8383" opacity="0.6"/>
-    <text x="80" y="200" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">Post listings</text>
+    <rect x="310" y="130" width="180" height="160" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
+    <text x="400" y="162" font-size="16" font-weight="800" fill="#4C1D95">MATCHING</text>
+    <text x="400" y="188" font-size="12.5" fill="#4C1D95">every item is unique —</text>
+    <text x="400" y="206" font-size="12.5" fill="#4C1D95">sold once, then gone</text>
+    <text x="400" y="236" font-size="12.5" fill="#4C1D95">recommend the LISTING</text>
+    <text x="400" y="254" font-size="12.5" fill="#4C1D95">while it still exists</text>
+
+    <rect x="565" y="110" width="180" height="200" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="655" y="140" font-size="16" font-weight="800" fill="#065F46">SELLERS</text>
+    <text x="655" y="168" font-size="12.5" fill="#065F46">want: visibility,</text>
+    <text x="655" y="186" font-size="12.5" fill="#065F46">quick sale, repeat use</text>
+    <text x="655" y="226" font-size="26">🏪</text>
+    <text x="655" y="272" font-size="12" fill="#6B7280">exposure must spread —</text>
+    <text x="655" y="290" font-size="12" fill="#6B7280">not pile on one listing</text>
   </g>
+  <line class="flowr" x1="238" y1="185" x2="308" y2="185" stroke="#0EA5E9" stroke-width="2.5"/>
+  <line class="flowl" x1="492" y1="185" x2="562" y2="185" stroke="#10B981" stroke-width="2.5"/>
+  <line class="flowl" x1="238" y1="240" x2="308" y2="240" stroke="#0EA5E9" stroke-width="2.5"/>
+  <line class="flowr" x1="492" y1="240" x2="562" y2="240" stroke="#10B981" stroke-width="2.5"/>
 
-  <!-- Particles flowing left to center (pre-positioned along path) -->
-  <rect class="p-left1" x="160" y="130" width="12" height="8" rx="2" fill="#0c8383"/>
-  <rect class="p-left2" x="175" y="150" width="12" height="8" rx="2" fill="#3bc4a1"/>
-  <rect class="p-left3" x="190" y="170" width="12" height="8" rx="2" fill="#0c8383"/>
-
-  <!-- Arrow left -->
-  <g class="engine">
-    <line x1="145" y1="150" x2="195" y2="150" stroke="#0b1225" stroke-width="1.5" stroke-dasharray="4,3"/>
-  </g>
-
-  <!-- Central engine -->
-  <g class="engine">
-    <g class="engine-inner">
-      <rect x="195" y="85" width="160" height="130" rx="14" fill="#0b1225"/>
-      <text x="275" y="118" text-anchor="middle" font-size="12" fill="#f5f5f4" font-weight="700">Recommendation</text>
-      <text x="275" y="136" text-anchor="middle" font-size="12" fill="#f5f5f4" font-weight="700">Engine</text>
-      <!-- Gear icon -->
-      <circle cx="275" cy="170" r="18" fill="none" stroke="#3bc4a1" stroke-width="2"/>
-      <circle cx="275" cy="170" r="7" fill="#3bc4a1"/>
-      <line x1="275" y1="149" x2="275" y2="155" stroke="#3bc4a1" stroke-width="2.5"/>
-      <line x1="275" y1="185" x2="275" y2="191" stroke="#3bc4a1" stroke-width="2.5"/>
-      <line x1="254" y1="170" x2="260" y2="170" stroke="#3bc4a1" stroke-width="2.5"/>
-      <line x1="290" y1="170" x2="296" y2="170" stroke="#3bc4a1" stroke-width="2.5"/>
-    </g>
-  </g>
-
-  <!-- Arrow right -->
-  <g class="buyers">
-    <line x1="355" y1="150" x2="405" y2="150" stroke="#0b1225" stroke-width="1.5" stroke-dasharray="4,3"/>
-  </g>
-
-  <!-- Particles flowing center to right (pre-positioned along path) -->
-  <rect class="p-right1" x="365" y="130" width="12" height="8" rx="2" fill="#3bc4a1"/>
-  <rect class="p-right2" x="380" y="150" width="12" height="8" rx="2" fill="#0c8383"/>
-  <rect class="p-right3" x="395" y="170" width="12" height="8" rx="2" fill="#3bc4a1"/>
-
-  <!-- Buyers side -->
-  <g class="buyers">
-    <rect x="410" y="80" width="120" height="140" rx="10" fill="#f5f5f4" stroke="#3bc4a1" stroke-width="2"/>
-    <text x="470" y="110" text-anchor="middle" font-size="13" fill="#3bc4a1" font-weight="700">Buyers</text>
-    <!-- Feed icons -->
-    <rect x="425" y="122" width="80" height="12" rx="3" fill="#3bc4a1" opacity="0.3"/>
-    <rect x="425" y="140" width="80" height="12" rx="3" fill="#3bc4a1" opacity="0.5"/>
-    <rect x="425" y="158" width="80" height="12" rx="3" fill="#3bc4a1" opacity="0.4"/>
-    <rect x="425" y="176" width="80" height="12" rx="3" fill="#3bc4a1" opacity="0.6"/>
-    <text x="470" y="200" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.6">See recommendations</text>
-  </g>
-
-  <!-- Value labels -->
-  <g class="val-label">
-    <text x="80" y="245" text-anchor="middle" font-size="10" fill="#0c8383" font-weight="600">Supply</text>
-    <text x="275" y="240" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">Matching</text>
-    <text x="470" y="245" text-anchor="middle" font-size="10" fill="#3bc4a1" font-weight="600">Demand</text>
-    <text x="275" y="280" text-anchor="middle" font-size="11" fill="#0b1225" opacity="0.5">Three-sided value creation: sellers, platform, buyers</text>
-  </g>
+  <text x="400" y="355" text-anchor="middle" font-size="13" fill="#6B7280">Optimizing one side only breaks the other: buyers flooded with stale hits, sellers starved of exposure.</text>
+  <text x="400" y="378" text-anchor="middle" font-size="13" fill="#6B7280">Two-sided objectives + freshness-aware ranking keep the flywheel spinning.</text>
 </svg>
