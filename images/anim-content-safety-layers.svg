@@ -1,93 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes checkAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes flowDash { 0% { stroke-dashoffset: 16; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 16; } 100% { stroke-dashoffset: 16; } }
-    @keyframes xFadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    .layer { opacity: 0; }
-    .layer-1 { animation: fadeIn 18s ease-out 0.3s infinite; }
-    .layer-2 { animation: fadeIn 18s ease-out 0.7s infinite; }
-    .layer-3 { animation: fadeIn 18s ease-out 1.1s infinite; }
-
-    .x-mark { opacity: 0; }
-    .x1 { animation: xFadeIn 18s ease-out 2.5s infinite; }
-    .x2 { animation: xFadeIn 18s ease-out 3.0s infinite; }
-    .x3 { animation: xFadeIn 18s ease-out 3.5s infinite; }
-
-    .pass-check { opacity: 0; animation: checkAppear 18s ease-out 4s infinite; }
-    .flow-line { stroke-dasharray: 8,4; animation: flowDash 18s linear infinite; }
+    .item{animation:go 5s linear infinite}
+    .item2{animation:go 5s linear infinite;animation-delay:1.6s}
+    .item3{animation:stop3 5s linear infinite;animation-delay:3.2s}
+    @keyframes go{0%{transform:translateX(0);opacity:0}6%{opacity:1}30%{transform:translateX(180px)}60%{transform:translateX(390px)}92%{opacity:1}100%{transform:translateX(600px);opacity:0}}
+    @keyframes stop3{0%{transform:translateX(0);opacity:0}6%{opacity:1}30%{transform:translateX(180px)}55%,70%{transform:translateX(330px);opacity:1}85%,100%{transform:translateX(330px) translateY(90px);opacity:0}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Content Safety: Three Gates Before the Feed</text>
 
+  <g text-anchor="middle" font-size="12.5">
+    <rect x="160" y="90" width="170" height="200" rx="12" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <text x="245" y="118" font-size="14" font-weight="800" fill="#B91C1C">1 · UPLOAD</text>
+    <text x="245" y="142" fill="#B91C1C">automated scan</text>
+    <text x="245" y="162" fill="#6B7280">hashes · classifiers</text>
+    <text x="245" y="182" fill="#6B7280">blocks the illegal</text>
 
-  <!-- Title -->
-  <text x="275" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Content Safety Layers</text>
+    <rect x="370" y="90" width="170" height="200" rx="12" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <text x="455" y="118" font-size="14" font-weight="800" fill="#92400E">2 · ELIGIBILITY</text>
+    <text x="455" y="142" fill="#92400E">recommendable?</text>
+    <text x="455" y="162" fill="#6B7280">borderline stays</text>
+    <text x="455" y="182" fill="#6B7280">searchable, NOT pushed</text>
 
-  <!-- Input items (left) -->
-  <text x="20" y="60" font-size="10" fill="#0b1225" opacity="0.6">Incoming</text>
-  <text x="20" y="73" font-size="10" fill="#0b1225" opacity="0.6">Content</text>
-
-  <!-- Flow arrows -->
-  <line class="flow-line" x1="65" y1="95" x2="65" y2="270" stroke="#0b1225" stroke-width="1.5" />
-
-  <!-- Layer 1: Content Moderation (red) -->
-  <g class="layer layer-1">
-    <rect x="85" y="65" width="380" height="55" rx="8" fill="#ef4444" fill-opacity="0.12" stroke="#ef4444" stroke-width="2" />
-    <rect x="85" y="65" width="6" height="55" rx="3" fill="#ef4444" />
-    <text x="110" y="86" font-size="12" font-weight="bold" fill="#ef4444">Layer 1: Content Moderation</text>
-    <text x="110" y="104" font-size="10" fill="#0b1225" opacity="0.7">Classify &amp; remove harmful content (hate, CSAM, violence)</text>
-
-    <!-- X mark for blocked item -->
-    <g class="x-mark x1">
-      <circle cx="500" cy="92" r="14" fill="#ef4444" opacity="0.15" />
-      <text x="500" y="98" text-anchor="middle" font-size="18" fill="#ef4444" font-weight="bold">&#x2717;</text>
-    </g>
+    <rect x="580" y="90" width="170" height="200" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="665" y="118" font-size="14" font-weight="800" fill="#065F46">3 · RANKING</text>
+    <text x="665" y="142" fill="#065F46">quality signals</text>
+    <text x="665" y="162" fill="#6B7280">reports · trust · age</text>
+    <text x="665" y="182" fill="#6B7280">gates amplification</text>
   </g>
 
-  <!-- Arrow down -->
-  <line class="flow-line" x1="275" y1="122" x2="275" y2="140" stroke="#0b1225" stroke-width="1" />
+  <line x1="70" y1="240" x2="750" y2="240" stroke="#E5E7EB" stroke-width="2"/>
+  <g class="item"><rect x="70" y="226" width="56" height="28" rx="7" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/><text x="98" y="245" text-anchor="middle" font-size="11">video A</text></g>
+  <g class="item2"><rect x="70" y="226" width="56" height="28" rx="7" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/><text x="98" y="245" text-anchor="middle" font-size="11">video B</text></g>
+  <g class="item3"><rect x="70" y="226" width="56" height="28" rx="7" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/><text x="98" y="245" text-anchor="middle" font-size="11">video C</text></g>
+  <text x="455" y="352" text-anchor="middle" font-size="12" fill="#92400E">C: allowed to exist, denied the megaphone</text>
 
-  <!-- Layer 2: Recommendation Filtering (amber) -->
-  <g class="layer layer-2">
-    <rect x="85" y="140" width="380" height="55" rx="8" fill="#f59e0b" fill-opacity="0.12" stroke="#f59e0b" stroke-width="2" />
-    <rect x="85" y="140" width="6" height="55" rx="3" fill="#f59e0b" />
-    <text x="110" y="161" font-size="12" font-weight="bold" fill="#f59e0b">Layer 2: Recommendation Filtering</text>
-    <text x="110" y="179" font-size="10" fill="#0b1225" opacity="0.7">Don't recommend borderline content (clickbait, misinformation)</text>
-
-    <!-- X mark for filtered item -->
-    <g class="x-mark x2">
-      <circle cx="500" cy="167" r="14" fill="#f59e0b" opacity="0.15" />
-      <text x="500" y="173" text-anchor="middle" font-size="18" fill="#f59e0b" font-weight="bold">&#x2717;</text>
-    </g>
-  </g>
-
-  <!-- Arrow down -->
-  <line class="flow-line" x1="275" y1="197" x2="275" y2="215" stroke="#0b1225" stroke-width="1" />
-
-  <!-- Layer 3: Contextual Safety (teal) -->
-  <g class="layer layer-3">
-    <rect x="85" y="215" width="380" height="55" rx="8" fill="#0c8383" fill-opacity="0.12" stroke="#0c8383" stroke-width="2" />
-    <rect x="85" y="215" width="6" height="55" rx="3" fill="#0c8383" />
-    <text x="110" y="236" font-size="12" font-weight="bold" fill="#0c8383">Layer 3: Contextual Safety</text>
-    <text x="110" y="254" font-size="10" fill="#0b1225" opacity="0.7">Context-dependent filtering (age, region, sensitivity)</text>
-
-    <!-- X mark for context-filtered item -->
-    <g class="x-mark x3">
-      <circle cx="500" cy="242" r="14" fill="#0c8383" opacity="0.15" />
-      <text x="500" y="248" text-anchor="middle" font-size="18" fill="#0c8383" font-weight="bold">&#x2717;</text>
-    </g>
-  </g>
-
-  <!-- Output: safe items pass through -->
-  <g class="pass-check">
-    <line x1="275" y1="272" x2="275" y2="292" stroke="#3bc4a1" stroke-width="2" />
-    <text x="275" y="295" text-anchor="middle" font-size="20" fill="#3bc4a1">&#x2713;</text>
-    <text x="330" y="295" font-size="10" fill="#3bc4a1" font-weight="600">Safe to recommend</text>
-  </g>
-
-  <!-- Item count indicators -->
-  <g class="pass-check">
-    <text x="520" y="92" text-anchor="middle" font-size="8" fill="#ef4444">~2%</text>
-    <text x="520" y="167" text-anchor="middle" font-size="8" fill="#f59e0b">~5%</text>
-    <text x="520" y="242" text-anchor="middle" font-size="8" fill="#0c8383">~3%</text>
-  </g>
+  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">"Free to post" and "free to be amplified" are different rights — the recommender is where the second one is decided.</text>
 </svg>

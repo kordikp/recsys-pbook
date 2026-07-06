@@ -1,119 +1,39 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 350" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes tokenAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes lineGrow { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes pulseStrong { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes pulseWeak { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes outputAppear { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes weightFade { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    .input-token { opacity: 0; animation: tokenAppear 18s ease-out infinite; }
-    .t1 { animation-delay: 0.2s; }
-    .t2 { animation-delay: 0.4s; }
-    .t3 { animation-delay: 0.6s; }
-    .t4 { animation-delay: 0.8s; }
-    .t5 { animation-delay: 1.0s; }
-
-    .attn-line { stroke-dasharray: 200; stroke-dashoffset: 200; opacity: 0.2; animation: lineGrow 18s ease-out infinite; }
-    .al1 { animation-delay: 1.5s; }
-    .al2 { animation-delay: 1.7s; }
-    .al3 { animation-delay: 1.9s; }
-    .al4 { animation-delay: 2.1s; }
-    .al5 { animation-delay: 2.3s; }
-    .al6 { animation-delay: 2.5s; }
-    .al7 { animation-delay: 2.7s; }
-    .al8 { animation-delay: 2.9s; }
-
-    .strong-pulse { animation: pulseStrong 18s ease-in-out 3.5s infinite; }
-    .weak-pulse { animation: pulseWeak 18s ease-in-out 3.5s infinite; }
-
-    .output-token { opacity: 0; animation: outputAppear 18s ease-out infinite; }
-    .o1 { animation-delay: 3.2s; }
-    .o2 { animation-delay: 3.4s; }
-    .o3 { animation-delay: 3.6s; }
-    .o4 { animation-delay: 3.8s; }
-    .o5 { animation-delay: 4.0s; }
-
-    .weight-label { opacity: 0; animation: weightFade 18s ease-out infinite; }
-    .w1 { animation-delay: 3.5s; }
-    .w2 { animation-delay: 3.7s; }
+    .w1{animation:wv 5s ease-in-out infinite}
+    @keyframes wv{0%,20%,100%{stroke-width:2;opacity:.5}45%,75%{stroke-width:7;opacity:1}}
+    .w2{animation:wf 5s ease-in-out infinite}
+    @keyframes wf{0%,20%,100%{stroke-width:5;opacity:.9}45%,75%{stroke-width:2;opacity:.45}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Self-Attention: Not All History Weighs the Same</text>
 
-
-  <!-- Title -->
-  <text x="300" y="28" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Self-Attention Mechanism</text>
-
-  <!-- Input tokens (bottom) -->
-  <g class="input-token t1">
-    <circle cx="80" cy="290" r="28" fill="#0c8383" />
-    <text x="80" y="295" text-anchor="middle" font-size="14" fill="#f5f5f4" font-weight="bold">i&#x2081;</text>
-  </g>
-  <g class="input-token t2">
-    <circle cx="190" cy="290" r="28" fill="#0c8383" />
-    <text x="190" y="295" text-anchor="middle" font-size="14" fill="#f5f5f4" font-weight="bold">i&#x2082;</text>
-  </g>
-  <g class="input-token t3">
-    <circle cx="300" cy="290" r="28" fill="#0c8383" />
-    <text x="300" y="295" text-anchor="middle" font-size="14" fill="#f5f5f4" font-weight="bold">i&#x2083;</text>
-  </g>
-  <g class="input-token t4">
-    <circle cx="410" cy="290" r="28" fill="#0c8383" />
-    <text x="410" y="295" text-anchor="middle" font-size="14" fill="#f5f5f4" font-weight="bold">i&#x2084;</text>
-  </g>
-  <g class="input-token t5">
-    <circle cx="520" cy="290" r="28" fill="#0c8383" />
-    <text x="520" y="295" text-anchor="middle" font-size="14" fill="#f5f5f4" font-weight="bold">i&#x2085;</text>
+  <!-- history items -->
+  <g text-anchor="middle" font-size="12">
+    <rect x="70" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="125" y="276" font-size="18">🍳</text><text x="125" y="298" fill="#075985">cooking show</text>
+    <rect x="212" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="267" y="276" font-size="18">🎸</text><text x="267" y="298" fill="#075985">guitar lesson</text>
+    <rect x="354" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="409" y="276" font-size="18">🎬</text><text x="409" y="298" fill="#075985">sci-fi trailer</text>
+    <rect x="496" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="551" y="276" font-size="18">🎸</text><text x="551" y="298" fill="#075985">band live</text>
+    <rect x="638" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="693" y="276" font-size="18">🥁</text><text x="693" y="298" fill="#075985">drum solo</text>
+    <text x="409" y="345" fill="#6B7280">watch history (oldest → newest)</text>
   </g>
 
-  <!-- Input label -->
-  <text x="300" y="338" text-anchor="middle" font-size="11" fill="#0b1225" opacity="0.5">Input Embeddings</text>
+  <!-- query -->
+  <rect x="330" y="80" width="160" height="56" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
+  <text x="410" y="103" text-anchor="middle" font-size="13.5" font-weight="800" fill="#4C1D95">next item = ?</text>
+  <text x="410" y="122" text-anchor="middle" font-size="11.5" fill="#4C1D95">query attends to history</text>
 
-  <!-- Attention lines (from i3 to others, showing self-attention for token 3) -->
-  <!-- Strong connections -->
-  <line class="attn-line al1 strong-pulse" x1="300" y1="262" x2="80" y2="262" stroke="#f59e0b" stroke-width="3" />
-  <line class="attn-line al2 weak-pulse" x1="300" y1="262" x2="190" y2="262" stroke="#f59e0b" stroke-width="1" />
-  <line class="attn-line al3 strong-pulse" x1="300" y1="262" x2="300" y2="160" stroke="#f59e0b" stroke-width="4" />
-  <line class="attn-line al4 weak-pulse" x1="300" y1="262" x2="410" y2="262" stroke="#f59e0b" stroke-width="1" />
-  <line class="attn-line al5 strong-pulse" x1="300" y1="262" x2="520" y2="262" stroke="#f59e0b" stroke-width="2.5" />
+  <!-- attention edges -->
+  <line class="w2" x1="384" y1="138" x2="128" y2="248" stroke="#9CA3AF"/>
+  <line class="w1" x1="396" y1="138" x2="268" y2="248" stroke="#7C3AED"/>
+  <line class="w2" x1="410" y1="138" x2="409" y2="248" stroke="#9CA3AF"/>
+  <line class="w1" x1="424" y1="138" x2="550" y2="248" stroke="#7C3AED"/>
+  <line class="w1" x1="436" y1="138" x2="690" y2="248" stroke="#7C3AED"/>
 
-  <!-- Additional cross connections (lighter) -->
-  <line class="attn-line al6 weak-pulse" x1="80" y1="262" x2="190" y2="105" stroke="#0c8383" stroke-width="0.8" opacity="0.3" />
-  <line class="attn-line al7 weak-pulse" x1="410" y1="262" x2="410" y2="105" stroke="#0c8383" stroke-width="0.8" opacity="0.3" />
-  <line class="attn-line al8 weak-pulse" x1="520" y1="262" x2="520" y2="105" stroke="#0c8383" stroke-width="0.8" opacity="0.3" />
-
-  <!-- Weight labels -->
-  <text class="weight-label w1" x="165" y="250" font-size="9" fill="#f59e0b" font-weight="bold">0.35</text>
-  <text class="weight-label w1" x="230" y="256" font-size="9" fill="#f59e0b" opacity="0.5">0.05</text>
-  <text class="weight-label w1" x="305" y="210" font-size="9" fill="#f59e0b" font-weight="bold">0.30</text>
-  <text class="weight-label w2" x="345" y="256" font-size="9" fill="#f59e0b" opacity="0.5">0.08</text>
-  <text class="weight-label w2" x="425" y="250" font-size="9" fill="#f59e0b" font-weight="bold">0.22</text>
-
-  <!-- Output tokens (top) -->
-  <g class="output-token o1">
-    <circle cx="80" cy="80" r="24" fill="#3bc4a1" />
-    <text x="80" y="85" text-anchor="middle" font-size="13" fill="#0b1225" font-weight="bold">o&#x2081;</text>
-  </g>
-  <g class="output-token o2">
-    <circle cx="190" cy="80" r="24" fill="#3bc4a1" />
-    <text x="190" y="85" text-anchor="middle" font-size="13" fill="#0b1225" font-weight="bold">o&#x2082;</text>
-  </g>
-  <g class="output-token o3">
-    <circle cx="300" cy="80" r="24" fill="#3bc4a1" />
-    <text x="300" y="85" text-anchor="middle" font-size="13" fill="#0b1225" font-weight="bold">o&#x2083;</text>
-  </g>
-  <g class="output-token o4">
-    <circle cx="410" cy="80" r="24" fill="#3bc4a1" />
-    <text x="410" y="85" text-anchor="middle" font-size="13" fill="#0b1225" font-weight="bold">o&#x2084;</text>
-  </g>
-  <g class="output-token o5">
-    <circle cx="520" cy="80" r="24" fill="#3bc4a1" />
-    <text x="520" y="85" text-anchor="middle" font-size="13" fill="#0b1225" font-weight="bold">o&#x2085;</text>
-  </g>
-
-  <!-- Output label -->
-  <text x="300" y="48" text-anchor="middle" font-size="11" fill="#0b1225" opacity="0.5">Contextual Output</text>
-
-  <!-- Annotation -->
-  <text x="300" y="178" text-anchor="middle" font-size="10" fill="#0b1225" opacity="0.6">Attention weights for i&#x2083; shown</text>
-  <text x="300" y="192" text-anchor="middle" font-size="9" fill="#0b1225" opacity="0.4">Thicker line = higher attention weight</text>
+  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Weights are computed per prediction: for a music query the guitar items glow, the cooking show fades — recency isn't the only signal.</text>
 </svg>

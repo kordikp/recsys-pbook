@@ -1,101 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes appear { 0% { opacity: 0; } 5% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes steerAppear { 0%,22% { opacity: 0; } 27% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes resultAppear { 0%,35% { opacity: 0; } 40% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-
-    .p1 { opacity: 0; animation: appear 20s ease-in-out infinite; }
-    .p1a{animation-delay:0s} .p1b{animation-delay:.3s} .p1c{animation-delay:.6s}
-    .steer { opacity: 0; animation: steerAppear 20s ease-in-out infinite; }
-    .res { opacity: 0; animation: resultAppear 20s ease-in-out infinite; }
-    .ra{animation-delay:0s} .rb{animation-delay:.2s} .rc{animation-delay:.4s} .rd{animation-delay:.6s}
+    .knob{animation:kn 5s ease-in-out infinite}
+    @keyframes kn{0%,20%{transform:translateX(0)}50%,80%{transform:translateX(96px)}100%{transform:translateX(0)}}
+    .resA{animation:ra 5s ease-in-out infinite}
+    @keyframes ra{0%,20%{opacity:1}50%,80%{opacity:.35}100%{opacity:1}}
+    .resB{animation:rb 5s ease-in-out infinite}
+    @keyframes rb{0%,20%{opacity:.35}50%,80%{opacity:1}100%{opacity:.35}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">From Black-Box Vector to Knobs You Can Turn</text>
 
-  <rect width="650" height="300" fill="#f5f5f4" rx="12"/>
-  <text x="325" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#0b1225">Steerable Recommendations: Turning Knobs</text>
+  <!-- dense vector -->
+  <text x="150" y="86" text-anchor="middle" font-size="13" font-weight="700" fill="#4B5563">dense user embedding</text>
+  <g>
+    <rect x="70" y="98" width="160" height="30" rx="7" fill="#E5E7EB" stroke="#9CA3AF"/>
+    <text x="150" y="118" text-anchor="middle" font-size="11" fill="#6B7280">0.21 −0.77 0.04 0.93 …</text>
+  </g>
+  <text x="150" y="150" text-anchor="middle" font-size="11.5" fill="#B91C1C">meaningful to the model, opaque to you</text>
 
-  <!-- LEFT: Control Panel -->
-  <g class="p1 p1a">
-    <rect x="20" y="38" width="200" height="220" rx="10" fill="white" stroke="#0c8383" stroke-width="1.5"/>
-    <text x="120" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#0c8383">Control Panel</text>
-    <text x="120" y="72" text-anchor="middle" font-size="7" fill="#888">SAE-discovered concept neurons</text>
+  <path d="M240 113 L300 113" stroke="#7C3AED" stroke-width="3" marker-end="url(#k)"/>
+  <defs><marker id="k" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#7C3AED"/></marker></defs>
+  <text x="270" y="98" text-anchor="middle" font-size="11.5" fill="#4C1D95">SAE</text>
+
+  <!-- knobs panel -->
+  <rect x="310" y="70" width="220" height="180" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
+  <text x="420" y="96" text-anchor="middle" font-size="13.5" font-weight="800" fill="#4C1D95">interpretable knobs</text>
+  <g font-size="12" fill="#4C1D95">
+    <text x="330" y="126">classic hollywood</text>
+    <rect x="330" y="134" width="180" height="8" rx="4" fill="#FFFFFF" stroke="#C4B5FD"/>
+    <circle class="knob" cx="384" cy="138" r="9" fill="#7C3AED"/>
+    <text x="330" y="176">musicals</text>
+    <rect x="330" y="184" width="180" height="8" rx="4" fill="#FFFFFF" stroke="#C4B5FD"/>
+    <circle cx="360" cy="188" r="9" fill="#A78BFA"/>
+    <text x="330" y="226">film noir</text>
+    <rect x="330" y="234" width="180" height="8" rx="4" fill="#FFFFFF" stroke="#C4B5FD"/>
+    <circle cx="470" cy="238" r="9" fill="#A78BFA"/>
   </g>
 
-  <!-- Knobs -->
-  <g class="p1 p1a">
-    <text x="40" y="95" font-size="9" fill="#0b1225">Classic Hollywood</text>
-    <rect x="40" y="100" width="160" height="6" rx="3" fill="#e8e8e8"/>
-    <rect x="40" y="100" width="130" height="6" rx="3" fill="#0c8383"/>
+  <!-- results swap -->
+  <g class="resA" font-size="12" text-anchor="middle">
+    <rect x="580" y="80" width="170" height="76" rx="10" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <text x="665" y="104" font-weight="700" fill="#4B5563">before</text>
+    <text x="665" y="124" fill="#6B7280">Casablanca</text>
+    <text x="665" y="142" fill="#6B7280">The Third Man</text>
   </g>
-  <g class="p1 p1b">
-    <text x="40" y="122" font-size="9" fill="#0b1225">Musicals</text>
-    <rect x="40" y="127" width="160" height="6" rx="3" fill="#e8e8e8"/>
-    <rect x="40" y="127" width="100" height="6" rx="3" fill="#0c8383"/>
-  </g>
-  <g class="p1 p1c">
-    <text x="40" y="149" font-size="9" fill="#0b1225">Film Noir</text>
-    <rect x="40" y="154" width="160" height="6" rx="3" fill="#e8e8e8"/>
-    <rect x="40" y="154" width="85" height="6" rx="3" fill="#0c8383"/>
+  <g class="resB" font-size="12" text-anchor="middle">
+    <rect x="580" y="170" width="170" height="76" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="665" y="194" font-weight="700" fill="#065F46">knob turned →</text>
+    <text x="665" y="214" fill="#065F46">Singin' in the Rain</text>
+    <text x="665" y="232" fill="#065F46">West Side Story</text>
   </g>
 
-  <!-- Boosted knob (appears with steering phase) -->
-  <g class="steer">
-    <text x="40" y="180" font-size="9" font-weight="700" fill="#ec4899">❤ Love Story</text>
-    <rect x="40" y="185" width="160" height="8" rx="4" fill="#e8e8e8"/>
-    <rect x="40" y="185" width="145" height="8" rx="4" fill="#ec4899"/>
-    <text x="190" y="192" font-size="7" fill="#ec4899">↑ boosted</text>
-  </g>
-
-  <!-- Low knobs -->
-  <g class="p1 p1c">
-    <text x="40" y="212" font-size="8" fill="#bbb">Horror</text>
-    <rect x="40" y="216" width="160" height="5" rx="2" fill="#e8e8e8"/>
-    <rect x="40" y="216" width="15" height="5" rx="2" fill="#ccc"/>
-    <text x="40" y="240" font-size="8" fill="#bbb">Sci-Fi</text>
-    <rect x="40" y="244" width="160" height="5" rx="2" fill="#e8e8e8"/>
-    <rect x="40" y="244" width="20" height="5" rx="2" fill="#ccc"/>
-  </g>
-
-  <!-- CENTER: Arrow -->
-  <g class="steer">
-    <text x="248" y="140" font-size="9" fill="#0c8383" font-weight="600">→</text>
-  </g>
-
-  <!-- RIGHT: Default recommendations -->
-  <g class="p1 p1b">
-    <text x="280" y="50" font-size="9" font-weight="600" fill="#0b1225">Default recommendations</text>
-    <rect x="275" y="58" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="285" y="73" font-size="8" fill="#0b1225">Casablanca</text><text x="445" y="73" text-anchor="end" font-size="7" fill="#888">classic</text>
-    <rect x="275" y="84" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="285" y="99" font-size="8" fill="#0b1225">Singin' in the Rain</text><text x="445" y="99" text-anchor="end" font-size="7" fill="#888">musical</text>
-    <rect x="275" y="110" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="285" y="125" font-size="8" fill="#0b1225">The Third Man</text><text x="445" y="125" text-anchor="end" font-size="7" fill="#888">noir</text>
-    <rect x="275" y="136" width="185" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="285" y="151" font-size="8" fill="#0b1225">Sunset Boulevard</text><text x="445" y="151" text-anchor="end" font-size="7" fill="#888">classic</text>
-  </g>
-
-  <!-- RIGHT: Steered recommendations (appear after boost) -->
-  <g class="res">
-    <text x="480" y="50" font-size="9" font-weight="600" fill="#ec4899">After boosting ❤</text>
-
-    <rect x="475" y="58" width="160" height="22" rx="4" fill="#ec4899" opacity="0.08" stroke="#ec4899" stroke-width="1"/>
-    <text x="485" y="73" font-size="8" font-weight="600" fill="#ec4899">Roman Holiday</text><text x="623" y="73" text-anchor="end" font-size="7" fill="#ec4899">romance</text>
-
-    <rect x="475" y="84" width="160" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="485" y="99" font-size="8" fill="#0b1225">Casablanca</text><text x="623" y="99" text-anchor="end" font-size="7" fill="#888">classic</text>
-
-    <rect x="475" y="110" width="160" height="22" rx="4" fill="#ec4899" opacity="0.08" stroke="#ec4899" stroke-width="1"/>
-    <text x="485" y="125" font-size="8" font-weight="600" fill="#ec4899">An Affair to Remember</text><text x="623" y="125" text-anchor="end" font-size="7" fill="#ec4899">romance</text>
-
-    <rect x="475" y="136" width="160" height="22" rx="4" fill="white" stroke="#e0e0e0" stroke-width="1"/>
-    <text x="485" y="151" font-size="8" fill="#0b1225">Singin' in the Rain</text><text x="623" y="151" text-anchor="end" font-size="7" fill="#888">musical</text>
-  </g>
-
-  <!-- Bottom: what happened -->
-  <g class="res">
-    <rect x="275" y="170" width="360" height="42" rx="6" fill="#0c8383" opacity="0.05" stroke="#0c8383" stroke-width="1"/>
-    <text x="455" y="186" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="600">What changed: romantic films rose in ranking</text>
-    <text x="455" y="200" text-anchor="middle" font-size="7" fill="#888">Same user, same model — just one neuron boosted. No retraining.</text>
-  </g>
-
+  <text x="400" y="310" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1E1B4B">sparse autoencoders name the hidden taste axes — steering becomes a UI control</text>
+  <text x="400" y="360" text-anchor="middle" font-size="13" fill="#6B7280">Instead of "the algorithm decided", the profile exposes sliders the reader can move — and the ranking follows, visibly.</text>
 </svg>

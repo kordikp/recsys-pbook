@@ -1,132 +1,25 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 300" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes drawLine { 0% { stroke-dashoffset: 0; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
-    @keyframes opacityPulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes questionMark { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-
-    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
-
-    /* Factual timeline (top) */
-    .fact-label { opacity: 0; animation: fadeIn 18s ease-out 0.4s infinite; }
-    .fact-line {
-      stroke-dasharray: 400;
-      stroke-dashoffset: 400;
-      animation: drawLine 18s ease-out 0.6s infinite;
-    }
-    .fact-node1 { opacity: 0; animation: fadeIn 18s ease-out 0.8s infinite; }
-    .fact-node2 { opacity: 0; animation: fadeIn 18s ease-out 1.3s infinite; }
-    .fact-node3 { opacity: 0; animation: fadeIn 18s ease-out 1.8s infinite; }
-    .fact-node4 { opacity: 0; animation: fadeIn 18s ease-out 2.3s infinite; }
-
-    /* Counterfactual timeline (bottom) */
-    .cf-label { opacity: 0; animation: fadeIn 18s ease-out 2.8s infinite; }
-    .cf-line {
-      stroke-dasharray: 10, 8;
-      stroke-dashoffset: 400;
-      animation: drawLine 18s ease-out 3.0s infinite;
-    }
-    .cf-node1 { opacity: 0; animation: fadeIn 18s ease-out 3.2s infinite; }
-    .cf-node2 { opacity: 0; animation: fadeIn 18s ease-out 3.7s infinite; }
-    .cf-branch { opacity: 0; animation: fadeIn 18s ease-out 4.2s infinite; }
-    .cf-q1 { opacity: 0; animation: questionMark 18s ease-in-out 4.5s infinite; }
-    .cf-q2 { opacity: 0; animation: questionMark 18s ease-in-out 4.8s infinite; }
-
-    /* Key question */
-    .question-box {
-      opacity: 0;
-      animation: opacityPulse 18s ease-in-out 5.2s infinite;
-    }
-    .question-text { opacity: 0; animation: fadeIn 18s ease-out 5.2s infinite; }
+    .ghost{animation:gh 5s ease-in-out infinite}
+    @keyframes gh{0%,25%{opacity:.25}55%,85%{opacity:.9}100%{opacity:.25}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Counterfactual: The Question Logs Can't Answer Directly</text>
 
+  <g stroke="#9CA3AF" stroke-width="1.5"><line x1="90" y1="320" x2="740" y2="320"/><line x1="90" y1="320" x2="90" y2="80"/></g>
+  <text x="415" y="348" text-anchor="middle" font-size="12" fill="#6B7280">session timeline →</text>
+  <text x="74" y="200" text-anchor="middle" font-size="12" fill="#6B7280" transform="rotate(-90 74 200)">engagement</text>
 
-  <defs>
-    <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" />
-    </marker>
-    <marker id="ah-dash" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" opacity="0.4" />
-    </marker>
-  </defs>
+  <path d="M90 300 C200 285 300 250 420 235 C540 220 640 210 730 205" fill="none" stroke="#7C3AED" stroke-width="3.5"/>
+  <circle cx="420" cy="235" r="7" fill="#7C3AED"/>
+  <rect x="300" y="115" width="240" height="40" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="420" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#4C1D95">FACT: we showed ranking π — this happened</text>
 
-  <!-- Title -->
-  <text class="title" x="275" y="28" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Counterfactual Thinking</text>
-
-  <!-- === FACTUAL TIMELINE (top) === -->
-  <text class="fact-label" x="30" y="65" font-size="11" fill="#0c8383" font-weight="700">What happened</text>
-
-  <!-- Solid timeline -->
-  <line class="fact-line" x1="30" y1="95" x2="500" y2="95" stroke="#0c8383" stroke-width="2.5" marker-end="url(#ah)" />
-
-  <!-- Node 1: User -->
-  <g class="fact-node1">
-    <circle cx="70" cy="95" r="12" fill="#0b1225" />
-    <text x="70" y="99" text-anchor="middle" font-size="14" fill="#f5f5f4">&#x1F464;</text>
-    <text x="70" y="122" text-anchor="middle" font-size="8" fill="#0b1225">User</text>
+  <g class="ghost">
+    <path d="M420 235 C520 255 620 275 730 290" fill="none" stroke="#D97706" stroke-width="3" stroke-dasharray="8 6"/>
+    <rect x="470" y="300" width="255" height="40" rx="9" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <text x="597" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#92400E">WHAT IF: ranking π′? — never observed</text>
   </g>
 
-  <!-- Node 2: Saw rec -->
-  <g class="fact-node2">
-    <circle cx="180" cy="95" r="14" fill="#0c8383" />
-    <text x="180" y="99" text-anchor="middle" font-size="9" fill="#f5f5f4" font-weight="600">Rec</text>
-    <text x="180" y="122" text-anchor="middle" font-size="8" fill="#0b1225">Saw rec</text>
-  </g>
-
-  <!-- Node 3: Clicked -->
-  <g class="fact-node3">
-    <circle cx="300" cy="95" r="14" fill="#3bc4a1" />
-    <text x="300" y="100" text-anchor="middle" font-size="14" fill="#0b1225">&#x1F449;</text>
-    <text x="300" y="122" text-anchor="middle" font-size="8" fill="#0b1225">Clicked</text>
-  </g>
-
-  <!-- Node 4: Engaged -->
-  <g class="fact-node4">
-    <circle cx="420" cy="95" r="14" fill="#3bc4a1" />
-    <text x="420" y="99" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="600">&#x2713;</text>
-    <text x="420" y="122" text-anchor="middle" font-size="8" fill="#0b1225">Engaged</text>
-  </g>
-
-  <!-- === COUNTERFACTUAL TIMELINE (bottom) === -->
-  <text class="cf-label" x="30" y="170" font-size="11" fill="#f59e0b" font-weight="700">What would have happened?</text>
-
-  <!-- Dashed timeline -->
-  <line class="cf-line" x1="30" y1="200" x2="500" y2="200" stroke="#0b1225" stroke-width="1.5" opacity="0.35" />
-
-  <!-- Node 1: User (same) -->
-  <g class="cf-node1">
-    <circle cx="70" cy="200" r="12" fill="#0b1225" />
-    <text x="70" y="204" text-anchor="middle" font-size="14" fill="#f5f5f4">&#x1F464;</text>
-    <text x="70" y="227" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.6">User</text>
-  </g>
-
-  <!-- Node 2: No rec -->
-  <g class="cf-node2">
-    <circle cx="180" cy="200" r="14" fill="#f5f5f4" stroke="#f59e0b" stroke-width="2" stroke-dasharray="3,2" />
-    <text x="180" y="204" text-anchor="middle" font-size="11" fill="#f59e0b" font-weight="600">&#x2205;</text>
-    <text x="180" y="227" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.6">No rec</text>
-  </g>
-
-  <!-- Branch: two possible outcomes -->
-  <g class="cf-branch">
-    <!-- Branch up: found it anyway -->
-    <line x1="196" y1="195" x2="320" y2="180" stroke="#0b1225" stroke-width="1" stroke-dasharray="5,4" opacity="0.4" />
-    <rect x="322" y="168" width="110" height="24" rx="5" fill="#f5f5f4" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2" />
-    <text x="377" y="184" text-anchor="middle" font-size="8.5" fill="#0b1225" opacity="0.7">Found it anyway?</text>
-
-    <!-- Branch down: never discovered -->
-    <line x1="196" y1="205" x2="320" y2="220" stroke="#0b1225" stroke-width="1" stroke-dasharray="5,4" opacity="0.4" />
-    <rect x="322" y="208" width="110" height="24" rx="5" fill="#f5f5f4" stroke="#ef4444" stroke-width="1" stroke-dasharray="3,2" />
-    <text x="377" y="224" text-anchor="middle" font-size="8.5" fill="#0b1225" opacity="0.7">Never discovered?</text>
-  </g>
-
-  <!-- Question marks -->
-  <text class="cf-q1" x="442" y="186" font-size="16" fill="#f59e0b" font-weight="bold">?</text>
-  <text class="cf-q2" x="442" y="226" font-size="16" fill="#ef4444" font-weight="bold">?</text>
-
-  <!-- Key question -->
-  <g class="question-box">
-    <rect x="120" y="258" width="310" height="32" rx="8" fill="#0b1225" />
-  </g>
-  <text class="question-text" x="275" y="279" text-anchor="middle" font-size="10.5" fill="#f5f5f4" font-weight="600">How much did the recommendation actually cause?</text>
+  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Off-policy evaluation reweights logged clicks (IPS) to estimate the ghost line — no new experiment needed, big variance included.</text>
 </svg>

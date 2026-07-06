@@ -1,147 +1,32 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes drawLine { 0% { stroke-dashoffset: 40; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 40; } 100% { stroke-dashoffset: 40; } }
-    @keyframes barGrowBuild { 0% { stroke-dashoffset: 482; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 482; } 100% { stroke-dashoffset: 482; } }
-    @keyframes barGrowBuy { 0% { stroke-dashoffset: 180; } 10% { stroke-dashoffset: 0; } 65% { stroke-dashoffset: 0; } 75% { stroke-dashoffset: 180; } 100% { stroke-dashoffset: 180; } }
-
-    .title { opacity: 0; animation: fadeIn 18s ease-out 0.1s infinite; }
-    .fork { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
-
-    /* Build path boxes */
-    .build-box { opacity: 0; animation: fadeIn 18s ease-out infinite; }
-    .b1 { animation-delay: 0.6s; }
-    .b2 { animation-delay: 1.0s; }
-    .b3 { animation-delay: 1.4s; }
-    .b4 { animation-delay: 1.8s; }
-    .b5 { animation-delay: 2.2s; }
-    .b6 { animation-delay: 2.6s; }
-
-    /* Build arrows */
-    .build-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 18s ease-out infinite; }
-    .ba1 { animation-delay: 0.9s; }
-    .ba2 { animation-delay: 1.3s; }
-    .ba3 { animation-delay: 1.7s; }
-    .ba4 { animation-delay: 2.1s; }
-    .ba5 { animation-delay: 2.5s; }
-
-    /* Buy path boxes */
-    .buy-box { opacity: 0; animation: fadeIn 18s ease-out infinite; }
-    .y1 { animation-delay: 0.6s; }
-    .y2 { animation-delay: 0.9s; }
-    .y3 { animation-delay: 1.2s; }
-
-    /* Buy arrows */
-    .buy-arr { stroke-dasharray: 40; stroke-dashoffset: 40; animation: drawLine 18s ease-out infinite; }
-    .ya1 { animation-delay: 0.85s; }
-    .ya2 { animation-delay: 1.15s; }
-
-    /* Timer bars using stroke-dashoffset */
-    .timer-build-bar {
-      stroke-dasharray: 482;
-      stroke-dashoffset: 482;
-      animation: barGrowBuild 18s linear 0.6s infinite;
-    }
-    .timer-buy-bar {
-      stroke-dasharray: 180;
-      stroke-dashoffset: 180;
-      animation: barGrowBuy 18s linear 0.6s infinite;
-    }
-
-    /* Labels */
-    .timer-build-label { opacity: 0; animation: fadeIn 18s ease-out 3.0s infinite; }
-    .timer-buy-label   { opacity: 0; animation: fadeIn 18s ease-out 1.5s infinite; }
-
-    .result-msg { opacity: 0; animation: fadeIn 18s ease-out 3.4s infinite; }
+    .p1{stroke-dasharray:520;stroke-dashoffset:520;animation:d1 6s linear infinite}
+    @keyframes d1{20%{stroke-dashoffset:520}90%,100%{stroke-dashoffset:0}}
+    .p2{stroke-dasharray:520;stroke-dashoffset:520;animation:d2 6s linear infinite}
+    @keyframes d2{5%{stroke-dashoffset:520}45%,100%{stroke-dashoffset:0}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Build vs. Buy: Time to Value</text>
 
-
-  <defs>
-    <marker id="ah" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#0b1225" />
-    </marker>
-  </defs>
-
-  <!-- Title -->
-  <text class="title" x="300" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#0b1225">Build vs. Buy</text>
-
-  <!-- Fork point -->
-  <g class="fork">
-    <circle cx="38" cy="100" r="14" fill="#0b1225" />
-    <text x="38" y="104" text-anchor="middle" font-size="9" fill="#f5f5f4" font-weight="600">Start</text>
-    <line x1="52" y1="90" x2="72" y2="65" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-    <line x1="52" y1="110" x2="72" y2="165" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-    <text x="58" y="56" font-size="9" fill="#0b1225" font-weight="700">Build</text>
-    <text x="58" y="184" font-size="9" fill="#0b1225" font-weight="700">Buy</text>
+  <g stroke="#9CA3AF" stroke-width="1.5">
+    <line x1="90" y1="320" x2="740" y2="320"/><line x1="90" y1="320" x2="90" y2="80"/>
   </g>
+  <text x="415" y="348" text-anchor="middle" font-size="12" fill="#6B7280">time →</text>
+  <text x="74" y="200" text-anchor="middle" font-size="12" fill="#6B7280" transform="rotate(-90 74 200)">value delivered</text>
 
-  <!-- BUILD PATH -->
-  <g class="build-box b1">
-    <rect x="78" y="42" width="62" height="30" rx="5" fill="#0c8383" />
-    <text x="109" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Design</text>
+  <path class="p2" d="M90 318 C150 240 200 165 340 140 C480 116 600 110 730 108" fill="none" stroke="#10B981" stroke-width="3.5"/>
+  <path class="p1" d="M90 319 C220 316 300 310 400 270 C520 222 640 150 730 96" fill="none" stroke="#7C3AED" stroke-width="3.5"/>
+
+  <g font-size="13">
+    <rect x="150" y="120" width="205" height="46" rx="9" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="252" y="139" text-anchor="middle" font-weight="800" fill="#065F46">BUY (SaaS API)</text>
+    <text x="252" y="157" text-anchor="middle" font-size="11.5" fill="#065F46">weeks to live · ceiling later</text>
+    <rect x="470" y="240" width="230" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="585" y="259" text-anchor="middle" font-weight="800" fill="#4C1D95">BUILD (own stack)</text>
+    <text x="585" y="277" text-anchor="middle" font-size="11.5" fill="#4C1D95">quarters to live · full control</text>
   </g>
-  <line class="build-arr ba1" x1="142" y1="57" x2="158" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
+  <line x1="330" y1="80" x2="330" y2="320" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="330" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#92400E">crossover: does it ever come?</text>
 
-  <g class="build-box b2">
-    <rect x="162" y="42" width="62" height="30" rx="5" fill="#0c8383" />
-    <text x="193" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Build</text>
-  </g>
-  <line class="build-arr ba2" x1="226" y1="57" x2="242" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-
-  <g class="build-box b3">
-    <rect x="246" y="42" width="62" height="30" rx="5" fill="#0c8383" />
-    <text x="277" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Test</text>
-  </g>
-  <line class="build-arr ba3" x1="310" y1="57" x2="326" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-
-  <g class="build-box b4">
-    <rect x="330" y="42" width="62" height="30" rx="5" fill="#0c8383" />
-    <text x="361" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Deploy</text>
-  </g>
-  <line class="build-arr ba4" x1="394" y1="57" x2="410" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-
-  <g class="build-box b5">
-    <rect x="414" y="42" width="62" height="30" rx="5" fill="#0c8383" />
-    <text x="445" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Monitor</text>
-  </g>
-  <line class="build-arr ba5" x1="478" y1="57" x2="494" y2="57" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-
-  <g class="build-box b6">
-    <rect x="498" y="42" width="62" height="30" rx="5" fill="#ef4444" />
-    <text x="529" y="61" text-anchor="middle" font-size="8.5" fill="#f5f5f4" font-weight="600">Iterate</text>
-  </g>
-
-  <!-- BUY PATH -->
-  <g class="buy-box y1">
-    <rect x="78" y="152" width="74" height="30" rx="5" fill="#3bc4a1" />
-    <text x="115" y="171" text-anchor="middle" font-size="8.5" fill="#0b1225" font-weight="600">Integrate</text>
-  </g>
-  <line class="buy-arr ya1" x1="154" y1="167" x2="170" y2="167" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-
-  <g class="buy-box y2">
-    <rect x="174" y="152" width="74" height="30" rx="5" fill="#3bc4a1" />
-    <text x="211" y="171" text-anchor="middle" font-size="8.5" fill="#0b1225" font-weight="600">Configure</text>
-  </g>
-  <line class="buy-arr ya2" x1="250" y1="167" x2="266" y2="167" stroke="#0b1225" stroke-width="1.5" marker-end="url(#ah)" />
-
-  <g class="buy-box y3">
-    <rect x="270" y="152" width="74" height="30" rx="5" fill="#3bc4a1" />
-    <text x="307" y="171" text-anchor="middle" font-size="8.5" fill="#0b1225" font-weight="600">Deploy</text>
-  </g>
-
-  <!-- Timer section -->
-  <text class="fork" x="78" y="215" font-size="10" fill="#0b1225" font-weight="600">Time to value</text>
-
-  <!-- Build timer bar (using stroke-dashoffset on a line) -->
-  <rect x="78" y="222" width="482" height="8" rx="4" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" opacity="0.3" />
-  <line class="timer-build-bar" x1="82" y1="226" x2="556" y2="226" stroke="#0c8383" stroke-width="6" stroke-linecap="round" opacity="0.6" />
-  <text class="timer-build-label" x="564" y="231" font-size="8" fill="#0c8383" font-weight="700">18 mo</text>
-
-  <!-- Buy timer bar (using stroke-dashoffset on a line) -->
-  <rect x="78" y="235" width="482" height="8" rx="4" fill="#f5f5f4" stroke="#0b1225" stroke-width="0.3" opacity="0.3" />
-  <line class="timer-buy-bar" x1="82" y1="239" x2="254" y2="239" stroke="#3bc4a1" stroke-width="6" stroke-linecap="round" />
-  <text class="timer-buy-label" x="262" y="244" font-size="8" fill="#3bc4a1" font-weight="700">6 mo</text>
-
-  <!-- Result message -->
-  <text class="result-msg" x="430" y="172" font-size="10" fill="#3bc4a1" font-weight="700">3x faster</text>
+  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">The honest question isn't "can we build it" — it's whether ranking is your differentiator or your plumbing.</text>
 </svg>

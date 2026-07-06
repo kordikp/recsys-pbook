@@ -1,30 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
   <style>
-    .bar{transform-origin:bottom;animation:grow .8s ease-out infinite;transform:scaleY(0)}
-    .b1{animation-delay:.3s}.b2{animation-delay:.6s}.b3{animation-delay:.9s}.b4{animation-delay:1.2s}.b5{animation-delay:1.5s}
-    @keyframes grow{to{transform:scaleY(1)}}
-    .label{opacity:0;animation:fadeIn 18s ease infinite}
-    .l1{animation-delay:.5s}.l2{animation-delay:.8s}.l3{animation-delay:1.1s}.l4{animation-delay:1.4s}.l5{animation-delay:1.7s}
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
+    .b1{animation:bb 5s ease-in-out infinite}
+    .b2{animation:bb 5s ease-in-out infinite;animation-delay:.3s}
+    .b3{animation:bb 5s ease-in-out infinite;animation-delay:.6s}
+    .b4{animation:bb 5s ease-in-out infinite;animation-delay:.9s}
+    @keyframes bb{0%,10%{transform:scaleY(.25)}45%,85%{transform:scaleY(1)}100%{transform:scaleY(.25)}}
   </style>
+  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">The Benchmarks Everyone Reports On</text>
 
-  <rect width="600" height="300" fill="#f5f5f4" rx="12"/>
-  <text x="300" y="28" text-anchor="middle" font-size="15" font-weight="700" fill="#0b1225">Standard RecSys Benchmarks</text>
-  <line x1="60" y1="240" x2="570" y2="240" stroke="#0b1225" stroke-width="1"/>
-  <rect x="80" y="140" width="70" height="100" rx="4" fill="#0c8383" class="bar b1"/>
-  <text x="115" y="258" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225" class="label l1">ML-25M</text>
-  <text x="115" y="135" text-anchor="middle" font-size="9" fill="#0c8383" class="label l1">25M ratings</text>
-  <rect x="170" y="80" width="70" height="160" rx="4" fill="#3bc4a1" class="bar b2"/>
-  <text x="205" y="258" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225" class="label l2">Amazon</text>
-  <text x="205" y="75" text-anchor="middle" font-size="9" fill="#3bc4a1" class="label l2">233M reviews</text>
-  <rect x="260" y="120" width="70" height="120" rx="4" fill="#f59e0b" class="bar b3"/>
-  <text x="295" y="258" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225" class="label l3">Netflix</text>
-  <text x="295" y="115" text-anchor="middle" font-size="9" fill="#f59e0b" class="label l3">100M ratings</text>
-  <rect x="350" y="190" width="70" height="50" rx="4" fill="#0b1225" class="bar b4"/>
-  <text x="385" y="258" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225" class="label l4">Spotify</text>
-  <text x="385" y="185" text-anchor="middle" font-size="9" fill="#0b1225" class="label l4">1M playlists</text>
-  <rect x="440" y="200" width="70" height="40" rx="4" fill="#ef4444" class="bar b5"/>
-  <text x="475" y="258" text-anchor="middle" font-size="10" font-weight="600" fill="#0b1225" class="label l5">KuaiRand</text>
-  <text x="475" y="195" text-anchor="middle" font-size="9" fill="#ef4444" class="label l5">Randomized!</text>
-  <text x="300" y="285" text-anchor="middle" font-size="10" fill="#666">KuaiRand is rare: randomized exposure enables unbiased evaluation</text>
+  <g stroke="#9CA3AF" stroke-width="1.5"><line x1="90" y1="300" x2="740" y2="300"/></g>
+  <g text-anchor="middle">
+    <rect class="b1" x="120" y="140" width="90" height="160" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2" style="transform-origin:165px 300px"/>
+    <text x="165" y="326" font-size="13.5" font-weight="700" fill="#4C1D95">MovieLens</text>
+    <text x="165" y="344" font-size="11.5" fill="#6B7280">25M ratings · movies</text>
+    <text x="165" y="128" font-size="12" fill="#4C1D95">the classic — everyone starts here</text>
+
+    <rect class="b2" x="280" y="170" width="90" height="130" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2" style="transform-origin:325px 300px"/>
+    <text x="325" y="326" font-size="13.5" font-weight="700" fill="#065F46">Amazon Reviews</text>
+    <text x="325" y="344" font-size="11.5" fill="#6B7280">233M · e-commerce</text>
+    <text x="325" y="158" font-size="12" fill="#065F46">rich text + sparse users</text>
+
+    <rect class="b3" x="440" y="190" width="90" height="110" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="2" style="transform-origin:485px 300px"/>
+    <text x="485" y="326" font-size="13.5" font-weight="700" fill="#92400E">Yelp</text>
+    <text x="485" y="344" font-size="11.5" fill="#6B7280">local businesses</text>
+    <text x="485" y="178" font-size="12" fill="#92400E">geo + social edges</text>
+
+    <rect class="b4" x="600" y="120" width="90" height="180" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2" style="transform-origin:645px 300px"/>
+    <text x="645" y="326" font-size="13.5" font-weight="700" fill="#075985">KuaiRand</text>
+    <text x="645" y="344" font-size="11.5" fill="#6B7280">video · RANDOM slots</text>
+    <text x="645" y="108" font-size="12" fill="#075985">unbiased gold: randomized exposure</text>
+  </g>
+  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Offline wins on MovieLens don't guarantee production wins — check the dataset's bias story before trusting a paper.</text>
 </svg>
