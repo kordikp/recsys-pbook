@@ -7,3 +7,6 @@ node_modules/
 
 # Separate repo, synced to git.recombee.net/business/marketing
 recombee-wiki/
+
+# legacy local CLI duplicate of api/sync-recombee.js (root only)
+/sync-recombee.js
