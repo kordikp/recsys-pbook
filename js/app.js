@@ -74,6 +74,7 @@ class PBook {
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
     this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
+    this._loadOverrides();       // accepted remixes: originalId → your version (persistent)
     this._checkAdoptions();      // shared telling merged into the book? → +100 XP, editor track
     this.rc.setAllBlocks(this.allBlocks);
     this.rc._loadInteractions(); // Restore persisted interactions
@@ -264,6 +265,68 @@ class PBook {
         this.conceptBlocks[cid].push(b);      // multi-concept blocks appear in every pool
       }
     });
+  }
+
+  // ===== ACCEPTED REMIXES: persistent per-reader overrides =====
+  // When the reader ACCEPTS a remix, their version replaces the original in THEIR
+  // book (same block id → progress/recall untouched). Highlights stay visible;
+  // revert is one click. Store: { originalId: remixBlockId }.
+  _loadOverrides() {
+    try { this._overrides = JSON.parse(localStorage.getItem('pbook-block-overrides') || '{}'); }
+    catch (e) { this._overrides = {}; }
+    // drop overrides whose private block vanished
+    for (const [orig, rid] of Object.entries(this._overrides)) {
+      if (!this.privateBlocks?.[rid]) delete this._overrides[orig];
+    }
+  }
+  _saveOverrides() {
+    try { localStorage.setItem('pbook-block-overrides', JSON.stringify(this._overrides || {})); } catch (e) {}
+  }
+
+  acceptRemix(originalId, remixId, share) {
+    if (!this._overrides) this._overrides = {};
+    this._overrides[originalId] = remixId;
+    this._saveOverrides();
+    this.rc.logEvent('remix_accepted', { blockId: originalId, remixId, share: !!share });
+    if (this._f('gamification')) { this.user.addXP(5); this.user.save(); this.updateXPBadge(); }
+    this._rerenderBlockInPlace(originalId, remixId);
+    if (share) {
+      const rb = this.privateBlocks?.[remixId];
+      if (rb) this._showShareConsent(rb.meta.id);
+      this.showXPToast('+5 XP ✨ Accepted — pick a name (or stay anonymous) to share it', 'achievement');
+    } else {
+      this.showXPToast('+5 XP ✨ Your version is now part of your book (revert anytime)', 'achievement');
+    }
+  }
+
+  discardRemix(originalId, remixId) {
+    if (this.privateBlocks?.[remixId]) {
+      delete this.privateBlocks[remixId];
+      try { localStorage.setItem('pbook-private-blocks', JSON.stringify(this.privateBlocks)); } catch (e) {}
+    }
+    if (this._overrides?.[originalId] === remixId) { delete this._overrides[originalId]; this._saveOverrides(); }
+    this.rc.logEvent('remix_discarded', { blockId: originalId, remixId });
+    this._rerenderBlockInPlace(originalId, remixId);
+  }
+
+  revertOverride(originalId) {
+    const rid = this._overrides?.[originalId];
+    if (rid) { delete this._overrides[originalId]; this._saveOverrides(); }
+    this.rc.logEvent('remix_reverted', { blockId: originalId });
+    this._rerenderBlockInPlace(originalId, rid);
+  }
+
+  // Replace whichever article is on screen for this logical block with a fresh
+  // render of the (possibly overridden) original — observer re-registered.
+  async _rerenderBlockInPlace(originalId, variantId) {
+    const el = document.getElementById(`b-${originalId}`) || (variantId && document.getElementById(`b-${variantId}`));
+    if (!el) return;
+    const gitBlock = this.findBlock(originalId);
+    if (!gitBlock) return;
+    el.outerHTML = await this.renderSpine(gitBlock);
+    const fresh = document.getElementById(`b-${originalId}`);
+    if (fresh && this._observer) { fresh.dataset.observed = '1'; this._observer.observe(fresh); }
+    this.renderMath?.();
   }
 
   // A block may be a telling of SEVERAL concepts ("concept: a|b") — e.g. a cold-start
@@ -1675,6 +1738,16 @@ class PBook {
   }
 
   async renderSpine(block) {
+    // Accepted remix? render YOUR version under the ORIGINAL block id.
+    let overrideBar = '';
+    const ovId = this._overrides?.[block.id];
+    if (ovId && this.privateBlocks?.[ovId]) {
+      const ov = this.privateBlocks[ovId];
+      block = { ...block, body: ov.body, diagramSvg: ov.meta.diagramSvg || block.diagramSvg };
+      overrideBar = `<div class="override-bar">✨ Your accepted version — changes are <mark class="remix-mark">highlighted</mark>
+        · <a href="#" onclick="event.preventDefault();app.revertOverride('${block.id}')">↩ show original</a>
+        ${ov.meta.state !== 'community' ? `· <a href="#" onclick="event.preventDefault();app._showShareConsent('${ovId}')">📣 share with readers &amp; editors</a>` : '· ⚡ shared'}</div>`;
+    }
     let bodyHtml = renderMarkdown(block.body);
     // Remixed passages carry ⟦rx⟧…⟦/rx⟧ markers — render as visible "changed by you" marks
     if (bodyHtml.includes('⟦rx⟧')) {
@@ -1713,6 +1786,7 @@ class PBook {
     const totalInCh = chSpines.length;
 
     return `<article class="block-article fade-up" id="b-${block.id}">
+      ${overrideBar}
       <div class="block-nav">
         <button class="bnav-back" onclick="app.goBack()" title="Go back">&larr;</button>
         <span class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})">Ch${chNum}</span>
@@ -2249,6 +2323,7 @@ class PBook {
 
   // Inline "read next" below each article — shown after block is read
   renderReadNext(blockId, ch) {
+    if (!ch || !Array.isArray(ch.blocks)) return '';   // generated/remixed blocks have no chapter entry
     const spines = ch.blocks.filter(b => b.type === 'spine');
     const currentIdx = spines.findIndex(b => b.id === blockId);
     const nextInChapter = spines[currentIdx + 1];
@@ -5586,8 +5661,19 @@ class PBook {
       document.getElementById(`remix-form-${blockId}`)?.remove();
       this._swapBlock(blockId, block, this._blockFacets(block.meta) || {});
       this.rc.logEvent('remix_served', { blockId, remixId: id });
-      this.showXPToast('+3 XP ✨ Your remix is ready — like it to share it', 'achievement');
-      if (this._f('gamification')) { this.user.addXP(3); this.user.save(); this.updateXPBadge(); }
+      // PREVIEW: nothing is final until the reader decides. The decision bar sits
+      // on top of the previewed version; Accept makes it a persistent override.
+      const origForDecision = src.remixOf ? rootId : blockId;
+      const art = document.getElementById(`b-${id}`);
+      if (art) {
+        art.insertAdjacentHTML('afterbegin', `<div class="remix-decision" id="rxdec-${id}">
+          <span>✨ Preview — your change is <mark class="remix-mark">highlighted</mark>. Keep it?</span>
+          <button class="steer-chip" style="border-color:#10B981;color:#065F46;font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',false)">✓ Accept</button>
+          <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',true)">✓ Accept &amp; share</button>
+          <button class="steer-chip" style="opacity:.8" onclick="app.discardRemix('${origForDecision}','${id}')">✗ Discard</button>
+        </div>`);
+        art.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     } catch (e) {
       if (status) status.innerHTML = `<span style="color:var(--warn,#D97706);font-size:.72rem">Remix didn't work out (${this.escHtml(String(e.message).slice(0, 120))}). Your wish was recorded.</span>`;
       this.rc.logEvent('remix_failed', { blockId, error: String(e.message).slice(0, 150) });
@@ -5698,8 +5784,17 @@ class PBook {
       document.getElementById(`remix-form-${blockId}`)?.remove();
       this._swapBlock(blockId, block, this._blockFacets(block.meta) || {});
       this.rc.logEvent('remix_served', { blockId, remixId: id, diagram: true });
-      this.showXPToast('+3 XP ✨ Your diagram remix is ready', 'achievement');
-      if (this._f('gamification')) { this.user.addXP(3); this.user.save(); this.updateXPBadge(); }
+      const origForDecision = src.remixOf ? rootId : blockId;
+      const art = document.getElementById(`b-${id}`);
+      if (art) {
+        art.insertAdjacentHTML('afterbegin', `<div class="remix-decision" id="rxdec-${id}">
+          <span>✨ Preview of your new diagram. Keep it?</span>
+          <button class="steer-chip" style="border-color:#10B981;color:#065F46;font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',false)">✓ Accept</button>
+          <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',true)">✓ Accept &amp; share</button>
+          <button class="steer-chip" style="opacity:.8" onclick="app.discardRemix('${origForDecision}','${id}')">✗ Discard</button>
+        </div>`);
+        art.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
     } catch (e) {
       if (status) status.innerHTML = `<span style="color:var(--warn,#D97706);font-size:.72rem">Remix didn't work out (${this.escHtml(String(e.message).slice(0, 140))}). Your wish was recorded.</span>`;
       this.rc.logEvent('remix_failed', { blockId, diagram: true, error: String(e.message).slice(0, 150) });
@@ -5708,7 +5803,9 @@ class PBook {
 
   // ===== SHARE GATE → COMMUNITY LAYER (spec §6-§7) =====
   _showShareConsent(blockId) {
-    const el = document.getElementById(`b-${blockId}`);
+    // accepted overrides render under the ORIGINAL id — fall back through remixOf
+    const remixOf = this.privateBlocks?.[blockId]?.meta?.remixOf;
+    const el = document.getElementById(`b-${blockId}`) || (remixOf && document.getElementById(`b-${remixOf}`));
     if (!el || document.getElementById(`share-consent-${blockId}`)) return;
     const box = document.createElement('div');
     box.id = `share-consent-${blockId}`;

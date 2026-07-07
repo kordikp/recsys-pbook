@@ -537,9 +537,14 @@ async function renderCommunity(m){
   h+=`<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Reader-shared tellings, ranked by traction. Adoption threshold: ≥${ADOPTION_K} distinct readers with positive signal. Adopt = download .md, review against the concept contract (HUMANS.md checklist), commit (state: edited), Sync Items. Adoption promotes the author on their 🛠 Editor track.</p>`;
   h+=nominated.length?nominated.map(({item,readers,likes})=>{
     const ready=likes>=ADOPTION_K;
+    let wishes='';
+    try{const lg=JSON.parse(item.remixLog||'[]');
+      if(Array.isArray(lg)&&lg.length)wishes='<div style="margin:.25em 0;padding:.3em .5em;background:var(--bg2,#f6f6f4);border-radius:6px;font-size:.68rem"><b>🎯 what the reader asked for:</b>'+lg.slice(-4).map(e=>`<div>· "${esc(e.instruction||'')}"${e.diagram?' <span style="color:var(--text3)">(diagram)</span>':''}</div>`).join('')+'<div style="color:var(--text3)">changes are ⟦highlighted⟧ in the downloaded .md</div></div>';
+    }catch(_){}
     return `<div style="border:1.5px solid ${ready?'#10B981':'var(--border)'};border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
-      <b>${esc(item.title||item.itemId)}</b> ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
+      <b>${esc(item.title||item.itemId)}</b> ${item.remixOf?'<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em">remix of '+esc(item.remixOf)+'</span>':''} ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
       <div style="color:var(--text3);font-size:.68rem">${esc(item.concept)} · ${esc(item.lens)}/${esc(item.depth)}/${esc(item.visuality)} · shared by ${esc(item.sharedAs||'anonymous')} · ${readers} readers · ${likes} likes</div>
+      ${wishes}
       <div style="margin-top:.3em"><button onclick="adoptCommunity('${esc(item.itemId)}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">⬇ Download .md for adoption</button></div>
     </div>`;
   }).join(''):'<p style="font-size:.75rem;color:var(--text3)">No community blocks shared yet.</p>';
@@ -772,10 +777,13 @@ async function renderHealth(m){
     if(r.shallow)why.push(`shallow reading (avg ${Math.round(r.avgDwell)}s of ~${Math.round((r.b.readingTime||3)*60*0.15)}s)`);
     why.push(`${r.s.views} served → ${r.s.fin} finished / ${r.s.views-r.s.fin} skipped`);
     const flagTexts=(flagsBy[r.b.id]||[]).map(f=>f.text).filter(Boolean).slice(0,2);
+    const rxWishes=_logRows.filter(x=>{const d=x.data?.data||x.data||{};return (x.event||x.data?.event)==='remix_request'&&d.blockId===r.b.id&&d.instruction;})
+      .map(x=>(x.data?.data||x.data).instruction).slice(-3);
     h+=`<div style="border:1.5px solid ${r.isParked?'var(--border)':'#EF4444'};border-radius:10px;padding:.5em .7em;margin:.4em 0;font-size:.75rem;${r.isParked?'opacity:.6':''}">
       <b>${esc(r.b.title)}</b> <span style="color:var(--text3)">· ${esc(r.b._ch)}/${esc(r.b._f)} · score ${r.score}</span> ${r.isParked?'<span style="color:#D97706;font-weight:700">⏸ PARKED</span>':''}
       <div style="color:var(--text3);font-size:.68rem;margin:.2em 0">${why.join(' · ')||'—'}</div>
       ${flagTexts.length?`<div style="font-size:.68rem;color:#D97706;margin:.2em 0">💬 "${esc(flagTexts.join('" · "'))}"</div>`:''}
+      ${rxWishes.length?`<div style="font-size:.68rem;color:#7C3AED;margin:.2em 0">✨ remix wishes: "${esc(rxWishes.join('" · "'))}"</div>`:''}
       <div style="margin-top:.3em;display:flex;gap:.4em;flex-wrap:wrap">
         <button onclick="parkBlock('${r.b.id}','${esc(r.b._ch)}','${esc(r.b._f)}')" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #D97706;color:#D97706">${r.isParked?'▶ Unpark':'⏸ Park'} (status: review)</button>
         <button onclick="aiRewrite('${r.b.id}')" id="rw-${r.b.id}" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ AI rewrite from signals</button>

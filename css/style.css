@@ -1238,3 +1238,8 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .tellings-compose { border-top: 1px dashed var(--border); margin-top: .5em; padding-top: .2em; }
 .tellings-compose .dna-label { min-width: 6.2em; font-size: .68rem; }
 .tellings-compose .steer-chip.dimval { font-size: .66rem; padding: .12em .45em; }
+
+/* Remix accept flow */
+.remix-decision { display: flex; flex-wrap: wrap; align-items: center; gap: .45em; padding: .5em .7em; margin-bottom: .6em; border: 2px solid var(--accent); border-radius: 10px; background: var(--bg); font-size: .78rem; position: sticky; top: 52px; z-index: 5; }
+.override-bar { font-size: .7rem; color: var(--text-3); padding: .3em .55em; border: 1px dashed var(--accent); border-radius: 8px; margin-bottom: .5em; background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.override-bar a { color: var(--accent); }

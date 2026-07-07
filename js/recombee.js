@@ -32,11 +32,11 @@ export class RecombeeClient {
 
 
   // --- API call via server-side proxy (avoids CORS) ---
-  async api(method, endpoint, body) {
+  async api(method, endpoint, body, _retry) {
     if (!this.enabled) return null;
     try {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 1500);
+      const timeout = setTimeout(() => controller.abort(), 2500);
       const res = await fetch('/api/recombee', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -46,6 +46,11 @@ export class RecombeeClient {
       clearTimeout(timeout);
       if (res.ok) return await res.json();
       if (res.status === 401) this.enabled = false;
+      // transient edge 404/5xx during deploy windows — one quiet retry after a beat
+      if (!_retry && (res.status === 404 || res.status >= 500)) {
+        await new Promise(r => setTimeout(r, 1200));
+        return this.api(method, endpoint, body, true);
+      }
       return null;
     } catch (e) {
       // Offline or timeout — queue write operations for retry
