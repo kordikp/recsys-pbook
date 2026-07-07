@@ -313,6 +313,8 @@ class PBook {
     if (!this._overrides) this._overrides = {};
     this._overrides[originalId] = remixId;
     this._saveOverrides();
+    const off = this._overridesOff();
+    if (off.delete(originalId)) { try { localStorage.setItem('pbook-overrides-off', JSON.stringify([...off])); } catch (e) {} }
     this.rc.logEvent('remix_accepted', { blockId: originalId, remixId, share: !!share });
     if (this._f('gamification')) { this.user.addXP(5); this.user.save(); this.updateXPBadge(); }
     this._rerenderBlockInPlace(originalId, remixId);
@@ -335,10 +337,29 @@ class PBook {
     this._rerenderBlockInPlace(originalId, remixId);
   }
 
-  revertOverride(originalId) {
+  // "Show original" is a reversible TOGGLE — your edited version stays saved.
+  _overridesOff() {
+    try { return new Set(JSON.parse(localStorage.getItem('pbook-overrides-off') || '[]')); } catch (e) { return new Set(); }
+  }
+  toggleOverride(originalId) {
+    const off = this._overridesOff();
+    if (off.has(originalId)) off.delete(originalId); else off.add(originalId);
+    try { localStorage.setItem('pbook-overrides-off', JSON.stringify([...off])); } catch (e) {}
+    this.rc.logEvent('remix_toggled', { blockId: originalId, showing: off.has(originalId) ? 'original' : 'override' });
+    this._rerenderBlockInPlace(originalId, this._overrides?.[originalId]);
+  }
+  // Permanent discard — the only irreversible action, and it says so.
+  discardOverride(originalId) {
+    if (!window.confirm('Permanently discard your edited version of this section? This cannot be undone.')) return;
     const rid = this._overrides?.[originalId];
+    if (rid && this.privateBlocks?.[rid]) {
+      delete this.privateBlocks[rid];
+      try { localStorage.setItem('pbook-private-blocks', JSON.stringify(this.privateBlocks)); } catch (e) {}
+    }
     if (rid) { delete this._overrides[originalId]; this._saveOverrides(); }
-    this.rc.logEvent('remix_reverted', { blockId: originalId });
+    const off = this._overridesOff(); off.delete(originalId);
+    try { localStorage.setItem('pbook-overrides-off', JSON.stringify([...off])); } catch (e) {}
+    this.rc.logEvent('remix_discarded', { blockId: originalId, remixId: rid, fromOverride: true });
     this._rerenderBlockInPlace(originalId, rid);
   }
 
@@ -1769,10 +1790,17 @@ class PBook {
     const ovId = this._overrides?.[block.id];
     if (ovId && this.privateBlocks?.[ovId]) {
       const ov = this.privateBlocks[ovId];
-      block = { ...block, body: ov.body, diagramSvg: ov.meta.diagramSvg || block.diagramSvg };
-      overrideBar = `<div class="override-bar">✨ Your accepted version — changes are <mark class="remix-mark">highlighted</mark>
-        · <a href="#" onclick="event.preventDefault();app.revertOverride('${block.id}')">↩ show original</a>
-        ${ov.meta.state !== 'community' ? `· <a href="#" onclick="event.preventDefault();app._showShareConsent('${ovId}')">📣 share with readers &amp; editors</a>` : '· ⚡ shared'}</div>`;
+      if (this._overridesOff().has(block.id)) {
+        // original shown, edit kept safe — switching back is one click
+        overrideBar = `<div class="override-bar">📄 Original — your edited version is saved
+          · <a href="#" onclick="event.preventDefault();app.toggleOverride('${block.id}')">✨ show your version</a>
+          · <a href="#" style="color:#B91C1C" onclick="event.preventDefault();app.discardOverride('${block.id}')">🗑 discard your edits (permanent)</a></div>`;
+      } else {
+        block = { ...block, body: ov.body, diagramSvg: ov.meta.diagramSvg || block.diagramSvg };
+        overrideBar = `<div class="override-bar">✨ Your accepted version — changes are <mark class="remix-mark">highlighted</mark>
+          · <a href="#" onclick="event.preventDefault();app.toggleOverride('${block.id}')">↩ show original</a>
+          ${ov.meta.state !== 'community' ? `· <a href="#" onclick="event.preventDefault();app._showShareConsent('${ovId}')">📣 share with readers &amp; editors</a>` : '· ⚡ shared'}</div>`;
+      }
     }
     let bodyHtml = renderMarkdown(block.body);
     // Remixed passages carry ⟦rx⟧…⟦/rx⟧ markers — render as visible "changed by you" marks
