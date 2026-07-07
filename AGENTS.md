@@ -153,6 +153,8 @@ Follow `content/correction-rules.json` — it is the distilled list of what edit
 
 ## 8. Tooling cheat-sheet
 
+**Touching the Recombee integration?** Read [RECOMBEE.md](RECOMBEE.md) first — statuses are semantic (404 = "entity/property does not exist", read the BODY), properties must be defined before writing (items AND users), newer clusters are POST-only, sync uses /batch/. It exists because an AI assistant lost a day to exactly these.
+
 ```bash
 node scripts/migrate-facets.js --dry      # preview concept grouping + facet fills
 node scripts/migrate-facets.js            # regenerate concepts.json (idempotent)
