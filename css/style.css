@@ -1248,3 +1248,6 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .rx-diff { flex-basis: 100%; font-size: .7rem; line-height: 1.45; border-top: 1px dashed var(--border); padding-top: .35em; }
 .rx-old { color: #B91C1C; text-decoration: line-through; opacity: .8; }
 .rx-new { color: #065F46; font-weight: 600; }
+
+/* Floating remix decision sheet */
+.remix-float { position: fixed; left: 50%; transform: translateX(-50%); bottom: 74px; z-index: 300; width: min(560px, calc(100vw - 24px)); background: var(--bg); border: 2px solid var(--accent); border-radius: 14px; padding: .7em .9em; font-size: .8rem; box-shadow: 0 8px 30px rgba(0,0,0,.18); }

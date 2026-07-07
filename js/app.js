@@ -267,6 +267,32 @@ class PBook {
     });
   }
 
+  // Floating decision sheet — fixed to the viewport bottom so it CANNOT be missed,
+  // whatever view the remix happened in. Removed on any decision.
+  _showRemixDecision(originalId, remixId, oldText, newText, isDiagram) {
+    document.getElementById('rxfloat')?.remove();
+    const diff = (oldText && newText)
+      ? `<div class="rx-diff"><div class="rx-old">− ${this.escHtml(oldText.slice(0, 140))}${oldText.length > 140 ? '…' : ''}</div>
+         <div class="rx-new">+ ${this.escHtml(newText.slice(0, 140))}${newText.length > 140 ? '…' : ''}</div></div>` : '';
+    const el = document.createElement('div');
+    el.id = 'rxfloat';
+    el.className = 'remix-float';
+    el.innerHTML = `
+      <div style="font-weight:700">✨ ${isDiagram ? 'New diagram ready' : 'Rewrite ready'} — it's a preview until you decide.</div>
+      ${diff}
+      <div style="display:flex;gap:.45em;flex-wrap:wrap;margin-top:.35em">
+        <button class="steer-chip" style="border-color:#10B981;color:#065F46;font-weight:700" onclick="app._decideRemix('${originalId}','${remixId}','accept')">✓ Accept</button>
+        <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-weight:700" onclick="app._decideRemix('${originalId}','${remixId}','share')">✓ Accept &amp; share</button>
+        <button class="steer-chip" style="opacity:.85" onclick="app._decideRemix('${originalId}','${remixId}','discard')">✗ Discard</button>
+      </div>`;
+    document.body.appendChild(el);
+  }
+  _decideRemix(originalId, remixId, what) {
+    document.getElementById('rxfloat')?.remove();
+    if (what === 'discard') return this.discardRemix(originalId, remixId);
+    this.acceptRemix(originalId, remixId, what === 'share');
+  }
+
   // ===== ACCEPTED REMIXES: persistent per-reader overrides =====
   // When the reader ACCEPTS a remix, their version replaces the original in THEIR
   // book (same block id → progress/recall untouched). Highlights stay visible;
@@ -5624,6 +5650,9 @@ class PBook {
         span = this._locateQuote(base, quote);
       }
       if (!span) throw new Error('could not locate the selected passage in the source — try selecting a slightly longer stretch');
+      // snap span edges over markdown punctuation so we never cut **bold** in half
+      while (span[0] > 0 && /[*_`~]/.test(base[span[0] - 1])) span[0]--;
+      while (span[1] < base.length && /[*_`~]/.test(base[span[1]])) span[1]++;
       const sourceQuote = base.slice(span[0], span[1]);
 
       const res = await fetch(CONFIG.steering.generateEndpoint, {
@@ -5642,7 +5671,10 @@ class PBook {
       if (!res.ok || !data.ok) throw new Error(data.error || 'remix failed');
       const replacement = data.replacement;
 
-      const newBody = base.slice(0, span[0]) + `⟦rx⟧${replacement}⟦/rx⟧` + base.slice(span[1]);
+      // mark each paragraph separately — a single mark spanning \n\n breaks when
+      // markdown closes the <p> inside it (only the first fragment stayed highlighted)
+      const marked = replacement.split(/\n{2,}/).map(seg => seg.trim() ? `⟦rx⟧${seg}⟦/rx⟧` : seg).join('\n\n');
+      const newBody = base.slice(0, span[0]) + marked + base.slice(span[1]);
 
       const src = entry.meta;
       const rootId = src.remixOf || src.id;
@@ -5668,15 +5700,9 @@ class PBook {
       if (art) {
         const oldSnip = this.escHtml(sourceQuote.slice(0, 150)) + (sourceQuote.length > 150 ? '…' : '');
         const newSnip = this.escHtml(replacement.slice(0, 150)) + (replacement.length > 150 ? '…' : '');
-        art.insertAdjacentHTML('afterbegin', `<div class="remix-decision" id="rxdec-${id}">
-          <span>✨ Preview — your change is <mark class="remix-mark">highlighted</mark> below. Keep it?</span>
-          <div class="rx-diff"><div class="rx-old">− ${oldSnip}</div><div class="rx-new">+ ${newSnip}</div></div>
-          <button class="steer-chip" style="border-color:#10B981;color:#065F46;font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',false)">✓ Accept</button>
-          <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',true)">✓ Accept &amp; share</button>
-          <button class="steer-chip" style="opacity:.8" onclick="app.discardRemix('${origForDecision}','${id}')">✗ Discard</button>
-        </div>`);
         art.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+      this._showRemixDecision(origForDecision, id, sourceQuote, replacement);
     } catch (e) {
       if (status) status.innerHTML = `<span style="color:var(--warn,#D97706);font-size:.72rem">Remix didn't work out (${this.escHtml(String(e.message).slice(0, 120))}). Your wish was recorded.</span>`;
       this.rc.logEvent('remix_failed', { blockId, error: String(e.message).slice(0, 150) });
@@ -5788,16 +5814,8 @@ class PBook {
       this._swapBlock(blockId, block, this._blockFacets(block.meta) || {});
       this.rc.logEvent('remix_served', { blockId, remixId: id, diagram: true });
       const origForDecision = src.remixOf ? rootId : blockId;
-      const art = document.getElementById(`b-${id}`);
-      if (art) {
-        art.insertAdjacentHTML('afterbegin', `<div class="remix-decision" id="rxdec-${id}">
-          <span>✨ Preview of your new diagram. Keep it?</span>
-          <button class="steer-chip" style="border-color:#10B981;color:#065F46;font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',false)">✓ Accept</button>
-          <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',true)">✓ Accept &amp; share</button>
-          <button class="steer-chip" style="opacity:.8" onclick="app.discardRemix('${origForDecision}','${id}')">✗ Discard</button>
-        </div>`);
-        art.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      }
+      document.getElementById(`b-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      this._showRemixDecision(origForDecision, id, null, null, true);
     } catch (e) {
       if (status) status.innerHTML = `<span style="color:var(--warn,#D97706);font-size:.72rem">Remix didn't work out (${this.escHtml(String(e.message).slice(0, 140))}). Your wish was recorded.</span>`;
       this.rc.logEvent('remix_failed', { blockId, diagram: true, error: String(e.message).slice(0, 150) });

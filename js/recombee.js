@@ -46,6 +46,9 @@ export class RecombeeClient {
       clearTimeout(timeout);
       if (res.ok) return await res.json();
       if (res.status === 401) this.enabled = false;
+      // DIAGNOSTIC: x-vercel-id tells whether the response even came from Vercel
+      // (a 404 WITHOUT it = something between this browser and Vercel is answering)
+      console.warn('[pbook] api', res.status, 'x-vercel-id:', res.headers.get('x-vercel-id') || 'MISSING → response is NOT from Vercel (proxy/AV/filter on this network)');
       // transient edge 404/5xx during deploy windows — one quiet retry after a beat
       if (!_retry && (res.status === 404 || res.status >= 500)) {
         await new Promise(r => setTimeout(r, 1200));
@@ -83,6 +86,7 @@ export class RecombeeClient {
     const maxAge = 24 * 60 * 60 * 1000; // drop entries older than 24h
     for (const entry of queue) {
       if (entry.ts && Date.now() - entry.ts > maxAge) continue; // too old, drop
+      if ((entry.tries || 0) >= 3) continue;                     // gave it three shots, drop
       try {
         if (entry.type === 'recombee' && this.enabled) {
           const res = await fetch('/api/recs', {
@@ -90,8 +94,8 @@ export class RecombeeClient {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ endpoint: entry.endpoint, body: entry.body, method: entry.method }),
           });
-          // 409 = duplicate/conflict — already processed, drop it
-          if (!res.ok && res.status !== 409) remaining.push(entry);
+          // Any HTTP response = the request went through SOMETHING; only retry 5xx.
+          if (!res.ok && res.status >= 500) remaining.push({ ...entry, tries: (entry.tries || 0) + 1 });
         } else if (entry.type === 'log') {
           const res = await fetch('/api/log', {
             method: 'POST',
