@@ -1,5 +1,5 @@
 // Service Worker for p-book — offline support
-const CACHE_NAME = 'pbook-v10';
+const CACHE_NAME = 'pbook-v11';
 
 const PRECACHE = [
   '/',
@@ -292,10 +292,15 @@ self.addEventListener('fetch', event => {
     ));
     return;
   }
+  // Only same-scheme GETs are cacheable — browser extensions (chrome-extension://)
+  // and other schemes throw on cache.put and just pollute the console.
+  if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
+    return;
+  }
   event.respondWith(
     caches.match(event.request).then(cached => {
       const net = fetch(event.request).then(r => {
-        if (r.ok) { const c = r.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, c)); }
+        if (r.ok && r.type === 'basic') { const c = r.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, c)); }
         return r;
       }).catch(() => cached);
       return cached || net;
