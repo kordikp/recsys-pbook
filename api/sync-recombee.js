@@ -99,6 +99,20 @@ module.exports = async function handler(req, res) {
       await recombeeApi('PUT', `/items/properties/${name}?type=${type}`);
     }
 
+    // USER properties — the client writes these via setUserProperties; Recombee
+    // returns 404 "user property X does not exist" until they are defined
+    // (this was the mystery 404 of 2026-07-07)
+    const userProperties = {
+      voice: 'string', level: 'int', xp: 'int',
+      prefLens: 'string', prefLang: 'string', prefLengthBand: 'string',
+      prefVisuality: 'string', prefDepth: 'string', prefCarriers: 'string',
+      prefFormalism: 'string', prefGenre: 'string',
+      goal: 'string', readerMode: 'string',
+    };
+    for (const [name, type] of Object.entries(userProperties)) {
+      await recombeeApi('PUT', `/users/properties/${name}?type=${type}`);
+    }
+
     // Fetch and parse all content files
     const items = [];
     for (const chapter of bookJson.chapters) {

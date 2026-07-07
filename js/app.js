@@ -2,7 +2,7 @@
 
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
-import { RecombeeClient, UserModel } from './recombee.js?v=7';
+import { RecombeeClient, UserModel } from './recombee.js?v=8';
 import { getDiagram } from './diagrams.js?v=2';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 

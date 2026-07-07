@@ -48,7 +48,8 @@ export class RecombeeClient {
       if (res.status === 401) this.enabled = false;
       // DIAGNOSTIC: x-vercel-id tells whether the response even came from Vercel
       // (a 404 WITHOUT it = something between this browser and Vercel is answering)
-      console.warn('[pbook] api', res.status, 'x-vercel-id:', res.headers.get('x-vercel-id') || 'MISSING → response is NOT from Vercel (proxy/AV/filter on this network)');
+      let _msg = ''; try { _msg = (await res.clone().text()).slice(0, 140); } catch (e) {}
+      console.warn('[pbook] api', res.status, _msg, '| x-vercel-id:', res.headers.get('x-vercel-id') || 'MISSING (not from Vercel)');
       // transient edge 404/5xx during deploy windows — one quiet retry after a beat
       if (!_retry && (res.status === 404 || res.status >= 500)) {
         await new Promise(r => setTimeout(r, 1200));
