@@ -422,7 +422,7 @@ export class UserModel {
     // Explicit steering preferences — strongest signal, set via knobs/onboarding/profile correction
     this.steerPrefs = {};         // { lens: 'ecommerce', visuality: 'visual-first', ... }
     this.goal = null;             // understand | build | decide | protect (onboarding)
-    this.readerMode = 'safe';     // 'safe' = core+edited only · 'open' = + community + generation
+    this.readerMode = 'open';     // living book ON by default · 'safe' = core+edited only
     this.readBlocks = new Set();
     this.seenBlocks = new Set();
     this.savedBlocks = new Set();
@@ -882,7 +882,7 @@ export class UserModel {
     this.facetAffinity = {};
     this.steerPrefs = {};
     this.goal = null;
-    this.readerMode = 'safe';
+    this.readerMode = 'open';
     this.save();
   }
 }

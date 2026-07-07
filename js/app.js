@@ -2,7 +2,7 @@
 
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
-import { RecombeeClient, UserModel } from './recombee.js?v=8';
+import { RecombeeClient, UserModel } from './recombee.js?v=9';
 import { getDiagram } from './diagrams.js?v=2';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
@@ -44,6 +44,12 @@ class PBook {
         facetAffinity: { lens: { ecommerce: 4 }, depth: { standard: 3 } }, steerPrefs: {}, goal: 'understand', readerMode: 'open',
       }));
       this.user.load();   // UserModel was constructed before init — re-read the seeded state
+    }
+
+    // Living book defaults ON; readers who explicitly chose safe keep their choice
+    if (this.user.readerMode === 'safe' && !localStorage.getItem('pbook-mode-chosen')) {
+      this.user.readerMode = 'open';
+      this.user.save();
     }
 
     // Invite links: ?invite=R-xxxx (friend referral, +25 XP welcome) or ?invite=E-xxxx
@@ -309,18 +315,21 @@ class PBook {
     try { localStorage.setItem('pbook-block-overrides', JSON.stringify(this._overrides || {})); } catch (e) {}
   }
 
-  acceptRemix(originalId, remixId, share) {
-    if (!this._overrides) this._overrides = {};
-    this._overrides[originalId] = remixId;
-    this._saveOverrides();
-    const off = this._overridesOff();
-    if (off.delete(originalId)) { try { localStorage.setItem('pbook-overrides-off', JSON.stringify([...off])); } catch (e) {} }
+  async acceptRemix(originalId, remixId, share) {
+    const isGitOriginal = !!this.findBlock(originalId);
+    if (isGitOriginal) {
+      if (!this._overrides) this._overrides = {};
+      this._overrides[originalId] = remixId;
+      this._saveOverrides();
+      const off = this._overridesOff();
+      if (off.delete(originalId)) { try { localStorage.setItem('pbook-overrides-off', JSON.stringify([...off])); } catch (e) {} }
+      await this._rerenderBlockInPlace(originalId, remixId);   // consent attaches AFTER the swap settles
+    }
+    // remix of a generated/community telling: the variant stays on screen as-is
     this.rc.logEvent('remix_accepted', { blockId: originalId, remixId, share: !!share });
     if (this._f('gamification')) { this.user.addXP(5); this.user.save(); this.updateXPBadge(); }
-    this._rerenderBlockInPlace(originalId, remixId);
     if (share) {
-      const rb = this.privateBlocks?.[remixId];
-      if (rb) this._showShareConsent(rb.meta.id);
+      this._showShareConsent(remixId);
       this.showXPToast('+5 XP ✨ Accepted — pick a name (or stay anonymous) to share it', 'achievement');
     } else {
       this.showXPToast('+5 XP ✨ Your version is now part of your book (revert anytime)', 'achievement');
@@ -366,11 +375,15 @@ class PBook {
   // Replace whichever article is on screen for this logical block with a fresh
   // render of the (possibly overridden) original — observer re-registered.
   async _rerenderBlockInPlace(originalId, variantId) {
-    const el = document.getElementById(`b-${originalId}`) || (variantId && document.getElementById(`b-${variantId}`));
+    const el = document.getElementById(`b-${originalId}`)
+      || (variantId && document.getElementById(`b-${variantId}`))
+      || (this._slotDom?.[originalId] && document.getElementById(`b-${this._slotDom[originalId]}`));
     if (!el) return;
-    const gitBlock = this.findBlock(originalId);
-    if (!gitBlock) return;
+    const fb = this.findBlock(originalId);
+    if (!fb) return;
+    const gitBlock = { ...fb.meta, body: fb.body };   // renderSpine expects a FLAT block
     el.outerHTML = await this.renderSpine(gitBlock);
+    if (this._slotDom) this._slotDom[originalId] = originalId;
     const fresh = document.getElementById(`b-${originalId}`);
     if (fresh && this._observer) { fresh.dataset.observed = '1'; this._observer.observe(fresh); }
     this.renderMath?.();
@@ -821,13 +834,18 @@ class PBook {
 
   // Swap the rendered article for a variant of the same concept, with undo
   async _swapBlock(originalId, variantEntry, target, offerGenerate = false) {
-    const el = document.getElementById(`b-${originalId}`);
+    if (!this._slotDom) this._slotDom = {};
+    const el = document.getElementById(`b-${originalId}`)
+      || (this._slotDom[originalId] && document.getElementById(`b-${this._slotDom[originalId]}`));
     if (!el) return;
     const vMeta = variantEntry.meta;
     const vBlock = { ...vMeta, body: variantEntry.body, _chapterNum: vMeta._chapterNum || this._findAnyBlock(originalId)?.meta?._chapterNum, _chapterTitle: vMeta._chapterTitle || '' };
     const html = await this.renderSpine(vBlock);
     if (!this._swapHistory) this._swapHistory = {};
-    this._swapHistory[vMeta.id] = originalId;
+    const rootLogical = this._swapHistory[originalId] || originalId;   // chains: variant over variant
+    this._swapHistory[vMeta.id] = rootLogical;
+    this._slotDom[rootLogical] = vMeta.id;
+    this._slotDom[originalId] = vMeta.id;
 
     const isGenerated = vMeta.state === 'private' || vMeta.state === 'community';
     const noticeBits = [];
@@ -860,6 +878,7 @@ class PBook {
   async unswapBlock(variantId) {
     const originalId = this._swapHistory?.[variantId];
     if (!originalId) return;
+    if (this._slotDom) this._slotDom[originalId] = originalId;
     const orig = this._findAnyBlock(originalId);
     const el = document.getElementById(`b-${variantId}`);
     if (!orig || !el) return;
@@ -3999,6 +4018,7 @@ class PBook {
   }
 
   setReaderMode(mode) {
+    try { localStorage.setItem('pbook-mode-chosen', '1'); } catch (e) {}
     this.user.readerMode = mode === 'open' ? 'open' : 'safe';
     this.user.save();
     this.rc.logEvent('reader_mode', { mode: this.user.readerMode });
