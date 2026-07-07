@@ -1,5 +1,5 @@
 // Service Worker for p-book — offline support
-const CACHE_NAME = 'pbook-v11';
+const CACHE_NAME = 'pbook-v12';
 
 const PRECACHE = [
   '/',

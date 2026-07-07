@@ -2,7 +2,7 @@
 
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
-import { RecombeeClient, UserModel } from './recombee.js?v=6';
+import { RecombeeClient, UserModel } from './recombee.js?v=7';
 import { getDiagram } from './diagrams.js?v=2';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
@@ -5666,8 +5666,11 @@ class PBook {
       const origForDecision = src.remixOf ? rootId : blockId;
       const art = document.getElementById(`b-${id}`);
       if (art) {
+        const oldSnip = this.escHtml(sourceQuote.slice(0, 150)) + (sourceQuote.length > 150 ? '…' : '');
+        const newSnip = this.escHtml(replacement.slice(0, 150)) + (replacement.length > 150 ? '…' : '');
         art.insertAdjacentHTML('afterbegin', `<div class="remix-decision" id="rxdec-${id}">
-          <span>✨ Preview — your change is <mark class="remix-mark">highlighted</mark>. Keep it?</span>
+          <span>✨ Preview — your change is <mark class="remix-mark">highlighted</mark> below. Keep it?</span>
+          <div class="rx-diff"><div class="rx-old">− ${oldSnip}</div><div class="rx-new">+ ${newSnip}</div></div>
           <button class="steer-chip" style="border-color:#10B981;color:#065F46;font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',false)">✓ Accept</button>
           <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-weight:700" onclick="app.acceptRemix('${origForDecision}','${id}',true)">✓ Accept &amp; share</button>
           <button class="steer-chip" style="opacity:.8" onclick="app.discardRemix('${origForDecision}','${id}')">✗ Discard</button>

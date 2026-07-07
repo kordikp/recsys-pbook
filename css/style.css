@@ -1243,3 +1243,8 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .remix-decision { display: flex; flex-wrap: wrap; align-items: center; gap: .45em; padding: .5em .7em; margin-bottom: .6em; border: 2px solid var(--accent); border-radius: 10px; background: var(--bg); font-size: .78rem; position: sticky; top: 52px; z-index: 5; }
 .override-bar { font-size: .7rem; color: var(--text-3); padding: .3em .55em; border: 1px dashed var(--accent); border-radius: 8px; margin-bottom: .5em; background: color-mix(in srgb, var(--accent) 6%, transparent); }
 .override-bar a { color: var(--accent); }
+
+/* Remix preview diff */
+.rx-diff { flex-basis: 100%; font-size: .7rem; line-height: 1.45; border-top: 1px dashed var(--border); padding-top: .35em; }
+.rx-old { color: #B91C1C; text-decoration: line-through; opacity: .8; }
+.rx-new { color: #065F46; font-weight: 600; }

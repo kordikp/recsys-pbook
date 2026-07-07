@@ -37,7 +37,7 @@ export class RecombeeClient {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 2500);
-      const res = await fetch('/api/recombee', {
+      const res = await fetch('/api/recs', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ endpoint, body, method }),
@@ -85,7 +85,7 @@ export class RecombeeClient {
       if (entry.ts && Date.now() - entry.ts > maxAge) continue; // too old, drop
       try {
         if (entry.type === 'recombee' && this.enabled) {
-          const res = await fetch('/api/recombee', {
+          const res = await fetch('/api/recs', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ endpoint: entry.endpoint, body: entry.body, method: entry.method }),

@@ -190,6 +190,12 @@ const server = http.createServer(async (req, res) => {
     await handleVercelFn(req, res, './api/sync-recombee.js'); return;
   }
 
+  // Recombee proxy (neutral alias — some blocklists match "recombee" in paths)
+  if (req.url === '/api/recs') {
+    if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
+    if (req.method === 'POST') { await handleProxy(req, res); return; }
+  }
+
   // Recombee proxy
   if (req.url === '/.netlify/functions/recombee') {
     if (req.method === 'OPTIONS') { res.writeHead(200, CORS); res.end(); return; }
