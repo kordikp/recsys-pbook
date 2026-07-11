@@ -3,7 +3,7 @@
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
 import { RecombeeClient, UserModel } from './recombee.js?v=9';
-import { getDiagram } from './diagrams.js?v=2';
+import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=3';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
 class PBook {
@@ -1500,6 +1500,15 @@ class PBook {
     return age < 30 * 24 * 60 * 60 * 1000; // 30 days
   }
 
+  // Netflix tiles deserve artwork: first in-body image (comics, kids, photos),
+  // else the section's diagram file. Returns a URL or null.
+  _blockArt(block, body) {
+    const m = (body || '').match(/!\[[^\]]*\]\((images\/[^)\s]+\.(?:svg|png|jpe?g|webp))\)/);
+    if (m) return m[1];
+    if (block.diagram && DIAGRAM_FILES[block.diagram]) return DIAGRAM_FILES[block.diagram];
+    return null;
+  }
+
   cardHtml(block, hero = false) {
     const chLabel = block._chapterTitle || this.getChapterLabel(block);
     const isRead = this.user.readBlocks.has(block.id);
@@ -1515,6 +1524,8 @@ class PBook {
     const hasTable = /^\|/m.test(body);
     const hasDiagram = !!block.diagram;
     const hasCode = /```/.test(body);
+
+    const art = this._blockArt(block, body);
 
     let preview = '';
     if (hasDiagram || hasMath || hasTable || hasCode) {
@@ -1533,7 +1544,8 @@ class PBook {
     const topics = (this.blockTopics[block.id] || []).slice(0, 2);
     const topicHtml = topics.length ? `<div class="card-topics">${topics.map(t => `<span class="card-topic" onclick="event.stopPropagation();app.showTopic('${t}')">${t}</span>`).join('')}</div>` : '';
 
-    return `<div class="card ${hero ? 'card-hero' : ''} ${isRead ? 'card-read' : ''}" style="${borderStyle}" onclick="app.openBlock('${block.id}')">
+    return `<div class="card ${hero ? 'card-hero' : ''} ${isRead ? 'card-read' : ''} ${art ? 'card-has-art' : ''}" style="${borderStyle}" onclick="app.openBlock('${block.id}')">
+      ${art ? `<img class="card-art" src="${art}" alt="" loading="lazy" onerror="this.remove()">` : ''}
       ${preview}
       <div class="card-chapter">${chLabel}</div>
       <div class="card-title">${block.title}</div>

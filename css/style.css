@@ -1255,3 +1255,12 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 /* Improve entry — the one button every editor path starts from */
 .improve-btn { border: 1.5px solid var(--accent); color: var(--accent); background: transparent; border-radius: 8px; padding: .25em .6em; font-size: .72rem; font-weight: 700; cursor: pointer; }
 .improve-btn:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+
+/* Tile artwork: the item's own visual, translucent behind the text */
+.card { position: relative; overflow: hidden; }
+.card-art { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: right 30%; opacity: .38; pointer-events: none; user-select: none;
+  -webkit-mask-image: linear-gradient(105deg, transparent 8%, rgba(0,0,0,.5) 42%, #000 78%);
+  mask-image: linear-gradient(105deg, transparent 8%, rgba(0,0,0,.5) 42%, #000 78%); }
+.card-has-art > *:not(.card-art) { position: relative; z-index: 1; }
+.card-has-art .card-title, .card-has-art .card-teaser { text-shadow: 0 1px 6px var(--surface), 0 0 2px var(--surface); }
+[data-theme="dark"] .card-art { opacity: .30; }

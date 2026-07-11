@@ -2,7 +2,7 @@
 // Loads external SVG files from images/ directory
 // Falls back to inline-generated diagrams if files not found
 
-const DIAGRAM_FILES = {
+export const DIAGRAM_FILES = {
   // Kids diagrams
   'kids-recommendations-everywhere': 'images/kids-recommendations-everywhere.svg',
   'kids-pattern-detective': 'images/kids-pattern-detective.svg',
