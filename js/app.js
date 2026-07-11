@@ -634,17 +634,23 @@ class PBook {
     const profile = this.user.getTargetFacets();
     const changed = DIMS.filter(({ dim }) => (target[dim] || '') !== (profile[dim] || '')).length;
 
-    h += pool.map(b => {
+    // Compact coverage strip: one chip per telling (state color + genre icon),
+    // full title & configuration on hover, click to read. Replaces the long rows.
+    const GENRE_ICONS = { explainer: '📄', story: '📖', 'worked-example': '🧮', 'code-walkthrough': '💻', comic: '🎭', animation: '🎞' };
+    const STATE_COLORS = { core: '#7C3AED', edited: '#10B981', community: '#D97706', private: '#9CA3AF' };
+    h += `<div class="tstrip">${pool.map(b => {
       const m = b.meta;
       const isCurrent = m.id === blockId;
-      return `<div class="telling-row ${isCurrent ? 'current' : ''}">
-        ${this._stateBadge(m)}
-        <span class="telling-title">${this.escHtml(m.title || m.id)}</span>
-        ${this._facetChips(m, true)}
-        ${isCurrent ? '<span class="telling-chip" style="opacity:.6">reading now</span>'
-          : `<button class="steer-chip" onclick="app.pickTelling('${blockId}','${m.id}')">Read</button>`}
-      </div>`;
-    }).join('');
+      const state = m.core ? 'core' : (m.state || 'edited');
+      const color = STATE_COLORS[state] || STATE_COLORS.edited;
+      const g = this._facetValues(m, 'genre')[0] || 'explainer';
+      const cfg = [this._facetValues(m, 'lens').join('|'), this._facetValues(m, 'lang').join('|'),
+                   g, this._facetValues(m, 'depth').join('–'), this._facetValues(m, 'visuality').join('–'),
+                   this._facetValues(m, 'lengthBand').join('–')].join(' · ');
+      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${state.toUpperCase()} · ${cfg}${isCurrent ? '\n(reading now)' : ''}`;
+      return `<button class="tstrip-chip ${isCurrent ? 'tstrip-current' : ''}" style="--sc:${color}"
+        title="${this.escHtml(tip)}" ${isCurrent ? '' : `onclick="app.pickTelling('${blockId}','${m.id}')"`}>${GENRE_ICONS[g] || '📄'}</button>`;
+    }).join('')}<span class="tstrip-hint">${pool.length} tellings — hover for details, click to read</span></div>`;
 
     h += `<div class="tellings-compose">
       <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = this telling · <span class="legend-active">filled</span> = your target · numbers = existing tellings${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>

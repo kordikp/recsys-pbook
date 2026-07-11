@@ -1268,3 +1268,10 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .card-has-art > *:not(.card-art) { position: relative; z-index: 1; }
 .card-has-art .card-title, .card-has-art .card-teaser { text-shadow: 0 1px 6px var(--surface), 0 0 2px var(--surface); }
 [data-theme="dark"] .card-art { opacity: .30; }
+
+/* Tellings coverage strip */
+.tstrip { display: flex; flex-wrap: wrap; align-items: center; gap: .3em; margin: .3em 0 .2em; }
+.tstrip-chip { width: 30px; height: 30px; border-radius: 8px; border: 2px solid var(--sc); background: color-mix(in srgb, var(--sc) 10%, transparent); cursor: pointer; font-size: .85rem; line-height: 1; display: inline-flex; align-items: center; justify-content: center; padding: 0; }
+.tstrip-chip:hover { background: color-mix(in srgb, var(--sc) 25%, transparent); transform: translateY(-1px); }
+.tstrip-current { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--sc); cursor: default; }
+.tstrip-hint { font-size: .65rem; color: var(--text-3); margin-left: .3em; }
