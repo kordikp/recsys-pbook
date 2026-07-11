@@ -45,7 +45,7 @@ const FACETS = {
   depth: ['intro', 'standard', 'technical', 'research'],
   formalism: ['none', 'light', 'full'],
   lengthBand: ['tldr', 'standard', 'deep'],
-  genre: ['explainer', 'story', 'worked-example', 'code-walkthrough'],  // comic/animation are hand-crafted only
+  genre: ['explainer', 'story', 'worked-example', 'code-walkthrough', 'comic', 'animation'],
   lang: ['en', 'cs'],
 };
 
@@ -73,6 +73,64 @@ const GENRE_RULES = {
   'worked-example': 'Walk one concrete scenario end-to-end, step by step, with real-looking values.',
   'code-walkthrough': 'Center a short, runnable-looking code sketch (Python-like pseudocode) and explain each part.',
 };
+
+// Visual genres (comic/animation) generate a real SVG in the book's design system
+const SVG_BLOCK_SCHEMA = {
+  type: 'object',
+  properties: {
+    title: { type: 'string' },
+    svg: { type: 'string', description: 'one complete valid-XML <svg> element' },
+    body: { type: 'string', description: '2-4 sentences of intro prose (markdown), NO image links' },
+    recallQ: { type: 'string' },
+    recallA: { type: 'string' },
+    coveredPoints: { type: 'array', items: { type: 'integer' } },
+  },
+  required: ['title', 'svg', 'body', 'recallQ', 'recallA', 'coveredPoints'],
+  additionalProperties: false,
+};
+
+const DESIGN_SYSTEM = `PALETTE (only these): bg card #FAFAF7 + border #E5E7EB (rx 14); ink #1E1B4B titles; #6B7280 captions; purple #7C3AED (+#EDE9FE), green #10B981 (+#D1FAE5), amber #D97706 (+#FEF3C7), blue #0EA5E9 (+#E0F2FE), red #EF4444 sparingly; white cards #FFFFFF. Minimal geometric figures (circle head r9-11 + stroke body, stroke-width 2.5). Min font-size 11, every text inside its container with padding, text never overlaps lines/shapes/text. No gradients, no filters, no <script>, no <image>, no external refs. Valid XML (escape & as &amp;).`;
+
+function buildVisualPrompt(concept, contract, facets, wish) {
+  const mustCoverList = (contract.mustCover || []).map((m, i) => `  ${i}. ${m.point}`).join('\n');
+  const isComic = facets.genre === 'comic';
+  const spec = isComic
+    ? `A FOUR-PANEL COMIC, viewBox "0 0 800 640": title centered y=38 (21px bold, witty double meaning); four EXACT panel frames <rect x="14|406" y="56|336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>; per panel: visuals in top ~200px, one caption line at y=panel_y+250 (12px #6B7280, ≤66 chars); footer take-away sentence centered y=626 (13px #6B7280, ≤95 chars). Speech bubbles: rounded rects, ≤34 chars/line, ≤2 lines, ≤2 bubbles/panel. One everyday scenario that IS the mechanism (double meaning); P4 lands the punchline; the footer teaches.`
+    : `AN ANIMATED EXPLAINER, viewBox "0 0 800 420": title centered y=36 (20px bold #1E1B4B); footer one-line takeaway ~y=395 (13px #6B7280); EVERYTHING VISIBLE AT REST (no opacity:0 resting states); at most ONE subtle CSS loop (stroke-dashoffset flow, gentle pulse between opacity 1 and 0.55, or a small offset-path travel); labels on every element.`;
+  const system = `You create a ${isComic ? 'comic' : 'animated SVG'} telling for the living book "How Recommendations Work". ${DESIGN_SYSTEM}
+FORM: ${spec}
+- SEGMENT-SCOPED: made for every reader who chose these settings, never one person.
+- The visual must let a reader answer the recall question afterwards. Never invent statistics or papers.
+${(contract.forbidden || []).map(f => `- Forbidden: ${f}`).join('\n')}`;
+  const user = `CONCEPT: ${contract.title || concept}
+Objective: ${contract.objective}
+Must cover (visually or in captions):
+${mustCoverList || '  (stay faithful to the objective)'}
+Canonical recall answer (stay consistent): ${contract.recallA || 'n/a'}
+Example world: ${facets.lens} — all scenarios live there. Language of ALL text: ${facets.lang === 'cs' ? 'Czech' : 'English'}. Depth: ${facets.depth}.
+${wish ? `Reader's wish (style/examples/focus only): "${wish}"` : ''}
+Return JSON: title, svg (the complete <svg>), body (2-4 markdown sentences introducing the visual, no image links), recallQ, recallA, coveredPoints.`;
+  return { system, user };
+}
+
+function sanitizeSvgServer(svg) {
+  return String(svg)
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/\son\w+="[^"]*"/gi, '')
+    .replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi, '')
+    .replace(/href="(?!#)[^"]*"/gi, '');
+}
+
+function validateVisual(block, contract) {
+  const problems = [];
+  if (!block.svg || !/^<svg[\s\S]*<\/svg>\s*$/.test(block.svg.trim())) problems.push('svg missing or not a single <svg> element');
+  if ((block.svg || '').length > 60000) problems.push('svg too large');
+  if (/!\[[^\]]*\]\(/.test(block.body || '')) problems.push('body must not contain image links');
+  if (!block.recallQ || !block.recallA) problems.push('missing recallQ/recallA');
+  const banned = (contract.forbidden || []).filter(f => (block.body + ' ' + block.svg).toLowerCase().includes(String(f).toLowerCase().slice(0, 40)));
+  if (banned.length) problems.push('contains forbidden claim');
+  return problems;
+}
 
 // In-memory cache per warm lambda instance (durable cache = client localStorage + community layer)
 const cache = new Map();
@@ -536,26 +594,32 @@ Return the complete modified SVG now.`;
       ? existingVariants.filter(v => typeof v === 'string').map(v => v.slice(0, 120)).slice(0, 6)
       : [];
 
-    const { system, user } = buildPrompt(concept, record.contract, facets, exemplar, rules, safeVariants, wish);
+    const visualGenre = facets.genre === 'comic' || facets.genre === 'animation';
+    const { system, user } = visualGenre
+      ? buildVisualPrompt(concept, record.contract, facets, wish)
+      : buildPrompt(concept, record.contract, facets, exemplar, rules, safeVariants, wish);
 
     // Generate → validate → one corrective retry → fail honestly
-    let block = await callLLM(system, user);
-    let problems = validate(block, facets, record.contract);
+    const runValidate = (blk) => visualGenre ? validateVisual(blk, record.contract) : validate(blk, facets, record.contract);
+    const schema = visualGenre ? SVG_BLOCK_SCHEMA : BLOCK_SCHEMA;
+    let block = await callLLM(system, user, schema, visualGenre ? 16000 : undefined);
+    let problems = runValidate(block);
     if (problems.length) {
       const retryUser = `${user}\n\nYour previous attempt had these problems — fix ALL of them:\n${problems.map(p => `- ${p}`).join('\n')}`;
-      block = await callLLM(system, retryUser);
-      problems = validate(block, facets, record.contract);
+      block = await callLLM(system, retryUser, schema, visualGenre ? 16000 : undefined);
+      problems = runValidate(block);
     }
     if (problems.length) {
       return res.status(502).json({ ok: false, error: 'generated content failed the validation gate', problems });
     }
 
-    // HONEST VISUALITY (deletion test, AGENTS.md §2): generated text can never be
-    // "visual-first" — no real visuals exist. Tag by what the output actually carries:
-    // a markdown table → at most "balanced"; otherwise "text-first". The cache id keeps
-    // the REQUESTED cell (it answers that demand), but the block's tags never lie.
+    // HONEST VISUALITY (deletion test, AGENTS.md §2): a text telling can never be
+    // "visual-first"; a generated comic/animation IS the visual, so it can.
     const honestFacets = { ...facets };
-    if (honestFacets.visuality !== 'text-first') {
+    if (visualGenre) {
+      honestFacets.visuality = 'visual-first';
+      honestFacets.carriers = facets.genre === 'animation' ? 'animation|prose' : 'image|prose';
+    } else if (honestFacets.visuality !== 'text-first') {
       honestFacets.visuality = hasStructuralElement(block.body) ? 'balanced' : 'text-first';
     }
 
@@ -563,6 +627,7 @@ Return the complete modified SVG now.`;
       id,
       title: block.title,
       body: block.body,
+      svg: visualGenre ? sanitizeSvgServer(block.svg) : undefined,
       recallQ: block.recallQ,
       recallA: block.recallA,
       facets: honestFacets,

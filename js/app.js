@@ -564,7 +564,7 @@ class PBook {
   }
 
   // Render a block's covered subspace as chips: sets "a · b", ranges "a–b"
-  _facetChips(meta) {
+  _facetChips(meta, full) {
     const lensIcons = CONFIG.facets.lens.icons || {};
     const show = (dim, always) => {
       const set = this._facetValues(meta, dim);
@@ -575,7 +575,7 @@ class PBook {
       const icon = dim === 'lens' ? (set.length === 1 ? lensIcons[set[0]] || '' : '🌐') : dim === 'lang' ? '🌍' : '';
       return `<span class="telling-chip">${icon ? icon + ' ' : ''}${label}</span>`;
     };
-    return [show('lens', true), show('lang', false), show('depth', true), show('visuality', false), show('genre', false), show('lengthBand', false)]
+    return [show('lens', true), show('lang', full), show('depth', true), show('visuality', full), show('genre', full), show('lengthBand', full)]
       .filter(Boolean).join('');
   }
 
@@ -640,14 +640,14 @@ class PBook {
       return `<div class="telling-row ${isCurrent ? 'current' : ''}">
         ${this._stateBadge(m)}
         <span class="telling-title">${this.escHtml(m.title || m.id)}</span>
-        ${this._facetChips(m)}
+        ${this._facetChips(m, true)}
         ${isCurrent ? '<span class="telling-chip" style="opacity:.6">reading now</span>'
           : `<button class="steer-chip" onclick="app.pickTelling('${blockId}','${m.id}')">Read</button>`}
       </div>`;
     }).join('');
 
     h += `<div class="tellings-compose">
-      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">Pre-filled from your profile — click what doesn't fit${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
+      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = this telling · <span class="legend-active">filled</span> = your target · numbers = existing tellings${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
       ${DIMS.map(({ dim, label }) => `<div class="dna-row" style="align-items:flex-start"><span class="dna-label" style="padding-top:.2em">${label}</span>
         <div class="tellings-dimvals" style="margin:0">${this._renderDimValues(blockId, dim, pool, curMeta)}</div></div>`).join('')}
     </div>`;
@@ -670,7 +670,7 @@ class PBook {
           oninput="(app._steerWish=app._steerWish||{})['${conceptId}']=this.value"
           placeholder="Optional note: anything specific? (e.g. 'use a running-shop example')">
         <button class="steer-chip steer-gen" onclick="app.generateVariant('${blockId}','${conceptId}')">&#10024; Generate exactly this (~30 s)</button>
-        ${(target.visuality === 'visual-first' || /diagram|image|animation/.test(target.carriers || '')) ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">Generated text can deliver prose, tables, formulas and code — not new diagrams/images. For those, hover an existing diagram and ✨ remix it.</span>` : ''}`;
+        ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
     } else if (canGen) {
       h += `<span>No telling covers this yet — turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> to generate it.</span>`;
     } else {
@@ -699,8 +699,8 @@ class PBook {
       const isCur = current.includes(v);
       const isSel = selSet.includes(v);
       return `<button class="steer-chip dimval ${isCur ? 'dim-current' : ''} ${isSel ? 'dim-active' : ''} ${count ? '' : 'dim-empty'}"
-        onclick="app.steerDim('${blockId}','${dim}','${v}')" title="${isSel ? 'in your target (click to remove) · ' : ''}${count ? count + ' telling(s) cover this' : 'no telling yet — be the first'}">
-        ${icons[v] ? icons[v] + ' ' : ''}${v}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
+        onclick="app.steerDim('${blockId}','${dim}','${v}')" title="${isCur ? 'the telling you are reading covers this · ' : ''}${isSel ? 'in your target (click to remove) · ' : ''}${count ? count + ' telling(s) cover this' : 'no telling yet — be the first'}">
+        ${isCur ? '◉ ' : ''}${icons[v] ? icons[v] + ' ' : ''}${v}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
     }).join('');
   }
 
@@ -933,6 +933,7 @@ class PBook {
       if (!res.ok || !data.ok) throw new Error(data.error || 'generation failed');
       const block = {
         meta: { ...data.block.facets, id: data.block.id, title: data.block.title, type: 'spine',
+                diagramSvg: data.block.svg || undefined,
                 concept: conceptId, state: 'private', generated: true,
                 readingTime: Math.max(1, Math.round((data.block.body.split(/\s+/).length) / 200)),
                 recallQ: data.block.recallQ || null, recallA: data.block.recallA || null },
