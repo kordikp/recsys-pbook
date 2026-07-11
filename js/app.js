@@ -4,6 +4,8 @@ import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
 import { RecombeeClient, UserModel } from './recombee.js?v=11';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=3';
+
+const APP_VERSION = '5.12.3';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
 class PBook {
@@ -79,6 +81,7 @@ class PBook {
     this.autoTagBlocks();
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
+    console.info('[pbook] app', APP_VERSION);
     this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
     this._loadOverrides();       // accepted remixes: originalId → your version (persistent)
     this._checkAdoptions();      // shared telling merged into the book? → +100 XP, editor track
@@ -4007,6 +4010,8 @@ class PBook {
       depth: { intro: 'gentle introductions', standard: 'standard depth', technical: 'technical depth', research: 'research-level depth' },
       formalism: { none: 'no formulas', light: 'a few formulas', full: 'full math' },
     };
+    let h = '';
+
     // ---- Recently viewed: the way back to what you were just reading/editing ----
     // (arrow-key chapter hops made readers lose their place — this is the undo)
     {
