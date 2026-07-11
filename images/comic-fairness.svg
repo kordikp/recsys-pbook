@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">A Fair Chance at the Front</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="132" y="75" width="180" height="42" rx="9" fill="#FFFFFF" stroke="#0EA5E9"/>
+  <text x="222" y="101" font-size="12.5" fill="#1E1B4B" text-anchor="middle">What's everyone having?</text>
+
+  <circle cx="222" cy="144" r="10" fill="#0EA5E9"/>
+  <path d="M222 154 L222 181 M222 163 L207 174 M222 163 L237 174" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="74" cy="150" r="10" fill="#7C3AED"/>
+  <path d="M74 160 L74 190 M74 169 L58 180 M74 169 L90 180" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="338" cy="166" r="10" fill="#10B981"/>
+  <path d="M338 176 L338 200 M338 183 L326 193 M338 183 L350 193" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="42" y="195" width="188" height="45" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="136" y="214" font-size="12.5" font-weight="700" fill="#7C3AED" text-anchor="middle">MARA'S MUFFINS</text>
+  <text x="136" y="231" font-size="12" fill="#6B7280" text-anchor="middle">MARKET FAVORITE</text>
+
+  <rect x="302" y="204" width="62" height="36" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="333" y="219" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">LEO</text>
+  <text x="333" y="233" font-size="12" fill="#6B7280" text-anchor="middle">NEW</text>
+
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The busiest stall earns the market's best spot.</text>
+
+  <!-- Panel 2 -->
+  <rect x="518" y="75" width="174" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="605" y="101" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The big table must be best.</text>
+
+  <circle cx="462" cy="147" r="10" fill="#7C3AED"/>
+  <path d="M462 157 L462 188 M462 166 L447 178 M462 166 L477 178" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="640" cy="147" r="10" fill="#0EA5E9"/>
+  <path d="M640 157 L640 187 M640 166 L625 177 M640 166 L655 177" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="746" cy="177" r="10" fill="#10B981"/>
+  <path d="M746 187 L746 209 M746 194 L735 202 M746 194 L757 202" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="438" y="190" width="250" height="52" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="563" y="212" font-size="12.5" font-weight="700" fill="#7C3AED" text-anchor="middle">MARA'S MUFFINS</text>
+  <text x="563" y="231" font-size="12" fill="#6B7280" text-anchor="middle">MORE ROOM FOR THE BESTSELLER</text>
+
+  <rect x="721" y="212" width="48" height="30" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="745" y="232" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">LEO</text>
+
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The best spot brings buyers, which earns the best spot.</text>
+
+  <!-- Panel 3 -->
+  <rect x="35" y="356" width="150" height="48" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="110" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">How do I earn</text>
+  <text x="110" y="392" font-size="12.5" fill="#1E1B4B" text-anchor="middle">a front spot?</text>
+
+  <rect x="206" y="356" width="160" height="48" rx="9" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="286" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Bring your</text>
+  <text x="286" y="392" font-size="12.5" fill="#1E1B4B" text-anchor="middle">existing customers.</text>
+
+  <circle cx="105" cy="440" r="10" fill="#10B981"/>
+  <path d="M105 450 L105 492 M105 460 L91 472 M105 460 L119 472" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="280" cy="440" r="10" fill="#D97706"/>
+  <path d="M280 450 L280 492 M280 460 L265 472 M280 460 L295 472" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="342" cy="468" r="10" fill="#7C3AED"/>
+  <path d="M342 478 L342 505 M342 487 L330 496 M342 487 L354 496" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="218" y="505" width="145" height="38" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="290.5" y="529" font-size="12.5" font-weight="700" fill="#7C3AED" text-anchor="middle">PRIME: MARA</text>
+
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Leo needs visibility to get the customers visibility requires.</text>
+
+  <!-- Panel 4 -->
+  <rect x="430" y="355" width="150" height="48" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="505" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">A customer!</text>
+  <text x="505" y="391" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Act established.</text>
+
+  <circle cx="482" cy="446" r="10" fill="#10B981"/>
+  <path d="M482 456 L482 492 M482 465 L468 477 M482 465 L496 477" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="746" cy="446" r="10" fill="#0EA5E9"/>
+  <path d="M746 456 L746 492 M746 465 L725 482 M746 465 L758 477" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <path d="M535 476 L535 466 L684 466 L684 476 L692 468 L684 460" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <rect x="526" y="494" width="68" height="48" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="560" y="512" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">EXPLORE</text>
+  <text x="560" y="531" font-size="12" fill="#1E1B4B" text-anchor="middle">LEO</text>
+
+  <rect x="604" y="494" width="68" height="48" rx="7" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="638" y="512" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">FRESH</text>
+  <text x="638" y="531" font-size="12" fill="#1E1B4B" text-anchor="middle">TODAY</text>
+
+  <rect x="682" y="494" width="68" height="48" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="716" y="512" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">POPULAR</text>
+  <text x="716" y="531" font-size="12" fill="#1E1B4B" text-anchor="middle">MARA</text>
+
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The host reserves rotating, fresh, equal-size spots.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Fair exposure gives new providers chances to be seen, instead of only rewarding past popularity.</text>
+</svg>

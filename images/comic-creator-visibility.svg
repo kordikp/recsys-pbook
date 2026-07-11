@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Opening for the Algorithm</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="76" width="136" height="58" rx="7" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="102" y="99" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">BEST OPENER</text>
+    <text x="102" y="118" font-size="12.5" fill="#1E1B4B" text-anchor="middle">IN TOWN!</text>
+
+    <circle cx="204" cy="157" r="10" fill="#7C3AED"/>
+    <path d="M204 168 L204 207 M204 179 L185 192 M204 181 L220 176 M204 207 L191 229 M204 207 L218 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M224 170 L224 211 M218 170 L230 170" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M265 155 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M300 151 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M334 158 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <path d="M274 165 L283 198 L296 217 M309 161 L321 194 L339 206 M343 168 L353 195 L371 199" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M296 173 L319 173 M318 168 L325 173 L318 178 M351 181 L373 181 M372 176 L379 181 L372 186" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The poster wins the click; the opening loses the room.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <circle cx="454" cy="170" r="10" fill="#7C3AED"/>
+    <path d="M454 181 L454 219 M454 191 L438 180 M454 192 L471 181 M454 219 L442 238 M454 219 L466 238" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M434 174 L434 217 M428 174 L440 174" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M510 194 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M548 194 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M586 194 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0" fill="#D1FAE5" stroke="#10B981"/>
+    <path d="M519 204 L519 229 M557 204 L557 229 M595 204 L595 229 M501 231 L612 231" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="704" cy="174" r="10" fill="#0EA5E9"/>
+    <path d="M704 185 L704 222 M704 194 L687 205 M704 194 L721 205 M704 222 L692 239 M704 222 L716 239" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="643" y="75" width="119" height="64" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="702.5" y="94" font-size="11" font-weight="700" fill="#0EA5E9" text-anchor="middle">YOUTUBE</text>
+    <text x="702.5" y="113" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Smaller crowd.</text>
+    <text x="702.5" y="130" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Much longer stay.</text>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">YouTube's booker prefers minutes watched to doors opened.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <circle cx="86" cy="455" r="10" fill="#7C3AED"/>
+    <path d="M86 466 L86 505 M86 478 L69 465 M86 478 L103 465 M86 505 L74 526 M86 505 L98 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M65 459 L65 505 M59 459 L71 459" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M145 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M183 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M221 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M259 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0" fill="#D1FAE5" stroke="#10B981"/>
+    <path d="M154 492 L154 518 M192 492 L192 518 M230 492 L230 518 M268 492 L268 518 M136 520 L286 520" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="339" cy="454" r="10" fill="#EF4444"/>
+    <path d="M339 465 L339 502 M339 476 L322 486 M339 476 L356 486 M339 502 L327 524 M339 502 L351 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="246" y="355" width="128" height="67" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="310" y="374" font-size="11" font-weight="700" fill="#EF4444" text-anchor="middle">TIKTOK</text>
+    <text x="310" y="394" font-size="12.5" fill="#1E1B4B" text-anchor="middle">All four finished.</text>
+    <text x="310" y="412" font-size="12.5" fill="#1E1B4B" text-anchor="middle">18 seconds flat.</text>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">TikTok's booker counts who makes it through the whole set.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <circle cx="596" cy="438" r="11" fill="#7C3AED"/>
+    <path d="M596 450 L596 497 M596 464 L568 477 M596 464 L624 477 M596 497 L580 526 M596 497 L612 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="474" cy="470" r="10" fill="#0EA5E9"/>
+    <path d="M474 481 L474 518 M474 492 L505 477 M474 518 L462 539 M474 518 L486 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="500" y="459" width="70" height="40" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="535" y="476" font-size="10.5" font-weight="700" fill="#0EA5E9" text-anchor="middle">YOUTUBE</text>
+    <text x="535" y="491" font-size="11.5" fill="#1E1B4B" text-anchor="middle">8 MIN</text>
+
+    <circle cx="718" cy="470" r="10" fill="#EF4444"/>
+    <path d="M718 481 L718 518 M718 492 L687 477 M718 518 L706 539 M718 518 L730 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="622" y="459" width="70" height="40" rx="6" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="657" y="476" font-size="10.5" font-weight="700" fill="#EF4444" text-anchor="middle">TIKTOK</text>
+    <text x="657" y="491" font-size="11.5" fill="#1E1B4B" text-anchor="middle">18 SEC</text>
+
+    <rect x="526" y="355" width="140" height="47" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="596" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Finally:</text>
+    <text x="596" y="393" font-size="12.5" fill="#1E1B4B" text-anchor="middle">two full sets.</text>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The same act gets tailored to each room's definition of success.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Strong starts and engagement rate drive reach; YouTube values watch time, TikTok completion.</text>
+</svg>

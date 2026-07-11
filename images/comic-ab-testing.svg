@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Special Is Under Controlled Conditions</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="171" y="75" width="205" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="273.5" y="101" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Coin flip: recommend A or B.</text>
+
+  <circle cx="199" cy="138" r="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="199" y="142" font-size="10" font-weight="700" fill="#D97706" text-anchor="middle">?</text>
+
+  <circle cx="203" cy="165" r="10" fill="#7C3AED"/>
+  <path d="M203 175 L203 218 M203 187 L184 199 M203 187 L222 199" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="93" cy="180" r="10" fill="#10B981"/>
+  <path d="M93 190 L93 224 M93 202 L78 213 M93 202 L108 213" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="313" cy="180" r="10" fill="#D97706"/>
+  <path d="M313 190 L313 224 M313 202 L298 213 M313 202 L328 213" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="67" y="226" width="52" height="25" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="93" y="243" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">A</text>
+
+  <rect x="287" y="226" width="52" height="25" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="313" y="243" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">B</text>
+
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A coin flip assigns diners to recommendation A or B.</text>
+
+  <!-- Panel 2 -->
+  <rect x="420" y="75" width="170" height="42" rx="9" fill="#FFFFFF" stroke="#10B981"/>
+  <text x="505" y="101" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Both: “Sounds perfect!”</text>
+
+  <rect x="616" y="75" width="152" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="692" y="101" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The plates disagree.</text>
+
+  <circle cx="486" cy="155" r="10" fill="#10B981"/>
+  <path d="M486 165 L486 204 M486 178 L472 189 M486 178 L500 189" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="593" cy="155" r="10" fill="#D97706"/>
+  <path d="M593 165 L593 204 M593 178 L579 189 M593 178 L607 189" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <ellipse cx="486" cy="224" rx="37" ry="10" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <circle cx="476" cy="220" r="5" fill="#D97706"/>
+  <circle cx="492" cy="222" r="6" fill="#D97706"/>
+  <text x="486" y="248" font-size="11" fill="#6B7280" text-anchor="middle">A: untouched</text>
+
+  <ellipse cx="593" cy="224" rx="37" ry="10" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="593" y="228" font-size="11" font-weight="700" fill="#10B981" text-anchor="middle">✓</text>
+  <text x="593" y="248" font-size="11" fill="#6B7280" text-anchor="middle">B: finished</text>
+
+  <circle cx="706" cy="163" r="10" fill="#0EA5E9"/>
+  <path d="M706 173 L706 220 M706 186 L687 199 M706 186 L724 196" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="716" y="190" width="37" height="47" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
+  <path d="M723 202 L729 208 L739 197 M723 219 L729 225 L739 214" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Measure orders, not what diners predict they’ll like.</text>
+
+  <!-- Panel 3 -->
+  <rect x="30" y="355" width="158" height="55" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="109" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I tried 20 specials!</text>
+  <text x="109" y="395" font-size="12.5" fill="#1E1B4B" text-anchor="middle">On all six diners.</text>
+
+  <rect x="218" y="355" width="157" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="296.5" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Bold use of certainty.</text>
+
+  <circle cx="105" cy="454" r="10" fill="#7C3AED"/>
+  <path d="M105 464 L105 518 M105 478 L84 490 M105 478 L126 490" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="42" y="500" width="126" height="46" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="105" y="519" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">20 specials</text>
+  <text x="105" y="536" font-size="11" fill="#6B7280" text-anchor="middle">n = 6</text>
+
+  <circle cx="298" cy="454" r="10" fill="#0EA5E9"/>
+  <path d="M298 464 L298 518 M298 478 L278 491 M298 478 L320 490" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="232" y="493" width="132" height="57" rx="6" fill="#FFFFFF" stroke="#0EA5E9"/>
+  <text x="298" y="512" font-size="11.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">POWER PLAN</text>
+  <text x="298" y="529" font-size="11" fill="#6B7280" text-anchor="middle">needed: n = 180</text>
+  <text x="298" y="545" font-size="11" fill="#6B7280" text-anchor="middle">threshold: α ÷ 20</text>
+
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Power first; many comparisons need stricter significance.</text>
+
+  <!-- Panel 4 -->
+  <rect x="422" y="355" width="144" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="494" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">A wins tonight!</text>
+
+  <rect x="590" y="355" width="180" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="680" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Trophy has a 30-day hold.</text>
+
+  <circle cx="485" cy="453" r="10" fill="#7C3AED"/>
+  <path d="M485 463 L485 519 M485 478 L465 491 M485 478 L505 490" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <path d="M449 497 L463 497 L463 512 Q463 526 478 526 Q493 526 493 512 L493 497 L507 497 Q507 518 490 525 L490 540 L500 540 L500 548 L466 548 L466 540 L476 540 L476 525 Q449 519 449 497Z" fill="#FEF3C7" stroke="#D97706"/>
+
+  <circle cx="697" cy="453" r="10" fill="#0EA5E9"/>
+  <path d="M697 463 L697 519 M697 478 L677 491 M697 478 L717 490" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="555" y="425" width="100" height="123" rx="7" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="605" y="445" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">ORDERS</text>
+  <text x="575" y="468" font-size="10.5" fill="#6B7280" text-anchor="middle">NOW</text>
+  <rect x="567" y="476" width="15" height="47" rx="2" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <rect x="588" y="493" width="15" height="30" rx="2" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="574.5" y="539" font-size="10" fill="#0EA5E9" text-anchor="middle">A</text>
+  <text x="595.5" y="539" font-size="10" fill="#10B981" text-anchor="middle">B</text>
+
+  <rect x="663" y="425" width="95" height="123" rx="7" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="710.5" y="445" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">30 DAYS</text>
+  <text x="710.5" y="464" font-size="10.5" fill="#6B7280" text-anchor="middle">RETURNS</text>
+  <rect x="682" y="502" width="15" height="21" rx="2" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <rect x="707" y="477" width="15" height="46" rx="2" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="689.5" y="539" font-size="10" fill="#0EA5E9" text-anchor="middle">A</text>
+  <text x="714.5" y="539" font-size="10" fill="#10B981" text-anchor="middle">B</text>
+
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The rush fades; repeat visits can crown a different winner.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">An A/B test randomly assigns users to variants and compares their real behavior over time.</text>
+</svg>

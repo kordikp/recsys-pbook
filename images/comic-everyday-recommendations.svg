@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Your Feed Has Been Taking Notes</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <text x="34" y="80" font-size="12" font-weight="700" fill="#6B7280">CAFÉ A</text>
+  <rect x="205" y="75" width="168" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="289" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="289" dy="0">I'll note what you</tspan>
+    <tspan x="289" dy="16">reach for.</tspan>
+  </text>
+  <g>
+    <circle cx="88" cy="154" r="10" fill="#7C3AED"/>
+    <path d="M88 164 L88 198 M88 174 L70 190" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="166" cy="154" r="10" fill="#10B981"/>
+    <path d="M166 164 L166 198 M166 174 L184 190" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="321" cy="154" r="10" fill="#0EA5E9"/>
+    <path d="M321 164 L321 202 M321 176 L299 187 M321 176 L340 187" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <rect x="58" y="199" width="156" height="9" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+  <circle cx="105" cy="194" r="13" fill="#EDE9FE" stroke="#7C3AED"/>
+  <circle cx="171" cy="194" r="13" fill="#D1FAE5" stroke="#10B981"/>
+  <rect x="289" y="184" width="27" height="34" rx="3" fill="#FFFFFF" stroke="#6B7280"/>
+  <path d="M295 192 L310 192 M295 199 L307 199 M295 206 L311 206" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The tasting menu begins by watching, not asking.</text>
+
+  <!-- Panel 2 -->
+  <rect x="428" y="74" width="210" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="533" y="94" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="533" dy="0">Every tap, bite, and pass.</tspan>
+    <tspan x="533" dy="16">Noted.</tspan>
+  </text>
+  <g>
+    <circle cx="474" cy="164" r="10" fill="#7C3AED"/>
+    <path d="M474 174 L474 210 M474 184 L505 197" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="559" cy="164" r="10" fill="#10B981"/>
+    <path d="M559 174 L559 210 M559 184 L535 199" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="706" cy="163" r="10" fill="#0EA5E9"/>
+    <path d="M706 173 L706 213 M706 184 L680 197" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <rect x="455" y="209" width="132" height="9" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+  <circle cx="500" cy="204" r="13" fill="#EDE9FE" stroke="#7C3AED"/>
+  <circle cx="548" cy="204" r="13" fill="#D1FAE5" stroke="#10B981"/>
+  <rect x="660" y="190" width="36" height="47" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
+  <path d="M667 199 L688 199 M667 207 L684 207 M667 215 L689 215 M667 223 L682 223" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Even tiny interactions become part of the order.</text>
+
+  <!-- Panel 3 -->
+  <rect x="29" y="354" width="172" height="45" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="115" y="373" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="115" dy="0">We asked for the</tspan>
+    <tspan x="115" dy="16">same feed.</tspan>
+  </text>
+  <rect x="218" y="354" width="157" height="45" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="296.5" y="373" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="296.5" dy="0">You left different</tspan>
+    <tspan x="296.5" dy="16">crumbs.</tspan>
+  </text>
+  <g>
+    <circle cx="92" cy="454" r="10" fill="#7C3AED"/>
+    <path d="M92 464 L92 505 M92 476 L75 491" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="181" cy="454" r="10" fill="#10B981"/>
+    <path d="M181 464 L181 505 M181 476 L198 491" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="320" cy="454" r="10" fill="#0EA5E9"/>
+    <path d="M320 464 L320 507 M320 477 L294 493" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <rect x="50" y="510" width="86" height="25" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+  <circle cx="73" cy="522" r="7" fill="#D97706"/>
+  <circle cx="96" cy="522" r="7" fill="#EF4444"/>
+  <rect x="145" y="510" width="86" height="25" rx="6" fill="#D1FAE5" stroke="#10B981"/>
+  <circle cx="169" cy="522" r="7" fill="#10B981"/>
+  <circle cx="204" cy="522" r="7" fill="#0EA5E9"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Same table, two histories, two completely different plates.</text>
+
+  <!-- Panel 4 -->
+  <text x="426" y="360" font-size="12" font-weight="700" fill="#6B7280">CAFÉ B</text>
+  <rect x="426" y="371" width="168" height="45" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="510" y="390" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="510" dy="0">The other café</tspan>
+    <tspan x="510" dy="16">said cake.</tspan>
+  </text>
+  <rect x="606" y="371" width="160" height="45" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="686" y="390" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="686" dy="0">Our regulars pair</tspan>
+    <tspan x="686" dy="16">that with soup.</tspan>
+  </text>
+  <g>
+    <circle cx="478" cy="468" r="10" fill="#7C3AED"/>
+    <path d="M478 478 L478 520 M478 489 L498 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="553" cy="468" r="10" fill="#10B981"/>
+    <path d="M553 478 L553 520 M553 489 L532 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="704" cy="468" r="10" fill="#D97706"/>
+    <path d="M704 478 L704 521 M704 490 L677 505" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <rect x="453" y="522" width="125" height="9" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+  <path d="M479 520 Q515 492 551 520 Z" fill="#FEF3C7" stroke="#D97706"/>
+  <circle cx="515" cy="505" r="5" fill="#10B981"/>
+  <rect x="653" y="495" width="38" height="47" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
+  <path d="M660 505 L684 505 M660 513 L680 513 M660 521 L684 521 M660 529 L678 529" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Same appetite; a different house pattern.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Platforms predict what to surface from recorded interactions and statistical patterns.</text>
+</svg>

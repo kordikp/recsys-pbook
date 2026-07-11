@@ -1,0 +1,125 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Librarian Reads More Than Books</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="31" y="72" width="181" height="53" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="44" y="94" font-size="12.5" fill="#1E1B4B">Something short, cheerful,</text>
+    <text x="44" y="112" font-size="12.5" fill="#1E1B4B">and romantic.</text>
+  </g>
+  <g>
+    <circle cx="83" cy="165" r="10" fill="#7C3AED"/>
+    <path d="M83 176 L83 215 M83 187 L65 200 M83 188 L101 197 M83 215 L70 238 M83 215 L96 238" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="184" cy="165" r="10" fill="#10B981"/>
+    <path d="M184 176 L184 215 M184 188 L166 198 M184 188 L203 184 M184 215 L172 238 M184 215 L196 238" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="231" y="78" width="136" height="63" rx="8" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="299" y="98" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">BOOK ATTRIBUTES</text>
+    <text x="299" y="117" font-size="12" fill="#1E1B4B" text-anchor="middle">96 pages • upbeat</text>
+    <text x="299" y="133" font-size="12" fill="#1E1B4B" text-anchor="middle">romance</text>
+  </g>
+  <g>
+    <rect x="266" y="162" width="67" height="76" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <path d="M276 162 L276 238" fill="none" stroke="#D97706" stroke-width="2"/>
+    <text x="304" y="194" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">SUNNY</text>
+    <text x="304" y="211" font-size="12" fill="#1E1B4B" text-anchor="middle">HEARTS</text>
+  </g>
+  <path d="M226 242 L358 242" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A request is explicit; the catalog supplies item attributes.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="432" y="77" width="177" height="112" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="520" y="99" font-size="12" font-weight="700" fill="#0EA5E9" text-anchor="middle">MEMBER PROFILE</text>
+    <text x="449" y="121" font-size="12" fill="#1E1B4B">Age: 29</text>
+    <text x="449" y="141" font-size="12" fill="#1E1B4B">Area: downtown</text>
+    <text x="449" y="161" font-size="12" fill="#1E1B4B">Says: romance</text>
+    <circle cx="587" cy="96" r="6" fill="#7C3AED"/>
+  </g>
+  <g>
+    <rect x="625" y="76" width="139" height="53" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="694" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Your member card</text>
+    <text x="694" y="116" font-size="12.5" fill="#1E1B4B" text-anchor="middle">knows a lot.</text>
+  </g>
+  <g>
+    <circle cx="657" cy="171" r="10" fill="#10B981"/>
+    <path d="M657 182 L657 220 M657 193 L635 183 M657 193 L675 203 M657 220 L645 243 M657 220 L669 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="733" cy="171" r="10" fill="#7C3AED"/>
+    <path d="M733 182 L733 220 M733 193 L716 203 M733 193 L750 202 M733 220 L721 243 M733 220 L745 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <path d="M608 183 L627 183" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Her user profile adds demographics and stated taste.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="38" y="358" width="130" height="61" rx="8" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="103" y="379" font-size="12" font-weight="700" fill="#EF4444" text-anchor="middle">CHECKOUT HISTORY</text>
+    <text x="103" y="400" font-size="12" fill="#1E1B4B" text-anchor="middle">Noir novels: 3</text>
+  </g>
+  <g>
+    <rect x="203" y="357" width="165" height="51" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="285" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Third enormous noir</text>
+    <text x="285" y="396" font-size="12.5" fill="#1E1B4B" text-anchor="middle">this week.</text>
+  </g>
+  <g>
+    <rect x="43" y="489" width="105" height="16" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
+    <rect x="48" y="508" width="111" height="16" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <rect x="38" y="527" width="119" height="16" rx="3" fill="#FEF3C7" stroke="#D97706"/>
+  </g>
+  <g>
+    <circle cx="233" cy="449" r="10" fill="#7C3AED"/>
+    <path d="M233 460 L233 500 M233 472 L207 486 M233 472 L260 486 M233 500 L218 530 M233 500 L249 530" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="184" y="477" width="99" height="64" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="233" y="501" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">THE LONG</text>
+    <text x="233" y="519" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">GOODBYE</text>
+  </g>
+  <g>
+    <circle cx="333" cy="449" r="10" fill="#10B981"/>
+    <path d="M333 460 L333 500 M333 472 L313 483 M333 472 L351 482 M333 500 L321 531 M333 500 L345 531" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Repeated checkouts become implicit behavioral feedback.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="431" y="357" width="169" height="53" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="515" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Your hands filed</text>
+    <text x="515" y="397" font-size="12.5" fill="#1E1B4B" text-anchor="middle">an appeal.</text>
+  </g>
+  <g>
+    <rect x="621" y="357" width="143" height="53" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="692" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">But I said short</text>
+    <text x="692" y="397" font-size="12.5" fill="#1E1B4B" text-anchor="middle">romance.</text>
+  </g>
+  <g>
+    <rect x="444" y="438" width="108" height="91" rx="4" fill="#1E1B4B" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M456 438 L456 529" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <rect x="469" y="454" width="69" height="23" rx="4" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="503" y="470" font-size="12" font-weight="700" fill="#EF4444" text-anchor="middle">912 PAGES</text>
+    <text x="503" y="501" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">NOIR</text>
+  </g>
+  <g>
+    <circle cx="596" cy="450" r="10" fill="#10B981"/>
+    <path d="M596 461 L596 501 M596 473 L566 486 M596 473 L615 483 M596 501 L584 530 M596 501 L608 530" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="693" cy="450" r="10" fill="#7C3AED"/>
+    <path d="M693 461 L693 501 M693 473 L674 484 M693 473 L713 484 M693 501 L681 530 M693 501 L705 530" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <path d="M552 486 L566 486" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The three signals agree—except her mouth.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Use item attributes, user profiles, and behavioral interactions; missing one lowers quality.</text>
+</svg>

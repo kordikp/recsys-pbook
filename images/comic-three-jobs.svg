@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Bookseller With Three Job Titles</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <path d="M45 145H205 M45 205H205 M55 145V205 M195 145V205 M68 158V195 M82 153V195 M99 161V195 M116 151V195 M134 157V195 M151 154V195 M169 160V195" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="174" y="165" width="15" height="30" rx="2" fill="#FEF3C7" stroke="#D97706"/>
+  <circle cx="260" cy="167" r="10" fill="#10B981"/>
+  <path d="M260 177V217 M260 188L224 180 M260 190L282 202 M260 217L247 239 M260 217L274 239" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="330" cy="172" r="10" fill="#7C3AED"/>
+  <path d="M330 182V220 M330 193L309 204 M330 193L348 207 M330 220L318 241 M330 220L342 241" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="34" y="74" width="195" height="36" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="131.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I searched every bestseller.</text>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">DISCOVER: The best find wasn’t on the shelf they searched.</text>
+
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <path d="M445 137H525V171H575V137H665V171H744 M445 216H510V183H590V216H655V183H744" fill="none" stroke="#6B7280" stroke-width="7" stroke-linecap="round"/>
+  <path d="M456 195H488V158H546V198H610V158H690V200H731 M722 191L731 200L722 209" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="470" cy="238" r="10" fill="#10B981"/>
+  <path d="M470 248V271 M470 255L487 258 M470 271L460 286 M470 271L480 286" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="520" cy="238" r="10" fill="#7C3AED"/>
+  <path d="M520 248V271 M520 255L501 258 M520 271L510 286 M520 271L530 286" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="557" y="76" width="190" height="48" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="652" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="652" y="95">Three million spines.</tspan>
+    <tspan x="652" y="112">Follow the green cardigan.</tspan>
+  </text>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">NAVIGATE: One route beats choosing among three million spines.</text>
+
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <path d="M53 518H153 M62 500H145 M72 482H137 M82 464H129" fill="none" stroke="#D97706" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="111" cy="435" r="10" fill="#7C3AED"/>
+  <path d="M111 445V475 M111 454L91 469 M111 454L137 466 M111 475L94 494 M111 475L140 482" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="286" cy="437" r="10" fill="#10B981"/>
+  <path d="M286 447V491 M286 459L244 468 M286 460L310 474 M286 491L274 517 M286 491L299 517" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="218" y="453" width="28" height="20" rx="2" fill="#EDE9FE" stroke="#7C3AED"/>
+  <rect x="43" y="356" width="177" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="131.5" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Another one like that.</text>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">ENGAGE: A useful next pick keeps the good hour going.</text>
+
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <path d="M430 519H758 M444 505H500V519 M508 489H566V519 M574 473H632V519 M640 457H698V519 M706 441H758V519 M444 532H744 M460 532L471 542 M495 532L506 542 M530 532L541 542 M565 532L576 542 M600 532L611 542 M635 532L646 542 M670 532L681 542 M705 532L716 542" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="477" cy="448" r="10" fill="#10B981"/>
+  <path d="M477 458V493 M477 468L510 478 M477 470L457 483 M477 493L465 516 M477 493L489 516" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="713" cy="424" r="10" fill="#7C3AED"/>
+  <path d="M713 434V480 M713 447L679 430 M713 447L746 430 M713 480L701 510 M713 480L725 510" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="543" y="356" width="216" height="50" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="651" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="651" y="376">I said “one more,”</tspan>
+    <tspan x="651" y="393">not “move in.”</tspan>
+  </text>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The shop gains an hour. The reader loses one.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">A recommender’s core functions are discovery, navigation, and engagement aligned with user value.</text>
+</svg>

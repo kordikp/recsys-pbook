@@ -1,0 +1,153 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Clerk’s Favorite Movie Is a Metric</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="32" y="74" width="206" height="58" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="45" y="96" font-size="12.5" fill="#1E1B4B">What should I watch tonight?</text>
+    <text x="45" y="116" font-size="12.5" fill="#1E1B4B">Something I’ll actually enjoy.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="91" cy="179" r="10" fill="#7C3AED" stroke="none"/>
+      <line x1="91" y1="190" x2="91" y2="231"/>
+      <line x1="91" y1="201" x2="117" y2="193"/>
+      <line x1="91" y1="231" x2="76" y2="254"/>
+      <line x1="91" y1="231" x2="106" y2="254"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="299" cy="174" r="10" fill="#0EA5E9" stroke="none"/>
+      <line x1="299" y1="185" x2="299" y2="226"/>
+      <line x1="299" y1="196" x2="274" y2="207"/>
+      <line x1="299" y1="196" x2="324" y2="207"/>
+    </g>
+
+    <rect x="234" y="211" width="134" height="52" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="301" y="233" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">TONIGHT’S PICKS</text>
+    <text x="301" y="251" font-size="12" fill="#6B7280" text-anchor="middle">ask the clerk</text>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A customer asks for satisfaction, not merely a selection.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="526" y="72" width="236" height="53" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="544" y="94" font-size="12.5" fill="#1E1B4B">One front shelf.</text>
+    <text x="544" y="113" font-size="12.5" fill="#1E1B4B">Four versions of “best.”</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="452" cy="169" r="9" fill="#7C3AED" stroke="none"/>
+      <line x1="452" y1="179" x2="452" y2="211"/>
+      <line x1="452" y1="188" x2="440" y2="201"/>
+      <line x1="452" y1="188" x2="464" y2="201"/>
+    </g>
+    <rect x="425" y="211" width="54" height="32" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="452" y="232" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">ENJOY</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="540" cy="169" r="9" fill="#10B981" stroke="none"/>
+      <line x1="540" y1="179" x2="540" y2="211"/>
+      <line x1="540" y1="188" x2="528" y2="201"/>
+      <line x1="540" y1="188" x2="552" y2="201"/>
+    </g>
+    <rect x="508" y="211" width="64" height="32" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="540" y="232" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">BE SEEN</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="629" cy="169" r="9" fill="#D97706" stroke="none"/>
+      <line x1="629" y1="179" x2="629" y2="211"/>
+      <line x1="629" y1="188" x2="617" y2="201"/>
+      <line x1="629" y1="188" x2="641" y2="201"/>
+    </g>
+    <rect x="602" y="211" width="54" height="32" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="629" y="232" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">EARN</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="717" cy="169" r="9" fill="#0EA5E9" stroke="none"/>
+      <line x1="717" y1="179" x2="717" y2="211"/>
+      <line x1="717" y1="188" x2="705" y2="201"/>
+      <line x1="717" y1="188" x2="729" y2="201"/>
+    </g>
+    <rect x="684" y="211" width="66" height="32" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="717" y="232" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">CHOOSE</text>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Viewer, creator, and shop each point to a different “best.”</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="34" y="357" width="140" height="72" rx="7" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="104" y="379" font-size="12" font-weight="700" fill="#EF4444" text-anchor="middle">AD-SUPPORTED</text>
+    <text x="104" y="400" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">12-PART EPIC</text>
+    <text x="104" y="418" font-size="12" fill="#6B7280" text-anchor="middle">Part 1 of 12</text>
+
+    <rect x="191" y="357" width="181" height="42" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="281.5" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Why this twelve-part epic?</text>
+
+    <rect x="164" y="416" width="208" height="55" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="180" y="438" font-size="12.5" fill="#1E1B4B">It keeps you here for twelve</text>
+    <text x="180" y="457" font-size="12.5" fill="#1E1B4B">ad breaks.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="87" cy="482" r="10" fill="#7C3AED" stroke="none"/>
+      <line x1="87" y1="493" x2="87" y2="525"/>
+      <line x1="87" y1="503" x2="110" y2="496"/>
+      <line x1="87" y1="525" x2="74" y2="545"/>
+      <line x1="87" y1="525" x2="100" y2="545"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="144" cy="482" r="10" fill="#0EA5E9" stroke="none"/>
+      <line x1="144" y1="493" x2="144" y2="527"/>
+      <line x1="144" y1="503" x2="121" y2="496"/>
+      <line x1="144" y1="527" x2="132" y2="545"/>
+      <line x1="144" y1="527" x2="156" y2="545"/>
+    </g>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The free plan rewards attention—and the ads sold around it.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="426" y="357" width="140" height="72" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="496" y="379" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">MEMBER PICK</text>
+    <text x="496" y="400" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">QUIET MOON</text>
+    <text x="496" y="418" font-size="12" fill="#6B7280" text-anchor="middle">oddly specific</text>
+
+    <rect x="584" y="357" width="178" height="42" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="673" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">This is exactly my thing.</text>
+
+    <rect x="578" y="416" width="184" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="670" y="438" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Good.</text>
+    <text x="670" y="457" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Renew on Tuesday.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="482" cy="482" r="10" fill="#7C3AED" stroke="none"/>
+      <line x1="482" y1="493" x2="482" y2="525"/>
+      <line x1="482" y1="503" x2="507" y2="495"/>
+      <line x1="482" y1="525" x2="469" y2="545"/>
+      <line x1="482" y1="525" x2="495" y2="545"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="540" cy="482" r="10" fill="#0EA5E9" stroke="none"/>
+      <line x1="540" y1="493" x2="540" y2="527"/>
+      <line x1="540" y1="503" x2="515" y2="495"/>
+      <line x1="540" y1="527" x2="528" y2="545"/>
+      <line x1="540" y1="527" x2="552" y2="545"/>
+    </g>
+
+    <rect x="445" y="510" width="73" height="29" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="481.5" y="529" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">MONTHLY</text>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">With subscriptions, delight is often the stronger retention plan.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">An objective function defines what a recommender maximizes—and whose interests it serves.</text>
+</svg>

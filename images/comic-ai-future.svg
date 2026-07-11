@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Future Is Up for Remote Control</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="40" y="104" width="142" height="88" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="111" y="138" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">SMART TV</text>
+    <text x="111" y="160" font-size="13" fill="#1E1B4B" text-anchor="middle">WHAT’S NEXT?</text>
+    <path d="M92 192 L86 205 M130 192 L136 205 M78 205 H144" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="202" y="75" width="169" height="53" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="286.5" y="96" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="286.5" dy="0">I made it pick</tspan>
+      <tspan x="286.5" dy="17">what plays next.</tspan>
+    </text>
+
+    <circle cx="258" cy="163" r="10" fill="#7C3AED"/>
+    <path d="M258 174 L258 219 M258 184 L231 197 M258 186 L281 196 M258 219 L244 242 M258 219 L272 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="222" y="191" width="17" height="29" rx="4" fill="#EDE9FE" stroke="#7C3AED"/>
+    <circle cx="335" cy="184" r="9" fill="#0EA5E9"/>
+    <path d="M335 194 L335 225 M335 203 L320 214 M335 203 L349 212 M335 225 L326 243 M335 225 L344 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">One person programs what comes next.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="430" y="104" width="142" height="88" rx="8" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="501" y="136" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">AUTOPLAY</text>
+    <rect x="473" y="151" width="56" height="24" rx="12" fill="#D1FAE5" stroke="#10B981"/>
+    <circle cx="516" cy="163" r="8" fill="#10B981"/>
+    <path d="M482 192 L476 205 M520 192 L526 205 M468 205 H534" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="588" y="75" width="174" height="53" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="675" y="96" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="675" dy="0">I added limits.</tspan>
+      <tspan x="675" dy="17">And an appeal button.</tspan>
+    </text>
+
+    <circle cx="641" cy="168" r="10" fill="#D97706"/>
+    <path d="M641 179 L641 221 M641 188 L615 201 M641 189 L662 201 M641 221 L629 243 M641 221 L653 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="601" y="191" width="25" height="34" rx="3" fill="#FEF3C7" stroke="#D97706"/>
+    <circle cx="729" cy="187" r="9" fill="#0EA5E9"/>
+    <path d="M729 197 L729 226 M729 205 L716 214 M729 205 L742 214 M729 226 L721 243 M729 226 L737 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Another person decides what must not.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="40" y="384" width="142" height="88" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="111" y="415" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">SPONSORED</text>
+    <path d="M91 440 Q111 421 131 440 L126 458 H96 Z" fill="#FFFFFF" stroke="#10B981"/>
+    <text x="111" y="455" font-size="11" fill="#1E1B4B" text-anchor="middle">NEXT</text>
+    <path d="M92 472 L86 485 M130 472 L136 485 M78 485 H144" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="193" y="355" width="177" height="54" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="281.5" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="281.5" dy="0">Why does “for me”</tspan>
+      <tspan x="281.5" dy="17">keep selling to me?</tspan>
+    </text>
+
+    <circle cx="246" cy="447" r="9" fill="#0EA5E9"/>
+    <path d="M246 457 L246 504 M246 467 L220 452 M246 468 L266 480 M246 504 L235 524 M246 504 L257 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="329" cy="458" r="10" fill="#7C3AED"/>
+    <path d="M329 469 L329 507 M329 478 L307 486 M329 478 L348 489 M329 507 L318 527 M329 507 L340 527" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Meanwhile, the business model has the remote.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="429" y="365" width="151" height="47" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="504.5" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="504.5" dy="0">We’re deciding</tspan>
+      <tspan x="504.5" dy="17">the future here.</tspan>
+    </text>
+
+    <rect x="594" y="365" width="164" height="47" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="676" y="394" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Who gets the remote?</text>
+
+    <circle cx="468" cy="461" r="10" fill="#7C3AED"/>
+    <path d="M468 472 L468 514 M468 483 L530 512 M468 514 L457 535 M468 514 L479 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="596" cy="458" r="10" fill="#D97706"/>
+    <path d="M596 469 L596 514 M596 481 L548 512 M596 514 L585 535 M596 514 L607 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="714" cy="472" r="9" fill="#0EA5E9"/>
+    <path d="M714 482 L714 516 M714 490 L565 515 M714 516 L706 535 M714 516 L722 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="520" y="508" width="63" height="22" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+    <circle cx="534" cy="519" r="3" fill="#EF4444"/>
+    <circle cx="547" cy="519" r="3" fill="#10B981"/>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The child notices “for you” has several owners.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Many disciplines must shape recommenders because today’s choices decide future access and power.</text>
+</svg>

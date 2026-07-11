@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Thompson's Scoop of the Draw</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <circle cx="92" cy="157" r="10" fill="#7C3AED"/>
+  <path d="M92 168 L92 213 M92 178 L70 195 M92 178 L118 193 M92 213 L77 237 M92 213 L107 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="300" cy="157" r="10" fill="#0EA5E9"/>
+  <path d="M300 168 L300 213 M300 180 L279 194 M300 180 L321 194 M300 213 L286 237 M300 213 L314 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="220" y="76" width="153" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="296.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="296.5" dy="0">The usual...</tspan>
+    <tspan x="296.5" dy="17">or something new?</tspan>
+  </text>
+  <path d="M132 205 Q151 234 170 205 Z" fill="#EDE9FE" stroke="#7C3AED"/>
+  <path d="M187 205 Q206 234 225 205 Z" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="178" y="199" font-size="11.5" fill="#6B7280" text-anchor="middle">VANILLA　 MANGO?</text>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Exploit the favorite—or explore the uncertain special?</text>
+
+  <!-- Panel 2 -->
+  <circle cx="466" cy="157" r="10" fill="#7C3AED"/>
+  <path d="M466 168 L466 213 M466 180 L493 197 M466 181 L447 196 M466 213 L452 237 M466 213 L480 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="735" cy="157" r="10" fill="#0EA5E9"/>
+  <path d="M735 168 L735 213 M735 180 L716 195 M735 180 L752 195 M735 213 L722 237 M735 213 L748 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="500" y="76" width="190" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="595" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="595" dy="0">I draw one guess</tspan>
+    <tspan x="595" dy="17">from each jar.</tspan>
+  </text>
+  <path d="M525 184 H568 V232 H525 Z M536 198 A4 4 0 1 0 544 198 A4 4 0 1 0 536 198 M548 215 A4 4 0 1 0 556 215 A4 4 0 1 0 548 215 M590 184 H633 V232 H590 Z M600 207 A4 4 0 1 0 608 207 A4 4 0 1 0 600 207 M616 194 A4 4 0 1 0 624 194 A4 4 0 1 0 616 194" fill="none" stroke="#7C3AED" stroke-width="2"/>
+  <text x="579" y="248" font-size="11.5" fill="#6B7280" text-anchor="middle">KNOWN　　 UNCERTAIN</text>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Thompson samples beliefs, so the balance tunes itself.</text>
+
+  <!-- Panel 3 -->
+  <circle cx="82" cy="443" r="10" fill="#7C3AED"/>
+  <path d="M82 454 L82 499 M82 466 L107 480 M82 466 L62 481 M82 499 L69 523 M82 499 L95 523" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="354" cy="443" r="10" fill="#0EA5E9"/>
+  <path d="M354 454 L354 499 M354 466 L334 481 M354 466 L373 481 M354 499 L341 523 M354 499 L367 523" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="34" y="356" width="174" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="121" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="121" dy="0">New crowd.</tspan>
+    <tspan x="121" dy="17">Fresh jars.</tspan>
+  </text>
+  <rect x="218" y="381" width="120" height="74" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="278" y="405" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="278" dy="0">MANGO ↑</tspan>
+    <tspan x="278" dy="19">TRENDING: 3 MIN</tspan>
+  </text>
+  <text x="278" y="370" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">DING! CHANGE POINT</text>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">BMAB resets priors at change points; trends surface in minutes.</text>
+
+  <!-- Panel 4 -->
+  <circle cx="474" cy="448" r="10" fill="#7C3AED"/>
+  <path d="M474 459 L474 504 M474 470 L526 477 M474 470 L454 484 M474 504 L461 528 M474 504 L487 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="708" cy="448" r="10" fill="#0EA5E9"/>
+  <path d="M708 459 L708 504 M708 470 L662 483 M708 470 L727 484 M708 504 L695 528 M708 504 L721 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="590" y="356" width="175" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="677.5" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="677.5" dy="0">Put my regret</tspan>
+    <tspan x="677.5" dy="17">on the receipt.</tspan>
+  </text>
+  <rect x="526" y="435" width="136" height="82" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="594" y="458" font-size="12" fill="#6B7280" text-anchor="middle">
+    <tspan x="594" dy="0">CUMULATIVE REGRET</tspan>
+    <tspan x="594" dy="23" font-size="14" font-weight="700" fill="#1E1B4B">O(√(KT log T))</tspan>
+  </text>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Regret remains near-optimal: O(√(KT log T)).</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Explore uncertainty or exploit winners; Thompson Sampling balances both by sampling beliefs.</text>
+</svg>

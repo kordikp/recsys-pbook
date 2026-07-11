@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Same Search, Different Footprints</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1: two shoppers submit the same query -->
+  <g>
+    <circle cx="67" cy="111" r="10" fill="#7C3AED"/>
+    <path d="M67 122 L67 166 M67 136 L96 118 M67 165 L53 194 M67 165 L81 194" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="67" y="211" font-size="12" fill="#6B7280" text-anchor="middle">Maya</text>
+  </g>
+  <g>
+    <rect x="102" y="94" width="168" height="40" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+    <circle cx="119" cy="113" r="5" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <line x1="123" y1="117" x2="128" y2="122" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+    <text x="138" y="118" font-size="12.5" fill="#1E1B4B">running shoes</text>
+  </g>
+  <g>
+    <circle cx="331" cy="184" r="10" fill="#10B981"/>
+    <path d="M331 195 L331 224 M331 204 L307 191 M331 223 L320 242 M331 223 L342 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="354" y="224" font-size="12" fill="#6B7280" text-anchor="middle">Leo</text>
+  </g>
+  <g>
+    <rect x="139" y="166" width="168" height="40" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+    <circle cx="156" cy="185" r="5" fill="none" stroke="#10B981" stroke-width="2"/>
+    <line x1="160" y1="189" x2="165" y2="194" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+    <text x="175" y="190" font-size="12.5" fill="#1E1B4B">running shoes</text>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Maya and Leo hand over exactly the same request.</text>
+
+  <!-- Panel 2: one shared embedding-based stockroom -->
+  <g>
+    <rect x="426" y="91" width="116" height="34" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="484" y="113" font-size="12" fill="#1E1B4B" text-anchor="middle">running shoes</text>
+    <path d="M542 108 L562 128" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="426" y="157" width="116" height="34" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="484" y="179" font-size="12" fill="#1E1B4B" text-anchor="middle">running shoes</text>
+    <path d="M542 174 L562 154" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="562" y="78" width="158" height="153" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="641" y="101" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">ONE STOCKROOM</text>
+    <text x="641" y="121" font-size="12" fill="#6B7280" text-anchor="middle">meaning map</text>
+    <path d="M586 151 L612 137 L641 158 L671 134 L696 151" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="586" cy="151" r="5" fill="#7C3AED"/>
+    <circle cx="612" cy="137" r="5" fill="#D97706"/>
+    <circle cx="641" cy="158" r="5" fill="#10B981"/>
+    <circle cx="671" cy="134" r="5" fill="#0EA5E9"/>
+    <circle cx="696" cy="151" r="5" fill="#EF4444"/>
+    <line x1="584" y1="190" x2="698" y2="190" stroke="#6B7280" stroke-width="2"/>
+    <line x1="584" y1="207" x2="698" y2="207" stroke="#6B7280" stroke-width="2"/>
+  </g>
+  <g>
+    <circle cx="751" cy="118" r="10" fill="#D97706"/>
+    <path d="M751 129 L751 173 M751 142 L720 153 M751 142 L771 151 M751 172 L740 203 M751 172 L763 203" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Both notes enter the same meaning-based stockroom.</text>
+
+  <!-- Panel 3: histories steer ranking -->
+  <g>
+    <rect x="31" y="367" width="130" height="53" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="96" y="389" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">Maya</text>
+    <text x="96" y="407" font-size="12" fill="#6B7280" text-anchor="middle">race pace · light shoes</text>
+  </g>
+  <g>
+    <rect x="31" y="476" width="130" height="53" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="96" y="498" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">Leo</text>
+    <text x="96" y="516" font-size="12" fill="#6B7280" text-anchor="middle">soft landings · support</text>
+  </g>
+  <g>
+    <rect x="176" y="421" width="98" height="55" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="225" y="442" font-size="11.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">SAME QUERY</text>
+    <text x="225" y="461" font-size="12" fill="#1E1B4B" text-anchor="middle">running shoes</text>
+  </g>
+  <g>
+    <path d="M161 393 C190 393 190 432 210 432 M240 432 C266 432 268 393 291 393" fill="none" stroke="#7C3AED" stroke-width="3" stroke-linecap="round"/>
+    <path d="M161 503 C190 503 190 465 210 465 M240 465 C266 465 268 503 291 503" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="291" y="368" width="84" height="51" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+    <path d="M307 395 C321 395 325 383 332 383 L342 396 L359 401 L359 407 L306 407 Z" fill="#7C3AED" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <rect x="291" y="477" width="84" height="51" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+    <path d="M306 500 C320 500 323 491 331 491 L342 501 L360 505 L360 514 L305 514 Z" fill="#10B981" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/>
+    <line x1="310" y1="510" x2="356" y2="510" stroke="#FFFFFF" stroke-width="2"/>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The same request meets two different customer histories.</text>
+
+  <!-- Panel 4: personalized results -->
+  <g>
+    <rect x="424" y="355" width="180" height="43" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="514" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">We asked for the same thing.</text>
+  </g>
+  <g>
+    <rect x="610" y="355" width="160" height="43" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="690" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Your knees did not.</text>
+  </g>
+  <g>
+    <circle cx="463" cy="451" r="10" fill="#7C3AED"/>
+    <path d="M463 462 L463 512 M463 476 L490 490 M463 476 L442 493 M463 511 L451 541 M463 511 L477 541" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M485 486 C499 486 504 474 511 474 L522 488 L542 493 L542 501 L483 501 Z" fill="#7C3AED" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <circle cx="681" cy="451" r="10" fill="#10B981"/>
+    <path d="M681 462 L681 512 M681 476 L650 497 M681 476 L703 492 M681 511 L669 541 M681 511 L695 541" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M620 496 C635 496 639 486 647 486 L658 497 L676 501 L676 512 L619 512 Z" fill="#10B981" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/>
+    <line x1="624" y1="507" x2="672" y2="507" stroke="#FFFFFF" stroke-width="2"/>
+  </g>
+  <g>
+    <circle cx="572" cy="442" r="10" fill="#D97706"/>
+    <path d="M572 453 L572 505 M572 469 L548 487 M572 469 L598 487 M572 504 L561 537 M572 504 L584 537" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">One query, two very personally stocked answers.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Search and recommendations use one embedding retrieval pipeline; user signals personalize results.</text>
+</svg>

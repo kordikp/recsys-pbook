@@ -1,0 +1,185 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">One Inverse to Rule the Video Aisles</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1: one inverse beats the deep clerk -->
+  <g>
+    <text x="99" y="86" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">FULL ITEM INVERSE</text>
+    <rect x="40" y="96" width="118" height="118" rx="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M69.5 96V214 M99 96V214 M128.5 96V214 M40 125.5H158 M40 155H158 M40 184.5H158" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M41 97H68V124H41Z M100 126H127V153H100Z M129 185H157V213H129Z" fill="#7C3AED"/>
+  </g>
+
+  <g>
+    <rect x="170" y="78" width="108" height="52" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="224" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="224" dy="0">One inverse.</tspan>
+      <tspan x="224" dy="17">Try “Moon Hotel.”</tspan>
+    </text>
+  </g>
+
+  <g>
+    <circle cx="224" cy="161" r="10" fill="#7C3AED"/>
+    <path d="M224 172V215 M224 184L205 199 M224 184L242 197 M224 215L211 236 M224 215L237 236" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <rect x="286" y="78" width="92" height="39" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="332" y="102" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Still training…</text>
+  </g>
+
+  <g>
+    <rect x="293" y="151" width="43" height="48" rx="7" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <circle cx="305" cy="169" r="3" fill="#1E1B4B"/>
+    <circle cx="324" cy="169" r="3" fill="#1E1B4B"/>
+    <path d="M300 188H329 M314.5 151V141" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="314.5" y="218" font-size="10.5" font-weight="700" fill="#EF4444" text-anchor="middle">DEEP</text>
+  </g>
+
+  <g>
+    <circle cx="365" cy="164" r="10" fill="#0EA5E9"/>
+    <path d="M365 175V216 M365 187L348 198 M365 187L378 177 M365 216L354 237 M365 216L376 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">EASE is one matrix inverse—and it beats the deep clerk.</text>
+
+  <!-- Panel 2: cubic catalog growth -->
+  <g>
+    <text x="530" y="88" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">FULL CATALOG INVERSE</text>
+    <rect x="442" y="98" width="176" height="140" rx="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M471 98V238 M500 98V238 M529 98V238 M558 98V238 M587 98V238 M442 126H618 M442 154H618 M442 182H618 M442 210H618" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M443 99H470V125H443Z M501 127H528V153H501Z M559 183H586V209H559Z M588 211H617V237H588Z" fill="#7C3AED"/>
+  </g>
+
+  <g>
+    <rect x="642" y="79" width="128" height="45" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="706" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="706" dy="0">We added three</tspan>
+      <tspan x="706" dy="17">sequels.</tspan>
+    </text>
+  </g>
+
+  <g>
+    <rect x="650" y="139" width="74" height="30" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="687" y="159" font-size="14" font-weight="700" fill="#D97706" text-anchor="middle">O(n³)</text>
+  </g>
+
+  <g>
+    <circle cx="674" cy="202" r="10" fill="#7C3AED"/>
+    <path d="M674 213V250 M674 225L658 239 M674 225L691 238 M674 250L663 270 M674 250L685 270" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <circle cx="746" cy="202" r="10" fill="#0EA5E9"/>
+    <path d="M746 213V250 M746 225L730 238 M746 225L761 211 M746 250L735 270 M746 250L757 270" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="754" y="186" width="16" height="24" rx="2" fill="#FFFFFF" stroke="#0EA5E9"/>
+  </g>
+
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">But the full catalog inverse costs O(n³).</text>
+
+  <!-- Panel 3: low-rank aisles -->
+  <g>
+    <text x="137" y="372" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">LOW-RANK: n × d</text>
+
+    <rect x="46" y="390" width="48" height="116" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M46 419H94 M46 448H94 M46 477H94" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="61" cy="404" r="5" fill="#7C3AED"/>
+    <circle cx="78" cy="434" r="5" fill="#7C3AED"/>
+    <circle cx="62" cy="462" r="5" fill="#7C3AED"/>
+    <circle cx="79" cy="491" r="5" fill="#7C3AED"/>
+
+    <path d="M105 448H126 M120 442L126 448L120 454" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="136" y="402" width="30" height="104" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <path d="M136 428H166 M136 454H166 M136 480H166" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <rect x="177" y="402" width="30" height="104" rx="5" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <path d="M177 428H207 M177 454H207 M177 480H207" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <rect x="218" y="402" width="30" height="104" rx="5" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <path d="M218 428H248 M218 454H248 M218 480H248" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <text x="192" y="526" font-size="10.5" fill="#6B7280" text-anchor="middle">d hidden aisles</text>
+  </g>
+
+  <g>
+    <rect x="272" y="383" width="87" height="31" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="315.5" y="404" font-size="14" font-weight="700" fill="#10B981" text-anchor="middle">O(nd²)</text>
+  </g>
+
+  <g>
+    <rect x="258" y="429" width="118" height="48" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="317" y="449" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="317" dy="0">Same picks.</tspan>
+      <tspan x="317" dy="17">Less furniture.</tspan>
+    </text>
+  </g>
+
+  <g>
+    <circle cx="300" cy="508" r="10" fill="#7C3AED"/>
+    <path d="M300 519V553 M300 530L285 541 M300 530L316 540 M300 553L290 572 M300 553L310 572" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <circle cx="354" cy="508" r="10" fill="#0EA5E9"/>
+    <path d="M354 519V553 M354 530L339 540 M354 530L369 541 M354 553L344 572 M354 553L364 572" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">ELSA factorizes into d hidden aisles: O(nd²).</text>
+
+  <!-- Panel 4: behavior discovers genres -->
+  <g>
+    <rect x="426" y="357" width="151" height="50" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="501.5" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="501.5" dy="0">Why is “sad space”</tspan>
+      <tspan x="501.5" dy="17">one aisle?</tspan>
+    </text>
+  </g>
+
+  <g>
+    <rect x="596" y="357" width="137" height="39" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="664.5" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Ask your footprints.</text>
+  </g>
+
+  <text x="506" y="430" font-size="10.5" font-weight="700" fill="#6B7280" text-anchor="middle">NO GENRE TAGS</text>
+
+  <g>
+    <rect x="434" y="444" width="47" height="82" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M434 485H481" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="448" cy="462" r="8" fill="#7C3AED"/>
+    <circle cx="452" cy="459" r="8" fill="#EDE9FE"/>
+    <path d="M460 497C466 505 466 512 460 516C454 512 454 505 460 497Z" fill="#0EA5E9"/>
+  </g>
+
+  <g>
+    <rect x="494" y="444" width="47" height="82" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <path d="M494 485H541" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <path d="M506 469L517 452L529 469Z M505 499H530L517 517Z" fill="#D97706"/>
+  </g>
+
+  <g>
+    <rect x="554" y="444" width="47" height="82" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <path d="M554 485H601" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="568" cy="462" r="7" fill="#10B981"/>
+    <circle cx="587" cy="462" r="7" fill="#10B981"/>
+    <path d="M568 499C576 488 587 488 592 498C584 509 574 513 568 499Z" fill="#10B981"/>
+  </g>
+
+  <path d="M714 548C679 554 650 544 625 536C600 528 572 537 548 540C524 543 500 536 476 524" fill="none" stroke="#0EA5E9" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 11"/>
+
+  <g>
+    <circle cx="665" cy="475" r="10" fill="#7C3AED"/>
+    <path d="M665 486V529 M665 497L648 508 M665 497L682 507 M665 529L654 551 M665 529L676 551" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <g>
+    <circle cx="734" cy="475" r="10" fill="#0EA5E9"/>
+    <path d="M734 486V529 M734 497L718 509 M734 497L749 508 M734 529L723 551 M734 529L745 551" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Its embeddings recover genres from behavior alone.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">ELSA replaces EASE's cubic inverse with low-rank embeddings, making huge catalogs tractable.</text>
+</svg>

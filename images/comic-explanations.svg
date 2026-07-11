@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Waiter Has His Reasons</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="76" width="190" height="58" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="48" y="99" font-size="12.5" fill="#1E1B4B">
+      <tspan x="48" dy="0">I didn't order</tspan>
+      <tspan x="48" dy="18">beet foam.</tspan>
+    </text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="91" cy="168" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M91 179 L91 218 M91 191 L72 207 M91 191 L108 205"/>
+      <path d="M91 218 L77 239 M91 218 L105 239"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="302" cy="153" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M302 164 L302 211 M302 178 L278 201 M302 178 L329 198"/>
+      <path d="M302 211 L289 239 M302 211 L316 239"/>
+    </g>
+
+    <g>
+      <path d="M254 205 H350" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="300" cy="201" rx="25" ry="7" fill="#EDE9FE" stroke="#7C3AED"/>
+      <path d="M289 197 Q300 177 311 197" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    </g>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">An unexpected special arrives before an explanation.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="426" y="76" width="136" height="44" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="494" y="103" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That's the reason?</text>
+
+    <rect x="574" y="76" width="188" height="58" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="588" y="99" font-size="12.5" fill="#1E1B4B">
+      <tspan x="588" dy="0">Let's say: because</tspan>
+      <tspan x="588" dy="18">you ordered olives.</tspan>
+    </text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="471" cy="171" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M471 182 L471 221 M471 194 L455 206 M471 194 L489 207"/>
+      <path d="M471 221 L458 245 M471 221 L484 245"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="706" cy="166" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M706 177 L706 220 M706 190 L679 207 M706 190 L729 205"/>
+      <path d="M706 220 L693 245 M706 220 L719 245"/>
+    </g>
+
+    <g>
+      <ellipse cx="608" cy="216" rx="42" ry="9" fill="#EDE9FE" stroke="#7C3AED"/>
+      <path d="M596 211 Q608 188 620 211" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+      <path d="M640 202 L670 184" stroke="#6B7280" stroke-width="2"/>
+      <rect x="650" y="170" width="54" height="24" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="677" y="186" font-size="11" fill="#1E1B4B" text-anchor="middle">OLIVES</text>
+    </g>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A tidy cause is attached after the dish is chosen.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="32" y="356" width="102" height="43" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="83" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">All 417?</text>
+
+    <rect x="238" y="356" width="137" height="43" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="306.5" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Before lunch.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="54" cy="470" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M54 481 L54 526 M54 493 L72 508 M54 493 L40 510"/>
+      <path d="M54 526 L42 550 M54 526 L67 550"/>
+    </g>
+
+    <rect x="140" y="412" width="220" height="128" rx="9" fill="#FAFAF7" stroke="#6B7280" stroke-width="2"/>
+    <rect x="153" y="425" width="194" height="25" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="250" y="442" font-size="11.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">NEURAL KITCHEN: 417 SIGNALS</text>
+    <text x="250" y="470" font-size="11.5" fill="#6B7280" text-anchor="middle">hour · weather · pauses</text>
+    <text x="250" y="493" font-size="11.5" fill="#6B7280" text-anchor="middle">friends · device · novelty</text>
+    <text x="250" y="516" font-size="11.5" fill="#6B7280" text-anchor="middle">and 411 quieter clues</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="374" cy="467" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M374 478 L374 523 M374 491 L360 505 M374 491 L383 508"/>
+      <path d="M374 523 L365 550 M374 523 L383 550"/>
+    </g>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Hundreds of interacting clues made the dish win.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="426" y="356" width="151" height="44" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="501.5" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">And the other 414?</text>
+
+    <rect x="602" y="356" width="160" height="44" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="682" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Not on the legal menu.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="465" cy="468" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M465 479 L465 526 M465 493 L484 506 M465 493 L450 510"/>
+      <path d="M465 526 L453 550 M465 526 L478 550"/>
+    </g>
+
+    <rect x="530" y="421" width="154" height="119" rx="9" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+    <rect x="542" y="433" width="130" height="25" rx="6" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="607" y="450" font-size="11.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">DSA + GDPR</text>
+    <text x="607" y="478" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">MAIN PARAMETERS</text>
+    <text x="607" y="501" font-size="11.5" fill="#6B7280" text-anchor="middle">recent orders</text>
+    <text x="607" y="522" font-size="11.5" fill="#6B7280" text-anchor="middle">time · popularity</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="735" cy="468" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M735 479 L735 526 M735 493 L715 506 M735 493 L750 508"/>
+      <path d="M735 526 L723 550 M735 526 L748 550"/>
+    </g>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The law gets a summary. The diner gets beet foam.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Hundreds of interacting features make legally required platform explanations approximate.</text>
+</svg>

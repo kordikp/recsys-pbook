@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Boutique Has More Than One Dress Code</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="31" y="72" width="244" height="48" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="153" y="92" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Both tags say</text>
+  <text x="153" y="108" font-size="12.5" fill="#1E1B4B" text-anchor="middle">“elegant evening wear”?</text>
+
+  <circle cx="337" cy="91" r="10" fill="#D1FAE5"/>
+  <path d="M337 102 L337 139 M337 112 L320 124 M337 112 L351 124" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="62" y="136" width="142" height="25" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="133" y="152" font-size="10.5" fill="#1E1B4B" text-anchor="middle">elegant evening wear</text>
+  <path d="M124 170 L142 170 L148 187 L169 257 L97 257 L118 187 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <path d="M118 187 Q133 196 148 187 M108 225 L158 225" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+
+  <rect x="226" y="136" width="142" height="25" rx="7" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="297" y="152" font-size="10.5" fill="#1E1B4B" text-anchor="middle">elegant evening wear</text>
+  <path d="M279 171 L315 171 L325 188 L313 203 L330 239 L296 247 L264 235 L280 202 L269 188 Z" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+  <path d="M279 171 L297 190 L315 171 M280 220 L318 213" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/>
+
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Text agrees; the dresses emphatically do not.</text>
+
+  <!-- Panel 2 -->
+  <rect x="424" y="72" width="154" height="38" rx="9" fill="#FFFFFF" stroke="#10B981"/>
+  <text x="501" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Find this photo’s look.</text>
+
+  <circle cx="451" cy="139" r="10" fill="#D1FAE5"/>
+  <path d="M451 150 L451 196 M451 160 L470 169 M451 160 L437 177" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="468" y="151" width="28" height="39" rx="4" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <path d="M477 158 L487 158 L491 180 L473 180 Z" fill="#EDE9FE" stroke="#7C3AED"/>
+
+  <rect x="519" y="127" width="190" height="113" rx="9" fill="#FAFAF7" stroke="#0EA5E9" stroke-width="2"/>
+  <text x="614" y="147" font-size="12.5" font-weight="700" fill="#0EA5E9" text-anchor="middle">CLIP: ONE STYLE SPACE</text>
+  <rect x="535" y="161" width="57" height="54" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+  <path d="M555 171 L570 171 L578 204 L547 204 Z" fill="#7C3AED"/>
+  <rect x="640" y="169" width="54" height="38" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="667" y="185" font-size="10.5" fill="#1E1B4B" text-anchor="middle">sleek</text>
+  <text x="667" y="198" font-size="10.5" fill="#1E1B4B" text-anchor="middle">midnight</text>
+  <path d="M593 188 L608 188 L624 188" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="608" cy="188" r="5" fill="#FEF3C7" stroke="#D97706"/>
+
+  <circle cx="744" cy="113" r="10" fill="#FEF3C7"/>
+  <path d="M744 124 L744 174 M744 137 L728 149 M744 137 L759 149" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">CLIP puts pictures and phrases on the same searchable map.</text>
+
+  <!-- Panel 3 -->
+  <rect x="31" y="352" width="158" height="48" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="110" y="372" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I shelve by what</text>
+  <text x="110" y="388" font-size="12.5" fill="#1E1B4B" text-anchor="middle">leaves together.</text>
+
+  <circle cx="59" cy="430" r="10" fill="#FEF3C7"/>
+  <path d="M59 441 L59 491 M59 452 L78 464 M59 452 L44 466" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="103" y="413" width="203" height="112" rx="9" fill="#FAFAF7" stroke="#10B981" stroke-width="2"/>
+  <text x="204" y="434" font-size="12.5" font-weight="700" fill="#10B981" text-anchor="middle">beeFormer’s checkout shelf</text>
+  <path d="M131 456 L151 456 L158 499 L124 499 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <path d="M245 474 L258 474 L264 493 L249 493 L244 484 L233 484 L233 476 Z" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <path d="M160 478 C184 450 213 450 241 478" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="183" cy="457" r="5" fill="#D1FAE5" stroke="#10B981"/>
+  <circle cx="204" cy="451" r="5" fill="#D1FAE5" stroke="#10B981"/>
+  <circle cx="225" cy="458" r="5" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="204" y="516" font-size="10.5" fill="#6B7280" text-anchor="middle">chosen by similar shoppers</text>
+
+  <circle cx="350" cy="430" r="10" fill="#D1FAE5"/>
+  <path d="M350 441 L350 491 M350 452 L333 465 M350 452 L364 466" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">beeFormer groups items by shared shoppers, not adjectives.</text>
+
+  <!-- Panel 4 -->
+  <rect x="425" y="352" width="150" height="38" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="500" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">These don’t match.</text>
+
+  <rect x="617" y="352" width="150" height="48" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="692" y="372" font-size="12.5" fill="#1E1B4B" text-anchor="middle">They keep getting</text>
+  <text x="692" y="388" font-size="12.5" fill="#1E1B4B" text-anchor="middle">invited together.</text>
+
+  <circle cx="507" cy="430" r="10" fill="#D1FAE5"/>
+  <path d="M507 441 L507 459 M507 449 L488 465 M507 449 L526 464" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M497 458 L517 458 L540 526 L474 526 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <path d="M480 526 L496 526 L496 541 L475 541 L475 533 Z M518 526 L534 526 L540 541 L518 541 Z" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+
+  <circle cx="690" cy="433" r="10" fill="#FEF3C7"/>
+  <path d="M690 444 L690 500 M690 456 L674 469 M690 456 L708 467" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="669" y="478" width="43" height="30" rx="5" fill="#FFFFFF" stroke="#10B981"/>
+  <text x="690" y="497" font-size="10.5" fill="#10B981" text-anchor="middle">SOLD</text>
+
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The mirror calls it chaos. The receipts call it a cluster.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Multimodal systems align image and text; behavioral embeddings add what people choose.</text>
+</svg>

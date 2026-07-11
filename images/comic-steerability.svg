@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Your Feed Has a Mixing Board</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="144" y="76" width="224" height="54" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="256" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I picked your entire evening.</text>
+    <text x="256" y="116" font-size="12.5" fill="#1E1B4B" text-anchor="middle">You liked one song.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="76" cy="170" r="10" fill="#7C3AED" stroke="none"/>
+    <line x1="76" y1="181" x2="76" y2="222"/>
+    <line x1="76" y1="193" x2="58" y2="207"/>
+    <line x1="76" y1="193" x2="96" y2="202"/>
+    <line x1="76" y1="222" x2="63" y2="244"/>
+    <line x1="76" y1="222" x2="89" y2="244"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="292" cy="160" r="10" fill="#0EA5E9" stroke="none"/>
+    <line x1="292" y1="171" x2="292" y2="207"/>
+    <line x1="292" y1="183" x2="272" y2="198"/>
+    <line x1="292" y1="183" x2="315" y2="194"/>
+  </g>
+  <g>
+    <rect x="238" y="202" width="108" height="48" rx="7" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <circle cx="266" cy="226" r="13" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2"/>
+    <circle cx="266" cy="226" r="3" fill="#0EA5E9"/>
+    <line x1="306" y1="218" x2="329" y2="218" stroke="#1E1B4B" stroke-width="2"/>
+    <line x1="306" y1="230" x2="329" y2="230" stroke="#1E1B4B" stroke-width="2"/>
+  </g>
+  <g fill="#7C3AED">
+    <circle cx="113" cy="180" r="3"/>
+    <rect x="115" y="160" width="3" height="20" rx="1"/>
+    <circle cx="129" cy="171" r="3"/>
+    <rect x="131" y="151" width="3" height="20" rx="1"/>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Traditional feed: the DJ guesses; Mia just listens.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="538" y="76" width="218" height="43" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="647" y="102" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Here. Turn what you mean.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="458" cy="174" r="10" fill="#7C3AED" stroke="none"/>
+    <line x1="458" y1="185" x2="458" y2="226"/>
+    <line x1="458" y1="196" x2="489" y2="210"/>
+    <line x1="458" y1="226" x2="446" y2="249"/>
+    <line x1="458" y1="226" x2="470" y2="249"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="742" cy="174" r="10" fill="#0EA5E9" stroke="none"/>
+    <line x1="742" y1="185" x2="742" y2="226"/>
+    <line x1="742" y1="196" x2="710" y2="210"/>
+    <line x1="742" y1="226" x2="730" y2="249"/>
+    <line x1="742" y1="226" x2="754" y2="249"/>
+  </g>
+  <g>
+    <rect x="495" y="150" width="212" height="99" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <text x="535" y="173" font-size="11" fill="#6B7280" text-anchor="middle">COZY</text>
+    <text x="601" y="173" font-size="11" fill="#6B7280" text-anchor="middle">SPACE</text>
+    <text x="667" y="173" font-size="11" fill="#6B7280" text-anchor="middle">CRIME</text>
+    <circle cx="535" cy="205" r="15" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+    <circle cx="601" cy="205" r="15" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="667" cy="205" r="15" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <line x1="535" y1="205" x2="544" y2="196" stroke="#1E1B4B" stroke-width="2"/>
+    <line x1="601" y1="205" x2="601" y2="193" stroke="#1E1B4B" stroke-width="2"/>
+    <line x1="667" y1="205" x2="659" y2="214" stroke="#1E1B4B" stroke-width="2"/>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">SAE sparse neurons become clean knobs: cozy, space, crime.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="31" y="354" width="163" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="112.5" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Just one more mystery.</text>
+  </g>
+  <g>
+    <rect x="213" y="354" width="158" height="42" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="292" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Crime neuron: 92%.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="72" cy="438" r="10" fill="#7C3AED" stroke="none"/>
+    <line x1="72" y1="449" x2="72" y2="493"/>
+    <line x1="72" y1="460" x2="113" y2="472"/>
+    <line x1="72" y1="493" x2="61" y2="517"/>
+    <line x1="72" y1="493" x2="83" y2="517"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="338" cy="438" r="10" fill="#0EA5E9" stroke="none"/>
+    <line x1="338" y1="449" x2="338" y2="493"/>
+    <line x1="338" y1="460" x2="298" y2="472"/>
+    <line x1="338" y1="493" x2="327" y2="517"/>
+    <line x1="338" y1="493" x2="349" y2="517"/>
+  </g>
+  <g>
+    <rect x="118" y="430" width="180" height="79" rx="8" fill="#FFFFFF" stroke="#EF4444" stroke-width="2"/>
+    <text x="153" y="451" font-size="11" fill="#6B7280" text-anchor="middle">CRIME</text>
+    <circle cx="153" cy="476" r="15" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <line x1="153" y1="476" x2="165" y2="468" stroke="#1E1B4B" stroke-width="2"/>
+    <rect x="190" y="462" width="88" height="18" rx="5" fill="#FEE2E2" stroke="#EF4444"/>
+    <rect x="194" y="466" width="79" height="10" rx="3" fill="#EF4444"/>
+    <text x="234" y="499" font-size="10" fill="#6B7280" text-anchor="middle">CONCENTRATION</text>
+  </g>
+  <g>
+    <ellipse cx="226" cy="528" rx="45" ry="10" fill="#1E1B4B"/>
+    <path d="M210 526 Q205 505 214 500 Q222 509 220 526" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+    <path d="M231 526 Q235 505 244 501 Q248 513 241 528" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Concentrated activation flags the rabbit hole early.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="515" y="354" width="247" height="53" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="638.5" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">One mystery.</text>
+    <text x="638.5" y="394" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Then something leafy.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="454" cy="450" r="10" fill="#7C3AED" stroke="none"/>
+    <line x1="454" y1="461" x2="454" y2="508"/>
+    <line x1="454" y1="472" x2="519" y2="487"/>
+    <line x1="454" y1="508" x2="442" y2="532"/>
+    <line x1="454" y1="508" x2="466" y2="532"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="742" cy="450" r="10" fill="#0EA5E9" stroke="none"/>
+    <line x1="742" y1="461" x2="742" y2="508"/>
+    <line x1="742" y1="472" x2="681" y2="487"/>
+    <line x1="742" y1="508" x2="730" y2="532"/>
+    <line x1="742" y1="508" x2="754" y2="532"/>
+  </g>
+  <g>
+    <rect x="507" y="440" width="184" height="96" rx="8" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+    <text x="540" y="462" font-size="10" fill="#6B7280" text-anchor="middle">MYSTERY</text>
+    <text x="599" y="462" font-size="10" fill="#6B7280" text-anchor="middle">GARDEN</text>
+    <text x="658" y="462" font-size="10" fill="#6B7280" text-anchor="middle">JAZZ</text>
+    <circle cx="540" cy="490" r="14" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <circle cx="599" cy="490" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <circle cx="658" cy="490" r="14" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <line x1="540" y1="490" x2="533" y2="500" stroke="#1E1B4B" stroke-width="2"/>
+    <line x1="599" y1="490" x2="608" y2="480" stroke="#1E1B4B" stroke-width="2"/>
+    <line x1="658" y1="490" x2="664" y2="482" stroke="#1E1B4B" stroke-width="2"/>
+  </g>
+  <g fill="#10B981">
+    <path d="M579 427 Q589 411 599 427 Q589 435 579 427"/>
+    <path d="M599 427 Q610 411 619 427 Q609 435 599 427"/>
+    <line x1="599" y1="428" x2="599" y2="439" stroke="#10B981" stroke-width="2"/>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Now they co-DJ the taste instead of negotiating with it.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Unlike passive feeds, steerable systems let users tune semantic features and escape rabbit holes.</text>
+</svg>

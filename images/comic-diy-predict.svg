@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Let the Neighbors Pick Dinner</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="62" y="78" width="284" height="54" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="204" y="100" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="204" dy="0">Same three dishes.</tspan>
+    <tspan x="204" dy="17">Same three scores.</tspan>
+  </text>
+  <circle cx="125" cy="178" r="10" fill="#10B981"/>
+  <path d="M125 188 L125 235 M125 199 L106 217 M125 199 L144 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="204" cy="178" r="10" fill="#7C3AED"/>
+  <path d="M204 188 L204 235 M204 199 L185 217 M204 199 L223 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="283" cy="178" r="10" fill="#0EA5E9"/>
+  <path d="M283 188 L283 235 M283 199 L264 217 M283 199 L302 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Known dishes reveal which diners have tastes closest to Mina's.</text>
+
+  <!-- Panel 2 -->
+  <text x="500" y="111" font-size="13" font-weight="700" fill="#10B981" text-anchor="middle">RAMEN: 4</text>
+  <text x="700" y="111" font-size="13" font-weight="700" fill="#0EA5E9" text-anchor="middle">RAMEN: 5</text>
+  <text x="600" y="127" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="middle">?</text>
+  <circle cx="500" cy="171" r="10" fill="#10B981"/>
+  <path d="M500 181 L500 232 M500 193 L482 211 M500 193 L518 211" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="600" cy="171" r="10" fill="#7C3AED"/>
+  <path d="M600 181 L600 232 M600 193 L582 211 M600 193 L618 211" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="700" cy="171" r="10" fill="#0EA5E9"/>
+  <path d="M700 181 L700 232 M700 193 L682 211 M700 193 L718 211" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">For unseen ramen, neighbor ratings 4 and 5 average to 4.5.</text>
+
+  <!-- Panel 3 -->
+  <circle cx="84" cy="447" r="10" fill="#7C3AED"/>
+  <path d="M84 457 L84 519 M84 470 L67 488 M84 470 L101 488" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="143" y="382" width="218" height="55" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="252" y="415" font-size="13" font-weight="700" fill="#1E1B4B" text-anchor="middle">PREDICTED: 4.5</text>
+  <rect x="143" y="454" width="218" height="55" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="252" y="487" font-size="13" font-weight="700" fill="#1E1B4B" text-anchor="middle">HELD-OUT RATING: 4</text>
+  <text x="252" y="538" font-size="13" font-weight="700" fill="#10B981" text-anchor="middle">✓ 0.5 star off</text>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Her held-out rating is 4: error 0.5, safely within one star.</text>
+
+  <!-- Panel 4 -->
+  <rect x="478" y="356" width="236" height="56" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="596" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="596" dy="0">One ramen.</tspan>
+    <tspan x="596" dy="17">My neighbors insist.</tspan>
+  </text>
+  <circle cx="520" cy="463" r="10" fill="#10B981"/>
+  <path d="M520 473 L520 529 M520 485 L540 505 M520 485 L503 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="600" cy="463" r="10" fill="#7C3AED"/>
+  <path d="M600 473 L600 519 M600 485 L578 508 M600 485 L622 508" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="680" cy="463" r="10" fill="#0EA5E9"/>
+  <path d="M680 473 L680 529 M680 485 L660 505 M680 485 L697 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M566 517 L634 517 Q630 548 600 548 Q570 548 566 517 Z" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A prediction becomes actionable when someone actually orders.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Predict an unseen rating by averaging nearest neighbors' ratings; test on held-out ratings.</text>
+</svg>

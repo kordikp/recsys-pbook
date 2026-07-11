@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The House Special Comes With Receipts</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="136" y="78" width="230" height="55" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="251" y="100" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="251" dy="0">Mushroom bowl—because</tspan>
+    <tspan x="251" dy="17">you loved the risotto.</tspan>
+  </text>
+  <circle cx="100" cy="172" r="10" fill="#10B981"/>
+  <path d="M100 183 L100 220 M100 194 L77 207 M100 194 L124 207 M100 220 L87 241 M100 220 L113 241" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="300" cy="172" r="10" fill="#7C3AED"/>
+  <path d="M300 183 L300 220 M300 194 L278 207 M300 194 L322 207 M300 220 L287 241 M300 220 L313 241" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M166 228 Q190 254 214 228 Z" fill="#FEF3C7" stroke="#D97706"/>
+  <path d="M205 219 L221 207" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M45 245 L363 245" fill="none" stroke="#E5E7EB" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The diner sees the reason, trusts the pick, and orders.</text>
+
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="515" y="75" width="245" height="55" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="637.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="637.5" dy="0">The reason changed:</tspan>
+    <tspan x="637.5" dy="17">“dish” became “fish.”</tspan>
+  </text>
+  <circle cx="460" cy="180" r="10" fill="#10B981"/>
+  <path d="M460 191 L460 224 M460 201 L440 213 M460 201 L480 213 M460 224 L448 243 M460 224 L472 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="700" cy="180" r="10" fill="#0EA5E9"/>
+  <path d="M700 191 L700 224 M700 201 L680 213 M700 201 L720 213 M700 224 L688 243 M700 224 L712 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="543" y="154" width="96" height="57" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
+  <text x="591" y="174" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">
+    <tspan x="591" dy="0">ORDER LOG</tspan>
+    <tspan x="591" dy="20" font-size="13" fill="#EF4444">dish → fish</tspan>
+  </text>
+  <path d="M430 246 L762 246" fill="none" stroke="#E5E7EB" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The chef catches a quiet drift before dinner does.</text>
+
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="101" y="358" width="260" height="58" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="231" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="231" dy="0">Meaningful reasons, please.</tspan>
+    <tspan x="231" dy="17">Article 22 and the DSA.</tspan>
+  </text>
+  <circle cx="72" cy="466" r="10" fill="#10B981"/>
+  <path d="M72 477 L72 508 M72 487 L52 499 M72 487 L92 499 M72 508 L60 527 M72 508 L84 527" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="326" cy="466" r="10" fill="#D97706"/>
+  <path d="M326 477 L326 508 M326 487 L306 499 M326 487 L346 499 M326 508 L314 527 M326 508 L338 527" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="156" y="450" width="90" height="65" rx="6" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="201" y="475" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">
+    <tspan x="201" dy="0">REASON</tspan>
+    <tspan x="201" dy="17">LOG</tspan>
+  </text>
+  <path d="M38 526 L370 526" fill="none" stroke="#E5E7EB" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The inspector audits the trail before mystery becomes policy.</text>
+
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="440" y="358" width="220" height="58" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="550" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="550" dy="0">I’ll have the one</tspan>
+    <tspan x="550" dy="17">with the paper trail.</tspan>
+  </text>
+  <circle cx="475" cy="462" r="10" fill="#7C3AED"/>
+  <path d="M475 473 L475 510 M475 484 L454 498 M475 484 L496 498 M475 510 L463 528 M475 510 L487 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="600" cy="462" r="10" fill="#0EA5E9"/>
+  <path d="M600 473 L600 510 M600 484 L579 498 M600 484 L621 498 M600 510 L588 528 M600 510 L612 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="720" cy="462" r="10" fill="#D97706"/>
+  <path d="M720 473 L720 510 M720 484 L699 498 M720 484 L741 498 M720 510 L708 528 M720 510 L732 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M445 536 L470 530 L495 536 L520 530 L545 536 L570 530 L595 536 L620 530 L645 536 L670 530 L695 536 L720 530 L747 536 L747 554 L720 548 L695 554 L670 548 L645 554 L620 548 L595 554 L570 548 L545 554 L520 548 L495 554 L470 548 L445 554 Z" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">One paper trail satisfies three very different appetites.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Explainability helps users trust, developers debug, and regulators audit recommendation systems.</text>
+</svg>

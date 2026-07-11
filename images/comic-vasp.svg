@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Two Doormen, One Very Selective Door</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="30" y="74" width="166" height="50" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="42" y="94" font-size="12.5" fill="#1E1B4B">
+    <tspan x="42" dy="0">ROUTINE:</tspan>
+    <tspan x="42" dy="17">I trust steady patterns.</tspan>
+  </text>
+  <rect x="212" y="74" width="164" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="224" y="94" font-size="12.5" fill="#1E1B4B">
+    <tspan x="224" dy="0">VIBES:</tspan>
+    <tspan x="224" dy="17">I know strange clusters.</tspan>
+  </text>
+
+  <circle cx="96" cy="157" r="10" fill="#0EA5E9"/>
+  <path d="M96 168 L96 218 M96 181 L125 190 M96 218 L83 242 M96 218 L109 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="296" cy="157" r="10" fill="#7C3AED"/>
+  <path d="M296 168 L296 218 M296 181 L267 190 M296 218 L283 242 M296 218 L309 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="168" y="163" width="56" height="36" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="196" y="178" font-size="11" fill="#1E1B4B" text-anchor="middle">MINA</text>
+  <text x="196" y="191" font-size="11" fill="#6B7280" text-anchor="middle">4B</text>
+  <circle cx="196" cy="217" r="10" fill="#D97706"/>
+  <path d="M196 228 L196 252 M196 236 L181 244 M196 236 L211 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Routine and Vibes screen a card with just a name and unit.</text>
+
+  <!-- Panel 2 -->
+  <rect x="512" y="86" width="176" height="44" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="600" y="113" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">0.9 × 0.8 = 0.72 ✓</text>
+
+  <circle cx="470" cy="174" r="10" fill="#0EA5E9"/>
+  <path d="M470 185 L470 232 M470 198 L497 207 M470 232 L457 254 M470 232 L483 254" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="470" y="151" font-size="12" fill="#0EA5E9" text-anchor="middle">0.9</text>
+
+  <circle cx="620" cy="174" r="10" fill="#7C3AED"/>
+  <path d="M620 185 L620 232 M620 198 L593 207 M620 232 L607 254 M620 232 L633 254" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="620" y="151" font-size="12" fill="#7C3AED" text-anchor="middle">0.8</text>
+
+  <rect x="708" y="145" width="58" height="112" rx="6" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <circle cx="737" cy="187" r="10" fill="#D97706"/>
+  <path d="M737 198 L737 235 M737 209 L725 218 M737 209 L749 218" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A guest enters only when both stamps survive multiplication.</text>
+
+  <!-- Panel 3 -->
+  <rect x="32" y="354" width="190" height="50" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="44" y="374" font-size="12.5" fill="#1E1B4B">
+    <tspan x="44" dy="0">ROUTINE: Name and unit?</tspan>
+    <tspan x="44" dy="17">MINA: 4B. That’s all.</tspan>
+  </text>
+
+  <circle cx="90" cy="455" r="10" fill="#0EA5E9"/>
+  <path d="M90 466 L90 516 M90 479 L119 487 M90 516 L77 540 M90 516 L103 540" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="164" y="425" width="58" height="34" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="193" y="447" font-size="11" fill="#1E1B4B" text-anchor="middle">MINA · 4B</text>
+  <circle cx="205" cy="481" r="10" fill="#D97706"/>
+  <path d="M205 492 L205 527 M205 503 L190 511 M205 503 L220 511 M205 527 L194 548 M205 527 L216 548" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="352" cy="455" r="10" fill="#7C3AED"/>
+  <path d="M352 466 L345 508 M348 479 L365 489 M345 508 L329 526 M345 508 L363 520" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="337" y="430" font-size="11" fill="#7C3AED" text-anchor="middle">BREAK →</text>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Without Vibes, Routine still handles the thin guest list.</text>
+
+  <!-- Panel 4 -->
+  <rect x="430" y="354" width="166" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="442" y="374" font-size="12.5" fill="#1E1B4B">
+    <tspan x="442" dy="0">A matching cluster!</tspan>
+    <tspan x="442" dy="17">Come in.</tspan>
+  </text>
+  <rect x="604" y="354" width="164" height="48" rx="9" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="616" y="374" font-size="12.5" fill="#1E1B4B">
+    <tspan x="616" dy="0">We’re waiting for</tspan>
+    <tspan x="616" dy="17">the elevator.</tspan>
+  </text>
+
+  <rect x="432" y="426" width="52" height="116" rx="6" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <circle cx="535" cy="465" r="10" fill="#7C3AED"/>
+  <path d="M535 476 L535 526 M535 489 L565 496 M535 526 L522 550 M535 526 L548 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="656" cy="463" r="10" fill="#D97706"/>
+  <path d="M656 474 L656 522 M656 486 L641 496 M656 486 L671 496 M656 522 L643 548 M656 522 L669 548" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="724" cy="463" r="10" fill="#D97706"/>
+  <path d="M724 474 L724 522 M724 486 L709 496 M724 486 L739 496 M724 522 L711 548 M724 522 L737 548" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Without Routine, Vibes admits the entire elevator line.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">VASP multiplies path scores so agreement filters false positives; linear anchors sparse data.</text>
+</svg>

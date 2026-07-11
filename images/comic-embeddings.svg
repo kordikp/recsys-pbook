@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Record Shop Rearranges the Mood</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="34" y="74" width="132" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="100" y="100" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Different genres.</text>
+  <rect x="190" y="74" width="174" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="277" y="92" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="277" dy="0">Same people replay</tspan>
+    <tspan x="277" dy="16">both at 2 a.m.</tspan>
+  </text>
+
+  <rect x="137" y="139" width="52" height="58" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="163" y="172" font-size="12" fill="#1E1B4B" text-anchor="middle">JAZZ</text>
+  <rect x="210" y="139" width="62" height="58" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="241" y="172" font-size="12" fill="#1E1B4B" text-anchor="middle">AMBIENT</text>
+
+  <circle cx="62" cy="212" r="10" fill="#0EA5E9"/>
+  <path d="M62 222 L62 255 M62 232 L45 244 M62 232 L78 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="346" cy="212" r="10" fill="#7C3AED"/>
+  <path d="M346 222 L346 255 M346 232 L330 244 M346 232 L362 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Labels describe the records; listeners reveal the mood.</text>
+
+  <!-- Panel 2 -->
+  <rect x="486" y="72" width="226" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="599" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">So I stopped trusting the shelf.</text>
+
+  <rect x="500" y="130" width="198" height="104" rx="8" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <circle cx="566" cy="178" r="7" fill="#D97706"/>
+  <circle cx="582" cy="187" r="7" fill="#0EA5E9"/>
+  <circle cx="658" cy="153" r="7" fill="#10B981"/>
+  <text x="548" y="161" font-size="12" fill="#6B7280" text-anchor="middle">jazz</text>
+  <text x="602" y="211" font-size="12" fill="#6B7280" text-anchor="middle">ambient</text>
+  <text x="658" y="178" font-size="12" fill="#6B7280" text-anchor="middle">party pop</text>
+
+  <circle cx="451" cy="238" r="10" fill="#0EA5E9"/>
+  <path d="M451 248 L451 272 M451 256 L439 266 M451 256 L465 266" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="744" cy="238" r="10" fill="#7C3AED"/>
+  <path d="M744 248 L744 272 M744 256 L731 266 M744 256 L756 266" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The network invents useful qualities the genre tags missed.</text>
+
+  <!-- Panel 3 -->
+  <rect x="83" y="352" width="238" height="44" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="202" y="371" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="202" dy="0">Find this mood among</tspan>
+    <tspan x="202" dy="16">four billion tracks?</tspan>
+  </text>
+
+  <rect x="102" y="412" width="204" height="104" rx="8" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <path d="M121 435h5v5h-5z M145 462h5v5h-5z M172 438h5v5h-5z M201 480h5v5h-5z M225 446h5v5h-5z M267 430h5v5h-5z M280 475h5v5h-5z M132 493h5v5h-5z M246 491h5v5h-5z" fill="#E5E7EB"/>
+  <circle cx="191" cy="458" r="7" fill="#D97706"/>
+  <circle cx="207" cy="466" r="7" fill="#0EA5E9"/>
+  <circle cx="218" cy="451" r="6" fill="#7C3AED"/>
+  <path d="M177 445 C195 431 226 436 235 457 C228 482 190 488 174 468 Z" fill="none" stroke="#10B981" stroke-width="2"/>
+  <text x="204" y="505" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">ANN: 8 ms</text>
+
+  <circle cx="55" cy="524" r="10" fill="#0EA5E9"/>
+  <path d="M55 534 L55 565 M55 543 L42 554 M55 543 L68 554" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="350" cy="524" r="10" fill="#7C3AED"/>
+  <path d="M350 534 L350 565 M350 543 L337 554 M350 543 L363 554" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">ANN checks the nearby vectors, not the whole musical universe.</text>
+
+  <!-- Panel 4 -->
+  <rect x="422" y="352" width="172" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="508" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Next neighbor: whale song.</text>
+  <rect x="610" y="352" width="158" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="689" y="370" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="689" dy="0">Put it after</tspan>
+    <tspan x="689" dy="16">the tax return.</tspan>
+  </text>
+
+  <rect x="514" y="425" width="48" height="58" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="538" y="458" font-size="12" fill="#1E1B4B" text-anchor="middle">JAZZ</text>
+  <rect x="571" y="425" width="58" height="58" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="600" y="458" font-size="12" fill="#1E1B4B" text-anchor="middle">AMBIENT</text>
+  <rect x="638" y="425" width="54" height="58" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+  <path d="M650 455 C656 447 670 447 677 454 C672 456 669 462 660 462 C655 462 652 459 650 455 Z" fill="#10B981"/>
+  <text x="665" y="478" font-size="12" fill="#1E1B4B" text-anchor="middle">WHALE</text>
+
+  <circle cx="452" cy="518" r="10" fill="#0EA5E9"/>
+  <path d="M452 528 L452 558 M452 538 L469 546 M452 538 L440 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="746" cy="518" r="10" fill="#7C3AED"/>
+  <path d="M746 528 L746 558 M746 538 L730 546 M746 538 L758 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The machine has found the saddest possible neighborhood.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Embeddings are learned vectors where nearby items behave alike, enabling fast ANN search.</text>
+</svg>

@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Your Next Stop Is Highly Recommended</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="75" width="188" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="128" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I liked one beach photo.</text>
+
+    <rect x="240" y="112" width="126" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="303" y="136" font-size="12.5" fill="#1E1B4B" text-anchor="middle">A rich history.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="105" cy="180" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M105 191 L105 226 M105 201 L87 213 M105 202 L121 211 M105 226 L94 245 M105 226 L116 245"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="300" cy="180" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M300 191 L300 226 M300 201 L282 212 M300 201 L317 211 M300 226 L290 245 M300 226 L310 245"/>
+    </g>
+
+    <g>
+      <rect x="145" y="197" width="100" height="42" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <circle cx="169" cy="216" r="8" fill="#D97706"/>
+      <path d="M184 226 L199 208 L213 226 L226 214 L238 226" fill="none" stroke="#1E1B4B" stroke-width="2"/>
+    </g>
+
+    <path d="M132 247 H270" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Travel starts sparse: one look, many possible trips.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="424" y="74" width="150" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="499" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Still just looking?</text>
+
+    <rect x="608" y="112" width="150" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="683" y="136" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Book the quiet one.</text>
+
+    <g>
+      <rect x="438" y="157" width="74" height="68" rx="6" fill="#FFFFFF" stroke="#E5E7EB"/>
+      <path d="M447 194 L462 174 L476 194 L488 181 L503 201" fill="none" stroke="#10B981" stroke-width="2"/>
+      <text x="475" y="216" font-size="12" fill="#6B7280" text-anchor="middle">Hike</text>
+
+      <rect x="522" y="157" width="74" height="68" rx="6" fill="#D1FAE5" stroke="#10B981"/>
+      <path d="M532 190 Q550 173 568 190 Q578 199 587 190" fill="none" stroke="#0EA5E9" stroke-width="2"/>
+      <text x="559" y="216" font-size="12" fill="#1E1B4B" text-anchor="middle">Quiet</text>
+
+      <rect x="606" y="157" width="74" height="68" rx="6" fill="#FFFFFF" stroke="#E5E7EB"/>
+      <circle cx="643" cy="183" r="10" fill="#D97706"/>
+      <text x="643" y="216" font-size="12" fill="#6B7280" text-anchor="middle">Party</text>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="713" cy="186" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M713 197 L713 230 M713 205 L693 212 M713 205 L730 216 M713 230 L703 247 M713 230 L723 247"/>
+    </g>
+
+    <g>
+      <rect x="527" y="235" width="64" height="24" rx="8" fill="#10B981"/>
+      <text x="559" y="252" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">BOOK</text>
+    </g>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Travel recommendations must turn browsing into booking.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="32" y="355" width="130" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="97" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I choose them.</text>
+
+    <rect x="246" y="355" width="130" height="38" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="311" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">We choose you.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="88" cy="440" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M88 451 L88 493 M88 461 L115 474 M88 462 L69 474 M88 493 L76 517 M88 493 L100 517"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="204" cy="425" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M204 436 L204 482 M204 447 L177 461 M204 447 L230 461 M204 482 L194 510 M204 482 L214 510"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="320" cy="440" r="10" fill="#D97706" stroke="none"/>
+      <path d="M320 451 L320 493 M320 461 L293 474 M320 462 L339 474 M320 493 L308 517 M320 493 L332 517"/>
+    </g>
+
+    <g>
+      <path d="M116 474 L137 484 L158 473" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="137" cy="484" r="4" fill="#10B981"/>
+      <path d="M250 473 L271 484 L292 474" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="271" cy="484" r="4" fill="#10B981"/>
+    </g>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A job match only works when both sides say yes.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="424" y="355" width="166" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="507" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">But I watched all twelve.</text>
+
+    <rect x="600" y="397" width="166" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="683" y="418" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Then this quiz</text>
+    <text x="683" y="435" font-size="12.5" fill="#1E1B4B" text-anchor="middle">should be brief.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="482" cy="465" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M482 476 L482 518 M482 487 L510 496 M482 487 L463 500 M482 518 L471 542 M482 518 L493 542"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="701" cy="477" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M701 488 L701 525 M701 498 L678 510 M701 498 L721 508 M701 525 L691 546 M701 525 L711 546"/>
+    </g>
+
+    <g>
+      <rect x="525" y="462" width="96" height="62" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
+      <text x="573" y="482" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">QUIZ</text>
+      <circle cx="543" cy="496" r="5" fill="#FFFFFF" stroke="#D97706"/>
+      <path d="M540 496 L543 499 L548 491" fill="none" stroke="#10B981" stroke-width="2"/>
+      <path d="M555 496 H603 M543 510 H603" stroke="#E5E7EB" stroke-width="2"/>
+    </g>
+
+    <g>
+      <rect x="430" y="530" width="87" height="27" rx="6" fill="#FEE2E2" stroke="#EF4444"/>
+      <text x="473.5" y="548" font-size="12" fill="#1E1B4B" text-anchor="middle">12 watched</text>
+    </g>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Twelve videos watched. One suspiciously patient quiz.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">All three match people to consequential opportunities, so success means real outcomes—not clicks.</text>
+</svg>

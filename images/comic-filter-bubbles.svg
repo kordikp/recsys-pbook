@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Usual Keeps Getting More Usual</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="33" y="75" width="143" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="104" y="96" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The usual, please.</text>
+    <text x="104" y="113" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Exactly the usual.</text>
+    <path d="M176 107 L188 119 L174 116" fill="#EDE9FE" stroke="#7C3AED"/>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="251" cy="151" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M251 162 L251 205 M251 176 L232 188 M251 176 L269 187 M251 205 L239 224 M251 205 L264 224" fill="none"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="101" cy="159" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M101 170 L101 210 M101 179 L124 190 M101 180 L83 198 M101 210 L90 229 M101 210 L113 229" fill="none"/>
+      <path d="M124 190 L149 190" fill="none"/>
+      <ellipse cx="149" cy="187" rx="20" ry="5" fill="#FEF3C7" stroke="#D97706"/>
+    </g>
+
+    <g>
+      <rect x="188" y="214" width="116" height="8" rx="4" fill="#E5E7EB"/>
+      <path d="M203 222 L198 258 M289 222 L294 258" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="246" cy="210" rx="28" ry="7" fill="#FEF3C7" stroke="#D97706"/>
+      <rect x="231" y="198" width="30" height="9" rx="3" fill="#D97706"/>
+    </g>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">One tiny preference becomes a standing order.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <circle cx="607" cy="181" r="91" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+
+    <rect x="421" y="73" width="165" height="50" rx="9" fill="#FFFFFF" stroke="#0EA5E9"/>
+    <text x="503" y="94" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I removed anything</text>
+    <text x="503" y="111" font-size="12.5" fill="#1E1B4B" text-anchor="middle">you might dislike.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="467" cy="162" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M467 173 L467 211 M467 181 L488 190 M467 183 L450 198 M467 211 L456 229 M467 211 L479 229" fill="none"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="626" cy="151" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M626 162 L626 202 M626 176 L608 188 M626 176 L644 188 M626 202 L615 222 M626 202 L638 222" fill="none"/>
+    </g>
+
+    <g>
+      <rect x="566" y="210" width="120" height="8" rx="4" fill="#E5E7EB"/>
+      <path d="M580 218 L576 256 M672 218 L676 256" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="626" cy="206" rx="28" ry="7" fill="#FEF3C7" stroke="#D97706"/>
+      <rect x="612" y="194" width="28" height="9" rx="3" fill="#D97706"/>
+    </g>
+
+    <g>
+      <path d="M710 155 L746 155 L739 178 L717 178 Z" fill="#D1FAE5" stroke="#10B981"/>
+      <circle cx="721" cy="153" r="5" fill="#10B981"/>
+      <circle cx="736" cy="151" r="5" fill="#10B981"/>
+      <ellipse cx="735" cy="216" rx="27" ry="8" fill="#FEE2E2" stroke="#EF4444"/>
+      <circle cx="725" cy="211" r="5" fill="#EF4444"/>
+      <circle cx="741" cy="211" r="5" fill="#D97706"/>
+    </g>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Outside the special treatment, dinner remains oddly varied.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <circle cx="207" cy="463" r="96" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+
+    <rect x="31" y="353" width="173" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="117" y="374" font-size="12.5" fill="#1E1B4B" text-anchor="middle">This place really</text>
+    <text x="117" y="391" font-size="12.5" fill="#1E1B4B" text-anchor="middle">understands me.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="207" cy="433" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M207 444 L207 484 M207 455 L188 468 M207 455 L226 468 M207 484 L196 504 M207 484 L219 504" fill="none"/>
+    </g>
+
+    <g>
+      <ellipse cx="143" cy="514" rx="27" ry="7" fill="#FEF3C7" stroke="#D97706"/>
+      <rect x="130" y="502" width="26" height="9" rx="3" fill="#D97706"/>
+      <ellipse cx="207" cy="527" rx="27" ry="7" fill="#FEF3C7" stroke="#D97706"/>
+      <rect x="194" y="515" width="26" height="9" rx="3" fill="#D97706"/>
+      <ellipse cx="270" cy="514" rx="27" ry="7" fill="#FEF3C7" stroke="#D97706"/>
+      <rect x="257" y="502" width="26" height="9" rx="3" fill="#D97706"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="343" cy="430" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M343 441 L343 481 M343 452 L326 463 M343 452 L359 465 M343 481 L334 501 M343 481 L354 501" fill="none"/>
+    </g>
+
+    <g>
+      <path d="M325 527 L363 527 L355 551 L333 551 Z" fill="#D1FAE5" stroke="#10B981"/>
+      <circle cx="336" cy="524" r="5" fill="#10B981"/>
+      <circle cx="351" cy="523" r="5" fill="#10B981"/>
+    </g>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Familiarity feels complete when alternatives stay out of view.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <path d="M686 415 A92 92 0 1 0 697 524 M686 415 L673 438 L697 449 L681 473" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+
+    <rect x="421" y="353" width="145" height="43" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="493" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Chef’s surprise.</text>
+
+    <rect x="612" y="353" width="154" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="689" y="374" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Wait.</text>
+    <text x="689" y="391" font-size="12.5" fill="#1E1B4B" text-anchor="middle">This is excellent.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="498" cy="448" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M498 459 L498 500 M498 469 L524 481 M498 470 L480 486 M498 500 L487 521 M498 500 L510 521" fill="none"/>
+      <ellipse cx="544" cy="479" rx="24" ry="6" fill="#D1FAE5" stroke="#10B981"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="660" cy="448" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M660 459 L660 499 M660 470 L642 483 M660 470 L678 483 M660 499 L649 519 M660 499 L672 519" fill="none"/>
+    </g>
+
+    <g>
+      <rect x="599" y="513" width="122" height="8" rx="4" fill="#E5E7EB"/>
+      <path d="M614 521 L610 558 M706 521 L710 558" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+      <ellipse cx="660" cy="509" rx="29" ry="8" fill="#D1FAE5" stroke="#10B981"/>
+      <circle cx="650" cy="504" r="5" fill="#10B981"/>
+      <circle cx="665" cy="503" r="5" fill="#D97706"/>
+      <circle cx="674" cy="507" r="4" fill="#EF4444"/>
+    </g>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A small surprise makes the comfortable world noticeably larger.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">A filter bubble repeats known preferences; injecting diversity restores chances for discovery.</text>
+</svg>

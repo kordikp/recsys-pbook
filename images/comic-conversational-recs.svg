@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Tell Me What I Want—Then Check the Receipts</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="35" y="75" width="250" height="65" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="50" y="100" font-size="12.5" fill="#1E1B4B">
+    <tspan x="50" dy="0">Cozy, but with real stakes.</tspan>
+    <tspan x="50" dy="19">No grimness. One smug dragon.</tspan>
+  </text>
+  <circle cx="103" cy="184" r="10" fill="#0EA5E9"/>
+  <path d="M103 194 L103 238 M103 205 L82 219 M103 205 L124 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="303" cy="184" r="10" fill="#7C3AED"/>
+  <path d="M303 194 L303 232 M303 205 L281 217 M303 205 L326 215" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="228" y="226" width="145" height="38" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="300.5" y="250" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">RECOMMENDATIONS</text>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Say the whole vibe instead of scrolling the whole shelf.</text>
+
+  <!-- Panel 2 -->
+  <rect x="430" y="76" width="330" height="61" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="446" y="100" font-size="12.5" fill="#1E1B4B">
+    <tspan x="446" dy="0">I understand every adjective.</tspan>
+    <tspan x="446" dy="19">I can't see last night's clicks.</tspan>
+  </text>
+  <rect x="590" y="151" width="170" height="39" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="675" y="176" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The cookbook won.</text>
+  <circle cx="478" cy="214" r="10" fill="#7C3AED"/>
+  <path d="M478 224 L478 267 M478 235 L454 247 M478 235 L501 247" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="682" cy="214" r="10" fill="#0EA5E9"/>
+  <path d="M682 224 L682 267 M682 235 L660 247 M682 235 L705 246" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Fluent in nuance; blind to last night's behavior.</text>
+
+  <!-- Panel 3 -->
+  <rect x="40" y="357" width="250" height="72" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="165" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="165" dy="0" font-weight="700">LOYALTY CARD — LIVE</tspan>
+    <tspan x="165" dy="25">bought: dragons + panic</tspan>
+  </text>
+  <rect x="211" y="448" width="164" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="293" y="474" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Stressful Tuesday.</text>
+  <circle cx="100" cy="492" r="10" fill="#7C3AED"/>
+  <path d="M100 502 L100 545 M100 513 L77 524 M100 513 L125 525" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="316" cy="505" r="10" fill="#0EA5E9"/>
+  <path d="M316 515 L316 552 M316 525 L294 535 M316 525 L338 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The loyalty card supplies less poetry and more evidence.</text>
+
+  <!-- Panel 4 -->
+  <rect x="430" y="357" width="332" height="70" rx="9" fill="#FFFFFF" stroke="#1E1B4B"/>
+  <text x="446" y="381" font-size="12.5" fill="#1E1B4B">
+    <tspan x="446" dy="0" fill="#7C3AED">SAID: cozy + stakes + smug dragon</tspan>
+    <tspan x="446" dy="25" fill="#10B981">DID: bought dragons + panic</tspan>
+  </text>
+  <circle cx="470" cy="480" r="10" fill="#7C3AED"/>
+  <path d="M470 490 L470 536 M470 501 L447 513 M470 501 L548 487" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="744" cy="480" r="10" fill="#0EA5E9"/>
+  <path d="M744 490 L744 536 M744 501 L711 497 M744 501 L765 513" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="556" y="445" width="132" height="83" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="622" y="477" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">
+    <tspan x="622" dy="0">TEA &amp; TALONS</tspan>
+    <tspan x="622" dy="23" font-weight="400">only 12% apocalypse</tspan>
+  </text>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The final pick has heard both testimony and receipts.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Hybrid systems pair LLM understanding of intent with RecSys predictions from behavior.</text>
+</svg>

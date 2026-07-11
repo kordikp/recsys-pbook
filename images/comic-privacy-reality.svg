@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Your Usual Has Been Expecting You</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="30" y="72" width="122" height="40" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="91" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Just browsing.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="118" cy="153" r="10" fill="#7C3AED" stroke="none"/>
+    <line x1="118" y1="164" x2="118" y2="205"/>
+    <line x1="118" y1="174" x2="145" y2="188"/>
+    <line x1="118" y1="175" x2="99" y2="194"/>
+    <line x1="118" y1="205" x2="104" y2="226"/>
+    <line x1="118" y1="205" x2="132" y2="226"/>
+  </g>
+  <g>
+    <rect x="144" y="176" width="18" height="28" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
+    <circle cx="153" cy="198" r="1.5" fill="#7C3AED"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="290" cy="151" r="10" fill="#10B981" stroke="none"/>
+    <line x1="290" y1="162" x2="290" y2="205"/>
+    <line x1="290" y1="174" x2="264" y2="188"/>
+    <line x1="290" y1="174" x2="311" y2="190"/>
+  </g>
+  <g>
+    <rect x="244" y="176" width="30" height="40" rx="3" fill="#FFFFFF" stroke="#6B7280"/>
+    <line x1="250" y1="186" x2="266" y2="186" stroke="#0EA5E9" stroke-width="2"/>
+    <line x1="250" y1="195" x2="263" y2="195" stroke="#D97706" stroke-width="2"/>
+    <line x1="250" y1="204" x2="268" y2="204" stroke="#7C3AED" stroke-width="2"/>
+  </g>
+  <line x1="213" y1="220" x2="365" y2="220" stroke="#E5E7EB" stroke-width="3" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A tap, a pause, an order, a return: the café keeps notes.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="422" y="72" width="128" height="40" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="486" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I am the regular.</text>
+  </g>
+  <g>
+    <rect x="588" y="72" width="164" height="40" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="670" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Meet the other regular.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="474" cy="162" r="10" fill="#7C3AED" stroke="none"/>
+    <line x1="474" y1="173" x2="474" y2="214"/>
+    <line x1="474" y1="183" x2="451" y2="196"/>
+    <line x1="474" y1="183" x2="496" y2="196"/>
+    <line x1="474" y1="214" x2="460" y2="235"/>
+    <line x1="474" y1="214" x2="488" y2="235"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="586" cy="159" r="10" fill="#10B981" stroke="none"/>
+    <line x1="586" y1="170" x2="586" y2="213"/>
+    <line x1="586" y1="181" x2="610" y2="194"/>
+    <line x1="586" y1="181" x2="566" y2="197"/>
+  </g>
+  <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 3" fill="none">
+    <circle cx="704" cy="162" r="10" fill="#EDE9FE" stroke="#7C3AED" stroke-dasharray="none"/>
+    <line x1="704" y1="173" x2="704" y2="214"/>
+    <line x1="704" y1="183" x2="683" y2="197"/>
+    <line x1="704" y1="183" x2="725" y2="197"/>
+    <line x1="704" y1="214" x2="690" y2="235"/>
+    <line x1="704" y1="214" x2="718" y2="235"/>
+  </g>
+  <g>
+    <rect x="616" y="183" width="34" height="42" rx="3" fill="#FFFFFF" stroke="#6B7280"/>
+    <line x1="622" y1="193" x2="644" y2="193" stroke="#0EA5E9" stroke-width="2"/>
+    <line x1="622" y1="202" x2="640" y2="202" stroke="#D97706" stroke-width="2"/>
+    <line x1="622" y1="211" x2="645" y2="211" stroke="#7C3AED" stroke-width="2"/>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The notes become a customer-shaped behavioral profile.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="30" y="352" width="154" height="40" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="107" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">No loyalty card today.</text>
+  </g>
+  <g>
+    <rect x="198" y="352" width="174" height="54" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="285" y="374" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="285" y="374">Oat latte. 8:07.</tspan>
+      <tspan x="285" y="391">Extra hot.</tspan>
+    </text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="108" cy="451" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M96 445 L108 436 L120 445" fill="#FEF3C7" stroke="#D97706"/>
+    <line x1="108" y1="462" x2="108" y2="505"/>
+    <line x1="108" y1="473" x2="85" y2="488"/>
+    <line x1="108" y1="473" x2="130" y2="488"/>
+    <line x1="108" y1="505" x2="94" y2="526"/>
+    <line x1="108" y1="505" x2="122" y2="526"/>
+  </g>
+  <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 3" fill="none">
+    <circle cx="267" cy="451" r="10" fill="#EDE9FE" stroke="#7C3AED" stroke-dasharray="none"/>
+    <line x1="267" y1="462" x2="267" y2="505"/>
+    <line x1="267" y1="473" x2="244" y2="487"/>
+    <line x1="267" y1="473" x2="293" y2="482"/>
+    <line x1="267" y1="505" x2="253" y2="526"/>
+    <line x1="267" y1="505" x2="281" y2="526"/>
+  </g>
+  <g>
+    <rect x="292" y="472" width="23" height="25" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <path d="M315 478 C327 477 327 491 315 491" fill="none" stroke="#0EA5E9" stroke-width="2"/>
+  </g>
+  <line x1="205" y1="505" x2="360" y2="505" stroke="#E5E7EB" stroke-width="3" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">No name needed; the timing and order already match.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="422" y="352" width="154" height="40" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="499" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Did I agree to this?</text>
+  </g>
+  <g>
+    <rect x="620" y="352" width="146" height="40" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="693" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I clicked “Accept.”</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="480" cy="447" r="10" fill="#7C3AED" stroke="none"/>
+    <line x1="480" y1="458" x2="480" y2="501"/>
+    <line x1="480" y1="469" x2="458" y2="483"/>
+    <line x1="480" y1="469" x2="502" y2="483"/>
+    <line x1="480" y1="501" x2="466" y2="522"/>
+    <line x1="480" y1="501" x2="494" y2="522"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="582" cy="447" r="10" fill="#10B981" stroke="none"/>
+    <line x1="582" y1="458" x2="582" y2="501"/>
+    <line x1="582" y1="469" x2="560" y2="483"/>
+    <line x1="582" y1="469" x2="603" y2="483"/>
+  </g>
+  <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="4 3" fill="none">
+    <circle cx="696" cy="447" r="10" fill="#EDE9FE" stroke="#7C3AED" stroke-dasharray="none"/>
+    <line x1="696" y1="458" x2="696" y2="501"/>
+    <line x1="696" y1="469" x2="674" y2="484"/>
+    <line x1="696" y1="469" x2="721" y2="493"/>
+    <line x1="696" y1="501" x2="682" y2="522"/>
+    <line x1="696" y1="501" x2="710" y2="522"/>
+  </g>
+  <g>
+    <rect x="716" y="488" width="54" height="29" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="743" y="507" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">ACCEPT</text>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The clone is extremely agreeable.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">A digital twin is a behavior profile inferred from interactions; its use needs informed consent.</text>
+</svg>

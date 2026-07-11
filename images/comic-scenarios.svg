@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Same Shopper, Different Job Description</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="30" y="72" width="104" height="28" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="82" y="91" font-size="12.5" font-weight="700" fill="#7C3AED" text-anchor="middle">HOMEPAGE</text>
+  </g>
+  <g>
+    <rect x="160" y="82" width="210" height="58" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="265" y="105" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="265">Welcome. Try popular, new,</tspan>
+      <tspan x="265" dy="18">or something surprising.</tspan>
+    </text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="84" cy="185" r="10" fill="#10B981" stroke="none"/>
+    <path d="M84 196 L84 236 M84 207 L66 220 M84 208 L99 219 M84 236 L72 258 M84 236 L96 258" fill="none"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="282" cy="183" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M282 194 L282 235 M282 205 L259 218 M282 205 L305 213 M282 235 L270 258 M282 235 L294 258" fill="none"/>
+  </g>
+  <g>
+    <line x1="139" y1="236" x2="225" y2="236" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="145" y="197" width="22" height="34" rx="4" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <rect x="173" y="190" width="22" height="41" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+    <rect x="201" y="201" width="18" height="30" rx="4" fill="#D1FAE5" stroke="#10B981"/>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Entry: homepage. State: unknown. Pool: broad. Metric: clicks.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="422" y="72" width="74" height="28" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="459" y="91" font-size="12.5" font-weight="700" fill="#0EA5E9" text-anchor="middle">SEARCH</text>
+    <rect x="506" y="72" width="136" height="28" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="574" y="91" font-size="12.5" font-weight="700" fill="#7C3AED" text-anchor="middle">PRODUCT DETAIL</text>
+  </g>
+  <g>
+    <rect x="568" y="112" width="194" height="56" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="665" y="134" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="665">Now you're searching boots.</tspan>
+      <tspan x="665" dy="18">I'll stay relevant.</tspan>
+    </text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="468" cy="193" r="10" fill="#10B981" stroke="none"/>
+    <path d="M468 204 L468 241 M468 214 L487 222 M468 214 L452 225 M468 241 L456 261 M468 241 L480 261" fill="none"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="706" cy="198" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M706 209 L706 242 M706 218 L684 229 M706 219 L724 228 M706 242 L695 261 M706 242 L718 261" fill="none"/>
+  </g>
+  <g>
+    <rect x="516" y="190" width="42" height="54" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <path d="M525 222 L540 222 L548 231 L548 237 L524 237 Z" fill="#0EA5E9" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/>
+    <circle cx="537" cy="180" r="4" fill="#10B981"/>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Search and item pages need fast, relevant candidates.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="30" y="352" width="62" height="28" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="61" y="371" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">CART</text>
+  </g>
+  <g>
+    <rect x="42" y="390" width="122" height="44" rx="9" fill="#FFFFFF" stroke="#10B981"/>
+    <text x="103" y="417" font-size="12.5" fill="#1E1B4B" text-anchor="middle">More boots?</text>
+  </g>
+  <g>
+    <rect x="204" y="382" width="164" height="56" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="286" y="404" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="286">You're checking out.</tspan>
+      <tspan x="286" dy="18">Socks.</tspan>
+    </text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="82" cy="474" r="10" fill="#10B981" stroke="none"/>
+    <path d="M82 485 L82 520 M82 495 L101 504 M82 496 L67 508 M82 520 L71 543 M82 520 L94 543" fill="none"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="311" cy="473" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M311 484 L311 520 M311 495 L289 507 M311 495 L331 504 M311 520 L299 543 M311 520 L323 543" fill="none"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M113 481 L124 481 L132 516 L183 516 L193 489 L129 489" fill="none"/>
+    <circle cx="143" cy="526" r="5" fill="#6B7280" stroke="none"/>
+    <circle cx="178" cy="526" r="5" fill="#6B7280" stroke="none"/>
+    <path d="M145 499 C150 492 157 492 161 499 L161 509 L145 509 Z" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <path d="M165 498 C170 493 177 493 181 500 L181 509 L165 509 Z" fill="#E0F2FE" stroke="#0EA5E9"/>
+  </g>
+  <g>
+    <rect x="254" y="522" width="22" height="18" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+    <rect x="278" y="522" width="22" height="18" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Cart rules favor compatible add-ons; exploration stays low.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="422" y="352" width="70" height="28" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="457" y="371" font-size="12.5" font-weight="700" fill="#10B981" text-anchor="middle">EMAIL</text>
+  </g>
+  <g>
+    <rect x="505" y="352" width="122" height="44" rx="9" fill="#FFFFFF" stroke="#10B981"/>
+    <text x="566" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Why different?</text>
+  </g>
+  <g>
+    <rect x="637" y="352" width="133" height="56" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="703.5" y="374" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="703.5">You moved.</tspan>
+      <tspan x="703.5" dy="18">My job did too.</tspan>
+    </text>
+  </g>
+  <g>
+    <rect x="430" y="407" width="150" height="132" rx="7" fill="#FFFFFF" stroke="#6B7280"/>
+    <rect x="477" y="401" width="56" height="13" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="445" y="427" font-size="10" fill="#1E1B4B">ENTRY POINT</text>
+    <text x="445" y="442" font-size="10" fill="#1E1B4B">USER STATE</text>
+    <text x="445" y="457" font-size="10" fill="#1E1B4B">LATENCY BUDGET</text>
+    <text x="445" y="472" font-size="10" fill="#1E1B4B">CANDIDATE POOL</text>
+    <text x="445" y="487" font-size="10" fill="#1E1B4B">CONSTRAINTS</text>
+    <text x="445" y="502" font-size="10" fill="#1E1B4B">EXPLORATION</text>
+    <text x="445" y="517" font-size="10" fill="#1E1B4B">METRICS</text>
+    <text x="445" y="532" font-size="10" fill="#1E1B4B">EVALUATION</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="628" cy="462" r="10" fill="#10B981" stroke="none"/>
+    <path d="M628 473 L628 514 M628 485 L609 496 M628 485 L644 496 M628 514 L616 538 M628 514 L640 538" fill="none"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+    <circle cx="716" cy="462" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M716 473 L716 514 M716 485 L693 495 M716 485 L735 496 M716 514 L704 538 M716 514 L728 538" fill="none"/>
+  </g>
+  <g>
+    <rect x="658" y="502" width="28" height="20" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <path d="M659 505 L672 514 L685 505" fill="none" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Email gets its own timing, metric, and offline/online test.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">A scenario makes each placement use its own algorithm, constraints, metrics, and evaluation.</text>
+</svg>

@@ -1,0 +1,115 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Shop Follows Your Lead</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="30" y="103" width="65" height="128" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="62.5" y="124" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">RECORDS</text>
+    <circle cx="82" cy="168" r="4" fill="#0EA5E9"/>
+
+    <rect x="105" y="76" width="100" height="34" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="155" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">First visit?</text>
+
+    <circle cx="145" cy="157" r="10" fill="#7C3AED"/>
+    <path d="M145 168 L145 207 M145 180 L126 193 M145 181 L162 190 M145 207 L132 229 M145 207 L159 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="207" y="174" width="83" height="58" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="248.5" y="193" font-size="10.5" font-weight="700" fill="#7C3AED" text-anchor="middle">FOR YOU</text>
+    <text x="248.5" y="220" font-size="25" font-weight="700" fill="#1E1B4B" text-anchor="middle">?</text>
+
+    <rect x="237" y="76" width="140" height="34" rx="9" fill="#FFFFFF" stroke="#0EA5E9"/>
+    <text x="307" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I have no notes on you.</text>
+
+    <circle cx="329" cy="157" r="10" fill="#0EA5E9"/>
+    <path d="M329 168 L329 207 M329 181 L307 193 M329 181 L347 190 M329 207 L316 229 M329 207 L342 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">At first, the shop has no trail to follow.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="429" y="95" width="194" height="132" rx="8" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="526" y="116" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">LISTENING BAR</text>
+    <path d="M443 127 H609 M443 158 H609 M443 189 H609" fill="none" stroke="#E5E7EB"/>
+    <text x="451" y="147" font-size="11" font-weight="700" fill="#10B981">CLICK</text>
+    <text x="592" y="147" font-size="11" fill="#6B7280" text-anchor="end">Indie</text>
+    <text x="451" y="178" font-size="11" font-weight="700" fill="#EF4444">SKIP</text>
+    <text x="592" y="178" font-size="11" fill="#6B7280" text-anchor="end">Brass · 0:03</text>
+    <text x="451" y="209" font-size="11" font-weight="700" fill="#7C3AED">REPLAY ×3</text>
+    <text x="592" y="209" font-size="11" fill="#6B7280" text-anchor="end">Strings · 0:47</text>
+
+    <rect x="649" y="76" width="113" height="34" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="705.5" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">One more time.</text>
+
+    <circle cx="690" cy="157" r="10" fill="#7C3AED"/>
+    <path d="M690 168 L690 207 M690 180 L669 193 L618 196 M690 181 L707 192 M690 207 L677 229 M690 207 L704 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M634 229 C630 223 634 216 640 218 C645 220 644 228 640 233 Z M651 239 C647 233 651 226 657 228 C662 230 661 238 657 243 Z" fill="#EDE9FE" stroke="#7C3AED"/>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Clicks, views, skips, replays, and pauses all leave clues.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="31" y="455" width="166" height="105" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="114" y="475" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">PREFERENCE MODEL</text>
+    <text x="47" y="497" font-size="11" fill="#6B7280">Sad strings</text>
+    <text x="181" y="497" font-size="11" font-weight="700" fill="#7C3AED" text-anchor="end">91%</text>
+    <text x="47" y="518" font-size="11" fill="#6B7280">Brass</text>
+    <text x="181" y="518" font-size="11" font-weight="700" fill="#EF4444" text-anchor="end">4%</text>
+    <text x="47" y="539" font-size="11" fill="#6B7280">After 10 p.m.</text>
+    <text x="181" y="539" font-size="11" font-weight="700" fill="#10B981" text-anchor="end">usually</text>
+
+    <rect x="31" y="356" width="168" height="36" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="115" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Sad strings after 10?</text>
+
+    <rect x="211" y="356" width="164" height="36" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="293" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That's... very specific.</text>
+
+    <circle cx="245" cy="443" r="10" fill="#0EA5E9"/>
+    <path d="M245 454 L245 513 M245 466 L220 481 M245 466 L266 478 M245 513 L232 539 M245 513 L258 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="344" cy="443" r="10" fill="#7C3AED"/>
+    <path d="M344 454 L344 513 M344 466 L321 480 M344 466 L364 478 M344 513 L331 539 M344 513 L357 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M278 535 C274 529 278 522 284 524 C289 526 288 534 284 539 Z M297 545 C293 539 297 532 303 534 C308 536 307 544 303 549 Z" fill="#EDE9FE" stroke="#7C3AED"/>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">No questionnaire; behavior keeps updating the clerk's guess.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="424" y="356" width="174" height="36" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="511" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I was just browsing.</text>
+
+    <rect x="615" y="356" width="153" height="36" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="691.5" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I queued track 4.</text>
+
+    <rect x="432" y="444" width="102" height="100" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+    <path d="M442 470 H524 M442 501 H524 M442 532 H524" fill="none" stroke="#D97706"/>
+    <circle cx="459" cy="486" r="10" fill="#FFFFFF" stroke="#D97706"/>
+    <circle cx="498" cy="517" r="10" fill="#FFFFFF" stroke="#D97706"/>
+
+    <circle cx="581" cy="443" r="10" fill="#7C3AED"/>
+    <path d="M581 454 L581 513 M581 466 L557 479 M581 466 L602 478 M581 513 L568 539 M581 513 L594 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="716" cy="443" r="10" fill="#0EA5E9"/>
+    <path d="M716 454 L716 513 M716 466 L692 480 M716 466 L737 478 M716 513 L703 539 M716 513 L729 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="665" y="476" width="43" height="55" rx="4" fill="#EDE9FE" stroke="#7C3AED"/>
+    <circle cx="686.5" cy="501" r="12" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="686.5" y="506" font-size="13" font-weight="700" fill="#7C3AED" text-anchor="middle">4</text>
+
+    <path d="M543 548 C539 542 543 535 549 537 C554 539 553 547 549 552 Z M563 557 C559 551 563 544 569 546 C574 548 573 556 569 561 Z M607 550 C603 544 607 537 613 539 C618 541 617 549 613 554 Z" fill="#EDE9FE" stroke="#7C3AED"/>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Apparently, hesitation is part of the order now.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Digital footprints are interaction trails that continually train systems to model preferences.</text>
+</svg>

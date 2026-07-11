@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Best Book in the Store, Depending</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <circle cx="105" cy="145" r="10" fill="#10B981"/>
+  <path d="M105 157 L105 208 M105 171 L79 188 M105 171 L139 181" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="278" cy="145" r="10" fill="#7C3AED"/>
+  <path d="M278 157 L278 208 M278 171 L248 182 M278 171 L304 188" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="174" y="166" width="48" height="64" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="198" y="202" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">BOOK</text>
+  <rect x="151" y="82" width="174" height="46" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="238" y="110" font-size="12.5" fill="#1E1B4B" text-anchor="middle">This is actually excellent.</text>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">First, make something worth finding.</text>
+
+  <!-- Panel 2 -->
+  <line x1="438" y1="116" x2="754" y2="116" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="686" y="76" width="42" height="39" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
+  <circle cx="520" cy="192" r="10" fill="#10B981"/>
+  <path d="M520 204 L520 255 M520 218 L492 204 M520 218 L545 204" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="640" cy="192" r="10" fill="#7C3AED"/>
+  <path d="M640 204 L640 255 M640 218 L616 205 M640 218 L664 205" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="443" y="128" width="125" height="42" rx="9" fill="#FFFFFF" stroke="#10B981"/>
+  <text x="505.5" y="154" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Now we wait.</text>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Quality × nobody finding it = a very private triumph.</text>
+
+  <!-- Panel 3 -->
+  <circle cx="100" cy="455" r="10" fill="#0EA5E9"/>
+  <path d="M100 467 L100 521 M100 481 L126 493 M100 481 L76 497" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="300" cy="455" r="10" fill="#7C3AED"/>
+  <path d="M300 467 L300 521 M300 481 L268 493 M300 481 L326 496" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="218" y="470" width="40" height="54" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
+  <rect x="38" y="355" width="200" height="46" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="138" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Quiet, clever, no dragons.</text>
+  <line x1="211" y1="497" x2="170" y2="497" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A search query walks in; a recommendation walks out.</text>
+
+  <!-- Panel 4 -->
+  <circle cx="600" cy="467" r="10" fill="#7C3AED"/>
+  <path d="M600 479 L600 530 M600 493 L572 508 M600 493 L628 508" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="475" y="482" width="52" height="55" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
+  <rect x="680" y="482" width="52" height="55" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text y="516" font-size="14" font-weight="700" fill="#1E1B4B" text-anchor="middle"><tspan x="501">#1</tspan><tspan x="706">#1</tspan></text>
+  <rect x="422" y="358" width="150" height="44" rx="9" fill="#FFFFFF" stroke="#10B981"/>
+  <text x="497" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">So I rank #1?</text>
+  <rect x="616" y="358" width="146" height="44" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="689" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">For Mina.</text>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The top result changes when the person does.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">As search becomes personalized recommendation, success is quality × algorithmic discoverability.</text>
+</svg>

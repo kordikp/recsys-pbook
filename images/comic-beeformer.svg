@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Clerk Who Reads the Room—and the Label</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="34" y="75" width="164" height="52" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="46" y="96" font-size="12.5" fill="#1E1B4B">
+    <tspan x="46" dy="0">Zero sales.</tspan>
+    <tspan x="46" dy="17">Freshly made.</tspan>
+  </text>
+  <circle cx="82" cy="158" r="10" fill="#D97706"/>
+  <path d="M82 169 L82 214 M82 180 L58 196 M82 181 L112 190 M82 214 L67 237 M82 214 L97 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="310" cy="158" r="10" fill="#7C3AED"/>
+  <path d="M310 169 L310 214 M310 181 L282 190 M310 181 L333 197 M310 214 L295 237 M310 214 L325 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M181 171 L253 171 L258 179 L258 224 Q258 230 252 230 L182 230 Q176 230 176 224 L176 179 Z M188 164 L246 164 L246 171 L188 171 Z" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2"/>
+  <rect x="183" y="187" width="68" height="24" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="217" y="203" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">MISO JAM</text>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A new maker arrives with a product and exactly zero history.</text>
+
+  <!-- Panel 2 -->
+  <rect x="438" y="75" width="188" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="450" y="96" font-size="12.5" fill="#1E1B4B">
+    <tspan x="450" dy="0">Salty, funky...</tspan>
+    <tspan x="450" dy="17">Mara at six.</tspan>
+  </text>
+  <circle cx="486" cy="165" r="10" fill="#7C3AED"/>
+  <path d="M486 176 L486 221 M486 188 L518 198 M486 188 L463 204 M486 221 L472 244 M486 221 L500 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="714" cy="165" r="10" fill="#D97706"/>
+  <path d="M714 176 L714 221 M714 188 L687 201 M714 188 L738 204 M714 221 L700 244 M714 221 L728 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="548" y="151" width="132" height="74" rx="8" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="614" y="172" font-size="11.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="614" dy="0" font-weight="700">MISO JAM</tspan>
+    <tspan x="614" dy="18">salty • funky</tspan>
+    <tspan x="614" dy="18">breakfast rebel</tspan>
+  </text>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The clerk reads for who will like it—not merely its topic.</text>
+
+  <!-- Panel 3 -->
+  <rect x="34" y="355" width="190" height="45" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="46" y="382" font-size="12.5" fill="#1E1B4B">You've never sold socks.</text>
+  <circle cx="92" cy="449" r="10" fill="#D97706"/>
+  <circle cx="326" cy="449" r="10" fill="#7C3AED"/>
+  <path d="M92 460 L92 506 M92 472 L121 484 M92 472 L67 487 M92 506 L78 530 M92 506 L106 530 M326 460 L326 506 M326 472 L292 484 M326 472 L349 487 M326 506 L312 530 M326 506 L340 530" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M146 430 L166 430 L166 469 Q166 481 180 481 L194 481 Q201 481 201 490 L201 498 L173 498 Q146 498 146 474 Z" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="138" y="411" width="132" height="118" rx="8" fill="#FFFFFF" stroke="#0EA5E9"/>
+  <text x="204" y="432" font-size="11" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="204" dy="0" font-weight="700">QUANTUM SOCKS</tspan>
+    <tspan x="204" dy="70" fill="#10B981" font-size="14" font-weight="700">+131% RECALL</tspan>
+  </text>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">New aisle, no retraining; recall rises 131%.</text>
+
+  <!-- Panel 4 -->
+  <rect x="526" y="355" width="232" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="538" y="376" font-size="12.5" fill="#1E1B4B">
+    <tspan x="538" dy="0">Congratulations.</tspan>
+    <tspan x="538" dy="17">You have a past now.</tspan>
+  </text>
+  <circle cx="478" cy="449" r="10" fill="#D97706"/>
+  <circle cx="574" cy="449" r="10" fill="#0EA5E9"/>
+  <circle cx="704" cy="449" r="10" fill="#7C3AED"/>
+  <path d="M478 460 L478 510 M478 473 L509 485 M478 473 L454 488 M478 510 L464 535 M478 510 L492 535 M574 460 L574 510 M574 473 L605 484 M574 473 L550 489 M574 510 L560 535 M574 510 L588 535 M704 460 L704 510 M704 473 L671 485 M704 473 L728 489 M704 510 L690 535 M704 510 L718 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M614 468 L672 468 L677 476 L677 526 Q677 532 671 532 L615 532 Q609 532 609 526 L609 476 Z M620 461 L666 461 L666 468 L620 468 Z" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2"/>
+  <text x="643" y="501" font-size="10.5" font-weight="700" fill="#D97706" text-anchor="middle">MISO JAM</text>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Now the newcomer can compete before history arrives.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">beeFormer reads item text to predict who will like unseen items across domains without retraining.</text>
+</svg>

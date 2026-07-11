@@ -1,0 +1,157 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Algorithm Finally Hands Over the Remote</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="30" y="75" width="158" height="45" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="109" y="102" font-size="12.5" fill="#1E1B4B" text-anchor="middle">You never tagged these?</text>
+
+    <rect x="203" y="75" width="165" height="53" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="285.5" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="285.5" dy="0">No. They introduced</tspan>
+      <tspan x="285.5" dy="17">themselves.</tspan>
+    </text>
+
+    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="61" cy="157" r="10" fill="#EDE9FE"/>
+      <path d="M61 168 L61 207 M61 181 L78 173 M61 207 L50 224 M61 207 L72 224"/>
+    </g>
+
+    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="104" cy="157" r="10" fill="#D1FAE5"/>
+      <path d="M104 168 L104 207 M104 181 L121 173 M104 207 L94 224 M104 207 L114 224"/>
+    </g>
+
+    <rect x="140" y="143" width="228" height="94" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="254" y="160" font-size="10" font-weight="700" fill="#6B7280" text-anchor="middle">FOUND CONTROLS</text>
+
+    <g fill="#FFFFFF" stroke="#7C3AED" stroke-width="2">
+      <circle cx="181" cy="187" r="17"/>
+      <circle cx="254" cy="187" r="17"/>
+      <circle cx="327" cy="187" r="17"/>
+    </g>
+    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round">
+      <path d="M181 187 L190 179"/>
+      <path d="M254 187 L254 175"/>
+      <path d="M327 187 L318 179"/>
+    </g>
+    <g font-size="10" fill="#1E1B4B" text-anchor="middle">
+      <text x="181" y="220">ROM-COM</text>
+      <text x="254" y="220">KUROSAWA</text>
+      <text x="327" y="220">GLOOM</text>
+    </g>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">An SAE finds concept knobs from behavior alone—no metadata.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="429" y="76" width="170" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="514" y="104" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Boost “date night.”</text>
+
+    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="451" cy="160" r="10" fill="#EDE9FE"/>
+      <path d="M451 171 L451 211 M451 184 L476 176 M451 211 L440 228 M451 211 L462 228"/>
+    </g>
+
+    <rect x="492" y="137" width="256" height="99" rx="8" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="620" y="154" font-size="10" font-weight="700" fill="#6B7280" text-anchor="middle">RECOMMENDATION STEERING</text>
+
+    <circle cx="539" cy="184" r="25" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M539 184 L554 169" fill="none" stroke="#7C3AED" stroke-width="3" stroke-linecap="round"/>
+    <text x="539" y="221" font-size="10" fill="#1E1B4B" text-anchor="middle">DATE NIGHT +</text>
+
+    <g>
+      <rect x="584" y="166" width="46" height="51" rx="5" fill="#FEE2E2" stroke="#EF4444"/>
+      <rect x="636" y="166" width="46" height="51" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <rect x="688" y="166" width="46" height="51" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="607" y="195" font-size="9" fill="#1E1B4B" text-anchor="middle">ROM-COM</text>
+      <text x="659" y="195" font-size="9" fill="#1E1B4B" text-anchor="middle">ROOFTOP</text>
+      <text x="711" y="195" font-size="9" fill="#1E1B4B" text-anchor="middle">DESSERT</text>
+    </g>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Boosting one activation moves that concept up the ranking.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="30" y="356" width="171" height="46" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="115.5" y="384" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Give Kurosawa the window.</text>
+
+    <rect x="211" y="356" width="157" height="46" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="289.5" y="384" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The whole window?</text>
+
+    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="57" cy="442" r="10" fill="#D1FAE5"/>
+      <path d="M57 453 L57 493 M57 466 L79 458 M57 493 L47 510 M57 493 L67 510"/>
+    </g>
+
+    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="101" cy="442" r="10" fill="#EDE9FE"/>
+      <path d="M101 453 L101 493 M101 466 L121 458 M101 493 L91 510 M101 493 L111 510"/>
+    </g>
+
+    <rect x="137" y="423" width="231" height="99" rx="8" fill="#FFFFFF" stroke="#10B981"/>
+    <text x="252.5" y="441" font-size="10" font-weight="700" fill="#6B7280" text-anchor="middle">EDITORIAL DESK</text>
+
+    <circle cx="181" cy="476" r="23" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <path d="M181 476 L181 458" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+    <text x="181" y="511" font-size="10" fill="#1E1B4B" text-anchor="middle">DIRECTOR +</text>
+
+    <g>
+      <rect x="222" y="454" width="130" height="53" rx="6" fill="#1E1B4B" stroke="#1E1B4B"/>
+      <text x="287" y="476" font-size="10" fill="#FFFFFF" text-anchor="middle">THIS WEEK</text>
+      <text x="287" y="494" font-size="13" font-weight="700" fill="#FFFFFF" text-anchor="middle">KUROSAWA</text>
+    </g>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The same knobs can steer an editorial campaign.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="423" y="356" width="147" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="496.5" y="384" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Can I exit Gloom?</text>
+
+    <rect x="581" y="356" width="188" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="675" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="675" dy="0">Turn left until someone</tspan>
+      <tspan x="675" dy="17">owns a lamp.</tspan>
+    </text>
+
+    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="448" cy="451" r="10" fill="#EDE9FE"/>
+      <path d="M448 462 L448 502 M448 475 L477 468 M448 502 L438 519 M448 502 L458 519"/>
+    </g>
+
+    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="748" cy="451" r="10" fill="#D1FAE5"/>
+      <path d="M748 462 L748 502 M748 475 L729 468 M748 502 L738 519 M748 502 L758 519"/>
+    </g>
+
+    <rect x="488" y="427" width="229" height="101" rx="8" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="602.5" y="445" font-size="10" font-weight="700" fill="#6B7280" text-anchor="middle">RABBIT-HOLE CONTROLS</text>
+
+    <circle cx="531" cy="481" r="24" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M531 481 L515 470" fill="none" stroke="#7C3AED" stroke-width="3" stroke-linecap="round"/>
+    <text x="531" y="517" font-size="10" fill="#1E1B4B" text-anchor="middle">− GLOOM</text>
+
+    <g>
+      <rect x="570" y="459" width="39" height="46" rx="5" fill="#FEE2E2" stroke="#EF4444"/>
+      <rect x="616" y="459" width="39" height="46" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <rect x="662" y="459" width="39" height="46" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="589.5" y="486" font-size="9" fill="#1E1B4B" text-anchor="middle">GRIEF</text>
+      <text x="635.5" y="486" font-size="9" fill="#1E1B4B" text-anchor="middle">RAIN</text>
+      <text x="681.5" y="486" font-size="9" fill="#1E1B4B" text-anchor="middle">LAMP</text>
+    </g>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Turning a concept down can open a rabbit-hole exit.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Sparse autoencoders expose interpretable neurons; changing activation steers recommendations.</text>
+</svg>

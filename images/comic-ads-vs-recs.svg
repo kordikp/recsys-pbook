@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Clerk Stays. The Ad Gets Around.</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="126" y="76" width="244" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="248" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="248" dy="0">From your purchases here,</tspan>
+    <tspan x="248" dy="17">I'd suggest this shoe.</tspan>
+  </text>
+  <circle cx="76" cy="181" r="10" fill="#10B981"/>
+  <path d="M76 192 L76 238 M76 204 L57 219 M76 204 L96 217" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="320" cy="181" r="10" fill="#0EA5E9"/>
+  <path d="M320 192 L320 238 M320 204 L301 218 M320 204 L339 216" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M174 218 C190 217 192 204 199 203 C204 214 216 218 230 218 L230 229 L174 229 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">One platform uses its own customer history to recommend.</text>
+
+  <!-- Panel 2 -->
+  <text x="426" y="82" font-size="12" font-weight="700" fill="#6B7280">CAFÉ SITE</text>
+  <rect x="534" y="88" width="228" height="54" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="648" y="109" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="648" dy="0">Still considering</tspan>
+    <tspan x="648" dy="17">that shoe?</tspan>
+  </text>
+  <circle cx="486" cy="188" r="10" fill="#0EA5E9"/>
+  <path d="M486 199 L486 244 M486 211 L468 225 M486 211 L503 223" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="704" cy="188" r="10" fill="#D97706"/>
+  <path d="M704 199 L704 244 M704 211 L686 224 M704 211 L722 224" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">At another site, a retargeted ad takes the next table.</text>
+
+  <!-- Panel 3 -->
+  <text x="34" y="362" font-size="12" font-weight="700" fill="#6B7280">NEWS SITE</text>
+  <rect x="34" y="376" width="148" height="54" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="108" y="397" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="108" dy="0">How far do you</tspan>
+    <tspan x="108" dy="17">follow me?</tspan>
+  </text>
+  <rect x="202" y="376" width="168" height="54" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="286" y="397" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="286" dy="0">Across sites.</tspan>
+    <tspan x="286" dy="17">It's in the policy.</tspan>
+  </text>
+  <circle cx="92" cy="476" r="10" fill="#0EA5E9"/>
+  <path d="M92 487 L92 532 M92 499 L74 514 M92 499 L110 512" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="306" cy="476" r="10" fill="#D97706"/>
+  <path d="M306 487 L306 532 M306 499 L288 512 M306 499 L324 513" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">By the third website, tracking feels less like service.</text>
+
+  <!-- Panel 4 -->
+  <rect x="498" y="356" width="250" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="623" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="623" dy="0">No. He's not</tspan>
+    <tspan x="623" dy="17">on our payroll.</tspan>
+  </text>
+  <circle cx="470" cy="476" r="10" fill="#0EA5E9"/>
+  <path d="M470 487 L470 532 M470 499 L452 514 M470 499 L488 512" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="570" cy="476" r="10" fill="#10B981"/>
+  <path d="M570 487 L570 532 M570 499 L552 512 M570 499 L588 514" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M650 426 L650 548" fill="none" stroke="#E5E7EB" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="720" cy="476" r="10" fill="#D97706"/>
+  <path d="M720 487 L720 532 M720 499 L702 512 M720 499 L738 513" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Back at the shop, nobody claims the persistent salesman.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Recs use first-party platform data; AdTech tracks across sites, raising privacy duties.</text>
+</svg>

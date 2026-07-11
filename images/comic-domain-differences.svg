@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Same Server, Different Orders</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="76" width="172" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="46" y="97" font-size="12.5" fill="#1E1B4B">
+      <tspan x="46" dy="0">You finished Space Cops.</tspan>
+      <tspan x="46" dy="17">Another?</tspan>
+    </text>
+
+    <rect x="151" y="148" width="96" height="50" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="199" y="169" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">SPACE COPS</text>
+    <text x="199" y="185" font-size="10" fill="#6B7280" text-anchor="middle">WATCHED ✓</text>
+
+    <circle cx="93" cy="192" r="10" fill="#7C3AED"/>
+    <path d="M93 203 L93 253 M93 217 L137 185 M93 220 L66 238 M93 253 L77 274 M93 253 L109 274" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="307" cy="192" r="10" fill="#10B981"/>
+    <path d="M307 203 L307 253 M307 218 L282 231 M307 218 L330 231 M307 253 L291 274 M307 253 L323 274" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Movies: completion is strong evidence for another serving.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="609" y="76" width="153" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="621" y="97" font-size="12.5" fill="#1E1B4B">
+      <tspan x="621" dy="0">I clicked to check</tspan>
+      <tspan x="621" dy="17">whether we're safe.</tspan>
+    </text>
+
+    <rect x="548" y="143" width="105" height="69" rx="4" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="600.5" y="166" font-size="11" font-weight="700" fill="#EF4444" text-anchor="middle">FIRE NEARBY?</text>
+    <path d="M561 178 L640 178 M561 188 L629 188 M561 198 L636 198" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+
+    <circle cx="480" cy="198" r="10" fill="#7C3AED"/>
+    <path d="M480 209 L480 257 M480 222 L533 183 M480 224 L454 240 M480 257 L465 277 M480 257 L495 277" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="704" cy="198" r="10" fill="#10B981"/>
+    <path d="M704 209 L704 257 M704 223 L680 236 M704 223 L728 236 M704 257 L689 277 M704 257 L719 277" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">News CTR can mean concern, not enjoyment.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="236" y="356" width="134" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="303" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">And bought it.</text>
+
+    <rect x="158" y="425" width="84" height="55" rx="8" fill="#FEF3C7" stroke="#D97706"/>
+    <path d="M178 425 Q178 410 200 410 Q222 410 222 425 M174 441 L226 441 M180 480 L177 488 M220 480 L223 488" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="224" cy="458" r="4" fill="#D97706"/>
+
+    <circle cx="87" cy="486" r="10" fill="#7C3AED"/>
+    <path d="M87 497 L87 543 M87 511 L144 454 M87 513 L61 528 M87 543 L72 563 M87 543 L102 563" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="308" cy="486" r="10" fill="#10B981"/>
+    <path d="M308 497 L308 543 M308 511 L282 526 M308 511 L334 526 M308 543 L293 563 M308 543 L323 563" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Shop CTR can end in a purchase—and end the need.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="618" y="356" width="144" height="52" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="690" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="690" dy="0">Do clicks count</tspan>
+      <tspan x="690" dy="17">as experience?</tspan>
+    </text>
+
+    <rect x="532" y="425" width="94" height="57" rx="7" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="579" y="444" font-size="10" fill="#6B7280" text-anchor="middle">TOP CLICK</text>
+    <text x="579" y="459" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">CEO</text>
+    <text x="579" y="474" font-size="9.5" font-weight="700" fill="#EF4444" text-anchor="middle">QUALIFIED: 2/8</text>
+
+    <circle cx="480" cy="500" r="10" fill="#7C3AED"/>
+    <path d="M480 511 L480 555 M480 523 L522 455 M480 525 L455 540 M480 555 L465 575 M480 555 L495 575" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="699" cy="500" r="10" fill="#10B981"/>
+    <path d="M699 511 L699 555 M699 525 L674 539 M699 525 L724 539 M699 555 L684 575 M699 555 L714 575" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Jobs must respect eligibility, stakes, and applicant UX.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Domain dynamics shape data, algorithms, evaluation, and UX, so one approach cannot fit all.</text>
+</svg>

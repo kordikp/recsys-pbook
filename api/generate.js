@@ -22,7 +22,7 @@ const OPENAI_KEY = process.env.OPENAI_API_KEY || '';
 const OPENAI_BASE = (process.env.OPENAI_BASE_URL || 'https://api.openai.com/v1').replace(/\/+$/, '');
 const PROVIDER = ANTHROPIC_KEY ? 'anthropic' : OPENAI_KEY ? 'openai-compatible' : null;
 const MODEL = process.env.GEN_MODEL
-  || (PROVIDER === 'anthropic' ? 'claude-opus-4-8' : (process.env.OPENAI_MODEL || 'gpt-5-mini'));
+  || (PROVIDER === 'anthropic' ? 'claude-opus-4-8' : (process.env.OPENAI_MODEL || 'gpt-5.6-terra'));
 
 // Structured output schema — shared by both providers
 const BLOCK_SCHEMA = {

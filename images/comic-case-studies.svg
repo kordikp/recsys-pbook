@@ -1,0 +1,129 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Movie Night Goes Into Production</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="32" y="76" width="132" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="98" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="98" dy="0">Most-picked trailer!</tspan>
+      <tspan x="98" dy="16">A proven winner.</tspan>
+    </text>
+
+    <rect x="270" y="78" width="104" height="45" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="322" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="322" dy="0">I clicked.</tspan>
+      <tspan x="322" dy="16">I did not stay.</tspan>
+    </text>
+
+    <circle cx="88" cy="158" r="10" fill="#7C3AED"/>
+    <path d="M88 168 L88 208 M88 178 L70 190 M88 178 L105 187 M88 208 L76 229 M88 208 L101 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="133" y="137" width="126" height="75" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <text x="196" y="165" font-size="14" font-weight="700" fill="#EF4444" text-anchor="middle">SHARK VOLCANO!</text>
+    <path d="M187 177 L207 188 L187 199 Z" fill="#EF4444"/>
+    <text x="196" y="207" font-size="12" fill="#6B7280" text-anchor="middle">0:42</text>
+
+    <path d="M286 158 L286 202 M286 176 L274 188 M286 176 L301 184 M286 202 L276 225 M286 202 L302 221 M336 158 L336 202 M336 176 L324 187 M336 176 L352 183 M336 202 L326 224 M336 202 L353 220" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="286" cy="148" r="10" fill="#10B981"/>
+    <circle cx="336" cy="148" r="10" fill="#D97706"/>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The flashy pick wins the vote—and empties the couch.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="484" y="76" width="164" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="566" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="566" dy="0">They stayed 98 minutes.</tspan>
+      <tspan x="566" dy="16">Now that’s a winner.</tspan>
+    </text>
+
+    <rect x="430" y="137" width="112" height="72" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="486" y="161" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">THE QUIET HEIST</text>
+    <path d="M476 173 L496 184 L476 195 Z" fill="#0EA5E9"/>
+    <text x="486" y="205" font-size="12" fill="#6B7280" text-anchor="middle">98 MIN</text>
+
+    <circle cx="578" cy="158" r="10" fill="#7C3AED"/>
+    <path d="M578 168 L578 207 M578 179 L562 190 M578 179 L594 189 M578 207 L568 228 M578 207 L588 228" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="604" cy="190" r="15" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <path d="M604 175 L604 169 M598 169 L610 169 M604 190 L612 183" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="645" y="185" width="112" height="39" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+    <path d="M652 224 L652 235 M750 224 L750 235" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="674" cy="170" r="10" fill="#10B981"/>
+    <circle cx="724" cy="170" r="10" fill="#D97706"/>
+    <path d="M674 180 L674 207 M674 190 L690 199 M724 180 L724 207 M724 190 L708 199" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Minutes watched beat clicks that end after 42 seconds.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="114" y="356" width="180" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="204" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="204" dy="0">Same movie.</tspan>
+      <tspan x="204" dy="16">Different invitations.</tspan>
+    </text>
+
+    <circle cx="204" cy="439" r="10" fill="#7C3AED"/>
+    <path d="M204 449 L204 493 M204 460 L157 470 M204 460 L251 470 M204 493 L191 516 M204 493 L217 516" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="72" cy="453" r="10" fill="#10B981"/>
+    <path d="M72 463 L72 505 M72 476 L88 484 M72 505 L61 526 M72 505 L83 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="96" y="431" width="63" height="91" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <circle cx="127" cy="458" r="12" fill="#0EA5E9"/>
+    <path d="M116 478 L127 466 L139 478" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="127" y="500" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">NIGHT</text>
+    <text x="127" y="514" font-size="12" fill="#1E1B4B" text-anchor="middle">TRAIN</text>
+
+    <rect x="249" y="431" width="63" height="91" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+    <path d="M280 474 C260 459 267 444 280 454 C293 444 300 459 280 474 Z" fill="#EF4444"/>
+    <text x="280" y="500" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">NIGHT</text>
+    <text x="280" y="514" font-size="12" fill="#1E1B4B" text-anchor="middle">TRAIN</text>
+    <circle cx="336" cy="453" r="10" fill="#D97706"/>
+    <path d="M336 463 L336 505 M336 476 L320 484 M336 505 L325 526 M336 505 L347 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Same movie, tailored art: more people press play.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="422" y="356" width="148" height="45" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="496" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="496" dy="0">I copied your formula.</tspan>
+      <tspan x="496" dy="16">It fits on one card.</tspan>
+    </text>
+
+    <rect x="604" y="356" width="158" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="683" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="683" dy="0">Perfect.</tspan>
+      <tspan x="683" dy="16">Now seat forty people.</tspan>
+    </text>
+
+    <circle cx="474" cy="449" r="10" fill="#D97706"/>
+    <path d="M474 459 L474 503 M474 471 L491 478 M474 471 L458 481 M474 503 L462 526 M474 503 L486 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="489" y="447" width="70" height="45" rx="4" fill="#FFFFFF" stroke="#D97706"/>
+    <text x="524" y="466" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">FORMULA</text>
+    <text x="524" y="483" font-size="12" fill="#6B7280" text-anchor="middle">rank(score)</text>
+
+    <circle cx="594" cy="449" r="10" fill="#7C3AED"/>
+    <path d="M594 459 L594 503 M594 471 L579 481 M594 471 L610 480 M594 503 L583 526 M594 503 L605 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="632" y="430" width="91" height="96" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+    <path d="M632 461 L723 461 M632 493 L723 493" fill="none" stroke="#0EA5E9" stroke-width="2"/>
+    <text x="677" y="451" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">WI-FI</text>
+    <text x="677" y="483" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">QUEUE</text>
+    <text x="677" y="515" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">40 SEATS</text>
+    <path d="M735 450 L754 450 L754 466 L735 466 Z M735 478 L754 478 L754 494 L735 494 Z M735 506 L754 506 L754 522 L735 522 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The recipe is public. The working movie night is not.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">At scale, known algorithms win through the right objective, presentation, and infrastructure.</text>
+</svg>

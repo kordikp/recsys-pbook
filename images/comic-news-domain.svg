@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Today’s Special Expires Before Lunch</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="74" width="142" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="105" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Anything popular?</text>
+
+    <rect x="202" y="74" width="165" height="38" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="284.5" y="90" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="284.5" dy="0">Not before it</tspan>
+      <tspan x="284.5" dy="15">expires.</tspan>
+    </text>
+
+    <g>
+      <circle cx="250" cy="145" r="10" fill="#10B981"/>
+      <path d="M250 155 L250 196 M250 167 L230 181 M250 168 L269 178 M250 196 L238 218 M250 196 L263 218" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="337" cy="145" r="10" fill="#7C3AED"/>
+      <path d="M337 155 L337 196 M337 168 L319 181 M337 168 L353 180 M337 196 L325 218 M337 196 L349 218" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="115" cy="151" r="27" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+      <path d="M115 151 L115 134 M115 151 L130 158" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="115" y="190" font-size="11" fill="#D97706" text-anchor="middle">8:03 AM</text>
+    </g>
+
+    <g>
+      <rect x="42" y="207" width="54" height="42" rx="4" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="69" y="224" font-size="10" font-weight="700" fill="#1E1B4B" text-anchor="middle">8 AM</text>
+      <text x="69" y="239" font-size="9" fill="#6B7280" text-anchor="middle">NEW</text>
+      <rect x="105" y="207" width="54" height="42" rx="4" fill="#FEE2E2" stroke="#EF4444"/>
+      <text x="132" y="224" font-size="10" font-weight="700" fill="#1E1B4B" text-anchor="middle">6 AM</text>
+      <text x="132" y="239" font-size="9" fill="#EF4444" text-anchor="middle">STALE</text>
+      <rect x="168" y="207" width="54" height="42" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="195" y="224" font-size="10" font-weight="700" fill="#1E1B4B" text-anchor="middle">8:02</text>
+      <text x="195" y="239" font-size="9" fill="#6B7280" text-anchor="middle">NEW</text>
+    </g>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The breakfast edition has a shelf life shorter than breakfast.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="426" y="74" width="155" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="503.5" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Where are the reviews?</text>
+
+    <rect x="595" y="74" width="167" height="38" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="678.5" y="90" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="678.5" dy="0">Still being</tspan>
+      <tspan x="678.5" dy="15">written.</tspan>
+    </text>
+
+    <g>
+      <circle cx="665" cy="148" r="10" fill="#10B981"/>
+      <path d="M665 158 L665 199 M665 170 L643 184 M665 171 L685 182 M665 199 L653 220 M665 199 L677 220" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="742" cy="148" r="10" fill="#7C3AED"/>
+      <path d="M742 158 L742 199 M742 171 L725 184 M742 171 L758 183 M742 199 L731 220 M742 199 L753 220" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <rect x="430" y="139" width="60" height="101" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="460" y="160" font-size="10" font-weight="700" fill="#1E1B4B" text-anchor="middle">CITY</text>
+      <text x="460" y="181" font-size="9" fill="#6B7280" text-anchor="middle">housing</text>
+      <text x="460" y="197" font-size="9" fill="#6B7280" text-anchor="middle">local</text>
+      <text x="460" y="222" font-size="11" fill="#D97706" text-anchor="middle">☆ ☆ ☆</text>
+
+      <rect x="500" y="139" width="60" height="101" rx="6" fill="#D1FAE5" stroke="#10B981"/>
+      <text x="530" y="160" font-size="10" font-weight="700" fill="#1E1B4B" text-anchor="middle">CLIMATE</text>
+      <text x="530" y="181" font-size="9" fill="#6B7280" text-anchor="middle">science</text>
+      <text x="530" y="197" font-size="9" fill="#6B7280" text-anchor="middle">global</text>
+      <text x="530" y="222" font-size="11" fill="#D97706" text-anchor="middle">☆ ☆ ☆</text>
+
+      <rect x="570" y="139" width="60" height="101" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="600" y="160" font-size="10" font-weight="700" fill="#1E1B4B" text-anchor="middle">SPORT</text>
+      <text x="600" y="181" font-size="9" fill="#6B7280" text-anchor="middle">football</text>
+      <text x="600" y="197" font-size="9" fill="#6B7280" text-anchor="middle">scores</text>
+      <text x="600" y="222" font-size="11" fill="#D97706" text-anchor="middle">☆ ☆ ☆</text>
+    </g>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">So the menu starts with ingredients, not star ratings.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="34" y="358" width="137" height="88" rx="8" fill="#E5E7EB" stroke="#6B7280"/>
+    <rect x="45" y="370" width="115" height="52" rx="5" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="102.5" y="390" font-size="10" fill="#6B7280" text-anchor="middle">AUTO-SUGGESTION</text>
+    <text x="102.5" y="409" font-size="12" font-weight="700" fill="#EF4444" text-anchor="middle">MAKE IT ANGRIER</text>
+    <path d="M83 446 L70 463 M122 446 L135 463 M68 463 L137 463" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="188" y="358" width="172" height="38" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="274" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That’s not our voice.</text>
+
+    <g>
+      <circle cx="246" cy="432" r="10" fill="#10B981"/>
+      <path d="M246 442 L246 487 M246 454 L221 467 M246 454 L273 465 M246 487 L234 510 M246 487 L258 510" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="337" cy="432" r="10" fill="#7C3AED"/>
+      <path d="M337 442 L337 487 M337 455 L320 468 M337 455 L352 467 M337 487 L325 510 M337 487 L349 510" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <rect x="176" y="479" width="51" height="54" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="201.5" y="499" font-size="9" font-weight="700" fill="#1E1B4B" text-anchor="middle">DRAFT</text>
+      <path d="M188 509 L215 509 M188 519 L209 519" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <rect x="270" y="478" width="54" height="30" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+      <text x="297" y="497" font-size="9" font-weight="700" fill="#1E1B4B" text-anchor="middle">EDITED</text>
+    </g>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The recommender proposes; the editor keeps the house style.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="426" y="356" width="154" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="503" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I didn’t order weather.</text>
+
+    <rect x="596" y="356" width="168" height="38" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="680" y="372" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="680" dy="0">Nobody does.</tspan>
+      <tspan x="680" dy="15">It still happens.</tspan>
+    </text>
+
+    <g>
+      <circle cx="655" cy="432" r="10" fill="#10B981"/>
+      <path d="M655 442 L655 489 M655 454 L630 470 M655 455 L678 469 M655 489 L643 512 M655 489 L667 512" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="745" cy="432" r="10" fill="#7C3AED"/>
+      <path d="M745 442 L745 489 M745 455 L727 469 M745 455 L760 468 M745 489 L733 512 M745 489 L757 512" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <path d="M435 524 L610 524 L595 542 L450 542 Z" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+      <rect x="447" y="456" width="46" height="63" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
+      <text x="470" y="480" font-size="9" font-weight="700" fill="#1E1B4B" text-anchor="middle">POLITICS</text>
+      <path d="M456 493 L484 493 M456 503 L479 503" stroke="#6B7280" stroke-width="1.5"/>
+
+      <rect x="500" y="456" width="46" height="63" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="523" y="480" font-size="9" font-weight="700" fill="#1E1B4B" text-anchor="middle">LOCAL</text>
+      <path d="M509 493 L537 493 M509 503 L532 503" stroke="#6B7280" stroke-width="1.5"/>
+
+      <rect x="553" y="456" width="46" height="63" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="576" y="480" font-size="9" font-weight="700" fill="#1E1B4B" text-anchor="middle">WEATHER</text>
+      <circle cx="576" cy="501" r="7" fill="#D97706"/>
+    </g>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The prix fixe feed includes things beyond his usual taste.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">News ranking juggles cold starts, rapid expiry, editorial voice, and civic diversity.</text>
+</svg>

@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The House Always Recommends One More</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="34" y="76" width="196" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="132" y="102" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The bottom moved again.</text>
+
+  <circle cx="101" cy="172" r="10" fill="#7C3AED"/>
+  <path d="M101 183 L101 224 M101 194 L78 209 M101 194 L124 207 M101 224 L84 250 M101 224 L119 250" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <path d="M264 126 H359 V264 L351 258 L343 264 L335 258 L327 264 L319 258 L311 264 L303 258 L295 264 L287 258 L279 264 L271 258 L264 264 Z" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text x="311" y="151" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">TONIGHT'S MENU</text>
+  <path d="M278 166 H345 M278 188 H345 M278 210 H345 M278 232 H331" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <path d="M347 226 V246 M341 240 L347 246 L353 240" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The menu gains another course whenever she nears the end.</text>
+
+  <!-- Panel 2 -->
+  <rect x="519" y="76" width="190" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="614" y="102" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Next plate starts itself.</text>
+
+  <circle cx="470" cy="169" r="10" fill="#7C3AED"/>
+  <path d="M470 180 L470 218 M470 191 L453 205 M470 191 L487 205 M470 218 L456 242 M470 218 L485 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="734" cy="169" r="10" fill="#10B981"/>
+  <path d="M734 180 L734 218 M734 193 L715 207 M734 193 L751 204 M734 218 L722 242 M734 218 L747 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="505" y="219" width="190" height="30" rx="8" fill="#E5E7EB" stroke="#6B7280"/>
+  <path d="M527 234 H675 M665 227 L676 234 L665 241" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M548 215 Q563 196 578 215 Z" fill="#FEF3C7" stroke="#D97706"/>
+  <path d="M625 215 Q640 196 655 215 Z" fill="#D1FAE5" stroke="#10B981"/>
+
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Every finished plate starts the next one without asking.</text>
+
+  <!-- Panel 3 -->
+  <rect x="39" y="357" width="145" height="42" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="111.5" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Just one more.</text>
+
+  <circle cx="102" cy="454" r="10" fill="#7C3AED"/>
+  <path d="M102 465 L102 508 M102 478 L82 491 M102 478 L124 486 M102 508 L87 536 M102 508 L119 536" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <path d="M245 491 Q245 454 282 454 Q319 454 319 491 Z" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <path d="M235 492 H329 M271 445 H293" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="317" cy="443" r="15" fill="#EF4444"/>
+  <text x="317" y="448" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">7</text>
+  <path d="M214 466 L225 461 M211 484 H223 M221 447 L230 455" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/>
+
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A bright little badge suggests the evening is incomplete.</text>
+
+  <!-- Panel 4 -->
+  <rect x="430" y="359" width="170" height="122" rx="9" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <text x="515" y="383" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">HOUSE DEFAULT</text>
+  <text x="515" y="409" font-size="12" fill="#6B7280" text-anchor="middle">KEEP SERVING</text>
+  <rect x="485" y="421" width="60" height="25" rx="13" fill="#D1FAE5" stroke="#10B981"/>
+  <circle cx="532" cy="433.5" r="9" fill="#10B981"/>
+  <text x="515" y="467" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">9 OF 10 LEAVE IT</text>
+
+  <rect x="607" y="358" width="157" height="57" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="685.5" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="685.5" y="381">Stopping is in</tspan>
+    <tspan x="685.5" y="399">Settings.</tspan>
+  </text>
+
+  <circle cx="551" cy="502" r="10" fill="#7C3AED"/>
+  <path d="M551 513 L551 548 M551 524 L535 537 M551 524 L568 536 M551 548 L540 568 M551 548 L563 568" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="687" cy="466" r="10" fill="#10B981"/>
+  <path d="M687 477 L687 518 M687 488 L670 499 M687 488 L704 497 M687 518 L675 544 M687 518 L700 544" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Nine diners kept the house setting; one found the tiny toggle.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Infinite scroll, autoplay, and badges deliberately exploit default bias to extend sessions.</text>
+</svg>

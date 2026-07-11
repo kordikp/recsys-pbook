@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Everything Is Fine, Served Promptly</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="46" y="82" width="188" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="140" y="108" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Your usual muffin?</text>
+  <circle cx="120" cy="169" r="10" fill="#7C3AED"/>
+  <path d="M120 180 L120 225 M120 190 L145 200 M120 225 L107 243 M120 225 L133 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="285" cy="169" r="10" fill="#0EA5E9"/>
+  <path d="M285 180 L285 225 M285 192 L255 200 M285 225 L273 243 M285 225 L297 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M142 200 L207 200" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M167 189 L183 189 L181 199 L169 199 Z" fill="#FEF3C7" stroke="#D97706"/>
+  <path d="M168 189 C169 179 181 179 182 189 Z" fill="#D97706" stroke="#D97706"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Yesterday's taste becomes today's confident guess.</text>
+
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="432" y="144" width="133" height="80" rx="8" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="498.5" y="172" font-size="12" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="498.5" dy="0">TODAY'S CHOICES</tspan>
+    <tspan x="498.5" dy="25" font-weight="700">MUFFIN  IIII</tspan>
+  </text>
+  <rect x="590" y="84" width="168" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="674" y="110" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I guess... muffin.</text>
+  <circle cx="620" cy="165" r="10" fill="#7C3AED"/>
+  <path d="M620 176 L620 224 M620 190 L600 202 M620 224 L608 242 M620 224 L632 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="714" cy="173" r="10" fill="#0EA5E9"/>
+  <path d="M714 184 L714 226 M714 194 L686 203 M714 226 L702 243 M714 226 L726 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The offer creates the choice; the choice updates the offer.</text>
+
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="190" y="366" width="170" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="275" y="392" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Something green...</text>
+  <circle cx="120" cy="465" r="10" fill="#7C3AED"/>
+  <path d="M120 476 L120 521 M120 488 L145 493 M120 521 L107 539 M120 521 L133 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="285" cy="465" r="10" fill="#0EA5E9"/>
+  <path d="M285 476 L285 521 M285 488 L255 493 M285 521 L273 539 M285 521 L297 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M142 493 L207 493" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M167 482 L183 482 L181 492 L169 492 Z" fill="#FEF3C7" stroke="#D97706"/>
+  <path d="M168 482 C169 472 181 472 182 482 Z" fill="#D97706" stroke="#D97706"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">By Thursday, yesterday's appetite has quietly moved on.</text>
+
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="438" y="394" width="150" height="84" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="513" y="421" font-size="12" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="513" dy="0" font-weight="700">ALL GREEN</tspan>
+    <tspan x="513" dy="22">HTTP 200: 100%</tspan>
+    <tspan x="513" dy="20">LATENCY: 80 ms</tspan>
+  </text>
+  <rect x="600" y="368" width="158" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="679" y="394" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Perfect service again.</text>
+  <circle cx="648" cy="468" r="10" fill="#7C3AED"/>
+  <path d="M648 479 L648 520 M648 491 L625 481 M648 520 L636 538 M648 520 L660 538" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="742" cy="477" r="10" fill="#0EA5E9"/>
+  <path d="M742 488 L748 520 M745 498 L727 507 M748 520 L733 536 M748 520 L766 531" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Every order arrived. The customer did not.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Uptime and latency miss silent quality loss; monitor recommendation drift and feedback loops.</text>
+</svg>

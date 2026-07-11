@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Shortest Recipe Took Decades</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="34" y="78" width="170" height="50" rx="9" fill="#FFFFFF" stroke="#0EA5E9"/>
+  <text x="119" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="119">A recommendation?</tspan>
+    <tspan x="119" dy="17">Make it reliable.</tspan>
+  </text>
+  <circle cx="72" cy="170" r="10" fill="#0EA5E9"/>
+  <path d="M72 181 L72 222 M72 191 L52 207 M72 191 L91 203 M72 222 L59 244 M72 222 L86 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M218 153 H300 V174 H228 V195 H310 V216 H238 V237 H320" fill="none" stroke="#7C3AED" stroke-width="10" stroke-linejoin="round"/>
+  <text x="269" y="145" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">12 DEEP LAYERS</text>
+  <circle cx="346" cy="170" r="10" fill="#D97706"/>
+  <path d="M346 181 L346 222 M346 192 L324 204 M346 192 L365 185 M346 222 L334 244 M346 222 L359 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Today's recommendations rest on decades of mathematical research.</text>
+
+  <!-- Panel 2 -->
+  <rect x="430" y="78" width="184" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="522" y="106" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Try one matrix inverse.</text>
+  <circle cx="465" cy="174" r="10" fill="#D97706"/>
+  <path d="M465 185 L465 226 M465 195 L447 211 M465 195 L493 181 M465 226 L453 248 M465 226 L478 248" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="500" y="145" width="142" height="92" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="571" y="165" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">EASE · 2019</text>
+  <text x="571" y="194" font-size="18" fill="#1E1B4B" text-anchor="middle">[ orders ]⁻¹</text>
+  <text x="571" y="219" font-size="11" fill="#6B7280" text-anchor="middle">ONE STEP</text>
+  <circle cx="719" cy="174" r="10" fill="#0EA5E9"/>
+  <path d="M719 185 L719 226 M719 195 L696 203 M719 195 L738 207 M719 226 L707 248 M719 226 L732 248" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">EASE (2019) needs one matrix inverse, not a deep network.</text>
+
+  <!-- Panel 3 -->
+  <rect x="38" y="358" width="166" height="46" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="121" y="386" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The simple one wins.</text>
+  <circle cx="62" cy="454" r="10" fill="#D97706"/>
+  <path d="M62 465 L62 506 M62 476 L84 490 M62 476 L43 489 M62 506 L50 528 M62 506 L75 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M112 506 H308" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="126" y="448" width="66" height="42" rx="7" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="159" y="466" font-size="10" font-weight="700" fill="#EF4444" text-anchor="middle">DEEP</text>
+  <text x="159" y="482" font-size="11" fill="#6B7280" text-anchor="middle">muffin</text>
+  <rect x="216" y="448" width="66" height="42" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="249" y="466" font-size="10" font-weight="700" fill="#10B981" text-anchor="middle">EASE</text>
+  <text x="249" y="482" font-size="11" fill="#1E1B4B" text-anchor="middle">scone ✓</text>
+  <circle cx="338" cy="454" r="10" fill="#0EA5E9"/>
+  <path d="M338 465 L338 506 M338 476 L316 487 M338 476 L357 463 M338 506 L326 528 M338 506 L351 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">EASE's simple insight can outperform deep neural recommenders.</text>
+
+  <!-- Panel 4 -->
+  <rect x="430" y="358" width="182" height="46" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="521" y="386" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Nothing stays in the test kitchen.</text>
+  <rect x="438" y="430" width="128" height="86" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="502" y="451" font-size="11" font-weight="700" fill="#7C3AED" text-anchor="middle">RESEARCH MENU</text>
+  <text x="502" y="475" font-size="12" fill="#1E1B4B" text-anchor="middle">PAPERS</text>
+  <text x="502" y="495" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">ALL SERVED</text>
+  <circle cx="606" cy="458" r="10" fill="#D97706"/>
+  <path d="M606 469 L606 510 M606 480 L584 490 M606 480 L628 490 M606 510 L594 532 M606 510 L619 532" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M654 478 H758 M654 478 V530 M758 478 V530" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="679" cy="454" r="10" fill="#0EA5E9"/>
+  <circle cx="708" cy="454" r="10" fill="#10B981"/>
+  <circle cx="737" cy="454" r="10" fill="#7C3AED"/>
+  <text x="706" y="516" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">500+ CUSTOMERS</text>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Every Recombee paper runs in production for 500+ customers.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Research finds mathematical shortcuts that improve recommendations beyond brute-force engineering.</text>
+</svg>

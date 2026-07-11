@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Jukebox That Takes Its Own Requests</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="76" width="156" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="112" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="112" dy="0">Play me something</tspan>
+      <tspan x="112" dy="17">nobody knows.</tspan>
+    </text>
+
+    <circle cx="104" cy="169" r="10" fill="#0EA5E9"/>
+    <path d="M104 180 L104 219 M104 190 L85 204 M104 190 L123 201 M104 219 L90 244 M104 219 L119 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="205" y="76" width="168" height="154" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="289" y="99" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">ON SPOTIFY</text>
+    <text x="221" y="121" font-size="12" fill="#6B7280">tracks ever streamed</text>
+    <rect x="221" y="135" width="136" height="14" rx="7" fill="#E5E7EB"/>
+    <rect x="221" y="135" width="27" height="14" rx="7" fill="#10B981"/>
+    <text x="221" y="168" font-size="12" fill="#10B981">≈20% yes</text>
+    <text x="221" y="193" font-size="12.5" font-weight="700" fill="#6B7280">≈80%: zero streams</text>
+    <path d="M221 211 L357 211" fill="none" stroke="#E5E7EB" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The catalog is enormous. The listening history is tiny.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="426" y="76" width="145" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="498.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="498.5" dy="0">Why that song</tspan>
+      <tspan x="498.5" dy="17">again?</tspan>
+    </text>
+
+    <circle cx="498" cy="169" r="10" fill="#0EA5E9"/>
+    <path d="M498 180 L498 219 M498 190 L480 202 M498 190 L516 202 M498 219 L484 244 M498 219 L513 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="594" y="76" width="172" height="156" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="680" y="99" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">RECOMMENDER</text>
+    <rect x="610" y="113" width="140" height="47" rx="8" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="680" y="133" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">THE HIT</text>
+    <text x="680" y="151" font-size="12" fill="#6B7280" text-anchor="middle">9,842 → 9,843 plays</text>
+    <path d="M625 185 C625 169 648 168 660 177" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M655 171 L662 177 L654 181" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="680" y="211" font-size="12" fill="#D97706" text-anchor="middle">RECOMMENDED AGAIN</text>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The hit gets played because it got played.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="34" y="356" width="140" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="104" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="104" dy="0">What’s hiding</tspan>
+      <tspan x="104" dy="17">down there?</tspan>
+    </text>
+
+    <circle cx="102" cy="449" r="10" fill="#0EA5E9"/>
+    <path d="M102 460 L102 499 M102 470 L121 458 M102 470 L84 485 M102 499 L88 524 M102 499 L117 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="188" y="356" width="172" height="157" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+    <text x="274" y="379" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">DEEP SEARCH</text>
+    <rect x="204" y="395" width="140" height="73" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+    <circle cx="226" cy="431" r="13" fill="#7C3AED"/>
+    <path d="M222 424 L222 438 L233 431 Z" fill="#FFFFFF"/>
+    <text x="249" y="423" font-size="12.5" font-weight="700" fill="#1E1B4B">TRACK #847</text>
+    <text x="249" y="444" font-size="12" fill="#6B7280">0 streams</text>
+    <text x="274" y="492" font-size="12.5" fill="#10B981" text-anchor="middle">Oh. This is mine.</text>
+    <text x="347" y="482" font-size="21" fill="#7C3AED">♪</text>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The first play requires leaving the front page.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="426" y="356" width="155" height="151" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="503.5" y="380" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">NICHE MIX</text>
+    <rect x="443" y="395" width="121" height="47" rx="8" fill="#FFFFFF" stroke="#10B981"/>
+    <text x="503.5" y="415" font-size="12" fill="#6B7280" text-anchor="middle">LISTENING STREAK</text>
+    <text x="503.5" y="434" font-size="12.5" font-weight="700" fill="#10B981" text-anchor="middle">43 days</text>
+    <text x="503.5" y="476" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Still listening?</text>
+
+    <rect x="602" y="356" width="164" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="684" y="387" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I brought a charger.</text>
+
+    <circle cx="686" cy="451" r="10" fill="#0EA5E9"/>
+    <path d="M686 462 L686 500 M686 474 L666 487 M686 474 L705 487 M686 500 L670 522 M686 500 L711 500" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M711 500 L737 500 L737 476" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="732" y="463" width="10" height="14" rx="2" fill="#FEF3C7" stroke="#D97706"/>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">One obscure track later, the listener stops leaving.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Tail data is sparse; rankers favor and amplify hits, while niche finds improve retention.</text>
+</svg>

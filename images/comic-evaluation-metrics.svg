@@ -1,0 +1,122 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Clean-Plate Test Has a Serving Problem</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="32" y="72" width="211" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="44" y="94" font-size="12.5" fill="#1E1B4B">Choose tomorrow's special</text>
+    <text x="44" y="113" font-size="12.5" fill="#1E1B4B">from old clean plates.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="82" cy="165" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M82 176 L82 215 M82 187 L62 201 M82 188 L101 198 M82 215 L68 238 M82 215 L97 238"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="306" cy="165" r="10" fill="#D97706" stroke="none"/>
+    <path d="M306 176 L306 215 M306 187 L286 199 M306 187 L326 199 M306 215 L292 238 M306 215 L321 238"/>
+  </g>
+  <g>
+    <rect x="139" y="145" width="105" height="72" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="191.5" y="164" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">OLD PLATE LOG</text>
+    <path d="M153 179 H229 M153 192 H229 M153 205 H211" stroke="#E5E7EB" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="222" cy="205" r="4" fill="#7C3AED"/>
+  </g>
+  <g stroke="#6B7280" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M40 245 H367"/>
+    <ellipse cx="190" cy="235" rx="34" ry="7"/>
+    <ellipse cx="270" cy="235" rx="34" ry="7"/>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Offline tests inherit what diners were previously shown.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="424" y="72" width="173" height="40" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="510.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That bowl was better.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="470" cy="166" r="10" fill="#10B981" stroke="none"/>
+    <path d="M470 177 L470 218 M470 188 L451 201 M470 188 L488 201 M470 218 L458 241 M470 218 L483 241"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="555" cy="166" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M555 177 L555 218 M555 188 L537 201 M555 188 L574 198 M555 218 L542 241 M555 218 L568 241"/>
+  </g>
+  <g>
+    <text x="688" y="92" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">CLEAN PLATES</text>
+    <path d="M620 238 H758" stroke="#6B7280" stroke-width="2"/>
+    <rect x="638" y="126" width="42" height="112" rx="4" fill="#EDE9FE" stroke="#7C3AED"/>
+    <rect x="704" y="220" width="42" height="18" rx="4" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="659" y="119" font-size="13" font-weight="700" fill="#7C3AED" text-anchor="middle">90</text>
+    <text x="725" y="213" font-size="13" font-weight="700" fill="#10B981" text-anchor="middle">4</text>
+    <text x="659" y="255" font-size="10.5" fill="#6B7280" text-anchor="middle">BURGER</text>
+    <text x="725" y="255" font-size="10.5" fill="#6B7280" text-anchor="middle">BOWL</text>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The better bowl looks worse after years of burger exposure.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="32" y="352" width="191" height="40" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="127.5" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Take 30% off its fame.</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="78" cy="447" r="10" fill="#7C3AED" stroke="none"/>
+    <path d="M78 458 L78 500 M78 469 L59 483 M78 469 L101 477 M78 500 L65 523 M78 500 L91 523"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="166" cy="447" r="10" fill="#D97706" stroke="none"/>
+    <path d="M166 458 L166 500 M166 469 L146 482 M166 469 L185 482 M166 500 L153 523 M166 500 L179 523"/>
+  </g>
+  <g>
+    <rect x="224" y="363" width="145" height="82" rx="8" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="296.5" y="386" font-size="11" font-weight="700" fill="#D97706" text-anchor="middle">POPULARITY PENALTY</text>
+    <text x="296.5" y="420" font-size="24" font-weight="700" fill="#1E1B4B" text-anchor="middle">β = 0.30</text>
+  </g>
+  <g>
+    <rect x="220" y="465" width="153" height="65" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+    <circle cx="247" cy="497" r="13" fill="#10B981"/>
+    <path d="M241 497 L246 502 L254 491" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <text x="310" y="490" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">RIGHT SPECIAL</text>
+    <text x="310" y="516" font-size="20" font-weight="700" fill="#10B981" text-anchor="middle">×3</text>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A β=0.30 popularity penalty triples selection accuracy.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="423" y="352" width="161" height="40" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="503.5" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">100% clean plates.</text>
+  </g>
+  <g>
+    <rect x="610" y="352" width="158" height="40" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="689" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Is lunch loading?</text>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="464" cy="440" r="10" fill="#D97706" stroke="none"/>
+    <path d="M464 451 L464 495 M464 462 L445 475 M464 462 L486 470 M464 495 L451 519 M464 495 L477 519"/>
+  </g>
+  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <circle cx="677" cy="440" r="10" fill="#10B981" stroke="none"/>
+    <circle cx="673" cy="439" r="1.2" fill="#1E1B4B" stroke="none"/>
+    <circle cx="681" cy="439" r="1.2" fill="#1E1B4B" stroke="none"/>
+    <path d="M677 451 L677 495 M677 462 L655 476 M677 462 L697 476 M677 495 L664 519 M677 495 L690 519"/>
+  </g>
+  <g>
+    <path d="M500 510 H642" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+    <ellipse cx="563" cy="493" rx="42" ry="8" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+    <circle cx="563" cy="488" r="4" fill="#10B981"/>
+  </g>
+  <g>
+    <ellipse cx="735" cy="508" rx="27" ry="6" fill="#FFFFFF" stroke="#6B7280"/>
+    <ellipse cx="735" cy="501" rx="27" ry="6" fill="#FFFFFF" stroke="#6B7280"/>
+    <ellipse cx="735" cy="494" rx="27" ry="6" fill="#FFFFFF" stroke="#6B7280"/>
+    <path d="M759 484 L764 489 L773 477" stroke="#10B981" stroke-width="3" fill="none" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Once clean plates became the goal, lunch shrank to the metric.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Offline logs favor popular items; a β=0.30 penalty reduces bias, unless the metric gets gamed.</text>
+</svg>

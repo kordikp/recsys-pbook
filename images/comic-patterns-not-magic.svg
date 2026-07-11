@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Your Usual, Statistically Speaking</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="38" y="76" width="214" height="44" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="50" y="103" font-size="12.5" fill="#1E1B4B">Sesame bun again, please.</text>
+  <circle cx="95" cy="165" r="10" fill="#7C3AED"/>
+  <path d="M95 176 L95 220 M95 188 L70 203 M95 188 L122 199" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="318" cy="165" r="10" fill="#10B981"/>
+  <path d="M318 176 L318 220 M318 188 L289 203 M318 188 L343 201" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="220" y="213" width="150" height="28" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <ellipse cx="266" cy="211" rx="24" ry="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The clerk watches one sesame bun become a habit.</text>
+
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="594" y="76" width="112" height="44" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="610" y="103" font-size="12.5" fill="#1E1B4B">Sesame?</text>
+  <circle cx="485" cy="165" r="10" fill="#7C3AED"/>
+  <path d="M485 176 L485 220 M485 188 L461 204 M485 188 L520 194" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="700" cy="165" r="10" fill="#10B981"/>
+  <path d="M700 176 L700 220 M700 188 L669 201 M700 188 L724 204" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="548" y="166" width="102" height="68" rx="7" fill="#FFFFFF" stroke="#0EA5E9"/>
+  <text x="599" y="194" font-size="15" fill="#10B981" text-anchor="middle">✓ ✓ ✓ ✓</text>
+  <text x="599" y="216" font-size="12.5" fill="#6B7280" text-anchor="middle">SESAME</text>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Every visit turns “probably” into “almost certainly.”</text>
+
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="34" y="358" width="125" height="78" rx="7" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="96" y="387" font-size="14" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="96" y="387">3,204,118</tspan>
+    <tspan x="96" y="408" font-size="12.5" font-weight="400">lunch orders</tspan>
+  </text>
+  <rect x="170" y="358" width="205" height="62" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="185" y="382" font-size="12.5" fill="#1E1B4B">
+    <tspan x="185" y="382">Soup people also</tspan>
+    <tspan x="185" y="401">keep choosing this bun.</tspan>
+  </text>
+  <circle cx="92" cy="475" r="10" fill="#7C3AED"/>
+  <path d="M92 486 L92 530 M92 498 L68 514 M92 498 L118 510" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="315" cy="475" r="10" fill="#10B981"/>
+  <path d="M315 486 L315 530 M315 498 L285 510 M315 498 L340 514" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Millions of lunches expose pairings no clerk could track.</text>
+
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="426" y="358" width="155" height="44" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="438" y="385" font-size="12.5" fill="#1E1B4B">I haven’t ordered.</text>
+  <rect x="608" y="358" width="160" height="58" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="622" y="381" font-size="12.5" fill="#1E1B4B">
+    <tspan x="622" y="381">No. But everyone</tspan>
+    <tspan x="622" y="400">else has.</tspan>
+  </text>
+  <circle cx="480" cy="475" r="10" fill="#7C3AED"/>
+  <path d="M480 486 L480 530 M480 498 L455 514 M480 498 L520 511" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="700" cy="475" r="10" fill="#10B981"/>
+  <path d="M700 486 L700 530 M700 498 L620 513 M700 498 L726 514" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="600" cy="513" rx="25" ry="10" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The usual is waiting before the customer asks.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Recommendations predict from behavior patterns, sharpened by every interaction and many users.</text>
+</svg>

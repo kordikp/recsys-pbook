@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Before You Code, Take Their Order</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="34" y="76" width="190" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="129" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="129" dy="0">Mark every snack</tspan>
+    <tspan x="129" dy="17">you'd eat twice.</tspan>
+  </text>
+  <circle cx="90" cy="177" r="10" fill="#7C3AED"/>
+  <path d="M90 187 L90 226 M90 198 L70 212 M90 198 L110 207 M90 226 L78 244 M90 226 L103 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="260" cy="177" r="10" fill="#10B981"/>
+  <path d="M260 187 L260 226 M260 198 L242 210 M260 198 L278 210 M260 226 L248 244 M260 226 L272 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="330" cy="177" r="10" fill="#0EA5E9"/>
+  <path d="M330 187 L330 226 M330 198 L312 210 M330 198 L348 210 M330 226 L318 244 M330 226 L342 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Step 1 — collect a few honest choices by hand.</text>
+
+  <!-- Panel 2 -->
+  <rect x="430" y="76" width="260" height="50" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="560" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="560" dy="0">Mina and Leo matched</tspan>
+    <tspan x="560" dy="17">on 8 of 10 snacks.</tspan>
+  </text>
+  <circle cx="490" cy="177" r="10" fill="#7C3AED"/>
+  <path d="M490 187 L490 226 M490 198 L472 210 M490 198 L508 207 M490 226 L478 244 M490 226 L502 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="630" cy="177" r="10" fill="#10B981"/>
+  <path d="M630 187 L630 226 M630 198 L614 211 M630 198 L647 207 M630 226 L618 244 M630 226 L642 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="720" cy="177" r="10" fill="#0EA5E9"/>
+  <path d="M720 187 L720 226 M720 198 L703 207 M720 198 L736 211 M720 226 L708 244 M720 226 L732 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M640 168 Q675 140 710 168" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 5"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Step 2 — find people whose choices look alike.</text>
+
+  <!-- Panel 3 -->
+  <rect x="45" y="356" width="290" height="52" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="190" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="190" dy="0">Leo loved the crackers.</tspan>
+    <tspan x="190" dy="17">Mina probably will too.</tspan>
+  </text>
+  <circle cx="100" cy="457" r="10" fill="#7C3AED"/>
+  <path d="M100 467 L100 507 M100 478 L82 490 M100 478 L130 499 M100 507 L88 525 M100 507 L112 525" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="290" cy="457" r="10" fill="#10B981"/>
+  <path d="M290 467 L290 507 M290 478 L258 499 M290 478 L308 490 M290 507 L278 525 M290 507 L302 525" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M158 503 Q200 523 242 503 Q200 536 158 503 Z M178 500 L190 488 L202 500 Z M207 500 L219 487 L231 500 Z" fill="#FEF3C7" stroke="#D97706" stroke-width="2" stroke-linejoin="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Step 3 — predict a new choice from a similar eater.</text>
+
+  <!-- Panel 4 -->
+  <rect x="425" y="357" width="155" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="502.5" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="502.5" dy="0">Shipping</tspan>
+    <tspan x="502.5" dy="17">the update.</tspan>
+  </text>
+  <rect x="598" y="357" width="168" height="50" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="682" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="682" dy="0">Crackers: yes.</tspan>
+    <tspan x="682" dy="17">Seaweed: no.</tspan>
+  </text>
+  <circle cx="520" cy="457" r="10" fill="#7C3AED"/>
+  <path d="M520 467 L520 508 M520 478 L501 490 M520 478 L550 489 M520 508 L508 526 M520 508 L532 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="690" cy="457" r="10" fill="#10B981"/>
+  <path d="M690 467 L690 508 M690 478 L672 490 M690 478 L708 490 M690 508 L678 526 M690 508 L702 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M548 480 L581 480 L581 527 L548 527 Z M556 477 L573 477 L573 485 L556 485 Z M555 495 L574 495 M555 504 L574 504 M555 513 L568 513" fill="#FFFFFF" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Step 4 — test the guess, update the notes, repeat.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Start manually: collect data, find similar users, predict, then test and improve.</text>
+</svg>

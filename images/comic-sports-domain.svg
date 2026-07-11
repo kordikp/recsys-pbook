@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Fastest Service After the Whistle</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="82" width="148" height="94" rx="7" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <rect x="45" y="92" width="43" height="20" rx="7" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="66.5" y="106" font-size="11" font-weight="700" fill="#EF4444" text-anchor="middle">LIVE</text>
+    <path d="M52 145 H164 M108 121 V166" fill="none" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="83" cy="139" r="5" fill="#7C3AED"/>
+    <circle cx="138" cy="151" r="5" fill="#D97706"/>
+    <circle cx="111" cy="146" r="3" fill="#FFFFFF" stroke="#1E1B4B"/>
+
+    <circle cx="245" cy="163" r="10" fill="#7C3AED"/>
+    <path d="M245 174 V211 M245 184 L218 170 M245 184 L267 166 M245 211 L232 228 M245 211 L258 228" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="336" cy="163" r="10" fill="#10B981"/>
+    <path d="M336 174 V211 M336 184 L314 196 M336 184 L355 194 M336 211 L324 228 M336 211 L348 228" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="303" y="193" width="30" height="38" rx="4" fill="#D1FAE5" stroke="#10B981"/>
+    <path d="M309 203 H327 M309 211 H327 M309 219 H322" fill="none" stroke="#10B981" stroke-width="2"/>
+
+    <rect x="198" y="78" width="171" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="283.5" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Goal! More like that.</text>
+    <text x="283.5" y="117" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Also, skip the interviews.</text>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Every cheer and skip joins the play-by-play.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="428" y="80" width="104" height="68" rx="7" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="480" y="105" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">FULL TIME</text>
+    <text x="480" y="129" font-size="22" font-weight="700" fill="#EF4444" text-anchor="middle">●</text>
+
+    <path d="M447 224 H741 M447 224 L432 215 M447 224 L432 233 M741 224 L756 215 M741 224 L756 233" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="470" y="194" width="248" height="28" rx="7" fill="#FEF3C7" stroke="#D97706"/>
+    <path d="M491 222 V239 M697 222 V239 M530 194 V222 M573 194 V222 M616 194 V222 M659 194 V222" fill="none" stroke="#D97706" stroke-width="2"/>
+
+    <g>
+      <circle cx="500" cy="174" r="9" fill="#7C3AED"/>
+      <circle cx="548" cy="174" r="9" fill="#0EA5E9"/>
+      <circle cx="596" cy="174" r="9" fill="#D97706"/>
+      <circle cx="644" cy="174" r="9" fill="#7C3AED"/>
+      <circle cx="692" cy="174" r="9" fill="#0EA5E9"/>
+      <path d="M500 184 V194 M548 184 V194 M596 184 V194 M644 184 V194 M692 184 V194" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <circle cx="742" cy="121" r="10" fill="#10B981"/>
+    <path d="M742 132 V176 M742 143 L719 155 M742 143 L761 151 M742 176 L731 190 M742 176 L753 190" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="560" y="77" width="164" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="642" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Table for...</text>
+    <text x="642" y="117" font-size="12.5" fill="#1E1B4B" text-anchor="middle">several million?</text>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">At full time, the room expands for the traffic spike.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <circle cx="90" cy="456" r="10" fill="#7C3AED"/>
+    <path d="M90 467 V507 M90 478 L68 491 M90 478 L112 491 M90 507 L78 524 M90 507 L102 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="308" cy="456" r="10" fill="#10B981"/>
+    <path d="M308 467 V507 M308 478 L282 486 M308 478 L331 489 M308 507 L296 524 M308 507 L320 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="39" y="365" width="220" height="56" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="149" y="388" font-size="12.5" fill="#1E1B4B" text-anchor="middle">UFC finishes in round 1,</text>
+    <text x="149" y="406" font-size="12.5" fill="#1E1B4B" text-anchor="middle">please.</text>
+
+    <path d="M251 484 H350" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="244" y="439" width="35" height="43" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+    <rect x="283" y="439" width="35" height="43" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+    <rect x="322" y="439" width="35" height="43" rx="5" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="261.5" y="466" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">R1</text>
+    <text x="300.5" y="466" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">R1</text>
+    <text x="339.5" y="466" font-size="12" font-weight="700" fill="#EF4444" text-anchor="middle">R2</text>
+    <path d="M326 445 L353 477" fill="none" stroke="#EF4444" stroke-width="2"/>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Semantic search understands the oddly specific order.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <circle cx="496" cy="466" r="10" fill="#7C3AED"/>
+    <path d="M496 477 V518 M496 488 L468 474 M496 488 L520 476 M496 518 L484 535 M496 518 L508 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M466 473 L454 458 M466 473 L447 470" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="695" cy="466" r="10" fill="#10B981"/>
+    <path d="M695 477 V518 M695 488 L665 485 M695 488 L716 500 M695 518 L683 535 M695 518 L707 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M555 487 H669" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="568" y="441" width="88" height="44" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <rect x="577" y="451" width="70" height="24" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="612" y="467" font-size="11.5" font-weight="700" fill="#7C3AED" text-anchor="middle">REPLAY</text>
+
+    <rect x="435" y="365" width="200" height="55" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="535" y="388" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I haven't finished</text>
+    <text x="535" y="406" font-size="12.5" fill="#1E1B4B" text-anchor="middle">cheering yet.</text>
+
+    <rect x="651" y="382" width="106" height="40" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="704" y="407" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Next course.</text>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The next pick arrives before the applause ends.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Sports recommenders absorb live behavior, scale through matchday spikes, and respond in seconds.</text>
+</svg>

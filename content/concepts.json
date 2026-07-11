@@ -10,7 +10,8 @@
       "anchorPath": "ch01-introduction/01-spine-have-you-noticed.md",
       "provenance": "anchored",
       "blocks": [
-        "ch1-noticed"
+        "ch1-noticed",
+        "comic-everyday-recommendations"
       ],
       "contract": {
         "objective": "Every platform you use curates your experience. But what's behind it?",
@@ -46,7 +47,8 @@
       "anchorPath": "ch01-introduction/02-spine-recommendations-everywhere.md",
       "provenance": "anchored",
       "blocks": [
-        "ch1-everywhere"
+        "ch1-everywhere",
+        "comic-ubiquity"
       ],
       "contract": {
         "objective": "Once you start looking, you can't stop seeing them.",
@@ -83,6 +85,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch1-not-magic",
+        "comic-patterns-not-magic",
         "ch1-wrong-sidebar",
         "ch1-patterns-d-think",
         "ch1-history"
@@ -122,6 +125,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch1-three-jobs",
+        "comic-three-jobs",
         "ch1-wyr",
         "ch1-personalization-spectrum",
         "ch1-q1"
@@ -160,7 +164,8 @@
       "anchorPath": "ch01-introduction/06-spine-worksheet-match-apps.md",
       "provenance": "anchored",
       "blocks": [
-        "ch1-ws-match"
+        "ch1-ws-match",
+        "comic-distribution-models"
       ],
       "contract": {
         "objective": "Examine the content distribution models behind the platforms you use daily.",
@@ -197,6 +202,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch2-footprints",
+        "comic-digital-footprints",
         "ch2-track-d-exp",
         "ch2-guess-signal",
         "ch2-game-signal",
@@ -238,7 +244,8 @@
       "anchorPath": "ch02-data/01g-spine-data-foundation.md",
       "provenance": "anchored",
       "blocks": [
-        "ch2-data-foundation"
+        "ch2-data-foundation",
+        "comic-data-pillars"
       ],
       "contract": {
         "objective": "Every recommendation system rests on three data pillars: what items exist, who the users are, and how they interact. Get the foundation wrong and no algorithm can save you.",
@@ -275,6 +282,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch2-clues",
+        "comic-feedback-signals",
         "signals-feed-tldr",
         "ch2-incognito-sidebar",
         "ch2-negative-signals",
@@ -318,6 +326,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch2-privacy",
+        "comic-data-control",
         "ch2-privacy-d-create",
         "ch2-data-ownership"
       ],
@@ -356,6 +365,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch2-ws-detective",
+        "comic-algorithm-training",
         "ch2-data-quality"
       ],
       "contract": {
@@ -442,6 +452,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-objectives",
+        "comic-objectives",
         "ch4-multi-objective"
       ],
       "contract": {
@@ -479,6 +490,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-fairness",
+        "comic-fairness",
         "ch4-youtube-sidebar",
         "ch4-unfair-game",
         "ch4-diversity-metrics"
@@ -518,6 +530,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-long-tail",
+        "comic-long-tail",
         "long-tail-media-tldr",
         "ch4-user-fatigue"
       ],
@@ -556,6 +569,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-satisfaction",
+        "comic-satisfaction-vs-engagement",
         "ch4-trust",
         "ch4-reward-design",
         "ch4-spotify-paradox"
@@ -595,6 +609,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-what-scenarios",
+        "comic-scenarios",
         "ch4-canvas",
         "ch5-rec-scenarios",
         "ch5-composite-recs"
@@ -633,7 +648,8 @@
       "anchorPath": "ch04-scenarios/02j-spine-context-aware.md",
       "provenance": "anchored",
       "blocks": [
-        "ch3-context-aware"
+        "ch3-context-aware",
+        "comic-context-awareness"
       ],
       "contract": {
         "objective": "The same person wants different things at different times. Context-aware systems recognize that preferences aren't fixed -- they shift with time, place, device, and intent.",
@@ -669,7 +685,8 @@
       "anchorPath": "ch04-scenarios/02m-spine-session-based.md",
       "provenance": "anchored",
       "blocks": [
-        "ch3-session-based"
+        "ch3-session-based",
+        "comic-session-based"
       ],
       "contract": {
         "objective": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleeting trail of intent.",
@@ -706,6 +723,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-search-recs",
+        "comic-search-vs-recs",
         "ch3-search-recs-convergence"
       ],
       "contract": {
@@ -743,6 +761,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-llm-recs",
+        "comic-llm-recommenders",
         "ch3-rag-recs",
         "ch3-autoplay"
       ],
@@ -781,6 +800,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-friends",
+        "comic-collaborative-filtering",
         "cf-jobs-example",
         "cf-cs-tldr",
         "ch3-cf-d-exp",
@@ -824,6 +844,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-content",
+        "comic-content-based",
         "ch3-compare-d-think",
         "ch3-spot-method",
         "ch3-game-method"
@@ -863,6 +884,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-bandits",
+        "comic-explore-exploit",
         "bandits-radio-story",
         "ch3-bandits-intuition"
       ],
@@ -901,6 +923,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-deep-similarity",
+        "comic-embeddings",
         "embeddings-education",
         "ch3-embeddings-intuition",
         "ch3-two-tower",
@@ -945,6 +968,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-graph-methods",
+        "comic-graph-methods",
         "ch3-feature-interactions",
         "ch3-hybrid-patterns"
       ],
@@ -983,6 +1007,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-multimodal",
+        "comic-multimodal",
         "ch3-embedding-alignment",
         "ch3-rl-recsys",
         "ch3-social-rec",
@@ -1025,6 +1050,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-popular",
+        "comic-popularity",
         "ch3-popular-sidebar",
         "ch3-freshness"
       ],
@@ -1063,6 +1089,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch3-pipeline",
+        "comic-pipeline",
         "ch3-pipeline-d-exp",
         "ch3-ltr",
         "ch3-speed",
@@ -1105,6 +1132,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-testing",
+        "comic-ab-testing",
         "abtest-shop-example",
         "ch4-ab-d-exp",
         "ch4-game-ab",
@@ -1147,6 +1175,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-bubbles",
+        "comic-filter-bubbles",
         "filter-bubble-feed-story",
         "ch4-echo-d-think",
         "ch4-bias-types",
@@ -1193,6 +1222,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-evaluation",
+        "comic-evaluation-metrics",
         "ch7-eval-math",
         "ch7-repsys"
       ],
@@ -1230,7 +1260,8 @@
       "anchorPath": "ch07-explainability/01-spine-why-explainability.md",
       "provenance": "anchored",
       "blocks": [
-        "ch7-why-explain"
+        "ch7-why-explain",
+        "comic-why-explain"
       ],
       "contract": {
         "objective": "Users who understand why they received a recommendation get more value from it. Developers who can explain their system can debug it. Regulators who can audit it can protect the public. Explainability is where trust, engineering, and law converge.",
@@ -1267,6 +1298,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch4-explainability",
+        "comic-explanations",
         "ch4-explanation-ux"
       ],
       "contract": {
@@ -1304,6 +1336,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-explain-tech",
+        "comic-explanation-methods",
         "ch7-transparency"
       ],
       "contract": {
@@ -1341,6 +1374,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-steerable",
+        "comic-steerability",
         "ch7-explain-q1"
       ],
       "contract": {
@@ -1382,7 +1416,8 @@
         "ch5-realtime",
         "ch5-caching",
         "ch5-embedding-viz",
-        "ch5-build-vs-buy"
+        "ch5-build-vs-buy",
+        "comic-build-vs-buy"
       ],
       "contract": {
         "objective": "Should you build a recommendation system from scratch or use a managed service? The answer depends on factors most teams underestimate.",
@@ -1419,6 +1454,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-production-scale",
+        "comic-production-scale",
         "ch7-sparse-reps",
         "ch7-distillation",
         "ch7-realm"
@@ -1458,6 +1494,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch9-why-monitor",
+        "comic-monitoring",
         "ch9-drift",
         "ch5-monitoring",
         "ch5-observability",
@@ -1506,7 +1543,8 @@
         "ch5-open-source",
         "ch5-marketplace",
         "ch5-education-recs",
-        "ch5-feature-eng"
+        "ch5-feature-eng",
+        "comic-business-rules"
       ],
       "contract": {
         "objective": "The algorithm says 'recommend item X.' The product manager says 'but X is out of stock.' Business rules bridge the gap between algorithmic optimization and real-world constraints.",
@@ -1530,6 +1568,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch6-who-decides",
+        "comic-who-decides",
         "ch6-rabbit-sidebar",
         "ch6-attention-economy"
       ],
@@ -1564,6 +1603,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch6-addictive",
+        "comic-addictive-design",
         "ch6-control-d-create",
         "ch6-dopamine-sidebar"
       ],
@@ -1598,6 +1638,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch6-adtech-vs-recs",
+        "comic-ads-vs-recs",
         "ch6-creator-economy",
         "ch6-dark-patterns"
       ],
@@ -1632,6 +1673,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch6-privacy-real",
+        "comic-privacy-reality",
         "ch6-data-d-exp",
         "ch6-age-sidebar",
         "ch6-game-privacy",
@@ -1669,6 +1711,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch6-ai-future",
+        "comic-ai-future",
         "ch6-hard-d-think",
         "ch6-law-sidebar"
       ],
@@ -1703,6 +1746,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch6-conversational",
+        "comic-conversational-recs",
         "ch6-ethics-checklist",
         "ch6-global",
         "ch6-q1"
@@ -1737,7 +1781,8 @@
       "anchorPath": "ch12-domains/01-spine-why-domains-matter.md",
       "provenance": "anchored",
       "blocks": [
-        "ch13-domains-intro"
+        "ch13-domains-intro",
+        "comic-domain-differences"
       ],
       "contract": {
         "objective": "The same algorithm that works for Netflix will fail for a job board. Domain-specific constraints shape every design decision.",
@@ -1774,6 +1819,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch13-video",
+        "comic-video-domain",
         "ch12-video-recipes"
       ],
       "contract": {
@@ -1811,6 +1857,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch13-ecommerce",
+        "comic-ecommerce-domain",
         "ch12-ecommerce-recipes"
       ],
       "contract": {
@@ -1848,6 +1895,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch13-news",
+        "comic-news-domain",
         "ch12-news-recipes"
       ],
       "contract": {
@@ -1884,7 +1932,8 @@
       "anchorPath": "ch12-domains/05-spine-music-podcasts.md",
       "provenance": "anchored",
       "blocks": [
-        "ch13-music"
+        "ch13-music",
+        "comic-music-domain"
       ],
       "contract": {
         "objective": "Music recommendation must adapt to mood, context, and the unique dynamic where repeat listening is a feature, not a bug.",
@@ -1920,7 +1969,8 @@
       "anchorPath": "ch12-domains/06-spine-sports-live.md",
       "provenance": "anchored",
       "blocks": [
-        "ch13-sports"
+        "ch13-sports",
+        "comic-sports-domain"
       ],
       "contract": {
         "objective": "When the final whistle blows, millions of fans need their next recommendation in seconds — not minutes. Sports recommendation operates at the speed of live events.",
@@ -1956,7 +2006,8 @@
       "anchorPath": "ch12-domains/07-spine-marketplaces.md",
       "provenance": "anchored",
       "blocks": [
-        "ch13-marketplaces"
+        "ch13-marketplaces",
+        "comic-marketplace-domain"
       ],
       "contract": {
         "objective": "In a marketplace, each listing can only be sold once. This changes everything about how recommendations work.",
@@ -1992,7 +2043,8 @@
       "anchorPath": "ch12-domains/08-spine-deals.md",
       "provenance": "anchored",
       "blocks": [
-        "ch13-deals"
+        "ch13-deals",
+        "comic-deals-domain"
       ],
       "contract": {
         "objective": "A deal that expires in 2 hours needs instant matching — the cold-start problem measured in minutes, not days.",
@@ -2024,7 +2076,8 @@
       "anchorPath": "ch12-domains/09-spine-real-estate.md",
       "provenance": "anchored",
       "blocks": [
-        "ch13-real-estate"
+        "ch13-real-estate",
+        "comic-real-estate-domain"
       ],
       "contract": {
         "objective": "Real estate is the highest-stakes recommendation domain — a wrong suggestion wastes hours of viewing time; a good one leads to a life decision.",
@@ -2057,6 +2110,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch13-travel-jobs-edu",
+        "comic-specialized-domains",
         "ch13-q1",
         "ch5-news-recs",
         "ch5-ecommerce"
@@ -2095,7 +2149,8 @@
       "anchorPath": "ch13-research/01-spine-why-research-matters.md",
       "provenance": "anchored",
       "blocks": [
-        "ch7-why-research"
+        "ch7-why-research",
+        "comic-why-research"
       ],
       "contract": {
         "objective": "Behind every recommendation you see is decades of mathematical research. Here's why it matters.",
@@ -2132,6 +2187,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-simple-to-scalable",
+        "comic-ease-elsa",
         "ch7-ease-math"
       ],
       "contract": {
@@ -2169,6 +2225,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-vasp-combining",
+        "comic-vasp",
         "ch7-vasp-ablation"
       ],
       "contract": {
@@ -2206,6 +2263,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-bandits",
+        "comic-bandits-in-practice",
         "ch7-thompson-math",
         "ch7-causal-bandits"
       ],
@@ -2244,6 +2302,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-cold-start-language",
+        "comic-beeformer",
         "ch7-regularization",
         "ch7-transfer-learning"
       ],
@@ -2281,7 +2340,8 @@
       "anchorPath": "ch13-research/05c-spine-knobs-steering.md",
       "provenance": "anchored",
       "blocks": [
-        "ch13-knobs"
+        "ch13-knobs",
+        "comic-steering-knobs"
       ],
       "contract": {
         "objective": "What if users could turn knobs to steer their recommendations — boosting 'date night movies' or promoting a favorite director? Sparse autoencoders make this possible.",
@@ -2318,6 +2378,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch7-roadmap",
+        "comic-research-roadmap",
         "ch7-emerging",
         "ch7-q1"
       ],
@@ -2355,7 +2416,8 @@
       "anchorPath": "ch13-research/10-spine-glossary.md",
       "provenance": "anchored",
       "blocks": [
-        "ch7-glossary"
+        "ch7-glossary",
+        "comic-glossary"
       ],
       "contract": {
         "objective": "Glossary",
@@ -2378,7 +2440,8 @@
       "anchorPath": "ch14-build/01-spine-you-can-do-it.md",
       "provenance": "anchored",
       "blocks": [
-        "ch5-start"
+        "ch5-start",
+        "comic-diy-start"
       ],
       "contract": {
         "objective": "You understand how recommender systems work. Now it's time to build one from scratch.",
@@ -2411,6 +2474,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch5-collect",
+        "comic-diy-collect-data",
         "ch5-spread-d-create"
       ],
       "contract": {
@@ -2448,6 +2512,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch5-similar",
+        "comic-diy-similar-users",
         "ch5-math-d-think",
         "ch5-real-numbers",
         "ch5-formulas"
@@ -2483,6 +2548,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch5-recommend",
+        "comic-diy-predict",
         "ch5-code-d-create",
         "ch5-debug"
       ],
@@ -2517,6 +2583,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch5-improve",
+        "comic-diy-improve",
         "ch5-career-sidebar"
       ],
       "contract": {
@@ -2549,7 +2616,8 @@
       "anchorPath": "ch14-build/05b-spine-get-recommended.md",
       "provenance": "anchored",
       "blocks": [
-        "ch5-get-recommended"
+        "ch5-get-recommended",
+        "comic-creator-visibility"
       ],
       "contract": {
         "objective": "You understand how algorithms select content. Now flip the perspective — how do you optimize for algorithmic distribution?",
@@ -2581,7 +2649,8 @@
       "anchorPath": "ch14-build/05c-spine-seo-for-algorithms.md",
       "provenance": "anchored",
       "blocks": [
-        "ch5-seo-algorithms"
+        "ch5-seo-algorithms",
+        "comic-algorithmic-seo"
       ],
       "contract": {
         "objective": "Search engines and recommendation systems are converging. Here's how to optimize for both.",
@@ -2614,6 +2683,7 @@
       "provenance": "anchored",
       "blocks": [
         "ch5-case-studies",
+        "comic-case-studies",
         "ch5-q1"
       ],
       "contract": {

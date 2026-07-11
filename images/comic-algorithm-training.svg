@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Who’s Training Whom?</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="38" y="76" width="205" height="42" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="140.5" y="102" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I only paused to sneeze.</text>
+
+    <circle cx="98" cy="166" r="10" fill="#10B981"/>
+    <path d="M98 177 L98 217 M98 188 L126 199 M98 190 L78 207 M98 217 L82 242 M98 217 L114 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="122" y="188" width="25" height="38" rx="4" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <path d="M129 199 L140 199 M129 207 L138 207 M129 215 L141 215" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/>
+
+    <g>
+      <rect x="232" y="190" width="73" height="37" rx="17" fill="#EDE9FE" stroke="#7C3AED"/>
+      <circle cx="307" cy="187" r="15" fill="#7C3AED"/>
+      <path d="M297 176 L300 164 L306 176 M314 176 L320 165 L321 181 M238 199 L220 187 M249 225 L247 242 M287 225 L289 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="318" y="191" width="48" height="39" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <circle cx="342" cy="205" r="7" fill="#D97706"/>
+      <path d="M334 217 Q342 211 350 217" fill="none" stroke="#D97706" stroke-width="2"/>
+    </g>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The feed notices behavior, not excuses.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="430" y="76" width="151" height="42" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="505.5" y="102" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Not interested.</text>
+
+    <circle cx="488" cy="167" r="10" fill="#10B981"/>
+    <path d="M488 178 L488 218 M488 190 L515 199 M488 191 L470 209 M488 218 L473 243 M488 218 L503 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="511" y="187" width="27" height="40" rx="4" fill="#FEE2E2" stroke="#EF4444"/>
+    <path d="M517 198 L532 213 M532 198 L517 213" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M558 207 Q579 190 598 204" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M591 197 L599 204 L590 209" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+
+    <g>
+      <rect x="609" y="191" width="72" height="36" rx="17" fill="#EDE9FE" stroke="#7C3AED"/>
+      <circle cx="684" cy="188" r="15" fill="#7C3AED"/>
+      <path d="M674 177 L678 165 L683 177 M692 177 L699 167 L698 182 M615 199 L599 188 M625 225 L623 242 M663 225 L665 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="695" y="192" width="53" height="39" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+      <path d="M721 220 L721 201 M721 208 Q710 204 709 196 M721 211 Q732 207 733 198" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">One “Not Interested” changes the next fetch.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="38" y="356" width="180" height="42" rx="9" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="128" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">One sourdough video.</text>
+
+    <circle cx="91" cy="447" r="10" fill="#10B981"/>
+    <path d="M91 458 L91 498 M91 469 L119 478 M91 470 L73 487 M91 498 L76 523 M91 498 L106 523" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="115" y="466" width="29" height="42" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+    <path d="M122 478 Q129 470 137 478 L137 491 L122 491 Z" fill="#D97706" stroke="#D97706"/>
+
+    <g>
+      <rect x="224" y="471" width="72" height="36" rx="17" fill="#EDE9FE" stroke="#7C3AED"/>
+      <circle cx="299" cy="468" r="15" fill="#7C3AED"/>
+      <path d="M289 457 L293 445 L298 457 M307 457 L314 447 L313 462 M230 479 L212 468 M240 505 L238 522 M278 505 L280 522" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <path d="M307 491 Q319 475 331 491 L331 505 L307 505 Z" fill="#FEF3C7" stroke="#D97706"/>
+      <path d="M329 487 Q342 469 355 487 L355 503 L329 503 Z" fill="#FEF3C7" stroke="#D97706"/>
+      <path d="M315 518 Q333 496 351 518 L351 536 L315 536 Z" fill="#FEF3C7" stroke="#D97706"/>
+      <path d="M313 494 L326 494 M335 490 L349 490 M322 520 L344 520" fill="none" stroke="#D97706" stroke-width="2"/>
+    </g>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">One curious tap, and the whole feed goes artisanal.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="570" y="356" width="190" height="54" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="665" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="665" y="379">Good human.</tspan>
+      <tspan x="665" y="396">You paused.</tspan>
+    </text>
+
+    <circle cx="495" cy="449" r="10" fill="#10B981"/>
+    <path d="M495 460 L495 501 M495 471 L522 481 M495 472 L477 490 M495 501 L480 527 M495 501 L510 527" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="518" y="468" width="30" height="44" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+    <path d="M525 480 Q533 472 541 480 L541 491 L525 491 Z M525 499 L541 499" fill="#D97706" stroke="#D97706" stroke-width="2"/>
+
+    <g>
+      <rect x="620" y="477" width="72" height="36" rx="17" fill="#EDE9FE" stroke="#7C3AED"/>
+      <circle cx="695" cy="474" r="15" fill="#7C3AED"/>
+      <path d="M685 463 L689 451 L694 463 M703 463 L710 453 L709 468 M626 485 L608 473 M636 511 L634 528 M674 511 L676 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M622 485 L600 462" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+      <rect x="586" y="446" width="18" height="25" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <circle cx="595" cy="453" r="3" fill="#D97706"/>
+    </g>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">If you don’t train it, your pauses will.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">You can train recommendations: one click, pause, or “Not Interested” can reshape the feed.</text>
+</svg>

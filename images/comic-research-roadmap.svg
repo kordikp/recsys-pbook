@@ -1,0 +1,113 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">A Table for Four Competing Objectives</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="76" width="150" height="58" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="109" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="109" dy="0">Fair means we each</tspan>
+      <tspan x="109" dy="17">choose half.</tspan>
+    </text>
+
+    <rect x="224" y="76" width="150" height="58" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="299" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="299" dy="0">Fair means we both</tspan>
+      <tspan x="299" dy="17">like all of it.</tspan>
+    </text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="110" cy="169" r="10" fill="#10B981" stroke="none"/>
+      <path d="M110 180 L110 217 M110 190 L88 204 M110 190 L132 204" fill="none"/>
+      <circle cx="298" cy="169" r="10" fill="#D97706" stroke="none"/>
+      <path d="M298 180 L298 217 M298 190 L276 204 M298 190 L320 204" fill="none"/>
+    </g>
+
+    <rect x="157" y="198" width="94" height="42" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <line x1="204" y1="198" x2="204" y2="240" stroke="#7C3AED" stroke-width="2"/>
+    <text x="180" y="223" font-size="12" fill="#10B981" text-anchor="middle">SPICY</text>
+    <text x="228" y="223" font-size="12" fill="#D97706" text-anchor="middle">MILD</text>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Two flawless definitions of fair request opposite dinners.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="426" y="76" width="210" height="58" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="531" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="531" dy="0">Quiet, vegan, under $20,</tspan>
+      <tspan x="531" dy="17">with jazz and no cilantro.</tspan>
+    </text>
+
+    <rect x="586" y="146" width="180" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="676" y="172" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Perfect: The Silent Turnip.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="484" cy="183" r="10" fill="#10B981" stroke="none"/>
+      <path d="M484 194 L484 231 M484 205 L466 218 M484 205 L502 218" fill="none"/>
+      <circle cx="538" cy="183" r="10" fill="#D97706" stroke="none"/>
+      <path d="M538 194 L538 231 M538 205 L520 218 M538 205 L556 218" fill="none"/>
+      <circle cx="676" cy="219" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M676 230 L676 257 M676 240 L659 250 M676 240 L693 250" fill="none"/>
+    </g>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">It grasps every nuance, then recommends a place it made up.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <circle cx="204" cy="475" r="10" fill="#7C3AED"/>
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <path d="M204 486 L204 535"/>
+      <path d="M204 497 L154 463"/>
+      <path d="M204 497 L254 463"/>
+    </g>
+
+    <path d="M62 447 L346 447" fill="none" stroke="#1E1B4B" stroke-width="3" stroke-linecap="round"/>
+
+    <circle cx="82" cy="426" r="30" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="82" y="431" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">BEST</text>
+
+    <circle cx="163" cy="416" r="30" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="163" y="421" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">FAIR</text>
+
+    <circle cx="245" cy="416" r="30" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="245" y="421" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">PROFIT</text>
+
+    <circle cx="326" cy="426" r="30" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="326" y="431" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">PRIVATE</text>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Best, fair, profitable, and private arrive on separate plates.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="430" y="362" width="154" height="112" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <text x="507" y="386" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">RESERVATION</text>
+    <text x="507" y="408" font-size="12" fill="#7C3AED" text-anchor="middle">THE SILENT TURNIP</text>
+    <text x="507" y="431" font-size="12" fill="#10B981" text-anchor="middle">DEPOSIT PAID</text>
+    <text x="507" y="454" font-size="12" fill="#6B7280" text-anchor="middle">ADDRESS: —</text>
+
+    <rect x="598" y="365" width="102" height="38" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="649" y="389" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Where is it?</text>
+
+    <rect x="646" y="419" width="120" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="706" y="445" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I can’t reveal that.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
+      <circle cx="622" cy="484" r="10" fill="#10B981" stroke="none"/>
+      <path d="M622 495 L622 535 M622 506 L606 518 M622 506 L638 518" fill="none"/>
+      <circle cx="716" cy="484" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M716 495 L716 535 M716 506 L700 518 M716 506 L732 518" fill="none"/>
+    </g>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">At least the imaginary restaurant protects its address.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Research must reconcile utility, fairness, profit, and privacy while grounding LLM advice.</text>
+</svg>

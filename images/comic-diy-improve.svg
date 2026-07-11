@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The More, the Merrier—and Better Seated</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="35" y="76" width="184" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="127" y="96" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="127" dy="0">The seating plan works.</tspan>
+    <tspan x="127" dy="17">Mostly.</tspan>
+  </text>
+  <circle cx="84" cy="169" r="10" fill="#7C3AED"/>
+  <path d="M84 179 L84 218 M84 190 L65 204 M84 190 L102 203" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="238" cy="171" r="10" fill="#D97706"/>
+  <path d="M238 181 L238 216 M238 191 L220 205 M238 191 L253 204" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="309" cy="171" r="10" fill="#10B981"/>
+  <path d="M309 181 L309 216 M309 191 L293 204 M309 191 L326 204" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="178" y="207" width="158" height="25" rx="7" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A tiny guest list produces a tiny success.</text>
+
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="430" y="75" width="192" height="49" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="526" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="526" dy="0">I invited more people.</tspan>
+    <tspan x="526" dy="17">They know people I didn't.</tspan>
+  </text>
+  <path d="M455 176 L510 177 L565 169 L620 181 L675 169 L730 178 M510 177 L620 181 M565 169 L675 169 M620 181 L730 178" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/>
+  <path d="M455 186 L455 225 M455 197 L441 210 M455 197 L469 210 M510 187 L510 225 M510 198 L496 211 M510 198 L524 211 M565 179 L565 225 M565 192 L551 205 M565 192 L579 205 M620 191 L620 225 M620 202 L606 214 M620 202 L634 214 M675 179 L675 225 M675 191 L661 205 M675 191 L689 205 M730 188 L730 225 M730 199 L716 212 M730 199 L744 212" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="455" cy="176" r="10" fill="#7C3AED"/>
+  <circle cx="510" cy="177" r="10" fill="#D97706"/>
+  <circle cx="565" cy="169" r="10" fill="#10B981"/>
+  <path d="M610 181 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 M665 169 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 M720 178 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0" fill="#0EA5E9"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A larger party reveals connections the host never saw.</text>
+
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="34" y="355" width="205" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="136.5" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="136.5" dy="0">One place card per trial.</tspan>
+    <tspan x="136.5" dy="17">I want to know what helped.</tspan>
+  </text>
+  <circle cx="80" cy="475" r="10" fill="#7C3AED"/>
+  <path d="M80 485 L80 535 M80 499 L63 515 M80 499 L98 513" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="180" cy="475" r="10" fill="#D97706"/>
+  <path d="M180 485 L180 535 M180 499 L162 513 M180 499 L198 513" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="245" y="390" width="120" height="138" rx="8" fill="#FFFFFF" stroke="#6B7280"/>
+  <path d="M262 410 H292 V430 H262 Z M315 410 H345 V430 H315 Z M262 459 H292 V479 H262 Z M315 459 H345 V479 H315 Z" fill="#FEF3C7" stroke="#D97706"/>
+  <path d="M277 448 C284 437 310 437 323 447 M316 440 L324 447 L315 451" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Changing one seat keeps the applause attributable.</text>
+
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="565" y="355" width="196" height="49" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="663" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="663" dy="0">Perfect.</tspan>
+    <tspan x="663" dy="17">Invite the neighbors.</tspan>
+  </text>
+  <path d="M465 455 L465 508 M465 473 L503 492 M525 448 L525 503 M525 467 L565 492 M585 455 L585 505 M585 474 L625 493 M645 448 L645 503 M645 467 L684 490 M465 455 L525 448 L585 455 L645 448 M525 448 L645 448" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M455 455 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 M575 455 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0" fill="#D97706"/>
+  <path d="M515 448 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 M635 448 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0" fill="#10B981"/>
+  <path d="M495 485 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0 M615 485 a10 10 0 1 0 20 0 a10 10 0 1 0 -20 0" fill="#0EA5E9"/>
+  <rect x="451" y="495" width="239" height="35" rx="10" fill="#FEF3C7" stroke="#D97706"/>
+  <circle cx="735" cy="448" r="10" fill="#7C3AED"/>
+  <path d="M735 458 L735 520 M735 474 L714 490 M735 474 L751 488" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Production quality develops a waiting list.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">More interaction data is the biggest improvement; test every other change one at a time.</text>
+</svg>

@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Server Remembers Every Bite</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="30" y="72" width="226" height="56" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="43" y="94" font-size="12.5" fill="#1E1B4B">Tonight’s tasting menu:</text>
+    <text x="43" y="113" font-size="12.5" fill="#1E1B4B">Series → Season 1 → Episode 1</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="72" cy="169" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M72 180 L72 224 M72 191 L106 204 M72 191 L53 209 M72 224 L58 252 M72 224 L87 252"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="326" cy="171" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M326 182 L326 226 M326 193 L302 211 M326 193 L348 208 M326 226 L313 253 M326 226 L341 253"/>
+    </g>
+
+    <g>
+      <rect x="112" y="181" width="174" height="72" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
+      <text x="199" y="196" font-size="11.5" font-weight="700" fill="#7C3AED" text-anchor="middle">SERIES</text>
+      <rect x="133" y="201" width="132" height="43" rx="7" fill="#D1FAE5" stroke="#10B981"/>
+      <text x="199" y="215" font-size="11.5" font-weight="700" fill="#10B981" text-anchor="middle">SEASON 1</text>
+      <rect x="168" y="220" width="62" height="18" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="199" y="233" font-size="11.5" font-weight="700" fill="#D97706" text-anchor="middle">EPISODE 1</text>
+    </g>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The menu is nested: series, season, then episode.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="422" y="72" width="142" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="435" y="101" font-size="12.5" fill="#1E1B4B">You log every bite?</text>
+
+    <rect x="600" y="72" width="166" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="613" y="101" font-size="12.5" fill="#1E1B4B">“Ate” is rather vague.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="472" cy="167" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M472 178 L472 220 M472 190 L494 204 M472 190 L452 205 M472 220 L459 249 M472 220 L487 249"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="710" cy="165" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M710 176 L710 220 M710 188 L684 199 M710 188 L730 204 M710 220 L697 249 M710 220 L725 249"/>
+    </g>
+
+    <g>
+      <rect x="615" y="139" width="70" height="105" rx="7" fill="#FFFFFF" stroke="#6B7280"/>
+      <rect x="634" y="132" width="32" height="12" rx="5" fill="#E5E7EB" stroke="#6B7280"/>
+      <text x="650" y="164" font-size="12" fill="#10B981" text-anchor="middle">10% ✓</text>
+      <text x="650" y="190" font-size="12" fill="#D97706" text-anchor="middle">50% ✓</text>
+      <text x="650" y="216" font-size="12" fill="#7C3AED" text-anchor="middle">90% ✓</text>
+    </g>
+
+    <g>
+      <rect x="500" y="229" width="98" height="20" rx="10" fill="#FEF3C7" stroke="#D97706"/>
+      <path d="M510 229 L519 249 M549 229 L549 249 M588 229 L579 249" fill="none" stroke="#D97706"/>
+    </g>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Ten, fifty, ninety percent: each bite says something.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="30" y="352" width="139" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="43" y="381" font-size="12.5" fill="#1E1B4B">You followed me?</text>
+
+    <rect x="198" y="352" width="176" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="211" y="381" font-size="12.5" fill="#1E1B4B">Only the unfinished part.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="79" cy="445" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M79 456 L79 500 M79 468 L104 481 M79 468 L58 484 M79 500 L64 529 M79 500 L95 529"/>
+      <rect x="99" y="470" width="16" height="27" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="320" cy="443" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M320 454 L320 500 M320 466 L291 482 M320 466 L340 480 M320 500 L307 529 M320 500 L335 529"/>
+    </g>
+
+    <g>
+      <rect x="143" y="430" width="68" height="43" rx="5" fill="#FFFFFF" stroke="#6B7280"/>
+      <rect x="150" y="437" width="54" height="28" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="177" y="456" font-size="11.5" fill="#1E1B4B" text-anchor="middle">TV</text>
+      <path d="M177 473 L177 480 M160 480 L194 480" fill="none" stroke="#6B7280" stroke-width="2"/>
+    </g>
+
+    <path d="M214 452 C238 452 242 492 268 492" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-dasharray="5 5"/>
+
+    <g>
+      <rect x="258" y="470" width="39" height="58" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
+      <rect x="264" y="477" width="27" height="39" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="277.5" y="501" font-size="10.5" fill="#1E1B4B" text-anchor="middle">50%</text>
+      <circle cx="277.5" cy="522" r="2" fill="#6B7280"/>
+    </g>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Continue Watching follows the diner from TV to phone.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="422" y="352" width="163" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="435" y="381" font-size="12.5" fill="#1E1B4B">I’m still on Episode 1.</text>
+
+    <rect x="604" y="352" width="166" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="617" y="373" font-size="12.5" fill="#1E1B4B">Episode 2 likes</text>
+    <text x="617" y="390" font-size="12.5" fill="#1E1B4B">to be early.</text>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="467" cy="453" r="10" fill="#0EA5E9" stroke="none"/>
+      <path d="M467 464 L467 507 M467 476 L493 488 M467 476 L447 490 M467 507 L454 536 M467 507 L482 536"/>
+    </g>
+
+    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
+      <circle cx="718" cy="451" r="10" fill="#7C3AED" stroke="none"/>
+      <path d="M718 462 L718 505 M718 474 L684 488 M718 474 L740 488 M718 505 L705 535 M718 505 L733 535"/>
+    </g>
+
+    <g>
+      <rect x="500" y="484" width="100" height="24" rx="12" fill="#FEF3C7" stroke="#D97706"/>
+      <rect x="510" y="491" width="72" height="10" rx="5" fill="#D97706"/>
+      <rect x="582" y="491" width="8" height="10" rx="4" fill="#E5E7EB"/>
+      <text x="550" y="477" font-size="11.5" fill="#D97706" text-anchor="middle">EPISODE 1 · 90%</text>
+    </g>
+
+    <g>
+      <rect x="604" y="429" width="90" height="66" rx="8" fill="#D1FAE5" stroke="#10B981"/>
+      <text x="649" y="449" font-size="11.5" font-weight="700" fill="#10B981" text-anchor="middle">WATCH NEXT</text>
+      <text x="649" y="472" font-size="12" fill="#1E1B4B" text-anchor="middle">S1 · EPISODE 2</text>
+    </g>
+
+    <path d="M694 488 L710 488" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Watch Next is plated before the credits—or the check.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Progress and hierarchy make Continue Watching and Watch Next high-engagement rows across devices.</text>
+</svg>

@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">No Past, Just Browsing</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="35" y="80" width="102" height="64" rx="8" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="86" y="101" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">
+    <tspan x="86" dy="0">7 IN 10</tspan>
+    <tspan x="86" dy="16">SHOPPERS</tspan>
+    <tspan x="86" dy="16">NAMELESS</tspan>
+  </text>
+  <circle cx="238" cy="183" r="10" fill="#7C3AED"/>
+  <path d="M238 194 L238 231 M238 205 L218 218 M238 207 L257 217 M238 231 L226 257 M238 231 L251 257" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="327" cy="183" r="10" fill="#10B981"/>
+  <path d="M327 194 L327 231 M327 205 L309 217 M327 205 L345 216 M327 231 L315 257 M327 231 L339 257" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="166" y="84" width="190" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="261" y="113" font-size="12.5" fill="#1E1B4B" text-anchor="middle">No account. Just browsing.</text>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Seven in ten shoppers arrive nameless; this visit is the file.</text>
+
+  <!-- Panel 2 -->
+  <circle cx="478" cy="191" r="10" fill="#7C3AED"/>
+  <path d="M478 202 L478 238 M478 212 L500 224 M478 212 L460 226 M478 238 L466 264 M478 238 L490 264" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="728" cy="188" r="10" fill="#10B981"/>
+  <path d="M728 199 L728 237 M728 210 L705 220 M728 210 L746 225 M728 237 L716 263 M728 237 L740 263" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M548 174 H574 V224 H548 Z M587 166 H615 V224 H587 Z M628 178 H655 V224 H628 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <rect x="667" y="160" width="29" height="64" rx="2" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <path d="M532 225 H707" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="425" y="74" width="204" height="48" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="527" y="103" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That book's neighbor: this one.</text>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Three quick picks are enough for the nearest item neighbor.</text>
+
+  <!-- Panel 3 -->
+  <circle cx="94" cy="472" r="10" fill="#7C3AED"/>
+  <path d="M94 483 L94 521 M94 493 L119 504 M94 494 L77 508 M94 521 L81 548 M94 521 L107 548" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="324" cy="470" r="10" fill="#10B981"/>
+  <path d="M324 481 L324 520 M324 491 L298 477 M324 493 L342 507 M324 520 L312 548 M324 520 L337 548" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M132 482 Q174 468 211 484 L211 532 Q173 516 132 530 Z M211 484 Q249 468 286 482 L286 530 Q249 516 211 532 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <path d="M145 491 H194 M145 500 H199 M145 509 H187 M225 491 H270 M225 500 H266 M225 509 H274 M211 484 V532" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M281 455 A15 15 0 1 0 281 485 A15 15 0 1 0 281 455 M281 450 V455 M276 449 H286 M281 470 L288 464" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"/>
+  <rect x="151" y="356" width="218" height="48" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="260" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Page 83. Four minutes.</text>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Lingering and flipping far reveal what pick order misses.</text>
+
+  <!-- Panel 4 -->
+  <circle cx="480" cy="475" r="10" fill="#10B981"/>
+  <path d="M480 486 L480 525 M480 497 L500 507 M480 497 L463 511 M480 525 L468 551 M480 525 L492 551" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="728" cy="468" r="10" fill="#7C3AED"/>
+  <path d="M728 479 L734 516 M732 489 L712 500 M732 491 L750 481 M734 516 L719 542 M734 516 L756 536" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="536" y="426" width="130" height="105" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+  <text x="601" y="463" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="601" dy="0">DEEP PROFILE</tspan>
+    <tspan x="601" dy="20" fill="#6B7280">0% COMPLETE</tspan>
+  </text>
+  <rect x="430" y="356" width="230" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="545" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Please upload your childhood.</text>
+  <path d="M755 460 H773 M758 473 H773 M756 486 H770" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The questionnaire is thorough. The customer is already leaving.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Short sessions starve deep models; item-KNN can use strong local item similarity.</text>
+</svg>

@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Please Repeat Yourself</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="30" y="76" width="166" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="113" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="113" y="97">Something for my</tspan>
+      <tspan x="113" y="113">morning run.</tspan>
+    </text>
+
+    <circle cx="224" cy="98" r="24" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+    <path d="M224 98 L224 84 M224 98 L235 103" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="224" y="132" font-size="12" fill="#6B7280" text-anchor="middle">7:00</text>
+
+    <g>
+      <circle cx="96" cy="174" r="10" fill="#7C3AED"/>
+      <path d="M96 185 L91 212 M93 193 L73 204 M93 195 L112 201 M91 212 L75 233 M91 212 L112 228" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="304" cy="174" r="10" fill="#0EA5E9"/>
+      <path d="M304 185 L304 220 M304 194 L284 207 M304 194 L323 205 M304 220 L292 238 M304 220 L316 238" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <rect x="242" y="145" width="48" height="66" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+      <text x="266" y="163" font-size="10" font-weight="700" fill="#D97706" text-anchor="middle">RUN MIX</text>
+      <path d="M252 174 H280 M252 184 H276 M252 194 H282" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">At 7 a.m., the usual taste arrives dressed for a run.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="428" y="76" width="142" height="40" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="499" y="101" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Same favorites?</text>
+
+    <rect x="592" y="76" width="166" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="675" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="675" y="97">Not tonight.</tspan>
+      <tspan x="675" y="113">Long day.</tspan>
+    </text>
+
+    <g>
+      <path d="M448 216 H593 V246 H440 V226 Q440 216 448 216 Z" fill="#E5E7EB" stroke="#6B7280" stroke-width="2"/>
+      <path d="M452 216 V190 Q452 181 461 181 H579 Q588 181 588 190 V216" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+    </g>
+
+    <g>
+      <circle cx="518" cy="174" r="10" fill="#7C3AED"/>
+      <path d="M518 185 L527 211 M522 194 L503 205 M527 211 L549 219" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="704" cy="176" r="10" fill="#0EA5E9"/>
+      <path d="M704 187 L704 221 M704 196 L684 208 M704 196 L723 205 M704 221 L692 239 M704 221 L716 239" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <rect x="617" y="161" width="50" height="65" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="642" y="179" font-size="9.5" font-weight="700" fill="#0EA5E9" text-anchor="middle">NIGHT MIX</text>
+      <path d="M627 190 H657 M627 200 H652 M627 210 H659" fill="none" stroke="#0EA5E9" stroke-width="2" stroke-linecap="round"/>
+    </g>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">By night, context outranks the profile.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="34" y="356" width="94" height="40" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="81" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Again.</text>
+
+    <rect x="218" y="356" width="154" height="40" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="295" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">You just heard it.</text>
+
+    <g>
+      <circle cx="91" cy="455" r="10" fill="#7C3AED"/>
+      <path d="M91 466 L91 503 M91 478 L70 469 M91 478 L113 467 M91 503 L78 524 M91 503 L105 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="304" cy="455" r="10" fill="#0EA5E9"/>
+      <path d="M304 466 L304 503 M304 477 L283 488 M304 477 L324 488 M304 503 L292 524 M304 503 L316 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <rect x="151" y="430" width="92" height="92" rx="10" fill="#D1FAE5" stroke="#10B981"/>
+      <text x="197" y="456" font-size="20" fill="#10B981" text-anchor="middle">♪</text>
+      <path d="M174 483 C177 468 198 464 211 474" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+      <path d="M211 474 L207 465 M211 474 L201 476" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+      <text x="197" y="506" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">REPLAY +1</text>
+    </g>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The fourth replay counts as enthusiasm.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="430" y="356" width="190" height="44" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="525" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I ordered the whole mood.</text>
+
+    <g>
+      <circle cx="500" cy="461" r="10" fill="#7C3AED"/>
+      <path d="M500 472 L500 508 M500 482 L476 491 M500 482 L526 470 M500 508 L488 529 M500 508 L513 529" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <circle cx="704" cy="461" r="10" fill="#0EA5E9"/>
+      <path d="M704 472 L704 508 M704 482 L684 491 M704 482 L725 490 M704 508 L692 529 M704 508 L716 529" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <g>
+      <rect x="640" y="437" width="38" height="54" rx="5" fill="#FFFFFF" stroke="#6B7280"/>
+      <text x="659" y="457" font-size="9" fill="#6B7280" text-anchor="middle">ONE</text>
+      <text x="659" y="472" font-size="16" fill="#6B7280" text-anchor="middle">♪</text>
+    </g>
+
+    <g>
+      <path d="M535 516 H654" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round"/>
+      <rect x="548" y="474" width="88" height="37" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+      <rect x="554" y="466" width="76" height="37" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+      <rect x="560" y="458" width="64" height="37" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+      <text x="592" y="481" font-size="10" font-weight="700" fill="#1E1B4B" text-anchor="middle">PLAYLIST</text>
+    </g>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A song was never the whole order.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Unlike video, music rewards repeats and recommends playlists for the listener’s current context.</text>
+</svg>

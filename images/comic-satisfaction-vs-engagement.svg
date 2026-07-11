@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Longest Watch Isn’t the Favorite</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="38" y="91" width="164" height="112" rx="8" fill="#1E1B4B"/>
+  <rect x="47" y="100" width="146" height="94" rx="5" fill="#E0F2FE"/>
+  <text x="120" y="137" font-size="13" font-weight="700" fill="#1E1B4B" text-anchor="middle">TOASTER</text>
+  <text x="120" y="158" font-size="12" fill="#6B7280" text-anchor="middle">HOUR 6</text>
+  <rect x="216" y="82" width="160" height="56" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="229" y="105" font-size="12.5" fill="#1E1B4B">
+    <tspan x="229" dy="0">The dragon was only</tspan>
+    <tspan x="229" dy="18">the thumbnail.</tspan>
+  </text>
+  <circle cx="300" cy="165" r="10" fill="#7C3AED"/>
+  <path d="M300 176 L300 220 M300 187 L278 200 M300 187 L321 199 M300 220 L284 244 M300 220 L318 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">CTR: excellent. The promised dragon remains unavailable.</text>
+
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="432" y="94" width="176" height="112" rx="8" fill="#1E1B4B"/>
+  <rect x="441" y="103" width="158" height="94" rx="5" fill="#FEF3C7"/>
+  <text x="520" y="130" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">AD-SUPPORTED</text>
+  <text x="520" y="153" font-size="11.5" fill="#6B7280" text-anchor="middle">TIME SPENT</text>
+  <text x="520" y="177" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">3:47:12</text>
+  <rect x="627" y="82" width="137" height="46" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="640" y="110" font-size="12.5" fill="#1E1B4B">I should go.</text>
+  <circle cx="684" cy="166" r="10" fill="#7C3AED"/>
+  <path d="M684 177 L684 221 M684 188 L663 201 M684 188 L706 197 M684 221 L668 245 M684 221 L702 245" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The ad-supported host celebrates every captive minute.</text>
+
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="39" y="367" width="230" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="53" y="398" font-size="12.5" fill="#1E1B4B">Would you watch this again?</text>
+  <rect x="61" y="446" width="180" height="82" rx="8" fill="#1E1B4B"/>
+  <rect x="70" y="455" width="162" height="64" rx="5" fill="#EDE9FE"/>
+  <text x="151" y="483" font-size="13" font-weight="700" fill="#7C3AED" text-anchor="middle">NETFLIX</text>
+  <text x="151" y="504" font-size="11.5" fill="#6B7280" text-anchor="middle">SATISFACTION CHECK</text>
+  <circle cx="312" cy="453" r="10" fill="#7C3AED"/>
+  <path d="M312 464 L312 508 M312 476 L291 486 M312 476 L332 486 M312 508 L297 534 M312 508 L328 534" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Netflix asks the question the clock avoids.</text>
+
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="432" y="438" width="134" height="90" rx="8" fill="#1E1B4B"/>
+  <rect x="441" y="447" width="116" height="72" rx="5" fill="#D1FAE5"/>
+  <text x="499" y="474" font-size="11.5" font-weight="700" fill="#10B981" text-anchor="middle">SUBSCRIPTION</text>
+  <text x="499" y="500" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">RENEW?</text>
+  <rect x="566" y="360" width="194" height="68" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="578" y="386" font-size="12.5" fill="#1E1B4B">
+    <tspan x="578" dy="0">I couldn’t stop watching.</tspan>
+    <tspan x="578" dy="19">I can stop renewing.</tspan>
+  </text>
+  <circle cx="675" cy="461" r="10" fill="#7C3AED"/>
+  <path d="M675 472 L675 510 M675 482 L653 490 M675 482 L695 475 M675 510 L655 533 M675 510 L698 525" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M718 449 L754 449 L754 535 L718 535 Z M738 492 L746 492" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The binge was long. The relationship was not.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Engagement measures attention, but satisfaction predicts rewatching and long-term retention.</text>
+</svg>

@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" text-anchor="middle" font-size="21" font-weight="700" fill="#1E1B4B">Tonight’s Special Has Terms and Conditions</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="32" y="72" width="184" height="54" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="124" y="94" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="124">What dessert</tspan>
+    <tspan x="124" dy="17">do you recommend?</tspan>
+  </text>
+  <rect x="236" y="82" width="140" height="54" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="306" y="104" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="306">Lemon tart.</tspan>
+    <tspan x="306" dy="17">Highest-rated.</tspan>
+  </text>
+  <circle cx="112" cy="169" r="10" fill="#D97706"/>
+  <path d="M112 180 L112 217 M112 190 L92 204 M112 191 L132 202 M112 217 L100 239 M112 217 L124 239" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="292" cy="169" r="10" fill="#0EA5E9"/>
+  <path d="M292 180 L292 217 M292 191 L270 202 M292 191 L313 199 M292 217 L280 239 M292 217 L304 239" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M52 244 H352" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="184" y="213" width="33" height="26" rx="3" fill="#FFFFFF" stroke="#D97706"/>
+  <text x="200.5" y="230" text-anchor="middle" font-size="10" font-weight="700" fill="#D97706">MENU</text>
+  <text x="204" y="306" text-anchor="middle" font-size="12" fill="#6B7280">The waiter ranks the lemon tart above every dessert.</text>
+
+  <!-- Panel 2 -->
+  <rect x="422" y="72" width="145" height="51" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="494.5" y="94" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="494.5">But it ranked</tspan>
+    <tspan x="494.5" dy="17">first.</tspan>
+  </text>
+  <rect x="579" y="72" width="187" height="54" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="672.5" y="94" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="672.5">Tart’s sold out.</tspan>
+    <tspan x="672.5" dy="17">Don’t serve theory.</tspan>
+  </text>
+  <circle cx="486" cy="169" r="10" fill="#0EA5E9"/>
+  <path d="M486 180 L486 219 M486 190 L468 204 M486 191 L503 204 M486 219 L474 241 M486 219 L498 241" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="704" cy="169" r="10" fill="#7C3AED"/>
+  <path d="M704 180 L704 219 M704 190 L680 202 M704 191 L653 216 M704 219 L692 241 M704 219 L716 241" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="564" y="198" width="94" height="51" rx="5" fill="#FEE2E2" stroke="#EF4444"/>
+  <text x="611" y="216" text-anchor="middle" font-size="10" font-weight="700" fill="#1E1B4B">LEMON TART</text>
+  <text x="611" y="236" text-anchor="middle" font-size="12" font-weight="700" fill="#EF4444">SOLD OUT</text>
+  <text x="596" y="306" text-anchor="middle" font-size="12" fill="#6B7280">Inventory vetoes an otherwise excellent answer.</text>
+
+  <!-- Panel 3 -->
+  <rect x="30" y="352" width="134" height="54" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="97" y="374" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="97">A sudden</tspan>
+    <tspan x="97" dy="17">classic.</tspan>
+  </text>
+  <rect x="181" y="352" width="193" height="54" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="277.5" y="374" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="277.5">Feature cheesecake.</tspan>
+    <tspan x="277.5" dy="17">We have twelve.</tspan>
+  </text>
+  <circle cx="74" cy="449" r="10" fill="#0EA5E9"/>
+  <path d="M74 460 L74 499 M74 471 L57 483 M74 471 L91 483 M74 499 L62 521 M74 499 L86 521" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="320" cy="449" r="10" fill="#7C3AED"/>
+  <path d="M320 460 L320 499 M320 470 L300 483 M320 470 L263 488 M320 499 L308 521 M320 499 L332 521" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <rect x="145" y="442" width="120" height="79" rx="5" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="205" y="462" text-anchor="middle" font-size="10" font-weight="700" fill="#1E1B4B">CHEESECAKE</text>
+  <text x="205" y="482" text-anchor="middle" font-size="12" font-weight="700" fill="#10B981">12 LEFT</text>
+  <text x="205" y="504" text-anchor="middle" font-size="10" fill="#6B7280">TONIGHT’S SPECIAL</text>
+  <text x="204" y="586" text-anchor="middle" font-size="12" fill="#6B7280">Available surplus gets a little merchandising.</text>
+
+  <!-- Panel 4 -->
+  <rect x="422" y="352" width="151" height="51" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="497.5" y="374" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="497.5">So this is</tspan>
+    <tspan x="497.5" dy="17">the best?</tspan>
+  </text>
+  <rect x="590" y="352" width="176" height="54" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="678" y="374" text-anchor="middle" font-size="12.5" fill="#1E1B4B">
+    <tspan x="678">It’s the best one</tspan>
+    <tspan x="678" dy="17">we have.</tspan>
+  </text>
+  <circle cx="500" cy="449" r="10" fill="#D97706"/>
+  <path d="M500 460 L500 499 M500 470 L480 484 M500 470 L520 484 M500 499 L488 521 M500 499 L512 521" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="690" cy="449" r="10" fill="#0EA5E9"/>
+  <path d="M690 460 L690 499 M690 470 L669 484 M690 470 L711 481 M690 499 L678 521 M690 499 L702 521" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M456 525 H748" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+  <ellipse cx="595" cy="521" rx="43" ry="7" fill="#FFFFFF" stroke="#6B7280"/>
+  <path d="M576 517 L589 491 L615 517 Z" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <text x="596" y="586" text-anchor="middle" font-size="12" fill="#6B7280">Dinner proceeds without ordering a database entry.</text>
+
+  <text x="400" y="626" text-anchor="middle" font-size="13" fill="#6B7280">Business rules keep recommendations feasible, available, and aligned with real business needs.</text>
+</svg>

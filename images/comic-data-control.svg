@@ -1,0 +1,123 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Customer Is Always Right to Edit</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="30" y="74" width="150" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="105" y="94" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="105" dy="0">No shellfish.</tspan>
+      <tspan x="105" dy="17">Extra spicy.</tspan>
+    </text>
+  </g>
+  <g>
+    <rect x="214" y="74" width="158" height="50" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="293" y="94" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="293" dy="0">That buys you</tspan>
+      <tspan x="293" dy="17">better specials.</tspan>
+    </text>
+  </g>
+  <g>
+    <circle cx="108" cy="180" r="10" fill="#7C3AED"/>
+    <path d="M108 191 L108 231 M108 201 L88 214 M108 201 L129 211 M108 231 L96 250 M108 231 L121 250" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="290" cy="180" r="10" fill="#10B981"/>
+    <path d="M290 191 L290 231 M290 202 L269 214 M290 202 L308 213 M290 231 L279 250 M290 231 L302 250" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <path d="M144 218 L256 218 M165 218 L158 251 M235 218 L242 251" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="177" y="187" width="46" height="31" rx="4" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="200" y="207" font-size="12" fill="#D97706" text-anchor="middle">TASTES</text>
+  </g>
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Personal details are the price of a sharper special.</text>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="422" y="74" width="142" height="42" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
+    <text x="493" y="100" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Not Interested.</text>
+  </g>
+  <g>
+    <rect x="604" y="74" width="162" height="50" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="685" y="94" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="685" dy="0">Clear last week's</tspan>
+      <tspan x="685" dy="17">history too?</tspan>
+    </text>
+  </g>
+  <g>
+    <circle cx="500" cy="180" r="10" fill="#7C3AED"/>
+    <path d="M500 191 L500 231 M500 201 L478 210 M500 201 L524 189 M500 231 L488 250 M500 231 L513 250" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="686" cy="180" r="10" fill="#10B981"/>
+    <path d="M686 191 L686 231 M686 202 L665 214 M686 202 L705 214 M686 231 L675 250 M686 231 L698 250" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="555" y="170" width="76" height="66" rx="5" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="593" y="190" font-size="12" fill="#6B7280" text-anchor="middle">HISTORY</text>
+    <path d="M568 203 L617 203 M568 216 L603 216" fill="none" stroke="#E5E7EB" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M566 226 L620 176" fill="none" stroke="#EF4444" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">“Not Interested” and clear history rewrite the order.</text>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="30" y="354" width="170" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="115" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Separate lunch and date.</text>
+  </g>
+  <g>
+    <rect x="218" y="354" width="158" height="48" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="297" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Privacy: allergies only?</text>
+  </g>
+  <g>
+    <circle cx="94" cy="480" r="10" fill="#7C3AED"/>
+    <path d="M94 491 L94 531 M94 501 L119 490 M94 501 L74 514 M94 531 L82 550 M94 531 L107 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="310" cy="480" r="10" fill="#10B981"/>
+    <path d="M310 491 L310 531 M310 502 L286 490 M310 502 L330 514 M310 531 L299 550 M310 531 L322 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <rect x="132" y="438" width="67" height="58" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <circle cx="165" cy="456" r="7" fill="#0EA5E9"/>
+    <text x="165" y="484" font-size="12" fill="#1E1B4B" text-anchor="middle">LUNCH</text>
+  </g>
+  <g>
+    <rect x="207" y="438" width="67" height="58" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+    <circle cx="240" cy="456" r="7" fill="#D97706"/>
+    <text x="240" y="484" font-size="12" fill="#1E1B4B" text-anchor="middle">DATE</text>
+  </g>
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Separate profiles and privacy settings keep contexts apart.</text>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="422" y="354" width="166" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="505" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Access. Port. Delete.</text>
+  </g>
+  <g>
+    <rect x="616" y="354" width="150" height="46" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="691" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Your data, to go.</text>
+  </g>
+  <g>
+    <circle cx="492" cy="482" r="10" fill="#7C3AED"/>
+    <path d="M492 493 L492 533 M492 503 L518 491 M492 503 L472 516 M492 533 L480 552 M492 533 L505 552" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="704" cy="482" r="10" fill="#10B981"/>
+    <path d="M704 493 L704 533 M704 503 L679 491 M704 503 L724 516 M704 533 L693 552 M704 533 L716 552" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+  <g>
+    <path d="M560 456 Q560 428 596 428 Q632 428 632 456" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="548" y="448" width="96" height="73" rx="7" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="596" y="475" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">GDPR / CCPA</text>
+    <text x="596" y="499" font-size="12" fill="#D97706" text-anchor="middle">DATA TAB</text>
+  </g>
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">GDPR/CCPA makes the whole data tab available to go.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Control recommendation data with feedback, history, profiles, privacy settings, and legal rights.</text>
+</svg>

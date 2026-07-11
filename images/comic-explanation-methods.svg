@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Can I See How You Made That Choice?</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <rect x="34" y="78" width="146" height="43" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
+  <text x="107" y="104" font-size="12.5" fill="#1E1B4B" text-anchor="middle">How did you pick lunch?</text>
+
+  <circle cx="76" cy="183" r="10" fill="#0EA5E9"/>
+  <path d="M76 194 L76 234 M76 206 L58 220 M76 206 L94 215 M76 234 L63 255 M76 234 L89 255" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="190" y="80" width="176" height="108" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="278" y="106" font-size="12" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="278" dy="0">TREE: spicy → ramen</tspan>
+    <tspan x="278" dy="25">k-NN: neighbors vote soup</tspan>
+    <tspan x="278" dy="25">LINEAR: 2×hunger − price</tspan>
+  </text>
+
+  <circle cx="278" cy="215" r="10" fill="#7C3AED"/>
+  <path d="M278 226 L278 257 M278 236 L257 223 M278 236 L300 222 M278 257 L266 273 M278 257 L290 273" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Every rule is visible. Somehow, mood was not a feature.</text>
+
+  <!-- Panel 2 -->
+  <rect x="428" y="78" width="176" height="43" rx="9" fill="#FFFFFF" stroke="#0EA5E9"/>
+  <text x="516" y="104" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That is exactly what I wanted.</text>
+
+  <circle cx="470" cy="181" r="10" fill="#0EA5E9"/>
+  <path d="M470 192 L470 235 M470 205 L452 218 M470 205 L489 216 M470 235 L458 257 M470 235 L482 257" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="676" cy="125" r="10" fill="#7C3AED"/>
+  <path d="M676 136 L676 153 M676 143 L657 154 M676 143 L695 154" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="594" y="150" width="164" height="91" rx="10" fill="#1E1B4B" stroke="#1E1B4B"/>
+  <path d="M610 173 L628 188 L646 169 L664 198 L684 172 L705 190 L739 164" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="676" y="222" font-size="12.5" fill="#FFFFFF" text-anchor="middle">RAMEN · 98%</text>
+
+  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The opaque chef nails the order, but won't show the recipe.</text>
+
+  <!-- Panel 3 -->
+  <rect x="112" y="358" width="220" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="222" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="222" dy="0">Less spice → salad.</tspan>
+    <tspan x="222" dy="18">Probably.</tspan>
+  </text>
+
+  <circle cx="72" cy="473" r="10" fill="#0EA5E9"/>
+  <path d="M72 484 L72 528 M72 497 L55 510 M72 497 L91 507 M72 528 L60 550 M72 528 L84 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <circle cx="190" cy="465" r="10" fill="#10B981"/>
+  <path d="M190 476 L190 526 M190 490 L169 507 M190 490 L216 483 M190 526 L178 550 M190 526 L202 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="146" y="501" width="88" height="34" rx="6" fill="#FFFFFF" stroke="#10B981"/>
+  <text x="190" y="522" font-size="12" fill="#1E1B4B" text-anchor="middle">LIME · SHAP</text>
+
+  <rect x="265" y="448" width="101" height="86" rx="10" fill="#1E1B4B" stroke="#1E1B4B"/>
+  <path d="M278 510 L292 489 L307 502 L323 474 L340 493 L353 466" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The outside critic works on any kitchen—and estimates.</text>
+
+  <!-- Panel 4 -->
+  <rect x="552" y="358" width="202" height="56" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="653" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="653" dy="0">Ground truth?</tspan>
+    <tspan x="653" dy="18">I have handwriting.</tspan>
+  </text>
+
+  <circle cx="462" cy="492" r="10" fill="#0EA5E9"/>
+  <path d="M462 503 L462 548 M462 516 L445 529 M462 516 L486 507 M462 548 L450 570 M462 548 L474 570" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <rect x="522" y="438" width="148" height="78" rx="8" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="596" y="461" font-size="12" fill="#1E1B4B" text-anchor="middle">
+    <tspan x="596" dy="0">CHEF'S PREP LOG</tspan>
+    <tspan x="596" dy="21">broth signal: 0.81</tspan>
+    <tspan x="596" dy="21">layer 7: “maybe”</tspan>
+  </text>
+
+  <circle cx="716" cy="481" r="10" fill="#D97706"/>
+  <path d="M716 492 L716 541 M716 506 L690 493 M716 506 L735 520 M716 541 L704 567 M716 541 L728 567" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The kitchen-only reader gets richer clues, but works only here.</text>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Intrinsic logic is readable; post-hoc tools approximate black boxes and may lose fidelity.</text>
+</svg>

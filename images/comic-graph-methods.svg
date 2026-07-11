@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Best Advice Travels Through People</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="34" y="78" width="190" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="129" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="129" dy="0">The sheet says we're</tspan>
+      <tspan x="129" dy="17">both “savory types.”</tspan>
+    </text>
+
+    <circle cx="91" cy="177" r="10" fill="#7C3AED"/>
+    <path d="M91 188 L91 222 M91 197 L72 211 M91 197 L109 211 M91 222 L78 244 M91 222 L104 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="242" y="128" width="120" height="96" rx="7" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="302" y="146" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">FLAT TASTE MATRIX</text>
+    <path d="M252 155 H352 M252 174 H352 M252 193 H352 M276 155 V214 M302 155 V214 M328 155 V214" fill="none" stroke="#E5E7EB" stroke-width="1.5"/>
+    <rect x="278" y="176" width="22" height="15" rx="3" fill="#EDE9FE"/>
+    <rect x="304" y="195" width="22" height="15" rx="3" fill="#D1FAE5"/>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A flat table compresses the party into tidy taste factors.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="602" y="78" width="148" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="676" y="103" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Try the olives.</text>
+
+    <circle cx="500" cy="190" r="10" fill="#7C3AED"/>
+    <path d="M500 201 L500 231 M500 209 L484 220 M500 209 L516 220 M500 231 L489 250 M500 231 L511 250" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="688" cy="190" r="10" fill="#10B981"/>
+    <path d="M688 201 L688 231 M688 209 L672 220 M688 209 L704 220 M688 231 L677 250 M688 231 L699 250" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <path d="M526 190 H652 M642 182 L652 190 L642 198" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+    <text x="589" y="166" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">LightGCN: 1 layer ≈ EASE</text>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">One neighbor round behaves much like EASE.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="116" y="356" width="250" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="241" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="241" dy="0">My cousin's barista</tspan>
+      <tspan x="241" dy="17">says tahini.</tspan>
+    </text>
+
+    <text x="204" y="438" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">LightGCN: deeper layers · 2+ hops</text>
+    <path d="M82 480 C118 454 144 454 180 480 S242 506 280 480" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+
+    <g>
+      <circle cx="70" cy="480" r="10" fill="#7C3AED"/>
+      <path d="M70 491 L70 521 M70 499 L55 510 M70 499 L85 510 M70 521 L60 539 M70 521 L80 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+    <g>
+      <circle cx="190" cy="480" r="10" fill="#10B981"/>
+      <path d="M190 491 L190 521 M190 499 L175 510 M190 499 L205 510 M190 521 L180 539 M190 521 L200 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+    <g>
+      <circle cx="320" cy="480" r="10" fill="#0EA5E9"/>
+      <path d="M320 491 L320 521 M320 499 L305 510 M320 499 L335 510 M320 521 L310 539 M320 521 L330 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    </g>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Deeper rounds keep the friend-of-friend trail intact.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="432" y="356" width="120" height="160" rx="8" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="492" y="376" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">PINSAGE MAP</text>
+    <path d="M451 414 L480 392 L516 416 L536 390 M451 414 L476 449 L516 416 L532 466 M476 449 L510 484 L532 466" fill="none" stroke="#7C3AED" stroke-width="2"/>
+    <g fill="#EDE9FE" stroke="#7C3AED">
+      <circle cx="451" cy="414" r="6"/>
+      <circle cx="480" cy="392" r="6"/>
+      <circle cx="516" cy="416" r="6"/>
+      <circle cx="536" cy="390" r="6"/>
+      <circle cx="476" cy="449" r="6"/>
+      <circle cx="532" cy="466" r="6"/>
+      <circle cx="510" cy="484" r="6"/>
+    </g>
+    <text x="492" y="505" font-size="10.5" fill="#6B7280" text-anchor="middle">3B nodes · 18B edges</text>
+
+    <rect x="566" y="356" width="198" height="52" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="665" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
+      <tspan x="665" dy="0">Your fourth-hop baker</tspan>
+      <tspan x="665" dy="17">is expecting you.</tspan>
+    </text>
+
+    <circle cx="607" cy="474" r="10" fill="#D97706"/>
+    <path d="M607 485 L607 517 M607 493 L590 505 M607 493 L624 505 M607 517 L596 537 M607 517 L618 537" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="714" cy="474" r="10" fill="#7C3AED"/>
+    <path d="M714 485 L714 517 M714 493 L697 505 M714 493 L731 505 M714 517 L703 537 M714 517 L725 537" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">PinSage scaled this walk to 3B nodes and 18B edges.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Graph neural recommenders preserve multi-hop paths, capturing structure matrix factors flatten.</text>
+</svg>

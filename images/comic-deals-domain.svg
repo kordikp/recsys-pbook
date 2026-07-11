@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
+  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Today's Special Can't Wait for Tomorrow</text>
+
+  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+
+  <!-- Panel 1 -->
+  <g>
+    <rect x="116" y="78" width="170" height="54" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="201" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Half-price sushi.</text>
+    <text x="201" y="117" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Gone in two hours.</text>
+
+    <circle cx="73" cy="174" r="10" fill="#D97706"/>
+    <path d="M73 185 L73 224 M73 194 L103 207 M73 224 L60 246 M73 224 L87 246" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="330" cy="174" r="10" fill="#7C3AED"/>
+    <path d="M330 185 L330 224 M330 194 L298 207 M330 224 L317 246 M330 224 L344 246" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="177" y="181" width="48" height="32" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="201" y="202" font-size="15" font-weight="700" fill="#0EA5E9" text-anchor="middle">50%</text>
+    <path d="M103 207 L177 197 M298 207 L225 197" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A fresh deal arrives with a very short childhood.</text>
+  </g>
+
+  <!-- Panel 2 -->
+  <g>
+    <rect x="508" y="76" width="176" height="54" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="596" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Ben loves sushi.</text>
+    <text x="596" y="115" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Send it now.</text>
+
+    <circle cx="466" cy="178" r="10" fill="#7C3AED"/>
+    <path d="M466 189 L466 226 M466 198 L494 209 M466 226 L453 248 M466 226 L480 248" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="730" cy="178" r="10" fill="#10B981"/>
+    <path d="M730 189 L730 226 M730 198 L701 209 M730 226 L717 248 M730 226 L744 248" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <rect x="574" y="157" width="44" height="68" rx="6" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="2"/>
+    <rect x="580" y="165" width="32" height="39" rx="3" fill="#E0F2FE"/>
+    <text x="596" y="190" font-size="15" font-weight="700" fill="#0EA5E9" text-anchor="middle">50%</text>
+
+    <rect x="642" y="145" width="72" height="34" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
+    <text x="678" y="167" font-size="13" font-weight="700" fill="#1E1B4B" text-anchor="middle">12:03</text>
+
+    <path d="M494 209 L574 197 M701 209 L618 197" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Three minutes old, the deal already has a match.</text>
+  </g>
+
+  <!-- Panel 3 -->
+  <g>
+    <rect x="103" y="357" width="184" height="56" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="195" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">+$2 commission</text>
+    <text x="195" y="397" font-size="12.5" fill="#1E1B4B" text-anchor="middle">if tacos move up.</text>
+
+    <circle cx="73" cy="465" r="10" fill="#D97706"/>
+    <path d="M73 476 L73 513 M73 485 L110 477 M73 513 L60 535 M73 513 L87 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="330" cy="465" r="10" fill="#7C3AED"/>
+    <path d="M330 476 L330 513 M330 485 L295 476 M330 513 L317 535 M330 513 L344 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="191" cy="478" r="24" fill="#D1FAE5" stroke="#10B981"/>
+    <text x="191" y="484" font-size="16" font-weight="700" fill="#10B981" text-anchor="middle">+$2</text>
+
+    <rect x="252" y="436" width="48" height="66" rx="5" fill="#FFFFFF" stroke="#7C3AED"/>
+    <path d="M261 452 L289 452 M261 466 L289 466 M261 480 L281 480" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+
+    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Revenue politely asks relevance to scoot over.</text>
+  </g>
+
+  <!-- Panel 4 -->
+  <g>
+    <rect x="420" y="351" width="126" height="46" rx="9" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="483" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Only second?</text>
+
+    <rect x="651" y="351" width="121" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="711.5" y="370" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Ben hates</text>
+    <text x="711.5" y="387" font-size="12.5" fill="#1E1B4B" text-anchor="middle">cilantro.</text>
+
+    <rect x="536" y="414" width="132" height="78" rx="8" fill="#FFFFFF" stroke="#1E1B4B"/>
+    <rect x="546" y="425" width="112" height="24" rx="5" fill="#D1FAE5"/>
+    <text x="602" y="442" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">1  SUSHI  ♥</text>
+    <rect x="546" y="457" width="112" height="24" rx="5" fill="#FEF3C7"/>
+    <text x="602" y="474" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">2  TACOS  +$2</text>
+
+    <circle cx="456" cy="492" r="10" fill="#D97706"/>
+    <path d="M456 503 L456 535 M456 511 L493 493 M456 535 L443 556 M456 535 L470 556" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <circle cx="744" cy="492" r="10" fill="#7C3AED"/>
+    <path d="M744 503 L744 535 M744 511 L701 493 M744 535 L731 556 M744 535 L758 556" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+
+    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The boost gets a vote, not custody.</text>
+  </g>
+
+  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Deal aggregators match expiring offers in minutes, balancing user relevance with commissions.</text>
+</svg>
