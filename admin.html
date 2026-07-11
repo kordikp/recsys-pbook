@@ -348,20 +348,26 @@ function facetCovers(raw,val,allVals){
 const ADOPTION_K=5; // distinct readers with positive signal → nominated (spec §7)
 let _concepts=null,_commItems=null,_logRows=null;
 
+let _logRowsP=null;
+function getLogRows(){                       // ONE shared fetch for every tab
+  if(_logRows)return Promise.resolve(_logRows);
+  if(!_logRowsP)_logRowsP=fetch('/api/log').then(r=>r.ok?r.json():[]).then(x=>{_logRows=Array.isArray(x)?x:[];return _logRows}).catch(()=>{_logRows=[];return _logRows});
+  return _logRowsP;
+}
 async function _loadCoverageData(){
-  if(!_concepts){try{_concepts=(await(await fetch('content/concepts.json')).json()).concepts||[]}catch(e){_concepts=[]}}
-  if(!_commItems){
-    try{
-      const r=await fetch('/.netlify/functions/recombee',{method:'POST',headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({endpoint:'/recomms/users/admin-console/items/',method:'POST',
-          body:{filter:`('state' == "community" OR 'state' == "edited" OR 'state' == "core") AND 'sharedAs' != null`,returnProperties:true,count:200,cascadeCreate:true}})});
-      const d=r.ok?await r.json():{};
-      _commItems=Array.isArray(d)?d:(d.recomms||[]).map(x=>({itemId:x.id,...(x.values||{})}));
-    }catch(e){_commItems=[]}
-  }
-  if(!_logRows){
-    try{const r=await fetch('/.netlify/functions/log');_logRows=r.ok?await r.json():[];if(!Array.isArray(_logRows))_logRows=[]}catch(e){_logRows=[]}
-  }
+  await Promise.all([                        // parallel, not a waterfall
+    (async()=>{if(!_concepts){try{_concepts=(await(await fetch('content/concepts.json')).json()).concepts||[]}catch(e){_concepts=[]}}})(),
+    (async()=>{if(!_commItems){
+      try{
+        const r=await fetch('/api/recs',{method:'POST',headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({endpoint:'/recomms/users/admin-console/items/',method:'POST',
+            body:{filter:`('state' == "community" OR 'state' == "edited" OR 'state' == "core") AND 'sharedAs' != null`,returnProperties:true,count:200,cascadeCreate:true}})});
+        const d=r.ok?await r.json():{};
+        _commItems=Array.isArray(d)?d:(d.recomms||[]).map(x=>({itemId:x.id,...(x.values||{})}));
+      }catch(e){_commItems=[]}
+    }})(),
+    getLogRows(),
+  ]);
 }
 
 // All tagging dimensions for the Catalog matrix (values mirror config.js)
@@ -521,6 +527,16 @@ async function renderDemand(m){
 // One-click adoption: flip the item's trust state in Recombee (instantly changes
 // serving: edited/core go to ALL readers) + archive the decision in Supabase.
 // Git stays the canonical home — use the .md download to commit core content.
+window.loadFullBlock=async function(blockId,elId){
+  const el=document.getElementById(elId);if(!el)return;
+  el.textContent='Loading full content…';
+  try{const rows=await(await fetch('/api/log?full=1&blockId='+encodeURIComponent(blockId))).json();
+    const d=rows[0]?.data||{};
+    el.textContent=d.body||'(no archived body)';
+    if(d.svg){const w=document.createElement('div');w.style.maxWidth='420px';w.innerHTML=d.svg;el.after(w);}
+  }catch(e){el.textContent='Load failed: '+e.message}
+};
+
 window.setBlockState=async function(itemId,state){
   if(state!=='community'&&!confirm(`Set "${itemId}" to state=${state}? ${state==='core'?'CORE serves to everyone and counts toward certification.':state==='edited'?'Serves to everyone (including safe mode).':''}`))return;
   try{
@@ -555,7 +571,7 @@ async function renderCommunity(m){
   _logRows.forEach(r=>{
     if((r.event||r.data?.event)!=='block_saved')return;
     const d=r.data||{};
-    const rec={itemId:d.blockId,title:d.title,concept:d.concept,body:d.body,svg:d.svg,
+    const rec={itemId:d.blockId,title:d.title,concept:d.concept,body:d.body,svg:d.svg,bodyLen:d.bodyLen,hasSvg:d.hasSvg,
       remixOf:d.remixOf,remixLog:JSON.stringify(d.remixLog||[]),sharedAs:d.sharedAs||'anonymous',
       lens:d.facets?.lens,depth:d.facets?.depth,visuality:d.facets?.visuality,
       action:d.action,state:d.state,user:(d.userId||r.user_id||'?').slice(-8),ts:d.ts||r.server_ts};
@@ -586,7 +602,7 @@ async function renderCommunity(m){
       <b>${esc(item.title||item.itemId)}</b> ${item.remixOf?'<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em">remix of '+esc(item.remixOf)+'</span>':''} ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
       <div style="color:var(--text3);font-size:.68rem">${esc(item.concept)} · ${esc(item.lens)}/${esc(item.depth)}/${esc(item.visuality)} · shared by ${esc(item.sharedAs||'anonymous')} · ${readers} readers · ${likes} likes</div>
       ${wishes}
-      ${item.body?`<details style="margin:.25em 0"><summary style="cursor:pointer;font-size:.68rem;color:var(--accent)">📄 preview content${item.svg?' (+ visual)':''}</summary><div style="white-space:pre-wrap;font-size:.7rem;max-height:220px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.5em;margin-top:.25em">${esc(item.body.slice(0,3000))}</div>${item.svg?`<div style="max-width:420px;margin:.4em 0">${item.svg}</div>`:''}</details>`:''}
+      ${item.body?`<details style="margin:.25em 0"><summary style="cursor:pointer;font-size:.68rem;color:var(--accent)">📄 preview content${item.svg||item.hasSvg?' (+ visual)':''}</summary><div id="full-${esc(item.itemId)}" style="white-space:pre-wrap;font-size:.7rem;max-height:260px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.5em;margin-top:.25em">${esc(item.body.slice(0,3000))}</div>${item.svg?`<div style="max-width:420px;margin:.4em 0">${item.svg}</div>`:''}${(item.bodyLen||item.hasSvg)&&!item.svg?`<button onclick="loadFullBlock('${esc(item.itemId)}','full-${esc(item.itemId)}')" style="font-size:.64rem;margin-top:.2em;border:1px solid var(--border);border-radius:6px;padding:.15em .5em;color:var(--accent)">⤓ load full content${item.hasSvg?' + visual':''}</button>`:''}</details>`:''}
       <div style="margin-top:.3em;display:flex;gap:.4em;flex-wrap:wrap">
         <button onclick="setBlockState('${esc(item.itemId)}','edited')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#065F46;font-weight:700">✓ Adopt → edited (serves to everyone)</button>
         <button onclick="setBlockState('${esc(item.itemId)}','core')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent);font-weight:700">★ Promote → core</button>
@@ -608,7 +624,7 @@ async function renderCommunity(m){
     return `<div style="border:1px solid var(--border);border-radius:8px;padding:.4em .6em;margin:.3em 0;font-size:.72rem">
       <span style="font-size:.6rem;font-weight:800;color:#fff;background:${e.action==='generated'?'#7C3AED':e.action==='accepted'?'#10B981':'#D97706'};border-radius:4px;padding:.1em .4em">${esc(e.action||'edit')}</span>
       <b>${esc(e.title||e.itemId)}</b> <span style="color:var(--text3)">· ${esc(e.concept)} · reader …${esc(e.user)} · ${when}${wl}</span>
-      ${e.body?`<details style="margin-top:.2em"><summary style="cursor:pointer;font-size:.66rem;color:var(--accent)">preview</summary><div style="white-space:pre-wrap;font-size:.68rem;max-height:160px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.4em;margin-top:.2em">${esc(e.body.slice(0,2000))}</div></details>`:''}
+      ${e.body?`<details style="margin-top:.2em"><summary style="cursor:pointer;font-size:.66rem;color:var(--accent)">preview</summary><div id="efull-${esc(e.itemId)}-${e.ts}" style="white-space:pre-wrap;font-size:.68rem;max-height:200px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.4em;margin-top:.2em">${esc(e.body.slice(0,2000))}</div>${(e.bodyLen||e.hasSvg)?`<button onclick="loadFullBlock('${esc(e.itemId)}','efull-${esc(e.itemId)}-${e.ts}')" style="font-size:.62rem;margin-top:.15em;border:1px solid var(--border);border-radius:6px;padding:.1em .45em;color:var(--accent)">⤓ full${e.hasSvg?' + visual':''}</button>`:''}</details>`:''}
     </div>`;
   }).join(''):'<p style="font-size:.72rem;color:var(--text3)">No reader edits archived yet.</p>';
   m.innerHTML=h;
@@ -981,7 +997,7 @@ async function renderAnalytics(el){
 
   let interactions = [];
   try {
-    const res = await fetch('/.netlify/functions/log');
+    const res={ok:true,json:async()=>await getLogRows()};
     if (res.ok) {
       const raw = await res.json();
       // Normalize Supabase snake_case to camelCase + extract from data column
@@ -1133,7 +1149,7 @@ async function renderAnalytics(el){
   }
 
   h += `<div style="margin-top:1em;padding:.8em;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);font-size:.75rem;color:var(--text2)">
-    <b>How it works:</b> Every reader interaction is sent to <b>Supabase</b> (persistent database) via the <code>/.netlify/functions/log</code> endpoint.
+    <b>How it works:</b> Every reader interaction is sent to <b>Supabase</b> (persistent database) via the <code>/api/log</code> endpoint.
     Data persists across deploys and is accessible from both localhost and production.
   </div>`;
 
@@ -1144,7 +1160,7 @@ window.exportLocalAnalytics = async function() {
   let interactions = [];
   // Try Supabase first (all users)
   try {
-    const res = await fetch('/.netlify/functions/log');
+    const res={ok:true,json:async()=>await getLogRows()};
     if (res.ok) interactions = await res.json();
   } catch(e) {}
   // Fallback to localStorage
@@ -1742,7 +1758,7 @@ async function renderCertificates(el){
   el.innerHTML='<div style="text-align:center;padding:2em;color:var(--text3)">Loading certificates...</div>';
   let certs=[];
   try{
-    const res=await fetch('/.netlify/functions/log');
+    const res={ok:true,json:async()=>await getLogRows()};
     if(res.ok){const data=await res.json();certs=data.filter(r=>r.type==='certificate').sort((a,b)=>(b.server_ts||0)-(a.server_ts||0))}
   }catch(e){}
   let h='<h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.8em">Certificates & Reader Feedback</h2>';
