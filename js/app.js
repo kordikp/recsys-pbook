@@ -5882,6 +5882,7 @@ class PBook {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || 'remix failed');
       const replacement = data.replacement;
+      const attachedSvg = data.svg || null;   // reader asked for a diagram → server drew one
 
       // mark each paragraph separately — a single mark spanning \n\n breaks when
       // markdown closes the <p> inside it (only the first fragment stayed highlighted)
@@ -5897,6 +5898,7 @@ class PBook {
         meta: {
           ...src, id, state: 'private', generated: true, remixOf: rootId, remixLog: log,
           core: false, status: undefined,
+          ...(attachedSvg ? { diagramSvg: attachedSvg, visuality: 'balanced' } : {}),
           readingTime: Math.max(1, Math.round(newBody.split(/\s+/).length / 200)),
         },
         body: newBody,

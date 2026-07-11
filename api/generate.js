@@ -255,6 +255,7 @@ function validate(block, facets, contract) {
 // Remix: rewrite ONLY a selected passage per the reader's instruction, seamlessly.
 function buildRemixPrompt(contract, facets, selection, instruction, context) {
   const system = `You are a co-author of "How Recommendations Work", an interactive book about recommender systems. A reader selected one passage and asked for it to be changed. Rewrite ONLY that passage.
+- NEVER draw ASCII diagrams or arrow art in the text. If the reader asks for a diagram/schema, write clean prose — a real SVG diagram is generated separately and attached above the text.
 
 Hard constraints:
 - The replacement must fit seamlessly where the original passage stood: same voice, same tense, flows with the text before and after. Markdown allowed (bold key phrases), no headings unless the original had one.
@@ -534,7 +535,29 @@ Draft the proposals now.`;
         problems = gate(out);
       }
       if (problems.length) return res.status(502).json({ ok: false, error: 'remix failed the validation gate', problems });
-      return res.status(200).json({ ok: true, replacement: out.replacement.trim(), model: MODEL });
+
+      // Reader asked for a diagram/schema/animation? Draw a REAL one — models
+      // asked for a "schema diagram" in text used to answer with ASCII arrows.
+      let svgOut;
+      const wantsSvg = req.body.wantSvg === true
+        || /\b(diagram|schema|schéma|obrázek|obrazek|nákres|nakresli|animac|animation|visuali[sz]|draw|sketch)/i.test(instruction);
+      if (wantsSvg) {
+        try {
+          const wantAnim = /animac|animation|animov/i.test(instruction);
+          const vsys = `You draw one supporting SVG for a book section. ${DESIGN_SYSTEM}
+FORM: viewBox "0 0 800 420"; title inside the image at top (18-20px, #1E1B4B); one-line caption at the bottom (12-13px #6B7280); labels on every element; ${wantAnim ? 'ANIMATED: everything visible at rest, ONE subtle CSS loop.' : 'static, no animation.'} Output JSON {"svg": "..."} only.`;
+          const vuser = `The section (after the reader's edit) says:
+---
+${out.replacement.trim().slice(0, 2500)}
+---
+Reader's wish: "${instruction.slice(0, 300)}"
+${contract ? `Concept objective (stay consistent): ${contract.objective}` : ''}
+Draw the supporting ${wantAnim ? 'animated ' : ''}diagram now.`;
+          const v = await callLLM(vsys, vuser, { type: 'object', properties: { svg: { type: 'string' } }, required: ['svg'], additionalProperties: false }, 14000);
+          if (v.svg && /<svg[\s\S]*<\/svg>/.test(v.svg) && v.svg.length < 60000) svgOut = sanitizeSvgServer(v.svg);
+        } catch (e) { /* diagram is best-effort — the text remix still succeeds */ }
+      }
+      return res.status(200).json({ ok: true, replacement: out.replacement.trim(), svg: svgOut, model: MODEL });
     }
 
     // --- SVG REMIX MODE: modify a diagram/animation per the reader's instruction ---
