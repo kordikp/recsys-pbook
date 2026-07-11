@@ -880,7 +880,7 @@ class PBook {
   }
 
   _findAnyBlock(blockId) {
-    const git = this.allBlocks.find(b => b.meta.id === blockId);
+    const git = this.findBlock(blockId);
     if (git) return git;
     if (this.privateBlocks?.[blockId]) return this.privateBlocks[blockId];
     for (const list of Object.values(this._communityCache || {})) {
@@ -4011,11 +4011,12 @@ class PBook {
     // (arrow-key chapter hops made readers lose their place — this is the undo)
     {
       const seen = new Map();
+      const missed = new Set();
       for (let i = this.rc.interactions.length - 1; i >= 0 && seen.size < 12; i--) {
         const it = this.rc.interactions[i];
-        if (it.type !== 'detailview' || !it.itemId || seen.has(it.itemId)) continue;
+        if (it.type !== 'detailview' || !it.itemId || seen.has(it.itemId) || missed.has(it.itemId)) continue;
         const entry = this._findAnyBlock(it.itemId);
-        if (!entry) continue;
+        if (!entry) { missed.add(it.itemId); continue; }
         seen.set(it.itemId, { meta: entry.meta, ts: it.ts });
       }
       if (seen.size) {
@@ -7004,8 +7005,10 @@ class PBook {
 
   // ===== HELPERS =====
   findBlock(id) {
-    for (const b of this.allBlocks) { if (b.meta.id === id) return b; }
-    return null;
+    if (!this._blockIndex || this._blockIndex.size !== this.allBlocks.length) {
+      this._blockIndex = new Map(this.allBlocks.map(b => [b.meta.id, b]));
+    }
+    return this._blockIndex.get(id) || null;
   }
 
   getChapterLabel(block) {
