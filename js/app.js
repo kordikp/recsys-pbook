@@ -5936,23 +5936,24 @@ class PBook {
 
   // ===== SHARE GATE → COMMUNITY LAYER (spec §6-§7) =====
   _showShareConsent(blockId) {
-    // accepted overrides render under the ORIGINAL id — fall back through remixOf
-    const remixOf = this.privateBlocks?.[blockId]?.meta?.remixOf;
-    const el = document.getElementById(`b-${blockId}`) || (remixOf && document.getElementById(`b-${remixOf}`));
-    if (!el || document.getElementById(`share-consent-${blockId}`)) return;
+    // Floating bottom sheet — the in-article box used to render below the fold
+    // and readers never saw it ("I shared it but admin is empty", 2026-07-08).
+    document.getElementById('rxfloat')?.remove();
+    document.querySelectorAll('.share-consent-float').forEach(n => n.remove());
+    this.rc.logEvent('share_consent_shown', { blockId });
     const box = document.createElement('div');
     box.id = `share-consent-${blockId}`;
-    box.className = 'share-consent';
+    box.className = 'share-consent remix-float share-consent-float';
     box.innerHTML = `
       <b>Glad you liked it!</b> Share this telling into the book so other readers with similar settings can discover it?
       <div style="font-size:.7rem;color:var(--text-3);margin:.3em 0">Shared anonymously by default. It stays labelled as reader-generated until an editor reviews it. You can keep it private — it stays yours either way.</div>
       <input type="text" id="share-nick-${blockId}" placeholder="Optional nickname for credit (leave empty = anonymous)" maxlength="40"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
       <div class="note-actions">
-        <button class="note-save" onclick="app.shareGeneratedBlock('${blockId}')">Share into the book</button>
+        <button class="note-save" onclick="app.shareGeneratedBlock('${blockId}')">📣 Share into the book</button>
         <button class="note-cancel" onclick="document.getElementById('share-consent-${blockId}').remove()">Keep private</button>
       </div>`;
-    el.querySelector('.block-footer')?.after(box);
+    document.body.appendChild(box);
   }
 
   async shareGeneratedBlock(blockId) {
