@@ -4405,6 +4405,7 @@ class PBook {
     h += '<button class="btn-ghost" style="border:1px solid var(--border);border-radius:6px;padding:.4em 1em;font-size:.78rem;color:var(--text-2)" onclick="app.toggleSettings()">&#9881; Settings &amp; data</button>';
     h += '</div>';
 
+    h += `<div style=\"text-align:center;font-size:.62rem;color:var(--text-3);margin:.8em 0\">p-book ${APP_VERSION}</div>`;
     el.innerHTML = h;
   }
 
