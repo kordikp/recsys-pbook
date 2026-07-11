@@ -1251,3 +1251,7 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 
 /* Floating remix decision sheet */
 .remix-float { position: fixed; left: 50%; transform: translateX(-50%); bottom: 74px; z-index: 300; width: min(560px, calc(100vw - 24px)); background: var(--bg); border: 2px solid var(--accent); border-radius: 14px; padding: .7em .9em; font-size: .8rem; box-shadow: 0 8px 30px rgba(0,0,0,.18); }
+
+/* Improve entry — the one button every editor path starts from */
+.improve-btn { border: 1.5px solid var(--accent); color: var(--accent); background: transparent; border-radius: 8px; padding: .25em .6em; font-size: .72rem; font-weight: 700; cursor: pointer; }
+.improve-btn:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }

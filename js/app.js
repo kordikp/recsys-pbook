@@ -1892,6 +1892,7 @@ class PBook {
           </button>
         </div>
         <div class="block-actions">
+          <button class="improve-btn" onclick="app.improveBlock('${block.id}')" title="Edit this section yourself, or let AI rewrite it">&#9999;&#65039; Improve</button>
           <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
           <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
           ${this.user.recall[block.id] ? `<button class="act-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#129504;</button>` : ''}
@@ -5625,6 +5626,12 @@ class PBook {
     this._openRemixForm(blockId, quote);
   }
 
+  // One-tap entry from the block footer — no text selection needed (mobile!).
+  // Scope = the whole section; the same form serves manual and AI edits.
+  improveBlock(blockId) {
+    this._openRemixForm(blockId, null);
+  }
+
   async _openRemixForm(blockId, quote) {
     const el = document.getElementById(`b-${blockId}`);
     if (!el) return;
@@ -5634,28 +5641,85 @@ class PBook {
     const box = document.createElement('div');
     box.id = `remix-form-${blockId}`;
     box.className = 'share-consent remix-form';
-    if (!canGen) {
-      box.innerHTML = `<b>✨ Remix</b><div style="font-size:.72rem;color:var(--text-3);margin-top:.3em">Generation isn't configured right now — your wish was recorded for the editors.</div>`;
-      this.rc.logEvent('remix_miss', { blockId, quote: quote.slice(0, 120) });
-    } else if (this.user.readerMode !== 'open') {
+    if (this.user.readerMode !== 'open') {
       box.innerHTML = `<b>✨ Remix</b><div style="font-size:.75rem;margin-top:.3em">Remixing creates your own private version of this section. Turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> first.</div>`;
     } else {
-      this._remixQuote = quote;
+      // Resolve the SOURCE slice now, so the manual path can edit real markdown.
+      const entry = this._findAnyBlock(blockId);
+      let base = (entry?.body || '').replace(/⟦\/?rx⟧/g, '');
+      let span = quote ? this._locateQuote(base, quote) : [0, base.length];
+      if (!span) span = [0, base.length];                     // fallback: whole section
+      while (span[0] > 0 && /[*_`~]/.test(base[span[0] - 1])) span[0]--;
+      while (span[1] < base.length && /[*_`~]/.test(base[span[1]])) span[1]++;
+      if (!this._improveCtx) this._improveCtx = {};
+      this._improveCtx[blockId] = { base, span };
+      this._remixQuote = quote || base.slice(span[0], span[1]);
+      const slice = base.slice(span[0], span[1]);
+      const scopeLabel = quote ? 'this part' : 'this section';
       box.innerHTML = `
-        <b>✨ Remix this part</b>
-        <div class="note-quote-preview" style="display:block;margin:.3em 0">"${this.escHtml(quote.slice(0, 220))}${quote.length > 220 ? '…' : ''}"</div>
-        <textarea id="remix-prompt-${blockId}" rows="2" placeholder="How should it change? e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'"
-          style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>
-        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version with the change highlighted. You can share it later.</div>
+        <b>✏️ Improve ${scopeLabel}</b>
+        <div style="font-size:.68rem;color:var(--text-3);margin:.2em 0 .1em">Edit the text directly…</div>
+        <textarea id="edit-src-${blockId}" rows="${Math.min(12, Math.max(3, slice.split('\n').length + 1))}"
+          style="width:100%;padding:.45em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.76rem;font-family:ui-monospace,monospace;line-height:1.45">${this.escHtml(slice)}</textarea>
+        ${canGen ? `<div style="font-size:.68rem;color:var(--text-3);margin:.3em 0 .1em">…or describe the change and let AI write it:</div>
+        <textarea id="remix-prompt-${blockId}" rows="2" placeholder="e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'"
+          style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>` : ''}
+        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
         <div class="note-actions">
-          <button class="note-save" onclick="app.submitRemix('${blockId}')">✨ Generate improved version</button>
+          <button class="note-save" onclick="app.submitManualEdit('${blockId}')">💾 Save my edit</button>
+          ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">✨ AI rewrite</button>` : ''}
           <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
         </div>
         <div id="remix-status-${blockId}"></div>`;
     }
     el.querySelector('.block-footer')?.after(box);
-    box.querySelector('textarea')?.focus();
     box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
+  // Longest-common prefix/suffix diff: mark ONLY the changed middle, so a
+  // one-word manual edit doesn't highlight the whole paragraph.
+  _markDiff(oldText, newText) {
+    let p = 0;
+    while (p < oldText.length && p < newText.length && oldText[p] === newText[p]) p++;
+    let s = 0;
+    while (s < oldText.length - p && s < newText.length - p &&
+           oldText[oldText.length - 1 - s] === newText[newText.length - 1 - s]) s++;
+    const head = newText.slice(0, p), mid = newText.slice(p, newText.length - s), tail = newText.slice(newText.length - s);
+    if (!mid.trim()) return { marked: newText, oldMid: oldText.slice(p, oldText.length - s), newMid: mid };
+    const markedMid = mid.split(/\n{2,}/).map(seg => seg.trim() ? `⟦rx⟧${seg}⟦/rx⟧` : seg).join('\n\n');
+    return { marked: head + markedMid + tail, oldMid: oldText.slice(p, oldText.length - s), newMid: mid };
+  }
+
+  // Manual path: the reader IS the model. Same preview + accept pipeline as AI remix.
+  submitManualEdit(blockId) {
+    const edited = document.getElementById(`edit-src-${blockId}`)?.value;
+    const ctx = this._improveCtx?.[blockId];
+    const entry = this._findAnyBlock(blockId);
+    if (edited == null || !ctx || !entry) return;
+    const { base, span } = ctx;
+    const original = base.slice(span[0], span[1]);
+    if (edited.trim() === original.trim()) { this.showXPToast('No change made yet — edit the text first', 'xp'); return; }
+    const { marked, oldMid, newMid } = this._markDiff(original, edited);
+    const newBody = base.slice(0, span[0]) + marked + base.slice(span[1]);
+    const src = entry.meta;
+    const rootId = src.remixOf || src.id;
+    const isReRemix = !!src.remixOf;
+    const id = isReRemix ? src.id : `remix--${rootId}--${Date.now().toString(36)}`;
+    const log = [...(src.remixLog || []), { instruction: '(manual edit)', manual: true, ts: Date.now() }];
+    const block = {
+      meta: {
+        ...src, id, state: 'private', generated: true, remixOf: rootId, remixLog: log,
+        core: false, status: undefined,
+        readingTime: Math.max(1, Math.round(newBody.split(/\s+/).length / 200)),
+      },
+      body: newBody,
+    };
+    this._savePrivateBlock(block);
+    document.getElementById(`remix-form-${blockId}`)?.remove();
+    this._swapBlock(blockId, block, this._blockFacets(block.meta) || {});
+    this.rc.logEvent('manual_edit', { blockId, remixId: id });
+    document.getElementById(`b-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    this._showRemixDecision(isReRemix ? rootId : blockId, id, oldMid || original, newMid || edited);
   }
 
   // Selection comes from the RENDERED text; the source is markdown. Locate the
