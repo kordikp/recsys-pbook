@@ -330,18 +330,19 @@ export class RecombeeClient {
 
   // Community blocks live in the Recombee catalog (state == "community") — the book's
   // shared layer needs no extra storage and is immediately recommendable. Graceful [].
-  async listCommunityBlocks(conceptId, count = 10) {
+  async listCommunityBlocks(conceptId, count = 10, states = ['community']) {
     if (!this.enabled) return [];
     // newer Recombee clusters reject GET — list via POST recomms with a filter
     // (personalized order is a bonus; returnProperties gives us the bodies)
-    const filter = `'state' == "community"` + (conceptId ? ` AND 'concept' == "${conceptId}"` : '');
+    const stateExpr = '(' + states.map(s => `'state' == "${s}"`).join(' OR ') + ')';
+    const filter = stateExpr + (conceptId ? ` AND 'concept' == "${conceptId}"` : '');
     const rec = await this.api('POST', `/recomms/users/${this.userId}/items/`, {
       filter, count, cascadeCreate: true, returnProperties: true,
     });
     const res = (rec?.recomms || []).map(r => ({ itemId: r.id, ...(r.values || {}) }));
     if (!Array.isArray(res)) return [];
-    return res.filter(it => it.body).map(it => {
-      const meta = { ...it, id: it.itemId, type: 'spine', state: 'community', generated: true };
+    return res.filter(it => it.body && /^(gen--|remix--)/.test(it.itemId)).map(it => {
+      const meta = { ...it, id: it.itemId, type: 'spine', state: it.state || 'community', generated: true };
       // honest visuality for reader-shared items (mirrors api/generate.js clamp)
       const words = (it.body || '').split(/\s+/).filter(Boolean).length;
       if (meta.diagramSvg || /<svg/i.test(it.body)) meta.visuality = words < 130 ? 'visual-first' : 'balanced';

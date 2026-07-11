@@ -2,7 +2,7 @@
 
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
-import { RecombeeClient, UserModel } from './recombee.js?v=9';
+import { RecombeeClient, UserModel } from './recombee.js?v=10';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=3';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
@@ -517,7 +517,7 @@ class PBook {
     for (const pb of Object.values(this.privateBlocks || {})) {
       if (this._conceptIds(pb.meta).includes(conceptId)) pool.push(pb);
     }
-    if (this.user.readerMode === 'open' && this._communityCache?.[conceptId]) {
+    if (this._communityCache?.[conceptId]) {
       pool.push(...this._communityCache[conceptId]);
     }
     return pool;
@@ -525,10 +525,13 @@ class PBook {
 
   // Lazily fetch community variants for a concept (open mode only; graceful empty)
   async _fetchCommunity(conceptId) {
-    if (!this._f('community') || this.user.readerMode !== 'open') return [];
+    if (!this._f('community')) return [];
     if (!this._communityCache) this._communityCache = {};
     if (this._communityCache[conceptId]) return this._communityCache[conceptId];
-    const items = await this.rc.listCommunityBlocks(conceptId);
+    // Adopted runtime tellings (edited/core) serve to EVERYONE — an editor
+    // verified them; raw community stays behind open mode.
+    const states = this.user.readerMode === 'open' ? ['community', 'edited', 'core'] : ['edited', 'core'];
+    const items = await this.rc.listCommunityBlocks(conceptId, 10, states);
     this._communityCache[conceptId] = items;
     return items;
   }
@@ -4004,7 +4007,32 @@ class PBook {
       depth: { intro: 'gentle introductions', standard: 'standard depth', technical: 'technical depth', research: 'research-level depth' },
       formalism: { none: 'no formulas', light: 'a few formulas', full: 'full math' },
     };
-    let h = '<div class="profile-section"><h3>&#129516; Your Reading DNA</h3>';
+    // ---- Recently viewed: the way back to what you were just reading/editing ----
+    // (arrow-key chapter hops made readers lose their place — this is the undo)
+    {
+      const seen = new Map();
+      for (let i = this.rc.interactions.length - 1; i >= 0 && seen.size < 12; i--) {
+        const it = this.rc.interactions[i];
+        if (it.type !== 'detailview' || !it.itemId || seen.has(it.itemId)) continue;
+        const entry = this._findAnyBlock(it.itemId);
+        if (!entry) continue;
+        seen.set(it.itemId, { meta: entry.meta, ts: it.ts });
+      }
+      if (seen.size) {
+        const edited = new Set(Object.values(this.privateBlocks || {}).map(b => b.meta.remixOf).filter(Boolean));
+        h += '<div class="profile-section"><h3>🕘 Recently viewed</h3><div class="history-list">';
+        for (const [id, { meta, ts }] of seen) {
+          const when = ts ? this._timeAgo(ts) : '';
+          const mark = edited.has(id) || this._overrides?.[id] ? ' <span class="hist-edit" title="you have edits here">✏️</span>' : '';
+          h += `<button class="hist-row" onclick="app.openBlock('${id}')">
+            <span class="hist-title">${this.escHtml(meta.title || id)}${mark}</span>
+            <span class="hist-meta">${this.escHtml(meta._chapterTitle || '')} · ${when}</span></button>`;
+        }
+        h += '</div></div>';
+      }
+    }
+
+    h += '<div class="profile-section"><h3>&#129516; Your Reading DNA</h3>';
     h += '<p style="font-size:.78rem;color:var(--text-2);margin-bottom:.6em">The preference model the book has learned about you — the same kind every recommender builds. Correct it anytime; your corrections always win.</p>';
 
     // Visual affinity bars (top values per primary facet)

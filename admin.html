@@ -518,6 +518,25 @@ async function renderDemand(m){
   m.innerHTML=h;
 }
 
+// One-click adoption: flip the item's trust state in Recombee (instantly changes
+// serving: edited/core go to ALL readers) + archive the decision in Supabase.
+// Git stays the canonical home — use the .md download to commit core content.
+window.setBlockState=async function(itemId,state){
+  if(state!=='community'&&!confirm(`Set "${itemId}" to state=${state}? ${state==='core'?'CORE serves to everyone and counts toward certification.':state==='edited'?'Serves to everyone (including safe mode).':''}`))return;
+  try{
+    const r=await fetch('/api/recs',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({endpoint:`/items/${encodeURIComponent(itemId)}`,method:'POST',
+        body:{state,adoptedAt:new Date().toISOString(),'!cascadeCreate':true}})});
+    if(!r.ok){alert('State change failed: HTTP '+r.status+' — '+(await r.text()).slice(0,120));return;}
+    fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({type:'content',event:'block_saved',ts:Date.now(),userId:'admin-console',
+        action:state==='community'?'demoted':'adopted',blockId:itemId,state,title:'',concept:'',facets:{},remixLog:[],body:'',svg:''})}).catch(()=>{});
+    _commItems=null;                              // force refresh
+    ST(currentTab);
+    alert(`✓ ${itemId} → ${state}. It now serves ${state==='community'?'in open mode only':'to every reader'}. For CORE, also commit the .md to git (canonical).`);
+  }catch(e){alert('State change failed: '+e.message)}
+};
+
 async function renderCommunity(m){
   m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading community layer…</div>';
   await _loadCoverageData();
@@ -567,7 +586,12 @@ async function renderCommunity(m){
       <div style="color:var(--text3);font-size:.68rem">${esc(item.concept)} · ${esc(item.lens)}/${esc(item.depth)}/${esc(item.visuality)} · shared by ${esc(item.sharedAs||'anonymous')} · ${readers} readers · ${likes} likes</div>
       ${wishes}
       ${item.body?`<details style="margin:.25em 0"><summary style="cursor:pointer;font-size:.68rem;color:var(--accent)">📄 preview content${item.svg?' (+ visual)':''}</summary><div style="white-space:pre-wrap;font-size:.7rem;max-height:220px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.5em;margin-top:.25em">${esc(item.body.slice(0,3000))}</div>${item.svg?`<div style="max-width:420px;margin:.4em 0">${item.svg}</div>`:''}</details>`:''}
-      <div style="margin-top:.3em"><button onclick="adoptCommunity('${esc(item.itemId)}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">⬇ Download .md for adoption</button></div>
+      <div style="margin-top:.3em;display:flex;gap:.4em;flex-wrap:wrap">
+        <button onclick="setBlockState('${esc(item.itemId)}','edited')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#065F46;font-weight:700">✓ Adopt → edited (serves to everyone)</button>
+        <button onclick="setBlockState('${esc(item.itemId)}','core')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent);font-weight:700">★ Promote → core</button>
+        <button onclick="setBlockState('${esc(item.itemId)}','community')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1px solid var(--border);color:var(--text3)">↩ back to community</button>
+        <button onclick="adoptCommunity('${esc(item.itemId)}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1px dashed var(--border);color:var(--text3)" title="canonical path: commit the markdown to git">⬇ .md for git</button>
+      </div>
     </div>`;
   }).join(''):'<p style="font-size:.75rem;color:var(--text3)">No community blocks shared yet.</p>';
 

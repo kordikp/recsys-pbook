@@ -1275,3 +1275,11 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .tstrip-chip:hover { background: color-mix(in srgb, var(--sc) 25%, transparent); transform: translateY(-1px); }
 .tstrip-current { box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--sc); cursor: default; }
 .tstrip-hint { font-size: .65rem; color: var(--text-3); margin-left: .3em; }
+
+/* Recently viewed history */
+.history-list { display: flex; flex-direction: column; gap: .25em; }
+.hist-row { display: flex; flex-direction: column; align-items: flex-start; gap: .05em; text-align: left; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: .4em .6em; cursor: pointer; }
+.hist-row:hover { border-color: var(--accent); }
+.hist-title { font-size: .78rem; font-weight: 600; color: var(--text); }
+.hist-meta { font-size: .64rem; color: var(--text-3); }
+.hist-edit { font-size: .7rem; }
