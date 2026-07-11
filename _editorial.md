@@ -79,6 +79,9 @@ Records of content decisions, quality checks, and open issues.
 - **Multi-concept membership** (`concept: a|b`): parser/indexing (`_conceptIds`, block appears in every pool), validator (each ref must exist), migrate (block listed under every named concept in concepts.json), AGENTS.md §4 rule (recallQ test must pass for EVERY listed concept; primary first; >2 memberships = split the block). Admin Coverage got a "Concepts → articles" aggregated section (articles repeat under each concept, `multi` badge).
 - **Deep link `#coverage`** (map → living book, first two chapters opened) — used to capture `figures/pbook-coverage.png` via headless Chrome for the paper; paper got the figure, a multi-concept-subspace sentence, and a style pass matching Pavel's co-authored papers (declarative openings, "we argue/propose", citations attached to claims, aphorisms toned down).
 
+### 2026-07-08 (iteration 41 — remix draws real diagrams)
+- Pavel asked a remix for a "schema diagram" and got ASCII arrows — the remix path was text-only. Now a diagram/schema/animation wish makes the server draw a real supporting SVG (design system, from the rewritten passage; best-effort — its failure never sinks the text), the client attaches it via diagramSvg, and the remix prompt forbids ASCII art. Note: Mermaid is NOT supported in the renderer (code blocks are plain <pre>); the generated-SVG path covers the need with on-palette output.
+
 ### 2026-07-08 (iteration 40 — admin load time)
 - The content archive made GET /api/log heavy (425 kB, growing ~60 kB per saved block) and admin pulled it from six call-sites behind a serial waterfall. Server now slims archive rows in list responses (body→240 chars + bodyLen, svg stripped + hasSvg; ?full=1&blockId= returns one full row), admin shares a single cached log fetch and boots concepts+Recombee+log in parallel, previews lazy-load full content on expand. Admin endpoints moved off the legacy /.netlify path.
 
