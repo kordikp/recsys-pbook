@@ -94,6 +94,7 @@ module.exports = async function handler(req, res) {
       depth: 'string', formalism: 'string', lengthBand: 'string', genre: 'string', carriers: 'string',
       body: 'string', sharedAs: 'string', sharedAt: 'timestamp', recallQ: 'string', recallA: 'string',
       remixOf: 'string', remixLog: 'string', diagramSvg: 'string', lang: 'string',
+      adoptedAt: 'timestamp', action: 'string',
     };
     for (const [name, type] of Object.entries(properties)) {
       await recombeeApi('PUT', `/items/properties/${name}?type=${type}`);
