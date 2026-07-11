@@ -1,5 +1,5 @@
 // Service Worker for p-book — offline support
-const CACHE_NAME = 'pbook-v17';
+const CACHE_NAME = 'pbook-v18';
 
 const PRECACHE = [
   '/',
@@ -295,6 +295,20 @@ self.addEventListener('fetch', event => {
   // Only same-scheme GETs are cacheable — browser extensions (chrome-extension://)
   // and other schemes throw on cache.put and just pollute the console.
   if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
+    return;
+  }
+  // Book content changes with every deploy — network-first with forced
+  // revalidation (bypasses stale HTTP caches); the cache is only the
+  // offline fallback. Cache-first here once served an hour-old book.json
+  // and "the comics are nowhere" (2026-07-08).
+  const _u = new URL(event.request.url);
+  if (_u.origin === location.origin && _u.pathname.startsWith('/content/')) {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-cache' }).then(r => {
+        if (r.ok) { const c = r.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, c)); }
+        return r;
+      }).catch(() => caches.match(event.request))
+    );
     return;
   }
   event.respondWith(
