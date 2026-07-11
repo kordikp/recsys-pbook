@@ -529,11 +529,32 @@ async function renderCommunity(m){
     if(r.type==='detailview')commSignals[id].views.add(r.user_id);
     if(r.type==='rating'&&(r.rating>=0.7))commSignals[id].likes.add(r.user_id);
   });
-  const nominated=_commItems.map(i=>{
+  // Durable content archive (Supabase block_saved events) — the truth about what
+  // readers create; Recombee items are the serving copy. Merge both, archive wins.
+  const archived={};
+  const edits=[];
+  _logRows.forEach(r=>{
+    if((r.event||r.data?.event)!=='block_saved')return;
+    const d=r.data||{};
+    const rec={itemId:d.blockId,title:d.title,concept:d.concept,body:d.body,svg:d.svg,
+      remixOf:d.remixOf,remixLog:JSON.stringify(d.remixLog||[]),sharedAs:d.sharedAs||'anonymous',
+      lens:d.facets?.lens,depth:d.facets?.depth,visuality:d.facets?.visuality,
+      action:d.action,state:d.state,user:(d.userId||r.user_id||'?').slice(-8),ts:d.ts||r.server_ts};
+    edits.push(rec);
+    if(d.action==='shared'||d.state==='community'){
+      if(!archived[rec.itemId]||archived[rec.itemId].ts<rec.ts)archived[rec.itemId]=rec;
+    }
+  });
+  const commMap={};
+  _commItems.forEach(i=>{commMap[i.itemId]=i;});
+  Object.values(archived).forEach(a2=>{commMap[a2.itemId]={...commMap[a2.itemId],...a2};});
+  const merged=Object.values(commMap);
+
+  const nominated=merged.map(i=>{
     const s=commSignals[i.itemId]||{views:new Set(),likes:new Set()};
     return {item:i,readers:s.views.size,likes:s.likes.size,score:s.likes.size*3+s.views.size};
   }).sort((a,b)=>b.score-a.score);
-  let h=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">⚡ Community — nomination queue (${_commItems.length})</h2>`;
+  let h=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">⚡ Community — nomination queue (${merged.length})</h2>`;
   h+=`<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Reader-shared tellings, ranked by traction. Adoption threshold: ≥${ADOPTION_K} distinct readers with positive signal. Adopt = download .md, review against the concept contract (HUMANS.md checklist), commit (state: edited), Sync Items. Adoption promotes the author on their 🛠 Editor track.</p>`;
   h+=nominated.length?nominated.map(({item,readers,likes})=>{
     const ready=likes>=ADOPTION_K;
@@ -545,9 +566,26 @@ async function renderCommunity(m){
       <b>${esc(item.title||item.itemId)}</b> ${item.remixOf?'<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em">remix of '+esc(item.remixOf)+'</span>':''} ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
       <div style="color:var(--text3);font-size:.68rem">${esc(item.concept)} · ${esc(item.lens)}/${esc(item.depth)}/${esc(item.visuality)} · shared by ${esc(item.sharedAs||'anonymous')} · ${readers} readers · ${likes} likes</div>
       ${wishes}
+      ${item.body?`<details style="margin:.25em 0"><summary style="cursor:pointer;font-size:.68rem;color:var(--accent)">📄 preview content${item.svg?' (+ visual)':''}</summary><div style="white-space:pre-wrap;font-size:.7rem;max-height:220px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.5em;margin-top:.25em">${esc(item.body.slice(0,3000))}</div>${item.svg?`<div style="max-width:420px;margin:.4em 0">${item.svg}</div>`:''}</details>`:''}
       <div style="margin-top:.3em"><button onclick="adoptCommunity('${esc(item.itemId)}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">⬇ Download .md for adoption</button></div>
     </div>`;
   }).join(''):'<p style="font-size:.75rem;color:var(--text3)">No community blocks shared yet.</p>';
+
+  // What readers are editing right now (private layer) — visibility without
+  // exposure: bodies open on demand, nothing here is servable until shared.
+  const recentEdits=edits.filter(e=>e.action!=='shared').sort((a2,b2)=>b2.ts-a2.ts).slice(0,25);
+  h+=`<h2 style="font-size:1.05rem;font-weight:800;margin:1.2em 0 .3em">✏️ What readers are editing (private layer, ${recentEdits.length} recent)</h2>
+  <p style="font-size:.72rem;color:var(--text3);margin-bottom:.5em">Every generated / remixed / manually edited telling is archived here (Supabase) even before sharing — reload-proof for readers, visible for editors. Private content is not servable; treat it as signal.</p>`;
+  h+=recentEdits.length?recentEdits.map(e=>{
+    const when=e.ts?new Date(e.ts).toISOString().slice(5,16).replace('T',' '):'—';
+    let wl='';
+    try{const lg=JSON.parse(e.remixLog||'[]');if(lg.length)wl=' · 🎯 "'+esc(String(lg[lg.length-1].instruction||'').slice(0,80))+'"';}catch(_){}
+    return `<div style="border:1px solid var(--border);border-radius:8px;padding:.4em .6em;margin:.3em 0;font-size:.72rem">
+      <span style="font-size:.6rem;font-weight:800;color:#fff;background:${e.action==='generated'?'#7C3AED':e.action==='accepted'?'#10B981':'#D97706'};border-radius:4px;padding:.1em .4em">${esc(e.action||'edit')}</span>
+      <b>${esc(e.title||e.itemId)}</b> <span style="color:var(--text3)">· ${esc(e.concept)} · reader …${esc(e.user)} · ${when}${wl}</span>
+      ${e.body?`<details style="margin-top:.2em"><summary style="cursor:pointer;font-size:.66rem;color:var(--accent)">preview</summary><div style="white-space:pre-wrap;font-size:.68rem;max-height:160px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.4em;margin-top:.2em">${esc(e.body.slice(0,2000))}</div></details>`:''}
+    </div>`;
+  }).join(''):'<p style="font-size:.72rem;color:var(--text3)">No reader edits archived yet.</p>';
   m.innerHTML=h;
 }
 

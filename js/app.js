@@ -482,9 +482,33 @@ class PBook {
     if (hasTable) return meta.visuality === 'text-first' ? 'text-first' : 'balanced';
     return 'text-first';
   }
-  _savePrivateBlock(block) {
+  // Durable archive: localStorage is device-local and easy to lose; every created
+  // or changed block also lands in Supabase (via /api/log) so editors can see what
+  // readers are actually making — and nothing dies with a cleared browser.
+  _archiveBlock(block, action) {
+    try {
+      const m = block.meta || {};
+      fetch('/api/log', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'content', event: 'block_saved', ts: Date.now(), userId: this.rc.userId,
+          action,                                        // generated | remixed | manual-edit | accepted | shared
+          blockId: m.id, concept: m.concept || '', remixOf: m.remixOf || '',
+          title: (m.title || '').slice(0, 200), state: m.state || 'private',
+          facets: { lens: m.lens, lang: m.lang, genre: m.genre, depth: m.depth, visuality: m.visuality, lengthBand: m.lengthBand, carriers: m.carriers },
+          remixLog: (m.remixLog || []).slice(-5),
+          body: (block.body || '').slice(0, 20000),
+          svg: (m.diagramSvg || '').slice(0, 40000),
+        }),
+      }).catch(() => {});
+    } catch (e) {}
+  }
+
+  _savePrivateBlock(block, action) {
+    if (!this.privateBlocks) this.privateBlocks = {};
     this.privateBlocks[block.meta.id] = block;
     try { localStorage.setItem('pbook-private-blocks', JSON.stringify(this.privateBlocks)); } catch (e) {}
+    this._archiveBlock(block, action || (block.meta.remixLog?.length ? 'remixed' : 'generated'));
   }
 
   // The variant pool for a concept: git blocks + own private + community (open mode, cached)
@@ -717,12 +741,37 @@ class PBook {
     this.toggleTellings(blockId, ' ');
   }
 
+  // Persistent per-concept telling choice: survives reloads (the "everything
+  // disappears" report). conceptId → chosen telling id; cleared on unswap.
+  _tellingChoices() {
+    try { return JSON.parse(localStorage.getItem('pbook-telling-choice') || '{}'); } catch (e) { return {}; }
+  }
+  _setTellingChoice(conceptId, variantId) {
+    if (!conceptId) return;
+    const c = this._tellingChoices();
+    if (variantId) c[conceptId] = variantId; else delete c[conceptId];
+    try { localStorage.setItem('pbook-telling-choice', JSON.stringify(c)); } catch (e) {}
+  }
+  // After a chapter renders, re-apply the reader's saved telling choices.
+  async _applyTellingChoices() {
+    const choices = this._tellingChoices();
+    for (const [cid, vid] of Object.entries(choices)) {
+      const anchor = this.concepts?.[cid]?.anchor;
+      if (!anchor || !document.getElementById(`b-${anchor}`)) continue;
+      let entry = this._findAnyBlock(vid);
+      if (!entry) { try { await this._fetchCommunity(cid); entry = this._findAnyBlock(vid); } catch (e) {} }
+      if (entry) await this._swapBlock(anchor, entry, this._blockFacets(entry.meta) || {});
+      else this._setTellingChoice(cid, null);        // variant gone — forget the choice
+    }
+  }
+
   pickTelling(blockId, variantId) {
     const variant = this._findAnyBlock(variantId);
     if (!variant) return;
     this.user.updateFacetAffinity(this._blockFacets(variant.meta), 2); // choosing a telling is a strong signal
     this.rc.logEvent('steer', { blockId, action: 'pick', servedId: variantId, result: 'served' });
     this._swapBlock(blockId, variant, this._blockFacets(variant.meta) || {});
+    this._setTellingChoice(this._conceptIds(variant.meta)[0], variantId);
   }
 
   // Steering with an honest miss path: the steered facet must actually move —
@@ -885,6 +934,8 @@ class PBook {
     const originalId = this._swapHistory?.[variantId];
     if (!originalId) return;
     if (this._slotDom) this._slotDom[originalId] = originalId;
+    const ventry = this._findAnyBlock(variantId);
+    if (ventry) this._setTellingChoice(this._conceptIds(ventry.meta)[0], null);
     const orig = this._findAnyBlock(originalId);
     const el = document.getElementById(`b-${variantId}`);
     if (!orig || !el) return;
@@ -949,6 +1000,7 @@ class PBook {
       if (offer) offer.remove();
       this._swapBlock(blockId, block, target);
       this.rc.logEvent('generate_served', { concept: conceptId, variantId: block.meta.id, cached: !!data.cached });
+      this._setTellingChoice(conceptId, block.meta.id);
       if (this._f('gamification')) { this.user.addXP(2); this.user.save(); this.updateXPBadge(); }
     } catch (e) {
       if (offer) offer.innerHTML = `<span>Generation didn't work out (${this.escHtml(e.message)}). Your request was recorded for the editors.</span>`;
@@ -1616,6 +1668,7 @@ class PBook {
     this.renderMath();
     this._initLottieAnimations();
     this._observeBlocks(ch);
+    this._applyTellingChoices();   // re-apply saved per-concept telling choices
     this._updateMissionBar();
     this._showMissionIntro();
   }
@@ -6001,7 +6054,7 @@ class PBook {
     document.getElementById(`share-consent-${blockId}`)?.remove();
     if (ok) {
       block.meta.state = 'community';
-      this._savePrivateBlock(block);
+      this._savePrivateBlock(block, 'shared');
       if (this._communityCache?.[meta.concept]) delete this._communityCache[meta.concept];
       this.showXPToast('+10 XP 📖 You enriched the book!', 'achievement');
       if (this._f('gamification')) { this.user.addXP(10); this.user.save(); this.updateXPBadge(); }
