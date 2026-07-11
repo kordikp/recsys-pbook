@@ -335,7 +335,9 @@ export class RecombeeClient {
     // newer Recombee clusters reject GET — list via POST recomms with a filter
     // (personalized order is a bonus; returnProperties gives us the bodies)
     const stateExpr = '(' + states.map(s => `'state' == "${s}"`).join(' OR ') + ')';
-    const filter = stateExpr + (conceptId ? ` AND 'concept' == "${conceptId}"` : '');
+    // 'sharedAs' != null keeps GIT-synced blocks (also edited/core) out of the
+    // candidate set — recomms then reliably returns the few runtime tellings
+    const filter = stateExpr + ` AND 'sharedAs' != null` + (conceptId ? ` AND 'concept' == "${conceptId}"` : '');
     const rec = await this.api('POST', `/recomms/users/${this.userId}/items/`, {
       filter, count, cascadeCreate: true, returnProperties: true,
     });

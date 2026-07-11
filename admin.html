@@ -354,7 +354,7 @@ async function _loadCoverageData(){
     try{
       const r=await fetch('/.netlify/functions/recombee',{method:'POST',headers:{'Content-Type':'application/json'},
         body:JSON.stringify({endpoint:'/recomms/users/admin-console/items/',method:'POST',
-          body:{filter:`'state' == "community"`,returnProperties:true,count:200,cascadeCreate:true}})});
+          body:{filter:`('state' == "community" OR 'state' == "edited" OR 'state' == "core") AND 'sharedAs' != null`,returnProperties:true,count:200,cascadeCreate:true}})});
       const d=r.ok?await r.json():{};
       _commItems=Array.isArray(d)?d:(d.recomms||[]).map(x=>({itemId:x.id,...(x.values||{})}));
     }catch(e){_commItems=[]}
@@ -582,6 +582,7 @@ async function renderCommunity(m){
       if(Array.isArray(lg)&&lg.length)wishes='<div style="margin:.25em 0;padding:.3em .5em;background:var(--bg2,#f6f6f4);border-radius:6px;font-size:.68rem"><b>🎯 what the reader asked for:</b>'+lg.slice(-4).map(e=>`<div>· "${esc(e.instruction||'')}"${e.diagram?' <span style="color:var(--text3)">(diagram)</span>':''}</div>`).join('')+'<div style="color:var(--text3)">changes are ⟦highlighted⟧ in the downloaded .md</div></div>';
     }catch(_){}
     return `<div style="border:1.5px solid ${ready?'#10B981':'var(--border)'};border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
+      <span style="font-size:.6rem;font-weight:800;padding:.1em .4em;border-radius:4px;color:#fff;background:${item.state==='core'?'#7C3AED':item.state==='edited'?'#10B981':'#D97706'}">${esc(item.state||'community')}</span>
       <b>${esc(item.title||item.itemId)}</b> ${item.remixOf?'<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em">remix of '+esc(item.remixOf)+'</span>':''} ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
       <div style="color:var(--text3);font-size:.68rem">${esc(item.concept)} · ${esc(item.lens)}/${esc(item.depth)}/${esc(item.visuality)} · shared by ${esc(item.sharedAs||'anonymous')} · ${readers} readers · ${likes} likes</div>
       ${wishes}
