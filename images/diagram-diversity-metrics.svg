@@ -1,133 +1,113 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="600" height="300" font-family="system-ui, sans-serif">
-  <rect width="600" height="300" rx="8" fill="#f5f5f4"/>
-
-  <!-- === ILD Section === -->
-  <text x="80" y="28" text-anchor="middle" fill="#0b1225" font-size="11" font-weight="600">Intra-List Diversity</text>
-
-  <!-- Low ILD grid -->
-  <text x="42" y="46" text-anchor="middle" fill="#999" font-size="8">Low ILD</text>
-  <rect x="12" y="52" width="18" height="18" rx="2" fill="#0c8383"/>
-  <rect x="33" y="52" width="18" height="18" rx="2" fill="#0c8383"/>
-  <rect x="54" y="52" width="18" height="18" rx="2" fill="#0c8383"/>
-  <rect x="12" y="73" width="18" height="18" rx="2" fill="#0c8383"/>
-  <rect x="33" y="73" width="18" height="18" rx="2" fill="#0c8383"/>
-  <rect x="54" y="73" width="18" height="18" rx="2" fill="#0c8383"/>
-  <text x="42" y="106" text-anchor="middle" fill="#999" font-size="7">All same genre</text>
-
-  <!-- High ILD grid -->
-  <text x="125" y="46" text-anchor="middle" fill="#999" font-size="8">High ILD</text>
-  <rect x="95" y="52" width="18" height="18" rx="2" fill="#0c8383"/>
-  <rect x="116" y="52" width="18" height="18" rx="2" fill="#3bc4a1"/>
-  <rect x="137" y="52" width="18" height="18" rx="2" fill="#f59e0b"/>
-  <rect x="95" y="73" width="18" height="18" rx="2" fill="#ef4444"/>
-  <rect x="116" y="73" width="18" height="18" rx="2" fill="#0c8383"/>
-  <rect x="137" y="73" width="18" height="18" rx="2" fill="#3bc4a1"/>
-  <text x="125" y="106" text-anchor="middle" fill="#999" font-size="7">Mixed genres</text>
-
-  <!-- Connecting arrow -->
-  <line x1="75" y1="72" x2="92" y2="72" stroke="#0b1225" stroke-width="1" marker-end="url(#arrowhead)"/>
   <defs>
-    <marker id="arrowhead" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
-      <polygon points="0,0 6,2 0,4" fill="#0b1225"/>
+    <marker id="arrowhead" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+      <polygon points="0,0 7,3 0,6" fill="#1E1B4B"/>
     </marker>
-  </defs>
-
-  <!-- === Coverage Section === -->
-  <text x="235" y="28" text-anchor="middle" fill="#0b1225" font-size="11" font-weight="600">Coverage</text>
-
-  <!-- Pie chart -->
-  <circle cx="235" cy="72" r="35" fill="#e5e7eb"/>
-  <path d="M235,72 L235,37 A35,35 0 1,1 210.5,102.3 Z" fill="#0c8383"/>
-  <text x="225" y="70" fill="white" font-size="9" font-weight="600">68%</text>
-  <text x="260" y="95" fill="#999" font-size="7">32%</text>
-
-  <rect x="195" y="115" width="6" height="6" rx="1" fill="#0c8383"/>
-  <text x="205" y="121" fill="#666" font-size="7">Recommended</text>
-  <rect x="195" y="126" width="6" height="6" rx="1" fill="#e5e7eb"/>
-  <text x="205" y="132" fill="#666" font-size="7">Never shown</text>
-
-  <!-- === Novelty Section === -->
-  <text x="400" y="28" text-anchor="middle" fill="#0b1225" font-size="11" font-weight="600">Novelty</text>
-
-  <!-- Popularity axis -->
-  <line x1="330" y1="75" x2="470" y2="75" stroke="#ddd" stroke-width="1.5"/>
-  <!-- Gradient bar -->
-  <rect x="330" y="60" width="140" height="12" rx="3" fill="url(#noveltyGrad)"/>
-  <defs>
+    <marker id="arrowGreen" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+      <polygon points="0,0 7,3 0,6" fill="#10B981"/>
+    </marker>
     <linearGradient id="noveltyGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#ef4444"/>
-      <stop offset="50%" stop-color="#f59e0b"/>
-      <stop offset="100%" stop-color="#0c8383"/>
+      <stop offset="0%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#10B981"/>
     </linearGradient>
   </defs>
-  <text x="330" y="95" fill="#999" font-size="7">Most popular</text>
-  <text x="470" y="95" text-anchor="end" fill="#999" font-size="7">Least popular</text>
 
-  <!-- Arrow toward novel end -->
-  <line x1="370" y1="108" x2="450" y2="108" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arrowTeal)"/>
-  <text x="410" y="122" text-anchor="middle" fill="#0c8383" font-size="8" font-weight="500">More novel</text>
-  <defs>
-    <marker id="arrowTeal" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
-      <polygon points="0,0 6,2 0,4" fill="#0c8383"/>
-    </marker>
-  </defs>
+  <rect x="1" y="1" width="598" height="298" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
 
-  <!-- Dots on axis -->
-  <circle cx="340" cy="66" r="4" fill="#ef4444" opacity="0.8"/>
-  <circle cx="350" cy="66" r="3.5" fill="#ef4444" opacity="0.7"/>
-  <circle cx="358" cy="66" r="3" fill="#f59e0b" opacity="0.7"/>
-  <circle cx="380" cy="66" r="2.5" fill="#f59e0b" opacity="0.6"/>
-  <circle cx="410" cy="66" r="2" fill="#f59e0b" opacity="0.5"/>
-  <circle cx="435" cy="66" r="2" fill="#0c8383" opacity="0.6"/>
-  <circle cx="455" cy="66" r="1.5" fill="#0c8383" opacity="0.5"/>
+  <!-- Intra-List Diversity -->
+  <text x="80" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Intra-List Diversity</text>
 
-  <!-- === Serendipity Section === -->
-  <text x="555" y="28" text-anchor="middle" fill="#0b1225" font-size="11" font-weight="600">Serendipity</text>
+  <text x="42" y="45" text-anchor="middle" fill="#6B7280" font-size="11">Low ILD</text>
+  <rect x="12" y="52" width="18" height="18" rx="3" fill="#10B981"/>
+  <rect x="33" y="52" width="18" height="18" rx="3" fill="#10B981"/>
+  <rect x="54" y="52" width="18" height="18" rx="3" fill="#10B981"/>
+  <rect x="12" y="73" width="18" height="18" rx="3" fill="#10B981"/>
+  <rect x="33" y="73" width="18" height="18" rx="3" fill="#10B981"/>
+  <rect x="54" y="73" width="18" height="18" rx="3" fill="#10B981"/>
+  <text x="42" y="106" text-anchor="middle" fill="#6B7280" font-size="11">All same genre</text>
 
-  <!-- Venn diagram -->
-  <circle cx="535" cy="78" r="32" fill="#0c8383" opacity="0.2" stroke="#0c8383" stroke-width="1"/>
-  <circle cx="568" cy="78" r="32" fill="#f59e0b" opacity="0.2" stroke="#f59e0b" stroke-width="1"/>
+  <text x="125" y="45" text-anchor="middle" fill="#6B7280" font-size="11">High ILD</text>
+  <rect x="95" y="52" width="18" height="18" rx="3" fill="#7C3AED"/>
+  <rect x="116" y="52" width="18" height="18" rx="3" fill="#10B981"/>
+  <rect x="137" y="52" width="18" height="18" rx="3" fill="#D97706"/>
+  <rect x="95" y="73" width="18" height="18" rx="3" fill="#0EA5E9"/>
+  <rect x="116" y="73" width="18" height="18" rx="3" fill="#7C3AED"/>
+  <rect x="137" y="73" width="18" height="18" rx="3" fill="#10B981"/>
+  <text x="125" y="106" text-anchor="middle" fill="#6B7280" font-size="11">Mixed genres</text>
 
-  <text x="522" y="76" fill="#0c8383" font-size="7" font-weight="500">Relevant</text>
-  <text x="575" y="76" fill="#c27800" font-size="7" font-weight="500">Unexpected</text>
+  <line x1="75" y1="72" x2="91" y2="72" stroke="#1E1B4B" stroke-width="1.5" marker-end="url(#arrowhead)"/>
 
-  <!-- Overlap label -->
-  <text x="551" y="90" text-anchor="middle" fill="#0b1225" font-size="7" font-weight="600">Serendipitous</text>
+  <!-- Coverage -->
+  <text x="235" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Coverage</text>
 
-  <!-- Bottom section: formulas/descriptions -->
-  <line x1="20" y1="150" x2="580" y2="150" stroke="#e5e7eb" stroke-width="1"/>
+  <circle cx="235" cy="71" r="32" fill="#E5E7EB"/>
+  <path d="M235,71 L235,39 A32,32 0 1,1 212.6,98.6 Z" fill="#10B981"/>
+  <text x="224" y="70" fill="#FFFFFF" font-size="11" font-weight="700">68%</text>
+  <text x="256" y="96" fill="#6B7280" font-size="11">32%</text>
 
-  <text x="300" y="170" text-anchor="middle" fill="#0b1225" font-size="12" font-weight="600">Beyond-Accuracy Metrics</text>
+  <rect x="190" y="113" width="9" height="9" rx="2" fill="#10B981"/>
+  <text x="205" y="122" fill="#6B7280" font-size="11">Recommended</text>
+  <rect x="190" y="128" width="9" height="9" rx="2" fill="#E5E7EB"/>
+  <text x="205" y="137" fill="#6B7280" font-size="11">Never shown</text>
 
-  <!-- ILD formula -->
-  <rect x="15" y="182" width="135" height="52" rx="4" fill="white" stroke="#e5e7eb" stroke-width="0.5"/>
-  <text x="82" y="198" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="600">ILD</text>
-  <text x="82" y="212" text-anchor="middle" fill="#666" font-size="7">Avg pairwise distance</text>
-  <text x="82" y="226" text-anchor="middle" fill="#999" font-size="7">in a recommendation list</text>
+  <!-- Novelty -->
+  <text x="400" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Novelty</text>
 
-  <!-- Coverage formula -->
-  <rect x="162" y="182" width="135" height="52" rx="4" fill="white" stroke="#e5e7eb" stroke-width="0.5"/>
-  <text x="229" y="198" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="600">Coverage</text>
-  <text x="229" y="212" text-anchor="middle" fill="#666" font-size="7">|Recommended items|</text>
-  <text x="229" y="226" text-anchor="middle" fill="#999" font-size="7">/ |All catalog items|</text>
+  <line x1="330" y1="75" x2="470" y2="75" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="330" y="59" width="140" height="13" rx="4" fill="url(#noveltyGrad)"/>
 
-  <!-- Novelty formula -->
-  <rect x="309" y="182" width="135" height="52" rx="4" fill="white" stroke="#e5e7eb" stroke-width="0.5"/>
-  <text x="376" y="198" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="600">Novelty</text>
-  <text x="376" y="212" text-anchor="middle" fill="#666" font-size="7">-log2(popularity)</text>
-  <text x="376" y="226" text-anchor="middle" fill="#999" font-size="7">Self-information score</text>
+  <circle cx="340" cy="65.5" r="4" fill="#D97706"/>
+  <circle cx="351" cy="65.5" r="3.5" fill="#D97706"/>
+  <circle cx="360" cy="65.5" r="3" fill="#D97706"/>
+  <circle cx="382" cy="65.5" r="2.5" fill="#D97706"/>
+  <circle cx="410" cy="65.5" r="2.5" fill="#10B981"/>
+  <circle cx="436" cy="65.5" r="2.5" fill="#10B981"/>
+  <circle cx="455" cy="65.5" r="2" fill="#10B981"/>
 
-  <!-- Serendipity formula -->
-  <rect x="456" y="182" width="135" height="52" rx="4" fill="white" stroke="#e5e7eb" stroke-width="0.5"/>
-  <text x="523" y="198" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="600">Serendipity</text>
-  <text x="523" y="212" text-anchor="middle" fill="#666" font-size="7">Relevant + Unexpected</text>
-  <text x="523" y="226" text-anchor="middle" fill="#999" font-size="7">minus obvious picks</text>
+  <text x="330" y="95" fill="#6B7280" font-size="11">Most popular</text>
+  <text x="470" y="95" text-anchor="end" fill="#6B7280" font-size="11">Least popular</text>
 
-  <!-- Bottom note -->
-  <text x="300" y="262" text-anchor="middle" fill="#999" font-size="8">Optimizing only for accuracy creates filter bubbles. These metrics measure recommendation quality holistically.</text>
+  <line x1="370" y1="108" x2="449" y2="108" stroke="#10B981" stroke-width="2" marker-end="url(#arrowGreen)"/>
+  <text x="410" y="124" text-anchor="middle" fill="#10B981" font-size="11" font-weight="600">More novel</text>
 
-  <!-- Connecting dots decoration -->
-  <circle cx="155" cy="208" r="2" fill="#e5e7eb"/>
-  <circle cx="300" cy="208" r="2" fill="#e5e7eb"/>
-  <circle cx="449" cy="208" r="2" fill="#e5e7eb"/>
+  <!-- Serendipity -->
+  <text x="548" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Serendipity</text>
+
+  <circle cx="515" cy="78" r="26" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
+  <circle cx="551" cy="78" r="26" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+
+  <text x="503" y="69" text-anchor="middle" fill="#0EA5E9" font-size="11" font-weight="600">Relevant</text>
+  <text x="560" y="81" text-anchor="middle" fill="#D97706" font-size="11" font-weight="600">Unexpected</text>
+  <text x="533" y="96" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Serendipitous</text>
+
+  <!-- Beyond-Accuracy Metrics -->
+  <line x1="20" y1="148" x2="580" y2="148" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="300" y="169" text-anchor="middle" fill="#1E1B4B" font-size="13" font-weight="700">Beyond-Accuracy Metrics</text>
+
+  <rect x="15" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="82.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">ILD</text>
+  <text x="82.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">Avg pairwise distance</text>
+  <text x="82.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">in a recommendation list</text>
+
+  <rect x="162" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="229.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">Coverage</text>
+  <text x="229.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">|Recommended items|</text>
+  <text x="229.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">/ |All catalog items|</text>
+
+  <rect x="309" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="376.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">Novelty</text>
+  <text x="376.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">-log2(popularity)</text>
+  <text x="376.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">Self-information score</text>
+
+  <rect x="456" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="523.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">Serendipity</text>
+  <text x="523.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">Relevant + Unexpected</text>
+  <text x="523.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">minus obvious picks</text>
+
+  <circle cx="156" cy="212" r="2.5" fill="#E5E7EB"/>
+  <circle cx="303" cy="212" r="2.5" fill="#E5E7EB"/>
+  <circle cx="450" cy="212" r="2.5" fill="#E5E7EB"/>
+
+  <text x="300" y="267" text-anchor="middle" fill="#6B7280" font-size="11">Optimizing only for accuracy creates filter bubbles.</text>
+  <text x="300" y="283" text-anchor="middle" fill="#6B7280" font-size="11">These metrics measure recommendation quality holistically.</text>
 </svg>

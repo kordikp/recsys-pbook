@@ -1,66 +1,62 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 400" width="700" height="400" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="arrowRight" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6" fill="#0b1225"/>
-    </marker>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="700" height="450" font-family="system-ui, sans-serif">
+  <rect x="1" y="1" width="698" height="448" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
 
   <!-- Title -->
-  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#0b1225">Bias in Recommender Systems</text>
-  <text x="350" y="46" text-anchor="middle" font-size="11" fill="#78716C">Common biases that distort recommendations and feedback loops</text>
+  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Bias in Recommender Systems</text>
+  <text x="350" y="48" text-anchor="middle" font-size="11" fill="#6B7280">Common biases that distort recommendations and feedback loops</text>
 
   <!-- Root node -->
-  <rect x="20" y="160" width="130" height="40" rx="8" fill="#0b1225"/>
-  <text x="85" y="185" text-anchor="middle" font-size="12" font-weight="700" fill="white">Bias in RecSys</text>
+  <rect x="20" y="190" width="130" height="40" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="85" y="215" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Bias in RecSys</text>
 
-  <!-- Main trunk line -->
-  <line x1="150" y1="180" x2="185" y2="180" stroke="#0b1225" stroke-width="2"/>
-  <line x1="185" y1="42" x2="185" y2="340" stroke="#0b1225" stroke-width="2"/>
+  <!-- Main trunk -->
+  <line x1="150" y1="210" x2="185" y2="210" stroke="#7C3AED" stroke-width="2"/>
+  <line x1="185" y1="72" x2="185" y2="370" stroke="#7C3AED" stroke-width="2"/>
 
-  <!-- === Branch 1: Selection Bias (top) === -->
-  <line x1="185" y1="55" x2="220" y2="55" stroke="#0c8383" stroke-width="2"/>
-  <rect x="220" y="38" width="150" height="34" rx="6" fill="#0c8383"/>
-  <text x="295" y="60" text-anchor="middle" font-size="11" font-weight="600" fill="white">Selection Bias</text>
-  <text x="382" y="52" font-size="9" fill="#78716C">Users only rate items they choose;</text>
-  <text x="382" y="64" font-size="9" fill="#78716C">missing data is not random</text>
+  <!-- Selection Bias -->
+  <line x1="185" y1="85" x2="220" y2="85" stroke="#10B981" stroke-width="2"/>
+  <rect x="220" y="68" width="150" height="34" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="295" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Selection Bias</text>
+  <text x="388" y="82" font-size="11" fill="#6B7280">Users only rate items they choose;</text>
+  <text x="388" y="96" font-size="11" fill="#6B7280">missing data is not random</text>
 
-  <!-- === Branch 2: Position Bias === -->
-  <line x1="185" y1="113" x2="220" y2="113" stroke="#3bc4a1" stroke-width="2"/>
-  <rect x="220" y="96" width="150" height="34" rx="6" fill="#3bc4a1"/>
-  <text x="295" y="118" text-anchor="middle" font-size="11" font-weight="600" fill="#0b1225">Position Bias</text>
-  <text x="382" y="110" font-size="9" fill="#78716C">Items shown higher get more clicks</text>
-  <text x="382" y="122" font-size="9" fill="#78716C">regardless of true relevance</text>
+  <!-- Position Bias -->
+  <line x1="185" y1="143" x2="220" y2="143" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="220" y="126" width="150" height="34" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+  <text x="295" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Position Bias</text>
+  <text x="388" y="140" font-size="11" fill="#6B7280">Items shown higher get more clicks</text>
+  <text x="388" y="154" font-size="11" fill="#6B7280">regardless of true relevance</text>
 
-  <!-- === Branch 3: Popularity Bias === -->
-  <line x1="185" y1="170" x2="220" y2="170" stroke="#0c8383" stroke-width="2"/>
-  <rect x="220" y="153" width="150" height="34" rx="6" fill="#0c8383"/>
-  <text x="295" y="175" text-anchor="middle" font-size="11" font-weight="600" fill="white">Popularity Bias</text>
-  <text x="382" y="167" font-size="9" fill="#78716C">Popular items dominate; niche items</text>
-  <text x="382" y="179" font-size="9" fill="#78716C">are systematically under-recommended</text>
+  <!-- Popularity Bias -->
+  <line x1="185" y1="200" x2="220" y2="200" stroke="#10B981" stroke-width="2"/>
+  <rect x="220" y="183" width="150" height="34" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="295" y="205" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Popularity Bias</text>
+  <text x="388" y="197" font-size="11" fill="#6B7280">Popular items dominate; niche items</text>
+  <text x="388" y="211" font-size="11" fill="#6B7280">are systematically under-recommended</text>
 
-  <!-- === Branch 4: Exposure Bias === -->
-  <line x1="185" y1="228" x2="220" y2="228" stroke="#3bc4a1" stroke-width="2"/>
-  <rect x="220" y="211" width="150" height="34" rx="6" fill="#3bc4a1"/>
-  <text x="295" y="233" text-anchor="middle" font-size="11" font-weight="600" fill="#0b1225">Exposure Bias</text>
-  <text x="382" y="225" font-size="9" fill="#78716C">Users can only interact with items</text>
-  <text x="382" y="237" font-size="9" fill="#78716C">the system chooses to show them</text>
+  <!-- Exposure Bias -->
+  <line x1="185" y1="258" x2="220" y2="258" stroke="#0EA5E9" stroke-width="2"/>
+  <rect x="220" y="241" width="150" height="34" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+  <text x="295" y="263" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Exposure Bias</text>
+  <text x="388" y="255" font-size="11" fill="#6B7280">Users can only interact with items</text>
+  <text x="388" y="269" font-size="11" fill="#6B7280">the system chooses to show them</text>
 
-  <!-- === Branch 5: Conformity Bias === -->
-  <line x1="185" y1="285" x2="220" y2="285" stroke="#0c8383" stroke-width="2"/>
-  <rect x="220" y="268" width="150" height="34" rx="6" fill="#0c8383"/>
-  <text x="295" y="290" text-anchor="middle" font-size="11" font-weight="600" fill="white">Conformity Bias</text>
-  <text x="382" y="282" font-size="9" fill="#78716C">Users align ratings with public opinion</text>
-  <text x="382" y="294" font-size="9" fill="#78716C">rather than personal preference</text>
+  <!-- Conformity Bias -->
+  <line x1="185" y1="315" x2="220" y2="315" stroke="#10B981" stroke-width="2"/>
+  <rect x="220" y="298" width="150" height="34" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="295" y="320" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Conformity Bias</text>
+  <text x="388" y="312" font-size="11" fill="#6B7280">Users align ratings with public opinion</text>
+  <text x="388" y="326" font-size="11" fill="#6B7280">rather than personal preference</text>
 
-  <!-- === Branch 6: Algorithmic Amplification === -->
-  <line x1="185" y1="340" x2="220" y2="340" stroke="#ef4444" stroke-width="2"/>
-  <rect x="220" y="320" width="150" height="40" rx="6" fill="#ef4444"/>
-  <text x="295" y="338" text-anchor="middle" font-size="10" font-weight="600" fill="white">Algorithmic</text>
-  <text x="295" y="352" text-anchor="middle" font-size="10" font-weight="600" fill="white">Amplification</text>
-  <text x="382" y="334" font-size="9" fill="#78716C">Feedback loops reinforce existing</text>
-  <text x="382" y="346" font-size="9" fill="#78716C">biases, creating filter bubbles</text>
+  <!-- Algorithmic Amplification -->
+  <line x1="185" y1="370" x2="220" y2="370" stroke="#EF4444" stroke-width="2"/>
+  <rect x="220" y="350" width="150" height="40" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
+  <text x="295" y="367" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Algorithmic</text>
+  <text x="295" y="382" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Amplification</text>
+  <text x="388" y="364" font-size="11" fill="#6B7280">Feedback loops reinforce existing</text>
+  <text x="388" y="378" font-size="11" fill="#6B7280">biases, creating filter bubbles</text>
 
-  <!-- Feedback loop arrow at bottom right -->
-  <path d="M360,362 C360,382 220,382 220,362" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="4,3"/>
-  <text x="290" y="390" text-anchor="middle" font-size="8" fill="#ef4444" font-style="italic">feedback loop</text>
+  <!-- Feedback loop -->
+  <path d="M360,395 C360,425 220,425 220,395" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <text x="290" y="442" text-anchor="middle" font-size="11" fill="#EF4444" font-style="italic">feedback loop</text>
 </svg>

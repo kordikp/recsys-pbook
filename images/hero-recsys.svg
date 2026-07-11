@@ -1,115 +1,115 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 100">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 220" role="img" aria-labelledby="title desc">
+  <title id="title">How recommendations work</title>
+  <desc id="desc">A user’s music, video, and book interests flow into a recommendation algorithm, which creates personalized For you, Trending, and Discover items.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#EDE9FE"/>
-      <stop offset="100%" stop-color="#F0F9FF"/>
-    </linearGradient>
+    <marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#7C3AED"/>
+    </marker>
+    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#10B981"/>
+    </marker>
+    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#D97706"/>
+    </marker>
   </defs>
-  <rect width="520" height="100" rx="12" fill="url(#bg)"/>
 
-  <!-- Girl silhouette -->
-  <circle cx="42" cy="42" r="11" fill="#7C3AED" opacity=".1"/>
-  <circle cx="42" cy="37" r="7.5" fill="#F4D0A0"/>
-  <path d="M34.5 35 Q34 28 42 26.5 Q50 28 49.5 35" fill="#5B3A1A"/>
-  <path d="M34 35 Q33 40 32 44" fill="none" stroke="#5B3A1A" stroke-width="2" stroke-linecap="round"/>
-  <path d="M50 35 Q51 40 52 44" fill="none" stroke="#5B3A1A" stroke-width="2" stroke-linecap="round"/>
-  <circle cx="39" cy="37" r=".9" fill="#1C1917"/>
-  <circle cx="45" cy="37" r=".9" fill="#1C1917"/>
-  <path d="M40 40 q2 2 4 0" fill="none" stroke="#C47A5A" stroke-width=".6" stroke-linecap="round"/>
-  <path d="M37 45 L35.5 58 L48.5 58 L47 45 Z" fill="#7C3AED"/>
-  <line x1="35.5" y1="48" x2="31" y2="55" stroke="#F4D0A0" stroke-width="2" stroke-linecap="round"/>
-  <line x1="48.5" y1="48" x2="53" y2="52" stroke="#F4D0A0" stroke-width="2" stroke-linecap="round"/>
-  <rect x="51.5" y="49" width="5" height="8" rx="1.2" fill="#374151"/>
-  <rect x="52.3" y="50" width="3.4" height="6" rx=".4" fill="#93C5FD"/>
+  <rect x="1" y="1" width="518" height="218" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
 
-  <!-- Arrows to inputs -->
-  <line x1="62" y1="38" x2="90" y2="22" stroke="#7C3AED" stroke-width=".8" opacity=".2" stroke-dasharray="2 2"/>
-  <line x1="62" y1="48" x2="90" y2="50" stroke="#7C3AED" stroke-width="1.2" opacity=".3"/>
-  <line x1="62" y1="55" x2="90" y2="78" stroke="#7C3AED" stroke-width=".8" opacity=".2" stroke-dasharray="2 2"/>
+  <text x="18" y="25" font-family="system-ui, sans-serif" font-size="18" font-weight="700" fill="#1E1B4B">How recommendations work</text>
+  <text x="18" y="43" font-family="system-ui, sans-serif" font-size="11" fill="#6B7280">Your interests help a recommender choose personalized items.</text>
 
-  <!-- Input items -->
-  <rect x="94" y="12" width="62" height="20" rx="4" fill="#fff" stroke="#10B981" stroke-width=".8"/>
-  <text x="106" y="26" font-size="9">🎵</text>
-  <text x="120" y="26" font-family="system-ui" font-size="7.5" fill="#374151">Music</text>
+  <!-- User-to-interest relationships -->
+  <path d="M96 123 C105 123 106 79 116 79" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <path d="M96 128 C105 128 106 129 116 129" fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <path d="M96 133 C105 133 106 179 116 179" fill="none" stroke="#D97706" stroke-width="2" marker-end="url(#arrow-amber)"/>
 
-  <rect x="94" y="40" width="62" height="20" rx="4" fill="#fff" stroke="#7C3AED" stroke-width="1"/>
-  <text x="106" y="54" font-size="9">🎬</text>
-  <text x="120" y="54" font-family="system-ui" font-size="7.5" fill="#374151">Videos</text>
+  <!-- Interest-to-algorithm relationships -->
+  <path d="M220 79 C232 79 234 101 246 101" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <path d="M220 129 L246 129" fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <path d="M220 179 C232 179 234 157 246 157" fill="none" stroke="#D97706" stroke-width="2" marker-end="url(#arrow-amber)"/>
 
-  <rect x="94" y="68" width="62" height="20" rx="4" fill="#fff" stroke="#F59E0B" stroke-width=".8"/>
-  <text x="106" y="82" font-size="9">📚</text>
-  <text x="120" y="82" font-family="system-ui" font-size="7.5" fill="#374151">Books</text>
+  <!-- Algorithm-to-results relationships -->
+  <path d="M334 101 C347 101 350 79 365 79" fill="none" stroke="#10B981" stroke-width="2" marker-end="url(#arrow-green)"/>
+  <path d="M334 129 L365 129" fill="none" stroke="#7C3AED" stroke-width="2" marker-end="url(#arrow-purple)"/>
+  <path d="M334 157 C347 157 350 179 365 179" fill="none" stroke="#D97706" stroke-width="2" marker-end="url(#arrow-amber)"/>
 
-  <!-- Algorithm -->
-  <rect x="180" y="30" width="52" height="40" rx="8" fill="#7C3AED" opacity=".07"/>
-  <text x="206" y="48" text-anchor="middle" font-size="14">🧠</text>
-  <text x="206" y="62" text-anchor="middle" font-family="system-ui" font-size="6.5" fill="#7C3AED" font-weight="600">Algorithm</text>
+  <!-- User -->
+  <rect x="16" y="68" width="80" height="122" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <circle cx="56" cy="99" r="20" fill="#EDE9FE"/>
+  <circle cx="56" cy="96" r="12" fill="#FEF3C7"/>
+  <path d="M44 95 Q44 80 56 80 Q68 80 68 95 Q64 88 56 88 Q48 88 44 95Z" fill="#D97706"/>
+  <circle cx="52" cy="97" r="1.5" fill="#1E1B4B"/>
+  <circle cx="60" cy="97" r="1.5" fill="#1E1B4B"/>
+  <path d="M52 103 Q56 106 60 103" fill="none" stroke="#D97706" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M43 119 Q56 110 69 119 L73 153 L39 153Z" fill="#7C3AED"/>
+  <path d="M68 123 L76 135" fill="none" stroke="#D97706" stroke-width="4" stroke-linecap="round"/>
+  <rect x="71" y="129" width="13" height="22" rx="3" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2"/>
+  <rect x="74" y="133" width="7" height="11" rx="1" fill="#E0F2FE"/>
+  <text x="56" y="178" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#1E1B4B">You</text>
 
-  <!-- Arrows -->
-  <line x1="158" y1="50" x2="178" y2="50" stroke="#7C3AED" stroke-width=".8" opacity=".2"/>
-  <line x1="234" y1="42" x2="260" y2="22" stroke="#10B981" stroke-width=".8" opacity=".3"/>
-  <line x1="234" y1="50" x2="260" y2="50" stroke="#10B981" stroke-width="1.2" opacity=".4"/>
-  <line x1="234" y1="58" x2="260" y2="78" stroke="#10B981" stroke-width=".8" opacity=".3"/>
+  <!-- Input interests -->
+  <rect x="116" y="58" width="104" height="42" rx="9" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <circle cx="137" cy="79" r="12" fill="#D1FAE5"/>
+  <text x="137" y="84" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15">🎵</text>
+  <text x="156" y="84" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1E1B4B">Music</text>
 
-  <!-- For you -->
-  <rect x="264" y="10" width="56" height="20" rx="4" fill="#10B981" opacity=".08" stroke="#10B981" stroke-width=".5"/>
-  <text x="276" y="24" font-size="8">⭐</text>
-  <text x="289" y="24" font-family="system-ui" font-size="7" fill="#065F46">For you</text>
+  <rect x="116" y="108" width="104" height="42" rx="9" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <circle cx="137" cy="129" r="12" fill="#EDE9FE"/>
+  <text x="137" y="134" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15">🎬</text>
+  <text x="156" y="134" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1E1B4B">Videos</text>
 
-  <!-- Trending -->
-  <rect x="264" y="40" width="56" height="20" rx="4" fill="#7C3AED" opacity=".08" stroke="#7C3AED" stroke-width=".5"/>
-  <text x="276" y="54" font-size="8">🔥</text>
-  <text x="289" y="54" font-family="system-ui" font-size="7" fill="#4C1D95">Trending</text>
+  <rect x="116" y="158" width="104" height="42" rx="9" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+  <circle cx="137" cy="179" r="12" fill="#FEF3C7"/>
+  <text x="137" y="184" text-anchor="middle" font-family="system-ui, sans-serif" font-size="15">📚</text>
+  <text x="156" y="184" font-family="system-ui, sans-serif" font-size="12" font-weight="600" fill="#1E1B4B">Books</text>
 
-  <!-- Discover -->
-  <rect x="264" y="70" width="56" height="20" rx="4" fill="#F59E0B" opacity=".08" stroke="#F59E0B" stroke-width=".5"/>
-  <text x="276" y="84" font-size="8">💡</text>
-  <text x="289" y="84" font-family="system-ui" font-size="7" fill="#92400E">Discover</text>
+  <!-- Recommender -->
+  <rect x="246" y="78" width="88" height="102" rx="13" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <circle cx="290" cy="107" r="18" fill="#FFFFFF"/>
+  <text x="290" y="113" text-anchor="middle" font-family="system-ui, sans-serif" font-size="20">🧠</text>
+  <text x="290" y="139" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" font-weight="700" fill="#1E1B4B">Algorithm</text>
+  <text x="290" y="157" text-anchor="middle" font-family="system-ui, sans-serif" font-size="11" fill="#6B7280">Recommender</text>
 
-  <!-- Music feed: varied album art -->
-  <rect x="330" y="10" width="62" height="20" rx="4" fill="#fff" stroke="#10B981" stroke-width=".4"/>
-  <rect x="334" y="13" width="11" height="14" rx="2" fill="#D1FAE5"/><text x="339.5" y="23" text-anchor="middle" font-size="7">🎵</text>
-  <rect x="348" y="13" width="11" height="14" rx="2" fill="#FECDD3"/><text x="353.5" y="23" text-anchor="middle" font-size="7">🎸</text>
-  <rect x="362" y="13" width="11" height="14" rx="2" fill="#DBEAFE"/><text x="367.5" y="23" text-anchor="middle" font-size="7">🎹</text>
-  <rect x="376" y="13" width="11" height="14" rx="2" fill="#FEF3C7" opacity=".4"/>
+  <!-- Personalized music -->
+  <rect x="365" y="58" width="139" height="42" rx="9" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <text x="375" y="76" font-family="system-ui, sans-serif" font-size="13">⭐</text>
+  <text x="394" y="77" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#1E1B4B">For you</text>
+  <text x="375" y="92" font-family="system-ui, sans-serif" font-size="11" fill="#6B7280">Music</text>
+  <rect x="444" y="66" width="15" height="25" rx="3" fill="#D1FAE5"/>
+  <path d="M454 71 V82 M454 72 L458 71 V78" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="451" cy="83" r="3" fill="#10B981"/>
+  <rect x="463" y="66" width="15" height="25" rx="3" fill="#FEE2E2"/>
+  <path d="M467 84 L474 72 M469 74 L476 80" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round"/>
+  <rect x="482" y="66" width="15" height="25" rx="3" fill="#E0F2FE"/>
+  <rect x="486" y="72" width="7" height="13" rx="2" fill="#0EA5E9"/>
+  <path d="M487 76 H492 M487 80 H492" stroke="#FFFFFF" stroke-width="1.5"/>
 
-  <!-- Video feed: different thumbnails -->
-  <rect x="330" y="40" width="62" height="20" rx="4" fill="#fff" stroke="#7C3AED" stroke-width=".4"/>
-  <!-- Video 1: sunset landscape -->
-  <rect x="334" y="43" width="17" height="11" rx="1.5" fill="#FDE68A"/>
-  <rect x="334" y="49" width="17" height="5" rx="0" fill="#10B981" opacity=".4"/>
-  <circle cx="342.5" cy="48" r="2.2" fill="#7C3AED" opacity=".8"/>
-  <path d="M341.5 46.8 l2.5 1.2 l-2.5 1.2 z" fill="#fff"/>
-  <rect x="334" y="55.5" width="12" height="1.2" rx=".5" fill="#6B7280" opacity=".3"/>
-  <!-- Video 2: dark with red accent -->
-  <rect x="355" y="43" width="17" height="11" rx="1.5" fill="#374151"/>
-  <rect x="357" y="45" width="5" height="5" rx="1" fill="#EF4444" opacity=".6"/>
-  <circle cx="363.5" cy="48" r="2.2" fill="rgba(255,255,255,.7)"/>
-  <path d="M362.5 46.8 l2.5 1.2 l-2.5 1.2 z" fill="#374151"/>
-  <rect x="355" y="55.5" width="10" height="1.2" rx=".5" fill="#6B7280" opacity=".3"/>
-  <!-- Video 3: partial blue -->
-  <rect x="376" y="43" width="12" height="11" rx="1.5" fill="#BFDBFE" opacity=".5"/>
+  <!-- Personalized videos -->
+  <rect x="365" y="108" width="139" height="42" rx="9" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="375" y="127" font-family="system-ui, sans-serif" font-size="13">🔥</text>
+  <text x="394" y="128" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#1E1B4B">Trending</text>
+  <text x="375" y="143" font-family="system-ui, sans-serif" font-size="11" fill="#6B7280">Videos</text>
+  <rect x="444" y="116" width="24" height="18" rx="3" fill="#FEF3C7"/>
+  <path d="M444 128 L452 122 L458 128 L463 124 L468 129 V134 H444Z" fill="#10B981"/>
+  <circle cx="456" cy="125" r="5" fill="#7C3AED"/>
+  <path d="M454 122 L459 125 L454 128Z" fill="#FFFFFF"/>
+  <rect x="472" y="116" width="24" height="18" rx="3" fill="#E0F2FE"/>
+  <rect x="475" y="119" width="7" height="7" rx="2" fill="#EF4444"/>
+  <circle cx="485" cy="125" r="5" fill="#FFFFFF"/>
+  <path d="M483 122 L488 125 L483 128Z" fill="#7C3AED"/>
+  <rect x="444" y="138" width="18" height="3" rx="1.5" fill="#E5E7EB"/>
+  <rect x="472" y="138" width="15" height="3" rx="1.5" fill="#E5E7EB"/>
 
-  <!-- Books feed: distinct covers -->
-  <rect x="330" y="70" width="62" height="20" rx="4" fill="#fff" stroke="#F59E0B" stroke-width=".4"/>
-  <!-- Book 1: blue cover with colored stripes -->
-  <rect x="335" y="72" width="10" height="15" rx="1" fill="#3B82F6"/>
-  <rect x="336.5" y="74" width="7" height="1.8" rx=".3" fill="#fff" opacity=".7"/>
-  <rect x="336.5" y="77" width="7" height="1" rx=".3" fill="#93C5FD"/>
-  <rect x="336.5" y="79" width="7" height="1" rx=".3" fill="#BFDBFE"/>
-  <rect x="336.5" y="83" width="4" height=".8" rx=".3" fill="#fff" opacity=".3"/>
-  <!-- Book 2: red cover with stripes -->
-  <rect x="348" y="72" width="10" height="15" rx="1" fill="#EF4444"/>
-  <rect x="349.5" y="74" width="7" height="1.8" rx=".3" fill="#fff" opacity=".7"/>
-  <rect x="348" y="78" width="10" height="1.5" fill="#FCA5A5" opacity=".6"/>
-  <rect x="348" y="81" width="10" height="1" fill="#FECACA" opacity=".4"/>
-  <rect x="349.5" y="84" width="5" height=".8" rx=".3" fill="#fff" opacity=".3"/>
-  <!-- Book 3: green cover with stripes -->
-  <rect x="361" y="72" width="10" height="15" rx="1" fill="#10B981"/>
-  <rect x="362.5" y="74" width="7" height="1.8" rx=".3" fill="#fff" opacity=".6"/>
-  <rect x="361" y="77.5" width="10" height="1" fill="#6EE7B7" opacity=".5"/>
-  <rect x="361" y="80" width="10" height="1" fill="#A7F3D0" opacity=".4"/>
-  <rect x="362.5" y="83" width="3" height=".8" rx=".3" fill="#fff" opacity=".3"/>
-  <!-- Book 4: partial, fading -->
-  <rect x="374" y="72" width="10" height="15" rx="1" fill="#F59E0B" opacity=".3"/>
+  <!-- Personalized books -->
+  <rect x="365" y="158" width="139" height="42" rx="9" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/>
+  <text x="375" y="177" font-family="system-ui, sans-serif" font-size="13">💡</text>
+  <text x="394" y="178" font-family="system-ui, sans-serif" font-size="11" font-weight="700" fill="#1E1B4B">Discover</text>
+  <text x="375" y="193" font-family="system-ui, sans-serif" font-size="11" fill="#6B7280">Books</text>
+  <rect x="445" y="165" width="12" height="27" rx="2" fill="#0EA5E9"/>
+  <path d="M448 171 H454 M448 175 H454" stroke="#FFFFFF" stroke-width="1.5"/>
+  <rect x="461" y="165" width="12" height="27" rx="2" fill="#EF4444"/>
+  <path d="M464 171 H470 M464 175 H470" stroke="#FFFFFF" stroke-width="1.5"/>
+  <rect x="477" y="165" width="12" height="27" rx="2" fill="#10B981"/>
+  <path d="M480 171 H486 M480 175 H486" stroke="#FFFFFF" stroke-width="1.5"/>
+  <rect x="493" y="165" width="7" height="27" rx="2" fill="#D97706"/>
 </svg>

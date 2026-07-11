@@ -1,134 +1,115 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 250" width="650" height="250" font-family="system-ui, sans-serif">
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 270" width="650" height="270" font-family="system-ui, sans-serif">
   <!-- Background -->
-  <rect width="650" height="250" rx="12" fill="#f5f5f4"/>
+  <rect x="1" y="1" width="648" height="268" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
 
   <!-- Title -->
-  <text x="325" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Recommendation Explanation Types</text>
-  <text x="325" y="40" text-anchor="middle" font-size="10" fill="#6b7280">How to communicate "why this recommendation?" to users</text>
+  <text x="325" y="25" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Recommendation Explanation Types</text>
+  <text x="325" y="43" text-anchor="middle" font-size="11" fill="#6B7280">How to communicate "why this recommendation?" to users</text>
 
-  <!-- ===== Card 1: Item-based ===== -->
-  <g transform="translate(14, 56)">
-    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
-    <!-- Card header -->
-    <rect x="0" y="0" width="118" height="28" rx="8" fill="#0c8383"/>
-    <rect x="0" y="14" width="118" height="14" fill="#0c8383"/>
-    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Item-Based</text>
+  <!-- Card 1: Item-based -->
+  <g transform="translate(14,58)">
+    <rect width="118" height="164" rx="8" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <path d="M8 0H110A8 8 0 0 1 118 8V30H0V8A8 8 0 0 1 8 0Z" fill="#10B981"/>
+    <text x="59" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Item-Based</text>
 
-    <!-- Mockup content area -->
-    <rect x="10" y="36" width="98" height="14" rx="3" fill="#0c8383" fill-opacity="0.08"/>
-    <rect x="10" y="36" width="38" height="14" rx="3" fill="#0c8383" fill-opacity="0.15"/>
-    <rect x="10" y="56" width="98" height="14" rx="3" fill="#0c8383" fill-opacity="0.08"/>
-    <rect x="10" y="56" width="64" height="14" rx="3" fill="#0c8383" fill-opacity="0.15"/>
+    <rect x="10" y="39" width="98" height="14" rx="3" fill="#D1FAE5"/>
+    <rect x="10" y="39" width="38" height="14" rx="3" fill="#10B981" fill-opacity="0.32"/>
+    <rect x="10" y="59" width="98" height="14" rx="3" fill="#D1FAE5"/>
+    <rect x="10" y="59" width="64" height="14" rx="3" fill="#10B981" fill-opacity="0.32"/>
 
-    <!-- Explanation text -->
-    <rect x="8" y="82" width="102" height="34" rx="4" fill="#0c8383" fill-opacity="0.06"/>
-    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">"Because you</text>
-    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">watched X"</text>
+    <rect x="8" y="84" width="102" height="40" rx="4" fill="#D1FAE5"/>
+    <text x="59" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">"Because you</text>
+    <text x="59" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">watched X"</text>
 
-    <!-- Badge -->
-    <rect x="18" y="124" width="82" height="16" rx="8" fill="#0c8383" fill-opacity="0.12"/>
-    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#0c8383">Most common</text>
+    <rect x="12" y="136" width="94" height="20" rx="10" fill="#D1FAE5"/>
+    <text x="59" y="150" text-anchor="middle" font-size="11" fill="#10B981">Most common</text>
   </g>
 
-  <!-- ===== Card 2: Social proof ===== -->
-  <g transform="translate(142, 56)">
-    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
-    <rect x="0" y="0" width="118" height="28" rx="8" fill="#3bc4a1"/>
-    <rect x="0" y="14" width="118" height="14" fill="#3bc4a1"/>
-    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Social Proof</text>
+  <!-- Card 2: Social proof -->
+  <g transform="translate(142,58)">
+    <rect width="118" height="164" rx="8" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
+    <path d="M8 0H110A8 8 0 0 1 118 8V30H0V8A8 8 0 0 1 8 0Z" fill="#0EA5E9"/>
+    <text x="59" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Social Proof</text>
 
-    <!-- Mockup: location pin + people icons -->
-    <circle cx="30" cy="50" r="10" fill="#3bc4a1" fill-opacity="0.1" stroke="#3bc4a1" stroke-width="1"/>
-    <text x="30" y="54" text-anchor="middle" font-size="10">&#x1F4CD;</text>
-    <circle cx="56" cy="50" r="8" fill="#3bc4a1" fill-opacity="0.1"/>
-    <circle cx="72" cy="50" r="8" fill="#3bc4a1" fill-opacity="0.1"/>
-    <circle cx="88" cy="50" r="8" fill="#3bc4a1" fill-opacity="0.1"/>
-    <text x="56" y="53" text-anchor="middle" font-size="8">&#x1F464;</text>
-    <text x="72" y="53" text-anchor="middle" font-size="8">&#x1F464;</text>
-    <text x="88" y="53" text-anchor="middle" font-size="8">&#x1F464;</text>
+    <circle cx="27" cy="55" r="11" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="27" y="59" text-anchor="middle" font-size="11">📍</text>
+    <circle cx="55" cy="55" r="9" fill="#E0F2FE"/>
+    <circle cx="73" cy="55" r="9" fill="#E0F2FE"/>
+    <circle cx="91" cy="55" r="9" fill="#E0F2FE"/>
+    <text x="55" y="59" text-anchor="middle" font-size="11">♟</text>
+    <text x="73" y="59" text-anchor="middle" font-size="11">♟</text>
+    <text x="91" y="59" text-anchor="middle" font-size="11">♟</text>
 
-    <!-- Explanation text -->
-    <rect x="8" y="82" width="102" height="34" rx="4" fill="#3bc4a1" fill-opacity="0.06"/>
-    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">"Popular in</text>
-    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">your area"</text>
+    <rect x="8" y="84" width="102" height="40" rx="4" fill="#E0F2FE"/>
+    <text x="59" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">"Popular in</text>
+    <text x="59" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">your area"</text>
 
-    <rect x="18" y="124" width="82" height="16" rx="8" fill="#3bc4a1" fill-opacity="0.12"/>
-    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#3bc4a1">Trust signal</text>
+    <rect x="12" y="136" width="94" height="20" rx="10" fill="#E0F2FE"/>
+    <text x="59" y="150" text-anchor="middle" font-size="11" fill="#0EA5E9">Trust signal</text>
   </g>
 
-  <!-- ===== Card 3: Collaborative ===== -->
-  <g transform="translate(270, 56)">
-    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#f59e0b" stroke-width="1.5"/>
-    <rect x="0" y="0" width="118" height="28" rx="8" fill="#f59e0b"/>
-    <rect x="0" y="14" width="118" height="14" fill="#f59e0b"/>
-    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Collaborative</text>
+  <!-- Card 3: Collaborative -->
+  <g transform="translate(270,58)">
+    <rect width="118" height="164" rx="8" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
+    <path d="M8 0H110A8 8 0 0 1 118 8V30H0V8A8 8 0 0 1 8 0Z" fill="#D97706"/>
+    <text x="59" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Collaborative</text>
 
-    <!-- Mockup: user groups connected -->
-    <circle cx="35" cy="48" r="10" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1"/>
-    <text x="35" y="52" text-anchor="middle" font-size="10">&#x1F464;</text>
-    <line x1="45" y1="48" x2="65" y2="48" stroke="#f59e0b" stroke-width="1.5"/>
-    <text x="55" y="44" text-anchor="middle" font-size="7" fill="#f59e0b">likes</text>
-    <circle cx="80" cy="48" r="10" fill="#f59e0b" fill-opacity="0.1" stroke="#f59e0b" stroke-width="1"/>
-    <text x="80" y="52" text-anchor="middle" font-size="8" fill="#f59e0b">X</text>
-    <line x1="55" y1="56" x2="55" y2="68" stroke="#f59e0b" stroke-width="1" stroke-dasharray="3,2"/>
-    <text x="55" y="76" text-anchor="middle" font-size="7" fill="#b45309">also likes Y</text>
+    <circle cx="31" cy="55" r="11" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="31" y="59" text-anchor="middle" font-size="11">♟</text>
+    <line x1="42" y1="55" x2="68" y2="55" stroke="#D97706" stroke-width="1.5"/>
+    <text x="55" y="48" text-anchor="middle" font-size="11" fill="#D97706">likes</text>
+    <circle cx="80" cy="55" r="11" fill="#FEF3C7" stroke="#D97706"/>
+    <text x="80" y="59" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">X</text>
+    <line x1="55" y1="61" x2="55" y2="70" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <text x="59" y="80" text-anchor="middle" font-size="11" fill="#D97706">also likes Y</text>
 
-    <!-- Explanation text -->
-    <rect x="8" y="82" width="102" height="34" rx="4" fill="#f59e0b" fill-opacity="0.06"/>
-    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">"Fans of X</text>
-    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">also like Y"</text>
+    <rect x="8" y="84" width="102" height="40" rx="4" fill="#FEF3C7"/>
+    <text x="59" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">"Fans of X</text>
+    <text x="59" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">also like Y"</text>
 
-    <rect x="18" y="124" width="82" height="16" rx="8" fill="#f59e0b" fill-opacity="0.12"/>
-    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#b45309">Community taste</text>
+    <rect x="7" y="136" width="104" height="20" rx="10" fill="#FEF3C7"/>
+    <text x="59" y="150" text-anchor="middle" font-size="11" fill="#D97706">Community taste</text>
   </g>
 
-  <!-- ===== Card 4: Content-based ===== -->
-  <g transform="translate(398, 56)">
-    <rect x="0" y="0" width="118" height="150" rx="8" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
-    <rect x="0" y="0" width="118" height="28" rx="8" fill="#0c8383"/>
-    <rect x="0" y="14" width="118" height="14" fill="#0c8383"/>
-    <text x="59" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Content-Based</text>
+  <!-- Card 4: Content-based -->
+  <g transform="translate(398,58)">
+    <rect width="118" height="164" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <path d="M8 0H110A8 8 0 0 1 118 8V30H0V8A8 8 0 0 1 8 0Z" fill="#7C3AED"/>
+    <text x="59" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Content-Based</text>
 
-    <!-- Mockup: bookmark / save icon -->
-    <rect x="14" y="38" width="32" height="32" rx="4" fill="#0c8383" fill-opacity="0.08" stroke="#0c8383" stroke-width="1"/>
-    <text x="30" y="58" text-anchor="middle" font-size="14">&#x1F516;</text>
-    <text x="60" y="48" font-size="7" fill="#6b7280">saved</text>
-    <line x1="52" y1="52" x2="90" y2="52" stroke="#0c8383" stroke-width="1" stroke-dasharray="3,2"/>
-    <text x="78" y="62" font-size="7" fill="#0c8383">similar</text>
+    <rect x="12" y="39" width="34" height="34" rx="4" fill="#EDE9FE" stroke="#7C3AED"/>
+    <text x="29" y="61" text-anchor="middle" font-size="15">🔖</text>
+    <text x="54" y="48" font-size="11" fill="#6B7280">saved</text>
+    <line x1="53" y1="57" x2="101" y2="57" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <text x="76" y="72" text-anchor="middle" font-size="11" fill="#7C3AED">similar</text>
 
-    <!-- Explanation text -->
-    <rect x="8" y="82" width="102" height="34" rx="4" fill="#0c8383" fill-opacity="0.06"/>
-    <text x="59" y="96" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">"Similar to</text>
-    <text x="59" y="108" text-anchor="middle" font-size="8" fill="#0c8383" font-weight="bold">saved items"</text>
+    <rect x="8" y="84" width="102" height="40" rx="4" fill="#EDE9FE"/>
+    <text x="59" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">"Similar to</text>
+    <text x="59" y="116" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">saved items"</text>
 
-    <rect x="18" y="124" width="82" height="16" rx="8" fill="#0c8383" fill-opacity="0.12"/>
-    <text x="59" y="135" text-anchor="middle" font-size="7" fill="#0c8383">Feature matching</text>
+    <rect x="7" y="136" width="104" height="20" rx="10" fill="#EDE9FE"/>
+    <text x="59" y="150" text-anchor="middle" font-size="11" fill="#7C3AED">Feature matching</text>
   </g>
 
-  <!-- ===== Card 5: Confidence score ===== -->
-  <g transform="translate(526, 56)">
-    <rect x="0" y="0" width="110" height="150" rx="8" fill="#ffffff" stroke="#ef4444" stroke-width="1.5"/>
-    <rect x="0" y="0" width="110" height="28" rx="8" fill="#ef4444"/>
-    <rect x="0" y="14" width="110" height="14" fill="#ef4444"/>
-    <text x="55" y="18" text-anchor="middle" font-size="8" font-weight="bold" fill="#ffffff">Confidence</text>
+  <!-- Card 5: Confidence score -->
+  <g transform="translate(526,58)">
+    <rect width="110" height="164" rx="8" fill="#FFFFFF" stroke="#EF4444" stroke-width="1.5"/>
+    <path d="M8 0H102A8 8 0 0 1 110 8V30H0V8A8 8 0 0 1 8 0Z" fill="#EF4444"/>
+    <text x="55" y="20" text-anchor="middle" font-size="11" font-weight="700" fill="#FFFFFF">Confidence</text>
 
-    <!-- Mockup: percentage ring -->
-    <circle cx="55" cy="56" r="18" fill="none" stroke="#e5e7eb" stroke-width="4"/>
-    <circle cx="55" cy="56" r="18" fill="none" stroke="#ef4444" stroke-width="4"
-            stroke-dasharray="98.5 113" stroke-dashoffset="28" stroke-linecap="round"/>
-    <text x="55" y="60" text-anchor="middle" font-size="11" font-weight="bold" fill="#ef4444">87%</text>
+    <circle cx="55" cy="58" r="18" fill="none" stroke="#E5E7EB" stroke-width="4"/>
+    <circle cx="55" cy="58" r="18" fill="none" stroke="#EF4444" stroke-width="4" stroke-dasharray="98.5 113" stroke-dashoffset="28" stroke-linecap="round"/>
+    <text x="55" y="62" text-anchor="middle" font-size="11" font-weight="700" fill="#EF4444">87%</text>
 
-    <!-- Explanation text -->
-    <rect x="5" y="82" width="100" height="34" rx="4" fill="#ef4444" fill-opacity="0.06"/>
-    <text x="55" y="96" text-anchor="middle" font-size="8" fill="#0b1225" font-weight="bold">"87% match"</text>
-    <text x="55" y="108" text-anchor="middle" font-size="7" fill="#6b7280">based on profile</text>
+    <rect x="5" y="84" width="100" height="40" rx="4" fill="#FEE2E2"/>
+    <text x="55" y="100" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">"87% match"</text>
+    <text x="55" y="116" text-anchor="middle" font-size="11" fill="#6B7280">based on profile</text>
 
-    <rect x="14" y="124" width="82" height="16" rx="8" fill="#ef4444" fill-opacity="0.12"/>
-    <text x="55" y="135" text-anchor="middle" font-size="7" fill="#ef4444">Quantified fit</text>
+    <rect x="8" y="136" width="94" height="20" rx="10" fill="#FEE2E2"/>
+    <text x="55" y="150" text-anchor="middle" font-size="11" fill="#EF4444">Quantified fit</text>
   </g>
 
   <!-- Bottom note -->
-  <text x="325" y="228" text-anchor="middle" font-size="9" fill="#6b7280">Explanations increase user trust, satisfaction, and willingness to try recommended items.</text>
-  <text x="325" y="242" text-anchor="middle" font-size="9" fill="#6b7280" font-style="italic">The best systems combine multiple explanation types depending on context and confidence.</text>
+  <text x="325" y="242" text-anchor="middle" font-size="11" fill="#6B7280">Explanations increase user trust, satisfaction, and willingness to try recommended items.</text>
+  <text x="325" y="259" text-anchor="middle" font-size="11" font-style="italic" fill="#6B7280">The best systems combine multiple explanation types depending on context and confidence.</text>
 </svg>

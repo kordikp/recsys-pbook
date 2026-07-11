@@ -1,57 +1,61 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" width="680" height="340" font-family="system-ui, sans-serif">
+  <rect x="1" y="1" width="678" height="338" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+
   <!-- Title -->
-  <text x="340" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1C1917">How Do We Know If Recommendations Are Good?</text>
-  <text x="340" y="42" text-anchor="middle" font-size="11" fill="#78716C">Three ways to test, from quick to gold standard</text>
+  <text x="340" y="25" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">How Do We Know If Recommendations Are Good?</text>
+  <text x="340" y="43" text-anchor="middle" font-size="11" fill="#6B7280">Three ways to test, from quick to gold standard</text>
 
   <!-- Step 1: Offline -->
-  <rect x="30" y="60" width="190" height="120" rx="10" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
-  <text x="125" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#2563EB">1. Offline Test</text>
-  <text x="125" y="102" text-anchor="middle" font-size="9" fill="#78716C">Use old data to simulate</text>
-  <text x="125" y="128" text-anchor="middle" font-size="22">💻</text>
-  <text x="125" y="152" text-anchor="middle" font-size="9" fill="#2563EB" font-weight="600">Fast (minutes)</text>
-  <text x="125" y="168" text-anchor="middle" font-size="8" fill="#78716C">Cheap, repeatable, but past ≠ future</text>
+  <rect x="30" y="60" width="190" height="126" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
+  <text x="125" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#0EA5E9">1. Offline Test</text>
+  <text x="125" y="102" text-anchor="middle" font-size="11" fill="#6B7280">Use old data to simulate</text>
+  <text x="125" y="130" text-anchor="middle" font-size="22" fill="#1E1B4B">💻</text>
+  <text x="125" y="153" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="600">Fast (minutes)</text>
+  <text x="125" y="169" text-anchor="middle" font-size="11" fill="#6B7280">Cheap and repeatable,</text>
+  <text x="125" y="182" text-anchor="middle" font-size="11" fill="#6B7280">but past ≠ future</text>
 
   <!-- Arrow -->
-  <path d="M225,120 L250,120" fill="none" stroke="#78716C" stroke-width="1.5"/>
-  <polygon points="250,116 258,120 250,124" fill="#78716C"/>
+  <path d="M226 123 H248" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="248,118 258,123 248,128" fill="#6B7280"/>
 
   <!-- Step 2: A/B Test -->
-  <rect x="260" y="60" width="180" height="120" rx="10" fill="#ECFDF5" stroke="#059669" stroke-width="1.5"/>
-  <text x="350" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">2. A/B Test</text>
-  <text x="350" y="102" text-anchor="middle" font-size="9" fill="#78716C">Real users, two groups</text>
-  <g transform="translate(322, 108)">
-    <rect x="0" y="0" width="24" height="28" rx="4" fill="#059669" fill-opacity="0.2" stroke="#059669"/>
-    <text x="12" y="19" text-anchor="middle" font-size="11" font-weight="bold" fill="#059669">A</text>
-    <rect x="32" y="0" width="24" height="28" rx="4" fill="#7C3AED" fill-opacity="0.2" stroke="#7C3AED"/>
-    <text x="44" y="19" text-anchor="middle" font-size="11" font-weight="bold" fill="#7C3AED">B</text>
+  <rect x="260" y="60" width="180" height="126" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="350" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#10B981">2. A/B Test</text>
+  <text x="350" y="102" text-anchor="middle" font-size="11" fill="#6B7280">Real users, two groups</text>
+  <g transform="translate(322 110)">
+    <rect x="0" y="0" width="24" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+    <text x="12" y="19" text-anchor="middle" font-size="11" font-weight="700" fill="#10B981">A</text>
+    <rect x="32" y="0" width="24" height="28" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="44" y="19" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">B</text>
   </g>
-  <text x="350" y="152" text-anchor="middle" font-size="9" fill="#059669" font-weight="600">Reliable (days)</text>
-  <text x="350" y="168" text-anchor="middle" font-size="8" fill="#78716C">Gold standard — real behavior</text>
+  <text x="350" y="156" text-anchor="middle" font-size="11" fill="#10B981" font-weight="600">Reliable (days)</text>
+  <text x="350" y="175" text-anchor="middle" font-size="11" fill="#6B7280">Gold standard — real behavior</text>
 
   <!-- Arrow -->
-  <path d="M445,120 L470,120" fill="none" stroke="#78716C" stroke-width="1.5"/>
-  <polygon points="470,116 478,120 470,124" fill="#78716C"/>
+  <path d="M446 123 H468" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+  <polygon points="468,118 478,123 468,128" fill="#6B7280"/>
 
   <!-- Step 3: Monitor -->
-  <rect x="480" y="60" width="170" height="120" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="1.5"/>
-  <text x="565" y="85" text-anchor="middle" font-size="13" font-weight="bold" fill="#D97706">3. Monitor</text>
-  <text x="565" y="102" text-anchor="middle" font-size="9" fill="#78716C">Watch it live</text>
-  <text x="565" y="128" text-anchor="middle" font-size="22">📊</text>
-  <text x="565" y="152" text-anchor="middle" font-size="9" fill="#D97706" font-weight="600">Always on</text>
-  <text x="565" y="168" text-anchor="middle" font-size="8" fill="#78716C">Catch problems, alerts if drops</text>
+  <rect x="480" y="60" width="170" height="126" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
+  <text x="565" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#D97706">3. Monitor</text>
+  <text x="565" y="102" text-anchor="middle" font-size="11" fill="#6B7280">Watch it live</text>
+  <text x="565" y="130" text-anchor="middle" font-size="22" fill="#1E1B4B">📊</text>
+  <text x="565" y="153" text-anchor="middle" font-size="11" fill="#D97706" font-weight="600">Always on</text>
+  <text x="565" y="169" text-anchor="middle" font-size="11" fill="#6B7280">Catch problems;</text>
+  <text x="565" y="182" text-anchor="middle" font-size="11" fill="#6B7280">alert if performance drops</text>
 
   <!-- What they measure -->
-  <rect x="30" y="200" width="620" height="48" rx="8" fill="#F5F5F4" stroke="#E7E5E4"/>
-  <text x="340" y="218" text-anchor="middle" font-size="11" font-weight="600" fill="#1C1917">What do they all measure?</text>
-  <text x="100" y="236" text-anchor="middle" font-size="9" fill="#2563EB">📈 Click rate</text>
-  <text x="225" y="236" text-anchor="middle" font-size="9" fill="#059669">⏱ Watch time</text>
-  <text x="355" y="236" text-anchor="middle" font-size="9" fill="#7C3AED">🔄 Return visits</text>
-  <text x="480" y="236" text-anchor="middle" font-size="9" fill="#D97706">🎯 Diversity</text>
-  <text x="600" y="236" text-anchor="middle" font-size="9" fill="#DC2626">😊 Satisfaction</text>
+  <rect x="30" y="200" width="620" height="48" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="340" y="218" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">What do they all measure?</text>
+  <text x="95" y="238" text-anchor="middle" font-size="11" fill="#0EA5E9">📈 Click rate</text>
+  <text x="220" y="238" text-anchor="middle" font-size="11" fill="#10B981">⏱ Watch time</text>
+  <text x="350" y="238" text-anchor="middle" font-size="11" fill="#7C3AED">🔄 Return visits</text>
+  <text x="480" y="238" text-anchor="middle" font-size="11" fill="#D97706">🎯 Diversity</text>
+  <text x="595" y="238" text-anchor="middle" font-size="11" fill="#EF4444">😊 Satisfaction</text>
 
   <!-- Key insight -->
-  <rect x="130" y="268" width="420" height="55" rx="8" fill="#1C1917"/>
-  <text x="340" y="290" text-anchor="middle" font-size="11" font-weight="600" fill="white">Key insight</text>
-  <text x="340" y="308" text-anchor="middle" font-size="10" fill="#A8A29E">Never trust just one metric. More clicks can mean addictive</text>
-  <text x="340" y="320" text-anchor="middle" font-size="10" fill="#A8A29E">design, not better recommendations. Measure what matters.</text>
+  <rect x="130" y="264" width="420" height="62" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="340" y="284" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Key insight</text>
+  <text x="340" y="303" text-anchor="middle" font-size="11" fill="#1E1B4B">Never trust just one metric. More clicks can mean addictive</text>
+  <text x="340" y="318" text-anchor="middle" font-size="11" fill="#1E1B4B">design, not better recommendations. Measure what matters.</text>
 </svg>

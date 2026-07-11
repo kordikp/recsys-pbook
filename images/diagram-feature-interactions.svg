@@ -1,152 +1,121 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" width="650" height="300" font-family="system-ui, sans-serif">
-  <rect width="650" height="300" rx="8" fill="#f5f5f4"/>
-
-  <text x="325" y="24" text-anchor="middle" fill="#0b1225" font-size="13" font-weight="700">Feature Interaction Models</text>
-
-  <!-- === FM (Factorization Machines) === -->
-  <rect x="15" y="38" width="195" height="245" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1"/>
-  <rect x="15" y="38" width="195" height="28" rx="6" fill="#0c8383"/>
-  <rect x="15" y="56" width="195" height="10" fill="#0c8383"/>
-  <text x="112" y="56" text-anchor="middle" fill="white" font-size="11" font-weight="600">FM</text>
-
-  <!-- Linear terms -->
-  <text x="112" y="84" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="500">Linear Terms</text>
-  <rect x="40" y="90" width="145" height="20" rx="3" fill="#0c8383" opacity="0.15" stroke="#0c8383" stroke-width="0.5"/>
-  <text x="112" y="104" text-anchor="middle" fill="#0c8383" font-size="9">w0 + w1x1 + w2x2 + ...</text>
-
-  <!-- Plus sign -->
-  <text x="112" y="125" text-anchor="middle" fill="#0b1225" font-size="14" font-weight="300">+</text>
-
-  <!-- Factorized interaction matrix -->
-  <text x="112" y="142" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="500">Factorized Interactions</text>
-
-  <!-- Small grid showing V*V^T -->
-  <g transform="translate(50, 148)">
-    <!-- V matrix -->
-    <rect x="0" y="0" width="30" height="50" rx="2" fill="#0c8383" opacity="0.3" stroke="#0c8383" stroke-width="0.5"/>
-    <text x="15" y="28" text-anchor="middle" fill="#0c8383" font-size="10" font-weight="600">V</text>
-    <text x="15" y="40" text-anchor="middle" fill="#0c8383" font-size="6">n x k</text>
-
-    <!-- Multiply -->
-    <text x="40" y="28" text-anchor="middle" fill="#0b1225" font-size="10">x</text>
-
-    <!-- V^T matrix -->
-    <rect x="50" y="8" width="50" height="30" rx="2" fill="#0c8383" opacity="0.3" stroke="#0c8383" stroke-width="0.5"/>
-    <text x="75" y="27" text-anchor="middle" fill="#0c8383" font-size="10" font-weight="600">V^T</text>
-    <text x="75" y="10" text-anchor="end" fill="#0c8383" font-size="6">k x n</text>
-  </g>
-
-  <text x="112" y="218" text-anchor="middle" fill="#666" font-size="7">Each feature i gets a</text>
-  <text x="112" y="228" text-anchor="middle" fill="#666" font-size="7">k-dim latent vector vi</text>
-
-  <!-- Complexity -->
-  <rect x="55" y="238" width="115" height="22" rx="11" fill="#0c8383" opacity="0.1" stroke="#0c8383" stroke-width="0.5"/>
-  <text x="112" y="253" text-anchor="middle" fill="#0c8383" font-size="10" font-weight="600">O(kn)</text>
-  <text x="112" y="275" text-anchor="middle" fill="#999" font-size="7">Linear in features</text>
-
-  <!-- === DeepFM === -->
-  <rect x="225" y="38" width="195" height="245" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1"/>
-  <rect x="225" y="38" width="195" height="28" rx="6" fill="#3bc4a1"/>
-  <rect x="225" y="56" width="195" height="10" fill="#3bc4a1"/>
-  <text x="322" y="56" text-anchor="middle" fill="white" font-size="11" font-weight="600">DeepFM</text>
-
-  <!-- Shared embeddings at bottom -->
-  <rect x="250" y="215" width="145" height="22" rx="3" fill="#0b1225" opacity="0.08" stroke="#0b1225" stroke-width="0.5"/>
-  <text x="322" y="230" text-anchor="middle" fill="#0b1225" font-size="8" font-weight="500">Shared Embeddings</text>
-
-  <!-- FM path (left) -->
-  <rect x="245" y="130" width="65" height="55" rx="3" fill="#0c8383" opacity="0.15" stroke="#0c8383" stroke-width="0.5"/>
-  <text x="277" y="152" text-anchor="middle" fill="#0c8383" font-size="9" font-weight="500">FM</text>
-  <text x="277" y="165" text-anchor="middle" fill="#0c8383" font-size="7">Component</text>
-  <text x="277" y="178" text-anchor="middle" fill="#0c8383" font-size="6">order-2</text>
-
-  <!-- DNN path (right) -->
-  <rect x="325" y="130" width="80" height="55" rx="3" fill="#3bc4a1" opacity="0.15" stroke="#3bc4a1" stroke-width="0.5"/>
-  <text x="365" y="152" text-anchor="middle" fill="#3bc4a1" font-size="9" font-weight="500">DNN</text>
-  <text x="365" y="165" text-anchor="middle" fill="#3bc4a1" font-size="7">Component</text>
-  <text x="365" y="178" text-anchor="middle" fill="#3bc4a1" font-size="6">high-order</text>
-
-  <!-- Arrows from embeddings to both -->
-  <line x1="290" y1="215" x2="277" y2="188" stroke="#999" stroke-width="1" marker-end="url(#arrowGray)"/>
-  <line x1="350" y1="215" x2="365" y2="188" stroke="#999" stroke-width="1" marker-end="url(#arrowGray)"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 410" width="650" height="410" font-family="system-ui, sans-serif">
   <defs>
-    <marker id="arrowGray" markerWidth="5" markerHeight="4" refX="5" refY="2" orient="auto">
-      <polygon points="0,0 5,2 0,4" fill="#999"/>
+    <marker id="arrowGray" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
+      <polygon points="0,0 7,3 0,6" fill="#6B7280"/>
     </marker>
   </defs>
 
-  <!-- Merge at top -->
-  <rect x="275" y="92" width="95" height="22" rx="3" fill="#0b1225" opacity="0.08" stroke="#0b1225" stroke-width="0.5"/>
-  <text x="322" y="107" text-anchor="middle" fill="#0b1225" font-size="8" font-weight="500">Sigmoid (concat)</text>
+  <rect x="1" y="1" width="648" height="408" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+  <text x="325" y="27" text-anchor="middle" fill="#1E1B4B" font-size="16" font-weight="700">Feature Interaction Models</text>
 
-  <!-- Arrows to merge -->
-  <line x1="277" y1="128" x2="300" y2="116" stroke="#999" stroke-width="1" marker-end="url(#arrowGray)"/>
-  <line x1="365" y1="128" x2="345" y2="116" stroke="#999" stroke-width="1" marker-end="url(#arrowGray)"/>
+  <!-- FM -->
+  <rect x="15" y="42" width="195" height="358" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <path d="M25 42H200A10 10 0 0 1 210 52V78H15V52A10 10 0 0 1 25 42Z" fill="#0EA5E9"/>
+  <text x="112.5" y="65" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="700">FM</text>
 
-  <!-- Output -->
-  <text x="322" y="84" text-anchor="middle" fill="#0b1225" font-size="8">y-hat</text>
-  <line x1="322" y1="87" x2="322" y2="92" stroke="#999" stroke-width="0.5"/>
+  <text x="112.5" y="101" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="600">Linear Terms</text>
+  <rect x="35" y="110" width="155" height="32" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="112.5" y="130" text-anchor="middle" fill="#1E1B4B" font-size="11">w0 + w1x1 + w2x2 + ...</text>
 
-  <!-- Complexity -->
-  <rect x="255" y="238" width="135" height="22" rx="11" fill="#3bc4a1" opacity="0.1" stroke="#3bc4a1" stroke-width="0.5"/>
-  <text x="322" y="253" text-anchor="middle" fill="#3bc4a1" font-size="10" font-weight="600">O(kn + DNN)</text>
-  <text x="322" y="275" text-anchor="middle" fill="#999" font-size="7">End-to-end, no manual features</text>
+  <text x="112.5" y="161" text-anchor="middle" fill="#1E1B4B" font-size="18">+</text>
+  <text x="112.5" y="183" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="600">Factorized Interactions</text>
 
-  <!-- === DCN (Deep & Cross Network) === -->
-  <rect x="435" y="38" width="200" height="245" rx="6" fill="white" stroke="#e5e7eb" stroke-width="1"/>
-  <rect x="435" y="38" width="200" height="28" rx="6" fill="#f59e0b"/>
-  <rect x="435" y="56" width="200" height="10" fill="#f59e0b"/>
-  <text x="535" y="56" text-anchor="middle" fill="white" font-size="11" font-weight="600">DCN (Deep &amp; Cross)</text>
+  <g transform="translate(47,193)">
+    <rect x="0" y="0" width="42" height="62" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="21" y="28" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">V</text>
+    <text x="21" y="48" text-anchor="middle" fill="#6B7280" font-size="11">n x k</text>
 
-  <!-- Cross network layers -->
-  <text x="490" y="82" text-anchor="middle" fill="#0b1225" font-size="8" font-weight="500">Cross Network</text>
+    <text x="53" y="35" text-anchor="middle" fill="#1E1B4B" font-size="14">x</text>
 
-  <!-- Cross layer 1 -->
-  <rect x="455" y="87" width="70" height="18" rx="2" fill="#f59e0b" opacity="0.15" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="490" y="99" text-anchor="middle" fill="#c27800" font-size="7">x_l+1 = x_0 x_l^T w</text>
+    <rect x="64" y="10" width="66" height="44" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
+    <text x="97" y="30" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">V^T</text>
+    <text x="97" y="46" text-anchor="middle" fill="#6B7280" font-size="11">k x n</text>
+  </g>
 
-  <!-- Cross layer 2 -->
-  <rect x="455" y="110" width="70" height="18" rx="2" fill="#f59e0b" opacity="0.2" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="490" y="122" text-anchor="middle" fill="#c27800" font-size="7">Cross Layer 2</text>
+  <text x="112.5" y="278" text-anchor="middle" fill="#6B7280" font-size="11">Each feature i gets a</text>
+  <text x="112.5" y="294" text-anchor="middle" fill="#6B7280" font-size="11">k-dim latent vector vi</text>
 
-  <!-- Cross layer 3 -->
-  <rect x="455" y="133" width="70" height="18" rx="2" fill="#f59e0b" opacity="0.25" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="490" y="145" text-anchor="middle" fill="#c27800" font-size="7">Cross Layer 3</text>
+  <rect x="52" y="309" width="121" height="32" rx="16" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="112.5" y="330" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">O(kn)</text>
+  <text x="112.5" y="372" text-anchor="middle" fill="#6B7280" font-size="11">Linear in features</text>
 
-  <!-- Residual connections -->
-  <line x1="450" y1="96" x2="450" y2="142" stroke="#f59e0b" stroke-width="0.5" stroke-dasharray="2,2"/>
-  <text x="445" y="120" text-anchor="end" fill="#f59e0b" font-size="6">x_0</text>
+  <!-- DeepFM -->
+  <rect x="225" y="42" width="195" height="358" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <path d="M235 42H410A10 10 0 0 1 420 52V78H225V52A10 10 0 0 1 235 42Z" fill="#10B981"/>
+  <text x="322.5" y="65" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="700">DeepFM</text>
 
-  <!-- Deep network -->
-  <text x="580" y="82" text-anchor="middle" fill="#0b1225" font-size="8" font-weight="500">Deep Network</text>
+  <text x="322.5" y="101" text-anchor="middle" fill="#1E1B4B" font-size="11">y-hat</text>
+  <line x1="322.5" y1="105" x2="322.5" y2="112" stroke="#6B7280"/>
 
-  <rect x="555" y="87" width="55" height="18" rx="2" fill="#0b1225" opacity="0.08" stroke="#0b1225" stroke-width="0.5"/>
-  <text x="582" y="99" text-anchor="middle" fill="#666" font-size="7">Dense + ReLU</text>
+  <rect x="269" y="112" width="107" height="32" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="322.5" y="132" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="600">Sigmoid (concat)</text>
 
-  <rect x="555" y="110" width="55" height="18" rx="2" fill="#0b1225" opacity="0.1" stroke="#0b1225" stroke-width="0.5"/>
-  <text x="582" y="122" text-anchor="middle" fill="#666" font-size="7">Dense + ReLU</text>
+  <line x1="278.5" y1="176" x2="300" y2="146" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+  <line x1="368" y1="176" x2="346" y2="146" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrowGray)"/>
 
-  <rect x="555" y="133" width="55" height="18" rx="2" fill="#0b1225" opacity="0.12" stroke="#0b1225" stroke-width="0.5"/>
-  <text x="582" y="145" text-anchor="middle" fill="#666" font-size="7">Dense + ReLU</text>
+  <rect x="241" y="178" width="75" height="72" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="278.5" y="201" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">FM</text>
+  <text x="278.5" y="219" text-anchor="middle" fill="#1E1B4B" font-size="11">Component</text>
+  <text x="278.5" y="237" text-anchor="middle" fill="#6B7280" font-size="11">order-2</text>
 
-  <!-- Input -->
-  <rect x="465" y="175" width="140" height="20" rx="3" fill="#0b1225" opacity="0.06" stroke="#0b1225" stroke-width="0.5"/>
-  <text x="535" y="189" text-anchor="middle" fill="#0b1225" font-size="8">Input: [x_sparse ; x_dense]</text>
+  <rect x="327" y="178" width="82" height="72" rx="6" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="368" y="201" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">DNN</text>
+  <text x="368" y="219" text-anchor="middle" fill="#1E1B4B" font-size="11">Component</text>
+  <text x="368" y="237" text-anchor="middle" fill="#6B7280" font-size="11">high-order</text>
 
-  <!-- Arrows -->
-  <line x1="490" y1="175" x2="490" y2="154" stroke="#999" stroke-width="0.8" marker-end="url(#arrowGray)"/>
-  <line x1="582" y1="175" x2="582" y2="154" stroke="#999" stroke-width="0.8" marker-end="url(#arrowGray)"/>
+  <line x1="291" y1="282" x2="281" y2="253" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+  <line x1="352" y1="282" x2="366" y2="253" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrowGray)"/>
 
-  <!-- Combine -->
-  <rect x="475" y="160" width="120" height="12" rx="2" fill="none"/>
-  <text x="535" y="169" text-anchor="middle" fill="#999" font-size="6">concat + logits</text>
+  <rect x="246" y="282" width="153" height="34" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="322.5" y="303" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="600">Shared Embeddings</text>
 
-  <!-- Key benefit -->
-  <text x="535" y="210" text-anchor="middle" fill="#666" font-size="7">Explicit cross-features</text>
-  <text x="535" y="221" text-anchor="middle" fill="#666" font-size="7">up to L-th order in L layers</text>
+  <rect x="250" y="329" width="145" height="32" rx="16" fill="#D1FAE5" stroke="#10B981"/>
+  <text x="322.5" y="350" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">O(kn + DNN)</text>
+  <text x="322.5" y="383" text-anchor="middle" fill="#6B7280" font-size="11">End-to-end, no manual features</text>
 
-  <!-- Complexity -->
-  <rect x="472" y="238" width="125" height="22" rx="11" fill="#f59e0b" opacity="0.1" stroke="#f59e0b" stroke-width="0.5"/>
-  <text x="535" y="253" text-anchor="middle" fill="#c27800" font-size="10" font-weight="600">O(kd + DNN)</text>
-  <text x="535" y="275" text-anchor="middle" fill="#999" font-size="7">Bounded cross-feature cost</text>
+  <!-- DCN -->
+  <rect x="435" y="42" width="200" height="358" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
+  <path d="M445 42H625A10 10 0 0 1 635 52V78H435V52A10 10 0 0 1 445 42Z" fill="#D97706"/>
+  <text x="535" y="65" text-anchor="middle" fill="#FFFFFF" font-size="12" font-weight="700">DCN (Deep &amp; Cross)</text>
+
+  <text x="492.5" y="96" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="600">Cross Network</text>
+  <text x="587" y="96" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="600">Deep Network</text>
+
+  <rect x="450" y="103" width="85" height="42" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="492.5" y="121" text-anchor="middle" fill="#1E1B4B" font-size="11">x_l+1 =</text>
+  <text x="492.5" y="137" text-anchor="middle" fill="#1E1B4B" font-size="11">x_0 x_l^T w</text>
+
+  <rect x="450" y="151" width="85" height="30" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="492.5" y="171" text-anchor="middle" fill="#1E1B4B" font-size="11">Cross Layer 2</text>
+
+  <rect x="450" y="187" width="85" height="30" rx="5" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="492.5" y="207" text-anchor="middle" fill="#1E1B4B" font-size="11">Cross Layer 3</text>
+
+  <line x1="443" y1="118" x2="443" y2="202" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <text x="447" y="229" fill="#D97706" font-size="11" font-weight="600">x_0</text>
+
+  <rect x="548" y="103" width="78" height="42" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="587" y="121" text-anchor="middle" fill="#1E1B4B" font-size="11">Dense +</text>
+  <text x="587" y="137" text-anchor="middle" fill="#1E1B4B" font-size="11">ReLU</text>
+
+  <rect x="548" y="151" width="78" height="30" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="587" y="171" text-anchor="middle" fill="#1E1B4B" font-size="11">Dense + ReLU</text>
+
+  <rect x="548" y="187" width="78" height="30" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
+  <text x="587" y="207" text-anchor="middle" fill="#1E1B4B" font-size="11">Dense + ReLU</text>
+
+  <text x="539" y="238" text-anchor="middle" fill="#6B7280" font-size="11">concat + logits</text>
+
+  <line x1="493" y1="250" x2="493" y2="220" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+  <line x1="587" y1="250" x2="587" y2="220" stroke="#6B7280" stroke-width="1.5" marker-end="url(#arrowGray)"/>
+
+  <rect x="452" y="250" width="166" height="34" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="535" y="271" text-anchor="middle" fill="#1E1B4B" font-size="11">Input: [x_sparse ; x_dense]</text>
+
+  <text x="535" y="304" text-anchor="middle" fill="#6B7280" font-size="11">Explicit cross-features</text>
+  <text x="535" y="321" text-anchor="middle" fill="#6B7280" font-size="11">up to L-th order in L layers</text>
+
+  <rect x="469" y="335" width="132" height="32" rx="16" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="535" y="356" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">O(kd + DNN)</text>
+  <text x="535" y="388" text-anchor="middle" fill="#6B7280" font-size="11">Bounded cross-feature cost</text>
 </svg>

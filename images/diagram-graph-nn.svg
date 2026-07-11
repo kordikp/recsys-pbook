@@ -1,112 +1,117 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 350" width="550" height="350" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 430" width="550" height="430" font-family="system-ui, sans-serif">
   <defs>
     <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#0c8383"/>
+      <path d="M0,0 L7,2.5 L0,5" fill="#0EA5E9"/>
     </marker>
     <marker id="arrGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#3bc4a1"/>
+      <path d="M0,0 L7,2.5 L0,5" fill="#10B981"/>
+    </marker>
+    <marker id="arrAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+      <path d="M0,0 L7,2.5 L0,5" fill="#D97706"/>
     </marker>
   </defs>
 
   <!-- Background -->
-  <rect width="550" height="350" rx="12" fill="#f5f5f4"/>
+  <rect x="1" y="1" width="548" height="428" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
 
   <!-- Title -->
-  <text x="275" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Graph Neural Networks for Recommendation</text>
-  <text x="275" y="42" text-anchor="middle" font-size="10" fill="#6b7280">LightGCN: Aggregate neighbor information across hops</text>
+  <text x="275" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1E1B4B">Graph Neural Networks for Recommendation</text>
+  <text x="275" y="44" text-anchor="middle" font-size="11" fill="#6B7280">LightGCN: Aggregate neighbor information across hops</text>
 
-  <!-- ===== Bipartite graph ===== -->
-  <!-- Left column label -->
-  <text x="100" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#0c8383">Users</text>
-  <!-- Right column label -->
-  <text x="310" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#3bc4a1">Items</text>
+  <!-- Bipartite graph labels -->
+  <text x="100" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#0EA5E9">Users</text>
+  <text x="307" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#10B981">Items</text>
 
-  <!-- 2-hop highlight region (behind everything) -->
-  <rect x="55" y="75" width="300" height="210" rx="10" fill="#f59e0b" fill-opacity="0.04" stroke="#f59e0b" stroke-width="1" stroke-dasharray="6,3"/>
-  <text x="358" y="90" font-size="8" fill="#f59e0b" font-weight="bold">2-hop neighborhood</text>
+  <!-- 2-hop highlight region -->
+  <rect x="55" y="75" width="300" height="210" rx="10" fill="#FEF3C7" fill-opacity="0.35" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6,3"/>
 
   <!-- 1-hop highlight region -->
-  <rect x="70" y="92" width="270" height="100" rx="8" fill="#0c8383" fill-opacity="0.05" stroke="#0c8383" stroke-width="1" stroke-dasharray="4,3"/>
-  <text x="358" y="108" font-size="8" fill="#0c8383" font-weight="bold">1-hop neighborhood</text>
+  <rect x="70" y="92" width="270" height="100" rx="8" fill="#E0F2FE" fill-opacity="0.55" stroke="#0EA5E9" stroke-width="1.5" stroke-dasharray="4,3"/>
 
-  <!-- Interaction edges (drawn first so nodes cover endpoints) -->
-  <!-- U1 connections -->
-  <line x1="120" y1="120" x2="290" y2="110" stroke="#0b1225" stroke-width="1" stroke-opacity="0.2"/>
-  <line x1="120" y1="120" x2="290" y2="155" stroke="#0b1225" stroke-width="1.5" stroke-opacity="0.4"/>
+  <!-- Separate hop labels -->
+  <line x1="355" y1="85" x2="365" y2="85" stroke="#D97706" stroke-width="1.5"/>
+  <rect x="368" y="75" width="174" height="20" rx="6" fill="#FEF3C7" stroke="#D97706"/>
+  <text x="376" y="89" font-size="11" fill="#D97706" font-weight="bold">2-hop neighborhood</text>
 
-  <!-- U2 connections (highlighted user) -->
-  <line x1="120" y1="165" x2="290" y2="110" stroke="#0c8383" stroke-width="2" stroke-opacity="0.6"/>
-  <line x1="120" y1="165" x2="290" y2="155" stroke="#0c8383" stroke-width="2" stroke-opacity="0.6"/>
-  <line x1="120" y1="165" x2="290" y2="200" stroke="#0c8383" stroke-width="2" stroke-opacity="0.6"/>
+  <line x1="340" y1="106" x2="365" y2="106" stroke="#0EA5E9" stroke-width="1.5"/>
+  <rect x="368" y="99" width="174" height="20" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
+  <text x="376" y="113" font-size="11" fill="#0EA5E9" font-weight="bold">1-hop neighborhood</text>
 
-  <!-- U3 connections -->
-  <line x1="120" y1="210" x2="290" y2="200" stroke="#0b1225" stroke-width="1" stroke-opacity="0.2"/>
-  <line x1="120" y1="210" x2="290" y2="245" stroke="#0b1225" stroke-width="1" stroke-opacity="0.2"/>
+  <!-- Interaction edges -->
+  <line x1="120" y1="120" x2="290" y2="110" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
+  <line x1="120" y1="120" x2="290" y2="155" stroke="#1E1B4B" stroke-width="1.5" stroke-opacity="0.4"/>
 
-  <!-- U4 connections -->
-  <line x1="120" y1="255" x2="290" y2="245" stroke="#0b1225" stroke-width="1" stroke-opacity="0.2"/>
-  <line x1="120" y1="255" x2="290" y2="200" stroke="#0b1225" stroke-width="1" stroke-opacity="0.2"/>
-  <line x1="120" y1="255" x2="290" y2="270" stroke="#0b1225" stroke-width="1" stroke-opacity="0.2"/>
+  <line x1="120" y1="165" x2="290" y2="110" stroke="#0EA5E9" stroke-width="2" stroke-opacity="0.72"/>
+  <line x1="120" y1="165" x2="290" y2="155" stroke="#0EA5E9" stroke-width="2" stroke-opacity="0.72"/>
+  <line x1="120" y1="165" x2="290" y2="200" stroke="#0EA5E9" stroke-width="2" stroke-opacity="0.72"/>
 
-  <!-- User nodes (circles) -->
-  <circle cx="100" cy="120" r="16" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
-  <text x="100" y="124" text-anchor="middle" font-size="9" fill="#0c8383" font-weight="bold">U1</text>
+  <line x1="120" y1="210" x2="290" y2="200" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
+  <line x1="120" y1="210" x2="290" y2="245" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
 
-  <!-- U2 highlighted -->
-  <circle cx="100" cy="165" r="18" fill="#0c8383" fill-opacity="0.2" stroke="#0c8383" stroke-width="2.5"/>
-  <text x="100" y="169" text-anchor="middle" font-size="10" fill="#0c8383" font-weight="bold">U2</text>
+  <line x1="120" y1="255" x2="290" y2="245" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
+  <line x1="120" y1="255" x2="290" y2="200" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
+  <line x1="120" y1="255" x2="290" y2="270" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
 
-  <circle cx="100" cy="210" r="16" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
-  <text x="100" y="214" text-anchor="middle" font-size="9" fill="#0c8383" font-weight="bold">U3</text>
+  <!-- User nodes -->
+  <circle cx="100" cy="120" r="16" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="100" y="124" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U1</text>
 
-  <circle cx="100" cy="255" r="16" fill="#ffffff" stroke="#0c8383" stroke-width="1.5"/>
-  <text x="100" y="259" text-anchor="middle" font-size="9" fill="#0c8383" font-weight="bold">U4</text>
+  <circle cx="100" cy="165" r="18" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2.5"/>
+  <text x="100" y="169" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U2</text>
 
-  <!-- Item nodes (squares) -->
-  <rect x="293" y="96" width="28" height="28" rx="4" fill="#3bc4a1" fill-opacity="0.25" stroke="#3bc4a1" stroke-width="2"/>
-  <text x="307" y="114" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="bold">I1</text>
+  <circle cx="100" cy="210" r="16" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="100" y="214" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U3</text>
 
-  <rect x="293" y="141" width="28" height="28" rx="4" fill="#3bc4a1" fill-opacity="0.25" stroke="#3bc4a1" stroke-width="2"/>
-  <text x="307" y="159" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="bold">I2</text>
+  <circle cx="100" cy="255" r="16" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
+  <text x="100" y="259" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U4</text>
 
-  <rect x="293" y="186" width="28" height="28" rx="4" fill="#3bc4a1" fill-opacity="0.25" stroke="#3bc4a1" stroke-width="2"/>
-  <text x="307" y="204" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="bold">I3</text>
+  <!-- Item nodes -->
+  <rect x="293" y="96" width="28" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="307" y="114" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I1</text>
 
-  <rect x="293" y="231" width="28" height="28" rx="4" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
-  <text x="307" y="249" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="bold">I4</text>
+  <rect x="293" y="141" width="28" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="307" y="159" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I2</text>
 
-  <rect x="293" y="258" width="28" height="28" rx="4" fill="#ffffff" stroke="#3bc4a1" stroke-width="1.5"/>
-  <text x="307" y="276" text-anchor="middle" font-size="9" fill="#0b1225" font-weight="bold">I5</text>
+  <rect x="293" y="186" width="28" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="307" y="204" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I3</text>
 
-  <!-- ===== Message passing illustration (right side) ===== -->
-  <g transform="translate(380, 110)">
-    <text x="0" y="0" font-size="10" font-weight="bold" fill="#0b1225">Message Passing</text>
+  <rect x="293" y="231" width="28" height="28" rx="4" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+  <text x="307" y="249" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I4</text>
+
+  <rect x="293" y="258" width="28" height="28" rx="4" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+  <text x="307" y="276" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I5</text>
+
+  <!-- Message passing illustration -->
+  <g transform="translate(368,132)">
+    <text x="0" y="0" font-size="12" font-weight="bold" fill="#1E1B4B">Message Passing</text>
 
     <!-- Hop 1 -->
-    <rect x="0" y="10" width="150" height="55" rx="6" fill="#0c8383" fill-opacity="0.06" stroke="#0c8383" stroke-width="1"/>
-    <text x="8" y="25" font-size="9" font-weight="bold" fill="#0c8383">Hop 1:</text>
-    <text x="8" y="38" font-size="8" fill="#6b7280">Items I1, I2, I3 send</text>
-    <text x="8" y="50" font-size="8" fill="#6b7280">embeddings to U2</text>
-    <!-- Small arrows -->
-    <line x1="110" y1="30" x2="135" y2="30" stroke="#0c8383" stroke-width="1.5" marker-end="url(#arr)"/>
-    <circle cx="142" cy="30" r="6" fill="#0c8383" fill-opacity="0.2" stroke="#0c8383" stroke-width="1"/>
-    <text x="142" y="33" text-anchor="middle" font-size="6" fill="#0c8383">U2</text>
+    <rect x="0" y="12" width="174" height="64" rx="7" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
+    <text x="8" y="29" font-size="11" font-weight="bold" fill="#0EA5E9">Hop 1:</text>
+    <line x1="126" y1="26" x2="145" y2="26" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arr)"/>
+    <circle cx="158" cy="26" r="7" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
+    <text x="158" y="30" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U2</text>
+    <text x="8" y="48" font-size="11" fill="#6B7280">Items I1, I2, I3 send</text>
+    <text x="8" y="63" font-size="11" fill="#6B7280">embeddings to U2</text>
 
     <!-- Hop 2 -->
-    <rect x="0" y="72" width="150" height="55" rx="6" fill="#f59e0b" fill-opacity="0.06" stroke="#f59e0b" stroke-width="1"/>
-    <text x="8" y="87" font-size="9" font-weight="bold" fill="#f59e0b">Hop 2:</text>
-    <text x="8" y="100" font-size="8" fill="#6b7280">U1, U3, U4 (who also</text>
-    <text x="8" y="112" font-size="8" fill="#6b7280">liked I1/I2/I3) aggregate</text>
-    <!-- Small arrows -->
-    <line x1="110" y1="95" x2="135" y2="95" stroke="#f59e0b" stroke-width="1.5"/>
-    <rect x="133" y="89" width="12" height="12" rx="2" fill="#f59e0b" fill-opacity="0.2" stroke="#f59e0b" stroke-width="1"/>
+    <rect x="0" y="84" width="174" height="80" rx="7" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
+    <text x="8" y="102" font-size="11" font-weight="bold" fill="#D97706">Hop 2:</text>
+    <line x1="126" y1="99" x2="145" y2="99" stroke="#D97706" stroke-width="1.5" marker-end="url(#arrAmber)"/>
+    <rect x="153" y="92" width="14" height="14" rx="2" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
+    <text x="8" y="121" font-size="11" fill="#6B7280">U1, U3, U4 (who also</text>
+    <text x="8" y="137" font-size="11" fill="#6B7280">liked I1/I2/I3) aggregate</text>
 
     <!-- Formula -->
-    <text x="0" y="145" font-size="9" fill="#0b1225" font-weight="bold">Aggregation:</text>
-    <text x="0" y="160" font-size="9" fill="#0c8383" font-style="italic">e_u = SUM(e_i / sqrt(|N_u| * |N_i|))</text>
+    <rect x="0" y="174" width="174" height="62" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="8" y="192" font-size="11" fill="#1E1B4B" font-weight="bold">Aggregation:</text>
+    <text x="8" y="209" font-size="11" fill="#7C3AED" font-style="italic">e_u = SUM(e_i /</text>
+    <text x="8" y="225" font-size="11" fill="#7C3AED" font-style="italic">sqrt(|N_u| * |N_i|))</text>
   </g>
 
   <!-- Bottom note -->
-  <text x="275" y="318" text-anchor="middle" font-size="9" fill="#6b7280">Each layer propagates information one hop further. Stacking L layers captures L-hop collaborative signals.</text>
-  <text x="275" y="334" text-anchor="middle" font-size="9" fill="#6b7280">LightGCN uses simple weighted sum aggregation -- no feature transformation or nonlinear activation.</text>
+  <text x="275" y="374" text-anchor="middle" font-size="11" fill="#6B7280">Each layer propagates information one hop further.</text>
+  <text x="275" y="390" text-anchor="middle" font-size="11" fill="#6B7280">Stacking L layers captures L-hop collaborative signals.</text>
+  <text x="275" y="406" text-anchor="middle" font-size="11" fill="#6B7280">LightGCN uses simple weighted sum aggregation --</text>
+  <text x="275" y="422" text-anchor="middle" font-size="11" fill="#6B7280">no feature transformation or nonlinear activation.</text>
 </svg>
