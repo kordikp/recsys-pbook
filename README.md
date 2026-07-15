@@ -4,6 +4,8 @@
 
 **Live: [recsys-pbook.vercel.app](https://recsys-pbook.vercel.app)** · RecSys '26 demo · CC BY-NC-SA 4.0
 
+**▶ [Narrated 3-minute demo walkthrough](media/pbook-demo-commented.mp4)** — serving, telling, catalog co-creation, and the loop closing on the reader's own signals.
+
 ![How Recommendations Work](images/og-cover.png)
 
 A recommendation platform normally decides three things for you: **how** content is served, **how** each piece is told, and **what** exists in the catalog at all. This book inverts all three:
