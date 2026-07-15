@@ -5,7 +5,7 @@ import { renderMarkdown, parseFrontmatter } from './markdown.js';
 import { RecombeeClient, UserModel } from './recombee.js?v=11';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=3';
 
-const APP_VERSION = '5.12.3';
+const APP_VERSION = '5.12.4';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
 
 class PBook {
@@ -4133,6 +4133,14 @@ class PBook {
   }
 
   // ===== PROFILE VIEW =====
+  _timeAgo(ts) {
+    const s = Math.max(1, Math.round((Date.now() - ts) / 1000));
+    if (s < 90) return 'just now';
+    if (s < 3600) return Math.round(s / 60) + ' min ago';
+    if (s < 86400) return Math.round(s / 3600) + ' h ago';
+    return Math.round(s / 86400) + ' d ago';
+  }
+
   renderProfile() {
     const el = document.getElementById('profileContent');
     const p = this.user.getProfile(this.allBlocks);
