@@ -215,6 +215,17 @@ function parseFrontmatterBody(text) {
   return m ? m[1].trim() : text.trim();
 }
 
+// Sister p-book deployments (same account) may use this deployment as their LLM
+// gateway when they have no own key. They pass body.sourceHost so that concept
+// lookups (concepts.json, anchor, correction rules) read THEIR content instead
+// of this book's. Only allowlisted hosts are honored — anything else falls back
+// to this deployment's own host.
+const ALLOWED_SOURCE_HOSTS = ['pbook-internet.vercel.app'];
+function contentHost(req) {
+  const h = req.body && req.body.sourceHost;
+  return (h && ALLOWED_SOURCE_HOSTS.includes(h)) ? h : req.headers.host;
+}
+
 async function selfFetch(host, path) {
   const proto = host.startsWith('localhost') || host.startsWith('127.') ? 'http' : 'https';
   const res = await fetch(`${proto}://${host}${path}`);
@@ -509,7 +520,7 @@ Draft the proposals now.`;
       if (!instruction || typeof instruction !== 'string' || instruction.trim().length < 3) {
         return res.status(400).json({ ok: false, error: 'instruction required' });
       }
-      const host = req.headers.host;
+      const host = contentHost(req);
       let contract = null;
       if (concept && /^[\w-]+$/.test(concept)) {
         try {
@@ -612,7 +623,7 @@ Return the complete modified SVG now.`;
     if (cache.has(id)) return res.status(200).json({ ok: true, block: cache.get(id), cached: true });
 
     // Load contract + exemplar from the deployed content itself (concepts.json is the source of truth)
-    const host = req.headers.host;
+    const host = contentHost(req);
     const conceptsData = await (await selfFetch(host, '/content/concepts.json')).json();
     const record = (conceptsData.concepts || []).find(c => c.id === concept);
     if (!record) return res.status(404).json({ ok: false, error: 'unknown concept' });
