@@ -447,7 +447,10 @@ async function callLLM(system, user, schema, maxTokens, model = MODEL) {
     return await call(model);
   } catch (e) {
     // strong model unavailable/rejected → degrade to the base model rather than fail
-    if (model !== MODEL) return call(MODEL);
+    if (model !== MODEL) {
+      console.warn(`[generate] strong model ${model} failed (${String(e).slice(0, 160)}) — falling back to ${MODEL}`);
+      return call(MODEL);
+    }
     throw e;
   }
 }

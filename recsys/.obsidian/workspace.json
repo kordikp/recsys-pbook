@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "content/ch3-different-ways-to-recommend/04b1-sidebar-slate-optimization.md",
+                "file": "content/ch2-how-they-learn/01f-sidebar-user-lifecycle.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "04b1-sidebar-slate-optimization"
+              "title": "01f-sidebar-user-lifecycle"
             }
           }
         ]
@@ -185,21 +185,25 @@
   },
   "active": "df0504226954260f",
   "lastOpenFiles": [
-    "content/ch2-how-they-learn/01-spine-digital-footprints.md",
-    "content/ch1-what-are-recommendations/03c-sidebar-history.md",
-    "content/ch6-ethics-and-you/04d-sidebar-ethics-checklist.md",
-    "content/ch6-ethics-and-you/04c-spine-conversational-recs.md",
-    "content/ch6-ethics-and-you/04b-sidebar-eu-law.md",
-    "content/ch6-ethics-and-you/04a-depth-thinker-hard-questions.md",
-    "content/ch6-ethics-and-you/03d-game-privacy-spotter.md",
-    "content/ch1-what-are-recommendations/04b-sidebar-would-you-rather.md",
-    "content/ch6-ethics-and-you/01b-sidebar-rabbit-hole.md",
-    "images/diagram-bandit-exploration.svg.md",
     "content/ch1-what-are-recommendations/03b-depth-thinker-patterns.md",
     "content/ch1-what-are-recommendations/03a-sidebar-wrong-recs.md",
     "content/ch1-what-are-recommendations/03-spine-not-magic.md",
     "content/ch1-what-are-recommendations/02-spine-recommendations-everywhere.md",
     "content/ch1-what-are-recommendations/01-spine-have-you-noticed.md",
+    "images/diagram-bandit-exploration.svg.md",
+    "content/ch6-ethics-and-you/03-spine-privacy-for-real.md",
+    "content/ch6-ethics-and-you/03d-game-privacy-spotter.md",
+    "content/ch2-how-they-learn/02b-sidebar-myth-buster.md",
+    "content/ch2-how-they-learn/01e-depth-thinker-implicit-feedback.md",
+    "content/ch1-what-are-recommendations/03c-sidebar-history.md",
+    "content/ch3-different-ways-to-recommend/04b1-sidebar-slate-optimization.md",
+    "content/ch2-how-they-learn/01-spine-digital-footprints.md",
+    "content/ch6-ethics-and-you/04d-sidebar-ethics-checklist.md",
+    "content/ch6-ethics-and-you/04c-spine-conversational-recs.md",
+    "content/ch6-ethics-and-you/04b-sidebar-eu-law.md",
+    "content/ch6-ethics-and-you/04a-depth-thinker-hard-questions.md",
+    "content/ch1-what-are-recommendations/04b-sidebar-would-you-rather.md",
+    "content/ch6-ethics-and-you/01b-sidebar-rabbit-hole.md",
     "images",
     "Vítejte.md",
     "content/ch7-research-and-progress/10-spine-glossary.md",
@@ -208,10 +212,6 @@
     "content/ch7-research-and-progress/08-spine-research-roadmap.md",
     "content/ch7-research-and-progress/07c-sidebar-realm-details.md",
     "content/ch7-research-and-progress/07b-sidebar-knowledge-distillation.md",
-    "content/ch7-research-and-progress/07a-sidebar-sparse-representations.md",
-    "content/ch7-research-and-progress/07-spine-production-at-scale.md",
-    "content/ch7-research-and-progress/06b-sidebar-repsys.md",
-    "content/ch7-research-and-progress/06a-depth-thinker-evaluation-math.md",
     "content/ch7-research-and-progress",
     "content/ch2-how-they-learn",
     "content/ch5-build-your-own",
