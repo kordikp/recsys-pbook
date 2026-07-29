@@ -295,6 +295,13 @@ class PBook {
         <button class="steer-chip" style="opacity:.85" onclick="app._decideRemix('${originalId}','${remixId}','discard')">✗ Discard</button>
       </div>`;
     document.body.appendChild(el);
+    // Show the reader WHAT changed: scroll the remixed passage/diagram into
+    // view — deciding about an edit you cannot see is a coin flip.
+    setTimeout(() => {
+      const blockEl = document.getElementById('b-' + remixId) || document.getElementById('b-' + originalId);
+      const target = (blockEl && (blockEl.querySelector('.remix-mark') || (isDiagram && blockEl.querySelector('.diagram-wrap, svg')))) || blockEl;
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 180);
   }
   _decideRemix(originalId, remixId, what) {
     document.getElementById('rxfloat')?.remove();
