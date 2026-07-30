@@ -932,6 +932,21 @@ class PBook {
       </span>
     </div>`;
 
+    // A telling can be a block that ALSO sits in the feed on its own (satellite
+    // cards of a concept are rendered in reading order too). Serving it in this
+    // slot without hiding that standalone copy shows the same section twice in
+    // a row — hide it here, unswapBlock() brings it back.
+    const strays = Array.from(document.querySelectorAll(`[id="b-${vMeta.id}"]`)).filter(n => n !== el);
+    strays.forEach(n => {
+      n.dataset.swappedInto = originalId;
+      n.style.display = 'none';
+      const prev = n.previousElementSibling;
+      if (prev && prev.classList && prev.classList.contains('variant-notice')) {
+        prev.dataset.swappedInto = originalId;
+        prev.style.display = 'none';
+      }
+    });
+
     el.outerHTML = notice + html;
     // Register the variant for dwell tracking (falls back to default reading time)
     const newEl = document.getElementById(`b-${vMeta.id}`);
@@ -957,6 +972,11 @@ class PBook {
     const prev = el.previousElementSibling;
     if (prev?.classList?.contains('variant-notice')) prev.remove();
     el.outerHTML = html;
+    // bring back the standalone copy hidden while this telling filled the slot
+    document.querySelectorAll(`[data-swapped-into="${originalId}"]`).forEach(n => {
+      delete n.dataset.swappedInto;
+      n.style.display = '';
+    });
     const newEl = document.getElementById(`b-${originalId}`);
     if (newEl && this._observer) { newEl.dataset.observed = '1'; this._observer.observe(newEl); }
     this.rc.logEvent('steer_undo', { variantId, originalId });
