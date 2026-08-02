@@ -1171,6 +1171,27 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 .covmap-mylens { background: rgba(124, 58, 237, .06); }
 
 /* ===== Remix (reader-tuned passages) ===== */
+/* Reader edits: a changed/added REGION (markers on their own lines, so lists and
+   tables inside it render normally) and diagrams inserted right where asked. */
+.rx-region { position: relative; background: rgba(217, 119, 6, .10); border-left: 3px solid #D97706; border-radius: 0 6px 6px 0; padding: .35em .7em .35em .8em; margin: .8em 0; }
+.rx-region::before { content: "your edit"; position: absolute; top: -.62em; left: .7em; font-size: .55rem; letter-spacing: .08em; text-transform: uppercase; color: #B45309; background: var(--card, #fff); padding: 0 .35em; border-radius: 4px; }
+.rx-region > :first-child { margin-top: 0; }
+.rx-region > :last-child { margin-bottom: 0; }
+.md-figure.diagram-inline { margin: .9em 0; }
+.md-figure.diagram-inline svg { width: 100%; height: auto; border: 1px solid var(--border); border-radius: 10px; background: #fff; }
+
+/* Point-and-edit affordances: every paragraph offers "rewrite this" and every
+   gap between paragraphs offers "add here" — no text selection needed. */
+.para-tools { position: absolute; right: .1em; top: -.15em; display: flex; gap: .2em; opacity: 0; transition: opacity .12s; }
+.para-host { position: relative; }
+.para-host:hover .para-tools, .para-tools:focus-within { opacity: 1; }
+.para-tools button { border: 1px solid var(--border); background: var(--card, #fff); color: var(--text-2, #666); border-radius: 6px; font-size: .62rem; line-height: 1; padding: .22em .4em; cursor: pointer; }
+.para-tools button:hover { border-color: var(--accent); color: var(--accent); }
+.gap-add { display: block; width: 100%; border: 0; background: none; padding: 0; margin: -.35em 0; height: 1.1em; cursor: pointer; opacity: 0; transition: opacity .12s; }
+.gap-add:hover, .gap-add:focus { opacity: 1; }
+.gap-add span { display: block; border-top: 1.5px dashed var(--accent); position: relative; }
+.gap-add span::after { content: "+ add here"; position: absolute; left: 50%; transform: translate(-50%, -50%); background: var(--card, #fff); color: var(--accent); font-size: .6rem; padding: 0 .5em; white-space: nowrap; }
+
 mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #D97706; border-radius: 2px; padding: 0 .1em; color: inherit; }
 .remix-form textarea:focus { border-color: var(--accent); outline: none; }
 .gen-wish { flex: 1 1 220px; min-width: 180px; padding: .3em .55em; border-radius: 999px; border: 1px solid var(--border); background: var(--bg); color: var(--text); font-size: .7rem; }

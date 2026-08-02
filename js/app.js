@@ -1701,6 +1701,7 @@ class PBook {
     this.renderMath();
     this._initLottieAnimations();
     this._observeBlocks(ch);
+    this._attachParaTools();       // point-and-edit affordances on every paragraph
     this._applyTellingChoices();   // re-apply saved per-concept telling choices
     this._updateMissionBar();
     this._showMissionIntro();
@@ -1771,6 +1772,7 @@ class PBook {
         }
         this.renderMath();
         this._initLottieAnimations();
+        this._attachParaTools();
       }
       this._isLoadingMore = false;
     };
@@ -1929,9 +1931,11 @@ class PBook {
     let bodyHtml = renderMarkdown(block.body);
     // Remixed passages carry ⟦rx⟧…⟦/rx⟧ markers — render as visible "changed by you" marks
     if (bodyHtml.includes('⟦rx⟧')) {
+      // legacy blocks (markers inside a paragraph) — region markers are handled by the renderer
       bodyHtml = bodyHtml.replace(/⟦rx⟧/g, '<mark class="remix-mark" title="Remixed passage — changed from the original">')
                          .replace(/⟦\/rx⟧/g, '</mark>');
     }
+    bodyHtml = bodyHtml.replace(/⟦\/?(rx|svg)⟧/g, '');   // never leak a marker into the page
     let diagramHtml = '';
     if (block.diagramSvg) {
       // reader-remixed diagram (private/community copy) — sanitized inline SVG override
@@ -5851,8 +5855,8 @@ class PBook {
            oldText[oldText.length - 1 - s] === newText[newText.length - 1 - s]) s++;
     const head = newText.slice(0, p), mid = newText.slice(p, newText.length - s), tail = newText.slice(newText.length - s);
     if (!mid.trim()) return { marked: newText, oldMid: oldText.slice(p, oldText.length - s), newMid: mid };
-    const markedMid = mid.split(/\n{2,}/).map(seg => seg.trim() ? `⟦rx⟧${seg}⟦/rx⟧` : seg).join('\n\n');
-    return { marked: head + markedMid + tail, oldMid: oldText.slice(p, oldText.length - s), newMid: mid };
+    const markedMid = `\n⟦rx⟧\n${mid.trim()}\n⟦/rx⟧\n`;
+    return { marked: head.replace(/\s+$/, '') + markedMid + tail.replace(/^\s+/, ''), oldMid: oldText.slice(p, oldText.length - s), newMid: mid };
   }
 
   // Manual path: the reader IS the model. Same preview + accept pipeline as AI remix.
@@ -5866,7 +5870,7 @@ class PBook {
     let marked, oldMid, newMid, newBody;
     if (ctx.insert) {
       if (!edited.trim()) { this.showXPToast('Write the text to insert', 'xp'); return; }
-      marked = `⟦rx⟧${edited.trim()}⟦/rx⟧`;
+      marked = this._markRegion(edited);
       oldMid = ''; newMid = edited.trim();
       newBody = this._spliceIn(base, span[0], marked);
     } else {
@@ -5893,6 +5897,55 @@ class PBook {
     this.rc.logEvent('manual_edit', { blockId, remixId: id });
     document.getElementById(`b-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     this._showRemixDecision(isReRemix ? rootId : blockId, id, oldMid || original, newMid || edited);
+  }
+
+  // Editing should be point-and-click: hovering a paragraph offers "rewrite this
+  // one", the gap under it offers "add something here". Selecting text still
+  // works — this just removes the need to aim with a selection.
+  _attachParaTools(root) {
+    if (this.user.readerMode !== 'open') return;
+    const scope = root || document.getElementById('readPane');
+    if (!scope) return;
+    scope.querySelectorAll('.block-article').forEach(article => {
+      const blockId = article.id.replace('b-', '');
+      const body = article.querySelector('.spine-body');
+      if (!body || body.dataset.paraTools) return;
+      body.dataset.paraTools = '1';
+      const paras = [...body.children].filter(el => /^(P|UL|OL|BLOCKQUOTE|TABLE|FIGURE|H3|H4)$/.test(el.tagName));
+      paras.forEach(el => {
+        if (el.closest('.rx-region')) return;              // already your edit
+        el.classList.add('para-host');
+        const text = (el.textContent || '').trim();
+        const tools = document.createElement('span');
+        tools.className = 'para-tools';
+        tools.innerHTML = `<button title="rewrite this paragraph" data-pt="edit">✏️</button>`;
+        tools.querySelector('[data-pt="edit"]').onclick = e => {
+          e.stopPropagation();
+          this._openRemixForm(blockId, text.length >= 10 ? text : null, text.length >= 10 ? {} : { insert: true, anchorText: text });
+        };
+        el.appendChild(tools);
+        const gap = document.createElement('button');
+        gap.className = 'gap-add';
+        gap.title = 'add text or a diagram here';
+        gap.innerHTML = '<span></span>';
+        gap.onclick = e => {
+          e.stopPropagation();
+          this._openRemixForm(blockId, null, { insert: true, anchorText: text });
+        };
+        el.after(gap);
+      });
+    });
+  }
+
+  // Mark a changed/added region with markers ON THEIR OWN LINES. Inline markers
+  // used to sit inside the markdown and broke lists, tables and headings (and
+  // leaked as visible ⟦…⟧ when a structure swallowed them).
+  _markRegion(text, svg) {
+    const parts = [];
+    if (svg) parts.push(`⟦svg⟧${svg.trim()}⟦/svg⟧`);
+    if (text && text.trim()) parts.push(text.trim());
+    if (!parts.length) return '';
+    return `⟦rx⟧\n${parts.join('\n\n')}\n⟦/rx⟧`;
   }
 
   // Insert a passage at a source offset, keeping markdown paragraph separation
@@ -5985,10 +6038,13 @@ class PBook {
 
       // mark each paragraph separately — a single mark spanning \n\n breaks when
       // markdown closes the <p> inside it (only the first fragment stayed highlighted)
-      const marked = replacement.split(/\n{2,}/).map(seg => seg.trim() ? `⟦rx⟧${seg}⟦/rx⟧` : seg).join('\n\n');
+      // A drawn diagram belongs WHERE the change is — attaching it to the block
+      // would push it to the top and hide the section's original diagram.
+      const cleanSvg = attachedSvg ? this._sanitizeSvgClient(attachedSvg) : null;
+      const marked = this._markRegion(replacement, cleanSvg);
       const newBody = insertHere
         ? this._spliceIn(base, span[0], marked)
-        : base.slice(0, span[0]) + marked + base.slice(span[1]);
+        : this._spliceIn(base.slice(0, span[0]) + '\u0000' + base.slice(span[1]), base.slice(0, span[0]).length, marked).replace('\u0000', '');
 
       const src = entry.meta;
       const rootId = src.remixOf || src.id;
@@ -5999,7 +6055,7 @@ class PBook {
         meta: {
           ...src, id, state: 'private', generated: true, remixOf: rootId, remixLog: log,
           core: false, status: undefined,
-          ...(attachedSvg ? { diagramSvg: attachedSvg, visuality: 'balanced' } : {}),
+          ...(cleanSvg ? { visuality: 'balanced' } : {}),
           readingTime: Math.max(1, Math.round(newBody.split(/\s+/).length / 200)),
         },
         body: newBody,
