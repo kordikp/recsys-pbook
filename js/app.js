@@ -5757,14 +5757,21 @@ class PBook {
 
   remixSelection() {
     const sel = window.getSelection();
-    if (!sel || sel.isCollapsed) return;
+    if (!sel) return;
     const quote = sel.toString().trim();
-    const anchor = sel.anchorNode?.parentElement?.closest('.block-article');
+    const node = sel.anchorNode;
+    const anchor = node?.parentElement?.closest('.block-article');
     const blockId = anchor?.id?.replace('b-', '');
+    // The paragraph the cursor sits in — where a new passage would go.
+    const para = node?.parentElement?.closest('p, li, blockquote, h3, h4');
+    const anchorText = (para?.textContent || '').trim();
     sel.removeAllRanges();
     const popup = document.getElementById('highlightPopup');
     if (popup) popup.style.display = 'none';
-    if (!blockId || quote.length < 10) { this.showXPToast('Select a longer passage to remix', 'xp'); return; }
+    if (!blockId) return;
+    // Marking a gap (or almost nothing) means "add something HERE" — a rewrite
+    // would have nothing to rewrite, so open the form in insert mode instead.
+    if (quote.length < 10) { this._openRemixForm(blockId, null, { insert: true, anchorText }); return; }
     this._openRemixForm(blockId, quote);
   }
 
@@ -5774,7 +5781,7 @@ class PBook {
     this._openRemixForm(blockId, null);
   }
 
-  async _openRemixForm(blockId, quote) {
+  async _openRemixForm(blockId, quote, opts = {}) {
     const el = document.getElementById(`b-${blockId}`);
     if (!el) return;
     document.getElementById(`remix-form-${blockId}`)?.remove();
@@ -5789,27 +5796,43 @@ class PBook {
       // Resolve the SOURCE slice now, so the manual path can edit real markdown.
       const entry = this._findAnyBlock(blockId);
       let base = (entry?.body || '').replace(/⟦\/?rx⟧/g, '');
-      let span = quote ? this._locateQuote(base, quote) : [0, base.length];
-      if (!span) span = [0, base.length];                     // fallback: whole section
-      while (span[0] > 0 && /[*_`~]/.test(base[span[0] - 1])) span[0]--;
-      while (span[1] < base.length && /[*_`~]/.test(base[span[1]])) span[1]++;
+      const insert = !!opts.insert;
+      let span;
+      if (insert) {
+        // collapsed span = insertion point, right after the marked paragraph
+        const at = opts.anchorText ? this._locateQuote(base, opts.anchorText) : null;
+        const pos = at ? at[1] : base.length;
+        span = [pos, pos];
+      } else {
+        span = quote ? this._locateQuote(base, quote) : [0, base.length];
+        if (!span) span = [0, base.length];                   // fallback: whole section
+        while (span[0] > 0 && /[*_`~]/.test(base[span[0] - 1])) span[0]--;
+        while (span[1] < base.length && /[*_`~]/.test(base[span[1]])) span[1]++;
+      }
       if (!this._improveCtx) this._improveCtx = {};
-      this._improveCtx[blockId] = { base, span };
-      this._remixQuote = quote || base.slice(span[0], span[1]);
-      const slice = base.slice(span[0], span[1]);
-      const scopeLabel = quote ? 'this part' : 'this section';
+      this._improveCtx[blockId] = { base, span, insert, anchorText: opts.anchorText || '' };
+      this._remixQuote = insert ? '' : (quote || base.slice(span[0], span[1]));
+      const slice = insert ? '' : base.slice(span[0], span[1]);
+      const scopeLabel = quote ? 'this passage' : 'this section';
+      const whereHint = insert
+        ? (opts.anchorText
+            ? `<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes here: right after “${this.escHtml(opts.anchorText.slice(0, 70))}${opts.anchorText.length > 70 ? '…' : ''}”</div>`
+            : '<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes at the end of this section.</div>')
+        : '';
       box.innerHTML = `
-        <b>✏️ Improve ${scopeLabel}</b>
-        <div style="font-size:.68rem;color:var(--text-3);margin:.2em 0 .1em">Edit the text directly…</div>
-        <textarea id="edit-src-${blockId}" rows="${Math.min(12, Math.max(3, slice.split('\n').length + 1))}"
+        <b>${insert ? '➕ Add here' : `✏️ Improve ${scopeLabel}`}</b>
+        ${whereHint}
+        <div style="font-size:.68rem;color:var(--text-3);margin:.2em 0 .1em">${insert ? 'Write your own text…' : 'Edit the text directly…'}</div>
+        <textarea id="edit-src-${blockId}" rows="${insert ? 3 : Math.min(12, Math.max(3, slice.split('\n').length + 1))}"
+          ${insert ? 'placeholder="The text that will appear at this spot…"' : ''}
           style="width:100%;padding:.45em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.76rem;font-family:ui-monospace,monospace;line-height:1.45">${this.escHtml(slice)}</textarea>
-        ${canGen ? `<div style="font-size:.68rem;color:var(--text-3);margin:.3em 0 .1em">…or describe the change and let AI write it:</div>
-        <textarea id="remix-prompt-${blockId}" rows="2" placeholder="e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'"
+        ${canGen ? `<div style="font-size:.68rem;color:var(--text-3);margin:.3em 0 .1em">…or describe ${insert ? 'what to add' : 'the change'} and let AI write it:</div>
+        <textarea id="remix-prompt-${blockId}" rows="2" placeholder="${insert ? `e.g. 'draw a diagram of the ranking pipeline and explain it', 'add a worked example'` : `e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'`}"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>` : ''}
         <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
         <div class="note-actions">
-          <button class="note-save" onclick="app.submitManualEdit('${blockId}')">💾 Save my edit</button>
-          ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">✨ AI rewrite</button>` : ''}
+          <button class="note-save" onclick="app.submitManualEdit('${blockId}')">${insert ? '💾 Insert my text' : '💾 Save my edit'}</button>
+          ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">${insert ? '✨ Let AI write it' : '✨ AI rewrite'}</button>` : ''}
           <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
         </div>
         <div id="remix-status-${blockId}"></div>`;
@@ -5840,9 +5863,17 @@ class PBook {
     if (edited == null || !ctx || !entry) return;
     const { base, span } = ctx;
     const original = base.slice(span[0], span[1]);
-    if (edited.trim() === original.trim()) { this.showXPToast('No change made yet — edit the text first', 'xp'); return; }
-    const { marked, oldMid, newMid } = this._markDiff(original, edited);
-    const newBody = base.slice(0, span[0]) + marked + base.slice(span[1]);
+    let marked, oldMid, newMid, newBody;
+    if (ctx.insert) {
+      if (!edited.trim()) { this.showXPToast('Write the text to insert', 'xp'); return; }
+      marked = `⟦rx⟧${edited.trim()}⟦/rx⟧`;
+      oldMid = ''; newMid = edited.trim();
+      newBody = this._spliceIn(base, span[0], marked);
+    } else {
+      if (edited.trim() === original.trim()) { this.showXPToast('No change made yet — edit the text first', 'xp'); return; }
+      ({ marked, oldMid, newMid } = this._markDiff(original, edited));
+      newBody = base.slice(0, span[0]) + marked + base.slice(span[1]);
+    }
     const src = entry.meta;
     const rootId = src.remixOf || src.id;
     const isReRemix = !!src.remixOf;
@@ -5862,6 +5893,14 @@ class PBook {
     this.rc.logEvent('manual_edit', { blockId, remixId: id });
     document.getElementById(`b-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     this._showRemixDecision(isReRemix ? rootId : blockId, id, oldMid || original, newMid || edited);
+  }
+
+  // Insert a passage at a source offset, keeping markdown paragraph separation
+  // (exactly one blank line on each side, never inside a word).
+  _spliceIn(base, pos, text) {
+    const before = base.slice(0, pos).replace(/\s+$/, '');
+    const after = base.slice(pos).replace(/^\s+/, '');
+    return [before, text.trim(), after].filter(Boolean).join('\n\n');
   }
 
   // Selection comes from the RENDERED text; the source is markdown. Locate the
@@ -5887,32 +5926,50 @@ class PBook {
 
   async submitRemix(blockId) {
     const instruction = document.getElementById(`remix-prompt-${blockId}`)?.value?.trim();
+    const ctx = this._improveCtx?.[blockId];
+    const isInsert = !!ctx?.insert;
     const quote = this._remixQuote;
-    if (!instruction || instruction.length < 3 || !quote) return;
+    if (!instruction || instruction.length < 3 || (!quote && !isInsert)) return;
     const entry = this._findAnyBlock(blockId);
     if (!entry) return;
     const status = document.getElementById(`remix-status-${blockId}`);
-    if (status) status.innerHTML = '<span class="gen-spinner">✨ Rewriting that part… (~20 s)</span>';
-    this.rc.logEvent('remix_request', { blockId, concept: this._conceptIds(entry.meta)[0], instruction: instruction.slice(0, 200) });
+    if (status) status.innerHTML = `<span class="gen-spinner">✨ ${isInsert ? 'Writing the new passage' : 'Rewriting that part'}… (~20 s)</span>`;
+    this.rc.logEvent('remix_request', { blockId, concept: this._conceptIds(entry.meta)[0], mode: isInsert ? 'insert' : 'remix', instruction: instruction.slice(0, 200) });
 
     try {
-      // locate FIRST — and rewrite the exact SOURCE slice (markdown-accurate)
-      let base = entry.body || '';
-      let span = this._locateQuote(base, quote);
+      // The form already resolved base+span against the exact text the reader
+      // saw; trust it, and only re-locate when that context is missing.
+      let base = ctx?.base ?? (entry.body || '');
+      let span = ctx?.span;
       if (!span) {
-        base = base.replace(/⟦\/?rx⟧/g, '');               // selection may overlap an older mark
         span = this._locateQuote(base, quote);
+        if (!span) {
+          base = base.replace(/⟦\/?rx⟧/g, '');             // selection may overlap an older mark
+          span = this._locateQuote(base, quote);
+        }
+        // Still nothing to rewrite? Then the reader marked a spot, not a passage —
+        // add the new text there instead of failing.
+        if (!span) span = [base.length, base.length];
       }
-      if (!span) throw new Error('could not locate the selected passage in the source — try selecting a slightly longer stretch');
-      // snap span edges over markdown punctuation so we never cut **bold** in half
-      while (span[0] > 0 && /[*_`~]/.test(base[span[0] - 1])) span[0]--;
-      while (span[1] < base.length && /[*_`~]/.test(base[span[1]])) span[1]++;
+      if (!isInsert) {
+        // snap span edges over markdown punctuation so we never cut **bold** in half
+        while (span[0] > 0 && /[*_`~]/.test(base[span[0] - 1])) span[0]--;
+        while (span[1] < base.length && /[*_`~]/.test(base[span[1]])) span[1]++;
+      }
       const sourceQuote = base.slice(span[0], span[1]);
+      const insertHere = isInsert || !sourceQuote.trim();
 
       const res = await fetch(CONFIG.steering.generateEndpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        body: JSON.stringify(insertHere ? {
+          mode: 'insert',
+          concept: entry.meta.concept || null,
+          facets: this._blockFacets(entry.meta) || {},
+          anchor: (ctx?.anchorText || base.slice(Math.max(0, span[0] - 400), span[0])).slice(-1200),
+          instruction: instruction.slice(0, 500),
+          context: base.slice(0, 6000),
+        } : {
           mode: 'remix',
           concept: entry.meta.concept || null,
           facets: this._blockFacets(entry.meta) || {},
@@ -5922,14 +5979,16 @@ class PBook {
         }),
       });
       const data = await res.json();
-      if (!res.ok || !data.ok) throw new Error(data.error || 'remix failed');
-      const replacement = data.replacement;
+      if (!res.ok || !data.ok) throw new Error(data.error || (insertHere ? 'insert failed' : 'remix failed'));
+      const replacement = insertHere ? data.addition : data.replacement;
       const attachedSvg = data.svg || null;   // reader asked for a diagram → server drew one
 
       // mark each paragraph separately — a single mark spanning \n\n breaks when
       // markdown closes the <p> inside it (only the first fragment stayed highlighted)
       const marked = replacement.split(/\n{2,}/).map(seg => seg.trim() ? `⟦rx⟧${seg}⟦/rx⟧` : seg).join('\n\n');
-      const newBody = base.slice(0, span[0]) + marked + base.slice(span[1]);
+      const newBody = insertHere
+        ? this._spliceIn(base, span[0], marked)
+        : base.slice(0, span[0]) + marked + base.slice(span[1]);
 
       const src = entry.meta;
       const rootId = src.remixOf || src.id;
@@ -7069,9 +7128,16 @@ function _showHighlightPopup() {
   const popup = document.getElementById('highlightPopup');
   if (!popup) return;
   const sel = window.getSelection();
-  if (!sel || sel.isCollapsed || !sel.toString().trim()) { popup.style.display = 'none'; return; }
+  if (!sel || sel.isCollapsed || !sel.toString()) { popup.style.display = 'none'; return; }
   const anchor = sel.anchorNode?.parentElement?.closest('.spine-body, .d-content, .sb-block');
   if (!anchor) { popup.style.display = 'none'; return; }
+  // Marking a gap (or a couple of characters) is a request to ADD something
+  // there — highlighting and notes need real text, so offer only the ✎ action.
+  const tiny = sel.toString().trim().length < 10;
+  const btns = popup.querySelectorAll('button');
+  btns.forEach((b, i) => { b.style.display = (tiny && i < btns.length - 1) ? 'none' : ''; });
+  const last = btns[btns.length - 1];
+  if (last) last.title = tiny ? 'Add new text or a diagram here' : 'Improve this part — edit it yourself or let AI rewrite it';
   const range = sel.getRangeAt(0);
   const rect = range.getBoundingClientRect();
   popup.style.display = 'flex';
