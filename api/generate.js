@@ -573,6 +573,50 @@ Draft the proposals now.`;
       return res.status(200).json({ ok: true, proposals, model: MODEL });
     }
 
+    // --- GAMES-REVIEW MODE: a locked game-designer pass over the book's mini-games.
+    // Input: engine mechanics spec + current games + concept list. Output: verdict
+    // and fixed JSON per game, plus at most two well-founded new game proposals.
+    if (mode === 'games-review') {
+      const games = Array.isArray(req.body.games) ? req.body.games.slice(0, 12) : [];
+      const engineSpec = String(req.body.engineSpec || '').slice(0, 6000);
+      const conceptsList = String(req.body.concepts || '').slice(0, 6000);
+      if (!games.length || !engineSpec) return res.status(400).json({ ok: false, error: 'games and engineSpec required' });
+      const GAMES_SCHEMA = {
+        type: 'object',
+        properties: {
+          reviews: { type: 'array', items: { type: 'object', properties: {
+            file: { type: 'string' },
+            verdict: { type: 'string', enum: ['keep', 'fix', 'replace'] },
+            problems: { type: 'array', items: { type: 'string' } },
+            fixedJson: { type: 'string' }
+          }, required: ['file', 'verdict', 'problems', 'fixedJson'], additionalProperties: false } },
+          newGames: { type: 'array', items: { type: 'object', properties: {
+            file: { type: 'string' },
+            whyThisGame: { type: 'string' },
+            json: { type: 'string' },
+            blockTitle: { type: 'string' },
+            teaser: { type: 'string' },
+            concept: { type: 'string' }
+          }, required: ['file', 'whyThisGame', 'json', 'blockTitle', 'teaser', 'concept'], additionalProperties: false } }
+        },
+        required: ['reviews', 'newGames'],
+        additionalProperties: false
+      };
+      const system = `You are a game designer for a Czech school book about how the internet works (pupils 11-15, Czech language). You review data-driven mini-games against the ENGINE SPEC below. A game is good only if: the mechanic fits the content (classification->sort, sequence->order, term-definition->pairs), every answer is factually correct and unambiguous, texts are short enough for buttons, Czech is natural (tykání), and a pupil learns something by playing. Reply with JSON per the schema: for each game a verdict (keep/fix/replace) with concrete problems and the COMPLETE corrected JSON in fixedJson (even for keep — then identical). Propose at most 2 newGames, only if a listed concept has no game and one of the mechanics genuinely fits it; json must be complete and valid for the engine.
+
+ENGINE SPEC:
+${engineSpec}`;
+      const user = `CURRENT GAMES:
+${games.map(g => `--- ${g.file} ---\n${String(g.json).slice(0, 3000)}`).join('\n')}
+
+BOOK CONCEPTS (id: title — recall question):
+${conceptsList}
+
+Review all games now. Czech output inside JSON strings.`;
+      let out = await callLLM(system, user, GAMES_SCHEMA, 20000, STRONG_MODEL);
+      return res.status(200).json({ ok: true, result: out, model: STRONG_MODEL });
+    }
+
     // --- INSERT MODE: write a NEW passage for a spot the reader marked ---
     if (mode === 'insert') {
       if (!instruction || typeof instruction !== 'string' || instruction.trim().length < 3) {
