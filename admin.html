@@ -633,29 +633,60 @@ async function renderCommunity(m){
 async function renderProposals(m){
   m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading proposals + interest…</div>';
   await _loadCoverageData();
+  // Server state: live proposals + interest stats (event-sourced in Supabase).
+  let srv={proposals:[],deleted:[],stats:{}};
+  try{const r=await fetch('/api/proposals?stats=1');if(r.ok){const d=await r.json();if(d&&d.ok)srv=Object.assign(srv,d);}}catch(_){}
+  let fileProps=[];
+  try{fileProps=(await (await fetch('content/concept-proposals.json')).json()).proposals||[];}catch(_){}
+  // merge: git file = shipped layer; server wins on slug; server deletes hide git entries
+  const bySlug=new Map();
+  fileProps.forEach(p=>bySlug.set(p.slug,{...p,origin:'git'}));
+  srv.proposals.forEach(p=>bySlug.set(p.slug,{...p,origin:bySlug.has(p.slug)?'git+live':'live'}));
+  (srv.deleted||[]).forEach(sl=>bySlug.delete(sl));
+  const props=[...bySlug.values()];
+  window._propsMerged=props;window._propsStats=srv.stats||{};
+
   const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">🌱 Proposals — interest-tested before anyone writes</h2>';
-  h+='<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">New-concept proposals are shown to readers as labeled ghost cards; their votes measure demand BEFORE writing effort. Below: current proposals with measured interest, then the AI drafting tool (mines Demand signals; you approve and place).</p>';
-  let _props=[];
-  try{_props=(await (await fetch('content/concept-proposals.json')).json()).proposals||[];}catch(_){}
-  const gStat={};
-  _logRows.forEach(r=>{
-    const ev=r.event||r.data?.event;const d=r.data?.data||r.data||{};
-    if(!d.slug)return;const s=(gStat[d.slug]=gStat[d.slug]||{want:new Set(),skip:new Set(),seen:new Set()});
-    const u=r.userId||r.data?.userId||'?';
-    if(ev==='ghost_want')s.want.add(u);else if(ev==='ghost_skip')s.skip.add(u);else if(ev==='ghost_view')s.seen.add(u);
-  });
   const WRITE_K=5;
-  h+=_props.length?_props.map(p=>{
-    const s=gStat[p.slug]||{want:new Set(),skip:new Set(),seen:new Set()};
-    const ready=s.want.size>=WRITE_K;
-    return `<div style="border:1.5px solid ${ready?'#10B981':'#0EA5E9'};border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
-      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter)}</span>
-      ${ready?'<span style="background:#10B981;color:#fff;font-size:.6rem;font-weight:800;padding:.1em .45em;border-radius:999px;margin-left:.4em">READY TO WRITE</span>':''}
-      <div style="margin:.2em 0;font-size:.7rem">${esc(p.objective)}</div>
-      <div style="font-size:.68rem;color:var(--text3)">interest: <b style="color:#10B981">${s.want.size} want</b> · ${s.skip.size} skip · ${s.seen.size} seen — threshold ${WRITE_K} distinct readers</div>
-    </div>`;}).join(''):'<p style="font-size:.72rem;color:var(--text3)">No proposals file yet — draft below, then commit to content/concept-proposals.json to start interest testing.</p>';
-  // Vlastní návrh editora: popis + kapitola (nebo nová) → AI dotáhne kontrakt + metadata
+  const statLine=p=>{
+    const st=window._propsStats[p.slug]||{seen:0,want:0,skip:0,voters:{}};
+    const rate=st.seen?Math.round(100*st.want/st.seen):0;
+    const aud=Object.entries(st.voters||{}).filter(([k])=>k.startsWith('want:')).sort((a,b)=>b[1]-a[1]).slice(0,3)
+      .map(([k,n])=>`${k.slice(5)} (${n})`).join(' · ');
+    return `<div style="font-size:.68rem;color:var(--text3)">interest: 👁 ${st.seen} seen · <b style="color:#10B981">👍 ${st.want} want</b> · 👎 ${st.skip} skip · want-rate <b>${rate}%</b> — threshold ${WRITE_K} readers</div>`+
+      (aud?`<div style="font-size:.66rem;color:var(--text3)">who wants it: ${esc(aud)}</div>`:'');
+  };
+  const cardHtml=p=>{
+    const st=window._propsStats[p.slug]||{want:0};
+    const ready=st.want>=WRITE_K;
+    return `<div id="prop-${esc(p.slug)}" style="border:1.5px solid ${ready?'#10B981':'#0EA5E9'};border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
+      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter||'?')}</span>
+      <span style="font-size:.6rem;border:1px solid var(--border);border-radius:4px;padding:0 .3em;color:var(--text3)">${p.origin||'live'}</span>
+      ${ready?'<span style="background:#10B981;color:#fff;font-size:.6rem;font-weight:800;padding:.1em .45em;border-radius:999px;margin-left:.3em">READY TO WRITE</span>':''}
+      <div style="margin:.2em 0;font-size:.7rem">${esc(p.objective||'')}</div>
+      ${p.recallQ?`<div style="font-size:.66rem;color:var(--text3)">recall: ${esc(p.recallQ)}</div>`:''}
+      ${statLine(p)}
+      <div style="margin-top:.35em;display:flex;gap:.4em;flex-wrap:wrap">
+        <button onclick="propEdit('${esc(p.slug)}')" style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid var(--border)">✏️ Edit</button>
+        <button onclick="propDelete('${esc(p.slug)}')" style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid #EF4444;color:#EF4444">🗑 Delete</button>
+        ${st.want>0?`<button onclick="tailoredDraft('${esc(p.slug)}')" style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">🎯 Draft for this audience</button>`:''}
+        <button onclick='downloadProposal(JSON.stringify(window._propsMerged.find(x=>x.slug===${JSON.stringify(p.slug)})))' style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid var(--border)">⬇ .md</button>
+      </div>
+      <div id="propEdit-${esc(p.slug)}"></div><div id="propTail-${esc(p.slug)}"></div>
+    </div>`;
+  };
+
+  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">🌱 Proposals — interest-tested before anyone writes</h2>';
+  h+='<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Proposals are shown to readers as labeled ghost cards; votes measure demand BEFORE writing effort. Saving here goes <b>live for readers immediately</b> (server-persisted); the git file content/concept-proposals.json remains the shipped snapshot you can export below.</p>';
+  h+=props.length?props.map(cardHtml).join(''):'<p style="font-size:.72rem;color:var(--text3)">No proposals yet — add your own below, or draft from demand signals.</p>';
+
+  // Demand signals — visible, the exact digest the AI mining receives
+  const sig=collectDemandSignals();
+  h+=`<details style="margin-top:1em"><summary style="cursor:pointer;font-size:.8rem;font-weight:700">🔍 Demand signals — what the AI mining sees (${sig.length})</summary>
+    <div style="font-size:.68rem;color:var(--text3);margin:.3em 0">Streams: WISH = reader typed a learning wish (onboarding/mission box) · MISS = steering asked for a telling that does not exist · FLAG = reported issue. Live from /api/log + this device's flags.</div>
+    ${sig.length?`<pre style="font-size:.66rem;background:var(--bg2,#f6f6f4);border:1px solid var(--border);border-radius:8px;padding:.5em .7em;white-space:pre-wrap;max-height:16em;overflow:auto">${esc(sig.join('\n'))}</pre>`:'<p style="font-size:.7rem;color:var(--text3)">No signals yet. They appear when readers type wishes, hit steering misses, or flag content.</p>'}
+  </details>`;
+
   h+=`<h3 style="font-size:.85rem;font-weight:700;margin:1.2em 0 .3em">✍️ Your own proposal</h3>
     <div style="border:1.5px solid var(--border);border-radius:8px;padding:.6em .7em;font-size:.74rem">
       <textarea id="epDesc" rows="2" style="width:100%;font-size:.74rem;padding:.35em;border:1px solid var(--border);border-radius:6px" placeholder="Describe the concept in your own words — what should the reader understand after it? (AI completes the contract: objective, mustCover, recallQ/A)"></textarea>
@@ -672,9 +703,106 @@ async function renderProposals(m){
     </div>`;
 
   h+=`<div style="margin-top:.8em"><button onclick="draftConceptProposals()" id="propBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ Draft proposals from demand signals</button>
-  <span style="font-size:.66rem;color:var(--text3)"> — mines wishes + honest misses + flags from 📥 Demand; drafts contracts for YOUR approval (nothing is created automatically)</span></div>
-  <div id="conceptProposals"></div>`;
+  <span style="font-size:.66rem;color:var(--text3)"> — mines the signals above; you review, then 💾 save to go live (nothing is created automatically)</span></div>
+  <div id="conceptProposals"></div>
+  <div style="margin-top:.6em"><button onclick="exportMergedProposalsJson()" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ Export merged concept-proposals.json (git snapshot)</button></div>`;
   m.innerHTML=h;
+}
+
+// Shared demand-signal extractor: one source of truth for the visible panel
+// AND the AI mining (they must never diverge).
+function collectDemandSignals(){
+  const lines=[];
+  (_logRows||[]).forEach(r=>{
+    const ev=r.event||r.data?.event;const d=r.data?.data||r.data||{};
+    if(ev==='concept_wish'&&d.text)lines.push(`WISH: ${d.text}`);
+    if(ev==='steer_miss')lines.push(`MISS: concept=${d.concept||'?'} wanted ${d.dim||d.action||'?'}=${d.value||'?'}${d.wish?` note="${d.wish}"`:''}`);
+    if(ev==='flag'&&d.text)lines.push(`FLAG(${d.type||'issue'}): ${d.text}`);
+  });
+  try{JSON.parse(localStorage.getItem('pbook-flags')||'[]').forEach(f=>{if(f.type==='concept-wish')lines.push(`WISH: ${f.text}`);});}catch(_){}
+  return [...new Set(lines)].slice(-80);
+}
+
+// Persist a proposal (goes live to readers immediately) and re-render.
+window.propSave=async function(p){
+  const r=await fetch('/api/proposals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save',proposal:p})});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok||!d.ok){alert('Save failed: '+(d.error||r.status));return false;}
+  return true;
+};
+window.propDelete=async function(slug){
+  if(!confirm('Delete proposal "'+slug+'"? Readers stop seeing its ghost card.'))return;
+  const r=await fetch('/api/proposals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete',slug})});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok||!d.ok){alert('Delete failed: '+(d.error||r.status));return;}
+  renderProposals(document.getElementById('main'));
+};
+window.propEdit=function(slug){
+  const p=(window._propsMerged||[]).find(x=>x.slug===slug);if(!p)return;
+  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  const el=document.getElementById('propEdit-'+slug);
+  el.innerHTML=`<div style="border-top:1px dashed var(--border);margin-top:.4em;padding-top:.4em">
+    <input id="pe-title-${slug}" value="${esc(p.title)}" style="width:100%;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="title">
+    <input id="pe-chapter-${slug}" value="${esc(p.chapter||'')}" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="chapter (chNN-slug)">
+    <textarea id="pe-objective-${slug}" rows="2" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="objective">${esc(p.objective||'')}</textarea>
+    <input id="pe-recallQ-${slug}" value="${esc(p.recallQ||'')}" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="recallQ">
+    <input id="pe-recallA-${slug}" value="${esc(p.recallA||'')}" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="recallA">
+    <textarea id="pe-mc-${slug}" rows="2" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="mustCover — one per line">${esc((p.mustCover||[]).join('\n'))}</textarea>
+    <button onclick="propEditSave('${esc(slug)}')" style="margin-top:.3em;font-size:.68rem;font-weight:700;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">💾 Save (goes live)</button>
+    <button onclick="document.getElementById('propEdit-${esc(slug)}').innerHTML=''" style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--border)">Cancel</button>
+  </div>`;
+};
+window.propEditSave=async function(slug){
+  const g=id=>document.getElementById('pe-'+id+'-'+slug)?.value||'';
+  const p=(window._propsMerged||[]).find(x=>x.slug===slug)||{slug};
+  const upd={...p,slug,title:g('title'),chapter:g('chapter'),objective:g('objective'),recallQ:g('recallQ'),recallA:g('recallA'),
+    mustCover:g('mc').split('\n').map(x=>x.trim()).filter(Boolean),source:p.source||'admin-edit'};
+  if(await propSave(upd))renderProposals(document.getElementById('main'));
+};
+
+// Audience-tailored draft: feed the proposal contract + its voters' facet
+// profile back to the AI, get a version aimed at the people who asked for it.
+window.tailoredDraft=async function(slug){
+  const p=(window._propsMerged||[]).find(x=>x.slug===slug);if(!p)return;
+  const st=(window._propsStats||{})[slug]||{voters:{}};
+  const aud=Object.entries(st.voters||{}).filter(([k])=>k.startsWith('want:')).sort((a,b)=>b[1]-a[1]).slice(0,5)
+    .map(([k,n])=>`${k.slice(5)} ×${n}`).join(', ')||'unknown';
+  const el=document.getElementById('propTail-'+slug);
+  el.innerHTML='<div style="font-size:.7rem;color:var(--text3);margin-top:.3em">🎯 Drafting for audience… (~25 s)</div>';
+  try{
+    const signals=`EDITOR PROPOSAL (authoritative seed — keep slug ${p.slug} and intent, refine the contract):\n${p.title}: ${p.objective}\nAUDIENCE (facet preferences of readers who voted WANT — tailor examples, depth and framing to them): ${aud}\nTARGET CHAPTER: ${p.chapter||'?'}`;
+    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:'propose-concepts',signals,count:1,existing:_concepts.map(c=>({id:c.id,title:c.title})),chapters:[...new Set(_concepts.map(c=>c.chapter))]})});
+    const data=await res.json();
+    if(!data.ok||!data.proposals?.length)throw new Error(data.error||'draft failed');
+    const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const q=data.proposals[0];q.slug=p.slug;q.source='audience-tailored';
+    el.innerHTML=`<div style="border:1.5px dashed var(--accent);border-radius:8px;padding:.45em .6em;margin-top:.35em;font-size:.72rem">
+      <b>🎯 ${esc(q.title)}</b> <span style="font-size:.62rem;color:var(--text3)">audience: ${esc(aud)}</span>
+      <div style="margin:.2em 0">${esc(q.objective||'')}</div>
+      <div style="font-size:.66rem;color:var(--text3)">must cover: ${(q.mustCover||[]).map(esc).join(' · ')}</div>
+      <button onclick='propSave(${JSON.stringify(JSON.stringify(q)).replace(/'/g,"&#39;")}) && renderProposals(document.getElementById("main"))' style="margin-top:.25em;font-size:.66rem;font-weight:700;padding:.2em .5em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">💾 Replace live version</button>
+      <button onclick='downloadProposal(${JSON.stringify(JSON.stringify(q)).replace(/'/g,"&#39;")})' style="margin-top:.25em;font-size:.66rem;padding:.2em .5em;border-radius:6px;border:1.5px solid var(--border)">⬇ Anchor draft .md</button>
+    </div>`;
+  }catch(e){el.innerHTML='<div style="font-size:.7rem;color:#EF4444">Tailored draft error: '+e.message+'</div>';}
+};
+
+// Shared renderer for freshly AI-drafted proposals (editor-seeded or mined):
+// primary action is SAVE (goes live); downloads are the git-export path.
+function draftedCardsHtml(proposals,tag){
+  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  return proposals.map(p=>{
+    const pj=JSON.stringify(JSON.stringify(p)).replace(/'/g,"&#39;");
+    return `<div style="border:1.5px solid var(--accent);border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
+      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter||'?')}</span>${tag?` <span style="font-size:.6rem;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 .3em">${tag}</span>`:''}
+      <div style="margin:.25em 0">${esc(p.objective||'')}</div>
+      <div style="font-size:.68rem;color:var(--text3)">must cover: ${(p.mustCover||[]).map(esc).join(' · ')}</div>
+      <div style="font-size:.68rem;color:var(--text3)">recall: ${esc(p.recallQ||'')}</div>
+      ${p.rationale?`<div style="font-size:.68rem;font-style:italic;color:var(--text3)">why: ${esc(p.rationale)}</div>`:''}
+      <button onclick='propSave(${pj}).then(ok=>ok&&renderProposals(document.getElementById("main")))' style="margin-top:.3em;font-size:.68rem;font-weight:700;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">💾 Save & go live</button>
+      <button onclick='downloadProposal(${pj})' style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--border)">⬇ Anchor draft .md</button>
+    </div>`;
+  }).join('');
 }
 
 // Editor-seeded proposal: description is authoritative, AI completes the contract
@@ -694,19 +822,8 @@ window.editorPropose=async function(){
     const data=await res.json();
     if(!data.ok)throw new Error(data.error||'completion failed');
     window._draftedProposals=(window._draftedProposals||[]).concat(data.proposals);
-    const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
     const el=document.getElementById('conceptProposals');
-    el.innerHTML=(el.innerHTML||'')+data.proposals.map(p=>`<div style="border:1.5px solid var(--accent);border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
-      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter)}</span> <span style="font-size:.6rem;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 .3em">editor-seeded</span>
-      <div style="margin:.25em 0">${esc(p.objective)}</div>
-      <div style="font-size:.68rem;color:var(--text3)">must cover: ${p.mustCover.map(esc).join(' · ')}</div>
-      <div style="font-size:.68rem;color:var(--text3)">recall: ${esc(p.recallQ)}</div>
-      <button onclick='downloadProposal(${JSON.stringify('${JSON_PLACEHOLDER}')})' data-p='' style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">⬇ Anchor draft .md</button>
-      <button onclick="downloadProposalsJson()" style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ concept-proposals.json</button>
-    </div>`).join('');
-    // napojit korektně payload na tlačítko (bez šablonových kliček)
-    const btns=el.querySelectorAll("button[data-p='']");
-    btns.forEach((bt,i)=>{const p=data.proposals[i];bt.removeAttribute('data-p');bt.onclick=()=>downloadProposal(JSON.stringify(p));});
+    el.innerHTML=(el.innerHTML||'')+draftedCardsHtml(data.proposals,'editor-seeded');
     document.getElementById('epDesc').value='';
   }catch(e){alert('Editor proposal error: '+e.message);}
   btn.disabled=false;btn.textContent='✨ Complete with AI';
@@ -716,39 +833,24 @@ window.editorPropose=async function(){
 window.draftConceptProposals=async function(){
   const btn=document.getElementById('propBtn');btn.disabled=true;btn.textContent='Drafting… (~30 s)';
   try{
-    // evidence digest: concept wishes + steer_miss + flag texts
-    const lines=[];
-    _logRows.forEach(r=>{
-      const ev=r.event||r.data?.event;const d=r.data?.data||r.data||{};
-      if(ev==='concept_wish'&&d.text)lines.push(`WISH: ${d.text}`);
-      if(ev==='steer_miss')lines.push(`MISS: concept=${d.concept||'?'} wanted ${d.dim||d.action||'?'}=${d.value||'?'}${d.wish?` note="${d.wish}"`:''}`);
-      if(ev==='flag'&&d.text)lines.push(`FLAG(${d.type||'issue'}): ${d.text}`);
-    });
-    try{JSON.parse(localStorage.getItem('pbook-flags')||'[]').forEach(f=>{if(f.type==='concept-wish')lines.push(`WISH: ${f.text}`);});}catch(_){}
-    if(!lines.length){alert('No demand signals yet (wishes, misses, flags).');btn.disabled=false;btn.textContent='✨ Draft proposals from demand signals';return;}
-    const signals=[...new Set(lines)].slice(-80).join('\n');
+    const lines=collectDemandSignals();
+    if(!lines.length){alert('No demand signals yet (wishes, misses, flags) — see the 🔍 panel above for what counts.');btn.disabled=false;btn.textContent='✨ Draft proposals from demand signals';return;}
+    const signals=lines.join('\n');
     const chapters=[...new Set(_concepts.map(c=>c.chapter))];
     const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({mode:'propose-concepts',signals,existing:_concepts.map(c=>({id:c.id,title:c.title})),chapters})});
     const data=await res.json();
     if(!data.ok)throw new Error(data.error||'drafting failed');
     window._draftedProposals=data.proposals;
-    const el=document.getElementById('conceptProposals');
-    el.innerHTML=`<div style="margin:.4em 0"><button onclick="downloadProposalsJson()" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ concept-proposals.json (commit to start interest testing)</button></div>`+data.proposals.map((p,i)=>`<div style="border:1.5px solid var(--accent);border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
-      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter)}</span>
-      <div style="margin:.25em 0">${esc(p.objective)}</div>
-      <div style="font-size:.68rem;color:var(--text3)">must cover: ${p.mustCover.map(esc).join(' · ')}</div>
-      <div style="font-size:.68rem;color:var(--text3)">recall: ${esc(p.recallQ)}</div>
-      <div style="font-size:.68rem;font-style:italic;color:var(--text3)">why: ${esc(p.rationale)}</div>
-      <button onclick='downloadProposal(${JSON.stringify(JSON.stringify(p))})' style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">⬇ Anchor draft .md</button>
-    </div>`).join('');
+    document.getElementById('conceptProposals').innerHTML=draftedCardsHtml(data.proposals,'from demand');
   }catch(e){alert('Proposal drafting error: '+e.message);}
   btn.disabled=false;btn.textContent='✨ Draft proposals from demand signals';
 };
 
-window.downloadProposalsJson=function(){
-  const ps=(window._draftedProposals||[]).map(p=>({...p,source:'demand-signals',proposedAt:new Date().toISOString().slice(0,10)}));
-  const blob=new Blob([JSON.stringify({version:1,note:'Concept proposals under interest testing — see admin Coverage.',proposals:ps},null,2)],{type:'application/json'});
+// Export the MERGED current state (git + live) as the git snapshot file.
+window.exportMergedProposalsJson=function(){
+  const ps=(window._propsMerged||[]).map(({origin,savedAt,...p})=>p);
+  const blob=new Blob([JSON.stringify({version:1,note:'Concept proposals under interest testing — see admin Proposals.',proposals:ps},null,2)],{type:'application/json'});
   const aEl=document.createElement('a');aEl.href=URL.createObjectURL(blob);aEl.download='concept-proposals.json';aEl.click();
 };
 

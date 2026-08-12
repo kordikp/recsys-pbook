@@ -6832,7 +6832,37 @@ class PBook {
       const res = await fetch('content/concept-proposals.json');
       if (res.ok) this.proposals = (await res.json()).proposals || [];
     } catch (e) { /* optional file */ }
+    // Server-saved proposals (admin creates/edits them live; event-sourced in
+    // Supabase). Server state wins on slug collisions; a server-side delete
+    // hides a git-shipped proposal too.
+    try {
+      const r = await fetch('/api/proposals');
+      if (r.ok) {
+        const d = await r.json();
+        if (d && d.ok) {
+          const bySlug = new Map(this.proposals.map(p => [p.slug, p]));
+          (d.proposals || []).forEach(p => bySlug.set(p.slug, p));
+          (d.deleted || []).forEach(slug => bySlug.delete(slug));
+          this.proposals = [...bySlug.values()];
+        }
+      }
+    } catch (e) { /* offline → git file only */ }
   }
+  // Compact, anonymous reader profile for demand analytics: top facet
+  // preferences only — no names, no ids beyond the existing pseudonymous uid.
+  _audienceSnapshot() {
+    const top = obj => {
+      const e = Object.entries(obj || {}).sort((a, b) => (b[1] || 0) - (a[1] || 0));
+      return e.length && e[0][1] > 0 ? e[0][0] : undefined;
+    };
+    const fa = this.user.facetAffinity || {};
+    const out = {};
+    const lens = (this.user.steerPrefs || {}).lens || top(fa.lens); if (lens) out.lens = lens;
+    const depth = top(fa.depth); if (depth) out.depth = depth;
+    if (this.user.goal) out.goal = this.user.goal;
+    return out;
+  }
+
   _ghostVotes() {
     try { return JSON.parse(localStorage.getItem('pbook-ghost-votes') || '{}'); } catch (e) { return {}; }
   }
@@ -6861,7 +6891,7 @@ class PBook {
     const votes = this._ghostVotes();
     votes[slug] = v;
     localStorage.setItem('pbook-ghost-votes', JSON.stringify(votes));
-    this.rc.logEvent(v > 0 ? 'ghost_want' : 'ghost_skip', { slug });
+    this.rc.logEvent(v > 0 ? 'ghost_want' : 'ghost_skip', { slug, aud: this._audienceSnapshot() });
     if (v > 0 && this._f('gamification')) { this.user.addXP(2); this.user.save(); this.updateXPBadge(); }
     const el = document.getElementById(`ghost-${slug}-${ctx}`);
     if (el) {
