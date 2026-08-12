@@ -2364,6 +2364,7 @@ class PBook {
 
     // Launch by type
     if (game.type === 'sort') this._gameSort(area, game);
+    else if (game.type === 'pairs' || (game.type === 'match' && game.pairs)) this._gamePairs(area, game);
     else if (game.type === 'match') this._gameMatch(area, game);
     else if (game.type === 'pop') this._gamePop(area, game);
     else if (game.type === 'order') this._gameOrder(area, game);
@@ -2428,6 +2429,36 @@ class PBook {
         else { td.style.color = '#EF4444'; td.style.textDecoration = 'line-through'; }
       };
     });
+  }
+
+  // Pairs game: one definition at a time, pick the matching term from 4 choices.
+  // (A generic term↔definition mechanic — the old approach of abusing the sort
+  // game with 8-10 "buckets" produced an unusable wall of buttons.)
+  _gamePairs(area, game) {
+    const pairs = [...game.pairs].sort(() => Math.random() - 0.5);
+    let score = 0, idx = 0;
+    const show = () => {
+      if (idx >= pairs.length) { this._gameEnd(area, `Done! Correct: ${score}/${pairs.length}.`); return; }
+      const cur = pairs[idx++];
+      const wrong = game.pairs.map(x => x.a).filter(a => a !== cur.a).sort(() => Math.random() - 0.5).slice(0, 3);
+      const opts = [cur.a, ...wrong].sort(() => Math.random() - 0.5);
+      area.innerHTML = `<div class="game-signal-card">${cur.b}</div>
+        <div class="game-prompt" style="margin:.3em 0">${game.instruction || 'Which term is it?'}</div>
+        <div class="game-buckets game-pairs">${opts.map(o => `<button class="game-bucket">${o}</button>`).join('')}</div>
+        <div class="game-score">Correct: ${score}/${idx - 1}</div>`;
+      area.querySelectorAll('.game-bucket').forEach(btn => {
+        btn.onclick = () => {
+          area.querySelectorAll('.game-bucket').forEach(b => b.disabled = true);
+          if (btn.textContent === cur.a) { btn.classList.add('game-correct'); score++; }
+          else {
+            btn.classList.add('game-wrong');
+            area.querySelectorAll('.game-bucket').forEach(b => { if (b.textContent === cur.a) b.classList.add('game-correct'); });
+          }
+          setTimeout(show, 750);
+        };
+      });
+    };
+    show();
   }
 
   // Pop game: click items to collect/escape

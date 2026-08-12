@@ -1304,3 +1304,7 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .hist-title { font-size: .78rem; font-weight: 600; color: var(--text); }
 .hist-meta { font-size: .64rem; color: var(--text-3); }
 .hist-edit { font-size: .7rem; }
+
+/* Pairs game: 2x2 grid of term choices */
+.game-buckets.game-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: .5em; }
+.game-buckets.game-pairs .game-bucket { font-size: .82rem; padding: .55em .6em; }
