@@ -565,7 +565,7 @@ class PBook {
     const lensIcons = CONFIG.facets.lens.icons || {};
     const canSimpler = (block.depth || 'standard') !== 'intro';
     const canDeeper = (block.depth || 'standard') !== 'research';
-    return `<div class="steer-bar feedback-bar" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
+    return `<div class="steer-bar feedback-bar fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
       <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss">&times;</button>
       <span class="steer-label">How was this telling?</span>
       <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Great</button>
@@ -581,6 +581,12 @@ class PBook {
 
   // Feedback-bar lifecycle: arm a 25 s fade when it first becomes visible (called
   // from the dwell observer), pin on any interaction, dismiss on ✕.
+  _revealFeedbackBar(blockId) {
+    const bar = document.getElementById(`steer-${blockId}`);
+    if (!bar || !bar.classList.contains('fb-waiting')) return;
+    bar.classList.remove('fb-waiting');
+    this._armFeedbackBar(blockId);
+  }
   _armFeedbackBar(blockId) {
     const bar = document.getElementById(`steer-${blockId}`);
     if (!bar || !bar.classList.contains('feedback-bar') || bar.dataset.armed) return;
@@ -1853,8 +1859,11 @@ class PBook {
           this._dwellTimers[id] = setInterval(() => {
             const elapsed = Date.now() - startTime;
 
+            // The steering bar stays hidden while the reader reads — asking
+            // "how did this land" mid-read is invasive. It appears at the same
+            // dwell threshold that marks the section read (also on revisits).
+            if (elapsed >= readTimeMs) this._revealFeedbackBar(id);
             // After 3s: mark as "seen" + update sidebar context
-            if (elapsed >= 3000) this._armFeedbackBar(id);   // start the feedback bar's fade window
             if (elapsed >= 3000 && !this.user.seenBlocks.has(id)) {
               this.user.trackSeen(id);
               this.rc.sendView(id, Math.round(elapsed / 1000));

@@ -1308,3 +1308,9 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 /* Pairs game: 2x2 grid of term choices */
 .game-buckets.game-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: .5em; }
 .game-buckets.game-pairs .game-bucket { font-size: .82rem; padding: .55em .6em; }
+
+/* Steering bar waits until the section is read; then eases in */
+.steer-bar.feedback-bar.fb-waiting { display: none; }
+.steer-bar.feedback-bar { animation: fbEase .35s ease; }
+@keyframes fbEase { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .steer-bar.feedback-bar { animation: none; } }
