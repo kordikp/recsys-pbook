@@ -705,6 +705,9 @@ async function renderProposals(m){
   h+=`<div style="margin-top:.8em"><button onclick="draftConceptProposals()" id="propBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ Draft proposals from demand signals</button>
   <span style="font-size:.66rem;color:var(--text3)"> — mines the signals above; you review, then 💾 save to go live (nothing is created automatically)</span></div>
   <div id="conceptProposals"></div>
+  <div style="margin-top:.8em"><button onclick="mapAnalysis()" id="mapAnBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">🧭 AI map analysis — what the book is missing</button>
+  <span style="font-size:.66rem;color:var(--text3)"> — hard prerequisites between existing concepts + missing prerequisite/deep-dive concepts as saveable proposals (strong model)</span></div>
+  <div id="mapAnalysisOut"></div>
   <div style="margin-top:.6em"><button onclick="exportMergedProposalsJson()" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ Export merged concept-proposals.json (git snapshot)</button></div>`;
   m.innerHTML=h;
 }
@@ -785,6 +788,47 @@ window.tailoredDraft=async function(slug){
       <button onclick='downloadProposal(${JSON.stringify(JSON.stringify(q)).replace(/'/g,"&#39;")})' style="margin-top:.25em;font-size:.66rem;padding:.2em .5em;border-radius:6px;border:1.5px solid var(--border)">⬇ Anchor draft .md</button>
     </div>`;
   }catch(e){el.innerHTML='<div style="font-size:.7rem;color:#EF4444">Tailored draft error: '+e.message+'</div>';}
+};
+
+// Big-picture analysis: hard prereqs among existing concepts + missing concepts
+window.mapAnalysis=async function(){
+  const btn=document.getElementById('mapAnBtn');btn.disabled=true;btn.textContent='Analysing… (~40 s)';
+  const out=document.getElementById('mapAnalysisOut');
+  try{
+    const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const concepts=_concepts.map(c=>({id:c.id,title:c.title,objective:c.contract?.objective||''}));
+    const lang=/[ěščřžýáíéůúťď]/i.test(concepts.map(c=>c.objective).join(' '))?'cs':'en';
+    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:'map-analysis',concepts,proposals:(window._propsMerged||[]).map(p=>({slug:p.slug,title:p.title})),lang})});
+    const data=await res.json();
+    if(!data.ok||!data.analysis)throw new Error(data.error||'analysis failed');
+    const an=data.analysis;
+    let h='';
+    if(an.prereqs?.length){
+      h+='<h3 style="font-size:.8rem;font-weight:700;margin:.8em 0 .2em">Hard prerequisites (only where truly necessary)</h3>';
+      h+=an.prereqs.map(pq=>`<div style="font-size:.72rem;padding:.15em 0"><code>${esc(pq.concept)}</code> ← ${pq.needs.map(x=>`<code>${esc(x)}</code>`).join(' + ')} <span style="color:var(--text3)">— ${esc(pq.why)}</span></div>`).join('');
+      h+=`<button onclick='downloadMapWithPrereqs(${JSON.stringify(JSON.stringify(an.prereqs)).replace(/'/g,"&#39;")})' style="margin:.4em 0;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ concept-map.json with these prereqs (commit to enable reader nudges + feed ordering)</button>`;
+    } else h+='<p style="font-size:.72rem;color:var(--text3);margin:.6em 0 0">No hard prerequisites found — concepts stand alone. 👍</p>';
+    if(an.gaps?.length){
+      h+='<h3 style="font-size:.8rem;font-weight:700;margin:.8em 0 .2em">Missing concepts (save to start interest testing)</h3>';
+      const asProps=an.gaps.map(g=>({slug:g.slug,title:`${g.kind==='prerequisite'?'⬅':'➡'} ${g.title}`,
+        chapter:(_concepts.find(c=>c.id===g.relatedTo)||{}).chapter||'',objective:g.objective,
+        recallQ:g.recallQ,recallA:g.recallA,mustCover:g.mustCover||[],rationale:g.rationale,source:'map-analysis'}));
+      window._draftedProposals=(window._draftedProposals||[]).concat(asProps);
+      h+=draftedCardsHtml(asProps,'map-analysis');
+    }
+    out.innerHTML=h;
+  }catch(e){out.innerHTML='<div style="font-size:.72rem;color:#EF4444;margin-top:.4em">Map analysis error: '+e.message+'</div>';}
+  btn.disabled=false;btn.textContent='🧭 AI map analysis — what the book is missing';
+};
+window.downloadMapWithPrereqs=async function(pj){
+  const prereqs=JSON.parse(pj);
+  let cm={temata:[],nodes:[],edges:[]};
+  try{cm=await (await fetch('content/concept-map.json')).json();}catch(_){}
+  const bySlug={};cm.nodes.forEach(n=>bySlug[n.slug]=n);
+  prereqs.forEach(pq=>{if(bySlug[pq.concept])bySlug[pq.concept].prereq=pq.needs;});
+  const blob=new Blob([JSON.stringify(cm,null,1)],{type:'application/json'});
+  const aEl=document.createElement('a');aEl.href=URL.createObjectURL(blob);aEl.download='concept-map.json';aEl.click();
 };
 
 // Shared renderer for freshly AI-drafted proposals (editor-seeded or mined):

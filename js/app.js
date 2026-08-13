@@ -1703,7 +1703,7 @@ class PBook {
 
     // Render current chapter
     const html = await this._renderChapterContent(ch, idx);
-    pane.innerHTML = html;
+    pane.innerHTML = this._whereAmIStrip().replace('class="fade-up"', 'class="fade-up feed-map-strip"') + html;
     this._renderedChapter = idx;
     this._loadedChapters = new Set([idx]);
 
@@ -1825,8 +1825,13 @@ class PBook {
         (b.meta.type === 'spine' || (b.meta.type === 'game' && this._f('games'))) &&
         !shown.has(b.meta.id) && !blocks.find(x => x.meta.id === b.meta.id)
       );
-      // Sort: unread first, then by voice preference
+      // Sort: satisfiable first (unmet HARD prereqs push a block later — the
+      // feed should build the reader's picture in a sensible order), then
+      // unread first, then voice preference
       candidates.sort((a, b) => {
+        const aBlocked = a.meta.concept && this._unmetPrereqs(a.meta.concept).length ? 1 : 0;
+        const bBlocked = b.meta.concept && this._unmetPrereqs(b.meta.concept).length ? 1 : 0;
+        if (aBlocked !== bBlocked) return aBlocked - bBlocked;
         const aRead = this.user.readBlocks.has(a.meta.id) ? 1 : 0;
         const bRead = this.user.readBlocks.has(b.meta.id) ? 1 : 0;
         if (aRead !== bRead) return aRead - bRead;
@@ -1992,6 +1997,7 @@ class PBook {
     const totalInCh = chSpines.length;
 
     return `<article class="block-article fade-up" id="b-${block.id}">
+      ${this._prereqBanner(block)}
       ${overrideBar}
       <div class="block-nav">
         <button class="bnav-back" onclick="app.goBack()" title="Go back">&larr;</button>
@@ -3461,9 +3467,68 @@ class PBook {
     if (this._cmapData) {
       this._cmapNodes = {};
       this._cmapData.nodes.forEach(n => { this._cmapNodes[n.slug] = n; });
+      // mapa se načítá async — když už čtenář čte, mini-mapku doplň dodatečně
+      const pane = document.getElementById('readPane');
+      if (pane && !pane.querySelector('.feed-map-strip')) {
+        const div = document.createElement('div');
+        div.innerHTML = this._whereAmIStrip();
+        if (div.firstElementChild) { div.firstElementChild.classList.add('feed-map-strip'); pane.prepend(div.firstElementChild); }
+      }
     }
     return this._cmapData;
   }
+  _conceptRead(slug) { return (this._conceptPool(slug) || []).some(b => this.user.readBlocks.has(b.meta?.id || b.id)); }
+  _conceptRemembered(slug) {
+    const anchorId = this.concepts?.[slug]?.anchor;
+    const card = anchorId && this.user.recall?.[anchorId];
+    return !!(card && card.reps >= 2 && card.nextReview > Date.now());
+  }
+  _unmetPrereqs(slug) {
+    const node = this._cmapNodes?.[slug];
+    if (!node || !node.prereq?.length) return [];
+    return node.prereq.filter(pr => !this._conceptRead(pr)).map(pr => this._cmapNodes[pr]).filter(Boolean);
+  }
+  // 🎲 Cesta knihou — herní plán s doporučeným pořadím konceptů
+  async renderJourneyMap() {
+    await this._loadConceptMap();
+    const cm = this._cmapData;
+    if (!cm) return '';
+    const nodes = cm.nodes;
+    const per = 5, R = 30, DX = 150, DY = 128, X0 = 90, Y0 = 74;
+    const rows = Math.ceil(nodes.length / per);
+    const H = Y0 + rows * DY + 10;
+    const pos = nodes.map((n, i) => {
+      const r = Math.floor(i / per), c = i % per;
+      const x = X0 + (r % 2 === 0 ? c : per - 1 - c) * DX + (r % 2 === 0 ? 0 : 0);
+      return { x, y: Y0 + r * DY };
+    });
+    const cur = nodes.findIndex(n => !this._conceptRead(n.slug));
+    let path = '';
+    for (let i = 1; i < pos.length; i++) {
+      const a = pos[i - 1], b = pos[i];
+      path += `M${a.x} ${a.y} ${a.y === b.y ? `L${b.x} ${b.y}` : `C ${a.x} ${a.y + DY / 2}, ${b.x} ${b.y - DY / 2}, ${b.x} ${b.y}`} `;
+    }
+    let svg = `<svg viewBox="0 0 800 ${H}" style="width:100%;height:auto" font-family="system-ui,sans-serif">
+      <path d="${path}" fill="none" stroke="var(--border)" stroke-width="7" stroke-linecap="round"/>`;
+    nodes.forEach((n, i) => {
+      const t = cm.temata.find(x => x.id === n.tema) || {};
+      const read = this._conceptRead(n.slug);
+      const rem = this._conceptRemembered(n.slug);
+      const anchorId = this.concepts?.[n.slug]?.anchor || n.slug;
+      const { x, y } = pos[i];
+      svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${anchorId}')">
+        <circle cx="${x}" cy="${y}" r="${R}" fill="${read ? '#D1FAE5' : 'var(--card, #fff)'}" stroke="${t.color || '#6B7280'}" stroke-width="3"${i === cur ? ' stroke-dasharray="5 4"' : ''}/>
+        <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="15" font-weight="700" fill="${read ? '#15803D' : 'var(--text, #1b1b1f)'}">${read ? '✓' : i + 1}</text>
+        ${rem ? `<text x="${x + R - 8}" y="${y - R + 12}" font-size="13">⭐</text>` : ''}
+        ${i === cur ? `<text x="${x}" y="${y - R - 8}" text-anchor="middle" font-size="17">🧭</text>` : ''}
+        <text x="${x}" y="${y + R + 15}" text-anchor="middle" font-size="10.5" fill="var(--text-2, #666)">${this.escHtml(n.short || n.title.slice(0, 14))}</text>
+      </g>`;
+    });
+    svg += '</svg>';
+    return `<div class="fade-up" style="max-width:820px;margin:0 auto">
+      <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .6em">A suggested order to meet the concepts — like a board game. Green = read, ⭐ = well remembered (per spaced repetition), the pawn stands on the next suggested one. Click a field to read.</p>${svg}</div>`;
+  }
+
   async renderConceptsMap() {
     await this._loadConceptMap();
     const cm = this._cmapData;
@@ -3533,6 +3598,38 @@ class PBook {
     return h;
   }
   // „Kam dál" pod sekcí: související koncepty z mapy (existující = odkaz, 🌱 = hlas)
+  _whereAmIStrip() {
+    const cm = this._cmapData;
+    if (!cm || !cm.nodes?.length) return '';
+    const n = cm.nodes.length;
+    const cur = cm.nodes.findIndex(x => !this._conceptRead(x.slug));
+    const dots = cm.nodes.map((x, i) => {
+      const read = this._conceptRead(x.slug);
+      const rem = this._conceptRemembered(x.slug);
+      const t = cm.temata.find(tt => tt.id === x.tema) || {};
+      const bg = rem ? '#F59E0B' : read ? '#10B981' : 'var(--border)';
+      return `<span title="${this.escHtml(x.short || x.title)}${read ? ' ✓' : ''}${rem ? ' ⭐' : ''}" style="width:9px;height:9px;border-radius:50%;background:${bg};display:inline-block;${i === cur ? `outline:2px solid ${t.color || '#7C3AED'};outline-offset:1.5px;` : ''}"></span>`;
+    }).join('');
+    const label = 'Concept {i}/{n}'.replace('{i}', Math.min(cur + 1, n)).replace('{n}', n);
+    const curName = cur >= 0 ? (cm.nodes[cur].short || cm.nodes[cur].title) : '';
+    return `<div class="fade-up" onclick="app.switchView('map');app.setMapMode('cesta')" style="cursor:pointer;display:flex;align-items:center;gap:.45em;flex-wrap:wrap;max-width:720px;margin:0 auto .7em;padding:.4em .7em;border:1px solid var(--border);border-radius:999px;background:var(--card,#fff)">
+      <span style="font-size:.72rem">🗺</span><span style="display:flex;gap:3.5px;align-items:center;flex-wrap:wrap">${dots}</span>
+      <span style="font-size:.68rem;color:var(--text-2);margin-left:auto">${label}${curName ? ' · ' + this.escHtml(curName) : ''}</span>
+    </div>`;
+  }
+
+  _prereqBanner(block) {
+    if (!block.concept || block.type !== 'spine') return '';
+    try { if ((JSON.parse(localStorage.getItem('pbook-prereq-dismissed') || '[]')).includes(block.concept)) return ''; } catch (e) {}
+    const unmet = this._unmetPrereqs(block.concept);
+    if (!unmet.length) return '';
+    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.68rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this.concepts?.[n.slug]?.anchor || n.slug}')">${this.escHtml(n.short || n.title)}</button>`).join('');
+    return `<div class="prereq-banner" style="display:flex;flex-wrap:wrap;gap:.35em;align-items:center;margin:0 0 .6em;padding:.45em .6em;border:1.5px dashed #0EA5E9;border-radius:9px;background:color-mix(in srgb, #0EA5E9 6%, transparent);font-size:.72rem">
+      <b>🧩 To make sense of this, first read:</b>${chips}
+      <a href="#" style="margin-left:auto;color:var(--text-3)" onclick="event.preventDefault();try{const k='pbook-prereq-dismissed';const a=JSON.parse(localStorage.getItem(k)||'[]');a.push('${block.concept}');localStorage.setItem(k,JSON.stringify(a));}catch(e){};this.closest('.prereq-banner').remove()">read anyway</a>
+    </div>`;
+  }
+
   _renderConceptLinks(block) {
     const slug = block.concept;
     const node = this._cmapNodes?.[slug];
@@ -3571,6 +3668,7 @@ class PBook {
       </div>` : ''}
       <div class="map-mode-toggle">
         <button class="map-mode-btn ${mapMode === 'koncepty' ? 'active' : ''}" onclick="app.setMapMode('koncepty')">🧠 Concepts</button>
+        <button class="map-mode-btn ${mapMode === 'cesta' ? 'active' : ''}" onclick="app.setMapMode('cesta')">🎲 Journey</button>
         <button class="map-mode-btn ${mapMode === 'visual' ? 'active' : ''}" onclick="app.setMapMode('visual')">Visual</button>
         <button class="map-mode-btn ${mapMode === 'list' ? 'active' : ''}" onclick="app.setMapMode('list')">Detail List</button>
         <button class="map-mode-btn ${mapMode === 'saved' ? 'active' : ''}" onclick="app.setMapMode('saved')">Saved${this.user.savedBlocks.size ? ' (' + this.user.savedBlocks.size + ')' : ''}</button>
@@ -3581,6 +3679,11 @@ class PBook {
 
     if (mapMode === 'koncepty') {
       html += await this.renderConceptsMap();
+      el.innerHTML = html;
+      return;
+    }
+    if (mapMode === 'cesta') {
+      html += await this.renderJourneyMap();
       el.innerHTML = html;
       return;
     }
@@ -5518,11 +5621,13 @@ class PBook {
         </div>
         <textarea id="stDraft" placeholder="Write your text here… (markdown works: **bold**, bullets)" style="width:100%;min-height:38vh;margin:.7em 0 .4em;padding:.7em;border:1.5px solid var(--border,#ddd);border-radius:10px;font:inherit;font-size:.9rem;line-height:1.55;background:var(--card,#fff)">${this.escHtml(st.text || '')}</textarea>
         <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
+          <button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">✨ Draft a skeleton · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
           <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
           <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" ${(st.best || 0) >= 70 ? '' : 'disabled'}>✅ Prepare presentation</button>
           <span style="font-size:.68rem;color:var(--text-2,#666)">unlocks at score ≥ 70 · ${st.best ? `max ${st.best}/100` : ''}</span>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
+        <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">🎨 Visuals: mark a spot as [DIAGRAM: what to show] or [ANIMATION: what moves] — they get drawn when adopted into the book. The coach will suggest where a visual helps.</div>
       </div>
     </div>`;
     document.body.appendChild(el);
@@ -5532,6 +5637,38 @@ class PBook {
     });
     this.rc.logEvent('author_open', { slug });
   }
+  async seedDraft() {
+    const stdo = this._studio; if (!stdo) return;
+    const ta = document.getElementById('stDraft');
+    const out = document.getElementById('stOut');
+    if (ta.value.trim().length > 60 && !confirm('Replace your draft with a skeleton?')) return;
+    const pay = this.aiCanPay('basic');
+    if (!pay.ok) { out.innerHTML = this.aiPaywallHtml('basic'); return; }
+    const btn = document.getElementById('stSeedBtn');
+    btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Coach is drafting…';
+    try {
+      const res = await fetch(CONFIG.steering.generateEndpoint, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'seed', concept: stdo.slug, lang: 'en',
+          proposalContract: stdo.isProposal ? stdo.contract : undefined, auth: this._walletAuth() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok || !data.seed) throw new Error(data.error || 'seed failed');
+      this._walletApply(data, 'basic', pay);
+      ta.value = data.seed;
+      ta.dispatchEvent(new Event('input'));
+      (data.questions || []).forEach(q => stdo.questions.push(q));
+      out.innerHTML = `<div style="border:1.5px dashed var(--accent);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
+        <b>🌱 This skeleton is deliberately full of holes — the coach left it unfinished. Fill the [ADD] gaps, rewrite it your way, cut things. You are the author.</b>
+        ${data.questions?.length ? `<div style="margin-top:.35em"><b>Skeleton questions:</b><ul style="margin:.2em 0 0 1.1em">${data.questions.map(q => `<li>${this.escHtml(q)}</li>`).join('')}</ul></div>` : ''}
+      </div>`;
+    } catch (e) {
+      const pw = this._aiErrorPaywall(e, 'basic');
+      out.innerHTML = pw || `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.8rem">${this.escHtml(e.message)}</div>`;
+    }
+    btn.disabled = false; btn.textContent = orig;
+  }
+
   async coachRound() {
     const stdo = this._studio; if (!stdo) return;
     const out = document.getElementById('stOut');

@@ -275,7 +275,7 @@ const WALLET_PRICES = { basic: 10, advanced: 30 };
 function walletTier(body) {
   const mode = body.mode || 'variant';
   if (mode === 'variant' || mode === 'svg-remix') return 'advanced';
-  if (mode === 'coach') return 'basic';
+  if (mode === 'coach' || mode === 'seed') return 'basic';
   if (mode === 'remix' || mode === 'insert') {
     const wantsSvg = body.wantSvg === true
       || /\b(diagram|schema|schéma|obráz|obrazek|nákres|nakresli|animac|animation|visuali[sz]|draw|sketch)/i.test(String(body.instruction || ''));
@@ -710,6 +710,61 @@ ${conceptsList}
 Review all games now. Czech output inside JSON strings.`;
       let out = await callLLM(system, user, GAMES_SCHEMA, 20000, STRONG_MODEL);
       return res.status(200).json({ ok: true, result: out, model: STRONG_MODEL });
+    }
+
+    // --- SEED MODE: záměrně děravá minimalistická kostra pro autorské studio.
+    // Smysl: dát autorovi CO PŘIPOMÍNKOVAT, ne hotový text — kostra je krátká,
+    // s [DOPLŇ: …] mezerami a otázkami, které musí autor vyřešit sám.
+    if (mode === 'seed') {
+      const host = contentHost(req);
+      let contract = null, title = concept;
+      if (concept && /^[\w-]+$/.test(concept)) {
+        try {
+          const cd = await (await selfFetch(host, '/content/concepts.json')).json();
+          const rec = (cd.concepts || []).find(c => c.id === concept);
+          if (rec) { contract = rec.contract || null; title = rec.title || concept; }
+        } catch (e) {}
+        if (!contract && req.body.proposalContract) {
+          const p = req.body.proposalContract;
+          contract = { objective: String(p.objective || '').slice(0, 500), mustCover: (p.mustCover || []).map(x => ({ point: String(x).slice(0, 200) })), recallQ: String(p.recallQ || '').slice(0, 300) };
+        }
+      }
+      const lang = req.body.lang === 'en' ? 'English' : 'Czech';
+      const SEED_SCHEMA = { type: 'object', properties: { seed: { type: 'string' }, questions: { type: 'array', items: { type: 'string' } } }, required: ['seed', 'questions'], additionalProperties: false };
+      const system = `You write a DELIBERATELY MINIMAL first-draft skeleton for a student author (age 11-15) in a living school book. ${lang} output. HARD RULES:
+- 60-110 words MAX. A one-line hook + 2-4 skeletal sentences. Markdown allowed.
+- Leave 2-3 visible gaps as [DOPLŇ: what the author must add] markers (${lang === 'English' ? 'use [ADD: …]' : 'use [DOPLŇ: …]'}) — e.g. a concrete example, a number, an analogy. The skeleton must be USELESS without the author's work.
+- Never write the full explanation; the student earns the authorship.
+- questions: exactly 3 short questions the author should answer while expanding (what example from their life? what visual would help — diagram/animation? how would they explain it to a younger pupil?). One question MUST nudge a visual element.`;
+      const user = `CONCEPT: ${title}
+${contract ? `Objective: ${contract.objective}
+Must cover: ${(contract.mustCover || []).map(m => m.point || m).join(' · ')}
+Recall the reader must answer: ${contract.recallQ || ''}` : ''}
+Write the skeleton now.`;
+      const out = await callLLM(system, user, SEED_SCHEMA, 2500);
+      return res.status(200).json({ ok: true, seed: String(out.seed || '').slice(0, 1500), questions: (out.questions || []).slice(0, 3).map(q => String(q).slice(0, 200)), walletBalance: await walletCommit(req) });
+    }
+
+    // --- MAP-ANALYSIS MODE: redakční big picture — které koncepty chybí
+    // (prerekvizity i navazující detaily) a kde jsou NUTNÉ tvrdé prerekvizity.
+    if (mode === 'map-analysis') {
+      const concepts = Array.isArray(req.body.concepts) ? req.body.concepts.slice(0, 150) : [];
+      if (!concepts.length) return res.status(400).json({ ok: false, error: 'concepts required' });
+      const existingProposals = Array.isArray(req.body.proposals) ? req.body.proposals.slice(0, 40) : [];
+      const lang = req.body.lang === 'en' ? 'English' : 'Czech';
+      const MAP_SCHEMA = { type: 'object', properties: {
+        prereqs: { type: 'array', items: { type: 'object', properties: { concept: { type: 'string' }, needs: { type: 'array', items: { type: 'string' } }, why: { type: 'string' } }, required: ['concept', 'needs', 'why'], additionalProperties: false } },
+        gaps: { type: 'array', items: { type: 'object', properties: { slug: { type: 'string' }, title: { type: 'string' }, kind: { type: 'string', enum: ['prerequisite', 'deep-dive'] }, relatedTo: { type: 'string' }, objective: { type: 'string' }, recallQ: { type: 'string' }, recallA: { type: 'string' }, mustCover: { type: 'array', items: { type: 'string' } }, rationale: { type: 'string' } }, required: ['slug', 'title', 'kind', 'relatedTo', 'objective', 'recallQ', 'recallA', 'mustCover', 'rationale'], additionalProperties: false } }
+      }, required: ['prereqs', 'gaps'], additionalProperties: false };
+      const system = `You are the curriculum architect of a living school book (readers 11-15). ${lang} output inside JSON strings. Two jobs:
+1. HARD PREREQUISITES: for each existing concept, list ONLY concepts (by slug, from the given list) that are STRICTLY necessary to understand it — if it can be explained standalone, list nothing. Be conservative: most concepts need none. Max 2 needs per concept; include only concepts with at least one need.
+2. GAPS: propose 3-6 MISSING concepts the book should add — either a missing prerequisite (something current concepts silently assume) or a natural deep-dive continuation readers will ask for. Slugs kebab-case, unique vs existing concepts AND existing proposals. Each with a full contract (objective, recallQ/A, 2-4 mustCover points) and a one-sentence rationale naming the evidence (which concept assumes it / where readers would want to continue).`;
+      const user = `EXISTING CONCEPTS:
+${concepts.map(c => `- ${c.id}: ${c.title} — ${c.objective || ''}`).join('\n')}
+${existingProposals.length ? `\nEXISTING PROPOSALS (do not duplicate):\n${existingProposals.map(p => `- ${p.slug}: ${p.title}`).join('\n')}` : ''}
+Analyse now.`;
+      const out = await callLLM(system, user, MAP_SCHEMA, 12000, STRONG_MODEL);
+      return res.status(200).json({ ok: true, analysis: out, model: STRONG_MODEL });
     }
 
     // --- COACH MODE: iterative writing coach for a student authoring a concept.
