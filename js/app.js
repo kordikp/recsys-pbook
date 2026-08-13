@@ -532,7 +532,8 @@ class PBook {
 
   // The variant pool for a concept: git blocks + own private + community (open mode, cached)
   _conceptPool(conceptId) {
-    const pool = [...(this.conceptBlocks[conceptId] || [])];
+    // render smí předběhnout loadConcepts (deep link) — bez guardu padal celý renderSpine
+    const pool = [...(this.conceptBlocks?.[conceptId] || [])];
     for (const pb of Object.values(this.privateBlocks || {})) {
       if (this._conceptIds(pb.meta).includes(conceptId)) pool.push(pb);
     }

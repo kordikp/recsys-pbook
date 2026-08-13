@@ -43,6 +43,10 @@ module.exports = async function handler(req, res) {
     if (method !== 'GET' && body) fetchOpts.body = JSON.stringify(body);
     const response = await fetch(url, fetchOpts);
     const data = await response.text();
+    // Recombee 409 = "already exists"/duplicate — idempotent success for our
+    // write patterns (AddUser, repeated interactions). Returning 409 made the
+    // browser log red errors on every load and the offline queue churn.
+    if (response.status === 409) return res.status(200).setHeader('Content-Type', 'application/json').send(JSON.stringify({ ok: true, conflict: true }));
     res.status(response.status).setHeader('Content-Type', 'application/json').send(data);
   } catch (e) {
     res.status(502).json({ error: e.message });
