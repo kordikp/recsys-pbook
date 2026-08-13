@@ -136,6 +136,14 @@ class PBook {
         this.updateXPBadge();
         this.switchView('glossary');
         this.showMission(missionId);
+      } else if (hash.startsWith('mise-')) {
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        if (this.loadCustomMission(hash.slice(5))) { this.switchView('glossary'); this.showMission(this._customMission.id); }
+      } else if (hash.startsWith('autor-')) {
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.startAuthoring(hash.slice(6));
       } else if (hash === 'quiz') {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
@@ -4753,6 +4761,11 @@ class PBook {
   // ===== GLOSSARY / TOPICS =====
   // ===== MISSIONS =====
   getMissions() {
+    const list = this._staticMissions();
+    if (this._customMission) list.push(this._customMission);
+    return list;
+  }
+  _staticMissions() {
     return [
       {
         id: 'youtube', title: 'How Do Platforms Know?', icon: '\u{1F3AC}',
@@ -5295,6 +5308,172 @@ class PBook {
     this._renderBossQuiz();
   }
 
+  // ===== MIKROMISE Z ODKAZU (učitel vybírá koncepty, forma je na žákovi) =====
+  _b64uDecode(x) {
+    try { return decodeURIComponent(escape(atob(String(x).replace(/-/g, '+').replace(/_/g, '/')))); } catch (e) { return null; }
+  }
+  _hash36(str) {
+    let a = 5381; for (let i = 0; i < str.length; i++) a = ((a * 33) ^ str.charCodeAt(i)) >>> 0;
+    return a.toString(36).toUpperCase();
+  }
+  loadCustomMission(b64) {
+    const raw = this._b64uDecode(b64);
+    if (!raw) return false;
+    let payload; try { payload = JSON.parse(raw); } catch (e) { return false; }
+    const slugs = (payload.c || []).filter(x => typeof x === 'string').slice(0, 12);
+    const recs = slugs.map(sl => this.concepts?.[sl]).filter(Boolean);
+    if (!recs.length) return false;
+    const core = recs.map(r => r.anchor).filter(id => id && this.findBlock(id));
+    if (!core.length) return false;
+    const titles = recs.map(r => r.title || r.id);
+    this._customMission = {
+      id: 'custom-' + this._hash36(slugs.join('|')),
+      _custom: true, _concepts: slugs,
+      title: (payload.t || '').slice(0, 60) || 'Micro-mission from your teacher',
+      icon: '\u{1F3AF}', difficulty: 'Micro-mission',
+      story: 'Your teacher sent a micro-mission: practise the selected concepts. The form is yours — read, switch tellings, play.',
+      goal: 'Master the selected concepts and defend them at the boss question',
+      reward: { title: 'Micro-certificate', xp: 15 },
+      core,
+      intros: titles.map(t => t + ':'),
+      boss: { q: 'Explain in your own words what these concepts mean and how they relate: {list}. Give one example of your own for each.'.replace('{list}', titles.join(', ')), hints: titles },
+      branches: {},
+    };
+    return true;
+  }
+  _showMicroCert(m, extra) {
+    document.getElementById('microCert')?.remove();
+    const isAuthor = extra && extra.kind === 'author';
+    const name = localStorage.getItem('pbook-cert-name') || '';
+    const items = isAuthor ? [extra.conceptTitle] : (m._concepts || []).map(sl => this.concepts?.[sl]?.title || sl);
+    const date = new Date().toLocaleDateString('cs-CZ');
+    const code = this._hash36([...(m?._concepts || []), extra?.slug || '', date].join('|')).padEnd(8, '0').slice(0, 8);
+    const el = document.createElement('div');
+    el.id = 'microCert';
+    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:1em" onclick="if(event.target===this)document.getElementById('microCert').remove()">
+      <div style="background:var(--card,#fff);border-radius:16px;max-width:420px;width:100%;padding:1.2em 1.3em;border-top:6px solid #7C3AED" id="microCertCard">
+        <div style="font-size:1.15rem;font-weight:800">${isAuthor ? '✍️ Author certificate' : '🎓 Micro-certificate'}</div>
+        <div style="font-size:.75rem;color:var(--text-2,#666);margin:.15em 0 .6em">${isAuthor ? 'for developing a concept with an AI coach' : 'for completing a micro-mission'}</div>
+        <input id="mcName" value="${this.escHtml(name)}" placeholder="Your name (for print)" onchange="localStorage.setItem('pbook-cert-name',this.value)"
+          style="width:100%;font-size:.95rem;font-weight:700;padding:.35em .5em;border:1px dashed var(--border,#ddd);border-radius:8px;margin-bottom:.5em">
+        <ul style="margin:.2em 0 .6em 1.1em;font-size:.85rem">${items.map(t => `<li>${this.escHtml(t)}</li>`).join('')}</ul>
+        <div style="font-family:ui-monospace,monospace;font-size:.72rem;color:var(--text-2,#666)">date: ${date}${extra && extra.score != null ? ` · coach score: ${extra.score}/100` : ''} · code: <b>${code}</b></div>
+        <div style="display:flex;gap:.5em;margin-top:.8em" class="no-print">
+          <button class="note-save" onclick="print()">🖨 Print</button>
+          ${extra && extra.shareId ? `<button class="note-save" style="background:var(--accent)" onclick="document.getElementById('microCert').remove();app._showShareConsent('${extra.shareId}')">📣 Share with the class</button>` : ''}
+          <button class="note-cancel" onclick="document.getElementById('microCert').remove()">Close</button>
+        </div>
+        ${extra && extra.defense && extra.defense.length ? `<div style="margin-top:.7em;font-size:.72rem;color:var(--text-2,#666)"><b>Defense questions (from the coach):</b><ul style="margin:.2em 0 0 1.1em">${extra.defense.map(q => `<li>${this.escHtml(q)}</li>`).join('')}</ul></div>` : ''}
+      </div>
+    </div>`;
+    document.body.appendChild(el);
+  }
+
+  // ===== AUTORSKÉ STUDIO (žák rozpracuje koncept pod vedením AI kouče) =====
+  _authorState() {
+    try { return JSON.parse(localStorage.getItem('pbook-author-drafts')) || {}; } catch (e) { return {}; }
+  }
+  _authorSave(st) { localStorage.setItem('pbook-author-drafts', JSON.stringify(st)); }
+  startAuthoring(slug) {
+    const prop = (this.proposals || []).find(x => x.slug === slug);
+    const conc = this.concepts?.[slug];
+    if (!prop && !conc) { this.showXPToast('?', 'xp'); return; }
+    const title = prop ? prop.title : (conc.title || slug);
+    const contract = prop
+      ? { objective: prop.objective, mustCover: prop.mustCover || [], recallQ: prop.recallQ }
+      : { objective: conc.contract?.objective, mustCover: (conc.contract?.mustCover || []).map(m => m.point || m), recallQ: conc.contract?.recallQ };
+    this._studio = { slug, title, contract, isProposal: !!prop, questions: [] };
+    const st = this._authorState()[slug] || {};
+    document.getElementById('authorStudio')?.remove();
+    const el = document.createElement('div');
+    el.id = 'authorStudio';
+    el.innerHTML = `<div style="position:fixed;inset:0;background:var(--bg,#fafaf7);z-index:250;overflow-y:auto">
+      <div style="max-width:680px;margin:0 auto;padding:1em 1em 4em">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div style="font-weight:800;font-size:1.05rem">✍️ Author studio</div>
+          <button class="note-cancel" onclick="document.getElementById('authorStudio').remove()">Close</button>
+        </div>
+        <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">Develop a concept for the book — the AI coaches, but YOU write.</div>
+        <div style="border:1.5px solid var(--border,#ddd);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
+          <b>${this.escHtml(title)}</b>
+          ${contract.objective ? `<div style="margin-top:.25em"><span style="color:var(--text-2,#666)">Objective:</span> ${this.escHtml(contract.objective)}</div>` : ''}
+          ${(contract.mustCover || []).length ? `<div style="margin-top:.25em;font-size:.74rem"><span style="color:var(--text-2,#666)">Must cover:</span> ${(contract.mustCover || []).map(x => `<span style="display:inline-block;border:1px solid var(--border,#ddd);border-radius:999px;padding:0 .5em;margin:.1em">${this.escHtml(x)}</span>`).join('')}</div>` : ''}
+        </div>
+        <textarea id="stDraft" placeholder="Write your text here… (markdown works: **bold**, bullets)" style="width:100%;min-height:38vh;margin:.7em 0 .4em;padding:.7em;border:1.5px solid var(--border,#ddd);border-radius:10px;font:inherit;font-size:.9rem;line-height:1.55;background:var(--card,#fff)">${this.escHtml(st.text || '')}</textarea>
+        <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
+          <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
+          <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" ${(st.best || 0) >= 70 ? '' : 'disabled'}>✅ Prepare presentation</button>
+          <span style="font-size:.68rem;color:var(--text-2,#666)">unlocks at score ≥ 70 · ${st.best ? `max ${st.best}/100` : ''}</span>
+        </div>
+        <div id="stOut" style="margin-top:.7em"></div>
+      </div>
+    </div>`;
+    document.body.appendChild(el);
+    const ta = document.getElementById('stDraft');
+    ta.addEventListener('input', () => {
+      const all = this._authorState(); (all[slug] = all[slug] || {}).text = ta.value; this._authorSave(all);
+    });
+    this.rc.logEvent('author_open', { slug });
+  }
+  async coachRound() {
+    const stdo = this._studio; if (!stdo) return;
+    const out = document.getElementById('stOut');
+    const draft = (document.getElementById('stDraft')?.value || '').trim();
+    if (draft.length < 40) { out.innerHTML = `<div class="sk-fb" style="background:#FEF3C7;border-radius:8px;padding:.5em .7em;font-size:.8rem">Write at least a few sentences (40+ chars), then call the coach.</div>`; return; }
+    const pay = this.aiCanPay('basic');
+    if (!pay.ok) { out.innerHTML = this.aiPaywallHtml('basic'); return; }
+    const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
+    st.round = (st.round || 0) + 1; st.text = draft; this._authorSave(all);
+    const btn = document.getElementById('stCoachBtn');
+    btn.disabled = true; const orig = btn.textContent; btn.textContent = 'Coach is reading…';
+    try {
+      const res = await fetch(CONFIG.steering.generateEndpoint, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'coach', concept: stdo.slug, draft, round: st.round,
+          proposalContract: stdo.isProposal ? stdo.contract : undefined, auth: this._walletAuth() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok || !data.coach) throw new Error(data.error || 'coach unavailable');
+      const c = data.coach;
+      this._walletApply(data, 'basic', pay);
+      st.best = Math.max(st.best || 0, c.score); this._authorSave(all);
+      if (c.question) stdo.questions.push(c.question);
+      if (st.best >= 70) document.getElementById('stFinishBtn')?.removeAttribute('disabled');
+      const bar = `<div style="height:8px;border-radius:4px;background:var(--border,#eee);overflow:hidden"><div style="height:100%;width:${c.score}%;background:${c.score >= 70 ? '#10B981' : c.score >= 40 ? '#D97706' : '#EF4444'}"></div></div>`;
+      out.innerHTML = `<div style="border:1.5px solid var(--border,#ddd);border-radius:10px;padding:.7em .8em;background:var(--card,#fff);font-size:.82rem">
+        <div style="display:flex;justify-content:space-between;align-items:center"><b>🧭 Coach · round ${st.round}</b><b>${c.score}/100</b></div>${bar}
+        ${c.strengths.length ? `<div style="margin-top:.5em;color:#15803D"><b>What works:</b> ${c.strengths.map(this.escHtml).join(' · ')}</div>` : ''}
+        ${c.gaps.length ? `<div style="margin-top:.3em;color:#B45309"><b>What is missing:</b> ${c.gaps.map(this.escHtml).join(' · ')}</div>` : ''}
+        ${c.question ? `<div style="margin-top:.3em"><b>❓ Question for you:</b> ${this.escHtml(c.question)}</div>` : ''}
+        ${c.tip ? `<div style="margin-top:.3em;color:var(--text-2,#666)"><b>💡 Tip:</b> ${this.escHtml(c.tip)}</div>` : ''}
+      </div>`;
+      this.rc.logEvent('author_coach', { slug: stdo.slug, round: st.round, score: c.score });
+    } catch (e) {
+      const pw = this._aiErrorPaywall(e, 'basic');
+      out.innerHTML = pw || `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.8rem">${this.escHtml(e.message)}</div>`;
+    }
+    btn.disabled = false; btn.textContent = orig;
+  }
+  finishAuthoring() {
+    const stdo = this._studio; if (!stdo) return;
+    const all = this._authorState(); const st = all[stdo.slug] || {};
+    const draft = (document.getElementById('stDraft')?.value || '').trim();
+    if (!draft || (st.best || 0) < 70) return;
+    const id = `autor--${stdo.slug}--${Date.now().toString(36)}`;
+    const block = {
+      meta: { id, title: stdo.title, type: 'spine', state: 'private', authored: true, core: false,
+        concept: stdo.isProposal ? undefined : stdo.slug, proposalSlug: stdo.isProposal ? stdo.slug : undefined,
+        readingTime: Math.max(1, Math.round(draft.split(/\s+/).length / 200)) },
+      body: draft,
+    };
+    this._savePrivateBlock(block);
+    st.done = true; st.blockId = id; this._authorSave(all);
+    this.rc.logEvent('author_finished', { slug: stdo.slug, blockId: id, score: st.best, rounds: st.round || 0 });
+    this.showXPToast('Saved into the book as your authored block ✍️', 'achievement');
+    document.getElementById('authorStudio')?.remove();
+    this._showMicroCert(null, { kind: 'author', slug: stdo.slug, conceptTitle: stdo.title, score: st.best, shareId: id, defense: (stdo.questions || []).slice(-3) });
+  }
+
   completeMission(missionId) {
     const missions = this.getMissions();
     const m = missions.find(x => x.id === missionId);
@@ -5311,6 +5490,7 @@ class PBook {
 
     this.showXPToast(`\u{1F3C6} ${m.reward.title}! +${m.reward.xp} XP`, 'achievement');
     this.checkGamificationEvents();
+    if (m._custom) this._showMicroCert(m);
     this.showMission(missionId);
   }
 
@@ -7015,6 +7195,7 @@ class PBook {
       <div id="ghost-${p.slug}-${ctx}" style="display:flex;gap:.4em;margin-top:.35em">
         <button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9" onclick="app.ghostVote('${p.slug}',1,'${ctx}')">👍 I'd read this</button>
         <button class="steer-chip" onclick="app.ghostVote('${p.slug}',-1,'${ctx}')">Not for me</button>
+        <button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.startAuthoring('${p.slug}')">✍️ I could write it</button>
       </div>
     </div>`;
   }
