@@ -6671,6 +6671,9 @@ class PBook {
   // Insert a passage at a source offset, keeping markdown paragraph separation
   // (exactly one blank line on each side, never inside a word).
   _spliceIn(base, pos, text) {
+    // The anchor maps only letters/digits from rendered text — trailing sentence
+    // punctuation (?" …) would be left stranded AFTER the insert. Skip past it.
+    while (pos > 0 && pos < base.length && !/\s/.test(base[pos - 1]) && /[?!.…,;:"'“”„‟»«)\]]/.test(base[pos])) pos++;
     const before = base.slice(0, pos).replace(/\s+$/, '');
     const after = base.slice(pos).replace(/^\s+/, '');
     return [before, text.trim(), after].filter(Boolean).join('\n\n');
