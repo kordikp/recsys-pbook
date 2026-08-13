@@ -1,0 +1,645 @@
+{
+ "temata": [
+  {
+   "id": "ch01-introduction",
+   "nazev": "Introduction",
+   "color": "#7C3AED"
+  },
+  {
+   "id": "ch02-data",
+   "nazev": "Data",
+   "color": "#0EA5E9"
+  },
+  {
+   "id": "ch03-objectives",
+   "nazev": "Objectives",
+   "color": "#10B981"
+  },
+  {
+   "id": "ch04-scenarios",
+   "nazev": "Scenarios",
+   "color": "#D97706"
+  },
+  {
+   "id": "ch05-algorithms",
+   "nazev": "Algorithms",
+   "color": "#EF4444"
+  },
+  {
+   "id": "ch06-evaluation",
+   "nazev": "Evaluation",
+   "color": "#EC4899"
+  },
+  {
+   "id": "ch07-explainability",
+   "nazev": "Explainability & Insights",
+   "color": "#8B5CF6"
+  },
+  {
+   "id": "ch08-deployment",
+   "nazev": "Deployment & Scale",
+   "color": "#14B8A6"
+  },
+  {
+   "id": "ch09-monitoring",
+   "nazev": "Maintenance & Monitoring",
+   "color": "#7C3AED"
+  },
+  {
+   "id": "ch10-customization",
+   "nazev": "Customization & Business Rules",
+   "color": "#0EA5E9"
+  },
+  {
+   "id": "ch11-ethics",
+   "nazev": "Ethics & Responsibility",
+   "color": "#10B981"
+  },
+  {
+   "id": "ch12-domains",
+   "nazev": "Domains",
+   "color": "#D97706"
+  },
+  {
+   "id": "ch13-research",
+   "nazev": "Research & Progress",
+   "color": "#EF4444"
+  },
+  {
+   "id": "ch14-build",
+   "nazev": "Build Your Own",
+   "color": "#EC4899"
+  }
+ ],
+ "nodes": [
+  {
+   "slug": "everyday-recommendations",
+   "title": "Everyday recommendations",
+   "tema": "ch01-introduction",
+   "state": "core",
+   "teaser": "Every platform you use curates your experience. But what's behind it?",
+   "rel": []
+  },
+  {
+   "slug": "ubiquity",
+   "title": "Ubiquity of recommenders",
+   "tema": "ch01-introduction",
+   "state": "core",
+   "teaser": "Once you start looking, you can't stop seeing them.",
+   "rel": []
+  },
+  {
+   "slug": "patterns-not-magic",
+   "title": "Patterns, not magic",
+   "tema": "ch01-introduction",
+   "state": "core",
+   "teaser": "Recommender systems are pattern-recognition engines. Here's how they work.",
+   "rel": []
+  },
+  {
+   "slug": "three-jobs",
+   "title": "Three jobs of a recommender",
+   "tema": "ch01-introduction",
+   "state": "core",
+   "teaser": "Discovery, navigation, and engagement — the three core functions.",
+   "rel": []
+  },
+  {
+   "slug": "distribution-models",
+   "title": "Content distribution models",
+   "tema": "ch01-introduction",
+   "state": "core",
+   "teaser": "Examine the content distribution models behind the platforms you use daily.",
+   "rel": []
+  },
+  {
+   "slug": "digital-footprints",
+   "title": "Digital footprints",
+   "tema": "ch02-data",
+   "state": "core",
+   "teaser": "Every click, every skip, every replay -- you're leaving a trail of behavioral data.",
+   "rel": []
+  },
+  {
+   "slug": "data-pillars",
+   "title": "Three pillars of recommendation data",
+   "tema": "ch02-data",
+   "state": "core",
+   "teaser": "Every recommendation system rests on three data pillars: what items exist, who the users are, and how they interact. Get the foundation wrong and no algorithm c",
+   "rel": []
+  },
+  {
+   "slug": "feedback-signals",
+   "title": "Explicit and implicit feedback",
+   "tema": "ch02-data",
+   "state": "core",
+   "teaser": "Item features, user profiles, and behavioral signals -- the three pillars of every recommendation.",
+   "rel": []
+  },
+  {
+   "slug": "data-control",
+   "title": "Your data, your choice",
+   "tema": "ch02-data",
+   "state": "core",
+   "teaser": "You have more control over your digital footprints than you think. Here's the toolkit.",
+   "rel": []
+  },
+  {
+   "slug": "algorithm-training",
+   "title": "Training your own algorithm",
+   "tema": "ch02-data",
+   "state": "core",
+   "teaser": "Open your most-used platform and investigate your algorithm in real time -- you'll observe it learning.",
+   "rel": []
+  },
+  {
+   "slug": "item-cold-start",
+   "title": "Item cold start",
+   "tema": "ch02-data",
+   "state": "core",
+   "teaser": "A brand-new item has zero interactions. How does a recommender give it a fair first day?",
+   "rel": []
+  },
+  {
+   "slug": "objectives",
+   "title": "Optimization objectives",
+   "tema": "ch03-objectives",
+   "state": "core",
+   "teaser": "Every recommender optimizes a specific objective function. The critical question is: whose goals does that function serve?",
+   "rel": []
+  },
+  {
+   "slug": "fairness",
+   "title": "Fairness",
+   "tema": "ch03-objectives",
+   "state": "core",
+   "teaser": "Dominant suppliers get more exposure. New entrants remain invisible. What does fairness actually mean in this context?",
+   "rel": []
+  },
+  {
+   "slug": "long-tail",
+   "title": "The long tail",
+   "tema": "ch03-objectives",
+   "state": "core",
+   "teaser": "In most recommendation datasets, a tiny fraction of items accounts for the vast majority of interactions. This power law distribution shapes everything -- and a",
+   "rel": []
+  },
+  {
+   "slug": "satisfaction-vs-engagement",
+   "title": "Satisfaction vs. engagement",
+   "tema": "ch03-objectives",
+   "state": "core",
+   "teaser": "High engagement doesn't mean high satisfaction. 'I can't stop watching' and 'I'm glad I watched' are very different things.",
+   "rel": []
+  },
+  {
+   "slug": "scenarios",
+   "title": "Recommendation scenarios",
+   "tema": "ch04-scenarios",
+   "state": "core",
+   "teaser": "A homepage recommendation and a cart cross-sell serve completely different purposes, face different constraints, and should use different algorithms. The scenar",
+   "rel": []
+  },
+  {
+   "slug": "context-awareness",
+   "title": "Context-aware recommendation",
+   "tema": "ch04-scenarios",
+   "state": "core",
+   "teaser": "The same person wants different things at different times. Context-aware systems recognize that preferences aren't fixed -- they shift with time, place, device,",
+   "rel": []
+  },
+  {
+   "slug": "session-based",
+   "title": "Session-based recommendation",
+   "tema": "ch04-scenarios",
+   "state": "core",
+   "teaser": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleet",
+   "rel": []
+  },
+  {
+   "slug": "search-vs-recs",
+   "title": "Search vs. recommendations",
+   "tema": "ch04-scenarios",
+   "state": "core",
+   "teaser": "When you search for 'running shoes', the results aren't random -- they're personalized recommendations layered on top of information retrieval.",
+   "rel": []
+  },
+  {
+   "slug": "llm-recommenders",
+   "title": "LLM-powered recommendation",
+   "tema": "ch04-scenarios",
+   "state": "core",
+   "teaser": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better th",
+   "rel": []
+  },
+  {
+   "slug": "collaborative-filtering",
+   "title": "Collaborative filtering",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "What if a million users with your exact preferences could recommend items to you?",
+   "rel": []
+  },
+  {
+   "slug": "content-based",
+   "title": "Content-based recommendation",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "Forget other users. What if the system analyzed the ITEM's intrinsic properties instead?",
+   "rel": []
+  },
+  {
+   "slug": "explore-exploit",
+   "title": "Explore–exploit dilemma",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "Should the algorithm serve a proven winner or test an unknown candidate? This is one of the most fundamental trade-offs in recommendations.",
+   "rel": []
+  },
+  {
+   "slug": "embeddings",
+   "title": "Embeddings and similarity",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "A jazz ballad and an ambient electronic track might evoke similar feelings. How does a machine learn to capture that?",
+   "rel": []
+  },
+  {
+   "slug": "graph-methods",
+   "title": "Graph-based methods",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "What if the best way to recommend isn't to decompose a matrix, but to traverse a network? Graph methods reveal structural patterns that linear algebra alone can",
+   "rel": []
+  },
+  {
+   "slug": "multimodal",
+   "title": "Multimodal recommendation",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "Multimodal recommendation",
+   "rel": []
+  },
+  {
+   "slug": "popularity",
+   "title": "Popularity and trends",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "The simplest recommendation strategy: just surface what's trending. No personalization required.",
+   "rel": []
+  },
+  {
+   "slug": "pipeline",
+   "title": "The recommendation pipeline",
+   "tema": "ch05-algorithms",
+   "state": "core",
+   "teaser": "Production systems don't use just one method. They orchestrate ALL of them in a multi-stage pipeline.",
+   "rel": []
+  },
+  {
+   "slug": "ab-testing",
+   "title": "A/B testing",
+   "tema": "ch06-evaluation",
+   "state": "core",
+   "teaser": "How do you know if a recommendation system actually works? Rigorous experimentation -- not intuition.",
+   "rel": []
+  },
+  {
+   "slug": "filter-bubbles",
+   "title": "Filter bubbles and diversity",
+   "tema": "ch06-evaluation",
+   "state": "core",
+   "teaser": "When recommendations are too effective, users only encounter what they already prefer -- and never realize what they are missing.",
+   "rel": []
+  },
+  {
+   "slug": "evaluation-metrics",
+   "title": "Evaluation metrics",
+   "tema": "ch06-evaluation",
+   "state": "core",
+   "teaser": "The biggest risk in recommender systems isn't a bad algorithm — it's measuring the wrong thing.",
+   "rel": []
+  },
+  {
+   "slug": "why-explain",
+   "title": "Why explainability matters",
+   "tema": "ch07-explainability",
+   "state": "core",
+   "teaser": "Users who understand why they received a recommendation get more value from it. Developers who can explain their system can debug it. Regulators who can audit i",
+   "rel": []
+  },
+  {
+   "slug": "explanations",
+   "title": "Explanations",
+   "tema": "ch07-explainability",
+   "state": "core",
+   "teaser": "An unexpected item appears at the top of your feed. Why? The answer is more complex than most people realize.",
+   "rel": []
+  },
+  {
+   "slug": "explanation-methods",
+   "title": "Explanation methods",
+   "tema": "ch07-explainability",
+   "state": "core",
+   "teaser": "From transparent models you can read directly to post-hoc methods that approximate what a black box is doing -- every explainability approach trades off between",
+   "rel": []
+  },
+  {
+   "slug": "steerability",
+   "title": "Steerable recommendations",
+   "tema": "ch07-explainability",
+   "state": "core",
+   "teaser": "What if you could tell the algorithm 'more of this, less of that' — not by fighting it, but by turning its own knobs?",
+   "rel": []
+  },
+  {
+   "slug": "build-vs-buy",
+   "title": "Build vs. buy",
+   "tema": "ch08-deployment",
+   "state": "core",
+   "teaser": "Should you build a recommendation system from scratch or use a managed service? The answer depends on factors most teams underestimate.",
+   "rel": []
+  },
+  {
+   "slug": "production-scale",
+   "title": "Production at scale",
+   "tema": "ch08-deployment",
+   "state": "core",
+   "teaser": "Research algorithms must survive the harsh reality of production: latency budgets, memory limits, and billions of daily interactions.",
+   "rel": []
+  },
+  {
+   "slug": "monitoring",
+   "title": "Monitoring recommender systems",
+   "tema": "ch09-monitoring",
+   "state": "core",
+   "teaser": "A recommendation system can return HTTP 200 on every request and still be catastrophically broken. Traditional software monitoring catches crashes. RecSys monit",
+   "rel": []
+  },
+  {
+   "slug": "business-rules",
+   "title": "Business rules and merchandising",
+   "tema": "ch10-customization",
+   "state": "core",
+   "teaser": "The algorithm says 'recommend item X.' The product manager says 'but X is out of stock.' Business rules bridge the gap between algorithmic optimization and real",
+   "rel": []
+  },
+  {
+   "slug": "who-decides",
+   "title": "Who decides what you see",
+   "tema": "ch11-ethics",
+   "state": "core",
+   "teaser": "When you open a social media platform, who chose what's on your screen? Not you. Not the editorial team. Not even a human.",
+   "rel": []
+  },
+  {
+   "slug": "addictive-design",
+   "title": "Addictive design",
+   "tema": "ch11-ethics",
+   "state": "core",
+   "teaser": "Infinite scroll. Autoplay. 'Just one more.' These aren't accidents -- they're deliberate design patterns rooted in behavioral economics.",
+   "rel": []
+  },
+  {
+   "slug": "ads-vs-recs",
+   "title": "Ads vs. recommendations",
+   "tema": "ch11-ethics",
+   "state": "core",
+   "teaser": "That product ad following you across the internet is NOT a recommendation system. The distinction has major privacy and regulatory implications.",
+   "rel": []
+  },
+  {
+   "slug": "privacy-reality",
+   "title": "What platforms actually know",
+   "tema": "ch11-ethics",
+   "state": "core",
+   "teaser": "Skip the vague privacy warnings. Here is exactly what platforms collect, how they model you, and why re-identification is easier than you think.",
+   "rel": []
+  },
+  {
+   "slug": "ai-future",
+   "title": "Shaping the AI future",
+   "tema": "ch11-ethics",
+   "state": "core",
+   "teaser": "Recommendation systems are becoming more powerful, more pervasive, and more consequential. The design choices being made now will shape information access for d",
+   "rel": []
+  },
+  {
+   "slug": "conversational-recs",
+   "title": "Conversational recommendation",
+   "tema": "ch11-ethics",
+   "state": "core",
+   "teaser": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this re",
+   "rel": []
+  },
+  {
+   "slug": "domain-differences",
+   "title": "Why domains differ",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "The same algorithm that works for Netflix will fail for a job board. Domain-specific constraints shape every design decision.",
+   "rel": []
+  },
+  {
+   "slug": "video-domain",
+   "title": "Video & streaming",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "Video recommendation is the most visible application of RecSys — and one of the most complex, with content hierarchies, watch progress tracking, and multi-platf",
+   "rel": []
+  },
+  {
+   "slug": "ecommerce-domain",
+   "title": "E-commerce",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "Amazon attributes 35% of revenue to recommendations. E-commerce is where RecSys has the most directly measurable business impact.",
+   "rel": []
+  },
+  {
+   "slug": "news-domain",
+   "title": "News & media",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "News recommendation is a race against time — content goes stale in hours, and the stakes include an informed society.",
+   "rel": []
+  },
+  {
+   "slug": "music-domain",
+   "title": "Music & podcasts",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "Music recommendation must adapt to mood, context, and the unique dynamic where repeat listening is a feature, not a bug.",
+   "rel": []
+  },
+  {
+   "slug": "sports-domain",
+   "title": "Sports & live events",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "When the final whistle blows, millions of fans need their next recommendation in seconds — not minutes. Sports recommendation operates at the speed of live even",
+   "rel": []
+  },
+  {
+   "slug": "marketplace-domain",
+   "title": "P2P marketplaces",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "In a marketplace, each listing can only be sold once. This changes everything about how recommendations work.",
+   "rel": []
+  },
+  {
+   "slug": "deals-domain",
+   "title": "Deal aggregators",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "A deal that expires in 2 hours needs instant matching — the cold-start problem measured in minutes, not days.",
+   "rel": []
+  },
+  {
+   "slug": "real-estate-domain",
+   "title": "Real estate",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "Real estate is the highest-stakes recommendation domain — a wrong suggestion wastes hours of viewing time; a good one leads to a life decision.",
+   "rel": []
+  },
+  {
+   "slug": "specialized-domains",
+   "title": "Travel, jobs & education",
+   "tema": "ch12-domains",
+   "state": "core",
+   "teaser": "Three domains where recommendation quality directly impacts life outcomes — vacations, careers, and learning.",
+   "rel": []
+  },
+  {
+   "slug": "why-research",
+   "title": "Why research matters",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "Behind every recommendation you see is decades of mathematical research. Here's why it matters.",
+   "rel": []
+  },
+  {
+   "slug": "ease-elsa",
+   "title": "EASE to ELSA",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "How a single matrix inverse led to one of the most elegant recommendation algorithms — and why it needed to evolve.",
+   "rel": []
+  },
+  {
+   "slug": "vasp",
+   "title": "VASP architecture",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "Linear models find smooth patterns. Deep models find complex clusters. What happens when you combine them?",
+   "rel": []
+  },
+  {
+   "slug": "bandits-in-practice",
+   "title": "Bandits in practice",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "Should you recommend what you know works, or take a risk on something new? Bandit algorithms solve this fundamental dilemma.",
+   "rel": []
+  },
+  {
+   "slug": "beeformer",
+   "title": "beeFormer: text meets interactions",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "New items have zero interactions. How do you recommend something nobody has seen? The answer involves teaching computers to read.",
+   "rel": []
+  },
+  {
+   "slug": "steering-knobs",
+   "title": "Steering knobs",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "What if users could turn knobs to steer their recommendations — boosting 'date night movies' or promoting a favorite director? Sparse autoencoders make this pos",
+   "rel": []
+  },
+  {
+   "slug": "research-roadmap",
+   "title": "Research roadmap",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "Open problems in recommender systems — from fairness guarantees to LLM-powered recommendations.",
+   "rel": []
+  },
+  {
+   "slug": "glossary",
+   "title": "Glossary",
+   "tema": "ch13-research",
+   "state": "core",
+   "teaser": "Glossary",
+   "rel": []
+  },
+  {
+   "slug": "diy-start",
+   "title": "Build your own: start",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "You understand how recommender systems work. Now it's time to build one from scratch.",
+   "rel": []
+  },
+  {
+   "slug": "diy-collect-data",
+   "title": "Build your own: collect data",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "Survey your team, build a rating matrix, and watch the patterns emerge.",
+   "rel": []
+  },
+  {
+   "slug": "diy-similar-users",
+   "title": "Build your own: similar users",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "Who has correlated preferences? Identify your nearest neighbors.",
+   "rel": []
+  },
+  {
+   "slug": "diy-predict",
+   "title": "Build your own: predict",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "Use nearest neighbors to predict ratings and generate actionable recommendations.",
+   "rel": []
+  },
+  {
+   "slug": "diy-improve",
+   "title": "Build your own: improve",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "Your system works. Now let's iterate toward production quality.",
+   "rel": []
+  },
+  {
+   "slug": "creator-visibility",
+   "title": "Getting your content recommended",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "You understand how algorithms select content. Now flip the perspective — how do you optimize for algorithmic distribution?",
+   "rel": []
+  },
+  {
+   "slug": "algorithmic-seo",
+   "title": "SEO for the algorithm age",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "Search engines and recommendation systems are converging. Here's how to optimize for both.",
+   "rel": []
+  },
+  {
+   "slug": "case-studies",
+   "title": "Industry case studies",
+   "tema": "ch14-build",
+   "state": "core",
+   "teaser": "The best way to learn recommender systems is to study production systems at scale — where theory meets the chaos of real users, real latency budgets, and real b",
+   "rel": []
+  }
+ ],
+ "edges": []
+}

@@ -703,7 +703,7 @@ class PBook {
       const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${state.toUpperCase()} · ${cfg}${isCurrent ? '\n(reading now)' : ''}`;
       return `<button class="tstrip-chip ${isCurrent ? 'tstrip-current' : ''}" style="--sc:${color}"
         title="${this.escHtml(tip)}" ${isCurrent ? '' : `onclick="app.pickTelling('${blockId}','${m.id}')"`}>${GENRE_ICONS[g] || '📄'}</button>`;
-    }).join('')}<span class="tstrip-hint">${pool.length} tellings — hover for details, click to read</span></div>`;
+    }).join('')}<span class="tstrip-hint">${pool.length} tellings — hover for details, click to read</span><button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling (coach)" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
 
     h += `<div class="tellings-compose">
       <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = this telling · <span class="legend-active">filled</span> = your target · numbers = existing tellings${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
@@ -2016,6 +2016,7 @@ class PBook {
         ${sideHtml}
       </div>
       ${block.keyTakeaway ? `<div class="key-takeaway"><div class="key-takeaway-label">Key Takeaway</div><div class="key-takeaway-text">${block.keyTakeaway}</div></div>` : ''}
+      ${this._renderConceptLinks(block)}
       ${this._renderFeedbackBar(block)}
       <div class="block-footer">
         <div class="block-reactions" data-block="${block.id}">
@@ -3450,11 +3451,107 @@ class PBook {
   }
 
   // ===== MAP VIEW =====
+  // ===== MAPA KONCEPTŮ (port z informatika-pbook, přizpůsobeno) =====
+  async _loadConceptMap() {
+    if (this._cmapData !== undefined) return this._cmapData;
+    try {
+      const r = await fetch('content/concept-map.json');
+      this._cmapData = r.ok ? await r.json() : null;
+    } catch (e) { this._cmapData = null; }
+    if (this._cmapData) {
+      this._cmapNodes = {};
+      this._cmapData.nodes.forEach(n => { this._cmapNodes[n.slug] = n; });
+    }
+    return this._cmapData;
+  }
+  async renderConceptsMap() {
+    await this._loadConceptMap();
+    const cm = this._cmapData;
+    if (!cm) return '<div style="padding:2em;text-align:center;color:var(--text-3)">Could not load the concept map.</div>';
+    const votes = this._ghostVotes();
+    const GENRE_ICONS = { explainer: '📄', story: '📖', 'worked-example': '🧮', 'code-walkthrough': '💻', comic: '🎭', animation: '🎞' };
+    const STATE_COLORS = { core: '#7C3AED', edited: '#10B981', community: '#D97706', private: '#9CA3AF' };
+    const TYPE_ICONS = { game: '🎮', question: '❓' };
+    const conceptRead = slug => (this._conceptPool(slug) || []).some(b => this.user.readBlocks.has(b.meta?.id || b.id));
+    const readN = cm.nodes.filter(n => conceptRead(n.slug)).length;
+    // 🌱 živé návrhy ze serveru (this.proposals) přiřazené k tématům dle kapitoly
+    const ghostsByTema = {};
+    (this.proposals || []).forEach(pr => {
+      const t = cm.temata.find(x => x.id === pr.chapter) ? pr.chapter : cm.temata[0]?.id;
+      (ghostsByTema[t] = ghostsByTema[t] || []).push(pr);
+    });
+
+    let h = `<div class="fade-up" style="max-width:760px;margin:0 auto">
+      <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .8em">${'The book by <b>concepts</b>, not chapters: each concept has its tellings (article, game, comic…) — click an icon to read. The ✍️ pencil opens the author studio with an AI coach. Dashed 🌱 concepts are not written yet — vote where to go deeper. Read <b>{r}/{n}</b> concepts.'.replace('{r}', readN).replace('{n}', cm.nodes.length)}</p>`;
+    cm.temata.forEach(t => {
+      const nodes = cm.nodes.filter(n => n.tema === t.id);
+      const ghosts = ghostsByTema[t.id] || [];
+      if (!nodes.length && !ghosts.length) return;
+      const readCount = nodes.filter(n => conceptRead(n.slug)).length;
+      h += `<details class="covmap-chapter-sec" open>
+        <summary style="display:flex;align-items:center;gap:.5em;cursor:pointer"><span style="width:10px;height:10px;border-radius:50%;background:${t.color};flex-shrink:0"></span>
+          <b>${this.escHtml(t.nazev)}</b>
+          <span style="color:var(--text-3);font-size:.72rem;margin-left:auto">${readCount}/${nodes.length} read${ghosts.length ? ' · 🌱 ' + ghosts.length + ' proposals' : ''}</span></summary>
+        <div style="padding:.4em 0 .6em">`;
+      nodes.forEach(n => {
+        const pool = this._conceptPool(n.slug) || [];
+        const anyRead = conceptRead(n.slug);
+        const anchorId = this.concepts?.[n.slug]?.anchor || n.slug;
+        const chips = pool.map(b => {
+          const m = b.meta || b;
+          const state = m.core ? 'core' : (m.state || 'edited');
+          const icon = TYPE_ICONS[m.type] || GENRE_ICONS[this._facetValues(m, 'genre')[0] || 'explainer'] || '📄';
+          const read = this.user.readBlocks.has(m.id);
+          return `<button class="tstrip-chip" style="--sc:${STATE_COLORS[state] || '#10B981'};${read ? 'box-shadow:0 0 0 1.5px #10B981' : ''}"
+            title="${this.escHtml((m.title || m.id) + (read ? ' · read' : ''))}" onclick="app.openTelling('${m.id}')">${icon}</button>`;
+        }).join('');
+        h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em 0;border-bottom:1px dashed var(--border)">
+          <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
+          <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || '')}">${this.escHtml(n.title)}</a>
+          <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling of this concept (author studio with an AI coach)" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
+        </div>`;
+      });
+      if (ghosts.length) {
+        h += `<div style="margin-top:.45em;font-size:.68rem;color:#0EA5E9;font-weight:700">🌱 Where to go deeper — not written yet, vote:</div>`;
+        ghosts.forEach(g => {
+          const voted = g.slug in votes;
+          h += `<div style="display:flex;align-items:flex-start;gap:.5em;padding:.22em 0">
+            <span style="font-size:.72rem;width:1.1em;text-align:center">🌱</span>
+            <div style="flex:1 1 auto"><span style="font-size:.78rem;font-weight:600;color:var(--text-2)">${this.escHtml(g.title)}</span>
+              <span style="font-size:.68rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
+            <span id="ghost-${g.slug}-cmap" style="flex-shrink:0;display:flex;gap:.25em">${voted
+              ? `<span style="font-size:.68rem;color:#0EA5E9">${votes[g.slug] > 0 ? '✓ want' : '✓ passed'}</span>`
+              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">👍 want</button>
+                 <button class="steer-chip" style="font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">no</button>`}
+              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.62rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">✍️ write it</button></span>
+          </div>`;
+        });
+      }
+      h += `</div></details>`;
+    });
+    h += `</div>`;
+    return h;
+  }
+  // „Kam dál" pod sekcí: související koncepty z mapy (existující = odkaz, 🌱 = hlas)
+  _renderConceptLinks(block) {
+    const slug = block.concept;
+    const node = this._cmapNodes?.[slug];
+    if (!node || !node.rel?.length) return '';
+    const rels = node.rel.map(r => this._cmapNodes[r]).filter(Boolean).slice(0, 5);
+    if (!rels.length) return '';
+    const chips = rels.map(r => {
+      const anchorId = this.concepts?.[r.slug]?.anchor || r.slug;
+      return `<button class="steer-chip" style="font-size:.66rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
+    }).join('');
+    return `<div class="concept-links" style="display:flex;flex-wrap:wrap;gap:.3em;align-items:center;margin:.5em 0;padding:.45em .55em;border:1px dashed var(--border);border-radius:9px">
+      <span style="font-size:.66rem;font-weight:700;color:var(--text-3)">🧭 Where next:</span>${chips}</div>`;
+  }
+
   async renderMap() {
     const el = document.getElementById('mapContent');
     const prog = this.user.getProgress(this.allBlocks);
     const visibleVoices = this.user.getVisibleVoices();
-    const mapMode = this._mapMode || 'list';
+    const mapMode = this._mapMode || 'koncepty';
 
     const summary = this.user.getSignalSummary();
 
@@ -3473,15 +3570,20 @@ class PBook {
         ${summary.dwellTotal > 60000 ? `<span>&#9201; ${Math.round(summary.dwellTotal/60000)}m reading</span>` : ''}
       </div>` : ''}
       <div class="map-mode-toggle">
+        <button class="map-mode-btn ${mapMode === 'koncepty' ? 'active' : ''}" onclick="app.setMapMode('koncepty')">🧠 Concepts</button>
         <button class="map-mode-btn ${mapMode === 'visual' ? 'active' : ''}" onclick="app.setMapMode('visual')">Visual</button>
         <button class="map-mode-btn ${mapMode === 'list' ? 'active' : ''}" onclick="app.setMapMode('list')">Detail List</button>
-        ${this._f('steering') ? `<button class="map-mode-btn ${mapMode === 'coverage' ? 'active' : ''}" onclick="app.setMapMode('coverage')">🌱 Living book</button>` : ''}
         <button class="map-mode-btn ${mapMode === 'saved' ? 'active' : ''}" onclick="app.setMapMode('saved')">Saved${this.user.savedBlocks.size ? ' (' + this.user.savedBlocks.size + ')' : ''}</button>
         <button class="map-mode-btn ${mapMode === 'notes' ? 'active' : ''}" onclick="app.setMapMode('notes')">Notes${this._getNoteCount() ? ' (' + this._getNoteCount() + ')' : ''}</button>
       </div>
       <button class="map-reset-btn" onclick="app.resetAll()">Reset progress</button>
     </div>`;
 
+    if (mapMode === 'koncepty') {
+      html += await this.renderConceptsMap();
+      el.innerHTML = html;
+      return;
+    }
     if (mapMode === 'coverage') {
       html += '<div id="coverageMapWrap" class="fade-up"><div style="padding:1.5em;color:var(--text-3);font-size:.8rem">Mapping the living book…</div></div>';
       el.innerHTML = html;
@@ -7154,6 +7256,10 @@ class PBook {
   // yet" cards. Votes measure demand BEFORE anyone invests writing effort — the
   // pre-mint stage of the elastic catalog. Curated in content/concept-proposals.json.
   async _loadProposals() {
+    this._loadConceptMap();   // fire-and-forget: „Kam dál" pod sekcemi ho potřebuje brzy
+    return this.__loadProposalsInner();
+  }
+  async __loadProposalsInner() {
     this.proposals = [];
     try {
       const res = await fetch('content/concept-proposals.json');
