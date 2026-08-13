@@ -718,7 +718,7 @@ class PBook {
         <input type="text" id="gen-wish-${blockId}" class="gen-wish" maxlength="300" value="${this.escHtml(wish)}"
           oninput="(app._steerWish=app._steerWish||{})['${conceptId}']=this.value"
           placeholder="Optional note: anything specific? (e.g. 'use a running-shop example')">
-        <button class="steer-chip steer-gen" onclick="app.generateVariant('${blockId}','${conceptId}')">&#10024; Generate exactly this (~30 s)</button>
+        <button class="steer-chip steer-gen" onclick="app.generateVariant('${blockId}','${conceptId}')">&#10024; Generate exactly this (~30 s) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
         ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
     } else if (canGen) {
       h += `<span>No telling covers this yet — turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> to generate it.</span>`;
@@ -1012,6 +1012,8 @@ class PBook {
     const target = this._steerTargets?.[conceptId] || this.user.getTargetFacets();
     const offer = document.getElementById(`gen-offer-${blockId}`);
     if (offer) offer.innerHTML = '<span class="gen-spinner">&#9889; Writing your telling&hellip; (~30 s — same concept, checked against its contract)</span>';
+    const payV = this.aiCanPay('advanced');
+    if (!payV.ok) { if (offer) offer.innerHTML = this.aiPaywallHtml('advanced'); return; }
     this.rc.logEvent('generate_request', { concept: conceptId, target });
     try {
       const existingVariants = this._conceptPool(conceptId).map(b => {
@@ -1039,6 +1041,7 @@ class PBook {
       if (offer) offer.remove();
       this._swapBlock(blockId, block, target);
       this.rc.logEvent('generate_served', { concept: conceptId, variantId: block.meta.id, cached: !!data.cached });
+      if (!data.cached) this.aiCharge('advanced', payV);
       this._setTellingChoice(conceptId, block.meta.id);
       if (this._f('gamification')) { this.user.addXP(2); this.user.save(); this.updateXPBadge(); }
     } catch (e) {
@@ -5874,9 +5877,10 @@ class PBook {
         <textarea id="remix-prompt-${blockId}" rows="2" placeholder="${insert ? `e.g. 'draw a diagram of the ranking pipeline and explain it', 'add a worked example'` : `e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'`}"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>` : ''}
         <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
+        <div style="font-size:.66rem;color:var(--text-3);margin:.15em 0">${this.aiEconHint()}</div>
         <div class="note-actions">
           <button class="note-save" onclick="app.submitManualEdit('${blockId}')">${insert ? '💾 Insert my text' : '💾 Save my edit'}</button>
-          ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">${insert ? '✨ Let AI write it' : '✨ AI rewrite'}</button>` : ''}
+          ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">${insert ? '✨ Let AI write it' : '✨ AI rewrite'} · from ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>` : ''}
           <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
         </div>
         <div id="remix-status-${blockId}"></div>`;
@@ -5935,6 +5939,20 @@ class PBook {
     document.getElementById(`remix-form-${blockId}`)?.remove();
     this._swapBlock(blockId, block, this._blockFacets(block.meta) || {});
     this.rc.logEvent('manual_edit', { blockId, remixId: id });
+    // Ruční práce plní AI peněženku — jednorázově na sekci, jen podstatná změna.
+    try {
+      const mk = 'pbook-manual-edit-rewarded';
+      const done = JSON.parse(localStorage.getItem(mk) || '[]');
+      const rootFor = src.remixOf || src.id;
+      const substantive = (newMid || '').length >= 20 || Math.abs((newMid || '').length - (oldMid || '').length) >= 20;
+      if (!done.includes(rootFor) && substantive && this._f('gamification') && CONFIG.aiEconomy?.enabled) {
+        done.push(rootFor); localStorage.setItem(mk, JSON.stringify(done));
+        const n = CONFIG.aiEconomy.earnManualEdit || 8;
+        this.user.addXP(n); this.user.save();
+        this.showXPToast('+{n} XP for a manual edit ✍️'.replace('{n}', n), 'xp');
+        this.updateXPBadge();
+      }
+    } catch (e) {}
     document.getElementById(`b-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
     this._showRemixDecision(isReRemix ? rootId : blockId, id, oldMid || original, newMid || edited);
   }
@@ -6026,6 +6044,10 @@ class PBook {
     const entry = this._findAnyBlock(blockId);
     if (!entry) return;
     const status = document.getElementById(`remix-status-${blockId}`);
+    const wantsSvgAI = /\b(diagram|schema|schéma|obráz|obrazek|nákres|nakresli|animac|animation|visuali|draw|sketch)/i.test(instruction);
+    const remixTier = wantsSvgAI ? 'advanced' : 'basic';
+    const payR = this.aiCanPay(remixTier);
+    if (!payR.ok) { if (status) status.innerHTML = this.aiPaywallHtml(remixTier); return; }
     if (status) status.innerHTML = `<span class="gen-spinner">✨ ${isInsert ? 'Writing the new passage' : 'Rewriting that part'}… (~20 s)</span>`;
     this.rc.logEvent('remix_request', { blockId, concept: this._conceptIds(entry.meta)[0], mode: isInsert ? 'insert' : 'remix', instruction: instruction.slice(0, 200) });
 
@@ -6074,6 +6096,7 @@ class PBook {
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || (insertHere ? 'insert failed' : 'remix failed'));
       const replacement = insertHere ? data.addition : data.replacement;
+      this.aiCharge(remixTier, payR);
       const attachedSvg = data.svg || null;   // reader asked for a diagram → server drew one
 
       // mark each paragraph separately — a single mark spanning \n\n breaks when
@@ -6167,7 +6190,7 @@ class PBook {
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem;margin-top:.3em"></textarea>
         <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
         <div class="note-actions">
-          <button class="note-save" onclick="app.submitDiagramRemix('${blockId}')">✨ Generate improved version</button>
+          <button class="note-save" onclick="app.submitDiagramRemix('${blockId}')">✨ Generate improved version · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
           <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
         </div>
         <div id="remix-status-${blockId}"></div>`;
@@ -6184,6 +6207,8 @@ class PBook {
     if (!entry) return;
     const status = document.getElementById(`remix-status-${blockId}`);
     if (status) status.innerHTML = '<span class="gen-spinner">✨ Redrawing… (~30–60 s for animations)</span>';
+    const payD = this.aiCanPay('advanced');
+    if (!payD.ok) { if (status) status.innerHTML = this.aiPaywallHtml('advanced'); return; }
     this.rc.logEvent('remix_request', { blockId, diagram: true, instruction: instruction.slice(0, 200) });
 
     try {
@@ -6207,6 +6232,7 @@ class PBook {
       });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || 'svg remix failed');
+      this.aiCharge('advanced', payD);
       const cleanSvg = this._sanitizeSvgClient(data.svg);
       if (!cleanSvg) throw new Error('remixed SVG failed the safety check');
 
@@ -6732,6 +6758,56 @@ class PBook {
     ];
   }
 
+  // ===== AI EKONOMIKA (hospodárná AI) =====
+  // Zůstatek = celoživotní XP − utracené. Úrovně/odznaky čtou this.user.xp,
+  // takže utrácením nikdy neklesají. Peněženka žije mimo UserModel, ať se
+  // nedotýká jeho serializace.
+  _wallet() {
+    try { return JSON.parse(localStorage.getItem('pbook-ai-wallet')) || { spent: 0, trials: 0 }; }
+    catch (e) { return { spent: 0, trials: 0 }; }
+  }
+  aiBalance() { return Math.max(0, (this.user.xp || 0) - this._wallet().spent); }
+  aiCanPay(tier) {
+    const c = CONFIG.aiEconomy;
+    if (!c || !c.enabled || !this._f('gamification')) return { ok: true, free: false };
+    const w = this._wallet();
+    if (tier === 'basic' && (w.trials || 0) < (c.freeTrials || 0)) return { ok: true, free: true };
+    return { ok: this.aiBalance() >= c.prices[tier], free: false };
+  }
+  aiCharge(tier, pay) {
+    const c = CONFIG.aiEconomy;
+    if (!c || !c.enabled || !this._f('gamification')) return;
+    const w = this._wallet();
+    if (pay && pay.free) {
+      w.trials = (w.trials || 0) + 1;
+      localStorage.setItem('pbook-ai-wallet', JSON.stringify(w));
+      this.showXPToast('First AI try is free 🌱', 'xp');
+    } else {
+      w.spent = (w.spent || 0) + c.prices[tier];
+      localStorage.setItem('pbook-ai-wallet', JSON.stringify(w));
+      this.showXPToast('−{p} ⚡ for AI · {b} left'.replace('{p}', c.prices[tier]).replace('{b}', '⚡' + this.aiBalance()), 'xp');
+    }
+    this.rc.logEvent('ai_spend', { tier, price: pay && pay.free ? 0 : c.prices[tier], balance: this.aiBalance() });
+    this.updateXPBadge();
+  }
+  aiPaywallHtml(tier) {
+    const c = CONFIG.aiEconomy;
+    const tierName = tier === 'advanced' ? 'Advanced AI (variants & diagrams)' : 'Basic AI (text)';
+    return `<div style="border:1.5px solid #D97706;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
+      <b>⚡ Not enough ⚡ for this yet</b><br>
+      ${'{tier} costs <b>{p} ⚡</b>, you have <b>{b} ⚡</b>. Earn XP by working with the book:'.replace('{tier}', tierName).replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance())}<br>
+      <span style="color:var(--text-2,#666)">${'read a section +10 · recall card +2 · game +5 · note +3 · <b>manual edit +{me}</b>'.replace('{me}', c.earnManualEdit)}</span><br>
+      <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
+    </div>`;
+  }
+  aiEconHint() {
+    const c = CONFIG.aiEconomy;
+    if (!c || !c.enabled || !this._f('gamification')) return '';
+    const trial = this.aiCanPay('basic').free ? ' · first try free 🌱' : '';
+    return 'AI costs XP: text {b} ⚡ · with a diagram {a} ⚡ — you have <b>⚡{bal}</b>{trial}. Manual editing is free and earns +{me} XP.'.replace('{b}', c.prices.basic).replace('{a}', c.prices.advanced)
+      .replace('{bal}', this.aiBalance()).replace('{trial}', trial).replace('{me}', c.earnManualEdit);
+  }
+
   updateXPBadge() {
     const el = document.getElementById('xpBadge');
     if (!el) return;
@@ -6739,7 +6815,7 @@ class PBook {
     el.style.display = '';
     const reward = this.getLevelRewards().filter(r => r.level <= this.user.level).pop();
     const editor = this.getEditorTrack?.().tier === 'editor' ? '🛠 ' : '';
-    el.textContent = editor + (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP';
+    el.textContent = editor + (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP' + (CONFIG.aiEconomy?.enabled ? ' · ⚡' + this.aiBalance() : '');
     el.title = editor ? 'Editor — earned through accepted contributions' : '';
     // Apply cosmetic theme
     this._applyLevelTheme();

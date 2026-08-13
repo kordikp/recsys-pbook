@@ -80,6 +80,16 @@ export const CONFIG = {
 
   // Steering & generation (P1) + community catalog economics (P2)
   // Thresholds per _design-collective-pbook.md §5-§7 — tunable defaults for the pilot.
+  // Frugal AI: generation is paid with XP earned by reading,
+  // quizzes, games, notes and manual edits. Levels and badges use lifetime
+  // XP and never drop when spending.
+  aiEconomy: {
+    enabled: true,
+    freeTrials: 1,                      // first basic-AI use is free
+    prices: { basic: 10, advanced: 30 },// basic = text rewrite/insert; advanced = variant/diagram (strong model)
+    earnManualEdit: 8,                  // reward for a manual edit (once per section)
+  },
+
   steering: {
     serveThreshold: 0.75,     // facet match ≥ this → serve existing variant, no generate offer
     offerThreshold: 0.45,     // match ≥ this → serve nearest + offer exact generation
