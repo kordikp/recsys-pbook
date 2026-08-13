@@ -711,6 +711,8 @@ export class UserModel {
   // --- Gamification ---
   addXP(amount) {
     this.xp += amount;
+    // serverová AI peněženka zrcadlí výdělky (stropy řeší server)
+    try { if (typeof window !== 'undefined') window.app?._walletEarnQueue?.(amount); } catch (e) {}
     const newLevel = Math.floor(this.xp / 50) + 1;
     if (newLevel > this.level) { this.level = newLevel; this._pendingLevelUp = newLevel; }
   }

@@ -238,6 +238,91 @@ function contentHost(req) {
   return (h && ALLOWED_SOURCE_HOSTS.includes(h)) ? h : req.headers.host;
 }
 
+// ---- Sister-deployment gateway fallback ----
+// A deployment without its own LLM key forwards requests to the gateway
+// deployment (same account) that holds one; payload carries sourceHost so
+// content lookups read the caller's book. With a local key this never runs.
+const GATEWAY = process.env.PBOOK_GATEWAY_URL || 'https://recsys-pbook.vercel.app';
+
+async function forwardToGateway(req, res) {
+  try {
+    const opts = { method: req.method, headers: { 'Content-Type': 'application/json' } };
+    if (req.method === 'POST') {
+      const body = Object.assign({}, req.body || {}, { sourceHost: String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim() });
+      opts.body = JSON.stringify(body);
+    }
+    const r = await fetch(GATEWAY + '/api/generate', opts);
+    const j = await r.json();
+    if (req.method === 'GET' && j && typeof j === 'object') j.provider = 'gateway:' + (j.provider || '?');
+    if (req.method === 'POST' && r.ok && j && j.ok && !j.cached) {
+      const wb = await walletCommit(req);
+      if (wb !== undefined) j.walletBalance = wb;
+    }
+    return res.status(r.status).json(j);
+  } catch (e) {
+    return res.status(502).json({ ok: false, available: false, error: 'gateway unreachable' });
+  }
+}
+
+// ---- AI wallet enforcement (server-authoritative XP economy) ----
+// Paid modes charge BEFORE the model runs: precheck reserves the decision,
+// commit writes the ledger row only after a successful, non-cached result.
+// Delegated requests (whitelisted sister deployments) are already enforced
+// at the caller and skipped here. Assessment (boss) and editor tools stay free.
+const { verifySession: _wVerify, ledger: _wLedger, write: _wWrite, bookOf: _wBook, sb: _wSb } = require('./wallet.js')._internals;
+const WALLET_PRICES = { basic: 10, advanced: 30 };
+
+function walletTier(body) {
+  const mode = body.mode || 'variant';
+  if (mode === 'variant' || mode === 'svg-remix') return 'advanced';
+  if (mode === 'remix' || mode === 'insert') {
+    const wantsSvg = body.wantSvg === true
+      || /\b(diagram|schema|schéma|obráz|obrazek|nákres|nakresli|animac|animation|visuali[sz]|draw|sketch)/i.test(String(body.instruction || ''));
+    return wantsSvg ? 'advanced' : 'basic';
+  }
+  return null; // propose-concepts, games-review: editor tools, free
+}
+
+async function walletPrecheck(req) {
+  try {
+    if (!process.env.SUPABASE_URL) return null;               // economy off without a ledger
+    const body = req.body || {};
+    if (ALLOWED_SOURCE_HOSTS.includes(body.sourceHost)) return null;   // delegated: caller enforced
+    const tier = walletTier(body);
+    if (!tier) return null;
+    const price = WALLET_PRICES[tier];
+    const book = _wBook(req);
+    const auth = body.auth || {};
+    const user = await _wVerify(auth.email, auth.token);
+    if (user) {
+      const led = await _wLedger(user, book);
+      if (led.balance < price) return { status: 402, body: { ok: false, error: 'insufficient_xp', balance: led.balance, price } };
+      req._walletPlan = { kind: 'spend', user, book, price, tier };
+      return null;
+    }
+    // Anonymous: a single basic-tier trial per device uid.
+    if (tier !== 'basic') return { status: 401, body: { ok: false, error: 'login_required' } };
+    const uid = String(auth.uid || '').slice(0, 80);
+    if (!uid) return { status: 401, body: { ok: false, error: 'login_required' } };
+    const rows = await _wSb('GET', `interactions?event=eq.wallet_trial&user_id=eq.${encodeURIComponent(uid)}&limit=5&select=data`);
+    const used = (Array.isArray(rows) ? rows : []).some(r => !r.data?.book || r.data.book === book);
+    if (used) return { status: 401, body: { ok: false, error: 'login_required' } };
+    req._walletPlan = { kind: 'trial', user: uid, book, price: 0, tier };
+    return null;
+  } catch (e) { return null; }   // wallet outage must never take generation down
+}
+
+async function walletCommit(req) {
+  const plan = req._walletPlan;
+  if (!plan) return undefined;
+  try {
+    if (plan.kind === 'trial') { await _wWrite(plan.user, 'wallet_trial', { book: plan.book }); return undefined; }
+    await _wWrite(plan.user, 'wallet_spend', { book: plan.book, amount: plan.price, tier: plan.tier });
+    const led = await _wLedger(plan.user, plan.book);
+    return led.balance;
+  } catch (e) { return undefined; }
+}
+
 async function selfFetch(host, path) {
   const proto = host.startsWith('localhost') || host.startsWith('127.') ? 'http' : 'https';
   const res = await fetch(`${proto}://${host}${path}`);
@@ -508,6 +593,11 @@ module.exports = async function handler(req, res) {
   // Probe: the client shows the generate button only when this says available
   if (req.method === 'GET') return res.status(200).json({ available: !!PROVIDER, provider: PROVIDER, model: PROVIDER ? MODEL : null, strongModel: PROVIDER ? STRONG_MODEL : null });
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
+  {
+    const wg = await walletPrecheck(req);
+    if (wg) return res.status(wg.status).json(wg.body);
+  }
+  if (!PROVIDER && GATEWAY) return forwardToGateway(req, res);
   if (!PROVIDER) return res.status(501).json({ ok: false, error: 'generation not configured (set ANTHROPIC_API_KEY, or OPENAI_API_KEY for the dev fallback)' });
 
   try {
@@ -668,7 +758,7 @@ Draw the supporting ${wantAnim ? 'animated ' : ''}diagram now.`;
           if (v.svg && /<svg[\s\S]*<\/svg>/.test(v.svg) && v.svg.length < 60000) svgOut = sanitizeSvgServer(v.svg);
         } catch (e) { /* diagram is best-effort — the text addition still succeeds */ }
       }
-      return res.status(200).json({ ok: true, addition: out.addition.trim(), svg: svgOut, model: STRONG_MODEL });
+      return res.status(200).json({ ok: true, addition: out.addition.trim(), svg: svgOut, model: STRONG_MODEL, walletBalance: await walletCommit(req) });
     }
 
     // --- REMIX MODE: rewrite one selected passage per the reader's instruction ---
@@ -727,7 +817,7 @@ Draw the supporting ${wantAnim ? 'animated ' : ''}diagram now.`;
           if (v.svg && /<svg[\s\S]*<\/svg>/.test(v.svg) && v.svg.length < 60000) svgOut = sanitizeSvgServer(v.svg);
         } catch (e) { /* diagram is best-effort — the text remix still succeeds */ }
       }
-      return res.status(200).json({ ok: true, replacement: out.replacement.trim(), svg: svgOut, model: MODEL });
+      return res.status(200).json({ ok: true, replacement: out.replacement.trim(), svg: svgOut, model: MODEL, walletBalance: await walletCommit(req) });
     }
 
     // --- SVG REMIX MODE: modify a diagram/animation per the reader's instruction ---
@@ -768,7 +858,7 @@ Return the complete modified SVG now.`;
         ({ p: problems, clean } = gate(out));
       }
       if (problems.length) return res.status(502).json({ ok: false, error: 'svg remix failed the validation gate', problems });
-      return res.status(200).json({ ok: true, svg: clean, model: MODEL });
+      return res.status(200).json({ ok: true, svg: clean, model: MODEL, walletBalance: await walletCommit(req) });
     }
 
     // --- VARIANT MODE (default) ---
@@ -848,7 +938,7 @@ Return the complete modified SVG now.`;
       generatedAt: new Date().toISOString(),
     };
     cache.set(id, out);
-    return res.status(200).json({ ok: true, block: out, cached: false });
+    return res.status(200).json({ ok: true, block: out, cached: false, walletBalance: await walletCommit(req) });
   } catch (e) {
     return res.status(500).json({ ok: false, error: String(e.message).slice(0, 300) });
   }
