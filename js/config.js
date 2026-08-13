@@ -85,7 +85,7 @@ export const CONFIG = {
   // XP and never drop when spending.
   aiEconomy: {
     enabled: true,
-    freeTrials: 1,                      // first basic-AI use is free
+    freeTrials: 3,                      // first basic-AI use is free
     prices: { basic: 10, advanced: 30 },// basic = text rewrite/insert; advanced = variant/diagram (strong model)
     earnManualEdit: 8,                  // reward for a manual edit (once per section)
   },

@@ -305,9 +305,10 @@ async function walletPrecheck(req) {
     if (tier !== 'basic') return { status: 401, body: { ok: false, error: 'login_required' } };
     const uid = String(auth.uid || '').slice(0, 80);
     if (!uid) return { status: 401, body: { ok: false, error: 'login_required' } };
-    const rows = await _wSb('GET', `interactions?event=eq.wallet_trial&user_id=eq.${encodeURIComponent(uid)}&limit=5&select=data`);
-    const used = (Array.isArray(rows) ? rows : []).some(r => !r.data?.book || r.data.book === book);
-    if (used) return { status: 401, body: { ok: false, error: 'login_required' } };
+    const TRIALS = parseInt(process.env.WALLET_TRIALS, 10) || 3;
+    const rows = await _wSb('GET', `interactions?event=eq.wallet_trial&user_id=eq.${encodeURIComponent(uid)}&limit=20&select=data`);
+    const used = (Array.isArray(rows) ? rows : []).filter(r => !r.data?.book || r.data.book === book).length;
+    if (used >= TRIALS) return { status: 401, body: { ok: false, error: 'login_required' } };
     req._walletPlan = { kind: 'trial', user: uid, book, price: 0, tier };
     return null;
   } catch (e) { return null; }   // wallet outage must never take generation down
@@ -590,15 +591,18 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(200).end();
-
-  // Probe: the client shows the generate button only when this says available
-  if (req.method === 'GET') return res.status(200).json({ available: !!PROVIDER, provider: PROVIDER, model: PROVIDER ? MODEL : null, strongModel: PROVIDER ? STRONG_MODEL : null });
-  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
-  {
+  // Peněženka se vynucuje před vším ostatním; nasazení bez klíče pak VŠE
+  // (včetně GET probe) deleguje na bránu — probe musí odpovídat za bránu,
+  // jinak klient schová AI tlačítka („generování není zapnuté").
+  if (req.method === 'POST') {
     const wg = await walletPrecheck(req);
     if (wg) return res.status(wg.status).json(wg.body);
   }
   if (!PROVIDER && GATEWAY) return forwardToGateway(req, res);
+
+  // Probe: the client shows the generate button only when this says available
+  if (req.method === 'GET') return res.status(200).json({ available: !!PROVIDER, provider: PROVIDER, model: PROVIDER ? MODEL : null, strongModel: PROVIDER ? STRONG_MODEL : null });
+  if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
   if (!PROVIDER) return res.status(501).json({ ok: false, error: 'generation not configured (set ANTHROPIC_API_KEY, or OPENAI_API_KEY for the dev fallback)' });
 
   try {

@@ -18,9 +18,12 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 
-const EARN_MAX_CLAIM = 40;    // largest single mission reward
-const EARN_DAILY_CAP = 200;   // per user per day
-const INIT_MAX = 100;         // one-time migration credit from pre-login XP
+// Všechny knoby jdou přeladit env proměnnými bez zásahu do kódu — pro demo
+// štědré, později se dá utáhnout (WALLET_*).
+const EARN_MAX_CLAIM = parseInt(process.env.WALLET_MAX_CLAIM, 10) || 40;   // largest single mission reward
+const EARN_DAILY_CAP = parseInt(process.env.WALLET_DAILY_CAP, 10) || 300;  // per user per day
+const INIT_MAX = parseInt(process.env.WALLET_INIT_MAX, 10) || 300;         // migration cap from pre-login XP
+const WELCOME = parseInt(process.env.WALLET_WELCOME, 10) || 100;           // welcome grant on first login
 
 async function sb(method, path, body) {
   const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
@@ -87,8 +90,9 @@ module.exports = async function handler(req, res) {
       if (!led.inited) {
         const seed = Math.max(0, Math.min(INIT_MAX, parseInt(clientXp, 10) || 0));
         await write(user, 'wallet_init', { book });
+        if (WELCOME > 0) await write(user, 'wallet_earn', { book, amount: WELCOME, reason: 'vitej' });
         if (seed > 0) await write(user, 'wallet_earn', { book, amount: seed, reason: 'migrace' });
-        led = { balance: led.balance + seed, inited: true, todayEarn: led.todayEarn };
+        led = { balance: led.balance + WELCOME + seed, inited: true, todayEarn: led.todayEarn };
       }
       return res.status(200).json({ ok: true, balance: led.balance });
     }

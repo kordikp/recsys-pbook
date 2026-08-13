@@ -4366,6 +4366,20 @@ class PBook {
     h += '</div>';
 
     // XP breakdown
+    if (CONFIG.aiEconomy?.enabled) {
+      const pr = CONFIG.aiEconomy.prices;
+      h += '<div class="profile-section"><h3>⚡ AI wallet</h3>';
+      if (this._getAuth()) {
+        h += `<div style="font-size:1.6rem;font-weight:800">⚡ ${this._srvBalance != null ? this._srvBalance : '…'}</div>
+          <div style="font-size:.75rem;color:var(--text-2)">server-side balance · basic AI (text) ${pr.basic} ⚡ · advanced (variants & diagrams) ${pr.advanced} ⚡</div>
+          <div style="font-size:.75rem;color:var(--text-2);margin-top:.3em">Earn by reading (+10), recall (+2), games (+5), notes (+3) and manual edits (+${CONFIG.aiEconomy.earnManualEdit}). A daily cap is enforced server-side.</div>`;
+      } else {
+        const left = Math.max(0, (CONFIG.aiEconomy.freeTrials || 1) - this._trialsUsedLocal());
+        h += `<div style="font-size:.95rem"><b>${left}×</b> free AI tries on this device</div>
+          <div style="font-size:.75rem;color:var(--text-2);margin-top:.3em">After login (above) your ⚡ live server-side: +100 welcome, migration of existing XP, and earnings for working with the book. Prices: text ${pr.basic} ⚡ · diagrams & variants ${pr.advanced} ⚡.</div>`;
+      }
+      h += '<div style="font-size:.7rem;color:#15803D;margin-top:.35em">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</div></div>';
+    }
     h += '<div class="profile-section"><h3>How to earn XP</h3>';
     h += '<div style="font-size:.8rem;display:grid;grid-template-columns:auto 1fr;gap:.3em .8em">';
     h += '<span style="font-weight:600;color:var(--accent)">+10 XP</span><span>Read a section</span>';
@@ -6982,7 +6996,8 @@ class PBook {
       if (d && d.ok) { this._srvBalance = d.balance; this.updateXPBadge(); }
     }, 4000);
   }
-  _trialUsedLocal() { return localStorage.getItem('pbook-ai-trial-used') === '1'; }
+  _trialsUsedLocal() { return parseInt(localStorage.getItem('pbook-ai-trials-used') || (localStorage.getItem('pbook-ai-trial-used') === '1' ? '1' : '0'), 10) || 0; }
+  _trialUsedLocal() { return this._trialsUsedLocal() >= (CONFIG.aiEconomy?.freeTrials || 1); }
   aiBalance() { return this._srvBalance == null ? 0 : this._srvBalance; }
   aiCanPay(tier) {
     const c = CONFIG.aiEconomy;
@@ -7000,8 +7015,8 @@ class PBook {
       else this.refreshAiBalance(false);
       this.showXPToast('−{p} ⚡ for AI · ⚡{b} left'.replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance()), 'xp');
     } else if (pay && pay.free) {
-      localStorage.setItem('pbook-ai-trial-used', '1');
-      this.showXPToast('First AI try is free 🌱', 'xp');
+      localStorage.setItem('pbook-ai-trials-used', String(this._trialsUsedLocal() + 1));
+      this.showXPToast('Free AI try 🌱 ({n} left)'.replace('{n}', Math.max(0, (CONFIG.aiEconomy?.freeTrials || 1) - this._trialsUsedLocal())), 'xp');
     }
     this.rc.logEvent('ai_spend', { tier, price: this._getAuth() ? c.prices[tier] : 0, balance: this.aiBalance() });
   }
