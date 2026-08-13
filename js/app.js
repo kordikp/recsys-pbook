@@ -1881,6 +1881,7 @@ class PBook {
           // Start dwell timer — find block from any loaded chapter
           const ownerCh = this._observedChapters[id];
           const block = ownerCh ? ownerCh.blocks.find(b => b.id === id) : null;
+          if (block) this._setFeedFocus(block);
           const readTimeMs = Math.min(((block?.readingTime || 2) * 60 * 1000) * 0.15, 12000); // 15% of reading time, max 12s — kids read fast!
           const startTime = Date.now();
 
@@ -3475,21 +3476,55 @@ class PBook {
     } catch (e) { this._cmapData = null; }
     if (this._cmapData) {
       this._cmapNodes = {};
-      this._cmapData.nodes.forEach(n => { this._cmapNodes[n.slug] = n; });
+      this._cmapByPool = {};
+      this._cmapData.nodes.forEach(n => {
+        this._cmapNodes[n.slug] = n;
+        (n.pool || []).forEach(pid => { if (!this._cmapByPool[pid]) this._cmapByPool[pid] = n; });
+      });
       this._refreshMiniBoard();
     }
     return this._cmapData;
   }
-  _conceptRead(slug) { return (this._conceptPool(slug) || []).some(b => this.user.readBlocks.has(b.meta?.id || b.id)); }
-  _conceptRemembered(slug) {
-    const anchorId = this.concepts?.[slug]?.anchor;
-    const card = anchorId && this.user.recall?.[anchorId];
-    return !!(card && card.reps >= 2 && card.nextReview > Date.now());
+  // Map node by slug OR by a concept/block id from its pool
+  _cmapNode(id) { return this._cmapNodes?.[id] || this._cmapByPool?.[id] || null; }
+  // Blocks belonging to a map node: pool entries resolve as a block id first (exact),
+  // then as a concept (incl. variants); without a pool it falls back to concept = slug.
+  _nodePool(node) {
+    if (!node) return [];
+    const ids = node.pool?.length ? node.pool : [node.slug];
+    const out = []; const seen = new Set();
+    ids.forEach(id => {
+      const direct = (this.allBlocks || []).find(b => (b.meta?.id || b.id) === id);
+      const blocks = direct ? [direct] : (this._conceptPool(id) || []);
+      blocks.forEach(b => { const bid = b.meta?.id || b.id; if (!seen.has(bid)) { seen.add(bid); out.push(b); } });
+    });
+    return out;
   }
-  _unmetPrereqs(slug) {
+  _nodeAnchor(node) {
+    if (!node) return '';
+    const a = this.concepts?.[node.slug]?.anchor;
+    if (a) return a;
+    const sp = this._nodePool(node).find(b => (b.meta?.type || b.type) === 'spine');
+    return sp ? (sp.meta?.id || sp.id) : node.slug;
+  }
+  _conceptRead(slug) {
     const node = this._cmapNodes?.[slug];
+    const pool = node ? this._nodePool(node) : (this._conceptPool(slug) || []);
+    return pool.some(b => this.user.readBlocks.has(b.meta?.id || b.id));
+  }
+  _conceptRemembered(slug) {
+    const node = this._cmapNodes?.[slug];
+    const ids = node
+      ? this._nodePool(node).filter(b => (b.meta?.type || b.type) === 'spine').map(b => b.meta?.id || b.id)
+      : [this.concepts?.[slug]?.anchor].filter(Boolean);
+    return ids.some(id => { const c = this.user.recall?.[id]; return c && c.reps >= 2 && c.nextReview > Date.now(); });
+  }
+  _unmetPrereqs(id) {
+    const node = this._cmapNode(id);
     if (!node || !node.prereq?.length) return [];
-    return node.prereq.filter(pr => !this._conceptRead(pr)).map(pr => this._cmapNodes[pr]).filter(Boolean);
+    return node.prereq
+      .map(pr => this._cmapNodes?.[pr]).filter(Boolean)
+      .filter(pn => this._nodePool(pn).some(b => (b.meta?.type || b.type) === 'spine') && !this._conceptRead(pn.slug));
   }
   // 🎲 Journey — game board with the suggested concept order
   async renderJourneyMap() {
@@ -3497,11 +3532,10 @@ class PBook {
     const cm = this._cmapData;
     if (!cm) return '';
     const temata = cm.temata.filter(t => cm.nodes.some(n => n.tema === t.id));
-    // geometry: snaking trail inside each region, region height driven by its row count
     const cols = Math.min(2, temata.length) || 1;
     const W = 800, colW = W / cols;
     const perRow = Math.max(3, Math.floor((colW - 130) / 84));
-    const ROW_H = 88, PAD_TOP = 56, PAD_BOT = 34;
+    const ROW_H = 92, PAD_TOP = 62, PAD_BOT = 36;
     const geo = {};
     temata.forEach((t, i) => {
       const k = cm.nodes.filter(n => n.tema === t.id).length;
@@ -3512,10 +3546,9 @@ class PBook {
     for (let r = 0; r < nRows; r++) {
       rowY.push(acc);
       const hs = temata.filter(t => geo[t.id].gridRow === r).map(t => geo[t.id].rows * ROW_H + PAD_TOP + PAD_BOT);
-      acc += Math.max(...hs, 0) + 22;
+      acc += Math.max(...hs, 0) + 24;
     }
     const H = acc + 6;
-    // field positions: boustrophedon (snake) — row end connects straight down
     const pos = {};
     temata.forEach(t => {
       const g = geo[t.id];
@@ -3526,25 +3559,24 @@ class PBook {
         const rowCount = Math.min(perRow, nodes.length - r * perRow);
         let c = i % perRow;
         if (r % 2) c = rowCount - 1 - c;
-        const step = rowCount > 1 ? Math.min(96, (colW - 140) / (rowCount - 1)) : 0;
+        const step = rowCount > 1 ? Math.min(110, (colW - 140) / (rowCount - 1)) : 0;
         const x0 = g.col * colW + colW / 2 - step * (rowCount - 1) / 2;
-        pos[n.slug] = { x: x0 + c * step, y: top + r * ROW_H + (i % 2 ? 10 : -6) };
+        pos[n.slug] = { x: x0 + c * step, y: top + r * ROW_H + (i % 2 ? 8 : -6) };
       });
     });
-    // per-field state
     const stat = {};
     const now = Date.now();
     cm.nodes.forEach(n => {
-      const pool = (this.conceptBlocks?.[n.slug] || []);
+      const pool = this._nodePool(n);
       const readable = pool.filter(b => (b.meta?.type || b.type) === 'spine');
       const read = readable.filter(b => this.user.readBlocks.has(b.meta?.id || b.id)).length;
-      const total = Math.max(1, readable.length);
       const game = pool.find(b => (b.meta?.type || b.type) === 'game');
-      const due = pool.some(b => { const c = this.user.recall?.[b.meta?.id || b.id]; return c && c.nextReview <= now; });
-      stat[n.slug] = { read, total, done: read >= total, game: game ? (game.meta?.id || game.id) : null, due, rem: this._conceptRemembered(n.slug) };
+      const due = readable.some(b => { const c = this.user.recall?.[b.meta?.id || b.id]; return c && c.nextReview <= now; });
+      stat[n.slug] = { read, total: readable.length, ghost: !readable.length, done: readable.length > 0 && read >= readable.length,
+        game: game ? (game.meta?.id || game.id) : null, due, rem: this._conceptRemembered(n.slug) };
     });
-    const cur = cm.nodes.find(n => !stat[n.slug].done && !this._unmetPrereqs(n.slug).length) || cm.nodes.find(n => !stat[n.slug].done);
-    // road in learning order — curved segments, sags between regions
+    const cur = cm.nodes.find(n => { const st = stat[n.slug]; return !st.ghost && !st.done && !this._unmetPrereqs(n.slug).length; })
+      || cm.nodes.find(n => !stat[n.slug].ghost && !stat[n.slug].done);
     let road = '';
     for (let i = 1; i < cm.nodes.length; i++) {
       const a = pos[cm.nodes[i - 1].slug], b = pos[cm.nodes[i].slug];
@@ -3552,21 +3584,21 @@ class PBook {
       const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 + (far ? 40 : 12);
       road += `M${a.x} ${a.y} Q ${mx} ${my}, ${b.x} ${b.y} `;
     }
-    // hard-prerequisite arrows
     let arrows = '';
-    cm.nodes.forEach(n => (n.prereq || []).forEach(pr => {
+    cm.nodes.forEach(n => (n.prereq || []).forEach((pr, pi) => {
       const a = pos[pr], b = pos[n.slug];
       if (!a || !b) return;
+      const why = (n.why && (n.why[pr] || n.why[pi])) || '';
       const mx = (a.x + b.x) / 2, my = (a.y + b.y) / 2 - 34;
-      arrows += `<path d="M${a.x} ${a.y} Q ${mx} ${my}, ${b.x} ${b.y}" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#jarr)" opacity="0.8"/>`;
+      arrows += `<path d="M${a.x} ${a.y} Q ${mx} ${my}, ${b.x} ${b.y}" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#jarr)" opacity="0.55">${why ? `<title>Why first: ${this.escHtml(why)}</title>` : ''}</path>`;
     }));
     const R = 25;
     let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" font-family="system-ui,sans-serif">
       <defs><marker id="jarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#94A3B8"/></marker></defs>`;
     temata.forEach(t => {
       const pts = cm.nodes.filter(n => n.tema === t.id).map(n => pos[n.slug]);
-      const minX = Math.min(...pts.map(p2 => p2.x)) - 54, maxX = Math.max(...pts.map(p2 => p2.x)) + 54;
-      const minY = Math.min(...pts.map(p2 => p2.y)) - 52, maxY = Math.max(...pts.map(p2 => p2.y)) + 52;
+      const minX = Math.min(...pts.map(p2 => p2.x)) - 56, maxX = Math.max(...pts.map(p2 => p2.x)) + 56;
+      const minY = Math.min(...pts.map(p2 => p2.y)) - 58, maxY = Math.max(...pts.map(p2 => p2.y)) + 54;
       svg += `<rect x="${minX}" y="${minY}" width="${maxX - minX}" height="${maxY - minY}" rx="24" fill="${t.color}" opacity="0.07"/>
         <text x="${minX + 14}" y="${minY + 20}" font-size="12.5" font-weight="700" fill="${t.color}">${this.escHtml(t.nazev)}</text>`;
     });
@@ -3576,29 +3608,44 @@ class PBook {
       const { x, y } = pos[n.slug];
       const st = stat[n.slug];
       const color = temaColor[n.tema] || '#6B7280';
-      const anchorId = this.concepts?.[n.slug]?.anchor || n.slug;
+      const label = this.escHtml(n.short || n.title.slice(0, 16));
+      const defTip = n.teaser || n.def || '';
+      if (st.ghost) {
+        svg += `<g style="cursor:pointer" onclick="app.startAuthoring('${n.slug}')">
+          <title>${this.escHtml((defTip ? defTip + ' — ' : '') + 'No article yet — click to write the first one! (author studio with AI coach)')}</title>
+          <circle cx="${x}" cy="${y}" r="17" fill="var(--card, #fff)" stroke="${color}" stroke-width="2" stroke-dasharray="4 4" opacity="0.85"/>
+          <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="14" fill="${color}" opacity="0.9">＋</text>
+          <text x="${x}" y="${y + 32}" text-anchor="middle" font-size="10" fill="var(--text-3, #999)">${label}</text>
+        </g>`;
+        if (st.game) svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
+          <circle cx="${x + 27}" cy="${y}" r="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
+          <text x="${x + 27}" y="${y + 4}" text-anchor="middle" font-size="10"><title>game for this concept</title>🎮</text></g>`;
+        return;
+      }
+      const anchorId = this._nodeAnchor(n);
       const pct = st.read / st.total;
       const CIRC = 2 * Math.PI * (R + 4.5);
       svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${anchorId}')">
+        ${defTip ? `<title>${this.escHtml(defTip)}</title>` : ''}
         <circle cx="${x}" cy="${y}" r="${R}" fill="${st.done ? '#D1FAE5' : 'var(--card, #fff)'}" stroke="${color}" stroke-width="3"/>
         ${pct > 0 && !st.done ? `<circle cx="${x}" cy="${y}" r="${R + 4.5}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${(CIRC * pct).toFixed(1)} ${CIRC.toFixed(1)}" transform="rotate(-90 ${x} ${y})" opacity="0.85"/>` : ''}
         <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="${st.done ? 16 : 12.5}" font-weight="700" fill="${st.done ? '#15803D' : 'var(--text, #1b1b1f)'}">${st.done ? '✓' : `${st.read}/${st.total}`}</text>
-        ${st.rem ? `<text x="${x + R - 6}" y="${y - R + 8}" font-size="13"><title>well remembered</title>⭐</text>` : ''}
-        ${st.due ? `<text x="${x - R - 10}" y="${y + R + 4}" font-size="12" onclick="event.stopPropagation();app.switchView('quiz')"><title>review due — open Quiz</title>⏰</text>` : ''}
-        ${cur && cur.slug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="3 5"/><text x="${x - R + 1}" y="${y - R + 7}" text-anchor="middle" font-size="15">🧭</text>` : ''}
-        <text x="${x}" y="${y + R + 16}" text-anchor="middle" font-size="10.5" fill="var(--text-2, #666)">${this.escHtml(n.short || n.title.slice(0, 16))}</text>
+        ${st.rem ? `<text x="${x + R - 4}" y="${y - R + 6}" font-size="13"><title>well remembered</title>⭐</text>` : ''}
+        ${st.due ? `<text x="${x - R - 14}" y="${y + 4}" font-size="12" onclick="event.stopPropagation();app.switchView('quiz')"><title>review due — open Quiz</title>⏰</text>` : ''}
+        ${cur && cur.slug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="3 5"/><text x="${x - R + 1}" y="${y - R + 3}" text-anchor="middle" font-size="15">🧭</text>` : ''}
+        <text x="${x}" y="${y + R + 16}" text-anchor="middle" font-size="10.5" fill="var(--text-2, #666)">${label}</text>
       </g>`;
       if (st.game) {
         svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
-          <circle cx="${x + R + 9}" cy="${y - R + 4}" r="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
-          <text x="${x + R + 9}" y="${y - R + 8}" text-anchor="middle" font-size="10"><title>game for this concept</title>🎮</text>
+          <circle cx="${x + R + 12}" cy="${y}" r="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
+          <text x="${x + R + 12}" y="${y + 4}" text-anchor="middle" font-size="10"><title>game for this concept</title>🎮</text>
         </g>`;
       }
     });
     svg += '</svg>';
     return `<div class="fade-up" style="max-width:840px;margin:0 auto">
-      <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .2em">The book as a game board: each field is a concept, the number shows how many of its articles you have read (✓ = all). The 🧭 pawn stands on the next suggested field.</p>
-      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game on the field · ⇢ know first</p>${svg}</div>`;
+      <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .2em">The book as a game board: fields are concepts, the number shows how many of their articles you have read (✓ = all). Dashed ＋ fields are still waiting for an article — click to write it yourself. Hover a field for its definition, hover an arrow for the reason of the dependency.</p>
+      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p>${svg}</div>`;
   }
 
   async renderConceptsMap() {
@@ -3609,7 +3656,7 @@ class PBook {
     const GENRE_ICONS = { explainer: '📄', story: '📖', 'worked-example': '🧮', 'code-walkthrough': '💻', comic: '🎭', animation: '🎞' };
     const STATE_COLORS = { core: '#7C3AED', edited: '#10B981', community: '#D97706', private: '#9CA3AF' };
     const TYPE_ICONS = { game: '🎮', question: '❓' };
-    const conceptRead = slug => (this._conceptPool(slug) || []).some(b => this.user.readBlocks.has(b.meta?.id || b.id));
+    const conceptRead = slug => this._conceptRead(slug);
     const readN = cm.nodes.filter(n => conceptRead(n.slug)).length;
     // 🌱 živé návrhy ze serveru (this.proposals) přiřazené k tématům dle kapitoly
     const ghostsByTema = {};
@@ -3631,9 +3678,10 @@ class PBook {
           <span style="color:var(--text-3);font-size:.72rem;margin-left:auto">${readCount}/${nodes.length} read${ghosts.length ? ' · 🌱 ' + ghosts.length + ' proposals' : ''}</span></summary>
         <div style="padding:.4em 0 .6em">`;
       nodes.forEach(n => {
-        const pool = this._conceptPool(n.slug) || [];
+        const pool = this._nodePool(n);
         const anyRead = conceptRead(n.slug);
-        const anchorId = this.concepts?.[n.slug]?.anchor || n.slug;
+        const anchorId = this._nodeAnchor(n);
+        const hasSpine = pool.some(b => ((b.meta || b).type) === 'spine');
         const chips = pool.map(b => {
           const m = b.meta || b;
           const state = m.core ? 'core' : (m.state || 'edited');
@@ -3644,7 +3692,8 @@ class PBook {
         }).join('');
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em 0;border-bottom:1px dashed var(--border)">
           <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
-          <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || '')}">${this.escHtml(n.title)}</a>
+          <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || n.def || '')}">${this.escHtml(n.title)}</a>
+          ${hasSpine ? '' : '<span style="font-size:.62rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling of this concept (author studio with an AI coach)" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
         </div>`;
       });
@@ -3672,6 +3721,15 @@ class PBook {
   // „Kam dál" pod sekcí: související koncepty z mapy (existující = odkaz, 🌱 = hlas)
   // Floating game-board thumbnail — small, non-invasive, always visible while reading;
   // click opens the Journey. Replaces the old dot strip (too much in the face).
+  // The concept you are reading right now — the mini-map highlights it as you scroll
+  _setFeedFocus(blockMeta) {
+    const ids = [blockMeta.id, ...(this._conceptIds ? this._conceptIds(blockMeta) : (blockMeta.concept ? [blockMeta.concept] : []))];
+    let node = null;
+    for (const cid of ids) { node = this._cmapNode(cid); if (node) break; }
+    const slug = node ? node.slug : null;
+    if (slug !== this._feedFocusSlug) { this._feedFocusSlug = slug; this._refreshMiniBoard(); }
+  }
+
   _refreshMiniBoard() {
     const cm = this._cmapData;
     let el = document.getElementById('miniBoard');
@@ -3690,7 +3748,8 @@ class PBook {
     const step = (96 - 16) / Math.max(per - 1, 1);
     const W = 96, H = rows * 11 + 6;
     const temaColor = {}; cm.temata.forEach(t => { temaColor[t.id] = t.color; });
-    const cur = cm.nodes.find(n => !this._conceptRead(n.slug) && !this._unmetPrereqs(n.slug).length) || cm.nodes.find(n => !this._conceptRead(n.slug));
+    const hasArt = n => this._nodePool(n).some(b => ((b.meta || b).type) === 'spine');
+    const cur = cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug) && !this._unmetPrereqs(n.slug).length) || cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug));
     let svg = `<svg viewBox="0 0 ${W} ${H}" style="display:block;width:100%">`;
     cm.nodes.forEach((n, i) => {
       const r = Math.floor(i / per);
@@ -3699,7 +3758,12 @@ class PBook {
       const x = 8 + c * step, y = 7 + r * 11;
       const read = this._conceptRead(n.slug), rem = this._conceptRemembered(n.slug);
       const isCur = cur && cur.slug === n.slug;
-      svg += `<circle cx="${x}" cy="${y}" r="${isCur ? 3.8 : 2.8}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--border,#ddd)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 1.8 : 0.8}"/>`;
+      const isFocus = this._feedFocusSlug === n.slug;
+      const ghost = !this._nodePool(n).some(b => ((b.meta || b).type) === 'spine');
+      if (isFocus) svg += `<circle cx="${x}" cy="${y}" r="5.4" fill="none" stroke="#6366F1" stroke-width="1.6"/>`;
+      svg += ghost
+        ? `<circle cx="${x}" cy="${y}" r="2" fill="none" stroke="${temaColor[n.tema] || '#999'}" stroke-width="0.8" stroke-dasharray="1.5 1.5"/>`
+        : `<circle cx="${x}" cy="${y}" r="${isCur ? 3.8 : 2.8}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--border,#ddd)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 1.8 : 0.8}"/>`;
     });
     svg += '</svg>';
     el.innerHTML = svg;
@@ -3712,7 +3776,7 @@ class PBook {
     try { if ((JSON.parse(localStorage.getItem('pbook-prereq-dismissed') || '[]')).includes(block.concept)) return ''; } catch (e) {}
     const unmet = this._unmetPrereqs(block.concept);
     if (!unmet.length) return '';
-    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.68rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this.concepts?.[n.slug]?.anchor || n.slug}')">${this.escHtml(n.short || n.title)}</button>`).join('');
+    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.68rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
     return `<div class="prereq-banner" style="display:flex;flex-wrap:wrap;gap:.35em;align-items:center;margin:0 0 .6em;padding:.45em .6em;border:1.5px dashed #0EA5E9;border-radius:9px;background:color-mix(in srgb, #0EA5E9 6%, transparent);font-size:.72rem">
       <b>🧩 To make sense of this, first read:</b>${chips}
       <a href="#" style="margin-left:auto;color:var(--text-3)" onclick="event.preventDefault();try{const k='pbook-prereq-dismissed';const a=JSON.parse(localStorage.getItem(k)||'[]');a.push('${block.concept}');localStorage.setItem(k,JSON.stringify(a));}catch(e){};this.closest('.prereq-banner').remove()">read anyway</a>
@@ -3721,12 +3785,12 @@ class PBook {
 
   _renderConceptLinks(block) {
     const slug = block.concept;
-    const node = this._cmapNodes?.[slug];
+    const node = this._cmapNode(slug);
     if (!node || !node.rel?.length) return '';
     const rels = node.rel.map(r => this._cmapNodes[r]).filter(Boolean).slice(0, 5);
     if (!rels.length) return '';
     const chips = rels.map(r => {
-      const anchorId = this.concepts?.[r.slug]?.anchor || r.slug;
+      const anchorId = this._nodeAnchor(r);
       return `<button class="steer-chip" style="font-size:.66rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
     }).join('');
     return `<div class="concept-links" style="display:flex;flex-wrap:wrap;gap:.3em;align-items:center;margin:.5em 0;padding:.45em .55em;border:1px dashed var(--border);border-radius:9px">
