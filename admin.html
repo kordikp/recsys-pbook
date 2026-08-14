@@ -214,7 +214,7 @@ if(localStorage.getItem('pbook-admin-session')==='1') document.getElementById('l
     <h1>&#128218; p-book Admin</h1>
     <nav id="mainNav"></nav>
     <div class="spacer"></div>
-    <button onclick="newBlock()" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;background:var(--accent);color:#fff">+ New Block</button>
+    <a href="/#view-map" target="_blank" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;background:var(--accent);color:#fff;text-decoration:none" title="new content is written in the book's ✍️ author studio">✍️ Write in book</a>
     <button onclick="showRCSetup()" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">Recombee</button>
     <button onclick="syncRecombee()" id="syncBtn" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">Sync Items</button>
     <button onclick="changePwd()" style="font-size:.65rem;color:var(--text3)">Change password</button>
@@ -231,31 +231,19 @@ if(localStorage.getItem('pbook-admin-session')==='1') document.getElementById('l
 import { renderMarkdown } from './js/markdown.js';
 window.renderMD = renderMarkdown;
 
-const PIL = ['Configurable Intelligence','Production Reality','Scientific Depth','Applied Use Cases','Future of Discovery'];
-const SER = ['In Control','Production Notes','Behind the Algorithm','Use Case Breakdown','Build vs Buy'];
-const STDC = ['SEE','THINK','DO','CARE'];
-const PER = ['Eva (PM)','Daniel (CEO)'];
-const FMT = ['LinkedIn Post','LinkedIn Carousel','X Thread','Blog Article','YouTube Script','Newsletter','Gabriela LinkedIn'];
-const STAGES = ['draft','review','approved','ready_for_pr','published'];
-const STAGE_LABELS = {draft:'Draft',review:'In Review',approved:'Approved',ready_for_pr:'Ready for PR',published:'Published'};
-const STAGE_COLORS = {draft:'#d1d5db',review:'#fbbf24',approved:'#60a5fa',ready_for_pr:'#a78bfa',published:'#34d399'};
-// Tabs follow the content lifecycle: readers create DEMAND → AI drafts PROPOSALS
-// (interest-tested as ghost items) → COMMUNITY tellings earn adoption → HEALTH
-// keeps shipped content working → CATALOG is the source of truth → REACH measures
-// growth (invites, editors) → STUDIO is where editors write. Legacy tools in More.
-const TABS = ['📥 Demand','🌱 Proposals','⚡ Community','🩺 Health','📚 Catalog','📈 Reach','✍️ Studio','⚙️ More'];
+// Tabs follow the content lifecycle: readers create DEMAND → PROPOSALS are
+// drafted (AI or by hand) and interest-tested as 🌱 ghost items → reader
+// contributions land in REVIEW and get adopted into the served book → HEALTH
+// keeps shipped content working → CATALOG is the source of truth → REACH
+// measures growth (invites, editors). Writing happens in the book's ✍️ studio.
+const TABS = ['📥 Demand','🌱 Proposals','⚡ Review','🩺 Health','📚 Catalog','📈 Reach','⚙️ More'];
 
-let book,allBlocks=[],mktg={},currentTab='📥 Demand',sideFilter=null,editorBlock=null;
+let book,allBlocks=[],currentTab='📥 Demand',sideFilter=null,editorBlock=null;
 // These must be on window because onclick handlers run in global scope
-window.editorTab='preview';
-try{mktg=JSON.parse(localStorage.getItem('pbook-mktg')||'{}')}catch(e){}
-function save(){localStorage.setItem('pbook-mktg',JSON.stringify(mktg))}
 
 async function init(){
   book=await(await fetch('content/book.json')).json();
   for(const ch of book.chapters){const dir=`content/${ch.directory}`;for(const f of ch.files){try{const t=await(await fetch(`${dir}/${f}`)).text();const{meta,body}=parseFM(t);allBlocks.push({...meta,body,_ch:ch.id,_cn:ch.number,_ct:ch.title,_f:f})}catch(e){}}}
-  // Apply saved content status overrides
-  try{const st=JSON.parse(localStorage.getItem('pbook-content-statuses')||'{}');Object.entries(st).forEach(([id,s])=>{const b=allBlocks.find(x=>x.id===id);if(b)b.status=s})}catch(e){}
   document.getElementById('hstat').textContent=`${allBlocks.length} blocks · ${book.chapters.length} chapters`;
   document.getElementById('mainNav').innerHTML=TABS.map(t=>`<button class="${t===currentTab?'active':''}" onclick="ST('${t}')">${t}</button>`).join('');
   renderSidebar();showMain();
@@ -265,14 +253,8 @@ function parseFM(t){const m=t.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);if(!m)r
 
 function renderSidebar(){
   const sb=document.getElementById('sidebar');
-  const stages={};STAGES.forEach(s=>stages[s]=0);
-  Object.values(mktg).forEach(m=>{if(m.status&&stages[m.status]!==undefined)stages[m.status]++});
-  const untagged=allBlocks.length-Object.keys(mktg).length;
-
-  let h=`<div class="sf-title">Pipeline</div>`;
-  h+=`<div class="sf-pipe ${!sideFilter?'active':''}" onclick="SF(null)"><span class="sf-dot" style="background:var(--accent)"></span> All <span class="sf-count">${allBlocks.length}</span></div>`;
-  h+=`<div class="sf-pipe ${sideFilter==='untagged'?'active':''}" onclick="SF('untagged')"><span class="sf-dot sdot-none"></span> Untagged <span class="sf-count">${untagged}</span></div>`;
-  STAGES.forEach(s=>{h+=`<div class="sf-pipe ${sideFilter===s?'active':''}" onclick="SF('${s}')"><span class="sf-dot" style="background:${STAGE_COLORS[s]}"></span> ${STAGE_LABELS[s]} <span class="sf-count">${stages[s]}</span></div>`});
+  let h=`<div class="sf-title">Book</div>`;
+  h+=`<div class="sf-pipe ${!sideFilter?'active':''}" onclick="SF(null)"><span class="sf-dot" style="background:var(--accent)"></span> All blocks <span class="sf-count">${allBlocks.length}</span></div>`;
 
   h+=`<div class="sf-title">Chapters</div>`;
   book.chapters.forEach((ch,i)=>{
@@ -281,17 +263,8 @@ function renderSidebar(){
   });
 
   // Content status counts
-  const draftC=allBlocks.filter(b=>b.status==='draft').length;
-  const reviewC=allBlocks.filter(b=>b.status==='review').length;
-  const acceptC=allBlocks.filter(b=>b.status==='accepted'||!b.status).length;
-  h+=`<div class="sf-title">Content Status</div>`;
-  if(draftC)h+=`<div class="sf-pipe" onclick="ST('Editorial')"><span class="sdot" style="background:#D97706"></span> Draft <span class="sf-count">${draftC}</span></div>`;
-  if(reviewC)h+=`<div class="sf-pipe" onclick="ST('Editorial')"><span class="sdot" style="background:#3B82F6"></span> In Review <span class="sf-count">${reviewC}</span></div>`;
-  h+=`<div class="sf-pipe" onclick="ST('Editorial')"><span class="sdot sdot-published"></span> Accepted <span class="sf-count">${acceptC}</span></div>`;
 
-  h+=`<div class="sf-title">Actions</div>`;
-  h+=`<div class="sf-item" onclick="autoTag()">&#9881; Auto-tag all</div>`;
-  h+=`<div class="sf-item" onclick="exportCSV()">&#128190; Export CSV</div>`;
+
   sb.innerHTML=h;
 }
 
@@ -301,37 +274,24 @@ window.SF=function(f){
   if(sideFilter && currentTab!=='Content'){currentTab='Content';document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.textContent==='Content'));}
   renderSidebar();showMain();
 };
-window.CSI=function(v){contentSearch=v;renderContent(document.getElementById('main'))};
-window.CSC=function(){contentSearch='';renderContent(document.getElementById('main'))};
 window.ST=function(t){currentTab=t;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.textContent===t));showMain()};
 
 function showMain(){
   const m=document.getElementById('main');
   if(currentTab==='📥 Demand')renderDemand(m);
   else if(currentTab==='🌱 Proposals')renderProposals(m);
-  else if(currentTab==='⚡ Community')renderCommunity(m);
+  else if(currentTab==='⚡ Review')renderCommunity(m);
   else if(currentTab==='🩺 Health')renderHealth(m);
   else if(currentTab==='📚 Catalog')renderCatalog(m);
   else if(currentTab==='📈 Reach')renderReach(m);
-  else if(currentTab==='✍️ Studio')renderEditorial(m);
   else if(currentTab==='⚙️ More')renderMore(m);
-  // legacy tools reachable from More
-  else if(currentTab==='Content')renderContent(m);
-  else if(currentTab==='Feedback')renderFeedback(m);
-  else if(currentTab==='Certificates')renderCertificates(m);
-  else if(currentTab==='PR Pipeline')renderPipeline(m);
-  else if(currentTab==='PR Push')renderPR(m);
   else renderDemand(m);
 }
 
 function renderMore(m){
-  m.innerHTML=`<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.5em">More tools</h2>
-    <p style="font-size:.75rem;color:var(--text3);margin-bottom:1em">Utilities that sit outside the everyday editorial loop.</p>
-    <div style="display:flex;flex-wrap:wrap;gap:.6em">
-      ${['Feedback','Content','Certificates','PR Pipeline','PR Push'].map(x=>`<button onclick="ST('${x}')" style="font-size:.78rem;padding:.5em 1em;border:1.5px solid var(--border);border-radius:8px">${x}</button>`).join('')}
-    </div>
-    <h3 style="font-size:.85rem;font-weight:700;margin:1.4em 0 .4em">How this works</h3>
-    <p style="font-size:.75rem;color:var(--text3)">The pipeline (tabs left → right) mirrors how content is made: readers create <b>Demand</b> (steering misses, concept wishes, goals) → the AI drafts <b>Proposals</b>, interest-tested as 🌱 ghost cards → readers' own tellings earn adoption in <b>Community</b> → <b>Health</b> watches shipped content → <b>Catalog</b> is the source of truth → <b>Reach</b> tracks growth and the editor track → <b>Studio</b> is where you write. Guides: <a href="HUMANS.md" target="_blank">HUMANS.md</a> (roles) · <a href="AGENTS.md" target="_blank">AGENTS.md</a> (AI collaborators) · <a href="PERSONALIZATION.md" target="_blank">implementation</a>.</p>`;
+  m.innerHTML=`<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.5em">How this works</h2>
+    <p style="font-size:.78rem;color:var(--text2);max-width:640px">The pipeline (tabs left → right) mirrors how content is made: readers create <b>Demand</b> (steering misses, concept wishes, goals) → <b>Proposals</b> are drafted by AI or by hand and interest-tested as 🌱 ghost cards → readers' and editors' tellings land in <b>Review</b>, where you adopt them into the served book (state <b>edited</b>/<b>core</b>) or improve them first in the book's ✍️ author studio → <b>Health</b> watches shipped content → <b>Catalog</b> is the source of truth → <b>Reach</b> tracks growth and the editor track.</p>
+    <p style="font-size:.75rem;color:var(--text3);max-width:640px">Writing happens in the book itself: open any concept with the ✍️ pencil (or <span style="font-family:var(--mono)">/#autor-&lt;slug&gt;</span>) — live preview, image editing, AI coach. Adopted tellings serve to everyone immediately; the ⬇ .md button gives you the canonical file to commit to git. Guides: <a href="HUMANS.md" target="_blank">HUMANS.md</a> · <a href="AGENTS.md" target="_blank">AGENTS.md</a>.</p>`;
 }
 
 // ===== COVERAGE — the redakce cockpit (spec §12): concept × lens matrix,
@@ -537,6 +497,22 @@ window.loadFullBlock=async function(blockId,elId){
   }catch(e){el.textContent='Load failed: '+e.message}
 };
 
+// Editor polish loop: pull the contribution into the BOOK's author studio (same
+// origin → shared localStorage), improve it there, share, then adopt here.
+window.improveInStudio=async function(itemId,concept){
+  let body='',svg='';
+  try{const rows=await(await fetch('/api/log?full=1&blockId='+encodeURIComponent(itemId))).json();
+    const d=rows[0]?.data||{};body=d.body||'';svg=d.svg||'';}catch(e){}
+  if(!body){alert('No archived body for this item — open the preview and copy it manually.');return;}
+  const slug=concept||itemId;
+  const KEY='pbook-author-drafts';
+  let all={};try{all=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  if(all[slug]?.text?.trim()&&!confirm('The studio already has a draft for "'+slug+'". Overwrite it with this contribution?'))return;
+  all[slug]={text:body+(svg?'\n\n⟦svg⟧\n'+svg+'\n⟦/svg⟧\n':''),ts:Date.now()};
+  localStorage.setItem(KEY,JSON.stringify(all));
+  window.open('/#autor-'+encodeURIComponent(slug),'_blank');
+};
+
 window.setBlockState=async function(itemId,state){
   if(state!=='community'&&!confirm(`Set "${itemId}" to state=${state}? ${state==='core'?'CORE serves to everyone and counts toward certification.':state==='edited'?'Serves to everyone (including safe mode).':''}`))return;
   try{
@@ -589,7 +565,7 @@ async function renderCommunity(m){
     const s=commSignals[i.itemId]||{views:new Set(),likes:new Set()};
     return {item:i,readers:s.views.size,likes:s.likes.size,score:s.likes.size*3+s.views.size};
   }).sort((a,b)=>b.score-a.score);
-  let h=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">⚡ Community — nomination queue (${merged.length})</h2>`;
+  let h=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">⚡ Review — reader contributions (${merged.length})</h2>`;
   h+=`<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Reader-shared tellings, ranked by traction. Adoption threshold: ≥${ADOPTION_K} distinct readers with positive signal. Adopt = download .md, review against the concept contract (HUMANS.md checklist), commit (state: edited), Sync Items. Adoption promotes the author on their 🛠 Editor track.</p>`;
   h+=nominated.length?nominated.map(({item,readers,likes})=>{
     const ready=likes>=ADOPTION_K;
@@ -608,6 +584,7 @@ async function renderCommunity(m){
         <button onclick="setBlockState('${esc(item.itemId)}','core')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent);font-weight:700">★ Promote → core</button>
         <button onclick="setBlockState('${esc(item.itemId)}','community')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1px solid var(--border);color:var(--text3)">↩ back to community</button>
         <button onclick="adoptCommunity('${esc(item.itemId)}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1px dashed var(--border);color:var(--text3)" title="canonical path: commit the markdown to git">⬇ .md for git</button>
+        <button onclick="improveInStudio('${esc(item.itemId)}','${esc(item.concept||'')}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #EC4899;color:#EC4899;font-weight:700" title="load into the book's author studio, polish, then share & adopt">✍️ Improve in studio</button>
       </div>
     </div>`;
   }).join(''):'<p style="font-size:.75rem;color:var(--text3)">No community blocks shared yet.</p>';
@@ -1081,9 +1058,7 @@ window.adoptCommunity=function(itemId){
 
 function filtered(){
   let list=allBlocks;
-  if(sideFilter==='untagged')list=list.filter(b=>!mktg[b.id]);
-  else if(sideFilter&&sideFilter.startsWith('ch'))list=list.filter(b=>b._cn===parseInt(sideFilter.slice(2)));
-  else if(sideFilter)list=list.filter(b=>mktg[b.id]?.status===sideFilter);
+  if(sideFilter&&sideFilter.startsWith('ch'))list=list.filter(b=>'ch'+b._cn===sideFilter);
   return list;
 }
 
@@ -1329,695 +1304,71 @@ window.clearAnalytics = function() {
   showMain();
 };
 
-// ---- Editorial: review & accept content ----
-function renderEditorial(el){
-  const draft=allBlocks.filter(b=>b.status==='draft');
-  const review=allBlocks.filter(b=>b.status==='review');
-  const accepted=allBlocks.filter(b=>b.status==='accepted'||!b.status);
-
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">Editorial</h2>';
-  h+='<p style="font-size:.82rem;color:var(--text2);margin-bottom:1em">Review content. Only <b>accepted</b> items are visible to readers.</p>';
-
-  // Quick stats
-  h+='<div class="cg">';
-  h+=gc('Draft',draft.length,'needs review');
-  h+=gc('In Review',review.length,'being checked');
-  h+=gc('Accepted',accepted.length,'live for readers');
-  h+=gc('Total',allBlocks.length,book.chapters.length+' chapters');
-  h+='</div>';
-
-  // Draft — needs action
-  if(draft.length){
-    h+='<div style="display:flex;align-items:center;gap:.5em;margin:1em 0 .5em"><h3 style="font-size:.9rem;font-weight:700;color:#D97706">Drafts ('+draft.length+')</h3>';
-    h+='<button class="ed-btn ed-btn-primary" style="font-size:.65rem;padding:.2em .6em" onclick="bulkStatus(\'draft\',\'accepted\')">Accept all</button></div>';
-    h+=editorialList(draft);
-  }
-
-  // In review
-  if(review.length){
-    h+='<div style="display:flex;align-items:center;gap:.5em;margin:1em 0 .5em"><h3 style="font-size:.9rem;font-weight:700;color:#3B82F6">In Review ('+review.length+')</h3>';
-    h+='<button class="ed-btn ed-btn-primary" style="font-size:.65rem;padding:.2em .6em" onclick="bulkStatus(\'review\',\'accepted\')">Accept all</button></div>';
-    h+=editorialList(review);
-  }
-
-  if(!draft.length && !review.length){
-    h+='<div style="text-align:center;padding:2em;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);color:var(--prod);font-weight:600">&#10003; All content accepted! Nothing to review.</div>';
-  }
-
-  // Accepted — collapsible
-  h+='<details style="margin-top:1.5em"><summary style="font-size:.82rem;font-weight:600;cursor:pointer;color:var(--text2)">Accepted ('+accepted.length+') — click to manage</summary>';
-  h+=editorialList(accepted);
-  h+='</details>';
-
-  el.innerHTML=h;
-}
 
 function editorialList(blocks){
   let h='<div class="cl">';
   blocks.forEach(b=>{
-    const statusColor={draft:'#D97706',review:'#3B82F6',accepted:'#34d399'}[b.status||'accepted']||'#34d399';
-    h+=`<div class="cl-item" style="grid-template-columns:8px 2.5em 1fr auto">
-      <span class="sdot" style="background:${statusColor}"></span>
+    h+=`<div class="cl-item" style="grid-template-columns:2.5em 1fr auto">
       <span class="cl-ch">Ch${b._cn}</span>
       <span><span class="cl-title" style="cursor:pointer" onclick="OD('${b.id}')">${b.title}</span>
-        <span style="font-size:.6rem;color:var(--text3);margin-left:.3em">${b.type}${b.core?' · CORE':''}</span></span>
-      <span style="display:flex;gap:.2em;flex-shrink:0">
-        ${b.status!=='draft'?`<button class="ed-btn" style="font-size:.6rem;padding:.15em .4em;color:#D97706" onclick="event.stopPropagation();cStatus('${b.id}','draft')">Draft</button>`:''}
-        ${b.status!=='review'?`<button class="ed-btn" style="font-size:.6rem;padding:.15em .4em;color:#3B82F6" onclick="event.stopPropagation();cStatus('${b.id}','review')">Review</button>`:''}
-        ${(b.status||'accepted')!=='accepted'?`<button class="ed-btn ed-btn-primary" style="font-size:.6rem;padding:.15em .4em" onclick="event.stopPropagation();cStatus('${b.id}','accepted')">Accept</button>`:''}
-      </span>
+        <span style="font-size:.6rem;color:var(--text3);margin-left:.3em">${b.type}${b.core?' · CORE':''}${b.concept?' · '+esc(b.concept):''}</span></span>
+      <span style="flex-shrink:0"><button class="ed-btn" style="font-size:.6rem;padding:.15em .45em" onclick="event.stopPropagation();OD('${b.id}')">Preview</button></span>
     </div>`;
   });
   h+='</div>';
   return h;
 }
 
-window.cStatus=function(id,status){
-  const b=allBlocks.find(x=>x.id===id);if(!b)return;
-  b.status=status;
-  let st={};try{st=JSON.parse(localStorage.getItem('pbook-content-statuses')||'{}')}catch(e){}
-  st[id]=status;localStorage.setItem('pbook-content-statuses',JSON.stringify(st));
-  toast(b.title+' → '+status);renderSidebar();showMain();
-};
-
-window.bulkStatus=function(from,to){
-  let st={};try{st=JSON.parse(localStorage.getItem('pbook-content-statuses')||'{}')}catch(e){}
-  let n=0;allBlocks.forEach(b=>{if(b.status===from){b.status=to;st[b.id]=to;n++}});
-  localStorage.setItem('pbook-content-statuses',JSON.stringify(st));
-  toast(n+' items → '+to);renderSidebar();showMain();
-};
-
-// ---- Dashboard (stats overview) ----
-function renderDash(el){
-  const tagged=Object.keys(mktg).length;
-  const byStage={};STAGES.forEach(s=>byStage[s]=0);Object.values(mktg).forEach(m=>{if(m.status)byStage[m.status]++});
-  const pillarC={};PIL.forEach(p=>pillarC[p]=0);Object.values(mktg).forEach(m=>{if(m.pillar)pillarC[m.pillar]++});
-  const stdcC={};STDC.forEach(s=>stdcC[s]=0);Object.values(mktg).forEach(m=>{if(m.stdc)stdcC[m.stdc]++});
-  const fmtC={};FMT.forEach(f=>fmtC[f]=0);Object.values(mktg).forEach(m=>{(m.formats||[]).forEach(f=>fmtC[f]++)});
-
-  let h=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.8em">Content Dashboard</h2>`;
-  h+=`<div class="cg">`;
-  h+=gc('Total',allBlocks.length,'blocks across '+book.chapters.length+' chapters');
-  h+=gc('Tagged',tagged,Math.round(tagged/allBlocks.length*100)+'% of content');
-  h+=gc('In Pipeline',byStage.review+byStage.approved+byStage.ready_for_pr,'awaiting action');
-  h+=gc('Published',byStage.published,'pushed to marketing');
-  h+=gc('Ready for PR',byStage.ready_for_pr,'waiting for PR team');
-  h+=`</div>`;
-
-  // Pillar + STDC side by side
-  h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1em;margin-bottom:1.5em">`;
-  h+=`<div class="cg-card" style="padding:1em"><h4 style="font-size:.65rem;font-weight:600;text-transform:uppercase;color:var(--text3);margin-bottom:.6em">Content Pillars</h4>`;
-  const pillarColors=['#2563eb','#059669','#7c3aed','#d97706','#dc2626'];
-  const maxP=Math.max(...Object.values(pillarC),1);
-  PIL.forEach((p,i)=>{const pct=Math.round(pillarC[p]/maxP*100);h+=`<div style="display:flex;align-items:center;gap:.5em;margin-bottom:.35em;font-size:.75rem"><span style="width:7em;color:var(--text2)">${p.split(' ').slice(0,2).join(' ')}</span><div style="flex:1;height:5px;background:var(--border);border-radius:3px"><div style="height:100%;width:${pct}%;background:${pillarColors[i]};border-radius:3px"></div></div><span style="width:1.5em;text-align:right;color:var(--text3);font-size:.65rem">${pillarC[p]}</span></div>`});
-  h+=`</div>`;
-  h+=`<div class="cg-card" style="padding:1em"><h4 style="font-size:.65rem;font-weight:600;text-transform:uppercase;color:var(--text3);margin-bottom:.6em">STDC Funnel</h4>`;
-  const stdcColors=['#dbeafe','#fef3c7','#d1fae5','#fce7f3'];const stdcText=['#1e40af','#92400e','#065f46','#9d174d'];
-  h+=`<div style="display:flex;gap:.5em">`;STDC.forEach((s,i)=>{h+=`<div style="flex:1;text-align:center;padding:.6em .3em;background:${stdcColors[i]};border-radius:8px"><div style="font-size:1.3rem;font-weight:800;color:${stdcText[i]}">${stdcC[s]}</div><div style="font-size:.65rem;font-weight:600;color:${stdcText[i]}">${s}</div></div>`});
-  h+=`</div></div></div>`;
-
-  // Format distribution
-  h+=`<div class="cg-card" style="padding:1em;margin-bottom:1.5em"><h4 style="font-size:.65rem;font-weight:600;text-transform:uppercase;color:var(--text3);margin-bottom:.6em">Generated Formats</h4>`;
-  h+=`<div style="display:flex;flex-wrap:wrap;gap:.4em">`;
-  FMT.forEach(f=>{h+=`<span style="font-size:.72rem;padding:.25em .6em;background:var(--bg);border:1px solid var(--border);border-radius:5px">${f} <b>${fmtC[f]}</b></span>`});
-  h+=`</div></div>`;
-
-  el.innerHTML=h;
-}
-function gc(t,n,s){return`<div class="cg-card"><h4>${t}</h4><div class="cg-num">${n}</div><div class="cg-sub">${s}</div></div>`}
-
-// ---- Content list ----
-window.contentSearch='';
-window.contentTypeFilter=null;
-window.contentVoiceFilter=null;
-
-window.renderContent=function(el){
-  // Apply all filters
-  let list=filtered();
-  if(contentSearch){const q=contentSearch.toLowerCase();list=list.filter(b=>(b.title||'').toLowerCase().includes(q)||(b.body||'').toLowerCase().includes(q)||(b.teaser||'').toLowerCase().includes(q)||(b.id||'').toLowerCase().includes(q))}
-  if(contentTypeFilter)list=list.filter(b=>b.type===contentTypeFilter);
-  if(contentVoiceFilter)list=list.filter(b=>(b.voice||'universal')===contentVoiceFilter);
-
-  // Type and voice counts (from filtered, before type/voice filter)
-  const baseList=filtered();
-  const typeCounts={};baseList.forEach(b=>{typeCounts[b.type]=(typeCounts[b.type]||0)+1});
-  const voiceCounts={};baseList.forEach(b=>{const v=b.voice||'universal';voiceCounts[v]=(voiceCounts[v]||0)+1});
-
-  let h='';
-
-  // Search bar
-  h+='<div style="display:flex;gap:.6em;align-items:center;margin-bottom:.8em;flex-wrap:wrap">';
-  h+='<div style="flex:1;min-width:200px;display:flex;align-items:center;gap:.4em;padding:.45em .8em;background:var(--surface);border:1px solid var(--border);border-radius:8px">';
-  h+='<span style="color:var(--text3)">&#128269;</span>';
-  h+='<input type="text" value="'+escH(contentSearch)+'" oninput="CSI(this.value)" placeholder="Search by title, content, ID..." style="flex:1;border:none;background:none;font-family:var(--font);font-size:.82rem;color:var(--text);outline:none">';
-  if(contentSearch) h+='<button style="color:var(--text3);font-size:.8rem" onclick="CSC()">&#10005;</button>';
-  h+='</div>';
-  h+='<span style="font-size:.8rem;color:var(--text3)">'+list.length+' results</span>';
-  h+='</div>';
-
-  // Quick type filters
-  h+=`<div style="display:flex;gap:.25em;margin-bottom:.5em;flex-wrap:wrap">`;
-  h+=`<button class="ed-tag ${!contentTypeFilter?'on':''}" onclick="contentTypeFilter=null;renderContent(document.getElementById('main'))">All types</button>`;
-  Object.entries(typeCounts).sort((a,b)=>b[1]-a[1]).forEach(([t,c])=>{
-    h+=`<button class="ed-tag ${contentTypeFilter===t?'on':''}" onclick="contentTypeFilter=contentTypeFilter==='${t}'?null:'${t}';renderContent(document.getElementById('main'))">${t} <span style="font-size:.6rem;color:var(--text3)">${c}</span></button>`;
-  });
-  h+=`</div>`;
-
-  // Quick voice filters
-  h+=`<div style="display:flex;gap:.25em;margin-bottom:.8em;flex-wrap:wrap">`;
-  h+=`<button class="ed-tag ${!contentVoiceFilter?'on':''}" onclick="contentVoiceFilter=null;renderContent(document.getElementById('main'))">All voices</button>`;
-  Object.entries(voiceCounts).sort((a,b)=>b[1]-a[1]).forEach(([v,c])=>{
-    const color=v==='engineer'?'var(--eng)':v==='product'?'var(--prod)':v==='business'?'var(--biz)':'var(--text3)';
-    h+=`<button class="ed-tag ${contentVoiceFilter===v?'on':''}" style="${contentVoiceFilter===v?'border-color:'+color+';color:'+color:''}" onclick="contentVoiceFilter=contentVoiceFilter==='${v}'?null:'${v}';renderContent(document.getElementById('main'))">${v} <span style="font-size:.6rem;color:var(--text3)">${c}</span></button>`;
-  });
-  h+=`</div>`;
-
-  // Content list
-  h+=`<div class="cl">`;
-  list.forEach(b=>{
-    const mk=mktg[b.id]||{};
-    const stageColor=mk.status?STAGE_COLORS[mk.status]:'transparent';
-    const voiceClass=b.voice&&b.voice!=='universal'?b.voice:'';
-    const voiceTag=voiceClass?`<span class="cl-voice" style="background:var(--${voiceClass})">${voiceClass.slice(0,3)}</span>`:'';
-    const pillar=mk.pillar?`<span class="cl-pillar">${mk.pillar.split(' ').slice(0,2).join(' ')}</span>`:'';
-    const stdc=mk.stdc?`<span class="cl-stdc" style="background:${stdcBg(mk.stdc)};color:${stdcFg(mk.stdc)}">${mk.stdc}</span>`:'';
-    // Highlight search matches in title
-    let title=b.title;
-    if(contentSearch){const re=new RegExp(`(${contentSearch.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'gi');title=title.replace(re,'<mark style="background:var(--accent-bg);padding:0 .1em;border-radius:2px">$1</mark>')}
-    h+=`<div class="cl-item" onclick="OD('${b.id}')"><span class="sdot" style="background:${stageColor}"></span><span class="cl-ch">${b._cn}.${b.type==='spine'?'S':b.type==='depth'?'D':b.type==='sidebar'?'B':'Q'}</span><span class="cl-title">${title}</span>${voiceTag}${pillar}${stdc}<div class="cl-actions"><button class="cl-act" onclick="event.stopPropagation();quickStatus('${b.id}')" title="Advance status">&#9654;</button></div></div>`;
-  });
-  if(list.length===0)h+=`<div style="text-align:center;padding:2em;color:var(--text3)">No blocks match your filters</div>`;
-  h+=`</div>`;
-  el.innerHTML=h;
-}
-
-function stdcBg(s){return{SEE:'#dbeafe',THINK:'#fef3c7',DO:'#d1fae5',CARE:'#fce7f3'}[s]||'var(--bg)'}
-function stdcFg(s){return{SEE:'#1e40af',THINK:'#92400e',DO:'#065f46',CARE:'#9d174d'}[s]||'var(--text2)'}
-
-window.quickStatus=function(id){
-  if(!mktg[id])mktg[id]={status:'draft'};
-  const cur=mktg[id].status||'draft';
-  const next=STAGES[Math.min(STAGES.indexOf(cur)+1,STAGES.length-1)];
-  mktg[id].status=next;
-  addHistory(id,`Status → ${STAGE_LABELS[next]}`);
-  save();renderSidebar();showMain();
-  toast(`${STAGE_LABELS[next]}`);
-};
-
-// ---- Pipeline kanban ----
-function renderPipeline(el){
-  let h=`<h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.8em">Content Pipeline</h2>`;
-  if(Object.keys(mktg).length===0){h+=`<div style="text-align:center;padding:3em;color:var(--text3)">No content tagged. <button style="color:var(--accent);text-decoration:underline" onclick="autoTag()">Auto-tag all</button></div>`;el.innerHTML=h;return}
-  h+=`<div class="pipeline">`;
-  STAGES.forEach(s=>{
-    const items=Object.entries(mktg).filter(([_,m])=>m.status===s).map(([id])=>allBlocks.find(b=>b.id===id)).filter(Boolean);
-    h+=`<div class="pcol"><div class="pcol-head ${s}">${STAGE_LABELS[s]} <span class="pcol-count">${items.length}</span></div><div class="pcol-list">`;
-    items.forEach(b=>{
-      const mk=mktg[b.id]||{};
-      const voiceTag=b.voice&&b.voice!=='universal'?`<span class="cl-voice" style="background:var(--${b.voice});font-size:.5rem;padding:.1em .3em">${b.voice.slice(0,3)}</span>`:'';
-      h+=`<div class="pcard" style="border-left-color:${STAGE_COLORS[s]}" onclick="OD('${b.id}')"><div class="pcard-title">${b.title}</div><div class="pcard-meta"><span>Ch${b._cn}</span>${voiceTag}${mk.pillar?'<span>'+mk.pillar.split(' ')[0]+'</span>':''}</div></div>`;
-    });
-    h+=`</div></div>`;
-  });
-  h+=`</div>`;
-  el.innerHTML=h;
-}
-
-// ---- PR Push ----
-function renderPR(el){
-  const ready=Object.entries(mktg).filter(([_,m])=>m.status==='ready_for_pr').map(([id])=>allBlocks.find(b=>b.id===id)).filter(Boolean);
-  const published=Object.entries(mktg).filter(([_,m])=>m.status==='published').map(([id])=>allBlocks.find(b=>b.id===id)).filter(Boolean);
-
-  let h=`<h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.3em">PR & Marketing Push</h2>`;
-  h+=`<p style="font-size:.82rem;color:var(--text2);margin-bottom:1.2em">Content packages ready for the marketing team. Click to open, generate social variants, and push.</p>`;
-
-  h+=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:1em;margin-bottom:1.5em">`;
-  h+=gc('Ready for PR',ready.length,'content blocks to process');
-  h+=gc('Published',published.length,'already pushed to channels');
-  h+=`</div>`;
-
-  if(ready.length){
-    h+=`<h3 style="font-size:.85rem;font-weight:700;margin-bottom:.6em">Ready for PR <span style="font-weight:400;color:var(--text3)">(${ready.length})</span></h3>`;
-    h+=`<div class="cl">`;
-    ready.forEach(b=>{
-      const mk=mktg[b.id]||{};
-      const formats=(mk.formats||[]).join(', ')||'No formats generated';
-      const persona=mk.persona||'—';
-      h+=`<div class="cl-item" style="grid-template-columns:8px 2.5em 1fr auto auto" onclick="OD('${b.id}')"><span class="sdot" style="background:#a78bfa"></span><span class="cl-ch">${b._cn}</span><span class="cl-title">${b.title}</span><span style="font-size:.65rem;color:var(--text3)">${persona}</span><span style="font-size:.65rem;color:var(--text3)">${formats}</span></div>`;
-    });
-    h+=`</div>`;
-    h+=`<div style="margin-top:.8em"><button class="ed-btn ed-btn-push" onclick="pushAllPR()">&#9654; Mark all as Published</button></div>`;
-  } else {
-    h+=`<div style="text-align:center;padding:2em;color:var(--text3);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">No content ready for PR yet. Move items through the pipeline first.</div>`;
-  }
-
-  if(published.length){
-    h+=`<h3 style="font-size:.85rem;font-weight:700;margin:1.5em 0 .6em">Recently Published</h3>`;
-    h+=`<div class="cl">`;
-    published.slice(0,20).forEach(b=>{
-      const mk=mktg[b.id]||{};
-      h+=`<div class="cl-item" style="grid-template-columns:8px 2.5em 1fr auto;opacity:.6" onclick="OD('${b.id}')"><span class="sdot sdot-published"></span><span class="cl-ch">${b._cn}</span><span class="cl-title">${b.title}</span><span style="font-size:.65rem;color:var(--text3)">${(mk.formats||[]).length} formats</span></div>`;
-    });
-    h+=`</div>`;
-  }
-
-  el.innerHTML=h;
-}
-
-window.pushAllPR=function(){
-  Object.entries(mktg).filter(([_,m])=>m.status==='ready_for_pr').forEach(([id])=>{mktg[id].status='published';addHistory(id,'Pushed to marketing')});
-  save();renderSidebar();showMain();toast('All pushed to Published');
-};
-
-// ---- Editor ----
 window.OD=function(id){
   editorBlock=allBlocks.find(b=>b.id===id);
   if(!editorBlock)return;
-  if(!mktg[id])mktg[id]={};
-  window.editorTab='preview';
   renderEditor();
   document.getElementById('editor').classList.add('open');
 };
 window.CE=function(){document.getElementById('editor').classList.remove('open')};
 
+// Block detail: read-only preview + the two actions that matter — polish the
+// telling in the book's author studio, or take the canonical .md for git.
 window.renderEditor=function(){
   const b=editorBlock;if(!b)return;
-  const mk=mktg[b.id]||{};
   const ed=document.getElementById('editor');
-
-  const statusColor={draft:'#D97706',review:'#3B82F6',accepted:'#34d399'}[b.status||'accepted']||'#34d399';
-  const statusLabel=b.status||'accepted';
   let h=`<div class="ed-head">
-    <span class="sdot" style="background:${statusColor};width:10px;height:10px"></span>
     <h2>${b.title}</h2>
-    <span style="font-size:.65rem;color:var(--text3);margin-left:.3em">Ch${b._cn} · ${b.type}${b.core?' · CORE':''}</span>
+    <span style="font-size:.65rem;color:var(--text3);margin-left:.3em">Ch${b._cn} · ${b.type}${b.core?' · CORE':''} · ${b.readingTime||3}m · ${b._f}</span>
     <div class="spacer"></div>
-    <span style="display:flex;gap:.3em">
-      ${statusLabel!=='accepted'?`<button class="ed-btn ed-btn-primary" style="font-size:.7rem;padding:.2em .6em" onclick="cStatus('${b.id}','accepted');renderEditor()">Accept</button>`:''}
-      ${statusLabel!=='review'?`<button class="ed-btn" style="font-size:.7rem;padding:.2em .6em" onclick="cStatus('${b.id}','review');renderEditor()">Review</button>`:''}
-      ${statusLabel!=='draft'?`<button class="ed-btn" style="font-size:.7rem;padding:.2em .6em;color:#D97706" onclick="cStatus('${b.id}','draft');renderEditor()">Draft</button>`:''}
-    </span>
     <button class="ed-close" onclick="CE()">&#10005;</button>
   </div>`;
-  h+=`<div class="ed-tabs">`;
-  ['preview','edit','tags','social'].forEach(t=>{h+=`<button class="ed-tab ${editorTab===t?'active':''}" onclick="window.editorTab='${t}';renderEditor()">${t==='tags'?'Tags & PR':t.charAt(0).toUpperCase()+t.slice(1)}</button>`});
-  h+=`</div>`;
-  h+=`<div class="ed-body">`;
-
-  // Meta bar always visible
-  h+=`<div style="display:flex;flex-wrap:wrap;gap:.3em;margin-bottom:.8em;font-size:.7rem">`;
-  h+=`<span style="color:var(--text3)">Ch${b._cn} · ${b.type} · ${b.voice||'universal'} · ${b.readingTime||3}m · ${b._f}</span>`;
-  h+=`</div>`;
-
-  if(editorTab==='edit'){
-    // Frontmatter fields
-    h+='<div class="ed-section"><div class="ed-label">Frontmatter</div>';
-    h+='<div class="ed-fields">';
-    h+=edField('ID','id',b.id);
-    h+=edField('Title','title',b.title);
-    h+=edSelect('Type','type',b.type,['spine','question','game']);
-    h+=edSelect('Voice','voice',b.voice||'universal',['universal','explorer','creator','thinker']);
-    h+=edSelect('Status','status',b.status||'accepted',['draft','review','accepted']);
-    h+=edSelect('Core','core',b.core?'true':'false',['true','false']);
-    h+=edField('Parent','parent',b.parent||'');
-    h+=edField('Reading time (min)','readingTime',b.readingTime||3);
-    h+=edField('Teaser','teaser',b.teaser||'');
-    h+=edField('Diagram','diagram',b.diagram||'');
-    h+=edSelect('Standalone','standalone',b.standalone?'true':'false',['true','false']);
-    h+='</div></div>';
-    // Body editor
-    h+='<div class="ed-section"><div class="ed-label">Content (Markdown)</div>';
-    h+='<textarea class="ed-body-edit" id="edBodyEdit">'+escH(b.body||'')+'</textarea>';
-    h+='</div>';
-    // Actions
-    h+='<div class="ed-btn-row">';
-    h+='<button class="ed-btn ed-btn-primary" onclick="saveBlock()">Download .md file</button>';
-    h+='<button class="ed-btn" onclick="previewBlock()">Preview</button>';
-    h+='<button class="ed-btn" style="color:#dc2626" onclick="deleteBlock()">Delete</button>';
-    h+='</div>';
-    h+='<div class="ed-section" style="margin-top:.8em"><div class="ed-label">File path</div>';
-    h+='<div style="font-size:.75rem;color:var(--text3);font-family:var(--font)">content/'+b._ch.replace('ch','ch')+'/'+b._f+'</div>';
-    h+='</div>';
-  }
-
-  if(editorTab==='preview'){
-    const bodyHtml=renderMD(b.body||'');
-    h+='<div class="ed-preview">'+bodyHtml+'</div>';
-    // Suggested formats
-    h+='<div class="ed-section" style="margin-top:1em"><div class="ed-label">Suggested formats for this content</div>';
-    const suggestions=suggestFormats(b);
-    h+='<div style="display:flex;flex-wrap:wrap;gap:.3em">';
-    suggestions.forEach(function(s){h+='<span style="font-size:.72rem;padding:.25em .6em;background:'+(s.match?'var(--accent-bg)':'var(--bg)')+';border:1px solid '+(s.match?'var(--accent)':'var(--border)')+';border-radius:5px;color:'+(s.match?'var(--accent)':'var(--text2)')+'">'+(s.match?'&#9733; ':'')+s.format+' → '+s.audience+'</span>'});
-    h+='</div></div>';
-  }
-
-  if(editorTab==='tags'){
-    h+=tagSection('Content Pillar','pillar',PIL);
-    h+=tagSection('Series','series',SER);
-    h+=tagSection('STDC Stage','stdc',STDC);
-    h+=tagSection('Target Persona','persona',PER);
-    h+=tagSection('Pipeline Status','status',STAGES.map(s=>STAGE_LABELS[s]),STAGES);
-  }
-
-  if(editorTab==='social'){
-    const genFmt=mk._genFmt||'LinkedIn Post';
-    h+=`<div class="ed-section"><div class="ed-label">Format</div><div class="ed-format-tabs">`;
-    FMT.forEach(f=>{
-      const isRec=suggestFormats(b).some(s=>s.match&&s.format===f);
-      h+=`<button class="ed-fmt ${genFmt===f?'active':''}" onclick="setGenFmt('${b.id}','${f}')">${f}${isRec?'<span class="fmt-rec"></span>':''}</button>`;
-    });
-    h+=`</div></div>`;
-    h+=`<div class="ed-section"><div class="ed-label">Generated content <span style="font-weight:400;color:var(--text3)">(edit freely)</span></div>`;
-    h+=`<textarea class="ed-output" id="genOut">${escH(generatePost(b,genFmt))}</textarea></div>`;
-    h+=`<div class="ed-btn-row">`;
-    h+=`<button class="ed-btn ed-btn-primary" onclick="copyOut()">Copy</button>`;
-    h+=`<button class="ed-btn" onclick="markFormat('${b.id}','${genFmt}')">Mark as generated</button>`;
-    h+=`<button class="ed-btn ed-btn-push" onclick="pushToPR('${b.id}')">Push to PR</button>`;
-    h+=`</div>`;
-    // Show which formats already generated
-    if(mk.formats&&mk.formats.length){
-      h+=`<div style="margin-top:.8em;font-size:.72rem;color:var(--text3)">Already generated: ${mk.formats.join(', ')}</div>`;
-    }
-  }
-
-  if(editorTab==='workflow'){
-    h+=`<div class="ed-section"><div class="ed-label">Add note (visible to team)</div>`;
-    h+=`<textarea class="ed-notes" id="wfNote" placeholder="Add a note for the team — editorial feedback, revision request, PR instructions..."></textarea>`;
-    h+=`<div class="ed-btn-row" style="margin-top:.4em"><button class="ed-btn ed-btn-primary" onclick="addNote('${b.id}')">Add Note</button>`;
-    STAGES.forEach(s=>{h+=`<button class="ed-btn" onclick="setStatus('${b.id}','${s}')" style="${mk.status===s?'background:var(--accent-bg);border-color:var(--accent);color:var(--accent)':''}">${STAGE_LABELS[s]}</button>`});
-    h+=`</div></div>`;
-    h+=`<div class="ed-section"><div class="ed-label">History</div><div class="ed-history">`;
-    const hist=mk.history||[];
-    if(hist.length){[...hist].reverse().forEach(entry=>{h+=`<div class="ed-history-item"><div>${escH(entry.text)}</div><div class="ed-history-meta">${entry.timestamp}</div></div>`})}
-    else{h+=`<div style="color:var(--text3);font-size:.78rem">No history yet</div>`}
-    h+=`</div></div>`;
-  }
-
-  h+=`</div>`;
+  h+=`<div class="ed-body">
+    <div style="display:flex;gap:.4em;flex-wrap:wrap;margin-bottom:.8em">
+      <button class="ed-btn" style="border:1.5px solid #EC4899;color:#EC4899;font-weight:700" onclick="improveGitInStudio('${b.id}')" title="load into the book's author studio for a bigger rework">✍️ Improve in studio</button>
+      <button class="ed-btn" onclick="downloadGitMd('${b.id}')" title="download the canonical markdown file">⬇ .md</button>
+      <a class="ed-btn" href="/#${encodeURIComponent(b.id)}" target="_blank" style="text-decoration:none">📖 Open in book</a>
+    </div>
+    <div style="font-size:.85rem;line-height:1.6" class="md-preview">${window.renderMD?renderMD(b.body||''):esc(b.body||'')}</div>
+  </div>`;
   ed.innerHTML=h;
-}
-
-function tagSection(label,key,options,values){
-  const mk=mktg[editorBlock.id]||{};
-  const vals=values||options;
-  let h=`<div class="ed-section"><div class="ed-label">${label}</div><div class="ed-tags">`;
-  options.forEach((o,i)=>{const v=vals[i];h+=`<button class="ed-tag ${mk[key]===v?'on':''}" onclick="setMK('${editorBlock.id}','${key}','${v}')">${o}</button>`});
-  h+=`</div></div>`;return h;
-}
-
-// Edit helpers
-function edField(label,key,value){
-  return '<div class="ed-field"><label>'+label+'</label><input type="text" data-key="'+key+'" value="'+escH(String(value||''))+'" class="ed-input"></div>';
-}
-function edSelect(label,key,value,options){
-  let h='<div class="ed-field"><label>'+label+'</label><select data-key="'+key+'" class="ed-input">';
-  options.forEach(function(o){h+='<option value="'+o+'"'+(o===String(value)?' selected':'')+'>'+o+'</option>'});
-  h+='</select></div>';
-  return h;
-}
-
-window.saveBlock=function(){
-  if(!editorBlock)return;
-  // Gather frontmatter from inputs
-  const fields={};
-  document.querySelectorAll('.ed-fields .ed-input').forEach(function(inp){
-    const key=inp.dataset.key;
-    let val=inp.value;
-    if(val==='true')val=true;else if(val==='false')val=false;else if(val==='null'||val==='')val=null;else if(/^\d+$/.test(val))val=parseInt(val);
-    fields[key]=val;
-  });
-  const body=document.getElementById('edBodyEdit')?.value||'';
-
-  // Build MD file
-  let md='---\n';
-  ['id','type','title','readingTime','standalone','teaser','voice','parent','diagram','status','core'].forEach(function(k){
-    const v=fields[k]!==undefined?fields[k]:(editorBlock[k]!==undefined?editorBlock[k]:null);
-    if(v===true)md+=k+': true\n';
-    else if(v===false)md+=k+': false\n';
-    else if(v===null||v===undefined||v==='')md+=k+': null\n';
-    else if(typeof v==='number')md+=k+': '+v+'\n';
-    else md+=k+': "'+String(v).replace(/"/g,'\\"')+'"\n';
-  });
-  md+='---\n\n'+body;
-
-  // Download as .md file
-  const filename=fields.id?fields.id.replace(/[^a-z0-9-]/g,'-')+'.md':'new-block.md';
-  const blob=new Blob([md],{type:'text/markdown'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');a.href=url;a.download=filename;a.click();
-  URL.revokeObjectURL(url);
-  toast('Downloaded: '+filename);
-  addHistory(editorBlock.id,'Content edited and downloaded');
 };
 
-window.previewBlock=function(){
-  window.editorTab='preview';
-  // Update in-memory block with edited values
-  const body=document.getElementById('edBodyEdit')?.value;
-  if(body!==undefined)editorBlock.body=body;
-  document.querySelectorAll('.ed-fields .ed-input').forEach(function(inp){
-    editorBlock[inp.dataset.key]=inp.value;
-  });
-  renderEditor();
+window.improveGitInStudio=function(id){
+  const b=allBlocks.find(x=>x.id===id);if(!b)return;
+  const slug=b.concept||b.id;
+  const KEY='pbook-author-drafts';
+  let all={};try{all=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
+  if(all[slug]?.text?.trim()&&!confirm('The studio already has a draft for "'+slug+'". Overwrite it with this section?'))return;
+  all[slug]={text:b.body||'',ts:Date.now()};
+  localStorage.setItem(KEY,JSON.stringify(all));
+  window.open('/#autor-'+encodeURIComponent(slug),'_blank');
 };
 
-window.deleteBlock=function(){
-  if(!editorBlock)return;
-  if(!confirm('Remove "'+editorBlock.title+'" from the list? (The .md file on disk is not affected.)'))return;
-  const idx=allBlocks.findIndex(function(b){return b.id===editorBlock.id});
-  if(idx>=0)allBlocks.splice(idx,1);
-  delete mktg[editorBlock.id];
-  save();
-  CE();
-  renderSidebar();showMain();
-  toast('Removed from list');
+window.downloadGitMd=function(id){
+  const b=allBlocks.find(x=>x.id===id);if(!b)return;
+  const meta=Object.entries(b).filter(([k,v])=>!k.startsWith('_')&&k!=='body'&&v!==null&&v!==undefined&&v!=='')
+    .map(([k,v])=>`${k}: ${v}`).join('\n');
+  const blob=new Blob([`---\n${meta}\n---\n\n${b.body||''}\n`],{type:'text/markdown'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=b._f||b.id+'.md';a.click();
 };
-
-window.newBlock=function(){
-  const id='new-'+Date.now().toString(36);
-  const b={id:id,type:'spine',title:'New block',voice:'universal',body:'',readingTime:3,_ch:'ch1-introduction',_cn:1,_ct:'Introduction',_f:'new.md',parent:null,teaser:'',diagram:null,standalone:false};
-  allBlocks.push(b);
-  editorBlock=b;
-  window.editorTab='edit';
-  renderEditor();
-  document.getElementById('editor').classList.add('open');
-  toast('New block created — edit and download');
-};
-
-window.setMK=function(id,k,v){if(!mktg[id])mktg[id]={};mktg[id][k]=mktg[id][k]===v?null:v;save();renderEditor();renderSidebar()};
-window.setGenFmt=function(id,f){if(!mktg[id])mktg[id]={};mktg[id]._genFmt=f;save();renderEditor()};
-window.markFormat=function(id,f){if(!mktg[id])mktg[id]={};if(!mktg[id].formats)mktg[id].formats=[];if(!mktg[id].formats.includes(f))mktg[id].formats.push(f);addHistory(id,`Generated: ${f}`);save();renderEditor();toast(`${f} marked`)};
-window.setStatus=function(id,s){if(!mktg[id])mktg[id]={};mktg[id].status=s;addHistory(id,`Status → ${STAGE_LABELS[s]}`);save();renderEditor();renderSidebar();showMain();toast(STAGE_LABELS[s])};
-window.pushToPR=function(id){setStatus(id,'ready_for_pr');toast('Pushed to PR')};
-window.addNote=function(id){const note=document.getElementById('wfNote')?.value?.trim();if(!note)return;addHistory(id,note);save();renderEditor();document.getElementById('wfNote').value='';toast('Note added')};
-window.copyOut=function(){const t=document.getElementById('genOut')?.value;navigator.clipboard?.writeText(t);toast('Copied!')};
-
-function addHistory(id,text){if(!mktg[id])mktg[id]={};if(!mktg[id].history)mktg[id].history=[];mktg[id].history.push({text,timestamp:new Date().toLocaleString()});}
-
-// ---- Format suggestions ----
-function suggestFormats(b){
-  const suggestions=[];
-  const hasMath=/\$\$/.test(b.body||'');
-  const hasTable=/^\|/m.test(b.body||'');
-  const isStandalone=b.standalone;
-  const isEngineer=b.voice==='engineer';
-  const isProduct=b.voice==='product';
-  const isBusiness=b.voice==='business';
-  const isSidebar=b.type==='sidebar';
-  const isSpine=b.type==='spine';
-
-  suggestions.push({format:'LinkedIn Post',audience:'Eva (PM)',match:isProduct||isSpine});
-  suggestions.push({format:'LinkedIn Carousel',audience:'Eva (PM)',match:hasTable||(isSpine&&!hasMath)});
-  suggestions.push({format:'X Thread',audience:'Tech community',match:isEngineer||hasMath});
-  suggestions.push({format:'Blog Article',audience:'SEO / organic',match:isSpine&&(b.readingTime||3)>=3});
-  suggestions.push({format:'YouTube Script',audience:'Eva + Daniel',match:hasMath||isEngineer});
-  suggestions.push({format:'Newsletter',audience:'Subscribers',match:isSidebar||isStandalone});
-  suggestions.push({format:'Gabriela LinkedIn',audience:'Daniel (CEO)',match:isBusiness||isSidebar});
-  return suggestions;
-}
-
-// ---- Social generator ----
-function generatePost(b,fmt){
-  const title=b.title||'';const teaser=b.teaser||'';
-  const body=(b.body||'').substring(0,1200);const ch=`Ch${b._cn}: ${b._ct}`;
-  const voice=b.voice==='engineer'?'Technical':b.voice==='product'?'Product':b.voice==='business'?'Business':'';
-
-  if(fmt==='LinkedIn Post'){
-    const voiceTag=voice?'['+voice+' perspective] ':'';
-    return teaser||title+'\n\n'+extractInsight(body)+'\n\n'+voiceTag+'From "Modern Recommender Systems" — '+ch+'\n\n#personalization #recommendersystems #recombee';
-  }
-  if(fmt==='LinkedIn Carousel'){
-    return`CAROUSEL: ${title}\n\nSlide 1: Hook — ${teaser||title}\nSlide 2: The Problem\n${extractFirst(body)}\nSlide 3: Key Insight\n${extractInsight(body)}\nSlide 4: Data / Evidence\n[Add relevant metrics or table]\nSlide 5: Takeaway\n${extractTakeaway(body)}\nSlide 6: CTA\nRead the full chapter at recombee.com/pbook`;
-  }
-  if(fmt==='X Thread'){
-    const sents=body.split(/\.\s+/).filter(s=>s.length>20).slice(0,6);
-    const thread=sents.map(function(s,i){return(i+1)+'/ '+s+'.'}).join('\n\n');
-    return'🧵 '+title+'\n\n'+thread+'\n\n'+(sents.length+1)+'/ Full deep-dive in "Modern Recommender Systems" 📖\n\n#recsys #ml #personalization';
-  }
-  if(fmt==='Blog Article'){
-    return`# ${title}\n\n*From "Modern Recommender Systems" by Pavel Kordik — ${ch}*\n\n${body.substring(0,800)}\n\n---\n\n[Continue reading →](https://recombee.com/pbook)`;
-  }
-  if(fmt==='YouTube Script'){
-    return`VIDEO: ${title}\n\n[INTRO - 30s]\n"${teaser||'Today we are looking at '+title}"\n\n[MAIN CONTENT - 3-5min]\n${extractInsight(body)}\n\n[KEY TAKEAWAY - 30s]\n${extractTakeaway(body)}\n\n[CTA - 15s]\n"Find the full deep-dive in our p-book at recombee.com"`;
-  }
-  if(fmt==='Newsletter'){
-    return`Subject: ${teaser||title}\n\nHi [name],\n\n${extractFirst(body)}\n\n${extractInsight(body)}\n\nRead the full section → [link]\n\nBest,\nThe Recombee Team`;
-  }
-  if(fmt==='Gabriela LinkedIn'){
-    return`After working with personalization systems for years, one thing keeps coming back:\n\n${extractInsight(body)}\n\nThis is what we explore in our latest deep-dive on ${title.toLowerCase()}.\n\nWhat's your experience with this? I'd love to hear.\n\n#personalization #productleadership`;
-  }
-  return`[${fmt}]\n\n${title}\n\n${body.substring(0,400)}`;
-}
-function extractFirst(t){return(t.match(/^[^.!?]+[.!?]/)||[t.substring(0,120)])[0]}
-function extractInsight(t){const b=t.match(/\*\*[^*]+\*\*/g);if(b&&b.length)return b.slice(0,2).map(x=>x.replace(/\*\*/g,'')).join('. ');return t.split(/\.\s+/).slice(1,3).join('. ').substring(0,250)}
-function extractTakeaway(t){const s=t.split(/\.\s+/).filter(x=>x.length>20);return(s[s.length-1]||'').substring(0,200)}
 function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
 
-// ---- Auto-tag ----
-window.autoTag=function(){
-  let count=0;
-  allBlocks.forEach(b=>{
-    if(mktg[b.id]&&mktg[b.id].pillar)return;
-    const mk=mktg[b.id]||{};const body=(b.body||'').toLowerCase();const title=(b.title||'').toLowerCase();
-    if(body.includes('configur')||title.includes('control')||body.includes('reql'))mk.pillar=PIL[0];
-    else if(body.includes('production')||body.includes('scale')||body.includes('latency'))mk.pillar=PIL[1];
-    else if(body.includes('algorithm')||body.includes('math')||/\$\$/.test(b.body||''))mk.pillar=PIL[2];
-    else if(body.includes('scenario')||body.includes('example')||body.includes('case'))mk.pillar=PIL[3];
-    else if(body.includes('future')||body.includes('llm'))mk.pillar=PIL[4];
-    if(b.type==='spine')mk.stdc='SEE';else if(b.voice==='product')mk.stdc='THINK';else if(b.voice==='business')mk.stdc='DO';else mk.stdc='THINK';
-    if(b.voice==='product'||b.voice==='engineer')mk.persona=PER[0];else if(b.voice==='business')mk.persona=PER[1];
-    if(!mk.status)mk.status='draft';
-    mktg[b.id]=mk;count++;
-  });
-  save();renderSidebar();showMain();toast(`Tagged ${count} blocks`);
-};
-
-// ---- Export ----
-window.exportCSV=function(){
-  let csv='id,chapter,title,type,voice,pillar,series,stdc,persona,status,formats\n';
-  allBlocks.forEach(b=>{const mk=mktg[b.id]||{};csv+=`"${b.id}","Ch${b._cn}: ${b._ct}","${(b.title||'').replace(/"/g,'""')}","${b.type}","${b.voice||''}","${mk.pillar||''}","${mk.series||''}","${mk.stdc||''}","${mk.persona||''}","${mk.status||''}","${(mk.formats||[]).join('; ')}"\n`});
-  const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='pbook-content-pipeline.csv';a.click();toast('CSV exported');
-};
-
-// ---- Reader Feedback ----
-async function renderCertificates(el){
-  el.innerHTML='<div style="text-align:center;padding:2em;color:var(--text3)">Loading certificates...</div>';
-  let certs=[];
-  try{
-    const res={ok:true,json:async()=>await getLogRows()};
-    if(res.ok){const data=await res.json();certs=data.filter(r=>r.type==='certificate').sort((a,b)=>(b.server_ts||0)-(a.server_ts||0))}
-  }catch(e){}
-  let h='<h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.8em">Certificates & Reader Feedback</h2>';
-  // Summary cards
-  const withComment=certs.filter(c=>c.data?.comment);
-  const withEmail=certs.filter(c=>c.data?.email);
-  const avgStars=certs.filter(c=>c.data?.stars>0);
-  const avg=avgStars.length?((avgStars.reduce((s,c)=>s+c.data.stars,0)/avgStars.length).toFixed(1)):'—';
-  h+=`<div class="cg">
-    <div class="cg-card"><h4>Total Certificates</h4><div class="cg-num">${certs.length}</div></div>
-    <div class="cg-card"><h4>With Comments</h4><div class="cg-num">${withComment.length}</div></div>
-    <div class="cg-card"><h4>Avg Rating</h4><div class="cg-num">${avg}</div><div class="cg-sub">${avgStars.length} ratings</div></div>
-    <div class="cg-card"><h4>Email Subscribers</h4><div class="cg-num">${withEmail.length}</div></div>
-  </div>`;
-  // Email list (copyable)
-  if(withEmail.length){
-    h+=`<div style="margin-bottom:1.2em;padding:.8em;background:var(--surface);border:1px solid var(--border);border-radius:8px">
-      <h4 style="font-size:.72rem;font-weight:600;text-transform:uppercase;color:var(--text3);margin-bottom:.4em">Email Subscribers</h4>
-      <div style="font-size:.78rem;word-break:break-all;color:var(--text2)">${withEmail.map(c=>c.data.email).join(', ')}</div>
-      <button style="margin-top:.4em;font-size:.7rem;padding:.25em .6em;border:1px solid var(--border);border-radius:4px;color:var(--accent)" onclick="navigator.clipboard.writeText('${withEmail.map(c=>c.data.email).join(', ')}');this.textContent='Copied!'">Copy emails</button>
-    </div>`;
-  }
-  // Certificate table
-  if(certs.length){
-    h+=`<table style="width:100%;border-collapse:collapse;font-size:.78rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden">
-      <thead><tr style="background:var(--bg)">
-        <th style="padding:.5em .6em;text-align:left;font-weight:600;color:var(--text3);font-size:.68rem;text-transform:uppercase">Name</th>
-        <th style="padding:.5em .6em;text-align:center">Rating</th>
-        <th style="padding:.5em .6em;text-align:left">Comment</th>
-        <th style="padding:.5em .6em;text-align:center">Level</th>
-        <th style="padding:.5em .6em;text-align:center">Sections</th>
-        <th style="padding:.5em .6em;text-align:left">Email</th>
-        <th style="padding:.5em .6em;text-align:left">Date</th>
-      </tr></thead><tbody>`;
-    certs.forEach(c=>{
-      const d=c.data||{};
-      const date=c.created_at?new Date(c.created_at).toLocaleDateString():(c.server_ts?new Date(c.server_ts).toLocaleDateString():'—');
-      const stars=d.stars?'★'.repeat(d.stars)+'☆'.repeat(5-d.stars):'—';
-      h+=`<tr style="border-top:1px solid var(--border)">
-        <td style="padding:.5em .6em;font-weight:600">${esc(d.name||'—')}</td>
-        <td style="padding:.5em .6em;text-align:center;color:#f59e0b">${stars}</td>
-        <td style="padding:.5em .6em;max-width:250px;color:var(--text2)">${esc((d.comment||'').substring(0,100))}${(d.comment||'').length>100?'…':''}</td>
-        <td style="padding:.5em .6em;text-align:center">${d.level||'—'}</td>
-        <td style="padding:.5em .6em;text-align:center">${d.sectionsRead||'—'}/${d.totalSections||'—'}</td>
-        <td style="padding:.5em .6em;font-size:.72rem;color:var(--text3)">${esc(d.email||'—')}</td>
-        <td style="padding:.5em .6em;font-size:.72rem;color:var(--text3)">${date}</td>
-      </tr>`;
-    });
-    h+='</tbody></table>';
-  }else{
-    h+='<p style="color:var(--text3);padding:2em;text-align:center">No certificates issued yet.</p>';
-  }
-  el.innerHTML=h;
-  function esc(s){return(s+'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-}
-
-function renderFeedback(el){
-  // Read from localStorage (same keys that reader.html writes to)
-  let flags=[], notes={};
-  try { flags=JSON.parse(localStorage.getItem('pbook-flags')||'[]'); } catch(e){}
-  try { notes=JSON.parse(localStorage.getItem('pbook-notes')||'{}'); } catch(e){}
-
-  let h='<h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.3em">Reader Feedback</h2>';
-  h+='<p style="font-size:.82rem;color:var(--text2);margin-bottom:1.2em">Flags and notes from readers. In production, these would come from a backend API. Currently reading from this browser\'s localStorage.</p>';
-
-  // Flags (suggest edit)
-  h+='<h3 style="font-size:.9rem;font-weight:700;margin-bottom:.6em">Edit Suggestions ('+flags.length+')</h3>';
-  if(flags.length){
-    h+='<div class="cl">';
-    flags.forEach((f,i)=>{
-      const b=allBlocks.find(x=>x.id===f.blockId);
-      const typeColors={typo:'#6b7280',unclear:'#d97706',incorrect:'#dc2626',suggestion:'#2563eb',missing:'#7c3aed'};
-      h+='<div class="cl-item" style="grid-template-columns:auto 1fr auto" onclick="OD(\''+f.blockId+'\')">';
-      h+='<span style="font-size:.6rem;font-weight:700;padding:.15em .4em;border-radius:3px;background:'+(typeColors[f.type]||'#6b7280')+';color:#fff">'+f.type+'</span>';
-      h+='<span style="font-size:.8rem"><b>'+(b?b.title:f.blockId)+'</b><br><span style="color:var(--text2)">'+escH(f.text)+'</span></span>';
-      h+='<span style="font-size:.65rem;color:var(--text3)">'+new Date(f.timestamp).toLocaleDateString()+'</span>';
-      h+='</div>';
-    });
-    h+='</div>';
-  } else {
-    h+='<div style="padding:1.5em;text-align:center;color:var(--text3);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">No edit suggestions yet. Readers can flag content using the ⚑ button on each block.</div>';
-  }
-
-  // Notes
-  const noteEntries=Object.entries(notes);
-  h+='<h3 style="font-size:.9rem;font-weight:700;margin:1.5em 0 .6em">Reader Notes ('+noteEntries.length+')</h3>';
-  if(noteEntries.length){
-    h+='<div class="cl">';
-    noteEntries.forEach(([id,text])=>{
-      const b=allBlocks.find(x=>x.id===id);
-      h+='<div class="cl-item" style="grid-template-columns:1fr" onclick="OD(\''+id+'\')">';
-      h+='<span style="font-size:.8rem"><b>'+(b?b.title:id)+'</b><br><span style="color:var(--text2);font-style:italic">"'+escH(text.substring(0,120))+(text.length>120?'...':'')+'"</span></span>';
-      h+='</div>';
-    });
-    h+='</div>';
-  } else {
-    h+='<div style="padding:1.5em;text-align:center;color:var(--text3);background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">No reader notes yet.</div>';
-  }
-
-  // How it works
-  h+='<div style="margin-top:2em;padding:1em;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius)">';
-  h+='<h4 style="font-size:.75rem;font-weight:600;text-transform:uppercase;color:var(--text3);margin-bottom:.5em">How feedback works</h4>';
-  h+='<div style="font-size:.8rem;color:var(--text2);line-height:1.5">';
-  h+='<p><b>Reader notes</b> are stored in the reader\'s browser (localStorage key: <code>pbook-notes</code>). In production, these would sync to a backend where authors can review them.</p>';
-  h+='<p style="margin-top:.5em"><b>Edit suggestions</b> (flags) are stored in <code>pbook-flags</code>. Each flag has: block ID, type (typo/unclear/incorrect/suggestion/missing), text, and timestamp.</p>';
-  h+='<p style="margin-top:.5em"><b>Content editing:</b> Authors edit the markdown files directly in <code>content/ch*/</code>. Each block is a separate .md file with YAML frontmatter. Changes are visible immediately after page refresh.</p>';
-  h+='<p style="margin-top:.5em"><b>In production:</b> Flags and notes would be sent to a Recombee-powered backend via API. Authors would receive notifications for new flags. Notes could optionally be shared (reader opt-in) for community annotation.</p>';
-  h+='</div></div>';
-
-  el.innerHTML=h;
-}
-
-// ---- Sync items to Recombee ----
 window.syncRecombee=async function(){
   const btn=document.getElementById('syncBtn');
   btn.textContent='Syncing...';btn.disabled=true;btn.style.opacity='.6';

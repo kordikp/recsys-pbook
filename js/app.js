@@ -2045,6 +2045,7 @@ class PBook {
           <button class="improve-btn" onclick="app.improveBlock('${block.id}')" title="Edit this section yourself, or let AI rewrite it">&#9999;&#65039; Improve</button>
           <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
           <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
+          <button class="act-btn" onclick="app.startAuthoringFromBlock('${block.id}')" title="Open in the author studio — bigger edits your way">&#9997;&#65039;</button>
           ${this.user.recall[block.id] ? `<button class="act-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#129504;</button>` : ''}
           <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save for later">&#128278;</button>
           <button class="act-btn share-btn" onclick="app.shareBlock('${block.id}')" title="Share">&#128279;</button>
@@ -3614,7 +3615,7 @@ class PBook {
         svg += `<g style="cursor:pointer" onclick="app.startAuthoring('${n.slug}')">
           <title>${this.escHtml((defTip ? defTip + ' — ' : '') + 'No article yet — click to write the first one! (author studio with AI coach)')}</title>
           <circle cx="${x}" cy="${y}" r="17" fill="var(--card, #fff)" stroke="${color}" stroke-width="2" stroke-dasharray="4 4" opacity="0.85"/>
-          <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="14" fill="${color}" opacity="0.9">＋</text>
+          <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="${this._nodeDraft(n) ? 12 : 14}" fill="${color}" opacity="0.9">${this._nodeDraft(n) ? '✍️' : '＋'}</text>
           <text x="${x}" y="${y + 32}" text-anchor="middle" font-size="10" fill="var(--text-3, #999)">${label}</text>
         </g>`;
         if (st.game) svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
@@ -3633,6 +3634,8 @@ class PBook {
         ${st.rem ? `<text x="${x + R - 4}" y="${y - R + 6}" font-size="13"><title>well remembered</title>⭐</text>` : ''}
         ${st.due ? `<text x="${x - R - 14}" y="${y + 4}" font-size="12" onclick="event.stopPropagation();app.switchView('quiz')"><title>review due — open Quiz</title>⏰</text>` : ''}
         ${cur && cur.slug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="3 5"/><text x="${x - R + 1}" y="${y - R + 3}" text-anchor="middle" font-size="15">🧭</text>` : ''}
+        ${this._feedFocusSlug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 13}" fill="none" stroke="#6366F1" stroke-width="2" opacity="0.85"><title>reading now</title></circle>` : ''}
+        ${this._nodeDraft(n) && !stat[n.slug].ghost ? `<text x="${x - R + 2}" y="${y + R + 4}" font-size="11" onclick="event.stopPropagation();app.startAuthoring('${this._nodeDraftSlug(n)}')"><title>✍️ draft in progress</title>✍️</text>` : ''}
         <text x="${x}" y="${y + R + 16}" text-anchor="middle" font-size="10.5" fill="var(--text-2, #666)">${label}</text>
       </g>`;
       if (st.game) {
@@ -3644,7 +3647,9 @@ class PBook {
     });
     svg += '</svg>';
     return `<div class="fade-up" style="max-width:840px;margin:0 auto">
+      ${this._mapReturnToRead ? `<p style="margin:.1em 0 .3em"><button class="steer-chip" style="font-size:.74rem;border-color:#6366F1;color:#6366F1" onclick="app._mapReturnToRead=false;app.switchView('read')">← Back to reading</button></p>` : ''}
       <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .2em">The book as a game board: fields are concepts, the number shows how many of their articles you have read (✓ = all). Dashed ＋ fields are still waiting for an article — click to write it yourself. Hover a field for its definition, hover an arrow for the reason of the dependency.</p>
+      ${(this.proposals || []).length ? `<p style="font-size:.7rem;margin:0 0 .3em"><a href="#" style="color:#0EA5E9" onclick="event.preventDefault();app.setMapMode('koncepty')">🌱 ${(this.proposals || []).length} proposals waiting for votes or an author →</a></p>` : ''}
       <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p>${svg}</div>`;
   }
 
@@ -3690,10 +3695,12 @@ class PBook {
           return `<button class="tstrip-chip" style="--sc:${STATE_COLORS[state] || '#10B981'};${read ? 'box-shadow:0 0 0 1.5px #10B981' : ''}"
             title="${this.escHtml((m.title || m.id) + (read ? ' · read' : ''))}" onclick="app.openTelling('${m.id}')">${icon}</button>`;
         }).join('');
-        h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em 0;border-bottom:1px dashed var(--border)">
+        const isFocus = this._feedFocusSlug === n.slug;
+        h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em ${isFocus ? '.35em' : '0'};border-bottom:1px dashed var(--border)${isFocus ? ';background:color-mix(in srgb, #6366F1 7%, transparent);border-radius:8px' : ''}">
           <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
           <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || n.def || '')}">${this.escHtml(n.title)}</a>
           ${hasSpine ? '' : '<span style="font-size:.62rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
+          ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:#EC4899;color:#EC4899" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">✍️ draft in progress</button>` : ''}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling of this concept (author studio with an AI coach)" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
         </div>`;
       });
@@ -3739,7 +3746,7 @@ class PBook {
       el.id = 'miniBoard';
       el.title = 'Journey — open the game board';
       el.style.cssText = 'position:fixed;right:10px;bottom:64px;z-index:60;width:96px;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:10px;padding:5px 5px 3px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer;opacity:.94';
-      el.onclick = () => { this.switchView('map'); this.setMapMode('cesta'); };
+      el.onclick = () => { this._mapReturnToRead = true; this.switchView('map'); this.setMapMode('cesta'); };
       document.body.appendChild(el);
     }
     const N = cm.nodes.length;
@@ -4702,6 +4709,18 @@ class PBook {
     }
 
     // Achievements
+    const drafts = this._authorDrafts();
+    if (drafts.length) {
+      h += '<div class="profile-section"><h3>✍️ Author drafts in progress</h3><p style="font-size:.72rem;color:var(--text-2)">Nothing gets lost: every draft autosaves on this device. Click to continue.</p>';
+      drafts.slice(0, 12).forEach(d => {
+        const when = d.st.ts ? new Date(d.st.ts).toLocaleString('en-GB', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
+        h += `<div style="display:flex;align-items:center;gap:.5em;padding:.3em 0;border-bottom:1px dashed var(--border)">
+          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b> <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
+          <button class="steer-chip" style="font-size:.68rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
+        </div>`;
+      });
+      h += '</div>';
+    }
     h += '<div class="profile-section"><h3>&#127942; Achievements</h3>';
     if (u.achievements.length) {
       h += '<div class="gami-badges">';
@@ -5780,8 +5799,23 @@ class PBook {
     const stdo = this._studio; if (!stdo) return;
     const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
     st.text = document.getElementById('stDraft')?.value ?? st.text;
-    st.assets = stdo.assets; st.assetSeq = stdo.assetSeq;
+    st.assets = stdo.assets; st.assetSeq = stdo.assetSeq; st.ts = Date.now();
     this._authorSave(all);
+    const si = document.getElementById('stSaved');
+    if (si) si.textContent = 'Saved ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ✓';
+  }
+
+  // Enter the studio straight from reading: the section opens as a draft of your own telling
+  startAuthoringFromBlock(blockId) {
+    const entry = this._findAnyBlock(blockId); if (!entry) return;
+    const slug = (this._conceptIds ? this._conceptIds(entry.meta)[0] : entry.meta.concept) || blockId;
+    const all = this._authorState();
+    const st = all[slug] || {};
+    if (st.text && st.text.trim() && !confirm('You already have a draft for this concept in the studio. Replace it with this section? (Cancel = open the existing draft)')) { this.startAuthoring(slug); return; }
+    (all[slug] = all[slug] || {}).text = entry.body || '';
+    this._authorSave(all);
+    this.rc.logEvent('author_from_block', { slug, blockId });
+    this.startAuthoring(slug);
   }
 
   startAuthoring(slug) {
@@ -5803,34 +5837,30 @@ class PBook {
     const el = document.createElement('div');
     el.id = 'authorStudio';
     el.innerHTML = `<div style="position:fixed;inset:0;background:var(--bg,#fafaf7);z-index:250;overflow-y:auto">
-      <div style="max-width:1080px;margin:0 auto;padding:1em 1em 4em">
-        <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="max-width:760px;margin:0 auto;padding:1em 1em 4em">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">✍️ Author studio</div>
-          <button class="note-cancel" onclick="document.getElementById('authorStudio').remove()">Close</button>
+          <span id="stSaved" style="font-size:.66rem;color:var(--text-3,#999);margin-left:auto"></span>
+          <button class="note-cancel" onclick="app._studioClose()">Close</button>
         </div>
-        <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">Develop a concept for the book — the AI coaches you, but YOU write. On the right you see a live preview as readers will see it.</div>
-        <div style="display:flex;flex-wrap:wrap;gap:1em;align-items:flex-start">
-          <div style="flex:1 1 360px;min-width:0">
-            <div style="border:1.5px solid var(--border,#ddd);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
-              <b>${this.escHtml(title)}</b>
-              ${contract.objective ? `<div style="margin-top:.25em"><span style="color:var(--text-2,#666)">Goal:</span> ${this.escHtml(contract.objective)}</div>` : ''}
-              ${(contract.mustCover || []).length ? `<div style="margin-top:.25em;font-size:.74rem"><span style="color:var(--text-2,#666)">Must cover:</span> ${(contract.mustCover || []).map(x => `<span style="display:inline-block;border:1px solid var(--border,#ddd);border-radius:999px;padding:0 .5em;margin:.1em">${this.escHtml(x)}</span>`).join('')}</div>` : ''}
-            </div>
-            <textarea id="stDraft" placeholder="Write your text here… (markdown works: **bold**, bullets)" style="width:100%;min-height:44vh;margin:.7em 0 .4em;padding:.7em;border:1.5px solid var(--border,#ddd);border-radius:10px;font:inherit;font-size:.9rem;line-height:1.55;background:var(--card,#fff)">${this.escHtml(cleanText)}</textarea>
-            <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
-              <button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">✨ Suggest a skeleton · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
-              <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
-              <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid #D97706;background:transparent;color:#B45309">🎨 Generate a graphic · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-              <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
-            </div>
-            <div id="stOut" style="margin-top:.7em"></div>
-            <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">🎨 Images live in the text as a short ⟦image N⟧ token — edit them in the preview, not in the text: double-click rewrites a label, ✨ Edit sends an instruction to the AI, 🗑 removes the image. New image: mark a spot as [DIAGRAM: what to show] or [ANIMATION: what moves] and click "Generate a graphic".</div>
-          </div>
-          <div style="flex:1 1 360px;min-width:0">
-            <div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin:.1em 0 .35em">👀 Preview — this is what readers will see</div>
-            <div id="stPreview" style="border:1.5px solid var(--border,#ddd);border-radius:12px;padding:.9em 1em;background:var(--card,#fff);max-height:74vh;overflow-y:auto"></div>
-          </div>
+        <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">Write straight into the page: click a paragraph to edit it, select and drag images. Everything saves continuously.</div>
+        <div style="border:1.5px solid var(--border,#ddd);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
+          <b>${this.escHtml(title)}</b>
+          ${contract.objective ? `<div style="margin-top:.25em"><span style="color:var(--text-2,#666)">Goal:</span> ${this.escHtml(contract.objective)}</div>` : ''}
+          ${(contract.mustCover || []).length ? `<div style="margin-top:.25em;font-size:.74rem"><span style="color:var(--text-2,#666)">Must cover:</span> ${(contract.mustCover || []).map(x => `<span style="display:inline-block;border:1px solid var(--border,#ddd);border-radius:999px;padding:0 .5em;margin:.1em">${this.escHtml(x)}</span>`).join('')}</div>` : ''}
         </div>
+        <div id="stCanvas" style="border:1.5px solid var(--border,#ddd);border-radius:12px;padding:1em 1.1em;background:var(--card,#fff);margin:.7em 0 .5em;min-height:30vh"></div>
+        <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
+          <button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">✨ Suggest a skeleton · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
+          <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
+          <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid #D97706;background:transparent;color:#B45309">🎨 Generate a graphic · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
+          <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
+        </div>
+        <div id="stOut" style="margin-top:.7em"></div>
+        <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter or click away = done, Esc = cancel). Image: click selects an element with a toolbar (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction. New image: write [DIAGRAM: what to show] or [ANIMATION: what moves] in a paragraph and hit "Generate a graphic".</div>
+        <details style="margin-top:.6em"><summary style="font-size:.7rem;color:var(--text-3,#999);cursor:pointer">Source (markdown) — for the experienced</summary>
+          <textarea id="stDraft" style="width:100%;min-height:30vh;margin:.4em 0;padding:.7em;border:1.5px solid var(--border,#ddd);border-radius:10px;font:ui-monospace,monospace;font-size:.78rem;line-height:1.5;background:var(--card,#fff)">${this.escHtml(cleanText)}</textarea>
+        </details>
       </div>
     </div>`;
     document.body.appendChild(el);
@@ -5840,27 +5870,43 @@ class PBook {
       clearTimeout(this._stPvTimer);
       this._stPvTimer = setTimeout(() => this._studioPreview(), 250);
     });
-    if (cleanText !== (st.text || '')) this._studioSave();   // legacy raw ⟦svg⟧ → persist the tokenised form right away
+    if (cleanText !== (st.text || '')) this._studioSave();
     this._studioPreview();
     this.rc.logEvent('author_open', { slug });
   }
 
-  // Live preview: the draft rendered exactly like a book block + image editing
-  // Live preview: the draft rendered exactly like a book block + image editing
+  // Live WYSIWYG surface: the draft split into blocks; a text block turns into a
+  // small markdown editor on click, an image block has selection/drag/toolbars.
+  // The markdown in #stDraft stays the source of truth — coach, skeleton and
+  // graphics keep working unchanged.
   _studioPreview() {
     const stdo = this._studio; if (!stdo) return;
-    const pane = document.getElementById('stPreview'); if (!pane) return;
+    const pane = document.getElementById('stCanvas'); if (!pane) return;
     this._studioDeselect();
+    this._stEditing = null;
     const draft = (document.getElementById('stDraft')?.value || '').trim();
-    if (!draft) { pane.innerHTML = `<div style="color:var(--text-3,#999);font-size:.8rem">Nothing yet — start writing on the left and the preview renders itself.</div>`; return; }
-    const order = [];
-    let html = renderMarkdown(this._studioExpand(draft, order));
-    html = html.replace(/\[(DIAGRAM|ANIMATION|ANIMACE):\s*([^\]]*)\]/g, (_, k, w) =>
-      `<span style="display:block;border:1.5px dashed #7C3AED;border-radius:10px;padding:.5em .7em;margin:.4em 0;color:#7C3AED;font-size:.78rem">🎨 ${/^D/.test(k) ? 'DIAGRAM (not drawn yet)' : 'ANIMATION (not drawn yet)'}${w.trim() ? ': ' + w.trim() : ''}</span>`);
-    pane.innerHTML = `<article class="block-article" style="margin:0;padding:0;border:none;box-shadow:none"><h2 style="margin:.1em 0 .5em;font-size:1.15rem">${this.escHtml(stdo.title)}</h2><div class="block-content">${html}</div></article>`;
-    // per-image toolbar: AI edit, removal, hint
-    pane.querySelectorAll('figure.diagram-inline').forEach((fig, i) => {
-      const aid = order[i]; if (!aid) return;
+    const blocks = draft ? draft.split(/\n{2,}/).map(b => b.trim()).filter(Boolean) : [];
+    stdo._blocks = blocks;
+    const tokenRx = /^⟦(?:obrázek|obrazek|image)\s*(\d+)⟧$/;
+    let inner = '';
+    blocks.forEach((b, i) => {
+      const m = b.match(tokenRx);
+      if (m && stdo.assets?.[m[1]]) {
+        const fh = renderMarkdown(`⟦svg⟧\n${stdo.assets[m[1]]}\n⟦/svg⟧`);
+        inner += `<div class="st-block" data-bi="${i}" data-img="${m[1]}">${fh}</div>`;
+        return;
+      }
+      let h = renderMarkdown(b);
+      h = h.replace(/\[(DIAGRAM|ANIMATION|ANIMACE):\s*([^\]]*)\]/g, (_, k, w) =>
+        `<span style="display:block;border:1.5px dashed #7C3AED;border-radius:10px;padding:.5em .7em;margin:.4em 0;color:#7C3AED;font-size:.78rem">🎨 ${/^D/.test(k) ? 'DIAGRAM (not drawn yet)' : 'ANIMATION (not drawn yet)'}${w.trim() ? ': ' + w.trim() : ''}</span>`);
+      inner += `<div class="st-block" data-bi="${i}" title="click to edit this paragraph" style="border-radius:8px;padding:.15em .35em;margin:0 -.35em;cursor:text">${h}</div>`;
+    });
+    if (!blocks.length) inner = `<div style="color:var(--text-3,#999);font-size:.8rem;margin-bottom:.6em">Nothing yet — click ＋ and write the first paragraph, or let ✨ suggest a skeleton.</div>`;
+    pane.innerHTML = `<article class="block-article" style="margin:0;padding:0;border:none;box-shadow:none"><h2 style="margin:.1em 0 .5em;font-size:1.15rem">${this.escHtml(stdo.title)}</h2><div class="block-content">${inner}</div>
+      <button class="steer-chip" style="font-size:.72rem;margin-top:.3em" onclick="app._studioAddBlock()">＋ paragraph</button></article>`;
+    pane.querySelectorAll('.st-block[data-img]').forEach(div => {
+      const fig = div.querySelector('figure.diagram-inline'); if (!fig) return;
+      const aid = div.dataset.img;
       fig.dataset.asset = aid;
       fig.style.position = 'relative';
       fig.style.touchAction = 'none';
@@ -5875,7 +5921,82 @@ class PBook {
       pane._svgEditBound = true;
       pane.addEventListener('dblclick', e => this._studioLabelEdit(e));
       pane.addEventListener('pointerdown', e => this._studioPointerDown(e));
+      pane.addEventListener('click', e => {
+        if (e.target.closest('button, a, figure, #stSelBar, textarea')) return;
+        const blk = e.target.closest('.st-block');
+        if (blk && !blk.dataset.img) this._studioEditBlock(+blk.dataset.bi, blk);
+      });
     }
+  }
+
+  _studioEditBlock(i, blkEl) {
+    if (this._stEditing) this._studioCommitBlock();
+    const blocks = this._studio._blocks;
+    const ed = document.createElement('textarea');
+    ed.id = 'stBlockEd';
+    ed.value = blocks[i] ?? '';
+    ed.style.cssText = 'width:100%;min-height:64px;padding:.5em .6em;border:1.5px solid var(--accent);border-radius:8px;font:inherit;font-size:.88rem;line-height:1.55;background:var(--card,#fff);resize:none';
+    const grow = () => { ed.style.height = 'auto'; ed.style.height = Math.min(window.innerHeight * 0.5, ed.scrollHeight + 4) + 'px'; };
+    ed.addEventListener('input', grow);
+    ed.addEventListener('keydown', ev => {
+      if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') { ev.preventDefault(); ed.blur(); }
+      if (ev.key === 'Escape') { this._stEditing = null; this._studioPreview(); }
+    });
+    ed.addEventListener('blur', () => this._studioCommitBlock());
+    this._stEditing = { i };
+    if (blkEl) blkEl.replaceWith(ed); else document.querySelector('#stCanvas .block-content')?.appendChild(ed);
+    grow();
+    ed.focus();
+    ed.setSelectionRange(ed.value.length, ed.value.length);
+  }
+  _studioCommitBlock() {
+    const ed = document.getElementById('stBlockEd'); const st = this._stEditing;
+    if (!ed || !st) return;
+    this._stEditing = null;
+    const val = ed.value.trim();
+    const blocks = this._studio._blocks || [];
+    if (st.i >= blocks.length) { if (val) blocks.push(val); }
+    else if (val) blocks[st.i] = val;
+    else blocks.splice(st.i, 1);
+    const ta = document.getElementById('stDraft');
+    if (ta) ta.value = blocks.join('\n\n');
+    this._studioSave();
+    this._studioPreview();
+  }
+  // Studio drafts in progress — always findable (Profile, Concepts, Journey)
+  // Draft for a map node: under the node slug, or any concept id from its pool
+  _nodeDraft(node) {
+    const st = this._authorState();
+    const hit = st[node.slug] || (node.pool || []).map(id => st[id]).find(x => x && x.text && x.text.trim());
+    return hit && hit.text && hit.text.trim() ? hit : null;
+  }
+  _nodeDraftSlug(node) {
+    const st = this._authorState();
+    if (st[node.slug]?.text?.trim()) return node.slug;
+    return (node.pool || []).find(id => st[id]?.text?.trim()) || node.slug;
+  }
+
+  _authorDrafts() {
+    const all = this._authorState();
+    return Object.entries(all)
+      .filter(([, st]) => st && st.text && st.text.trim())
+      .map(([slug, st]) => ({
+        slug, st,
+        title: this.concepts?.[slug]?.title || this._cmapNodes?.[slug]?.title
+          || (this.proposals || []).find(x => x.slug === slug)?.title || slug,
+      }))
+      .sort((a, b) => (b.st.ts || 0) - (a.st.ts || 0));
+  }
+
+  _studioClose() {
+    if (this._stEditing) this._studioCommitBlock();   // an open paragraph must never fall off the table
+    this._studioSave();
+    document.getElementById('authorStudio')?.remove();
+  }
+
+  _studioAddBlock() {
+    if (this._stEditing) this._studioCommitBlock();
+    this._studioEditBlock((this._studio._blocks || []).length, null);
   }
 
   // Double-click a <text> in the preview = rewrite the label right in the SVG (no-library WYSIWYG)
@@ -5913,6 +6034,7 @@ class PBook {
   }
 
   _studioPointerDown(e) {
+    if (e.target.closest('#stSelBar, button, textarea')) return;   // let toolbars and editors live
     const fig = e.target.closest('figure.diagram-inline');
     if (!fig) { this._studioDeselect(); return; }
     const svg = fig.querySelector('svg');
