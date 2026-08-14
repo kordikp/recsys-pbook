@@ -5755,6 +5755,35 @@ class PBook {
     try { return JSON.parse(localStorage.getItem('pbook-author-drafts')) || {}; } catch (e) { return {}; }
   }
   _authorSave(st) { localStorage.setItem('pbook-author-drafts', JSON.stringify(st)); }
+  // ===== Studio images: the text holds only a ⟦image N⟧ token, SVG source lives aside =====
+  // Humans never edit SVG as text — they see it in the preview and edit it THERE
+  // (double-click a label, ✨ AI instruction, 🗑). On send, tokens expand back to ⟦svg⟧.
+  _studioAssetRx() { return /⟦(?:obrázek|obrazek|image)\s*(\d+)⟧/g; }
+  _studioCollapse(text) {
+    const stdo = this._studio;
+    return (text || '').replace(/⟦svg⟧([\s\S]*?)⟦\/svg⟧/g, (_, svg) => {
+      if (!svg.trim()) return '';
+      const id = String(++stdo.assetSeq);
+      stdo.assets[id] = svg.trim();
+      return `⟦image ${id}⟧`;
+    });
+  }
+  _studioExpand(text, order) {
+    return (text || '').replace(this._studioAssetRx(), (m2, id) => {
+      const svg = this._studio?.assets?.[id];
+      if (!svg) return '';
+      if (order) order.push(id);
+      return `\n\n⟦svg⟧\n${svg}\n⟦/svg⟧\n\n`;
+    });
+  }
+  _studioSave() {
+    const stdo = this._studio; if (!stdo) return;
+    const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
+    st.text = document.getElementById('stDraft')?.value ?? st.text;
+    st.assets = stdo.assets; st.assetSeq = stdo.assetSeq;
+    this._authorSave(all);
+  }
+
   startAuthoring(slug) {
     const prop = (this.proposals || []).find(x => x.slug === slug);
     const conc = this.concepts?.[slug];
@@ -5766,8 +5795,10 @@ class PBook {
       : conc
         ? { objective: conc.contract?.objective, mustCover: (conc.contract?.mustCover || []).map(m => m.point || m), recallQ: conc.contract?.recallQ }
         : { objective: node?.def || node?.teaser, mustCover: [], recallQ: undefined };
-    this._studio = { slug, title, contract, isProposal: !!prop, questions: [] };
     const st = this._authorState()[slug] || {};
+    this._studio = { slug, title, contract, isProposal: !!prop, questions: [],
+      assets: { ...(st.assets || {}) }, assetSeq: st.assetSeq || 0 };
+    const cleanText = this._studioCollapse(st.text || '');
     document.getElementById('authorStudio')?.remove();
     const el = document.createElement('div');
     el.id = 'authorStudio';
@@ -5785,7 +5816,7 @@ class PBook {
               ${contract.objective ? `<div style="margin-top:.25em"><span style="color:var(--text-2,#666)">Goal:</span> ${this.escHtml(contract.objective)}</div>` : ''}
               ${(contract.mustCover || []).length ? `<div style="margin-top:.25em;font-size:.74rem"><span style="color:var(--text-2,#666)">Must cover:</span> ${(contract.mustCover || []).map(x => `<span style="display:inline-block;border:1px solid var(--border,#ddd);border-radius:999px;padding:0 .5em;margin:.1em">${this.escHtml(x)}</span>`).join('')}</div>` : ''}
             </div>
-            <textarea id="stDraft" placeholder="Write your text here… (markdown works: **bold**, bullets)" style="width:100%;min-height:44vh;margin:.7em 0 .4em;padding:.7em;border:1.5px solid var(--border,#ddd);border-radius:10px;font:inherit;font-size:.9rem;line-height:1.55;background:var(--card,#fff)">${this.escHtml(st.text || '')}</textarea>
+            <textarea id="stDraft" placeholder="Write your text here… (markdown works: **bold**, bullets)" style="width:100%;min-height:44vh;margin:.7em 0 .4em;padding:.7em;border:1.5px solid var(--border,#ddd);border-radius:10px;font:inherit;font-size:.9rem;line-height:1.55;background:var(--card,#fff)">${this.escHtml(cleanText)}</textarea>
             <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
               <button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">✨ Suggest a skeleton · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
               <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
@@ -5793,7 +5824,7 @@ class PBook {
               <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
             </div>
             <div id="stOut" style="margin-top:.7em"></div>
-            <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">🎨 Mark a spot in the text as [DIAGRAM: what to show] or [ANIMATION: what moves] and click "Generate a graphic" — the finished image lands right in the text and shows up in the preview. Without a mark it draws a summary of the whole text.</div>
+            <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">🎨 Images live in the text as a short ⟦image N⟧ token — edit them in the preview, not in the text: double-click rewrites a label, ✨ Edit sends an instruction to the AI, 🗑 removes the image. New image: mark a spot as [DIAGRAM: what to show] or [ANIMATION: what moves] and click "Generate a graphic".</div>
           </div>
           <div style="flex:1 1 360px;min-width:0">
             <div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin:.1em 0 .35em">👀 Preview — this is what readers will see</div>
@@ -5805,24 +5836,94 @@ class PBook {
     document.body.appendChild(el);
     const ta = document.getElementById('stDraft');
     ta.addEventListener('input', () => {
-      const all = this._authorState(); (all[slug] = all[slug] || {}).text = ta.value; this._authorSave(all);
+      this._studioSave();
       clearTimeout(this._stPvTimer);
       this._stPvTimer = setTimeout(() => this._studioPreview(), 250);
     });
+    if (cleanText !== (st.text || '')) this._studioSave();   // legacy raw ⟦svg⟧ → persist the tokenised form right away
     this._studioPreview();
     this.rc.logEvent('author_open', { slug });
   }
 
-  // Live preview: the draft markdown rendered exactly like a book block
+  // Live preview: the draft rendered exactly like a book block + image editing
   _studioPreview() {
     const stdo = this._studio; if (!stdo) return;
     const pane = document.getElementById('stPreview'); if (!pane) return;
     const draft = (document.getElementById('stDraft')?.value || '').trim();
     if (!draft) { pane.innerHTML = `<div style="color:var(--text-3,#999);font-size:.8rem">Nothing yet — start writing on the left and the preview renders itself.</div>`; return; }
-    let html = renderMarkdown(draft);
+    const order = [];
+    let html = renderMarkdown(this._studioExpand(draft, order));
     html = html.replace(/\[(DIAGRAM|ANIMATION|ANIMACE):\s*([^\]]*)\]/g, (_, k, w) =>
       `<span style="display:block;border:1.5px dashed #7C3AED;border-radius:10px;padding:.5em .7em;margin:.4em 0;color:#7C3AED;font-size:.78rem">🎨 ${/^D/.test(k) ? 'DIAGRAM (not drawn yet)' : 'ANIMATION (not drawn yet)'}${w.trim() ? ': ' + w.trim() : ''}</span>`);
     pane.innerHTML = `<article class="block-article" style="margin:0;padding:0;border:none;box-shadow:none"><h2 style="margin:.1em 0 .5em;font-size:1.15rem">${this.escHtml(stdo.title)}</h2><div class="block-content">${html}</div></article>`;
+    // per-image toolbar: AI edit, removal, double-click hint
+    pane.querySelectorAll('figure.diagram-inline').forEach((fig, i) => {
+      const aid = order[i]; if (!aid) return;
+      fig.dataset.asset = aid;
+      const bar = document.createElement('div');
+      bar.style.cssText = 'display:flex;gap:.4em;align-items:center;margin:.25em 0 .1em';
+      bar.innerHTML = `<button class="steer-chip" style="font-size:.66rem" onclick="app.studioEditImage('${aid}')">✨ Edit (AI) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
+        <button class="steer-chip" style="font-size:.66rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
+        <span style="font-size:.62rem;color:var(--text-3,#999)">✏️ double-click a label = rewrite it</span>`;
+      fig.appendChild(bar);
+    });
+    if (!pane._svgEditBound) {
+      pane._svgEditBound = true;
+      pane.addEventListener('dblclick', e => this._studioLabelEdit(e));
+    }
+  }
+
+  // Double-click a <text> in the preview = rewrite the label right in the SVG (no-library WYSIWYG)
+  _studioLabelEdit(e) {
+    const t = e.target.closest('text'); if (!t) return;
+    const fig = e.target.closest('figure.diagram-inline');
+    const aid = fig?.dataset.asset; if (!aid || !this._studio?.assets?.[aid]) return;
+    const cur = t.textContent;
+    const nv = prompt('New label text:', cur);
+    if (nv == null || nv === cur) return;
+    t.textContent = nv;
+    const svgEl = fig.querySelector('svg'); if (!svgEl) return;
+    this._studio.assets[aid] = new XMLSerializer().serializeToString(svgEl);
+    this._studioSave();
+    this.showXPToast('Label rewritten ✏️', 'xp');
+  }
+
+  // ✨ AI instruction over one image (mode svg-remix, advanced)
+  async studioEditImage(aid) {
+    const stdo = this._studio; const svg = stdo?.assets?.[aid]; if (!svg) return;
+    const out = document.getElementById('stOut');
+    const instruction = prompt('What should the AI change in the image? (e.g. "add a third router and move labels off the arrows")'); if (!instruction || instruction.trim().length < 3) return;
+    const pay = this.aiCanPay('advanced');
+    if (!pay.ok) { out.innerHTML = this.aiPaywallHtml('advanced'); return; }
+    out.innerHTML = `<span class="gen-spinner">✨ Editing the image… (~20 s)</span>`;
+    try {
+      const res = await fetch(CONFIG.steering.generateEndpoint, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'svg-remix', svg, instruction: instruction.slice(0, 500), auth: this._walletAuth() }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok || !data.svg) throw new Error(data.error || 'svg remix failed');
+      this._walletApply(data, 'advanced', pay);
+      stdo.assets[aid] = data.svg;
+      this._studioSave();
+      this._studioPreview();
+      out.innerHTML = `<div style="border:1.5px solid #10B981;border-radius:8px;padding:.5em .7em;font-size:.8rem;background:var(--card,#fff)">Image updated — check the preview.</div>`;
+      this.rc.logEvent('author_image_edit', { slug: stdo.slug });
+    } catch (e2) {
+      const pw = this._aiErrorPaywall(e2, 'advanced');
+      out.innerHTML = pw || `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.8rem">${this.escHtml(e2.message)}</div>`;
+    }
+  }
+
+  studioDeleteImage(aid) {
+    const stdo = this._studio; if (!stdo?.assets?.[aid]) return;
+    if (!confirm('Remove this image from the text?')) return;
+    const ta = document.getElementById('stDraft');
+    ta.value = ta.value.replace(new RegExp(`\\n?⟦(?:obrázek|obrazek|image)\\s*${aid}⟧\\n?`, 'g'), '\n');
+    delete stdo.assets[aid];
+    this._studioSave();
+    ta.dispatchEvent(new Event('input'));
+    this._studioPreview();
   }
 
   // 🎨 Draw a graphic for the draft (advanced): a [DIAGRAM/ANIMATION: …] mark says what and where
@@ -5843,18 +5944,21 @@ class PBook {
       const res = await fetch(CONFIG.steering.generateEndpoint, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode: 'insert', concept: stdo.isProposal ? undefined : stdo.slug,
-          instruction, context: draft.slice(0, 6000), wantSvg: true, auth: this._walletAuth() }),
+          instruction, context: this._studioExpand(draft).slice(0, 6000), wantSvg: true, auth: this._walletAuth() }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok) throw new Error(data.error || 'generate failed');
       this._walletApply(data, 'advanced', pay);
       if (!data.svg) { out.innerHTML = `<div style="background:#FEF3C7;border-radius:8px;padding:.5em .7em;font-size:.8rem">The model returned no graphic this time — try again or refine [DIAGRAM: …].</div>`; }
       else {
-        const svgBlock = `\n\n⟦svg⟧\n${data.svg}\n⟦/svg⟧\n\n`;
-        ta.value = m ? ta.value.replace(m[0], svgBlock) : ta.value + svgBlock;
+        const id = String(++stdo.assetSeq);
+        stdo.assets[id] = data.svg;
+        const token = `⟦image ${id}⟧`;
+        ta.value = m ? ta.value.replace(m[0], token) : ta.value + `\n\n${token}\n`;
+        this._studioSave();
         ta.dispatchEvent(new Event('input'));
         this._studioPreview();
-        out.innerHTML = `<div style="border:1.5px solid #10B981;border-radius:8px;padding:.5em .7em;font-size:.8rem;background:var(--card,#fff)">Graphic inserted into the text — check the preview. Not happy? Delete the ⟦svg⟧…⟦/svg⟧ block and generate again.</div>`;
+        out.innerHTML = `<div style="border:1.5px solid #10B981;border-radius:8px;padding:.5em .7em;font-size:.8rem;background:var(--card,#fff)">Image added — see the preview. Double-click a label to rewrite it, ✨ Edit changes it per instruction.</div>`;
       }
       this.rc.logEvent('author_graphic', { slug: stdo.slug, marked: !!m });
     } catch (e) {
@@ -5936,7 +6040,8 @@ class PBook {
   finishAuthoring() {
     const stdo = this._studio; if (!stdo) return;
     const all = this._authorState(); const st = all[stdo.slug] || {};
-    const draft = (document.getElementById('stDraft')?.value || '').trim();
+    const raw = (document.getElementById('stDraft')?.value || '').trim();
+    const draft = this._studioExpand(raw).replace(/\n{3,}/g, '\n\n').trim();
     if (draft.length < 80) { this.showXPToast('Write something first — send at least a few sentences.', 'xp'); return; }
     const id = `autor--${stdo.slug}--${Date.now().toString(36)}`;
     const block = {
