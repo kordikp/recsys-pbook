@@ -1967,7 +1967,7 @@ class PBook {
           ${ov.meta.state !== 'community' ? `· <a href="#" onclick="event.preventDefault();app._showShareConsent('${ovId}')">📣 share with readers &amp; editors</a>` : '· ⚡ shared'}</div>`;
       }
     }
-    let bodyHtml = renderMarkdown(block.body);
+    let bodyHtml = renderMarkdown(await this._resolveMediaMarks(block.body, this._mediaMap(block)));
     // Remixed passages carry ⟦rx⟧…⟦/rx⟧ markers — render as visible "changed by you" marks
     if (bodyHtml.includes('⟦rx⟧')) {
       // legacy blocks (markers inside a paragraph) — region markers are handled by the renderer
@@ -5778,6 +5778,38 @@ class PBook {
   // Humans never edit SVG as text — they see it in the preview and edit it THERE
   // (double-click a label, ✨ AI instruction, 🗑). On send, tokens expand back to ⟦svg⟧.
   // Image marks in the text: [diagram|animation|image|schema: …] — case-insensitive
+  // ===== MEDIA IN TEXT =====
+  // Frontmatter: media: name=images/file.svg | other=images/b.svg
+  // A ⟦obr:name⟧ mark in the body (or a direct ⟦obr:images/c.svg⟧ path) places
+  // the image/animation ANYWHERE — meta.diagram stays as the hero up top.
+  _mediaMap(meta) {
+    const out = {};
+    String(meta?.media || '').split('|').forEach(part => {
+      const m = part.trim().match(/^([\w-]+)\s*=\s*(\S+)$/);
+      if (m) out[m[1]] = m[2];
+    });
+    return out;
+  }
+  _mediaMarkRx() { return /⟦(?:obr|img|media)\s*:\s*([^⟧]+)⟧/g; }
+  async _resolveMediaMarks(body, map) {
+    if (!body || !/⟦(?:obr|img|media)\s*:/.test(body)) return body;
+    for (const m of [...body.matchAll(this._mediaMarkRx())]) {
+      const ref = m[1].trim();
+      const path = map?.[ref] || (/[\/.]/.test(ref) ? ref : null);
+      let repl = '';
+      if (path) {
+        try {
+          const html = await getDiagram(path);
+          if (html) repl = /^<svg/i.test(html.trim())
+            ? `\n\n⟦svg⟧\n${html.trim()}\n⟦/svg⟧\n\n`
+            : `\n\n${html}\n\n`;
+        } catch (e) {}
+      }
+      body = body.replace(m[0], repl);
+    }
+    return body;
+  }
+
   // Draft block split: blank lines separate, but NOT inside ```fences
   // (a code block with a blank line must not be halved — read-feed parity)
   _studioSplitBlocks(draft) {
@@ -5832,6 +5864,7 @@ class PBook {
     // The section transfers FAITHFULLY: the header diagram (meta.diagram) as an
     // inline image up top, remix ⟦rx⟧ marks stripped.
     let body = (entry.body || '').replace(/⟦\/?rx⟧/g, '');
+    body = await this._resolveMediaMarks(body, this._mediaMap(entry.meta));
     const diag = entry.meta?.diagram;
     if (diag && typeof diag === 'string' && /\.svg$/.test(diag) && !body.includes('⟦svg⟧')) {
       try {
@@ -5926,6 +5959,10 @@ class PBook {
         return;
       }
       let h = renderMarkdown(b);
+      // a file referenced by an ⟦obr:path⟧ mark — display it (only assets are editable)
+      h = h.replace(this._mediaMarkRx(), (_, ref) => /[\/.]/.test(ref.trim())
+        ? `<figure class="md-figure diagram-inline"><img src="${this.escHtml(ref.trim())}" style="max-width:100%"></figure>`
+        : `<span style="color:#B45309;font-size:.75rem">⟦obr:${this.escHtml(ref.trim())}⟧ — ?</span>`);
       h = h.replace(this._studioMarkerRx(), (_, k, w) => {
         const mi = mkIdx++;
         return `<span style="display:inline-block;max-width:100%;border:1.5px dashed #7C3AED;border-radius:10px;padding:.35em .6em;margin:.15em .1em;color:#7C3AED;font-size:.78rem;vertical-align:middle">🎨 ${/anim/i.test(k) ? 'ANIMATION' : 'DIAGRAM'}: ${this.escHtml(w.trim())}
