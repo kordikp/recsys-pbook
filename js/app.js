@@ -153,6 +153,10 @@ class PBook {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
         this.switchView(hash.slice(5));
+      } else if (hash.startsWith('trida-')) {
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.openClassGallery(hash.slice(6));
       } else if (hash.startsWith('zpetna-vazba-')) {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
@@ -4747,7 +4751,7 @@ class PBook {
       drafts.slice(0, 12).forEach(d => {
         const when = d.st.ts ? new Date(d.st.ts).toLocaleString('en-GB', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.3em 0;border-bottom:1px dashed var(--border)">
-          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b> <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
+          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b>${d.st.sourceTitle && d.st.sourceTitle !== d.title ? ` <span style="color:var(--text-3);font-size:.68rem">(${this.escHtml(d.st.sourceTitle.slice(0, 34))})</span>` : ''} <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
           <button class="steer-chip" style="font-size:.68rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
         </div>`;
       });
@@ -5926,12 +5930,15 @@ class PBook {
       && st2.importHash !== this._hash36(st2.text);
     if (dirty) {
       st2.backup = { text: st2.text, assets: st2.assets, assetSeq: st2.assetSeq, stats: st2.stats,
-        ts: st2.ts, sourceBlockId: st2.sourceBlockId, importHash: st2.importHash, title: st2.title };
-      this._stBackupOffer = true;
+        ts: st2.ts, sourceBlockId: st2.sourceBlockId, importHash: st2.importHash, title: st2.title, sourceTitle: st2.sourceTitle };
+      // Offer the return ONLY for work on the SAME text — a backup from another
+      // telling of the same concept would open a "different topic" on click.
+      this._stBackupOffer = st2.backup.sourceBlockId === blockId;
     }
     st2.text = body;
     st2.assets = {}; st2.assetSeq = 0; st2.stats = { manual: 0, ai: 0, coach: 0 };
     st2.sourceBlockId = blockId;
+    st2.sourceTitle = entry.meta?.title || '';
     st2.importHash = this._hash36(body);
     delete st2.title;
     all2[slug] = st2;
@@ -6050,7 +6057,7 @@ class PBook {
       inner += `<div class="st-block" data-bi="${i}" title="click to edit this paragraph" style="border-radius:8px;padding:.15em .35em;margin:0 -.35em;cursor:text">${h}</div>`;
     });
     if (!blocks.length) inner = `<div style="color:var(--text-3,#999);font-size:.8rem;margin-bottom:.6em">Nothing yet — click ＋ and write the first paragraph, or let ✨ suggest a skeleton.</div>`;
-    pane.innerHTML = `<article class="block-article" style="margin:0;padding:0;border:none;box-shadow:none"><h2 id="stTitleH" title="click to rename" style="margin:.1em 0 .5em;font-size:1.15rem;cursor:text;border-radius:6px" onclick="app._studioEditTitle()">${this.escHtml(stdo.title)} <span style="font-size:.7rem;opacity:.45">✏️</span></h2><div class="block-content">${inner}</div>
+    pane.innerHTML = `<article class="block-article" style="margin:0;padding:0;border:none;box-shadow:none"><h2 id="stTitleH" title="click to rename" style="margin:.1em 0 .5em;font-size:1.15rem;cursor:text;border-radius:6px" onclick="app._studioEditTitle()">${this.escHtml(stdo.title)} <span style="font-size:.7rem;opacity:.45">✏️</span></h2><div class="block-content spine-body">${inner}</div>
       <button class="steer-chip" style="font-size:.72rem;margin-top:.3em" onclick="app._studioAddBlock()">＋ paragraph</button></article>`;
     pane.querySelectorAll('.st-block[data-img]').forEach(div => {
       const fig = div.querySelector('figure.diagram-inline'); if (!fig) return;
@@ -6359,6 +6366,7 @@ class PBook {
       <div style="font-size:.74rem;color:var(--text-2);margin:.3em 0">Creates a link to a snapshot of the draft. Anyone with it can read and comment (👍 works · ❓ question · 💡 idea) — not edit. Useful before sending to the book.</div>
       <div style="display:flex;gap:.4em;flex-wrap:wrap">
         <input id="stFbNick" placeholder="Your nickname (optional)" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
+        <input id="stFbGroup" placeholder="Class code from the teacher (optional)" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
         <button class="note-save" style="background:var(--accent);font-size:.75rem" onclick="app._studioFbShare()">Create the link</button>
         <button class="steer-chip" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
       </div></div>`;
@@ -6371,7 +6379,8 @@ class PBook {
     const nick = (document.getElementById('stFbNick')?.value || '').trim();
     try {
       const res = await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'share', draft: { slug: stdo.slug, title: stdo.title, text }, nick }) });
+        body: JSON.stringify({ action: 'share', draft: { slug: stdo.slug, title: stdo.title, text }, nick,
+          group: (document.getElementById('stFbGroup')?.value || '').trim().toLowerCase() }) });
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || 'share failed');
       const all = this._authorState(); (all[stdo.slug] = all[stdo.slug] || {}).shareId = data.id; this._authorSave(all);
@@ -6407,6 +6416,35 @@ class PBook {
     const out = document.getElementById('stOut'); if (out) out.innerHTML = '';
   }
 
+  // Class gallery: a projector-friendly list of works shared with a code —
+  // for contests, pair tasks and in-class presentations.
+  async openClassGallery(code) {
+    document.getElementById('classGal')?.remove();
+    code = String(code || '').toLowerCase();
+    let data = null;
+    try { data = await (await fetch('/api/drafts?group=' + encodeURIComponent(code))).json(); } catch (e) {}
+    const items = data?.ok ? data.items : [];
+    const el = document.createElement('div');
+    el.id = 'classGal';
+    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:265;overflow-y:auto" onclick="if(event.target===this)document.getElementById('classGal').remove()">
+      <div style="max-width:640px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 1.4em">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
+          <div style="font-weight:800;font-size:1.05rem">🖼 Class gallery · <code style="font-size:.8rem">${this.escHtml(code)}</code></div>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app.openClassGallery('${this.escHtml(code)}')">↻ refresh</button>
+          <button onclick="document.getElementById('classGal').remove()" title="Close" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
+        </div>
+        <div style="font-size:.74rem;color:var(--text-2);margin:.2em 0 .6em">Submitted works under this code. Click to open — comment with 👍/❓/💡.</div>
+        ${items.length ? items.map((it, i) => `<div onclick="document.getElementById('classGal').remove();app.openDraftFeedback('${this.escHtml(it.id)}')"
+            style="display:flex;gap:.6em;align-items:center;padding:.5em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.35em 0;cursor:pointer">
+            <span style="font-weight:800;color:var(--accent)">${i + 1}.</span>
+            <span style="flex:1 1 auto"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">— ${this.escHtml(it.nick || 'anonymous')}</span></span>
+            <span style="color:var(--text-3)">›</span>
+          </div>`).join('')
+        : `<div style="color:var(--text-3);font-size:.8rem">Nothing here yet — works appear once pupils share with the code.</div>`}
+      </div></div>`;
+    document.body.appendChild(el);
+  }
+
   async openDraftFeedback(shareId) {
     document.getElementById('draftFb')?.remove();
     let data = null;
@@ -6419,7 +6457,7 @@ class PBook {
       : `<div style="font-size:.75rem;color:var(--text-2);margin:.2em 0 .6em">This is a work-in-progress — read-only. Help with a comment: what works, what is unclear, what you would try differently.</div>
         <article class="block-article" style="margin:0;padding:.8em 1em;border:1.5px solid var(--border,#eee);border-radius:12px;background:var(--bg,#fafaf7);max-height:46vh;overflow-y:auto">
           <h2 style="margin:.1em 0 .5em;font-size:1.1rem">${this.escHtml(data.draft.title)}</h2>
-          <div class="block-content">${renderMarkdown(data.draft.text)}</div>
+          <div class="block-content spine-body">${renderMarkdown(data.draft.text)}</div>
         </article>
         <div style="display:flex;gap:.4em;margin:.6em 0 .3em">
           ${['works', 'question', 'idea'].map((k, i) => `<label style="font-size:.74rem;border:1.5px solid var(--border,#ddd);border-radius:999px;padding:.15em .6em;cursor:pointer"><input type="radio" name="fbKind" value="${k}" ${i === 2 ? 'checked' : ''} style="vertical-align:-1px"> ${[('👍 What works'), ('❓ Question'), ('💡 Idea')][i]}</label>`).join('')}

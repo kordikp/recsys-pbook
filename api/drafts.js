@@ -42,6 +42,21 @@ module.exports = async function handler(req, res) {
   const book = bookOf(req);
 
   if (req.method === 'GET') {
+    // Galerie třídy: ?group=<kód> → seznam sdílených prací (bez textů, jen tituly)
+    const group = String(req.query?.group || '').toLowerCase().slice(0, 16);
+    if (group) {
+      if (!/^[a-z0-9-]{4,16}$/.test(group)) return res.status(400).json({ ok: false, error: 'bad group' });
+      const rows = await sb('GET',
+        `interactions?event=in.(draft_shared,draft_unshared)&order=created_at.asc&limit=1000&select=event,created_at,data`);
+      const items = {}; 
+      for (const r of Array.isArray(rows) ? rows : []) {
+        const d = r.data || {};
+        if ((d.book && d.book !== book)) continue;
+        if (r.event === 'draft_shared' && d.group === group) items[d.id] = { id: d.id, title: d.title, nick: d.nick || '', at: r.created_at };
+        if (r.event === 'draft_unshared' && items[d.id]) delete items[d.id];
+      }
+      return res.status(200).json({ ok: true, group, items: Object.values(items) });
+    }
     const id = String(req.query?.id || '').slice(0, 24);
     if (!/^[\w]{6,24}$/.test(id)) return res.status(400).json({ ok: false, error: 'id required' });
     try {
@@ -73,6 +88,7 @@ module.exports = async function handler(req, res) {
           title: String(dr.title || '').slice(0, 120),
           text: String(dr.text).slice(0, 60000),
           nick: String(b.nick || '').slice(0, 30),
+          group: /^[a-z0-9-]{4,16}$/.test(String(b.group || '').toLowerCase()) ? String(b.group).toLowerCase() : undefined,
         };
         const r = await sb('POST', 'interactions', { user_id: 'draft:' + id, type: 'draft', event: 'draft_shared', data: clean, server_ts: Date.now() });
         return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true, id } : { ok: false, error: 'insert failed' });
