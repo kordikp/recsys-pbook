@@ -153,6 +153,10 @@ class PBook {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
         this.switchView(hash.slice(5));
+      } else if (hash.startsWith('zpetna-vazba-')) {
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.openDraftFeedback(hash.slice(13));
       } else if (hash.startsWith('dilna-')) {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
@@ -5972,7 +5976,8 @@ class PBook {
           <button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">✨ Suggest a skeleton · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
           <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
           <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid #D97706;background:transparent;color:#B45309">🎨 Generate a graphic · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-          <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
+          <button class="steer-chip" id="stFbBtn" title="Ask for a second pair of eyes: you share a read-only snapshot, others comment — you remain the only writer." onclick="app.studioFeedbackPanel()" style="font-size:.72rem">👀 Feedback</button>
+              <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
         <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
@@ -6339,6 +6344,114 @@ class PBook {
     this._authorSave(all);
     this.showXPToast('Swapped — the other version is now the backup.', 'xp');
     this.startAuthoring(stdo.slug);
+  }
+
+  // ===== A SECOND PAIR OF EYES: feedback on a draft snapshot (NOT co-editing) =====
+  // The author shares a snapshot (#zpetna-vazba-<id>); helpers only read and
+  // comment (👍/❓/💡 — the same language the coach speaks). Authorship stays clean.
+  studioFeedbackPanel() {
+    const stdo = this._studio; if (!stdo) return;
+    const out = document.getElementById('stOut'); if (!out) return;
+    const st = this._authorState()[stdo.slug] || {};
+    if (st.shareId) { this._studioFbStatus(st.shareId); return; }
+    out.innerHTML = `<div style="border:1.5px solid var(--accent);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
+      <b>👀 A second pair of eyes</b>
+      <div style="font-size:.74rem;color:var(--text-2);margin:.3em 0">Creates a link to a snapshot of the draft. Anyone with it can read and comment (👍 works · ❓ question · 💡 idea) — not edit. Useful before sending to the book.</div>
+      <div style="display:flex;gap:.4em;flex-wrap:wrap">
+        <input id="stFbNick" placeholder="Your nickname (optional)" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
+        <button class="note-save" style="background:var(--accent);font-size:.75rem" onclick="app._studioFbShare()">Create the link</button>
+        <button class="steer-chip" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
+      </div></div>`;
+  }
+  async _studioFbShare() {
+    const stdo = this._studio; if (!stdo) return;
+    const out = document.getElementById('stOut');
+    const raw = (document.getElementById('stDraft')?.value || '').trim();
+    const text = this._studioExpand(raw).replace(/\n{3,}/g, '\n\n').trim();
+    const nick = (document.getElementById('stFbNick')?.value || '').trim();
+    try {
+      const res = await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'share', draft: { slug: stdo.slug, title: stdo.title, text }, nick }) });
+      const data = await res.json();
+      if (!data.ok) throw new Error(data.error || 'share failed');
+      const all = this._authorState(); (all[stdo.slug] = all[stdo.slug] || {}).shareId = data.id; this._authorSave(all);
+      this.rc.logEvent('draft_shared', { slug: stdo.slug });
+      this._studioFbStatus(data.id);
+    } catch (e) {
+      out.innerHTML = `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.8rem">${this.escHtml(e.message)}</div>`;
+    }
+  }
+  async _studioFbStatus(shareId) {
+    const stdo = this._studio; if (!stdo) return;
+    const out = document.getElementById('stOut');
+    const link = location.origin + '/#zpetna-vazba-' + shareId;
+    let comments = [];
+    try { const d = await (await fetch('/api/drafts?id=' + shareId)).json(); if (d.ok) comments = d.comments; } catch (e) {}
+    const KIND = { works: '👍', question: '❓', idea: '💡' };
+    out.innerHTML = `<div style="border:1.5px solid var(--accent);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
+      <b>💬 Feedback (${comments.length})</b>
+      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbStatus('${shareId}')">↻ refresh</button>
+      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbUnshare('${shareId}')">🗑 unshare</button>
+      <button class="steer-chip" style="font-size:.66rem" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
+      <div style="font-size:.7rem;margin:.35em 0;display:flex;gap:.4em;align-items:center;flex-wrap:wrap"><span style="color:var(--text-2)">Link created — send it to whoever you like:</span>
+        <code style="font-size:.66rem;background:var(--bg,#f6f6f2);padding:.1em .4em;border-radius:6px;word-break:break-all">${link}</code>
+        <button class="steer-chip" style="font-size:.64rem" onclick="navigator.clipboard&&navigator.clipboard.writeText('${link}')">Copy</button></div>
+      ${comments.length ? comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0;font-size:.78rem">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')
+        : `<div style="color:var(--text-3);font-size:.72rem">No comments yet — the link is active.</div>`}
+    </div>`;
+  }
+  async _studioFbUnshare(shareId) {
+    try { await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'unshare', id: shareId }) }); } catch (e) {}
+    const stdo = this._studio;
+    if (stdo) { const all = this._authorState(); if (all[stdo.slug]) delete all[stdo.slug].shareId; this._authorSave(all); }
+    const out = document.getElementById('stOut'); if (out) out.innerHTML = '';
+  }
+
+  async openDraftFeedback(shareId) {
+    document.getElementById('draftFb')?.remove();
+    let data = null;
+    try { data = await (await fetch('/api/drafts?id=' + encodeURIComponent(shareId))).json(); } catch (e) {}
+    const el = document.createElement('div');
+    el.id = 'draftFb';
+    const KIND = { works: '👍', question: '❓', idea: '💡' };
+    const inner = !data?.ok
+      ? `<div style="font-size:.85rem;color:var(--text-2)">This link is no longer active.</div>`
+      : `<div style="font-size:.75rem;color:var(--text-2);margin:.2em 0 .6em">This is a work-in-progress — read-only. Help with a comment: what works, what is unclear, what you would try differently.</div>
+        <article class="block-article" style="margin:0;padding:.8em 1em;border:1.5px solid var(--border,#eee);border-radius:12px;background:var(--bg,#fafaf7);max-height:46vh;overflow-y:auto">
+          <h2 style="margin:.1em 0 .5em;font-size:1.1rem">${this.escHtml(data.draft.title)}</h2>
+          <div class="block-content">${renderMarkdown(data.draft.text)}</div>
+        </article>
+        <div style="display:flex;gap:.4em;margin:.6em 0 .3em">
+          ${['works', 'question', 'idea'].map((k, i) => `<label style="font-size:.74rem;border:1.5px solid var(--border,#ddd);border-radius:999px;padding:.15em .6em;cursor:pointer"><input type="radio" name="fbKind" value="${k}" ${i === 2 ? 'checked' : ''} style="vertical-align:-1px"> ${[('👍 What works'), ('❓ Question'), ('💡 Idea')][i]}</label>`).join('')}
+        </div>
+        <textarea id="fbText" placeholder="Write a comment…" style="width:100%;min-height:8vh;font:inherit;font-size:.85rem;padding:.5em;border:1.5px solid var(--border,#ddd);border-radius:10px;background:var(--card,#fff)"></textarea>
+        <div style="display:flex;gap:.4em;margin-top:.4em;flex-wrap:wrap">
+          <input id="fbNick" placeholder="Your nickname (optional)" style="flex:1 1 130px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
+          <button class="note-save" style="background:var(--accent)" onclick="app._sendDraftComment('${this.escHtml(shareId)}')">Send the comment</button>
+        </div>
+        ${data.comments.length ? `<div style="margin-top:.6em;font-size:.76rem">${data.comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')}</div>` : ''}`;
+    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:270;overflow-y:auto" onclick="if(event.target===this)document.getElementById('draftFb').remove()">
+      <div style="max-width:680px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 1.4em">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
+          <div style="font-weight:800;font-size:1rem">👀 ${data?.ok ? this.escHtml(data.draft.nick || 'anonymous') + ' is asking for feedback' : 'is asking for feedback'}</div>
+          <button onclick="document.getElementById('draftFb').remove()" title="Close" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
+        </div>
+        ${inner}
+      </div></div>`;
+    document.body.appendChild(el);
+  }
+  async _sendDraftComment(shareId) {
+    const text = (document.getElementById('fbText')?.value || '').trim();
+    if (text.length < 2) return;
+    const kind = document.querySelector('input[name="fbKind"]:checked')?.value || 'idea';
+    const nick = (document.getElementById('fbNick')?.value || '').trim();
+    try {
+      const r = await (await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'comment', id: shareId, kind, text, nick }) })).json();
+      if (!r.ok) throw new Error(r.error || 'failed');
+      this.showXPToast('Thanks! The author will see your comment.', 'achievement');
+      this.openDraftFeedback(shareId);
+    } catch (e) { this.showXPToast(this.escHtml(String(e.message).slice(0, 60)), 'xp'); }
   }
 
   _studioClose() {
