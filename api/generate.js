@@ -274,7 +274,7 @@ const WALLET_PRICES = { basic: 10, advanced: 30 };
 
 function walletTier(body) {
   const mode = body.mode || 'variant';
-  if (mode === 'variant' || mode === 'svg-remix') return 'advanced';
+  if (mode === 'variant' || mode === 'svg-remix' || mode === 'transform') return 'advanced';
   if (mode === 'coach' || mode === 'seed') return 'basic';
   if (mode === 'remix' || mode === 'insert') {
     const wantsSvg = body.wantSvg === true
@@ -722,10 +722,47 @@ Review all games now. Czech output inside JSON strings.`;
       recallQ: String(b?.recallQ || '').slice(0, 300),
       recallA: String(b?.recallA || '').slice(0, 500),
       genre: String(b?.genre || '').slice(0, 30),
+      depth: String(b?.depth || '').slice(0, 20),
+      visuality: String(b?.visuality || '').slice(0, 20),
     }))(req.body.authorGoal);
     const goalLines = (authorGoal.recallQ || authorGoal.genre)
-      ? `${authorGoal.genre ? `TARGET FORM: ${authorGoal.genre} — shape the telling in this form.\n` : ''}${authorGoal.recallQ ? `AFTER READING, the reader must be able to answer: "${authorGoal.recallQ}"${authorGoal.recallA ? ` → expected answer: "${authorGoal.recallA}"` : ''}. Build toward exactly this.\n` : ''}`
+      ? `${authorGoal.genre || authorGoal.depth || authorGoal.visuality ? `TARGET FORM: ${[authorGoal.genre, authorGoal.depth && 'depth=' + authorGoal.depth, authorGoal.visuality && 'visuality=' + authorGoal.visuality].filter(Boolean).join(', ')} — shape the telling accordingly.\n` : ''}${authorGoal.recallQ ? `AFTER READING, the reader must be able to answer: "${authorGoal.recallQ}"${authorGoal.recallA ? ` → expected answer: "${authorGoal.recallA}"` : ''}. Build toward exactly this.\n` : ''}`
       : '';
+
+    // --- TRANSFORM MODE: rewrite the author's whole draft into a target form
+    // (facets), preserving facts and ⟦…⟧ media tokens. Powers the studio's
+    // "change the form of an already written telling" flow.
+    if (mode === 'transform') {
+      const text = String(req.body.text || '').slice(0, 14000);
+      if (text.trim().length < 60) return res.status(400).json({ ok: false, error: 'text too short' });
+      const t = req.body.target || {};
+      const target = ['genre', 'depth', 'visuality'].map(k => t[k] ? `${k}=${String(t[k]).slice(0, 30)}` : null).filter(Boolean).join(', ');
+      if (!target) return res.status(400).json({ ok: false, error: 'target facets required' });
+      const tokens = (text.match(/⟦[^⟧]*⟧/g) || []);
+      const TR_SCHEMA = { type: 'object', properties: { text: { type: 'string' } }, required: ['text'], additionalProperties: false };
+      const system = `You transform a telling in a living school book into a different FORM while keeping its substance. Write in the same language as the input (Czech expected).
+HARD RULES:
+- TARGET FORM: ${target}. genre values: explainer (clear exposition), story (narrative with characters), worked-example (numbers, step-by-step calculation), comic (scene descriptions + short speech lines as markdown, NOT an image), code-walkthrough (small code snippets explained), animation (describe motion verbally + suggest [animace: …] marks). depth: intro=simpler+shorter, technical=more precise. visuality: visual-first = suggest more [diagram: …] marks.
+- PRESERVE every ⟦…⟧ token EXACTLY as-is, at a sensible place in the new text (${tokens.length} tokens present).
+- Preserve all facts, numbers and the pedagogical goal; do not invent new facts.
+- Similar length (±40 %). Markdown allowed. Return ONLY the transformed text.`;
+      const user = `INPUT TELLING:\n<<<\n${text}\n>>>\nTransform it now.`;
+      const gate = r => {
+        const out2 = String(r.text || '');
+        const p2 = [];
+        if (out2.trim().length < text.length * 0.35) p2.push('output too short');
+        for (const tok of tokens) if (!out2.includes(tok)) p2.push(`missing token ${tok.slice(0, 24)}`);
+        return p2;
+      };
+      let out = await callLLM(system, user, TR_SCHEMA, 9000, STRONG_MODEL);
+      let problems = gate(out);
+      if (problems.length) {
+        out = await callLLM(system, `${user}\n\nYour previous attempt had problems — fix ALL of them:\n${problems.map(x => `- ${x}`).join('\n')}`, TR_SCHEMA, 9000, STRONG_MODEL);
+        problems = gate(out);
+      }
+      if (problems.length) return res.status(502).json({ ok: false, error: 'transform failed the validation gate', problems });
+      return res.status(200).json({ ok: true, text: String(out.text).slice(0, 20000), model: STRONG_MODEL, walletBalance: await walletCommit(req) });
+    }
 
     if (mode === 'seed') {
       const host = contentHost(req);
