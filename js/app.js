@@ -7039,7 +7039,7 @@ class PBook {
         if (g.verdict === 'pass') {
           hintEl.className = 'boss-hint boss-pass';
           hintEl.innerHTML = `${bar}<b>Passed!</b> ${this.escHtml(g.feedback)}`;
-          setTimeout(() => this.completeMission(missionId), 2000);
+          this._bossReflection(missionId, hintEl, g.score);
         } else {
           hintEl.className = 'boss-hint boss-retry';
           hintEl.innerHTML = `${bar}${this.escHtml(g.feedback)}
@@ -7060,6 +7060,50 @@ class PBook {
     this._checkBossAnswerLocal(missionId, rawAnswer.toLowerCase(), hintEl);
   }
 
+  // ===== POST-EXAM REFLECTION: what worked / what dragged / a suggestion =====
+  // One tap to continue, but it captures the fresh impression; signals flow
+  // to /api/log and editors see them in the admin Demand tab.
+  _bossReflection(missionId, hintEl, score) {
+    const m = this._wizardMission;
+    const blocks = (m?.core || []).map(id => this.findBlock(id)).filter(Boolean).slice(0, 6);
+    const chip = (b, kind) => `<button class="steer-chip st-refl" data-kind="${kind}" data-id="${this.escHtml(b.meta.id)}"
+      style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">${this.escHtml((b.meta.title || b.meta.id).slice(0, 30))}</button>`;
+    const box = document.createElement('div');
+    box.id = 'bossRefl';
+    box.style.cssText = 'margin-top:.7em;border-top:1px dashed var(--border,#ddd);padding-top:.55em;font-size:.8rem;text-align:left';
+    box.innerHTML = `<b>🪞 One more second — help the book grow</b>
+      <div style="margin-top:.35em;font-size:.72rem;color:var(--text-2)">👍 What worked best for you?</div>
+      <div>${blocks.map(b => chip(b, 'liked')).join('')}</div>
+      <div style="margin-top:.35em;font-size:.72rem;color:var(--text-2)">🌧 What was unclear or annoying?</div>
+      <div>${blocks.map(b => chip(b, 'disliked')).join('')}</div>
+      <div style="margin-top:.35em;font-size:.72rem;color:var(--text-2)">💡 What to improve? (tap)</div>
+      <div><button class="steer-chip st-refl" data-kind="suggest" data-id="more visuals" style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">more visuals</button><button class="steer-chip st-refl" data-kind="suggest" data-id="shorter texts" style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">shorter texts</button><button class="steer-chip st-refl" data-kind="suggest" data-id="more real-life examples" style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">more real-life examples</button><button class="steer-chip st-refl" data-kind="suggest" data-id="more games" style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">more games</button><button class="steer-chip st-refl" data-kind="suggest" data-id="simpler explanations" style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">simpler explanations</button><button class="steer-chip st-refl" data-kind="suggest" data-id="make it harder" style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">make it harder</button></div>
+      <textarea id="bossReflNote" placeholder="What would you improve? (optional — the editors will see it)" style="width:100%;min-height:6vh;margin-top:.4em;font:inherit;font-size:.8rem;padding:.4em;border:1px solid var(--border,#ddd);border-radius:8px;background:var(--card,#fff)"></textarea>
+      <div style="margin-top:.4em"><button class="wizard-nav-btn" onclick="app._bossReflSubmit('${this.escHtml(missionId)}', ${Number(score) || 0})">Continue 🎉</button></div>`;
+    hintEl.appendChild(box);
+  }
+  _bossReflToggle(el) {
+    const on = el.dataset.on === '1';
+    el.dataset.on = on ? '' : '1';
+    el.style.background = on ? '' : (el.dataset.kind === 'liked' ? '#D1FAE5' : el.dataset.kind === 'suggest' ? '#EDE9FE' : '#FEE2E2');
+    el.style.borderColor = on ? '' : (el.dataset.kind === 'liked' ? '#10B981' : el.dataset.kind === 'suggest' ? '#7C3AED' : '#EF4444');
+  }
+  _bossReflSubmit(missionId, score) {
+    const box = document.getElementById('bossRefl');
+    const pick = kind => box ? [...box.querySelectorAll(`.st-refl[data-kind="${kind}"][data-on="1"]`)].map(e => e.dataset.id) : [];
+    const liked = pick('liked'), disliked = pick('disliked'), suggestions = pick('suggest');
+    const note = (document.getElementById('bossReflNote')?.value || '').trim().slice(0, 500);
+    if (liked.length || disliked.length || suggestions.length || note) {
+      fetch('/api/log', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'reflection', event: 'mission_reflection', userId: this.rc.userId,
+          mission: missionId, score, liked, disliked, suggestions, note }) }).catch(() => {});
+      this.rc.logEvent('mission_reflection', { mission: missionId, liked: liked.length, disliked: disliked.length, hasNote: !!note });
+      if (this._f('gamification')) { this.user.addXP(5); this.user.save(); this.updateXPBadge(); }
+      this.showXPToast('Thanks! You sent the book feedback 🌱 +5 XP', 'achievement');
+    }
+    this.completeMission(missionId);
+  }
+
   _checkBossAnswerLocal(missionId, answer, hintEl) {
     const m = this._wizardMission;
     const hints = m.boss.hints || [];
@@ -7070,7 +7114,7 @@ class PBook {
       hintEl.style.display = 'block';
       hintEl.className = 'boss-hint boss-pass';
       hintEl.innerHTML = `<b>Awesome!</b> You mentioned ${found.length} key concepts. You clearly understand this topic!`;
-      setTimeout(() => this.completeMission(missionId), 1500);
+      this._bossReflection(missionId, hintEl);
     } else {
       const missing = hints.filter(h => !answer.includes(h)).slice(0, 2);
       hintEl.style.display = 'block';
