@@ -715,6 +715,18 @@ Review all games now. Czech output inside JSON strings.`;
     // --- SEED MODE: záměrně děravá minimalistická kostra pro autorské studio.
     // Smysl: dát autorovi CO PŘIPOMÍNKOVAT, ne hotový text — kostra je krátká,
     // s [DOPLŇ: …] mezerami a otázkami, které musí autor vyřešit sám.
+    // The author's own goal (studio header): the recall Q/A the reader should
+    // manage after reading, and the intended form (genre). Overrides the concept
+    // contract for drafting/coaching — the creator decides what they are making.
+    const authorGoal = (b => ({
+      recallQ: String(b?.recallQ || '').slice(0, 300),
+      recallA: String(b?.recallA || '').slice(0, 500),
+      genre: String(b?.genre || '').slice(0, 30),
+    }))(req.body.authorGoal);
+    const goalLines = (authorGoal.recallQ || authorGoal.genre)
+      ? `${authorGoal.genre ? `TARGET FORM: ${authorGoal.genre} — shape the telling in this form.\n` : ''}${authorGoal.recallQ ? `AFTER READING, the reader must be able to answer: "${authorGoal.recallQ}"${authorGoal.recallA ? ` → expected answer: "${authorGoal.recallA}"` : ''}. Build toward exactly this.\n` : ''}`
+      : '';
+
     if (mode === 'seed') {
       const host = contentHost(req);
       let contract = null, title = concept;
@@ -740,7 +752,7 @@ Review all games now. Czech output inside JSON strings.`;
 ${contract ? `Objective: ${contract.objective}
 Must cover: ${(contract.mustCover || []).map(m => m.point || m).join(' · ')}
 Recall the reader must answer: ${contract.recallQ || ''}` : ''}
-Write the skeleton now.`;
+${goalLines}Write the skeleton now.`;
       const out = await callLLM(system, user, SEED_SCHEMA, 2500);
       return res.status(200).json({ ok: true, seed: String(out.seed || '').slice(0, 1500), questions: (out.questions || []).slice(0, 3).map(q => String(q).slice(0, 200)), walletBalance: await walletCommit(req) });
     }
@@ -867,7 +879,7 @@ ${contract ? `CONTRACT:
 - must cover: ${(contract.mustCover || []).map(m => m.point || m).join(' · ') || '(faithful to objective)'}
 - recall the reader must answer after: ${contract.recallQ || 'n/a'} → ${contract.recallA || ''}` : '(no contract — judge clarity, correctness and structure)'}
 
-STUDENT DRAFT (round ${round}):
+${goalLines ? `AUTHOR'S OWN GOAL (grade against THIS first):\n${goalLines}` : ''}STUDENT DRAFT (round ${round}):
 """
 ${draft}
 """

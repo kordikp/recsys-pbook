@@ -143,7 +143,12 @@ class PBook {
       } else if (hash.startsWith('autor-')) {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
-        this.startAuthoring(hash.slice(6));
+        // #autor-<slug>~<form>: the teacher can send a suggested telling form
+        {
+          const [aslug, agenre] = hash.slice(6).split('~');
+          if (agenre) { const all = this._authorState(); const st = (all[aslug] = all[aslug] || {}); if (!st.genre) { st.genre = decodeURIComponent(agenre); this._authorSave(all); } }
+          this.startAuthoring(aslug);
+        }
       } else if (hash === 'quiz') {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
@@ -164,7 +169,11 @@ class PBook {
       } else if (hash.startsWith('dilna-')) {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
-        this.startWorkshop(hash.slice(6));
+        {
+          const [wslug, wgenre] = hash.slice(6).split('~');
+          if (wgenre) { const all = this._authorState(); const st = (all[wslug] = all[wslug] || {}); if (!st.genre) { st.genre = decodeURIComponent(wgenre); this._authorSave(all); } }
+          this.startWorkshop(wslug);
+        }
       } else if (hash === 'cesta') {
         // deep link to the Journey game board (teacher sharing, screenshots)
         document.getElementById('onboarding').classList.add('hidden');
@@ -5939,6 +5948,9 @@ class PBook {
     st2.assets = {}; st2.assetSeq = 0; st2.stats = { manual: 0, ai: 0, coach: 0 };
     st2.sourceBlockId = blockId;
     st2.sourceTitle = entry.meta?.title || '';
+    if (!st2.recallQ && entry.meta?.recallQ) st2.recallQ = entry.meta.recallQ;
+    if (!st2.recallA && entry.meta?.recallA) st2.recallA = entry.meta.recallA;
+    if (!st2.genre && entry.meta?.genre) st2.genre = entry.meta.genre;
     st2.importHash = this._hash36(body);
     delete st2.title;
     all2[slug] = st2;
@@ -5965,7 +5977,7 @@ class PBook {
     document.getElementById('authorStudio')?.remove();
     const el = document.createElement('div');
     el.id = 'authorStudio';
-    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:250;overflow-y:auto" onclick="if(event.target===this)app._studioClose()">
+    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:250;overflow-y:auto">
       <div style="max-width:780px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">✍️ Author studio</div>
@@ -5977,6 +5989,14 @@ class PBook {
           <b>${this.escHtml(title)}</b>
           ${contract.objective ? `<div style="margin-top:.25em"><span style="color:var(--text-2,#666)">Goal:</span> ${this.escHtml(contract.objective)}</div>` : ''}
           ${(contract.mustCover || []).length ? `<div style="margin-top:.25em;font-size:.74rem"><span style="color:var(--text-2,#666)">Must cover:</span> ${(contract.mustCover || []).map(x => `<span style="display:inline-block;border:1px solid var(--border,#ddd);border-radius:999px;padding:0 .5em;margin:.1em">${this.escHtml(x)}</span>`).join('')}</div>` : ''}
+  <div style="margin-top:.45em;border-top:1px dashed var(--border,#eee);padding-top:.4em">
+                <div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666)">🎯 After reading, the reader should answer</div>
+                <input id="stGoalQ" placeholder="Check question… (write this first!)" value="${this.escHtml(st.recallQ || contract.recallQ || '')}"
+                  style="width:100%;font:inherit;font-size:.8rem;padding:.25em .45em;margin:.2em 0;border:1px dashed var(--border,#ccc);border-radius:8px;background:var(--bg,#fafaf7)">
+                <input id="stGoalA" placeholder="Expected answer…" value="${this.escHtml(st.recallA || '')}"
+                  style="width:100%;font:inherit;font-size:.8rem;padding:.25em .45em;margin:.1em 0;border:1px dashed var(--border,#ccc);border-radius:8px;background:var(--bg,#fafaf7)">
+                <div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin-top:.25em">🎭 Form: <span id="stGenreChips"><button class="steer-chip st-genre" data-g="explainer" style="font-size:.66rem;margin:.1em" onclick="app._studioGoalGenre(this)">explainer</button><button class="steer-chip st-genre" data-g="comic" style="font-size:.66rem;margin:.1em" onclick="app._studioGoalGenre(this)">comic</button><button class="steer-chip st-genre" data-g="story" style="font-size:.66rem;margin:.1em" onclick="app._studioGoalGenre(this)">story</button><button class="steer-chip st-genre" data-g="experiment" style="font-size:.66rem;margin:.1em" onclick="app._studioGoalGenre(this)">experiment</button><button class="steer-chip st-genre" data-g="dialogue" style="font-size:.66rem;margin:.1em" onclick="app._studioGoalGenre(this)">dialogue</button><button class="steer-chip st-genre" data-g="worked-example" style="font-size:.66rem;margin:.1em" onclick="app._studioGoalGenre(this)">worked-example</button></span></div>
+          </div>
         </div>
         <style>#stCanvas .st-block{transition:background .15s}#stCanvas .st-block:not([data-img]):hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}#stCanvas #stTitleH:hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}</style><div id="stCanvas" style="border:1.5px solid var(--border,#eee);border-radius:12px;padding:1em 1.1em;background:var(--bg,#fafaf7);margin:.7em 0 .5em;min-height:30vh"></div>
         <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
@@ -5988,9 +6008,7 @@ class PBook {
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
         <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
-        <details style="margin-top:.6em"><summary style="font-size:.7rem;color:var(--text-3,#999);cursor:pointer">Source (markdown) — for the experienced</summary>
-          <textarea id="stDraft" style="width:100%;min-height:30vh;margin:.4em 0;padding:.7em;border:1.5px solid var(--border,#ddd);border-radius:10px;font:ui-monospace,monospace;font-size:.78rem;line-height:1.5;background:var(--card,#fff)">${this.escHtml(cleanText)}</textarea>
-        </details>
+        <textarea id="stDraft" style="display:none">${this.escHtml(cleanText)}</textarea>
       </div>
     </div>`;
     document.body.appendChild(el);
@@ -6000,6 +6018,13 @@ class PBook {
       clearTimeout(this._stPvTimer);
       this._stPvTimer = setTimeout(() => this._studioPreview(), 250);
     });
+    // The creation goal (Q/A/form) is saved with the draft and sent to the coach and the skeleton
+    ['stGoalQ', 'stGoalA'].forEach(id => document.getElementById(id)?.addEventListener('change', () => this._studioSaveGoal()));
+    const curG = st.genre || '';
+    document.querySelectorAll('#stGenreChips .st-genre').forEach(ch => {
+      if (ch.dataset.g === curG) { ch.style.background = '#EDE9FE'; ch.style.borderColor = '#7C3AED'; ch.dataset.on = '1'; }
+    });
+    if ((cleanText || '').trim().length >= 60) document.getElementById('stSeedBtn')?.remove();
     // Esc closes the window (everything autosaves); inputs keep their own Esc behaviour
     if (!this._stEscBound) {
       this._stEscBound = true;
@@ -6010,6 +6035,16 @@ class PBook {
       });
     }
     if (cleanText !== (st.text || '')) this._studioSave();
+    this._studioPreview();
+    if (st.shareId) {
+      fetch('/api/drafts?id=' + st.shareId).then(r => r.json()).then(d => {
+        const btn = document.getElementById('stFbBtn');
+        if (d?.ok && btn) {
+          const n = (d.comments || []).length;
+          if (n) { btn.textContent += ` (${n})`; btn.style.borderColor = '#7C3AED'; btn.style.color = '#7C3AED'; this._studioFbStatus(st.shareId); }
+        }
+      }).catch(() => {});
+    }
     this._studioPreview();
     if (this._stBackupOffer) {
       this._stBackupOffer = false;
@@ -6251,7 +6286,7 @@ class PBook {
           <button class="note-cancel" onclick="document.getElementById('workshop').remove()">Close</button>
         </div></div>`;
     }
-    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:260;overflow-y:auto" onclick="if(event.target===this){app._wsSave();document.getElementById('workshop').remove()}">
+    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:260;overflow-y:auto">
       <div style="max-width:660px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">🎓 Creative workshop · ${this.escHtml(ws.title)}</div>
@@ -6445,10 +6480,14 @@ class PBook {
     document.body.appendChild(el);
   }
 
-  async openDraftFeedback(shareId) {
+  async openDraftFeedback(shareId, optimistic) {
     document.getElementById('draftFb')?.remove();
     let data = null;
     try { data = await (await fetch('/api/drafts?id=' + encodeURIComponent(shareId))).json(); } catch (e) {}
+    // optimistic: show a just-sent comment immediately (Supabase reads lag ~5s)
+    if (data?.ok && optimistic && !(data.comments || []).some(c => c.text === optimistic.text)) {
+      data.comments.push(optimistic);
+    }
     const el = document.createElement('div');
     el.id = 'draftFb';
     const KIND = { works: '👍', question: '❓', idea: '💡' };
@@ -6488,14 +6527,33 @@ class PBook {
         body: JSON.stringify({ action: 'comment', id: shareId, kind, text, nick }) })).json();
       if (!r.ok) throw new Error(r.error || 'failed');
       this.showXPToast('Thanks! The author will see your comment.', 'achievement');
-      this.openDraftFeedback(shareId);
+      this.openDraftFeedback(shareId, { kind, text, nick });
     } catch (e) { this.showXPToast(this.escHtml(String(e.message).slice(0, 60)), 'xp'); }
+  }
+
+  _studioSaveGoal() {
+    const stdo = this._studio; if (!stdo) return;
+    const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
+    st.recallQ = (document.getElementById('stGoalQ')?.value || '').trim().slice(0, 300);
+    st.recallA = (document.getElementById('stGoalA')?.value || '').trim().slice(0, 500);
+    this._authorSave(all);
+  }
+  _studioGoalGenre(el) {
+    document.querySelectorAll('#stGenreChips .st-genre').forEach(ch => { ch.style.background = ''; ch.style.borderColor = ''; ch.dataset.on = ''; });
+    el.style.background = '#EDE9FE'; el.style.borderColor = '#7C3AED'; el.dataset.on = '1';
+    const stdo = this._studio; if (!stdo) return;
+    const all = this._authorState(); (all[stdo.slug] = all[stdo.slug] || {}).genre = el.dataset.g; this._authorSave(all);
+  }
+  _studioGoal() {
+    const st = this._authorState()[this._studio?.slug] || {};
+    return { recallQ: st.recallQ || '', recallA: st.recallA || '', genre: st.genre || '' };
   }
 
   _studioClose() {
     if (this._stEditing) this._studioCommitBlock();   // an open paragraph must never fall off the table
     this._studioSave();
     document.getElementById('authorStudio')?.remove();
+    this.showXPToast('Draft saved ✓ — find it via ✍️ on the concept or in your Profile', 'xp');
   }
 
   _studioAddBlock() {
@@ -6832,7 +6890,7 @@ class PBook {
       const res = await fetch(CONFIG.steering.generateEndpoint, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode: 'seed', concept: stdo.slug, lang: 'en',
-          proposalContract: stdo.isProposal ? stdo.contract : undefined, auth: this._walletAuth() }),
+          proposalContract: stdo.isProposal ? stdo.contract : undefined, authorGoal: this._studioGoal(), auth: this._walletAuth() }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok || !data.seed) throw new Error(data.error || 'seed failed');
@@ -6867,7 +6925,7 @@ class PBook {
       const res = await fetch(CONFIG.steering.generateEndpoint, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode: 'coach', concept: stdo.slug, draft, round: st.round,
-          proposalContract: stdo.isProposal ? stdo.contract : undefined, auth: this._walletAuth() }),
+          proposalContract: stdo.isProposal ? stdo.contract : undefined, authorGoal: this._studioGoal(), auth: this._walletAuth() }),
       });
       const data = await res.json();
       if (!res.ok || !data.ok || !data.coach) throw new Error(data.error || 'coach unavailable');
@@ -6901,6 +6959,7 @@ class PBook {
     const block = {
       meta: { id, title: stdo.title, type: 'spine', state: 'private', authored: true, core: false,
         concept: stdo.isProposal ? undefined : stdo.slug, proposalSlug: stdo.isProposal ? stdo.slug : undefined,
+        recallQ: st.recallQ || undefined, recallA: st.recallA || undefined, genre: st.genre || undefined,
         readingTime: Math.max(1, Math.round(draft.split(/\s+/).length / 200)) },
       body: draft,
     };
