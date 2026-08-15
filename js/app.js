@@ -5900,7 +5900,12 @@ class PBook {
     this._stReloadForce = false;
     // The section transfers FAITHFULLY: the header diagram (meta.diagram) as an
     // inline image up top, remix ⟦rx⟧ marks stripped.
-    let body = (entry.body || '').replace(/⟦\/?rx⟧/g, '');
+    // You edit what you SEE: an accepted override wins over the git original —
+    // otherwise the studio would silently discard the reader’s earlier work.
+    const ovId = this._overrides?.[blockId];
+    const ov = ovId && !this._overridesOff().has(blockId) ? this.privateBlocks?.[ovId] : null;
+    let body = ((ov ? ov.body : entry.body) || '').replace(/⟦\/?rx⟧/g, '');
+    if (ov?.meta?.diagramSvg && !body.includes('⟦svg⟧')) body = '⟦svg⟧\n' + ov.meta.diagramSvg.trim() + '\n⟦/svg⟧\n\n' + body;
     body = await this._resolveMediaMarks(body, this._mediaMap(entry.meta));
     const diag = entry.meta?.diagram;
     if (diag && typeof diag === 'string' && /\.svg$/.test(diag) && !body.includes('⟦svg⟧')) {
