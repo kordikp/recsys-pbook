@@ -1466,6 +1466,18 @@ class PBook {
       if (forYouCards.length) html += this.shelf('Picked for you', forYouCards);
     }
 
+    // "Because you read X" — related to the last read block (Items to Item; the
+    // related-item scenario refines the logic once created in the Admin UI).
+    const lastReadId = [...this.user.readBlocks].pop();
+    const lastReadBlock = lastReadId && this.findBlock(lastReadId);
+    if (lastReadBlock) {
+      const rel = await this.rc.getRecsForItem(lastReadId, 8, this.rc.reql({ type: 'spine' }), 'related-item');
+      const relCards = (rel?.recomms || [])
+        .filter(r => r.id !== lastReadId && !this.user.readBlocks.has(r.id))
+        .map(r => this.cardFromRec(r)).filter(Boolean);
+      if (relCards.length >= 3) html += this.shelf('Because you read: ' + this.escHtml(lastReadBlock.meta.title || ''), relCards);
+    }
+
     // Community layer (open mode only, spec §6): tellings other readers generated & shared,
     // clearly labelled, blended into discovery — the living part of the book
     if (this._f('community') && this.user.readerMode === 'open') {
@@ -1818,9 +1830,16 @@ class PBook {
     const shown = this._feedShownBlocks || new Set();
     let blocks = [];
 
-    // Try Recombee for personalized recommendations
+    // The infinite feed = ONE recommendation paginated via Next Items (the
+    // next-read scenario exists in the DB); a fresh query only at the start
+    // or when the chain is exhausted.
     if (this.rc.enabled && this._f('personalization')) {
-      const result = await this.rc.getRecsForUser('next-read', count * 3, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
+      let result = null;
+      if (this._feedRecommId) result = await this.rc.getNextRecs(this._feedRecommId, count * 3);
+      if (!result?.recomms?.length) {
+        result = await this.rc.getRecsForUser('next-read', count * 3, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
+      }
+      this._feedRecommId = result?.recommId || null;
       if (result?.recomms?.length) {
         for (const r of result.recomms) {
           if (shown.has(r.id)) continue;

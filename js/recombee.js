@@ -130,7 +130,10 @@ export class RecombeeClient {
     this._saveInteractions();
     const body = { userId: this.userId, itemId, cascadeCreate: true, timestamp: new Date().toISOString() };
     if (duration) body.duration = duration;
-    if (this._lastRecommId) body.recommId = this._lastRecommId;
+    // Attribution: the recommId of THE recommendation this item came from (per-item
+    // map; global _lastRecommId only as a last resort) — per the Recombee guide.
+    const rid = (this._recommSources || {})[itemId] || this._lastRecommId;
+    if (rid) body.recommId = rid;
     if (this.enabled) return this.api('POST', '/detailviews/', body);
   }
 
@@ -290,11 +293,27 @@ export class RecombeeClient {
         result = await this.api('POST', `/recomms/users/${this.userId}/items/`, { count, cascadeCreate: true });
       }
       if (result) {
-        if (result.recommId) this._lastRecommId = result.recommId;
+        this._trackRecomms(result);
         return result;
       }
     }
     return this._localRecsForUser(scenario, count);
+  }
+
+  _trackRecomms(result) {
+    if (!result || !result.recommId) return;
+    this._lastRecommId = result.recommId;
+    this._recommSources = this._recommSources || {};
+    (result.recomms || []).forEach(r => { if (r && r.id) this._recommSources[r.id] = result.recommId; });
+  }
+
+  // Recommendation pagination per the guide: the next batch of the same
+  // recommendation chains via Recommend Next Items (recommId), not a fresh query.
+  async getNextRecs(prevRecommId, count) {
+    if (!this.enabled || !prevRecommId) return null;
+    const result = await this.api('POST', `/recomms/next/items/${prevRecommId}`, { count });
+    if (result) this._trackRecomms(result);
+    return result;
   }
 
   async getRecsForItem(itemId, count, filter, scenario) {
@@ -305,7 +324,7 @@ export class RecombeeClient {
       let result = await this.api('POST', `/recomms/items/${itemId}/items/`, body);
       if (!result && scenario) { delete body.scenario; result = await this.api('POST', `/recomms/items/${itemId}/items/`, body); }
       if (result) {
-        if (result.recommId) this._lastRecommId = result.recommId;
+        this._trackRecomms(result);
         return result;
       }
     }
