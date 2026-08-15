@@ -3571,11 +3571,9 @@ class PBook {
       .map(pr => this._cmapNodes?.[pr]).filter(Boolean)
       .filter(pn => this._nodePool(pn).some(b => (b.meta?.type || b.type) === 'spine') && !this._conceptRead(pn.slug));
   }
-  // 🎲 Journey — game board with the suggested concept order
-  async renderJourneyMap() {
-    await this._loadConceptMap();
-    const cm = this._cmapData;
-    if (!cm) return '';
+  // Shared game-board geometry (Journey) — used by the big map AND the floating
+  // read-feed mini-map so their shapes match.
+  _journeyLayout(cm) {
     const temata = cm.temata.filter(t => cm.nodes.some(n => n.tema === t.id));
     const cols = Math.min(2, temata.length) || 1;
     const W = 800, colW = W / cols;
@@ -3609,6 +3607,16 @@ class PBook {
         pos[n.slug] = { x: x0 + c * step, y: top + r * ROW_H + (i % 2 ? 8 : -6) };
       });
     });
+    const temaColor = {}; temata.forEach(t => { temaColor[t.id] = t.color; });
+    return { temata, cols, colW, W, H, geo, rowY, pos, temaColor, PAD_TOP, ROW_H };
+  }
+
+  // 🎲 Journey — game board with the suggested concept order
+  async renderJourneyMap() {
+    await this._loadConceptMap();
+    const cm = this._cmapData;
+    if (!cm) return '';
+    const { temata, W, H, pos, temaColor: __tc } = this._journeyLayout(cm);
     const stat = {};
     const now = Date.now();
     cm.nodes.forEach(n => {
@@ -3648,7 +3656,7 @@ class PBook {
         <text x="${minX + 14}" y="${minY + 20}" font-size="12.5" font-weight="700" fill="${t.color}">${this.escHtml(t.nazev)}</text>`;
     });
     svg += `<path d="${road}" fill="none" stroke="var(--border)" stroke-width="8" stroke-linecap="round" opacity="0.9"/>` + arrows;
-    const temaColor = {}; temata.forEach(t => { temaColor[t.id] = t.color; });
+    const temaColor = __tc;
     cm.nodes.forEach(n => {
       const { x, y } = pos[n.slug];
       const st = stat[n.slug];
@@ -3786,36 +3794,40 @@ class PBook {
     const cm = this._cmapData;
     let el = document.getElementById('miniBoard');
     if (!cm || !cm.nodes?.length) { if (el) el.style.display = 'none'; return; }
+    const { temata, W, H, pos, temaColor } = this._journeyLayout(cm);
+    const width = Math.min(100, Math.round(170 * W / H));
     if (!el) {
       el = document.createElement('div');
       el.id = 'miniBoard';
       el.title = 'Journey — open the game board';
-      el.style.cssText = 'position:fixed;right:10px;bottom:64px;z-index:60;width:96px;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:10px;padding:5px 5px 3px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer;opacity:.94';
+      el.style.cssText = 'position:fixed;right:10px;bottom:64px;z-index:60;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:10px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer;opacity:.94';
       el.onclick = () => { this._mapReturnToRead = true; this.switchView('map'); this.setMapMode('cesta'); };
       document.body.appendChild(el);
     }
-    const N = cm.nodes.length;
-    const per = N > 40 ? 10 : 8;
-    const rows = Math.ceil(N / per);
-    const step = (96 - 16) / Math.max(per - 1, 1);
-    const W = 96, H = rows * 11 + 6;
-    const temaColor = {}; cm.temata.forEach(t => { temaColor[t.id] = t.color; });
+    el.style.width = width + 'px';
     const hasArt = n => this._nodePool(n).some(b => ((b.meta || b).type) === 'spine');
     const cur = cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug) && !this._unmetPrereqs(n.slug).length) || cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug));
     let svg = `<svg viewBox="0 0 ${W} ${H}" style="display:block;width:100%">`;
-    cm.nodes.forEach((n, i) => {
-      const r = Math.floor(i / per);
-      let c = i % per;
-      if (r % 2) c = per - 1 - c;
-      const x = 8 + c * step, y = 7 + r * 11;
+    // regiony jako barevné plochy — tvar odpovídá velké mapě
+    temata.forEach(t => {
+      const pts = cm.nodes.filter(n => n.tema === t.id).map(n => pos[n.slug]);
+      if (!pts.length) return;
+      const minX = Math.min(...pts.map(p2 => p2.x)) - 52, maxX = Math.max(...pts.map(p2 => p2.x)) + 52;
+      const minY = Math.min(...pts.map(p2 => p2.y)) - 50, maxY = Math.max(...pts.map(p2 => p2.y)) + 48;
+      svg += `<rect x="${minX}" y="${minY}" width="${maxX - minX}" height="${maxY - minY}" rx="30" fill="${t.color}" opacity="0.13"/>`;
+    });
+    cm.nodes.forEach(n => {
+      const { x, y } = pos[n.slug] || {};
+      if (x === undefined) return;
       const read = this._conceptRead(n.slug), rem = this._conceptRemembered(n.slug);
+      const ghost = !hasArt(n);
       const isCur = cur && cur.slug === n.slug;
       const isFocus = this._feedFocusSlug === n.slug;
-      const ghost = !this._nodePool(n).some(b => ((b.meta || b).type) === 'spine');
-      if (isFocus) svg += `<circle cx="${x}" cy="${y}" r="5.4" fill="none" stroke="#6366F1" stroke-width="1.6"/>`;
+      const tip = `<title>${this.escHtml(n.short || n.title)}${isFocus ? ' · reading now' : ''}</title>`;
+      if (isFocus) svg += `<circle cx="${x}" cy="${y}" r="34" fill="none" stroke="#6366F1" stroke-width="9">${tip}</circle>`;
       svg += ghost
-        ? `<circle cx="${x}" cy="${y}" r="2" fill="none" stroke="${temaColor[n.tema] || '#999'}" stroke-width="0.8" stroke-dasharray="1.5 1.5"/>`
-        : `<circle cx="${x}" cy="${y}" r="${isCur ? 3.8 : 2.8}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--border,#ddd)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 1.8 : 0.8}"/>`;
+        ? `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${temaColor[n.tema] || '#999'}" stroke-width="5" stroke-dasharray="8 8">${tip}</circle>`
+        : `<circle cx="${x}" cy="${y}" r="${isCur ? 22 : 17}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--card,#fff)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 9 : 5}">${tip}</circle>`;
     });
     svg += '</svg>';
     el.innerHTML = svg;
