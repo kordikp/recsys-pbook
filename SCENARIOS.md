@@ -11,9 +11,11 @@ nerozbije — jen se nevyužije jeho vyladěná logika.
 | `homepage-personal` | Items to User | Procházet → „Vybráno pro tebe" | ✅ existuje | personalizace (recombee:personal), filter `'type' == "spine"` |
 | `next-read` | Items to User | Infinite feed (Číst) — první dávka; další stránky přes **Recommend Next Items** | ✅ existuje | personalizace + rotace VYPNUTÁ (rotationRate nepoužívat), filter `'type' == "spine"` |
 | `search` | Search Items | Hledání | ✅ existuje (search-items) | fulltext + personalizovaný rerank |
-| `related-item` | Items to Item | Procházet → „Protože sis přečetl/a X" | ❌ **založit** | podobnost obsahu (beeformer/ReQL), filter `'type' == "spine"`, vyloučit sám sebe |
+| `context-related` | Items to Item | Procházet → „Protože sis přečetl/a X" | ✅ existuje (recombee:default) | filter `'type' == "spine"` posílá klient; ověřeno: k ch3-dino vrací ch3-pakety/ch1-pakety |
 | `concept-tellings` | Items to Item | „Další podání" konceptu (budoucí) | ❌ volitelné | filter `'concept' == context_item.'concept'` |
 | `map-suggest` | Items to User | Cesta/mapa — co číst dál (budoucí) | ❌ volitelné | boost nepřečtených core |
+
+Poznámka: scénář `homepage-voice` je legacy (voice systém nahradily facety) — kandidát na smazání v Admin UI.
 
 Poznámky k datům:
 - Pseudo-itemy `_event:*` (research log přes purchases) filtrovat všude: `'type' != null` nebo filter na `"spine"`.

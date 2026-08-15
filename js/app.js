@@ -1471,7 +1471,7 @@ class PBook {
     const lastReadId = [...this.user.readBlocks].pop();
     const lastReadBlock = lastReadId && this.findBlock(lastReadId);
     if (lastReadBlock) {
-      const rel = await this.rc.getRecsForItem(lastReadId, 8, this.rc.reql({ type: 'spine' }), 'related-item');
+      const rel = await this.rc.getRecsForItem(lastReadId, 8, this.rc.reql({ type: 'spine' }), 'context-related');
       const relCards = (rel?.recomms || [])
         .filter(r => r.id !== lastReadId && !this.user.readBlocks.has(r.id))
         .map(r => this.cardFromRec(r)).filter(Boolean);
