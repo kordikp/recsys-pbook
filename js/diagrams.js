@@ -81,7 +81,8 @@ const diagramCache = {};
 export async function getDiagram(name) {
   if (diagramCache[name]) return diagramCache[name];
 
-  const file = DIAGRAM_FILES[name];
+  // Direct paths (diagram: images/x.svg, markdown images) alongside registered names
+  const file = DIAGRAM_FILES[name] || (/\.(svg|png|jpg|jpeg|webp|gif)$/i.test(name) ? name : null);
   if (file) {
     // For raster images (PNG, JPG, WEBP), return <img> tag
     if (/\.(png|jpg|jpeg|webp|gif)$/i.test(file)) {
