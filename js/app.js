@@ -4814,7 +4814,7 @@ class PBook {
       if (this._getAuth()) {
         h += `<div style="font-size:1.6rem;font-weight:800">⚡ ${this._srvBalance != null ? this._srvBalance : '…'}</div>
           <div style="font-size:.75rem;color:var(--text-2)">server-side balance · basic AI (text) ${pr.basic} ⚡ · advanced (variants & diagrams) ${pr.advanced} ⚡</div>
-          <div style="font-size:.75rem;color:var(--text-2);margin-top:.3em">Earn by reading (+10), recall (+2), games (+5), notes (+3) and manual edits (+${CONFIG.aiEconomy.earnManualEdit}). A daily cap is enforced server-side.</div>`;
+          <div style="font-size:.75rem;color:var(--text-2);margin-top:.3em">Earn by reading (+10), recall (+2), games (+5), notes (+3), manual edits (+${CONFIG.aiEconomy.earnManualEdit}) and your own writing in the studio (+${CONFIG.aiEconomy.earnManualEdit} per ~${CONFIG.aiEconomy.earnStudioChars || 250} chars). A daily cap is enforced server-side.</div>`;
       } else {
         const left = Math.max(0, (CONFIG.aiEconomy.freeTrials || 1) - this._trialsUsedLocal());
         h += `<div style="font-size:.95rem"><b>${left}×</b> free AI tries on this device</div>
@@ -6005,7 +6005,8 @@ class PBook {
       <div style="max-width:780px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">✍️ Author studio</div>
-          <span id="stSaved" style="font-size:.66rem;color:var(--text-3,#999);margin-left:auto"></span>
+          <span id="stEarn" style="font-size:.64rem;color:#15803D;margin-left:auto;text-align:right"></span>
+          <span id="stSaved" style="font-size:.66rem;color:var(--text-3,#999)"></span>
           <button onclick="app._studioClose()" title="Close — everything autosaves" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
         <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">Write straight into the page: click a paragraph to edit it, select and drag images. Everything saves continuously.</div>
@@ -6057,6 +6058,7 @@ class PBook {
     }
     if (cleanText !== (st.text || '')) this._studioSave();
     this._studioPreview();
+    this._studioEarnHint(st);
     if (st.shareId) {
       fetch('/api/drafts?id=' + st.shareId).then(r => r.json()).then(d => {
         const btn = document.getElementById('stFbBtn');
@@ -6193,14 +6195,50 @@ class PBook {
     this._stEditing = null;
     const val = ed.value.trim();
     const blocks = this._studio._blocks || [];
+    const before = st.i < blocks.length ? (blocks[st.i] || '') : '';
     if (st.i >= blocks.length) { if (val) blocks.push(val); }
     else if (val) blocks[st.i] = val;
     else blocks.splice(st.i, 1);
     const ta = document.getElementById('stDraft');
     if (ta) ta.value = blocks.join('\n\n');
     this._studioStat('manual');
+    if (val && val !== before) this._studioEarnAdd(Math.max(val.length > before.length ? val.length - before.length : 0, 15));
     this._studioSave();
     this._studioPreview();
+  }
+
+  // Hand-writing counts: every ~250 manually written chars → +⚡ (max 4× per
+  // draft, daily cap on the server). So you can always keep working without
+  // credits and earn the coach back. AI insertions bypass this (no commit).
+  _studioEarnAdd(chars) {
+    const c = CONFIG.aiEconomy;
+    if (!c?.enabled || !this._f('gamification')) return;
+    const stdo = this._studio; if (!stdo) return;
+    const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
+    st.earn = st.earn || { chars: 0, paid: 0 };
+    st.earn.chars += Math.max(0, chars | 0);
+    const step = c.earnStudioChars || 250, cap = c.earnStudioMax || 4;
+    const due = Math.min(cap, Math.floor(st.earn.chars / step));
+    while (st.earn.paid < due) {
+      st.earn.paid++;
+      this.user.addXP(c.earnManualEdit || 8); this.user.save();
+      this.showXPToast('+{n} ⚡ for your own writing ✍️'.replace('{n}', c.earnManualEdit || 8), 'xp');
+      this.updateXPBadge();
+      this.rc.logEvent('studio_manual_earn', { slug: stdo.slug, milestone: st.earn.paid });
+    }
+    this._authorSave(all);
+    this._studioEarnHint(st);
+  }
+  _studioEarnHint(st) {
+    const el = document.getElementById('stEarn'); if (!el) return;
+    const c = CONFIG.aiEconomy;
+    if (!c?.enabled || !this._f('gamification')) { el.textContent = ''; return; }
+    const e = (st || {}).earn || { chars: 0, paid: 0 };
+    const step = c.earnStudioChars || 250, cap = c.earnStudioMax || 4;
+    el.textContent = e.paid >= cap
+      ? '✍️ max ⚡ earned for this draft'
+      : '✍️ +{n} ⚡ in ~{z} chars of writing'.replace('{n}', c.earnManualEdit || 8).replace('{z}', String(step - (e.chars % step)));
+    el.title = 'Your own writing earns ⚡ for AI — the coach and graphics are paid from them. Milestone every ' + step + ' chars, max ' + cap + '× per draft.';
   }
   // Studio drafts in progress — always findable (Profile, Concepts, Journey)
   // Draft for a map node: under the node slug, or any concept id from its pool
@@ -6250,7 +6288,7 @@ class PBook {
     document.getElementById('workshop')?.remove();
     const el = document.createElement('div');
     el.id = 'workshop';
-    const ROLE_NAMES = { idea: 'idea-maker', spolu: 'co-creator', oponent: 'opponent' };
+    const ROLE_NAMES = { idea: 'idea-maker', spolu: 'co-creator', oponent: 'opponent', solo: 'independent creator' };
     let inner = '';
     if (ws.step === 'role') {
       const card = (r, t2, d) => `<button onclick="app._wsRole('${r}')" style="flex:1 1 180px;text-align:left;border:1.5px solid var(--border,#ddd);border-radius:12px;padding:.8em .9em;background:var(--card,#fff);cursor:pointer">
@@ -6260,6 +6298,7 @@ class PBook {
           ${card('idea', '🎨 I have my own idea', 'You lead; the coach asks questions and helps sharpen it.')}
           ${card('spolu', '🤝 We invent it together', 'The coach proposes, you add — 50/50.')}
           ${card('oponent', '🔍 I will be the opponent', 'The coach brings a vision; you attack and improve it. Critique is creation too!')}
+          ${card('solo', '✍️ I will create right away', 'No coach, free — writing even earns you ⚡, and you can summon the coach any time later.')}
         </div>`;
     } else if (ws.step === 'align') {
       const msgs = ws.msgs.map(m => `<div style="display:flex;${m.role === 'user' ? 'justify-content:flex-end' : ''}">
@@ -6276,7 +6315,9 @@ class PBook {
           <b>🤝 Agreed:</b> <span id="wsBriefTxt" style="font-size:.85rem">${this.escHtml(ws.brief)}</span>
           <button class="steer-chip" style="font-size:.66rem" onclick="app._wsBriefEdit()">✏️ edit</button>
           <div style="margin-top:.5em"><button class="note-save" style="background:#10B981" onclick="app._wsToStudio()">Let’s create →</button></div>
-        </div>` : `<div style="font-size:.72rem;color:var(--text-3)">Keep aligning — the brief appears once you genuinely contribute.</div>`}</div>`;
+        </div>` : `<div style="font-size:.72rem;color:var(--text-3)">Keep aligning — the brief appears once you genuinely contribute.
+          <div style="margin-top:.4em"><button class="steer-chip" style="font-size:.7rem" onclick="app._wsToStudio()">✍️ Not waiting — I will create on my own (free) →</button>
+          <span style="color:var(--text-3);font-size:.66rem">writing earns ⚡, the coach can join later</span></div></div>`}</div>`;
     } else if (ws.step === 'reflect') {
       const st = this._authorState()[ws.slug] || {};
       const stats = st.stats || { manual: 0, ai: 0, coach: 0 };
@@ -6325,7 +6366,12 @@ class PBook {
     if (wi) wi.addEventListener('keydown', ev => { if (ev.key === 'Enter') { ev.preventDefault(); this._wsAsk(wi.value); } });
   }
 
-  _wsRole(r) { this._ws.role = r; this._ws.step = 'align'; this._wsSave(); this._wsRender(); }
+  // "Create right away" skips the coach entirely — the studio is reachable ANY time, free
+  _wsRole(r) {
+    this._ws.role = r;
+    if (r === 'solo') { this._ws.step = 'create'; this._wsSave(); this._wsToStudio(); return; }
+    this._ws.step = 'align'; this._wsSave(); this._wsRender();
+  }
 
   async _wsAsk(text) {
     const ws = this._ws; if (!ws) return;
@@ -6334,7 +6380,9 @@ class PBook {
     else if (ws.msgs.length) return;
     const pay = this.aiCanPay('basic');
     const spin = () => document.getElementById('wsSpin');
-    if (!pay.ok) { if (spin()) spin().innerHTML = this.aiPaywallHtml('basic'); return; }
+    // Out of ⚡? The conversation is not a prison — you can always create by hand and earn ⚡ back.
+    const escapeBtn = `<div style="margin-top:.4em"><button class="steer-chip" style="font-size:.7rem;border-color:#15803D;color:#15803D" onclick="app._wsToStudio()">✍️ I will create on my own for now (free, earns ⚡) →</button></div>`;
+    if (!pay.ok) { if (spin()) spin().innerHTML = this.aiPaywallHtml('basic') + escapeBtn; return; }
     if (spin()) spin().innerHTML = `<div style="font-size:.75rem;color:var(--text-3);padding:.3em 0">The coach is thinking…</div>`;
     try {
       const res = await fetch(CONFIG.steering.generateEndpoint, {
@@ -6352,7 +6400,7 @@ class PBook {
       this.rc.logEvent('workshop_align', { slug: ws.slug, role: ws.role, hasBrief: !!ws.brief });
     } catch (e) {
       const pw = this._aiErrorPaywall(e, 'basic');
-      if (spin()) spin().innerHTML = pw || `<div style="background:#FEE2E2;border-radius:8px;padding:.4em .6em;font-size:.78rem">${this.escHtml(e.message)}</div>`;
+      if (spin()) spin().innerHTML = (pw ? pw + escapeBtn : `<div style="background:#FEE2E2;border-radius:8px;padding:.4em .6em;font-size:.78rem">${this.escHtml(e.message)}</div>`);
     }
   }
 
@@ -6375,7 +6423,7 @@ class PBook {
     const bar = document.createElement('div');
     bar.id = 'wsBar';
     bar.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;border:1.5px solid #7C3AED;border-radius:10px;padding:.4em .6em;margin:.4em 0;background:color-mix(in srgb, #7C3AED 6%, transparent);font-size:.75rem';
-    bar.innerHTML = `<b>Workshop</b> <span style="color:var(--text-2)">${this.escHtml(ws.brief.slice(0, 140))}</span>
+    bar.innerHTML = `<b>Workshop</b> <span style="color:var(--text-2)">${this.escHtml((ws.brief || 'Creating your own way — summon the coach 🧭 any time; writing earns you ⚡.').slice(0, 140))}</span>
       <button class="note-save" style="margin-left:auto;background:#10B981;font-size:.72rem" onclick="app.finishAuthoring()">✅ Done → presentation</button>`;
     document.getElementById('stCanvas')?.before(bar);
   }
@@ -8663,7 +8711,8 @@ class PBook {
     return `<div style="border:1.5px solid #D97706;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
       <b>⚡ Not enough ⚡ for this yet</b><br>
       ${'{tier} costs <b>{p} ⚡</b>, you have <b>⚡{b}</b>. Earn by working with the book:'.replace('{tier}', tierName).replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance())}<br>
-      <span style="color:var(--text-2,#666)">${'read a section +10 · recall +2 · game +5 · note +3 · <b>manual edit +{me}</b>'.replace('{me}', c.earnManualEdit)}</span><br>
+      <span style="color:var(--text-2,#666)">${'read a section +10 · recall +2 · game +5 · note +3 · <b>manual edit +{me}</b> · <b>your own writing in the studio +{me} per ~{z} chars</b>'.replace(/\{me\}/g, c.earnManualEdit).replace('{z}', c.earnStudioChars || 250)}</span><br>
+      <span style="color:var(--text-2,#666)">You can keep creating by hand right now — nothing stops you, and work earns your ⚡ back.</span><br>
       <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
     </div>`;
   }

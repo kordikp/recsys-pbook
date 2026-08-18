@@ -88,6 +88,8 @@ export const CONFIG = {
     freeTrials: 3,                      // first basic-AI use is free
     prices: { basic: 10, advanced: 30 },// basic = text rewrite/insert; advanced = variant/diagram (strong model)
     earnManualEdit: 8,                  // reward for a manual edit (once per section)
+    earnStudioChars: 250,               // studio hand-writing milestone (chars) → +earnManualEdit
+    earnStudioMax: 4,                   // max milestones per draft
   },
 
   steering: {
