@@ -10,6 +10,8 @@
 // GET  ?id=<id>                                         → {ok, draft, comments:[…]}
 // POST {action:'comment', id, kind, text, nick}         → {ok}
 // POST {action:'unshare', id}                           → {ok}
+// POST {action:'vote', id, group, voter, on}            → {ok}   (event draft_vote; poslední stav hlasu vyhrává)
+// GET  ?group=<kód>[&voter=<uid>]                       → {ok, items:[{id,title,nick,at,votes}], myVotes:[id…]}
 // Bez PII: nick je volitelná přezdívka, id je náhodné — odkaz zná jen ten,
 // komu ho autor pošle. Délkové limity proti zneužití.
 
@@ -46,16 +48,28 @@ module.exports = async function handler(req, res) {
     const group = String(req.query?.group || '').toLowerCase().slice(0, 16);
     if (group) {
       if (!/^[a-z0-9-]{4,16}$/.test(group)) return res.status(400).json({ ok: false, error: 'bad group' });
+      const voter = String(req.query?.voter || '').slice(0, 64);
       const rows = await sb('GET',
-        `interactions?event=in.(draft_shared,draft_unshared)&order=created_at.asc&limit=1000&select=event,created_at,data`);
-      const items = {}; 
+        `interactions?event=in.(draft_shared,draft_unshared,draft_vote)&order=created_at.asc&limit=2000&select=event,created_at,data`);
+      const items = {};
+      const lastVote = {};   // `${id}|${voter}` → on (poslední hlas vyhrává; toggle)
       for (const r of Array.isArray(rows) ? rows : []) {
         const d = r.data || {};
         if ((d.book && d.book !== book)) continue;
         if (r.event === 'draft_shared' && d.group === group) items[d.id] = { id: d.id, title: d.title, nick: d.nick || '', at: r.created_at };
         if (r.event === 'draft_unshared' && items[d.id]) delete items[d.id];
+        if (r.event === 'draft_vote' && d.group === group && d.voter) lastVote[d.id + '|' + d.voter] = !!d.on;
       }
-      return res.status(200).json({ ok: true, group, items: Object.values(items) });
+      const votes = {}; const myVotes = [];
+      for (const [key, on] of Object.entries(lastVote)) {
+        if (!on) continue;
+        const [id, v] = key.split('|');
+        if (!items[id]) continue;
+        votes[id] = (votes[id] || 0) + 1;
+        if (voter && v === voter) myVotes.push(id);
+      }
+      const list = Object.values(items).map(it => ({ ...it, votes: votes[it.id] || 0 }));
+      return res.status(200).json({ ok: true, group, items: list, myVotes });
     }
     const id = String(req.query?.id || '').slice(0, 24);
     if (!/^[\w]{6,24}$/.test(id)) return res.status(400).json({ ok: false, error: 'id required' });
@@ -101,6 +115,19 @@ module.exports = async function handler(req, res) {
         const r = await sb('POST', 'interactions', {
           user_id: 'draft:' + id, type: 'draft', event: 'draft_comment',
           data: { book, id, kind, text, nick: String(b.nick || '').slice(0, 30) }, server_ts: Date.now(),
+        });
+        return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true } : { ok: false, error: 'insert failed' });
+      }
+      if (b.action === 'vote') {
+        const id = String(b.id || '').slice(0, 24);
+        const group = String(b.group || '').toLowerCase().slice(0, 16);
+        const voter = String(b.voter || '').slice(0, 64);
+        if (!/^[\w]{6,24}$/.test(id) || !/^[a-z0-9-]{4,16}$/.test(group) || voter.length < 6) {
+          return res.status(400).json({ ok: false, error: 'id, group and voter required' });
+        }
+        const r = await sb('POST', 'interactions', {
+          user_id: 'draft:' + id, type: 'draft', event: 'draft_vote',
+          data: { book, id, group, voter, on: b.on !== false }, server_ts: Date.now(),
         });
         return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true } : { ok: false, error: 'insert failed' });
       }

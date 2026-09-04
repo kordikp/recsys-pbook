@@ -95,7 +95,8 @@ const SVG_BLOCK_SCHEMA = {
   additionalProperties: false,
 };
 
-const DESIGN_SYSTEM = `PALETTE (only these): bg card #FAFAF7 + border #E5E7EB (rx 14); ink #1E1B4B titles; #6B7280 captions; purple #7C3AED (+#EDE9FE), green #10B981 (+#D1FAE5), amber #D97706 (+#FEF3C7), blue #0EA5E9 (+#E0F2FE), red #EF4444 sparingly; white cards #FFFFFF. Minimal geometric figures (circle head r9-11 + stroke body, stroke-width 2.5). Min font-size 11, every text inside its container with padding, text never overlaps lines/shapes/text. No gradients, no filters, no <script>, no <image>, no external refs. Valid XML (escape & as &amp;).`;
+const DESIGN_SYSTEM = `PALETTE (only these): bg card #FAFAF7 + border #E5E7EB (rx 14); ink #1E1B4B titles; #6B7280 captions; purple #7C3AED (+#EDE9FE), green #10B981 (+#D1FAE5), amber #D97706 (+#FEF3C7), blue #0EA5E9 (+#E0F2FE), red #EF4444 sparingly; white cards #FFFFFF. Minimal geometric figures (circle head r9-11 + stroke body, stroke-width 2.5). Min font-size 11, every text inside its container with padding, text never overlaps lines/shapes/text. No gradients, no filters, no <script>, no <image>, no external refs. Valid XML (escape & as &amp;).
+CLICK-REVEAL (only when the request asks for step-by-step / click-through / "klikací" reveal): tag logical groups with data-krok="1"…"N" (max 6) on <g> elements, in the order they should appear; base scene (frame, title, footer) carries NO data-krok. The book reveals krok groups one per click; with no JS everything is visible, so the complete drawing must read well as-is.`;
 
 function buildVisualPrompt(concept, contract, facets, wish) {
   const mustCoverList = (contract.mustCover || []).map((m, i) => `  ${i}. ${m.point}`).join('\n');

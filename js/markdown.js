@@ -146,6 +146,10 @@ export function renderMarkdown(text) {
       continue;
     }
 
+    // Standalone HTML comment = interop mark (slAIdy: <!-- col -->, <!-- gap -->,
+    // <!-- slide -->) — the book hides them, but they survive in the text.
+    if (/^<!--[\s\S]*?-->\s*$/.test(line.trim())) continue;
+
     // Empty line
     if (line.trim() === '') continue;
 
@@ -180,6 +184,7 @@ function isBlockStart(line) {
     /^---+\s*$/.test(line) || /^\*\*\*+\s*$/.test(line) || /^\|/.test(line) || /^%%/.test(line) ||
     /^!\[/.test(line) || // standalone image
     /^⟦\/?(rx|svg)⟧$/.test(line.trim()) || // changed-region / reader diagram markers
+    /^<!--/.test(line.trim()) || // interop comment marks (slAIdy)
     /^>\s?/.test(line); // blockquote
 }
 

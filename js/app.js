@@ -1768,6 +1768,7 @@ class PBook {
     this._initLottieAnimations();
     this._observeBlocks(ch);
     this._attachParaTools();       // point-and-edit affordances on every paragraph
+    this._attachReveals();         // click-through reveal of data-krok SVGs
     this._applyTellingChoices();   // re-apply saved per-concept telling choices
     this._updateMissionBar();
     this._showMissionIntro();
@@ -1839,6 +1840,7 @@ class PBook {
         this.renderMath();
         this._initLottieAnimations();
         this._attachParaTools();
+        this._attachReveals();
       }
       this._isLoadingMore = false;
     };
@@ -4001,6 +4003,7 @@ class PBook {
           <div class="map-ch-stats">${readCount}/${totalCount} read &middot; ${coreRead}/${coreCount} core</div>
         </div>
         ${chImg}
+        <button class="steer-chip" title="Download this chapter as a slide deck (SlAIdy)" style="font-size:.78rem;flex-shrink:0" onclick="event.stopPropagation();app.slaidyExportChapter('${ch.id}')">🎞</button>
         <div class="map-ch-arrow">&rsaquo;</div>
       </div>`;
 
@@ -6030,10 +6033,11 @@ class PBook {
           <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
           <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid #D97706;background:transparent;color:#B45309">🎨 Generate a graphic · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
           <button class="steer-chip" id="stFbBtn" title="Ask for a second pair of eyes: you share a read-only snapshot, others comment — you remain the only writer." onclick="app.studioFeedbackPanel()" style="font-size:.72rem">👀 Feedback</button>
+          <button class="steer-chip" title="Slides: export the draft as a SlAIdy deck and import it back" onclick="app.slaidyPanel()" style="font-size:.72rem">🎞 SlAIdy</button>
               <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
-        <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
+        <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
         <textarea id="stDraft" style="display:none">${this.escHtml(cleanText)}</textarea>
       </div>
     </div>`;
@@ -6263,6 +6267,219 @@ class PBook {
           || (this.proposals || []).find(x => x.slug === slug)?.title || slug,
       }))
       .sort((a, b) => (b.st.ts || 0) - (a.st.ts || 0));
+  }
+
+  // ===== SLAIDY EXPORT / IMPORT =====
+  // Bridge to SlAIdy (kordikp/slaidy): deck bundle {id,title,meta,style,slides[],figs{}}.
+  // Interop marks are HTML comments (<!-- slide: … -->, <!-- col -->, <!-- gap -->,
+  // <!-- notes: … -->): the book hides them, SlAIdy understands them. Layout is chosen
+  // ADAPTIVELY (figure+text → two columns, short → centered, long → column break).
+  _slaidySlugify(s) {
+    return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'deck';
+  }
+  // data-krok (click reveal in the book) → timed CSS reveal on the slide
+  _slaidyKrokCss(svg) {
+    if (!/data-(?:krok|step)=/.test(svg) || svg.includes('@keyframes pbk')) return svg;
+    const css = `[data-krok],[data-step]{opacity:0;animation:pbk .6s ease forwards}\n`
+      + [1, 2, 3, 4, 5, 6].map(n => `[data-krok="${n}"],[data-step="${n}"]{animation-delay:${(n * 1.4).toFixed(1)}s}`).join('\n')
+      + `\n@keyframes pbk{to{opacity:1}}\n@media (prefers-reduced-motion: reduce){[data-krok],[data-step]{opacity:1;animation:none}}`;
+    return svg.replace(/<\/svg>\s*$/, `<style>${css}</style></svg>`);
+  }
+  _slaidySlides({ title, group, md, figPrefix, figs, summary, notes, startN }) {
+    let n = 0;
+    let text = (md || '').replace(/⟦\/?rx⟧/g, '');
+    text = text.replace(/⟦svg⟧([\s\S]*?)⟦\/svg⟧/g, (_, svg) => {
+      svg = svg.trim();
+      if (!svg) return '';
+      const id = `fig-${figPrefix}-${++n}`;
+      figs[id] = this._slaidyKrokCss(svg);
+      return `\n\n![[${id}]]\n\n`;
+    });
+    const parts = [];
+    const SL = /<!--\s*slide(?::([^|>]*?))?(?:\|([^>]*?))?-->/gi;
+    let last = 0, m2, meta0 = null;
+    while ((m2 = SL.exec(text))) {
+      parts.push({ meta: meta0, body: text.slice(last, m2.index) });
+      meta0 = { title: (m2[1] || '').trim(), opts: (m2[2] || '').trim() };
+      last = m2.index + m2[0].length;
+    }
+    parts.push({ meta: meta0, body: text.slice(last) });
+    const chunks = [];
+    for (const p of parts.filter(p2 => p2.body.trim() || p2.meta)) {
+      if (p.meta) { chunks.push({ ...p.meta, body: p.body.trim() }); continue; }
+      const subs = p.body.split(/^(?=####\s)/m);
+      for (const sub of subs) {
+        const heading = sub.match(/^####\s+(.+)$/m);
+        const paras = this._studioSplitBlocks(sub);
+        let buf = [], size = 0;
+        const flush = () => { if (buf.length) { chunks.push({ title: heading ? heading[1].trim() : '', body: buf.join('\n\n') }); buf = []; size = 0; } };
+        for (const para of paras) {
+          buf.push(para); size += para.length;
+          if (size > 900 && !/^```|^\|/.test(para)) flush();
+        }
+        flush();
+      }
+    }
+    const out = [];
+    chunks.forEach((c, i) => {
+      let body = c.body || '';
+      const figIds = [...body.matchAll(/!\[\[([^\]|]+)(?:\|[^\]]*)?\]\]/g)].map(x => x[1]);
+      const textLen = body.replace(/!\[\[[^\]]*\]\]/g, '').replace(/<!--[\s\S]*?-->/g, '').trim().length;
+      const wide = /^\|.*\|.*\|/m.test(body) || /```/.test(body);
+      let layout = 'text', flags = [];
+      const opts = c.opts || '';
+      if (/layout=([a-z]+)/.test(opts)) layout = opts.match(/layout=([a-z]+)/)[1];
+      else if (figIds.length && textLen >= 240 && !wide) {
+        layout = 'two';
+        if (!/<!--\s*col\s*-->/.test(body)) {
+          const fi = body.indexOf('![[');
+          const cut = body.indexOf('\n\n', fi);
+          body = cut > -1 && cut < body.length - 3
+            ? body.slice(0, cut) + '\n\n<!-- col -->' + body.slice(cut)
+            : body + '\n\n<!-- col -->';
+        }
+      } else if (figIds.length) {
+        layout = 'text'; flags = ['center'];
+        body = body.replace(/!\[\[([^\]|]+)\]\]/g, '![[$1|82%]]');
+      } else if (textLen >= 520 && !wide) {
+        layout = 'two';
+        if (!/<!--\s*col\s*-->/.test(body)) {
+          const paras2 = body.split(/\n\n+/); let acc = 0, best = 1, bestD = 1e9;
+          const total = body.length;
+          paras2.forEach((p2, j) => { acc += p2.length; const d = Math.abs(acc - total / 2); if (j < paras2.length - 1 && d < bestD) { bestD = d; best = j + 1; } });
+          paras2.splice(best, 0, '<!-- col -->');
+          body = paras2.join('\n\n');
+        }
+      } else if (textLen < 380 && !wide) flags = ['center'];
+      if (/center/.test(opts) && !flags.includes('center')) flags.push('center');
+      out.push({
+        tag: 'S', group: group || null, sub: null,
+        title: (c.title || '').trim() || (i === 0 ? title : `${title} · ${i + 1}`),
+        layout, textScale: textLen > 900 ? 92 : 100,
+        body: body.trim(),
+        notes: i === chunks.length - 1 ? (notes || '') : '',
+        summary: i === 0 ? (summary || '') : '',
+        skip: false, flags, n: (startN || 0) + i + 1,
+      });
+    });
+    return out;
+  }
+  _slaidyDownload(bundle) {
+    const blob = new Blob([JSON.stringify(bundle, null, 1)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${bundle.id}.json`;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+  }
+  _slaidyStyle() { return { accent: '#7C3AED', ink: '#1E1B4B', paper: '#FFFFFF', titleSize: 38, bodySize: 19, header: 'position' }; }
+
+  slaidyExportDraft() {
+    const stdo = this._studio; if (!stdo) return;
+    const md = this._studioExpand(document.getElementById('stDraft')?.value || '');
+    if (!md.trim()) { this.showXPToast('The draft is empty', 'xp'); return; }
+    const slug = this._slaidySlugify(stdo.title || stdo.slug);
+    const figs = {};
+    const goal = this._studioGoal();
+    const slides = this._slaidySlides({
+      title: stdo.title, group: null, md, figPrefix: slug, figs,
+      summary: goal.recallQ || '',
+      notes: goal.recallQ ? `Recall question: ${goal.recallQ}${goal.recallA ? `\nExpected answer: ${goal.recallA}` : ''}` : '',
+    });
+    this._slaidyDownload({
+      id: `pbook-${slug}`, title: stdo.title,
+      meta: { author: '', affiliation: '', event: document.title, venue: location.host, date: '' },
+      style: this._slaidyStyle(), slides, figs,
+    });
+    this.rc.logEvent('slaidy_export', { slug: stdo.slug, slides: slides.length });
+    this.showXPToast(`🎞 Deck downloaded (${slides.length} slides) — open it in SlAIdy`, 'xp');
+  }
+
+  async slaidyExportChapter(chId) {
+    const ch = this.chapters?.[chId] || Object.values(this.chapters || {}).find(c => c.id === chId);
+    if (!ch) return;
+    const blocks = (ch.blocks || []).filter(b => b.meta?.type === 'spine');
+    const slug = this._slaidySlugify(ch.title || chId);
+    const figs = {};
+    let slides = [{ tag: 'S', group: ch.title, sub: null, title: ch.title, layout: 'cover', textScale: 100, body: ch.subtitle || ch.teaser || '', notes: '', summary: '', skip: false, flags: [], n: 1 }];
+    for (const b of blocks) {
+      const ovId = this._overrides?.[b.meta.id];
+      const ov = ovId && !this._overridesOff().has(b.meta.id) ? this.privateBlocks?.[ovId] : null;
+      let body = (ov ? ov.body : b.body) || '';
+      body = await this._resolveMediaMarks(body, this._mediaMap(b.meta));
+      if (ov?.meta?.diagramSvg && !body.includes('⟦svg⟧')) body = '⟦svg⟧\n' + ov.meta.diagramSvg.trim() + '\n⟦/svg⟧\n\n' + body;
+      const diag = b.meta?.diagram;
+      if (diag && typeof diag === 'string' && /\.svg$/.test(diag) && !body.includes('⟦svg⟧')) {
+        try { const svg = (await (await fetch(diag)).text()).trim(); if (/^<svg[\s\S]*<\/svg>$/.test(svg)) body = '⟦svg⟧\n' + svg + '\n⟦/svg⟧\n\n' + body; } catch (e) {}
+      }
+      for (const im of [...body.matchAll(/!\[[^\]]*\]\(([^)\s]+\.svg)\)/g)]) {
+        if (/^https?:/i.test(im[1])) continue;
+        try { const svg = ((await getDiagram(im[1])) || '').trim(); if (/^<svg[\s\S]*<\/svg>$/.test(svg)) body = body.replace(im[0], `\n\n⟦svg⟧\n${svg}\n⟦/svg⟧\n\n`); } catch (e) {}
+      }
+      slides = slides.concat(this._slaidySlides({
+        title: b.meta.title || b.meta.id, group: ch.title, md: body,
+        figPrefix: this._slaidySlugify(b.meta.id), figs,
+        summary: b.meta.teaser || '',
+        notes: b.meta.recallQ ? `Recall question: ${b.meta.recallQ}${b.meta.recallA ? `\nExpected answer: ${b.meta.recallA}` : ''}` : '',
+        startN: slides.length,
+      }));
+    }
+    this._slaidyDownload({
+      id: `pbook-${slug}`, title: ch.title,
+      meta: { author: '', affiliation: '', event: document.title, venue: location.host, date: '' },
+      style: this._slaidyStyle(), slides, figs,
+    });
+    this.rc.logEvent('slaidy_export_chapter', { chId, slides: slides.length });
+    this.showXPToast(`🎞 Chapter → ${slides.length} slides, deck downloaded`, 'xp');
+  }
+
+  slaidyImportFile(input) {
+    const f = input.files?.[0]; if (!f) return;
+    const rd = new FileReader();
+    rd.onload = () => {
+      try {
+        const d = JSON.parse(rd.result);
+        if (!Array.isArray(d.slides)) throw new Error('not a SlAIdy deck');
+        const figs = d.figs || d.figures || {};
+        const md = d.slides.filter(s => !s.skip).map(s => {
+          const opts = [s.layout && s.layout !== 'text' ? `layout=${s.layout}` : '', (s.flags || []).includes('center') ? 'center' : ''].filter(Boolean).join(' | ');
+          let body = String(s.body || '').replace(/!\[\[([^\]|]+)(?:\|[^\]]*)?\]\]/g, (_, id) => {
+            let svg = figs[id] || '';
+            svg = svg.replace(/<style>[^<]*@keyframes pbk[\s\S]*?<\/style>/, '');
+            return svg ? `⟦svg⟧\n${svg.trim()}\n⟦/svg⟧` : '';
+          });
+          if (s.notes) body += `\n\n<!-- notes: ${String(s.notes).replace(/-->/g, '—>')} -->`;
+          return `<!-- slide: ${s.title || ''}${opts ? ' | ' + opts : ''} -->\n\n${body.trim()}`;
+        }).join('\n\n');
+        const stdo = this._studio; if (!stdo) return;
+        const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
+        if ((st.text || '').trim()) st.backup = { text: st.text, assets: st.assets, assetSeq: st.assetSeq, stats: st.stats, ts: Date.now(), sourceBlockId: st.sourceBlockId, importHash: st.importHash, title: st.title };
+        st.text = md;
+        st.assets = {}; st.assetSeq = 0;
+        st.title = d.title || st.title;
+        this._authorSave(all);
+        this._stBackupOffer = false;
+        this.rc.logEvent('slaidy_import', { slug: stdo.slug, slides: d.slides.length });
+        this.startAuthoring(stdo.slug);
+        this.showXPToast(`🎞 Deck loaded (${d.slides.length} slides) — the previous draft is backed up`, 'xp');
+      } catch (e) { this.showXPToast('Import failed: ' + e.message, 'xp'); }
+    };
+    rd.readAsText(f);
+  }
+
+  slaidyPanel() {
+    const out = document.getElementById('stOut'); if (!out) return;
+    if (document.getElementById('stSlaidy')) { document.getElementById('stSlaidy').remove(); return; }
+    out.innerHTML = `<div id="stSlaidy" style="border:1.5px solid #7C3AED;border-radius:10px;padding:.55em .7em;font-size:.78rem;background:var(--card,#fff)">
+      <b>🎞 SlAIdy</b> — slides from your text and back.
+      <div style="display:flex;gap:.5em;flex-wrap:wrap;margin:.4em 0">
+        <button class="note-save" style="background:#7C3AED;font-size:.74rem" onclick="app.slaidyExportDraft()">⬇ Export deck (.json)</button>
+        <label class="steer-chip" style="font-size:.74rem;cursor:pointer">⬆ Import deck <input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label>
+        <button class="steer-chip" style="font-size:.72rem" onclick="document.getElementById('stSlaidy').remove()">✕</button>
+      </div>
+      <span style="color:var(--text-2,#666)">Slides and columns follow the marks <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code> and <code>&lt;!-- gap --&gt;</code> — invisible in the book, honoured by the deck. Without marks the layout is chosen adaptively (figure+text → two columns, short → centered). 🎬 reveal steps play on a timer on the slide. Polish figures in SlAIdy and import the deck back — they return as ⟦image⟧ assets.</span>
+    </div>`;
   }
 
   // ===== CREATIVE WORKSHOP — a separate guide on top of the studio =====
@@ -6528,28 +6745,101 @@ class PBook {
   async openClassGallery(code) {
     document.getElementById('classGal')?.remove();
     code = String(code || '').toLowerCase();
+    const voter = localStorage.getItem('pbook-uid') || '';
     let data = null;
-    try { data = await (await fetch('/api/drafts?group=' + encodeURIComponent(code))).json(); } catch (e) {}
-    const items = data?.ok ? data.items : [];
+    try { data = await (await fetch('/api/drafts?group=' + encodeURIComponent(code) + '&voter=' + encodeURIComponent(voter))).json(); } catch (e) {}
+    // order: votes desc, ties by submission time (stable and fair)
+    const items = (data?.ok ? data.items : []).sort((a, b2) => (b2.votes - a.votes) || String(a.at).localeCompare(String(b2.at)));
+    this._galState = { code, items, myVotes: new Set(data?.myVotes || []), voter };
     const el = document.createElement('div');
     el.id = 'classGal';
     el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:265;overflow-y:auto" onclick="if(event.target===this)document.getElementById('classGal').remove()">
       <div style="max-width:640px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 1.4em">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em;flex-wrap:wrap">
           <div style="font-weight:800;font-size:1.05rem">🖼 Class gallery · <code style="font-size:.8rem">${this.escHtml(code)}</code></div>
+          ${items.length ? `<button class="note-save" style="background:var(--accent);font-size:.74rem" onclick="app.classPresent(0)">▶ Present</button>` : ''}
           <button class="steer-chip" style="font-size:.7rem" onclick="app.openClassGallery('${this.escHtml(code)}')">↻ refresh</button>
           <button onclick="document.getElementById('classGal').remove()" title="Close" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
-        <div style="font-size:.74rem;color:var(--text-2);margin:.2em 0 .6em">Submitted works under this code. Click to open — comment with 👍/❓/💡.</div>
+        <div style="font-size:.74rem;color:var(--text-2);margin:.2em 0 .6em">Click to open — comment with 👍/❓/💡. The heart votes for the best work (1 vote per work, click again to take it back). ▶ Present = full screen for the class.</div>
         ${items.length ? items.map((it, i) => `<div onclick="document.getElementById('classGal').remove();app.openDraftFeedback('${this.escHtml(it.id)}')"
             style="display:flex;gap:.6em;align-items:center;padding:.5em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.35em 0;cursor:pointer">
             <span style="font-weight:800;color:var(--accent)">${i + 1}.</span>
-            <span style="flex:1 1 auto"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">— ${this.escHtml(it.nick || 'anonymous')}</span></span>
+            <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">— ${this.escHtml(it.nick || 'anonymous')}</span></span>
+            <button class="steer-chip gal-vote" data-id="${this.escHtml(it.id)}" onclick="event.stopPropagation();app.classVote('${this.escHtml(it.id)}',this)"
+              style="font-size:.82rem;min-width:56px;${this._galState.myVotes.has(it.id) ? 'background:#FEE2E2;border-color:#EF4444' : ''}">${this._galState.myVotes.has(it.id) ? '❤️' : '🤍'} <b class="gv-n">${it.votes || 0}</b></button>
             <span style="color:var(--text-3)">›</span>
           </div>`).join('')
         : `<div style="color:var(--text-3);font-size:.8rem">Nothing here yet — works appear once pupils share with the code.</div>`}
       </div></div>`;
     document.body.appendChild(el);
+  }
+
+  // Voting: toggle, counted per pupil (uid) on the server — the last state wins
+  async classVote(id, btn) {
+    const g = this._galState; if (!g || !g.voter) return;
+    const on = !g.myVotes.has(id);
+    if (on) g.myVotes.add(id); else g.myVotes.delete(id);
+    document.querySelectorAll(`.gal-vote[data-id="${id}"]`).forEach(b2 => {
+      const nEl = b2.querySelector('.gv-n');
+      const n = Math.max(0, (parseInt(nEl?.textContent, 10) || 0) + (on ? 1 : -1));
+      b2.innerHTML = `${on ? '❤️' : '🤍'} <b class="gv-n">${n}</b>`;
+      b2.style.background = on ? '#FEE2E2' : '';
+      b2.style.borderColor = on ? '#EF4444' : '';
+    });
+    try {
+      await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'vote', id, group: g.code, voter: g.voter, on }) });
+    } catch (e) {}
+    this.rc.logEvent('class_vote', { group: g.code, id, on });
+  }
+
+  // Class presentation: one work full screen, arrows/keys, voting in the header
+  async classPresent(idx) {
+    const g = this._galState; if (!g || !g.items.length) return;
+    document.getElementById('classGal')?.remove();
+    document.getElementById('classPres')?.remove();
+    // presented in submission order (fair) — votes are tallied at the end
+    const order = [...g.items].sort((a, b2) => String(a.at).localeCompare(String(b2.at)));
+    idx = Math.max(0, Math.min(order.length - 1, idx | 0));
+    const it = order[idx];
+    g._cache = g._cache || {};
+    if (!g._cache[it.id]) {
+      try { g._cache[it.id] = await (await fetch('/api/drafts?id=' + encodeURIComponent(it.id))).json(); } catch (e) { g._cache[it.id] = null; }
+    }
+    const d = g._cache[it.id];
+    const bodyHtml = d?.ok ? renderMarkdown(d.draft.text || '') : '<p style="color:#EF4444">Could not load this work.</p>';
+    const el = document.createElement('div');
+    el.id = 'classPres';
+    el.innerHTML = `<div style="position:fixed;inset:0;background:var(--bg,#FAFAF7);z-index:270;display:flex;flex-direction:column">
+      <div style="display:flex;align-items:center;gap:.7em;padding:.6em 1em;border-bottom:1.5px solid var(--border,#eee);flex-wrap:wrap">
+        <b style="font-size:1.05rem;flex:1 1 auto;min-width:0">${this.escHtml(it.title || '—')}</b>
+        <span style="font-size:.8rem;color:var(--text-2)">${this.escHtml(it.nick || 'anonymous')} · ${idx + 1}/${order.length}</span>
+        <button class="steer-chip gal-vote" data-id="${this.escHtml(it.id)}" onclick="app.classVote('${this.escHtml(it.id)}',this)"
+          style="font-size:.9rem;${g.myVotes.has(it.id) ? 'background:#FEE2E2;border-color:#EF4444' : ''}">${g.myVotes.has(it.id) ? '❤️' : '🤍'} <b class="gv-n">${it.votes || 0}</b></button>
+        <button onclick="document.getElementById('classPres').remove();app.openClassGallery('${this.escHtml(g.code)}')" title="Back to the gallery (Esc)" style="width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--card,#fff);font-weight:700;cursor:pointer">✕</button>
+      </div>
+      <div style="flex:1 1 auto;overflow-y:auto;padding:1.2em 0">
+        <article class="block-article" style="max-width:820px;margin:0 auto;padding:0 1.2em;border:none;box-shadow:none;background:transparent">
+          <div class="block-content spine-body" style="font-size:1.08rem">${bodyHtml}</div>
+        </article>
+      </div>
+      <div style="display:flex;justify-content:center;gap:.8em;padding:.55em;border-top:1.5px solid var(--border,#eee)">
+        <button class="note-save" style="font-size:.95rem;min-width:110px;${idx === 0 ? 'opacity:.4' : ''}" onclick="app.classPresent(${idx - 1})">← previous</button>
+        <button class="note-save" style="background:var(--accent);font-size:.95rem;min-width:110px;${idx === order.length - 1 ? 'opacity:.4' : ''}" onclick="app.classPresent(${idx + 1})">next →</button>
+      </div>
+    </div>`;
+    document.body.appendChild(el);
+    this._attachReveals(el);
+    if (!this._presKeys) {
+      this._presKeys = true;
+      document.addEventListener('keydown', e => {
+        if (!document.getElementById('classPres')) return;
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); document.querySelectorAll('#classPres button[onclick^="app.classPresent"]')[1]?.click(); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); document.querySelectorAll('#classPres button[onclick^="app.classPresent"]')[0]?.click(); }
+        if (e.key === 'Escape') { document.getElementById('classPres').remove(); }
+      });
+    }
+    this.rc.logEvent('class_present', { group: g.code, idx });
   }
 
   async openDraftFeedback(shareId, optimistic) {
@@ -6815,6 +7105,7 @@ class PBook {
       + b('⧉', 'duplicate the element', 'studioSelDup()')
       + pal.map(([d, l]) => `<button title="recolor (book palette)" onclick="app.studioSelColor('${d}','${l}')" style="width:15px;height:15px;border-radius:50%;border:1.5px solid #fff;outline:1px solid var(--border,#ccc);background:${d};cursor:pointer;padding:0"></button>`).join('')
       + b('🗑', 'delete the element', 'studioSelDel()')
+      + b(sel.el.dataset?.krok ? `🎬${sel.el.dataset.krok}` : '🎬', 'reveal step: the element appears after the Nth click (keep clicking to set 1…6, then clear)', 'studioSelStep()')
       + b('✨', 'AI edits only the selection', `studioEditImage('${sel.aid}', true)`)
       + b('↩', 'undo (reverts the last manual image edit)', `studioSelUndo('${sel.aid}')`)
       + b('✕', 'clear selection', '_studioDeselect()');
@@ -6848,6 +7139,20 @@ class PBook {
     this._studioDeselect();
     this._studioStat('manual');
     this._studioCommitSvg(fig, aid);
+  }
+  // Click-through reveal: cycles data-krok 1→2→…→6→none on the selected element.
+  // Readers see the element only after the Nth click on the figure (_attachReveals).
+  studioSelStep() {
+    const sel = this._studioSel; if (!sel) return;
+    this._studioUndoPush(sel.aid);
+    const cur = parseInt(sel.el.dataset.krok || sel.el.dataset.step || '0', 10) || 0;
+    const next = cur >= 6 ? 0 : cur + 1;
+    if (next === 0) { delete sel.el.dataset.krok; delete sel.el.dataset.step; }
+    else { sel.el.dataset.krok = String(next); delete sel.el.dataset.step; }
+    this.showXPToast(next ? `🎬 step ${next} — revealed after click ${next}` : '🎬 step cleared — element visible right away', 'xp');
+    this._studioStat('manual');
+    this._studioCommitSvg(sel.fig, sel.aid);
+    this._studioSelDraw();
   }
   studioSelColor(dark, light) {
     const sel = this._studioSel; if (!sel) return;
@@ -7836,6 +8141,46 @@ class PBook {
   // Editing should be point-and-click: hovering a paragraph offers "rewrite this
   // one", the gap under it offers "add something here". Selecting text still
   // works — this just removes the need to aim with a selection.
+  // ===== CLICK-THROUGH REVEAL =====
+  // One image that uncovers itself step by step: SVG elements carry data-krok="1..N"
+  // (data-step also works). Click/tap reveals the next step; after the last one you
+  // can start over. With no JS (print, export) EVERYTHING is visible — the finished
+  // state is what the markup draws. The studio never activates reveal (authors see all).
+  _attachReveals(root) {
+    const scope = root || document.getElementById('readPane') || document;
+    scope.querySelectorAll('figure svg').forEach(svg => {
+      if (svg._revealInit || svg.closest('#stCanvas')) return;
+      const els = [...svg.querySelectorAll('[data-krok],[data-step]')];
+      const nums = els.map(el => parseInt(el.dataset.krok || el.dataset.step, 10) || 0);
+      const max = Math.max(0, ...nums);
+      if (!els.length || max < 1) return;
+      svg._revealInit = true;
+      const fig = svg.closest('figure');
+      fig.style.position = 'relative';
+      svg.style.cursor = 'pointer';
+      const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let cur = 0;
+      const badge = document.createElement('button');
+      badge.className = 'reveal-badge';
+      badge.style.cssText = 'position:absolute;right:8px;bottom:8px;z-index:3;border:1.5px solid #6366F1;background:var(--card,#fff);color:#4F46E5;border-radius:999px;padding:.2em .7em;font-size:.72rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)';
+      const apply = () => {
+        els.forEach((el, j) => {
+          const on = nums[j] <= cur;
+          if (!still) el.style.transition = 'opacity .45s';
+          el.style.opacity = on ? '' : '0';
+          el.style.pointerEvents = on ? '' : 'none';
+        });
+        badge.textContent = cur === 0 ? `▶ click through · ${max} steps` : cur < max ? `step ${cur}/${max} · next ▶` : '↺ again';
+      };
+      const advance = () => { cur = cur >= max ? 0 : cur + 1; apply(); };
+      svg.addEventListener('click', e => { e.stopPropagation(); advance(); });
+      badge.addEventListener('click', e => { e.stopPropagation(); advance(); });
+      fig.appendChild(badge);
+      apply();
+      this.rc?.logEvent?.('reveal_init', { steps: max });
+    });
+  }
+
   _attachParaTools(root) {
     if (this.user.readerMode !== 'open') return;
     const scope = root || document.getElementById('readPane');
