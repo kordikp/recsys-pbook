@@ -349,14 +349,19 @@ export class RecombeeClient {
 
   // Community blocks live in the Recombee catalog (state == "community") — the book's
   // shared layer needs no extra storage and is immediately recommendable. Graceful [].
-  async listCommunityBlocks(conceptId, count = 10, states = ['community']) {
+  async listCommunityBlocks(conceptId, count = 10, states = ['community'], opts = {}) {
     if (!this.enabled) return [];
     // newer Recombee clusters reject GET — list via POST recomms with a filter
     // (personalized order is a bonus; returnProperties gives us the bodies)
     const stateExpr = '(' + states.map(s => `'state' == "${s}"`).join(' OR ') + ')';
     // 'sharedAs' != null keeps GIT-synced blocks (also edited/core) out of the
     // candidate set — recomms then reliably returns the few runtime tellings
-    const filter = stateExpr + ` AND 'sharedAs' != null` + (conceptId ? ` AND 'concept' == "${conceptId}"` : '');
+    // Class isolation: items carrying classGroup are visible only to readers of
+    // the same class (opts.classGroup); opts.onlyGroup lists ONE class's items.
+    const cls = opts.onlyGroup
+      ? ` AND 'classGroup' == "${opts.onlyGroup}"`
+      : ` AND ('classGroup' == null${opts.classGroup ? ` OR 'classGroup' == "${opts.classGroup}"` : ''})`;
+    const filter = stateExpr + ` AND 'sharedAs' != null` + cls + (conceptId ? ` AND 'concept' == "${conceptId}"` : '');
     const rec = await this.api('POST', `/recomms/users/${this.userId}/items/`, {
       filter, count, cascadeCreate: true, returnProperties: true,
     });

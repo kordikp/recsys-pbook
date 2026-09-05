@@ -544,7 +544,7 @@ window.setBlockState=async function(itemId,state){
   try{
     const r=await fetch('/api/recs',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({endpoint:`/items/${encodeURIComponent(itemId)}`,method:'POST',
-        body:{state,adoptedAt:new Date().toISOString(),'!cascadeCreate':true}})});
+        body:{state,adoptedAt:new Date().toISOString(),classGroup:null,nominated:null,'!cascadeCreate':true}})});
     if(!r.ok){alert('State change failed: HTTP '+r.status+' — '+(await r.text()).slice(0,120));return;}
     fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({type:'content',event:'block_saved',ts:Date.now(),userId:'admin-console',
@@ -590,9 +590,9 @@ async function renderCommunity(m){
   const nominated=merged.map(i=>{
     const s=commSignals[i.itemId]||{views:new Set(),likes:new Set()};
     return {item:i,readers:s.views.size,likes:s.likes.size,score:s.likes.size*3+s.views.size};
-  }).sort((a,b)=>b.score-a.score);
+  }).sort((a,b)=>(!!b.item.nominated-!!a.item.nominated)||(b.score-a.score));
   let h=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">⚡ Review — reader contributions (${merged.length})</h2>`;
-  h+=`<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Reader-shared tellings, ranked by traction. Adoption threshold: ≥${ADOPTION_K} distinct readers with positive signal. Adopt = download .md, review against the concept contract (HUMANS.md checklist), commit (state: edited), Sync Items. Adoption promotes the author on their 🛠 Editor track.</p>`;
+  h+=`<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Reader-shared tellings, ranked by traction; ⭐ teacher picks from class shelves float to the top. A telling with 🏫 class is visible only to that class until adopted — adopting clears the class scope, so the best class work enriches the shared book. Adoption threshold: ≥${ADOPTION_K} distinct readers with positive signal. Adopt = download .md, review against the concept contract (HUMANS.md checklist), commit (state: edited), Sync Items. Adoption promotes the author on their 🛠 Editor track.</p>`;
   h+=nominated.length?nominated.map(({item,readers,likes})=>{
     const ready=likes>=ADOPTION_K;
     let wishes='';
@@ -601,7 +601,7 @@ async function renderCommunity(m){
     }catch(_){}
     return `<div style="border:1.5px solid ${ready?'#10B981':'var(--border)'};border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
       <span style="font-size:.6rem;font-weight:800;padding:.1em .4em;border-radius:4px;color:#fff;background:${item.state==='core'?'#7C3AED':item.state==='edited'?'#10B981':'#D97706'}">${esc(item.state||'community')}</span>
-      <b>${esc(item.title||item.itemId)}</b> ${item.remixOf?'<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em">remix of '+esc(item.remixOf)+'</span>':''} ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
+      <b>${esc(item.title||item.itemId)}</b> ${item.nominated?'<span style="font-size:.6rem;color:#fff;background:#F59E0B;border-radius:4px;padding:.05em .35em;font-weight:800">⭐ teacher pick · '+esc(item.nominated)+'</span>':''} ${item.classGroup?'<span style="font-size:.6rem;color:#0369A1;border:1px solid #0EA5E9;border-radius:4px;padding:0 .3em">🏫 class '+esc(item.classGroup)+' only</span>':''} ${item.remixOf?'<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em">remix of '+esc(item.remixOf)+'</span>':''} ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
       <div style="color:var(--text3);font-size:.68rem">${esc(item.concept)} · ${esc(item.lens)}/${esc(item.depth)}/${esc(item.visuality)} · shared by ${esc(item.sharedAs||'anonymous')} · ${readers} readers · ${likes} likes</div>
       ${wishes}
       ${item.body?`<details style="margin:.25em 0"><summary style="cursor:pointer;font-size:.68rem;color:var(--accent)">📄 preview content${item.svg||item.hasSvg?' (+ visual)':''}</summary><div id="full-${esc(item.itemId)}" style="white-space:pre-wrap;font-size:.7rem;max-height:260px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.5em;margin-top:.25em">${esc(item.body.slice(0,3000))}</div>${item.svg?`<div style="max-width:420px;margin:.4em 0">${item.svg}</div>`:''}${(item.bodyLen||item.hasSvg)&&!item.svg?`<button onclick="loadFullBlock('${esc(item.itemId)}','full-${esc(item.itemId)}')" style="font-size:.64rem;margin-top:.2em;border:1px solid var(--border);border-radius:6px;padding:.15em .5em;color:var(--accent)">⤓ load full content${item.hasSvg?' + visual':''}</button>`:''}</details>`:''}

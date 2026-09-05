@@ -60,16 +60,18 @@ module.exports = async function handler(req, res) {
         if (r.event === 'draft_unshared' && items[d.id]) delete items[d.id];
         if (r.event === 'draft_vote' && d.group === group && d.voter) lastVote[d.id + '|' + d.voter] = !!d.on;
       }
+      // votes = mapa PRO VŠECHNA id (drafty i podání/tellingy do knihy — hlasuje
+      // se stejně, jen id nejsou z draft_shared); myVotes = co jsem já
       const votes = {}; const myVotes = [];
       for (const [key, on] of Object.entries(lastVote)) {
         if (!on) continue;
-        const [id, v] = key.split('|');
-        if (!items[id]) continue;
+        const i2 = key.indexOf('|');
+        const id = key.slice(0, i2), v = key.slice(i2 + 1);
         votes[id] = (votes[id] || 0) + 1;
         if (voter && v === voter) myVotes.push(id);
       }
       const list = Object.values(items).map(it => ({ ...it, votes: votes[it.id] || 0 }));
-      return res.status(200).json({ ok: true, group, items: list, myVotes });
+      return res.status(200).json({ ok: true, group, items: list, myVotes, votes });
     }
     const id = String(req.query?.id || '').slice(0, 24);
     if (!/^[\w]{6,24}$/.test(id)) return res.status(400).json({ ok: false, error: 'id required' });
@@ -119,10 +121,11 @@ module.exports = async function handler(req, res) {
         return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true } : { ok: false, error: 'insert failed' });
       }
       if (b.action === 'vote') {
-        const id = String(b.id || '').slice(0, 24);
+        // id smí být i telling/deck (autor--…, gen--…): pomlčky a delší délka
+        const id = String(b.id || '').slice(0, 64);
         const group = String(b.group || '').toLowerCase().slice(0, 16);
         const voter = String(b.voter || '').slice(0, 64);
-        if (!/^[\w]{6,24}$/.test(id) || !/^[a-z0-9-]{4,16}$/.test(group) || voter.length < 6) {
+        if (!/^[\w-]{6,64}$/.test(id) || !/^[a-z0-9-]{4,16}$/.test(group) || voter.length < 6) {
           return res.status(400).json({ ok: false, error: 'id, group and voter required' });
         }
         const r = await sb('POST', 'interactions', {
