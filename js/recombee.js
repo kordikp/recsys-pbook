@@ -367,7 +367,7 @@ export class RecombeeClient {
     });
     const res = (rec?.recomms || []).map(r => ({ itemId: r.id, ...(r.values || {}) }));
     if (!Array.isArray(res)) return [];
-    return res.filter(it => it.body && /^(gen--|remix--)/.test(it.itemId)).map(it => {
+    return res.filter(it => it.body && /^(gen--|autor--|remix--)/.test(it.itemId)).map(it => {
       const meta = { ...it, id: it.itemId, type: 'spine', state: it.state || 'community', generated: true };
       // honest visuality for reader-shared items (mirrors api/generate.js clamp)
       const words = (it.body || '').split(/\s+/).filter(Boolean).length;
