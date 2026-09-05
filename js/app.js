@@ -6375,10 +6375,11 @@ class PBook {
   }
   _slaidyStyle() { return { accent: '#7C3AED', ink: '#1E1B4B', paper: '#FFFFFF', titleSize: 38, bodySize: 19, header: 'position' }; }
 
-  slaidyExportDraft() {
-    const stdo = this._studio; if (!stdo) return;
+  // Bundle from the current draft (shared by export and cloud save)
+  _slaidyDraftBundle() {
+    const stdo = this._studio; if (!stdo) return null;
     const md = this._studioExpand(document.getElementById('stDraft')?.value || '');
-    if (!md.trim()) { this.showXPToast('The draft is empty', 'xp'); return; }
+    if (!md.trim()) return null;
     const slug = this._slaidySlugify(stdo.title || stdo.slug);
     const figs = {};
     const goal = this._studioGoal();
@@ -6387,13 +6388,86 @@ class PBook {
       summary: goal.recallQ || '',
       notes: goal.recallQ ? `Recall question: ${goal.recallQ}${goal.recallA ? `\nExpected answer: ${goal.recallA}` : ''}` : '',
     });
-    this._slaidyDownload({
+    return {
       id: `pbook-${slug}`, title: stdo.title,
       meta: { author: '', affiliation: '', event: document.title, venue: location.host, date: '' },
       style: this._slaidyStyle(), slides, figs,
-    });
-    this.rc.logEvent('slaidy_export', { slug: stdo.slug, slides: slides.length });
-    this.showXPToast(`🎞 Deck downloaded (${slides.length} slides) — open it in SlAIdy`, 'xp');
+    };
+  }
+  slaidyExportDraft() {
+    const b = this._slaidyDraftBundle();
+    if (!b) { this.showXPToast('The draft is empty', 'xp'); return; }
+    this._slaidyDownload(b);
+    this.rc.logEvent('slaidy_export', { slug: this._studio.slug, slides: b.slides.length });
+    this.showXPToast(`🎞 Deck downloaded (${b.slides.length} slides)`, 'xp');
+  }
+
+  // ===== CLASS DECK STORAGE (/api/decks) =====
+  // No manual files: the deck is saved under a class code, SlAIdy opens it
+  // from a URL (?deck=…) and saves straight back; the book loads it any time.
+  _slaidyAppUrl() { return 'https://kordikp.github.io/slaidy/'; }
+  _slaidyDeckUrl(id) { return location.origin + '/api/decks?id=' + id; }
+  _slaidyGroup() { return (localStorage.getItem('pbook-deck-group') || localStorage.getItem('sk-class-code') || '').toLowerCase(); }
+  async slaidyCloudSave() {
+    const stdo = this._studio; if (!stdo) return;
+    const out = document.getElementById('stSlaidyOut') || document.getElementById('stOut');
+    const group = (document.getElementById('stDeckGroup')?.value || '').trim().toLowerCase();
+    if (!/^[a-z0-9-]{4,16}$/.test(group)) { out.innerHTML = `<div style="font-size:.76rem;color:#B45309;padding:.3em 0">Enter a class code (4–16 chars, letters/digits/dash) — decks gather under it.</div>`; return; }
+    localStorage.setItem('pbook-deck-group', group);
+    const bundle = this._slaidyDraftBundle();
+    if (!bundle) { this.showXPToast('The draft is empty', 'xp'); return; }
+    const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
+    out.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.3em 0">Saving to storage…</div>`;
+    try {
+      const r = await fetch('/api/decks', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save', group, id: st.deckId || undefined, title: stdo.title, deck: bundle }) });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || 'save failed');
+      st.deckId = d.id; st.deckGroup = group; this._authorSave(all);
+      const url = this._slaidyDeckUrl(d.id);
+      const open = this._slaidyAppUrl() + '?deck=' + encodeURIComponent(url);
+      out.innerHTML = `<div style="border:1.5px solid #10B981;border-radius:8px;padding:.5em .7em;font-size:.78rem;background:var(--card,#fff)">
+        💾 Saved (rev ${d.rev}, ${bundle.slides.length} slides) under <code>${this.escHtml(group)}</code>.
+        <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-top:.4em">
+          <a class="note-save" style="background:#7C3AED;font-size:.74rem;text-decoration:none" href="${open}" target="_blank" rel="noopener">▶ Open in SlAIdy</a>
+          <button class="steer-chip" style="font-size:.72rem" onclick="navigator.clipboard.writeText('${open}');app.showXPToast('Link copied ✓','xp')">🔗 copy link</button>
+        </div>
+        <span style="color:var(--text-2,#666);font-size:.72rem">Edits made in SlAIdy are saved there too — bring them back with "Load from class".</span>
+      </div>`;
+      this.rc.logEvent('slaidy_cloud_save', { slug: stdo.slug, id: d.id, rev: d.rev, group });
+    } catch (e) {
+      out.innerHTML = `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.78rem">Save failed: ${this.escHtml(e.message)}</div>`;
+    }
+  }
+  async slaidyCloudList() {
+    const out = document.getElementById('stSlaidyOut') || document.getElementById('stOut');
+    const group = (document.getElementById('stDeckGroup')?.value || '').trim().toLowerCase();
+    if (!/^[a-z0-9-]{4,16}$/.test(group)) { out.innerHTML = `<div style="font-size:.76rem;color:#B45309;padding:.3em 0">Enter a class code and try again.</div>`; return; }
+    localStorage.setItem('pbook-deck-group', group);
+    out.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.3em 0">Loading class decks…</div>`;
+    try {
+      const d = await (await fetch('/api/decks?group=' + encodeURIComponent(group))).json();
+      if (!d.ok) throw new Error(d.error || 'list failed');
+      const items = (d.items || []).sort((a, b2) => String(b2.at).localeCompare(String(a.at)));
+      out.innerHTML = items.length ? `<div style="border:1.5px solid var(--border,#ddd);border-radius:8px;padding:.4em .6em;font-size:.78rem;background:var(--card,#fff)">
+        ${items.map(it => `<div style="display:flex;gap:.5em;align-items:center;padding:.25em 0;border-bottom:1px dashed var(--border,#eee)">
+          <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">${this.escHtml(it.author || '')} · ${it.n} slides · rev ${it.rev}</span></span>
+          <a class="steer-chip" style="font-size:.68rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}">▶ SlAIdy</a>
+          <button class="steer-chip" style="font-size:.68rem" onclick="app.slaidyCloudLoad('${this.escHtml(it.id)}')">📥 to studio</button>
+        </div>`).join('')}</div>`
+        : `<div style="font-size:.76rem;color:var(--text-3);padding:.3em 0">No deck under <code>${this.escHtml(group)}</code> yet.</div>`;
+    } catch (e) {
+      out.innerHTML = `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.78rem">${this.escHtml(e.message)}</div>`;
+    }
+  }
+  async slaidyCloudLoad(id) {
+    try {
+      const d = await (await fetch('/api/decks?id=' + encodeURIComponent(id))).json();
+      if (!Array.isArray(d.slides)) throw new Error('could not load the deck');
+      this._slaidyImportBundle(d);
+      const stdo = this._studio;
+      if (stdo) { const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {}); st.deckId = id; this._authorSave(all); }
+    } catch (e) { this.showXPToast('Load failed: ' + e.message, 'xp'); }
   }
 
   async slaidyExportChapter(chId) {
@@ -6425,13 +6499,28 @@ class PBook {
         startN: slides.length,
       }));
     }
-    this._slaidyDownload({
+    const bundle = {
       id: `pbook-${slug}`, title: ch.title,
       meta: { author: '', affiliation: '', event: document.title, venue: location.host, date: '' },
       style: this._slaidyStyle(), slides, figs,
-    });
+    };
+    // No manual files: the chapter deck is saved to storage (one stable deck
+    // per chapter, shelf "kniha") and SlAIdy opens right away. File = fallback.
+    this.showXPToast('🎞 Preparing the chapter deck…', 'xp');
+    try {
+      const known = JSON.parse(localStorage.getItem('pbook-chapter-decks') || '{}');
+      const r = await fetch('/api/decks', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'save', group: 'kniha', id: known[chId] || undefined, title: ch.title, deck: bundle }) });
+      const d = await r.json();
+      if (!r.ok || !d.ok) throw new Error(d.error || 'save failed');
+      known[chId] = d.id; localStorage.setItem('pbook-chapter-decks', JSON.stringify(known));
+      window.open(this._slaidyAppUrl() + '?deck=' + encodeURIComponent(this._slaidyDeckUrl(d.id)), '_blank', 'noopener');
+      this.showXPToast(`🎞 Chapter → ${slides.length} slides, opening SlAIdy`, 'xp');
+    } catch (e) {
+      this._slaidyDownload(bundle);
+      this.showXPToast('Storage unavailable — deck downloaded as a file', 'xp');
+    }
     this.rc.logEvent('slaidy_export_chapter', { chId, slides: slides.length });
-    this.showXPToast(`🎞 Chapter → ${slides.length} slides, deck downloaded`, 'xp');
   }
 
   slaidyImportFile(input) {
@@ -6440,6 +6529,13 @@ class PBook {
     rd.onload = () => {
       try {
         const d = JSON.parse(rd.result);
+        this._slaidyImportBundle(d);
+      } catch (e) { this.showXPToast('Import failed: ' + e.message, 'xp'); }
+    };
+    rd.readAsText(f);
+  }
+  _slaidyImportBundle(d) {
+      {
         if (!Array.isArray(d.slides)) throw new Error('not a SlAIdy deck');
         const figs = d.figs || d.figures || {};
         const md = d.slides.filter(s => !s.skip).map(s => {
@@ -6463,24 +6559,28 @@ class PBook {
         this.rc.logEvent('slaidy_import', { slug: stdo.slug, slides: d.slides.length });
         this.startAuthoring(stdo.slug);
         this.showXPToast(`🎞 Deck loaded (${d.slides.length} slides) — the previous draft is backed up`, 'xp');
-      } catch (e) { this.showXPToast('Import failed: ' + e.message, 'xp'); }
-    };
-    rd.readAsText(f);
+      }
   }
 
   slaidyPanel() {
     const out = document.getElementById('stOut'); if (!out) return;
     if (document.getElementById('stSlaidy')) { document.getElementById('stSlaidy').remove(); return; }
+    const st = this._authorState()[this._studio?.slug] || {};
+    const group = st.deckGroup || this._slaidyGroup();
     out.innerHTML = `<div id="stSlaidy" style="border:1.5px solid #7C3AED;border-radius:10px;padding:.55em .7em;font-size:.78rem;background:var(--card,#fff)">
-      <b>🎞 SlAIdy</b> — slides from your text and back.
-      <div style="display:flex;gap:.5em;flex-wrap:wrap;margin:.4em 0">
-        <button class="note-save" style="background:#7C3AED;font-size:.74rem" onclick="app.slaidyExportDraft()">⬇ Export deck (.json)</button>
-        <label class="steer-chip" style="font-size:.74rem;cursor:pointer">⬆ Import deck <input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label>
+      <b>🎞 Slides</b> — the deck lives in the class storage; SlAIdy and the book read and save it themselves.
+      <div style="display:flex;gap:.5em;flex-wrap:wrap;align-items:center;margin:.4em 0">
+        <input id="stDeckGroup" placeholder="class code" value="${this.escHtml(group)}" style="width:110px;font:inherit;font-size:.76rem;padding:.3em .5em;border:1.5px solid var(--border,#ddd);border-radius:8px;background:var(--bg,#fafaf7)">
+        <button class="note-save" style="background:#7C3AED;font-size:.74rem" onclick="app.slaidyCloudSave()">💾 Save to class${st.deckId ? ' (update)' : ''}</button>
+        <button class="steer-chip" style="font-size:.72rem" onclick="app.slaidyCloudList()">📥 Load from class</button>
+        ${st.deckId ? `<a class="steer-chip" style="font-size:.72rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(st.deckId))}">▶ Open in SlAIdy</a>` : ''}
         <button class="steer-chip" style="font-size:.72rem" onclick="document.getElementById('stSlaidy').remove()">✕</button>
       </div>
-      <span style="color:var(--text-2,#666)">Slides and columns follow the marks <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code> and <code>&lt;!-- gap --&gt;</code> — invisible in the book, honoured by the deck. Without marks the layout is chosen adaptively (figure+text → two columns, short → centered). 🎬 reveal steps play on a timer on the slide. Polish figures in SlAIdy and import the deck back — they return as ⟦image⟧ assets.</span>
+      <div id="stSlaidyOut"></div>
+      <span style="color:var(--text-2,#666);font-size:.72rem">Layout is chosen adaptively (figure+text → two columns, short → centered); fine-tune with <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code>, <code>&lt;!-- gap --&gt;</code> — invisible in the book. 🎬 reveal steps play on their own on a slide. Manual file: <button class="steer-chip" style="font-size:.66rem" onclick="app.slaidyExportDraft()">⬇</button> <label class="steer-chip" style="font-size:.66rem;cursor:pointer">⬆<input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label></span>
     </div>`;
   }
+
 
   // ===== CREATIVE WORKSHOP — a separate guide on top of the studio =====
   // role → alignment with the coach (mode coach/phase align) → creation in
@@ -6771,8 +6871,21 @@ class PBook {
             <span style="color:var(--text-3)">›</span>
           </div>`).join('')
         : `<div style="color:var(--text-3);font-size:.8rem">Nothing here yet — works appear once pupils share with the code.</div>`}
+        <div id="galDecks"></div>
       </div></div>`;
     document.body.appendChild(el);
+    // Class slide decks from the storage — SlAIdy opens them straight from a URL
+    fetch('/api/decks?group=' + encodeURIComponent(code)).then(r => r.json()).then(d => {
+      const box = document.getElementById('galDecks');
+      if (!box || !d?.ok || !(d.items || []).length) return;
+      const items2 = d.items.sort((a, b2) => String(b2.at).localeCompare(String(a.at)));
+      box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .3em">🎞 Class slide decks</div>` + items2.map(it =>
+        `<div style="display:flex;gap:.6em;align-items:center;padding:.45em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.3em 0">
+          <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">— ${this.escHtml(it.author || 'no author')} · ${it.n} slides</span></span>
+          <a class="note-save" style="background:#7C3AED;font-size:.72rem;text-decoration:none" target="_blank" rel="noopener"
+            href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}#present">▶ Present</a>
+        </div>`).join('');
+    }).catch(() => {});
   }
 
   // Voting: toggle, counted per pupil (uid) on the server — the last state wins
