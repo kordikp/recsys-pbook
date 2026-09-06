@@ -11,7 +11,9 @@
 // POST {action:'comment', id, kind, text, nick}         → {ok}
 // POST {action:'unshare', id}                           → {ok}
 // POST {action:'vote', id, group, voter, on}            → {ok}   (event draft_vote; poslední stav hlasu vyhrává)
-// GET  ?group=<kód>[&voter=<uid>]                       → {ok, items:[{id,title,nick,at,votes}], myVotes:[id…]}
+// POST {action:'react', id, group, voter, score, tags, note} → {ok}  (anonymní ohlas po prezentaci; 1 na žáka, poslední platí)
+// GET  ?group=<kód>[&voter=<uid>]                       → {ok, items:[…], myVotes, votes:{id:n},
+//                                                          reacts:{id:{n,sum,c1,c2,c3,tags:{},notes:[…]}}, myReacts:[id…]}
 // Bez PII: nick je volitelná přezdívka, id je náhodné — odkaz zná jen ten,
 // komu ho autor pošle. Délkové limity proti zneužití.
 
@@ -50,15 +52,27 @@ module.exports = async function handler(req, res) {
       if (!/^[a-z0-9-]{4,16}$/.test(group)) return res.status(400).json({ ok: false, error: 'bad group' });
       const voter = String(req.query?.voter || '').slice(0, 64);
       const rows = await sb('GET',
-        `interactions?event=in.(draft_shared,draft_unshared,draft_vote)&order=created_at.asc&limit=2000&select=event,created_at,data`);
+        `interactions?event=in.(draft_shared,draft_unshared,draft_vote,draft_react)&order=created_at.asc&limit=2000&select=event,created_at,data`);
       const items = {};
       const lastVote = {};   // `${id}|${voter}` → on (poslední hlas vyhrává; toggle)
+      const lastReact = {};  // `${id}|${voter}` → {score,tags,note} (poslední ohlas platí)
       for (const r of Array.isArray(rows) ? rows : []) {
         const d = r.data || {};
         if ((d.book && d.book !== book)) continue;
         if (r.event === 'draft_shared' && d.group === group) items[d.id] = { id: d.id, title: d.title, nick: d.nick || '', at: r.created_at };
         if (r.event === 'draft_unshared' && items[d.id]) delete items[d.id];
         if (r.event === 'draft_vote' && d.group === group && d.voter) lastVote[d.id + '|' + d.voter] = !!d.on;
+        if (r.event === 'draft_react' && d.group === group && d.voter) lastReact[d.id + '|' + d.voter] = { score: d.score, tags: d.tags || [], note: d.note || '' };
+      }
+      const reacts = {}; const myReacts = [];
+      for (const [key, re] of Object.entries(lastReact)) {
+        const i2 = key.indexOf('|');
+        const id = key.slice(0, i2), v = key.slice(i2 + 1);
+        const agg = (reacts[id] = reacts[id] || { n: 0, sum: 0, c1: 0, c2: 0, c3: 0, tags: {}, notes: [] });
+        agg.n++; agg.sum += re.score; agg['c' + re.score]++;
+        for (const t of re.tags) agg.tags[t] = (agg.tags[t] || 0) + 1;
+        if (re.note) agg.notes.push(re.note.slice(0, 200));
+        if (voter && v === voter) myReacts.push(id);
       }
       // votes = mapa PRO VŠECHNA id (drafty i podání/tellingy do knihy — hlasuje
       // se stejně, jen id nejsou z draft_shared); myVotes = co jsem já
@@ -71,7 +85,7 @@ module.exports = async function handler(req, res) {
         if (voter && v === voter) myVotes.push(id);
       }
       const list = Object.values(items).map(it => ({ ...it, votes: votes[it.id] || 0 }));
-      return res.status(200).json({ ok: true, group, items: list, myVotes, votes });
+      return res.status(200).json({ ok: true, group, items: list, myVotes, votes, reacts, myReacts });
     }
     const id = String(req.query?.id || '').slice(0, 24);
     if (!/^[\w]{6,24}$/.test(id)) return res.status(400).json({ ok: false, error: 'id required' });
@@ -131,6 +145,23 @@ module.exports = async function handler(req, res) {
         const r = await sb('POST', 'interactions', {
           user_id: 'draft:' + id, type: 'draft', event: 'draft_vote',
           data: { book, id, group, voter, on: b.on !== false }, server_ts: Date.now(),
+        });
+        return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true } : { ok: false, error: 'insert failed' });
+      }
+      if (b.action === 'react') {
+        // Anonymní ohlas po prezentaci: 😕=1 🙂=2 🤩=3 + tap štítky + poznámka
+        const id = String(b.id || '').slice(0, 64);
+        const group = String(b.group || '').toLowerCase().slice(0, 16);
+        const voter = String(b.voter || '').slice(0, 64);
+        const score = [1, 2, 3].includes(b.score) ? b.score : 0;
+        if (!/^[\w-]{6,64}$/.test(id) || !/^[a-z0-9-]{4,16}$/.test(group) || voter.length < 6 || !score) {
+          return res.status(400).json({ ok: false, error: 'id, group, voter and score 1-3 required' });
+        }
+        const tags = (Array.isArray(b.tags) ? b.tags : []).slice(0, 6).map(t => String(t).slice(0, 24));
+        const note = String(b.note || '').trim().slice(0, 200);
+        const r = await sb('POST', 'interactions', {
+          user_id: 'react:' + id, type: 'draft', event: 'draft_react',
+          data: { book, id, group, voter, score, tags, note }, server_ts: Date.now(),
         });
         return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true } : { ok: false, error: 'insert failed' });
       }

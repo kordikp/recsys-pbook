@@ -162,6 +162,14 @@ class PBook {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
         this.openClassGallery(hash.slice(6));
+      } else if (hash.startsWith('ohlas-')) {
+        // anonymous post-presentation reactions (QR on the screen): #ohlas-<code>~<id>
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        {
+          const [og, oid] = hash.slice(6).split('~');
+          this.openReactionPage(og, oid);
+        }
       } else if (hash.startsWith('zpetna-vazba-')) {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
@@ -6429,6 +6437,17 @@ class PBook {
       const d = await r.json();
       if (!r.ok || !d.ok) throw new Error(d.error || 'save failed');
       st.deckId = d.id; st.deckGroup = group; this._authorSave(all);
+      // final slide = QR for anonymous reactions (id known only now → silent PUT)
+      try {
+        const { qrSvg } = await import('./qr.js');
+        const fbUrl = `${location.origin}/#ohlas-${group}~${d.id}`;
+        bundle.figs['fig-ohlas-qr'] = qrSvg(fbUrl, 8, 3);
+        bundle.slides = bundle.slides.filter(s2 => s2.title !== 'Feedback');
+        bundle.slides.push({ tag: 'S', group: null, sub: null, title: 'Feedback', layout: 'text', textScale: 100,
+          body: `![[fig-ohlas-qr|46%]]\n\nScan and say anonymously how it landed — 😕 🙂 🤩\n\n\`${fbUrl}\``,
+          notes: 'Reactions show up in the class gallery (📊 Leaderboard).', summary: 'Anonymous class reactions after the talk.', skip: false, flags: ['center'], n: bundle.slides.length + 1 });
+        await fetch('/api/decks?id=' + d.id, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(bundle) });
+      } catch (e2) {}
       const url = this._slaidyDeckUrl(d.id);
       const open = this._slaidyAppUrl() + '?deck=' + encodeURIComponent(url);
       out.innerHTML = `<div style="border:1.5px solid #10B981;border-radius:8px;padding:.5em .7em;font-size:.78rem;background:var(--card,#fff)">
@@ -6863,6 +6882,7 @@ class PBook {
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em;flex-wrap:wrap">
           <div style="font-weight:800;font-size:1.05rem">🖼 Class gallery · <code style="font-size:.8rem">${this.escHtml(code)}</code></div>
           ${items.length ? `<button class="note-save" style="background:var(--accent);font-size:.74rem" onclick="app.classPresent(0)">▶ Present</button>` : ''}
+          <button class="steer-chip" style="font-size:.72rem" onclick="app.classLeaderboard('${this.escHtml(code)}')">📊 Leaderboard</button>
           <button class="steer-chip" style="font-size:.7rem" onclick="app.openClassGallery('${this.escHtml(code)}')">↻ refresh</button>
           <button onclick="document.getElementById('classGal').remove()" title="Close" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
@@ -6876,6 +6896,7 @@ class PBook {
             <span style="color:var(--text-3)">›</span>
           </div>`).join('')
         : `<div style="color:var(--text-3);font-size:.8rem">Nothing here yet — works appear once pupils share with the code.</div>`}
+        <div id="galBoard"></div>
         <div id="galTellings"></div>
         <div id="galDecks"></div>
       </div></div>`;
@@ -6952,12 +6973,161 @@ class PBook {
           <span style="font-size:.74rem;color:var(--text-3)">${this.escHtml(t.meta.sharedAs || 'anonymous')}</span>
           <button class="steer-chip gal-vote" data-id="${this.escHtml(itemId)}" onclick="app.classVote('${this.escHtml(itemId)}',this)"
             style="font-size:.85rem;${g?.myVotes.has(itemId) ? 'background:#FEE2E2;border-color:#EF4444' : ''}">${g?.myVotes.has(itemId) ? '❤️' : '🤍'} <b class="gv-n">${g?.votesAll?.[itemId] || 0}</b></button>
+          <button class="steer-chip" title="QR for anonymous class reactions" style="font-size:.82rem" onclick="app.showReactionQr('${this.escHtml(code)}','${this.escHtml(itemId)}','${this.escHtml((t.meta.title || '').replace(/'/g, ''))}')">📊</button>
           <button onclick="document.getElementById('tellPrev').remove()" style="width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-weight:700;cursor:pointer">✕</button>
         </div>
         <div class="block-content spine-body" style="margin-top:.6em">${renderMarkdown(t.body || '')}</div>
       </div></div>`;
     document.body.appendChild(el);
     this._attachReveals(el);
+  }
+
+  // ===== POST-PRESENTATION REACTIONS =====
+  // Anonymous tap feedback from the room's phones (QR on the screen): 😕🙂🤩 +
+  // tags. Guides the teacher's ⭐; long-term success lives in the leaderboard.
+  _reactTags() { return ['🎯 clear point', '😂 funny', '🖼 great visual', '📚 more examples', '✂️ tighten it', '🐢 too fast']; }
+  async openReactionPage(group, id) {
+    document.getElementById('reactPage')?.remove();
+    group = String(group || '').toLowerCase(); id = String(id || '');
+    if (!/^[a-z0-9-]{4,16}$/.test(group) || !/^[\w-]{6,64}$/.test(id)) return;
+    const voter = localStorage.getItem('pbook-uid') || '';
+    let title = '';
+    try {
+      if (id.startsWith('d') && !id.includes('--')) title = (await (await fetch('/api/decks?id=' + id + '&meta=1')).json())?.title || '';
+      else if (!id.includes('--')) title = (await (await fetch('/api/drafts?id=' + id)).json())?.draft?.title || '';
+    } catch (e) {}
+    const st = { score: 0, tags: new Set() };
+    const el = document.createElement('div');
+    el.id = 'reactPage';
+    el.innerHTML = `<div style="position:fixed;inset:0;background:var(--bg,#FAFAF7);z-index:280;overflow-y:auto">
+      <div style="max-width:460px;margin:4vh auto;padding:0 1em">
+        <div style="font-weight:800;font-size:1.15rem">How did it land?</div>
+        ${title ? `<div style="font-size:.85rem;color:var(--text-2);margin-top:.15em">${this.escHtml(title)}</div>` : ''}
+        <div style="font-size:.72rem;color:var(--text-3);margin:.2em 0 .8em">Anonymous feedback for the author and the teacher — a few taps and done.</div>
+        <div id="rpScore" style="display:flex;gap:.6em">
+          ${[[3, '🤩', 'now I get it'], [2, '🙂', 'it helped'], [1, '😕', 'not really']].map(([v, e, l]) =>
+            `<button data-v="${v}" style="flex:1;padding:.8em .3em;border:2px solid var(--border,#ddd);border-radius:14px;background:var(--card,#fff);cursor:pointer;text-align:center">
+              <div style="font-size:1.9rem">${e}</div><div style="font-size:.72rem;margin-top:.2em">${l}</div></button>`).join('')}
+        </div>
+        <div style="font-size:.74rem;font-weight:700;margin:.9em 0 .3em">Anything to add? <span style="font-weight:400;color:var(--text-3)">(optional)</span></div>
+        <div id="rpTags" style="display:flex;gap:.4em;flex-wrap:wrap">
+          ${this._reactTags().map(t => `<button data-t="${this.escHtml(t)}" class="steer-chip" style="font-size:.78rem">${this.escHtml(t)}</button>`).join('')}
+        </div>
+        <input id="rpNote" placeholder="…or write a few words (optional)" maxlength="200"
+          style="width:100%;font:inherit;font-size:.85rem;padding:.55em .6em;border:1.5px solid var(--border,#ddd);border-radius:10px;background:var(--card,#fff);margin:.7em 0">
+        <button id="rpSend" class="note-save" style="width:100%;background:var(--accent);font-size:1rem;padding:.7em" disabled>Send feedback</button>
+        <div id="rpOut" style="margin-top:.8em"></div>
+      </div></div>`;
+    document.body.appendChild(el);
+    const send = document.getElementById('rpSend');
+    document.getElementById('rpScore').addEventListener('click', e => {
+      const b = e.target.closest('button[data-v]'); if (!b) return;
+      st.score = +b.dataset.v;
+      document.querySelectorAll('#rpScore button').forEach(x => { x.style.borderColor = 'var(--border,#ddd)'; x.style.background = 'var(--card,#fff)'; });
+      b.style.borderColor = '#6366F1'; b.style.background = '#EEF2FF';
+      send.disabled = false;
+    });
+    document.getElementById('rpTags').addEventListener('click', e => {
+      const b = e.target.closest('button[data-t]'); if (!b) return;
+      const t = b.dataset.t;
+      if (st.tags.has(t)) { st.tags.delete(t); b.style.background = ''; b.style.borderColor = ''; }
+      else { st.tags.add(t); b.style.background = '#EEF2FF'; b.style.borderColor = '#6366F1'; }
+    });
+    send.addEventListener('click', async () => {
+      send.disabled = true; send.textContent = 'Sending…';
+      try {
+        const r = await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'react', id, group, voter, score: st.score, tags: [...st.tags], note: document.getElementById('rpNote').value.trim() }) });
+        if (!(await r.json()).ok) throw new Error('failed');
+        this.rc.logEvent('telling_react', { id, group, score: st.score });
+        document.getElementById('rpOut').innerHTML = `<div style="border:1.5px solid #10B981;border-radius:10px;padding:.7em;font-size:.85rem;background:var(--card,#fff)">Thanks! 🎉 Feedback delivered. <a href="${location.origin}/#trida-${this.escHtml(group)}" style="color:var(--accent)">See the class works →</a></div>`;
+        send.remove();
+      } catch (e2) { send.disabled = false; send.textContent = 'Send feedback'; this.showXPToast('Failed — try again', 'xp'); }
+    });
+  }
+  async showReactionQr(group, id, title) {
+    document.getElementById('reactQr')?.remove();
+    const url = `${location.origin}/#ohlas-${group}~${id}`;
+    let svg = '';
+    try { const { qrSvg } = await import('./qr.js'); svg = qrSvg(url, 8, 3); } catch (e) { svg = `<div style="padding:2em;color:#B45309">QR failed — use the link</div>`; }
+    const el = document.createElement('div');
+    el.id = 'reactQr';
+    el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.72);z-index:285;display:flex;align-items:center;justify-content:center" onclick="if(event.target===this){clearInterval(window._rqT);this.parentElement.remove()}">
+      <div style="background:#fff;border-radius:20px;padding:1.4em 1.6em;max-width:520px;text-align:center">
+        <div style="font-weight:800;font-size:1.2rem;color:#111">📊 How did it land?</div>
+        ${title ? `<div style="font-size:.85rem;color:#555;margin:.2em 0">${this.escHtml(title)}</div>` : ''}
+        <div style="width:min(58vh,340px);margin:.6em auto">${svg}</div>
+        <div style="font-family:ui-monospace,monospace;font-size:.78rem;color:#333;word-break:break-all">${this.escHtml(url)}</div>
+        <div id="rqTally" style="font-size:1.05rem;margin-top:.6em;color:#111">…</div>
+        <button class="note-save" style="margin-top:.6em" onclick="clearInterval(window._rqT);document.getElementById('reactQr').remove()">Close</button>
+      </div></div>`;
+    document.body.appendChild(el);
+    const tick = async () => {
+      try {
+        const d = await (await fetch('/api/drafts?group=' + encodeURIComponent(group))).json();
+        const rx = d?.reacts?.[id];
+        const t = document.getElementById('rqTally');
+        if (t) t.textContent = rx ? `🤩 ${rx.c3} · 🙂 ${rx.c2} · 😕 ${rx.c1} — total ${rx.n}` : 'no reactions yet';
+      } catch (e) {}
+    };
+    tick();
+    window._rqT = setInterval(tick, 5000);
+  }
+
+  // ===== TELLING LEADERBOARD (course points) =====
+  async classLeaderboard(code) {
+    const box = document.getElementById('galBoard'); if (!box) return;
+    box.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.4em 0">Computing the leaderboard…</div>`;
+    try {
+      const [gal, tells, tellsOrigin, logRows] = await Promise.all([
+        (async () => { try { return await (await fetch('/api/drafts?group=' + encodeURIComponent(code))).json(); } catch (e) { return null; } })(),
+        this.rc.listCommunityBlocks(null, 50, ['community'], { onlyGroup: code }),
+        (async () => {
+          const rec = await this.rc.api('POST', `/recomms/users/${this.rc.userId}/items/`, {
+            filter: `'classOrigin' == "${code}"`, count: 50, cascadeCreate: true, returnProperties: true });
+          return (rec?.recomms || []).map(r => ({ meta: { id: r.id, title: r.values?.title, sharedAs: r.values?.sharedAs, state: r.values?.state } }));
+        })().catch(() => []),
+        (async () => { try { return await (await fetch('/api/log')).json(); } catch (e) { return []; } })(),
+      ]);
+      const votes = gal?.votes || {}, reacts = gal?.reacts || {};
+      const usage = {};
+      for (const r of Array.isArray(logRows) ? logRows : []) {
+        const id = r.item_id || r.data?.itemId; if (!id) continue;
+        const u = (usage[id] = usage[id] || { views: new Set(), likes: new Set() });
+        if (r.type === 'detailview') u.views.add(r.user_id);
+        if (r.type === 'rating' && (r.rating >= 0.7 || r.data?.rating >= 0.7)) u.likes.add(r.user_id);
+      }
+      const seen = new Map();
+      for (const t of [...tells, ...tellsOrigin]) if (!seen.has(t.meta.id)) seen.set(t.meta.id, { id: t.meta.id, title: t.meta.title, who: t.meta.sharedAs, kind: t.meta.state === 'edited' || t.meta.state === 'core' ? '📖 in the book' : 'telling' });
+      for (const it of gal?.items || []) if (!seen.has(it.id)) seen.set(it.id, { id: it.id, title: it.title, who: it.nick, kind: 'draft' });
+      const rows = [...seen.values()].map(x => {
+        const rx = reacts[x.id] || { n: 0, sum: 0, c1: 0, c2: 0, c3: 0 };
+        const u = usage[x.id] || { views: new Set(), likes: new Set() };
+        const score = (votes[x.id] || 0) * 3 + rx.sum + u.likes.size * 3 + Math.round(u.views.size / 2);
+        return { ...x, votes: votes[x.id] || 0, rx, views: u.views.size, likes: u.likes.size, score };
+      }).sort((a, b2) => b2.score - a.score);
+      if (!rows.length) { box.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.4em 0">Nothing to rank yet — submissions, works and reactions will appear here.</div>`; return; }
+      box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">📊 Telling leaderboard</div>
+        <div style="font-size:.68rem;color:var(--text-3);margin:0 0 .3em">Score = ❤️ votes ×3 + presentation reactions (😕1/🙂2/🤩3) + 👍 reader likes ×3 + 👀 readers ÷2. Long-term signals keep growing after adoption into the book.</div>
+        ${rows.map((r, i) => `<div style="display:flex;gap:.55em;align-items:center;padding:.4em .55em;border:1.5px solid ${i === 0 ? '#F59E0B' : 'var(--border,#eee)'};border-radius:10px;margin:.28em 0">
+          <span style="font-weight:800;color:${i < 3 ? '#B45309' : 'var(--text-3)'};min-width:1.4em">${i + 1}.</span>
+          <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(r.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">— ${this.escHtml(r.who || 'anonymous')}${r.kind === '📖 in the book' ? ' · 📖 in the book' : ''}</span></span>
+          <span style="font-size:.72rem;color:var(--text-2);white-space:nowrap">❤️${r.votes} 🤩${r.rx.c3} 🙂${r.rx.c2} 😕${r.rx.c1} 👀${r.views} 👍${r.likes}</span>
+          <b style="min-width:2.2em;text-align:right">${r.score}</b>
+        </div>`).join('')}
+        <button class="steer-chip" style="font-size:.72rem;margin-top:.3em" onclick="app._copyBoard('${this.escHtml(code)}')">📋 copy for grading</button>`;
+      this._boardRows = rows;
+      this.rc.logEvent('class_leaderboard', { group: code, n: rows.length });
+    } catch (e) {
+      box.innerHTML = `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.78rem">${this.escHtml(e.message)}</div>`;
+    }
+  }
+  _copyBoard(code) {
+    const rows = this._boardRows || [];
+    const tsv = ['rank\ttitle\tauthor\tscore\tvotes\treactions 🤩/🙂/😕\treaders\tlikes',
+      ...rows.map((r, i) => `${i + 1}\t${r.title}\t${r.who || ''}\t${r.score}\t${r.votes}\t${r.rx.c3}/${r.rx.c2}/${r.rx.c1}\t${r.views}\t${r.likes}`)].join('\n');
+    navigator.clipboard.writeText(tsv);
+    this.showXPToast('Leaderboard copied (TSV) ✓', 'xp');
   }
 
   // Class presentation: one work full screen, arrows/keys, voting in the header
@@ -6983,6 +7153,7 @@ class PBook {
         <span style="font-size:.8rem;color:var(--text-2)">${this.escHtml(it.nick || 'anonymous')} · ${idx + 1}/${order.length}</span>
         <button class="steer-chip gal-vote" data-id="${this.escHtml(it.id)}" onclick="app.classVote('${this.escHtml(it.id)}',this)"
           style="font-size:.9rem;${g.myVotes.has(it.id) ? 'background:#FEE2E2;border-color:#EF4444' : ''}">${g.myVotes.has(it.id) ? '❤️' : '🤍'} <b class="gv-n">${it.votes || 0}</b></button>
+        <button class="steer-chip" title="QR for anonymous class reactions (😕🙂🤩)" style="font-size:.85rem" onclick="app.showReactionQr('${this.escHtml(g.code)}','${this.escHtml(it.id)}','${this.escHtml((it.title || '').replace(/'/g, ''))}')">📊 Reactions</button>
         <button onclick="document.getElementById('classPres').remove();app.openClassGallery('${this.escHtml(g.code)}')" title="Back to the gallery (Esc)" style="width:34px;height:34px;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--card,#fff);font-weight:700;cursor:pointer">✕</button>
       </div>
       <div style="flex:1 1 auto;overflow-y:auto;padding:1.2em 0">
@@ -8703,6 +8874,7 @@ class PBook {
       // Parallel classes: with a code the telling is visible only inside its
       // class until the editors promote it (adoption clears classGroup).
       classGroup: (() => { const g = (document.getElementById(`share-group-${blockId}`)?.value || '').trim().toLowerCase(); return /^[a-z0-9-]{4,16}$/.test(g) ? g : ''; })() || undefined,
+      classOrigin: (() => { const g = (document.getElementById(`share-group-${blockId}`)?.value || '').trim().toLowerCase(); return /^[a-z0-9-]{4,16}$/.test(g) ? g : ''; })() || undefined,
     });
     const sharedGroup = (document.getElementById(`share-group-${blockId}`)?.value || '').trim().toLowerCase();
     if (/^[a-z0-9-]{4,16}$/.test(sharedGroup)) localStorage.setItem('pbook-deck-group', sharedGroup);
