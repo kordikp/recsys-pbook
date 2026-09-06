@@ -6003,13 +6003,19 @@ class PBook {
     const prop = (this.proposals || []).find(x => x.slug === slug);
     const conc = this.concepts?.[slug];
     const node = this._cmapNodes?.[slug];
-    if (!prop && !conc && !node) { this.showXPToast('?', 'xp'); return; }
-    const title = prop ? prop.title : (conc?.title || node?.title || slug);
+    // Books without concepts.json (legacy content, no concept: tags): the slug
+    // is a block id — build the contract from the block itself so the studio
+    // still opens everywhere.
+    const blk = !prop && !conc && !node ? this._findAnyBlock(slug) : null;
+    if (!prop && !conc && !node && !blk) { this.showXPToast('?', 'xp'); return; }
+    const title = prop ? prop.title : (conc?.title || node?.title || blk?.meta?.title || slug);
     const contract = prop
       ? { objective: prop.objective, mustCover: prop.mustCover || [], recallQ: prop.recallQ }
       : conc
         ? { objective: conc.contract?.objective, mustCover: (conc.contract?.mustCover || []).map(m => m.point || m), recallQ: conc.contract?.recallQ }
-        : { objective: node?.def || node?.teaser, mustCover: [], recallQ: undefined };
+        : node
+          ? { objective: node?.def || node?.teaser, mustCover: [], recallQ: undefined }
+          : { objective: blk?.meta?.teaser, mustCover: [], recallQ: blk?.meta?.recallQ };
     const st = this._authorState()[slug] || {};
     this._studio = { slug, title: st.title || title, contract, isProposal: !!prop, questions: [],
       assets: { ...(st.assets || {}) }, assetSeq: st.assetSeq || 0, stats: st.stats || { manual: 0, ai: 0, coach: 0 } };
