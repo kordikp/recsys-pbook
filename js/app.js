@@ -7100,6 +7100,8 @@ class PBook {
       const seen = new Map();
       for (const t of [...tells, ...tellsOrigin]) if (!seen.has(t.meta.id)) seen.set(t.meta.id, { id: t.meta.id, title: t.meta.title, who: t.meta.sharedAs, kind: t.meta.state === 'edited' || t.meta.state === 'core' ? '📖 in the book' : 'telling' });
       for (const it of gal?.items || []) if (!seen.has(it.id)) seen.set(it.id, { id: it.id, title: it.title, who: it.nick, kind: 'draft' });
+      // items with signals but no metadata (deleted deck, old telling) — the teacher keeps the signal
+      for (const id of new Set([...Object.keys(votes), ...Object.keys(reacts)])) if (!seen.has(id)) seen.set(id, { id, title: '(no longer listed)', who: '', kind: '?' });
       const rows = [...seen.values()].map(x => {
         const rx = reacts[x.id] || { n: 0, sum: 0, c1: 0, c2: 0, c3: 0 };
         const u = usage[x.id] || { views: new Set(), likes: new Set() };
