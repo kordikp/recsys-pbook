@@ -28,6 +28,31 @@ export function renderMarkdown(text) {
     return `%%CODE${codeStore.length - 1}%%`;
   });
 
+  // --- slAIdy interop: slide furniture the book should not print ---------
+  // A deck written in slAIdy (kordikp/slaidy) is markdown, and a chapter
+  // exported to one comes back as markdown, so the two can be read in either
+  // tool. The comment marks — <!-- col -->, <!-- gap -->, <!-- step -->,
+  // <!-- notes: … --> — are dropped further down, where the lines are walked.
+  // Three things are left, and all three are furniture rather than prose.
+
+  // The per-slide metadata lines. They belong to the deck, not to the reader:
+  // what the slide is for, what to say over it, how big its type is.
+  text = text.replace(
+    /^[ \t]*(?:\*(?:Summary|Delivery note|Transition[^:*]*|Text|Skip|Flags|Style|Bestseller):\*|\*\*Figure:\*\*).*$/gm,
+    '');
+
+  // A figure placed by name. In a deck it can carry a size (![[fig-x|60%]]);
+  // on a page it is as wide as the page, so the size goes. A picture that
+  // slAIdy keeps inside the deck itself has no file here and will show as a
+  // missing image — which is at least a signal, where the raw ![[…]] was not.
+  text = text.replace(/!\[\[([A-Za-z0-9._-]+)(?:\|\d{2,3}%)?\]\]/g,
+    (_, id) => `![](/images/${id}.svg)`);
+
+  // The slide heading: "### 3. `[S]` Title" is a numbered slide carrying its
+  // tag. The book wants the title. The tag is required for the rule to fire,
+  // so an ordinary numbered heading of our own keeps its number.
+  text = text.replace(/^(#{1,6})[ \t]+\d+\.[ \t]*`\[[SDEB]\]`[ \t]*/gm, '$1 ');
+
   const lines = text.split('\n');
   const result = [];
   let inList = false;
