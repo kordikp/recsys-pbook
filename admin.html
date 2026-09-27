@@ -542,9 +542,17 @@ window.improveInStudio=async function(itemId,concept){
 window.setBlockState=async function(itemId,state){
   if(state!=='community'&&!confirm(`Set "${itemId}" to state=${state}? ${state==='core'?'CORE serves to everyone and counts toward certification.':state==='edited'?'Serves to everyone (including safe mode).':''}`))return;
   try{
-    const r=await fetch('/api/recs',{method:'POST',headers:{'Content-Type':'application/json'},
+    // edited/core need the server-side editor key (PBOOK_ADMIN_KEY), kept in this browser only
+    const send=()=>fetch('/api/recs',{method:'POST',headers:{'Content-Type':'application/json','X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''},
       body:JSON.stringify({endpoint:`/items/${encodeURIComponent(itemId)}`,method:'POST',
         body:{state,adoptedAt:new Date().toISOString(),classGroup:null,nominated:null,'!cascadeCreate':true}})});
+    let r=await send();
+    if(r.status===403&&state!=='community'){
+      const k=prompt('Editor key (PBOOK_ADMIN_KEY) — needed to adopt or promote:');
+      if(!k)return;
+      localStorage.setItem('pbook-admin-key',k.trim());
+      r=await send();
+    }
     if(!r.ok){alert('State change failed: HTTP '+r.status+' — '+(await r.text()).slice(0,120));return;}
     fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({type:'content',event:'block_saved',ts:Date.now(),userId:'admin-console',
