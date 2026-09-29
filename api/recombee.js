@@ -83,7 +83,8 @@ module.exports = async function handler(req, res) {
       return res.status(403).json({ error: 'editor key required' });
     }
   }
-  if (JSON.stringify(body || {}).length > 20000) return res.status(413).json({ error: 'body too large' });
+  // a shared telling carries its body, diagram SVG (up to 40 kB) and remix log
+  if (JSON.stringify(body || {}).length > 150000) return res.status(413).json({ error: 'body too large' });
 
   let basePath = '/' + DB + endpoint;
 
