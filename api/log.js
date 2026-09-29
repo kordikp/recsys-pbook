@@ -73,7 +73,11 @@ module.exports = async function handler(req, res) {
         return res.status(200).json(Array.isArray(rows) ? rows : []);
       }
       const admin = isAdmin(req);
-      let data = await supabase('GET', 'interactions?order=created_at.desc&limit=2000');
+      // Decks and drafts are STORED in this table (api/decks.js, api/drafts.js) with
+      // their whole content — up to 340 kB a row. Nothing reads them from here, and
+      // with them the list was 38 MB and took 15–25 s (admin looked frozen).
+      let data = await supabase('GET', 'interactions?order=created_at.desc&limit=2000&type=not.in.(deck,draft)');
+      if (!Array.isArray(data)) data = await supabase('GET', 'interactions?order=created_at.desc&limit=2000');
       if (!Array.isArray(data)) return res.status(200).json([]);
       data = data.filter(r => !(r && PRIVATE_TYPES.includes(r.type)));
       if (!admin) data.forEach(redact);
@@ -84,6 +88,7 @@ module.exports = async function handler(req, res) {
         if (!d || typeof d !== 'object') continue;
         if (typeof d.body === 'string' && d.body.length > 240) { d.bodyLen = d.body.length; d.body = d.body.slice(0, 240) + '…'; }
         if (typeof d.svg === 'string' && d.svg.length) { d.hasSvg = true; d.svg = ''; }
+        if (d.deck) d.deck = null;
       }
       return res.status(200).json(data);
     } catch(e) { return res.status(200).json([]); }

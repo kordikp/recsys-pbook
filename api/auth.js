@@ -106,6 +106,16 @@ module.exports = async function handler(req, res) {
       });
     }
 
+    // Account actions below need the session token from login/register — the
+    // email alone let anyone reset a password or read a profile.
+    if (action === 'update' || action === 'save' || action === 'load') {
+      if (!email || !token) return res.status(401).json({ error: 'not authenticated' });
+      const rows = await supabase('GET', `user_profiles?email=eq.${encodeURIComponent(email.toLowerCase().trim())}&select=session_token`);
+      if (!rows.ok || !Array.isArray(rows.data) || !rows.data.length || rows.data[0].session_token !== token) {
+        return res.status(401).json({ error: 'Your session has expired — please log in again.', code: 'session_expired' });
+      }
+    }
+
     // ---- UPDATE ACCOUNT (name, password) ----
     if (action === 'update') {
       if (!email) return res.status(401).json({ error: 'not authenticated' });

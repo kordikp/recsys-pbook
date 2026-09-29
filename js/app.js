@@ -2,7 +2,7 @@
 
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter } from './markdown.js';
-import { RecombeeClient, UserModel } from './recombee.js?v=11';
+import { RecombeeClient, UserModel } from './recombee.js?v=12';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
 
 const APP_VERSION = '5.12.4';
@@ -80,6 +80,7 @@ class PBook {
     await this.loadAllContent();
     this.autoTagBlocks();
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
+    this.rc.setBookScope((this.book?.chapters || []).map(c => c.id), Object.keys(this.concepts || {}));
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
     console.info('[pbook] app', APP_VERSION);
     this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
@@ -5185,6 +5186,11 @@ class PBook {
     });
 
     if (result.error) {
+      // Logged in elsewhere since (a login issues a new token): say it once, not every 2 minutes.
+      if (result.code === 'session_expired' && !btn) {
+        if (!this._sessionWarned) { this._sessionWarned = true; this.showXPToast(result.error, 'info'); }
+        return;
+      }
       this.showXPToast(result.error, 'info');
       if (btn) btn.textContent = 'Sync';
       return;
@@ -9200,7 +9206,7 @@ class PBook {
     const password = document.getElementById('editPassword')?.value;
     const errEl = document.getElementById('editAccountError');
 
-    const body = { action: 'update', email: auth.email };
+    const body = { action: 'update', email: auth.email, token: auth.token };
     if (name) body.displayName = name;
     if (password) {
       if (password.length < 4) { if (errEl) errEl.textContent = 'Password must be at least 4 characters.'; return; }

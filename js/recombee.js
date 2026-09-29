@@ -30,10 +30,24 @@ export class RecombeeClient {
 
   setAllBlocks(blocks) { this.allBlocks = blocks; }
 
+  // Several books share one Recombee database. Every recommendation and search
+  // call is limited to THIS book: git blocks by chapter, reader-shared tellings
+  // (no chapter) by concept. Without it Home served another book's Czech cards.
+  setBookScope(chapterIds, conceptIds) {
+    const q = a => a.map(x => JSON.stringify(String(x))).join(',');
+    const parts = [];
+    if (chapterIds && chapterIds.length) parts.push(`'chapter' in {${q(chapterIds)}}`);
+    if (conceptIds && conceptIds.length) parts.push(`'concept' in {${q(conceptIds)}}`);
+    this.scopeFilter = parts.length ? '(' + parts.join(' OR ') + ')' : null;
+  }
+
 
   // --- API call via server-side proxy (avoids CORS) ---
   async api(method, endpoint, body, _retry) {
     if (!this.enabled) return null;
+    if (!_retry && this.scopeFilter && body && /^\/(recomms\/(users|items)|search\/users)\//.test(endpoint)) {
+      body = { ...body, filter: body.filter ? `(${body.filter}) AND ${this.scopeFilter}` : this.scopeFilter };
+    }
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 2500);
