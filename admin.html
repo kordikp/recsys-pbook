@@ -243,7 +243,9 @@ let book,allBlocks=[],currentTab='📥 Demand',sideFilter=null,editorBlock=null;
 
 async function init(){
   book=await(await fetch('content/book.json')).json();
-  for(const ch of book.chapters){const dir=`content/${ch.directory}`;for(const f of ch.files){try{const t=await(await fetch(`${dir}/${f}`)).text();const{meta,body}=parseFM(t);allBlocks.push({...meta,body,_ch:ch.id,_cn:ch.number,_ct:ch.title,_f:f})}catch(e){}}}
+  // all files in parallel, book order kept (one by one it took ~19 s)
+  const jobs=book.chapters.flatMap(ch=>ch.files.map(f=>fetch(`content/${ch.directory}/${f}`).then(r=>r.text()).then(t=>{const{meta,body}=parseFM(t);return{...meta,body,_ch:ch.id,_cn:ch.number,_ct:ch.title,_f:f}}).catch(()=>null)));
+  allBlocks=(await Promise.all(jobs)).filter(Boolean);
   document.getElementById('hstat').textContent=`${allBlocks.length} blocks · ${book.chapters.length} chapters`;
   document.getElementById('mainNav').innerHTML=TABS.map(t=>`<button class="${t===currentTab?'active':''}" onclick="ST('${t}')">${t}</button>`).join('');
   renderSidebar();showMain();
