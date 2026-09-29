@@ -4,6 +4,8 @@
 
 **Live: [recsys-pbook.vercel.app](https://recsys-pbook.vercel.app)** · RecSys '26 demo · CC BY-NC-SA 4.0
 
+By **[Pavel Kordík](https://kordikp.github.io/)** (Recombee, FIT CTU Prague) and **Eva Nečasová** ([AI dětem](https://aidetem.cz)), with the Recombee team · 🤝 [Want to collaborate?](#collaborate-with-us) · 🎞 Sister project: **[SlAIdy](https://github.com/kordikp/slaidy)**
+
 **▶ [Narrated 3-minute demo walkthrough](media/pbook-demo-commented.mp4)** — serving, telling, catalog co-creation, and the loop closing on the reader's own signals.
 
 ![How Recommendations Work](images/og-cover.png)
@@ -98,10 +100,23 @@ To create a **different book** on the same engine, replace `content/` (see the f
 
 Three paths, lightest first: **flag** an issue in the app (🚩) · **share** a telling you generated or remixed (like it → consent → community layer; editors adopt the best) · **author** content as a PR — serve an existing concept's contract, declare facets honestly (AGENTS.md has the operational tests), register in `book.json`, and make the validator pass. Notable contributions can earn you editor status.
 
+## Sister project: SlAIdy
+
+**[SlAIdy](https://github.com/kordikp/slaidy)** ([live](https://kordikp.github.io/slaidy/)) is a slide editor in one HTML file. The deck stays markdown and SVG — legible to you, to git, and to the model you edit it with. It follows the same idea as this book: plain text that people and AI edit together, no build step, no lock-in.
+
+The two work together: any chapter (🎞 on the map) or studio draft exports as a SlAIdy deck, and a deck edited in SlAIdy comes back into the book.
+
+## Collaborate with us
+
+We are looking for people who want to write or translate tellings, use the book in teaching, build their own p-book on this engine, or do research on it.
+
+- **In the app:** *Want to collaborate? Leave us a message* on the welcome screen, or ⚙️ Settings → *About & contact*. Leave a contact and a short note; it reaches the authors only and is never shown publicly.
+- **On GitHub:** [open an issue](https://github.com/kordikp/recsys-pbook/issues/new) or send a PR (see [Contributing](#contributing)).
+
 ## Research
 
 The deployment is an open instrument: paradigm switches, steering, honest misses, generation, ghost votes, and shares are logged (anonymized) for studying interface-level personalization, LLM content quality under contracts, and the economics of elastic catalogs. A RecSys '26 demo paper describes the system; analytics are visible in `/admin` → 📈 Reach.
 
 ## License & credits
 
-Content and code: **CC BY-NC-SA 4.0**. Created by [Pavel Kordík](https://www.recombee.com) (Recombee, CTU Prague) with Eva Nečasová (AI dětem) and the Recombee team. Supported by Recombee, [AI dětem](https://aidetem.cz), Google.org and TAČR.
+Content and code: **CC BY-NC-SA 4.0**. Created by [Pavel Kordík](https://kordikp.github.io/) (Recombee, CTU Prague) and Eva Nečasová ([AI dětem](https://aidetem.cz)) with the Recombee team. Supported by Recombee, [AI dětem](https://aidetem.cz), Google.org and TAČR.

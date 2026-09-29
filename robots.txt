@@ -6,7 +6,7 @@ Allow: /images/
 Disallow: /api/
 Disallow: /.netlify/
 
-Sitemap: https://recsysbook-kids.vercel.app/sitemap.xml
+Sitemap: https://recsys-pbook.vercel.app/sitemap.xml
 
 # p-book manifest for LLM/bot discovery
 # /.well-known/pbook.json — structured content index for AI agents

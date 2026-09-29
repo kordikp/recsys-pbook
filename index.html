@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#FAFAF7">
 <title>How Recommendations Work — by Recombee</title>
 <meta name="description" content="An interactive book about recommender systems. Understand the algorithms behind YouTube, Spotify, Netflix, and Amazon — from collaborative filtering to production deployment. By Recombee.">
-<meta name="author" content="Pavel Kordík and the Recombee team">
+<meta name="author" content="Pavel Kordík, Eva Nečasová and the Recombee team">
 <meta name="keywords" content="recommendation systems, algorithms, kids, education, YouTube algorithm, TikTok, collaborative filtering, filter bubble, AI, machine learning, personalization, digital literacy">
 <link rel="canonical" href="https://recsys-pbook.vercel.app/">
 <!-- Open Graph -->
@@ -20,7 +20,8 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:locale" content="en_US">
-<meta property="book:author" content="Pavel Kordík and the Recombee team">
+<meta property="book:author" content="Pavel Kordík">
+<meta property="book:author" content="Eva Nečasová">
 <meta property="book:tag" content="recommendation systems">
 <meta property="book:tag" content="recommender systems">
 <meta property="book:tag" content="digital literacy">
@@ -36,12 +37,20 @@
   "@type": "Book",
   "name": "How Recommendations Work",
   "alternateName": "p-book: How Recommendations Work",
-  "author": {
-    "@type": "Person",
-    "name": "Pavel Kordík and the Recombee team",
-    "jobTitle": "Co-founder of Recombee",
-    "affiliation": { "@type": "Organization", "name": "Pavel Kordík and the Recombee team" }
-  },
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Pavel Kordík",
+      "url": "https://kordikp.github.io/",
+      "jobTitle": "Co-founder of Recombee",
+      "affiliation": [{ "@type": "Organization", "name": "Recombee" }, { "@type": "Organization", "name": "Czech Technical University in Prague" }]
+    },
+    {
+      "@type": "Person",
+      "name": "Eva Nečasová",
+      "affiliation": { "@type": "Organization", "name": "AI dětem", "url": "https://aidetem.cz" }
+    }
+  ],
   "description": "A free interactive book about recommendation systems for professionals and curious minds. Covers collaborative filtering, content-based methods, filter bubbles, fairness, privacy, and building your own recommender.",
   "url": "https://recsys-pbook.vercel.app/",
   "inLanguage": "en",
@@ -51,12 +60,12 @@
   "numberOfPages": 213,
   "license": "https://creativecommons.org/licenses/by-nc-sa/4.0/",
   "isAccessibleForFree": true,
-  "publisher": { "@type": "Organization", "name": "Pavel Kordík and the Recombee team", "url": "https://www.recombee.com" }
+  "publisher": { "@type": "Organization", "name": "Recombee", "url": "https://www.recombee.com" }
 }
 </script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<link rel="stylesheet" href="css/style.css?v=3.14.0">
+<link rel="stylesheet" href="css/style.css?v=3.15.0">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 </head>
 <body>
@@ -72,8 +81,8 @@
       <p class="intro-tagline">From algorithms to production &mdash; the complete guide to recommender systems</p>
 
       <div class="intro-author-visible">
-        <p class="intro-author-name"><a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a> and the <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> team</p>
-        <p class="intro-author-role">Built on research from <a href="https://recombee.com/research" target="_blank" rel="noopener">Recombee Labs</a> &amp; <a href="https://kam.fit.cvut.cz" target="_blank" rel="noopener">FIT CTU Prague</a></p>
+        <p class="intro-author-name"><a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a>, Eva Ne&ccaron;asov&aacute; and the <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> team</p>
+        <p class="intro-author-role">Built on research from <a href="https://recombee.com/research" target="_blank" rel="noopener">Recombee Labs</a> &amp; <a href="https://kam.fit.cvut.cz" target="_blank" rel="noopener">FIT CTU Prague</a>, with <a href="https://aidetem.cz" target="_blank" rel="noopener">AI d&#283;tem</a></p>
         <p class="intro-author-text">Every day, recommendation algorithms select thousands of items for you &mdash; on streaming platforms, online stores, and social media. This book explains how they work, from mathematical foundations to production deployment.</p>
       </div>
 
@@ -173,12 +182,14 @@
             <div><b>AI takeaways</b><br><span class="toggle-desc">Key points shown as side notes next to each section. Helps you remember the essentials.</span></div>
           </label>
         </div>
-        <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">More details in the <a href="https://github.com/kordikp/recsysbook-kids#readme" target="_blank" rel="noopener">project README</a>.</p>
+        <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">More details in the <a href="https://github.com/kordikp/recsys-pbook#readme" target="_blank" rel="noopener">project README</a>.</p>
       </details>
 
       <div class="intro-credits">
         <p>Supported by <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a>, <a href="https://aidetem.cz" target="_blank" rel="noopener">AI d&#283;tem</a>, <a href="https://www.google.org/" target="_blank" rel="noopener">Google.org</a> and <a href="https://www.tacr.cz" target="_blank" rel="noopener">TACR</a></p>
-        <p><a href="https://github.com/kordikp/recsysbook-kids" target="_blank" rel="noopener">Open source on GitHub</a> &middot; <a href="https://github.com/kordikp/recsysbook-kids#create-your-own-p-book" target="_blank" rel="noopener">Create your own p-book</a></p>
+        <p><a href="https://github.com/kordikp/recsys-pbook" target="_blank" rel="noopener">Open source on GitHub</a> &middot; <a href="https://github.com/kordikp/recsys-pbook#deploy-your-own" target="_blank" rel="noopener">Create your own p-book</a></p>
+        <p>Sister project: <a href="https://kordikp.github.io/slaidy/" target="_blank" rel="noopener">SlAIdy</a> &mdash; slides that stay markdown &amp; SVG, edited together with AI (<a href="https://github.com/kordikp/slaidy" target="_blank" rel="noopener">GitHub</a>)</p>
+        <p><button class="intro-collab-btn" onclick="app.openContact('collaborate')">&#129309; Want to collaborate? Leave us a message</button></p>
       </div>
     </div>
 
@@ -263,10 +274,10 @@
           <span class="tutor-name">Pavel's AI Assistant</span>
           <span class="tutor-status" id="tutorStatus">I know the book inside out. Ask me anything!</span>
         </div>
-        <button class="tutor-author-btn" onclick="app.escalateToAuthor()" title="Send a message to the real Pavel">&#9993; Message Pavel</button>
+        <button class="tutor-author-btn" onclick="app.escalateToAuthor()" title="Send your question or a message to the authors">&#9993; Message the authors</button>
       </div>
       <div class="chat-messages" id="chatMessagesFull">
-        <div class="chat-msg bot">Hey! I'm Pavel's AI assistant. The Recombee team taught me everything about recommender systems. Ask me anything about the book &mdash; or hit "Message Pavel" above to reach the real author!</div>
+        <div class="chat-msg bot">Hey! I'm Pavel's AI assistant. The Recombee team taught me everything about recommender systems. Ask me anything about the book &mdash; or hit "Message the authors" above to reach the real people behind it!</div>
       </div>
       <div class="tutor-typing" id="tutorTyping" style="display:none"><span></span><span></span><span></span></div>
       <div class="chat-input-wrap">
@@ -348,6 +359,15 @@
         <label style="display:flex;align-items:center;gap:.4em"><input type="checkbox" id="sHighlights" onchange="app.updateSettingsFeature()"> AI takeaways (side notes)</label>
       </div>
     </div>
+    <!-- About & contact -->
+    <div class="sg"><label>About &amp; contact</label>
+      <div style="font-size:.75rem;line-height:1.5;color:var(--text-2)">
+        By <a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a>, Eva Ne&ccaron;asov&aacute; and the <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> team &middot;
+        <a href="https://github.com/kordikp/recsys-pbook" target="_blank" rel="noopener">GitHub</a> &middot;
+        sister project <a href="https://kordikp.github.io/slaidy/" target="_blank" rel="noopener">SlAIdy</a>
+      </div>
+      <button class="btn-ghost" style="margin-top:.4em;border:1px solid var(--accent);border-radius:6px;padding:.3em .8em;font-size:.72rem;color:var(--accent)" onclick="app.toggleSettings();app.openContact('collaborate')">&#129309; Collaborate / contact us</button>
+    </div>
     <!-- Data -->
     <div class="sg"><label>Your data</label>
       <div style="display:flex;gap:.4em;flex-wrap:wrap">
@@ -360,7 +380,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
-<script type="module" src="js/app.js?v=5.50.0"></script>
+<script type="module" src="js/app.js?v=5.51.0"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 </body>
 </html>

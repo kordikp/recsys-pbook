@@ -159,6 +159,12 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 .intro-credits { margin-top: .8em; text-align: center; font-family: var(--font-ui); font-size: .65rem; color: var(--text-3); line-height: 1.6; }
 .intro-credits a { color: var(--text-2); }
 .intro-credits p { margin-bottom: .15em; }
+.intro-collab-btn { margin-top: .5em; font-family: var(--font-ui); font-size: .78rem; font-weight: 700; color: var(--accent); background: var(--accent-bg); border: 1px solid var(--accent); border-radius: 999px; padding: .45em 1.1em; cursor: pointer; }
+.intro-collab-btn:hover { background: var(--accent); color: #fff; }
+.contact-hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.contact-status { font-family: var(--font-ui); font-size: .8rem; margin-top: .6em; }
+.contact-status.ok { color: #15803d; }
+.contact-status.err { color: #dc2626; }
 .onboard-opts { display: grid; grid-template-columns: 1fr 1fr; gap: .6em; margin: 0 auto; max-width: 360px; }
 .opt-card { display: flex; flex-direction: column; align-items: center; gap: .4em; padding: 1.2em .8em; border: 1.5px solid var(--border); border-radius: var(--radius); background: var(--surface); transition: all var(--transition); }
 .opt-card:hover, .opt-card.selected { border-color: var(--accent); background: var(--accent-bg); }

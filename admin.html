@@ -236,7 +236,7 @@ window.renderMD = renderMarkdown;
 // contributions land in REVIEW and get adopted into the served book → HEALTH
 // keeps shipped content working → CATALOG is the source of truth → REACH
 // measures growth (invites, editors). Writing happens in the book's ✍️ studio.
-const TABS = ['📥 Demand','🌱 Proposals','⚡ Review','🩺 Health','📚 Catalog','📈 Reach','⚙️ More'];
+const TABS = ['📥 Demand','🌱 Proposals','⚡ Review','🩺 Health','📚 Catalog','📈 Reach','🤝 Contacts','⚙️ More'];
 
 let book,allBlocks=[],currentTab='📥 Demand',sideFilter=null,editorBlock=null;
 // These must be on window because onclick handlers run in global scope
@@ -284,8 +284,38 @@ function showMain(){
   else if(currentTab==='🩺 Health')renderHealth(m);
   else if(currentTab==='📚 Catalog')renderCatalog(m);
   else if(currentTab==='📈 Reach')renderReach(m);
+  else if(currentTab==='🤝 Contacts')renderContacts(m);
   else if(currentTab==='⚙️ More')renderMore(m);
   else renderDemand(m);
+}
+
+// Contacts: "collaborate with us" messages + questions sent to the authors from
+// the tutor. Stored in the log but never listed publicly — needs the editor key.
+async function renderContacts(m){
+  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  m.innerHTML='<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.5em">🤝 Contacts</h2><p style="font-size:.78rem;color:var(--text2)">Loading…</p>';
+  const load=()=>fetch('/api/log?contacts=1',{headers:{'X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''}});
+  let r=await load();
+  if(r.status===403){
+    const k=prompt('Editor key (PBOOK_ADMIN_KEY) — needed to read contacts:');
+    if(k){localStorage.setItem('pbook-admin-key',k.trim());r=await load();}
+  }
+  if(!r.ok){m.innerHTML+=`<p style="color:#dc2626;font-size:.8rem">Could not load contacts: HTTP ${r.status}</p>`;return;}
+  const rows=await r.json();
+  const contacts=rows.filter(x=>x.event==='contact_message'),questions=rows.filter(x=>x.event==='author_question');
+  const when=x=>esc(new Date(x.created_at).toLocaleString());
+  let h=`<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.3em">🤝 Contacts</h2>
+    <p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">From the book's "Want to collaborate?" form and the tutor's "Message the authors". Never listed in the public log.</p>
+    <h3 style="font-size:.9rem;margin:.6em 0 .3em">Collaboration messages (${contacts.length})</h3>`;
+  h+=contacts.length?contacts.map(x=>{const d=x.data||{};const mail=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.contact||'');
+    return `<div style="border:1px solid var(--border);border-radius:8px;padding:.6em .8em;margin:.4em 0;font-size:.8rem">
+      <div><b>${esc(d.name||'(no name)')}</b> · ${mail?`<a href="mailto:${esc(d.contact)}">${esc(d.contact)}</a>`:esc(d.contact)} · <span style="color:var(--accent)">${esc(d.topic)}</span> <span style="float:right;color:var(--text3);font-size:.72rem">${when(x)}</span></div>
+      <div style="white-space:pre-wrap;margin-top:.3em">${esc(d.message)}</div></div>`}).join(''):'<p style="font-size:.78rem;color:var(--text3)">None yet.</p>';
+  h+=`<h3 style="font-size:.9rem;margin:1em 0 .3em">Questions to the authors (${questions.length})</h3>`;
+  h+=questions.length?questions.map(x=>{const d=x.data||{};
+    return `<div style="border:1px solid var(--border);border-radius:8px;padding:.5em .8em;margin:.4em 0;font-size:.8rem">
+      <span style="color:var(--text3);font-size:.72rem">${when(x)}${d.blockId?' · '+esc(d.blockId):''}</span><div style="white-space:pre-wrap">${esc(d.question)}</div></div>`}).join(''):'<p style="font-size:.78rem;color:var(--text3)">None yet.</p>';
+  m.innerHTML=h;
 }
 
 function renderMore(m){
@@ -311,7 +341,7 @@ let _concepts=null,_commItems=null,_logRows=null;
 let _logRowsP=null;
 function getLogRows(){                       // ONE shared fetch for every tab
   if(_logRows)return Promise.resolve(_logRows);
-  if(!_logRowsP)_logRowsP=fetch('/api/log').then(r=>r.ok?r.json():[]).then(x=>{_logRows=Array.isArray(x)?x:[];return _logRows}).catch(()=>{_logRows=[];return _logRows});
+  if(!_logRowsP)_logRowsP=fetch('/api/log',{headers:{'X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''}}).then(r=>r.ok?r.json():[]).then(x=>{_logRows=Array.isArray(x)?x:[];return _logRows}).catch(()=>{_logRows=[];return _logRows});
   return _logRowsP;
 }
 async function _loadCoverageData(){

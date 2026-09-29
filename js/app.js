@@ -8060,10 +8060,10 @@ class PBook {
   }
 
   escalateToAuthor() {
-    if (!this._activeConvId) return;
-    const conv = this.convManager.conversations.find(c => c.id === this._activeConvId);
+    const conv = this._activeConvId && this.convManager.conversations.find(c => c.id === this._activeConvId);
     const lastUserMsg = conv?.messages?.filter(m => m.role === 'user').pop();
-    if (!lastUserMsg) return;
+    // Nothing asked yet (the header button): open the contact form instead of doing nothing.
+    if (!lastUserMsg) { this.openContact('question'); return; }
 
     this.convManager.escalateToAuthor(
       this._activeConvId,
@@ -8071,11 +8071,96 @@ class PBook {
       this.user.currentBlock,
       this.user
     );
+    // The question used to stay in this browser only — now it reaches the authors
+    // (admin → 🤝 Contacts; never in the public log).
+    this.rc._sendToLog({
+      type: 'author_message',
+      userId: localStorage.getItem('pbook-uid') || 'unknown',
+      data: { question: lastUserMsg.text, blockId: this.user.currentBlock || null },
+    });
 
     // Show confirmation in chat
-    const msgHtml = '<div class="chat-msg system">Your question has been sent to Pavel (the author). He reads every message! In the meantime, try exploring related sections in the book.</div>';
+    const msgHtml = '<div class="chat-msg system">Your question was sent to the authors. Want an answer back? <a href="#" onclick="event.preventDefault();app.openContact(\'question\')">Leave your contact</a>. In the meantime, try exploring related sections in the book.</div>';
     const chatEl = document.getElementById('chatMessagesFull') || document.getElementById('chatMessages');
     if (chatEl) chatEl.insertAdjacentHTML('beforeend', msgHtml);
+  }
+
+  // ===== CONTACT / COLLABORATE =====
+  // Someone who wants to work with us leaves a contact and a short note. It goes
+  // to /api/log as type "contact", which the public log never lists; editors read
+  // it in admin → 🤝 Contacts (editor key required).
+  openContact(topic = 'collaborate') {
+    document.querySelector('.contact-overlay')?.remove();
+    let saved = {};
+    try { saved = JSON.parse(localStorage.getItem('pbook-contact') || '{}') || {}; } catch (e) {}
+    const name = saved.name || localStorage.getItem('pbook-cert-name') || '';
+    const contact = saved.contact || localStorage.getItem('pbook-cert-email') || '';
+    const topics = [
+      ['collaborate', 'Collaborate on the book (write, edit, translate)'],
+      ['teaching', 'Use it in my teaching or course'],
+      ['engine', 'Build my own p-book on this engine'],
+      ['research', 'Research collaboration'],
+      ['question', 'A question for the authors'],
+      ['other', 'Something else'],
+    ];
+    const overlay = document.createElement('div');
+    overlay.className = 'cert-overlay contact-overlay';
+    overlay.innerHTML = `
+      <div class="cert-modal" role="dialog" aria-modal="true" aria-labelledby="ctTitle">
+        <button class="cert-close" aria-label="Close" onclick="this.closest('.cert-overlay').remove()">&times;</button>
+        <h2 id="ctTitle">🤝 Let's work together</h2>
+        <p style="font-size:.82rem;color:var(--text-2);margin-bottom:.4em">Leave a contact and a short note — Pavel Kordík and Eva Nečasová will get back to you.</p>
+        <label class="cert-label" for="ctName">Your name</label>
+        <input type="text" id="ctName" class="cert-input" maxlength="80" autocomplete="name" value="${this.escHtml(name)}">
+        <label class="cert-label" for="ctContact">Email or other contact <span style="color:var(--accent)">*</span></label>
+        <input type="text" id="ctContact" class="cert-input" maxlength="160" autocomplete="email" placeholder="you@example.com" value="${this.escHtml(contact)}">
+        <label class="cert-label" for="ctTopic">What is it about?</label>
+        <select id="ctTopic" class="cert-input">${topics.map(([v, l]) => `<option value="${v}"${v === topic ? ' selected' : ''}>${l}</option>`).join('')}</select>
+        <label class="cert-label" for="ctMsg">Message <span style="color:var(--accent)">*</span></label>
+        <textarea id="ctMsg" class="cert-input" rows="4" maxlength="1500" placeholder="Who you are and what you have in mind…"></textarea>
+        <input type="text" id="ctWebsite" class="contact-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <p style="font-size:.7rem;color:var(--text-3);margin-top:.5em">Used only to reply to you — never shown publicly.</p>
+        <div class="cert-actions"><button class="cert-btn" id="ctSend" onclick="app.sendContact()">Send message</button></div>
+        <div class="contact-status" id="ctStatus" role="status"></div>
+      </div>`;
+    document.body.appendChild(overlay);
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+    document.getElementById(contact ? 'ctMsg' : 'ctContact')?.focus();
+    this.rc?.logEvent?.('contact_open', { topic });
+  }
+
+  async sendContact() {
+    const $ = id => document.getElementById(id);
+    const name = $('ctName').value.trim(), contact = $('ctContact').value.trim();
+    const message = $('ctMsg').value.trim(), topic = $('ctTopic').value;
+    const status = $('ctStatus'), btn = $('ctSend');
+    $('ctContact').classList.toggle('cert-error', !contact);
+    $('ctMsg').classList.toggle('cert-error', !message);
+    if (!contact || !message) {
+      status.className = 'contact-status err';
+      status.textContent = 'Please fill in a contact and a message.';
+      return;
+    }
+    btn.disabled = true; btn.textContent = 'Sending…'; status.textContent = '';
+    try {
+      const r = await fetch('/api/log', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'contact', userId: localStorage.getItem('pbook-uid') || 'unknown',
+          data: { name, contact, topic, message, website: $('ctWebsite').value, page: location.hash || '/', lang: navigator.language || '' } }),
+      });
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      try { localStorage.setItem('pbook-contact', JSON.stringify({ name, contact })); } catch (e) {}
+      this.rc?.logEvent?.('contact_sent', { topic });
+      const modal = btn.closest('.cert-modal');
+      modal.innerHTML = `<button class="cert-close" aria-label="Close" onclick="this.closest('.cert-overlay').remove()">&times;</button>
+        <h2>✓ Thank you!</h2>
+        <p style="font-size:.9rem;color:var(--text-2);margin:.6em 0 1em">Your message was delivered. We will get back to you at <b>${this.escHtml(contact)}</b>.</p>
+        <button class="cert-btn" onclick="this.closest('.cert-overlay').remove()">Back to the book</button>`;
+    } catch (e) {
+      btn.disabled = false; btn.textContent = 'Send message';
+      status.className = 'contact-status err';
+      status.innerHTML = `Sorry — the message did not go through (${this.escHtml(e.message)}). Please try again, or <a href="https://github.com/kordikp/recsys-pbook/issues/new" target="_blank" rel="noopener">open an issue on GitHub</a>.`;
+    }
   }
 
   askAboutBlock(blockId) {
@@ -9767,7 +9852,7 @@ class PBook {
 
   <!-- Title -->
   <text x="400" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#4C1D95" font-weight="bold">How Recommendations Work</text>
-  <text x="400" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#7C3AED">A p-book by Pavel Kordik</text>
+  <text x="400" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#7C3AED">A p-book by Pavel Kordík &amp; Eva Nečasová</text>
 
   <!-- This certifies -->
   <text x="400" y="210" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#6B7280">This certifies that</text>
@@ -9900,7 +9985,7 @@ class PBook {
       if (navigator.share && navigator.canShare?.({ files: [new File([pngBlob], 'certificate.png', { type: 'image/png' })] })) {
         await navigator.share({
           title: 'I completed "How Recommendations Work"!',
-          text: `I just finished the p-book "How Recommendations Work" by Pavel Kordik and earned my certificate!`,
+          text: `I just finished the p-book "How Recommendations Work" by Pavel Kordík & Eva Nečasová and earned my certificate!`,
           files: [new File([pngBlob], 'recsys-certificate.png', { type: 'image/png' })]
         });
       } else {

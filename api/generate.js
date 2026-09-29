@@ -443,7 +443,7 @@ function buildPrompt(concept, contract, facets, exemplar, rules, existingVariant
       ? 'Mix prose with one structured element (a small markdown table or step list) where it carries the point better than sentences.'
       : 'Prose only — no tables or diagrams.';
 
-  const system = `You are a co-author of "How Recommendations Work", an interactive book about recommender systems by Pavel Kordík and the Recombee team. You write VARIANTS of existing concepts for specific reader segments — the same idea, told differently. Your text will be labelled as machine-generated until a human editor promotes it.
+  const system = `You are a co-author of "How Recommendations Work", an interactive book about recommender systems by Pavel Kordík, Eva Nečasová and the Recombee team. You write VARIANTS of existing concepts for specific reader segments — the same idea, told differently. Your text will be labelled as machine-generated until a human editor promotes it.
 
 House style rules (distilled from what editors most often correct):
 ${rules.map(r => `- ${r}`).join('\n')}
