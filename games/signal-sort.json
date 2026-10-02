@@ -1,20 +1,74 @@
 {
   "type": "sort",
   "title": "Signal Sort",
-  "instruction": "Is this a STRONG or WEAK signal for a recommender system?",
-  "buckets": ["Strong signal", "Weak signal"],
+  "minutes": 2,
+  "instruction": "What does this action tell the recommender about the item?",
+  "buckets": [
+    "Positive",
+    "Ambiguous",
+    "Negative"
+  ],
   "items": [
-    { "text": "Watched a video to the end", "answer": 0 },
-    { "text": "Scrolled past in 1 second", "answer": 1 },
-    { "text": "Searched for it by name", "answer": 0 },
-    { "text": "Liked and shared with friends", "answer": 0 },
-    { "text": "Opened app while bored", "answer": 1 },
-    { "text": "Rewatched 3 times", "answer": 0 },
-    { "text": "Clicked by accident, left immediately", "answer": 1 },
-    { "text": "Added to a playlist", "answer": 0 },
-    { "text": "Skipped after 2 seconds", "answer": 1 },
-    { "text": "Left a comment", "answer": 0 },
-    { "text": "Paused halfway and never came back", "answer": 1 },
-    { "text": "Bought the product after clicking", "answer": 0 }
-  ]
+    {
+      "text": "Watched a video to the end",
+      "answer": 0,
+      "why": "Completion is a high-confidence positive."
+    },
+    {
+      "text": "Bought the product after clicking it",
+      "answer": 0,
+      "why": "A costly action: a very strong positive."
+    },
+    {
+      "text": "Saved it to a playlist or wishlist",
+      "answer": 0,
+      "why": "Deliberate effort to come back later."
+    },
+    {
+      "text": "Shared it with a colleague",
+      "answer": 0,
+      "why": "You attach your reputation to it."
+    },
+    {
+      "text": "Searched for it by name",
+      "answer": 0,
+      "why": "You stated your intent in your own words."
+    },
+    {
+      "text": "Paused a video halfway and never came back",
+      "answer": 1,
+      "why": "Boredom and a phone call look identical in the log."
+    },
+    {
+      "text": "Left a video playing in a background tab",
+      "answer": 1,
+      "why": "A 'view' that may be background noise: nobody was necessarily watching."
+    },
+    {
+      "text": "Bought one children's toy among years of purchases for yourself",
+      "answer": 1,
+      "why": "Probably a gift. A purchase is normally strong, but this one may say nothing about your taste."
+    },
+    {
+      "text": "Tapped 'Not interested'",
+      "answer": 2,
+      "why": "An explicit, effortful rejection: the clearest 'no' there is."
+    },
+    {
+      "text": "Skipped a song after 3 seconds",
+      "answer": 2,
+      "why": "In music, an early skip is a deliberate 'not this'. Skips are rarely accidental."
+    },
+    {
+      "text": "Opened an article and bounced back within 2 seconds",
+      "answer": 2,
+      "why": "Short dwell is a classic implicit negative: the page didn't deliver what the headline promised."
+    },
+    {
+      "text": "Returned the product",
+      "answer": 2,
+      "why": "A strong negative that a click log alone would miss."
+    }
+  ],
+  "debrief": "Effortful actions are strong signals, and 'no' is information too: production systems often weight a rejection more than a missing click. Passive or out-of-character actions are ambiguous. Every one of them is a digital footprint."
 }

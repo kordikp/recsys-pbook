@@ -60,31 +60,55 @@ CI will automatically validate your content (frontmatter, unique IDs, references
 
 ## Adding a game
 
-1. Create a JSON file in `games/my-game.json`:
-```json
-{
-  "type": "sort",
-  "title": "My Game",
-  "instruction": "What the player should do",
-  "buckets": ["Option A", "Option B"],
-  "items": [
-    { "text": "Item text", "answer": 0 }
-  ]
-}
+A game is a **vetted template plus data**: the engine (`js/games.js`) is reviewed code, and a new game is only a JSON file in `games/` plus a content block. Never put code or HTML in game data.
+
+**Data rules.** Every item must be unambiguous to an expert in the field and carry a one-line `why` (shown after every answer). No invented statistics: a number in a `why` is either computed (say how) or sourced in the concept's tellings. Simulated games label their numbers as toy numbers (`toyNote`). Games are untimed unless the JSON sets `"timer": <seconds>`.
+
+Common fields: `type`, `title`, `instruction`, `debrief` (the takeaway on the end screen), optional `minutes` (shown as "~N min").
+
+| `type` | What the player does | Fields |
+|---|---|---|
+| `sort` | Puts each card in one of 2–4 buckets | `buckets[]`, `items[]` of `{text, answer (bucket index), why}` |
+| `pairs` | Picks the term for a description from 4 options | `pairs[]` of `{a (term), b (description), why, options?[]}`; `a` values unique |
+| `order` | Taps the steps in sequence | `steps[]` (in the correct order), `why[]` (one per step) |
+| `match` | Finds a taste twin in a rating matrix, then predicts a blank cell | `items[]` (column titles), `matrix{name: [ratings or null]}`, `you`, `predict{item, k}` |
+| `pop` | Marks every item that matches the instruction, then checks | `items[]` of `{text, hit, why}`, `hitLabel`, `missLabel` |
+| `bandit` | Spends impressions on options with hidden click rates, then races Thompson sampling, greedy and uniform | `arms[]` of `{label, text?, p}`, `pulls`, `shuffleArms`, `compare[]`, `armWord`, `toyNote` |
+| `mixer` | Moves ranking-weight sliders and rule toggles to meet goals | `weights[]`, `toggles[]` (`kind`: `maxPer`, `reserve`, `hide`, `pin`), `kpis[]`, `items[]`, `goals[]` of `{text, check{kpi: ">=0.6"}, why}` |
+| `abstop` | Runs A/B tests day by day and decides when to ship | `usersPerDay`, `plannedDays`, `rounds[]` of `{label, pA, pB, trap?, novelty?{boost, halfLifeDays}}`, `scoring{}` |
+| `loop` | `mode: "creator"`: replays 30 days of a rich-get-richer ranking with fixes. `mode: "user"`: watches a feed narrow, then bursts the bubble | creator: `items[]` of `{name, appeal, seedClicks, gem?}`, `interventions[]`, `goals[]`; user: `topics[]` of `{name, items[]}`, `goalTopics`, `exploreSlots` |
+
+Every number on a simulation's end screen is computed live by the engine; never type a result into the data.
+
+Check the data before committing (CI runs it too, through `validate-content.js`):
+
+```bash
+node scripts/check-games.mjs   # answer keys, a single clear twin, reachable goals, why coverage
 ```
 
-Game types: `sort` (classify), `match` (find twin), `pop` (click to collect), `order` (sequence)
+Then add a content block next to the concept's tellings, register it in `content/book.json` right after that concept's last telling, and run `node scripts/migrate-facets.js && node .github/scripts/validate-content.js`:
 
-2. Create a content file referencing it:
 ```yaml
 ---
-id: ch2-game-my
+id: item-cold-start-game
 type: game
-game: my-game
-title: "My Game Title"
+game: item-cold-start-order
+title: "Life of a New Item"
+readingTime: 2
+teaser: "One line that says what the player will try."
+concept: item-cold-start
 status: draft
+state: edited
+lang: en
+lens: generic
+depth: intro..standard
+formalism: none
+visuality: text-first
+lengthBand: tldr
 ---
 ```
+
+Games show up in the chapter flow, on the Browse and Quiz shelves and in the Playground (`#play`, or `#play/<block id>`). The engine logs `game_start`, `game_answer` (with the item index and whether it was right) and `game_end` events, so an item that most players get wrong can be found and fixed.
 
 ## Adding an image
 

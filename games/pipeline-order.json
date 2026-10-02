@@ -1,12 +1,21 @@
 {
   "type": "order",
   "title": "Build the Pipeline",
-  "instruction": "Put the recommendation pipeline steps in the correct order!",
+  "minutes": 2,
+  "instruction": "Put the stages in order, from learning to showing.",
   "steps": [
-    "Collect clicks, watches, and ratings from users",
-    "Find hundreds of possible items (candidates)",
+    "Learn from past clicks, watches and ratings (offline, before any request)",
+    "Retrieve a few hundred candidates out of millions of items",
     "Score and rank each candidate for this user",
-    "Add diversity and remove things already seen",
-    "Show the final recommendations on screen"
-  ]
+    "Re-rank: add diversity, apply business rules, remove what was already seen",
+    "Show the final list on screen"
+  ],
+  "why": [
+    "Models are trained in advance on logged behaviour; nothing is learned while the user waits.",
+    "Retrieval is fast and broad: it must not miss good items (high recall), and it can afford to be rough.",
+    "Ranking is the precise, expensive model, affordable only because retrieval shrank the list.",
+    "The last pass fixes what a pure relevance score gets wrong: five near-identical items, out-of-stock products, things already bought.",
+    "Retrieve, rank and re-rank together usually have a few hundred milliseconds."
+  ],
+  "debrief": "Retrieve, rank, re-rank: each stage trades speed for precision, so the expensive model only ever sees a few hundred items."
 }

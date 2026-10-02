@@ -2,19 +2,20 @@
 id: ch2-game-signal
 type: game
 game: signal-sort
-title: "Signal Sort Challenge"
-readingTime: 1
+title: "Signal Sort"
+readingTime: 2
 standalone: true
-teaser: "Can you classify signal strength the way a recommender system does? Sort them before time runs out."
+teaser: "Watched to the end, skipped after 3 seconds, bought as a gift: which actions say yes, which say no, and which say nothing clear?"
 voice: universal
 parent: null
 diagram: null
 status: accepted
 concept: digital-footprints
 state: edited
+lang: en
 lens: generic
 visuality: text-first
-depth: standard
+depth: intro..standard
 formalism: none
 lengthBand: tldr
 carriers: prose
