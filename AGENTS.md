@@ -101,7 +101,7 @@ When in doubt, open these files and compare against your candidate block. They a
 3. **Tag each dimension** using the §2 tests, in this order: `lang` → `lens` → `genre` → `depth` → `formalism` → `visuality` → `lengthBand`. (Language and world are cheapest to verify; depth benefits from having settled genre first.)
 4. **Declare subspaces honestly.** Default to a single value. Widen to a range/set only when the §2 range rule passes. A subspace is a *promise to readers at every covered cell* — an over-wide declaration is worse than a narrow one, because it serves the block to readers it will disappoint (and pollutes the coverage map with fake coverage).
 5. **Run the sanity sentence** (§2 end) and the calibration comparison (§3).
-6. **Mechanics:** file into the right chapter dir; **register in `content/book.json` — order matters**: satellites must come *after* their anchor (concept grouping is reading-order-based); satellite filenames must NOT contain `-spine-` (`NNa-sidebar-*`, `NNb-depth-*`); unique `id`; `status: draft` unless a human asked for `accepted`.
+6. **Mechanics:** file into the right chapter dir; **register in `content/book.json` — order matters**: the reader sees blocks in book.json order (filename prefixes are labels only), so satellites come *after* their anchor; membership comes from the block's `concept:` key (reading order only bootstraps a missing one); satellite filenames must NOT contain `-spine-` (`NNa-sidebar-*`, `NNb-depth-*`); unique `id`; `status: draft` unless a human asked for `accepted`.
 7. **Validate:** `node scripts/migrate-facets.js && node .github/scripts/validate-content.js` — zero errors required. The migrate script is idempotent and only fills *missing* keys; it never overwrites your explicit tags.
 
 ### References and cross-links
@@ -119,7 +119,7 @@ The validator checks that every `#c/<slug>` target exists in `concepts.json` and
 A chapter is a **position in the pedagogical arc**, not a topic bucket — the ordering encodes prerequisites, and `book.json` subtitles are the theme statements of record. Three rules:
 
 1. **Blocks inherit their concept's chapter — always.** Every telling (any lens, genre, language, or origin — generated and community included) lives where its concept's *anchor* lives. Facets never move a block between chapters; if you feel a telling "belongs elsewhere", you are actually questioning its **concept assignment** (§4 step 2), not its chapter.
-2. **Placing a NEW concept:** run the stop-test — *"could a reader who stopped at the end of chapter N−1 understand this anchor?"* Pick the earliest N where the answer is yes AND the chapter's subtitle covers the theme. Tie between two chapters → the one that *introduces* the vocabulary the contract's `mustCover` leans on. Record prerequisite concepts in the concept's `parents`. (Example: `item-cold-start` sits in ch02-data, not ch05-algorithms — it needs only "interactions exist" from ch02, and cold start is fundamentally a *data availability* problem; beeFormer, which *solves* it, lives with the algorithms.)
+2. **Placing a NEW concept:** run the stop-test — *"could a reader who stopped at the end of chapter N−1 understand this anchor?"* Pick the earliest N where the answer is yes AND the chapter's subtitle covers the theme. Tie between two chapters → the one that *introduces* the vocabulary the contract's `mustCover` leans on. Record prerequisite concepts as a flat `parents: a|b` key on the anchor (migrate copies it into `concepts.json` and the reader app's `concept-map.json`; the validator warns when a parent is anchored later in the book). (Example: `item-cold-start` sits in ch02-data, not ch05-algorithms — it needs only "interactions exist" from ch02, and cold start is fundamentally a *data availability* problem; beeFormer, which *solves* it, lives with the algorithms.)
 3. **A new chapter is an arbiter decision, never yours alone.** Propose one only when ≥3 anchored concepts share a theme no existing subtitle covers *and* they form a coherent arc with a clear prerequisite position. A new chapter touches the certificate path, missions, and the map — flag it, don't create it. (Mechanics when approved: `content/chNN-slug/` directory, `book.json` entry at the prerequisite-correct position, migrate + validate.)
 
 ## 5. Re-tagging on content change — the duty humans can't carry
@@ -163,7 +163,7 @@ node serve-local.js 8777                  # local server (static + /api/* shims)
 python3 -c "import xml.etree.ElementTree as ET; ET.parse('images/FILE.svg')"   # SVG XML check
 ```
 
-Key files: `js/config.js` (`CONFIG.facets` — the vocabulary of record) · `api/generate.js` (generator whitelist mirror) · `content/concepts.json` (generated index) · `content/book.json` (ordering = concept grouping) · `admin.html → Coverage/Health` (where your tagging becomes visible to editors).
+Key files: `js/config.js` (`CONFIG.facets` — the vocabulary of record) · `api/generate.js` (generator whitelist mirror) · `content/concepts.json` (generated index) · `content/book.json` (reading order) · `content/id-aliases.json` (retired id → successor, keeps readers' progress) · `admin.html → Coverage/Health` (where your tagging becomes visible to editors).
 
 ## 9. The invariant to protect
 

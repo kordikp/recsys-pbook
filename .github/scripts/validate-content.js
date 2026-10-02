@@ -226,6 +226,37 @@ if (fs.existsSync(CONCEPTS_JSON)) {
       if (c.anchor && !ids.has(c.anchor)) error('concepts.json', `Concept "${c.id}" anchor "${c.anchor}" is not a known block id`);
       if (!c.contract?.recallQ) warn('concepts.json', `Concept "${c.id}" has no recallQ (contract gap — shown in admin Coverage)`);
     }
+    // Membership has ONE source of truth: a block's `concept:` (first value = primary).
+    // migrate-facets.js builds blocks[] from it; a hand edit or a stale concepts.json
+    // would otherwise let the reader app (frontmatter) and admin/generator (index) disagree.
+    const byConcept = new Map((conceptsData.concepts || []).map(c => [c.id, c]));
+    for (const [blockId, ref] of conceptRefs) {
+      if (!bookIds.has(blockId)) continue;            // file on disk but not in the book
+      const primary = byConcept.get(ref.concepts[0]);
+      if (!primary) continue;                         // unknown concept: reported above
+      if (!(primary.blocks || []).includes(blockId)) {
+        error(ref.file, `Block "${blockId}" declares concept "${primary.id}" but concepts.json does not list it there (re-run scripts/migrate-facets.js)`);
+      }
+      // AGENTS §4: a telling lives in its concept's anchor chapter, after the anchor
+      const anc = bookOrder.get(primary.anchor);
+      const me = bookOrder.get(blockId);
+      if (anc && me && primary.anchor !== blockId) {
+        if (anc.chapter !== me.chapter) warn(ref.file, `telling of "${primary.id}" sits in ${me.chapter}, its anchor in ${anc.chapter} (blocks inherit their concept's chapter)`);
+        else if (me.pos < anc.pos) warn(ref.file, `telling of "${primary.id}" comes before its anchor in book.json (satellites follow their anchor)`);
+      }
+    }
+    // Prerequisites (`parents:` on anchors → concepts.json parents[]): parents must
+    // exist; a parent anchored LATER in the book fails the stop-test (AGENTS §4).
+    for (const c of conceptsData.concepts || []) {
+      for (const p of c.parents || []) {
+        const pc = byConcept.get(p);
+        if (!pc || p === c.id) { error('concepts.json', `Concept "${c.id}" lists ${pc ? 'itself' : `unknown concept "${p}"`} as a parent`); continue; }
+        const child = bookOrder.get(c.anchor), parent = bookOrder.get(pc.anchor);
+        if (child && parent && (parent.chapterIdx > child.chapterIdx || (parent.chapterIdx === child.chapterIdx && parent.pos > child.pos))) {
+          warn('concepts.json', `Concept "${c.id}" needs "${p}", which is anchored later in the book (stop-test: move one of them)`);
+        }
+      }
+    }
   } catch (e) {
     error('concepts.json', `Invalid JSON: ${e.message}`);
   }
