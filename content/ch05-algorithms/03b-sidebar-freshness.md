@@ -2,7 +2,7 @@
 id: ch3-freshness
 type: spine
 title: "The Freshness Problem: When Relevance Has an Expiry Date"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: false
 voice: universal
@@ -14,7 +14,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

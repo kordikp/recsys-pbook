@@ -2,7 +2,7 @@
 id: ch6-ethics-checklist
 type: spine
 title: "The RecSys Ethics Checklist: Questions to Ask Before Launch"
-readingTime: 3
+readingTime: 7
 standalone: true
 core: false
 teaser: "A practical checklist for evaluating recommender systems across six dimensions -- user impact, fairness, privacy, safety, transparency, and accountability. The questions that separate responsible systems from negligent ones."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

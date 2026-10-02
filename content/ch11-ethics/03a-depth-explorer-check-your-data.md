@@ -2,7 +2,7 @@
 id: ch6-data-d-exp
 type: spine
 title: "Audit It Yourself"
-readingTime: 3
+readingTime: 2
 standalone: true
 teaser: "Step-by-step: how to exercise your data access rights and actually see what platforms have collected about you. The results are often surprising."
 voice: explorer

@@ -2,7 +2,7 @@
 id: ch5-marketplace
 type: spine
 title: "Recommendations in Marketplaces: When Both Sides Matter"
-readingTime: 3
+readingTime: 8
 standalone: true
 core: false
 voice: universal
@@ -16,7 +16,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

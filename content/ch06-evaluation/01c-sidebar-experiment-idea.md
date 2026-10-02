@@ -2,7 +2,7 @@
 id: ch4-experiment
 type: spine
 title: "Try This Right Now"
-readingTime: 1
+readingTime: 2
 standalone: true
 teaser: "A 5-minute experiment that demonstrates how you can directly influence your algorithmic feed. All you need is a browser."
 voice: creator
@@ -21,7 +21,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: worked-example
 carriers: prose
 ---

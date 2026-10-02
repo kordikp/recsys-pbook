@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---

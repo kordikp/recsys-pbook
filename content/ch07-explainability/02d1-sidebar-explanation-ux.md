@@ -2,7 +2,7 @@
 id: ch4-explanation-ux
 type: spine
 title: "Designing Recommendation Explanations: What Users Actually Want"
-readingTime: 3
+readingTime: 8
 standalone: true
 core: false
 voice: universal
@@ -14,7 +14,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

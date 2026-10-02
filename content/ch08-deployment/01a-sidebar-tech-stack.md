@@ -2,7 +2,7 @@
 id: ch5-tech-stack
 type: spine
 title: "The RecSys Technology Stack: An End-to-End View"
-readingTime: 4
+readingTime: 12
 standalone: true
 core: false
 teaser: "From event streams to model serving, a production recommender system is a distributed machine learning application spanning dozens of specialized components. Understanding the full stack reveals why recommendation engineering is as much about infrastructure as it is about algorithms."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|image|code
 ---

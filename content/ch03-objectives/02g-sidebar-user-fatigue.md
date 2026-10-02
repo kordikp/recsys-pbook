@@ -2,7 +2,7 @@
 id: ch4-user-fatigue
 type: spine
 title: "User Fatigue: When Good Recommendations Go Stale"
-readingTime: 2
+readingTime: 7
 standalone: true
 core: false
 voice: universal
@@ -16,7 +16,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

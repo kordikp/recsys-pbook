@@ -2,7 +2,7 @@
 id: ch1-history
 type: spine
 title: "A Brief History of Recommender Systems"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: false
 teaser: "From GroupLens to LLM-powered recommendations -- three decades of evolution that transformed how we discover content."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

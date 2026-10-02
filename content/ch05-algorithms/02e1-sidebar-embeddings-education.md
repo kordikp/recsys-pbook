@@ -2,7 +2,7 @@
 id: embeddings-education
 type: spine
 title: "The Study-Buddy Map: Embeddings in a Learning App"
-readingTime: 3
+readingTime: 1
 standalone: true
 core: false
 teaser: "Courses, exercises and learners plotted on one invisible map — where 'close' means 'next'."

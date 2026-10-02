@@ -2,7 +2,7 @@
 id: ch3-attention-deep
 type: spine
 title: "Transformers for Sequential Recommendation: The Complete Architecture"
-readingTime: 6
+readingTime: 14
 standalone: false
 core: false
 voice: thinker

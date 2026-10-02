@@ -2,7 +2,7 @@
 id: ch4-diversity-metrics
 type: spine
 title: "Diversity Metrics: Measuring What Variety Means"
-readingTime: 4
+readingTime: 9
 standalone: false
 core: false
 voice: thinker
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

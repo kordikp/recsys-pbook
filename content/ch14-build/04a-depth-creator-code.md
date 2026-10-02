@@ -2,7 +2,7 @@
 id: ch5-code-d-create
 type: spine
 title: "Code It!"
-readingTime: 5
+readingTime: 3
 standalone: false
 teaser: "A clean Python implementation of user-based collaborative filtering with evaluation metrics."
 voice: creator

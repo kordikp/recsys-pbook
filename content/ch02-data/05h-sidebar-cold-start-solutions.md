@@ -2,7 +2,7 @@
 id: ch5-cold-start
 type: spine
 title: "Cold Start Solutions: A Systematic Comparison"
-readingTime: 3
+readingTime: 8
 standalone: true
 core: false
 voice: universal
@@ -16,7 +16,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

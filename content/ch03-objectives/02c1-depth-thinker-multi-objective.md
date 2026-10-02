@@ -2,7 +2,7 @@
 id: ch4-multi-objective
 type: spine
 title: "Multi-Objective Optimization: When Goals Conflict"
-readingTime: 5
+readingTime: 12
 standalone: false
 core: false
 voice: thinker

@@ -2,7 +2,7 @@
 id: item-cold-start
 type: spine
 title: "Item Cold Start: The First Day of a New Item"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: false
 teaser: "A brand-new item has zero interactions. How does a recommender give it a fair first day?"

@@ -2,7 +2,7 @@
 id: ch12-ecommerce-recipes
 type: spine
 title: "E-Commerce Recipes: Complete Scenario Reference"
-readingTime: 5
+readingTime: 2
 standalone: false
 core: false
 teaser: "Every e-commerce recommendation scenario — from homepage personalization to faceted search — with exact configurations."
@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: light
-lengthBand: deep
+lengthBand: standard
 genre: code-walkthrough
 carriers: prose|table|formula|code
 ---

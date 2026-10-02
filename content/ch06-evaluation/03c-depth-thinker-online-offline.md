@@ -2,7 +2,7 @@
 id: ch4-online-offline
 type: spine
 title: "Online vs. Offline Evaluation: Bridging the Gap"
-readingTime: 4
+readingTime: 14
 standalone: false
 core: false
 voice: thinker
@@ -15,7 +15,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

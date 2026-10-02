@@ -2,7 +2,7 @@
 id: ch2-implicit-feedback
 type: spine
 title: "Implicit Feedback: The Mathematics of Behavioral Signals"
-readingTime: 5
+readingTime: 9
 standalone: false
 core: false
 voice: thinker

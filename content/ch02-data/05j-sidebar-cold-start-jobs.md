@@ -2,7 +2,7 @@
 id: item-cold-start-jobs
 type: spine
 title: "Worked Example: A Job Posting's Cold Start"
-readingTime: 3
+readingTime: 1
 standalone: true
 core: false
 teaser: "Step through one real-ish posting: from publish to first application, decision by decision."

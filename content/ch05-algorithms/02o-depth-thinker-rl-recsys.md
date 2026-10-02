@@ -2,7 +2,7 @@
 id: ch3-rl-recsys
 type: spine
 title: "Reinforcement Learning for Recommendations: Beyond Bandits"
-readingTime: 4
+readingTime: 6
 standalone: false
 core: false
 voice: thinker
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image|formula
 ---

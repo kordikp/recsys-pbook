@@ -2,7 +2,7 @@
 id: ch5-feature-eng
 type: spine
 title: "Feature Engineering for RecSys: What to Feed Your Model"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: false
 teaser: "The right features matter more than the right algorithm. Here's what experienced practitioners extract from raw data."
@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

@@ -2,7 +2,7 @@
 id: ch6-content-safety
 type: spine
 title: "Content Safety: When Recommendations Go Dark"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: false
 teaser: "Recommendation algorithms do not just reflect what people want to see -- they shape it. When engagement becomes the objective, harmful content can be systematically amplified."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

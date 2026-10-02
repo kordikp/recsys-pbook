@@ -2,7 +2,7 @@
 id: ch5-real-numbers
 type: spine
 title: "Real-World Numbers"
-readingTime: 1
+readingTime: 2
 standalone: true
 teaser: "Your 5-user prototype is instructive. Production systems operate at scales that challenge even modern hardware."
 voice: thinker
@@ -20,7 +20,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose
 ---

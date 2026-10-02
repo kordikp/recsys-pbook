@@ -2,7 +2,7 @@
 id: ch5-benchmarks
 type: spine
 title: "RecSys Benchmarks: Standard Datasets and Their Limitations"
-readingTime: 3
+readingTime: 9
 standalone: true
 core: false
 voice: explorer
@@ -16,7 +16,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

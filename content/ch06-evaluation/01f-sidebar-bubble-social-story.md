@@ -2,7 +2,7 @@
 id: filter-bubble-feed-story
 type: spine
 title: "The Week My Feed Went Quiet"
-readingTime: 3
+readingTime: 1
 standalone: true
 core: false
 teaser: "A social feed slowly narrows to one topic — and the strange silence that follows."

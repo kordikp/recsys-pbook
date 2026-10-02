@@ -21,7 +21,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose
 ---

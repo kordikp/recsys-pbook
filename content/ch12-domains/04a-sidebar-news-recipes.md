@@ -2,7 +2,7 @@
 id: ch12-news-recipes
 type: spine
 title: "News Recipes: Complete Scenario Reference"
-readingTime: 5
+readingTime: 2
 standalone: false
 core: false
 teaser: "Every news recommendation scenario — from personalized feeds to cross-site recommendations — with exact configurations and ReQL examples."

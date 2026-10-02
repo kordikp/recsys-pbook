@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: tldr
 carriers: prose
 ---
 

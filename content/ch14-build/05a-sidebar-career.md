@@ -2,7 +2,7 @@
 id: ch5-career-sidebar
 type: spine
 title: "Career Paths in Recommender Systems"
-readingTime: 3
+readingTime: 2
 standalone: false
 teaser: "From research scientist to ML engineer to product manager — the RecSys industry offers diverse, high-impact career paths."
 voice: universal
@@ -20,7 +20,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

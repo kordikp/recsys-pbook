@@ -2,7 +2,7 @@
 id: ch2-negative-signals
 type: spine
 title: "Negative Signals: What Skips and Exits Tell You"
-readingTime: 2
+readingTime: 4
 standalone: true
 core: false
 voice: universal
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

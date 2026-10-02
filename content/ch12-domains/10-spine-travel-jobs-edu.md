@@ -2,7 +2,7 @@
 id: ch13-travel-jobs-edu
 type: spine
 title: "Travel, Jobs, and Education: Specialized Domains"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: false
 teaser: "Three domains where recommendation quality directly impacts life outcomes — vacations, careers, and learning."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

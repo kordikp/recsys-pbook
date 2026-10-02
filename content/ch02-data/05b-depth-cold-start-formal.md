@@ -2,7 +2,7 @@
 id: item-cold-start-formal
 type: spine
 title: "Item Cold Start, Formally"
-readingTime: 4
+readingTime: 2
 standalone: true
 core: false
 teaser: "The cold-start recommendation problem as an equation: content priors, exploration, and the handoff schedule."

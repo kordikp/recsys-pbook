@@ -2,7 +2,7 @@
 id: ch4-trust
 type: spine
 title: "Trust and Calibration: Why Confidence Matters"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "A recommender that says 'you'll love this' about everything quickly loses credibility. Calibrated confidence builds lasting trust."
@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---

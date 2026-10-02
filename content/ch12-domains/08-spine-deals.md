@@ -2,7 +2,7 @@
 id: ch13-deals
 type: spine
 title: "Deal Aggregators: Time-Sensitive Recommendations"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: false
 teaser: "A deal that expires in 2 hours needs instant matching — the cold-start problem measured in minutes, not days."

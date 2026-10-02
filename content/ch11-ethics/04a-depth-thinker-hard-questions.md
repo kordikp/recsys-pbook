@@ -2,7 +2,7 @@
 id: ch6-hard-d-think
 type: spine
 title: "Open Questions in Recommendation Ethics"
-readingTime: 4
+readingTime: 3
 standalone: true
 teaser: "These are genuine open problems where reasonable experts disagree. Analyzing them requires a stakeholder framework, not just intuition."
 voice: thinker
@@ -20,7 +20,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

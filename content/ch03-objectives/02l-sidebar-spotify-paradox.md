@@ -2,7 +2,7 @@
 id: ch4-spotify-paradox
 type: spine
 title: "The Spotify Paradox: +29% Streams, -11% Diversity"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "Spotify's personalized podcast recommendations increased engagement by 29% — while reducing listening diversity by 11%. This is the fundamental tension of modern RecSys."
@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

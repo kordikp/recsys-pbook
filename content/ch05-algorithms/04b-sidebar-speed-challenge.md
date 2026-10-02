@@ -2,7 +2,7 @@
 id: ch3-speed
 type: spine
 title: "The Scale of Modern Recommendation"
-readingTime: 1
+readingTime: 2
 standalone: true
 teaser: "800 million items. 200 milliseconds. The computational demands behind production recommendation systems are staggering."
 voice: thinker
@@ -21,7 +21,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose|table
 ---

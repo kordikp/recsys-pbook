@@ -2,7 +2,7 @@
 id: ch5-open-source
 type: spine
 title: "Open-Source RecSys Tools: A Practitioner's Guide"
-readingTime: 3
+readingTime: 9
 standalone: true
 core: false
 voice: explorer
@@ -16,7 +16,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

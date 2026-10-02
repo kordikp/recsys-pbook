@@ -2,7 +2,7 @@
 id: ch3-hybrid-patterns
 type: spine
 title: "Hybrid Architectures: Combining Methods That Work"
-readingTime: 3
+readingTime: 8
 standalone: true
 core: false
 voice: universal
@@ -16,7 +16,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

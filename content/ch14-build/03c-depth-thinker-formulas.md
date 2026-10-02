@@ -2,7 +2,7 @@
 id: ch5-formulas
 type: spine
 title: "The Math Behind Recommendations"
-readingTime: 5
+readingTime: 4
 standalone: false
 teaser: "Cosine similarity, matrix factorization, precision, recall, and nDCG — the core formulas behind every production recommender system."
 voice: thinker

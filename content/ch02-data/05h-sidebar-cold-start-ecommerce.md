@@ -2,7 +2,7 @@
 id: item-cold-start-ecommerce
 type: spine
 title: "New in the Shop: Cold Start Behind 'Customers Also Bought'"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: false
 teaser: "What an e-shop actually does in the 72 hours after a product goes live."

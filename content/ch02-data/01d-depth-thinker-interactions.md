@@ -2,7 +2,7 @@
 id: ch2-interactions
 type: spine
 title: "Explicit vs. Implicit: Two Kinds of Feedback"
-readingTime: 3
+readingTime: 4
 standalone: false
 teaser: "Star ratings vs. dwell time — why modern recommenders trust what you DO more than what you SAY."
 voice: thinker
@@ -21,7 +21,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---

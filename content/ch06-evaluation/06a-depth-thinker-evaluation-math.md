@@ -2,7 +2,7 @@
 id: ch7-eval-math
 type: spine
 title: "Evaluation Metrics: The Mathematical Details"
-readingTime: 5
+readingTime: 3
 standalone: false
 core: false
 teaser: "From nDCG to MNAR bias correction — the complete mathematical framework for recommendation evaluation."

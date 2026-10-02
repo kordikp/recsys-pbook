@@ -2,7 +2,7 @@
 id: ch3-slate
 type: spine
 title: "Slate Optimization: Recommending Sets, Not Items"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: false
 voice: universal
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

@@ -2,7 +2,7 @@
 id: bandits-radio-story
 type: spine
 title: "The Night DJ's Dilemma"
-readingTime: 3
+readingTime: 1
 standalone: true
 core: false
 teaser: "Play the hit again, or risk the unknown B-side? A radio booth is a bandit algorithm with a microphone."

@@ -2,7 +2,7 @@
 id: ch3-feature-interactions
 type: spine
 title: "Feature Interaction Models: From Factorization Machines to Deep Cross Networks"
-readingTime: 5
+readingTime: 8
 standalone: false
 core: false
 voice: thinker

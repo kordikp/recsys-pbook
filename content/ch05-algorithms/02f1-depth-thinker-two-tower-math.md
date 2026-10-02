@@ -2,7 +2,7 @@
 id: ch3-two-tower-math
 type: spine
 title: "Two-Tower Architecture: Training, Serving, and the Mathematics of Scale"
-readingTime: 5
+readingTime: 13
 standalone: false
 core: false
 voice: thinker

@@ -2,7 +2,7 @@
 id: ch5-embedding-viz
 type: spine
 title: "Visualizing Embeddings: Seeing What Algorithms Learn"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: false
 voice: explorer
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

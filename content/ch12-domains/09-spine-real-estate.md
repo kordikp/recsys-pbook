@@ -2,7 +2,7 @@
 id: ch13-real-estate
 type: spine
 title: "Real Estate: High-Stakes Geographic Matching"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: false
 teaser: "Real estate is the highest-stakes recommendation domain — a wrong suggestion wastes hours of viewing time; a good one leads to a life decision."

@@ -2,7 +2,7 @@
 id: ch4-bias-types
 type: spine
 title: "A Taxonomy of Bias in Recommender Systems"
-readingTime: 5
+readingTime: 15
 standalone: false
 core: false
 voice: thinker

@@ -2,7 +2,7 @@
 id: ch5-ab-pitfalls
 type: spine
 title: "A/B Testing Pitfalls: How to Get Reliable Results"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: false
 teaser: "Most A/B tests in recommendation systems produce unreliable results. Here's what goes wrong and how to fix it."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

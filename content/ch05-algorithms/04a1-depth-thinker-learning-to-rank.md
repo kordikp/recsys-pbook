@@ -2,7 +2,7 @@
 id: ch3-ltr
 type: spine
 title: "Learning to Rank: From Pointwise to Listwise"
-readingTime: 5
+readingTime: 13
 standalone: false
 core: false
 voice: thinker

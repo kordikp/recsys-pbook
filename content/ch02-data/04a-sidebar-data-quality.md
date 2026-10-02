@@ -2,7 +2,7 @@
 id: ch2-data-quality
 type: spine
 title: "Data Quality: Garbage In, Garbage Out"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: false
 teaser: "The best algorithm in the world can't compensate for bad data. Here's what goes wrong and how to fix it."
@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
