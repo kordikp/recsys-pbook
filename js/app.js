@@ -9273,9 +9273,9 @@ class PBook {
     URL.revokeObjectURL(a.href);
   }
 
-  setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme === 'light' ? '' : theme);
-    localStorage.setItem('pbook-theme', theme);
+  setTheme(theme) {   // 'light' | 'dark' | 'auto' (follows the device) — js/ux.js
+    try { localStorage.setItem('pbook-theme', theme); } catch (e) {}
+    this._applyThemeChoice();
     this.updateSettingsUI();
   }
 
@@ -9287,8 +9287,7 @@ class PBook {
   }
 
   applyTheme() {
-    const theme = localStorage.getItem('pbook-theme');
-    if (theme && theme !== 'light') document.documentElement.setAttribute('data-theme', theme);
+    this._applyThemeChoice();
     const fs = localStorage.getItem('pbook-fs');
     if (fs) { const map = { small: '0.95rem', medium: '1.1rem', large: '1.3rem' }; document.documentElement.style.setProperty('--fs', map[fs]); }
     this._applyLevelTheme();
@@ -9528,19 +9527,22 @@ class PBook {
   updateXPBadge() {
     const el = document.getElementById('xpBadge');
     if (!el) return;
-    if (!this._f('gamification')) { el.style.display = 'none'; return; }
+    // Progress first: concepts read out of the book's concepts (XP and level live in Profile)
     el.style.display = '';
-    const reward = this.getLevelRewards().filter(r => r.level <= this.user.level).pop();
+    const { read, total } = this._conceptProgress();
     const editor = this.getEditorTrack?.().tier === 'editor' ? '🛠 ' : '';
-    el.textContent = editor + (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP' + (CONFIG.aiEconomy?.enabled && this._srvBalance != null ? ' · ⚡' + this._srvBalance : '');
-    el.title = editor ? 'Editor — earned through accepted contributions' : '';
+    el.innerHTML = `<span class="xp-ring">${this._ringSvg(total ? read / total : 0, 18)}<span>${editor}${read}/${total}</span></span>`;
+    el.title = `${read} of ${total} concepts read` + (this._f('gamification') ? ` · level ${this.user.level} · ${this.user.xp} XP` : '') + (editor ? ' · editor' : '');
+    el.setAttribute('aria-label', `Your progress: ${read} of ${total} concepts read. Open your profile`);
     // Apply cosmetic theme
     this._applyLevelTheme();
     // Update quiz tab badge
     const quizTab = document.querySelector('.tab[data-view="quiz"] .tab-label');
     if (quizTab && this._f('spaceRepetition')) {
       const dueCount = this.user.getDueRecalls().length;
-      quizTab.textContent = dueCount > 0 ? `Quiz (${dueCount})` : 'Quiz';
+      // a dot on the icon, not a count in the label (the label width jumped)
+      quizTab.closest('.tab')?.classList.toggle('has-due', dueCount > 0);
+      quizTab.closest('.tab')?.setAttribute('aria-label', dueCount > 0 ? `Quiz, ${dueCount} cards due` : 'Quiz');
     }
   }
 

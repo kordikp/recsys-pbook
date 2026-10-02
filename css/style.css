@@ -1450,3 +1450,5 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .bnav-core { text-transform: none; letter-spacing: 0; }
 .block-actions { display: flex; flex-wrap: wrap; gap: .4em; }
 .block-more-btn.active { color: var(--accent); border-color: var(--accent); }
+.tab.has-due .tab-icon::after { content: ''; position: absolute; top: .1em; right: -.35em; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); box-shadow: 0 0 0 2px var(--surface); }
+.xp-badge .xp-ring { color: var(--accent); font-variant-numeric: tabular-nums; }
