@@ -26,16 +26,16 @@ carriers: prose
 
 The RecSys research landscape is shifting rapidly. Several emerging directions will likely reshape the field over the next 3–5 years.
 
-## 1. Foundation Models for Recommendation
+## 1. Foundation Models for Recommendation: From Vision to Deployment
 
-The success of foundation models in NLP (GPT, BERT) and vision (CLIP, DINO) raises a natural question: **can we build a foundation model for recommendation?**
+The success of foundation models in NLP (GPT, BERT) and vision (CLIP, DINO) raised a natural question: **can we build a foundation model for recommendation?** Inside the largest platforms, the answer is now yes. Meta's generative recommenders (HSTU, ICML 2024) treat a user's actions as a sequence, get better as a power law of training compute, and run in production. Netflix described in 2025 a single foundation model trained on hundreds of billions of member interactions that serves many recommendation tasks. What remains open is the broader version below.
 
 **The vision:** Pre-train a massive model on interaction data from many domains and platforms. Fine-tune it for specific recommendation tasks with minimal domain-specific data. This would solve cold-start at the model level — the foundation model already "understands" user preferences in general.
 
 **beeFormer as a prototype:** beeFormer's cross-domain transfer (MovieLens → Goodbooks) demonstrates that behavioral knowledge can transfer via text. A foundation model would scale this approach massively.
 
 **Challenges:**
-- Interaction data is private — no equivalent of "the internet" for user behavior
+- Interaction data is private — no equivalent of "the internet" for user behavior. That is why today's foundation models live inside single platforms, trained on their own logs; a model shared *across* companies and domains remains open
 - Behavioral patterns may be less transferable than language patterns
 - Scale: the interaction space is much larger than the token space
 
@@ -77,7 +77,7 @@ LLMs enable a new interaction paradigm where users can:
 - Receive explanations in conversational form
 - Delegate recommendation decisions to AI agents
 
-**The research challenge:** Combining LLM language understanding with RecSys behavioral prediction. Current LLMs lack personalization (no user model) and current RecSys lacks language understanding (no natural language interface). Bridging this gap is an active and exciting research direction.
+**The research challenge:** Combining LLM language understanding with RecSys behavioral prediction. A general-purpose LLM has no model of *your* behavior, and a classic recommender has no language interface. Products already pair the two (see [LLM recommenders](#c/llm-recommenders)); the open questions are how to evaluate such dialogues and how much the LLM layer adds over the behavioral model underneath.
 
 ## 6. Privacy-First Architectures
 
@@ -89,10 +89,14 @@ Driven by GDPR, CCPA, and user demand:
 
 ## Where to Follow
 
-- **ACM RecSys Conference:** The primary venue (annual, next: RecSys 2026)
+- **ACM RecSys Conference:** The primary venue (annual, usually held in the autumn)
 - **WWW / The Web Conference:** Broader scope including RecSys
 - **KDD:** Data mining perspective on recommendation
 - **SIGIR:** Information retrieval perspective
 - **NeurIPS / ICML / ICLR:** Deep learning and theoretical advances
 
 **Consider this:** The most impactful research contributions often come from unexpected directions — EASE was published by a single Netflix researcher and outperformed years of deep learning research. The field rewards mathematical insight and practical validation more than computational scale.
+
+**Sources:**
+- Zhai et al., "Actions Speak Louder than Words: Trillion-Parameter Sequential Transducers for Generative Recommendations," ICML 2024. [arXiv:2402.17152](https://arxiv.org/abs/2402.17152)
+- Netflix Technology Blog, "[Foundation Model for Personalized Recommendation](https://netflixtechblog.com/foundation-model-for-personalized-recommendation-1a0bd8e02d39)," 21 March 2025.

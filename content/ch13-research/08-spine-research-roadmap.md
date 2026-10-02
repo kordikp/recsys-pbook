@@ -52,6 +52,8 @@ Large Language Models can understand natural language queries ("I want something
 - **Evaluation difficulty:** How do you evaluate a conversational recommendation system? Standard metrics don't apply to open-ended dialogue
 - **Latency:** LLM inference is orders of magnitude slower than embedding lookup
 
+Since 2023 the field has started to answer each of these, though none is closed. **Hallucination:** let a conventional retriever pick real candidates first and ask the LLM only to re-rank them, or have the model generate item codes that can only map to items in the catalog (generative retrieval with semantic IDs, NeurIPS 2023). **Popularity and position bias:** documented for LLM rankers and partly reduced with purpose-built prompting and bootstrapping (ECIR 2024). **Latency:** keep the LLM to a short candidate list, or run it offline to enrich item descriptions rather than per request. And the generative idea has been turned around: instead of a language model reading item titles, Meta trained a sequence model on users' *actions*, whose quality grows predictably with compute (ICML 2024). Evaluation of open-ended conversational recommendation remains the least solved of the four.
+
 The [SHIELD framework](https://www.recombee.com/blog/shield-the-universal-framework-making-ai-search-safer-for-everyone) (UMAP 2025, [open-source on GitHub](https://github.com/flpspacek/SHIELD)) addresses one aspect — semantic search safety — but the broader integration challenge remains open.
 
 ## 3. Causal Evaluation
@@ -93,3 +95,8 @@ The publications from the Recombee lab and collaborators across 2021–2026 — 
 > **Key venues:** RecSys (ACM Conference on Recommender Systems), WWW (The Web Conference), KDD (Knowledge Discovery and Data Mining), ICML (International Conference on Machine Learning), CIKM (Conference on Information and Knowledge Management)
 
 **Consider this:** The recommender systems that will shape the next decade of digital experience haven't been built yet. They'll emerge from research happening right now — in universities, industry labs, and the intersection of both. Understanding the mathematical foundations isn't just academic; it's the prerequisite for building systems that are both effective and responsible.
+
+**Sources:**
+- Hou et al., "Large Language Models are Zero-Shot Rankers for Recommender Systems," ECIR 2024. [arXiv:2305.08845](https://arxiv.org/abs/2305.08845)
+- Rajput et al., "Recommender Systems with Generative Retrieval," NeurIPS 2023. [arXiv:2305.05065](https://arxiv.org/abs/2305.05065)
+- Zhai et al., "Actions Speak Louder than Words: Trillion-Parameter Sequential Transducers for Generative Recommendations," ICML 2024. [arXiv:2402.17152](https://arxiv.org/abs/2402.17152)

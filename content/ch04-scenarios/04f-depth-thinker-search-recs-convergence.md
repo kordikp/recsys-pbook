@@ -89,7 +89,7 @@ The most effective systems use search queries as features for recommendation and
 
 ## beeFormer and the Text-Behavior Bridge
 
-beeFormer (from the MFF presentation) sits exactly at this convergence point. It trains a text encoder with a recommendation loss (ELSA), producing embeddings that:
+[beeFormer](#c/beeformer) (RecSys 2024) sits exactly at this convergence point. It trains a text encoder with a recommendation loss (ELSA), producing embeddings that:
 - Understand text semantics (useful for search)
 - Predict user behavior (useful for recommendation)
 - Bridge text and interaction data (useful for both)
