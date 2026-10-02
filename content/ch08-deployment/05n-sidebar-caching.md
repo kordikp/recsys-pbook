@@ -74,4 +74,4 @@ The production-standard approach uses layered caching:
 
 This preserves freshness where it matters (scoring, context, exploration) while eliminating the most expensive computation (candidate generation over the full catalog).
 
-**Consider this:** The best caching strategy depends on how fast your domain changes. A movie recommender can cache aggressively (preferences shift slowly). A news recommender can barely cache at all. Know your domain's clock speed.
+**In your product:** The best caching strategy depends on how fast your domain changes. A movie recommender can cache aggressively (preferences shift slowly). A news recommender can barely cache at all. Know your domain's clock speed.

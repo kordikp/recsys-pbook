@@ -66,4 +66,4 @@ Model how preferences spread through the network. If user A likes an item and sh
 
 **Filter bubble amplification.** Social recommendation can reinforce echo chambers — if your social circle shares narrow views, social signals reinforce that narrowness.
 
-**Consider this:** Social recommendation works best as one signal among many — not as the primary approach. The social graph provides useful context about who a user is and what they might value, but it shouldn't override individual behavioral signals. The best implementations use social data to improve cold-start handling and to add a diversity signal, rather than as the core recommendation mechanism.
+**In your product:** Social recommendation works best as one signal among many — not as the primary approach. The social graph provides useful context about who a user is and what they might value, but it shouldn't override individual behavioral signals. The best implementations use social data to improve cold-start handling and to add a diversity signal, rather than as the core recommendation mechanism.

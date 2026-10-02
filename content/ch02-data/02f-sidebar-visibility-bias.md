@@ -65,4 +65,4 @@ With correction:
 - New items get fairer evaluation
 - Diversity increases as position bias no longer dominates the signal
 
-**Consider this:** Visibility bias is a reminder that **observed behavior ≠ true preference.** What users do is shaped not just by what they want, but by what they're given the opportunity to see. Confusing these two things — opportunity and preference — is a fundamental error that pervades recommendation evaluation.
+Visibility bias is a reminder that **observed behavior ≠ true preference.** What users do is shaped not just by what they want, but by what they're given the opportunity to see. Confusing these two things — opportunity and preference — is a fundamental error that pervades recommendation evaluation.

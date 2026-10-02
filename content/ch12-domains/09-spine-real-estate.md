@@ -51,4 +51,4 @@ Real estate is where recommendation mistakes cost the most time and where good r
 
 - **Crexi:** [+40% buy actions](https://www.recombee.com/case-studies/crexi) from recommended properties, +178% CTOR in emails
 
-**Consider this:** Real estate recommendation bridges the digital-physical divide more than any other domain. The recommendation happens online, but the outcome — visiting and potentially buying a property — is entirely physical. This means recommendation quality is directly testable by the user, creating a strong feedback loop between algorithmic suggestion and real-world experience.
+Real estate recommendation bridges the digital-physical divide more than any other domain. The recommendation happens online, but the outcome — visiting and potentially buying a property — is entirely physical. This means recommendation quality is directly testable by the user, creating a strong feedback loop between algorithmic suggestion and real-world experience.

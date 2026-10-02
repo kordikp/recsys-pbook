@@ -111,4 +111,4 @@ Element-wise multiplication acts as a gate — both modalities must agree for a 
 - **Modality quality varies:** A professional product photo is more informative than a user-uploaded snapshot. Quality-aware weighting helps.
 - **Computational cost:** Joint training is expensive; projection heads are cheap. Start with projection heads and upgrade to joint training only if the quality gap justifies the cost.
 
-**Consider this:** Embedding alignment is fundamentally about translation — converting knowledge from one "language" (text, images, behavior) into another. The breakthrough insight of models like CLIP and beeFormer is that this translation can be learned end-to-end, producing a universal representation space where all modalities speak the same mathematical language.
+Embedding alignment is fundamentally about translation — converting knowledge from one "language" (text, images, behavior) into another. The breakthrough insight of models like CLIP and beeFormer is that this translation can be learned end-to-end, producing a universal representation space where all modalities speak the same mathematical language.

@@ -87,4 +87,4 @@ Standard RecSys metrics (CTR, session length) are insufficient for news:
 
 For a deeper dive into the unique challenges of [news and media recommendations](https://www.recombee.com/domains/articles-news-media), including practical implementation patterns, see the [news recipe documentation](https://docs.recombee.com/recipes/news).
 
-**Consider this:** News recommendation sits at the intersection of technology, editorial judgment, and democratic responsibility. Getting it right requires all three — no algorithm alone can solve it.
+News recommendation sits at the intersection of technology, editorial judgment, and democratic responsibility. Getting it right requires all three — no algorithm alone can solve it.

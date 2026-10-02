@@ -116,4 +116,4 @@ The privacy parameter ε controls the tradeoff:
 
 **The honest assessment:** No current technique provides strong privacy guarantees without meaningful quality loss. The field is actively researching better trade-offs, but today, privacy-preserving recommendation requires accepting some degradation in personalization quality.
 
-**Consider this:** The regulatory landscape (GDPR, CCPA, AI Act) is pushing the industry toward privacy-preserving approaches regardless of the quality cost. The organizations that invest in these techniques now will have a competitive advantage when privacy requirements tighten — and they will tighten.
+The regulatory landscape (GDPR, CCPA, AI Act) is pushing the industry toward privacy-preserving approaches regardless of the quality cost. The organizations that invest in these techniques now will have a competitive advantage when privacy requirements tighten — and they will tighten.

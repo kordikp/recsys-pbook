@@ -115,4 +115,4 @@ The best production systems maintain a clear separation of concerns:
 
 For implementation, managed services like [Recombee provide business rule engines](https://docs.recombee.com/reql) that product teams can use directly — no engineering sprint required for each rule change.
 
-**Consider this:** Business rules are where recommendation systems meet organizational reality. The algorithm doesn't know about your inventory system, your legal department, or your partnership agreements. Business rules are the translation layer — and getting them right is as important as getting the algorithm right.
+**In your product:** Business rules are where recommendation systems meet organizational reality. The algorithm doesn't know about your inventory system, your legal department, or your partnership agreements. Business rules are the translation layer — and getting them right is as important as getting the algorithm right.

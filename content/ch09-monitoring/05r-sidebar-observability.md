@@ -120,4 +120,4 @@ This "recommendation replay" capability is the gold standard of observability �
 - A/B test result tracking with automatic statistical analysis
 - Recommendation replay capability for debugging specific users
 
-**Consider this:** The time you invest in observability pays for itself the first time something goes wrong. And in recommendation systems, something *always* goes wrong — the only question is how quickly you can diagnose it.
+**In your product:** The time you invest in observability pays for itself the first time something goes wrong. And in recommendation systems, something *always* goes wrong — the only question is how quickly you can diagnose it.

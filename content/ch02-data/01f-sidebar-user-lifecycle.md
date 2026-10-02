@@ -98,4 +98,4 @@ A common anti-pattern: training the model on mature users (who have the most dat
 
 **Solution:** Segment-aware training. Train separate models (or model components) for each lifecycle stage, or include lifecycle features (interaction count, account age, session count) as model inputs so the algorithm can adapt its behavior.
 
-**Consider this:** The user lifecycle isn't just a technical consideration — it reflects the evolving relationship between a person and a platform. A new user is tentatively exploring; a mature user has integrated the platform into their routine; a declining user is losing interest. The recommendation system's job is to serve each relationship stage appropriately.
+The user lifecycle isn't just a technical consideration — it reflects the evolving relationship between a person and a platform. A new user is tentatively exploring; a mature user has integrated the platform into their routine; a declining user is losing interest. The recommendation system's job is to serve each relationship stage appropriately.

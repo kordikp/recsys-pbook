@@ -24,7 +24,7 @@ genre: explainer
 carriers: prose|table|formula
 ---
 
-Every recommender system optimizes for something — a **reward signal** that tells the algorithm what "good" looks like. The choice of reward function is arguably the most consequential design decision you'll make, because **you get exactly what you optimize for** — including all the unintended consequences.
+Every recommender system optimizes for something — a **reward signal** that tells the algorithm what "good" looks like. The choice of reward function shapes everything downstream, because **you get exactly what you optimize for** — including all the unintended consequences.
 
 ## The Reward Hierarchy
 
@@ -84,4 +84,4 @@ Netflix's insight deserves emphasis: the best reward signal they found for long-
 
 This suggests that the ideal reward isn't about what users *do* but about what they *value*. The challenge is measuring value — which currently requires surveys, a scalable but imperfect approach.
 
-**Consider this:** When you define a reward function, you're making a statement about what your platform values. Optimizing for clicks says "we value attention capture." Optimizing for satisfaction says "we value user well-being." The algorithm doesn't care which you choose — it will optimize ruthlessly for whatever you tell it to. The responsibility lies with the designers.
+**In your product:** When you define a reward function, you're making a statement about what your platform values. Optimizing for clicks says "we value attention capture." Optimizing for satisfaction says "we value user well-being." The algorithm doesn't care which you choose — it will optimize ruthlessly for whatever you tell it to. The responsibility lies with the designers.

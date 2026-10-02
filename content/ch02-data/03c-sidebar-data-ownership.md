@@ -68,4 +68,4 @@ Today, the practical reality is:
 - **Data portability is theoretically available** but practically difficult
 - **Platforms have strong incentives to retain your data** and weak incentives to help you exercise your rights
 
-**Consider this:** The data ownership question is ultimately about power. Whoever controls the data controls the recommendations — and whoever controls the recommendations shapes what billions of people see, read, and buy. Whether this power should rest with platforms, users, or regulators is one of the defining policy questions of our time.
+The data ownership question is ultimately about power. Whoever controls the data controls the recommendations — and whoever controls the recommendations shapes what billions of people see, read, and buy. Whether this power should rest with platforms, users, or regulators is one of the defining policy questions of our time.

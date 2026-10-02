@@ -92,4 +92,4 @@ Transfer learning can backfire. **Negative transfer** occurs when source-domain 
 - **Can transfer be asymmetric?** Maybe movies → books works but books → movies doesn't
 - **How to detect negative transfer early?** Before it corrupts the target model
 
-**Consider this:** Transfer learning in RecSys challenges the assumption that each recommendation system is an island. If preference patterns are truly universal — abstracted from specific items — then every interaction on every platform contributes to a shared understanding of human taste. beeFormer is an early step toward this vision.
+Transfer learning in RecSys challenges the assumption that each recommendation system is an island. If preference patterns are truly universal — abstracted from specific items — then every interaction on every platform contributes to a shared understanding of human taste. beeFormer is an early step toward this vision.

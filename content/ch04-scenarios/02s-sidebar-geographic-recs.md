@@ -91,4 +91,4 @@ Geographic data is sensitive personal information under GDPR and CCPA. Approache
 - **On-device processing** — compute location-based features locally, send only recommendations
 - **Consent-gated** — only use geographic features when the user has explicitly opted in
 
-**Consider this:** Geography is a proxy for culture, climate, lifestyle, and economic context — all of which shape preferences. The most interesting finding from regionalization research is that **cultural similarity trumps geographic proximity**. Two neighborhoods 5,000 km apart can share more taste patterns than two neighborhoods 5 km apart — if their residents share demographic and cultural characteristics.
+Geography is a proxy for culture, climate, lifestyle, and economic context — all of which shape preferences. The most interesting finding from regionalization research is that **cultural similarity trumps geographic proximity**. Two neighborhoods 5,000 km apart can share more taste patterns than two neighborhoods 5 km apart — if their residents share demographic and cultural characteristics.

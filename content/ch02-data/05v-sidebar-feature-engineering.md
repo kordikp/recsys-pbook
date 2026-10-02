@@ -105,4 +105,4 @@ Production systems use a **feature store** to ensure consistency between trainin
 3. Feature values are versioned and auditable
 4. Point-in-time correctness ensures training data uses features available at prediction time (preventing look-ahead bias)
 
-**Consider this:** Feature engineering is where domain knowledge meets machine learning. An expert who understands both the business domain and ML constraints can extract more value from simple features than an ML researcher can from a complex model with poor features. Invest in features first, model complexity second.
+**In your product:** Feature engineering is where domain knowledge meets machine learning. An expert who understands both the business domain and ML constraints can extract more value from simple features than an ML researcher can from a complex model with poor features. Invest in features first, model complexity second.

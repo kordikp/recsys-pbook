@@ -71,4 +71,4 @@ Some domains don't generate enough content for a full chapter but share a common
 
 **This book itself is an example:** The p-book platform uses personalized recommendation (voice-based paths, spaced repetition, missions) to optimize learning outcomes rather than raw engagement.
 
-**Consider this:** Travel, jobs, and education remind us that recommendation isn't always about entertainment or commerce. In these domains, algorithmic quality has consequences that extend far beyond the platform — into careers, life experiences, and personal development. The responsibility is proportional to the impact.
+Travel, jobs, and education remind us that recommendation isn't always about entertainment or commerce. In these domains, algorithmic quality has consequences that extend far beyond the platform — into careers, life experiences, and personal development. The responsibility is proportional to the impact.

@@ -69,4 +69,4 @@ When autoplay-generated views enter the training data, they corrupt the model in
 
 **Interaction signals as quality gates.** Only count an autoplay view as positive if the user also performed an active signal (liked, saved, shared, commented) during or after viewing.
 
-**Consider this:** Autoplay exposes a philosophical question about recommendation: **is the system serving the user, or is the user serving the system?** When passive consumption inflates engagement metrics, the system is optimizing for its own metrics rather than for genuine user value. The ethical recommendation engineer asks: would this user, looking back on their session, feel their time was well spent?
+Autoplay exposes a philosophical question about recommendation: **is the system serving the user, or is the user serving the system?** When passive consumption inflates engagement metrics, the system is optimizing for its own metrics rather than for genuine user value. The ethical recommendation engineer asks: would this user, looking back on their session, feel their time was well spent?

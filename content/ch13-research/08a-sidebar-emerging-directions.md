@@ -95,4 +95,4 @@ Driven by GDPR, CCPA, and user demand:
 - **SIGIR:** Information retrieval perspective
 - **NeurIPS / ICML / ICLR:** Deep learning and theoretical advances
 
-**Consider this:** The most impactful research contributions often come from unexpected directions — EASE was published by a single Netflix researcher and outperformed years of deep learning research. The field rewards mathematical insight and practical validation more than computational scale.
+The most impactful research contributions often come from unexpected directions — EASE was published by a single Netflix researcher and outperformed years of deep learning research. The field rewards mathematical insight and practical validation more than computational scale.

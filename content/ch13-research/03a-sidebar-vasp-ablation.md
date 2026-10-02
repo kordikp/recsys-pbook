@@ -56,4 +56,4 @@ VASP's ablation results generalize beyond this specific architecture:
 3. **Combine carefully.** How you combine components (addition vs. multiplication vs. attention) can matter as much as the components themselves.
 4. **Match model complexity to data density.** Deep models shine with dense data. For sparse RecSys data, simplicity often wins.
 
-**Consider this:** The VASP ablation is a concrete instance of a general principle: the most informative experiment isn't "does the full model work?" but "what breaks when I remove things?" Ablation studies reveal not just whether a system works, but *why* it works — and that understanding is what enables genuine progress.
+The VASP ablation is a concrete instance of a general principle: the most informative experiment isn't "does the full model work?" but "what breaks when I remove things?" Ablation studies reveal not just whether a system works, but *why* it works — and that understanding is what enables genuine progress.

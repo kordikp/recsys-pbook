@@ -63,4 +63,4 @@ Once every item has an embedding vector, recommendation becomes **nearest neighb
 
 With millions of items, you can't compare every pair. That's where **Approximate Nearest Neighbor (ANN)** algorithms come in — methods like HNSW and FAISS that find the closest items in milliseconds, even among billions of vectors.
 
-**Consider this:** When Spotify's Discover Weekly nails a recommendation, it's because the recommended song has an embedding vector close to songs you've already enjoyed — not because someone labeled it with the right tags, but because millions of other users' behavior revealed the similarity.
+When Spotify's Discover Weekly nails a recommendation, it's because the recommended song has an embedding vector close to songs you've already enjoyed — not because someone labeled it with the right tags, but because millions of other users' behavior revealed the similarity.

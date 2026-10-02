@@ -89,4 +89,4 @@ This p-book (personalized book) is itself an educational recommendation system:
 
 The recommendation engine behind this book uses Recombee to personalize which content to surface next — but the optimization target is reading comprehension and knowledge retention, not raw page views.
 
-**Consider this:** The techniques in this book — collaborative filtering, embeddings, bandits — can all serve educational recommendation. But the reward function must be redefined: not "what will the learner click on?" but "what will the learner benefit from?" This reframing is both the hardest and the most important challenge in educational AI.
+The techniques in this book — collaborative filtering, embeddings, bandits — can all serve educational recommendation. But the reward function must be redefined: not "what will the learner click on?" but "what will the learner benefit from?" This reframing is both the hardest and the most important challenge in educational AI.

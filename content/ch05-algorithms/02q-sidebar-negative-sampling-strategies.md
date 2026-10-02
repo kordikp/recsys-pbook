@@ -97,4 +97,4 @@ The effect of negative sampling is measurable:
 3. **Monitor for false negatives** — if hard negatives push down items the model should recommend, reduce the hard negative ratio
 4. **Match sampling to evaluation** — if your evaluation metric weights popular items differently, your training sampling should be aware of this
 
-**Consider this:** Negative sampling is a form of curriculum design — you're choosing what examples the model learns from. Easy negatives teach the basics; hard negatives teach refinement. Like any curriculum, the progression matters.
+**In your product:** Negative sampling is a form of curriculum design — you're choosing what examples the model learns from. Easy negatives teach the basics; hard negatives teach refinement. Like any curriculum, the progression matters.

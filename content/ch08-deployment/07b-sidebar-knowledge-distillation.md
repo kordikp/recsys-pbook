@@ -80,4 +80,4 @@ The key insight: distillation doesn't just reduce size — it can **improve gene
 - **Ensemble compression:** Multiple models → one deployable model
 - **Cross-architecture transfer:** Teacher is a transformer, student is a shallow network
 
-**Consider this:** Distillation reveals something profound about model complexity — most of the parameters in a large model encode redundant information. The essential knowledge often fits in a fraction of the original capacity. This observation connects to EASE outperforming deep networks: sometimes the "knowledge" is inherently low-dimensional.
+Distillation reveals something profound about model complexity — most of the parameters in a large model encode redundant information. The essential knowledge often fits in a fraction of the original capacity. This observation connects to EASE outperforming deep networks: sometimes the "knowledge" is inherently low-dimensional.

@@ -27,9 +27,9 @@ genre: explainer
 carriers: prose|diagram
 ---
 
-Have you ever created a brand new account on a platform? Remember what happened?
+Open a brand-new account on any platform and look at the first screen.
 
-The recommendations were generic, impersonal, and largely irrelevant. The system showed you the same popular content it shows everyone. That's because it had ZERO behavioral data about you. No interaction history. No preference signals. Nothing.
+The recommendations are generic, impersonal, and largely irrelevant. The system shows you the same popular content it shows everyone, because it has ZERO behavioral data about you. No interaction history. No preference signals. Nothing.
 
 This is called the **cold start problem**, and it's one of the most studied challenges in recommender systems research.
 

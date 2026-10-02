@@ -77,4 +77,4 @@ The research doesn't excuse algorithmic responsibility — it contextualizes it.
 3. **Individual vs. aggregate effects.** Even if the average effect is small, effects on vulnerable subpopulations may be large.
 4. **Regulatory response is based on perception.** Whether or not algorithms cause polarization, the public and regulators believe they do — and this belief shapes policy.
 
-**Consider this:** The honest answer to "Do algorithms cause polarization?" is "Probably somewhat, but less than you think, and less than other factors." This nuance is important — both for avoiding moral panic and for recognizing genuine responsibility.
+The honest answer to "Do algorithms cause polarization?" is "Probably somewhat, but less than you think, and less than other factors." This nuance is important — both for avoiding moral panic and for recognizing genuine responsibility.

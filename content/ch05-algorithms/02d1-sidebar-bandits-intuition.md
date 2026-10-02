@@ -57,4 +57,4 @@ Replace "restaurants" with "items to recommend" and "meals" with "user interacti
 
 Thompson Sampling provides the mathematically optimal balance — and it does it for millions of items and millions of users simultaneously, thousands of times per second.
 
-**Consider this:** Next time you're deciding where to eat, you're running an informal Thompson Sampling algorithm in your head. You just don't have access to the mathematical proof that it's optimal.
+**Try this:** Next time you're deciding where to eat, you're running an informal Thompson Sampling algorithm in your head. You just don't have access to the mathematical proof that it's optimal.

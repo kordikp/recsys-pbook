@@ -87,4 +87,4 @@ A/B testing is the gold standard for evaluating recommendation changes. In theor
 - [ ] Intent-to-treat analysis (no survivorship bias)
 - [ ] Practical significance assessed (is a 0.1% improvement worth the complexity?)
 
-**Consider this:** A well-run A/B test is one of the most valuable tools in recommendation engineering — and a poorly-run one is one of the most dangerous, because it provides false confidence in bad decisions. The statistical methodology matters as much as the algorithm being tested.
+**In your product:** A well-run A/B test is one of the most valuable tools in recommendation engineering — and a poorly-run one is one of the most dangerous, because it provides false confidence in bad decisions. The statistical methodology matters as much as the algorithm being tested.

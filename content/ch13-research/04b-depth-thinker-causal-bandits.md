@@ -108,4 +108,4 @@ This connection reveals why β ≈ 0.30 is optimal: it approximates the true pro
 > - Li, L. et al. (2011). Unbiased Offline Evaluation of Contextual-Bandit-Based News Article Recommendation. WSDM 2011.
 > - Swaminathan, A. & Joachims, T. (2015). Batch Learning from Logged Bandit Feedback. ICML 2015.
 
-**Consider this:** The shift from correlational to causal thinking in bandits mirrors a broader trend in machine learning. As systems become more consequential — influencing what people read, buy, and believe — understanding *why* interventions work, not just *that* they work, becomes essential for responsible deployment.
+The shift from correlational to causal thinking in bandits mirrors a broader trend in machine learning. As systems become more consequential — influencing what people read, buy, and believe — understanding *why* interventions work, not just *that* they work, becomes essential for responsible deployment.

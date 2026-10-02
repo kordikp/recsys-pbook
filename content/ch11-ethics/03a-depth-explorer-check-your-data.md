@@ -65,4 +65,4 @@ On TikTok, you can clear your watch history: Profile > Menu > Settings and Priva
 
 For broader data broker exposure, check services like [haveibeenpwned.com](https://haveibeenpwned.com) for breach exposure, and consider opting out of major data brokers (Acxiom, Spokeo, WhitePages) -- though this is an ongoing maintenance task, not a one-time fix.
 
-**Consider this:** Did the volume and granularity of collected data surprise you? Most people -- including technical professionals -- underestimate the scope of what is stored. Exercising your data access rights is not just an educational exercise; it is the foundation for making informed decisions about which services deserve your data and under what terms.
+**Your turn:** Did the volume and granularity of collected data surprise you? Most people -- including technical professionals -- underestimate the scope of what is stored. Exercising your data access rights is not just an educational exercise; it is the foundation for making informed decisions about which services deserve your data and under what terms.

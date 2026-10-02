@@ -66,4 +66,4 @@ If you're building a recommendation system for a domain with:
 
 > **Research publication:** Zmeškalová et al., "[ReALM: Next-Basket Recommendation with Autoregressive Linear Models](https://dl.acm.org/doi/full/10.1145/3705328.3759313)," RecSys 2025. See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 
-**Consider this:** ReALM's training time is measured in seconds. A Transformer's in hours. If both achieve similar quality, the seconds option gives you faster iteration, cheaper experiments, and simpler production deployment. Simplicity isn't just elegant — it's practical.
+ReALM's training time is measured in seconds. A Transformer's in hours. If both achieve similar quality, the seconds option gives you faster iteration, cheaper experiments, and simpler production deployment. Simplicity isn't just elegant — it's practical.

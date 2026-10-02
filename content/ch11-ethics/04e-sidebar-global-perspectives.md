@@ -61,4 +61,4 @@ Most recommendation research is conducted on US-centric datasets (MovieLens, Ama
 - **Local baselines:** Don't assume US-trained baselines generalize; validate in each market
 - **Diverse evaluation:** Test recommendation quality across user segments, not just in aggregate
 
-**Consider this:** A truly global recommendation system must be humble about cultural assumptions. What "good" recommendation looks like — how confident to be, how much to diversify, how much to rely on social proof — depends on cultural context that no algorithm can fully capture without local adaptation.
+A truly global recommendation system must be humble about cultural assumptions. What "good" recommendation looks like — how confident to be, how much to diversify, how much to rely on social proof — depends on cultural context that no algorithm can fully capture without local adaptation.

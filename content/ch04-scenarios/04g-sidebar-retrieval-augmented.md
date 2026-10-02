@@ -76,4 +76,4 @@ User: "I want something like Inception but darker"
 
 **Attribution:** Make clear which part is algorithmic recommendation and which is LLM generation. Users should know when they're reading AI-generated text.
 
-**Consider this:** RAG for recommendations represents a shift from "here's a ranked list" to "let me help you find what you're looking for." It's more natural, more expressive, and more helpful — as long as the answers are grounded in reality, not hallucination.
+RAG for recommendations represents a shift from "here's a ranked list" to "let me help you find what you're looking for." It's more natural, more expressive, and more helpful — as long as the answers are grounded in reality, not hallucination.

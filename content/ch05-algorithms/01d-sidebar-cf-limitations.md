@@ -67,4 +67,4 @@ CF alone is sufficient when: the catalog is stable, users have rich interaction 
 
 CF needs supplementation when: content is ephemeral, cold-start is frequent, diversity is important, or context significantly affects preferences.
 
-**Consider this:** The limitations of CF aren't failures — they're the boundaries of what correlation-based methods can achieve. Recognizing these boundaries is the first step toward building hybrid systems that combine CF's strengths with other approaches' capabilities.
+The limitations of CF aren't failures — they're the boundaries of what correlation-based methods can achieve. Recognizing these boundaries is the first step toward building hybrid systems that combine CF's strengths with other approaches' capabilities.

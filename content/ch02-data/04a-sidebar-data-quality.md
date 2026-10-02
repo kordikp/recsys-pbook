@@ -83,4 +83,4 @@ Breaking this loop requires **upstream data cleaning** — catching problems bef
 | Interaction distribution analysis | Daily | Gini coefficient, anomaly detection |
 | Feature drift monitoring | Hourly | Statistical tests (KS, PSI) |
 
-**Consider this:** Most teams invest 80% of their effort on model architecture and 20% on data quality. The most impactful improvement often comes from flipping that ratio. A simple model on clean data consistently outperforms a sophisticated model on noisy data.
+**In your product:** Most teams invest 80% of their effort on model architecture and 20% on data quality. The most impactful improvement often comes from flipping that ratio. A simple model on clean data consistently outperforms a sophisticated model on noisy data.
