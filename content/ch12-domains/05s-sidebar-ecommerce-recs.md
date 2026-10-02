@@ -5,7 +5,7 @@ title: "Recommendations for E-commerce: Where Money Meets Algorithms"
 readingTime: 3
 standalone: true
 core: false
-teaser: "E-commerce recommendation is where RecSys has the most directly measurable business impact — Amazon attributes 35% of revenue to recommendations."
+teaser: "E-commerce recommendation is where RecSys has the most directly measurable business impact, and where it is easiest to mistake sales that passed through a recommendation for sales it caused."
 voice: universal
 parent: null
 diagram: null

@@ -53,6 +53,6 @@ YouTube's engineers can observe *what* the algorithm does at an aggregate level.
 **Why this matters:** When a single system exerts this much influence over what billions of people watch, learn, and discuss, the stakes of getting it right -- in terms of accuracy, fairness, and societal impact -- are extraordinarily high.
 
 **Sources:**
-- Joan E. Solsman, "[YouTube's AI is the puppet master over most of what you watch](https://www.cnet.com/tech/services-and-software/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (Neal Mohan at CES: "more than 70 percent" of watch time; also "more than a billion hours of video" watched daily).
+- Joan E. Solsman, "[CES 2018: YouTube's AI recommendations drive 70 percent of viewing](https://web.archive.org/web/20190120005609/https://www.cnet.com/news/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (archived copy; Neal Mohan at CES: "more than 70 percent of the time you spend watching"; viewers watch "more than a billion hours of video" daily).
 - "[YouTube Says 70% Of All Watch Time Is Driven By Its Own Recommendations](https://www.tubefilter.com/2018/01/11/youtube-most-watch-time-driven-by-recommendations/)," Tubefilter, 11 January 2018.
 - [YouTube press page](https://blog.youtube/press/) (over 20 million uploads per day; Shorts over 200 billion daily views; accessed October 2026).

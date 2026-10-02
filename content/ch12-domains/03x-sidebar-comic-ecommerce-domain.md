@@ -5,7 +5,7 @@ title: "Your Cart Has Been Taking Notes"
 readingTime: 1
 standalone: true
 core: false
-teaser: "A four-panel comic: Amazon attributes 35% of revenue to recommendations—a directly measurable business impact."
+teaser: "A four-panel comic: the famous '35% of Amazon sales' counts purchases that passed through a recommendation, not purchases it caused."
 voice: explorer
 parent: ecommerce-domain
 recallQ: "What are the key e-commerce recommendation scenarios beyond 'similar products'?"
