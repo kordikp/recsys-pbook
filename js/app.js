@@ -2903,7 +2903,7 @@ class PBook {
     return `<h4>&#129504; Quick Quiz!</h4>
       <div class="ctx-quiz">
         <div class="ctx-quiz-q">${quiz.q}</div>
-        <button class="ctx-quiz-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Hmm, let me think... &#129300; Show answer!</button>
+        <button class="ctx-quiz-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Show the answer</button>
         <div class="ctx-quiz-a" style="display:none">${quiz.a}</div>
       </div>`;
   }
@@ -4801,23 +4801,14 @@ class PBook {
     if (u.achievements.length) {
       h += '<div class="gami-badges">';
       u.achievements.forEach(a => {
-        h += `<div class="gami-badge earned" title="${a.desc}"><span class="badge-icon">${a.icon}</span><span class="badge-name">${a.name}</span></div>`;
+        const n = ACHIEVEMENT_NAMES[a.id] || a;   // stored names are the old ones; show the current wording
+        h += `<div class="gami-badge earned" title="${a.desc || ''}"><span class="badge-icon">${n.icon}</span><span class="badge-name">${n.name}</span></div>`;
       });
       h += '</div>';
     }
     // Show locked achievements
     const earnedIds = new Set(u.achievements.map(a => a.id));
-    const allBadges = [
-      { id: 'first_read', icon: '👣', name: 'First Steps' }, { id: 'reader_5', icon: '📚', name: 'Bookworm' },
-      { id: 'reader_15', icon: '⚡', name: 'Speed Reader' }, { id: 'reader_30', icon: '🤖', name: 'Knowledge Machine' },
-      { id: 'first_like', icon: '❤️', name: 'Thumbs Up' }, { id: 'like_10', icon: '🌟', name: 'Super Fan' },
-      { id: 'first_note', icon: '📝', name: 'Note Taker' }, { id: 'voice_all', icon: '🎭', name: 'Triple Threat' },
-      { id: 'curious_cat', icon: '🐱', name: 'Curious Cat' }, { id: 'quiz_master', icon: '🧩', name: 'Quiz Master' },
-      { id: 'level_5', icon: '🏆', name: 'Level 5!' }, { id: 'save_5', icon: '🔖', name: 'Collector' },
-      { id: 'xp_200', icon: '💎', name: 'XP Hunter' }, { id: 'deep_diver', icon: '🤿', name: 'Deep Diver' },
-      { id: 'recall_5', icon: '🧠', name: 'Memory Pro' },
-      { id: 'certified', icon: '🎓', name: 'Certified!' },
-    ];
+    const allBadges = Object.entries(ACHIEVEMENT_NAMES).map(([id, n]) => ({ id, ...n }));
     const locked = allBadges.filter(a => !earnedIds.has(a.id));
     if (locked.length) {
       h += '<div class="gami-badges">';
@@ -5617,7 +5608,7 @@ class PBook {
     const completed = new Set(this.user.completedMissions || []);
 
     let html = '<div class="missions-inner">';
-    html += '<div class="missions-head"><h2>Missions</h2><p>Choose your adventure. Each mission tells a story and teaches you something new.</p></div>';
+    html += '<div class="missions-head"><h2>Missions</h2><p>Guided paths through the book: each one follows a single question across chapters, in reading order.</p></div>';
     html += this._personalMissionCard() || `<div style="font-size:.75rem;color:var(--text-3);margin:.2em 0 .6em">🎯 <a href="#" onclick="event.preventDefault();app.editPersonalMission()" style="color:var(--accent)">Tell the book what you want to learn</a> — it will compose a personal mission from matching concepts.</div>`;
 
     missions.forEach(m => {
@@ -8019,13 +8010,13 @@ class PBook {
     if (score >= 0.5 || answer.length > 80) {
       hintEl.style.display = 'block';
       hintEl.className = 'boss-hint boss-pass';
-      hintEl.innerHTML = `<b>Awesome!</b> You mentioned ${found.length} key concepts. You clearly understand this topic!`;
+      hintEl.innerHTML = `<b>✓ Passed.</b> Your answer covers ${found.length} of the key ideas.`;
       this._bossReflection(missionId, hintEl);
     } else {
       const missing = hints.filter(h => !answer.includes(h)).slice(0, 2);
       hintEl.style.display = 'block';
       hintEl.className = 'boss-hint boss-retry';
-      hintEl.innerHTML = `Good start! But try to also mention: <b>${missing.join('</b> and <b>')}</b>. Go back and re-read if you need to!`;
+      hintEl.innerHTML = `Almost. A complete answer also mentions <b>${missing.join('</b> and <b>')}</b>; the steps above cover both.`;
       hintEl.innerHTML += `<br><button class="wizard-nav-btn" style="margin-top:.4em" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button>`;
     }
   }
@@ -8326,28 +8317,28 @@ class PBook {
     // Question-specific feedback
     const feedbacks = {
       'ch1-q1': {
-        A: "Awesome choice! You're an Explorer! You'll love seeing how YouTube's algorithm actually decides what to show you — it's like peeking behind a magic curtain. Let's dig into the mechanics!",
-        B: "A Creator at heart! Building things is the BEST way to learn. By the end of this book, you'll have made your own recommendation system. How cool is that?",
-        C: "Great thinking! Understanding WHY things go wrong helps us make them better. You'll discover some surprising reasons why recommendations mess up — and what we can do about it.",
-        D: "You want it all — love it! You'll get to explore, build, AND think deeply. Every chapter has something for everyone."
+        A: "Then start with the mechanics: the next chapters open the box and show what a platform actually looks at before it picks what you see.",
+        B: "Then you will like the hands-on sections: by the end of the book you can sketch a working recommender, from the data it needs to how you would test it.",
+        C: "Good instinct: most of what goes wrong with recommendations has a concrete cause, from feedback loops to the wrong objective. The book names them and shows what fixes them.",
+        D: "Every chapter mixes the three: how it works, how you would build it, and what it does to the people on the other side of the screen."
       },
       'ch3-q1': {
-        A: "Collaborative filtering is fascinating! It's basically the idea that birds of a feather flock together. If you and someone else both love the same movies, you'll probably agree on new ones too!",
-        B: "Smart thinking! Content-based filtering is super logical — if you liked a video about building Minecraft castles, you'll probably like other building videos. Simple but powerful!",
-        C: "You're thinking like a real engineer! The best systems in the world (YouTube, Spotify, Netflix) all use hybrid approaches. Why pick one when you can use them all?",
-        D: "Sometimes the simplest solution is the best starting point! Showing what's popular is how most apps begin. Then they add smarter methods over time."
+        A: "Collaborative filtering: if you and someone else liked the same things so far, you will probably agree on the next one too. It needs no knowledge of the items at all.",
+        B: "Content-based filtering: if you watched three videos about woodworking, more woodworking is a safe bet. It works from day one, but rarely surprises you.",
+        C: "That is how production systems are built: large platforms combine several approaches, because each one covers the others' blind spots.",
+        D: "Popularity is where most products start, and a baseline every smarter method has to beat. It just shows everyone the same list."
       },
       'ch4-q1': {
-        A: "Accuracy matters — nobody likes bad recommendations! But here's a fun twist: sometimes the MOST accurate system only shows you things you already know you like. Is that really the best?",
-        B: "You care about fairness — that's awesome! Imagine being a new YouTuber whose amazing videos never get recommended just because you're not famous yet. Fairness means giving everyone a chance.",
-        C: "Discovery is what makes recommendations MAGICAL! The best recommendation isn't something you already wanted — it's something you didn't know existed but absolutely love.",
-        D: "That's the right answer! The best recommendation systems balance all three. It's tricky, but that's what makes it such an interesting problem to solve."
+        A: "Accuracy matters, but the most accurate system often shows you only what you already knew you liked. Chapter 4 asks whether that is really the goal.",
+        B: "Fairness: think of a new creator whose good videos never get shown because nobody has watched them yet. Fair exposure means new items get a real chance.",
+        C: "Discovery: the most valuable recommendation is often something you did not know existed, not the thing you were about to search for anyway.",
+        D: "Good recommenders balance all three, and the balance is a product decision, not a purely technical one."
       },
       'ch5-q1': {
-        A: "A Minecraft server recommender — YES! Imagine: it knows you like survival mode with friends, building medieval stuff, and servers with <50 players. It finds your perfect match. You could totally build this!",
-        B: "A music discovery engine! What if it could find genres you've never heard of based on the FEEL of music you like? Not just 'more pop' but 'here's this amazing Japanese city pop that has the same vibe.'",
-        C: "A smart book recommender! It could track not just what books you like, but how fast you read, whether you prefer short or long chapters, and even match your mood. Libraries would love this!",
-        D: "The best inventions are the ones nobody saw coming! Maybe a recommendation system for study buddies, hiking trails, science experiments, or even what to cook for dinner tonight. Dream big!"
+        A: "A niche-community recommender is a good first project: the catalogue is small, tastes are sharp, and you can ask your users directly whether a match was good.",
+        B: "Music discovery is a classic: the hard part is not 'more of the same genre' but finding the same feel in a genre the listener has never tried.",
+        C: "A book recommender gets interesting fast: reading pace, length preferences and mood are all signals, and libraries already have the interaction data.",
+        D: "Most useful recommenders are for problems nobody calls 'recommendation' yet: study partners, trails, recipes for what is in the fridge."
       },
       'ch6-q1': {
         A: "That's a valid choice — you value personalization. But think about this: if the algorithm ONLY shows you what you want, how will you ever discover something new? Sometimes the best experiences come from things you didn't know you'd like.",
@@ -8365,10 +8356,10 @@ class PBook {
 
     // Generic voice-based feedback
     const voiceFeedback = {
-      explorer: "Great pick! As an Explorer, you'll love the hands-on demos and visual explanations coming up. Let's see how things work under the hood!",
-      creator: "Awesome — you chose the Creator path! Get ready for projects, experiments, and building real things. Learning by doing is the best!",
-      thinker: "Nice — you're a Thinker! You like understanding the WHY behind things. The deeper explanations coming up are perfect for you.",
-      universal: "Great choice! You'll get a mix of everything — exploring, creating, and thinking. Let's keep going!"
+      explorer: "Noted. The sections ahead show it in action, with examples and diagrams first.",
+      creator: "Noted. The sections ahead lean on worked examples and things you can try yourself.",
+      thinker: "Noted. The sections ahead go deeper into why the methods work and where they break.",
+      universal: "Noted. The sections ahead mix all three: how it works, how to build it, and what it means."
     };
 
     return voiceFeedback[voice] || voiceFeedback.universal;
@@ -9578,11 +9569,11 @@ class PBook {
   checkGamificationEvents() {
     if (!this._f('gamification')) return;
     if (this.user._pendingLevelUp) {
-      this.showXPToast('Level ' + this.user._pendingLevelUp + '! You are now: ' + this.user.getLevelTitle(), 'levelup');
+      this.showXPToast('Level ' + this.user._pendingLevelUp + ' · ' + this.user.getLevelTitle(), 'levelup');
       this.user._pendingLevelUp = null;
     } else if (this.user._pendingAchievement) {
-      const a = this.user._pendingAchievement;
-      this.showXPToast(a.icon + ' ' + a.name + '!', 'achievement');
+      const a = this.user._pendingAchievement, n = ACHIEVEMENT_NAMES[a.id] || a;
+      this.showXPToast(n.icon + ' ' + n.name, 'achievement');
       this.user._pendingAchievement = null;
     }
     this.updateXPBadge();
@@ -9925,7 +9916,7 @@ class PBook {
 
     // Award certificate achievement
     if (!u.achievements.find(a => a.id === 'certified')) {
-      u.achievements.push({ id: 'certified', name: 'Certified!', icon: '\u{1F393}', desc: 'Earned your certificate', earnedAt: Date.now() });
+      u.achievements.push({ id: 'certified', name: 'Certified', icon: '\u{1F393}', desc: 'Earned your certificate', earnedAt: Date.now() });
       u.addXP(50);
       u.save();
       this.showXPToast('+50 XP \u{1F393} Certificate earned!', 'achievement');
