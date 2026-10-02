@@ -160,6 +160,7 @@ export const uxMethods = {
     this._sessionInit();
     this._a11yInit();
     this._initReadProgress();
+    this._checkProgressMoments();   // seeds the snapshot on a first visit; never fires retroactively
     const overlay = document.getElementById('onboarding');
     if (this._pendingStart) { const v = this._pendingStart; this._pendingStart = null; this.startAndGo(v); return; }
     if (!overlay || overlay.classList.contains('hidden')) { this.updateXPBadge(); return; }   // deep link
@@ -637,6 +638,24 @@ export const uxMethods = {
     return `<div class="profile-section"><h3>🧠 Ideas you can explain</h3>${can.length
       ? `<div class="gami-badges">${can.map(c => `<button class="gami-badge earned" onclick="app.openConcept('${c.id}')">✓ ${esc(c.title)}</button>`).join('')}</div>`
       : '<p class="profile-hint">Answer a concept’s recall card well twice and it lands here — proof you can explain it, not just that you scrolled past it.</p>'}</div>`;
+  },
+
+  // Profile: the secondary sections (wallet, XP rules, editor track, invites) fold
+  // into one-line <details> so reading progress and preferences come first.
+  _foldProfile(root) {
+    const FOLD = /AI wallet|How to earn XP|Editor track|Invite friends/;
+    root.querySelectorAll(':scope > .profile-section, .profile-section').forEach(sec => {
+      const h = sec.querySelector(':scope > h3');
+      if (!h || !FOLD.test(h.textContent) || sec.closest('details')) return;
+      const d = document.createElement('details');
+      d.className = sec.className + ' profile-fold';
+      const sum = document.createElement('summary');
+      sum.innerHTML = h.innerHTML;
+      h.remove();
+      d.appendChild(sum);
+      while (sec.firstChild) d.appendChild(sec.firstChild);
+      sec.replaceWith(d);
+    });
   },
 
   // ---------------------------------------------------------------- journey labels

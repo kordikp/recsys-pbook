@@ -1452,3 +1452,11 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .block-more-btn.active { color: var(--accent); border-color: var(--accent); }
 .tab.has-due .tab-icon::after { content: ''; position: absolute; top: .1em; right: -.35em; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); box-shadow: 0 0 0 2px var(--surface); }
 .xp-badge .xp-ring { color: var(--accent); font-variant-numeric: tabular-nums; }
+/* v2 engine-ux: profile folds, chapter-moment checks */
+details.profile-fold > summary { cursor: pointer; font-family: var(--font-ui); font-size: .95rem; font-weight: 700; color: var(--text-2); list-style: none; display: flex; align-items: center; gap: .4em; }
+details.profile-fold > summary::-webkit-details-marker { display: none; }
+details.profile-fold > summary::after { content: '▾'; margin-left: auto; color: var(--text-3); transition: transform var(--transition); }
+details.profile-fold[open] > summary { margin-bottom: .6em; }
+details.profile-fold[open] > summary::after { transform: rotate(180deg); }
+.profile-hint { font-size: .82rem; color: var(--text-2); margin: 0; }
+.moment-checks { margin: .8em 0; }

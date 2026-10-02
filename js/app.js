@@ -5,7 +5,6 @@ import { renderMarkdown, parseFrontmatter } from './markdown.js';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
 
-const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js';
 import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js';
 
@@ -83,7 +82,7 @@ class PBook {
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
     this.rc.setBookScope((this.book?.chapters || []).map(c => c.id), Object.keys(this.concepts || {}));
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
-    console.info('[pbook] app', APP_VERSION);
+    console.info('[pbook] app', this._appVersion());
     this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
     this._loadOverrides();       // accepted remixes: originalId → your version (persistent)
     this._checkAdoptions();      // shared telling merged into the book? → +100 XP, editor track
@@ -1946,7 +1945,7 @@ class PBook {
           const ownerCh = this._observedChapters[id];
           const block = ownerCh ? ownerCh.blocks.find(b => b.id === id) : null;
           if (block) this._setFeedFocus(block);
-          const readTimeMs = Math.min(((block?.readingTime || 2) * 60 * 1000) * 0.15, 12000); // 15% of reading time, max 12s — kids read fast!
+          const readTimeMs = Math.min(((block?.readingTime || 2) * 60 * 1000) * 0.15, 12000); // 15% of reading time, max 12s — a skim of the section counts as read
           const startTime = Date.now();
 
           this._dwellTimers[id] = setInterval(() => {
@@ -1978,6 +1977,7 @@ class PBook {
               this.checkGamificationEvents();
               this._updateMissionBar();
               this._refreshMiniBoard();
+              this._checkProgressMoments();   // chapter complete card (js/ux.js)
               clearInterval(this._dwellTimers[id]);
             }
 
@@ -3679,7 +3679,7 @@ class PBook {
           <title>${this.escHtml((defTip ? defTip + ' — ' : '') + 'No article yet — click to write the first one! (author studio with AI coach)')}</title>
           <circle cx="${x}" cy="${y}" r="17" fill="var(--card, #fff)" stroke="${color}" stroke-width="2" stroke-dasharray="4 4" opacity="0.85"/>
           <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="${this._nodeDraft(n) ? 12 : 14}" fill="${color}" opacity="0.9">${this._nodeDraft(n) ? '✍️' : '＋'}</text>
-          <text x="${x}" y="${y + 32}" text-anchor="middle" font-size="10" fill="var(--text-3, #999)">${label}</text>
+          ${this._svgLabel(n.short || n.title, x, y + 32, 'font-size="10" fill="var(--text-3, #999)"', 16)}
         </g>`;
         if (st.game) svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
           <circle cx="${x + 27}" cy="${y}" r="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
@@ -3699,7 +3699,7 @@ class PBook {
         ${cur && cur.slug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="3 5"/><text x="${x - R + 1}" y="${y - R + 3}" text-anchor="middle" font-size="15">🧭</text>` : ''}
         ${this._feedFocusSlug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 13}" fill="none" stroke="#6366F1" stroke-width="2" opacity="0.85"><title>reading now</title></circle>` : ''}
         ${this._nodeDraft(n) && !stat[n.slug].ghost ? `<text x="${x - R + 2}" y="${y + R + 4}" font-size="11" onclick="event.stopPropagation();app.startAuthoring('${this._nodeDraftSlug(n)}')"><title>✍️ draft in progress</title>✍️</text>` : ''}
-        <text x="${x}" y="${y + R + 16}" text-anchor="middle" font-size="10.5" fill="var(--text-2, #666)">${label}</text>
+        ${this._svgLabel(n.short || n.title, x, y + R + 16, 'font-size="10.5" fill="var(--text-2, #666)"', 16)}
       </g>`;
       if (st.game) {
         svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
@@ -4731,6 +4731,9 @@ class PBook {
       <div class="gami-stat"><span class="gs-num">${p.readingTimeMin}</span><span class="gs-label">Min read</span></div>
     </div>`;
 
+    // Reading DNA first: ideas you can explain, then your preference model (js/ux.js)
+    h += this._conceptBadgesHtml();
+    h += this._renderFacetProfile();
     // Recall section
     if (this._f('spaceRepetition')) {
       const totalWithQ = this.allBlocks.filter(b => b.meta.recallQ).length;
@@ -4850,8 +4853,7 @@ class PBook {
 
 
     // Voice preference — computed from actually read non-core blocks by voice
-    // Transparent facet profile — the book shows you your own preference model (and lets you fix it)
-    h += this._renderFacetProfile();
+    // Transparent facet profile — the book shows you your own preference model (and lets you fix it) — rendered above, after the concept badges
 
     // Activity heatmap (last 8 weeks, GitHub-style, inline SVG)
     h += this._renderActivityHeatmap();
@@ -4977,8 +4979,9 @@ class PBook {
     h += '<button class="btn-ghost" style="border:1px solid var(--border);border-radius:6px;padding:.4em 1em;font-size:.78rem;color:var(--text-2)" onclick="app.toggleSettings()">&#9881; Settings &amp; data</button>';
     h += '</div>';
 
-    h += `<div style=\"text-align:center;font-size:.62rem;color:var(--text-3);margin:.8em 0\">p-book ${APP_VERSION}</div>`;
+    h += `<div style=\"text-align:center;font-size:.62rem;color:var(--text-3);margin:.8em 0\">p-book ${this._appVersion()}</div>`;
     el.innerHTML = h;
+    this._foldProfile(el);   // wallet, XP rules, editor track, invites: one tap away, not in the way
   }
 
   // ===== ACCOUNT & SYNC =====
@@ -9384,7 +9387,7 @@ class PBook {
 
     let h = '<div class="profile-section"><h3>Your Activity</h3>';
     h += `<div style="display:flex;gap:1em;margin-bottom:.6em;font-size:.78rem">`;
-    h += `<span style="color:var(--text-3)">${totalActive} active days</span>`;
+    h += `<span style="color:var(--text-3)">${totalActive} active day${totalActive === 1 ? '' : 's'}</span>`;
     h += `<span style="color:var(--text-3)">${totalInteractions} interactions</span>`;
     h += `</div>`;
     h += svg;

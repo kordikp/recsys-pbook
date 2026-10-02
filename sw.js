@@ -12,6 +12,7 @@ const PRECACHE = [
   '/js/qr.js',
   '/js/diagrams.js',
   '/js/tutor.js',
+  '/js/ux.js',
   '/css/style.css',
   '/content/book.json',
   '/games/ab-test.json',
