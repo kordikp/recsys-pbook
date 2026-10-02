@@ -2,7 +2,7 @@
 id: ch3-session-based
 type: spine
 title: "Session-Based Recommendation: When You Don't Know the User"
-readingTime: 8
+readingTime: 9
 standalone: true
 core: true
 teaser: "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleeting trail of intent."
@@ -24,10 +24,12 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: deep
+lengthBand: tldr..deep
 genre: explainer
 carriers: prose|table|image
 ---
+
+> **In short:** Most visitors never log in, so a shop often has nothing but the clicks of the current visit. **Session-based recommendation** predicts the next item from that short, ordered trail. Neural models such as GRU4Rec read the trail as a sequence, yet well-tuned simple methods often match them: **session item-KNN** just counts which items other visitors clicked in the same sessions. The reason is length. A session usually holds 3 to 10 clicks, too little sequence for a deep model to exploit, and the last one or two clicks carry most of the signal. Start with the simple baseline, and reach for a neural model only when your sessions are long enough to justify it.
 
 A customer lands on your e-commerce site. They haven't logged in. They have no account. You have never seen them before. They click on a winter jacket, then a pair of hiking boots, then a fleece pullover. Within these three clicks, you must figure out what to show them next.
 

@@ -2,7 +2,7 @@
 id: ch3-multimodal
 type: spine
 title: "Multimodal Recommendation: Beyond Text and Clicks"
-readingTime: 12
+readingTime: 13
 standalone: true
 core: true
 voice: universal
@@ -23,6 +23,8 @@ lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
+
+> **In short:** Metadata misses a lot: two dresses both labelled "elegant evening wear" can look nothing alike. **Multimodal** recommenders also read the item itself (text, images, audio) and turn each into an embedding, a list of numbers in which similar items sit close together. The modalities are combined early (joined before one model), late (separate models whose predictions are merged) or through cross-attention, where each modality looks at the others. CLIP maps images and text into one shared space, so a text query can find matching pictures. beeFormer trains text embeddings on behavior, so items end up close when the same people choose them, not merely when their descriptions sound alike. The hard part is alignment: getting the different spaces to agree.
 
 A product listing has a title, a photograph, maybe a video review, and thousands of behavioral signals from users who browsed, clicked, and purchased it. Traditional recommender systems pick one of these signals -- typically user behavior or text metadata -- and ignore the rest. **Multimodal recommendation** uses all of them simultaneously, building a richer understanding of items than any single data source can provide.
 

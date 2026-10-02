@@ -24,10 +24,12 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: deep
+lengthBand: tldr..deep
 genre: explainer
 carriers: prose|image|code
 ---
+
+> **In short:** A large language model (LLM) can serve a recommender in three roles: as the recommender itself, as a feature extractor that turns item text into signals, or as a conversational interface. Its **strengths**: it understands preferences stated in plain words ("like early Radiohead, but less depressing"), reasons about items without any interaction history, and can hold a conversation. Its **limitations** are serious: it can confidently recommend items that do not exist (hallucination), it cannot personalize without the user's behavior data, it amplifies popular items, each answer is slow and costly, and its knowledge stops at a training cutoff. The pragmatic design is a hybrid: the LLM as interface and reasoner, a recommender trained on behavior as the backbone.
 
 For decades, the recommendation interface has been a ranked list. Ten items, ordered by predicted relevance, presented in a grid or feed. The user scrolls, clicks, or skips. The system observes and adapts.
 
