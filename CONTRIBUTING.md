@@ -72,6 +72,7 @@ Add your filename to the `files` array of the right chapter in `content/book.jso
 ```bash
 node scripts/migrate-facets.js            # regroups concepts, derives carriers
 node .github/scripts/validate-content.js  # must pass
+node scripts/build-llms-index.js          # refreshes the concept index in llms.txt
 ```
 
 ### 5. Open a Pull Request
