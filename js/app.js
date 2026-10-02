@@ -117,15 +117,10 @@ class PBook {
       });
     }
 
-    // Detect stale data: if readBlocks has IDs that don't exist in allBlocks, reset
-    if (this.user.readBlocks.size > 0) {
-      const validIds = new Set(this.allBlocks.map(b => b.meta.id));
-      const stale = [...this.user.readBlocks].filter(id => !validIds.has(id));
-      if (stale.length > this.user.readBlocks.size * 0.3) {
-        // More than 30% of read IDs are invalid — data is from old version
-        this.user.reset();
-      }
-    }
+    // Returning readers keep their progress across content releases: renamed or
+    // merged ids transfer through content/id-aliases.json, and only ids that are
+    // gone for good are pruned. Never a wipe, and never while any fetch failed.
+    await this._reconcileProgress();
 
     // Check for deep link: #blockId or #mission-missionId
     const hash = window.location.hash?.substring(1);
@@ -254,17 +249,26 @@ class PBook {
   }
 
   async loadAllContent() {
+    // Every id that exists in git (any status) — the progress-pruning check must
+    // not mistake a hidden draft or a failed fetch for a deleted block.
+    this._knownIds = new Set();
+    this._contentFetchFailed = false;
     for (let i = 0; i < this.book.chapters.length; i++) {
       const ch = this.book.chapters[i];
       const dir = `${CONFIG.book.contentDir}/${ch.directory}`;
-      const blocks = await Promise.all(ch.files.map(async f => {
+      const blocks = await Promise.all(ch.files.map(async (f, fileIdx) => {
         try {
-          const text = await (await fetch(`${dir}/${f}`)).text();
+          const res = await fetch(`${dir}/${f}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const text = await res.text();
           const { meta, body } = parseFrontmatter(text);
-          const seq = f.match(/^(\d+)([a-z]?)/);
-          const sequence = seq ? parseInt(seq[1]) * 10 + (seq[2] ? seq[2].charCodeAt(0) - 96 : 0) : 999;
+          if (!meta.id) throw new Error('no frontmatter id');
+          this._knownIds.add(meta.id);
+          // Reading order = book.json order. Filename prefixes are labels only
+          // (the arbiter reorders by editing book.json, never by renaming files).
+          const sequence = fileIdx;
           return { ...meta, body, sequence, _chapter: ch.id, _chapterNum: ch.number, _chapterTitle: ch.title, meta: { ...meta, chapter: ch.id } };
-        } catch (e) { return null; }
+        } catch (e) { this._contentFetchFailed = true; return null; }
       }));
       const isAdmin = localStorage.getItem('pbook-admin') === '1';
       const valid = blocks.filter(b => b && (!b.status || b.status === 'accepted' || isAdmin)).sort((a, b) => a.sequence - b.sequence);
@@ -319,6 +323,78 @@ class PBook {
         this.conceptBlocks[cid].push(b);      // multi-concept blocks appear in every pool
       }
     });
+    // Recall is per CONCEPT: reading any telling schedules one card, keyed by
+    // the concept's anchor id (resolves like any block id everywhere else).
+    this.user.recallKeyFor = id => this._recallKey(id);
+  }
+
+  // The recall-card key for a block: its primary concept's anchor id (or the id itself)
+  _recallKey(id) {
+    const b = this._findAnyBlock(id);
+    const cid = b && this._conceptIds(b.meta)[0];
+    const anchor = cid && this.concepts?.[cid]?.anchor;
+    return anchor && this.findBlock(anchor) ? anchor : id;
+  }
+
+  // ===== PROGRESS RECONCILIATION (release safety) =====
+  // content/id-aliases.json: { "aliases": { "<retired block id>": "<block id | concept slug>" } }
+  async _loadIdAliases() {
+    try {
+      const r = await fetch(`${CONFIG.book.contentDir}/id-aliases.json`);
+      if (!r.ok) return {};
+      const d = await r.json();
+      return (d && d.aliases && typeof d.aliases === 'object') ? d.aliases : {};
+    } catch (e) { return {}; }
+  }
+  _aliasTarget(target) {
+    if (!target) return null;
+    const t = String(target).replace(/^#?c\//, '');
+    if (this.findBlock(t)) return t;
+    const a = this.concepts?.[t]?.anchor;
+    return a && this.findBlock(a) ? a : null;
+  }
+  _isRuntimeId(id) { return /^(gen--|autor--|remix--)/.test(id) || !!this.privateBlocks?.[id]; }
+
+  // Runs once at startup, after content, concepts and private blocks are loaded.
+  // 1) ids retired in a release move to their successor (alias map);
+  // 2) per-block recall cards fold into their concept's card (keeps the more practised one);
+  // 3) ids that are gone for good are dropped — XP, badges, notes, missions stay.
+  // Pruning is skipped entirely when any content file failed to load (offline,
+  // partial deploy): an unknown id then means "not fetched", not "deleted".
+  async _reconcileProgress() {
+    const u = this.user;
+    const aliases = await this._loadIdAliases();
+    let renamed = 0, folded = 0, pruned = 0;
+    const live = id => !!this.findBlock(id) || this._isRuntimeId(id);
+    const mapId = id => (live(id) ? id : (this._aliasTarget(aliases[id]) || id));
+    const remap = set => {
+      const out = new Set();
+      for (const id of set) { const n = mapId(id); if (n !== id) renamed++; out.add(n); }
+      return out;
+    };
+    u.readBlocks = remap(u.readBlocks);
+    u.seenBlocks = remap(u.seenBlocks);
+    u.savedBlocks = remap(u.savedBlocks);
+    const recall = {};
+    for (const [id, card] of Object.entries(u.recall || {})) {
+      const moved = mapId(id);
+      const key = this._recallKey(moved);
+      if (moved !== id) renamed++; else if (key !== id) folded++;
+      const prev = recall[key];
+      recall[key] = !prev || (card.reps || 0) > (prev.reps || 0) ? card : prev;
+    }
+    u.recall = recall;
+    if (!this._contentFetchFailed && this.allBlocks.length) {
+      const known = id => this._knownIds?.has(id) || this._isRuntimeId(id);
+      for (const set of [u.readBlocks, u.seenBlocks, u.savedBlocks]) {
+        for (const id of [...set]) if (!known(id)) { set.delete(id); pruned++; }
+      }
+      for (const id of Object.keys(u.recall)) if (!known(id)) { delete u.recall[id]; pruned++; }
+    }
+    if (renamed || folded || pruned) {
+      u.save();
+      this.rc.logEvent('progress_reconciled', { renamed, folded, pruned });
+    }
   }
 
   // Floating decision sheet — fixed to the viewport bottom so it CANNOT be missed,
@@ -3123,9 +3199,11 @@ class PBook {
     // Self-heal: prune recall cards whose git block no longer exists (renamed/removed).
     // Reader-generated ids (gen--/remix--) are kept — they resolve via the private store
     // or the community cache and are simply skipped from display when uncached.
+    // Same safety rule as _reconcileProgress: never prune after a failed fetch,
+    // and a hidden draft (known id) is not a deleted block.
     let pruned = false;
-    Object.keys(u.recall).forEach(id => {
-      if (!/^(gen--|remix--)/.test(id) && !this._findAnyBlock(id)) { delete u.recall[id]; pruned = true; }
+    if (!this._contentFetchFailed) Object.keys(u.recall).forEach(id => {
+      if (!this._isRuntimeId(id) && !this._knownIds?.has(id) && !this._findAnyBlock(id)) { delete u.recall[id]; pruned = true; }
     });
     if (pruned) u.save();
 

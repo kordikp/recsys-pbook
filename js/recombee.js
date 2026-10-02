@@ -635,7 +635,8 @@ export class UserModel {
     // Drift facet affinities from actual reading behaviour (weight 1)
     if (facets) this.updateFacetAffinity(facets, 1);
     if (CONFIG.features.gamification !== false) { this.addXP(10); this.checkAchievements(); }
-    if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(blockId);
+    // one card per CONCEPT (the app maps a telling to its concept's card key)
+    if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(this.recallKeyFor ? this.recallKeyFor(blockId) : blockId);
     this.save();
   }
 

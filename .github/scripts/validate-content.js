@@ -13,6 +13,10 @@ const BOOK_JSON = path.join(CONTENT_DIR, 'book.json');
 let errors = 0;
 let warnings = 0;
 const ids = new Map(); // id → file path
+const relToId = new Map(); // file path → id
+const bookIds = new Set();  // ids of blocks listed in book.json (= live in the reader app)
+const bookOrder = new Map(); // id → { chapter, pos } — reading order is book.json order;
+                             // filename prefixes (01a-, 05x-…) are labels only, never order
 const conceptRefs = new Map(); // block id → { concept, file }
 const conceptLinkRefs = [];    // [..](#c/<slug>) cross-links found in bodies
 const blockLinkRefs = [];      // [..](#<block-id>) links found in bodies
@@ -83,6 +87,7 @@ contentFiles.forEach(file => {
       error(rel, `Duplicate id "${meta.id}" (also in ${ids.get(meta.id)})`);
     } else {
       ids.set(meta.id, rel);
+      relToId.set(rel, meta.id);
     }
   }
 
@@ -180,11 +185,14 @@ if (!fs.existsSync(BOOK_JSON)) {
         return;
       }
 
-      ch.files.forEach(f => {
+      ch.files.forEach((f, fi) => {
         const filePath = path.join(chDir, f);
         if (!fs.existsSync(filePath)) {
           error(`book.json ch[${ci}]`, `File not found: content/${ch.directory}/${f}`);
+          return;
         }
+        const bid = relToId.get(path.relative(ROOT, filePath));
+        if (bid) { bookIds.add(bid); bookOrder.set(bid, { chapter: ch.id, chapterIdx: ci, pos: fi }); }
       });
     });
   }
@@ -223,6 +231,24 @@ if (fs.existsSync(CONCEPTS_JSON)) {
   }
 } else {
   warn('content/concepts.json', 'Missing — run scripts/migrate-facets.js to generate the concept index');
+}
+
+// 2c. id-aliases.json — retired block id → successor (block id or concept slug).
+// The reader app moves a returning reader's progress along these aliases.
+const ALIASES_JSON = path.join(CONTENT_DIR, 'id-aliases.json');
+if (fs.existsSync(ALIASES_JSON)) {
+  try {
+    const aliases = JSON.parse(fs.readFileSync(ALIASES_JSON, 'utf8')).aliases || {};
+    let conceptSlugs = new Set();
+    try { conceptSlugs = new Set((JSON.parse(fs.readFileSync(CONCEPTS_JSON, 'utf8')).concepts || []).map(c => c.id)); } catch (e) {}
+    for (const [oldId, target] of Object.entries(aliases)) {
+      if (bookIds.has(oldId)) error('content/id-aliases.json', `"${oldId}" is still listed in book.json — aliases are for retired ids only`);
+      const t = String(target || '').replace(/^#?c\//, '');
+      if (!bookIds.has(t) && !conceptSlugs.has(t)) error('content/id-aliases.json', `"${oldId}" → "${target}" is neither a live block id nor a concept slug`);
+    }
+  } catch (e) {
+    error('content/id-aliases.json', `Invalid JSON: ${e.message}`);
+  }
 }
 
 // 3. Validate game JSON files
