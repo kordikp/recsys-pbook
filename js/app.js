@@ -920,8 +920,24 @@ class PBook {
     if (!variant) return;
     this.user.updateFacetAffinity(this._blockFacets(variant.meta), 2); // choosing a telling is a strong signal
     this.rc.logEvent('steer', { blockId, action: 'pick', servedId: variantId, result: 'served' });
+    const cid = this._conceptIds(variant.meta)[0];
+    this._setTellingChoice(cid, variantId);
+    // Essentials flow: a git telling becomes the concept's served telling — re-render
+    // so the "more ways" strip and the notice describe what is actually on screen.
+    if (!this._fullBook() && this.findBlock(variantId)) {
+      if (this._requestedTellings) delete this._requestedTellings[cid];
+      this._rerenderAt(variantId);
+      return;
+    }
     this._swapBlock(blockId, variant, this._blockFacets(variant.meta) || {});
-    this._setTellingChoice(this._conceptIds(variant.meta)[0], variantId);
+  }
+
+  // Re-render the chapter that holds a block and land on that block
+  _rerenderAt(blockId) {
+    const b = this.findBlock(blockId);
+    const chIdx = b ? b.meta._chapterIdx : this._renderedChapter;
+    this._pendingScroll = { parentId: blockId, meta: { id: blockId } };
+    this.renderRead(chIdx);
   }
 
   // Steering with an honest miss path: the steered facet must actually move —
@@ -1813,13 +1829,30 @@ class PBook {
   }
 
   getContinueBlock() {
-    // Find next unread spine block after last read position
+    // Find the next unread idea (essentials) / spine block (full book)
     for (let ci = this.user.currentChapter; ci < this.book.chapters.length; ci++) {
       const ch = this.chapters[ci];
       if (!ch) continue;
-      const spines = ch.blocks.filter(b => b.type === 'spine');
-      const next = spines.find(b => !this.user.readBlocks.has(b.id));
+      const next = this._nextUnreadInFlow(ch);
       if (next) return next;
+    }
+    return null;
+  }
+
+  // The spine blocks the reader actually meets in a chapter, in order: one served
+  // telling per idea (essentials) or every spine (full book).
+  _flowSpines(ch) {
+    if (!ch) return [];
+    if (this._fullBook()) return ch.blocks.filter(b => b.type === 'spine');
+    return this._chapterGroups(ch).map(g => this._servedTelling(g.cid, g.tellings)).filter(Boolean);
+  }
+  // Next unread step of the flow: in essentials an idea counts as read once ANY
+  // of its tellings was read (the reader chose how to meet it).
+  _nextUnreadInFlow(ch) {
+    if (this._fullBook()) return ch.blocks.find(b => b.type === 'spine' && !this.user.readBlocks.has(b.id)) || null;
+    for (const g of this._chapterGroups(ch)) {
+      if (!g.tellings.length || g.tellings.some(b => this.user.readBlocks.has(b.id))) continue;
+      return this._servedTelling(g.cid, g.tellings);
     }
     return null;
   }
@@ -1983,11 +2016,12 @@ class PBook {
   resetTelling(cid) {
     if (this._requestedTellings) delete this._requestedTellings[cid];
     this._setTellingChoice(cid, null);
-    const ch = this.chapters[this._renderedChapter];
+    const anchor = this.findBlock(this.concepts?.[cid]?.anchor);
+    const ch = anchor ? this.chapters[anchor.meta._chapterIdx] : this.chapters[this._renderedChapter];
     const g = ch && this._chapterGroups(ch).find(x => x.cid === cid);
     const def = g && this._defaultTelling(cid, g.tellings);
-    if (def) this._pendingScroll = { parentId: def.id, meta: { id: def.id } };
-    this.renderRead(this._renderedChapter);
+    if (def) this._rerenderAt(def.id);
+    else this.renderRead(this._renderedChapter);
   }
 
   // Minutes at ~220 words/min, from the bodies (readingTime keys are estimates)
@@ -2309,8 +2343,10 @@ class PBook {
     const chTitle = block._chapterTitle || '';
     // Position within chapter
     const ch = this.chapters[block._chapterIdx];
-    const chSpines = ch ? ch.blocks.filter(b => b.type === 'spine') : [];
-    const posInCh = chSpines.findIndex(b => b.id === block.id) + 1;
+    const chSpines = this._flowSpines(ch);
+    const myCid = this._conceptIds(block)[0];
+    const posInCh = (chSpines.findIndex(b => b.id === block.id) + 1)
+      || (chSpines.findIndex(b => myCid && this._conceptIds(b)[0] === myCid) + 1);
     const totalInCh = chSpines.length;
 
     return `<article class="block-article fade-up" id="b-${block.id}">
@@ -2887,8 +2923,13 @@ class PBook {
   // Inline "read next" below each article — shown after block is read
   renderReadNext(blockId, ch) {
     if (!ch || !Array.isArray(ch.blocks)) return '';   // generated/remixed blocks have no chapter entry
-    const spines = ch.blocks.filter(b => b.type === 'spine');
-    const currentIdx = spines.findIndex(b => b.id === blockId);
+    const spines = this._flowSpines(ch);
+    let currentIdx = spines.findIndex(b => b.id === blockId);
+    if (currentIdx < 0) {           // a telling other than the served one: continue after its idea
+      const cur = ch.blocks.find(b => b.id === blockId);
+      const cid = cur && this._conceptIds(cur)[0];
+      currentIdx = cid ? spines.findIndex(b => this._conceptIds(b)[0] === cid) : -1;
+    }
     const nextInChapter = spines[currentIdx + 1];
 
     // Find a personalized recommendation (different from sequential next)
@@ -4208,9 +4249,7 @@ class PBook {
 
   getSuggestedNext(prereqs) {
     for (let ci = 0; ci < this.book.chapters.length; ci++) {
-      const blocks = this.chapters[ci]?.blocks || [];
-      const spines = blocks.filter(b => b.type === 'spine');
-      const next = spines.find(b => !this.user.readBlocks.has(b.id));
+      const next = this.chapters[ci] && this._nextUnreadInFlow(this.chapters[ci]);
       if (next) return next.id;
     }
     return null;
@@ -4788,6 +4827,11 @@ class PBook {
         ${vals.map(v => `<button class="steer-chip ${pinned === v ? 'dim-active' : ''}" onclick="app.correctFacetPref('${facet}','${v}')">${(words || {})[v] || v}</button>`).join('')}
       </div></div>`;
     });
+    // Essentials flow vs the full book (every telling of every idea, in book order)
+    h += `<label class="intro-toggle" style="display:flex;gap:.5em;align-items:flex-start;margin-top:.6em">
+        <input type="checkbox" class="full-book-toggle" ${this._fullBook() ? 'checked' : ''} onchange="app.setFullBook(this.checked)">
+        <div><b>Show every telling</b><br><span class="toggle-desc" style="font-size:.7rem">Off: each idea once, told the way your preferences above ask for, with links to the other tellings. On: the full book — every telling of every idea, one after another.</span></div>
+      </label>`;
     h += '</div>';
 
     // Reader mode: safe (verified only) vs open (community + generation)
