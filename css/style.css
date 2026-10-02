@@ -1432,3 +1432,15 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 
 /* System dark preference when the reader has not chosen (Settings → Appearance) */
 .theme-row .sg-opt.active { border-color: var(--accent); color: var(--accent); }
+.mini-board { position: fixed; z-index: 150; }
+.mini-board .mb-board { display: block; width: var(--mb-w, 100px); padding: 4px; background: var(--surface-raised); border: 1px solid var(--border); border-radius: 10px; box-shadow: var(--shadow); }
+.mini-board .mb-board svg { display: block; width: 100%; height: auto; }
+.mini-board .mb-pill { position: static; }
+@media (max-width: 1099px) {
+  .mini-board { right: 12px; bottom: calc(var(--bottomnav-h) + 12px + env(safe-area-inset-bottom)); }
+  .mini-board .mb-board { display: none; }
+}
+@media (min-width: 1100px) {
+  .mini-board { left: max(12px, calc(50% - 340px - var(--mb-w, 100px) - 40px)); bottom: calc(var(--bottomnav-h) + 16px); }
+  .mini-board .mb-pill { display: none; }
+}

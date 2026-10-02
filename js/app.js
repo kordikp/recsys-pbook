@@ -759,13 +759,13 @@ class PBook {
       const cfg = [this._facetValues(m, 'lens').join('|'), this._facetValues(m, 'lang').join('|'),
                    g, this._facetValues(m, 'depth').join('–'), this._facetValues(m, 'visuality').join('–'),
                    this._facetValues(m, 'lengthBand').join('–')].join(' · ');
-      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${state.toUpperCase()} · ${cfg}${isCurrent ? '\n(reading now)' : ''}`;
+      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${this._tellingWords(m, ['genre', 'lens', 'depth', 'lengthBand']) || cfg}${isCurrent ? '\n(reading now)' : ''}`;
       return `<button class="tstrip-chip ${isCurrent ? 'tstrip-current' : ''}" style="--sc:${color}"
         title="${this.escHtml(tip)}" ${isCurrent ? '' : `onclick="app.pickTelling('${blockId}','${m.id}')"`}>${GENRE_ICONS[g] || '📄'}</button>`;
-    }).join('')}<span class="tstrip-hint">${pool.length} tellings — hover for details, click to read</span><button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling (coach)" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
+    }).join('')}<span class="tstrip-hint">${pool.length} ways to read this idea — tap one to switch</span><button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling (coach)" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
 
     h += `<div class="tellings-compose">
-      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = this telling · <span class="legend-active">filled</span> = your target · numbers = existing tellings${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
+      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = what you are reading · <span class="legend-active">highlighted</span> = what you asked for · number = how many versions exist${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
       ${DIMS.map(({ dim, label }) => `<div class="dna-row" style="align-items:flex-start"><span class="dna-label" style="padding-top:.2em">${label}</span>
         <div class="tellings-dimvals" style="margin:0">${this._renderDimValues(blockId, dim, pool, curMeta)}</div></div>`).join('')}
     </div>`;
@@ -818,7 +818,7 @@ class PBook {
       const isSel = selSet.includes(v);
       return `<button class="steer-chip dimval ${isCur ? 'dim-current' : ''} ${isSel ? 'dim-active' : ''} ${count ? '' : 'dim-empty'}"
         onclick="app.steerDim('${blockId}','${dim}','${v}')" title="${isCur ? 'the telling you are reading covers this · ' : ''}${isSel ? 'in your target (click to remove) · ' : ''}${count ? count + ' telling(s) cover this' : 'no telling yet — be the first'}">
-        ${isCur ? '◉ ' : ''}${icons[v] ? icons[v] + ' ' : ''}${v}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
+        ${isCur ? '◉ ' : ''}${icons[v] ? icons[v] + ' ' : ''}${this.escHtml(this._fw(dim === 'lens' ? 'lensShort' : dim, v))}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
     }).join('');
   }
 
@@ -991,9 +991,8 @@ class PBook {
     this._slotDom[originalId] = vMeta.id;
 
     const isGenerated = vMeta.state === 'private' || vMeta.state === 'community';
-    const noticeBits = [];
-    if (vMeta.lens && vMeta.lens !== 'generic') noticeBits.push(`${(CONFIG.facets.lens.icons || {})[vMeta.lens] || ''} ${vMeta.lens} examples`);
-    if (vMeta.depth) noticeBits.push(`${vMeta.depth} depth`);
+    // plain words ("job-board examples · standard to technical depth"), never raw "a..b"
+    const noticeBits = [this._tellingWords(vMeta, ['lens', 'depth', 'genre']).replace(/^examples from everywhere · /, '')].filter(Boolean);
     const provenance = vMeta.state === 'community'
       ? `<span class="gen-badge">shared by a reader &middot; not yet editor-verified</span>`
       : vMeta.state === 'private'
@@ -1022,6 +1021,10 @@ class PBook {
       }
     });
 
+    // Chained steering (Deeper, then another world) used to stack a stale notice
+    // above the new one — the slot keeps exactly one.
+    const oldNotice = el.previousElementSibling;
+    if (oldNotice && oldNotice.classList?.contains('variant-notice') && !oldNotice.dataset.swappedInto) oldNotice.remove();
     el.outerHTML = notice + html;
     // Register the variant for dwell tracking (falls back to default reading time)
     const newEl = document.getElementById(`b-${vMeta.id}`);
@@ -3808,15 +3811,15 @@ class PBook {
     if (!cm || !cm.nodes?.length) { if (el) el.style.display = 'none'; return; }
     const { temata, W, H, pos, temaColor } = this._journeyLayout(cm);
     const width = Math.min(100, Math.round(170 * W / H));
+    // Wide screens: the board sits in the left gutter (it used to cover the right
+    // edge of the text). Narrow screens: a progress pill that opens it in a sheet.
     if (!el) {
       el = document.createElement('div');
       el.id = 'miniBoard';
-      el.title = 'Journey — open the game board';
-      el.style.cssText = 'position:fixed;right:10px;bottom:64px;z-index:60;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:10px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer;opacity:.94';
-      el.onclick = () => { this._mapReturnToRead = true; this.switchView('map'); this.setMapMode('cesta'); };
+      el.className = 'mini-board';
       document.body.appendChild(el);
     }
-    el.style.width = width + 'px';
+    el.style.setProperty('--mb-w', width + 'px');
     const hasArt = n => this._nodePool(n).some(b => ((b.meta || b).type) === 'spine');
     const cur = cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug) && !this._unmetPrereqs(n.slug).length) || cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug));
     let svg = `<svg viewBox="0 0 ${W} ${H}" style="display:block;width:100%">`;
@@ -3842,7 +3845,11 @@ class PBook {
         : `<circle cx="${x}" cy="${y}" r="${isCur ? 22 : 17}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--card,#fff)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 9 : 5}">${tip}</circle>`;
     });
     svg += '</svg>';
-    el.innerHTML = svg;
+    const { read, total } = this._conceptProgress();
+    el.innerHTML = `<button class="mb-board" title="Your journey — open the map" aria-label="Your journey: ${read} of ${total} concepts read. Open the map"
+        onclick="app._mapReturnToRead=true;app.switchView('map');app.setMapMode('cesta')">${svg}</button>
+      <button class="mb-pill${this._justRead?.size ? ' pulse' : ''}" aria-label="Your journey: ${read} of ${total} concepts read" onclick="app.openMiniSheet()">${this._ringSvg(total ? read / total : 0, 20)}<span>${read}/${total}</span></button>`;
+    this._justRead = null;
     el.style.display = this.currentView === 'read' ? '' : 'none';
   }
 
@@ -4534,7 +4541,7 @@ class PBook {
     const target = u.getTargetFacets();
     const summary = u.getAffinitySummary();
     const FACET_WORDS = {
-      lens: { generic: 'examples from everywhere', ecommerce: 'shopping examples', media: 'music & video examples', 'social-feeds': 'social feed examples', education: 'learning examples' },
+      lens: CONFIG.facetWords.lens,   // the one vocabulary of reader-facing words (js/config.js), incl. jobs
       visuality: { 'text-first': 'text explanations', balanced: 'a mix of text and diagrams', 'visual-first': 'visual explanations' },
       depth: { intro: 'gentle introductions', standard: 'standard depth', technical: 'technical depth', research: 'research-level depth' },
       formalism: { none: 'no formulas', light: 'a few formulas', full: 'full math' },
