@@ -2896,7 +2896,7 @@ class PBook {
   renderQuestion(block) {
     // Structured options in frontmatter
     if (block.options && Array.isArray(block.options)) {
-      const opts = block.options.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.voice || 'universal'}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${o.text}</span></button>`).join('');
+      const opts = block.options.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.letter}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${o.text}</span></button>`).join('');
       return `<div class="q-block fade-up"><h4>${block.title}</h4><div class="q-desc">${block.description || ''}</div><div class="q-opts">${opts}</div></div>`;
     }
     // Body-based question: parse A/B/C/D options from markdown body
@@ -2904,14 +2904,13 @@ class PBook {
       const bodyHtml = renderMarkdown(block.body);
       // Extract lettered options and create clickable buttons
       const optRegex = /\*\*([A-D])[):.]*\*{0,2}\s*"([^"]+)"/g;
-      const voiceMap = { A: 'explorer', B: 'creator', C: 'thinker', D: 'universal' };
       const opts = [];
       let m;
       while ((m = optRegex.exec(block.body)) !== null) {
-        opts.push({ letter: m[1], text: m[2].trim().substring(0, 80), voice: voiceMap[m[1]] || 'universal' });
+        opts.push({ letter: m[1], text: m[2].trim().substring(0, 80) });
       }
       if (opts.length >= 2) {
-        const optsHtml = opts.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.voice}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${o.text}</span></button>`).join('');
+        const optsHtml = opts.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.letter}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${this.escHtml(o.text)}</span></button>`).join('');
         return `<div class="q-block fade-up" id="b-${block.id}"><div class="block-header"><h4>${block.title}</h4></div><div class="spine-body">${bodyHtml}</div><div class="q-opts">${optsHtml}</div></div>`;
       }
       // No parseable options — just render as article
@@ -8473,100 +8472,51 @@ class PBook {
 
   // ===== INTERACTIONS =====
 
-  answerQ(el, voice, qId) {
+  // Question blocks: the chosen option shows its own feedback from the block's flat
+  // frontmatter (feedbackA..feedbackD). A question changes the reader's format
+  // preferences only when it says so (hintA..hintD: "depth=technical,formalism=light").
+  answerQ(el, letter, qId) {
     el.closest('.q-opts').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     this.rc.sendRating(qId, 1);
-    // voice answers now seed the FACET model (voice is a retired taxonomy; the
-    // question options still carry legacy voice tags in content)
-    if (voice && voice !== 'universal') {
-      const hint = voice === 'thinker' ? { depth: 'technical' }
-        : voice === 'creator' ? { genre: 'worked-example' }
-        : { genre: 'story' };
-      this.user.updateFacetAffinity(hint, 2);
+    this.rc.logEvent('question_answer', { blockId: qId, option: letter });
+    const meta = this.findBlock(qId)?.meta || {};
+    const clean = v => String(v || '').replace(/\\(["'])/g, '$1').trim();
+
+    // Format-picker questions: pins replace what an earlier answer to THIS question set
+    const hints = {};
+    for (const L of ['A', 'B', 'C', 'D']) hints[L] = this._parseHint(meta['hint' + L]);
+    const hinted = new Set(Object.values(hints).flatMap(h => Object.keys(h)));
+    let pinned = false;
+    if (hinted.size) {
+      for (const facet of hinted) this.user.setSteerPref(facet, hints[letter]?.[facet] || null);
+      for (const [facet, value] of Object.entries(hints[letter] || {})) this.user.updateFacetAffinity({ [facet]: value }, 3);
       this.user.save();
+      pinned = true;
     }
 
     const qBlock = el.closest('.q-block');
     let recsDiv = qBlock.querySelector('.q-recs');
     if (!recsDiv) { recsDiv = document.createElement('div'); recsDiv.className = 'q-recs fade-up'; qBlock.appendChild(recsDiv); }
-
-    // Generate personalized feedback based on the answer
-    const answerText = el.textContent.trim();
-    const letter = el.querySelector('.q-letter')?.textContent?.trim() || '';
-    const feedback = this._generateAnswerFeedback(qId, letter, voice, answerText);
-
-    // Find matching recommendations
-    const vc = CONFIG.voices[voice] || {};
-    const voiceFilter = voice !== 'universal' ? voice : null;
-    let recs = [];
-    if (voiceFilter) {
-      const voiceDepths = this.allBlocks.filter(b => b.meta.voice === voiceFilter && b.meta.type === 'depth' && !this.user.readBlocks.has(b.meta.id));
-      const unreadSpines = this.allBlocks.filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id));
-      recs = [...voiceDepths.slice(0, 3), ...unreadSpines.slice(0, 2)].slice(0, 4);
-    } else {
-      recs = this.allBlocks.filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id)).slice(0, 4);
-    }
-
-    let html = `<div class="q-feedback fade-up">${feedback}</div>`;
-    if (recs.length) {
-      html += `<div class="q-recs-title">Here's what to read next${vc.label ? ' (' + vc.label + ' path)' : ''}:</div>`;
-      html += recs.map(b => `<div class="q-rec-item">${this.cardHtml(b.meta)}</div>`).join('');
-    }
+    const feedback = clean(meta['feedback' + letter]);
+    let html = feedback ? `<div class="q-feedback fade-up">${this.escHtml(feedback)}</div>` : '';
+    const pinWord = Object.keys(hints[letter] || {}).length ? 'Saved as your format preference' : 'Back to the default tellings';
+    if (pinned) html += `<div class="q-feedback-note">${pinWord} &middot; <a href="#" onclick="event.preventDefault();app.switchView('profile')">change it in Profile</a></div>`;
     recsDiv.innerHTML = html;
-    recsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (html) recsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  _generateAnswerFeedback(qId, letter, voice, text) {
-    // Question-specific feedback
-    const feedbacks = {
-      'ch1-q1': {
-        A: "Awesome choice! You're an Explorer! You'll love seeing how YouTube's algorithm actually decides what to show you — it's like peeking behind a magic curtain. Let's dig into the mechanics!",
-        B: "A Creator at heart! Building things is the BEST way to learn. By the end of this book, you'll have made your own recommendation system. How cool is that?",
-        C: "Great thinking! Understanding WHY things go wrong helps us make them better. You'll discover some surprising reasons why recommendations mess up — and what we can do about it.",
-        D: "You want it all — love it! You'll get to explore, build, AND think deeply. Every chapter has something for everyone."
-      },
-      'ch3-q1': {
-        A: "Collaborative filtering is fascinating! It's basically the idea that birds of a feather flock together. If you and someone else both love the same movies, you'll probably agree on new ones too!",
-        B: "Smart thinking! Content-based filtering is super logical — if you liked a video about building Minecraft castles, you'll probably like other building videos. Simple but powerful!",
-        C: "You're thinking like a real engineer! The best systems in the world (YouTube, Spotify, Netflix) all use hybrid approaches. Why pick one when you can use them all?",
-        D: "Sometimes the simplest solution is the best starting point! Showing what's popular is how most apps begin. Then they add smarter methods over time."
-      },
-      'ch4-q1': {
-        A: "Accuracy matters — nobody likes bad recommendations! But here's a fun twist: sometimes the MOST accurate system only shows you things you already know you like. Is that really the best?",
-        B: "You care about fairness — that's awesome! Imagine being a new YouTuber whose amazing videos never get recommended just because you're not famous yet. Fairness means giving everyone a chance.",
-        C: "Discovery is what makes recommendations MAGICAL! The best recommendation isn't something you already wanted — it's something you didn't know existed but absolutely love.",
-        D: "That's the right answer! The best recommendation systems balance all three. It's tricky, but that's what makes it such an interesting problem to solve."
-      },
-      'ch5-q1': {
-        A: "A Minecraft server recommender — YES! Imagine: it knows you like survival mode with friends, building medieval stuff, and servers with <50 players. It finds your perfect match. You could totally build this!",
-        B: "A music discovery engine! What if it could find genres you've never heard of based on the FEEL of music you like? Not just 'more pop' but 'here's this amazing Japanese city pop that has the same vibe.'",
-        C: "A smart book recommender! It could track not just what books you like, but how fast you read, whether you prefer short or long chapters, and even match your mood. Libraries would love this!",
-        D: "The best inventions are the ones nobody saw coming! Maybe a recommendation system for study buddies, hiking trails, science experiments, or even what to cook for dinner tonight. Dream big!"
-      },
-      'ch6-q1': {
-        A: "That's a valid choice — you value personalization. But think about this: if the algorithm ONLY shows you what you want, how will you ever discover something new? Sometimes the best experiences come from things you didn't know you'd like.",
-        B: "You want full control — respect! Some countries are actually making this a legal right. The EU's Digital Services Act lets people opt out of algorithmic recommendations entirely. You're thinking like a lawmaker!",
-        C: "That's a really mature perspective. Showing diverse viewpoints is important for understanding the world. The tricky part: who decides what counts as 'diverse'? It's harder than it sounds, but it's worth trying.",
-        D: "Honestly? This might be the wisest answer. These are genuinely hard questions with no perfect solutions. The fact that you recognize the complexity means you're thinking more deeply than most adults. Keep questioning!"
-      }
-    };
-
-    // Look up specific feedback
-    const qFeedbacks = feedbacks[qId];
-    if (qFeedbacks && qFeedbacks[letter]) {
-      return qFeedbacks[letter];
+  // "depth=intro..standard,formalism=light" → { depth: 'intro', formalism: 'light' }
+  // (a range pins its first value: pins are single points on the scale)
+  _parseHint(raw) {
+    const out = {};
+    for (const part of String(raw || '').split(',')) {
+      const [k, v] = part.split('=').map(x => (x || '').trim());
+      if (!k || !v || !CONFIG.facets[k]) continue;
+      const val = v.split('..')[0].split('|')[0];
+      if ((CONFIG.facets[k].values || []).includes(val)) out[k] = val;
     }
-
-    // Generic voice-based feedback
-    const voiceFeedback = {
-      explorer: "Great pick! As an Explorer, you'll love the hands-on demos and visual explanations coming up. Let's see how things work under the hood!",
-      creator: "Awesome — you chose the Creator path! Get ready for projects, experiments, and building real things. Learning by doing is the best!",
-      thinker: "Nice — you're a Thinker! You like understanding the WHY behind things. The deeper explanations coming up are perfect for you.",
-      universal: "Great choice! You'll get a mix of everything — exploring, creating, and thinking. Let's keep going!"
-    };
-
-    return voiceFeedback[voice] || voiceFeedback.universal;
+    return out;
   }
 
   toggleLike(blockId) {
