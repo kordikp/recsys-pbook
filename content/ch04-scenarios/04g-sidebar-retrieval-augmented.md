@@ -20,7 +20,7 @@ visuality: text-first
 depth: technical
 formalism: none
 lengthBand: standard
-genre: code-walkthrough
+genre: explainer
 carriers: prose|code
 ---
 

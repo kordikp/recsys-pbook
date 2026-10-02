@@ -17,7 +17,7 @@ concept: news-domain
 state: edited
 lens: generic
 visuality: text-first
-depth: standard
+depth: technical
 formalism: none
 lengthBand: deep
 genre: explainer

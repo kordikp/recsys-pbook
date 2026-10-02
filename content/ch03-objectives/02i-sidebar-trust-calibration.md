@@ -17,8 +17,8 @@ concept: satisfaction-vs-engagement
 state: edited
 lens: generic
 visuality: text-first
-depth: research
-formalism: full
+depth: technical
+formalism: light
 lengthBand: deep
 genre: explainer
 carriers: prose|formula

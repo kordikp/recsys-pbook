@@ -16,8 +16,8 @@ concept: feedback-signals
 state: edited
 lens: generic
 visuality: balanced
-depth: research
-formalism: full
+depth: standard..technical
+formalism: light
 lengthBand: deep
 genre: explainer
 carriers: prose|image|formula

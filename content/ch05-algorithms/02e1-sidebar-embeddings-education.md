@@ -15,7 +15,7 @@ concept: embeddings
 state: edited
 lens: education
 lang: en
-visuality: balanced
+visuality: text-first
 depth: standard
 formalism: none
 lengthBand: standard

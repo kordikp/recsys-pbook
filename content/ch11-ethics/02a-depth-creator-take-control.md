@@ -18,7 +18,7 @@ concept: addictive-design
 state: edited
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
 lengthBand: deep
 genre: worked-example

@@ -18,7 +18,7 @@ concept: diy-collect-data
 state: edited
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
 lengthBand: standard
 genre: explainer

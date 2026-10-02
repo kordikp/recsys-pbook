@@ -17,7 +17,7 @@ lens: ecommerce
 lang: en
 visuality: balanced
 depth: standard
-formalism: light
+formalism: none
 lengthBand: standard
 genre: worked-example
 carriers: prose|table

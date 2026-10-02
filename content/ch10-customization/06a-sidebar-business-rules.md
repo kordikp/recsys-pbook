@@ -21,7 +21,7 @@ visuality: text-first
 depth: technical
 formalism: none
 lengthBand: deep
-genre: code-walkthrough
+genre: explainer
 carriers: prose|code
 ---
 

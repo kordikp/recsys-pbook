@@ -18,7 +18,7 @@ state: edited
 lens: generic
 visuality: balanced
 depth: technical
-formalism: full
+formalism: light
 lengthBand: deep
 genre: explainer
 carriers: prose|table|image|formula
