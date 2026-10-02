@@ -1,16 +1,17 @@
-// p-book for Kids — How Recommendations Work
+// p-book — How Recommendations Work (a living book about recommender systems
+// for product owners, engineers, students and curious adults)
 
 export const CONFIG = {
   book: {
     title: 'How Recommendations Work',
-    author: 'Pavel Kordik',
+    author: 'Pavel Kordík, Eva Nečasová',
     contentDir: 'content',
     bookIndex: 'content/book.json'
   },
 
   recombee: {
     enabled: true,
-    database: 'cvachond-land-free-pbook-kids',
+    database: 'cvachond-land-free-pbook-kids',   // an identifier of the Recombee DB (historical name), not an audience
     scenarios: {
       homepagePersonal: 'homepage-personal',  // Home "Picked for you"
       homepageVoice: 'homepage-voice',        // Home voice-specific picks
@@ -43,7 +44,6 @@ export const CONFIG = {
     authorName: 'Pavel'
   },
 
-  // Voices adapted for kids (8-15 years old)
   // LEGACY: voices are no longer a user-facing preference (replaced by the facet
   // taxonomy + Format preferences). Kept ONLY as display labels for mission branch
   // keys in existing mission data and old content `voice:` tags. Do not extend.
