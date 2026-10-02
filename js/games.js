@@ -354,6 +354,8 @@ const pct = (x, d = 0) => (x * 100).toFixed(d) + '%';
 const num = (x, d = 2) => (Math.round(x * 10 ** d) / 10 ** d).toFixed(d);
 const reducedMotion = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 const today = () => new Date().toISOString().slice(0, 10);
+// loadAllContent() stores the chapter id as _chapter on the block record
+const chOf = m => m._chapter || m.chapter || '';
 
 function gameSize(g) {
   switch (g.type) {
@@ -1385,7 +1387,7 @@ const GamesMixin = {
     const order = new Map((this.book?.chapters || []).map((c, i) => [c.id, i]));
     return this.allBlocks.filter(b => b.meta.type === 'game')
       .map(b => b.meta)
-      .sort((a, b) => (order.get(a.chapter) ?? 99) - (order.get(b.chapter) ?? 99));
+      .sort((a, b) => (order.get(chOf(a)) ?? 99) - (order.get(chOf(b)) ?? 99));
   },
 
   _renderPlayground() {
@@ -1395,7 +1397,7 @@ const GamesMixin = {
     const store = this._gameStore();
     const played = games.filter(m => store[m.id]).length;
     const byCh = new Map();
-    games.forEach(m => { if (!byCh.has(m.chapter)) byCh.set(m.chapter, []); byCh.get(m.chapter).push(m); });
+    games.forEach(m => { const ch = chOf(m); if (!byCh.has(ch)) byCh.set(ch, []); byCh.get(ch).push(m); });
     const chTitle = id => { const c = (this.book?.chapters || []).find(x => x.id === id); return c ? `Chapter ${c.number} · ${c.title}` : id; };
     ov.innerHTML = `<div class="g-pg-inner">
       <div class="g-pg-head"><h2 id="gPgTitle">🎮 Playground</h2><button class="g-btn g-btn-quiet g-pg-close" aria-label="Close the playground">✕ Close</button></div>
