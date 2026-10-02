@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 496" role="img" aria-labelledby="pn06-title pn06-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pn06-title">What the dashboard counts vs what recommendations caused</title>
+  <desc id="pn06-desc">Two bars of spend per shopper on a scale from zero. Shoppers with recommendations spend 51.50 euros, 9.30 of it through recommendation clicks, which the dashboard credits to the recommender. A random 5% holdout without personal recommendations spends 50.00 euros. Most of the recommended spend would have happened anyway: only the 1.50 euro gap to the holdout, plausibly 0.50 to 2.50, is caused by the recommender.</desc>
+  <rect x=".5" y=".5" width="639" height="495" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+
+  <!-- title -->
+  <text x="24" y="38" font-size="19" font-weight="700" fill="#1E1B4B">What the dashboard counts vs what recs caused</text>
+  <text x="24" y="62" font-size="14" fill="#6B7280">Spend per shopper in one month · illustrative numbers</text>
+
+  <!-- ===== main chart: true zero, 5 px per euro, baseline y=372 ===== -->
+  <!-- recs bar: grey 0..42.20 (y 161..372), purple 42.20..51.50 (y 114.5..161) -->
+  <rect x="140" y="161" width="84" height="211" fill="#E5E7EB"/>
+  <rect x="140" y="114.5" width="84" height="46.5" fill="#7C3AED"/>
+  <text x="182" y="106" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">€51.50</text>
+  <text x="182" y="150" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">via recs</text>
+  <text x="182" y="262" font-size="14" fill="#4B5563" text-anchor="middle">other</text>
+  <text x="182" y="280" font-size="14" fill="#4B5563" text-anchor="middle">purchases</text>
+  <text x="182" y="300" font-size="15" font-weight="700" fill="#4B5563" text-anchor="middle">€42.20</text>
+
+  <!-- holdout bar: 0..50 (y 122..372) -->
+  <rect x="276" y="122" width="84" height="250" fill="#E5E7EB"/>
+  <text x="318" y="150" font-size="15" font-weight="700" fill="#4B5563" text-anchor="middle">€50.00</text>
+
+  <!-- baseline + zero -->
+  <line x1="120" y1="372" x2="376" y2="372" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="112" y="377" font-size="14" fill="#6B7280" text-anchor="end">€0</text>
+
+  <!-- holdout level carried across -->
+  <line x1="140" y1="122" x2="276" y2="122" stroke="#1E1B4B" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <!-- recs top carried to the bracket -->
+  <line x1="224" y1="114.5" x2="252" y2="114.5" stroke="#9CA3AF" stroke-width="1.5"/>
+  <!-- tiny green gap bracket -->
+  <path d="M244 114.5 H252 V122 H244" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- magnifier + connector to zoom card -->
+  <circle cx="250" cy="118" r="19" fill="none" stroke="#6B7280" stroke-width="2"/>
+  <line x1="266" y1="108" x2="380" y2="94" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="3 3"/>
+
+  <!-- dashboard credit callout (left of purple segment) -->
+  <path d="M136 116 H132 V159.5 H136" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="124" y="122" font-size="14" fill="#4C1D95" text-anchor="end">Dashboard</text>
+  <text x="124" y="139" font-size="14" fill="#4C1D95" text-anchor="end">credit</text>
+  <text x="124" y="163" font-size="20" font-weight="700" fill="#7C3AED" text-anchor="end">€9.30</text>
+  <text x="124" y="181" font-size="14" fill="#4C1D95" text-anchor="end">(18%)</text>
+
+  <!-- bar labels -->
+  <text x="182" y="394" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">With recs</text>
+  <text x="182" y="412" font-size="14" fill="#4B5563" text-anchor="middle">95% of shoppers</text>
+  <text x="318" y="394" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Holdout</text>
+  <text x="318" y="412" font-size="14" fill="#4B5563" text-anchor="middle">5% of shoppers</text>
+  <text x="318" y="430" font-size="14" fill="#4B5563" text-anchor="middle">no personal recs</text>
+
+  <!-- ===== zoom card: €49.5..€52.5 mapped to y 300..128 (57.33 px per euro) ===== -->
+  <rect x="380" y="84" width="236" height="270" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="396" y="108" font-size="15" font-weight="700" fill="#1E1B4B">Zoom: top of the bars</text>
+
+  <!-- mini recs bar top (purple) -->
+  <rect x="396" y="185.3" width="50" height="130.7" fill="#7C3AED"/>
+  <text x="421" y="177" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">€51.50</text>
+  <!-- mini holdout bar top -->
+  <rect x="546" y="271.3" width="54" height="44.7" fill="#E5E7EB"/>
+  <text x="573" y="299" font-size="14" font-weight="700" fill="#4B5563" text-anchor="middle">€50.00</text>
+  <!-- holdout level -->
+  <line x1="396" y1="271.3" x2="546" y2="271.3" stroke="#1E1B4B" stroke-width="1.5" stroke-dasharray="4 3"/>
+  <!-- recs top carried to bracket -->
+  <line x1="446" y1="185.3" x2="484" y2="185.3" stroke="#9CA3AF" stroke-width="1.5"/>
+
+  <!-- amber whisker: lift €0.50..€2.50 => level 50.50..52.50 => y 242.7..128 -->
+  <line x1="462" y1="130" x2="462" y2="242.7" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="456" y1="130" x2="468" y2="130" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="456" y1="242.7" x2="468" y2="242.7" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- green lift bracket -->
+  <path d="M476 185.3 H484 V271.3 H476" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="494" y="224" font-size="22" font-weight="700" fill="#065F46">+€1.50</text>
+  <text x="494" y="244" font-size="15" font-weight="600" fill="#065F46">caused (lift)</text>
+
+  <!-- whisker legend -->
+  <line x1="400" y1="327" x2="400" y2="341" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="395" y1="327" x2="405" y2="327" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="395" y1="341" x2="405" y2="341" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="414" y="339" font-size="14" fill="#92400E">plausibly €0.50 to €2.50</text>
+
+  <!-- takeaway -->
+  <text x="320" y="472" font-size="16" fill="#1E1B4B" text-anchor="middle">Most of the <tspan font-weight="700" fill="#7C3AED">€9.30</tspan> would have been spent anyway. Recs caused <tspan font-weight="700" fill="#065F46">€1.50</tspan>.</text>
+</svg>

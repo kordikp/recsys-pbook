@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 524" role="img" aria-labelledby="pn14-title pn14-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pn14-title">The personalization ladder</title>
+<desc id="pn14-desc">Five rungs from generic to steerable: each rung up needs more data and gives more relevance. Each surface of Mira's news app sits on its own rung, anonymous visitors can be served at most up to rung 3 (contextual), and a rung is kept only if it beats the one below in an A/B test.</desc>
+<rect x=".5" y=".5" width="639" height="523" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">The personalization ladder</text>
+<text x="320" y="62" text-anchor="middle" font-size="15" fill="#4B5563">Each rung up needs more and gives more</text>
+<text x="168" y="96" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">Needs</text>
+<text x="318" y="96" font-size="15" font-weight="700" fill="#065F46">Gives</text>
+<text x="544" y="96" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Mira's app</text>
+<rect x="20" y="108" width="600" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="20" y="174" width="600" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="20" y="264" width="600" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="20" y="330" width="600" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="20" y="396" width="600" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<line x1="184" y1="100" x2="184" y2="468" stroke="#D1D5DB" stroke-width="5" stroke-linecap="round"/>
+<line x1="304" y1="100" x2="304" y2="468" stroke="#D1D5DB" stroke-width="5" stroke-linecap="round"/>
+<line x1="20" y1="247" x2="620" y2="247" stroke="#F59E0B" stroke-width="2" stroke-dasharray="7 5"/>
+<rect x="330" y="234" width="272" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="466" y="252" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">▲ ceiling for anonymous visitors</text>
+<rect x="192" y="118" width="104" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle cx="184" cy="137" r="12" fill="#7C3AED"/>
+<text x="184" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">5</text>
+<text x="250" y="142" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Steerable</text>
+<text x="168" y="133" text-anchor="end" font-size="15" fill="#1E1B4B">dials the system</text>
+<text x="168" y="151" text-anchor="end" font-size="15" fill="#1E1B4B">actually obeys</text>
+<text x="318" y="133" font-size="15" fill="#1E1B4B">trust +</text>
+<text x="318" y="151" font-size="15" fill="#1E1B4B">quick fixes</text>
+<rect x="482" y="116" width="124" height="42" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="544" y="142" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">Topic dials</text>
+<rect x="192" y="184" width="104" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle cx="184" cy="203" r="12" fill="#7C3AED"/>
+<text x="184" y="208" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="250" y="208" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Individual</text>
+<text x="168" y="199" text-anchor="end" font-size="15" fill="#1E1B4B">login +</text>
+<text x="168" y="217" text-anchor="end" font-size="15" fill="#1E1B4B">reading history</text>
+<text x="318" y="199" font-size="15" fill="#1E1B4B">long-term</text>
+<text x="318" y="217" font-size="15" fill="#1E1B4B">taste match</text>
+<rect x="482" y="182" width="124" height="42" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="544" y="208" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">For-you tab</text>
+<rect x="192" y="274" width="104" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle cx="184" cy="293" r="12" fill="#7C3AED"/>
+<text x="184" y="298" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="250" y="298" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Contextual</text>
+<text x="168" y="289" text-anchor="end" font-size="15" fill="#1E1B4B">signals about</text>
+<text x="168" y="307" text-anchor="end" font-size="15" fill="#1E1B4B">the moment</text>
+<text x="318" y="289" font-size="15" fill="#1E1B4B">relevant right now,</text>
+<text x="318" y="307" font-size="15" fill="#1E1B4B">even anonymous</text>
+<rect x="482" y="272" width="124" height="42" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="544" y="289" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">Read next</text>
+<text x="544" y="307" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">under article</text>
+<rect x="192" y="340" width="104" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle cx="184" cy="359" r="12" fill="#7C3AED"/>
+<text x="184" y="364" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="250" y="364" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Segment</text>
+<text x="168" y="355" text-anchor="end" font-size="15" fill="#1E1B4B">one group trait</text>
+<text x="168" y="373" text-anchor="end" font-size="15" fill="#1E1B4B">(e.g. district)</text>
+<text x="318" y="355" font-size="15" fill="#1E1B4B">relevance</text>
+<text x="318" y="373" font-size="15" fill="#1E1B4B">for strangers</text>
+<rect x="482" y="338" width="124" height="42" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="544" y="355" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">Logged-out</text>
+<text x="544" y="373" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">front page</text>
+<rect x="192" y="406" width="104" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle cx="184" cy="425" r="12" fill="#7C3AED"/>
+<text x="184" y="430" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="250" y="430" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Generic</text>
+<text x="168" y="421" text-anchor="end" font-size="15" fill="#1E1B4B">popularity</text>
+<text x="168" y="439" text-anchor="end" font-size="15" fill="#1E1B4B">counts</text>
+<text x="318" y="421" font-size="15" fill="#1E1B4B">shared picture,</text>
+<text x="318" y="439" font-size="15" fill="#1E1B4B">works on first visit</text>
+<rect x="482" y="404" width="124" height="42" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="544" y="421" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">Breaking-news</text>
+<text x="544" y="439" text-anchor="middle" font-size="14" fill="#4C1D95" font-weight="600">banner</text>
+<text x="320" y="498" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Climb a rung only if it beats the one below in an <tspan fill="#7C3AED">A/B test</tspan>.</text>
+</svg>

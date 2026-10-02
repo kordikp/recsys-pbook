@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 470" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pn05-title pn05-desc">
+<title id="pn05-title">LLM judge as a fast filter in front of human and A/B checks</title>
+<desc id="pn05-desc">Three prompts write the “why we picked this” line for a streaming app. An LLM judge grades them in hours and cheaply, but it is biased by answer order, length, its own model’s writing and popular items, so it only cuts the clear loser. The two survivors must pass a human check (does the judge agree with editors on a labeled sample, with order swapped), and then an A/B test with real users, which takes weeks, decides which one ships. Simulated users run in a separate side lane to stress-test the chat: they are too agreeable and too mainstream, so they get no vote on what ships.</desc>
+<defs><marker id="pn05-ah-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#7C3AED"/></marker><marker id="pn05-ah-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#9CA3AF"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="469" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="40" font-size="20" font-weight="700" fill="#1E1B4B" text-anchor="middle">Which “why we picked this” line ships?</text>
+<text x="320" y="64" font-size="14" fill="#6B7280" text-anchor="middle">Three prompts for a streaming app, one week</text>
+<text x="84" y="100" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">3 prompts</text>
+<text x="260" y="100" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">LLM judge</text>
+<text x="431" y="100" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Human check</text>
+<text x="564" y="100" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">A/B test</text>
+<rect x="24" y="112" width="120" height="52" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="36" y="134" font-size="15" font-weight="700" fill="#4C1D95">Prompt A</text>
+<rect x="36" y="143" width="94" height="5" rx="2.5" fill="#D1D5DB"/><rect x="36" y="152" width="64" height="5" rx="2.5" fill="#D1D5DB"/>
+<rect x="24" y="170" width="120" height="52" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="36" y="192" font-size="15" font-weight="700" fill="#4C1D95">Prompt B</text>
+<rect x="36" y="201" width="94" height="5" rx="2.5" fill="#D1D5DB"/><rect x="36" y="210" width="64" height="5" rx="2.5" fill="#D1D5DB"/>
+<rect x="24" y="228" width="120" height="52" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="36" y="250" font-size="15" font-weight="700" fill="#4C1D95">Prompt C</text>
+<rect x="36" y="259" width="94" height="5" rx="2.5" fill="#D1D5DB"/><rect x="36" y="268" width="64" height="5" rx="2.5" fill="#D1D5DB"/>
+<rect x="170" y="112" width="180" height="168" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<line x1="244" y1="124" x2="244" y2="130" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/><circle cx="244" cy="122" r="3" fill="#7C3AED"/>
+<rect x="226" y="130" width="36" height="28" rx="8" fill="#7C3AED"/><circle cx="237" cy="143" r="3.4" fill="#FFFFFF"/><circle cx="251" cy="143" r="3.4" fill="#FFFFFF"/><path d="M238,151 L250,151" stroke="#FFFFFF" stroke-width="1.6" stroke-linecap="round"/>
+<rect x="270" y="128" width="22" height="30" rx="4" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.6"/><rect x="276" y="125" width="10" height="6" rx="2" fill="#7C3AED"/><path d="M275,142 L280,147 L288,137" fill="none" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="260" y="184" font-size="14" fill="#4B5563" text-anchor="middle">hours · cheap · biased</text>
+<rect x="199" y="198" width="56" height="24" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2"/>
+<text x="227" y="215" font-size="14" fill="#92400E" text-anchor="middle">order</text>
+<rect x="263" y="198" width="64" height="24" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2"/>
+<text x="295" y="215" font-size="14" fill="#92400E" text-anchor="middle">length</text>
+<rect x="214" y="228" width="92" height="24" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2"/>
+<text x="260" y="245" font-size="14" fill="#92400E" text-anchor="middle">own model</text>
+<rect x="204" y="258" width="112" height="24" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2"/>
+<text x="260" y="275" font-size="14" fill="#92400E" text-anchor="middle">popular items</text>
+<rect x="376" y="112" width="110" height="168" rx="12" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+<circle cx="417" cy="128" r="5" fill="#10B981"/>
+<path d="M410,148 Q410,135 417,135 Q424,135 424,148 Z" fill="#10B981"/>
+<circle cx="445" cy="128" r="5" fill="#10B981"/>
+<path d="M438,148 Q438,135 445,135 Q452,135 452,148 Z" fill="#10B981"/>
+<text x="431" y="174" font-size="14" fill="#1E1B4B" text-anchor="middle">judge agrees</text>
+<text x="431" y="192" font-size="14" fill="#1E1B4B" text-anchor="middle">with editors?</text>
+<rect x="392" y="208" width="78" height="10" rx="5" fill="#E5E7EB"/><rect x="392" y="208" width="62" height="10" rx="5" fill="#10B981"/>
+<text x="431" y="240" font-size="14" fill="#4B5563" text-anchor="middle">on a sample</text>
+<text x="431" y="262" font-size="14" fill="#4B5563" text-anchor="middle">swap order</text>
+<rect x="512" y="112" width="104" height="168" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<text x="538" y="136" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">A</text>
+<text x="590" y="136" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">B</text>
+<line x1="564" y1="122" x2="564" y2="210" stroke="#10B981" stroke-width="1.5" stroke-dasharray="4 4"/>
+<circle cx="529" cy="150" r="5" fill="#065F46"/>
+<path d="M522,170 Q522,157 529,157 Q536,157 536,170 Z" fill="#065F46"/>
+<circle cx="547" cy="150" r="5" fill="#065F46"/>
+<path d="M540,170 Q540,157 547,157 Q554,157 554,170 Z" fill="#065F46"/>
+<circle cx="538" cy="178" r="5" fill="#065F46"/>
+<path d="M531,198 Q531,185 538,185 Q545,185 545,198 Z" fill="#065F46"/>
+<circle cx="581" cy="150" r="5" fill="#065F46"/>
+<path d="M574,170 Q574,157 581,157 Q588,157 588,170 Z" fill="#065F46"/>
+<circle cx="599" cy="150" r="5" fill="#065F46"/>
+<path d="M592,170 Q592,157 599,157 Q606,157 606,170 Z" fill="#065F46"/>
+<circle cx="590" cy="178" r="5" fill="#065F46"/>
+<path d="M583,198 Q583,185 590,185 Q597,185 597,198 Z" fill="#065F46"/>
+<text x="564" y="228" font-size="14" fill="#1E1B4B" text-anchor="middle">weeks</text>
+<text x="564" y="248" font-size="14" fill="#1E1B4B" text-anchor="middle">real users</text>
+<text x="564" y="270" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">decides</text>
+<line x1="148" y1="196" x2="164" y2="196" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pn05-ah-p)"/>
+<line x1="354" y1="196" x2="370" y2="196" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pn05-ah-p)"/>
+<line x1="490" y1="196" x2="506" y2="196" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pn05-ah-p)"/>
+<text x="144" y="317" font-size="14" fill="#6B7280" text-anchor="end">still in</text>
+<rect x="198" y="300" width="36" height="24" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="216" y="317" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">A</text>
+<rect x="242" y="300" width="36" height="24" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="260" y="317" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">B</text>
+<rect x="286" y="300" width="36" height="24" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="304" y="317" font-size="14" font-weight="700" fill="#9CA3AF" text-anchor="middle">C</text>
+<line x1="290" y1="320" x2="318" y2="304" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+<rect x="393" y="300" width="36" height="24" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="411" y="317" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">A</text>
+<rect x="437" y="300" width="36" height="24" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="455" y="317" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">B</text>
+<rect x="522" y="298" width="84" height="28" rx="9" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<text x="564" y="318" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">Ship ✓</text>
+<line x1="330" y1="312" x2="385" y2="312" stroke="#9CA3AF" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pn05-ah-g)"/>
+<line x1="481" y1="312" x2="514" y2="312" stroke="#9CA3AF" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pn05-ah-g)"/>
+<rect x="24" y="346" width="592" height="74" rx="12" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="6 5"/>
+<text x="40" y="372" font-size="15" font-weight="700" fill="#92400E">Side lane: simulated users</text>
+<text x="40" y="392" font-size="14" fill="#4B5563">stress-test the chat</text>
+<text x="40" y="410" font-size="14" fill="#92400E">no vote on what ships</text>
+<circle cx="398" cy="364" r="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<path d="M389,390 Q389,373 398,373 Q407,373 407,390 Z" fill="#F59E0B"/>
+<circle cx="395.5" cy="363" r="1.1" fill="#92400E"/><circle cx="400.5" cy="363" r="1.1" fill="#92400E"/><path d="M395,366 Q398,369 401,366" fill="none" stroke="#92400E" stroke-width="1.2" stroke-linecap="round"/>
+<circle cx="432" cy="364" r="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<path d="M423,390 Q423,373 432,373 Q441,373 441,390 Z" fill="#F59E0B"/>
+<circle cx="429.5" cy="363" r="1.1" fill="#92400E"/><circle cx="434.5" cy="363" r="1.1" fill="#92400E"/><path d="M429,366 Q432,369 435,366" fill="none" stroke="#92400E" stroke-width="1.2" stroke-linecap="round"/>
+<circle cx="466" cy="364" r="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<path d="M457,390 Q457,373 466,373 Q475,373 475,390 Z" fill="#F59E0B"/>
+<circle cx="463.5" cy="363" r="1.1" fill="#92400E"/><circle cx="468.5" cy="363" r="1.1" fill="#92400E"/><path d="M463,366 Q466,369 469,366" fill="none" stroke="#92400E" stroke-width="1.2" stroke-linecap="round"/>
+<circle cx="500" cy="364" r="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<path d="M491,390 Q491,373 500,373 Q509,373 509,390 Z" fill="#F59E0B"/>
+<circle cx="497.5" cy="363" r="1.1" fill="#92400E"/><circle cx="502.5" cy="363" r="1.1" fill="#92400E"/><path d="M497,366 Q500,369 503,366" fill="none" stroke="#92400E" stroke-width="1.2" stroke-linecap="round"/>
+<circle cx="534" cy="364" r="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<path d="M525,390 Q525,373 534,373 Q543,373 543,390 Z" fill="#F59E0B"/>
+<circle cx="531.5" cy="363" r="1.1" fill="#92400E"/><circle cx="536.5" cy="363" r="1.1" fill="#92400E"/><path d="M531,366 Q534,369 537,366" fill="none" stroke="#92400E" stroke-width="1.2" stroke-linecap="round"/>
+<circle cx="568" cy="364" r="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<path d="M559,390 Q559,373 568,373 Q577,373 577,390 Z" fill="#F59E0B"/>
+<circle cx="565.5" cy="363" r="1.1" fill="#92400E"/><circle cx="570.5" cy="363" r="1.1" fill="#92400E"/><path d="M565,366 Q568,369 571,366" fill="none" stroke="#92400E" stroke-width="1.2" stroke-linecap="round"/>
+<text x="487" y="410" font-size="14" fill="#4B5563" text-anchor="middle">too agreeable · too mainstream</text>
+<text x="320" y="452" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">A smoke detector, not the building inspector: real viewers sign off.</text>
+</svg>

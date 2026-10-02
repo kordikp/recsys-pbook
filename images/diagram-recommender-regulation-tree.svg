@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 644" role="img" aria-labelledby="pn12-title pn12-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pn12-title">Which DSA recommender duties are yours? Three questions</title>
+  <desc id="pn12-desc">A decision tree: do users publish through you, are you micro or small, are you very large. Jana's bookshop today is not a platform and owes no DSA recommender duty; with its marketplace it becomes a mid-sized platform that must explain its recommender's main parameters in its terms (Art. 27). Only very large platforms must also offer a non-profiling option and assess risks yearly. GDPR and consumer law apply under every leaf.</desc>
+  <defs>
+    <marker id="pn12-ah-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/></marker>
+    <marker id="pn12-ah-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#9CA3AF"/></marker>
+  </defs>
+  <rect x=".5" y=".5" width="639" height="643" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+
+  <text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Which DSA recommender duties are yours?</text>
+  <text x="320" y="62" text-anchor="middle" font-size="14" fill="#4B5563">Three questions, in order · <tspan fill="#7C3AED" font-weight="700">purple</tspan> = Jana's bookshop</text>
+
+  <!-- connectors: grey (other answers) -->
+  <g fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M244,278 V394" marker-end="url(#pn12-ah-g)"/>
+    <path d="M472,312 H552 V394" marker-end="url(#pn12-ah-g)"/>
+  </g>
+  <!-- connectors: Jana's paths -->
+  <g fill="none" stroke="#7C3AED" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M90,188 V394" stroke-width="2" stroke-dasharray="6 6" marker-end="url(#pn12-ah-p)"/>
+    <path d="M164,132 H244 V166" stroke-width="2.5" marker-end="url(#pn12-ah-p)"/>
+    <path d="M318,222 H398 V256" stroke-width="2.5" marker-end="url(#pn12-ah-p)"/>
+    <path d="M398,368 V394" stroke-width="2.5" marker-end="url(#pn12-ah-p)"/>
+  </g>
+
+  <!-- edge labels -->
+  <g font-size="14" font-weight="600">
+    <text x="204" y="123" text-anchor="middle" fill="#4C1D95">Yes</text>
+    <text x="100" y="214" fill="#4C1D95">No</text>
+    <text x="358" y="213" text-anchor="middle" fill="#4C1D95">No</text>
+    <text x="254" y="302" fill="#4B5563">Yes</text>
+    <text x="388" y="388" text-anchor="end" fill="#4C1D95">No</text>
+    <text x="512" y="303" text-anchor="middle" fill="#4B5563">Yes</text>
+  </g>
+
+  <!-- questions -->
+  <g fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-linejoin="round">
+    <path d="M90,76 L164,132 L90,188 L16,132 Z"/>
+    <path d="M244,166 L318,222 L244,278 L170,222 Z"/>
+    <path d="M398,256 L472,312 L398,368 L324,312 Z"/>
+  </g>
+  <g text-anchor="middle" fill="#1E1B4B">
+    <text x="90" y="128" font-size="15" font-weight="700">Users publish</text>
+    <text x="90" y="146" font-size="15" font-weight="700">through you?</text>
+    <text x="244" y="218" font-size="15" font-weight="700">Micro or small?</text>
+    <text x="244" y="236" font-size="14" fill="#4B5563">&lt;50 staff, ≤€10M</text>
+    <text x="398" y="308" font-size="15" font-weight="700">Very large?</text>
+    <text x="398" y="326" font-size="14" fill="#4B5563">≥45M EU users</text>
+  </g>
+  <g font-size="14" font-weight="700" fill="#4B5563">
+    <text x="26" y="92">1</text>
+    <text x="180" y="182">2</text>
+    <text x="334" y="272">3</text>
+  </g>
+
+  <!-- leaves -->
+  <rect x="18" y="400" width="144" height="134" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="6 4"/>
+  <rect x="172" y="400" width="144" height="134" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="326" y="400" width="144" height="134" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <rect x="480" y="400" width="144" height="134" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+
+  <g text-anchor="middle" font-size="14">
+    <text x="90" y="424" fill="#6B7280">Not a platform</text>
+    <text x="90" y="447" font-size="15" font-weight="700" fill="#1E1B4B">No DSA duty</text>
+    <text x="90" y="468" fill="#1E1B4B">e.g. a shop's</text>
+    <text x="90" y="486" fill="#1E1B4B">own catalogue</text>
+
+    <text x="244" y="424" fill="#6B7280">Small platform</text>
+    <text x="244" y="447" font-size="15" font-weight="700" fill="#1E1B4B">Exempt</text>
+    <text x="244" y="468" fill="#1E1B4B">no recommender</text>
+    <text x="244" y="486" fill="#1E1B4B">duties</text>
+    <text x="244" y="522" font-weight="600" fill="#4B5563">Art. 19</text>
+
+    <text x="398" y="424" fill="#4C1D95">Platform</text>
+    <text x="398" y="447" font-size="15" font-weight="700" fill="#1E1B4B">Explain it</text>
+    <text x="398" y="468" fill="#1E1B4B">main parameters</text>
+    <text x="398" y="486" fill="#1E1B4B">+ user options</text>
+    <text x="398" y="504" fill="#1E1B4B">in your T&amp;C</text>
+    <text x="398" y="522" font-weight="600" fill="#4C1D95">Art. 27</text>
+
+    <text x="552" y="424" fill="#6B7280">Very large (VLOP)</text>
+    <text x="552" y="447" font-size="15" font-weight="700" fill="#1E1B4B">Explain it, plus</text>
+    <text x="552" y="468" fill="#1E1B4B">a non-profiling</text>
+    <text x="552" y="486" fill="#1E1B4B">option + yearly</text>
+    <text x="552" y="504" fill="#1E1B4B">risk assessment</text>
+    <text x="552" y="522" font-weight="600" fill="#4B5563">Art. 27, 34, 38</text>
+  </g>
+
+  <!-- Jana badges -->
+  <g font-size="14" font-weight="700">
+    <rect x="44" y="282" width="92" height="26" rx="13" fill="#FAFAF7" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="90" y="300" text-anchor="middle" fill="#4C1D95">📚 today</text>
+    <rect x="410" y="370" width="118" height="26" rx="13" fill="#7C3AED"/>
+    <text x="469" y="388" text-anchor="middle" fill="#FFFFFF">📚 next spring</text>
+  </g>
+
+  <!-- applies to everyone -->
+  <rect x="18" y="548" width="606" height="52" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="321" y="569" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Under every leaf: GDPR + consumer law</text>
+  <text x="321" y="589" text-anchor="middle" font-size="14" fill="#4B5563">Profiling needs a lawful basis · people may object to marketing</text>
+
+  <text x="320" y="626" text-anchor="middle" font-size="14" fill="#6B7280">Orientation, not legal advice: take the article numbers to counsel.</text>
+</svg>
