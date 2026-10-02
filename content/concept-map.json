@@ -26,6 +26,11 @@
    "color": "#EF4444"
   },
   {
+   "id": "ch05m-modern-recommenders",
+   "nazev": "Modern Recommenders",
+   "color": "#6366F1"
+  },
+  {
    "id": "ch06-evaluation",
    "nazev": "Evaluation",
    "color": "#EC4899"
@@ -212,27 +217,11 @@
    "rel": []
   },
   {
-   "slug": "session-based",
-   "title": "Session-based recommendation",
-   "tema": "ch04-scenarios",
-   "state": "core",
-   "teaser": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleet",
-   "rel": []
-  },
-  {
    "slug": "search-vs-recs",
    "title": "Search vs. recommendations",
    "tema": "ch04-scenarios",
    "state": "core",
    "teaser": "When you search for 'running shoes', the results aren't random -- they're personalized recommendations layered on top of information retrieval.",
-   "rel": []
-  },
-  {
-   "slug": "llm-recommenders",
-   "title": "LLM-powered recommendation",
-   "tema": "ch04-scenarios",
-   "state": "core",
-   "teaser": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better th",
    "rel": []
   },
   {
@@ -320,6 +309,30 @@
    "prereq": [
     "embeddings"
    ]
+  },
+  {
+   "slug": "session-based",
+   "title": "Session-based recommendation",
+   "tema": "ch05m-modern-recommenders",
+   "state": "core",
+   "teaser": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleet",
+   "rel": []
+  },
+  {
+   "slug": "llm-recommenders",
+   "title": "LLM-powered recommendation",
+   "tema": "ch05m-modern-recommenders",
+   "state": "core",
+   "teaser": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better th",
+   "rel": []
+  },
+  {
+   "slug": "conversational-recs",
+   "title": "Conversational recommendation",
+   "tema": "ch05m-modern-recommenders",
+   "state": "core",
+   "teaser": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this re",
+   "rel": []
   },
   {
    "slug": "ab-testing",
@@ -470,14 +483,6 @@
    "tema": "ch11-ethics",
    "state": "core",
    "teaser": "Recommendation systems are becoming more powerful, more pervasive, and more consequential. The design choices being made now will shape information access for d",
-   "rel": []
-  },
-  {
-   "slug": "conversational-recs",
-   "title": "Conversational recommendation",
-   "tema": "ch11-ethics",
-   "state": "core",
-   "teaser": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this re",
    "rel": []
   },
   {

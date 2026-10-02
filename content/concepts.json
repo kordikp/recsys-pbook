@@ -700,44 +700,6 @@
       }
     },
     {
-      "id": "session-based",
-      "title": "Session-based recommendation",
-      "chapter": "ch04-scenarios",
-      "anchor": "ch3-session-based",
-      "anchorPath": "ch04-scenarios/02m-spine-session-based.md",
-      "provenance": "anchored",
-      "parents": [],
-      "blocks": [
-        "ch3-session-based",
-        "comic-session-based"
-      ],
-      "contract": {
-        "objective": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleeting trail of intent.",
-        "objectiveSource": "teaser-bootstrap",
-        "mustCover": [
-          {
-            "point": "60-80% of e-commerce visits are anonymous -- session-based is the norm",
-            "modality": "prose"
-          },
-          {
-            "point": "Simple item-KNN often matches or beats deep models on short sessions",
-            "modality": "prose"
-          },
-          {
-            "point": "Dwell time and scroll depth reveal intent that click sequences alone miss",
-            "modality": "prose"
-          }
-        ],
-        "recallQ": "Why do simple baselines like item-KNN often outperform deep learning models in session-based recommendation?",
-        "recallA": "Sessions are typically very short (3-10 items), providing minimal sequential signal for complex models to exploit. Simple co-occurrence patterns -- 'users who clicked X in this session also clicked Y' -- capture most of the useful information. Deep models need longer sequences to learn meaningful temporal dependencies that justify their added complexity.",
-        "forbidden": [
-          "invented statistics or benchmark numbers",
-          "invented citations, URLs, or paper titles",
-          "claiming a single method fully solves the problem"
-        ]
-      }
-    },
-    {
       "id": "search-vs-recs",
       "title": "Search vs. recommendations",
       "chapter": "ch04-scenarios",
@@ -769,45 +731,6 @@
         ],
         "recallQ": "Are search results the same for everyone?",
         "recallA": "No. Modern search is deeply personalized -- result ranking depends on user history, location, behavioral signals, and learned query-user relevance models.",
-        "forbidden": [
-          "invented statistics or benchmark numbers",
-          "invented citations, URLs, or paper titles",
-          "claiming a single method fully solves the problem"
-        ]
-      }
-    },
-    {
-      "id": "llm-recommenders",
-      "title": "LLM-powered recommendation",
-      "chapter": "ch04-scenarios",
-      "anchor": "ch3-llm-recs",
-      "anchorPath": "ch04-scenarios/04e-spine-llm-recommendations.md",
-      "provenance": "anchored",
-      "parents": [],
-      "blocks": [
-        "ch3-llm-recs",
-        "comic-llm-recommenders",
-        "ch3-rag-recs"
-      ],
-      "contract": {
-        "objective": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better than a well-tuned collaborative filter?",
-        "objectiveSource": "teaser-bootstrap",
-        "mustCover": [
-          {
-            "point": "LLMs can confidently recommend items that do not exist -- hallucination is critical",
-            "modality": "prose"
-          },
-          {
-            "point": "Six months of behavioral data beats any LLM prompt on personalization",
-            "modality": "prose"
-          },
-          {
-            "point": "Best results: LLM as interface and reasoning, traditional RecSys as backbone",
-            "modality": "prose"
-          }
-        ],
-        "recallQ": "What are the key strengths and limitations of using LLMs for recommendations?",
-        "recallA": "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -1164,6 +1087,117 @@
         ],
         "recallQ": "What are the 3 stages of a recommendation pipeline?",
         "recallA": "RETRIEVE candidates (fast, high recall), RANK them (precise scoring model), RE-RANK for business logic and diversity.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "session-based",
+      "title": "Session-based recommendation",
+      "chapter": "ch05m-modern-recommenders",
+      "anchor": "ch3-session-based",
+      "anchorPath": "ch05m-modern-recommenders/02m-spine-session-based.md",
+      "provenance": "anchored",
+      "parents": [],
+      "blocks": [
+        "ch3-session-based",
+        "comic-session-based"
+      ],
+      "contract": {
+        "objective": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleeting trail of intent.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "60-80% of e-commerce visits are anonymous -- session-based is the norm",
+            "modality": "prose"
+          },
+          {
+            "point": "Simple item-KNN often matches or beats deep models on short sessions",
+            "modality": "prose"
+          },
+          {
+            "point": "Dwell time and scroll depth reveal intent that click sequences alone miss",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why do simple baselines like item-KNN often outperform deep learning models in session-based recommendation?",
+        "recallA": "Sessions are typically very short (3-10 items), providing minimal sequential signal for complex models to exploit. Simple co-occurrence patterns -- 'users who clicked X in this session also clicked Y' -- capture most of the useful information. Deep models need longer sequences to learn meaningful temporal dependencies that justify their added complexity.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "llm-recommenders",
+      "title": "LLM-powered recommendation",
+      "chapter": "ch05m-modern-recommenders",
+      "anchor": "ch3-llm-recs",
+      "anchorPath": "ch05m-modern-recommenders/04e-spine-llm-recommendations.md",
+      "provenance": "anchored",
+      "parents": [],
+      "blocks": [
+        "ch3-llm-recs",
+        "comic-llm-recommenders",
+        "ch3-rag-recs"
+      ],
+      "contract": {
+        "objective": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better than a well-tuned collaborative filter?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "LLMs can confidently recommend items that do not exist -- hallucination is critical",
+            "modality": "prose"
+          },
+          {
+            "point": "Six months of behavioral data beats any LLM prompt on personalization",
+            "modality": "prose"
+          },
+          {
+            "point": "Best results: LLM as interface and reasoning, traditional RecSys as backbone",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What are the key strengths and limitations of using LLMs for recommendations?",
+        "recallA": "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "conversational-recs",
+      "title": "Conversational recommendation",
+      "chapter": "ch05m-modern-recommenders",
+      "anchor": "ch6-conversational",
+      "anchorPath": "ch05m-modern-recommenders/04c-spine-conversational-recs.md",
+      "provenance": "anchored",
+      "parents": [],
+      "blocks": [
+        "ch6-conversational",
+        "comic-conversational-recs"
+      ],
+      "contract": {
+        "objective": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this real -- but the challenges are substantial.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "LLMs understand nuanced preference expression but lack real-time behavioral data",
+            "modality": "prose"
+          },
+          {
+            "point": "The future is hybrid: LLM language understanding + RecSys behavioral prediction",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How are LLMs changing the recommendation paradigm?",
+        "recallA": "LLMs enable natural language preference articulation and explanation, but lack access to real-time catalog data and user history — the future is hybrid architectures combining LLMs with traditional recommender systems.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -1809,40 +1843,6 @@
         ],
         "recallQ": "Why is cross-disciplinary involvement in recommendation system design critical?",
         "recallA": "Because these systems shape information access, public discourse, and economic opportunity — decisions that are too consequential to be left to engineers alone.",
-        "forbidden": [
-          "invented statistics or benchmark numbers",
-          "invented citations, URLs, or paper titles",
-          "claiming a single method fully solves the problem"
-        ]
-      }
-    },
-    {
-      "id": "conversational-recs",
-      "title": "Conversational recommendation",
-      "chapter": "ch11-ethics",
-      "anchor": "ch6-conversational",
-      "anchorPath": "ch11-ethics/04c-spine-conversational-recs.md",
-      "provenance": "anchored",
-      "parents": [],
-      "blocks": [
-        "ch6-conversational",
-        "comic-conversational-recs"
-      ],
-      "contract": {
-        "objective": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this real -- but the challenges are substantial.",
-        "objectiveSource": "teaser-bootstrap",
-        "mustCover": [
-          {
-            "point": "LLMs understand nuanced preference expression but lack real-time behavioral data",
-            "modality": "prose"
-          },
-          {
-            "point": "The future is hybrid: LLM language understanding + RecSys behavioral prediction",
-            "modality": "prose"
-          }
-        ],
-        "recallQ": "How are LLMs changing the recommendation paradigm?",
-        "recallA": "LLMs enable natural language preference articulation and explanation, but lack access to real-time catalog data and user history — the future is hybrid architectures combining LLMs with traditional recommender systems.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",

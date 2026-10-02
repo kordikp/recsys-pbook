@@ -121,14 +121,9 @@
         "02j-spine-context-aware.md",
         "02jx-sidebar-comic-context-awareness.md",
         "02s-sidebar-geographic-recs.md",
-        "02m-spine-session-based.md",
-        "02mx-sidebar-comic-session-based.md",
         "04d-spine-search-and-recs.md",
         "04dx-sidebar-comic-search-vs-recs.md",
-        "04f-depth-thinker-search-recs-convergence.md",
-        "04e-spine-llm-recommendations.md",
-        "04ex-sidebar-comic-llm-recommenders.md",
-        "04g-sidebar-retrieval-augmented.md"
+        "04f-depth-thinker-search-recs-convergence.md"
       ]
     },
     {
@@ -193,8 +188,24 @@
       ]
     },
     {
-      "id": "ch06-evaluation",
+      "id": "ch05m-modern-recommenders",
       "number": 6,
+      "title": "Modern Recommenders",
+      "subtitle": "Sequence models, generative retrieval, LLMs and agents — what changed and what it means for your product",
+      "directory": "ch05m-modern-recommenders",
+      "files": [
+        "02m-spine-session-based.md",
+        "02mx-sidebar-comic-session-based.md",
+        "04e-spine-llm-recommendations.md",
+        "04ex-sidebar-comic-llm-recommenders.md",
+        "04g-sidebar-retrieval-augmented.md",
+        "04c-spine-conversational-recs.md",
+        "04cx-sidebar-comic-conversational-recs.md"
+      ]
+    },
+    {
+      "id": "ch06-evaluation",
+      "number": 7,
       "title": "Evaluation",
       "subtitle": "How to measure whether your recommendations actually work",
       "directory": "ch06-evaluation",
@@ -226,7 +237,7 @@
     },
     {
       "id": "ch07-explainability",
-      "number": 7,
+      "number": 8,
       "title": "Explainability & Insights",
       "subtitle": "Making recommendations transparent and trustworthy",
       "directory": "ch07-explainability",
@@ -246,7 +257,7 @@
     },
     {
       "id": "ch08-deployment",
-      "number": 8,
+      "number": 9,
       "title": "Deployment & Scale",
       "subtitle": "From prototype to production at billion-item scale",
       "directory": "ch08-deployment",
@@ -267,7 +278,7 @@
     },
     {
       "id": "ch09-monitoring",
-      "number": 9,
+      "number": 10,
       "title": "Maintenance & Monitoring",
       "subtitle": "Keeping your recommender healthy in production",
       "directory": "ch09-monitoring",
@@ -284,7 +295,7 @@
     },
     {
       "id": "ch10-customization",
-      "number": 10,
+      "number": 11,
       "title": "Customization & Business Rules",
       "subtitle": "Adapting recommendations to business needs",
       "directory": "ch10-customization",
@@ -297,7 +308,7 @@
     },
     {
       "id": "ch11-ethics",
-      "number": 11,
+      "number": 12,
       "title": "Ethics & Responsibility",
       "subtitle": "Who decides what you see, and what can you do about it",
       "directory": "ch11-ethics",
@@ -329,14 +340,12 @@
         "02k-sidebar-algorithmic-accountability.md",
         "04d-sidebar-ethics-checklist.md",
         "04e-sidebar-global-perspectives.md",
-        "05-question-ethics.md",
-        "04c-spine-conversational-recs.md",
-        "04cx-sidebar-comic-conversational-recs.md"
+        "05-question-ethics.md"
       ]
     },
     {
       "id": "ch12-domains",
-      "number": 12,
+      "number": 13,
       "title": "Domains",
       "subtitle": "How recommendations work differently across industries",
       "directory": "ch12-domains",
@@ -373,7 +382,7 @@
     },
     {
       "id": "ch13-research",
-      "number": 13,
+      "number": 14,
       "title": "Research & Progress",
       "subtitle": "How mathematical research drives recommender system evolution",
       "directory": "ch13-research",
@@ -406,7 +415,7 @@
     },
     {
       "id": "ch14-build",
-      "number": 14,
+      "number": 15,
       "title": "Build Your Own",
       "subtitle": "Create a recommendation system step by step",
       "directory": "ch14-build",
