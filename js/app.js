@@ -1453,123 +1453,93 @@ class PBook {
   }
 
   // ===== HOME VIEW (Netflix shelves) =====
+  // Browse paints at once from what the book knows locally; the three network
+  // shelves (Recombee personal, item-to-item, community) arrive as placeholders
+  // and fill in when — and only if — their requests come back (js/ux.js).
+  // A card appears at most once per page (`shown`); every pick says why.
   async renderHome() {
     const el = document.getElementById('homeContent');
+    const token = this._homeToken = (this._homeToken || 0) + 1;
+    const shown = new Set();
+    // metas/blocks → metas not yet on the page (max n)
+    const take = (list, max = 10) => {
+      const out = [];
+      for (const x of list) {
+        const m = x?.meta || x;
+        if (!m?.id || shown.has(m.id)) continue;
+        shown.add(m.id); out.push(m);
+        if (out.length >= max) break;
+      }
+      return out;
+    };
     let html = '';
 
-    // 1. Continue reading (hero)
-    const continueBlock = this.getContinueBlock();
-    if (continueBlock) {
-      html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
-    }
-
-    // Recently added — new content (publishedAt within 30 days), local only
-    {
-      const newBlocks = this.allBlocks
-        .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
-        .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt))
-        .slice(0, 12);
-      if (newBlocks.length) {
-        html += this.shelf('Recently added', newBlocks.map(b => this.cardHtml(b.meta)));
-      }
-    }
+    // 1. Start here (new reader) / Continue reading (returning)
+    html += this._homeHero(take);
 
     // Recall cards — show due + almost due (within 30 min)
     if (this._f('spaceRepetition')) {
       const now = Date.now();
-      const soonThreshold = 30 * 60 * 1000; // 30 minutes
+      const soonThreshold = 30 * 60 * 1000;
       const dueAndSoon = Object.entries(this.user.recall)
         .filter(([_, c]) => c.nextReview <= now + soonThreshold)
         .sort((a, b) => a[1].nextReview - b[1].nextReview)
         .map(([blockId, card]) => ({ blockId, ...card }));
       if (dueAndSoon.length > 0) {
         const recallCards = dueAndSoon.slice(0, 8).map(r => this._recallCardHtml(r)).filter(Boolean);
-        if (recallCards.length) html += this.shelf(`\u{1F9E0} Do you remember? (${recallCards.length})`, recallCards);
+        if (recallCards.length) html += this.shelf(`Do you remember? (${recallCards.length})`, recallCards, 'Answer before you peek — the ones you miss come back sooner.');
       }
     }
 
-    // Active missions (guarded)
-    if (!this._f('missions')) { /* skip missions shelf */ } else {
-    const missions = this.getMissions();
-    const activeMissions = missions.filter(m => {
-      if (this._isMissionLocked(m)) return false;
-      const p = this._getMissionProgress(m);
-      return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
-    });
-    const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
-    const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
-      const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
-      const isNext = coreRead === 0;
-      return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
-        <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Next mission' : 'In progress'}</div>
-        <div style="font-size:1.3rem;margin:.1em 0">${m.icon}</div>
-        <div class="card-title">${m.title}</div>
-        <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
-        <div class="card-meta"><span class="card-time">${coreRead}/${m.core.length} steps</span></div>
-      </div>`;
-    });
-    if (missionCards.length) html += this.shelf('Your missions', missionCards);
-    } // end missions guard
-
-    // Core essentials — unread core blocks
-    // Essentials = the core matter; review blocks are core for missions, but do not belong here
-    const unreadCore = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine'
-      && !this.user.readBlocks.has(b.meta.id)
-      && !/opakov/i.test(String(b._chapter || b.meta.chapter || ''))
-      && !/^\s*(opakování|review)\b/i.test(String(b.meta.title || ''))).slice(0, 10);
-    if (unreadCore.length) {
-      html += this.shelf('Essential reading', unreadCore.map(b => this.cardHtml(b.meta)));
+    // 2. Next for you — the local, explainable recommender (concept order,
+    // prerequisites, your facet profile, active missions)
+    if (this.user.readBlocks.size) {
+      const picks = this._nextPicks({ exclude: shown, limit: 8 });
+      const cards = picks.filter(p => take([p.meta], 1).length).map(p => this.cardHtml(p.meta, false, p));
+      if (cards.length) html += this.shelf('Next for you', cards, 'Unread ideas you are ready for, each in the telling that fits you best.');
     }
 
-    // 2. Recommended for you (Recombee scenario: homepage-personal)
-    const forYou = await this.rc.getRecsForUser('homepage-personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
-    if (forYou?.recomms?.length) {
-      const forYouCards = forYou.recomms.map(r => this.cardFromRec(r)).filter(Boolean);
-      if (forYouCards.length) html += this.shelf('Picked for you', forYouCards);
-    }
-
-    // "Because you read X" — related to the last read block (Items to Item; the
-    // related-item scenario refines the logic once created in the Admin UI).
-    const lastReadId = [...this.user.readBlocks].pop();
+    // Network shelves: placeholders now, filled asynchronously
+    const lastReadId = [...this.user.readBlocks].reverse().find(id => this.findBlock(id));
     const lastReadBlock = lastReadId && this.findBlock(lastReadId);
-    if (lastReadBlock) {
-      const rel = await this.rc.getRecsForItem(lastReadId, 8, this.rc.reql({ type: 'spine' }), 'context-related');
-      const relCards = (rel?.recomms || [])
-        .filter(r => r.id !== lastReadId && !this.user.readBlocks.has(r.id))
-        .map(r => this.cardFromRec(r)).filter(Boolean);
-      if (relCards.length >= 3) html += this.shelf('Because you read: ' + this.escHtml(lastReadBlock.meta.title || ''), relCards);
+    html += this._pendingShelf('rcPersonal', 'Picked for you');
+    if (lastReadBlock) html += this._pendingShelf('rcRelated', 'Because you read: ' + this.escHtml(lastReadBlock.meta.title || ''));
+
+    // Active missions (guarded)
+    if (this._f('missions')) {
+      const missions = this.getMissions();
+      const activeMissions = missions.filter(m => {
+        if (this._isMissionLocked(m)) return false;
+        const p = this._getMissionProgress(m);
+        return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
+      });
+      const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
+      const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
+        const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+        const isNext = coreRead === 0;
+        return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
+          <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Suggested path' : 'In progress'}</div>
+          <div style="font-size:1.3rem;margin:.1em 0" aria-hidden="true">${m.icon}</div>
+          <div class="card-title">${m.title}</div>
+          <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
+          <div class="card-meta"><span class="card-time">${coreRead} of ${m.core.length} steps</span></div>
+        </div>`;
+      });
+      if (missionCards.length) html += this.shelf('Guided paths', missionCards);
     }
 
-    // Community layer (open mode only, spec §6): tellings other readers generated & shared,
-    // clearly labelled, blended into discovery — the living part of the book
-    if (this._f('community') && this.user.readerMode === 'open') {
-      try {
-        const shared = await this.rc.listCommunityBlocks(null, 8);
-        if (shared.length) {
-          const cards = shared.map(b => {
-            const m = b.meta;
-            const facetLine = [m.lens, m.depth].filter(v => v && v !== 'generic').join(' · ');
-            return `<div class="card" style="border-top:3px solid var(--warn,#D97706);flex:0 0 240px;cursor:pointer" onclick="app.openCommunityBlock('${this.escHtml(m.id)}')">
-              <div class="card-chapter" style="color:var(--warn,#D97706);font-weight:700">⚡ reader-generated</div>
-              <div class="card-title">${this.escHtml(m.title || m.id)}</div>
-              <div class="card-teaser" style="font-size:.7rem">${facetLine ? this.escHtml(facetLine) + ' · ' : ''}shared by ${this.escHtml(m.sharedAs || 'a reader')}</div>
-            </div>`;
-          });
-          html += this.shelf('From fellow readers 🌱', cards);
-        }
-      } catch (e) { /* community shelf is best-effort */ }
+    // 3. Frontier: the next ideas, each shown as all of its tellings
+    html += this._frontierShelves(take);
+
+    // Recently added — new content (publishedAt within 30 days)
+    {
+      const newBlocks = take(this.allBlocks
+        .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
+        .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt)), 12);
+      if (newBlocks.length) html += this.shelf('Recently added', newBlocks.map(m => this.cardHtml(m, false, { reasons: [`Added ${new Date(m.publishedAt).toLocaleDateString()}`] })));
     }
 
-    // Interest testing: proposed concepts as clearly labeled ghost items — demand
-    // is measured before anyone writes (the pre-mint stage of the elastic catalog)
-    const ghosts = this._unvotedProposals();
-    if (ghosts.length) {
-      html += this.shelf('Should we write this? 🌱 Vote on proposed concepts',
-        ghosts.slice(0, 4).map(p => this._ghostCardHtml(p, 'home')));
-    }
-
-    // 3. Told your way — facet-matched picks: unread tellings whose subspace best
-    // covers the reader's target facets (local subspace scoring, no scenario needed)
+    // Told your way — facet-matched picks (only once the reader has a profile)
     const target = this.user.getTargetFacets();
     const isDefaultTarget = Object.values(this.user.steerPrefs || {}).every(v => !v) && this.user.getAffinitySummary().total < 3;
     if (!isDefaultTarget) {
@@ -1577,67 +1547,62 @@ class PBook {
         .filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id))
         .map(b => ({ b, s: this._facetMatch(b.meta, target) }))
         .filter(x => x.s >= 0.7)
-        .sort((x, y) => y.s - x.s)
-        .slice(0, 10);
-      if (scored.length >= 3) html += this.shelf('🎛 Told your way', scored.map(x => this.cardHtml(x.b.meta)));
+        .sort((x, y) => y.s - x.s);
+      const metas = take(scored.map(x => x.b), 10);
+      if (metas.length >= 3) html += this.shelf('Told your way', metas.map(m => this.cardHtml(m, false,
+        { reasons: [this._fitReason(m, target) || 'Matches the format you have been choosing'] })));
     }
 
-    // 4. Quick reads
-    const quickReads = this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)).slice(0, 10);
-    if (quickReads.length) {
-      html += this.shelf('Quick reads', quickReads.map(b => this.cardHtml(b.meta)));
+    // Essential reading — unread core sections (review blocks excluded)
+    const unreadCore = take(this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine'
+      && !this.user.readBlocks.has(b.meta.id)
+      && !/opakov/i.test(String(b._chapter || b.meta.chapter || ''))
+      && !/^\s*(opakování|review)\b/i.test(String(b.meta.title || ''))), 10);
+    if (unreadCore.length >= 2) html += this.shelf('Essential reading', unreadCore.map(m => this.cardHtml(m, false, { reasons: ['Verified by the authors as essential for the certificate path'] })));
+
+    // Quick reads
+    const quick = take(this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)), 10);
+    if (quick.length >= 2) html += this.shelf('Quick reads', quick.map(m => this.cardHtml(m)), 'Stand-alone sections — no earlier reading needed.');
+
+    // Community + interest testing
+    if (this._f('community') && this.user.readerMode === 'open') html += this._pendingShelf('community', 'From fellow readers 🌱');
+    const ghosts = this._unvotedProposals();
+    if (ghosts.length) {
+      html += this.shelf('Should we write this? Vote on proposed concepts 🌱',
+        ghosts.slice(0, 4).map(p => this._ghostCardHtml(p, 'home')));
     }
 
-    // 5. Liked items (if any)
+    // Your collections (personal lists: not deduplicated)
     const liked = [...this.user.ratings].filter(([_, r]) => r >= 0.7).map(([id]) => this.findBlock(id)).filter(Boolean);
-    if (liked.length) {
-      html += this.shelf('&#10084; Your liked', liked.reverse().map(b => this.cardHtml(b.meta)));
-    }
-
-    // 6. Saved items (if any)
+    if (liked.length) html += this.shelf('&#10084; Your favourites', liked.reverse().map(b => this.cardHtml(b.meta)));
     const saved = [...this.user.savedBlocks].map(id => this.findBlock(id)).filter(Boolean);
-    if (saved.length) {
-      html += this.shelf('&#128278; Saved for later', saved.reverse().map(b => this.cardHtml(b.meta)));
-    }
+    if (saved.length) html += this.shelf('&#128278; Saved for later', saved.reverse().map(b => this.cardHtml(b.meta)));
 
-    // 7. Topic carousels (pick top 3 topics user hasn't explored much)
-    const topicEntries = Object.entries(this.topicIndex).filter(([_, ids]) => ids.length >= 3).sort((a, b) => b[1].length - a[1].length);
-    const shownTopics = new Set();
-    topicEntries.slice(0, 6).forEach(([topic, ids]) => {
-      if (shownTopics.size >= 3) return;
-      const topicBlocks = ids.map(id => this.findBlock(id)).filter(Boolean).slice(0, 10);
-      if (topicBlocks.length >= 3) {
-        html += this.shelf(topic, topicBlocks.map(b => this.cardHtml(b.meta)));
-        shownTopics.add(topic);
-      }
-    });
-
-    // 8. By chapter (unread first)
+    // By chapter — the book's own order, minus what is already on the page
     this.book.chapters.forEach((ch, i) => {
       const allSpines = (this.chapters[i]?.blocks || []).filter(b => b.type === 'spine');
       const unread = allSpines.filter(b => !this.user.readBlocks.has(b.id));
       const read = allSpines.filter(b => this.user.readBlocks.has(b.id));
-      const chBlocks = [...unread, ...read].slice(0, 8);
-      if (chBlocks.length) {
-        html += this.shelf(`Ch${ch.number}: ${ch.title}`, chBlocks.map(b => this.cardHtml(b)));
-      }
+      const metas = take([...unread, ...read], 8);
+      if (metas.length) html += this.shelf(`Chapter ${ch.number}: ${ch.title}`, metas.map(m => this.cardHtml(m)), ch.subtitle ? this.escHtml(ch.subtitle) : '');
     });
 
     el.innerHTML = html || '<div class="search-empty">Loading content...</div>';
-    // Update arrows multiple times to catch layout settling
     this._updateShelfArrows();
     setTimeout(() => this._updateShelfArrows(), 200);
     setTimeout(() => this._updateShelfArrows(), 600);
+    this._fillHomeAsync(token, shown, lastReadBlock);
   }
 
-  shelf(title, cardHtmls) {
+  shelf(title, cardHtmls, sub) {
     const id = 'shelf-' + (this._shelfCounter = (this._shelfCounter || 0) + 1);
     return `<section class="shelf fade-up">
       <div class="shelf-head"><h3 class="shelf-title">${title}</h3></div>
+      ${sub ? `<p class="shelf-sub">${sub}</p>` : ''}
       <div class="shelf-wrap">
-        <button class="shelf-btn shelf-btn-left arrow-hidden" onclick="app.scrollShelf('${id}',-1)">&#8249;</button>
+        <button class="shelf-btn shelf-btn-left arrow-hidden" onclick="app.scrollShelf('${id}',-1)" aria-label="Scroll left">&#8249;</button>
         <div class="shelf-scroll" id="${id}">${cardHtmls.join('')}</div>
-        <button class="shelf-btn shelf-btn-right arrow-hidden" onclick="app.scrollShelf('${id}',1)">&#8250;</button>
+        <button class="shelf-btn shelf-btn-right arrow-hidden" onclick="app.scrollShelf('${id}',1)" aria-label="Scroll right">&#8250;</button>
       </div>
     </section>`;
   }
@@ -1707,11 +1672,14 @@ class PBook {
     return null;
   }
 
-  cardHtml(block, hero = false) {
+  // why: { reasons[], math? } — rendered as a "Why this?" disclosure (js/ux.js)
+  cardHtml(block, hero = false, why = null) {
     const chLabel = block._chapterTitle || this.getChapterLabel(block);
     const isRead = this.user.readBlocks.has(block.id);
     const isNew = this._isNew(block);
-    const badge = block.type === 'depth' ? `<span class="card-badge ${block.voice}">${CONFIG.voices[block.voice]?.label || block.voice}</span>` : '';
+    // facet words (genre · depth · world) replace the retired voice badge
+    const facetLine = this._cardFacetLine(block);
+    const badge = facetLine ? `<span class="card-facets">${this.escHtml(facetLine)}</span>` : '';
     const newBadge = isNew ? '<span class="card-badge-new">NEW</span>' : '';
     const teaser = block.teaser ? `<div class="card-teaser">${block.teaser}</div>` : '';
 
@@ -1735,8 +1703,7 @@ class PBook {
       preview = `<div class="card-tags">${tags.join('')}</div>`;
     }
 
-    // Voice-colored top border for depth cards
-    const borderStyle = block.type === 'depth' && block.voice ? `border-top: 3px solid var(--${block.voice})` : '';
+    const borderStyle = '';
 
     // Topic tags
     const topics = (this.blockTopics[block.id] || []).slice(0, 2);
@@ -1750,6 +1717,7 @@ class PBook {
       ${teaser}
       ${topicHtml}
       <div class="card-meta">${newBadge}${badge}<span class="card-time">${block.readingTime || 3} min</span></div>
+      ${this._whyHtml(why)}
     </div>`;
   }
 
@@ -1913,9 +1881,19 @@ class PBook {
       }
     }
 
-    // Fallback: sequential not-yet-shown blocks, voice-preferred, unread first
+    // Fallback 1: the local explainable recommender (ready concepts, best-fitting telling)
     if (blocks.length < count) {
-      const voice = this.user.preferredVoice;
+      const ex = new Set([...shown, ...blocks.map(b => b.meta.id)]);
+      for (const p of this._nextPicks({ exclude: ex, limit: count - blocks.length })) {
+        const b = this.findBlock(p.meta.id);
+        if (b) blocks.push(b);
+      }
+    }
+    // Fallback 2: sequential not-yet-shown blocks, unread first, best facet fit first
+    if (blocks.length < count) {
+      const target = this.user.getTargetFacets();
+      const fitCache = new Map();
+      const fit = b => { if (!fitCache.has(b)) fitCache.set(b, Math.round(this._facetMatch(b.meta, target) * 3)); return fitCache.get(b); };
       const candidates = this.allBlocks.filter(b =>
         (b.meta.type === 'spine' || (b.meta.type === 'game' && this._f('games'))) &&
         !shown.has(b.meta.id) && !blocks.find(x => x.meta.id === b.meta.id)
@@ -1930,12 +1908,8 @@ class PBook {
         const aRead = this.user.readBlocks.has(a.meta.id) ? 1 : 0;
         const bRead = this.user.readBlocks.has(b.meta.id) ? 1 : 0;
         if (aRead !== bRead) return aRead - bRead;
-        if (voice && voice !== 'universal') {
-          const av = a.meta.voice === voice ? 0 : a.meta.voice === 'universal' ? 1 : 2;
-          const bv = b.meta.voice === voice ? 0 : b.meta.voice === 'universal' ? 1 : 2;
-          return av - bv;
-        }
-        return 0;
+        // coarse fit buckets keep the book's order among similar fits (the sort is stable)
+        return fit(b) - fit(a);
       });
       for (const b of candidates) {
         blocks.push(b);
@@ -2671,25 +2645,20 @@ class PBook {
     const currentIdx = spines.findIndex(b => b.id === blockId);
     const nextInChapter = spines[currentIdx + 1];
 
-    // Find a personalized recommendation (different from sequential next)
-    let recBlock = null;
-    const unreadOther = this.allBlocks.filter(b =>
-      b._chapter !== ch.id && b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id) && b.meta.id !== nextInChapter?.id
-    );
-    // Prefer voice-matching blocks
-    const voice = this.user.preferredVoice;
-    if (voice && voice !== 'universal') {
-      recBlock = unreadOther.find(b => b.meta.voice === voice) || unreadOther[0];
-    } else {
-      recBlock = unreadOther.sort(() => Math.random() - 0.5)[0];
-    }
+    // The local explainable recommender (js/ux.js _nextPicks) — it used to be a
+    // random unread block from anywhere in the book, with no reason given.
+    const here = new Set([blockId, nextInChapter?.id].filter(Boolean).flatMap(id => {
+      const b = this._findAnyBlock(id); return b ? this._conceptIds(b.meta) : [];
+    }));
+    const pick = this._nextPicks({ exclude: new Set([blockId, nextInChapter?.id]), limit: 6 }).find(p => !here.has(p.cid)) || null;
+    const recBlock = pick ? { meta: pick.meta } : null;
 
     let items = '';
     if (nextInChapter) {
       items += `<div class="rn-item" onclick="app.previewBlock('${nextInChapter.id}')"><span class="rn-label">Next</span><span class="rn-title">${nextInChapter.title}</span><span class="rn-time">${nextInChapter.readingTime || 3}m</span></div>`;
     }
     if (recBlock) {
-      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">\u2728 Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${recBlock.meta._chapterNum}</span></div>`;
+      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${this._conceptChapterNum(pick.cid)}</span></div>${this._whyHtml(pick)}`;
     }
     if (!items) return '';
 
@@ -5745,11 +5714,11 @@ class PBook {
     // Branch point
     if (!branch) {
       html += `<div class="mission-branch-point">
-        <div class="branch-label">Choose your path</div>
-        <div class="branch-desc">The story branches here. Pick your style — the book adapts to you!</div>
+        <div class="branch-label">How do you want to continue?</div>
+        <div class="branch-desc">Same mission, three ways to finish it. You can switch later.</div>
         <div class="branch-options">`;
       Object.entries(m.branches).forEach(([voice, b]) => {
-        const vc = CONFIG.voices[voice] || {};
+        const vc = BRANCH_WORDS[voice] || CONFIG.voices[voice] || {};
         html += `<button class="branch-option ${voice}" onclick="app.pickBranch('${m.id}','${voice}')">
           <span class="branch-icon">${vc.icon || ''}</span>
           <span class="branch-name">${vc.label || voice}</span>
@@ -5761,7 +5730,7 @@ class PBook {
     } else {
       // Show chosen branch blocks
       const b = m.branches[branch];
-      const vc = CONFIG.voices[branch] || {};
+      const vc = BRANCH_WORDS[branch] || CONFIG.voices[branch] || {};
       html += `<div class="mission-branch-chosen">
         <div class="branch-label">${vc.icon || ''} ${vc.label || branch} path <button class="btn-ghost" style="font-size:.7rem" onclick="app.pickBranch('${m.id}',null)">change</button></div>
       </div>`;
@@ -8280,7 +8249,8 @@ class PBook {
       if (!results.length) { el.innerHTML = '<div class="search-empty">No results found.</div>'; return; }
       el.innerHTML = results.map(r => {
         const meta = r.meta || r;
-        const badge = meta.voice && meta.voice !== 'universal' ? `<span class="card-badge ${meta.voice}">${CONFIG.voices[meta.voice]?.label || meta.voice}</span>` : '';
+        const fl = this._cardFacetLine(meta);
+        const badge = fl ? `<span class="card-facets">${this.escHtml(fl)}</span>` : '';
         return `<div class="card" style="margin-bottom:.5em" onclick="app.openBlock('${meta.id}','search');app.closeSearch()"><div class="card-chapter">${meta._chapterTitle || ''}</div><div class="card-title">${meta.title || meta.id}</div><div class="card-meta">${badge}<span class="card-time">${meta.readingTime || 3} min</span></div></div>`;
       }).join('');
     };
