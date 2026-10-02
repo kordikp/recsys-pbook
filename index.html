@@ -197,7 +197,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
   </button>
   <div class="topbar-right">
     <button class="xp-badge" id="xpBadge" onclick="app.switchView('profile')"></button>
-    <button class="topbar-icon" id="settingsBtn" onclick="app.toggleSettings()">&#9881;</button>
+    <button class="topbar-icon" id="settingsBtn" onclick="app.toggleSettings()" aria-label="Settings" title="Settings">&#9881;</button>
   </div>
 </header>
 
@@ -259,7 +259,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
       <div class="tutor-typing" id="tutorTyping" style="display:none"><span></span><span></span><span></span></div>
       <div class="chat-input-wrap">
         <input type="text" id="chatInputFull" placeholder="Ask the book a question…" onkeydown="if(event.key==='Enter')app.sendFullChat()">
-        <button onclick="app.sendFullChat()">&#10148;</button>
+        <button onclick="app.sendFullChat()" aria-label="Send" title="Send">&#10148;</button>
       </div>
     </div>
   </div>
