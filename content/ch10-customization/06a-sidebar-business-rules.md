@@ -15,6 +15,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: business-rules
 conceptTitle: "Business rules and merchandising"
+parents: pipeline
 state: edited
 lens: generic
 visuality: text-first

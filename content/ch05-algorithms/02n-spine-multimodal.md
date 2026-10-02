@@ -14,6 +14,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: multimodal
 conceptTitle: "Multimodal recommendation"
+parents: embeddings|content-based
 state: core
 lens: generic
 visuality: balanced

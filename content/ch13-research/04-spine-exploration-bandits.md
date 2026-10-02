@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: bandits-in-practice
 conceptTitle: "Bandits in practice"
+parents: explore-exploit
 state: core
 lens: generic
 visuality: text-first

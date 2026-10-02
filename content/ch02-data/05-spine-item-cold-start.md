@@ -18,6 +18,7 @@ highlights:
 status: accepted
 concept: item-cold-start
 conceptTitle: "Item cold start"
+parents: data-pillars
 state: edited
 lens: generic
 lang: en

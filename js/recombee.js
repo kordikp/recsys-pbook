@@ -476,7 +476,7 @@ export class UserModel {
     this.preferredVoice = null;
     this.firstVisit = null;
     this.sessionCount = 0;
-    // Gamification (no streaks — safe for kids)
+    // Gamification (no streaks — no pressure mechanics)
     this.xp = 0;
     this.level = 1;
     this.achievements = [];
@@ -635,7 +635,8 @@ export class UserModel {
     // Drift facet affinities from actual reading behaviour (weight 1)
     if (facets) this.updateFacetAffinity(facets, 1);
     if (CONFIG.features.gamification !== false) { this.addXP(10); this.checkAchievements(); }
-    if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(blockId);
+    // one card per CONCEPT (the app maps a telling to its concept's card key)
+    if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(this.recallKeyFor ? this.recallKeyFor(blockId) : blockId);
     this.save();
   }
 
@@ -716,7 +717,7 @@ export class UserModel {
       card.ease = Math.min(3.0, card.ease + 0.15);
     }
 
-    // Cap at 30 days for kids
+    // Cap the review interval at 30 days
     card.interval = Math.min(30, card.interval);
     // Forgot (interval=0) → 4 hours. Everything else → interval in days.
     card.nextReview = card.interval === 0

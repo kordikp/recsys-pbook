@@ -9,6 +9,7 @@
       "anchor": "ch1-noticed",
       "anchorPath": "ch01-introduction/01-spine-have-you-noticed.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch1-noticed",
         "comic-everyday-recommendations"
@@ -46,6 +47,7 @@
       "anchor": "ch1-everywhere",
       "anchorPath": "ch01-introduction/02-spine-recommendations-everywhere.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch1-everywhere",
         "comic-ubiquity"
@@ -83,6 +85,7 @@
       "anchor": "ch1-not-magic",
       "anchorPath": "ch01-introduction/03-spine-not-magic.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch1-not-magic",
         "comic-patterns-not-magic",
@@ -123,6 +126,7 @@
       "anchor": "ch1-three-jobs",
       "anchorPath": "ch01-introduction/04-spine-three-jobs.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch1-three-jobs",
         "comic-three-jobs",
@@ -163,6 +167,7 @@
       "anchor": "ch1-ws-match",
       "anchorPath": "ch01-introduction/06-spine-worksheet-match-apps.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch1-ws-match",
         "comic-distribution-models"
@@ -200,6 +205,7 @@
       "anchor": "ch2-footprints",
       "anchorPath": "ch02-data/01-spine-digital-footprints.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch2-footprints",
         "comic-digital-footprints",
@@ -243,6 +249,7 @@
       "anchor": "ch2-data-foundation",
       "anchorPath": "ch02-data/01g-spine-data-foundation.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch2-data-foundation",
         "comic-data-pillars",
@@ -282,6 +289,7 @@
       "anchor": "ch2-clues",
       "anchorPath": "ch02-data/02-spine-three-types-of-clues.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch2-clues",
         "comic-feedback-signals",
@@ -325,6 +333,7 @@
       "anchor": "ch2-privacy",
       "anchorPath": "ch02-data/03-spine-your-data-your-choice.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch2-privacy",
         "comic-data-control",
@@ -363,6 +372,7 @@
       "anchor": "ch2-ws-detective",
       "anchorPath": "ch02-data/04-spine-worksheet-data-detective.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch2-ws-detective",
         "comic-algorithm-training",
@@ -402,6 +412,9 @@
       "anchor": "item-cold-start",
       "anchorPath": "ch02-data/05-spine-item-cold-start.md",
       "provenance": "anchored",
+      "parents": [
+        "data-pillars"
+      ],
       "blocks": [
         "item-cold-start",
         "item-cold-start-tldr",
@@ -452,6 +465,7 @@
       "anchor": "ch4-objectives",
       "anchorPath": "ch03-objectives/02c-spine-objectives.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch4-objectives",
         "comic-objectives",
@@ -491,6 +505,7 @@
       "anchor": "ch4-fairness",
       "anchorPath": "ch03-objectives/02-spine-fairness.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch4-fairness",
         "comic-fairness",
@@ -529,6 +544,7 @@
       "anchor": "ch4-long-tail",
       "anchorPath": "ch03-objectives/02f-spine-long-tail.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch4-long-tail",
         "comic-long-tail",
@@ -567,6 +583,7 @@
       "anchor": "ch4-satisfaction",
       "anchorPath": "ch03-objectives/02h-spine-satisfaction-vs-engagement.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch4-satisfaction",
         "comic-satisfaction-vs-engagement",
@@ -609,6 +626,7 @@
       "anchor": "ch4-what-scenarios",
       "anchorPath": "ch04-scenarios/01-spine-what-are-scenarios.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch4-what-scenarios",
         "comic-scenarios",
@@ -649,6 +667,7 @@
       "anchor": "ch3-context-aware",
       "anchorPath": "ch04-scenarios/02j-spine-context-aware.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch3-context-aware",
         "comic-context-awareness",
@@ -687,6 +706,7 @@
       "anchor": "ch3-session-based",
       "anchorPath": "ch04-scenarios/02m-spine-session-based.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch3-session-based",
         "comic-session-based"
@@ -724,6 +744,7 @@
       "anchor": "ch3-search-recs",
       "anchorPath": "ch04-scenarios/04d-spine-search-and-recs.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch3-search-recs",
         "comic-search-vs-recs",
@@ -762,6 +783,7 @@
       "anchor": "ch3-llm-recs",
       "anchorPath": "ch04-scenarios/04e-spine-llm-recommendations.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch3-llm-recs",
         "comic-llm-recommenders",
@@ -800,6 +822,10 @@
       "anchor": "ch3-friends",
       "anchorPath": "ch05-algorithms/01-spine-ask-your-friends.md",
       "provenance": "anchored",
+      "parents": [
+        "digital-footprints",
+        "data-pillars"
+      ],
       "blocks": [
         "ch3-friends",
         "comic-collaborative-filtering",
@@ -844,6 +870,9 @@
       "anchor": "ch3-content",
       "anchorPath": "ch05-algorithms/02-spine-look-at-the-thing.md",
       "provenance": "anchored",
+      "parents": [
+        "data-pillars"
+      ],
       "blocks": [
         "ch3-content",
         "comic-content-based",
@@ -885,6 +914,7 @@
       "anchor": "ch3-bandits",
       "anchorPath": "ch05-algorithms/02d-spine-bandits.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch3-bandits",
         "comic-explore-exploit",
@@ -925,6 +955,10 @@
       "anchor": "ch3-deep-similarity",
       "anchorPath": "ch05-algorithms/02e-spine-deep-similarity.md",
       "provenance": "anchored",
+      "parents": [
+        "collaborative-filtering",
+        "content-based"
+      ],
       "blocks": [
         "ch3-deep-similarity",
         "comic-embeddings",
@@ -974,6 +1008,10 @@
       "anchor": "ch3-graph-methods",
       "anchorPath": "ch05-algorithms/02i-spine-graph-methods.md",
       "provenance": "anchored",
+      "parents": [
+        "collaborative-filtering",
+        "embeddings"
+      ],
       "blocks": [
         "ch3-graph-methods",
         "comic-graph-methods",
@@ -1012,6 +1050,10 @@
       "anchor": "ch3-multimodal",
       "anchorPath": "ch05-algorithms/02n-spine-multimodal.md",
       "provenance": "anchored",
+      "parents": [
+        "embeddings",
+        "content-based"
+      ],
       "blocks": [
         "ch3-multimodal",
         "comic-multimodal",
@@ -1050,6 +1092,7 @@
       "anchor": "ch3-popular",
       "anchorPath": "ch05-algorithms/03-spine-whats-popular.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch3-popular",
         "comic-popularity",
@@ -1089,6 +1132,9 @@
       "anchor": "ch3-pipeline",
       "anchorPath": "ch05-algorithms/04-spine-the-pipeline.md",
       "provenance": "anchored",
+      "parents": [
+        "embeddings"
+      ],
       "blocks": [
         "ch3-pipeline",
         "comic-pipeline",
@@ -1132,6 +1178,7 @@
       "anchor": "ch4-testing",
       "anchorPath": "ch06-evaluation/03-spine-testing.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch4-testing",
         "comic-ab-testing",
@@ -1176,6 +1223,9 @@
       "anchor": "ch4-bubbles",
       "anchorPath": "ch06-evaluation/01-spine-filter-bubbles.md",
       "provenance": "anchored",
+      "parents": [
+        "objectives"
+      ],
       "blocks": [
         "ch4-bubbles",
         "comic-filter-bubbles",
@@ -1220,6 +1270,9 @@
       "anchor": "ch7-evaluation",
       "anchorPath": "ch06-evaluation/06-spine-measuring-what-matters.md",
       "provenance": "anchored",
+      "parents": [
+        "objectives"
+      ],
       "blocks": [
         "ch7-evaluation",
         "comic-evaluation-metrics",
@@ -1260,6 +1313,7 @@
       "anchor": "ch7-why-explain",
       "anchorPath": "ch07-explainability/01-spine-why-explainability.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch7-why-explain",
         "comic-why-explain"
@@ -1297,6 +1351,7 @@
       "anchor": "ch4-explainability",
       "anchorPath": "ch07-explainability/02d-spine-explainability.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch4-explainability",
         "comic-explanations",
@@ -1335,6 +1390,10 @@
       "anchor": "ch7-explain-tech",
       "anchorPath": "ch07-explainability/03-spine-technical-approaches.md",
       "provenance": "anchored",
+      "parents": [
+        "explanations",
+        "embeddings"
+      ],
       "blocks": [
         "ch7-explain-tech",
         "comic-explanation-methods",
@@ -1373,6 +1432,9 @@
       "anchor": "ch7-steerable",
       "anchorPath": "ch07-explainability/02e-spine-steerable-recs.md",
       "provenance": "anchored",
+      "parents": [
+        "explanations"
+      ],
       "blocks": [
         "ch7-steerable",
         "comic-steerability",
@@ -1411,6 +1473,7 @@
       "anchor": "ch5-build-vs-buy",
       "anchorPath": "ch08-deployment/05x-spine-build-vs-buy.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-build-vs-buy",
         "comic-build-vs-buy",
@@ -1451,6 +1514,10 @@
       "anchor": "ch7-production-scale",
       "anchorPath": "ch08-deployment/07-spine-production-at-scale.md",
       "provenance": "anchored",
+      "parents": [
+        "pipeline",
+        "embeddings"
+      ],
       "blocks": [
         "ch7-production-scale",
         "comic-production-scale",
@@ -1493,6 +1560,9 @@
       "anchor": "ch9-why-monitor",
       "anchorPath": "ch09-monitoring/01-spine-why-monitoring.md",
       "provenance": "anchored",
+      "parents": [
+        "ab-testing"
+      ],
       "blocks": [
         "ch9-why-monitor",
         "comic-monitoring",
@@ -1536,6 +1606,9 @@
       "anchor": "ch5-business-rules",
       "anchorPath": null,
       "provenance": "anchored",
+      "parents": [
+        "pipeline"
+      ],
       "blocks": [
         "ch5-business-rules",
         "comic-business-rules",
@@ -1562,6 +1635,7 @@
       "anchor": "ch6-who-decides",
       "anchorPath": "ch11-ethics/01-spine-who-decides.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch6-who-decides",
         "comic-who-decides",
@@ -1600,6 +1674,7 @@
       "anchor": "ch6-addictive",
       "anchorPath": "ch11-ethics/02-spine-addictive-design.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch6-addictive",
         "comic-addictive-design",
@@ -1636,6 +1711,7 @@
       "anchor": "ch6-adtech-vs-recs",
       "anchorPath": "ch11-ethics/02c-spine-adtech-vs-recs.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch6-adtech-vs-recs",
         "comic-ads-vs-recs"
@@ -1669,6 +1745,7 @@
       "anchor": "ch6-privacy-real",
       "anchorPath": "ch11-ethics/03-spine-privacy-for-real.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch6-privacy-real",
         "comic-privacy-reality",
@@ -1706,6 +1783,7 @@
       "anchor": "ch6-ai-future",
       "anchorPath": "ch11-ethics/04-spine-ai-and-you.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch6-ai-future",
         "comic-ai-future",
@@ -1745,6 +1823,7 @@
       "anchor": "ch6-conversational",
       "anchorPath": "ch11-ethics/04c-spine-conversational-recs.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch6-conversational",
         "comic-conversational-recs"
@@ -1778,6 +1857,7 @@
       "anchor": "ch13-domains-intro",
       "anchorPath": "ch12-domains/01-spine-why-domains-matter.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-domains-intro",
         "comic-domain-differences"
@@ -1815,6 +1895,7 @@
       "anchor": "ch13-video",
       "anchorPath": "ch12-domains/02-spine-video-streaming.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-video",
         "comic-video-domain",
@@ -1853,6 +1934,7 @@
       "anchor": "ch13-ecommerce",
       "anchorPath": "ch12-domains/03-spine-ecommerce.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-ecommerce",
         "comic-ecommerce-domain",
@@ -1892,6 +1974,7 @@
       "anchor": "ch13-news",
       "anchorPath": "ch12-domains/04-spine-news-media.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-news",
         "comic-news-domain",
@@ -1931,6 +2014,7 @@
       "anchor": "ch13-music",
       "anchorPath": "ch12-domains/05-spine-music-podcasts.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-music",
         "comic-music-domain"
@@ -1968,6 +2052,7 @@
       "anchor": "ch13-sports",
       "anchorPath": "ch12-domains/06-spine-sports-live.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-sports",
         "comic-sports-domain"
@@ -2005,6 +2090,7 @@
       "anchor": "ch13-marketplaces",
       "anchorPath": "ch12-domains/07-spine-marketplaces.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-marketplaces",
         "comic-marketplace-domain",
@@ -2043,6 +2129,7 @@
       "anchor": "ch13-deals",
       "anchorPath": "ch12-domains/08-spine-deals.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-deals",
         "comic-deals-domain"
@@ -2076,6 +2163,7 @@
       "anchor": "ch13-real-estate",
       "anchorPath": "ch12-domains/09-spine-real-estate.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-real-estate",
         "comic-real-estate-domain"
@@ -2109,6 +2197,7 @@
       "anchor": "ch13-travel-jobs-edu",
       "anchorPath": "ch12-domains/10-spine-travel-jobs-edu.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch13-travel-jobs-edu",
         "comic-specialized-domains",
@@ -2148,6 +2237,7 @@
       "anchor": "ch7-why-research",
       "anchorPath": "ch13-research/01-spine-why-research-matters.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch7-why-research",
         "comic-why-research"
@@ -2185,6 +2275,9 @@
       "anchor": "ch7-simple-to-scalable",
       "anchorPath": "ch13-research/02-spine-from-simple-to-scalable.md",
       "provenance": "anchored",
+      "parents": [
+        "collaborative-filtering"
+      ],
       "blocks": [
         "ch7-simple-to-scalable",
         "comic-ease-elsa",
@@ -2224,6 +2317,9 @@
       "anchor": "ch7-vasp-combining",
       "anchorPath": "ch13-research/03-spine-combining-linear-and-deep.md",
       "provenance": "anchored",
+      "parents": [
+        "ease-elsa"
+      ],
       "blocks": [
         "ch7-vasp-combining",
         "comic-vasp",
@@ -2262,6 +2358,9 @@
       "anchor": "ch7-bandits",
       "anchorPath": "ch13-research/04-spine-exploration-bandits.md",
       "provenance": "anchored",
+      "parents": [
+        "explore-exploit"
+      ],
       "blocks": [
         "ch7-bandits",
         "comic-bandits-in-practice",
@@ -2301,6 +2400,10 @@
       "anchor": "ch7-cold-start-language",
       "anchorPath": "ch13-research/05-spine-cold-start-language.md",
       "provenance": "anchored",
+      "parents": [
+        "item-cold-start",
+        "ease-elsa"
+      ],
       "blocks": [
         "ch7-cold-start-language",
         "comic-beeformer",
@@ -2339,6 +2442,10 @@
       "anchor": "ch13-knobs",
       "anchorPath": "ch13-research/05c-spine-knobs-steering.md",
       "provenance": "anchored",
+      "parents": [
+        "steerability",
+        "embeddings"
+      ],
       "blocks": [
         "ch13-knobs",
         "comic-steering-knobs"
@@ -2376,6 +2483,7 @@
       "anchor": "ch7-roadmap",
       "anchorPath": "ch13-research/08-spine-research-roadmap.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch7-roadmap",
         "comic-research-roadmap",
@@ -2415,6 +2523,7 @@
       "anchor": "ch7-glossary",
       "anchorPath": "ch13-research/10-spine-glossary.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch7-glossary",
         "comic-glossary"
@@ -2439,6 +2548,7 @@
       "anchor": "ch5-start",
       "anchorPath": "ch14-build/01-spine-you-can-do-it.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-start",
         "comic-diy-start"
@@ -2472,6 +2582,7 @@
       "anchor": "ch5-collect",
       "anchorPath": "ch14-build/02-spine-step1-collect.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-collect",
         "comic-diy-collect-data",
@@ -2511,6 +2622,9 @@
       "anchor": "ch5-similar",
       "anchorPath": "ch14-build/03-spine-step2-find-similar.md",
       "provenance": "anchored",
+      "parents": [
+        "collaborative-filtering"
+      ],
       "blocks": [
         "ch5-similar",
         "comic-diy-similar-users",
@@ -2546,6 +2660,7 @@
       "anchor": "ch5-recommend",
       "anchorPath": "ch14-build/04-spine-step3-recommend.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-recommend",
         "comic-diy-predict",
@@ -2581,6 +2696,7 @@
       "anchor": "ch5-improve",
       "anchorPath": "ch14-build/05-spine-step4-improve.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-improve",
         "comic-diy-improve",
@@ -2615,6 +2731,7 @@
       "anchor": "ch5-get-recommended",
       "anchorPath": "ch14-build/05b-spine-get-recommended.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-get-recommended",
         "comic-creator-visibility"
@@ -2648,6 +2765,7 @@
       "anchor": "ch5-seo-algorithms",
       "anchorPath": "ch14-build/05c-spine-seo-for-algorithms.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-seo-algorithms",
         "comic-algorithmic-seo"
@@ -2681,6 +2799,7 @@
       "anchor": "ch5-case-studies",
       "anchorPath": "ch14-build/05d-spine-case-studies.md",
       "provenance": "anchored",
+      "parents": [],
       "blocks": [
         "ch5-case-studies",
         "comic-case-studies",

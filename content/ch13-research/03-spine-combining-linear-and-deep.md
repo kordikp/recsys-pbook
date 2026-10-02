@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: vasp
 conceptTitle: "VASP architecture"
+parents: ease-elsa
 state: core
 lens: generic
 visuality: text-first

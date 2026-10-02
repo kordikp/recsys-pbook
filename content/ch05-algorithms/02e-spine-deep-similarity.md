@@ -18,6 +18,7 @@ highlights:
 status: accepted
 concept: embeddings
 conceptTitle: "Embeddings and similarity"
+parents: collaborative-filtering|content-based
 state: core
 lens: generic
 visuality: balanced

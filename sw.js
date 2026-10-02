@@ -1,275 +1,88 @@
 // Service Worker for p-book — offline support
-const CACHE_NAME = 'pbook-v72';
+// Bump CACHE_NAME on every release that changes the app shell: the activate
+// step then drops the previous cache. The precache list is NOT kept by hand
+// any more — install derives it from /content/book.json (every content file),
+// the games, diagrams and images those files reference, and app.js's imports.
+// (A hand-kept list once missed 97 of 307 content files, all comics included.)
+const CACHE_NAME = 'pbook-v73';
 
-const PRECACHE = [
+// App shell: the few files content cannot point at
+const SHELL = [
   '/',
   '/index.html',
   '/favicon.svg',
-  '/js/app.js',
-  '/js/config.js',
-  '/js/recombee.js',
-  '/js/markdown.js',
-  '/js/qr.js',
-  '/js/diagrams.js',
-  '/js/tutor.js',
   '/css/style.css',
+  '/js/app.js',
+  '/js/diagrams.js',
   '/content/book.json',
-  '/games/ab-test.json',
-  '/games/bubble-pop.json',
-  '/games/cold-start.json',
-  '/games/method-match.json',
-  '/games/pipeline-order.json',
-  '/games/privacy-spotter.json',
-  '/games/signal-sort.json',
-  '/games/taste-match.json',
-  '/images/comic-bandits.svg',
-  '/images/comic-cf.svg',
-  '/images/comic-mf.svg',
-  '/images/diagram-algorithm-taxonomy.svg',
-  '/images/diagram-ann-search.svg',
-  '/images/diagram-attention.svg',
-  '/images/diagram-bandit-exploration.svg',
-  '/images/diagram-cf-matrix.svg',
-  '/images/diagram-data-sources.svg',
-  '/images/diagram-embedding-space.svg',
-  '/images/diagram-eval-stack.svg',
-  '/images/diagram-mf-decomposition.svg',
-  '/images/diagram-objectives.svg',
-  '/images/diagram-pipeline.svg',
-  '/images/diagram-stakeholders.svg',
-  '/images/diagram-two-tower.svg',
-  '/images/hero-recsys.svg',
-  '/images/kids-ab-test.svg',
-  '/images/kids-cold-start.svg',
-  '/images/kids-collaborative-filtering.svg',
-  '/images/kids-content-based.svg',
-  '/images/kids-digital-footprints.svg',
-  '/images/kids-filter-bubble.svg',
-  '/images/kids-pattern-detective.svg',
-  '/images/kids-pipeline.svg',
-  '/images/kids-recommendations-everywhere.svg',
-  '/images/kids-three-jobs.svg',
-  '/images/og-cover.svg',
-  '/content/ch01-introduction/01-spine-have-you-noticed.md',
-  '/content/ch01-introduction/02-spine-recommendations-everywhere.md',
-  '/content/ch01-introduction/03-spine-not-magic.md',
-  '/content/ch01-introduction/03a-sidebar-wrong-recs.md',
-  '/content/ch01-introduction/03b-depth-thinker-patterns.md',
-  '/content/ch01-introduction/03c-sidebar-history.md',
-  '/content/ch01-introduction/04-spine-three-jobs.md',
-  '/content/ch01-introduction/04b-sidebar-would-you-rather.md',
-  '/content/ch01-introduction/04c-sidebar-personalization-spectrum.md',
-  '/content/ch01-introduction/05-question-what-type.md',
-  '/content/ch01-introduction/06-spine-worksheet-match-apps.md',
-  '/content/ch02-data/01-spine-digital-footprints.md',
-  '/content/ch02-data/01a-depth-explorer-what-they-track.md',
-  '/content/ch02-data/01b-sidebar-guess-the-signal.md',
-  '/content/ch02-data/01c-game-signal-sort.md',
-  '/content/ch02-data/01d-depth-thinker-interactions.md',
-  '/content/ch02-data/01e-depth-thinker-implicit-feedback.md',
-  '/content/ch02-data/01f-sidebar-user-lifecycle.md',
-  '/content/ch02-data/01g-spine-data-foundation.md',
-  '/content/ch02-data/02-spine-three-types-of-clues.md',
-  '/content/ch02-data/02a-sidebar-incognito.md',
-  '/content/ch02-data/02d-sidebar-negative-signals.md',
-  '/content/ch02-data/02e-depth-thinker-rating-quality.md',
-  '/content/ch02-data/02f-sidebar-visibility-bias.md',
-  '/content/ch02-data/02b-sidebar-myth-buster.md',
-  '/content/ch02-data/02c-game-cold-start.md',
-  '/content/ch02-data/03-spine-your-data-your-choice.md',
-  '/content/ch02-data/03b-depth-creator-experiment.md',
-  '/content/ch02-data/03c-sidebar-data-ownership.md',
-  '/content/ch02-data/04-spine-worksheet-data-detective.md',
-  '/content/ch02-data/04a-sidebar-data-quality.md',
-  '/content/ch03-objectives/02c-spine-objectives.md',
-  '/content/ch03-objectives/02c1-depth-thinker-multi-objective.md',
-  '/content/ch03-objectives/02-spine-fairness.md',
-  '/content/ch11-ethics/02a-sidebar-youtube-algorithm.md',
-  '/content/ch03-objectives/02b-sidebar-unfair-game.md',
-  '/content/ch06-evaluation/02e1-depth-thinker-diversity-metrics.md',
-  '/content/ch03-objectives/02f-spine-long-tail.md',
-  '/content/ch03-objectives/02g-sidebar-user-fatigue.md',
-  '/content/ch03-objectives/02h-spine-satisfaction-vs-engagement.md',
-  '/content/ch03-objectives/02i-sidebar-trust-calibration.md',
-  '/content/ch03-objectives/02j-sidebar-reward-design.md',
-  '/content/ch03-objectives/02l-sidebar-spotify-paradox.md',
-  '/content/ch04-scenarios/01-spine-what-are-scenarios.md',
-  '/content/ch04-scenarios/02-sidebar-scenario-canvas.md',
-  '/content/ch04-scenarios/05y-sidebar-recommendation-scenarios.md',
-  '/content/ch04-scenarios/05z-sidebar-composite-recommendations.md',
-  '/content/ch04-scenarios/02j-spine-context-aware.md',
-  '/content/ch04-scenarios/02m-spine-session-based.md',
-  '/content/ch04-scenarios/04d-spine-search-and-recs.md',
-  '/content/ch04-scenarios/04f-depth-thinker-search-recs-convergence.md',
-  '/content/ch04-scenarios/04e-spine-llm-recommendations.md',
-  '/content/ch04-scenarios/04g-sidebar-retrieval-augmented.md',
-  '/content/ch03-objectives/02t-sidebar-autoplay-problem.md',
-  '/content/ch05-algorithms/01-spine-ask-your-friends.md',
-  '/content/ch05-algorithms/01a-depth-explorer-cf-demo.md',
-  '/content/ch05-algorithms/01b-depth-creator-build-cf.md',
-  '/content/ch05-algorithms/01c-sidebar-netflix-story.md',
-  '/content/ch05-algorithms/01d-sidebar-cf-limitations.md',
-  '/content/ch05-algorithms/01e-game-taste-match.md',
-  '/content/ch05-algorithms/02-spine-look-at-the-thing.md',
-  '/content/ch05-algorithms/02a-depth-thinker-compare.md',
-  '/content/ch05-algorithms/02b-sidebar-spot-the-method.md',
-  '/content/ch05-algorithms/02c-game-method-match.md',
-  '/content/ch05-algorithms/02d-spine-bandits.md',
-  '/content/ch05-algorithms/02d1-sidebar-bandits-intuition.md',
-  '/content/ch05-algorithms/02e-spine-deep-similarity.md',
-  '/content/ch05-algorithms/02e1-sidebar-embeddings-intuition.md',
-  '/content/ch05-algorithms/02f-depth-explorer-two-tower.md',
-  '/content/ch05-algorithms/02f1-depth-thinker-two-tower-math.md',
-  '/content/ch05-algorithms/02g-depth-thinker-matrix-factorization.md',
-  '/content/ch05-algorithms/02g1-depth-thinker-als-deep.md',
-  '/content/ch05-algorithms/02h-depth-thinker-attention.md',
-  '/content/ch05-algorithms/02h1-depth-thinker-attention-deep.md',
-  '/content/ch05-algorithms/02i-spine-graph-methods.md',
-  '/content/ch05-algorithms/02k-depth-thinker-feature-interactions.md',
-  '/content/ch05-algorithms/02l-sidebar-hybrid-patterns.md',
-  '/content/ch05-algorithms/02n-spine-multimodal.md',
-  '/content/ch05-algorithms/02n1-depth-thinker-embedding-alignment.md',
-  '/content/ch05-algorithms/02o-depth-thinker-rl-recsys.md',
-  '/content/ch05-algorithms/02p-sidebar-social-recommendation.md',
-  '/content/ch05-algorithms/02q-sidebar-negative-sampling-strategies.md',
-  '/content/ch05-algorithms/02r-sidebar-item-embeddings-production.md',
-  '/content/ch04-scenarios/02s-sidebar-geographic-recs.md',
-  '/content/ch05-algorithms/03-spine-whats-popular.md',
-  '/content/ch05-algorithms/03a-sidebar-popularity-trap.md',
-  '/content/ch05-algorithms/03b-sidebar-freshness.md',
-  '/content/ch05-algorithms/04-spine-the-pipeline.md',
-  '/content/ch05-algorithms/04a-depth-explorer-pipeline-visual.md',
-  '/content/ch05-algorithms/04a1-depth-thinker-learning-to-rank.md',
-  '/content/ch05-algorithms/04b-sidebar-speed-challenge.md',
-  '/content/ch05-algorithms/04b1-sidebar-slate-optimization.md',
-  '/content/ch05-algorithms/04c-game-pipeline.md',
-  '/content/ch05-algorithms/05-question-method.md',
-  '/content/ch06-evaluation/03-spine-testing.md',
-  '/content/ch06-evaluation/03a-depth-explorer-ab-test.md',
-  '/content/ch06-evaluation/03b-game-ab-test.md',
-  '/content/ch06-evaluation/03c-depth-thinker-online-offline.md',
-  '/content/ch06-evaluation/03d-depth-thinker-counterfactual.md',
-  '/content/ch06-evaluation/03e-sidebar-interleaving.md',
-  '/content/ch06-evaluation/01-spine-filter-bubbles.md',
-  '/content/ch06-evaluation/01a-depth-thinker-echo-chamber.md',
-  '/content/ch06-evaluation/01e-depth-thinker-bias-types.md',
-  '/content/ch06-evaluation/01f-sidebar-polarization-research.md',
-  '/content/ch06-evaluation/01c-sidebar-experiment-idea.md',
-  '/content/ch06-evaluation/01d-game-bubble-pop.md',
-  '/content/ch11-ethics/02k-sidebar-algorithmic-accountability.md',
-  '/content/ch03-objectives/04-question-ethics.md',
-  '/content/ch06-evaluation/05u-sidebar-ab-testing-pitfalls.md',
-  '/content/ch06-evaluation/05f-sidebar-benchmarks.md',
-  '/content/ch06-evaluation/06-spine-measuring-what-matters.md',
-  '/content/ch06-evaluation/06a-depth-thinker-evaluation-math.md',
-  '/content/ch06-evaluation/06b-sidebar-repsys.md',
-  '/content/ch07-explainability/01-spine-why-explainability.md',
-  '/content/ch07-explainability/02d-spine-explainability.md',
-  '/content/ch07-explainability/02d1-sidebar-explanation-ux.md',
-  '/content/ch07-explainability/03-spine-technical-approaches.md',
-  '/content/ch07-explainability/04-sidebar-transparency-spectrum.md',
-  '/content/ch07-explainability/05-question-explain.md',
-  '/content/ch08-deployment/01a-sidebar-tech-stack.md',
-  '/content/ch08-deployment/05o-sidebar-scale-differences.md',
-  '/content/ch08-deployment/05q-sidebar-realtime-personalization.md',
-  '/content/ch08-deployment/05n-sidebar-caching.md',
-  '/content/ch05-algorithms/05l-sidebar-embedding-visualization.md',
-  '/content/ch08-deployment/05x-spine-build-vs-buy.md',
-  '/content/ch08-deployment/07-spine-production-at-scale.md',
-  '/content/ch08-deployment/07a-sidebar-sparse-representations.md',
-  '/content/ch08-deployment/07b-sidebar-knowledge-distillation.md',
-  '/content/ch08-deployment/07c-sidebar-realm-details.md',
-  '/content/ch09-monitoring/01-spine-why-monitoring.md',
-  '/content/ch09-monitoring/02-sidebar-drift-detection.md',
-  '/content/ch09-monitoring/05g-sidebar-monitoring.md',
-  '/content/ch09-monitoring/05r-sidebar-observability.md',
-  '/content/ch09-monitoring/05m-sidebar-continual-learning.md',
-  '/content/ch09-monitoring/05w-sidebar-data-flywheel.md',
-  '/content/ch09-monitoring/06-sidebar-incident-response.md',
-  '/content/ch10-customization/06a-sidebar-business-rules.md',
-  '/content/ch10-customization/05i-sidebar-model-selection.md',
-  '/content/ch02-data/05h-sidebar-cold-start-solutions.md',
-  '/content/ch10-customization/05e-sidebar-anti-patterns.md',
-  '/content/ch08-deployment/05j-sidebar-open-source-tools.md',
-  '/content/ch12-domains/05k-sidebar-marketplace-recs.md',
-  '/content/ch12-domains/05t-sidebar-education-recs.md',
-  '/content/ch02-data/05v-sidebar-feature-engineering.md',
-  '/content/ch11-ethics/01-spine-who-decides.md',
-  '/content/ch11-ethics/01b-sidebar-rabbit-hole.md',
-  '/content/ch11-ethics/01c-sidebar-attention-economy.md',
-  '/content/ch11-ethics/02-spine-addictive-design.md',
-  '/content/ch11-ethics/02a-depth-creator-take-control.md',
-  '/content/ch11-ethics/02b-sidebar-dopamine.md',
-  '/content/ch11-ethics/02c-spine-adtech-vs-recs.md',
-  '/content/ch11-ethics/02d-sidebar-creator-economy.md',
-  '/content/ch11-ethics/02e-sidebar-dark-patterns.md',
-  '/content/ch11-ethics/03-spine-privacy-for-real.md',
-  '/content/ch11-ethics/03a-depth-explorer-check-your-data.md',
-  '/content/ch11-ethics/03b-sidebar-age-guessing.md',
-  '/content/ch11-ethics/03d-game-privacy-spotter.md',
-  '/content/ch11-ethics/03e-sidebar-content-safety.md',
-  '/content/ch11-ethics/03f-depth-thinker-privacy-preserving.md',
-  '/content/ch11-ethics/04-spine-ai-and-you.md',
-  '/content/ch11-ethics/04a-depth-thinker-hard-questions.md',
-  '/content/ch11-ethics/04b-sidebar-eu-law.md',
-  '/content/ch11-ethics/04c-spine-conversational-recs.md',
-  '/content/ch11-ethics/04d-sidebar-ethics-checklist.md',
-  '/content/ch11-ethics/04e-sidebar-global-perspectives.md',
-  '/content/ch11-ethics/05-question-ethics.md',
-  '/content/ch12-domains/01-spine-why-domains-matter.md',
-  '/content/ch12-domains/02-spine-video-streaming.md',
-  '/content/ch12-domains/03-spine-ecommerce.md',
-  '/content/ch12-domains/04-spine-news-media.md',
-  '/content/ch12-domains/05-spine-music-podcasts.md',
-  '/content/ch12-domains/06-spine-sports-live.md',
-  '/content/ch12-domains/07-spine-marketplaces.md',
-  '/content/ch12-domains/08-spine-deals.md',
-  '/content/ch12-domains/09-spine-real-estate.md',
-  '/content/ch12-domains/10-spine-travel-jobs-edu.md',
-  '/content/ch12-domains/11-question-domain.md',
-  '/content/ch12-domains/05p-sidebar-news-recs.md',
-  '/content/ch12-domains/05s-sidebar-ecommerce-recs.md',
-  '/content/ch13-research/01-spine-why-research-matters.md',
-  '/content/ch13-research/02-spine-from-simple-to-scalable.md',
-  '/content/ch13-research/02a-depth-thinker-ease-math.md',
-  '/content/ch13-research/03-spine-combining-linear-and-deep.md',
-  '/content/ch13-research/03a-sidebar-vasp-ablation.md',
-  '/content/ch13-research/04-spine-exploration-bandits.md',
-  '/content/ch13-research/04a-depth-thinker-thompson-math.md',
-  '/content/ch13-research/04b-depth-thinker-causal-bandits.md',
-  '/content/ch13-research/05-spine-cold-start-language.md',
-  '/content/ch13-research/05a-depth-thinker-regularization.md',
-  '/content/ch13-research/05b-sidebar-transfer-learning.md',
-  '/content/ch13-research/08-spine-research-roadmap.md',
-  '/content/ch13-research/08a-sidebar-emerging-directions.md',
-  '/content/ch13-research/09-question-research.md',
-  '/content/ch13-research/10-spine-glossary.md',
-  '/content/ch14-build/01-spine-you-can-do-it.md',
-  '/content/ch14-build/02-spine-step1-collect.md',
-  '/content/ch14-build/02a-depth-creator-spreadsheet.md',
-  '/content/ch14-build/03-spine-step2-find-similar.md',
-  '/content/ch14-build/03a-depth-thinker-math.md',
-  '/content/ch14-build/03b-sidebar-real-numbers.md',
-  '/content/ch14-build/03c-depth-thinker-formulas.md',
-  '/content/ch14-build/04-spine-step3-recommend.md',
-  '/content/ch14-build/04a-depth-creator-code.md',
-  '/content/ch14-build/04b-sidebar-debug-challenge.md',
-  '/content/ch14-build/05-spine-step4-improve.md',
-  '/content/ch14-build/05a-sidebar-career.md',
-  '/content/ch14-build/05b-spine-get-recommended.md',
-  '/content/ch14-build/05c-spine-seo-for-algorithms.md',
-  '/content/ch14-build/05d-spine-case-studies.md',
-  '/content/ch14-build/06-question-next.md'
+  '/content/concepts.json',
+  '/content/concept-map.json',
+  '/content/concept-proposals.json',
+  '/content/id-aliases.json',
 ];
 
-// Install: pre-cache with resilience (skip individual failures)
+// Fetch + store one URL; returns the live Response (body still readable) or null
+async function precacheOne(cache, url) {
+  try {
+    const r = await fetch(url, { cache: 'no-cache' });
+    if (r.ok) { await cache.put(url, r.clone()); return r; }
+  } catch (e) { /* offline or missing — the runtime cache fills it later */ }
+  console.warn('SW: skip', url);
+  return null;
+}
+
+async function inBatches(list, fn, size = 12) {
+  for (let i = 0; i < list.length; i += size) await Promise.all(list.slice(i, i + size).map(fn));
+}
+
+// Everything a reader needs offline, discovered from the content itself
+async function precacheBook(cache) {
+  const seen = new Set();
+  const add = (url, out) => { if (url && !seen.has(url)) { seen.add(url); out.push(url); } };
+  const text = async r => { try { return r ? await r.text() : ''; } catch (e) { return ''; } };
+
+  // 1) shell, then the ES modules app.js imports (with their ?v= cache-busters)
+  const shell = [];
+  SHELL.forEach(u => add(u, shell));
+  const res = {};
+  await inBatches(shell, async u => { res[u] = await precacheOne(cache, u); });
+  const mods = [];
+  const appSrc = await text(res['/js/app.js']);
+  for (const m of appSrc.matchAll(/from\s+['"]\.\/([\w.-]+\.js(?:\?[\w=.&-]*)?)['"]/g)) add('/js/' + m[1], mods);
+  await inBatches(mods, u => precacheOne(cache, u));
+
+  // 2) diagram names → files (js/diagrams.js DIAGRAM_FILES)
+  const diagramFiles = {};
+  const dsrc = await text(res['/js/diagrams.js']);
+  for (const m of dsrc.matchAll(/['"]?([\w-]+)['"]?\s*:\s*['"](images\/[^'"]+)['"]/g)) diagramFiles[m[1]] = '/' + m[2];
+
+  // 3) every content file listed in book.json, then what those files reference
+  let book = null;
+  try { book = JSON.parse(await text(res['/content/book.json'])); } catch (e) {}
+  const files = [];
+  (book?.chapters || []).forEach(ch => (ch.files || []).forEach(f => add(`/content/${ch.directory}/${f}`, files)));
+  const assets = [];
+  await inBatches(files, async u => {
+    const md = await text(await precacheOne(cache, u));
+    const game = md.match(/^game:\s*([\w.-]+)\s*$/m);
+    if (game) add(`/games/${game[1]}.json`, assets);
+    const diagram = md.match(/^diagram:\s*([^\s#]+)\s*$/m);
+    if (diagram && diagram[1] !== 'null') {
+      const d = diagram[1];
+      add(diagramFiles[d] || (/\.(svg|png|jpe?g|webp|gif)$/i.test(d) ? '/' + d.replace(/^\//, '') : null), assets);
+    }
+    for (const m of md.matchAll(/!\[lottie:([\w-]+)\]/g)) add(`/images/domains/animations/${m[1]}/${m[1]}.json`, assets);
+    for (const m of md.matchAll(/\]\((\/?images\/[^)\s]+)\)/g)) add('/' + m[1].replace(/^\//, ''), assets);
+  });
+  await inBatches(assets, u => precacheOne(cache, u));
+}
+
+// Install: build the precache from the book itself (individual failures are skipped)
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(async cache => {
-      await Promise.allSettled(PRECACHE.map(url =>
-        cache.add(url).catch(() => console.warn('SW: skip', url))
-      ));
-    })
+    caches.open(CACHE_NAME)
+      .then(precacheBook)
+      .catch(e => console.warn('SW: precache incomplete', e))
   );
   self.skipWaiting();
 });

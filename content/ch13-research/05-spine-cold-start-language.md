@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: beeformer
 conceptTitle: "beeFormer: text meets interactions"
+parents: item-cold-start|ease-elsa
 state: core
 lens: generic
 visuality: text-first

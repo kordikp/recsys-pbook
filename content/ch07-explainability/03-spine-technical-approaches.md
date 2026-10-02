@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: explanation-methods
 conceptTitle: "Explanation methods"
+parents: explanations|embeddings
 state: core
 lens: generic
 visuality: balanced

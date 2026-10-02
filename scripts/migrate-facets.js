@@ -2,8 +2,10 @@
 // Facet migration — p-book v2 personalization model (see _design-collective-pbook.md)
 //
 // Additive, idempotent migration:
-//   1. Groups blocks into CONCEPTS (each '-spine-' file anchors a concept,
-//      satellites attach to the nearest preceding spine in reading order).
+//   1. Groups blocks into CONCEPTS (each '-spine-' file anchors a concept;
+//      a satellite's explicit `concept:` decides its membership, and only a
+//      satellite WITHOUT one attaches to the nearest preceding spine in
+//      reading order — that value is then written into its frontmatter).
 //   2. Adds FLAT facet keys to frontmatter (the app's YAML parser does not
 //      support nested maps): concept, state, lens, visuality, depth,
 //      formalism, lengthBand, genre.
@@ -202,6 +204,25 @@ for (const [, v] of fileFacets) {
   }
 }
 
+// --- Pass 1b: a satellite's explicit `concept:` wins over reading order ---
+// Reading order only BOOTSTRAPS membership (it fills a missing `concept:` key).
+// Once the key exists it is the source of truth: re-assigning a telling means
+// editing `concept:` (validate-content.js then flags a chapter/order mismatch),
+// and moving a file in book.json never silently changes what it teaches.
+// For "concept: a|b" the first value is the primary membership.
+const conceptById = new Map(concepts.map(c => [c.id, c]));
+for (const [, v] of fileFacets) {
+  if (v.file.includes('-spine-')) continue;                 // anchors define concepts
+  const declared = typeof v.meta.concept === 'string' ? v.meta.concept.split('|')[0].trim() : '';
+  if (!declared || declared === v.facets.concept) continue;
+  const target = conceptById.get(declared);
+  if (!target) { console.warn(`WARN ${v.file}: concept "${declared}" has no anchor; kept under "${v.facets.concept}" (reading order)`); continue; }
+  const from = conceptById.get(v.facets.concept);
+  if (from) from.blocks = from.blocks.filter(b => b.id !== v.meta.id);
+  target.blocks.push({ id: v.meta.id, file: v.file });
+  v.facets.concept = declared;
+}
+
 // --- Pass 2: write facet keys into frontmatter (only missing keys, append before closing ---) ---
 const FACET_KEYS = ['concept', 'state', 'lens', 'visuality', 'depth', 'formalism', 'lengthBand', 'genre'];
 let filesTouched = 0;
@@ -238,6 +259,8 @@ const conceptsOut = concepts.map(c => {
     anchor: c.anchorId,
     anchorPath: c.anchorPath || null,  // content-relative path to the anchor block (generation exemplar)
     provenance: 'anchored',            // human-reviewed content (status: accepted)
+    // prerequisite concepts: flat `parents: a|b` on the anchor (same pipe syntax as subspaces)
+    parents: String(a.parents || '').split('|').map(s => s.trim()).filter(Boolean),
     blocks: c.blocks.map(b => b.id),
     contract: {
       objective: a.teaser || c.title,
@@ -275,6 +298,27 @@ if (!DRY) {
   );
 }
 
+// concept-map.json is what the reader app reads for prerequisite nudges and
+// feed ordering (node.prereq). An anchor that declares `parents:` is the
+// source of truth for its node; undeclared nodes keep what admin exported.
+const CMAP_PATH = path.join(CONTENT_DIR, 'concept-map.json');
+let cmapChanged = 0;
+if (fs.existsSync(CMAP_PATH)) {
+  const cmap = JSON.parse(fs.readFileSync(CMAP_PATH, 'utf8'));
+  const declared = new Map(concepts
+    .filter(c => c._anchorMeta && c._anchorMeta.parents !== undefined)
+    .map(c => [c.id, byId.get(c.id).parents]));
+  for (const n of cmap.nodes || []) {
+    if (!declared.has(n.slug)) continue;
+    const want = declared.get(n.slug);
+    const have = Array.isArray(n.prereq) ? n.prereq : [];
+    if (want.join('|') === have.join('|')) continue;
+    if (want.length) n.prereq = want; else delete n.prereq;
+    cmapChanged++;
+  }
+  if (cmapChanged && !DRY) fs.writeFileSync(CMAP_PATH, JSON.stringify(cmap, null, 1));
+}
+
 // --- Report ---
 const stats = {};   // declared depth tags as they stand in the files (not the seed heuristic)
 const gaps = { noRecall: 0, noMustCover: 0 };
@@ -287,3 +331,4 @@ console.log(`${DRY ? '[DRY RUN] ' : ''}Concepts: ${conceptsOut.length}`);
 console.log(`Files with facets added: ${filesTouched}/${fileFacets.size}`);
 console.log(`Depth distribution:`, stats);
 console.log(`Contract gaps: ${gaps.noRecall} concepts without recallQ, ${gaps.noMustCover} without mustCover (listed in coverage matrix as editorial debt)`);
+console.log(`Prerequisites: ${conceptsOut.filter(c => c.parents.length).length} concepts declare parents; concept-map.json nodes updated: ${cmapChanged}`);

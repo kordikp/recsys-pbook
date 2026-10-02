@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: production-scale
 conceptTitle: "Production at scale"
+parents: pipeline|embeddings
 state: core
 lens: generic
 visuality: text-first

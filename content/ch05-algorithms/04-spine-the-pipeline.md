@@ -18,6 +18,7 @@ highlights:
 status: accepted
 concept: pipeline
 conceptTitle: "The recommendation pipeline"
+parents: embeddings
 state: core
 lens: generic
 visuality: balanced

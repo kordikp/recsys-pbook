@@ -19,6 +19,7 @@ publishedAt: "2026-04-07"
 status: accepted
 concept: steering-knobs
 conceptTitle: "Steering knobs"
+parents: steerability|embeddings
 state: core
 lens: generic
 visuality: balanced
