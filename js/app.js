@@ -6,7 +6,8 @@ import { RecombeeClient, UserModel } from './recombee.js?v=12';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
 
 const APP_VERSION = '5.12.4';
-import { MockTutorEngine, ConversationManager } from './tutor.js';
+import { AskTheBook, ConversationManager } from './tutor.js';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js';
 
 class PBook {
   constructor() {
@@ -19,7 +20,7 @@ class PBook {
     this.feedbackTimeout = null;
     this.topicIndex = {};  // topic → [blockIds]
     this.blockTopics = {}; // blockId → [topics]
-    this.tutor = new MockTutorEngine();
+    this.tutor = new AskTheBook(this);   // answers from concepts.json only — see js/tutor.js
     this.convManager = new ConversationManager();
     this._activeConvId = null;
   }
@@ -234,6 +235,7 @@ class PBook {
 
     // Customize welcome screen for returning users
     this._customizeWelcome();
+    this._resumeOrWelcome();   // first visit → the door; returning → where you left off (js/ux.js)
 
     if (this._getAuth()) this.refreshAiBalance(true);
     // Auto-sync for logged-in users: save every 2 minutes
@@ -254,6 +256,15 @@ class PBook {
   }
 
   async loadAllContent() {
+    // Start EVERY file download at once (the loop below used to wait chapter by
+    // chapter: ~5 s for 307 files on a slow link). The loop is unchanged — its
+    // `fetch` just picks up the request that is already in flight.
+    const inflight = new Map();
+    for (const c of this.book.chapters) for (const f of c.files) {
+      const url = `${CONFIG.book.contentDir}/${c.directory}/${f}`;
+      inflight.set(url, window.fetch(url).catch(() => null));
+    }
+    const fetch = url => inflight.get(url) || window.fetch(url);
     for (let i = 0; i < this.book.chapters.length; i++) {
       const ch = this.book.chapters[i];
       const dir = `${CONFIG.book.contentDir}/${ch.directory}`;
@@ -291,11 +302,16 @@ class PBook {
       'Data & Signals': ['interaction data', 'item catalog', 'user catalog', 'feedback loop', 'implicit'],
       'Privacy & Ethics': ['privacy', 'gdpr', 'ethical', 'transparency', 'consent'],
     };
+    // Word-start matching: 'search' must not fire on "research", 'als ' (trailing
+    // space = whole word) not on "signals" — substring matching tagged Ch1 intro
+    // cards as Matrix Factorization · Search & Retrieval.
+    const rx = kw => new RegExp('\\b' + kw.trim().replace(/[.*+?^${}()|[\]\\/]/g, '\\$&') + (kw.endsWith(' ') ? '\\b' : ''));
+    const MATCHERS = Object.fromEntries(Object.entries(TOPICS).map(([t, kws]) => [t, kws.map(rx)]));
     this.allBlocks.forEach(b => {
       const text = ((b.meta.title || '') + ' ' + (b.body || '')).toLowerCase();
       const tags = [];
-      for (const [topic, keywords] of Object.entries(TOPICS)) {
-        if (keywords.some(kw => text.includes(kw))) tags.push(topic);
+      for (const [topic, keywords] of Object.entries(MATCHERS)) {
+        if (keywords.some(re => re.test(text))) tags.push(topic);
       }
       this.blockTopics[b.meta.id] = tags;
       tags.forEach(t => {
@@ -600,9 +616,10 @@ class PBook {
   // Slim indicator at the top of a block: how many other tellings exist, click to see them
   _renderTellingsIndicator(block) {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
-    const others = this._conceptPool(block.concept).filter(b => (b.meta?.id || b.id) !== block.id).length;
+    // primary concept, not the raw "a|b" string (multi-concept blocks counted 0 and the label flipped)
+    const others = this._conceptPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
-      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>
+      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this idea is told" aria-expanded="false">&#127899;&#65039; ${others ? `${others} other way${others > 1 ? 's' : ''} to read this` : 'Tell it differently'} &#9662;</button>
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
     </div>`;
   }
@@ -614,18 +631,19 @@ class PBook {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
     const lensVals = CONFIG.facets.lens.values;
     const lensIcons = CONFIG.facets.lens.icons || {};
-    const canSimpler = (block.depth || 'standard') !== 'intro';
-    const canDeeper = (block.depth || 'standard') !== 'research';
-    return `<div class="steer-bar feedback-bar fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
-      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss">&times;</button>
-      <span class="steer-label">How was this telling?</span>
-      <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Great</button>
-      ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="Same idea, gentler telling">&#128315; Simpler</button>` : ''}
-      ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="Same idea, more depth">&#128316; Deeper</button>` : ''}
-      ${block.visuality !== 'visual-first' ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="Same idea, more visual">&#128444;&#65039; More visual</button>` : ''}
-      <select class="steer-chip steer-lens" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="Examples from your world">
-        <option value="">&#127758; my world&hellip;</option>
-        ${lensVals.filter(l => l !== (block.lens || 'generic')).map(l => `<option value="${l}">${lensIcons[l] || ''} ${l}</option>`).join('')}
+    const depths = this._facetValues(block, 'depth');
+    const canSimpler = !depths.includes('intro');
+    const canDeeper = !depths.includes('research');
+    return `<div class="steer-bar telling-feedback fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
+      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss" aria-label="Dismiss">&times;</button>
+      <span class="steer-label">How did this land?</span>
+      <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Worked for me</button>
+      ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="Same idea, gentler telling">Simpler</button>` : ''}
+      ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="Same idea, more depth">Deeper</button>` : ''}
+      ${!this._facetValues(block, 'visuality').includes('visual-first') ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="Same idea, more visual">More visual</button>` : ''}
+      <select class="steer-chip steer-lens" aria-label="Examples from another world" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="Examples from your world">
+        <option value="">&#127758; Examples from&hellip;</option>
+        ${lensVals.filter(l => !this._facetValues(block, 'lens').includes(l)).map(l => `<option value="${l}">${lensIcons[l] || ''} ${this._fw('lensShort', l)}</option>`).join('')}
       </select>
     </div>`;
   }
@@ -640,7 +658,7 @@ class PBook {
   }
   _armFeedbackBar(blockId) {
     const bar = document.getElementById(`steer-${blockId}`);
-    if (!bar || !bar.classList.contains('feedback-bar') || bar.dataset.armed) return;
+    if (!bar || !bar.classList.contains('telling-feedback') || bar.dataset.armed) return;
     bar.dataset.armed = '1';
     if (!this._fbTimers) this._fbTimers = {};
     this._fbTimers[blockId] = setTimeout(() => {
@@ -665,7 +683,7 @@ class PBook {
       const def = this._facetDefault(dim);
       if (!always && set.length === 1 && set[0] === def) return null;
       const ordered = CONFIG.facets[dim]?.ordered;
-      const label = ordered && set.length > 1 ? `${set[0]}–${set[set.length - 1]}` : set.join(' · ');
+      const label = dim === 'depth' ? this._depthPhrase(set) : ordered && set.length > 1 ? `${this._fw(dim, set[0])} to ${this._fw(dim, set[set.length - 1])}` : set.map(v => this._fw(dim === 'lens' ? 'lensShort' : dim, v)).join(' · ');
       const icon = dim === 'lens' ? (set.length === 1 ? lensIcons[set[0]] || '' : '🌐') : dim === 'lang' ? '🌍' : '';
       return `<span class="telling-chip">${icon ? icon + ' ' : ''}${label}</span>`;
     };
@@ -680,7 +698,7 @@ class PBook {
         ? '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ reader remix</span>'
         : '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ your remix</span>';
     }
-    if (s === 'core') return '<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED">CORE</span>';
+    if (s === 'core') return '<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED" title="Essential and verified by the authors">ESSENTIAL</span>';
     if (s === 'community') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ reader-shared</span>';
     if (s === 'private') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ yours</span>';
     return '<span class="telling-badge" style="color:#10B981;border-color:#10B981">edited</span>';
@@ -10042,6 +10060,7 @@ class PBook {
 // ===== INIT =====
 const app = new PBook();
 window.app = app;
+installUx(PBook);   // js/ux.js: navigation, door/resume, explainable picks, progress moments
 app.init();
 
 // Text highlight on selection (desktop + mobile)

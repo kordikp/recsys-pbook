@@ -7,7 +7,7 @@
   --surface-raised: #FFFFFF;
   --text: #1C1917;
   --text-2: #57534E;
-  --text-3: #A8A29E;
+  --text-3: #736D68; /* was #A8A29E (2.4:1) — now ≥4.5:1 on --bg and --surface */
   --border: #E7E5E4;
   --border-light: #F5F5F4;
   --accent: #7C3AED;
@@ -47,12 +47,15 @@
   --warn: #F59E0B;
   --warn-bg: #FEF3C7;
   --warn-text: #92400E;
+  /* --card was referenced as var(--card,#fff) all over the UI but never defined,
+     so every such panel stayed a white slab in the dark theme */
+  --card: var(--surface);
 }
 [data-theme="dark"] {
   --bg: #171412; --surface: #231F1C; --surface-raised: #2C2724;
-  --text: #F5F5F4; --text-2: #A8A29E; --text-3: #78716C;
+  --text: #F5F5F4; --text-2: #C4BEB9; --text-3: #9C958F;
   --border: #3D3632; --border-light: #2C2724;
-  --accent-bg: #2D2060;
+  --accent: #9061F9; --accent-hover: #7C3AED; --accent-bg: #2D2060;
   --engineer-bg: #1A2744; --product-bg: #0A3D2E; --business-bg: #3D2600; --sidebar-bg: #261450;
   --shadow: 0 1px 3px rgba(0,0,0,0.3); --shadow-lg: 0 8px 30px rgba(0,0,0,0.4);
   --hl-bg: #854d0e; --hl-bg-hover: #a16207; --hl-flash: #c2410c;
@@ -74,7 +77,9 @@
 [data-cosmetic="gold"] { --accent: #D97706; --accent-hover: #B45309; --accent-bg: #FFFBEB; }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+/* overflow-x: clip — body's overflow-x:hidden does not stop the ROOT from widening
+   (KaTeX in a table made the whole phone page 484 px wide) */
+html { font-size: 16px; -webkit-font-smoothing: antialiased; scroll-behavior: smooth; overflow-x: clip; }
 body { font-family: var(--font-body); color: var(--text); background: var(--bg); line-height: var(--lh); overflow-x: hidden; }
 button { font-family: var(--font-ui); cursor: pointer; border: none; background: none; color: inherit; }
 
@@ -174,7 +179,7 @@ button { font-family: var(--font-ui); cursor: pointer; border: none; background:
 /* =============================================
    TOPBAR
    ============================================= */
-.topbar { position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 .8em; z-index: 200; gap: .6em; backdrop-filter: blur(10px); background: rgba(248,248,245,.9); }
+.topbar { position: fixed; top: 0; left: 0; right: 0; height: var(--topbar-h); background: var(--bg); border-bottom: 1px solid var(--border); display: flex; align-items: center; padding: 0 .8em; z-index: 200; gap: .6em; backdrop-filter: blur(10px); background: color-mix(in srgb, var(--bg) 90%, transparent); }
 [data-theme="dark"] .topbar { background: rgba(23,20,18,.9); }
 .topbar-left { flex-shrink: 0; }
 .topbar-title { font-family: var(--font-ui); font-size: .85rem; font-weight: 700; color: var(--accent); cursor: pointer; }
@@ -247,8 +252,9 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .bottom-nav { position: fixed; bottom: 0; left: 0; right: 0; height: var(--bottomnav-h); background: var(--surface); border-top: 1px solid var(--border); display: flex; z-index: 200; padding-bottom: env(safe-area-inset-bottom); }
 .tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .15em; color: var(--text-3); transition: color var(--transition); }
 .tab.active { color: var(--accent); }
-.tab-icon { font-size: 1.2rem; }
-.tab-label { font-family: var(--font-ui); font-size: .65rem; font-weight: 600; }
+/* fixed icon box: emoji glyphs differ in height (the Map label sat lower than the rest) */
+.tab-icon { font-size: 1.2rem; display: block; height: 1.5em; line-height: 1.5em; position: relative; }
+.tab-label { font-family: var(--font-ui); font-size: .75rem; font-weight: 600; }
 
 /* =============================================
    VIEWS
@@ -440,7 +446,7 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .ch-sub { font-size: 1rem; color: var(--text-2); }
 
 /* Block articles (each block is a distinct card) */
-.block-article { margin-bottom: 1.5em; padding: 1.5em; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative; overflow: visible; }
+.block-article { margin-bottom: 1.5em; padding: 1.5em; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); position: relative; overflow: visible; scroll-margin-top: calc(var(--topbar-h) + 10px); }
 
 /* Block-level navigation */
 .block-nav { display: flex; align-items: center; gap: .3em; margin-bottom: .5em; font-family: var(--font-ui); font-size: .68rem; color: var(--text-3); }
@@ -589,7 +595,8 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .flag-form textarea { width: 100%; min-height: 50px; border: 1px solid #FECACA; border-radius: 5px; padding: .5em; font-family: var(--font-ui); font-size: .8rem; resize: vertical; }
 
 /* Tables */
-.table-wrap { overflow-x: auto; margin: 1em 0; border-radius: var(--radius-sm); border: 1px solid var(--border); }
+/* position: relative — KaTeX's absolutely positioned MathML escaped the scroller and widened the page */
+.table-wrap { overflow-x: auto; margin: 1em 0; border-radius: var(--radius-sm); border: 1px solid var(--border); position: relative; }
 .table-wrap table { width: 100%; border-collapse: collapse; font-family: var(--font-ui); font-size: .85rem; }
 .table-wrap th { background: var(--border-light); font-weight: 600; text-align: left; padding: .6em .8em; border-bottom: 2px solid var(--border); white-space: nowrap; }
 .table-wrap td { padding: .5em .8em; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -605,7 +612,7 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 .diagram-wrap svg { max-width: 100%; height: auto; }
 
 /* Math (KaTeX) */
-.katex-display { margin: 1em 0; overflow-x: auto; overflow-y: hidden; padding: .3em 0; }
+.katex-display { margin: 1em 0; overflow-x: auto; overflow-y: hidden; padding: .3em 0; position: relative; }
 .katex { font-size: 1.05em; }
 
 /* Depth tabs - adaptive */
@@ -1047,14 +1054,9 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 .saved-item { font-family: var(--font-ui); font-size: .85rem; padding: .5em .7em; border-radius: var(--radius-sm); background: var(--border-light); cursor: pointer; transition: background var(--transition); }
 .saved-item:hover { background: var(--accent-bg); }
 
-/* =============================================
-   FEEDBACK BAR
-   ============================================= */
-.feedback-bar { position: fixed; bottom: calc(var(--bottomnav-h) + .5em); left: 50%; transform: translateX(-50%); background: var(--surface-raised); border: 1px solid var(--border); border-radius: 30px; padding: .4em .6em .4em 1em; display: flex; align-items: center; gap: .6em; box-shadow: var(--shadow-lg); z-index: 150; animation: slideUp .3s ease; }
-.fb-label { font-family: var(--font-ui); font-size: .78rem; color: var(--text-2); white-space: nowrap; }
-.fb-buttons { display: flex; gap: .2em; }
-.fb-btn { font-size: 1.2rem; padding: .3em .4em; border-radius: 8px; transition: all var(--transition); }
-.fb-btn:hover { background: var(--border-light); transform: scale(1.15); }
+/* (the legacy floating .feedback-bar toast was removed: the end-of-block steering
+   bar inherited its fixed position/transform and floated over the takeaways —
+   the steering bar is .telling-feedback now and sits in normal flow) */
 
 /* =============================================
    SETTINGS DRAWER
@@ -1067,7 +1069,7 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 .settings-head h3 { font-family: var(--font-ui); font-size: .9rem; font-weight: 700; }
 .settings-head button { font-size: 1.2rem; color: var(--text-2); }
 .sg { margin-bottom: 1.2em; }
-.sg label { font-family: var(--font-ui); font-size: .7rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); display: block; margin-bottom: .4em; }
+.sg > label { font-family: var(--font-ui); font-size: .75rem; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--text-3); display: block; margin-bottom: .4em; }
 .sg-row { display: flex; gap: .3em; flex-wrap: wrap; }
 .sg-opt { font-family: var(--font-ui); font-size: .78rem; padding: .35em .7em; border-radius: 6px; border: 1.5px solid var(--border); color: var(--text-2); transition: all var(--transition); }
 .sg-opt:hover { border-color: var(--text-2); }
@@ -1096,7 +1098,6 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
   .read-pane { padding: 1.5em 0 4em; }
   /* Desktop: show nav links in topbar instead of bottom */
   .topbar::after { content: ''; } /* placeholder */
-  .feedback-bar { bottom: 1em; }
 }
 
 @media (max-width: 500px) {
@@ -1123,7 +1124,7 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
   .home-mode { padding: .8em .5em; }
   .home-mode-label { font-size: .82rem; }
 }
-@media print { .topbar, .bottom-nav, .feedback-bar, .q-block, .settings-drawer, .search-overlay, .game-block { display: none !important; } #appMain { padding: 0; } .read-pane { max-width: 100%; } }
+@media print { .topbar, .bottom-nav, .telling-feedback, .q-block, .settings-drawer, .search-overlay, .game-block { display: none !important; } #appMain { padding: 0; } .read-pane { max-width: 100%; } }
 
 /* ===== Steering knobs + generation (living book) ===== */
 .steer-bar { display: flex; align-items: center; gap: .4em; flex-wrap: wrap; margin: .3em 0 .8em; font-size: .72rem; }
@@ -1154,8 +1155,8 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 .telling-chip { font-size: .62rem; border: 1px solid var(--border); border-radius: 999px; padding: .05em .5em; color: var(--text-2); white-space: nowrap; }
 .telling-badge { font-size: .58rem; font-weight: 700; border: 1px solid; border-radius: 4px; padding: .05em .35em; letter-spacing: .5px; white-space: nowrap; }
 .tellings-gen { display: flex; align-items: center; gap: .5em; flex-wrap: wrap; margin-top: .5em; padding-top: .5em; border-top: 1px dashed var(--border); font-size: .73rem; color: var(--text-2); }
-.feedback-bar { justify-content: flex-start; border-top: 1px dashed var(--border); padding-top: .6em; margin-top: 1em; }
-.feedback-bar .steer-label { font-size: .72rem; color: var(--text-2); }
+.telling-feedback { justify-content: flex-start; border-top: 1px dashed var(--border); padding-top: .6em; margin-top: 1em; }
+.telling-feedback .steer-label { font-size: .75rem; color: var(--text-2); }
 
 /* Boss AI examiner */
 .boss-examiner-note { font-size: .65rem; color: var(--text-3); margin-left: .6em; }
@@ -1245,8 +1246,8 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .cov-inspector { border: 1.5px solid var(--accent); border-radius: 12px; padding: .6em .8em; margin: .5em 0 .8em; background: var(--bg-2, rgba(124,58,237,.04)); font-size: .75rem; }
 
 /* Feedback bar lifecycle */
-.feedback-bar { position: relative; padding-right: 2em; transition: opacity .6s ease, max-height .6s ease .3s, margin .6s ease .3s, padding .6s ease .3s; max-height: 6em; overflow: hidden; }
-.feedback-bar.fb-away { opacity: 0; max-height: 0; margin: 0; padding-top: 0; padding-bottom: 0; pointer-events: none; border: none; }
+.telling-feedback { position: relative; padding-right: 2em; transition: opacity .6s ease, max-height .6s ease .3s, margin .6s ease .3s, padding .6s ease .3s; max-height: 12em; overflow: hidden; }
+.telling-feedback.fb-away { opacity: 0; max-height: 0; margin: 0; padding-top: 0; padding-bottom: 0; pointer-events: none; border: none; }
 .fb-close { position: absolute; top: .15em; right: .2em; font-size: 1rem; line-height: 1; color: var(--text-3); background: none; border: none; cursor: pointer; padding: .15em .3em; }
 .fb-close:hover { color: var(--text); }
 
@@ -1316,7 +1317,7 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .game-buckets.game-pairs .game-bucket { font-size: .82rem; padding: .55em .6em; }
 
 /* Steering bar waits until the section is read; then eases in */
-.steer-bar.feedback-bar.fb-waiting { display: none; }
-.steer-bar.feedback-bar { animation: fbEase .35s ease; }
+.steer-bar.telling-feedback.fb-waiting { display: none; }
+.steer-bar.telling-feedback { animation: fbEase .35s ease; }
 @keyframes fbEase { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-@media (prefers-reduced-motion: reduce) { .steer-bar.feedback-bar { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .steer-bar.telling-feedback { animation: none; } }
