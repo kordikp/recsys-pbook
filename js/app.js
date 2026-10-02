@@ -8077,8 +8077,8 @@ class PBook {
       <div class="boss-icon">\u{1F409}</div>
       <h3 class="boss-title">Final Boss: Prove You've Learned!</h3>
       <div class="boss-question">${m.boss.q}</div>
-      <textarea class="boss-answer" id="bossAnswer" placeholder="Type your answer here..." rows="4"></textarea>
-      <div class="boss-hint" id="bossHint" style="display:none"></div>
+      <textarea class="boss-answer" id="bossAnswer" placeholder="Type your answer here..." rows="4">${this.escHtml(this._pendingBoss()[m.id]?.answer || '')}</textarea>
+      <div class="boss-hint" id="bossHint" style="${this._pendingBoss()[m.id] ? '' : 'display:none'}">${this._pendingBoss()[m.id] ? 'Your saved answer is back in the box. The examiner could not grade it last time; check it now.' : ''}</div>
       <div class="boss-actions">
         <button class="boss-submit" id="bossSubmit" onclick="app._checkBossAnswer('${m.id}')">Check my answer</button>
         <span class="boss-examiner-note" id="bossExaminerNote"></span>
@@ -8137,6 +8137,7 @@ class PBook {
         this.rc.logEvent('boss_graded', { missionId, score: g.score, verdict: g.verdict });
         const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:${g.verdict === 'pass' ? '#10B981' : g.verdict === 'almost' ? '#D97706' : '#EF4444'}"></div></div>
           <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
+        this._setPendingBoss(missionId, null);      // graded now — the saved copy is done
         if (g.verdict === 'pass') {
           hintEl.className = 'boss-hint boss-pass';
           hintEl.innerHTML = `${bar}<b>Passed!</b> ${this.escHtml(g.feedback)}`;
@@ -8158,7 +8159,7 @@ class PBook {
         /* examiner down → fall through to keyword check */
       }
     }
-    this._checkBossAnswerLocal(missionId, rawAnswer.toLowerCase(), hintEl);
+    this._checkBossAnswerLocal(missionId, rawAnswer, hintEl);
   }
 
   // ===== POST-EXAM REFLECTION: what worked / what dragged / a suggestion =====
@@ -8205,24 +8206,29 @@ class PBook {
     this.completeMission(missionId);
   }
 
-  _checkBossAnswerLocal(missionId, answer, hintEl) {
-    const m = this._wizardMission;
-    const hints = m.boss.hints || [];
-    const found = hints.filter(h => answer.includes(h));
-    const score = found.length / Math.max(hints.length, 1);
+  // Answers written while the examiner was unreachable: { missionId: { answer, at } }
+  _pendingBoss() { try { return JSON.parse(localStorage.getItem('pbook-boss-pending') || '{}'); } catch (e) { return {}; } }
+  _setPendingBoss(missionId, answer) {
+    const p = this._pendingBoss();
+    if (answer) p[missionId] = { answer: answer.slice(0, 5000), at: Date.now() }; else delete p[missionId];
+    try { localStorage.setItem('pbook-boss-pending', JSON.stringify(p)); } catch (e) {}
+  }
 
-    if (score >= 0.5 || answer.length > 80) {
-      hintEl.style.display = 'block';
-      hintEl.className = 'boss-hint boss-pass';
-      hintEl.innerHTML = `<b>Awesome!</b> You mentioned ${found.length} key concepts. You clearly understand this topic!`;
-      this._bossReflection(missionId, hintEl);
-    } else {
-      const missing = hints.filter(h => !answer.includes(h)).slice(0, 2);
-      hintEl.style.display = 'block';
-      hintEl.className = 'boss-hint boss-retry';
-      hintEl.innerHTML = `Good start! But try to also mention: <b>${missing.join('</b> and <b>')}</b>. Go back and re-read if you need to!`;
-      hintEl.innerHTML += `<br><button class="wizard-nav-btn" style="margin-top:.4em" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button>`;
-    }
+  // Examiner unavailable: NEVER auto-pass (a mission feeds the certificate). The
+  // answer is saved for grading once the examiner is reachable; the keyword check
+  // only tells the reader which ideas the answer does not mention yet.
+  _checkBossAnswerLocal(missionId, rawAnswer, hintEl) {
+    const m = this._wizardMission;
+    const answer = rawAnswer.toLowerCase();
+    const hints = m.boss.hints || [];
+    const missing = hints.filter(h => !answer.includes(String(h).toLowerCase())).slice(0, 3);
+    this._setPendingBoss(missionId, rawAnswer);
+    this.rc.logEvent('boss_pending', { missionId });
+    hintEl.style.display = 'block';
+    hintEl.className = 'boss-hint';
+    hintEl.innerHTML = `<b>The examiner is not reachable right now, so this answer is not graded yet.</b> It is saved on this device; open this mission again later and check it then.`
+      + (missing.length ? `<div style="margin-top:.4em">Before then, consider whether your answer covers: <b>${missing.map(h => this.escHtml(h)).join('</b>, <b>')}</b>.</div>` : '')
+      + `<div style="margin-top:.5em"><button class="wizard-nav-btn" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button></div>`;
   }
 
   showTopic(topic) {
@@ -9901,9 +9907,15 @@ class PBook {
   getCertTiers() {
     const u = this.user;
     const core = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine');
-    const byDepth = want => core.filter(b => want.includes(b.meta.depth || 'standard'));
-    const readCount = list => list.filter(b => u.readBlocks.has(b.meta.id)).length;
-    const readAll = list => list.length === 0 || list.every(b => u.readBlocks.has(b.meta.id));
+    // Depth tiers by declared COVERAGE (a standard..technical block belongs to both
+    // tiers), never string equality — a range tag must not drop a block from all tiers.
+    const byDepth = want => core.filter(b => want.some(d => this._covers(b.meta, 'depth', d)));
+    // A core block counts once the reader has met its idea in ANY verified (git)
+    // telling — the essentials flow may serve the tl;dr or a world telling instead.
+    const isRead = b => u.readBlocks.has(b.meta.id) || this._conceptIds(b.meta).slice(0, 1)
+      .some(cid => (this.conceptBlocks?.[cid] || []).some(t => t.meta.type === 'spine' && u.readBlocks.has(t.meta.id)));
+    const readCount = list => list.filter(isRead).length;
+    const readAll = list => list.length === 0 || list.every(isRead);
 
     const base = byDepth(['intro', 'standard']);
     const tech = byDepth(['technical']);
