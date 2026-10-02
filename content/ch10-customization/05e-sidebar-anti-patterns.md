@@ -2,7 +2,7 @@
 id: ch5-anti-patterns
 type: spine
 title: "RecSys Anti-Patterns: Mistakes Everyone Makes"
-readingTime: 4
+readingTime: 11
 standalone: true
 core: false
 teaser: "The most instructive lessons in recommendation engineering come from failures. These eight anti-patterns have derailed systems at companies of every scale -- and recognizing them early can save months of wasted effort."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

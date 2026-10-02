@@ -57,4 +57,4 @@ Not all footprints are equal. Here's a rough ranking from STRONGEST signal to we
 
 This hierarchy is why conversion events dominate digital advertising models -- and why platforms invest heavily in tracking post-click behavior rather than just impressions.
 
-**Consider this:** Next time you bounce from an article after three seconds, remember: you just sent a signal to the algorithm. What inference did it draw?
+**Try this:** Next time you bounce from an article after three seconds, remember: you just sent a signal to the algorithm. What inference did it draw?

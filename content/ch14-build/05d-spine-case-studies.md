@@ -2,7 +2,7 @@
 id: ch5-case-studies
 type: spine
 title: "Real-World Case Studies: How Industry Does It"
-readingTime: 5
+readingTime: 12
 standalone: true
 core: true
 teaser: "The best way to learn recommender systems is to study production systems at scale — where theory meets the chaos of real users, real latency budgets, and real business metrics."
@@ -24,10 +24,12 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: deep
+lengthBand: tldr..deep
 genre: explainer
 carriers: prose|image
 ---
+
+> **In short:** Five production systems — Spotify Discover Weekly, YouTube's deep-learning recommender, Netflix's personalized artwork, The Daily Telegraph's reader segmentation and Recombee's recommendation service — keep teaching the same lessons. **Stage the computation:** candidate generation, then ranking, then re-ranking; one model that does everything does not scale. **Choose the objective with care:** YouTube moved from clicks to watch time, and Netflix raised engagement by changing only how titles are presented. **Never stop experimenting:** Discover Weekly refreshes every Monday, Netflix keeps testing artwork, and bandits keep exploring. Plan for cold start from day one, and remember that the edge comes from the engineering around well-known algorithms. The five stories below show each lesson in practice.
 
 Academic papers give you the theory. Benchmarks give you a leaderboard. But production systems give you the truth: what actually works when millions of users interact with your recommendations every day. These five case studies span music, video, news, and multi-domain platforms — each revealing lessons that no benchmark can teach.
 

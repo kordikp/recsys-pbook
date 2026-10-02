@@ -2,7 +2,7 @@
 id: ch7-bandits
 type: spine
 title: "The Exploration Problem: Bandit Algorithms in Practice"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "Should you recommend what you know works, or take a risk on something new? Bandit algorithms solve this fundamental dilemma."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -85,4 +85,4 @@ Recent work at Recombee applied this to outreach platforms processing 15 million
 > - Alves et al. — "[BPoP: Unraveling Dynamics](https://doi.org/10.1145/3589334.3645473)," WWW 2024.
 > - Zid, Alves, Kordík — "[Active Recommendation for Email Outreach](https://www.recombee.com/research-publications)," CIKM 2025.
 
-**Consider this:** The exploration-exploitation trade-off appears everywhere in life: trying a new restaurant vs. going to your favorite, reading a new author vs. re-reading a classic, exploring a new career path vs. deepening your current expertise. Bandit algorithms formalize the optimal strategy — and the answer is always a carefully calibrated mix of both.
+The exploration-exploitation trade-off appears everywhere in life: trying a new restaurant vs. going to your favorite, reading a new author vs. re-reading a classic, exploring a new career path vs. deepening your current expertise. Bandit algorithms formalize the optimal strategy — and the answer is always a carefully calibrated mix of both.

@@ -55,4 +55,4 @@ The more you interact with a platform, the more signal it accumulates. And the m
 
 > **Did you know?** Spotify generates a fresh Discover Weekly playlist every Monday for each of its 600+ million users. That's 600 million unique, personalized playlists computed in a single batch — one of the largest-scale personalization systems in production.
 
-**Consider this:** Think about patterns in your own behavior. You might always read industry news with your morning coffee, or gravitate toward specific podcast genres during commutes. Recommender systems detect these patterns — they just do it across millions of people simultaneously, finding correlations no human could spot manually.
+**Try this:** Think about patterns in your own behavior. You might always read industry news with your morning coffee, or gravitate toward specific podcast genres during commutes. Recommender systems detect these patterns — they just do it across millions of people simultaneously, finding correlations no human could spot manually.

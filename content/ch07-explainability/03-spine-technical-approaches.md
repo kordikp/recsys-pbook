@@ -2,7 +2,7 @@
 id: ch7-explain-tech
 type: spine
 title: "Technical Approaches to Explainability"
-readingTime: 4
+readingTime: 7
 standalone: true
 core: true
 teaser: "From transparent models you can read directly to post-hoc methods that approximate what a black box is doing -- every explainability approach trades off between fidelity and interpretability."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

@@ -13,14 +13,14 @@ recallQ: "What are the key engineering challenges of serving item embeddings in 
 recallA: "Storage (100M items × 768 dims = 307GB), index updates (new items must be indexed without downtime), staleness (embeddings should reflect recent interactions), and consistency (training and serving must use the same embedding version)."
 publishedAt: "2026-04-03"
 status: accepted
-concept: multimodal
+concept: embeddings
 state: edited
 lens: generic
 visuality: text-first
 depth: technical
 formalism: none
 lengthBand: standard
-genre: code-walkthrough
+genre: explainer
 carriers: prose|table|code
 ---
 
@@ -81,4 +81,4 @@ Request → User Embedding (online, ~5ms)
 
 Total embedding-related latency: ~15ms (user embedding + ANN query). This fits comfortably within a 200ms total budget.
 
-**Consider this:** The gap between a research paper showing "embeddings improve nDCG by 5%" and a production system actually serving those embeddings is primarily an engineering challenge — storage, indexing, versioning, and latency. Understanding both sides is what separates recommendation researchers from recommendation engineers.
+**In your product:** The gap between a research paper showing "embeddings improve nDCG by 5%" and a production system actually serving those embeddings is primarily an engineering challenge — storage, indexing, versioning, and latency. Understanding both sides is what separates recommendation researchers from recommendation engineers.

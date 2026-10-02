@@ -2,7 +2,7 @@
 id: ch3-als-deep
 type: spine
 title: "ALS: The Complete Algorithm"
-readingTime: 6
+readingTime: 15
 standalone: false
 core: false
 voice: thinker

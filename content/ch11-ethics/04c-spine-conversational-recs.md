@@ -22,7 +22,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -42,7 +42,7 @@ These systems combine **natural language understanding** (interpreting nuanced, 
 
 ## LLMs as Recommendation Interfaces
 
-Large Language Models (ChatGPT, Claude, Gemini, and their successors) bring several capabilities that traditional recommender systems lack:
+[Large Language Models](#c/llm-recommenders) (ChatGPT, Claude, Gemini, and their successors) bring several capabilities that traditional recommender systems lack:
 - **Nuanced preference articulation**: "I liked the atmosphere of that film, not necessarily the genre" -- LLMs can interpret subjective, multi-dimensional preference descriptions
 - **Interactive preference elicitation**: "Would you prefer something set in a realistic or speculative world?" -- multi-turn dialogue refines the recommendation
 - **Explainability by default**: LLMs can articulate WHY they recommend something, addressing a long-standing challenge in recommendation research

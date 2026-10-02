@@ -2,7 +2,7 @@
 id: ch6-control-d-create
 type: spine
 title: "Take Control: Your Digital Toolkit"
-readingTime: 4
+readingTime: 2
 standalone: true
 teaser: "Practical strategies you can implement today to manage your algorithms intentionally -- rather than letting them manage you."
 voice: creator
@@ -18,9 +18,9 @@ concept: addictive-design
 state: edited
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: worked-example
 carriers: prose
 ---

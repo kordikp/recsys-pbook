@@ -2,7 +2,7 @@
 id: ch5-monitoring
 type: spine
 title: "Production Monitoring: Keeping Your Recommender Healthy"
-readingTime: 3
+readingTime: 13
 standalone: true
 core: false
 teaser: "A recommender system that works today can silently degrade tomorrow. Production monitoring is the discipline of detecting problems before your users do -- and it requires a fundamentally different approach than monitoring traditional software."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

@@ -2,7 +2,7 @@
 id: ch13-deals
 type: spine
 title: "Deal Aggregators: Time-Sensitive Recommendations"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: false
 teaser: "A deal that expires in 2 hours needs instant matching — the cold-start problem measured in minutes, not days."
@@ -48,4 +48,4 @@ Deal aggregators (Slickdeals, Pepper, HotUKDeals) aggregate time-limited offers 
 - **Pepper:** [+21% click-outs](https://www.recombee.com/case-studies/pepper) to affiliate links
 - **itison:** [2,000% ROI](https://www.recombee.com/case-studies/itison) on newsletter personalization
 
-**Consider this:** Deal aggregators represent the most extreme cold-start challenge in recommendation — every item is time-limited and must find its audience before it expires. The algorithms that work here (content-based instant matching, bandit exploration, geographic filtering) are applicable to any domain with ephemeral content.
+Deal aggregators represent the most extreme cold-start challenge in recommendation — every item is time-limited and must find its audience before it expires. The algorithms that work here (content-based instant matching, bandit exploration, geographic filtering) are applicable to any domain with ephemeral content.

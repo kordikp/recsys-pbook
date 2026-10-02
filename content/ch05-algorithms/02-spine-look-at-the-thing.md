@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|diagram
 ---
@@ -87,6 +87,6 @@ Content-based filtering doesn't require other users at all. It excels for:
 
 It's like having a domain expert who has analyzed every item in the catalog and remembers all the details -- matching your stated preferences against the full inventory.
 
-**Consider this:** Next time you see "More like this" on any platform, examine the recommendations. Are they similar in topic, style, or attributes? That's likely content-based filtering at work -- potentially using learned representations rather than simple keyword matching.
+**Try this:** Next time you see "More like this" on any platform, examine the recommendations. Are they similar in topic, style, or attributes? That's likely content-based filtering at work -- potentially using learned representations rather than simple keyword matching.
 
 ![Algorithm Families](/images/diagram-algorithm-taxonomy.svg)

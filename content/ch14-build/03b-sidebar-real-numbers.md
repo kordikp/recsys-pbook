@@ -2,7 +2,7 @@
 id: ch5-real-numbers
 type: spine
 title: "Real-World Numbers"
-readingTime: 1
+readingTime: 2
 standalone: true
 teaser: "Your 5-user prototype is instructive. Production systems operate at scales that challenge even modern hardware."
 voice: thinker
@@ -14,13 +14,13 @@ highlights:
   - "Netflix: 3.4 trillion cells. YouTube: 2.16 quintillion. >99% are empty."
   - "Matrix factorization finds patterns in this extreme sparsity"
 status: accepted
-concept: diy-similar-users
+concept: diy-collect-data
 state: edited
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose
 ---

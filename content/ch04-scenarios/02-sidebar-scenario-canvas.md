@@ -2,7 +2,7 @@
 id: ch4-canvas
 type: spine
 title: "The Scenario Canvas: A Design Framework"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: false
 teaser: "Before writing a single line of code, fill out the scenario canvas. Eight questions that prevent the most common recommendation design mistakes."
@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

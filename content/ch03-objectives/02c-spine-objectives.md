@@ -2,7 +2,7 @@
 id: ch4-objectives
 type: spine
 title: "What Is the Algorithm Actually Trying to Do?"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "Every recommender optimizes a specific objective function. The critical question is: whose goals does that function serve?"
@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|diagram
 ---

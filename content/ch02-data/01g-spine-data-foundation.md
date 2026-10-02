@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
@@ -37,7 +37,7 @@ Before any algorithm can make a recommendation, it needs data. And not just any 
 
 For a video platform: title, description, genre, duration, release date, cast, language, thumbnail, content rating. For an e-commerce site: product name, category, price, brand, availability, images, size/color variants.
 
-**Why it matters:** The item catalog enables content-based filtering. Without knowing that a movie is a "sci-fi thriller from 2024," the system can't find similar movies for a user who liked other sci-fi thrillers.
+**Why it matters:** The item catalog enables [content-based filtering](#c/content-based). Without knowing that a movie is a "sci-fi thriller from 2024," the system can't find similar movies for a user who liked other sci-fi thrillers.
 
 **Common problems:**
 - **Incomplete metadata** — items with empty descriptions or missing categories make content-based approaches impossible
@@ -62,7 +62,7 @@ For a video platform: title, description, genre, duration, release date, cast, l
 
 **What it contains:** Every behavioral signal connecting users to items — clicks, views, purchases, ratings, saves, skips, searches.
 
-**This is the most critical pillar.** Collaborative filtering is built entirely on interaction data. No interactions = no collaborative signal = generic recommendations.
+**This is the most critical pillar.** [Collaborative filtering](#c/collaborative-filtering) is built entirely on interaction data. No interactions = no collaborative signal = generic recommendations.
 
 **Interaction types and their signal strength:**
 
@@ -104,4 +104,4 @@ A common misconception: "We need more data." Often, the real need is **better da
 
 The [data quality section](ch2-data-quality) covers specific quality issues and how to detect them.
 
-**Consider this:** When a recommendation system fails, the first instinct is to blame the algorithm. But in most cases, the root cause is in the data foundation — missing metadata, noisy interactions, or stale catalogs. Before tuning your model, audit your data. It's less glamorous than algorithm research, but it's usually more impactful.
+**In your product:** When a recommendation system fails, the first instinct is to blame the algorithm. But in most cases, the root cause is in the data foundation — missing metadata, noisy interactions, or stale catalogs. Before tuning your model, audit your data. It's less glamorous than algorithm research, but it's usually more impactful.

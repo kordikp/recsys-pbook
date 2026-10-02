@@ -2,7 +2,7 @@
 id: ch1-history
 type: spine
 title: "A Brief History of Recommender Systems"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: false
 teaser: "From GroupLens to LLM-powered recommendations -- three decades of evolution that transformed how we discover content."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
@@ -48,7 +48,7 @@ Recommender systems have a surprisingly compact history. The entire field -- fro
 
 **2013 -- Word2Vec enables item embeddings** Mikolov et al.'s Word2Vec showed that distributional representations could capture rich semantic relationships. The RecSys community quickly adapted this idea -- Prod2Vec, Item2Vec, and related methods learned dense vector representations of items from interaction sequences, enabling recommendations based on latent similarity rather than explicit co-occurrence counts.
 
-**2016 -- YouTube's deep neural network paper (Covington et al.)** Google published its architecture for YouTube recommendations, revealing a two-tower deep learning system serving billions of users. This was the moment deep learning moved from academic curiosity to production reality in recommender systems, demonstrating that neural networks could handle the scale and latency demands of real-time serving.
+**2016 -- YouTube's deep neural network paper (Covington et al.)** Google published its architecture for YouTube recommendations, revealing a two-stage deep learning system (a candidate-generation network, then a ranking network) serving billions of users. This was the moment deep learning moved from academic curiosity to production reality in recommender systems, demonstrating that neural networks could handle the scale and latency demands of real-time serving.
 
 **2017 -- Transformers (Vaswani et al.)** The "Attention Is All You Need" paper revolutionized NLP and, within a year, its attention mechanisms began infiltrating recommender systems. Self-attention offered a natural way to model sequential user behavior -- weighing which past interactions matter most for predicting the next one.
 
@@ -60,7 +60,7 @@ Recommender systems have a surprisingly compact history. The entire field -- fro
 
 **2020 -- LightGCN (He et al.)** Graph neural networks entered the recommendation mainstream. LightGCN stripped away the nonlinearities and feature transformations of earlier GCN approaches, showing that simple neighborhood aggregation on the user-item interaction graph was both more effective and more interpretable. The theme continued: simpler architectures, done right, win.
 
-**2021 -- VASP and BMAB** Research explored combining the strengths of different paradigms. VASP (Variational Autoencoders with Shallow Parallel) fused variational and linear models, while BMAB (Burst-aware Multi-Armed Bandits) tackled the practical challenge of trending content, adapting bandit algorithms to detect and exploit temporal bursts in item popularity.
+**2021 -- VASP and BMAB** Research explored combining the strengths of different paradigms. VASP (Deep Variational Autoencoder with Shallow Parallel Path) fused variational and linear models, while BMAB (Burst-aware Multi-Armed Bandits) tackled the practical challenge of trending content, adapting bandit algorithms to detect and exploit temporal bursts in item popularity.
 
 **2022 -- ELSA** Scalable linear shallow autoencoders pushed the efficient-model frontier further, demonstrating that carefully designed linear architectures could achieve state-of-the-art results with dramatically lower computational cost than deep alternatives. The message was becoming clear: the best production models often look nothing like the most complex research prototypes.
 
@@ -68,9 +68,9 @@ Recommender systems have a surprisingly compact history. The entire field -- fro
 
 **2023 -- LLM-based conversational recommendation** ChatGPT plugins and similar integrations enabled a fundamentally new interaction paradigm: users could describe what they wanted in natural language, and an LLM could reason over catalogs, user context, and constraints to produce recommendations conversationally. This blurred the line between search, recommendation, and dialogue.
 
-**2024 -- beeFormer, generalization bounds, CompresSAE** Research accelerated across multiple fronts. beeFormer brought sentence transformer pre-training to collaborative filtering. Theoretical work on generalization bounds began providing formal guarantees for recommendation quality. CompresSAE explored aggressive compression of autoencoder-based recommenders without sacrificing accuracy.
+**2024 -- beeFormer, generalization bounds** Research accelerated across multiple fronts. beeFormer brought sentence transformer pre-training to collaborative filtering. Theoretical work on generalization bounds began providing formal guarantees for recommendation quality.
 
-**2025--26 -- Sparse ELSA, ReALM, SHIELD** The current frontier combines sparsity, retrieval-augmented generation, and privacy-preserving techniques. Sparse ELSA achieves near-dense performance with a fraction of the parameters. ReALM integrates retrieval with language model reasoning for recommendation. SHIELD addresses the growing demand for recommendation systems that protect user data by design. The field is moving simultaneously toward greater efficiency and greater responsibility.
+**2025--26 -- Sparse ELSA, CompresSAE, ReALM, SHIELD** The current frontier combines efficiency with safety. Sparse ELSA achieves near-dense performance with a fraction of the parameters. CompresSAE uses a sparse autoencoder to compress dense item embeddings, cutting the memory cost of retrieval at scale. ReALM shows that an autoregressive linear model can beat transformer-based approaches at predicting a shopper's next grocery basket. SHIELD makes semantic search safer: a system that understands meaning must also catch harmful queries that keyword filters would miss. The field is moving simultaneously toward greater efficiency and greater responsibility.
 
 ## What This History Teaches
 

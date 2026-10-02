@@ -57,4 +57,4 @@ But **why** is Model B better? Does it find better niche items? Is it less biase
 
 **Open source:** github.com/cowjen01/repsys
 
-**Consider this:** The best evaluation combines quantitative metrics (for overall comparison) with qualitative inspection (for understanding). RepSys provides the qualitative half — and often, that's where the most actionable insights live.
+**In your product:** The best evaluation combines quantitative metrics (for overall comparison) with qualitative inspection (for understanding). RepSys provides the qualitative half — and often, that's where the most actionable insights live.

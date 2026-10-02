@@ -2,7 +2,7 @@
 id: ch3-context-aware
 type: spine
 title: "Context-Aware Recommendation: It's Not Just What You Like"
-readingTime: 3
+readingTime: 7
 standalone: true
 core: true
 teaser: "The same person wants different things at different times. Context-aware systems recognize that preferences aren't fixed -- they shift with time, place, device, and intent."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -45,7 +45,7 @@ Context is any information beyond the user and the item that influences whether 
 
 ## Three Architectural Approaches
 
-There are three fundamental ways to incorporate context into a recommendation pipeline. Each represents a different engineering trade-off.
+There are three fundamental ways to incorporate context into a [recommendation pipeline](#c/pipeline). Each represents a different engineering trade-off.
 
 ### Pre-Filtering
 
@@ -59,7 +59,7 @@ Disadvantages: hard boundaries can be too aggressive. A candidate removed by the
 
 **Score all candidates with a context-agnostic model, then re-rank or filter the results by context.** The scoring model produces its standard ranked list. A downstream component then adjusts: suppress items inappropriate for the current context, boost items that match it, or re-order based on contextual relevance.
 
-Advantages: the base model is simpler and can be trained on all data without context segmentation. Context logic is modular -- you can swap re-ranking strategies without retraining the model. Post-filters are also useful for applying business rules (don't recommend alcohol to minors, don't surface horror movies in a children's session).
+Advantages: the base model is simpler and can be trained on all data without context segmentation. Context logic is modular -- you can swap re-ranking strategies without retraining the model. Post-filters are also useful for applying [business rules](#c/business-rules) (don't recommend alcohol to minors, don't surface horror movies in a children's session).
 
 Disadvantages: the model may waste capacity scoring candidates that will be filtered out. The re-ranking step can be crude if it operates on simple rules rather than learned contextual preferences.
 
@@ -115,7 +115,7 @@ Detecting intent is challenging because users rarely declare it explicitly. Syst
 
 **Spotify** is perhaps the most visible practitioner of context-aware recommendation. Its "Daylist" feature generates playlists that shift throughout the day, reflecting the observation that the same listener wants different music at 7 AM, 2 PM, and 10 PM. The system combines time-of-day features with listening history patterns to identify contextual clusters: "Monday morning focus," "Friday evening energy," "Sunday afternoon chill."
 
-**Google Maps** restaurant suggestions are a masterclass in multi-contextual recommendation. They combine location (where you are), time (meal period), personal history (cuisines you've rated or visited), social signal (popular places nearby), and even real-time data (current wait times, open/closed status).
+**Google Maps** restaurant suggestions stack five contexts at once: location (where you are), time (meal period), personal history (cuisines you've rated or visited), social signal (popular places nearby), and even real-time data (current wait times, open/closed status).
 
 **News applications** like Apple News and Google News construct morning digests that differ from evening editions -- not just in recency, but in tone and depth. Morning editions tend toward briefings and summaries; evening editions lean toward analysis and long-form features.
 

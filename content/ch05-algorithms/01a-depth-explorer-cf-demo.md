@@ -2,7 +2,7 @@
 id: ch3-cf-d-exp
 type: spine
 title: "See Collaborative Filtering in Action"
-readingTime: 3
+readingTime: 1
 standalone: false
 teaser: "A visual interaction matrix that shows exactly how the system identifies similar users."
 voice: explorer

@@ -2,7 +2,7 @@
 id: ch5-model-selection
 type: spine
 title: "Model Selection: Choosing the Right Algorithm for Your Problem"
-readingTime: 4
+readingTime: 9
 standalone: true
 core: false
 voice: universal
@@ -14,7 +14,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|table|image|code
 ---

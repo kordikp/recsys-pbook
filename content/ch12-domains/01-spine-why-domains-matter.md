@@ -2,7 +2,7 @@
 id: ch13-domains-intro
 type: spine
 title: "Why Domains Matter: One Algorithm Doesn't Fit All"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "The same algorithm that works for Netflix will fail for a job board. Domain-specific constraints shape every design decision."
@@ -65,4 +65,4 @@ In the following sections, we examine each major domain in detail — the unique
 
 For each domain, the practical implementation patterns are available as [domain-specific recipes](https://docs.recombee.com/) in production recommendation platforms.
 
-**Consider this:** Before choosing an algorithm, choose your domain's priorities. The best algorithm for your domain might not be the most sophisticated — it might be the one that best respects your domain's constraints. A job board that perfectly optimizes click-through rate but ignores match quality is solving the wrong problem.
+**In your product:** Before choosing an algorithm, choose your domain's priorities. The best algorithm for your domain might not be the most sophisticated — it might be the one that best respects your domain's constraints. A job board that perfectly optimizes click-through rate but ignores match quality is solving the wrong problem.

@@ -52,4 +52,4 @@ In this book, we're going to examine how it all works. You'll understand how the
 
 > **Did you know?** YouTube's recommendation algorithm drives over 70% of all views on the platform — that's more than 700 million hours of video watched per day, all selected by AI. This makes it arguably the most consequential content curation system ever built.
 
-**Consider this:** Open any platform right now — YouTube, Spotify, Netflix, Amazon. Look at the first thing it shows you. What data points do you think it used to make that choice? Keep your hypothesis in mind — we'll revisit it.
+**Try this:** Open any platform right now — YouTube, Spotify, Netflix, Amazon. Look at the first thing it shows you. What data points do you think it used to make that choice? Write your guess down; [digital footprints](#c/digital-footprints) shows how close you got.

@@ -13,7 +13,7 @@ recallQ: "How do cultural differences affect recommendation systems?"
 recallA: "Rating scales differ (US: 3.5 average, Japan: 3.0), social dynamics affect sharing behavior, content preferences vary, privacy expectations differ (EU strict, US moderate, China different model), and collectivist vs individualist cultures respond differently to social proof."
 publishedAt: "2026-04-03"
 status: accepted
-concept: conversational-recs
+concept: ai-future
 state: edited
 lens: generic
 visuality: text-first
@@ -61,4 +61,4 @@ Most recommendation research is conducted on US-centric datasets (MovieLens, Ama
 - **Local baselines:** Don't assume US-trained baselines generalize; validate in each market
 - **Diverse evaluation:** Test recommendation quality across user segments, not just in aggregate
 
-**Consider this:** A truly global recommendation system must be humble about cultural assumptions. What "good" recommendation looks like — how confident to be, how much to diversify, how much to rely on social proof — depends on cultural context that no algorithm can fully capture without local adaptation.
+A truly global recommendation system must be humble about cultural assumptions. What "good" recommendation looks like — how confident to be, how much to diversify, how much to rely on social proof — depends on cultural context that no algorithm can fully capture without local adaptation.

@@ -2,7 +2,7 @@
 id: ch3-speed
 type: spine
 title: "The Scale of Modern Recommendation"
-readingTime: 1
+readingTime: 2
 standalone: true
 teaser: "800 million items. 200 milliseconds. The computational demands behind production recommendation systems are staggering."
 voice: thinker
@@ -19,9 +19,9 @@ concept: pipeline
 state: edited
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose|table
 ---
@@ -32,12 +32,12 @@ Let's quantify just how demanding the computational requirements are behind a pr
 
 YouTube hosts approximately **800 million videos**. When you open the app, the recommendation system must:
 
-1. Search across all 800 million items
-2. Retrieve the best ~1000 candidates for YOU specifically
-3. Score those candidates with a cross-feature ranking model
-4. Filter items you've already consumed
-5. Apply diversity constraints and policy checks
-6. Assemble the final personalized feed
+1. Search across all 800 million items *(retrieval)*
+2. Retrieve the best ~1000 candidates for YOU specifically *(retrieval)*
+3. Score those candidates with a cross-feature ranking model *(ranking)*
+4. Filter items you've already consumed *(re-ranking)*
+5. Apply diversity constraints and policy checks *(re-ranking)*
+6. Assemble the final personalized feed *(re-ranking)*
 
 **Total latency budget:** under **200 milliseconds**. That's 0.2 seconds. That's faster than a human eye blink (which takes approximately 300-400 milliseconds).
 
@@ -51,14 +51,14 @@ YouTube does it in the time it takes you to blink.
 
 ## How Is This Computationally Feasible?
 
-The pipeline architecture. The multi-stage funnel design means the system never actually scores all 800 million items with the expensive ranking model. Fast retrieval (Stage 1) uses pre-computed embeddings and ANN indices to reduce 800M items to ~1000 candidates in milliseconds. The heavy-weight scoring model (Stage 2) only evaluates those ~1000 candidates. Re-ranking logic (Stage 3) operates on ~100 items.
+The pipeline architecture. The multi-stage funnel design means the system never actually scores all 800 million items with the expensive ranking model. Fast retrieval (Stage 1) uses pre-computed embeddings and ANN indices to reduce 800M items to ~1000 candidates in milliseconds. The heavy-weight ranking model (Stage 2) only evaluates those ~1000 candidates. Re-ranking logic (Stage 3) operates on ~100 items.
 
 Each stage reduces the search space by orders of magnitude while increasing computational cost per item:
 
 | Stage | Items | Time per item | Total time |
 |---|---|---|---|
 | Retrieval (ANN) | 800M → 1000 | ~nanoseconds | ~5ms |
-| Scoring (neural) | 1000 → 100 | ~microseconds | ~50ms |
+| Ranking (neural) | 1000 → 100 | ~microseconds | ~50ms |
 | Re-ranking | 100 → 20 | ~milliseconds | ~10ms |
 
 It's like finding a needle in a haystack by first using a magnet to eliminate 99.9% of the hay.

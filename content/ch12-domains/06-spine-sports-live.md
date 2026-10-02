@@ -2,7 +2,7 @@
 id: ch13-sports
 type: spine
 title: "Sports & Live Events: Real-Time Personalization at Scale"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: true
 teaser: "When the final whistle blows, millions of fans need their next recommendation in seconds — not minutes. Sports recommendation operates at the speed of live events."
@@ -24,8 +24,8 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
-genre: code-walkthrough
+lengthBand: deep
+genre: explainer
 carriers: prose|image|code
 ---
 
@@ -128,4 +128,4 @@ For the full domain overview including editorial blending and multi-sport person
 - **DAZN:** Serving personalized recommendations across [200+ markets](https://www.recombee.com/case-studies) globally
 - Quote from Christoph Haas (DAZN EVP): "Their tech enables us to connect each viewer on any device with the right game or clip in real time"
 
-**Consider this:** Sports recommendation is where the emotional stakes are highest. Fans don't just want content — they want to feel connected to their teams and the broader fan community. The algorithm must understand not just preferences but *fandom* — a deeply emotional relationship that transcends standard preference modeling.
+Sports recommendation is where the emotional stakes are highest. Fans don't just want content — they want to feel connected to their teams and the broader fan community. The algorithm must understand not just preferences but *fandom* — a deeply emotional relationship that transcends standard preference modeling.

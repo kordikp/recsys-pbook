@@ -13,13 +13,13 @@ recallQ: "How can geographic information improve recommendations?"
 recallA: "Geographic location correlates with preferences (local cuisine, events, weather-dependent products). Inductive matrix factorization with geographic features discovers 'macro-regions' of similar taste, even across distant locations."
 publishedAt: "2026-04-03"
 status: accepted
-concept: multimodal
+concept: context-awareness
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -91,4 +91,4 @@ Geographic data is sensitive personal information under GDPR and CCPA. Approache
 - **On-device processing** — compute location-based features locally, send only recommendations
 - **Consent-gated** — only use geographic features when the user has explicitly opted in
 
-**Consider this:** Geography is a proxy for culture, climate, lifestyle, and economic context — all of which shape preferences. The most interesting finding from regionalization research is that **cultural similarity trumps geographic proximity**. Two neighborhoods 5,000 km apart can share more taste patterns than two neighborhoods 5 km apart — if their residents share demographic and cultural characteristics.
+Geography is a proxy for culture, climate, lifestyle, and economic context — all of which shape preferences. The most interesting finding from regionalization research is that **cultural similarity trumps geographic proximity**. Two neighborhoods 5,000 km apart can share more taste patterns than two neighborhoods 5 km apart — if their residents share demographic and cultural characteristics.

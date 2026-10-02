@@ -2,7 +2,7 @@
 id: ch6-adtech-vs-recs
 type: spine
 title: "Recommendations vs. Ads: Know the Difference"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "That product ad following you across the internet is NOT a recommendation system. The distinction has major privacy and regulatory implications."
@@ -22,7 +22,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

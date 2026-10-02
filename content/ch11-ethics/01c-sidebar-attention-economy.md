@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -82,4 +82,4 @@ The EU's Digital Services Act (DSA) explicitly addresses the attention economy:
 - Mandates that recommender parameters be transparent
 - Gives users the right to a non-profiling-based recommendation option
 
-**Consider this:** The attention economy isn't inherently bad — it funds free services used by billions. But when recommendation algorithms optimize for attention capture without regard for user well-being, the cost is borne by individuals and society. The question is whether the current balance is acceptable, or whether it needs regulatory correction.
+The attention economy isn't inherently bad — it funds free services used by billions. But when recommendation algorithms optimize for attention capture without regard for user well-being, the cost is borne by individuals and society. The question is whether the current balance is acceptable, or whether it needs regulatory correction.

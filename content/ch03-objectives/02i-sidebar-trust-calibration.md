@@ -2,7 +2,7 @@
 id: ch4-trust
 type: spine
 title: "Trust and Calibration: Why Confidence Matters"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "A recommender that says 'you'll love this' about everything quickly loses credibility. Calibrated confidence builds lasting trust."
@@ -17,9 +17,9 @@ concept: satisfaction-vs-engagement
 state: edited
 lens: generic
 visuality: text-first
-depth: research
-formalism: full
-lengthBand: standard
+depth: technical
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---
@@ -75,4 +75,4 @@ where $acc_b$ is the actual accuracy in bin b and $conf_b$ is the average predic
 4. **Trust violation:** A series of bad recommendations (or a single egregious one) can reset trust to zero.
 5. **Recovery (slow):** Rebuilding trust requires consistently accurate recommendations over a longer period than the original calibration phase.
 
-**Consider this:** The best recommendation isn't always the one the model is most confident about — it's the one that builds the most trust over time. Sometimes that means saying "I'm not sure about this one" — and being right about that uncertainty.
+**In your product:** The best recommendation isn't always the one the model is most confident about — it's the one that builds the most trust over time. Sometimes that means saying "I'm not sure about this one" — and being right about that uncertainty.

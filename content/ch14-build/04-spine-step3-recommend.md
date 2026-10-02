@@ -2,7 +2,7 @@
 id: ch5-recommend
 type: spine
 title: "Step 3: Make Your Predictions"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Use nearest neighbors to predict ratings and generate actionable recommendations."
@@ -88,4 +88,4 @@ If Bob rates it a 2 -- your model needs refinement.
 
 Compute the **Mean Absolute Error (MAE)** across all predictions: MAE = (1/n) × Σ|predicted - actual|. If your MAE is below 1.0, you've built a genuinely useful recommendation system. For reference, the Netflix Prize baseline had an RMSE of about 0.95 on a 1-5 scale.
 
-**Consider this:** How accurate were your predictions? If some were significantly off, analyze why. Possible causes include insufficient co-rated items, outlier preferences, or context-dependent ratings (mood, time of day). This is normal -- even Netflix's production model has substantial prediction error on individual ratings. The value is in being right *on average* and *most of the time*.
+**Your turn:** How accurate were your predictions? If some were significantly off, analyze why. Possible causes include insufficient co-rated items, outlier preferences, or context-dependent ratings (mood, time of day). This is normal -- even Netflix's production model has substantial prediction error on individual ratings. The value is in being right *on average* and *most of the time*.

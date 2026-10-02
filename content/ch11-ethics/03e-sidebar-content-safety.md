@@ -2,7 +2,7 @@
 id: ch6-content-safety
 type: spine
 title: "Content Safety: When Recommendations Go Dark"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: false
 teaser: "Recommendation algorithms do not just reflect what people want to see -- they shape it. When engagement becomes the objective, harmful content can be systematically amplified."
@@ -13,13 +13,13 @@ recallQ: "Why can recommendation systems amplify harmful content, and what are t
 recallA: "Because engagement metrics reward emotionally provocative content regardless of quality or safety. The three layers are: content moderation (classify and remove), recommendation filtering (don't recommend even if not removed), and contextual safety (content safe in one context but harmful in another)."
 publishedAt: "2026-04-03"
 status: accepted
-concept: privacy-reality
+concept: who-decides
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

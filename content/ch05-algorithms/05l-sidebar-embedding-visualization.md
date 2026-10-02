@@ -2,7 +2,7 @@
 id: ch5-embedding-viz
 type: spine
 title: "Visualizing Embeddings: Seeing What Algorithms Learn"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: false
 voice: explorer
@@ -12,13 +12,13 @@ recallQ: "What is the key difference between t-SNE and UMAP for embedding visual
 recallA: "t-SNE preserves local neighborhood structure but distorts global distances. UMAP preserves both local and global structure more faithfully, making it better for understanding the overall layout of the embedding space."
 publishedAt: "2026-04-03"
 status: accepted
-concept: build-vs-buy
+concept: embeddings
 state: edited
 lens: generic
 visuality: balanced
-depth: research
-formalism: full
-lengthBand: standard
+depth: technical
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -100,6 +100,6 @@ Embedding visualizations are powerful but easy to over-interpret:
 
 Visualization is a workaround for the opacity of dense embeddings. If the embeddings themselves are interpretable, visualization becomes less necessary.
 
-Sparse ELSA (discussed in the research chapter) learns embeddings where each active dimension corresponds to a semantic category -- "children's classics," "detective fiction," "science fiction romance." Instead of projecting 128 opaque dimensions to 2, you can directly inspect the 10 active dimensions of an item's sparse representation and immediately understand what the model has learned about it.
+Sparse ELSA (see [EASE to ELSA](#c/ease-elsa)) learns embeddings where each active dimension corresponds to a semantic category -- "children's classics," "detective fiction," "science fiction romance." Instead of projecting 128 opaque dimensions to 2, you can directly inspect the 10 active dimensions of an item's sparse representation and immediately understand what the model has learned about it.
 
 This does not replace visualization entirely -- you still want to see global structure, clusters, and outliers. But interpretable factors reduce the burden on visualization as the primary tool for understanding model behavior.

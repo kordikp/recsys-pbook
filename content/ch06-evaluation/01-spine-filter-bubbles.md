@@ -2,7 +2,7 @@
 id: ch4-bubbles
 type: spine
 title: "Trapped in a Bubble"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "When recommendations are too effective, users only encounter what they already prefer -- and never realize what they are missing."
@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|diagram
 ---
@@ -51,4 +51,4 @@ It is analogous to a mentor who usually suggests resources within your expertise
 
 > **Research note:** Pariser demonstrated that two people searching for the same term on Google can receive substantially different results based on their browsing history, location, and past behavior. Your Google is not my Google -- a finding later confirmed by multiple independent studies, including work by DuckDuckGo (2018) and the Wall Street Journal's "Blue Feed, Red Feed" project.
 
-**Consider this:** Have you ever encountered a valuable professional insight that you would never have sought out on your own? How did you find it -- through a recommendation engine, a colleague, a conference, or serendipity? What does that suggest about the limits of algorithmic curation?
+**Your turn:** Have you ever encountered a valuable professional insight that you would never have sought out on your own? How did you find it -- through a recommendation engine, a colleague, a conference, or serendipity? What does that suggest about the limits of algorithmic curation?

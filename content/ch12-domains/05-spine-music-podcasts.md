@@ -2,7 +2,7 @@
 id: ch13-music
 type: spine
 title: "Music & Podcasts: The Mood Machine"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: true
 teaser: "Music recommendation must adapt to mood, context, and the unique dynamic where repeat listening is a feature, not a bug."
@@ -24,8 +24,8 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
-genre: code-walkthrough
+lengthBand: deep
+genre: explainer
 carriers: prose|table|image|code
 ---
 
@@ -132,4 +132,4 @@ For the full domain overview including podcast-specific scenarios and cross-form
 
 For implementation, see the [music & podcasts domain overview](https://www.recombee.com/domains/music-podcasts).
 
-**Consider this:** Music recommendation is where algorithmic curation has its most intimate relationship with users. People form emotional attachments to their playlists and discover soundtracks for life moments through algorithms. The responsibility is different from news (no democratic stakes) but equally personal — a bad music recommendation intrudes on a private emotional space.
+Music recommendation is where algorithmic curation has its most intimate relationship with users. People form emotional attachments to their playlists and discover soundtracks for life moments through algorithms. The responsibility is different from news (no democratic stakes) but equally personal — a bad music recommendation intrudes on a private emotional space.

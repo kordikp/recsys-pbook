@@ -2,7 +2,7 @@
 id: ch9-incidents
 type: spine
 title: "Incident Response: When Recommendations Go Wrong"
-readingTime: 2
+readingTime: 4
 standalone: true
 core: false
 teaser: "Every recommendation system will eventually fail. The difference between a minor hiccup and a headline-making disaster is whether you have a structured incident response plan before it happens."
@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

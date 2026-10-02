@@ -2,14 +2,16 @@
 id: ch3-feature-interactions
 type: spine
 title: "Feature Interaction Models: From Factorization Machines to Deep Cross Networks"
-readingTime: 5
+readingTime: 8
 standalone: false
 core: false
 voice: thinker
 parent: ch3-deep-similarity
 publishedAt: "2026-04-03"
+recallQ: "What do factorization machines add over plain matrix factorization?"
+recallA: "They learn one latent vector per feature (user, item, context, attributes), so the interaction between any two features is the dot product of their vectors. That keeps parameters linear in the number of features and estimates interactions even for pairs never seen together in training."
 status: accepted
-concept: graph-methods
+concept: embeddings
 state: edited
 lens: generic
 visuality: balanced

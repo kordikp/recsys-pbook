@@ -2,19 +2,21 @@
 id: ch5-open-source
 type: spine
 title: "Open-Source RecSys Tools: A Practitioner's Guide"
-readingTime: 3
+readingTime: 9
 standalone: true
 core: false
 voice: explorer
 publishedAt: "2026-04-03"
+recallQ: "Why should a team start with a simple, well-tuned open-source stack instead of the most complex framework?"
+recallA: "A well-tuned simple model with a fast vector index usually beats a poorly configured complex pipeline, and it is ready in days rather than months; add complexity only when evaluation shows it pays off."
 status: accepted
-concept: business-rules
+concept: build-vs-buy
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

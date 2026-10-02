@@ -13,13 +13,13 @@ recallQ: "What makes news recommendation fundamentally different from entertainm
 recallA: "Extreme content velocity (articles go stale in hours), no long-term item value, editorial responsibility for information quality, and the risk of creating political filter bubbles."
 publishedAt: "2026-04-03"
 status: accepted
-concept: specialized-domains
+concept: news-domain
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -87,4 +87,4 @@ Standard RecSys metrics (CTR, session length) are insufficient for news:
 
 For a deeper dive into the unique challenges of [news and media recommendations](https://www.recombee.com/domains/articles-news-media), including practical implementation patterns, see the [news recipe documentation](https://docs.recombee.com/recipes/news).
 
-**Consider this:** News recommendation sits at the intersection of technology, editorial judgment, and democratic responsibility. Getting it right requires all three — no algorithm alone can solve it.
+News recommendation sits at the intersection of technology, editorial judgment, and democratic responsibility. Getting it right requires all three — no algorithm alone can solve it.

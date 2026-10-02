@@ -2,7 +2,7 @@
 id: ch7-transparency
 type: spine
 title: "The Transparency Spectrum: From Black Box to Glass Box"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "Full algorithmic transparency is neither practical nor always desirable. What matters is finding the right level on the spectrum -- enough to build trust and satisfy regulators without exposing trade secrets or overwhelming users."
@@ -23,7 +23,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -100,4 +100,4 @@ For each scenario, define:
 
 For implementation patterns across domains, see the scenario recipes for [e-commerce](https://docs.recombee.com/recipes/e-commerce), [video](https://docs.recombee.com/recipes/video), and [news](https://docs.recombee.com/recipes/news).
 
-**Consider this:** The scenario concept reveals that "recommendation" isn't a single feature — it's a family of features, each requiring its own strategy. The best recommendation systems aren't those with the best algorithm; they're those that apply the right algorithm in the right context.
+The scenario concept reveals that "recommendation" isn't a single feature — it's a family of features, each requiring its own strategy. The best recommendation systems aren't those with the best algorithm; they're those that apply the right algorithm in the right context.

@@ -2,7 +2,7 @@
 id: ch4-online-offline
 type: spine
 title: "Online vs. Offline Evaluation: Bridging the Gap"
-readingTime: 4
+readingTime: 14
 standalone: false
 core: false
 voice: thinker
@@ -15,12 +15,12 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
 
-The parent section established that A/B testing is the gold standard for evaluating recommender systems. But A/B tests are expensive, slow, and risky. You cannot A/B test every idea -- you would need millions of users and months of experimentation time. This creates a fundamental tension: **offline evaluation is cheap but biased; online evaluation is trustworthy but scarce.** The field's central evaluation challenge is bridging this gap.
+[A/B testing](#c/ab-testing) is the gold standard for evaluating recommender systems. But A/B tests are expensive, slow, and risky. You cannot A/B test every idea -- you would need millions of users and months of experimentation time. This creates a fundamental tension: **offline evaluation is cheap but biased; online evaluation is trustworthy but scarce.** The field's central evaluation challenge is bridging this gap.
 
 ![The evaluation funnel: offline to deployment](/images/anim-eval-funnel.svg)
 
@@ -44,7 +44,7 @@ Offline evaluation uses historical interaction data -- logs of what users clicke
 
 ## Online Evaluation (A/B Testing): Trustworthy but Expensive
 
-Online evaluation deploys candidate models to real users and measures behavioral outcomes under controlled experimental conditions. As described in the parent section, users are randomly assigned to treatment groups, and statistical tests determine whether observed differences are significant.
+Online evaluation deploys candidate models to real users and measures behavioral outcomes under controlled experimental conditions. As in any [A/B test](#c/ab-testing), users are randomly assigned to treatment groups, and statistical tests determine whether observed differences are significant.
 
 **Advantages:**
 

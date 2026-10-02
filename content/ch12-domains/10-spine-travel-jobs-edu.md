@@ -2,7 +2,7 @@
 id: ch13-travel-jobs-edu
 type: spine
 title: "Travel, Jobs, and Education: Specialized Domains"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: false
 teaser: "Three domains where recommendation quality directly impacts life outcomes — vacations, careers, and learning."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -71,4 +71,4 @@ Some domains don't generate enough content for a full chapter but share a common
 
 **This book itself is an example:** The p-book platform uses personalized recommendation (voice-based paths, spaced repetition, missions) to optimize learning outcomes rather than raw engagement.
 
-**Consider this:** Travel, jobs, and education remind us that recommendation isn't always about entertainment or commerce. In these domains, algorithmic quality has consequences that extend far beyond the platform — into careers, life experiences, and personal development. The responsibility is proportional to the impact.
+Travel, jobs, and education remind us that recommendation isn't always about entertainment or commerce. In these domains, algorithmic quality has consequences that extend far beyond the platform — into careers, life experiences, and personal development. The responsibility is proportional to the impact.

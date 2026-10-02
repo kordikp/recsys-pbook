@@ -13,13 +13,13 @@ recallQ: "Why does autoplay create problems for recommender systems?"
 recallA: "Autoplay generates passive consumption that looks like engagement but doesn't reflect genuine interest. The system can't distinguish 'I chose to watch this' from 'it played while I wasn't paying attention,' corrupting the training signal."
 publishedAt: "2026-04-03"
 status: accepted
-concept: llm-recommenders
+concept: satisfaction-vs-engagement
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -69,4 +69,4 @@ When autoplay-generated views enter the training data, they corrupt the model in
 
 **Interaction signals as quality gates.** Only count an autoplay view as positive if the user also performed an active signal (liked, saved, shared, commented) during or after viewing.
 
-**Consider this:** Autoplay exposes a philosophical question about recommendation: **is the system serving the user, or is the user serving the system?** When passive consumption inflates engagement metrics, the system is optimizing for its own metrics rather than for genuine user value. The ethical recommendation engineer asks: would this user, looking back on their session, feel their time was well spent?
+Autoplay exposes a philosophical question about recommendation: **is the system serving the user, or is the user serving the system?** When passive consumption inflates engagement metrics, the system is optimizing for its own metrics rather than for genuine user value. The ethical recommendation engineer asks: would this user, looking back on their session, feel their time was well spent?

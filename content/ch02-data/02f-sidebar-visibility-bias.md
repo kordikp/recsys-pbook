@@ -2,7 +2,7 @@
 id: ch2-visibility-bias
 type: spine
 title: "Visibility Bias: You Can't Click What You Can't See"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "The system thinks you're not interested in item X. But you never even saw it — it was below the fold. Visibility bias is one of the most insidious data quality problems in recommendation."
@@ -18,8 +18,8 @@ state: edited
 lens: generic
 visuality: text-first
 depth: technical
-formalism: full
-lengthBand: standard
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---
@@ -65,4 +65,4 @@ With correction:
 - New items get fairer evaluation
 - Diversity increases as position bias no longer dominates the signal
 
-**Consider this:** Visibility bias is a reminder that **observed behavior ≠ true preference.** What users do is shaped not just by what they want, but by what they're given the opportunity to see. Confusing these two things — opportunity and preference — is a fundamental error that pervades recommendation evaluation.
+Visibility bias is a reminder that **observed behavior ≠ true preference.** What users do is shaped not just by what they want, but by what they're given the opportunity to see. Confusing these two things — opportunity and preference — is a fundamental error that pervades recommendation evaluation.

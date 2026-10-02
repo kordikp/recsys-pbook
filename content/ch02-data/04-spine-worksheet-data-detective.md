@@ -2,7 +2,8 @@
 id: ch2-ws-detective
 type: spine
 title: "Be a Data Detective -- Right Now"
-readingTime: 10
+readingTime: 3
+activityMinutes: 10
 standalone: true
 teaser: "Open your most-used platform and investigate your algorithm in real time -- you'll observe it learning."
 voice: universal

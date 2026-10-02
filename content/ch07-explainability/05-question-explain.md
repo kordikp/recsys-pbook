@@ -4,33 +4,38 @@ type: question
 title: "How Much Should Users Know?"
 readingTime: 1
 standalone: false
-teaser: "A recommendation system can explain itself at many levels. Where do you draw the line between transparency and simplicity?"
+teaser: "A recommender can explain itself at many levels. Where do you draw the line between transparency and simplicity?"
 voice: universal
 parent: null
 diagram: null
 publishedAt: "2026-04-03"
 status: accepted
-options:
-  - letter: A, text: Keep it simple -- one sentence per recommendation is enough, voice: explorer
-  - letter: B, text: Let users drill down -- summary first with details on demand, voice: thinker
-  - letter: C, text: Full transparency -- show every factor and its weight, voice: creator
-  - letter: D, text: It depends on the stakes -- low-risk recommendations need less explanation than high-risk ones, voice: universal
+feedbackA: "Right for low-stakes, high-volume recommendations: one honest reason builds trust at almost no cost. The reason has to be true, though; a generic line that does not reflect what the model used erodes trust once users notice."
+feedbackB: "A common pattern: casual users get one line, curious users can drill down. The cost is keeping two levels of explanation that both stay faithful to what the model actually did."
+feedbackC: "Appealing in principle, but feature weights from a complex model are rarely faithful or understandable to users, and they make the system easier to game. Full detail serves auditors and internal reviews better than everyday users."
+feedbackD: "A sound principle: match the depth of explanation to the cost of a wrong recommendation. A film needs one line; a job, a financial product or a news feed that shapes opinions deserves much more."
 concept: steerability
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 carriers: prose
 ---
 
-Your team is designing the explanation interface for a recommendation system. The algorithm uses collaborative filtering, content features, popularity signals, and business rules. You need to decide how much of this to expose to users. There is no wrong answer -- each choice reflects a different philosophy about the relationship between a system and its users.
+Your team is designing the explanation interface for a recommender that combines collaborative filtering, content features, popularity signals and business rules. How much of this do you show users?
 
-**A) Keep it simple.** Show users a single, clear reason: "Because you watched Stranger Things" or "Popular in your area." Most users do not want a technical breakdown. They want a quick sanity check. One sentence is enough to build trust without creating cognitive overload. Over-explaining makes the interface cluttered and the system feel less confident.
+**A) "Keep it simple: one reason per item"**
+A single clear reason, such as "Because you watched Stranger Things" or "Popular in your area". Most users want a quick sanity check, not a technical breakdown.
 
-**B) Let users drill down.** Show a brief summary by default, but let curious users tap for more detail. The summary might say "Based on your viewing history." Tapping reveals: "Specifically, your recent interest in sci-fi thrillers and your high rating of Arrival." This respects both casual users and power users. The challenge is building and maintaining two levels of explanation.
+**B) "Summary first, details on demand"**
+A short reason by default ("Based on your viewing history"); a tap reveals more ("your recent interest in sci-fi thrillers and your high rating of Arrival").
 
-**C) Full transparency.** Show every factor and its contribution: "Genre match: 40%, similar user preferences: 30%, trending score: 20%, editorial boost: 10%." Users deserve to know exactly how the system works. Anything less is paternalistic. If the system cannot justify its decisions in full detail, perhaps it should not be making those decisions.
+**C) "Full transparency: every factor and its weight"**
+For example "Genre match 40%, similar users 30%, trending 20%, editorial boost 10%". If the system cannot justify a decision in detail, perhaps it should not make it.
 
-**D) It depends on the stakes.** A movie recommendation needs minimal explanation -- the cost of a bad suggestion is 90 wasted minutes. A job recommendation, a loan product recommendation, or a news feed that shapes political views demands much more transparency. Match the depth of explanation to the consequence of getting it wrong.
+**D) "It depends on the stakes"**
+A bad film suggestion costs an evening; a bad job, loan or news recommendation costs much more. Match the explanation to the consequence of getting it wrong.
+
+Each option reflects a view of the relationship between a system and its users. The feedback after your choice says where it works and where it breaks.

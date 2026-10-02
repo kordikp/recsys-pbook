@@ -13,13 +13,13 @@ recallQ: "Why is regularization especially important for recommender systems?"
 recallA: "Interaction data is extremely sparse (<1% observed). Without regularization, models memorize the training data perfectly but generalize poorly — predicting noise instead of signal."
 publishedAt: "2026-04-03"
 status: accepted
-concept: beeformer
+concept: ease-elsa
 state: edited
 lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|formula
 ---
@@ -99,4 +99,4 @@ The regularization parameter λ controls the bias-variance trade-off:
 
 **Why EASE wins despite high bias:** EASE is a linear model (high bias), but its closed-form solution has zero variance — no SGD randomness, no initialization sensitivity. For sparse data, this low variance more than compensates for the linearity constraint. This is the core insight behind "Embarrassingly Shallow Autoencoders" — when data is sparse, variance reduction matters more than flexibility.
 
-**Consider this:** Regularization is often treated as a hyperparameter to tune. But understanding *why* it works — spectral shrinkage, implicit rank constraints, variance reduction — transforms it from a knob to turn into a design principle. The right regularization encodes your prior beliefs about the structure of user preferences.
+Regularization is often treated as a hyperparameter to tune. But understanding *why* it works — spectral shrinkage, implicit rank constraints, variance reduction — transforms it from a knob to turn into a design principle. The right regularization encodes your prior beliefs about the structure of user preferences.

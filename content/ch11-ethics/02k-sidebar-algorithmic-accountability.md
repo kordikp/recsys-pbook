@@ -13,7 +13,7 @@ recallQ: "What are the main challenges of algorithmic accountability in recommen
 recallA: "Diffuse responsibility (engineer vs. PM vs. executive vs. algorithm), emergent behavior (no one designed the failure), scale amplification (small biases cause massive harm), and opacity (it's hard to explain why a specific recommendation was made)."
 publishedAt: "2026-04-03"
 status: accepted
-concept: filter-bubbles
+concept: ai-future
 state: edited
 lens: generic
 visuality: text-first
@@ -74,4 +74,4 @@ Beyond regulation, organizations can build internal accountability structures:
 
 The DSA mandates at least parameter disclosure. Researchers and civil society advocates for mechanism and algorithm disclosure. Full data disclosure remains rare due to privacy concerns.
 
-**Consider this:** Accountability isn't just about blame after failure — it's about creating systems of oversight that prevent failure in the first place. The most effective accountability frameworks combine regulatory requirements, organizational processes, and technical tools (auditing, monitoring, explainability) into a coherent whole.
+Accountability isn't just about blame after failure — it's about creating systems of oversight that prevent failure in the first place. The most effective accountability frameworks combine regulatory requirements, organizational processes, and technical tools (auditing, monitoring, explainability) into a coherent whole.

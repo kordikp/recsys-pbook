@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -97,4 +97,4 @@ The LLOO+β metric from the Recombee lab can be viewed as a lightweight counterf
 > - Schnabel, T. et al. (2016). [Recommendations as Treatments: Debiasing Learning and Evaluation](https://proceedings.mlr.press/v48/schnabel16.html). *ICML 2016*.
 > - Dudik, M., Langford, J., & Li, L. (2011). [Doubly Robust Policy Evaluation and Learning](https://proceedings.mlr.press/v15/dudik11a.html). *ICML 2011*.
 
-**Consider this:** Counterfactual reasoning forces a humbling question: how much of our recommendation system's "success" is actually causal, and how much is just correlation with what users would have done anyway? Answering honestly might reveal that some of our most "successful" recommendations add less value than we think.
+Counterfactual reasoning forces a humbling question: how much of our recommendation system's "success" is actually causal, and how much is just correlation with what users would have done anyway? Answering honestly might reveal that some of our most "successful" recommendations add less value than we think.

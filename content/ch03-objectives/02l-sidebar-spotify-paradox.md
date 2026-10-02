@@ -2,7 +2,7 @@
 id: ch4-spotify-paradox
 type: spine
 title: "The Spotify Paradox: +29% Streams, -11% Diversity"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "Spotify's personalized podcast recommendations increased engagement by 29% — while reducing listening diversity by 11%. This is the fundamental tension of modern RecSys."
@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -71,4 +71,4 @@ Credit to the research team for reporting both numbers. Many organizations would
 
 This kind of dual-metric reporting should be standard practice: for every positive engagement result, ask **what was the cost?** Did diversity decrease? Did content concentration increase? Did satisfaction metrics diverge from engagement metrics?
 
-**Consider this:** The Spotify paradox isn't about Spotify being irresponsible — they identified and reported the problem. It's about the fundamental challenge of algorithmic optimization: **you get what you measure.** If you only measure engagement, you get engagement — at the cost of everything you didn't measure. The solution isn't to stop personalizing; it's to measure more dimensions of what "good" means.
+The Spotify paradox isn't about Spotify being irresponsible — they identified and reported the problem. It's about the fundamental challenge of algorithmic optimization: **you get what you measure.** If you only measure engagement, you get engagement — at the cost of everything you didn't measure. The solution isn't to stop personalizing; it's to measure more dimensions of what "good" means.

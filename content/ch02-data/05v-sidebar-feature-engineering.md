@@ -2,7 +2,7 @@
 id: ch5-feature-eng
 type: spine
 title: "Feature Engineering for RecSys: What to Feed Your Model"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: false
 teaser: "The right features matter more than the right algorithm. Here's what experienced practitioners extract from raw data."
@@ -13,13 +13,13 @@ recallQ: "What are the four categories of features used in recommender systems?"
 recallA: "User features (demographics, history aggregations), item features (content attributes, popularity stats), interaction features (context, sequence), and cross features (user×item interactions, historical engagement)."
 publishedAt: "2026-04-03"
 status: accepted
-concept: business-rules
+concept: data-pillars
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -105,4 +105,4 @@ Production systems use a **feature store** to ensure consistency between trainin
 3. Feature values are versioned and auditable
 4. Point-in-time correctness ensures training data uses features available at prediction time (preventing look-ahead bias)
 
-**Consider this:** Feature engineering is where domain knowledge meets machine learning. An expert who understands both the business domain and ML constraints can extract more value from simple features than an ML researcher can from a complex model with poor features. Invest in features first, model complexity second.
+**In your product:** Feature engineering is where domain knowledge meets machine learning. An expert who understands both the business domain and ML constraints can extract more value from simple features than an ML researcher can from a complex model with poor features. Invest in features first, model complexity second.

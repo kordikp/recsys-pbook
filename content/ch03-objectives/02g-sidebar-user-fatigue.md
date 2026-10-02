@@ -2,19 +2,21 @@
 id: ch4-user-fatigue
 type: spine
 title: "User Fatigue: When Good Recommendations Go Stale"
-readingTime: 2
+readingTime: 7
 standalone: true
 core: false
 voice: universal
 publishedAt: "2026-04-03"
+recallQ: "Why do recommendations go stale even when each one is accurate?"
+recallA: "Repeating the same category, creator or format causes fatigue: every item is relevant, but the feed turns monotonous and users slowly disengage. It shows up as falling per-category click-through, shorter sessions and rising skip rates."
 status: accepted
-concept: long-tail
+concept: satisfaction-vs-engagement
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
@@ -49,7 +51,7 @@ Fatigue leaves measurable traces in behavioral data, often well before users con
 
 The research literature and industry practice have converged on several effective countermeasures:
 
-**Diversity injection.** Methods like Maximal Marginal Relevance (MMR) and Determinantal Point Processes (DPPs) -- discussed in detail in the diversity metrics section of this chapter -- explicitly penalize redundancy within a recommendation list. They ensure that even when the top relevance-scored items are all from the same category, the final list presented to the user contains deliberate variety.
+**Diversity injection.** Methods like Maximal Marginal Relevance (MMR) and Determinantal Point Processes (DPPs) -- discussed in detail in [Diversity Metrics](#ch4-diversity-metrics) -- explicitly penalize redundancy within a recommendation list. They ensure that even when the top relevance-scored items are all from the same category, the final list presented to the user contains deliberate variety.
 
 **Frequency capping.** Set explicit limits on how many items from the same category, creator, or format can appear in a single recommendation session or within a given time window. This is a blunt instrument compared to diversity-aware re-ranking, but it is simple to implement, easy to explain, and surprisingly effective. Most major platforms use some form of frequency capping as a baseline defense against fatigue.
 

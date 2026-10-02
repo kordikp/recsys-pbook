@@ -2,7 +2,7 @@
 id: ch6-addictive
 type: spine
 title: "Designed to Keep You Engaged"
-readingTime: 4
+readingTime: 2
 standalone: true
 core: true
 teaser: "Infinite scroll. Autoplay. 'Just one more.' These aren't accidents -- they're deliberate design patterns rooted in behavioral economics."
@@ -22,7 +22,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

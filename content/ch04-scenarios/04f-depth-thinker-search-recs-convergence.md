@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -108,4 +108,4 @@ The SHIELD framework (UMAP 2025) addresses a challenge that arises specifically 
 > - Vančura, V., Kordík, P. & Straka, M. (2024). [beeFormer: Bridging the Gap Between Semantic and Interaction Similarity](https://doi.org/10.1145/3640457.3691707). *RecSys 2024*.
 > - For more Recombee research, see the [full publications list](https://www.recombee.com/research-publications).
 
-**Consider this:** The convergence of search and recommendation suggests that the future of information access isn't about "searching" or "being recommended" — it's about a fluid interaction where you express needs (sometimes explicitly, sometimes implicitly) and the system retrieves relevant information from any modality using a unified understanding of both content and user.
+The convergence of search and recommendation suggests that the future of information access isn't about "searching" or "being recommended" — it's about a fluid interaction where you express needs (sometimes explicitly, sometimes implicitly) and the system retrieves relevant information from any modality using a unified understanding of both content and user.

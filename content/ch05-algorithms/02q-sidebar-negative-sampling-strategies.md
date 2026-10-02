@@ -13,13 +13,13 @@ recallQ: "Why is negative sampling strategy important and what are the main appr
 recallA: "Models need negative examples but can't use all unobserved items. Random sampling is biased toward easy negatives. Hard negative mining improves discrimination but risks false negatives. Mixed strategies (random + hard) offer the best balance."
 publishedAt: "2026-04-03"
 status: accepted
-concept: multimodal
+concept: embeddings
 state: edited
 lens: generic
 visuality: text-first
-depth: research
-formalism: full
-lengthBand: standard
+depth: technical
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|table|formula
 ---
@@ -97,4 +97,4 @@ The effect of negative sampling is measurable:
 3. **Monitor for false negatives** — if hard negatives push down items the model should recommend, reduce the hard negative ratio
 4. **Match sampling to evaluation** — if your evaluation metric weights popular items differently, your training sampling should be aware of this
 
-**Consider this:** Negative sampling is a form of curriculum design — you're choosing what examples the model learns from. Easy negatives teach the basics; hard negatives teach refinement. Like any curriculum, the progression matters.
+**In your product:** Negative sampling is a form of curriculum design — you're choosing what examples the model learns from. Easy negatives teach the basics; hard negatives teach refinement. Like any curriculum, the progression matters.

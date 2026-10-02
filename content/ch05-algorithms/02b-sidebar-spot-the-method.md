@@ -2,7 +2,7 @@
 id: ch3-spot-method
 type: spine
 title: "Spot the Method"
-readingTime: 1
+readingTime: 2
 standalone: true
 teaser: "Collaborative filtering, content-based, or popularity? Can you identify them in production systems?"
 voice: explorer
@@ -21,7 +21,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose
 ---

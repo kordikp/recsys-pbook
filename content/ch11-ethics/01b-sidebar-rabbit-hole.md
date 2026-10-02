@@ -48,4 +48,4 @@ This is a well-documented phenomenon in recommendation research, sometimes calle
 
 Think of navigating a city where at every intersection, someone says "Turn left -- there's something interesting!" Each individual suggestion might be reasonable. But after twenty left turns, you are circling through a neighborhood you never intended to visit.
 
-**Consider this:** Next time you notice your recommendations drifting into unexpected territory, trace back the path. You will see the incremental steps that got you there. Recognizing this pattern -- and understanding that it is a structural property of greedy recommendation, not a personal failing -- is the first step toward managing it.
+**Try this:** Next time you notice your recommendations drifting into unexpected territory, trace back the path. You will see the incremental steps that got you there. Recognizing this pattern -- and understanding that it is a structural property of greedy recommendation, not a personal failing -- is the first step toward managing it.

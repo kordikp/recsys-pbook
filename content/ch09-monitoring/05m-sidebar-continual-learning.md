@@ -17,9 +17,9 @@ concept: monitoring
 state: edited
 lens: generic
 visuality: text-first
-depth: research
-formalism: full
-lengthBand: standard
+depth: technical
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|table|formula
 ---
@@ -84,4 +84,4 @@ Incremental updates accumulate drift over time. Periodically, a full retrain "re
 - Feature schema changes
 - Scheduled cadence (weekly or monthly)
 
-**Consider this:** The optimal update strategy is itself a research problem. Too-frequent updates chase noise; too-infrequent updates miss real shifts. The right cadence depends on how fast your domain changes — and the only way to know is to measure.
+**In your product:** The optimal update strategy is itself a research problem. Too-frequent updates chase noise; too-infrequent updates miss real shifts. The right cadence depends on how fast your domain changes — and the only way to know is to measure.

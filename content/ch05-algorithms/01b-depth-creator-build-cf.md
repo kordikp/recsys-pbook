@@ -2,7 +2,7 @@
 id: ch3-cf-d-create
 type: spine
 title: "Build Your Own Taste-Matching System"
-readingTime: 4
+readingTime: 2
 standalone: false
 teaser: "Survey your colleagues, build an interaction matrix, and discover hidden preference clusters."
 voice: creator

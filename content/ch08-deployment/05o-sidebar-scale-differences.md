@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -96,4 +96,4 @@ A common mistake in recommendation engineering: designing for the wrong scale. T
 | Large | Serving latency | Multi-stage pipeline, ANN search |
 | Hyperscale | System complexity | Infrastructure, compression, distributed systems |
 
-**Consider this:** Most teams overengineer for their current scale — building YouTube-scale infrastructure for a 5,000-item catalog. The right question isn't "What does YouTube use?" but "What's the simplest thing that works at my scale?" You can always add complexity later. You can rarely remove it.
+**In your product:** Most teams overengineer for their current scale — building YouTube-scale infrastructure for a 5,000-item catalog. The right question isn't "What does YouTube use?" but "What's the simplest thing that works at my scale?" You can always add complexity later. You can rarely remove it.

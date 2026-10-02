@@ -2,7 +2,7 @@
 id: ch5-improve
 type: spine
 title: "Step 4: Make It Better"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Your system works. Now let's iterate toward production quality."
@@ -22,7 +22,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -59,4 +59,4 @@ Every improvement hypothesis should be tested empirically. Adding content featur
 
 **The big picture:** You're now thinking like a recommendation engineer. You built a system, evaluated it against ground truth, identified failure modes, and formulated improvement hypotheses. This is exactly the iterative process used at YouTube, Spotify, Netflix, and every company operating a recommendation platform.
 
-**Consider this:** Which improvement would most benefit your specific system? Implement one change, re-evaluate your MAE, and compare. This hypothesis-driven iteration is the scientific method applied to engineering.
+**Your turn:** Which improvement would most benefit your specific system? Implement one change, re-evaluate your MAE, and compare. This hypothesis-driven iteration is the scientific method applied to engineering.

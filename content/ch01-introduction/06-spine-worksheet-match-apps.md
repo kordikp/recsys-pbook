@@ -2,7 +2,8 @@
 id: ch1-ws-match
 type: spine
 title: "Which Model Powers Your Favorite Platform?"
-readingTime: 5
+readingTime: 2
+activityMinutes: 5
 standalone: true
 teaser: "Examine the content distribution models behind the platforms you use daily."
 voice: universal
@@ -22,7 +23,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: deep
+lengthBand: standard
 genre: worked-example
 carriers: prose
 ---

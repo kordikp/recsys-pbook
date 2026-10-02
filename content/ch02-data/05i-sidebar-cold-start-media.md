@@ -2,7 +2,7 @@
 id: item-cold-start-media
 type: spine
 title: "Fresh Drops: Cold Start on a Streaming Platform"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: false
 teaser: "Friday: ten thousand new tracks. Zero plays each. Now what?"

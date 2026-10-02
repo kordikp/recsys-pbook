@@ -2,7 +2,7 @@
 id: ch5-math-d-think
 type: spine
 title: "The Math Behind Similarity"
-readingTime: 4
+readingTime: 3
 standalone: false
 teaser: "Cosine similarity, vector geometry, and why scale-invariant measures matter."
 voice: thinker
@@ -18,9 +18,9 @@ concept: diy-similar-users
 state: edited
 lens: generic
 visuality: balanced
-depth: research
-formalism: full
-lengthBand: standard
+depth: technical
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

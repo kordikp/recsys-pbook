@@ -13,13 +13,13 @@ recallQ: "What are dark patterns in recommendation interfaces?"
 recallA: "Deceptive UX designs that manipulate user behavior: disguised ads as recommendations, forced continuity (autoplay), hidden opt-outs for tracking, confirmshaming (making privacy choices feel wrong), and engagement bait (notifications for non-events)."
 publishedAt: "2026-04-03"
 status: accepted
-concept: ads-vs-recs
+concept: addictive-design
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -70,4 +70,4 @@ Not all recommendation interfaces are designed in good faith. **Dark patterns** 
 | Confirmshaming | Guilt-inducing opt-out language | Choose the option that serves your interest, not the platform's |
 | Infinite scroll | No page numbers, no "end" | Set time limits, use screen time tools |
 
-**Consider this:** Dark patterns work because they exploit cognitive shortcuts — defaults, social proof, loss aversion. The most effective defense isn't willpower (which is limited) but environmental design: change your settings, use browser extensions, and set external boundaries. Fight design with design.
+Dark patterns work because they exploit cognitive shortcuts — defaults, social proof, loss aversion. The most effective defense isn't willpower (which is limited) but environmental design: change your settings, use browser extensions, and set external boundaries. Fight design with design.

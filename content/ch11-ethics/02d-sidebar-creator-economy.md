@@ -13,13 +13,13 @@ recallQ: "How do recommendation algorithms influence content creation?"
 recallA: "Algorithms create incentive structures: creators optimize for algorithmic visibility (clickbait thumbnails, optimal length, trending topics), which can homogenize content and prioritize engagement over quality."
 publishedAt: "2026-04-03"
 status: accepted
-concept: ads-vs-recs
+concept: who-decides
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -85,4 +85,4 @@ This concentration is partly algorithmic: recommender systems favor established 
 - **Build direct audience relationships:** Email lists, communities, and direct channels are algorithm-proof
 - **Long-term strategy over viral moments:** Consistent quality builds sustainable audiences; viral hits are unreliable
 
-**Consider this:** The recommendation algorithm is the largest patron of the arts in human history. It directs more creative output than any government, foundation, or institution. Whether it's a good patron — one that encourages quality, diversity, and risk-taking — depends on how we design the incentive structures behind it.
+The recommendation algorithm is the largest patron of the arts in human history. It directs more creative output than any government, foundation, or institution. Whether it's a good patron — one that encourages quality, diversity, and risk-taking — depends on how we design the incentive structures behind it.

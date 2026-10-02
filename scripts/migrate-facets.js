@@ -30,6 +30,13 @@ const FORBIDDEN_DEFAULT = [
 ];
 
 // --- Simple YAML parser (mirrors js/markdown.js parseYaml: flat keys + "- item" lists) ---
+// Quoted values are unescaped like js/markdown.js cleanVal (\" → ", \' → '), so
+// contracts in concepts.json never carry literal backslashes.
+function unquote(v) {
+  const quoted = (v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"));
+  const s = v.replace(/^["']|["']$/g, '');
+  return quoted ? s.replace(/\\"/g, '"').replace(/\\'/g, "'") : s;
+}
 function parseYaml(yaml) {
   const result = {};
   let ck = null, ca = null;
@@ -37,7 +44,7 @@ function parseYaml(yaml) {
     const am = line.match(/^\s+-\s+(.*)/);
     if (am && ck) {
       if (!ca) ca = [];
-      let v = am[1].trim().replace(/^["']|["']$/g, '');
+      let v = unquote(am[1].trim());
       ca.push(v);
       result[ck] = ca;
       continue;
@@ -49,7 +56,7 @@ function parseYaml(yaml) {
       if (v === '') { ca = []; result[ck] = ca; }
       else {
         ca = null;
-        let val = v.replace(/^["']|["']$/g, '');
+        let val = unquote(v);
         if (val === 'true') val = true;
         else if (val === 'false') val = false;
         else if (val === 'null' || val === '~') val = null;
@@ -72,7 +79,16 @@ function countFormulas(body) {
   const display = (body.match(/\$\$[\s\S]*?\$\$/g) || []).length;
   const inline = (body.match(/\\\((.*?)\\\)/g) || []).length + (body.match(/\$[^$\n]+\$/g) || []).length;
   const latexCmd = (body.match(/\\(frac|sum|prod|argmin|argmax|mathbf|hat|lambda|theta|cdot|nabla)/g) || []).length;
-  return display * 2 + inline + (latexCmd > 3 ? 2 : 0);
+  // AGENTS §2 counts formulas, not LaTeX tokens: each display or inline formula is one.
+  void latexCmd;
+  return display + inline;
+}
+
+// Body words without SVG/markup — the unit of the AGENTS §2 lengthBand budgets.
+function countWords(body) {
+  const prose = body.replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/<[^>]+>/g, ' ').replace(/\]\([^)]*\)/g, ']');
+  return (prose.match(/[A-Za-z0-9À-ž]+(?:['’-][A-Za-z0-9À-ž]+)*/g) || []).length;
 }
 
 // carriers = mechanical composition descriptor (set): what building blocks are present.
@@ -96,22 +112,22 @@ function deriveFacets(meta, body, filename) {
 
   let formalism = formulas === 0 ? 'none' : formulas <= 2 ? 'light' : 'full';
 
-  let depth;
-  if (formulas >= 4 || /math|-deep\b|deep-/.test(filename) && meta.voice === 'thinker') depth = 'research';
-  else if (meta.voice === 'thinker' || meta.voice === 'creator' || formulas >= 1 || hasCode) depth = 'technical';
-  else depth = 'standard';
-  // validity rule: formalism full ⇒ depth ≥ technical
-  if (formalism === 'full' && depth === 'standard') depth = 'technical';
+  // Seed only (existing tags are never overwritten). The retired voice key no
+  // longer drives depth, and research is never guessed: it needs a reading
+  // (notation, derivations or literature, AGENTS §2).
+  let depth = formalism === 'full' || hasCode ? 'technical' : 'standard';
 
   const visuality = hasVisual ? 'balanced' : 'text-first';
 
-  const rt = typeof meta.readingTime === 'number' ? meta.readingTime : 3;
-  const lengthBand = rt <= 1 ? 'tldr' : rt <= 4 ? 'standard' : 'deep';
+  const words = countWords(body);
+  const lengthBand = words <= 150 ? 'tldr' : words <= 450 ? 'standard' : 'deep';
 
   let genre = null;
   if (meta.type === 'spine') {
-    if (hasCode) genre = 'code-walkthrough';
-    else if (meta.voice === 'creator' || /worksheet|experiment/.test(filename)) genre = 'worked-example';
+    const lines = body.split('\n').length || 1;
+    const codeLines = (body.match(/```[\s\S]*?```/g) || []).reduce((s, b) => s + b.split('\n').length, 0);
+    if (codeLines / lines >= 0.25) genre = 'code-walkthrough';   // code is the spine, not a snippet
+    else if (/worksheet|experiment/.test(filename)) genre = 'worked-example';
     else genre = 'explainer';
   }
 
@@ -260,9 +276,9 @@ if (!DRY) {
 }
 
 // --- Report ---
-const stats = { research: 0, technical: 0, standard: 0 };
+const stats = {};   // declared depth tags as they stand in the files (not the seed heuristic)
 const gaps = { noRecall: 0, noMustCover: 0 };
-for (const [, v] of fileFacets) stats[v.facets.depth] = (stats[v.facets.depth] || 0) + 1;
+for (const [, v] of fileFacets) { const d = String(v.meta.depth || v.facets.depth); stats[d] = (stats[d] || 0) + 1; }
 for (const c of conceptsOut) {
   if (!c.contract.recallQ) gaps.noRecall++;
   if (!c.contract.mustCover.length) gaps.noMustCover++;

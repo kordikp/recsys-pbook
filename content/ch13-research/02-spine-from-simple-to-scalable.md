@@ -2,7 +2,7 @@
 id: ch7-simple-to-scalable
 type: spine
 title: "From Simple to Scalable: The EASE-to-ELSA Story"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "How a single matrix inverse led to one of the most elegant recommendation algorithms — and why it needed to evolve."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|formula
 ---
@@ -86,4 +86,4 @@ This isn't just an academic curiosity — it means ELSA's embeddings can be used
 
 > **Research publication:** Vančura et al., "Scalable Linear Shallow Autoencoder for Collaborative Filtering," RecSys 2022. Joint work between Recombee and FIT CTU Prague. Read more about [ELSA's scalability approach](https://www.recombee.com/blog/making-linear-autoencoders-work-for-large-scale-recommendation-systems) and explore the [open-source implementation on GitHub](https://github.com/recombee/ELSA).
 
-**Consider this:** The EASE-to-ELSA progression illustrates a common pattern in applied mathematics: a beautiful closed-form solution hits practical limits, and the path forward requires understanding the *structure* of the solution (its rank, its sparsity, its spectrum) to find a tractable approximation. The mathematics isn't just ornamental — it's the engine of scalability.
+The EASE-to-ELSA progression illustrates a common pattern in applied mathematics: a beautiful closed-form solution hits practical limits, and the path forward requires understanding the *structure* of the solution (its rank, its sparsity, its spectrum) to find a tractable approximation. The mathematics isn't just ornamental — it's the engine of scalability.

@@ -19,8 +19,8 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: standard
-genre: code-walkthrough
+lengthBand: deep
+genre: explainer
 carriers: prose|code
 ---
 
@@ -85,4 +85,4 @@ Composite homepages multiply the recommendation workload. Instead of one recomme
 
 For implementation patterns, see the [Recombee scenario recipes](https://docs.recombee.com/scenarios) which provide complete composite homepage configurations for different domains.
 
-**Consider this:** The shift from "one recommendation list" to "a page of personalized rows" is one of the most impactful UX decisions in recommendation design. It transforms the experience from "here are items you might like" to "here are several reasons you might find something interesting" — and each reason is individually tuned and measurable.
+**In your product:** The shift from "one recommendation list" to "a page of personalized rows" is one of the most impactful UX decisions in recommendation design. It transforms the experience from "here are items you might like" to "here are several reasons you might find something interesting" — and each reason is individually tuned and measurable.

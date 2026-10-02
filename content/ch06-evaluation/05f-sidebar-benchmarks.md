@@ -2,19 +2,21 @@
 id: ch5-benchmarks
 type: spine
 title: "RecSys Benchmarks: Standard Datasets and Their Limitations"
-readingTime: 3
+readingTime: 9
 standalone: true
 core: false
 voice: explorer
 publishedAt: "2026-04-03"
+recallQ: "Why can results on MovieLens mislead a team whose product learns from clicks and purchases?"
+recallA: "MovieLens holds explicit, self-selected star ratings; production systems learn from implicit signals with different dynamics, so gains measured on the benchmark often do not transfer."
 status: accepted
-concept: filter-bubbles
+concept: evaluation-metrics
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

@@ -2,7 +2,7 @@
 id: ch7-sparse-reps
 type: spine
 title: "Why Sparsity Matters: From Dense to Sparse Representations"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: false
 voice: universal
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

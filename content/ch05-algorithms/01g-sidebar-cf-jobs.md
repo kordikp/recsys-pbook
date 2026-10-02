@@ -2,7 +2,7 @@
 id: cf-jobs-example
 type: spine
 title: "Hiring Patterns: CF on a Job Board"
-readingTime: 3
+readingTime: 1
 standalone: true
 core: false
 teaser: "No keywords in common, yet the right candidates surface — collaborative filtering on hiring behavior."

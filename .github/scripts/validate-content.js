@@ -146,6 +146,28 @@ contentFiles.forEach(file => {
     if (vis === 'balanced' && !hasVisual && !/\n\|[^\n]*\|\s*\n\|[\s:|-]+\|/.test(bodyText)) warn(rel, 'visuality: balanced without any diagram, image, or table');
   }
 
+  // Length honesty (AGENTS.md §2 lengthBand test): ≤150 tldr, ≤450 standard, above deep;
+  // readingTime ≈ words/200 (min 1). Warn on drift so bootstrap guesses stay visible.
+  if (meta.lengthBand || meta.readingTime !== undefined) {
+    const prose = text.replace(/^---\n[\s\S]*?\n---\n/, '')
+      .replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/<[^>]+>/g, ' ').replace(/\]\([^)]*\)/g, ']');
+    const words = (prose.match(/[A-Za-z0-9À-ž]+(?:['’-][A-Za-z0-9À-ž]+)*/g) || []).length;
+    const BANDS = { tldr: [0, 150], standard: [151, 450], deep: [451, Infinity] };
+    if (meta.lengthBand) {
+      const raw = String(meta.lengthBand);
+      const [a, b] = raw.includes('..') ? raw.split('..').map(s => s.trim()) : [raw, raw];
+      if (BANDS[a] && BANDS[b]) {
+        const lo = BANDS[a][0] * 0.8, hi = BANDS[b][1] * 1.2;
+        if (words < lo || words > hi) warn(rel, `lengthBand: ${raw} but the body has ~${words} words (AGENTS §2 budgets: ≤150 tldr, ≤450 standard)`);
+      }
+    }
+    const rt = Number(meta.readingTime);
+    if (Number.isFinite(rt) && Math.abs(rt - Math.max(1, Math.round(words / 200))) >= 2) {
+      warn(rel, `readingTime: ${rt} but ~${words} words read in ~${Math.max(1, Math.round(words / 200))} min (use activityMinutes for hands-on time)`);
+    }
+  }
+
   // multi-concept membership allowed: "concept: a|b" (block is a telling of each)
   if (meta.concept) conceptRefs.set(meta.id, { concepts: String(meta.concept).split('|').map(s => s.trim()), file: rel });
 
