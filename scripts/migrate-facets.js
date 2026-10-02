@@ -30,6 +30,13 @@ const FORBIDDEN_DEFAULT = [
 ];
 
 // --- Simple YAML parser (mirrors js/markdown.js parseYaml: flat keys + "- item" lists) ---
+// Quoted values are unescaped like js/markdown.js cleanVal (\" → ", \' → '), so
+// contracts in concepts.json never carry literal backslashes.
+function unquote(v) {
+  const quoted = (v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"));
+  const s = v.replace(/^["']|["']$/g, '');
+  return quoted ? s.replace(/\\"/g, '"').replace(/\\'/g, "'") : s;
+}
 function parseYaml(yaml) {
   const result = {};
   let ck = null, ca = null;
@@ -37,7 +44,7 @@ function parseYaml(yaml) {
     const am = line.match(/^\s+-\s+(.*)/);
     if (am && ck) {
       if (!ca) ca = [];
-      let v = am[1].trim().replace(/^["']|["']$/g, '');
+      let v = unquote(am[1].trim());
       ca.push(v);
       result[ck] = ca;
       continue;
@@ -49,7 +56,7 @@ function parseYaml(yaml) {
       if (v === '') { ca = []; result[ck] = ca; }
       else {
         ca = null;
-        let val = v.replace(/^["']|["']$/g, '');
+        let val = unquote(v);
         if (val === 'true') val = true;
         else if (val === 'false') val = false;
         else if (val === 'null' || val === '~') val = null;

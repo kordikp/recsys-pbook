@@ -30,7 +30,7 @@
             "modality": "prose"
           }
         ],
-        "recallQ": "How do platforms like YouTube seem to \\\"know\\\" what you want?",
+        "recallQ": "How do platforms like YouTube seem to \"know\" what you want?",
         "recallA": "They track your clicks, watches, and skips to build a profile of your preferences — then use algorithms to surface similar content.",
         "forbidden": [
           "invented statistics or benchmark numbers",
@@ -348,7 +348,7 @@
           }
         ],
         "recallQ": "Name 3 mechanisms you have to control your recommendation data.",
-        "recallA": "\\\"Not Interested\\\" feedback, history deletion, separate profiles, private browsing, platform privacy settings, and GDPR data access requests.",
+        "recallA": "\"Not Interested\" feedback, history deletion, separate profiles, private browsing, platform privacy settings, and GDPR data access requests.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -386,7 +386,7 @@
           }
         ],
         "recallQ": "Can you deliberately train the algorithm?",
-        "recallA": "Yes. Search for topics you want, engage with content deliberately, use \\\"Not Interested\\\" on what you want deprioritized.",
+        "recallA": "Yes. Search for topics you want, engage with content deliberately, use \"Not Interested\" on what you want deprioritized.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -950,7 +950,7 @@
             "modality": "prose"
           }
         ],
-        "recallQ": "What are \\\"embeddings\\\" in recommendation systems?",
+        "recallQ": "What are \"embeddings\" in recommendation systems?",
         "recallA": "Dense vector representations where items are mapped to points in a continuous space. Proximity in the space corresponds to semantic or behavioral similarity. Learned via neural networks from interaction data.",
         "forbidden": [
           "invented statistics or benchmark numbers",
@@ -1693,7 +1693,7 @@
             "modality": "prose"
           }
         ],
-        "recallQ": "What is a \\\"digital twin\\\" in the context of recommender systems?",
+        "recallQ": "What is a \"digital twin\" in the context of recommender systems?",
         "recallA": "A mathematical model of your behavioral patterns — platforms construct one from your interaction data without necessarily needing your real identity.",
         "forbidden": [
           "invented statistics or benchmark numbers",
@@ -2530,7 +2530,7 @@
             "modality": "prose"
           }
         ],
-        "recallQ": "How do you find \\\"taste neighbors\\\"?",
+        "recallQ": "How do you find \"taste neighbors\"?",
         "recallA": "Compare ratings on co-rated items — lower mean absolute difference = more similar preferences.",
         "forbidden": [
           "invented statistics or benchmark numbers",
@@ -2665,7 +2665,7 @@
             "modality": "prose"
           }
         ],
-        "recallQ": "Why doesn't \\\"ranking #1 on Google\\\" exist anymore?",
+        "recallQ": "Why doesn't \"ranking #1 on Google\" exist anymore?",
         "recallA": "Results are personalized — your content can be #1 for your target audience and invisible to everyone else.",
         "forbidden": [
           "invented statistics or benchmark numbers",
