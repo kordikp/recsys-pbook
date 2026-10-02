@@ -81,10 +81,10 @@ Entertainment recommendations can be consumed in any order. Educational content 
 
 This p-book (personalized book) is itself an educational recommendation system:
 
-- **Voice-based paths** (Explorer, Creator, Thinker) personalize the presentation style
+- **Several tellings per idea** (a short summary, a worked case, a story, a formal version) let each reader meet the same concept in the form that suits them
 - **Spaced repetition quizzes** review concepts at optimal intervals
 - **Missions** provide structured learning sequences with prerequisite awareness
-- **Depth cards** adapt content complexity to the reader's interest level
+- **Format preferences** (depth, length, example world) decide which telling is suggested first
 - **Gamification** (XP, badges) provides extrinsic motivation during the challenging middle stages of learning
 
 The recommendation engine behind this book uses Recombee to personalize which content to surface next — but the optimization target is reading comprehension and knowledge retention, not raw page views.

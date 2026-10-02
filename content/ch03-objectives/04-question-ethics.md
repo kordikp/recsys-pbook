@@ -1,38 +1,40 @@
 ---
 id: ch4-q1
 type: question
-title: "What matters most in a recommendation system?"
+title: "One Objective First: Which Would You Pick?"
 readingTime: 1
 standalone: false
-teaser: "Accuracy, fairness, diversity -- which objective would you prioritize in a real system?"
+teaser: "Accuracy, fairness to providers, diversity, or a blend. Which objective would you optimize first, and what does each choice cost?"
 voice: universal
 parent: null
 diagram: null
 status: accepted
-description: "You are designing a recommendation system for a new content platform. You can only optimize for ONE objective first. What do you prioritize?"
-options:
-  - letter: A, text: Accuracy -- maximize relevance so users consistently find what they value, voice: explorer
-  - letter: B, text: Fairness -- ensure equitable exposure for all content providers, voice: thinker
-  - letter: C, text: Diversity -- inject serendipity so users are not trapped in filter bubbles, voice: creator
-  - letter: D, text: All of them -- design a multi-objective system that balances all three, voice: universal
+feedbackA: "The usual first objective: relevance is what users notice first and it is the easiest to measure. The cost is a narrow, popularity-heavy feed, so add guardrail metrics for catalog coverage and diversity from day one."
+feedbackB: "Essential when the platform depends on supply (creators, sellers, publishers): if newcomers never get exposure, they leave. Optimized alone it shows users items they do not want, so it usually works as a constraint on top of relevance."
+feedbackC: "Protects long-term satisfaction and discovery, but on its own it lowers short-term relevance. Most teams add it as a re-ranking step on top of a relevance model rather than as the main objective."
+feedbackD: "Where mature systems end up, but a blend needs weights and the weights need measurements. Start with one primary metric plus guardrails, then add objectives as you learn how they trade off."
 concept: objectives
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 carriers: prose
 ---
 
-You are designing a recommendation system for a new content platform. Millions of users will rely on it. You can only prioritize ONE objective in the initial release. What do you choose?
+You are designing recommendations for a new content platform. For the first release you can optimize one objective; the others can only be monitored. Which goes first?
 
-**A) Accuracy** -- Maximize recommendation relevance. Every item surfaced should have a high probability of genuine user engagement. Satisfied users drive retention and growth.
+**A) "Accuracy"**
+Maximize relevance: every item shown should have a high chance of genuine engagement.
 
-**B) Fairness** -- Ensure equitable exposure for content providers regardless of their existing popularity. New and small providers deserve a fair opportunity to be discovered based on the quality of their content, not their incumbency.
+**B) "Fairness to providers"**
+Give new and small providers exposure based on the quality of their content, not on how popular they already are.
 
-**C) Diversity** -- Inject serendipity and breadth into recommendations so users discover content outside their established preferences. No user should be trapped in an increasingly narrow filter bubble.
+**C) "Diversity"**
+Widen what each user sees, so nobody ends up in an ever-narrower loop of the same content.
 
-**D) All of them** -- Design a multi-objective optimization framework that balances accuracy, fairness, and diversity simultaneously. It is more complex to implement, but it addresses the full scope of stakeholder needs.
+**D) "A weighted blend of all three"**
+Build a multi-objective system from the start. More complex, but it addresses every stakeholder.
 
-There is no single correct answer. Engineering teams at YouTube, TikTok, Spotify, Amazon, and Netflix grapple with this tradeoff continuously. In practice, all four objectives matter -- the challenge lies in defining the right balance, measuring it rigorously, and iterating as the platform and its user base evolve.
+There is no single correct answer, and every option has a price. Each choice is a statement about whose interests the system serves first: users today, providers tomorrow, or the platform's long-term health. [Optimization objectives](#c/objectives) explains how teams make that trade-off explicit.
