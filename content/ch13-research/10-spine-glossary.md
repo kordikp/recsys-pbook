@@ -66,7 +66,7 @@ A comprehensive reference of essential recommender systems terminology, organize
 
 **Embedding** — A dense, low-dimensional vector representation of a user, item, or feature learned from data. Embeddings capture latent semantic relationships — items with similar embeddings tend to be similar in meaning or preference patterns — and are the lingua franca of modern recommendation architectures.
 
-**ELSA (Embedding-based Linear Scalable Autoencoder)** — A scalable extension of EASE developed at FIT CTU Prague that factorizes the dense weight matrix into low-rank embeddings, enabling the model to scale to catalogs with millions of items while retaining the simplicity and effectiveness of the linear autoencoder approach.
+**ELSA (Scalable Linear Shallow Autoencoder)** — A scalable extension of EASE developed at FIT CTU Prague that factorizes the dense weight matrix into low-rank embeddings, enabling the model to scale to catalogs with millions of items while retaining the simplicity and effectiveness of the linear autoencoder approach.
 
 **Evaluation Bias (MNAR)** — The systematic distortion in offline evaluation caused by the fact that interaction data is Missing Not At Random: users only rate or click items they were shown, creating a feedback loop where the recommender's past choices skew the data used to evaluate its future performance. Ignoring MNAR bias leads to overestimating the quality of systems that reinforce existing exposure patterns.
 

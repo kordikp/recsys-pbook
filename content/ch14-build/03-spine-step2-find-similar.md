@@ -61,8 +61,9 @@ Alice vs Bob (co-rated items):
 Alice vs Carlos (co-rated items):
 - Shawshank: Alice 5, Carlos 2 (difference = 3)
 - Parasite: Alice 4, Carlos 2 (difference = 2)
+- Everything Everywhere: Alice 5, Carlos 1 (difference = 4)
 - Oppenheimer: Alice 3, Carlos 5 (difference = 2)
-- **MAD: 2.3** (dissimilar)
+- **MAD: 2.75** (dissimilar)
 
 Lower mean absolute difference = more similar preferences. This is the simplest form of a distance-based similarity measure.
 
