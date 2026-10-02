@@ -476,7 +476,7 @@ export class UserModel {
     this.preferredVoice = null;
     this.firstVisit = null;
     this.sessionCount = 0;
-    // Gamification (no streaks — safe for kids)
+    // Gamification (no streaks — no pressure mechanics)
     this.xp = 0;
     this.level = 1;
     this.achievements = [];
@@ -717,7 +717,7 @@ export class UserModel {
       card.ease = Math.min(3.0, card.ease + 0.15);
     }
 
-    // Cap at 30 days for kids
+    // Cap the review interval at 30 days
     card.interval = Math.min(30, card.interval);
     // Forgot (interval=0) → 4 hours. Everything else → interval in days.
     card.nextReview = card.interval === 0

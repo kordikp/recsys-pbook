@@ -1,4 +1,4 @@
-// p-book for Kids — How Recommendations Work
+// p-book — How Recommendations Work
 
 export const CONFIG = {
   book: {
@@ -43,7 +43,7 @@ export const CONFIG = {
     authorName: 'Pavel'
   },
 
-  // Voices adapted for kids (8-15 years old)
+  // Legacy voices (retired taxonomy, see AGENTS.md §2 voice): kept for old data and mission labels
   // LEGACY: voices are no longer a user-facing preference (replaced by the facet
   // taxonomy + Format preferences). Kept ONLY as display labels for mission branch
   // keys in existing mission data and old content `voice:` tags. Do not extend.
