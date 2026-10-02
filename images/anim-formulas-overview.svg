@@ -1,27 +1,85 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 444" role="img" aria-labelledby="pb014-title pb014-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb014-title">Cosine similarity compares direction, not length</title>
+  <desc id="pb014-desc">Toy example: Alice rates three films [5, 4, 5], Bob [4, 3, 4], Carol [1, 5, 1]. Drawn as arrows, Bob points almost exactly where Alice points (1.6 degrees apart), only shorter, so raw cosine similarity is 1.00 although he gives fewer stars; Carol is 45 degrees away, cosine 0.71. After subtracting each user's average rating (adjusted cosine), Bob's arrow equals Alice's (cosine 1.00) and Carol's points the opposite way (minus 4 times Alice, cosine minus 1.00). Bob is Alice's taste neighbor either way; centered, Carol is her opposite.</desc>
   <style>
-    .hl{animation:h 6s ease-in-out infinite}
-    .hl2{animation:h 6s ease-in-out infinite;animation-delay:2s}
-    .hl3{animation:h 6s ease-in-out infinite;animation-delay:4s}
-    @keyframes h{0%,28%,100%{stroke-width:2;filter:none}8%,20%{stroke-width:3.5}}
+    .pb014-len{transform-box:fill-box;transform-origin:0 50%;animation:pb014-len 9s ease-in-out infinite}
+    .pb014-tip{animation:pb014-tip 9s ease-in-out infinite}
+    @keyframes pb014-len{0%,44%{transform:scaleX(1)}58%,64%{transform:scaleX(1.22)}80%,86%{transform:scaleX(.6)}96%,100%{transform:scaleX(1)}}
+    @keyframes pb014-tip{0%,44%{transform:translateX(0)}58%,64%{transform:translateX(33.8px)}80%,86%{transform:translateX(-61.5px)}96%,100%{transform:translateX(0)}}
+    @media (prefers-reduced-motion: reduce){.pb014-len,.pb014-tip{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Three Formulas That Run Recommendations</text>
+  <rect x=".5" y=".5" width="639" height="443" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="42" font-size="20" font-weight="700" fill="#1E1B4B">Cosine compares direction, not length</text>
+  <text x="32" y="66" font-size="14" fill="#6B7280">Toy star ratings on the same 3 films · each user = one arrow</text>
 
-  <g font-size="14">
-    <rect class="hl" x="55" y="70" width="690" height="94" rx="12" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="80" y="100" font-weight="800" fill="#4C1D95">Cosine similarity</text>
-    <text x="80" y="124" font-family="Georgia,serif" font-style="italic" font-size="17" fill="#1E1B4B">sim(u, v) = (u · v) / (‖u‖ ‖v‖)</text>
-    <text x="80" y="148" fill="#6B7280" font-size="12.5">how close two taste vectors point — the workhorse of "similar items" and "users like you"</text>
+  <!-- rating chips -->
+  <rect x="24" y="80" width="184" height="34" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="51" cy="97" r="6" fill="#1E1B4B"/>
+  <text x="65" y="102" font-size="15" font-weight="700" fill="#1E1B4B">Alice</text>
+  <text x="125" y="102" font-size="15" fill="#1E1B4B">[5, 4, 5]</text>
+  <rect x="228" y="80" width="184" height="34" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="255" cy="97" r="6" fill="#10B981"/>
+  <text x="269" y="102" font-size="15" font-weight="700" fill="#065F46">Bob</text>
+  <text x="329" y="102" font-size="15" fill="#1E1B4B">[4, 3, 4]</text>
+  <rect x="432" y="80" width="184" height="34" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="459" cy="97" r="6" fill="#F59E0B"/>
+  <text x="473" y="102" font-size="15" font-weight="700" fill="#92400E">Carol</text>
+  <text x="533" y="102" font-size="15" fill="#1E1B4B">[1, 5, 1]</text>
 
-    <rect class="hl2" x="55" y="178" width="690" height="94" rx="12" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="80" y="208" font-weight="800" fill="#065F46">nDCG (ranking quality)</text>
-    <text x="80" y="232" font-family="Georgia,serif" font-style="italic" font-size="17" fill="#1E1B4B">DCG = Σ ( (2^relᵢ − 1) / log₂(i + 1) ) ,   nDCG = DCG / IDCG</text>
-    <text x="80" y="256" fill="#6B7280" font-size="12.5">rewards putting good items HIGH — position i discounts logarithmically, exactly like attention does</text>
-
-    <rect class="hl3" x="55" y="286" width="690" height="94" rx="12" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="80" y="316" font-weight="800" fill="#92400E">BPR (learning from pairs)</text>
-    <text x="80" y="340" font-family="Georgia,serif" font-style="italic" font-size="17" fill="#1E1B4B">L = − Σ ln σ( score(u, i⁺) − score(u, i⁻) )</text>
-    <text x="80" y="364" fill="#6B7280" font-size="12.5">no ratings needed: just push what the user chose (i⁺) above what they skipped (i⁻)</text>
+  <!-- panel A: raw cosine -->
+  <rect x="24" y="128" width="288" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="168" y="154" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Raw cosine</text>
+  <text x="168" y="173" text-anchor="middle" font-size="14" fill="#6B7280">ratings as given</text>
+  <path d="M106,290 A58,58 0 0 0 89.2,249.2" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <text x="122" y="268" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">45°</text>
+  <!-- Alice -->
+  <g transform="translate(48,290)">
+    <line x1="0" y1="0" x2="186" y2="0" stroke="#1E1B4B" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="184,-6.5 195,0 184,6.5" fill="#1E1B4B"/>
   </g>
+  <!-- Carol -->
+  <g transform="translate(48,290) rotate(-44.71)">
+    <line x1="0" y1="0" x2="115.7" y2="0" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="113.7,-6.5 124.7,0 113.7,6.5" fill="#F59E0B"/>
+  </g>
+  <!-- Bob (animated: longer / shorter, same direction) -->
+  <g transform="translate(48,290) rotate(1.56)">
+    <line class="pb014-len" x1="0" y1="0" x2="144.7" y2="0" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+    <polygon class="pb014-tip" points="142.7,-6.5 153.7,0 142.7,6.5" fill="#10B981"/>
+  </g>
+  <circle cx="48" cy="290" r="4" fill="#6B7280"/>
+  <text x="250" y="295" font-size="15" font-weight="700" fill="#1E1B4B">Alice</text>
+  <text x="201" y="318" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">Bob</text>
+  <text x="146" y="207" font-size="15" font-weight="700" fill="#92400E">Carol</text>
+  <line x1="40" y1="326" x2="296" y2="326" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="40" y="350" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">Bob</tspan><tspan x="102" fill="#4B5563">1.6°</tspan><tspan x="158" fill="#4B5563">→ cos</tspan><tspan x="256" text-anchor="end" font-weight="700">1.00</tspan></text>
+  <text x="40" y="376" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Carol</tspan><tspan x="102" fill="#4B5563">45°</tspan><tspan x="158" fill="#4B5563">→ cos</tspan><tspan x="256" text-anchor="end" font-weight="700">0.71</tspan></text>
+
+  <!-- panel B: adjusted cosine -->
+  <rect x="328" y="128" width="288" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="472" y="154" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Adjusted cosine</text>
+  <text x="472" y="173" text-anchor="middle" font-size="14" fill="#6B7280">each user's average subtracted first</text>
+  <path d="M564,255 A24,24 0 0 0 516,255" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
+  <text x="540" y="222" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">180°</text>
+  <!-- Carol -->
+  <g transform="translate(540,255) rotate(180)">
+    <line x1="0" y1="0" x2="170.6" y2="0" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+    <polygon points="168.6,-6.5 179.6,0 168.6,6.5" fill="#F59E0B"/>
+  </g>
+  <!-- Alice = Bob -->
+  <g transform="translate(540,255)">
+    <line x1="0" y1="0" x2="35.9" y2="0" stroke="#1E1B4B" stroke-width="3" stroke-linecap="round"/>
+    <line x1="0" y1="0" x2="35.9" y2="0" stroke="#10B981" stroke-width="3" stroke-dasharray="5 5"/>
+    <polygon points="33.9,-6.5 44.9,0 33.9,6.5" fill="#1E1B4B"/>
+  </g>
+  <circle cx="540" cy="255" r="4" fill="#6B7280"/>
+  <text x="604" y="284" text-anchor="end" font-size="15" font-weight="700" fill="#1E1B4B">Alice <tspan font-weight="400" fill="#4B5563">=</tspan> <tspan fill="#065F46">Bob</tspan></text>
+  <text x="346" y="284" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Carol</tspan> = −4 × Alice</text>
+  <line x1="344" y1="326" x2="600" y2="326" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="344" y="350" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">Bob</tspan><tspan x="406" fill="#4B5563">0°</tspan><tspan x="462" fill="#4B5563">→ cos</tspan><tspan x="560" text-anchor="end" font-weight="700">1.00</tspan></text>
+  <rect x="510" y="358" width="58" height="26" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="344" y="376" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Carol</tspan><tspan x="406" fill="#4B5563">180°</tspan><tspan x="462" fill="#4B5563">→ cos</tspan><tspan x="560" text-anchor="end" font-weight="700" fill="#92400E">−1.00</tspan></text>
+
+  <!-- takeaway -->
+  <text x="320" y="424" text-anchor="middle" font-size="16" fill="#1E1B4B">Bob is Alice's <tspan font-weight="700" fill="#065F46">taste neighbor</tspan> either way; centered, Carol is her <tspan font-weight="700" fill="#92400E">opposite</tspan>.</text>
 </svg>

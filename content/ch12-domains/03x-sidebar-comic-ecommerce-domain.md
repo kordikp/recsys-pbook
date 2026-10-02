@@ -5,7 +5,7 @@ title: "Your Cart Has Been Taking Notes"
 readingTime: 1
 standalone: true
 core: false
-teaser: "A four-panel comic: Amazon attributes 35% of revenue to recommendations—a directly measurable business impact."
+teaser: "A four-panel comic: one coffee shopper meets cross-sell, upsell and next-basket prediction — and the recommender takes notes when the Deluxe comes back."
 voice: explorer
 parent: ecommerce-domain
 recallQ: "What are the key e-commerce recommendation scenarios beyond 'similar products'?"
@@ -24,6 +24,6 @@ genre: comic
 carriers: image
 ---
 
-![Your Cart Has Been Taking Notes — a four-panel comic](images/comic-ecommerce-domain.svg)
+![Your Cart Has Been Taking Notes — a four-panel comic: cross-sell, upsell, next basket, and a return the recommender writes down](images/comic-ecommerce-domain.svg)
 
 *Amazon attributes 35% of revenue to recommendations—a directly measurable business impact.*

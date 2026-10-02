@@ -1,86 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Opening for the Algorithm</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <g>
-    <rect x="34" y="76" width="136" height="58" rx="7" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="102" y="99" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">BEST OPENER</text>
-    <text x="102" y="118" font-size="12.5" fill="#1E1B4B" text-anchor="middle">IN TOWN!</text>
-
-    <circle cx="204" cy="157" r="10" fill="#7C3AED"/>
-    <path d="M204 168 L204 207 M204 179 L185 192 M204 181 L220 176 M204 207 L191 229 M204 207 L218 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M224 170 L224 211 M218 170 L230 170" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-
-    <path d="M265 155 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M300 151 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M334 158 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <path d="M274 165 L283 198 L296 217 M309 161 L321 194 L339 206 M343 168 L353 195 L371 199" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M296 173 L319 173 M318 168 L325 173 L318 178 M351 181 L373 181 M372 176 L379 181 L372 186" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The poster wins the click; the opening loses the room.</text>
-
-  <!-- Panel 2 -->
-  <g>
-    <circle cx="454" cy="170" r="10" fill="#7C3AED"/>
-    <path d="M454 181 L454 219 M454 191 L438 180 M454 192 L471 181 M454 219 L442 238 M454 219 L466 238" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M434 174 L434 217 M428 174 L440 174" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-
-    <path d="M510 194 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M548 194 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M586 194 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0" fill="#D1FAE5" stroke="#10B981"/>
-    <path d="M519 204 L519 229 M557 204 L557 229 M595 204 L595 229 M501 231 L612 231" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="704" cy="174" r="10" fill="#0EA5E9"/>
-    <path d="M704 185 L704 222 M704 194 L687 205 M704 194 L721 205 M704 222 L692 239 M704 222 L716 239" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="643" y="75" width="119" height="64" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="702.5" y="94" font-size="11" font-weight="700" fill="#0EA5E9" text-anchor="middle">YOUTUBE</text>
-    <text x="702.5" y="113" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Smaller crowd.</text>
-    <text x="702.5" y="130" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Much longer stay.</text>
-  </g>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">YouTube's booker prefers minutes watched to doors opened.</text>
-
-  <!-- Panel 3 -->
-  <g>
-    <circle cx="86" cy="455" r="10" fill="#7C3AED"/>
-    <path d="M86 466 L86 505 M86 478 L69 465 M86 478 L103 465 M86 505 L74 526 M86 505 L98 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M65 459 L65 505 M59 459 L71 459" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-
-    <path d="M145 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M183 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M221 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0 M259 482 a9 9 0 1 0 18 0 a9 9 0 1 0 -18 0" fill="#D1FAE5" stroke="#10B981"/>
-    <path d="M154 492 L154 518 M192 492 L192 518 M230 492 L230 518 M268 492 L268 518 M136 520 L286 520" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="339" cy="454" r="10" fill="#EF4444"/>
-    <path d="M339 465 L339 502 M339 476 L322 486 M339 476 L356 486 M339 502 L327 524 M339 502 L351 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="246" y="355" width="128" height="67" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
-    <text x="310" y="374" font-size="11" font-weight="700" fill="#EF4444" text-anchor="middle">TIKTOK</text>
-    <text x="310" y="394" font-size="12.5" fill="#1E1B4B" text-anchor="middle">All four finished.</text>
-    <text x="310" y="412" font-size="12.5" fill="#1E1B4B" text-anchor="middle">18 seconds flat.</text>
-  </g>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">TikTok's booker counts who makes it through the whole set.</text>
-
-  <!-- Panel 4 -->
-  <g>
-    <circle cx="596" cy="438" r="11" fill="#7C3AED"/>
-    <path d="M596 450 L596 497 M596 464 L568 477 M596 464 L624 477 M596 497 L580 526 M596 497 L612 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="474" cy="470" r="10" fill="#0EA5E9"/>
-    <path d="M474 481 L474 518 M474 492 L505 477 M474 518 L462 539 M474 518 L486 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="500" y="459" width="70" height="40" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="535" y="476" font-size="10.5" font-weight="700" fill="#0EA5E9" text-anchor="middle">YOUTUBE</text>
-    <text x="535" y="491" font-size="11.5" fill="#1E1B4B" text-anchor="middle">8 MIN</text>
-
-    <circle cx="718" cy="470" r="10" fill="#EF4444"/>
-    <path d="M718 481 L718 518 M718 492 L687 477 M718 518 L706 539 M718 518 L730 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="622" y="459" width="70" height="40" rx="6" fill="#FEE2E2" stroke="#EF4444"/>
-    <text x="657" y="476" font-size="10.5" font-weight="700" fill="#EF4444" text-anchor="middle">TIKTOK</text>
-    <text x="657" y="491" font-size="11.5" fill="#1E1B4B" text-anchor="middle">18 SEC</text>
-
-    <rect x="526" y="355" width="140" height="47" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="596" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Finally:</text>
-    <text x="596" y="393" font-size="12.5" fill="#1E1B4B" text-anchor="middle">two full sets.</text>
-  </g>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The same act gets tailored to each room's definition of success.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Strong starts and engagement rate drive reach; YouTube values watch time, TikTok completion.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 634" role="img" aria-labelledby="pb053-title pb053-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb053-title">1,000 clicks, nobody stayed</title>
+<desc id="pb053-desc">Four-panel comic. You, the creator, post video A with a shocking “Wait till you see this!” thumbnail and get 1,000 clicks. Three seconds in, all 1,000 viewers have left: nobody waited to see it. Video B, an honest 8-minute “Fix a flat tire”, gets only 100 clicks, but all 100 watch to the end. The recommender cares more about minutes watched than clicks: A earned about 50 minutes (1,000 clicks × 3 seconds), B 800 minutes (100 × 8 minutes), so B gets recommended more. 100 viewers who stay beat 1,000 who leave; YouTube rewards watch time, TikTok watching to the end.</desc>
+<defs><clipPath id="pb053-clip"><rect x="0" y="0" width="298" height="262" rx="12"/></clipPath></defs>
+<rect x=".5" y=".5" width="639" height="633" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<g transform="translate(16,16)"><rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Video A goes live</text><path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M24,44 H184 Q196,44 196,56 V84 Q196,96 184,96 H66 L58,128 L50,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="104" y="65" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="104">1,000 clicks!</tspan><tspan x="104" dy="20">I’m a genius.</tspan></text><path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#10B981"/><circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="55" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="147" r="2.2" fill="#1E1B4B"/><path d="M55,155 Q61,162 67,155 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/><text x="58" y="250" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You (creator)</text><rect x="106" y="110" width="180" height="96" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/><text x="146" y="172" font-size="38" text-anchor="middle">😱</text><text x="230" y="144" font-size="16" font-weight="800" fill="#92400E" text-anchor="middle"><tspan x="230">WAIT TILL</tspan><tspan x="230" dy="20">YOU SEE</tspan><tspan x="230" dy="20">THIS!</tspan></text></g>
+<g transform="translate(326,16)"><rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">3 seconds later</text><path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M24,44 H226 Q238,44 238,56 V84 Q238,96 226,96 H66 L58,128 L50,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="125" y="65" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="125">All 1,000 left.</tspan><tspan x="125" dy="20">Nobody waited to see it.</tspan></text><path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#7C3AED"/><rect x="63" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="55" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="147" r="2.2" fill="#1E1B4B"/><path d="M57,157 H65" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><text x="58" y="250" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text><rect x="112" y="108" width="174" height="46" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><rect x="120" y="115" width="38" height="32" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="139" y="138" font-size="18" text-anchor="middle">😱</text><text x="168" y="129" font-size="15" font-weight="700" fill="#1E1B4B">0:03 / 8:00</text><rect x="168" y="137" width="108" height="6" rx="3" fill="#E5E7EB"/><circle cx="171" cy="140" r="5" fill="#F59E0B"/><g clip-path="url(#pb053-clip)"><path d="M142,226 L146,204 Q148,192 160,192 H164 Q176,192 174,204 L170,226 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><circle cx="165" cy="180" r="11" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><circle cx="171" cy="179" r="1.8" fill="#1E1B4B"/><path d="M126,200 H136 M124,210 H134" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/><path d="M204,226 L208,204 Q210,192 222,192 H226 Q238,192 236,204 L232,226 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><circle cx="227" cy="180" r="11" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><circle cx="233" cy="179" r="1.8" fill="#1E1B4B"/><path d="M188,200 H198 M186,210 H196" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/><path d="M270,226 L274,204 Q276,192 288,192 H292 Q304,192 302,204 L298,226 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><circle cx="293" cy="180" r="11" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><circle cx="299" cy="179" r="1.8" fill="#1E1B4B"/><path d="M254,200 H264 M252,210 H262" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/></g></g>
+<g transform="translate(16,290)"><rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Video B goes live</text><path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M24,44 H156 Q168,44 168,56 V84 Q168,96 156,96 H66 L58,128 L50,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="90" y="65" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="90">Only 100 clicks.</tspan><tspan x="90" dy="20">Flop?</tspan></text><path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#10B981"/><circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="55" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="147" r="2.2" fill="#1E1B4B"/><path d="M56,159 Q61,154 66,159" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="104" y="104" width="184" height="70" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><rect x="112" y="112" width="42" height="54" rx="6" fill="#F3F4F6"/><text x="133" y="146" font-size="24" text-anchor="middle">🚲</text><text x="164" y="130" font-size="15" font-weight="700" fill="#1E1B4B">Fix a flat tire</text><text x="164" y="151" font-size="14" fill="#4B5563">8:00 / 8:00</text><rect x="164" y="158" width="114" height="6" rx="3" fill="#10B981"/><path d="M130,226 V214 Q130,206 138,206 H154 Q162,206 162,214 V226 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><circle cx="146" cy="195" r="10" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><path d="M196,226 V214 Q196,206 204,206 H220 Q228,206 228,214 V226 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><circle cx="212" cy="195" r="10" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><path d="M252,226 V214 Q252,206 260,206 H276 Q284,206 284,214 V226 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><circle cx="268" cy="195" r="10" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><text x="179" y="225" font-size="16" text-anchor="middle">🍿</text><text x="149" y="250" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">All 100 watched to the end</text></g>
+<g transform="translate(326,290)"><rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">What gets counted</text><path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M24,44 H274 Q286,44 286,56 V84 Q286,96 274,96 H66 L58,128 L50,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="149" y="65" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="149">Not a flop! I care more about</tspan><tspan x="149" dy="20">minutes watched than clicks.</tspan></text><path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#7C3AED"/><rect x="63" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="55" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="147" r="2.2" fill="#1E1B4B"/><path d="M56,155 Q61,160 66,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><text x="104" y="124" font-size="15" font-weight="700" fill="#1E1B4B">Minutes watched</text><text x="104" y="152" font-size="16" font-weight="700" fill="#92400E">A</text><rect x="122" y="138" width="10" height="18" rx="3" fill="#F59E0B"/><text x="140" y="153" font-size="16" font-weight="700" fill="#1E1B4B">50 min</text><text x="122" y="174" font-size="15" fill="#4B5563">1,000 clicks × 3 sec</text><text x="104" y="200" font-size="16" font-weight="700" fill="#065F46">B</text><rect x="122" y="186" width="164" height="18" rx="3" fill="#10B981"/><text x="280" y="201" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="end">800 min</text><text x="122" y="222" font-size="15" fill="#4B5563">100 clicks × 8 min</text><text x="149" y="250" font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">So B gets recommended more</text></g>
+<text x="320" y="584" font-size="17" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#065F46">100 viewers who stay</tspan> beat <tspan font-weight="700" fill="#92400E">1,000 who leave</tspan>.</text>
+<text x="320" y="610" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#4C1D95">YouTube</tspan> rewards minutes watched; <tspan font-weight="700" fill="#4C1D95">TikTok</tspan>, watching to the end.</text>
 </svg>

@@ -35,7 +35,7 @@ But ask that user afterward: "Did you enjoy that?" The answer might be: "Not rea
 
 This gap between **engagement** (what users do) and **satisfaction** (how users feel about what they did) is one of the most important challenges in recommender systems — and one that the industry has been slow to address.
 
-![Engagement vs satisfaction divergence over time](/images/anim-satisfaction-gap.svg)
+![Two evenings on a video app: the dashboard crowns the 4-hour autoplay rabbit hole, but only the viewer of the 2-hour show they picked was glad they watched and comes back on their own](/images/anim-satisfaction-gap.svg)
 
 ## The Metric Problem
 

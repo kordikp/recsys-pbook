@@ -5,7 +5,7 @@ title: "The Future Is Up for Remote Control"
 readingTime: 1
 standalone: true
 core: false
-teaser: "A four-panel comic: Many disciplines must shape recommenders because today’s choices decide future access and power."
+teaser: "A three-panel comic: Many disciplines must shape recommenders because today’s choices decide future access and power."
 voice: explorer
 parent: ai-future
 recallQ: "Why is cross-disciplinary involvement in recommendation system design critical?"
@@ -24,6 +24,6 @@ genre: comic
 carriers: image
 ---
 
-![The Future Is Up for Remote Control — a four-panel comic](images/comic-ai-future.svg)
+![The Future Is Up for Remote Control — a three-panel comic](images/comic-ai-future.svg)
 
 *Many disciplines must shape recommenders because today’s choices decide future access and power.*

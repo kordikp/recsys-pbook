@@ -5,7 +5,7 @@ title: "The Best Advice Travels Through People"
 readingTime: 1
 standalone: true
 core: false
-teaser: "A four-panel comic: Graph neural recommenders preserve multi-hop paths, capturing structure matrix factors flatten."
+teaser: "A four-panel comic: two taste scores say skip the cookies; a graph follows a falafel trail two hops and finds them."
 voice: explorer
 parent: graph-methods
 recallQ: "What advantage do Graph Neural Networks (like LightGCN) have over matrix factorization for recommendation?"
@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Best Advice Travels Through People — a four-panel comic](images/comic-graph-methods.svg)
+![The Best Advice Travels Through People — a four-panel comic: matrix factorization boils you down to two taste scores and skips cookies; a LightGCN graph follows the trail you → Ana → Ben, two hops, and finds tahini cookies](images/comic-graph-methods.svg)
 
-*Graph neural recommenders preserve multi-hop paths, capturing structure matrix factors flatten.*
+*Matrix factorization flattens you into a few taste scores; graph neural networks like LightGCN follow who-liked-what trails, one hop per layer.*

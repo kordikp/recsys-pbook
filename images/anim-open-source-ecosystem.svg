@@ -1,43 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 482" role="img" aria-labelledby="pb022-title pb022-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb022-title">Open-source recommender tools: pick by where you are, and start simple</title>
+  <desc id="pb022-desc">The open-source toolbox you need depends on your stage. Learning: Surprise for star ratings, Implicit for clicks and purchases, RecPack for fair offline tests. Prototyping adds LightFM or Cornac to use item details and RepSys to see what the model picks. Production needs Merlin or TFRS to train at scale, FAISS or Milvus for fast similar-item search, ELSA as a lean baseline and beeFormer for brand-new items. Research is a side trip: RecBole and ELLIOT for fair comparisons, PyTorch-BigGraph for huge graphs. In every case start simple: a well-tuned Implicit model with a FAISS index beats a poorly configured Merlin pipeline and is ready in days rather than months.</desc>
   <style>
-    .lane{animation:l 6s ease-in-out infinite}
-    .lane2{animation:l 6s ease-in-out infinite;animation-delay:2s}
-    .lane3{animation:l 6s ease-in-out infinite;animation-delay:4s}
-    @keyframes l{0%,28%,100%{stroke-width:2}8%,20%{stroke-width:3.5}}
+    .pb022-s1{opacity:0;animation:pb022-s1 10s ease-in-out infinite}
+    .pb022-s2{opacity:0;animation:pb022-s2 10s ease-in-out infinite}
+    .pb022-s3{opacity:0;animation:pb022-s3 10s ease-in-out infinite}
+    .pb022-g{opacity:0;animation:pb022-g 10s ease-in-out infinite}
+    @keyframes pb022-s1{0%{opacity:0}3%,16%{opacity:1}19%,100%{opacity:0}}
+    @keyframes pb022-s2{0%,16%{opacity:0}19%,32%{opacity:1}35%,100%{opacity:0}}
+    @keyframes pb022-s3{0%,32%{opacity:0}35%,96%{opacity:1}100%{opacity:0}}
+    @keyframes pb022-g{0%,50%{opacity:0}54%,96%{opacity:1}100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb022-s1,.pb022-s2,.pb022-s3,.pb022-g{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Open-Source RecSys: Pick by What You're Doing</text>
+  <defs>
+    <marker id="pb022-ah" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#9CA3AF"/>
+    </marker>
+  </defs>
 
-  <g text-anchor="middle" font-size="12.5">
-    <rect class="lane" x="55" y="70" width="215" height="280" rx="12" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="162" y="98" font-size="15" font-weight="800" fill="#065F46">LEARNING</text>
-    <rect x="75" y="116" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#10B981"/>
-    <text x="162" y="136" font-weight="700" fill="#065F46">Surprise</text><text x="162" y="153" fill="#6B7280">classic CF in 10 lines</text>
-    <rect x="75" y="172" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#10B981"/>
-    <text x="162" y="192" font-weight="700" fill="#065F46">Implicit</text><text x="162" y="209" fill="#6B7280">ALS/BPR, fast C++</text>
-    <rect x="75" y="228" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#10B981"/>
-    <text x="162" y="248" font-weight="700" fill="#065F46">LensKit</text><text x="162" y="265" fill="#6B7280">teaching-grade rigor</text>
-    <text x="162" y="330" fill="#065F46">goal: understand</text>
+  <rect x=".5" y=".5" width="639" height="481" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Pick tools by where you are — and start simple</text>
 
-    <rect class="lane2" x="292" y="70" width="215" height="280" rx="12" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="400" y="98" font-size="15" font-weight="800" fill="#4C1D95">PRODUCTION</text>
-    <rect x="312" y="116" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="400" y="136" font-weight="700" fill="#4C1D95">TorchRec</text><text x="400" y="153" fill="#6B7280">Meta-scale embeddings</text>
-    <rect x="312" y="172" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="400" y="192" font-weight="700" fill="#4C1D95">Merlin / HugeCTR</text><text x="400" y="209" fill="#6B7280">GPU pipelines</text>
-    <rect x="312" y="228" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="400" y="248" font-weight="700" fill="#4C1D95">Faiss / Milvus</text><text x="400" y="265" fill="#6B7280">ANN retrieval</text>
-    <text x="400" y="330" fill="#4C1D95">goal: serve millions</text>
+  <!-- stage pills -->
+  <rect x="24" y="56" width="180" height="34" rx="17" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <rect class="pb022-s1" x="24" y="56" width="180" height="34" rx="17" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="114" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">1 · Learning</text>
+  <rect x="230" y="56" width="180" height="34" rx="17" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <rect class="pb022-s2" x="230" y="56" width="180" height="34" rx="17" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="320" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">2 · Prototyping</text>
+  <rect x="436" y="56" width="180" height="34" rx="17" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <rect class="pb022-s3" x="436" y="56" width="180" height="34" rx="17" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="526" y="78" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">3 · Production</text>
+  <line x1="208" y1="73" x2="225" y2="73" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb022-ah)"/>
+  <line x1="414" y1="73" x2="431" y2="73" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb022-ah)"/>
 
-    <rect class="lane3" x="529" y="70" width="215" height="280" rx="12" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="637" y="98" font-size="15" font-weight="800" fill="#92400E">RESEARCH</text>
-    <rect x="549" y="116" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#D97706"/>
-    <text x="637" y="136" font-weight="700" fill="#92400E">RecBole</text><text x="637" y="153" fill="#6B7280">70+ models, one API</text>
-    <rect x="549" y="172" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#D97706"/>
-    <text x="637" y="192" font-weight="700" fill="#92400E">Elliot</text><text x="637" y="209" fill="#6B7280">rigorous evaluation</text>
-    <rect x="549" y="228" width="175" height="48" rx="8" fill="#FFFFFF" stroke="#D97706"/>
-    <text x="637" y="248" font-weight="700" fill="#92400E">ReChorus</text><text x="637" y="265" fill="#6B7280">sequential baselines</text>
-    <text x="637" y="330" fill="#92400E">goal: fair comparison</text>
+  <!-- stage cards -->
+  <rect x="24" y="102" width="180" height="170" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect class="pb022-s1" x="24" y="102" width="180" height="170" rx="12" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <rect x="230" y="102" width="180" height="170" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect class="pb022-s2" x="230" y="102" width="180" height="170" rx="12" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <rect x="436" y="102" width="180" height="218" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect class="pb022-s3" x="436" y="102" width="180" height="218" rx="12" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+
+  <!-- chips: name + plain-words job -->
+  <g font-size="15">
+    <!-- 1 learning -->
+    <rect x="32" y="114" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="44" y="133" font-weight="700" fill="#1E1B4B">Surprise</text>
+    <text x="44" y="151" font-size="14" fill="#4B5563">star ratings</text>
+    <rect class="pb022-g" x="28" y="160" width="172" height="52" rx="12" fill="none" stroke="#10B981" stroke-width="5" stroke-opacity=".4"/>
+    <rect x="32" y="164" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+    <text x="44" y="183" font-weight="700" fill="#1E1B4B">Implicit</text>
+    <text x="184" y="184" text-anchor="end" font-size="16" font-weight="700" fill="#10B981">✓</text>
+    <text x="44" y="201" font-size="14" fill="#4B5563">clicks &amp; purchases</text>
+    <rect x="32" y="214" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="44" y="233" font-weight="700" fill="#1E1B4B">RecPack</text>
+    <text x="44" y="251" font-size="14" fill="#4B5563">fair offline tests</text>
+
+    <!-- 2 prototyping -->
+    <rect x="238" y="114" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="250" y="133" font-weight="700" fill="#1E1B4B">LightFM / Cornac</text>
+    <text x="250" y="151" font-size="14" fill="#4B5563">adds item details</text>
+    <rect x="238" y="164" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="250" y="183" font-weight="700" fill="#1E1B4B">RepSys</text>
+    <text x="250" y="201" font-size="14" fill="#4B5563">see what it picks</text>
+    <rect x="238" y="214" width="164" height="44" rx="9" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="320" y="241" text-anchor="middle" font-size="14" fill="#4B5563">+ the step-1 tools</text>
+
+    <!-- 3 production -->
+    <rect x="444" y="114" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="456" y="133" font-weight="700" fill="#1E1B4B">Merlin or TFRS</text>
+    <text x="456" y="151" font-size="14" fill="#4B5563">train at scale</text>
+    <rect class="pb022-g" x="440" y="160" width="172" height="52" rx="12" fill="none" stroke="#10B981" stroke-width="5" stroke-opacity=".4"/>
+    <rect x="444" y="164" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+    <text x="456" y="183" font-weight="700" fill="#1E1B4B">FAISS or Milvus</text>
+    <text x="596" y="184" text-anchor="end" font-size="16" font-weight="700" fill="#10B981">✓</text>
+    <text x="456" y="201" font-size="14" fill="#4B5563">similar-item search</text>
+    <rect x="444" y="214" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="456" y="233" font-weight="700" fill="#1E1B4B">ELSA</text>
+    <text x="456" y="251" font-size="14" fill="#4B5563">lean, strong baseline</text>
+    <rect x="444" y="264" width="164" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="456" y="283" font-weight="700" fill="#1E1B4B">beeFormer</text>
+    <text x="456" y="301" font-size="14" fill="#4B5563">brand-new items</text>
   </g>
-  <text x="400" y="390" text-anchor="middle" font-size="13" fill="#6B7280">Same math, three toolboxes — the mistake is using a teaching library to serve production traffic.</text>
+
+  <!-- research side trip -->
+  <rect x="24" y="338" width="592" height="58" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="40" y="362" font-size="16" font-weight="700" fill="#1E1B4B">🔬 Research</text>
+  <text x="40" y="382" font-size="14" fill="#4B5563">a side trip</text>
+  <g font-size="15">
+    <rect x="200" y="345" width="196" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="212" y="364" font-weight="700" fill="#1E1B4B">RecBole · ELLIOT</text>
+    <text x="212" y="382" font-size="14" fill="#4B5563">fair model comparisons</text>
+    <rect x="408" y="345" width="196" height="44" rx="9" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="420" y="364" font-weight="700" fill="#1E1B4B">PyTorch-BigGraph</text>
+    <text x="420" y="382" font-size="14" fill="#4B5563">huge graphs</text>
+  </g>
+
+  <!-- start simple: the verdict from the text -->
+  <rect x="24" y="414" width="258" height="52" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="40" y="436" font-size="15" font-weight="700" fill="#065F46">✓ Well-tuned Implicit + FAISS</text>
+  <text x="40" y="456" font-size="14" fill="#065F46">ready in days</text>
+  <rect class="pb022-g" x="20" y="410" width="266" height="60" rx="15" fill="none" stroke="#10B981" stroke-width="5" stroke-opacity=".4"/>
+  <text x="320" y="446" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">beats</text>
+  <rect x="358" y="414" width="258" height="52" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="374" y="436" font-size="15" font-weight="700" fill="#92400E">Poorly configured Merlin</text>
+  <text x="374" y="456" font-size="14" fill="#92400E">🐌 ready in months</text>
 </svg>

@@ -1,25 +1,77 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 448" role="img" aria-labelledby="pb009-title pb009-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb009-title">Scoring a ranker you never ran: inverse propensity scoring on a toy log</title>
+  <desc id="pb009-desc">A toy log of 10 views from the old ranker π0, which shows the blockbuster 80% of the time and the documentary 20%: 3 views were clicked, so its CTR is 0.30. To estimate the new ranker π, which would show the blockbuster 20% and the documentary 80%, each logged view is weighted by π/π0: a quarter for the blockbuster, 4 for the documentary. The reweighted log looks like π's traffic, and its clicked share gives the estimate (2 × ¼ + 1 × 4) ÷ 10 = 0.45, without ever running π. The catch: one documentary click now supplies 4 of the 4.5, so the estimate is noisy.</desc>
   <style>
-    .ghost{animation:gh 5s ease-in-out infinite}
-    @keyframes gh{0%,25%{opacity:.25}55%,85%{opacity:.9}100%{opacity:.25}}
+    .pb009-shrink{transform-box:fill-box;transform-origin:left center;animation:pb009-shrink 10s ease-in-out infinite}
+    @keyframes pb009-shrink{0%,8%{transform:scaleX(4)}30%,96%{transform:scaleX(1)}100%{transform:scaleX(4)}}
+    .pb009-grow{transform-box:fill-box;transform-origin:right center;animation:pb009-grow 10s ease-in-out infinite}
+    @keyframes pb009-grow{0%,8%{transform:scaleX(.25)}30%,96%{transform:scaleX(1)}100%{transform:scaleX(.25)}}
+    .pb009-late{animation:pb009-late 10s ease-in-out infinite}
+    @keyframes pb009-late{0%,26%{opacity:0}34%,94%{opacity:1}100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb009-shrink,.pb009-grow,.pb009-late{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Counterfactual: The Question Logs Can't Answer Directly</text>
+  <rect x=".5" y=".5" width="639" height="447" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="42" font-size="20" font-weight="700" fill="#1E1B4B">Scoring a ranker you never ran</text>
+  <text x="32" y="66" font-size="14" fill="#6B7280">Toy log of 10 views · green = clicked · CTR = green share of the bar</text>
 
-  <g stroke="#9CA3AF" stroke-width="1.5"><line x1="90" y1="320" x2="740" y2="320"/><line x1="90" y1="320" x2="90" y2="80"/></g>
-  <text x="415" y="348" text-anchor="middle" font-size="12" fill="#6B7280">session timeline →</text>
-  <text x="74" y="200" text-anchor="middle" font-size="12" fill="#6B7280" transform="rotate(-90 74 200)">engagement</text>
-
-  <path d="M90 300 C200 285 300 250 420 235 C540 220 640 210 730 205" fill="none" stroke="#7C3AED" stroke-width="3.5"/>
-  <circle cx="420" cy="235" r="7" fill="#7C3AED"/>
-  <rect x="300" y="115" width="240" height="40" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <text x="420" y="140" text-anchor="middle" font-size="13" font-weight="700" fill="#4C1D95">FACT: we showed ranking π — this happened</text>
-
-  <g class="ghost">
-    <path d="M420 235 C520 255 620 275 730 290" fill="none" stroke="#D97706" stroke-width="3" stroke-dasharray="8 6"/>
-    <rect x="470" y="300" width="255" height="40" rx="9" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="597" y="325" text-anchor="middle" font-size="13" font-weight="700" fill="#92400E">WHAT IF: ranking π′? — never observed</text>
+  <!-- what happened: the logged world -->
+  <rect x="24" y="82" width="592" height="118" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="44" y="108" font-size="16" font-weight="700" fill="#1E1B4B">What happened: old ranker π₀</text>
+  <text x="44" y="131" font-size="15" fill="#4B5563">shows the 🎬 blockbuster 80% of the time, the 🎞️ documentary 20%</text>
+  <g>
+    <rect x="45" y="144" width="44" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="91" y="144" width="44" height="40" rx="4" fill="#10B981"/>
+    <rect x="137" y="144" width="44" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="183" y="144" width="44" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="229" y="144" width="44" height="40" rx="4" fill="#10B981"/>
+    <rect x="275" y="144" width="44" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="321" y="144" width="44" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="367" y="144" width="44" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="413" y="144" width="44" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="459" y="144" width="44" height="40" rx="4" fill="#10B981"/>
   </g>
+  <g font-size="18" text-anchor="middle">
+    <text x="67" y="170">🎬</text><text x="113" y="170">🎬</text><text x="159" y="170">🎬</text><text x="205" y="170">🎬</text>
+    <text x="251" y="170">🎬</text><text x="297" y="170">🎬</text><text x="343" y="170">🎬</text><text x="389" y="170">🎬</text>
+    <text x="435" y="170">🎞️</text><text x="481" y="170">🎞️</text>
+  </g>
+  <text x="596" y="156" font-size="14" text-anchor="end" fill="#6B7280">CTR</text>
+  <text x="596" y="184" font-size="26" font-weight="800" text-anchor="end" fill="#1E1B4B">0.30</text>
 
-  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Off-policy evaluation reweights logged clicks (IPS) to estimate the ghost line — no new experiment needed, big variance included.</text>
+  <!-- the bridge -->
+  <line x1="60" y1="204" x2="60" y2="220" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M54 216 L60 225 L66 216" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="76" y="219" font-size="15" font-weight="700" fill="#4C1D95">reweight each view by π / π₀</text>
+
+  <!-- what would have happened: the counterfactual world -->
+  <rect x="24" y="230" width="592" height="166" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2" stroke-dasharray="8 6"/>
+  <text x="44" y="256" font-size="16" font-weight="700" fill="#1E1B4B">What would have happened: new ranker π</text>
+  <text x="596" y="256" font-size="14" text-anchor="end" fill="#4C1D95">never run 👻</text>
+  <text x="44" y="279" font-size="15" fill="#4B5563">would show 🎬 20%, 🎞️ 80% · weights 20/80 = ¼ and 80/20 = 4</text>
+  <text class="pb009-late" x="90" y="305" font-size="15" font-weight="700" text-anchor="middle" fill="#7C3AED">🎬 ×¼ each</text>
+  <text class="pb009-late" x="320" y="305" font-size="15" font-weight="700" text-anchor="middle" fill="#7C3AED">🎞️ ×4 each</text>
+  <g class="pb009-shrink">
+    <rect x="44.5" y="314" width="10.5" height="40" rx="2" fill="#E5E7EB"/>
+    <rect x="56" y="314" width="10.5" height="40" rx="2" fill="#10B981"/>
+    <rect x="67.5" y="314" width="10.5" height="40" rx="2" fill="#E5E7EB"/>
+    <rect x="79" y="314" width="10.5" height="40" rx="2" fill="#E5E7EB"/>
+    <rect x="90.5" y="314" width="10.5" height="40" rx="2" fill="#10B981"/>
+    <rect x="102" y="314" width="10.5" height="40" rx="2" fill="#E5E7EB"/>
+    <rect x="113.5" y="314" width="10.5" height="40" rx="2" fill="#E5E7EB"/>
+    <rect x="125" y="314" width="10.5" height="40" rx="2" fill="#E5E7EB"/>
+  </g>
+  <g class="pb009-grow">
+    <rect x="137" y="314" width="182" height="40" rx="4" fill="#E5E7EB"/>
+    <rect x="321" y="314" width="182" height="40" rx="4" fill="#10B981"/>
+  </g>
+  <g class="pb009-late" font-size="18" text-anchor="middle">
+    <text x="228" y="340">🎞️</text><text x="412" y="340">🎞️</text>
+  </g>
+  <rect class="pb009-late" x="317" y="310" width="190" height="48" rx="7" fill="none" stroke="#F59E0B" stroke-width="2.5"/>
+  <text x="596" y="320" font-size="14" text-anchor="end" fill="#6B7280">CTR est.</text>
+  <text class="pb009-late" x="596" y="354" font-size="28" font-weight="800" text-anchor="end" fill="#7C3AED">0.45</text>
+  <text x="44" y="380" font-size="15" fill="#1E1B4B">(2 × ¼ + 1 × 4) ÷ 10 = 0.45</text>
+  <text class="pb009-late" x="322" y="380" font-size="15" fill="#92400E">↑ 1 click = 4 of 4.5: high variance</text>
+
+  <text x="320" y="428" font-size="16" font-weight="600" text-anchor="middle" fill="#1E1B4B">IPS <tspan fill="#7C3AED">reshapes the old log into the new ranker’s traffic</tspan>.</text>
 </svg>

@@ -47,11 +47,11 @@ The breakthrough: **these concepts emerge without labels.** The model discovers 
 
 **Level 3: Editorial steering.** Editors and product teams can boost specific neurons for campaigns — "Essential Directors Month" activates director-specific neurons differently for each user, creating personalized editorial promotions rather than one-size-fits-all featured lists.
 
-![Rabbit hole detection and gentle diversification via adjacent concepts](/images/anim-rabbit-hole-exit.svg)
-
 ## Exiting the Rabbit Hole
 
 The most impactful application of steerability is **rabbit hole detection and exit.** Filter bubbles form because recommendation algorithms reinforce existing patterns. Steerable systems can break this cycle:
+
+![Spotting a rabbit hole in three steps: a user's active concept knobs narrow from 15 to 5, all around true crime; the system turns up neighboring knobs (investigative journalism, legal thrillers, psychology) instead of something random; and it offers the change, leaving the choice to the user](/images/anim-rabbit-hole-exit.svg)
 
 **Detection:** Monitor how concentrated a user's active neurons are. If a user who previously had 15 active concept neurons has narrowed to 5, they're entering a rabbit hole. The concentration is measurable — no subjective judgment needed.
 

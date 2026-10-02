@@ -1,55 +1,151 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Bookseller With Three Job Titles</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="pb102-title pb102-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb102-title">The bookseller with three job titles</title>
+<desc id="pb102-desc">Four-panel comic: a bookseller does the three jobs of every recommender. 1 Discover: the reader only searches for authors they already know, so the bookseller hands over a book by one they don't. 2 Navigate: facing a wall of books, the reader asks where to start; the bookseller points to three picks. 3 Engage: a week later the reader loved the book and asks what's next; the sequel just came in. 4 Engage, too much: at 2 a.m., next to a pile of books, the bookseller offers one more and the reader says "I said one more, not move in." Engagement is good only while it still serves the reader.</desc>
+<defs>
+<pattern id="pb102-wall" x="0" y="18" width="64" height="80" patternUnits="userSpaceOnUse">
+<rect x="0" y="6" width="8" height="30" fill="#E5E7EB"/><rect x="9" y="2" width="6" height="34" fill="#D1D5DB"/><rect x="16" y="9" width="10" height="27" fill="#E5E7EB"/><rect x="27" y="4" width="7" height="32" fill="#D1D5DB"/><rect x="35" y="7" width="9" height="29" fill="#E5E7EB"/><rect x="45" y="3" width="6" height="33" fill="#D1D5DB"/><rect x="52" y="6" width="11" height="30" fill="#E5E7EB"/><rect x="0" y="36" width="64" height="4" fill="#D1D5DB"/>
+<rect x="0" y="45" width="10" height="31" fill="#D1D5DB"/><rect x="11" y="49" width="7" height="27" fill="#E5E7EB"/><rect x="19" y="43" width="6" height="33" fill="#D1D5DB"/><rect x="26" y="46" width="9" height="30" fill="#E5E7EB"/><rect x="36" y="42" width="8" height="34" fill="#D1D5DB"/><rect x="45" y="48" width="11" height="28" fill="#E5E7EB"/><rect x="57" y="45" width="6" height="31" fill="#D1D5DB"/><rect x="0" y="76" width="64" height="4" fill="#D1D5DB"/>
+</pattern>
+</defs>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" font-size="19" font-weight="700" fill="#1E1B4B" text-anchor="middle">The bookseller with three job titles</text>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <path d="M45 145H205 M45 205H205 M55 145V205 M195 145V205 M68 158V195 M82 153V195 M99 161V195 M116 151V195 M134 157V195 M151 154V195 M169 160V195" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="174" y="165" width="15" height="30" rx="2" fill="#FEF3C7" stroke="#D97706"/>
-  <circle cx="260" cy="167" r="10" fill="#10B981"/>
-  <path d="M260 177V217 M260 188L224 180 M260 190L282 202 M260 217L247 239 M260 217L274 239" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="330" cy="172" r="10" fill="#7C3AED"/>
-  <path d="M330 182V220 M330 193L309 204 M330 193L348 207 M330 220L318 241 M330 220L342 241" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="34" y="74" width="195" height="36" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-  <text x="131.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I searched every bestseller.</text>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">DISCOVER: The best find wasn’t on the shelf they searched.</text>
+<!-- ===== Panel 1: Discover ===== -->
+<g transform="translate(16,52)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="26" cy="26" r="12" fill="#7C3AED"/>
+<text x="26" y="31" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="46" y="32" font-size="16" font-weight="700" fill="#4C1D95">Discover</text>
+<path d="M12,218 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- reader -->
+<path d="M39,218 V178 Q39,162 55,162 H69 Q85,162 85,178 V218 Z" fill="#10B981"/>
+<circle cx="62" cy="141" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="59" cy="139" r="2.2" fill="#1E1B4B"/><circle cx="71" cy="139" r="2.2" fill="#1E1B4B"/>
+<path d="M60,147 Q65,151 70,147" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- bookseller -->
+<path d="M199,218 V178 Q199,162 215,162 H229 Q245,162 245,178 V218 Z" fill="#7C3AED"/>
+<rect x="227" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="222" cy="141" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="213" cy="139" r="2.2" fill="#1E1B4B"/><circle cx="225" cy="139" r="2.2" fill="#1E1B4B"/>
+<path d="M214,147 Q219,151 224,147" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M201,184 L187,178" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="160" y="158" width="28" height="36" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<path d="M166,159 V193" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="148" y="160" font-size="18" text-anchor="middle">✨</text>
+<!-- bubbles -->
+<path d="M22,44 H146 Q158,44 158,56 V86 Q158,98 146,98 H70 L63,121 L54,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="84" y="66" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="84">I only search for</tspan><tspan x="84" dy="20">authors I know.</tspan></text>
+<path d="M178,44 H278 Q290,44 290,56 V86 Q290,98 278,98 H230 L222,121 L214,98 H178 Q166,98 166,86 V56 Q166,44 178,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="228" y="66" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="228">Then meet one</tspan><tspan x="228" dy="20">you don’t.</tspan></text>
+<text x="62" y="240" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+<text x="222" y="240" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Bookseller</text>
+</g>
 
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <path d="M445 137H525V171H575V137H665V171H744 M445 216H510V183H590V216H655V183H744" fill="none" stroke="#6B7280" stroke-width="7" stroke-linecap="round"/>
-  <path d="M456 195H488V158H546V198H610V158H690V200H731 M722 191L731 200L722 209" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="470" cy="238" r="10" fill="#10B981"/>
-  <path d="M470 248V271 M470 255L487 258 M470 271L460 286 M470 271L480 286" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="520" cy="238" r="10" fill="#7C3AED"/>
-  <path d="M520 248V271 M520 255L501 258 M520 271L510 286 M520 271L530 286" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="557" y="76" width="190" height="48" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="652" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="652" y="95">Three million spines.</tspan>
-    <tspan x="652" y="112">Follow the green cardigan.</tspan>
-  </text>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">NAVIGATE: One route beats choosing among three million spines.</text>
+<!-- ===== Panel 2: Navigate ===== -->
+<g transform="translate(326,52)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="26" cy="26" r="12" fill="#7C3AED"/>
+<text x="26" y="31" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="46" y="32" font-size="16" font-weight="700" fill="#4C1D95">Navigate</text>
+<rect x="10" y="58" width="278" height="160" fill="url(#pb102-wall)"/>
+<path d="M12,218 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- table with three picks -->
+<rect x="118" y="162" width="18" height="26" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="140" y="162" width="18" height="26" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="162" y="162" width="18" height="26" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="108" y="188" width="82" height="6" rx="2" fill="#9CA3AF"/>
+<path d="M116,194 V218 M182,194 V218" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+<!-- reader -->
+<path d="M37,218 V178 Q37,162 53,162 H67 Q83,162 83,178 V218 Z" fill="#10B981"/>
+<circle cx="60" cy="141" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="57" cy="139" r="2.2" fill="#1E1B4B"/><circle cx="69" cy="139" r="2.2" fill="#1E1B4B"/>
+<circle cx="64" cy="149" r="2.6" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
+<!-- bookseller -->
+<path d="M209,218 V178 Q209,162 225,162 H239 Q255,162 255,178 V218 Z" fill="#7C3AED"/>
+<rect x="237" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="232" cy="141" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="223" cy="139" r="2.2" fill="#1E1B4B"/><circle cx="235" cy="139" r="2.2" fill="#1E1B4B"/>
+<path d="M224,147 Q229,151 234,147" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M211,184 L194,176" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<!-- bubbles -->
+<path d="M22,44 H128 Q140,44 140,56 V86 Q140,98 128,98 H68 L61,121 L52,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="75" y="66" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="75">Where do I</tspan><tspan x="75" dy="20">even start?</tspan></text>
+<path d="M162,44 H278 Q290,44 290,56 V86 Q290,98 278,98 H240 L232,121 L224,98 H162 Q150,98 150,86 V56 Q150,44 162,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="220" y="66" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="220">Start with</tspan><tspan x="220" dy="20">these three.</tspan></text>
+</g>
 
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <path d="M53 518H153 M62 500H145 M72 482H137 M82 464H129" fill="none" stroke="#D97706" stroke-width="8" stroke-linecap="round"/>
-  <circle cx="111" cy="435" r="10" fill="#7C3AED"/>
-  <path d="M111 445V475 M111 454L91 469 M111 454L137 466 M111 475L94 494 M111 475L140 482" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="286" cy="437" r="10" fill="#10B981"/>
-  <path d="M286 447V491 M286 459L244 468 M286 460L310 474 M286 491L274 517 M286 491L299 517" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="218" y="453" width="28" height="20" rx="2" fill="#EDE9FE" stroke="#7C3AED"/>
-  <rect x="43" y="356" width="177" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="131.5" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Another one like that.</text>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">ENGAGE: A useful next pick keeps the good hour going.</text>
+<!-- ===== Panel 3: Engage ===== -->
+<g transform="translate(16,314)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="26" cy="26" r="12" fill="#7C3AED"/>
+<text x="26" y="31" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="46" y="32" font-size="16" font-weight="700" fill="#4C1D95">Engage</text>
+<text x="286" y="31" font-size="14" fill="#6B7280" text-anchor="end">a week later</text>
+<path d="M12,218 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- reader -->
+<path d="M39,218 V178 Q39,162 55,162 H69 Q85,162 85,178 V218 Z" fill="#10B981"/>
+<circle cx="62" cy="141" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="59" cy="139" r="2.2" fill="#1E1B4B"/><circle cx="71" cy="139" r="2.2" fill="#1E1B4B"/>
+<path d="M58,146 Q65,153 72,146" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M84,184 L97,178" stroke="#10B981" stroke-width="7" stroke-linecap="round"/>
+<rect x="96" y="160" width="26" height="34" rx="3" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<text x="110" y="183" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">1</text>
+<!-- bookseller -->
+<path d="M201,218 V178 Q201,162 217,162 H231 Q247,162 247,178 V218 Z" fill="#7C3AED"/>
+<rect x="229" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="224" cy="141" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="215" cy="139" r="2.2" fill="#1E1B4B"/><circle cx="227" cy="139" r="2.2" fill="#1E1B4B"/>
+<path d="M216,147 Q221,151 226,147" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M203,184 L189,178" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="162" y="158" width="28" height="36" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="176" y="182" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">2</text>
+<!-- bubbles -->
+<path d="M22,44 H128 Q140,44 140,56 V86 Q140,98 128,98 H70 L63,121 L54,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="75" y="66" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="75">Loved it!</tspan><tspan x="75" dy="20">What’s next?</tspan></text>
+<path d="M162,44 H278 Q290,44 290,56 V86 Q290,98 278,98 H232 L224,121 L216,98 H162 Q150,98 150,86 V56 Q150,44 162,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="220" y="66" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="220">The sequel</tspan><tspan x="220" dy="20">just came in.</tspan></text>
+</g>
 
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <path d="M430 519H758 M444 505H500V519 M508 489H566V519 M574 473H632V519 M640 457H698V519 M706 441H758V519 M444 532H744 M460 532L471 542 M495 532L506 542 M530 532L541 542 M565 532L576 542 M600 532L611 542 M635 532L646 542 M670 532L681 542 M705 532L716 542" fill="none" stroke="#D97706" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="477" cy="448" r="10" fill="#10B981"/>
-  <path d="M477 458V493 M477 468L510 478 M477 470L457 483 M477 493L465 516 M477 493L489 516" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="713" cy="424" r="10" fill="#7C3AED"/>
-  <path d="M713 434V480 M713 447L679 430 M713 447L746 430 M713 480L701 510 M713 480L725 510" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="543" y="356" width="216" height="50" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
-  <text x="651" y="376" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="651" y="376">I said “one more,”</tspan>
-    <tspan x="651" y="393">not “move in.”</tspan>
-  </text>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The shop gains an hour. The reader loses one.</text>
+<!-- ===== Panel 4: Engage, too much ===== -->
+<g transform="translate(326,314)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="26" cy="26" r="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="26" y="31" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle">4</text>
+<text x="46" y="32" font-size="16" font-weight="700" fill="#92400E">Engage… too much</text>
+<text x="286" y="31" font-size="14" fill="#4B5563" text-anchor="end">🌙 2 a.m.</text>
+<path d="M12,218 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- the pile -->
+<rect x="140" y="208" width="46" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="143" y="198" width="42" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="139" y="188" width="46" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="142" y="178" width="44" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="140" y="168" width="42" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="144" y="158" width="44" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="141" y="148" width="42" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="143" y="138" width="44" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="140" y="128" width="44" height="10" rx="2" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<!-- bookseller (left this time) -->
+<path d="M37,218 V178 Q37,162 53,162 H67 Q83,162 83,178 V218 Z" fill="#7C3AED"/>
+<rect x="43" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="60" cy="141" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="57" cy="139" r="2.2" fill="#1E1B4B"/><circle cx="69" cy="139" r="2.2" fill="#1E1B4B"/>
+<path d="M56,146 Q63,153 70,146" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M82,184 L97,178" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="96" y="158" width="26" height="36" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<path d="M102,159 V193" stroke="#7C3AED" stroke-width="1.5"/>
+<!-- reader, tired -->
+<path d="M207,218 V178 Q207,162 223,162 H237 Q253,162 253,178 V218 Z" fill="#10B981"/>
+<circle cx="230" cy="141" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<path d="M218,140 H224 M230,140 H236" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/>
+<path d="M220,149 H228" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- bubbles -->
+<path d="M22,44 H108 Q120,44 120,56 V64 Q120,76 108,76 H68 L60,121 L52,76 H22 Q10,76 10,64 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="65" y="65" font-size="15" fill="#1E1B4B" text-anchor="middle">One more?</text>
+<path d="M140,44 H278 Q290,44 290,56 V86 Q290,98 278,98 H238 L230,121 L222,98 H140 Q128,98 128,86 V56 Q128,44 140,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="209" y="66" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="209">I said “one more,”</tspan><tspan x="209" dy="20">not “move in.”</tspan></text>
+</g>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">A recommender’s core functions are discovery, navigation, and engagement aligned with user value.</text>
+<!-- takeaway -->
+<text x="320" y="597" font-size="17" fill="#1E1B4B" text-anchor="middle">Same three jobs for every recommender: <tspan font-weight="700" fill="#7C3AED">discover</tspan>, <tspan font-weight="700" fill="#7C3AED">navigate</tspan>, <tspan font-weight="700" fill="#7C3AED">engage</tspan>.</text>
+<text x="320" y="623" font-size="17" fill="#1E1B4B" text-anchor="middle">Engagement only counts while it <tspan font-weight="700" fill="#065F46">still serves the reader</tspan>.</text>
 </svg>

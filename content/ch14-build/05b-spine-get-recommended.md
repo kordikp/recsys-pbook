@@ -31,7 +31,7 @@ You've studied how recommendation systems work from the consumer's side. Now let
 
 This isn't about gaming the system. It's about understanding what recommendation algorithms value and aligning your content strategy accordingly.
 
-![Content discoverability funnel](/images/anim-get-recommended.svg)
+![Two 10-minute videos: a clickbait one gets 1,000 clicks but viewers leave after 3 seconds (50 min of watch time, shown less next round); an honest one gets 100 clicks watched to the end (1,000 min, shown more)](/images/anim-get-recommended.svg)
 
 ## Universal Principles (Cross-Platform)
 

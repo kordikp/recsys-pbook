@@ -5,7 +5,7 @@ title: "No Past, Just Browsing"
 readingTime: 1
 standalone: true
 core: false
-teaser: "A four-panel comic: Short sessions starve deep models; item-KNN can use strong local item similarity."
+teaser: "A four-panel comic: three anonymous clicks starve a deep model, while item-KNN just counts what other shoppers clicked alongside."
 voice: explorer
 parent: session-based
 recallQ: "Why do simple baselines like item-KNN often outperform deep learning models in session-based recommendation?"
@@ -26,4 +26,4 @@ carriers: image
 
 ![No Past, Just Browsing — a four-panel comic](images/comic-session-based.svg)
 
-*Short sessions starve deep models; item-KNN can use strong local item similarity.*
+*A visit gives only a few clicks: too little for a deep model to learn a pattern from, but enough for item-KNN, which simply counts what other shoppers clicked alongside.*

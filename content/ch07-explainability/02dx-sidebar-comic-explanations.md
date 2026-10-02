@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Waiter Has His Reasons — a four-panel comic](images/comic-explanations.svg)
+![The Waiter Has His Reasons — a four-panel comic: a waiter, the recommender, serves unordered beet foam and gives a tidy reason, then holds up a ticket of hundreds of signals; the sign EU law requires lists just three main parameters](images/comic-explanations.svg)
 
 *Hundreds of interacting features make legally required platform explanations approximate.*

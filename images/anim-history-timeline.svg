@@ -1,45 +1,109 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="pb016-title pb016-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb016-title">Thirty years of recommender systems, in five eras</title>
+  <desc id="pb016-desc">A timeline from 1992 to today in five eras: collaborative filtering (1992–1998: GroupLens, Amazon’s “Customers who bought…”), industrial scale (2003–2009: the Netflix Prize, whose $1M winner was too complex to ship), deep learning (2010–2018: YouTube’s neural network, transformers), simplicity strikes back (2019–2022: an “embarrassingly shallow” linear model matches deep networks) and LLMs plus lean models (2023–now). Small icons show the typical model growing from one table to a pile of models to a deep network, then shrinking back. What lasted solved real problems at scale, not the fanciest math.</desc>
   <style>
-    .spark{animation:s 5s linear infinite}
-    @keyframes s{0%{transform:translateX(0)}100%{transform:translateX(560px)}}
+    .pb016-ring{opacity:0;animation:pb016-ring 10s ease-out infinite}
+    @keyframes pb016-ring{0%{opacity:0}3%{opacity:1}12%,100%{opacity:0}}
+    .pb016-halo{opacity:0;animation:pb016-halo 10s ease-out infinite}
+    @keyframes pb016-halo{0%{opacity:0}4%{opacity:1}24%,100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb016-ring,.pb016-halo{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Thirty Years of Recommender Systems</text>
+  <defs>
+    <g id="pb016-grid">
+      <rect x="-2" y="-2" width="38" height="38" rx="5" fill="#FFFFFF"/>
+      <rect x="0" y="0" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="9" y="0" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+      <rect x="18" y="0" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="27" y="0" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+      <rect x="0" y="9" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+      <rect x="9" y="9" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="18" y="9" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+      <rect x="27" y="9" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="0" y="18" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="9" y="18" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+      <rect x="18" y="18" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+      <rect x="27" y="18" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="0" y="27" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+      <rect x="9" y="27" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="18" y="27" width="7" height="7" rx="1.5" fill="currentColor"/>
+      <rect x="27" y="27" width="7" height="7" rx="1.5" fill="#E5E7EB"/>
+    </g>
+  </defs>
 
-  <line x1="90" y1="210" x2="710" y2="210" stroke="#9CA3AF" stroke-width="3"/>
-  <circle class="spark" cx="105" cy="210" r="6" fill="#7C3AED"/>
+  <rect x=".5" y=".5" width="639" height="479" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="44" font-size="20" font-weight="700" fill="#1E1B4B">Thirty years of recommenders, in five eras</text>
+  <text x="612" y="76" font-size="14" text-anchor="end" fill="#6B7280">Model complexity</text>
 
-  <g text-anchor="middle" font-size="12">
-    <circle cx="120" cy="210" r="7" fill="#7C3AED"/>
-    <text x="120" y="184" font-weight="800" font-size="14" fill="#4C1D95">1992</text>
-    <rect x="62" y="232" width="116" height="52" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="120" y="252" font-weight="700" fill="#4C1D95">Tapestry</text>
-    <text x="120" y="270" fill="#6B7280">first collaborative</text>
+  <!-- spine -->
+  <line x1="104" y1="118" x2="104" y2="390" stroke="#DDD6FE" stroke-width="3" stroke-linecap="round"/>
 
-    <circle cx="270" cy="210" r="7" fill="#0EA5E9"/>
-    <text x="270" y="184" font-weight="800" font-size="14" fill="#075985">2006</text>
-    <rect x="212" y="120" width="116" height="52" rx="8" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="270" y="140" font-weight="700" fill="#075985">Netflix Prize</text>
-    <text x="270" y="158" fill="#6B7280">MF goes mainstream</text>
+  <!-- era 1 -->
+  <text x="86" y="123" font-size="15" font-weight="700" text-anchor="end" fill="#4C1D95">1992–98</text>
+  <rect x="122" y="88" width="494" height="60" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="140" y="114" font-size="16" font-weight="700" fill="#1E1B4B">Collaborative filtering</text>
+  <text x="140" y="135" font-size="15" fill="#4B5563">GroupLens, Amazon’s “Customers who bought…”</text>
+  <use href="#pb016-grid" x="546" y="101" color="#7C3AED"/>
 
-    <circle cx="420" cy="210" r="7" fill="#10B981"/>
-    <text x="420" y="184" font-weight="800" font-size="14" fill="#065F46">2016</text>
-    <rect x="362" y="232" width="116" height="52" rx="8" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="420" y="252" font-weight="700" fill="#065F46">Deep learning</text>
-    <text x="420" y="270" fill="#6B7280">YouTube DNN era</text>
-
-    <circle cx="560" cy="210" r="7" fill="#D97706"/>
-    <text x="560" y="184" font-weight="800" font-size="14" fill="#92400E">2019</text>
-    <rect x="502" y="120" width="116" height="52" rx="8" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="560" y="140" font-weight="700" fill="#92400E">Two-tower + ANN</text>
-    <text x="560" y="158" fill="#6B7280">retrieval at scale</text>
-
-    <circle cx="690" cy="210" r="7" fill="#EF4444"/>
-    <text x="690" y="184" font-weight="800" font-size="14" fill="#B91C1C">2024</text>
-    <rect x="632" y="232" width="116" height="52" rx="8" fill="#FEE2E2" stroke="#EF4444"/>
-    <text x="690" y="252" font-weight="700" fill="#B91C1C">LLMs arrive</text>
-    <text x="690" y="270" fill="#6B7280">semantic cold start</text>
+  <!-- era 2 -->
+  <text x="86" y="191" font-size="15" font-weight="700" text-anchor="end" fill="#4C1D95">2003–09</text>
+  <rect x="122" y="156" width="494" height="60" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="140" y="182" font-size="16" font-weight="700" fill="#1E1B4B">Industrial scale</text>
+  <text x="140" y="203" font-size="15" fill="#92400E">Netflix Prize: $1M winner too complex to ship</text>
+  <g color="#7C3AED">
+    <use href="#pb016-grid" x="534" y="165"/>
+    <use href="#pb016-grid" x="546" y="171"/>
+    <use href="#pb016-grid" x="558" y="177"/>
   </g>
 
-  <text x="400" y="330" text-anchor="middle" font-size="13" fill="#6B7280">Each era kept the last one's core: patterns in behavior — and added a new way to read them.</text>
+  <!-- era 3 -->
+  <text x="86" y="259" font-size="15" font-weight="700" text-anchor="end" fill="#4C1D95">2010–18</text>
+  <rect x="122" y="224" width="494" height="60" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="140" y="250" font-size="16" font-weight="700" fill="#1E1B4B">Deep learning</text>
+  <text x="140" y="271" font-size="15" fill="#4B5563">YouTube’s neural network, transformers</text>
+  <path d="M523,236L543,236M523,236L543,248M523,236L543,260M523,236L543,272M523,248L543,236M523,248L543,248M523,248L543,260M523,248L543,272M523,260L543,236M523,260L543,248M523,260L543,260M523,260L543,272M523,272L543,236M523,272L543,248M523,272L543,260M523,272L543,272M543,236L563,236M543,236L563,248M543,236L563,260M543,236L563,272M543,248L563,236M543,248L563,248M543,248L563,260M543,248L563,272M543,260L563,236M543,260L563,248M543,260L563,260M543,260L563,272M543,272L563,236M543,272L563,248M543,272L563,260M543,272L563,272M563,236L583,236M563,236L583,248M563,236L583,260M563,236L583,272M563,248L583,236M563,248L583,248M563,248L583,260M563,248L583,272M563,260L583,236M563,260L583,248M563,260L583,260M563,260L583,272M563,272L583,236M563,272L583,248M563,272L583,260M563,272L583,272M583,236L603,236M583,236L603,248M583,236L603,260M583,236L603,272M583,248L603,236M583,248L603,248M583,248L603,260M583,248L603,272M583,260L603,236M583,260L603,248M583,260L603,260M583,260L603,272M583,272L603,236M583,272L603,248M583,272L603,260M583,272L603,272" stroke="#C4B5FD" stroke-width="1" fill="none"/>
+  <g fill="#7C3AED">
+    <circle cx="523" cy="236" r="2.8"/><circle cx="523" cy="248" r="2.8"/><circle cx="523" cy="260" r="2.8"/><circle cx="523" cy="272" r="2.8"/>
+    <circle cx="543" cy="236" r="2.8"/><circle cx="543" cy="248" r="2.8"/><circle cx="543" cy="260" r="2.8"/><circle cx="543" cy="272" r="2.8"/>
+    <circle cx="563" cy="236" r="2.8"/><circle cx="563" cy="248" r="2.8"/><circle cx="563" cy="260" r="2.8"/><circle cx="563" cy="272" r="2.8"/>
+    <circle cx="583" cy="236" r="2.8"/><circle cx="583" cy="248" r="2.8"/><circle cx="583" cy="260" r="2.8"/><circle cx="583" cy="272" r="2.8"/>
+    <circle cx="603" cy="236" r="2.8"/><circle cx="603" cy="248" r="2.8"/><circle cx="603" cy="260" r="2.8"/><circle cx="603" cy="272" r="2.8"/>
+  </g>
+
+  <!-- era 4: the twist -->
+  <text x="86" y="327" font-size="15" font-weight="700" text-anchor="end" fill="#065F46">2019–22</text>
+  <rect class="pb016-halo" style="animation-delay:2.4s" x="118" y="288" width="502" height="68" rx="13" fill="none" stroke="#10B981" stroke-width="5" stroke-opacity=".45"/>
+  <rect x="122" y="292" width="494" height="60" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="140" y="318" font-size="16" font-weight="700" fill="#065F46">Simplicity strikes back</text>
+  <text x="140" y="339" font-size="15" fill="#065F46">An “embarrassingly shallow” model matches deep nets</text>
+  <use href="#pb016-grid" x="546" y="305" color="#10B981"/>
+
+  <!-- era 5 -->
+  <text x="86" y="395" font-size="15" font-weight="700" text-anchor="end" fill="#4C1D95">2023–now</text>
+  <rect x="122" y="360" width="494" height="60" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="140" y="386" font-size="16" font-weight="700" fill="#1E1B4B">LLMs + lean models</text>
+  <text x="140" y="407" font-size="15" fill="#4B5563">Ask in plain words · lean, efficient models</text>
+  <path d="M514,374 h32 a6,6 0 0 1 6,6 v16 a6,6 0 0 1 -6,6 h-22 l-8,7 v-7 h-2 a6,6 0 0 1 -6,-6 v-16 a6,6 0 0 1 6,-6 z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2" stroke-linejoin="round"/>
+  <circle cx="520" cy="388" r="2.5" fill="#7C3AED"/>
+  <circle cx="530" cy="388" r="2.5" fill="#7C3AED"/>
+  <circle cx="540" cy="388" r="2.5" fill="#7C3AED"/>
+  <text x="563" y="394" font-size="18" font-weight="700" text-anchor="middle" fill="#4C1D95">+</text>
+  <use href="#pb016-grid" x="574" y="373" color="#7C3AED"/>
+
+  <!-- era dots + time rings -->
+  <g fill="#7C3AED" stroke="#FAFAF7" stroke-width="2.5">
+    <circle cx="104" cy="118" r="7"/>
+    <circle cx="104" cy="186" r="7"/>
+    <circle cx="104" cy="254" r="7"/>
+    <circle cx="104" cy="322" r="7" fill="#10B981"/>
+    <circle cx="104" cy="390" r="7"/>
+  </g>
+  <g fill="none" stroke="#7C3AED" stroke-width="2.5">
+    <circle class="pb016-ring" style="animation-delay:0s" cx="104" cy="118" r="13"/>
+    <circle class="pb016-ring" style="animation-delay:0.8s" cx="104" cy="186" r="13"/>
+    <circle class="pb016-ring" style="animation-delay:1.6s" cx="104" cy="254" r="13"/>
+    <circle class="pb016-ring" style="animation-delay:2.4s" cx="104" cy="322" r="13" stroke="#10B981"/>
+    <circle class="pb016-ring" style="animation-delay:3.2s" cx="104" cy="390" r="13"/>
+  </g>
+
+  <text x="320" y="456" font-size="16" font-weight="600" text-anchor="middle" fill="#1E1B4B">What lasted solved <tspan fill="#065F46" font-weight="700">real problems at scale</tspan> — not the fanciest math.</text>
 </svg>

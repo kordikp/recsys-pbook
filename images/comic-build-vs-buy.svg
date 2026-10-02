@@ -1,78 +1,192 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The House Playlist Ate the House Special</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 632" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb044-title pb044-desc">
+  <title id="pb044-title">The house playlist ate the house special</title>
+  <desc id="pb044-desc">Four-panel comic. A café owner decides to build an in-house playlist recommender; a customer points out that the café sells coffee. Month 3: the prototype picks jazz for the morning crowd and the owner thinks the job is done. Then the real work: 3 months of building are followed by 18 months of keeping it running, with monitoring, A/B tests, scaling and a 3 AM alert that it is playing polka on repeat. Month 21: the new house special is still coming soon, and the owner admits they should have bought the playlist. Build what customers come for; buy the rest.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="0.5" y="0.5" width="639" height="631" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">The house playlist ate the house special</text>
 
-  <!-- Panel 1 -->
-  <rect x="32" y="76" width="190" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="127" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="127">Let's build our own playlist</tspan>
-    <tspan x="127" dy="17">recommender.</tspan>
-  </text>
-  <rect x="238" y="82" width="136" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="306" y="107" font-size="12.5" fill="#1E1B4B" text-anchor="middle">For background music?</text>
-  <circle cx="126" cy="177" r="10" fill="#7C3AED"/>
-  <path d="M126 188 L126 231 M126 198 L105 213 M126 198 L148 211 M126 231 L111 251 M126 231 L142 251" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="302" cy="177" r="10" fill="#10B981"/>
-  <path d="M302 188 L302 231 M302 199 L283 213 M302 199 L322 212 M302 231 L287 251 M302 231 L317 251" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M202 174 L202 205 M202 174 L222 169 L222 197 M202 205 C192 198 190 212 201 211 M222 197 C212 190 210 204 221 203" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A café team treats personalized playlists as a small feature.</text>
+  <!-- ===== Panel 1: the big idea ===== -->
+  <g transform="translate(16,52)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">The big idea</text>
 
-  <!-- Panel 2 -->
-  <rect x="426" y="86" width="94" height="72" rx="7" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="473" y="109" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">
-    <tspan x="473">PROTOTYPE</tspan>
-    <tspan x="473" dy="25" font-size="17">3 MONTHS</tspan>
-  </text>
-  <rect x="574" y="113" width="158" height="102" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <text x="653" y="143" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="653" font-weight="700">NOW PLAYING</tspan>
-    <tspan x="653" dy="24">Mira → lo-fi</tspan>
-    <tspan x="653" dy="19" fill="#7C3AED">94% match</tspan>
-  </text>
-  <circle cx="480" cy="207" r="10" fill="#10B981"/>
-  <circle cx="531" cy="207" r="10" fill="#7C3AED"/>
-  <path d="M480 218 L480 257 M480 228 L500 237 M480 257 L467 276 M480 257 L493 276 M531 218 L531 257 M531 228 L510 237 M531 257 L518 276 M531 257 L544 276" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M744 145 L744 169 M744 145 L756 141 M744 169 C735 163 734 176 743 175" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Three months later, the prototype reads the room.</text>
+    <!-- owner bubble -->
+    <path d="M22,44 H130 Q142,44 142,56 V100 Q142,112 130,112 H52 L46,127 L38,112 H22 Q10,112 10,100 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="76" y="65" text-anchor="middle" font-size="15" fill="#1E1B4B">Let’s build</text>
+    <text x="76" y="84" text-anchor="middle" font-size="15" fill="#1E1B4B">our own playlist</text>
+    <text x="76" y="103" text-anchor="middle" font-size="15" fill="#1E1B4B">recommender!</text>
 
-  <!-- Panel 3 -->
-  <rect x="34" y="360" width="101" height="72" rx="7" fill="#FEE2E2" stroke="#EF4444"/>
-  <text x="84.5" y="383" font-size="12" font-weight="700" fill="#EF4444" text-anchor="middle">
-    <tspan x="84.5">OPERATIONS</tspan>
-    <tspan x="84.5" dy="25" font-size="17">MONTH 18</tspan>
-  </text>
-  <rect x="230" y="374" width="139" height="86" rx="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-  <text x="299.5" y="401" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="299.5" font-weight="700" fill="#EF4444">2:13 AM</tspan>
-    <tspan x="299.5" dy="23">MODEL DRIFT</tspan>
-    <tspan x="299.5" dy="18">Please retune me.</tspan>
-  </text>
-  <circle cx="151" cy="467" r="10" fill="#10B981"/>
-  <circle cx="192" cy="477" r="10" fill="#7C3AED"/>
-  <path d="M151 478 L151 521 M151 488 L171 497 M151 521 L138 543 M151 521 L164 543 M192 488 L188 527 M190 498 L211 483 M188 527 L174 547 M188 527 L203 547" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M210 480 L221 469 M218 466 L224 472 M207 483 L213 489" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Eighteen months of uptime, tuning, and midnight alerts follow.</text>
+    <!-- customer bubble -->
+    <path d="M168,44 H272 Q284,44 284,56 V80 Q284,92 272,92 H256 L250,127 L242,92 H168 Q156,92 156,80 V56 Q156,44 168,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="220" y="64" text-anchor="middle" font-size="15" fill="#1E1B4B">For the music?</text>
+    <text x="220" y="83" text-anchor="middle" font-size="15" fill="#1E1B4B">You sell coffee.</text>
 
-  <!-- Panel 4 -->
-  <rect x="426" y="356" width="176" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="514" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Could I get a coffee?</text>
-  <rect x="638" y="410" width="126" height="96" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <text x="701" y="438" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="701" font-weight="700">PLAYLIST: LIVE</tspan>
-    <tspan x="701" dy="23">ESPRESSO BAR:</tspan>
-    <tspan x="701" dy="18" fill="#EF4444">BACKLOG</tspan>
-  </text>
-  <circle cx="467" cy="459" r="10" fill="#0EA5E9"/>
-  <circle cx="548" cy="459" r="10" fill="#10B981"/>
-  <circle cx="596" cy="459" r="10" fill="#7C3AED"/>
-  <path d="M467 470 L467 520 M467 481 L491 491 M467 520 L453 545 M467 520 L481 545 M548 470 L548 520 M548 481 L525 493 M548 481 L570 492 M548 520 L534 545 M548 520 L562 545 M596 470 L596 520 M596 481 L574 492 M596 481 L616 489 M596 520 L582 545 M596 520 L610 545" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M493 486 L513 486 L510 503 L496 503 Z M513 489 C523 488 522 499 512 498" fill="#FFFFFF" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The playlist shipped. The espresso bar stayed on the roadmap.</text>
+    <path d="M12,224 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Build if personalization is core; buy if it's a feature—after weighing ops and opportunity cost.</text>
+    <!-- owner -->
+    <path d="M24,224 V184 Q24,168 40,168 H54 Q70,168 70,184 V224 Z" fill="#F59E0B"/>
+    <path d="M40,181 L42,169 M54,181 L52,169" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M40,180 H54 V196 H59 V224 H35 V196 H40 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M41,206 H53" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="47" cy="147" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <circle cx="41" cy="144" r="2.2" fill="#1E1B4B"/>
+    <circle cx="53" cy="144" r="2.2" fill="#1E1B4B"/>
+    <path d="M40,152 Q47,160 54,152 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.6" stroke-linejoin="round"/>
+
+    <!-- menu board -->
+    <path d="M100,206 L94,224 M198,206 L204,224" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+    <rect x="84" y="156" width="130" height="50" rx="6" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="149" y="177" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">House special</text>
+    <text x="149" y="196" text-anchor="middle" font-size="14" fill="#92400E">coming soon</text>
+
+    <!-- customer -->
+    <path d="M228,224 V184 Q228,168 244,168 H258 Q274,168 274,184 V224 Z" fill="#10B981"/>
+    <circle cx="251" cy="147" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <path d="M240,140 H248 M254,140 H262" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="245" cy="145" r="2.2" fill="#1E1B4B"/>
+    <circle cx="257" cy="145" r="2.2" fill="#1E1B4B"/>
+    <path d="M246,155 H256" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <text x="47" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Owner</text>
+    <text x="251" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Customer</text>
+  </g>
+
+  <!-- ===== Panel 2: month 3 ===== -->
+  <g transform="translate(326,52)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Month 3: it plays!</text>
+
+    <!-- bot bubble -->
+    <path d="M22,44 H126 Q138,44 138,56 V80 Q138,92 126,92 H64 L58,135 L52,92 H22 Q10,92 10,80 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="74" y="64" text-anchor="middle" font-size="15" fill="#1E1B4B">Morning crowd?</text>
+    <text x="74" y="83" text-anchor="middle" font-size="15" fill="#1E1B4B">Jazz it is.</text>
+
+    <!-- owner bubble -->
+    <path d="M172,44 H276 Q288,44 288,56 V80 Q288,92 276,92 H258 L251,127 L244,92 H172 Q160,92 160,80 V56 Q160,44 172,44 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="224" y="64" text-anchor="middle" font-size="15" fill="#1E1B4B">Done! On to the</text>
+    <text x="224" y="83" text-anchor="middle" font-size="15" fill="#1E1B4B">house special.</text>
+
+    <path d="M12,224 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- playlist bot (jukebox) -->
+    <path d="M26,224 V170 Q26,140 58,140 Q90,140 90,170 V224 Z" fill="#7C3AED"/>
+    <rect x="40" y="152" width="36" height="26" rx="6" fill="#FFFFFF"/>
+    <circle cx="51" cy="163" r="2.2" fill="#1E1B4B"/>
+    <circle cx="65" cy="163" r="2.2" fill="#1E1B4B"/>
+    <path d="M52,170 Q58,175 64,170" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="58" cy="201" r="12" fill="#EDE9FE" stroke="#4C1D95" stroke-width="1.5"/>
+    <circle cx="58" cy="201" r="4" fill="#4C1D95"/>
+    <text x="106" y="166" font-size="22" fill="#7C3AED">♪</text>
+    <text x="124" y="144" font-size="20" fill="#7C3AED">♫</text>
+
+    <!-- owner, pleased -->
+    <path d="M228,224 V184 Q228,168 244,168 H258 Q274,168 274,184 V224 Z" fill="#F59E0B"/>
+    <path d="M244,181 L246,169 M258,181 L256,169" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M244,180 H258 V196 H263 V224 H239 V196 H244 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M245,206 H257" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="251" cy="147" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <path d="M242,146 Q245,141 248,146 M254,146 Q257,141 260,146" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M244,153 Q251,160 258,153" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <text x="58" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Playlist bot</text>
+  </g>
+
+  <!-- ===== Panel 3: the real work ===== -->
+  <g transform="translate(16,322)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Then the real work</text>
+
+    <!-- time bar: 3 months vs 18 months, to scale -->
+    <text x="14" y="60" font-size="15" font-weight="700" fill="#4C1D95">3 months</text>
+    <text x="168" y="60" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">18 months</text>
+    <rect x="14" y="66" width="37" height="20" rx="4" fill="#7C3AED"/>
+    <rect x="53" y="66" width="231" height="20" rx="4" fill="#F59E0B"/>
+    <text x="14" y="104" font-size="14" fill="#4C1D95">build</text>
+    <text x="168" y="104" text-anchor="middle" font-size="14" fill="#92400E">keeping it running</text>
+
+    <path d="M12,224 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- owner at 3 AM -->
+    <path d="M12,224 V184 Q12,168 28,168 H42 Q58,168 58,184 V224 Z" fill="#F59E0B"/>
+    <path d="M28,181 L30,169 M42,181 L40,169" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M28,180 H42 V196 H47 V224 H23 V196 H28 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M29,206 H41" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M54,192 L66,182" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/>
+    <rect x="62" y="164" width="14" height="22" rx="3" fill="#1E1B4B"/>
+    <rect x="64.5" y="167" width="9" height="14" rx="1.5" fill="#FEF3C7"/>
+    <circle cx="35" cy="147" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <path d="M26,150 H32 M38,150 H44" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M30,158 Q32.5,155 35,158 Q37.5,161 40,158" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M17,143 C15,125 28,117 42,118 C55,119 64,126 68,137 C61,133 55,136 53,143 Z" fill="#FEF3C7" stroke="#92400E" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M17,143 H53" stroke="#92400E" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="69" cy="140" r="4.5" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5"/>
+
+    <!-- alert from the phone -->
+    <path d="M96,118 H178 Q190,118 190,130 V154 Q190,166 178,166 H96 Q84,166 84,154 V152 L77,165 L84,140 V130 Q84,118 96,118 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="137" y="138" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">3 AM: polka</text>
+    <text x="137" y="157" text-anchor="middle" font-size="15" fill="#1E1B4B">on repeat.</text>
+
+    <!-- the chores that never end -->
+    <rect x="196" y="122" width="94" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="243" y="140" text-anchor="middle" font-size="15" fill="#92400E">Monitoring</text>
+    <rect x="196" y="154" width="94" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="243" y="172" text-anchor="middle" font-size="15" fill="#92400E">A/B tests</text>
+    <rect x="196" y="186" width="94" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="243" y="204" text-anchor="middle" font-size="15" fill="#92400E">Scaling</text>
+  </g>
+
+  <!-- ===== Panel 4: month 21 ===== -->
+  <g transform="translate(326,322)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Month 21</text>
+
+    <!-- customer bubble -->
+    <path d="M22,44 H116 Q128,44 128,56 V80 Q128,92 116,92 H54 L47,127 L40,92 H22 Q10,92 10,80 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="69" y="64" text-anchor="middle" font-size="15" fill="#1E1B4B">Still no house</text>
+    <text x="69" y="83" text-anchor="middle" font-size="15" fill="#1E1B4B">special?</text>
+
+    <!-- owner bubble -->
+    <path d="M158,44 H276 Q288,44 288,56 V80 Q288,92 276,92 H258 L251,127 L244,92 H158 Q146,92 146,80 V56 Q146,44 158,44 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="217" y="64" text-anchor="middle" font-size="15" fill="#1E1B4B">Should’ve bought</text>
+    <text x="217" y="83" text-anchor="middle" font-size="15" fill="#1E1B4B">the playlist.</text>
+
+    <path d="M12,224 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- customer, unimpressed -->
+    <path d="M24,224 V184 Q24,168 40,168 H54 Q70,168 70,184 V224 Z" fill="#10B981"/>
+    <circle cx="47" cy="147" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <path d="M36,139 L44,141 M58,139 L50,141" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <circle cx="41" cy="146" r="2.2" fill="#1E1B4B"/>
+    <circle cx="53" cy="146" r="2.2" fill="#1E1B4B"/>
+    <path d="M42,156 H52" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- the same menu board, now with a cobweb -->
+    <path d="M100,206 L94,224 M198,206 L204,224" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+    <rect x="84" y="156" width="130" height="50" rx="6" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="143" y="177" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">House special</text>
+    <text x="143" y="196" text-anchor="middle" font-size="14" fill="#92400E">coming soon</text>
+    <path d="M211,159 L199,159 M211,159 L211,177 M211,159 L201,170 M202,159 Q204,167 211,168 M206,159 Q207,163 211,163" fill="none" stroke="#6B7280" stroke-width="1.3" stroke-linecap="round"/>
+
+    <!-- owner, sheepish -->
+    <path d="M228,224 V184 Q228,168 244,168 H258 Q274,168 274,184 V224 Z" fill="#F59E0B"/>
+    <path d="M244,181 L246,169 M258,181 L256,169" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <path d="M244,180 H258 V196 H263 V224 H239 V196 H244 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M245,206 H257" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="251" cy="147" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <circle cx="245" cy="147" r="2.2" fill="#1E1B4B"/>
+    <circle cx="257" cy="147" r="2.2" fill="#1E1B4B"/>
+    <path d="M245,156 Q248,153 251,156 Q254,159 257,156" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M274,128 Q269,137 274,140 Q279,137 274,128 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+  </g>
+
+  <!-- takeaway -->
+  <text x="320" y="612" text-anchor="middle" font-size="17" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">Build</tspan> what customers come for. <tspan font-weight="700" fill="#7C3AED">Buy</tspan> the rest.</text>
 </svg>

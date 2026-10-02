@@ -1,39 +1,107 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
-  <style>
-    .w1{animation:wv 5s ease-in-out infinite}
-    @keyframes wv{0%,20%,100%{stroke-width:2;opacity:.5}45%,75%{stroke-width:7;opacity:1}}
-    .w2{animation:wf 5s ease-in-out infinite}
-    @keyframes wf{0%,20%,100%{stroke-width:5;opacity:.9}45%,75%{stroke-width:2;opacity:.45}}
-  </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Self-Attention: Not All History Weighs the Same</text>
-
-  <!-- history items -->
-  <g text-anchor="middle" font-size="12">
-    <rect x="70" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="125" y="276" font-size="18">🍳</text><text x="125" y="298" fill="#075985">cooking show</text>
-    <rect x="212" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="267" y="276" font-size="18">🎸</text><text x="267" y="298" fill="#075985">guitar lesson</text>
-    <rect x="354" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="409" y="276" font-size="18">🎬</text><text x="409" y="298" fill="#075985">sci-fi trailer</text>
-    <rect x="496" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="551" y="276" font-size="18">🎸</text><text x="551" y="298" fill="#075985">band live</text>
-    <rect x="638" y="250" width="110" height="64" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="693" y="276" font-size="18">🥁</text><text x="693" y="298" fill="#075985">drum solo</text>
-    <text x="409" y="345" fill="#6B7280">watch history (oldest → newest)</text>
-  </g>
-
-  <!-- query -->
-  <rect x="330" y="80" width="160" height="56" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
-  <text x="410" y="103" text-anchor="middle" font-size="13.5" font-weight="800" fill="#4C1D95">next item = ?</text>
-  <text x="410" y="122" text-anchor="middle" font-size="11.5" fill="#4C1D95">query attends to history</text>
-
-  <!-- attention edges -->
-  <line class="w2" x1="384" y1="138" x2="128" y2="248" stroke="#9CA3AF"/>
-  <line class="w1" x1="396" y1="138" x2="268" y2="248" stroke="#7C3AED"/>
-  <line class="w2" x1="410" y1="138" x2="409" y2="248" stroke="#9CA3AF"/>
-  <line class="w1" x1="424" y1="138" x2="550" y2="248" stroke="#7C3AED"/>
-  <line class="w1" x1="436" y1="138" x2="690" y2="248" stroke="#7C3AED"/>
-
-  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Weights are computed per prediction: for a music query the guitar items glow, the cooking show fades — recency isn't the only signal.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-labelledby="pb001-title pb001-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb001-title">Self-attention: the query decides what counts</title>
+<desc id="pb001-desc">Self-attention for the newest position of a watch history (cooking show, guitar lesson, sci-fi trailer, band live, drum solo). The query of item 5 is compared with every key by a scaled dot product; softmax turns the scores (−1.0, 1.6, −0.4, 1.4, 1.8) into weights that sum to 1 (0.02, 0.31, 0.04, 0.25, 0.38) instead of a plain average of 0.20 each; the future item 6 is masked. The output z5 is the weighted sum of the value vectors and is used to predict item 6. The old guitar lesson outweighs the newer sci-fi trailer: weight follows similarity to the query, not just recency.</desc>
+<style>
+.pb001-b0{animation:pb001-b0 10s ease-in-out infinite}@keyframes pb001-b0{0%,20%{stroke-dasharray:40 200}40%,100%{stroke-dasharray:4.6 200}}
+.pb001-c0{animation:pb001-c0 10s ease-in-out infinite}@keyframes pb001-c0{0%,20%{stroke-width:3.6}40%,100%{stroke-width:1}}
+.pb001-b1{animation:pb001-b1 10s ease-in-out infinite}@keyframes pb001-b1{0%,20%{stroke-dasharray:40 200}40%,100%{stroke-dasharray:61.5 200}}
+.pb001-c1{animation:pb001-c1 10s ease-in-out infinite}@keyframes pb001-c1{0%,20%{stroke-width:3.6}40%,100%{stroke-width:5.5}}
+.pb001-b2{animation:pb001-b2 10s ease-in-out infinite}@keyframes pb001-b2{0%,20%{stroke-dasharray:40 200}40%,100%{stroke-dasharray:8.3 200}}
+.pb001-c2{animation:pb001-c2 10s ease-in-out infinite}@keyframes pb001-c2{0%,20%{stroke-width:3.6}40%,100%{stroke-width:1}}
+.pb001-b3{animation:pb001-b3 10s ease-in-out infinite}@keyframes pb001-b3{0%,20%{stroke-dasharray:40 200}40%,100%{stroke-dasharray:50.4 200}}
+.pb001-c3{animation:pb001-c3 10s ease-in-out infinite}@keyframes pb001-c3{0%,20%{stroke-width:3.6}40%,100%{stroke-width:4.5}}
+.pb001-b4{animation:pb001-b4 10s ease-in-out infinite}@keyframes pb001-b4{0%,20%{stroke-dasharray:40 200}40%,100%{stroke-dasharray:75.2 200}}
+.pb001-c4{animation:pb001-c4 10s ease-in-out infinite}@keyframes pb001-c4{0%,20%{stroke-width:3.6}40%,100%{stroke-width:6.8}}
+.pb001-hl{animation:pb001-hl 10s ease-in-out infinite}@keyframes pb001-hl{0%,16%{opacity:1}24%,100%{opacity:0}}
+.pb001-sc{animation:pb001-sc 10s ease-in-out infinite}@keyframes pb001-sc{0%,6%{opacity:0}16%,100%{opacity:1}}
+.pb001-wt{animation:pb001-wt 10s ease-in-out infinite}@keyframes pb001-wt{0%,28%{opacity:0}40%,100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){.pb001-a{animation:none !important}}
+</style>
+<defs><marker id="pb001-ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 Z" fill="#7C3AED"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="479" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="24" y="40" font-size="20" font-weight="700" fill="#1E1B4B">Self-attention: the query decides what counts</text>
+<text x="24" y="63" font-size="14" fill="#6B7280">One row of A = softmax(QKᵀ / √d<tspan dy="3" font-size="14">k</tspan><tspan dy="-3">) · toy numbers</tspan></text>
+<rect x="24" y="80" width="236" height="38" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="38" y="104" font-size="15" font-weight="700" fill="#4C1D95">query q<tspan dy="4" font-size="14">5</tspan><tspan dy="-4" font-weight="400"> (item 5)</tspan></text>
+<rect x="200" y="90" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="212" y="90" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="224" y="90" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/><rect x="236" y="90" width="10" height="18" rx="2" fill="#C4B5FD" stroke="none"/>
+<text x="272" y="104" font-size="14" fill="#4B5563">compared with each key k<tspan dy="4" font-size="14">j</tspan><tspan dy="-4"> ↓</tspan></text>
+<text x="24" y="144" font-size="14" fill="#4B5563">history, oldest first</text>
+<text x="223" y="144" font-size="16" text-anchor="middle" fill="#4B5563">k<tspan dy="4" font-size="14">j</tspan><tspan dy="-4"></tspan></text>
+<text x="290" y="144" font-size="15" text-anchor="middle" fill="#4B5563">q<tspan dy="4" font-size="14">5</tspan><tspan dy="-4">·k</tspan><tspan dy="4" font-size="14">j</tspan><tspan dy="-4">/√d</tspan><tspan dy="4" font-size="14">k</tspan></text>
+<text x="352" y="144" font-size="16" text-anchor="middle" fill="#4B5563">a<tspan dy="4" font-size="14">j</tspan><tspan dy="-4"></tspan></text>
+<text x="384" y="144" font-size="14" fill="#4B5563">softmax weight</text>
+<text x="567" y="144" font-size="14" text-anchor="middle" fill="#4B5563">output</text>
+<rect x="24" y="150" width="164" height="36" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="38" y="173" font-size="14" font-weight="700" text-anchor="middle" fill="#4B5563">1</text>
+<text x="60" y="174" font-size="16" text-anchor="middle">🍳</text>
+<text x="76" y="173" font-size="15" fill="#1E1B4B">cooking show</text>
+<rect x="200" y="159" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/><rect x="212" y="159" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/><rect x="224" y="159" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="236" y="159" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/>
+<text class="pb001-a pb001-sc" x="290" y="174" font-size="16" text-anchor="middle" fill="#1E1B4B">−1.0</text>
+<text class="pb001-a pb001-wt" x="352" y="174" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">0.02</text>
+<rect x="384" y="160" width="80" height="16" rx="3" fill="#F3F4F6"/>
+<line class="pb001-a pb001-b0" x1="384" y1="168" x2="464" y2="168" stroke="#7C3AED" stroke-width="16" stroke-dasharray="4.6 200"/>
+<line x1="424" y1="156" x2="424" y2="180" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path class="pb001-a pb001-c0" d="M470,168 C494,168 494,242 518,242" fill="none" stroke="#7C3AED" stroke-opacity=".55" stroke-width="1" stroke-linecap="round"/>
+<rect x="24" y="194" width="164" height="36" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="38" y="217" font-size="14" font-weight="700" text-anchor="middle" fill="#4B5563">2</text>
+<text x="60" y="218" font-size="16" text-anchor="middle">🎸</text>
+<text x="76" y="217" font-size="15" fill="#1E1B4B">guitar lesson</text>
+<rect x="200" y="203" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="212" y="203" width="10" height="18" rx="2" fill="#C4B5FD" stroke="none"/><rect x="224" y="203" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/><rect x="236" y="203" width="10" height="18" rx="2" fill="#C4B5FD" stroke="none"/>
+<text class="pb001-a pb001-sc" x="290" y="218" font-size="16" text-anchor="middle" fill="#1E1B4B">1.6</text>
+<text class="pb001-a pb001-wt" x="352" y="218" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">0.31</text>
+<rect x="384" y="204" width="80" height="16" rx="3" fill="#F3F4F6"/>
+<line class="pb001-a pb001-b1" x1="384" y1="212" x2="464" y2="212" stroke="#7C3AED" stroke-width="16" stroke-dasharray="61.5 200"/>
+<line x1="424" y1="200" x2="424" y2="224" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path class="pb001-a pb001-c1" d="M470,212 C494,212 494,249 518,249" fill="none" stroke="#7C3AED" stroke-opacity=".55" stroke-width="5.5" stroke-linecap="round"/>
+<rect x="24" y="238" width="164" height="36" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="38" y="261" font-size="14" font-weight="700" text-anchor="middle" fill="#4B5563">3</text>
+<text x="60" y="262" font-size="16" text-anchor="middle">🎬</text>
+<text x="76" y="261" font-size="15" fill="#1E1B4B">sci-fi trailer</text>
+<rect x="200" y="247" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/><rect x="212" y="247" width="10" height="18" rx="2" fill="#C4B5FD" stroke="none"/><rect x="224" y="247" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="236" y="247" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/>
+<text class="pb001-a pb001-sc" x="290" y="262" font-size="16" text-anchor="middle" fill="#1E1B4B">−0.4</text>
+<text class="pb001-a pb001-wt" x="352" y="262" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">0.04</text>
+<rect x="384" y="248" width="80" height="16" rx="3" fill="#F3F4F6"/>
+<line class="pb001-a pb001-b2" x1="384" y1="256" x2="464" y2="256" stroke="#7C3AED" stroke-width="16" stroke-dasharray="8.3 200"/>
+<line x1="424" y1="244" x2="424" y2="268" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path class="pb001-a pb001-c2" d="M470,256 C494,256 494,256 518,256" fill="none" stroke="#7C3AED" stroke-opacity=".55" stroke-width="1" stroke-linecap="round"/>
+<rect x="24" y="282" width="164" height="36" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="38" y="305" font-size="14" font-weight="700" text-anchor="middle" fill="#4B5563">4</text>
+<text x="60" y="306" font-size="16" text-anchor="middle">🎤</text>
+<text x="76" y="305" font-size="15" fill="#1E1B4B">band live</text>
+<rect x="200" y="291" width="10" height="18" rx="2" fill="#C4B5FD" stroke="none"/><rect x="212" y="291" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="224" y="291" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/><rect x="236" y="291" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/>
+<text class="pb001-a pb001-sc" x="290" y="306" font-size="16" text-anchor="middle" fill="#1E1B4B">1.4</text>
+<text class="pb001-a pb001-wt" x="352" y="306" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">0.25</text>
+<rect x="384" y="292" width="80" height="16" rx="3" fill="#F3F4F6"/>
+<line class="pb001-a pb001-b3" x1="384" y1="300" x2="464" y2="300" stroke="#7C3AED" stroke-width="16" stroke-dasharray="50.4 200"/>
+<line x1="424" y1="288" x2="424" y2="312" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path class="pb001-a pb001-c3" d="M470,300 C494,300 494,263 518,263" fill="none" stroke="#7C3AED" stroke-opacity=".55" stroke-width="4.5" stroke-linecap="round"/>
+<rect x="24" y="326" width="164" height="36" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="38" y="349" font-size="14" font-weight="700" text-anchor="middle" fill="#4B5563">5</text>
+<text x="60" y="350" font-size="16" text-anchor="middle">🥁</text>
+<text x="76" y="349" font-size="15" fill="#1E1B4B">drum solo</text>
+<rect x="200" y="335" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="212" y="335" width="10" height="18" rx="2" fill="#7C3AED" stroke="none"/><rect x="224" y="335" width="10" height="18" rx="2" fill="#F5F3FF" stroke="#DDD6FE"/><rect x="236" y="335" width="10" height="18" rx="2" fill="#C4B5FD" stroke="none"/>
+<text class="pb001-a pb001-sc" x="290" y="350" font-size="16" text-anchor="middle" fill="#1E1B4B">1.8</text>
+<text class="pb001-a pb001-wt" x="352" y="350" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">0.38</text>
+<rect x="384" y="336" width="80" height="16" rx="3" fill="#F3F4F6"/>
+<line class="pb001-a pb001-b4" x1="384" y1="344" x2="464" y2="344" stroke="#7C3AED" stroke-width="16" stroke-dasharray="75.2 200"/>
+<line x1="424" y1="332" x2="424" y2="356" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3 3"/>
+<path class="pb001-a pb001-c4" d="M470,344 C494,344 494,270 518,270" fill="none" stroke="#7C3AED" stroke-opacity=".55" stroke-width="6.8" stroke-linecap="round"/>
+<rect x="24" y="370" width="164" height="36" rx="10" fill="#FAFAF7" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="38" y="393" font-size="14" font-weight="700" text-anchor="middle" fill="#6B7280">6</text>
+<text x="60" y="394" font-size="16" text-anchor="middle" fill="#6B7280">?</text>
+<text x="76" y="393" font-size="15" fill="#6B7280">next item</text>
+<text x="290" y="394" font-size="16" text-anchor="middle" fill="#6B7280">−∞</text>
+<text x="352" y="394" font-size="16" font-weight="700" text-anchor="middle" fill="#6B7280">0</text>
+<text x="384" y="393" font-size="14" fill="#6B7280">masked (future)</text>
+<rect x="518" y="222" width="98" height="68" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="567" y="250" font-size="22" font-weight="700" text-anchor="middle" fill="#4C1D95">z<tspan dy="5" font-size="15">5</tspan><tspan dy="-5"></tspan></text>
+<text x="567" y="276" font-size="15" text-anchor="middle" fill="#4C1D95">= Σ a<tspan dy="4" font-size="14">j</tspan><tspan dy="-4">·v</tspan><tspan dy="4" font-size="14">j</tspan></text>
+<line x1="567" y1="292" x2="567" y2="362" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb001-ah)"/>
+<text x="567" y="393" font-size="15" font-weight="700" text-anchor="middle" fill="#4C1D95">predicts item 6</text>
+<text x="352" y="428" font-size="14" font-weight="700" text-anchor="middle" fill="#4B5563">Σ = 1.00</text>
+<rect class="pb001-a pb001-hl" x="388" y="410" width="164" height="26" rx="13" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" opacity="0"/>
+<line x1="400" y1="415" x2="400" y2="431" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="408" y="428" font-size="14" fill="#4B5563">0.20 = plain average</text>
+<line x1="24" y1="444" x2="616" y2="444" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="320" y="467" font-size="15" font-weight="700" text-anchor="middle" fill="#1E1B4B"><tspan fill="#4C1D95">Similarity counts, not just recency:</tspan> item 2 gets 0.31, newer item 3 only 0.04</text>
 </svg>

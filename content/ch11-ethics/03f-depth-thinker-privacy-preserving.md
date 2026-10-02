@@ -30,7 +30,7 @@ Traditional recommender systems solve this by centralizing all user data on serv
 
 Several technical approaches attempt to thread this needle.
 
-![Privacy vs personalization balance](/images/anim-privacy-spectrum.svg)
+![What leaves your phone in five privacy setups, and the rough quality loss each one costs](/images/anim-privacy-spectrum.svg)
 
 ## Federated Learning
 

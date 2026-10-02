@@ -31,7 +31,7 @@ carriers: prose|image
 
 Every software system needs monitoring. But recommendation systems need a fundamentally different kind of monitoring than traditional applications -- and the teams that discover this late pay for it with silent degradation, user churn, and weeks of debugging that could have been minutes.
 
-![Alert severity levels: info, warning, critical](/images/anim-monitoring-alerts.svg)
+![All green, and still broken: a data job silently fails, health checks stay green with no alert, recommendation quality drops at once, and retention and revenue drop weeks later](/images/anim-monitoring-alerts.svg)
 
 ## The Illusion of Health
 

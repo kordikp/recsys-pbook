@@ -24,6 +24,6 @@ genre: comic
 carriers: image
 ---
 
-![The Best Book in the Store, Depending — a four-panel comic](images/comic-algorithmic-seo.svg)
+![The Best Book in the Store, Depending — a four-panel comic: Mina and Tom type the same search, and each gets a different #1 book](images/comic-algorithmic-seo.svg)
 
 *As search becomes personalized recommendation, success is quality × algorithmic discoverability.*

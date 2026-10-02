@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Tonight’s Special: Structural Integrity — a four-panel comic](images/comic-data-pillars.svg)
+![Tonight’s Special: Structural Integrity — a four-panel comic. A waiter-recommender checks the menu (item catalog), Mira’s guest card saying no dairy (user catalog) and the order book (interactions), then serves Mira a creamy risotto because taco fans ordered it — the menu never tagged its dairy.](images/comic-data-pillars.svg)
 
 *Recommenders need clean item catalogs, user catalogs, and interaction data; algorithms come later.*

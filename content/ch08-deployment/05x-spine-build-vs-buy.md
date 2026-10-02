@@ -33,7 +33,7 @@ You've decided your product needs recommendations. Now comes a strategic decisio
 
 The intuition is simple: building gives you control, buying gives you speed. The reality is more nuanced — and the hidden costs of building are larger than most teams expect.
 
-![Build vs buy: time to value comparison](/images/anim-build-vs-buy.svg)
+![Building in-house is an iceberg: a model and API on top (about 3 months), hidden operations work below (about 18 more months)](/images/anim-build-vs-buy.svg)
 
 ## The Visible vs. Hidden Iceberg
 

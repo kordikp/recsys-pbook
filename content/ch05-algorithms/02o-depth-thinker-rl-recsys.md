@@ -27,7 +27,7 @@ Bandit algorithms solve one step at a time: given this user in this context, whi
 
 Reinforcement learning extends bandits to multi-step decision-making. Instead of maximizing a single reward, the system learns a **policy** that maximizes **cumulative reward** across an entire session -- or even across the user's lifetime on the platform.
 
-![Reinforcement learning MDP loop for recommendations](/images/anim-rl-mdp.svg)
+![Bandit vs RL on a toy playlist: scoring only the first reward (γ = 0) picks the greedy playlist, while summing discounted rewards over four steps (γ = 0.9) picks the mixed one](/images/anim-rl-mdp.svg)
 
 ## The MDP Formulation
 

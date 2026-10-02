@@ -1,65 +1,195 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">No Past, Just Browsing</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 616" role="img" aria-labelledby="pb097-title pb097-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb097-title">No past, just browsing</title>
+<desc id="pb097-desc">Four-panel comic. An anonymous shopper with no account clicks a jacket, boots and gloves: three clicks are all the shop knows. A deep model, built to learn patterns from long click histories, finds three clicks too little and calls them a snack, not a pattern. A simple counter, item-KNN, looks at what other shoppers who clicked these items also clicked and finds wool socks. The shopper is happy with the socks while the deep model asks them to keep clicking for a week. Few clicks starve a deep model; simple also-clicked counting often wins.</desc>
+<defs>
+  <clipPath id="pb097-clip"><rect x="0" y="0" width="298" height="252" rx="12"/></clipPath>
+</defs>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<rect x=".5" y=".5" width="639" height="615" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">No past, just browsing</text>
 
-  <!-- Panel 1 -->
-  <rect x="35" y="80" width="102" height="64" rx="8" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="86" y="101" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">
-    <tspan x="86" dy="0">7 IN 10</tspan>
-    <tspan x="86" dy="16">SHOPPERS</tspan>
-    <tspan x="86" dy="16">NAMELESS</tspan>
-  </text>
-  <circle cx="238" cy="183" r="10" fill="#7C3AED"/>
-  <path d="M238 194 L238 231 M238 205 L218 218 M238 207 L257 217 M238 231 L226 257 M238 231 L251 257" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="327" cy="183" r="10" fill="#10B981"/>
-  <path d="M327 194 L327 231 M327 205 L309 217 M327 205 L345 216 M327 231 L315 257 M327 231 L339 257" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="166" y="84" width="190" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="261" y="113" font-size="12.5" fill="#1E1B4B" text-anchor="middle">No account. Just browsing.</text>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Seven in ten shoppers arrive nameless; this visit is the file.</text>
+<!-- ===== Panel 1: a stranger, three clicks ===== -->
+<g transform="translate(16,52)">
+  <rect x="0" y="0" width="298" height="252" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">A stranger, three clicks</text>
 
-  <!-- Panel 2 -->
-  <circle cx="478" cy="191" r="10" fill="#7C3AED"/>
-  <path d="M478 202 L478 238 M478 212 L500 224 M478 212 L460 226 M478 238 L466 264 M478 238 L490 264" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="728" cy="188" r="10" fill="#10B981"/>
-  <path d="M728 199 L728 237 M728 210 L705 220 M728 210 L746 225 M728 237 L716 263 M728 237 L740 263" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M548 174 H574 V224 H548 Z M587 166 H615 V224 H587 Z M628 178 H655 V224 H628 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
-  <rect x="667" y="160" width="29" height="64" rx="2" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-  <path d="M532 225 H707" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="425" y="74" width="204" height="48" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="527" y="103" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That book's neighbor: this one.</text>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Three quick picks are enough for the nearest item neighbor.</text>
+  <!-- bubble -->
+  <path d="M24,46 H212 Q224,46 224,58 V70 Q224,82 212,82 H64 L54,110 L48,82 H24 Q12,82 12,70 V58 Q12,46 24,46 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="118" y="69" text-anchor="middle" font-size="15" fill="#1E1B4B">No account. Just browsing.</text>
 
-  <!-- Panel 3 -->
-  <circle cx="94" cy="472" r="10" fill="#7C3AED"/>
-  <path d="M94 483 L94 521 M94 493 L119 504 M94 494 L77 508 M94 521 L81 548 M94 521 L107 548" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="324" cy="470" r="10" fill="#10B981"/>
-  <path d="M324 481 L324 520 M324 491 L298 477 M324 493 L342 507 M324 520 L312 548 M324 520 L337 548" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M132 482 Q174 468 211 484 L211 532 Q173 516 132 530 Z M211 484 Q249 468 286 482 L286 530 Q249 516 211 532 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-  <path d="M145 491 H194 M145 500 H199 M145 509 H187 M225 491 H270 M225 500 H266 M225 509 H274 M211 484 V532" fill="none" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
-  <path d="M281 455 A15 15 0 1 0 281 485 A15 15 0 1 0 281 455 M281 450 V455 M276 449 H286 M281 470 L288 464" fill="none" stroke="#D97706" stroke-width="2" stroke-linecap="round"/>
-  <rect x="151" y="356" width="218" height="48" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="260" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Page 83. Four minutes.</text>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Lingering and flipping far reveal what pick order misses.</text>
+  <!-- shopper with a blank name tag -->
+  <path d="M12,214.5 H96" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M26,214 V174 Q26,158 42,158 H56 Q72,158 72,174 V214 Z" fill="#10B981"/>
+  <circle cx="49" cy="137" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <circle cx="44" cy="135" r="2.2" fill="#1E1B4B"/>
+  <circle cx="54" cy="135" r="2.2" fill="#1E1B4B"/>
+  <path d="M44,143 Q49,147 54,143" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="33" y="171" width="32" height="20" rx="3" fill="#FFFFFF" stroke="#065F46" stroke-width="1.2"/>
+  <text x="49" y="186" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">???</text>
+  <text x="49" y="238" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Anonymous</text>
 
-  <!-- Panel 4 -->
-  <circle cx="480" cy="475" r="10" fill="#10B981"/>
-  <path d="M480 486 L480 525 M480 497 L500 507 M480 497 L463 511 M480 525 L468 551 M480 525 L492 551" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="728" cy="468" r="10" fill="#7C3AED"/>
-  <path d="M728 479 L734 516 M732 489 L712 500 M732 491 L750 481 M734 516 L719 542 M734 516 L756 536" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="536" y="426" width="130" height="105" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-  <text x="601" y="463" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="601" dy="0">DEEP PROFILE</tspan>
-    <tspan x="601" dy="20" fill="#6B7280">0% COMPLETE</tspan>
-  </text>
-  <rect x="430" y="356" width="230" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="545" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Please upload your childhood.</text>
-  <path d="M755 460 H773 M758 473 H773 M756 486 H770" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The questionnaire is thorough. The customer is already leaving.</text>
+  <!-- the whole session -->
+  <text x="104" y="128" font-size="14" fill="#4B5563">All the shop knows:</text>
+  <rect x="104" y="140" width="48" height="48" rx="10" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <rect x="168" y="140" width="48" height="48" rx="10" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <rect x="232" y="140" width="48" height="48" rx="10" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <text x="128" y="174" text-anchor="middle" font-size="26">🧥</text>
+  <text x="192" y="174" text-anchor="middle" font-size="26">🥾</text>
+  <text x="256" y="174" text-anchor="middle" font-size="26">🧤</text>
+  <path d="M155,164 L165,164 M161,160 L165,164 L161,168 M219,164 L229,164 M225,160 L229,164 L225,168" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="128" y="208" text-anchor="middle" font-size="14" fill="#1E1B4B">jacket</text>
+  <text x="192" y="208" text-anchor="middle" font-size="14" fill="#1E1B4B">boots</text>
+  <text x="256" y="208" text-anchor="middle" font-size="14" fill="#1E1B4B">gloves</text>
+</g>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Short sessions starve deep models; item-KNN can use strong local item similarity.</text>
+<!-- ===== Panel 2: the deep model ===== -->
+<g transform="translate(326,52)">
+  <rect x="0" y="0" width="298" height="252" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">The deep model</text>
+
+  <!-- bubble -->
+  <path d="M24,46 H274 Q286,46 286,58 V86 Q286,98 274,98 H104 L94,116 L90,98 H24 Q12,98 12,86 V58 Q12,46 24,46 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="149" y="68" text-anchor="middle" font-size="15" fill="#1E1B4B">Three clicks? That’s not a pattern.</text>
+  <text x="149" y="88" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">That’s a snack.</text>
+
+  <!-- big robot, worried -->
+  <path d="M12,214.5 H108" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="60" y1="110" x2="60" y2="120" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <circle cx="60" cy="108" r="4" fill="#7C3AED"/>
+  <rect x="28" y="120" width="64" height="44" rx="12" fill="#7C3AED"/>
+  <circle cx="48" cy="141" r="8" fill="#FFFFFF"/>
+  <circle cx="72" cy="141" r="8" fill="#FFFFFF"/>
+  <circle cx="49" cy="138" r="3.5" fill="#1E1B4B"/>
+  <circle cx="73" cy="138" r="3.5" fill="#1E1B4B"/>
+  <path d="M39,131 L54,127 M81,131 L66,127" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  <path d="M50,157 Q55,153 60,157 Q65,161 70,157" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+  <rect x="54" y="164" width="12" height="6" fill="#4C1D95"/>
+  <rect x="22" y="170" width="76" height="44" rx="12" fill="#7C3AED"/>
+  <rect x="34" y="178" width="52" height="7" rx="3.5" fill="#EDE9FE"/>
+  <rect x="34" y="189" width="52" height="7" rx="3.5" fill="#EDE9FE"/>
+  <rect x="34" y="200" width="52" height="7" rx="3.5" fill="#EDE9FE"/>
+  <text x="60" y="238" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Deep model</text>
+
+  <!-- the click history it was built for -->
+  <text x="122" y="140" font-size="14" fill="#4B5563">Built for long histories:</text>
+  <g clip-path="url(#pb097-clip)">
+    <rect x="122" y="152" width="20" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="146" y="152" width="20" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="170" y="152" width="20" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+    <rect x="194" y="152" width="20" height="24" rx="4" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <rect x="218" y="152" width="20" height="24" rx="4" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <rect x="242" y="152" width="20" height="24" rx="4" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <rect x="266" y="152" width="20" height="24" rx="4" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <rect x="290" y="152" width="20" height="24" rx="4" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 3"/>
+  </g>
+  <path d="M122,186 V191 H190 V186" fill="none" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="156" y="208" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">3 clicks</text>
+  <text x="246" y="208" text-anchor="middle" font-size="14" fill="#6B7280">empty</text>
+</g>
+
+<!-- ===== Panel 3: the counter ===== -->
+<g transform="translate(16,316)">
+  <rect x="0" y="0" width="298" height="252" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">The counter (item-KNN)</text>
+
+  <!-- bubble -->
+  <path d="M24,46 H274 Q286,46 286,58 V86 Q286,98 274,98 H60 L50,122 L44,98 H24 Q12,98 12,86 V58 Q12,46 24,46 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="149" y="68" text-anchor="middle" font-size="15" fill="#1E1B4B">People who clicked these also</text>
+  <text x="149" y="88" text-anchor="middle" font-size="15" fill="#1E1B4B">clicked wool socks. <tspan font-weight="700">I just count.</tspan></text>
+
+  <!-- small robot, content -->
+  <path d="M12,214.5 H82" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="48" y1="128" x2="48" y2="136" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="48" cy="126" r="3" fill="#7C3AED"/>
+  <rect x="28" y="136" width="40" height="30" rx="8" fill="#7C3AED"/>
+  <circle cx="40" cy="149" r="5" fill="#FFFFFF"/>
+  <circle cx="56" cy="149" r="5" fill="#FFFFFF"/>
+  <circle cx="40" cy="149" r="2.2" fill="#1E1B4B"/>
+  <circle cx="56" cy="149" r="2.2" fill="#1E1B4B"/>
+  <path d="M43,159 Q48,163 53,159" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="44" y="166" width="8" height="5" fill="#4C1D95"/>
+  <rect x="28" y="171" width="40" height="43" rx="9" fill="#7C3AED"/>
+  <rect x="37" y="182" width="22" height="6" rx="3" fill="#EDE9FE"/>
+  <text x="48" y="238" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">item-KNN</text>
+
+  <!-- tally board -->
+  <rect x="88" y="112" width="198" height="114" rx="10" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="100" y="134" font-size="14" fill="#4B5563">Others also clicked:</text>
+  <rect x="94" y="146" width="186" height="26" rx="6" fill="#EDE9FE"/>
+  <text x="102" y="164" font-size="15" font-weight="700" fill="#4C1D95">wool socks</text>
+  <text x="102" y="192" font-size="15" fill="#1E1B4B">scarf</text>
+  <text x="102" y="216" font-size="15" fill="#1E1B4B">flip-flops</text>
+  <g fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round">
+    <!-- wool socks: 5 + 5 + 2 -->
+    <path d="M192,151 V167 M197,151 V167 M202,151 V167 M207,151 V167 M188,165 L211,153"/>
+    <path d="M220,151 V167 M225,151 V167 M230,151 V167 M235,151 V167 M216,165 L239,153"/>
+    <path d="M248,151 V167 M253,151 V167"/>
+    <!-- scarf: 5 + 1 -->
+    <path d="M192,179 V195 M197,179 V195 M202,179 V195 M207,179 V195 M188,193 L211,181"/>
+    <path d="M220,179 V195"/>
+    <!-- flip-flops: 1 -->
+    <path d="M192,203 V219"/>
+  </g>
+</g>
+
+<!-- ===== Panel 4: next on screen ===== -->
+<g transform="translate(326,316)">
+  <rect x="0" y="0" width="298" height="252" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+  <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Next on screen</text>
+
+  <!-- shopper bubble -->
+  <path d="M24,46 H98 Q110,46 110,58 V86 Q110,98 98,98 H62 L54,116 L48,98 H24 Q12,98 12,86 V58 Q12,46 24,46 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="61" y="68" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Socks!</text>
+  <text x="61" y="88" text-anchor="middle" font-size="15" fill="#1E1B4B">Need those.</text>
+
+  <!-- robot bubble -->
+  <path d="M132,46 H274 Q286,46 286,58 V86 Q286,98 274,98 H238 L230,116 L226,98 H132 Q120,98 120,86 V58 Q120,46 132,46 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="203" y="68" text-anchor="middle" font-size="15" fill="#1E1B4B">Can you keep clicking</text>
+  <text x="203" y="88" text-anchor="middle" font-size="15" fill="#1E1B4B">for, say, a week?</text>
+
+  <path d="M12,214.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- shopper, happy -->
+  <path d="M26,214 V174 Q26,158 42,158 H56 Q72,158 72,174 V214 Z" fill="#10B981"/>
+  <circle cx="49" cy="137" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <path d="M42,134 Q44,131 46,134 M52,134 Q54,131 56,134" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M43,141 Q49,149 55,141 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.4" stroke-linejoin="round"/>
+  <rect x="33" y="171" width="32" height="20" rx="3" fill="#FFFFFF" stroke="#065F46" stroke-width="1.2"/>
+  <text x="49" y="186" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">???</text>
+
+  <!-- the recommendation -->
+  <rect x="88" y="138" width="96" height="76" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="136" y="157" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">For you</text>
+  <text x="136" y="186" text-anchor="middle" font-size="24">🧦</text>
+  <text x="136" y="205" text-anchor="middle" font-size="14" fill="#1E1B4B">wool socks</text>
+
+  <!-- big robot, still hoping (same look as panel 2) -->
+  <g clip-path="url(#pb097-clip)">
+    <line x1="244" y1="110" x2="244" y2="120" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+    <circle cx="244" cy="108" r="4" fill="#7C3AED"/>
+    <rect x="212" y="120" width="64" height="44" rx="12" fill="#7C3AED"/>
+    <circle cx="232" cy="141" r="8" fill="#FFFFFF"/>
+    <circle cx="256" cy="141" r="8" fill="#FFFFFF"/>
+    <circle cx="233" cy="137" r="3.5" fill="#1E1B4B"/>
+    <circle cx="257" cy="137" r="3.5" fill="#1E1B4B"/>
+    <path d="M223,130 L238,127 M265,130 L250,127" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="244" cy="156" r="3.2" fill="#FFFFFF"/>
+    <rect x="238" y="164" width="12" height="6" fill="#4C1D95"/>
+    <rect x="206" y="170" width="76" height="44" rx="12" fill="#7C3AED"/>
+    <rect x="218" y="178" width="52" height="7" rx="3.5" fill="#EDE9FE"/>
+    <rect x="218" y="189" width="52" height="7" rx="3.5" fill="#EDE9FE"/>
+    <rect x="218" y="200" width="52" height="7" rx="3.5" fill="#EDE9FE"/>
+  </g>
+  <text x="244" y="238" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Deep model</text>
+</g>
+
+<text x="320" y="600" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Few clicks starve a deep model; <tspan fill="#7C3AED">simple “also clicked” counting</tspan> often wins.</text>
 </svg>

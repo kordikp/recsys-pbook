@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Clean-Plate Test Has a Serving Problem — a four-panel comic](images/comic-evaluation-metrics.svg)
+![The Clean-Plate Test Has a Serving Problem — a four-panel comic: the old waiter served the burger 100 times and the bowl only 4, so the offline test says the burger wins; counting rarely served dishes more, with a popularity penalty of β ≈ 0.30, makes the offline test pick the live winner 34.3% instead of 12.9% of the time; once clean plates become the goal, portions shrink](images/comic-evaluation-metrics.svg)
 
 *Offline logs favor popular items; a β=0.30 penalty reduces bias, unless the metric gets gamed.*

@@ -1,89 +1,134 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Same Server, Different Orders</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb064-title pb064-desc">
+<title id="pb064-title">Same server, different orders</title>
+<desc id="pb064-desc">Four-panel comic. A waiter-like recommender knows one rule, more of what you just had, and uses it on four sites. In a music app it offers the song you loved again and you happily replay it all week. In an online shop it offers another laptop right after you bought one. On a news site it offers yesterday's storm story, which is already old news. On a job board it pushes more CEO jobs to an intern who clicked one out of curiosity. Domains differ in repeats, shelf life and what a click means, so one approach cannot fit all.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Same server, different orders</text>
+<text x="320" y="53" text-anchor="middle" font-size="15" fill="#4B5563"><tspan font-weight="700" fill="#7C3AED">The recommender</tspan> knows one rule: “more of what you just had.”</text>
 
-  <!-- Panel 1 -->
-  <g>
-    <rect x="34" y="76" width="172" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="46" y="97" font-size="12.5" fill="#1E1B4B">
-      <tspan x="46" dy="0">You finished Space Cops.</tspan>
-      <tspan x="46" dy="17">Another?</tspan>
-    </text>
+<!-- ===== Panel 1: music app ===== -->
+<g transform="translate(16,62)">
+<rect x="0" y="0" width="298" height="259" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" font-weight="600" fill="#1E1B4B">Music app</text>
+<!-- server bubble -->
+<path d="M22,40 H142 Q154,40 154,52 V96 Q154,108 142,108 H62 L54,127 L46,108 H22 Q10,108 10,96 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="82" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="82">You loved</tspan><tspan x="82" dy="19">this song.</tspan><tspan x="82" dy="19" font-weight="700" fill="#4C1D95">One more?</tspan></text>
+<!-- user bubble -->
+<path d="M178,58 H278 Q290,58 290,70 V92 Q290,104 278,104 H246 L238,137 L230,104 H178 Q166,104 166,92 V70 Q166,58 178,58 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="228" y="77" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="228">Yes! On repeat</tspan><tspan x="228" dy="19">all week.</tspan></text>
+<!-- floor -->
+<path d="M12,220.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- server -->
+<path d="M30,220 V180 Q30,164 46,164 H62 Q78,164 78,180 V220 Z" fill="#7C3AED"/>
+<path d="M45,165 L54,170 L45,175 Z M63,165 L54,170 L63,175 Z" fill="#FFFFFF"/>
+<circle cx="54" cy="146" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="49" cy="144" r="2.2" fill="#1E1B4B"/><circle cx="59" cy="144" r="2.2" fill="#1E1B4B"/>
+<path d="M49,151 Q54,156 59,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M76,192 L98,187" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="86" y="181" width="62" height="6" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+<text x="117" y="177" text-anchor="middle" font-size="28">🎧</text>
+<!-- user -->
+<path d="M214,220 V190 Q214,174 230,174 H246 Q262,174 262,190 V220 Z" fill="#10B981"/>
+<circle cx="238" cy="156" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<path d="M230,155 Q233,151 236,155 M240,155 Q243,151 246,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M230,161 Q238,169 246,161" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- verdict -->
+<rect x="10" y="227" width="278" height="24" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<text x="149" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">✓ Repeats are welcome</text>
+</g>
 
-    <rect x="151" y="148" width="96" height="50" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="199" y="169" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">SPACE COPS</text>
-    <text x="199" y="185" font-size="10" fill="#6B7280" text-anchor="middle">WATCHED ✓</text>
+<!-- ===== Panel 2: online shop ===== -->
+<g transform="translate(326,62)">
+<rect x="0" y="0" width="298" height="259" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" font-weight="600" fill="#1E1B4B">Online shop</text>
+<path d="M22,40 H142 Q154,40 154,52 V96 Q154,108 142,108 H62 L54,127 L46,108 H22 Q10,108 10,96 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="82" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="82">You bought</tspan><tspan x="82" dy="19">a laptop.</tspan><tspan x="82" dy="19" font-weight="700" fill="#4C1D95">One more?</tspan></text>
+<path d="M178,58 H278 Q290,58 290,70 V92 Q290,104 278,104 H246 L238,137 L230,104 H178 Q166,104 166,92 V70 Q166,58 178,58 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="228" y="77" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="228">I needed one.</tspan><tspan x="228" dy="19">Not two.</tspan></text>
+<path d="M12,220.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M30,220 V180 Q30,164 46,164 H62 Q78,164 78,180 V220 Z" fill="#7C3AED"/>
+<path d="M45,165 L54,170 L45,175 Z M63,165 L54,170 L63,175 Z" fill="#FFFFFF"/>
+<circle cx="54" cy="146" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="49" cy="144" r="2.2" fill="#1E1B4B"/><circle cx="59" cy="144" r="2.2" fill="#1E1B4B"/>
+<path d="M49,151 Q54,156 59,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M76,192 L98,187" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="86" y="181" width="62" height="6" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+<text x="117" y="177" text-anchor="middle" font-size="28">💻</text>
+<path d="M214,220 V190 Q214,174 230,174 H246 Q262,174 262,190 V220 Z" fill="#10B981"/>
+<circle cx="238" cy="156" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="233" cy="154" r="2.2" fill="#1E1B4B"/><circle cx="243" cy="154" r="2.2" fill="#1E1B4B"/>
+<path d="M232,163 H244" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<rect x="10" y="227" width="278" height="24" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="149" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">✗ Buying ends the need</text>
+</g>
 
-    <circle cx="93" cy="192" r="10" fill="#7C3AED"/>
-    <path d="M93 203 L93 253 M93 217 L137 185 M93 220 L66 238 M93 253 L77 274 M93 253 L109 274" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+<!-- ===== Panel 3: news site ===== -->
+<g transform="translate(16,333)">
+<rect x="0" y="0" width="298" height="259" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" font-weight="600" fill="#1E1B4B">News site</text>
+<path d="M22,40 H142 Q154,40 154,52 V96 Q154,108 142,108 H62 L54,127 L46,108 H22 Q10,108 10,96 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="82" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="82">You read the</tspan><tspan x="82" dy="19">storm story.</tspan><tspan x="82" dy="19" font-weight="700" fill="#4C1D95">One more?</tspan></text>
+<path d="M178,58 H278 Q290,58 290,70 V111 Q290,123 278,123 H246 L238,137 L230,123 H178 Q166,123 166,111 V70 Q166,58 178,58 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="228" y="77" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="228">That was</tspan><tspan x="228" dy="19">yesterday.</tspan><tspan x="228" dy="19">What’s new?</tspan></text>
+<path d="M12,220.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M30,220 V180 Q30,164 46,164 H62 Q78,164 78,180 V220 Z" fill="#7C3AED"/>
+<path d="M45,165 L54,170 L45,175 Z M63,165 L54,170 L63,175 Z" fill="#FFFFFF"/>
+<circle cx="54" cy="146" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="49" cy="144" r="2.2" fill="#1E1B4B"/><circle cx="59" cy="144" r="2.2" fill="#1E1B4B"/>
+<path d="M49,151 Q54,156 59,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M76,192 L98,187" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="86" y="181" width="62" height="6" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+<text x="117" y="177" text-anchor="middle" font-size="28">📰</text>
+<path d="M214,220 V190 Q214,174 230,174 H246 Q262,174 262,190 V220 Z" fill="#10B981"/>
+<circle cx="238" cy="156" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<path d="M229,151 H237 M239,151 H247" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<circle cx="233" cy="155" r="2.2" fill="#1E1B4B"/><circle cx="243" cy="155" r="2.2" fill="#1E1B4B"/>
+<path d="M232,164 Q238,161 244,164" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<rect x="10" y="227" width="278" height="24" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="149" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">✗ News goes stale in hours</text>
+</g>
 
-    <circle cx="307" cy="192" r="10" fill="#10B981"/>
-    <path d="M307 203 L307 253 M307 218 L282 231 M307 218 L330 231 M307 253 L291 274 M307 253 L323 274" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Movies: completion is strong evidence for another serving.</text>
+<!-- ===== Panel 4: job board ===== -->
+<g transform="translate(326,333)">
+<rect x="0" y="0" width="298" height="259" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" font-weight="600" fill="#1E1B4B">Job board</text>
+<path d="M22,40 H142 Q154,40 154,52 V96 Q154,108 142,108 H62 L54,127 L46,108 H22 Q10,108 10,96 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="82" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="82">You clicked</tspan><tspan x="82" dy="19">a CEO job.</tspan><tspan x="82" dy="19" font-weight="700" fill="#4C1D95">One more?</tspan></text>
+<path d="M178,58 H278 Q290,58 290,70 V92 Q290,104 278,104 H246 L238,137 L230,104 H178 Q166,104 166,92 V70 Q166,58 178,58 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="228" y="77" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="228">I’m an intern.</tspan><tspan x="228" dy="19">Just dreaming.</tspan></text>
+<path d="M12,220.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M30,220 V180 Q30,164 46,164 H62 Q78,164 78,180 V220 Z" fill="#7C3AED"/>
+<path d="M45,165 L54,170 L45,175 Z M63,165 L54,170 L63,175 Z" fill="#FFFFFF"/>
+<circle cx="54" cy="146" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="49" cy="144" r="2.2" fill="#1E1B4B"/><circle cx="59" cy="144" r="2.2" fill="#1E1B4B"/>
+<path d="M49,151 Q54,156 59,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M76,192 L98,187" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="86" y="181" width="62" height="6" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+<text x="117" y="177" text-anchor="middle" font-size="28">💼</text>
+<path d="M214,220 V190 Q214,174 230,174 H246 Q262,174 262,190 V220 Z" fill="#10B981"/>
+<circle cx="238" cy="156" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="236" cy="153" r="2.2" fill="#1E1B4B"/><circle cx="246" cy="153" r="2.2" fill="#1E1B4B"/>
+<path d="M231,163 Q234,160 237,163 Q240,166 243,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<rect x="10" y="227" width="278" height="24" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="149" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">✗ A click isn’t a fit</text>
+</g>
 
-  <!-- Panel 2 -->
-  <g>
-    <rect x="609" y="76" width="153" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="621" y="97" font-size="12.5" fill="#1E1B4B">
-      <tspan x="621" dy="0">I clicked to check</tspan>
-      <tspan x="621" dy="17">whether we're safe.</tspan>
-    </text>
-
-    <rect x="548" y="143" width="105" height="69" rx="4" fill="#FEE2E2" stroke="#EF4444"/>
-    <text x="600.5" y="166" font-size="11" font-weight="700" fill="#EF4444" text-anchor="middle">FIRE NEARBY?</text>
-    <path d="M561 178 L640 178 M561 188 L629 188 M561 198 L636 198" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-
-    <circle cx="480" cy="198" r="10" fill="#7C3AED"/>
-    <path d="M480 209 L480 257 M480 222 L533 183 M480 224 L454 240 M480 257 L465 277 M480 257 L495 277" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="704" cy="198" r="10" fill="#10B981"/>
-    <path d="M704 209 L704 257 M704 223 L680 236 M704 223 L728 236 M704 257 L689 277 M704 257 L719 277" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">News CTR can mean concern, not enjoyment.</text>
-
-  <!-- Panel 3 -->
-  <g>
-    <rect x="236" y="356" width="134" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="303" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">And bought it.</text>
-
-    <rect x="158" y="425" width="84" height="55" rx="8" fill="#FEF3C7" stroke="#D97706"/>
-    <path d="M178 425 Q178 410 200 410 Q222 410 222 425 M174 441 L226 441 M180 480 L177 488 M220 480 L223 488" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="224" cy="458" r="4" fill="#D97706"/>
-
-    <circle cx="87" cy="486" r="10" fill="#7C3AED"/>
-    <path d="M87 497 L87 543 M87 511 L144 454 M87 513 L61 528 M87 543 L72 563 M87 543 L102 563" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="308" cy="486" r="10" fill="#10B981"/>
-    <path d="M308 497 L308 543 M308 511 L282 526 M308 511 L334 526 M308 543 L293 563 M308 543 L323 563" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Shop CTR can end in a purchase—and end the need.</text>
-
-  <!-- Panel 4 -->
-  <g>
-    <rect x="618" y="356" width="144" height="52" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="690" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="690" dy="0">Do clicks count</tspan>
-      <tspan x="690" dy="17">as experience?</tspan>
-    </text>
-
-    <rect x="532" y="425" width="94" height="57" rx="7" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="579" y="444" font-size="10" fill="#6B7280" text-anchor="middle">TOP CLICK</text>
-    <text x="579" y="459" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">CEO</text>
-    <text x="579" y="474" font-size="9.5" font-weight="700" fill="#EF4444" text-anchor="middle">QUALIFIED: 2/8</text>
-
-    <circle cx="480" cy="500" r="10" fill="#7C3AED"/>
-    <path d="M480 511 L480 555 M480 523 L522 455 M480 525 L455 540 M480 555 L465 575 M480 555 L495 575" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="699" cy="500" r="10" fill="#10B981"/>
-    <path d="M699 511 L699 555 M699 525 L674 539 M699 525 L724 539 M699 555 L684 575 M699 555 L714 575" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Jobs must respect eligibility, stakes, and applicant UX.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Domain dynamics shape data, algorithms, evaluation, and UX, so one approach cannot fit all.</text>
+<!-- takeaway -->
+<text x="320" y="621" text-anchor="middle" font-size="17" fill="#1E1B4B">Domains differ in <tspan font-weight="700">repeats</tspan>, <tspan font-weight="700">shelf life</tspan> and <tspan font-weight="700">what a click means</tspan>.</text>
 </svg>

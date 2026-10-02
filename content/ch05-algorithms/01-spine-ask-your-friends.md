@@ -32,7 +32,7 @@ Here's a fundamental question: how do you usually discover new content to consum
 
 If you're like most people, you rely on trusted sources. A colleague mentions a compelling documentary. A friend recommends a restaurant. And if that person's taste consistently aligns with yours, you weight their recommendations more heavily over time.
 
-![Collaborative Filtering Story](/images/comic-cf.svg)
+![Comic: you and Maya loved the same five shows; Maya recommends Silo; the app suggests Silo too without knowing Maya, because people who loved your five shows also loved Silo](/images/comic-cf.svg)
 
 Now imagine you could do that with a MILLION people. Not just your immediate social circle, but a million strangers who happen to share your exact preferences.
 

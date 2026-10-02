@@ -1,113 +1,196 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">A Table for Four Competing Objectives</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb093-title pb093-desc">
+  <title id="pb093-title">A table for four competing objectives</title>
+  <desc id="pb093-desc">Four-panel comic about open research problems in recommender systems, set around a restaurant recommender. 1: two chefs both demand fairness, one wants every restaurant shown the same, the other wants the best shown most; the two fair rules give opposite rankings. 2: a diner asks an AI chat for a quiet vegan place under 20 dollars with live jazz; it answers "The Silent Turnip", a place that does not exist. 3: the recommender takes credit for sending a diner to Luigi's, but the diner goes there every Friday anyway; coming after a tip is not coming because of it. 4: the recommender balances four plates (best for you, fair, profit, private) on one tilting tray and one slides off. Still open: which fairness, AI that does not invent, real cause, and four goals at once.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="0.5" y="0.5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">A table for four competing objectives</text>
 
-  <!-- Panel 1 -->
-  <g>
-    <rect x="34" y="76" width="150" height="58" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="109" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="109" dy="0">Fair means we each</tspan>
-      <tspan x="109" dy="17">choose half.</tspan>
-    </text>
+  <!-- ===== Panel 1: which fairness ===== -->
+  <g transform="translate(16,46)">
+    <rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Fair — by which rule?</text>
 
-    <rect x="224" y="76" width="150" height="58" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="299" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="299" dy="0">Fair means we both</tspan>
-      <tspan x="299" dy="17">like all of it.</tspan>
-    </text>
+    <!-- bubbles -->
+    <path d="M22,40 H138 Q150,40 150,52 V80 Q150,92 138,92 H58 L50,104 L44,92 H22 Q10,92 10,80 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="80" y="61" text-anchor="middle" font-size="15" fill="#1E1B4B">Fair = every place</text>
+    <text x="80" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">shown equally!</text>
+    <path d="M168,40 H276 Q288,40 288,52 V80 Q288,92 276,92 H254 L248,104 L240,92 H168 Q156,92 156,80 V52 Q156,40 168,40 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="222" y="61" text-anchor="middle" font-size="15" fill="#1E1B4B">Fair = the best</text>
+    <text x="222" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">get shown most!</text>
 
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
-      <circle cx="110" cy="169" r="10" fill="#10B981" stroke="none"/>
-      <path d="M110 180 L110 217 M110 190 L88 204 M110 190 L132 204" fill="none"/>
-      <circle cx="298" cy="169" r="10" fill="#D97706" stroke="none"/>
-      <path d="M298 180 L298 217 M298 190 L276 204 M298 190 L320 204" fill="none"/>
-    </g>
+    <path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <rect x="157" y="198" width="94" height="42" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-    <line x1="204" y1="198" x2="204" y2="240" stroke="#7C3AED" stroke-width="2"/>
-    <text x="180" y="223" font-size="12" fill="#10B981" text-anchor="middle">SPICY</text>
-    <text x="228" y="223" font-size="12" fill="#D97706" text-anchor="middle">MILD</text>
+    <!-- chef A: new place -->
+    <path d="M27,212 V186 Q27,170 43,170 H57 Q73,170 73,186 V212 Z" fill="#F59E0B"/>
+    <circle cx="50" cy="148" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <circle cx="47" cy="146" r="2.2" fill="#1E1B4B"/>
+    <circle cx="57" cy="146" r="2.2" fill="#1E1B4B"/>
+    <path d="M47,155 Q52,159 57,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M38,136 V124 A7,7 0 0 1 43,113 A8,8 0 0 1 57,113 A7,7 0 0 1 62,124 V136 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5" stroke-linejoin="round"/>
 
-    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Two flawless definitions of fair request opposite dinners.</text>
+    <!-- recommender, stuck in the middle -->
+    <path d="M126,212 V186 Q126,170 142,170 H156 Q172,170 172,186 V212 Z" fill="#7C3AED"/>
+    <rect x="154" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+    <circle cx="149" cy="148" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="144" cy="145" r="2.2" fill="#1E1B4B"/>
+    <circle cx="154" cy="145" r="2.2" fill="#1E1B4B"/>
+    <path d="M143,156 Q146,153 149,156 Q152,159 155,156" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M170,128 Q166,136 170,139 Q174,136 170,128 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="128" y="124" text-anchor="middle" font-size="16" font-weight="700" fill="#7C3AED">?</text>
+    <text x="149" y="116" text-anchor="middle" font-size="16" font-weight="700" fill="#7C3AED">?</text>
+
+    <!-- chef B: top-rated -->
+    <path d="M225,212 V186 Q225,170 241,170 H255 Q271,170 271,186 V212 Z" fill="#F59E0B"/>
+    <text x="248" y="200" text-anchor="middle" font-size="15">⭐</text>
+    <circle cx="248" cy="148" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <circle cx="241" cy="146" r="2.2" fill="#1E1B4B"/>
+    <circle cx="251" cy="146" r="2.2" fill="#1E1B4B"/>
+    <path d="M241,155 Q246,159 251,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M236,136 V124 A7,7 0 0 1 241,113 A8,8 0 0 1 255,113 A7,7 0 0 1 260,124 V136 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5" stroke-linejoin="round"/>
+
+    <text x="50" y="232" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">New place</text>
+    <text x="149" y="232" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
+    <text x="248" y="232" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Top-rated</text>
+    <text x="149" y="256" text-anchor="middle" font-size="15" fill="#1E1B4B">Two fair rules, <tspan font-weight="700">opposite rankings.</tspan></text>
   </g>
 
-  <!-- Panel 2 -->
-  <g>
-    <rect x="426" y="76" width="210" height="58" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="531" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="531" dy="0">Quiet, vegan, under $20,</tspan>
-      <tspan x="531" dy="17">with jazz and no cilantro.</tspan>
-    </text>
+  <!-- ===== Panel 2: AI that makes things up ===== -->
+  <g transform="translate(326,46)">
+    <rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">AI chat that makes things up</text>
 
-    <rect x="586" y="146" width="180" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="676" y="172" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Perfect: The Silent Turnip.</text>
+    <path d="M22,40 H142 Q154,40 154,52 V80 Q154,92 142,92 H58 L50,114 L44,92 H22 Q10,92 10,80 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="82" y="61" text-anchor="middle" font-size="15" fill="#1E1B4B">Quiet, vegan, live</text>
+    <text x="82" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">jazz, under $20?</text>
+    <path d="M174,40 H276 Q288,40 288,52 V80 Q288,92 276,92 H254 L248,114 L240,92 H174 Q162,92 162,80 V52 Q162,40 174,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="225" y="61" text-anchor="middle" font-size="15" fill="#1E1B4B">Perfect: The</text>
+    <text x="225" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">Silent Turnip!</text>
 
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
-      <circle cx="484" cy="183" r="10" fill="#10B981" stroke="none"/>
-      <path d="M484 194 L484 231 M484 205 L466 218 M484 205 L502 218" fill="none"/>
-      <circle cx="538" cy="183" r="10" fill="#D97706" stroke="none"/>
-      <path d="M538 194 L538 231 M538 205 L520 218 M538 205 L556 218" fill="none"/>
-      <circle cx="676" cy="219" r="10" fill="#7C3AED" stroke="none"/>
-      <path d="M676 230 L676 257 M676 240 L659 250 M676 240 L693 250" fill="none"/>
-    </g>
+    <path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">It grasps every nuance, then recommends a place it made up.</text>
+    <!-- you -->
+    <path d="M27,212 V186 Q27,170 43,170 H57 Q73,170 73,186 V212 Z" fill="#10B981"/>
+    <circle cx="50" cy="148" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="48" cy="146" r="2.2" fill="#1E1B4B"/>
+    <circle cx="58" cy="146" r="2.2" fill="#1E1B4B"/>
+    <circle cx="53" cy="156" r="2.6" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
+
+    <!-- the map says no -->
+    <rect x="81" y="138" width="136" height="56" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="149" y="160" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">The Silent Turnip</text>
+    <text x="149" y="182" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">📍 no such place</text>
+
+    <!-- recommender, very confident -->
+    <path d="M225,212 V186 Q225,170 241,170 H255 Q271,170 271,186 V212 Z" fill="#7C3AED"/>
+    <rect x="253" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+    <circle cx="248" cy="148" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="241" cy="146" r="2.2" fill="#1E1B4B"/>
+    <circle cx="251" cy="146" r="2.2" fill="#1E1B4B"/>
+    <path d="M240,154 Q246,161 252,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <text x="50" y="232" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+    <text x="149" y="256" text-anchor="middle" font-size="15" fill="#1E1B4B">Got every wish. <tspan font-weight="700">Invented the place.</tspan></text>
   </g>
 
-  <!-- Panel 3 -->
-  <g>
-    <circle cx="204" cy="475" r="10" fill="#7C3AED"/>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <path d="M204 486 L204 535"/>
-      <path d="M204 497 L154 463"/>
-      <path d="M204 497 L254 463"/>
+  <!-- ===== Panel 3: cause or coincidence ===== -->
+  <g transform="translate(16,326)">
+    <rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Cause or coincidence?</text>
+
+    <path d="M22,40 H108 Q120,40 120,52 V80 Q120,92 108,92 H58 L50,114 L44,92 H22 Q10,92 10,80 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="65" y="61" text-anchor="middle" font-size="15" fill="#1E1B4B">My tip sent</text>
+    <text x="65" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">you here!</text>
+    <path d="M140,40 H276 Q288,40 288,52 V80 Q288,92 276,92 H254 L248,114 L240,92 H140 Q128,92 128,80 V52 Q128,40 140,40 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="208" y="61" text-anchor="middle" font-size="15" fill="#1E1B4B">I come here every</text>
+    <text x="208" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">Friday anyway.</text>
+
+    <path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+    <!-- recommender, proud -->
+    <path d="M27,212 V186 Q27,170 43,170 H57 Q73,170 73,186 V212 Z" fill="#7C3AED"/>
+    <rect x="55" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+    <circle cx="50" cy="148" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <path d="M44,146 Q47,142 50,146 M54,146 Q57,142 60,146" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M44,153 Q51,161 58,153" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- stamp card: a regular -->
+    <rect x="81" y="138" width="136" height="56" rx="10" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <text x="149" y="160" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">Luigi’s stamp card</text>
+    <g fill="#10B981">
+      <circle cx="113" cy="177" r="8"/><circle cx="131" cy="177" r="8"/><circle cx="149" cy="177" r="8"/><circle cx="167" cy="177" r="8"/><circle cx="185" cy="177" r="8"/>
     </g>
+    <path d="M109,177 L112,180 L117,174 M127,177 L130,180 L135,174 M145,177 L148,180 L153,174 M163,177 L166,180 L171,174 M181,177 L184,180 L189,174" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
 
-    <path d="M62 447 L346 447" fill="none" stroke="#1E1B4B" stroke-width="3" stroke-linecap="round"/>
+    <!-- you, unimpressed -->
+    <path d="M225,212 V186 Q225,170 241,170 H255 Q271,170 271,186 V212 Z" fill="#10B981"/>
+    <circle cx="248" cy="148" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <path d="M238,146 H244 M248,146 H254" fill="none" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/>
+    <path d="M242,156 H252" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-    <circle cx="82" cy="426" r="30" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="82" y="431" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">BEST</text>
-
-    <circle cx="163" cy="416" r="30" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="163" y="421" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">FAIR</text>
-
-    <circle cx="245" cy="416" r="30" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="245" y="421" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">PROFIT</text>
-
-    <circle cx="326" cy="426" r="30" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="326" y="431" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">PRIVATE</text>
-
-    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Best, fair, profitable, and private arrive on separate plates.</text>
+    <text x="149" y="256" text-anchor="middle" font-size="15" fill="#1E1B4B">Came after the tip. <tspan font-weight="700">Because of it?</tspan></text>
   </g>
 
-  <!-- Panel 4 -->
-  <g>
-    <rect x="430" y="362" width="154" height="112" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-    <text x="507" y="386" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">RESERVATION</text>
-    <text x="507" y="408" font-size="12" fill="#7C3AED" text-anchor="middle">THE SILENT TURNIP</text>
-    <text x="507" y="431" font-size="12" fill="#10B981" text-anchor="middle">DEPOSIT PAID</text>
-    <text x="507" y="454" font-size="12" fill="#6B7280" text-anchor="middle">ADDRESS: —</text>
+  <!-- ===== Panel 4: four goals, one tray ===== -->
+  <g transform="translate(326,326)">
+    <rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Four goals, one tray</text>
 
-    <rect x="598" y="365" width="102" height="38" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="649" y="389" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Where is it?</text>
+    <path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <rect x="646" y="419" width="120" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="706" y="445" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I can’t reveal that.</text>
+    <!-- arms -->
+    <path d="M132,182 L112,123 M166,182 L186,129" fill="none" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
 
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round">
-      <circle cx="622" cy="484" r="10" fill="#10B981" stroke="none"/>
-      <path d="M622 495 L622 535 M622 506 L606 518 M622 506 L638 518" fill="none"/>
-      <circle cx="716" cy="484" r="10" fill="#7C3AED" stroke="none"/>
-      <path d="M716 495 L716 535 M716 506 L700 518 M716 506 L732 518" fill="none"/>
+    <!-- tray, tilting right -->
+    <path d="M20,110 L270,131" stroke="#6B7280" stroke-width="6" stroke-linecap="round"/>
+
+    <!-- plates (domes) sitting on the tray -->
+    <g transform="rotate(4.8 52 112.7)">
+      <path d="M32,110 A20,20 0 0 1 72,110 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+      <circle cx="52" cy="87" r="3" fill="#9CA3AF"/>
     </g>
+    <g transform="rotate(4.8 112 117.7)">
+      <path d="M92,115 A20,20 0 0 1 132,115 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+      <circle cx="112" cy="92" r="3" fill="#9CA3AF"/>
+    </g>
+    <g transform="rotate(4.8 172 122.8)">
+      <path d="M152,120 A20,20 0 0 1 192,120 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+      <circle cx="172" cy="97" r="3" fill="#9CA3AF"/>
+    </g>
+    <!-- the one sliding off -->
+    <g transform="rotate(22 262 131)">
+      <path d="M242,128 A20,20 0 0 1 282,128 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <circle cx="262" cy="105" r="3" fill="#F59E0B"/>
+      <path d="M238,130 H286" stroke="#F59E0B" stroke-width="3" stroke-linecap="round"/>
+    </g>
+    <path d="M214,112 L230,113.3 M210,120 L228,121.5" stroke="#F59E0B" stroke-width="2" stroke-linecap="round"/>
 
-    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">At least the imaginary restaurant protects its address.</text>
+    <!-- goal labels -->
+    <text x="52" y="62" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Best</text>
+    <text x="52" y="80" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">for you</text>
+    <text x="112" y="82" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Fair</text>
+    <text x="172" y="87" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Profit</text>
+    <text x="256" y="86" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">Private</text>
+
+    <!-- recommender, sweating -->
+    <path d="M126,212 V186 Q126,170 142,170 H156 Q172,170 172,186 V212 Z" fill="#7C3AED"/>
+    <rect x="154" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+    <circle cx="149" cy="148" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="146" cy="143" r="2.2" fill="#1E1B4B"/>
+    <circle cx="156" cy="143" r="2.2" fill="#1E1B4B"/>
+    <path d="M144,156 Q147,153 150,156 Q153,159 156,156" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M130,138 Q126,146 130,149 Q134,146 130,138 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+
+    <text x="149" y="256" text-anchor="middle" font-size="15" fill="#1E1B4B">Lift one goal, <tspan font-weight="700">another slides off.</tspan></text>
   </g>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Research must reconcile utility, fairness, profit, and privacy while grounding LLM advice.</text>
+  <!-- takeaway -->
+  <text x="320" y="620" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#7C3AED">Still open:</tspan> which fairness, AI that doesn’t invent, real cause, four goals at once.</text>
 </svg>

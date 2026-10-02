@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Office Snack Spreadsheet Gets Personal — a four-panel comic](images/comic-diy-collect-data.svg)
+![The Office Snack Spreadsheet Gets Personal — a four-panel comic: coworkers rate snacks, their ratings form a matrix with users as rows and snacks as columns, most cells stay blank, and the spreadsheet predicts Ava's blank from Cy's matching taste](images/comic-diy-collect-data.svg)
 
 *A rating matrix uses user rows, item columns, and rating cells; sparse blanks need prediction.*

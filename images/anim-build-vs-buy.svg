@@ -1,32 +1,103 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 492" role="img" aria-labelledby="pb003-title pb003-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb003-title">Building in-house: mostly under water</title>
+  <desc id="pb003-desc">Building a recommender in-house is an iceberg. Above the waterline sits what teams plan for: a model and an API, about 3 months in a common story. Below it sits what running it in production takes: monitoring, A/B testing, 3 AM incidents, scaling, cold start, business rules, retraining and data quality, about 18 more months. Build when personalization is your product; buy when it is a feature.</desc>
   <style>
-    .p1{stroke-dasharray:520;stroke-dashoffset:520;animation:d1 6s linear infinite}
-    @keyframes d1{20%{stroke-dashoffset:520}90%,100%{stroke-dashoffset:0}}
-    .p2{stroke-dasharray:520;stroke-dashoffset:520;animation:d2 6s linear infinite}
-    @keyframes d2{5%{stroke-dashoffset:520}45%,100%{stroke-dashoffset:0}}
+    .pb003-grow{stroke-dasharray:100 100;stroke-dashoffset:0;animation:pb003-grow 10s linear infinite}
+    @keyframes pb003-grow{0%,6%{stroke-dashoffset:100}46%,100%{stroke-dashoffset:0}}
+    @keyframes pb003-c1{0%,8%{opacity:.3}11%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c1{animation:pb003-c1 10s linear infinite}
+    @keyframes pb003-c2{0%,13%{opacity:.3}16%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c2{animation:pb003-c2 10s linear infinite}
+    @keyframes pb003-c3{0%,18%{opacity:.3}21%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c3{animation:pb003-c3 10s linear infinite}
+    @keyframes pb003-c4{0%,23%{opacity:.3}26%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c4{animation:pb003-c4 10s linear infinite}
+    @keyframes pb003-c5{0%,28%{opacity:.3}31%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c5{animation:pb003-c5 10s linear infinite}
+    @keyframes pb003-c6{0%,33%{opacity:.3}36%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c6{animation:pb003-c6 10s linear infinite}
+    @keyframes pb003-c7{0%,38%{opacity:.3}41%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c7{animation:pb003-c7 10s linear infinite}
+    @keyframes pb003-c8{0%,43%{opacity:.3}46%,96%{opacity:1}100%{opacity:.3}}
+    .pb003-c8{animation:pb003-c8 10s linear infinite}
+    @media (prefers-reduced-motion: reduce){.pb003-grow,.pb003-chip{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Build vs. Buy: Time to Value</text>
+  <rect x=".5" y=".5" width="639" height="491" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="42" font-size="20" font-weight="700" fill="#1E1B4B">Building in-house: mostly under water</text>
 
-  <g stroke="#9CA3AF" stroke-width="1.5">
-    <line x1="90" y1="320" x2="740" y2="320"/><line x1="90" y1="320" x2="90" y2="80"/>
-  </g>
-  <text x="415" y="348" text-anchor="middle" font-size="12" fill="#6B7280">time →</text>
-  <text x="74" y="200" text-anchor="middle" font-size="12" fill="#6B7280" transform="rotate(-90 74 200)">value delivered</text>
+  <!-- water -->
+  <path d="M16,200 H624 V428 Q624,440 612,440 H28 Q16,440 16,428 Z" fill="#E8EEF4"/>
 
-  <path class="p2" d="M90 318 C150 240 200 165 340 140 C480 116 600 110 730 108" fill="none" stroke="#10B981" stroke-width="3.5"/>
-  <path class="p1" d="M90 319 C220 316 300 310 400 270 C520 222 640 150 730 96" fill="none" stroke="#7C3AED" stroke-width="3.5"/>
+  <!-- iceberg: the hidden bulk (outline open along the waterline) -->
+  <polygon points="146,200 118,214 96,232 70,244 52,270 36,300 30,330 34,360 52,384 98,398 140,406 176,416 222,408 270,414 314,402 352,394 398,384 422,360 430,322 436,290 426,262 412,240 384,226 360,210 330,200" fill="#FFFFFF"/>
+  <polyline points="146,200 118,214 96,232 70,244 52,270 36,300 30,330 34,360 52,384 98,398 140,406 176,416 222,408 270,414 314,402 352,394 398,384 422,360 430,322 436,290 426,262 412,240 384,226 360,210 330,200" fill="none" stroke="#A8B1BD" stroke-width="2" stroke-linejoin="round"/>
+  <!-- iceberg: the visible tip -->
+  <polygon points="146,200 160,190 174,180 186,176 198,168 210,172 226,164 240,170 256,166 270,174 284,170 300,182 316,190 330,200" fill="#EDE9FE"/>
+  <polyline points="146,200 160,190 174,180 186,176 198,168 210,172 226,164 240,170 256,166 270,174 284,170 300,182 316,190 330,200" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linejoin="round"/>
+  <text x="238" y="192" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Model + API</text>
 
-  <g font-size="13">
-    <rect x="150" y="120" width="205" height="46" rx="9" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="252" y="139" text-anchor="middle" font-weight="800" fill="#065F46">BUY (SaaS API)</text>
-    <text x="252" y="157" text-anchor="middle" font-size="11.5" fill="#065F46">weeks to live · ceiling later</text>
-    <rect x="470" y="240" width="230" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    <text x="585" y="259" text-anchor="middle" font-weight="800" fill="#4C1D95">BUILD (own stack)</text>
-    <text x="585" y="277" text-anchor="middle" font-size="11.5" fill="#4C1D95">quarters to live · full control</text>
-  </g>
-  <line x1="330" y1="80" x2="330" y2="320" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6 5"/>
-  <text x="330" y="70" text-anchor="middle" font-size="12" font-weight="700" fill="#92400E">crossover: does it ever come?</text>
+  <!-- water surface -->
+  <path d="M16,200 q6,-3 12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 t12,0 l8,0" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
 
-  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">The honest question isn't "can we build it" — it's whether ranking is your differentiator or your plumbing.</text>
+  <!-- the hidden work -->
+    <g class="pb003-chip pb003-c1">
+      <rect x="126.5" y="240" width="103" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="178" y="260" text-anchor="middle" font-size="15" fill="#92400E">Monitoring</text>
+    </g>
+    <g class="pb003-chip pb003-c2">
+      <rect x="239.5" y="240" width="102" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="290.5" y="260" text-anchor="middle" font-size="15" fill="#92400E">A/B testing</text>
+    </g>
+    <g class="pb003-chip pb003-c3">
+      <rect x="77.5" y="286" width="127" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="141" y="306" text-anchor="middle" font-size="15" fill="#92400E">3 AM incidents</text>
+    </g>
+    <g class="pb003-chip pb003-c4">
+      <rect x="214.5" y="286" width="74" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="251.5" y="306" text-anchor="middle" font-size="15" fill="#92400E">Scaling</text>
+    </g>
+    <g class="pb003-chip pb003-c5">
+      <rect x="298.5" y="286" width="92" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="344.5" y="306" text-anchor="middle" font-size="15" fill="#92400E">Cold start</text>
+    </g>
+    <g class="pb003-chip pb003-c6">
+      <rect x="54.5" y="332" width="125" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="117" y="352" text-anchor="middle" font-size="15" fill="#92400E">Business rules</text>
+    </g>
+    <g class="pb003-chip pb003-c7">
+      <rect x="189.5" y="332" width="97" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="238" y="352" text-anchor="middle" font-size="15" fill="#92400E">Retraining</text>
+    </g>
+    <g class="pb003-chip pb003-c8">
+      <rect x="296.5" y="332" width="109" height="30" rx="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="351" y="352" text-anchor="middle" font-size="15" fill="#92400E">Data quality</text>
+    </g>
+
+  <!-- the team in its boat -->
+  <path d="M36,70 H153 Q165,70 165,82 V92 Q165,104 153,104 H96 L86,121 L82,104 H36 Q24,104 24,92 V82 Q24,70 36,70 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="94.5" y="93" text-anchor="middle" font-size="16" fill="#1E1B4B">3 months, tops!</text>
+  <path d="M64,186 V176 Q64,162 80,162 Q96,162 96,176 V186 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+  <circle cx="80" cy="147" r="13" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <circle cx="75" cy="148" r="1.8" fill="#1E1B4B"/>
+  <circle cx="85" cy="148" r="1.8" fill="#1E1B4B"/>
+  <path d="M75,153.5 Q80,157.5 85,153.5" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M67,137 V132 Q67,125 80,125 Q93,125 93,132 V137 Z" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/>
+  <rect x="67" y="134" width="26" height="4" fill="#1E1B4B"/>
+  <path d="M70,139 Q80,142 90,139" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M28,182 H132 L117,211 H43 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="80" y="200" text-anchor="middle" font-size="14" fill="#4B5563">Your team</text>
+
+  <!-- time gauge: the iceberg's height, to scale -->
+  <text x="452" y="150" font-size="14" fill="#6B7280">A common story</text>
+  <path d="M302,164 H446 M276,416 H446" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <path d="M452,164 H464 M458,164 V200" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <path d="M452,416 H464" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
+  <path class="pb003-grow" pathLength="100" d="M458,200 V416" stroke="#F59E0B" stroke-width="2.5" fill="none"/>
+  <path d="M450,200 H466" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/>
+  <text x="474" y="188" font-size="16" font-weight="700" fill="#4C1D95">3 months</text>
+  <text x="474" y="302" font-size="24" font-weight="700" fill="#92400E">18 months</text>
+  <text x="474" y="325" font-size="15" fill="#4B5563">keeping it running</text>
+
+  <!-- takeaway -->
+  <text x="320" y="472" text-anchor="middle" font-size="16" fill="#1E1B4B">Personalization is your product? <tspan font-weight="700">Build.</tspan> Just a feature? <tspan font-weight="700">Buy.</tspan></text>
 </svg>

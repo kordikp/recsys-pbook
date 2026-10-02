@@ -64,7 +64,7 @@ To address the scale-invariance limitation (where a user rating [1, 2] appears s
 
 **Computational complexity:** For *m* users and *n* items, computing pairwise cosine similarity for all user pairs is O(m² × n). In practice, sparse data structures and approximate nearest neighbor algorithms (e.g., LSH, FAISS) reduce this dramatically.
 
-![Matrix Factorization](/images/comic-mf.svg)
+![Matrix factorization: taste vectors pointing the same way get a high predicted rating](/images/comic-mf.svg)
 
 ![Matrix Decomposition](/images/diagram-mf-decomposition.svg)
 

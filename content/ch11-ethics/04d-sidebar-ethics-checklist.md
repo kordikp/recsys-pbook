@@ -28,7 +28,7 @@ Building a recommendation system that works is an engineering problem. Building 
 
 This is not a compliance form. It is a thinking tool. The value is not in checking boxes -- it is in the conversations each question forces your team to have.
 
-![Ethics checklist with animated checkmarks](/images/anim-ethics-checklist.svg)
+![Two pre-launch checklists: a sticky note with one ticked box (engagement up, ship it) next to the ethics checklist's six areas (user impact, fairness, privacy, safety, transparency, accountability), each answered honestly, with one gap documented](/images/anim-ethics-checklist.svg)
 
 ## User Impact
 

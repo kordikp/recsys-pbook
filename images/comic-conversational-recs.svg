@@ -1,70 +1,132 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Tell Me What I Want—Then Check the Receipts</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb052-title pb052-desc">
+<title id="pb052-title">Tell me what I want—then check the receipts</title>
+<desc id="pb052-desc">Four-panel comic. You ask a chat AI for something cozy with real stakes and one smug dragon, and it understands every nuance. Alone, it suggests Dragon Tea Party, which you read last month and which is sold out: it cannot see your history or the shop's stock. The recommender alone checks your receipts, sees dragons, and suggests the grim Dragon War VII, ignoring the word cozy. Together, the chat AI turns your words into a query, the recommender picks Tea and Talons from your history and the live catalog, and the chat AI explains the pick: cozy, real stakes, a very smug dragon, new to you and in stock.</desc>
+<defs>
+<marker id="pb052-ha" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#F59E0B"/></marker>
+<marker id="pb052-hp" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7C3AED"/></marker>
+</defs>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="33" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Tell me what I want—then check the receipts</text>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<!-- ===== Panel 1: say it in words ===== -->
+<g transform="translate(16,48)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="22" r="11" fill="#1E1B4B"/><text x="24" y="27" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="43" y="27" font-size="16" font-weight="700" fill="#1E1B4B">Say it in words</text>
+<path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- you -->
+<path d="M41,226 V186 Q41,170 57,170 H71 Q87,170 87,186 V226 Z" fill="#10B981"/>
+<circle cx="64" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="61" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="71" cy="147" r="2.2" fill="#1E1B4B"/>
+<path d="M61,155 Q66,159 71,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- chat AI -->
+<path d="M211,226 V186 Q211,170 227,170 H241 Q257,170 257,186 V226 Z" fill="#F59E0B"/>
+<path d="M225,130 H243 Q253,130 253,140 V151 Q253,161 243,161 H226 L217,168 L219,161 Q215,160 215,151 V140 Q215,130 225,130 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="228" cy="145" r="2.2" fill="#1E1B4B"/><circle cx="238" cy="145" r="2.2" fill="#1E1B4B"/>
+<path d="M228,152 Q233,156 238,152" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- bubbles -->
+<path d="M22,38 H138 Q150,38 150,50 V100 Q150,112 138,112 H70 L62,127 L54,112 H22 Q10,112 10,100 V50 Q10,38 22,38 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="80" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="80">Something cozy,</tspan><tspan x="80" dy="19">real stakes, one</tspan><tspan x="80" dy="19">smug dragon.</tspan></text>
+<path d="M170,38 H276 Q288,38 288,50 V100 Q288,112 276,112 H240 L232,126 L224,112 H170 Q158,112 158,100 V50 Q158,38 170,38 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="223" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="223">Cozy but tense,</tspan><tspan x="223" dy="19">smug dragon.</tspan><tspan x="223" dy="19">Got it!</tspan></text>
+<text x="64" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+<text x="234" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Chat AI</text>
+</g>
 
-  <!-- Panel 1 -->
-  <rect x="35" y="75" width="250" height="65" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="50" y="100" font-size="12.5" fill="#1E1B4B">
-    <tspan x="50" dy="0">Cozy, but with real stakes.</tspan>
-    <tspan x="50" dy="19">No grimness. One smug dragon.</tspan>
-  </text>
-  <circle cx="103" cy="184" r="10" fill="#0EA5E9"/>
-  <path d="M103 194 L103 238 M103 205 L82 219 M103 205 L124 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="303" cy="184" r="10" fill="#7C3AED"/>
-  <path d="M303 194 L303 232 M303 205 L281 217 M303 205 L326 215" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="228" y="226" width="145" height="38" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="300.5" y="250" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">RECOMMENDATIONS</text>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Say the whole vibe instead of scrolling the whole shelf.</text>
+<!-- ===== Panel 2: chat AI alone ===== -->
+<g transform="translate(326,48)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="22" r="11" fill="#1E1B4B"/><text x="24" y="27" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="43" y="27" font-size="16" font-weight="700" fill="#1E1B4B">Chat AI alone</text>
+<path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- chat AI -->
+<path d="M41,226 V186 Q41,170 57,170 H71 Q87,170 87,186 V226 Z" fill="#F59E0B"/>
+<path d="M55,130 H73 Q83,130 83,140 V151 Q83,161 73,161 H56 L47,168 L49,161 Q45,160 45,151 V140 Q45,130 55,130 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="61" cy="145" r="2.2" fill="#1E1B4B"/><circle cx="71" cy="145" r="2.2" fill="#1E1B4B"/>
+<path d="M60,152 Q66,157 72,152" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- you, unimpressed -->
+<path d="M211,226 V186 Q211,170 227,170 H241 Q257,170 257,186 V226 Z" fill="#10B981"/>
+<circle cx="234" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="228" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="238" cy="147" r="2.2" fill="#1E1B4B"/>
+<path d="M224,139 L231,140 M235,140 L242,138" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M229,156 H238" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- bubbles -->
+<path d="M22,38 H150 Q162,38 162,50 V82 Q162,94 150,94 H74 L66,124 L58,94 H22 Q10,94 10,82 V50 Q10,38 22,38 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="86" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="86">Perfect match:</tspan><tspan x="86" dy="19" font-style="italic">Dragon Tea Party!</tspan></text>
+<path d="M182,38 H276 Q288,38 288,50 V100 Q288,112 276,112 H242 L234,127 L226,112 H182 Q170,112 170,100 V50 Q170,38 182,38 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="229" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="229">Read it last</tspan><tspan x="229" dy="19">month. Also,</tspan><tspan x="229" dy="19">it’s sold out.</tspan></text>
+<text x="64" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Chat AI</text>
+<text x="234" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+</g>
 
-  <!-- Panel 2 -->
-  <rect x="430" y="76" width="330" height="61" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="446" y="100" font-size="12.5" fill="#1E1B4B">
-    <tspan x="446" dy="0">I understand every adjective.</tspan>
-    <tspan x="446" dy="19">I can't see last night's clicks.</tspan>
-  </text>
-  <rect x="590" y="151" width="170" height="39" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="675" y="176" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The cookbook won.</text>
-  <circle cx="478" cy="214" r="10" fill="#7C3AED"/>
-  <path d="M478 224 L478 267 M478 235 L454 247 M478 235 L501 247" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="682" cy="214" r="10" fill="#0EA5E9"/>
-  <path d="M682 224 L682 267 M682 235 L660 247 M682 235 L705 246" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Fluent in nuance; blind to last night's behavior.</text>
+<!-- ===== Panel 3: recommender alone ===== -->
+<g transform="translate(16,316)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="22" r="11" fill="#1E1B4B"/><text x="24" y="27" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="43" y="27" font-size="16" font-weight="700" fill="#1E1B4B">Recommender alone</text>
+<path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- recommender -->
+<path d="M41,226 V186 Q41,170 57,170 H71 Q87,170 87,186 V226 Z" fill="#7C3AED"/>
+<rect x="69" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="64" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="61" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="71" cy="147" r="2.2" fill="#1E1B4B"/>
+<path d="M61,155 Q66,159 71,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- receipt, held out -->
+<path d="M85,194 L100,187" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<path d="M102,124 H174 Q178,124 178,128 V190 L172,196 L166,190 L160,196 L154,190 L148,196 L142,190 L136,196 L130,190 L124,196 L118,190 L112,196 L106,190 L98,196 V128 Q98,124 102,124 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="2" stroke-linejoin="round"/>
+<text x="138" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Receipts</text>
+<text x="138" y="176" text-anchor="middle" font-size="17">🐉🐉🐉</text>
+<!-- you, annoyed -->
+<path d="M213,226 V186 Q213,170 229,170 H243 Q259,170 259,186 V226 Z" fill="#10B981"/>
+<circle cx="236" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="230" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="240" cy="147" r="2.2" fill="#1E1B4B"/>
+<path d="M225,139 L232,142 M237,142 L244,139" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M230,158 Q235,154 240,158" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- bubbles -->
+<path d="M22,38 H156 Q168,38 168,50 V100 Q168,112 156,112 H70 L62,127 L54,112 H22 Q10,112 10,100 V50 Q10,38 22,38 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="89" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="89">Receipts say</tspan><tspan x="89" dy="19">dragons! Try</tspan><tspan x="89" dy="19" font-style="italic">Dragon War VII.</tspan></text>
+<path d="M192,62 H276 Q288,62 288,74 V84 Q288,96 276,96 H244 L236,126 L228,96 H192 Q180,96 180,84 V74 Q180,62 192,62 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="234" y="84" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">I said cozy!</text>
+<text x="64" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
+<text x="236" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+</g>
 
-  <!-- Panel 3 -->
-  <rect x="40" y="357" width="250" height="72" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="165" y="381" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="165" dy="0" font-weight="700">LOYALTY CARD — LIVE</tspan>
-    <tspan x="165" dy="25">bought: dragons + panic</tspan>
-  </text>
-  <rect x="211" y="448" width="164" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="293" y="474" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Stressful Tuesday.</text>
-  <circle cx="100" cy="492" r="10" fill="#7C3AED"/>
-  <path d="M100 502 L100 545 M100 513 L77 524 M100 513 L125 525" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="316" cy="505" r="10" fill="#0EA5E9"/>
-  <path d="M316 515 L316 552 M316 525 L294 535 M316 525 L338 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The loyalty card supplies less poetry and more evidence.</text>
+<!-- ===== Panel 4: together ===== -->
+<g transform="translate(326,316)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+<circle cx="24" cy="22" r="11" fill="#1E1B4B"/><text x="24" y="27" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="43" y="27" font-size="16" font-weight="700" fill="#1E1B4B">Together: the hybrid</text>
+<path d="M12,226 H286" stroke="#DDD6FE" stroke-width="1.5" stroke-linecap="round"/>
+<!-- chat AI -->
+<path d="M33,226 V186 Q33,170 49,170 H63 Q79,170 79,186 V226 Z" fill="#F59E0B"/>
+<path d="M47,130 H65 Q75,130 75,140 V151 Q75,161 65,161 H48 L39,168 L41,161 Q37,160 37,151 V140 Q37,130 47,130 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/>
+<circle cx="53" cy="145" r="2.2" fill="#1E1B4B"/><circle cx="63" cy="145" r="2.2" fill="#1E1B4B"/>
+<path d="M52,152 Q58,157 64,152" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- recommender -->
+<path d="M213,226 V186 Q213,170 229,170 H243 Q259,170 259,186 V226 Z" fill="#7C3AED"/>
+<rect x="241" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="236" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="230" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="240" cy="147" r="2.2" fill="#1E1B4B"/>
+<path d="M230,155 Q235,159 240,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- mini receipt, held -->
+<path d="M257,194 L267,189" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<path d="M268,156 H282 Q284,156 284,158 V190 L280,194 L276,190 L272,194 L268,190 L264,194 V160 Q264,156 268,156 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M268,165 H280 M268,172 H280 M268,179 H277" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
+<!-- query and pick -->
+<rect x="92" y="128" width="108" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="146" y="146" text-anchor="middle" font-size="14" fill="#92400E">cozy · dragon</text>
+<line x1="86" y1="166" x2="202" y2="166" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb052-ha)"/>
+<line x1="204" y1="184" x2="90" y2="184" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb052-hp)"/>
+<rect x="88" y="194" width="116" height="28" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="146" y="213" text-anchor="middle" font-size="15" font-weight="700" font-style="italic" fill="#4C1D95">Tea &amp; Talons</text>
+<!-- bubble -->
+<path d="M22,38 H276 Q288,38 288,50 V100 Q288,112 276,112 H62 L50,128 L46,112 H22 Q10,112 10,100 V50 Q10,38 22,38 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="149" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="149"><tspan font-style="italic" font-weight="700">Tea &amp; Talons</tspan>: cozy, real stakes,</tspan><tspan x="149" dy="19">a very smug dragon. New to you,</tspan><tspan x="149" dy="19">and in stock!</tspan></text>
+<text x="56" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Chat AI</text>
+<text x="236" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
+</g>
 
-  <!-- Panel 4 -->
-  <rect x="430" y="357" width="332" height="70" rx="9" fill="#FFFFFF" stroke="#1E1B4B"/>
-  <text x="446" y="381" font-size="12.5" fill="#1E1B4B">
-    <tspan x="446" dy="0" fill="#7C3AED">SAID: cozy + stakes + smug dragon</tspan>
-    <tspan x="446" dy="25" fill="#10B981">DID: bought dragons + panic</tspan>
-  </text>
-  <circle cx="470" cy="480" r="10" fill="#7C3AED"/>
-  <path d="M470 490 L470 536 M470 501 L447 513 M470 501 L548 487" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="744" cy="480" r="10" fill="#0EA5E9"/>
-  <path d="M744 490 L744 536 M744 501 L711 497 M744 501 L765 513" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="556" y="445" width="132" height="83" rx="6" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="622" y="477" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">
-    <tspan x="622" dy="0">TEA &amp; TALONS</tspan>
-    <tspan x="622" dy="23" font-weight="400">only 12% apocalypse</tspan>
-  </text>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The final pick has heard both testimony and receipts.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Hybrid systems pair LLM understanding of intent with RecSys predictions from behavior.</text>
+<!-- takeaway -->
+<text x="320" y="600" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Chat AI (LLM):</tspan> understands what you say, explains the pick.</text>
+<text x="320" y="624" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#4C1D95">Recommender:</tspan> knows what you did and what’s in stock.</text>
 </svg>

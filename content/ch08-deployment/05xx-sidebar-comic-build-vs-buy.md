@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The House Playlist Ate the House Special — a four-panel comic](images/comic-build-vs-buy.svg)
+![The House Playlist Ate the House Special — a four-panel comic: a café owner builds a playlist recommender although the café sells coffee; it plays by month 3, then 18 months of keeping it running follow (monitoring, A/B tests, scaling, a 3 AM alert); at month 21 the house special is still coming soon](images/comic-build-vs-buy.svg)
 
 *Build if personalization is core; buy if it's a feature—after weighing ops and opportunity cost.*

@@ -26,7 +26,7 @@ genre: explainer
 carriers: prose|image|diagram|formula
 ---
 
-![Matrix Factorization Story](/images/comic-mf.svg)
+![Every missing rating is one dot product: learned taste vectors for You, a thriller and a comedy, You·A = 0.74 vs You·B = 0.27](/images/comic-mf.svg)
 
 Imagine you operate a content platform with 100 million users and 500,000 items. If you represented every user's rating for every item in a matrix, that's **50 trillion cells**. And here's the critical challenge: approximately 99% of those cells are empty. No user has time to rate half a million items.
 

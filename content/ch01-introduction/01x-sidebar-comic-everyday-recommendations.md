@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Your Feed Has Been Taking Notes — a four-panel comic](images/comic-everyday-recommendations.svg)
+![Your Feed Has Been Taking Notes — a four-panel comic: your feed notes that you watched the pasta video and skipped the cats, adds the notes up into a profile, serves you more cooking videos, while your colleague on the same app gets a sports feed](images/comic-everyday-recommendations.svg)
 
 *Platforms predict what to surface from recorded interactions and statistical patterns.*

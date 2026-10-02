@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Same Search, Different Footprints — a four-panel comic](images/comic-search-vs-recs.svg)
+![Four-panel comic: Maya and Leo both search for running shoes. The shop finds the same three shoes for both but orders them by what each bought before, so Leo, who bought a knee brace, gets the Cushion shoe first.](images/comic-search-vs-recs.svg)
 
 *Search and recommendations use one embedding retrieval pipeline; user signals personalize results.*

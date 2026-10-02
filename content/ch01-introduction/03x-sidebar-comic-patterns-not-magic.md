@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Your Usual, Statistically Speaking — a four-panel comic](images/comic-patterns-not-magic.svg)
+![Your Usual, Statistically Speaking — a four-panel comic: a bakery clerk (the recommender) notes your croissant orders, spots that croissant fans also order soup, and has both waiting before you order](images/comic-patterns-not-magic.svg)
 
 *Recommendations predict from behavior patterns, sharpened by every interaction and many users.*

@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Same Server, Different Orders — a four-panel comic](images/comic-domain-differences.svg)
+![Same Server, Different Orders — a four-panel comic: a waiter-like recommender with one rule, “more of what you just had”, offers a repeat in a music app, an online shop, a news site and a job board; only the music fan wants it](images/comic-domain-differences.svg)
 
 *Domain dynamics shape data, algorithms, evaluation, and UX, so one approach cannot fit all.*

@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Please Repeat Yourself — a four-panel comic](images/comic-music-domain.svg)
+![Please Repeat Yourself — a four-panel comic: a movie recommender at a music app offers something new, punk at midnight and one song for an hour-long run; the listener wants the same song again, something calm, and a whole playlist](images/comic-music-domain.svg)
 
 *Unlike video, music rewards repeats and recommends playlists for the listener’s current context.*

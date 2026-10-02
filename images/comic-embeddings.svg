@@ -1,97 +1,173 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Record Shop Rearranges the Mood</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb067-title pb067-desc">
+<title id="pb067-title">The record shop rearranges the mood</title>
+<desc id="pb067-desc">Three-panel comic. A customer asks for more music like a quiet jazz ballad; with the shop shelved by genre, the clerk (the recommender) offers a 14-minute jazz drum solo. The clerk then watches who plays what: the same listeners play the ballad and an ambient album. He re-shelves the shop as a map where records played by the same people sit close together. The ballad's spot on the map, a few numbers such as (0.4, 0.5), is its embedding. Its nearest neighbors are the ambient album and whale songs, which the customer finds oddly perfect, while the drum solo, also jazz, sits far away. An embedding is an item's spot on a map learned from what people play; nearby means similar, so recommendations come from the neighborhood, not the whole shop.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <!-- Panel 1 -->
-  <rect x="34" y="74" width="132" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="100" y="100" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Different genres.</text>
-  <rect x="190" y="74" width="174" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="277" y="92" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="277" dy="0">Same people replay</tspan>
-    <tspan x="277" dy="16">both at 2 a.m.</tspan>
-  </text>
+<!-- ===== Panel 1: shelved by genre ===== -->
+<g transform="translate(16,16)">
+  <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Shelved by genre</text>
 
-  <rect x="137" y="139" width="52" height="58" rx="5" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="163" y="172" font-size="12" fill="#1E1B4B" text-anchor="middle">JAZZ</text>
-  <rect x="210" y="139" width="62" height="58" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="241" y="172" font-size="12" fill="#1E1B4B" text-anchor="middle">AMBIENT</text>
+  <path d="M12,228 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-  <circle cx="62" cy="212" r="10" fill="#0EA5E9"/>
-  <path d="M62 222 L62 255 M62 232 L45 244 M62 232 L78 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="346" cy="212" r="10" fill="#7C3AED"/>
-  <path d="M346 222 L346 255 M346 232 L330 244 M346 232 L362 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- customer bubble -->
+  <path d="M22,44 H138 Q150,44 150,56 V104 Q150,116 138,116 H61 L55,131 L47,116 H22 Q10,116 10,104 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="80" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="80">Loved this quiet</tspan><tspan x="80" dy="19">jazz ballad.</tspan><tspan x="80" dy="19">More like it?</tspan></text>
 
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Labels describe the records; listeners reveal the mood.</text>
+  <!-- clerk bubble -->
+  <path d="M170,44 H276 Q288,44 288,56 V104 Q288,116 276,116 H250 L244,131 L236,116 H170 Q158,116 158,104 V56 Q158,44 170,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="223" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="223">Also jazz:</tspan><tspan x="223" dy="19">a 14-minute</tspan><tspan x="223" dy="19">drum solo!</tspan></text>
 
-  <!-- Panel 2 -->
-  <rect x="486" y="72" width="226" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="599" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">So I stopped trusting the shelf.</text>
+  <!-- customer, wincing, holding the ballad -->
+  <path d="M76,194 L88,192" stroke="#10B981" stroke-width="7" stroke-linecap="round"/>
+  <path d="M32,228 V188 Q32,172 48,172 H62 Q78,172 78,188 V228 Z" fill="#10B981"/>
+  <circle cx="55" cy="151" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <path d="M48,145 L53,148 L48,151 M62,145 L57,148 L62,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M48,159 Q51,156 54,159 Q57,162 60,159" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="86" y="178" width="32" height="32" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="102" y="200" font-size="18" text-anchor="middle">🎷</text>
 
-  <rect x="500" y="130" width="198" height="104" rx="8" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <circle cx="566" cy="178" r="7" fill="#D97706"/>
-  <circle cx="582" cy="187" r="7" fill="#0EA5E9"/>
-  <circle cx="658" cy="153" r="7" fill="#10B981"/>
-  <text x="548" y="161" font-size="12" fill="#6B7280" text-anchor="middle">jazz</text>
-  <text x="602" y="211" font-size="12" fill="#6B7280" text-anchor="middle">ambient</text>
-  <text x="658" y="178" font-size="12" fill="#6B7280" text-anchor="middle">party pop</text>
+  <!-- clerk = recommender, offering the drum solo -->
+  <path d="M223,192 L210,190" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+  <path d="M221,228 V188 Q221,172 237,172 H251 Q267,172 267,188 V228 Z" fill="#7C3AED"/>
+  <rect x="249" y="181" width="12" height="8" rx="2" fill="#FFFFFF"/>
+  <circle cx="244" cy="151" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <circle cx="235" cy="149" r="2.2" fill="#1E1B4B"/>
+  <circle cx="247" cy="149" r="2.2" fill="#1E1B4B"/>
+  <path d="M236,157 Q241,161 246,157" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="176" y="174" width="36" height="36" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="194" y="199" font-size="18" text-anchor="middle">🥁</text>
+  <path d="M168,180 L156,174 M166,192 L152,192 M168,204 L156,210" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round"/>
 
-  <circle cx="451" cy="238" r="10" fill="#0EA5E9"/>
-  <path d="M451 248 L451 272 M451 256 L439 266 M451 256 L465 266" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="744" cy="238" r="10" fill="#7C3AED"/>
-  <path d="M744 248 L744 272 M744 256 L731 266 M744 256 L756 266" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <text x="55" y="252" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+  <text x="240" y="252" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text>
+</g>
 
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The network invents useful qualities the genre tags missed.</text>
+<!-- ===== Panel 2: watch who plays what ===== -->
+<g transform="translate(326,16)">
+  <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Watch who plays what</text>
 
-  <!-- Panel 3 -->
-  <rect x="83" y="352" width="238" height="44" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="202" y="371" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="202" dy="0">Find this mood among</tspan>
-    <tspan x="202" dy="16">four billion tracks?</tspan>
-  </text>
+  <path d="M12,228 H80" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-  <rect x="102" y="412" width="204" height="104" rx="8" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <path d="M121 435h5v5h-5z M145 462h5v5h-5z M172 438h5v5h-5z M201 480h5v5h-5z M225 446h5v5h-5z M267 430h5v5h-5z M280 475h5v5h-5z M132 493h5v5h-5z M246 491h5v5h-5z" fill="#E5E7EB"/>
-  <circle cx="191" cy="458" r="7" fill="#D97706"/>
-  <circle cx="207" cy="466" r="7" fill="#0EA5E9"/>
-  <circle cx="218" cy="451" r="6" fill="#7C3AED"/>
-  <path d="M177 445 C195 431 226 436 235 457 C228 482 190 488 174 468 Z" fill="none" stroke="#10B981" stroke-width="2"/>
-  <text x="204" y="505" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">ANN: 8 ms</text>
+  <path d="M22,44 H276 Q288,44 288,56 V86 Q288,98 276,98 H54 L46,131 L38,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="149" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="149">Same people play the ballad</tspan><tspan x="149" dy="20">and the ambient album!</tspan></text>
 
-  <circle cx="55" cy="524" r="10" fill="#0EA5E9"/>
-  <path d="M55 534 L55 565 M55 543 L42 554 M55 543 L68 554" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="350" cy="524" r="10" fill="#7C3AED"/>
-  <path d="M350 534 L350 565 M350 543 L337 554 M350 543 L363 554" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- clerk, noticing -->
+  <path d="M21,228 V188 Q21,172 37,172 H51 Q67,172 67,188 V228 Z" fill="#7C3AED"/>
+  <rect x="49" y="181" width="12" height="8" rx="2" fill="#FFFFFF"/>
+  <circle cx="44" cy="151" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <circle cx="41" cy="149" r="2.2" fill="#1E1B4B"/>
+  <circle cx="53" cy="149" r="2.2" fill="#1E1B4B"/>
+  <path d="M37,142 Q41,139 45,142 M49,142 Q53,139 57,142" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="47" cy="159" r="2.6" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
 
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">ANN checks the nearby vectors, not the whole musical universe.</text>
+  <!-- listening log -->
+  <rect x="84" y="106" width="204" height="144" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="96" y="131" font-size="14" fill="#4B5563">Played by</text>
+  <g fill="#10B981">
+    <path d="M189,140 V137 Q189,130 196,130 H200 Q207,130 207,137 V140 Z"/>
+    <path d="M225,140 V137 Q225,130 232,130 H236 Q243,130 243,137 V140 Z"/>
+    <path d="M261,140 V137 Q261,130 268,130 H272 Q279,130 279,137 V140 Z"/>
+  </g>
+  <g fill="#FFFFFF" stroke="#065F46" stroke-width="1.5">
+    <circle cx="198" cy="121" r="6"/>
+    <circle cx="234" cy="121" r="6"/>
+    <circle cx="270" cy="121" r="6"/>
+  </g>
+  <path d="M92,146 H280" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="90" y="150" width="192" height="30" rx="6" fill="#EDE9FE"/>
+  <rect x="90" y="182" width="192" height="30" rx="6" fill="#EDE9FE"/>
+  <text x="98" y="170" font-size="15" fill="#1E1B4B">Ballad</text>
+  <text x="98" y="202" font-size="15" fill="#1E1B4B">Ambient</text>
+  <text x="98" y="234" font-size="15" fill="#1E1B4B">Drum solo</text>
+  <g fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M192,165 L196,169 L204,160"/>
+    <path d="M228,165 L232,169 L240,160"/>
+    <path d="M192,197 L196,201 L204,192"/>
+    <path d="M228,197 L232,201 L240,192"/>
+    <path d="M264,229 L268,233 L276,224"/>
+  </g>
+  <g stroke="#9CA3AF" stroke-width="2" stroke-linecap="round">
+    <path d="M265,165 H275"/>
+    <path d="M265,197 H275"/>
+    <path d="M193,229 H203"/>
+    <path d="M229,229 H239"/>
+  </g>
+</g>
 
-  <!-- Panel 4 -->
-  <rect x="422" y="352" width="172" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="508" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Next neighbor: whale song.</text>
-  <rect x="610" y="352" width="158" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="689" y="370" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="689" dy="0">Put it after</tspan>
-    <tspan x="689" dy="16">the tax return.</tspan>
-  </text>
+<!-- ===== Panel 3: the shop becomes a map ===== -->
+<g transform="translate(16,290)">
+  <rect x="0" y="0" width="608" height="280" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">The shop becomes a map</text>
 
-  <rect x="514" y="425" width="48" height="58" rx="5" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="538" y="458" font-size="12" fill="#1E1B4B" text-anchor="middle">JAZZ</text>
-  <rect x="571" y="425" width="58" height="58" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="600" y="458" font-size="12" fill="#1E1B4B" text-anchor="middle">AMBIENT</text>
-  <rect x="638" y="425" width="54" height="58" rx="5" fill="#D1FAE5" stroke="#10B981"/>
-  <path d="M650 455 C656 447 670 447 677 454 C672 456 669 462 660 462 C655 462 652 459 650 455 Z" fill="#10B981"/>
-  <text x="665" y="478" font-size="12" fill="#1E1B4B" text-anchor="middle">WHALE</text>
+  <path d="M12,262 H596" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-  <circle cx="452" cy="518" r="10" fill="#0EA5E9"/>
-  <path d="M452 528 L452 558 M452 538 L469 546 M452 538 L440 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="746" cy="518" r="10" fill="#7C3AED"/>
-  <path d="M746 528 L746 558 M746 538 L730 546 M746 538 L758 550" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- the map -->
+  <rect x="152" y="44" width="304" height="208" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <g stroke="#F3F4F6" stroke-width="1">
+    <path d="M190,52 V244 M228,52 V244 M266,52 V244 M304,52 V244 M342,52 V244 M380,52 V244 M418,52 V244"/>
+    <path d="M160,70 H448 M160,96 H448 M160,122 H448 M160,148 H448 M160,174 H448 M160,200 H448 M160,226 H448"/>
+  </g>
+  <g fill="#D1D5DB">
+    <circle cx="178" cy="70" r="5"/>
+    <circle cx="198" cy="110" r="5"/>
+    <circle cx="408" cy="66" r="5"/>
+    <circle cx="438" cy="104" r="5"/>
+    <circle cx="438" cy="236" r="5"/>
+  </g>
 
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The machine has found the saddest possible neighborhood.</text>
+  <!-- the ballad's neighborhood -->
+  <text x="294" y="80" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Your ballad's neighbors</text>
+  <circle cx="294" cy="138" r="46" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 5"/>
+  <circle cx="316" cy="114" r="7" fill="#7C3AED"/>
+  <circle cx="314" cy="166" r="7" fill="#7C3AED"/>
+  <circle cx="274" cy="148" r="8" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
+  <text x="240" y="153" font-size="15" font-weight="700" fill="#065F46" text-anchor="end">Ballad</text>
+  <text x="346" y="119" font-size="15" font-weight="700" fill="#4C1D95">Ambient</text>
+  <text x="342" y="171" font-size="15" font-weight="700" fill="#4C1D95">Whale songs</text>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Embeddings are learned vectors where nearby items behave alike, enabling fast ANN search.</text>
+  <!-- the ballad's spot = its embedding -->
+  <path d="M250,192 L268,156" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
+  <rect x="162" y="192" width="122" height="26" rx="13" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text x="223" y="210" font-size="14" font-weight="700" fill="#1E1B4B" text-anchor="middle">spot (0.4, 0.5)</text>
+  <text x="223" y="238" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">= its embedding</text>
+
+  <!-- far away -->
+  <circle cx="410" cy="210" r="7" fill="#1E1B4B"/>
+  <text x="398" y="215" font-size="15" fill="#1E1B4B" text-anchor="end">Drum solo</text>
+  <text x="398" y="234" font-size="14" fill="#6B7280" text-anchor="end">(also jazz)</text>
+
+  <!-- clerk -->
+  <path d="M100,226 L120,212" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+  <path d="M55,262 V222 Q55,206 71,206 H85 Q101,206 101,222 V262 Z" fill="#7C3AED"/>
+  <rect x="83" y="215" width="12" height="8" rx="2" fill="#FFFFFF"/>
+  <circle cx="78" cy="185" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <circle cx="75" cy="183" r="2.2" fill="#1E1B4B"/>
+  <circle cx="87" cy="183" r="2.2" fill="#1E1B4B"/>
+  <path d="M76,191 Q81,195 86,191" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M22,84 H134 Q146,84 146,96 V126 Q146,138 134,138 H88 L80,166 L72,138 H22 Q10,138 10,126 V96 Q10,84 22,84 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="78" y="106" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="78">Same listeners,</tspan><tspan x="78" dy="20">same corner.</tspan></text>
+
+  <!-- customer, delighted -->
+  <path d="M510,262 V222 Q510,206 526,206 H540 Q556,206 556,222 V262 Z" fill="#10B981"/>
+  <circle cx="533" cy="185" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <path d="M520,176 Q524,173 528,176 M532,176 Q536,173 540,176" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+  <circle cx="524" cy="183" r="2.4" fill="#1E1B4B"/>
+  <circle cx="536" cy="183" r="2.4" fill="#1E1B4B"/>
+  <path d="M525,190 H535 Q535,197 530,197 Q525,197 525,190 Z" fill="#1E1B4B"/>
+  <path d="M474,84 H586 Q598,84 598,96 V126 Q598,138 586,138 H538 L530,166 L522,138 H474 Q462,138 462,126 V96 Q462,84 474,84 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="530" y="106" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="530">Whale songs?!</tspan><tspan x="530" dy="20">…oddly perfect.</tspan></text>
+</g>
+
+<!-- takeaway -->
+<text x="320" y="598" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#4C1D95">Embedding</tspan> = an item's spot on a map learned from what people play.</text>
+<text x="320" y="622" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#4C1D95">Nearby = similar</tspan>, so recommend from the neighborhood, not the whole shop.</text>
 </svg>

@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Can I See How You Made That Choice? — a four-panel comic](images/comic-explanation-methods.svg)
+![Four-panel comic: a glass-box recommender shows the rules behind its ramen pick; a black box only says “It’s complicated”; an outside explainer such as LIME or SHAP changes one input at a time and concludes “mostly because you’re hungry” — probably right, but it never saw inside.](images/comic-explanation-methods.svg)
 
 *Intrinsic logic is readable; post-hoc tools approximate black boxes and may lose fidelity.*

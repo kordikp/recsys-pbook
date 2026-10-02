@@ -1,32 +1,133 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
-  <style>
-    .swap{animation:sw 5s ease-in-out infinite}
-    @keyframes sw{0%,30%{opacity:.45}45%,90%{opacity:1}100%{opacity:.45}}
-    .old{animation:so 5s ease-in-out infinite}
-    @keyframes so{0%,30%{opacity:1}45%,90%{opacity:.35}100%{opacity:1}}
-  </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Score Items — or Score the Whole Slate?</text>
-
-  <g font-size="13" text-anchor="middle">
-    <text x="215" y="76" font-weight="800" fill="#4B5563">TOP-K BY ITEM SCORE</text>
-    <g class="old">
-      <rect x="90" y="92" width="250" height="40" rx="8" fill="#FFFFFF" stroke="#9CA3AF"/><text x="215" y="117">🎬 Action Movie A <tspan fill="#6B7280">0.93</tspan></text>
-      <rect x="90" y="140" width="250" height="40" rx="8" fill="#FFFFFF" stroke="#9CA3AF"/><text x="215" y="165">🎬 Action Movie B <tspan fill="#6B7280">0.91</tspan></text>
-      <rect x="90" y="188" width="250" height="40" rx="8" fill="#FFFFFF" stroke="#9CA3AF"/><text x="215" y="213">🎬 Action Movie C <tspan fill="#6B7280">0.90</tspan></text>
-      <rect x="90" y="236" width="250" height="40" rx="8" fill="#FFFFFF" stroke="#9CA3AF"/><text x="215" y="261">🎬 Action Movie D <tspan fill="#6B7280">0.89</tspan></text>
-      <text x="215" y="308" fill="#B91C1C" font-weight="700">four near-duplicates 😴</text>
-    </g>
-
-    <text x="585" y="76" font-weight="800" fill="#065F46">SLATE-OPTIMIZED SET</text>
-    <g class="swap">
-      <rect x="460" y="92" width="250" height="40" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><text x="585" y="117">🎬 Action Movie A <tspan fill="#065F46">anchor</tspan></text>
-      <rect x="460" y="140" width="250" height="40" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><text x="585" y="165">😂 Comedy Pick <tspan fill="#065F46">variety</tspan></text>
-      <rect x="460" y="188" width="250" height="40" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><text x="585" y="213">🎥 Documentary <tspan fill="#065F46">depth</tspan></text>
-      <rect x="460" y="236" width="250" height="40" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><text x="585" y="261">✨ New Release <tspan fill="#065F46">discovery</tspan></text>
-      <text x="585" y="308" fill="#065F46" font-weight="700">a menu, not an echo ✔</text>
-    </g>
-  </g>
-  <text x="400" y="352" text-anchor="middle" font-size="13.5" font-weight="600" fill="#1E1B4B">value(slate) ≠ Σ value(item) — items interact on the screen</text>
-  <text x="400" y="385" text-anchor="middle" font-size="13" fill="#6B7280">Users pick from the SET you show: near-duplicates cannibalize each other; diversity earns the extra click.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" role="img" aria-labelledby="pb031-title pb031-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb031-title">Greedy slate building: each pick changes what the next one is worth</title>
+<desc id="pb031-desc">Toy example with six candidate films and a slate value in which a topic's first film counts fully, its second half, its third a quarter. Taking the top 4 by item score gives four sci-fi films: their scores sum to 3.56, but the slate is worth only 0.92 + 0.45 + 0.22 + 0.11 = 1.70. Greedy slate building adds, at each step, the candidate with the highest marginal gain given what is already on the slate: once sci-fi A is in, every other sci-fi film is worth half, so comedy E and documentary F are picked before sci-fi B. Its item scores sum to only 3.14, yet the slate is worth 2.69. Score the page, not the items.</desc>
+<style>
+.pb031-band{opacity:0;animation:pb031-band 12s linear infinite}
+@keyframes pb031-band{0%{opacity:0}1%,8%{opacity:1}10%,100%{opacity:0}}
+.pb031-p1{animation:pb031-p1 12s linear infinite}
+@keyframes pb031-p1{0%,4%{opacity:0}6%,96%{opacity:1}100%{opacity:0}}
+.pb031-n1{animation:pb031-n1 12s linear infinite}
+@keyframes pb031-n1{0%,4%{fill:#4B5563}6%,96%{fill:#4C1D95}100%{fill:#4B5563}}
+.pb031-p2{animation:pb031-p2 12s linear infinite}
+@keyframes pb031-p2{0%,14%{opacity:0}16%,96%{opacity:1}100%{opacity:0}}
+.pb031-n2{animation:pb031-n2 12s linear infinite}
+@keyframes pb031-n2{0%,14%{fill:#4B5563}16%,96%{fill:#4C1D95}100%{fill:#4B5563}}
+.pb031-p3{animation:pb031-p3 12s linear infinite}
+@keyframes pb031-p3{0%,24%{opacity:0}26%,96%{opacity:1}100%{opacity:0}}
+.pb031-n3{animation:pb031-n3 12s linear infinite}
+@keyframes pb031-n3{0%,24%{fill:#4B5563}26%,96%{fill:#4C1D95}100%{fill:#4B5563}}
+.pb031-p4{animation:pb031-p4 12s linear infinite}
+@keyframes pb031-p4{0%,34%{opacity:0}36%,96%{opacity:1}100%{opacity:0}}
+.pb031-n4{animation:pb031-n4 12s linear infinite}
+@keyframes pb031-n4{0%,34%{fill:#92400E}36%,96%{fill:#4C1D95}100%{fill:#92400E}}
+@media (prefers-reduced-motion: reduce){.pb031-band,.pb031-p1,.pb031-p2,.pb031-p3,.pb031-p4,.pb031-n1,.pb031-n2,.pb031-n3,.pb031-n4{animation:none !important}}
+</style>
+<rect x=".5" y=".5" width="639" height="499" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="32" y="40" font-size="20" font-weight="700" fill="#1E1B4B">Each pick changes what the next one is worth</text>
+<text x="32" y="64" font-size="14" fill="#6B7280">Toy slate value: a topic’s 1st film counts ×1, its 2nd ×½, its 3rd ×¼ …</text>
+<rect x="16" y="78" width="608" height="252" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect class="pb031-band" style="animation-delay:0.0s" x="196" y="110" width="100" height="212" rx="8" fill="#F5F3FF"/>
+<rect class="pb031-band" style="animation-delay:1.2s" x="300" y="110" width="100" height="212" rx="8" fill="#F5F3FF"/>
+<rect class="pb031-band" style="animation-delay:2.4s" x="404" y="110" width="100" height="212" rx="8" fill="#F5F3FF"/>
+<rect class="pb031-band" style="animation-delay:3.6s" x="508" y="110" width="100" height="212" rx="8" fill="#F5F3FF"/>
+<text x="402" y="102" text-anchor="middle" font-size="14" fill="#4B5563">marginal gain, given the slate so far</text>
+<text x="36" y="124" font-size="14" fill="#6B7280">candidate</text>
+<text x="246" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">pick 1</text>
+<text x="350" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">pick 2</text>
+<text x="454" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">pick 3</text>
+<text x="558" y="124" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">pick 4</text>
+<line x1="32" y1="134" x2="608" y2="134" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="36" y="157" font-size="15" fill="#1E1B4B">🚀 Sci-fi A</text>
+<rect x="204" y="146" width="46.0" height="12" rx="3" fill="#D1D5DB"/>
+<g class="pb031-p1">
+<rect x="198" y="139" width="96" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="204" y="146" width="46.0" height="12" rx="3" fill="#7C3AED"/>
+</g>
+<text class="pb031-n1" x="258" y="157" font-size="15" font-weight="700" fill="#4C1D95">0.92</text>
+<line x1="32" y1="167" x2="608" y2="167" stroke="#F3F4F6" stroke-width="1"/>
+<text x="36" y="187" font-size="15" fill="#1E1B4B">🚀 Sci-fi B</text>
+<rect x="204" y="176" width="45.0" height="12" rx="3" fill="#D1D5DB"/>
+<text x="258" y="187" font-size="15" fill="#4B5563">0.90</text>
+<rect x="308" y="176" width="45.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="308" y="176" width="22.5" height="12" rx="3" fill="#F59E0B"/>
+<text x="362" y="187" font-size="15" fill="#92400E">0.45</text>
+<rect x="412" y="176" width="45.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="412" y="176" width="22.5" height="12" rx="3" fill="#F59E0B"/>
+<text x="466" y="187" font-size="15" fill="#92400E">0.45</text>
+<rect x="516" y="176" width="45.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="516" y="176" width="22.5" height="12" rx="3" fill="#F59E0B"/>
+<g class="pb031-p4">
+<rect x="510" y="169" width="96" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="516" y="176" width="45.0" height="12" rx="3" fill="#DDD6FE"/>
+<rect x="516" y="176" width="22.5" height="12" rx="3" fill="#7C3AED"/>
+</g>
+<text class="pb031-n4" x="570" y="187" font-size="15" font-weight="700" fill="#4C1D95">0.45</text>
+<line x1="32" y1="197" x2="608" y2="197" stroke="#F3F4F6" stroke-width="1"/>
+<text x="36" y="217" font-size="15" fill="#1E1B4B">🚀 Sci-fi C</text>
+<rect x="204" y="206" width="44.0" height="12" rx="3" fill="#D1D5DB"/>
+<text x="258" y="217" font-size="15" fill="#4B5563">0.88</text>
+<rect x="308" y="206" width="44.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="308" y="206" width="22.0" height="12" rx="3" fill="#F59E0B"/>
+<text x="362" y="217" font-size="15" fill="#92400E">0.44</text>
+<rect x="412" y="206" width="44.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="412" y="206" width="22.0" height="12" rx="3" fill="#F59E0B"/>
+<text x="466" y="217" font-size="15" fill="#92400E">0.44</text>
+<rect x="516" y="206" width="44.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="516" y="206" width="22.0" height="12" rx="3" fill="#F59E0B"/>
+<text x="570" y="217" font-size="15" fill="#92400E">0.44</text>
+<line x1="32" y1="227" x2="608" y2="227" stroke="#F3F4F6" stroke-width="1"/>
+<text x="36" y="247" font-size="15" fill="#1E1B4B">🚀 Sci-fi D</text>
+<rect x="204" y="236" width="43.0" height="12" rx="3" fill="#D1D5DB"/>
+<text x="258" y="247" font-size="15" fill="#4B5563">0.86</text>
+<rect x="308" y="236" width="43.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="308" y="236" width="21.5" height="12" rx="3" fill="#F59E0B"/>
+<text x="362" y="247" font-size="15" fill="#92400E">0.43</text>
+<rect x="412" y="236" width="43.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="412" y="236" width="21.5" height="12" rx="3" fill="#F59E0B"/>
+<text x="466" y="247" font-size="15" fill="#92400E">0.43</text>
+<rect x="516" y="236" width="43.0" height="12" rx="3" fill="#FEF3C7" stroke="#FCD34D" stroke-width="1"/>
+<rect x="516" y="236" width="21.5" height="12" rx="3" fill="#F59E0B"/>
+<text x="570" y="247" font-size="15" fill="#92400E">0.43</text>
+<line x1="32" y1="257" x2="608" y2="257" stroke="#F3F4F6" stroke-width="1"/>
+<text x="36" y="277" font-size="15" fill="#1E1B4B">😂 Comedy E</text>
+<rect x="204" y="266" width="35.0" height="12" rx="3" fill="#D1D5DB"/>
+<text x="258" y="277" font-size="15" fill="#4B5563">0.70</text>
+<rect x="308" y="266" width="35.0" height="12" rx="3" fill="#D1D5DB"/>
+<g class="pb031-p2">
+<rect x="302" y="259" width="96" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="308" y="266" width="35.0" height="12" rx="3" fill="#7C3AED"/>
+</g>
+<text class="pb031-n2" x="362" y="277" font-size="15" font-weight="700" fill="#4C1D95">0.70</text>
+<line x1="32" y1="287" x2="608" y2="287" stroke="#F3F4F6" stroke-width="1"/>
+<text x="36" y="307" font-size="15" fill="#1E1B4B">🎥 Documentary F</text>
+<rect x="204" y="296" width="31.0" height="12" rx="3" fill="#D1D5DB"/>
+<text x="258" y="307" font-size="15" fill="#4B5563">0.62</text>
+<rect x="308" y="296" width="31.0" height="12" rx="3" fill="#D1D5DB"/>
+<text x="362" y="307" font-size="15" fill="#4B5563">0.62</text>
+<rect x="412" y="296" width="31.0" height="12" rx="3" fill="#D1D5DB"/>
+<g class="pb031-p3">
+<rect x="406" y="289" width="96" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="412" y="296" width="31.0" height="12" rx="3" fill="#7C3AED"/>
+</g>
+<text class="pb031-n3" x="466" y="307" font-size="15" font-weight="700" fill="#4C1D95">0.62</text>
+<text class="pb031-p1" x="310" y="157" font-size="15" font-weight="600" fill="#92400E">↓ every other sci-fi film now worth half</text>
+<rect x="16" y="344" width="296" height="112" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="32" y="370" font-size="15" font-weight="700" fill="#1E1B4B">Top 4 by item score</text>
+<text x="296" y="370" text-anchor="end" font-size="14" fill="#4B5563">Σ scores 3.56</text>
+<g><rect x="30" y="382" width="56" height="28" rx="7" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/><text x="58" y="401" text-anchor="middle" font-size="14" fill="#1E1B4B">🚀 0.92</text></g>
+<g><path d="M89,396 H97 M93,392 V400" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round"/><rect x="100" y="382" width="56" height="28" rx="7" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/><text x="128" y="401" text-anchor="middle" font-size="14" fill="#92400E">🚀 0.45</text></g>
+<g><path d="M159,396 H167 M163,392 V400" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round"/><rect x="170" y="382" width="56" height="28" rx="7" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/><text x="198" y="401" text-anchor="middle" font-size="14" fill="#92400E">🚀 0.22</text></g>
+<g><path d="M229,396 H237 M233,392 V400" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round"/><rect x="240" y="382" width="56" height="28" rx="7" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/><text x="268" y="401" text-anchor="middle" font-size="14" fill="#92400E">🚀 0.11</text></g>
+<text x="32" y="440" font-size="15" fill="#4B5563">= slate value</text>
+<text x="296" y="444" text-anchor="end" font-size="30" font-weight="800" fill="#4B5563">1.70</text>
+<rect x="328" y="344" width="296" height="112" rx="12" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+<text x="344" y="370" font-size="15" font-weight="700" fill="#4C1D95">Greedy slate</text>
+<text x="608" y="370" text-anchor="end" font-size="14" fill="#4B5563">Σ scores 3.14</text>
+<g class="pb031-p1"><rect x="342" y="382" width="56" height="28" rx="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="370" y="401" text-anchor="middle" font-size="14" fill="#1E1B4B">🚀 0.92</text></g>
+<g class="pb031-p2"><path d="M401,396 H409 M405,392 V400" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round"/><rect x="412" y="382" width="56" height="28" rx="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="440" y="401" text-anchor="middle" font-size="14" fill="#1E1B4B">😂 0.70</text></g>
+<g class="pb031-p3"><path d="M471,396 H479 M475,392 V400" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round"/><rect x="482" y="382" width="56" height="28" rx="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="510" y="401" text-anchor="middle" font-size="14" fill="#1E1B4B">🎥 0.62</text></g>
+<g class="pb031-p4"><path d="M541,396 H549 M545,392 V400" stroke="#6B7280" stroke-width="1.6" stroke-linecap="round"/><rect x="552" y="382" width="56" height="28" rx="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="580" y="401" text-anchor="middle" font-size="14" fill="#92400E">🚀 0.45</text></g>
+<text x="344" y="440" font-size="15" fill="#4B5563">= slate value</text>
+<text x="608" y="444" text-anchor="end" font-size="30" font-weight="800" fill="#4C1D95">2.69</text>
+<text x="320" y="484" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">Score the page, not the items: less redundancy beats higher item scores.</text>
 </svg>

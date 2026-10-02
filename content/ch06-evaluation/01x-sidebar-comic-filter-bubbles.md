@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Usual Keeps Getting More Usual — a four-panel comic](images/comic-filter-bubbles.svg)
+![The Usual Keeps Getting More Usual — a four-panel comic: each pasta order shrinks the menu from 6 dishes to 3 to 1, until you sit happily in a bubble while 5 dishes are never shown; then the recommender passes in one new dish, a curry, next to your usual](images/comic-filter-bubbles.svg)
 
 *A filter bubble repeats known preferences; injecting diversity restores chances for discovery.*

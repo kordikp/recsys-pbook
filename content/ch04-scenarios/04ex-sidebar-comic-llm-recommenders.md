@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Prompt Service, Backed by the Stockroom — a four-panel comic](images/comic-llm-recommenders.svg)
+![Prompt Service, Backed by the Stockroom — a four-panel comic: an LLM clerk understands a vague music wish but invents a record the catalog can't find; the stockroom recommender picks a real one from six months of listening, and the clerk explains it](images/comic-llm-recommenders.svg)
 
 *LLMs parse intent and explain choices; behavioral recommenders personalize and ground results.*

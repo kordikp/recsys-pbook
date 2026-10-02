@@ -25,7 +25,7 @@ carriers: prose|image|formula
 
 Recommendation systems are built primarily on positive signals -- clicks, watches, purchases. But some of the most informative data comes from what users **reject**.
 
-![Negative signal interpretation by watch duration](/images/anim-negative-signals.svg)
+![Not every “no” weighs the same: a deliberate “Not interested” counts most (e.g. 10), a 3-second bounce less (3), a scroll-past least (1), and an item never on screen is not counted at all](/images/anim-negative-signals.svg)
 
 ## Types of Negative Signals
 

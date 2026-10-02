@@ -28,8 +28,6 @@ carriers: prose|table|image|formula
 
 This section provides a reference for the key mathematical formulas underlying recommendation systems. The goal is not rote memorization but rather building fluency -- you should be able to recognize each formula, understand what it measures, and know when to apply it.
 
-![Key RecSys formulas: cosine similarity, nDCG, BPR](/images/anim-formulas-overview.svg)
-
 ## 1. Cosine Similarity — "Are we pointing the same direction?"
 
 $$\text{sim}(A, B) = \frac{A \cdot B}{\|A\| \times \|B\|} = \frac{\sum_{i=1}^{n} a_i b_i}{\sqrt{\sum_{i=1}^{n} a_i^2} \times \sqrt{\sum_{i=1}^{n} b_i^2}}$$
@@ -55,6 +53,10 @@ $$\text{sim}(A, B) = \frac{A \cdot B}{\|A\| \times \|B\|} = \frac{\sum_{i=1}^{n}
 $$\text{sim}_{\text{adj}}(A, B) = \frac{\sum_{i \in I_{AB}} (a_i - \bar{a})(b_i - \bar{b})}{\sqrt{\sum_{i \in I_{AB}} (a_i - \bar{a})^2} \times \sqrt{\sum_{i \in I_{AB}} (b_i - \bar{b})^2}}$$
 
 where I_AB is the set of co-rated items and ā, b̄ are the respective user means. This is equivalent to Pearson correlation and is often preferred in practice.
+
+To see why centering matters, add a third toy user, Carol, who rates [1, 5, 1]. Raw cosine with Alice is 30 / (8.12 × 5.20) ≈ **0.71** — she looks like a decent neighbor. Centered, her ratings become [−1.33, 2.67, −1.33], exactly −4 × Alice's centered [0.33, −0.67, 0.33], so adjusted cosine is **−1.00**: she likes most what Alice likes least. Bob centers to exactly Alice's vector and stays at **1.00**.
+
+![Rating vectors drawn as arrows. Raw cosine: Bob points the same way as Alice, only shorter, so cosine is 1.00; Carol is 45 degrees off, 0.71. Adjusted cosine, each user's average subtracted first: Bob equals Alice at 1.00, Carol points the opposite way at −1.00.](/images/anim-formulas-overview.svg)
 
 ## 2. Matrix Factorization & ALS — "Find the hidden dimensions"
 

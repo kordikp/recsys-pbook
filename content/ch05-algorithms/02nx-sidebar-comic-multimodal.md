@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Boutique Has More Than One Dress Code — a four-panel comic](images/comic-multimodal.svg)
+![The Boutique Has More Than One Dress Code — a four-panel comic: a blindfolded shop recommender reads only the tags and calls a black sheath and a gold ball gown the same dress; with the photos it sees the difference; typed words land next to the matching photo on one shared map (e.g. CLIP); receipts show shoppers pair the sheath with sneakers, not heels (e.g. beeFormer)](images/comic-multimodal.svg)
 
 *Multimodal systems align image and text; behavioral embeddings add what people choose.*

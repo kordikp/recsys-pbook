@@ -1,40 +1,53 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 424" role="img" aria-labelledby="pb004-title pb004-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb004-title">Watched after a recommendation, or because of it?</title>
+  <desc id="pb004-desc">The telling's toy example. A trending blockbuster recommended to 1,000 users is watched by 500 of them, but a held-out group that never saw the recommendation shows that 400 would have watched anyway, so the recommendation caused only 100 views, not 500. A niche documentary is watched by 50 recommended users and by about nobody without the recommendation, so all 50 views were caused. The recommendation's effect is the gap to a held-out group, not the raw count.</desc>
   <style>
-    .swing{transform-origin:595px 210px;animation:sw 4s ease-in-out infinite}
-    @keyframes sw{0%,100%{transform:rotate(0deg)}50%{transform:rotate(-8deg)}}
-    .qm{animation:q 4s ease-in-out infinite}
-    @keyframes q{0%,100%{opacity:.5}50%{opacity:1}}
+    .pb004-grow{transform-box:fill-box;transform-origin:left center;animation:pb004-grow 10s ease-in-out infinite}
+    @keyframes pb004-grow{0%,6%{transform:scaleX(0)}22%,100%{transform:scaleX(1)}}
+    .pb004-cover{transform-box:fill-box;transform-origin:left center;animation:pb004-cover 10s ease-in-out infinite}
+    @keyframes pb004-cover{0%,28%{transform:scaleX(0)}38%,100%{transform:scaleX(1)}}
+    .pb004-in1{animation:pb004-in1 10s ease-in-out infinite}
+    @keyframes pb004-in1{0%,20%{opacity:0}25%,100%{opacity:1}}
+    .pb004-in2{animation:pb004-in2 10s ease-in-out infinite}
+    @keyframes pb004-in2{0%,36%{opacity:0}41%,100%{opacity:1}}
+    .pb004-res{animation:pb004-res 10s ease-in-out infinite}
+    @keyframes pb004-res{0%,38%{opacity:.15}45%,100%{opacity:1}}
+    @media (prefers-reduced-motion: reduce){.pb004-grow,.pb004-cover,.pb004-in1,.pb004-in2,.pb004-res{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Correlation Is Not a Recommendation Win</text>
+  <rect x=".5" y=".5" width="639" height="423" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="42" font-size="19" font-weight="700" fill="#1E1B4B">Watched after a recommendation, or because of it?</text>
+  <text x="32" y="66" font-size="14" fill="#6B7280">Toy example from the text: users shown the rec vs a held-out group</text>
 
-  <!-- left: correlation -->
-  <rect x="45" y="66" width="330" height="290" rx="12" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <text x="210" y="94" text-anchor="middle" font-size="15" font-weight="700" fill="#D97706">CORRELATION (observed)</text>
-  <g stroke="#9CA3AF"><line x1="85" y1="310" x2="345" y2="310"/><line x1="85" y1="310" x2="85" y2="120"/></g>
-  <text x="215" y="332" text-anchor="middle" font-size="12" fill="#6B7280">users who saw recommendations</text>
-  <text x="72" y="215" text-anchor="middle" font-size="12" fill="#6B7280" transform="rotate(-90 72 215)">purchases</text>
-  <g fill="#D97706" opacity=".85">
-    <circle cx="115" cy="286" r="5"/><circle cx="141" cy="270" r="5"/><circle cx="166" cy="277" r="5"/>
-    <circle cx="192" cy="247" r="5"/><circle cx="215" cy="238" r="5"/><circle cx="241" cy="214" r="5"/>
-    <circle cx="266" cy="220" r="5"/><circle cx="291" cy="188" r="5"/><circle cx="317" cy="169" r="5"/><circle cx="334" cy="150" r="5"/>
+  <!-- blockbuster -->
+  <rect x="24" y="82" width="592" height="136" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="44" y="108" font-size="16" font-weight="700" fill="#1E1B4B">🎬 Trending blockbuster <tspan font-size="15" font-weight="400" fill="#4B5563">· 500 of 1,000 watched</tspan></text>
+  <text x="136" y="144" font-size="15" text-anchor="end" fill="#1E1B4B">with rec <tspan font-size="14" fill="#6B7280">Y(1)</tspan></text>
+  <rect x="148" y="122" width="320" height="34" rx="6" fill="#7C3AED"/>
+  <rect class="pb004-cover" x="148" y="122" width="256" height="34" rx="6" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text class="pb004-in2" x="160" y="144" font-size="15" fill="#1E1B4B">would have watched anyway</text>
+  <text class="pb004-in2" x="436" y="144" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">100</text>
+  <text x="136" y="188" font-size="15" text-anchor="end" fill="#1E1B4B">held out <tspan font-size="14" fill="#6B7280">Y(0)</tspan></text>
+  <rect class="pb004-grow" x="148" y="166" width="256" height="34" rx="6" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+  <text class="pb004-in1" x="160" y="188" font-size="15" font-weight="700" fill="#1E1B4B">400 <tspan font-weight="400">watched, no rec</tspan></text>
+  <line class="pb004-in1" x1="404" y1="116" x2="404" y2="206" stroke="#6B7280" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <g class="pb004-res">
+    <text x="546" y="156" font-size="30" font-weight="800" text-anchor="middle" fill="#7C3AED">+100</text>
+    <text x="546" y="180" font-size="15" text-anchor="middle" fill="#1E1B4B">caused · not 500</text>
   </g>
-  <line x1="103" y1="292" x2="345" y2="146" stroke="#D97706" stroke-width="2.5" stroke-dasharray="7 5"/>
-  <text x="210" y="130" text-anchor="middle" font-size="12" fill="#92400E">…but heavy shoppers get MORE recommendations anyway</text>
 
-  <!-- right: causation via experiment -->
-  <rect x="425" y="66" width="330" height="290" rx="12" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <text x="590" y="94" text-anchor="middle" font-size="15" font-weight="700" fill="#10B981">CAUSATION (experiment)</text>
-  <g class="swing">
-    <line x1="595" y1="210" x2="595" y2="130" stroke="#6B7280" stroke-width="3"/>
-    <line x1="495" y1="210" x2="695" y2="210" stroke="#6B7280" stroke-width="4"/>
-    <rect x="465" y="214" width="80" height="40" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="505" y="238" text-anchor="middle" font-size="12" font-weight="700" fill="#065F46">with recs</text>
-    <rect x="649" y="214" width="80" height="40" rx="8" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="2"/>
-    <text x="689" y="238" text-anchor="middle" font-size="12" font-weight="700" fill="#4B5563">held out</text>
+  <!-- documentary -->
+  <rect x="24" y="230" width="592" height="136" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="44" y="256" font-size="16" font-weight="700" fill="#1E1B4B">🎞️ Niche documentary <tspan font-size="15" font-weight="400" fill="#4B5563">· 50 watched</tspan></text>
+  <text x="136" y="292" font-size="15" text-anchor="end" fill="#1E1B4B">with rec <tspan font-size="14" fill="#6B7280">Y(1)</tspan></text>
+  <rect x="148" y="270" width="32" height="34" rx="6" fill="#7C3AED"/>
+  <text class="pb004-in2" x="164" y="292" font-size="15" font-weight="700" text-anchor="middle" fill="#FFFFFF">50</text>
+  <text x="136" y="336" font-size="15" text-anchor="end" fill="#1E1B4B">held out <tspan font-size="14" fill="#6B7280">Y(0)</tspan></text>
+  <line x1="149" y1="314" x2="149" y2="348" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+  <text class="pb004-in1" x="160" y="336" font-size="15" font-weight="700" fill="#1E1B4B">≈ 0 <tspan font-weight="400">— nobody finds it alone</tspan></text>
+  <g class="pb004-res">
+    <text x="546" y="304" font-size="30" font-weight="800" text-anchor="middle" fill="#7C3AED">+50</text>
+    <text x="546" y="328" font-size="15" text-anchor="middle" fill="#1E1B4B">caused · all 50</text>
   </g>
-  <circle cx="595" cy="126" r="7" fill="#6B7280"/>
-  <text x="590" y="300" text-anchor="middle" font-size="13" fill="#065F46">randomize WHO gets recs →</text>
-  <text x="590" y="320" text-anchor="middle" font-size="13" fill="#065F46">the lift you weigh is the true effect</text>
-  <text class="qm" x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Ask: would they have bought it anyway? Only a held-out group can answer.</text>
+
+  <text x="320" y="400" font-size="16" text-anchor="middle" fill="#1E1B4B">The effect is the <tspan font-weight="700" fill="#7C3AED">gap to a held-out group</tspan>, not the raw count.</text>
 </svg>

@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Longest Watch Isn’t the Favorite — a four-panel comic](images/comic-satisfaction-vs-engagement.svg)
+![The Longest Watch Isn’t the Favorite — a four-panel comic: a dragon thumbnail wins a click and 5 hours of watch time, but the viewer would never watch it again and doesn’t renew](images/comic-satisfaction-vs-engagement.svg)
 
 *Engagement measures attention, but satisfaction predicts rewatching and long-term retention.*

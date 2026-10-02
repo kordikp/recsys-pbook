@@ -1,68 +1,131 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 300" font-family="system-ui,sans-serif">
-  <!-- Item cold start on a job board: a freshly posted job has no applications →
-       skill requirements match candidate profiles → right candidates see it first.
-       10s loop, three phases. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 408" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb005-title pb005-desc">
+  <title id="pb005-title">A job posting's first five minutes: skills match it before anyone applies</title>
+  <desc id="pb005-desc">A Data Engineer posting is five minutes old and has zero applications, so click- and application-based ranking knows nothing about it. The board reads the ad instead: its required skills (SQL, Python, ETL) match two of three candidate profiles, so exactly those two see it first and the graphic designer does not. When one of them applies, that first application teaches the ranker who else fits. Because postings expire in weeks, a job board is always in this cold start.</desc>
   <style>
-    .ph { opacity: 0; animation: ph 10s ease-in-out infinite; }
-    .p1 { animation-name: ph1; } .p2 { animation-name: ph2; } .p3 { animation-name: ph3; }
-    @keyframes ph1 { 0%,4% {opacity:0} 8%,92% {opacity:1} 97%,100% {opacity:0} }
-    @keyframes ph2 { 0%,30% {opacity:0} 36%,92% {opacity:1} 97%,100% {opacity:0} }
-    @keyframes ph3 { 0%,60% {opacity:0} 66%,92% {opacity:1} 97%,100% {opacity:0} }
-    .dash { stroke-dasharray: 5 4; animation: dashmove 1.2s linear infinite; }
-    @keyframes dashmove { to { stroke-dashoffset: -9; } }
-    .glow { animation: glow 10s ease-in-out infinite; }
-    @keyframes glow { 0%,32% {fill:#EDE9FE} 40%,92% {fill:#DDD6FE} 97%,100% {fill:#EDE9FE} }
-    .pop { animation: pop 10s ease-in-out infinite; transform-origin: 0 0; }
-    @keyframes pop { 0%,74% {opacity:0} 80%,92% {opacity:1} 97%,100% {opacity:0} }
+    .pb005-anim { animation-duration: 10s; animation-iteration-count: infinite; animation-timing-function: ease-out; }
+    .pb005-say { animation-name: pb005-say; }
+    .pb005-pchip { animation-name: pb005-pchip; }
+    .pb005-ptxt { animation-name: pb005-ptxt; }
+    .pb005-draw { stroke-dasharray: 100 100; animation-name: pb005-draw; }
+    .pb005-nope { animation-name: pb005-nope; }
+    .pb005-cchip { animation-name: pb005-cchip; }
+    .pb005-ctxt { animation-name: pb005-ctxt; }
+    .pb005-seen { animation-name: pb005-seen; }
+    .pb005-apply { animation-name: pb005-apply; }
+    .pb005-bencard { animation-name: pb005-bencard; }
+    .pb005-loop { stroke-dasharray: 100 100; animation-name: pb005-loop; }
+    .pb005-head { animation-name: pb005-head; }
+    .pb005-flat { opacity: 0; animation-name: pb005-flat; }
+    .pb005-smile { animation-name: pb005-smile; }
+    @keyframes pb005-say { 0%, 2% { opacity: 0 } 6%, 97% { opacity: 1 } 100% { opacity: 0 } }
+    @keyframes pb005-pchip { 0%, 8% { fill: #FFFFFF; stroke: #F59E0B } 13%, 100% { fill: #EDE9FE; stroke: #7C3AED } }
+    @keyframes pb005-ptxt { 0%, 8% { fill: #92400E } 13%, 100% { fill: #4C1D95 } }
+    @keyframes pb005-draw { 0%, 11% { stroke-dashoffset: 100; opacity: 0 } 12% { stroke-dashoffset: 100; opacity: 1 } 21%, 100% { stroke-dashoffset: 0; opacity: 1 } }
+    @keyframes pb005-nope { 0%, 17% { opacity: 0 } 22%, 97% { opacity: 1 } 100% { opacity: 0 } }
+    @keyframes pb005-cchip { 0%, 20% { fill: #F3F4F6; stroke: #D1D5DB } 24%, 100% { fill: #EDE9FE; stroke: #7C3AED } }
+    @keyframes pb005-ctxt { 0%, 20% { fill: #6B7280 } 24%, 100% { fill: #4C1D95 } }
+    @keyframes pb005-seen { 0%, 24% { opacity: 0 } 29%, 97% { opacity: 1 } 100% { opacity: 0 } }
+    @keyframes pb005-apply { 0%, 32% { opacity: 0 } 36%, 97% { opacity: 1 } 100% { opacity: 0 } }
+    @keyframes pb005-bencard { 0%, 32% { stroke: #E5E7EB; stroke-width: 1.5 } 36%, 100% { stroke: #10B981; stroke-width: 2 } }
+    @keyframes pb005-loop { 0%, 35% { stroke-dashoffset: 100; opacity: 0 } 36% { stroke-dashoffset: 100; opacity: 1 } 46%, 100% { stroke-dashoffset: 0; opacity: 1 } }
+    @keyframes pb005-head { 0%, 45% { opacity: 0 } 48%, 97% { opacity: 1 } 100% { opacity: 0 } }
+    @keyframes pb005-flat { 0%, 46% { opacity: 1 } 48%, 100% { opacity: 0 } }
+    @keyframes pb005-smile { 0%, 46% { opacity: 0 } 48%, 100% { opacity: 1 } }
+    @media (prefers-reduced-motion: reduce) { .pb005-anim { animation: none !important; } }
   </style>
 
-  <text x="320" y="26" text-anchor="middle" font-size="13" font-weight="700" fill="#374151">A job posted five minutes ago finds its candidates</text>
+  <rect x=".5" y=".5" width="639" height="407" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <!-- phase 1: fresh posting, no applications -->
-  <g class="ph p1">
-    <rect x="40" y="60" width="200" height="120" rx="10" fill="#FFFBEB" stroke="#D97706" stroke-width="2"/>
-    <rect x="52" y="48" width="44" height="16" rx="8" fill="#D97706"/>
-    <text x="74" y="60" text-anchor="middle" font-size="9" font-weight="700" fill="#fff">NEW</text>
-    <text x="140" y="86" text-anchor="middle" font-size="12" font-weight="700" fill="#374151">Data Engineer</text>
-    <text x="140" y="102" text-anchor="middle" font-size="10" fill="#6B7280">Brno · hybrid</text>
-    <rect class="glow" x="58" y="116" width="50" height="18" rx="9"/>
-    <text x="83" y="129" text-anchor="middle" font-size="10" fill="#7C3AED">SQL</text>
-    <rect class="glow" x="114" y="116" width="58" height="18" rx="9"/>
-    <text x="143" y="129" text-anchor="middle" font-size="10" fill="#7C3AED">Python</text>
-    <rect class="glow" x="178" y="116" width="48" height="18" rx="9"/>
-    <text x="202" y="129" text-anchor="middle" font-size="10" fill="#7C3AED">ETL</text>
-    <text x="140" y="162" text-anchor="middle" font-size="10" fill="#9CA3AF">0 views · 0 applications</text>
-    <text x="140" y="204" text-anchor="middle" font-size="11" fill="#6B7280">nobody clicked it yet, so</text>
-    <text x="140" y="219" text-anchor="middle" font-size="11" fill="#6B7280">click-based ranking is blind</text>
+  <text x="24" y="42" font-size="19" font-weight="700" fill="#1E1B4B">Before the first application, skills do the matching</text>
+
+  <!-- ===== the new posting ===== -->
+  <rect x="24" y="64" width="212" height="156" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <rect x="40" y="78" width="48" height="24" rx="12" fill="#F59E0B"/>
+  <text x="64" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">NEW</text>
+  <text x="98" y="95" font-size="15" fill="#92400E">5 min ago</text>
+  <text x="40" y="128" font-size="19" font-weight="700" fill="#1E1B4B">Data Engineer</text>
+  <rect class="pb005-anim pb005-pchip" x="40" y="140" width="48" height="26" rx="13" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text class="pb005-anim pb005-ptxt" x="64" y="158" text-anchor="middle" font-size="15" fill="#4C1D95">SQL</text>
+  <rect class="pb005-anim pb005-pchip" x="96" y="140" width="70" height="26" rx="13" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text class="pb005-anim pb005-ptxt" x="131" y="158" text-anchor="middle" font-size="15" fill="#4C1D95">Python</text>
+  <rect class="pb005-anim pb005-pchip" x="174" y="140" width="46" height="26" rx="13" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text class="pb005-anim pb005-ptxt" x="197" y="158" text-anchor="middle" font-size="15" fill="#4C1D95">ETL</text>
+  <line x1="40" y1="182" x2="220" y2="182" stroke="#F59E0B" stroke-opacity=".45" stroke-width="1.5"/>
+  <text x="40" y="206" font-size="16" font-weight="700" fill="#92400E">0 applications</text>
+
+  <!-- ===== the recommender ===== -->
+  <g transform="translate(20,22)">
+    <line x1="20" y1="222" x2="20" y2="229" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="20" cy="221" r="2.5" fill="#7C3AED"/>
+    <rect x="7" y="229" width="26" height="22" rx="7" fill="#7C3AED"/>
+    <circle cx="15" cy="238" r="2.6" fill="#FFFFFF"/>
+    <circle cx="25" cy="238" r="2.6" fill="#FFFFFF"/>
+    <line class="pb005-anim pb005-flat" x1="16" y1="245.5" x2="24" y2="245.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+    <path class="pb005-anim pb005-smile" d="M15.5,244 Q20,249 24.5,244" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+  </g>
+  <g class="pb005-anim pb005-say">
+    <rect x="66" y="236" width="184" height="54" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <path d="M66.75,255 L59,262 L66.75,269" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <rect x="65" y="256" width="3" height="12" fill="#FFFFFF"/>
+    <text x="158" y="258" text-anchor="middle" font-size="15" fill="#1E1B4B">Nobody applied yet.</text>
+    <text x="158" y="279" text-anchor="middle" font-size="15" fill="#1E1B4B">Fine — I'll read the ad.</text>
   </g>
 
-  <!-- candidates (always visible) -->
-  <g>
-    <circle cx="440" cy="84" r="17" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-    <text x="440" y="90" text-anchor="middle" font-size="13">🧑</text>
-    <text x="486" y="80" font-size="9" fill="#6B7280">skills: SQL · Python</text>
-    <circle cx="440" cy="150" r="17" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-    <text x="440" y="156" text-anchor="middle" font-size="13">👩</text>
-    <text x="486" y="146" font-size="9" fill="#6B7280">skills: ETL · Python</text>
-    <circle cx="440" cy="216" r="17" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
-    <text x="440" y="222" text-anchor="middle" font-size="13">🧔</text>
-    <text x="486" y="212" font-size="9" fill="#6B7280">skills: graphic design</text>
+  <!-- ===== skill match lines ===== -->
+  <path class="pb005-anim pb005-draw" pathLength="100" d="M238,153 C287,153 287,112 334,112" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <path class="pb005-anim pb005-draw" pathLength="100" d="M238,153 C287,153 287,272 334,272" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+  <g class="pb005-anim pb005-nope">
+    <path d="M238,153 C287,153 287,192 334,192" fill="none" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="4 5" stroke-linecap="round"/>
+    <circle cx="287" cy="172" r="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <path d="M283,168 L291,176 M291,168 L283,176" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
   </g>
 
-  <!-- phase 2: skill match lines to the two fitting candidates -->
-  <g class="ph p2">
-    <path class="dash" d="M244 110 C 320 96, 360 88, 419 84" fill="none" stroke="#7C3AED" stroke-width="2"/>
-    <path class="dash" d="M244 128 C 320 136, 360 144, 419 150" fill="none" stroke="#7C3AED" stroke-width="2"/>
-    <text x="330" y="66" text-anchor="middle" font-size="11" fill="#7C3AED">required skills ↔ candidate profiles: match by content, not clicks</text>
-    <text x="530" y="220" font-size="10" fill="#9CA3AF">(no match — not shown)</text>
+  <!-- ===== candidates ===== -->
+  <!-- Ana: SQL + Python -->
+  <rect x="336" y="64" width="280" height="68" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="360" cy="88" r="7" fill="#10B981"/>
+  <path d="M349,114 Q349,99 360,99 Q371,99 371,114 Z" fill="#10B981"/>
+  <text x="384" y="92" font-size="16" font-weight="700" fill="#1E1B4B">Ana</text>
+  <rect class="pb005-anim pb005-cchip" x="384" y="100" width="48" height="24" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text class="pb005-anim pb005-ctxt" x="408" y="117" text-anchor="middle" font-size="15" fill="#4C1D95">SQL</text>
+  <rect class="pb005-anim pb005-cchip" x="440" y="100" width="66" height="24" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text class="pb005-anim pb005-ctxt" x="473" y="117" text-anchor="middle" font-size="15" fill="#4C1D95">Python</text>
+  <g class="pb005-anim pb005-seen">
+    <rect x="496" y="74" width="108" height="24" rx="12" fill="#7C3AED"/>
+    <text x="550" y="91" text-anchor="middle" font-size="15" font-weight="600" fill="#FFFFFF">shown first</text>
   </g>
 
-  <!-- phase 3: the matched candidates see it first, one applies -->
-  <g class="ph p3">
-    <text class="pop" x="466" y="62" font-size="14" fill="#10B981">✓ shown</text>
-    <text class="pop" x="466" y="132" font-size="14" fill="#10B981">✓ shown</text>
-    <rect x="380" y="252" width="130" height="24" rx="12" fill="#D1FAE5"/>
-    <text x="445" y="268" text-anchor="middle" font-size="11" font-weight="600" fill="#065F46">first application ✓</text>
-    <text x="180" y="266" text-anchor="middle" font-size="11" font-weight="600" fill="#10B981">…and every application teaches the ranker who else fits</text>
+  <!-- Cleo: graphic design -->
+  <rect x="336" y="144" width="280" height="68" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <circle cx="360" cy="168" r="7" fill="#9CA3AF"/>
+  <path d="M349,194 Q349,179 360,179 Q371,179 371,194 Z" fill="#9CA3AF"/>
+  <text x="384" y="172" font-size="16" font-weight="700" fill="#6B7280">Cleo</text>
+  <rect x="384" y="180" width="128" height="24" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="448" y="197" text-anchor="middle" font-size="15" fill="#6B7280">graphic design</text>
+  <text class="pb005-anim pb005-nope" x="602" y="171" text-anchor="end" font-size="15" fill="#4B5563">not shown</text>
+
+  <!-- Ben: ETL + Python, applies -->
+  <rect class="pb005-anim pb005-bencard" x="336" y="224" width="280" height="68" rx="12" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+  <circle cx="360" cy="248" r="7" fill="#10B981"/>
+  <path d="M349,274 Q349,259 360,259 Q371,259 371,274 Z" fill="#10B981"/>
+  <text x="384" y="252" font-size="16" font-weight="700" fill="#1E1B4B">Ben</text>
+  <rect class="pb005-anim pb005-cchip" x="384" y="260" width="46" height="24" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text class="pb005-anim pb005-ctxt" x="407" y="277" text-anchor="middle" font-size="15" fill="#4C1D95">ETL</text>
+  <rect class="pb005-anim pb005-cchip" x="438" y="260" width="66" height="24" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text class="pb005-anim pb005-ctxt" x="471" y="277" text-anchor="middle" font-size="15" fill="#4C1D95">Python</text>
+  <g class="pb005-anim pb005-seen">
+    <rect x="496" y="234" width="108" height="24" rx="12" fill="#7C3AED"/>
+    <text x="550" y="251" text-anchor="middle" font-size="15" font-weight="600" fill="#FFFFFF">shown first</text>
   </g>
+  <g class="pb005-anim pb005-apply">
+    <rect x="514" y="262" width="90" height="24" rx="12" fill="#065F46"/>
+    <text x="559" y="279" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">✓ applies</text>
+  </g>
+
+  <!-- ===== the first application feeds back ===== -->
+  <path class="pb005-anim pb005-loop" pathLength="100" d="M559,294 V310 Q559,320 549,320 H50 Q40,320 40,310 V292" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
+  <path class="pb005-anim pb005-head" d="M40,282 L34,292 L46,292 Z" fill="#10B981"/>
+  <text class="pb005-anim pb005-head" x="300" y="344" text-anchor="middle" font-size="15" font-weight="600" fill="#065F46">The first application teaches the ranker who else fits</text>
+
+  <text x="320" y="386" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Jobs expire in weeks, so a job board is always in cold start.</text>
 </svg>

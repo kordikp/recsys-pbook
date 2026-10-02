@@ -1,115 +1,146 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Shop Follows Your Lead</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="pb057-title pb057-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb057-title">The shop follows your lead</title>
+<desc id="pb057-desc">Four-panel comic. On your first visit the shop's recommender knows nothing about you: its notepad shows only a question mark. As you browse, every move leaves a footprint (a click on jazz, a skip of metal, piano replayed three times) and the recommender follows the trail, noting each one. Weeks of footprints later its notes rate piano, jazz and late nights high and metal at zero. On the next visit it offers late-night piano jazz. You never told it; your footprints did.</desc>
+<defs>
+<clipPath id="pb057-clip"><rect x="0" y="0" width="298" height="266" rx="12"/></clipPath>
+<g id="pb057-footL"><path d="M-13,0 C-13,-4 -10,-5.2 -6,-5.2 C-1,-5.2 3,-7.4 8,-7.4 C12,-7.4 13.4,-3.5 12.6,0.6 C11.8,4.6 7.6,6 2.6,4.6 C-1.6,3.4 -5.6,5 -9,4.6 C-12,4.2 -13,2.4 -13,0 Z"/><circle cx="16" cy="-5.6" r="3"/><circle cx="17.6" cy="-0.9" r="2.2"/><circle cx="17.2" cy="3" r="1.9"/><circle cx="15.8" cy="6.3" r="1.6"/></g>
+<g id="pb057-footR"><use href="#pb057-footL" transform="scale(1,-1)"/></g>
+</defs>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" font-size="19" font-weight="700" fill="#1E1B4B" text-anchor="middle">The shop follows your lead</text>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<!-- ===== Panel 1: first visit ===== -->
+<g transform="translate(16,52)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">First visit</text>
+<path d="M12,232 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- you -->
+<path d="M29,232 V192 Q29,176 45,176 H59 Q75,176 75,192 V232 Z" fill="#10B981"/>
+<circle cx="52" cy="155" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="50" cy="153" r="2.2" fill="#1E1B4B"/><circle cx="60" cy="153" r="2.2" fill="#1E1B4B"/>
+<path d="M51,161 Q56,165 61,161" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<g transform="translate(-6,0)">
+<!-- recommender -->
+<path d="M223,232 V192 Q223,176 239,176 H253 Q269,176 269,192 V232 Z" fill="#7C3AED"/>
+<rect x="251" y="185" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="246" cy="155" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="238" cy="153" r="2.2" fill="#1E1B4B"/><circle cx="248" cy="153" r="2.2" fill="#1E1B4B"/>
+<path d="M235,161 Q240,165 245,161" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M226,198 L212,200" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="168" y="176" width="42" height="52" rx="4" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<rect x="168" y="176" width="42" height="9" rx="3" fill="#7C3AED"/>
+<text x="189" y="217" font-size="24" font-weight="700" fill="#7C3AED" text-anchor="middle">?</text>
+</g>
+<!-- bubbles -->
+<path d="M26,46 H126 Q138,46 138,58 V68 Q138,80 126,80 H58 L52,132 L46,80 H26 Q14,80 14,68 V58 Q14,46 26,46 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="76" y="69" font-size="16" fill="#1E1B4B" text-anchor="middle">Just browsing!</text>
+<g transform="translate(-6,0)">
+<path d="M168,74 H274 Q286,74 286,86 V114 Q286,126 274,126 H250 L245,134 L240,126 H168 Q156,126 156,114 V86 Q156,74 168,74 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="221" y="96" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="221">Sure! I don’t</tspan><tspan x="221" dy="20">know you yet.</tspan></text>
+</g>
+<text x="52" y="256" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+<text x="240" y="256" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text>
+</g>
 
-  <!-- Panel 1 -->
-  <g>
-    <rect x="30" y="103" width="65" height="128" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="62.5" y="124" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">RECORDS</text>
-    <circle cx="82" cy="168" r="4" fill="#0EA5E9"/>
+<!-- ===== Panel 2: every move leaves a print ===== -->
+<g transform="translate(326,52)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Every move leaves a print</text>
+<path d="M12,232 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- footprints (yours = green) -->
+<g fill="#10B981" clip-path="url(#pb057-clip)">
+<use href="#pb057-footL" transform="translate(116,246) scale(1.15)"/>
+<use href="#pb057-footR" transform="translate(176,254) scale(1.15)"/>
+<use href="#pb057-footL" transform="translate(238,246) scale(1.15)"/>
+<use href="#pb057-footR" transform="translate(296,254) scale(1.15)"/>
+</g>
+<text x="118" y="204" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">click</text>
+<text x="118" y="223" font-size="15" fill="#1E1B4B" text-anchor="middle">Jazz</text>
+<text x="178" y="204" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">skip</text>
+<text x="178" y="223" font-size="15" fill="#1E1B4B" text-anchor="middle">Metal</text>
+<text x="240" y="204" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">replay</text>
+<text x="240" y="223" font-size="15" fill="#1E1B4B" text-anchor="middle">Piano ×3</text>
+<!-- recommender, magnifier on the trail -->
+<path d="M21,232 V192 Q21,176 37,176 H51 Q67,176 67,192 V232 Z" fill="#7C3AED"/>
+<rect x="49" y="185" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="44" cy="155" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="45" cy="156" r="2.2" fill="#1E1B4B"/><circle cx="55" cy="156" r="2.2" fill="#1E1B4B"/>
+<path d="M47,164 H55" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M64,198 L92,226" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<path d="M94,228 L105,238" stroke="#4C1D95" stroke-width="4" stroke-linecap="round"/>
+<circle cx="118" cy="247" r="16" fill="#EDE9FE" fill-opacity=".45" stroke="#4C1D95" stroke-width="2.5"/>
+<path d="M26,50 H174 Q186,50 186,62 V72 Q186,84 174,84 H52 L46,134 L40,84 H26 Q14,84 14,72 V62 Q14,50 26,50 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="100" y="73" font-size="16" fill="#1E1B4B" text-anchor="middle">Noted. Noted. Noted.</text>
+</g>
 
-    <rect x="105" y="76" width="100" height="34" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="155" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">First visit?</text>
+<!-- ===== Panel 3: weeks later ===== -->
+<g transform="translate(16,330)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Weeks of footprints later</text>
+<path d="M12,232 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<g fill="#10B981" clip-path="url(#pb057-clip)">
+<use href="#pb057-footL" transform="translate(92,244) scale(.72)" opacity="0.3"/>
+<use href="#pb057-footR" transform="translate(119,253) scale(.72)" opacity="0.38"/>
+<use href="#pb057-footL" transform="translate(146,244) scale(.72)" opacity="0.46"/>
+<use href="#pb057-footR" transform="translate(173,253) scale(.72)" opacity="0.55"/>
+<use href="#pb057-footL" transform="translate(200,244) scale(.72)" opacity="0.64"/>
+<use href="#pb057-footR" transform="translate(227,253) scale(.72)" opacity="0.74"/>
+<use href="#pb057-footL" transform="translate(254,244) scale(.72)" opacity="0.86"/>
+<use href="#pb057-footR" transform="translate(281,253) scale(.72)"/>
+<use href="#pb057-footL" transform="translate(308,244) scale(.72)"/>
+</g>
+<!-- recommender holding the notes -->
+<path d="M21,232 V192 Q21,176 37,176 H51 Q67,176 67,192 V232 Z" fill="#7C3AED"/>
+<rect x="49" y="185" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="44" cy="155" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="45" cy="153" r="2.2" fill="#1E1B4B"/><circle cx="55" cy="153" r="2.2" fill="#1E1B4B"/>
+<path d="M44,161 Q49,165 54,161" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M64,198 L90,198" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="92" y="48" width="194" height="166" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<path d="M93,78 V56 Q93,49 100,49 H278 Q285,49 285,56 V78 Z" fill="#EDE9FE"/>
+<text x="106" y="69" font-size="15" font-weight="700" fill="#4C1D95">Notes: you</text>
+<text x="106" y="104" font-size="15" fill="#1E1B4B">Piano</text>
+<rect x="196" y="94" width="76" height="10" rx="5" fill="#EDE9FE"/><rect x="196" y="94" width="72" height="10" rx="5" fill="#7C3AED"/>
+<text x="106" y="132" font-size="15" fill="#1E1B4B">Jazz</text>
+<rect x="196" y="122" width="76" height="10" rx="5" fill="#EDE9FE"/><rect x="196" y="122" width="52" height="10" rx="5" fill="#7C3AED"/>
+<text x="106" y="160" font-size="15" fill="#1E1B4B">Late nights</text>
+<rect x="196" y="150" width="76" height="10" rx="5" fill="#EDE9FE"/><rect x="196" y="150" width="44" height="10" rx="5" fill="#7C3AED"/>
+<text x="106" y="188" font-size="15" fill="#1E1B4B">Metal</text>
+<rect x="196" y="178" width="76" height="10" rx="5" fill="#EDE9FE"/><rect x="196" y="178" width="10" height="10" rx="5" fill="#7C3AED"/>
+</g>
 
-    <circle cx="145" cy="157" r="10" fill="#7C3AED"/>
-    <path d="M145 168 L145 207 M145 180 L126 193 M145 181 L162 190 M145 207 L132 229 M145 207 L159 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+<!-- ===== Panel 4: next visit ===== -->
+<g transform="translate(326,330)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Next visit</text>
+<path d="M12,232 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- you, surprised -->
+<path d="M29,232 V192 Q29,176 45,176 H59 Q75,176 75,192 V232 Z" fill="#10B981"/>
+<circle cx="52" cy="155" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="50" cy="152" r="2.4" fill="#1E1B4B"/><circle cx="60" cy="152" r="2.4" fill="#1E1B4B"/>
+<path d="M46,145 Q50,142 54,145 M56,145 Q60,142 64,145" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<circle cx="56" cy="162" r="3" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
+<!-- recommender with the pick -->
+<path d="M223,232 V192 Q223,176 239,176 H253 Q269,176 269,192 V232 Z" fill="#7C3AED"/>
+<rect x="251" y="185" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="246" cy="155" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="238" cy="153" r="2.2" fill="#1E1B4B"/><circle cx="248" cy="153" r="2.2" fill="#1E1B4B"/>
+<path d="M235,161 Q240,165 245,161" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M226,198 L216,198" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="120" y="160" width="94" height="66" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="167" y="180" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">For you</text>
+<text x="167" y="200" font-size="15" fill="#1E1B4B" text-anchor="middle">Late-night</text>
+<text x="167" y="218" font-size="15" fill="#1E1B4B" text-anchor="middle">piano jazz</text>
+<!-- bubbles -->
+<path d="M26,46 H174 Q186,46 186,58 V68 Q186,80 174,80 H58 L52,132 L46,80 H26 Q14,80 14,68 V58 Q14,46 26,46 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="100" y="69" font-size="16" fill="#1E1B4B" text-anchor="middle">I never told you that!</text>
+<path d="M124,90 H274 Q286,90 286,102 V112 Q286,124 274,124 H251 L246,134 L241,124 H124 Q112,124 112,112 V102 Q112,90 124,90 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="199" y="113" font-size="16" fill="#1E1B4B" text-anchor="middle">Your footprints did.</text>
+</g>
 
-    <rect x="207" y="174" width="83" height="58" rx="7" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="248.5" y="193" font-size="10.5" font-weight="700" fill="#7C3AED" text-anchor="middle">FOR YOU</text>
-    <text x="248.5" y="220" font-size="25" font-weight="700" fill="#1E1B4B" text-anchor="middle">?</text>
-
-    <rect x="237" y="76" width="140" height="34" rx="9" fill="#FFFFFF" stroke="#0EA5E9"/>
-    <text x="307" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I have no notes on you.</text>
-
-    <circle cx="329" cy="157" r="10" fill="#0EA5E9"/>
-    <path d="M329 168 L329 207 M329 181 L307 193 M329 181 L347 190 M329 207 L316 229 M329 207 L342 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">At first, the shop has no trail to follow.</text>
-  </g>
-
-  <!-- Panel 2 -->
-  <g>
-    <rect x="429" y="95" width="194" height="132" rx="8" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="526" y="116" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">LISTENING BAR</text>
-    <path d="M443 127 H609 M443 158 H609 M443 189 H609" fill="none" stroke="#E5E7EB"/>
-    <text x="451" y="147" font-size="11" font-weight="700" fill="#10B981">CLICK</text>
-    <text x="592" y="147" font-size="11" fill="#6B7280" text-anchor="end">Indie</text>
-    <text x="451" y="178" font-size="11" font-weight="700" fill="#EF4444">SKIP</text>
-    <text x="592" y="178" font-size="11" fill="#6B7280" text-anchor="end">Brass · 0:03</text>
-    <text x="451" y="209" font-size="11" font-weight="700" fill="#7C3AED">REPLAY ×3</text>
-    <text x="592" y="209" font-size="11" fill="#6B7280" text-anchor="end">Strings · 0:47</text>
-
-    <rect x="649" y="76" width="113" height="34" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="705.5" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">One more time.</text>
-
-    <circle cx="690" cy="157" r="10" fill="#7C3AED"/>
-    <path d="M690 168 L690 207 M690 180 L669 193 L618 196 M690 181 L707 192 M690 207 L677 229 M690 207 L704 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <path d="M634 229 C630 223 634 216 640 218 C645 220 644 228 640 233 Z M651 239 C647 233 651 226 657 228 C662 230 661 238 657 243 Z" fill="#EDE9FE" stroke="#7C3AED"/>
-
-    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Clicks, views, skips, replays, and pauses all leave clues.</text>
-  </g>
-
-  <!-- Panel 3 -->
-  <g>
-    <rect x="31" y="455" width="166" height="105" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="114" y="475" font-size="11" font-weight="700" fill="#1E1B4B" text-anchor="middle">PREFERENCE MODEL</text>
-    <text x="47" y="497" font-size="11" fill="#6B7280">Sad strings</text>
-    <text x="181" y="497" font-size="11" font-weight="700" fill="#7C3AED" text-anchor="end">91%</text>
-    <text x="47" y="518" font-size="11" fill="#6B7280">Brass</text>
-    <text x="181" y="518" font-size="11" font-weight="700" fill="#EF4444" text-anchor="end">4%</text>
-    <text x="47" y="539" font-size="11" fill="#6B7280">After 10 p.m.</text>
-    <text x="181" y="539" font-size="11" font-weight="700" fill="#10B981" text-anchor="end">usually</text>
-
-    <rect x="31" y="356" width="168" height="36" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="115" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Sad strings after 10?</text>
-
-    <rect x="211" y="356" width="164" height="36" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="293" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That's... very specific.</text>
-
-    <circle cx="245" cy="443" r="10" fill="#0EA5E9"/>
-    <path d="M245 454 L245 513 M245 466 L220 481 M245 466 L266 478 M245 513 L232 539 M245 513 L258 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="344" cy="443" r="10" fill="#7C3AED"/>
-    <path d="M344 454 L344 513 M344 466 L321 480 M344 466 L364 478 M344 513 L331 539 M344 513 L357 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <path d="M278 535 C274 529 278 522 284 524 C289 526 288 534 284 539 Z M297 545 C293 539 297 532 303 534 C308 536 307 544 303 549 Z" fill="#EDE9FE" stroke="#7C3AED"/>
-
-    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">No questionnaire; behavior keeps updating the clerk's guess.</text>
-  </g>
-
-  <!-- Panel 4 -->
-  <g>
-    <rect x="424" y="356" width="174" height="36" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="511" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I was just browsing.</text>
-
-    <rect x="615" y="356" width="153" height="36" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="691.5" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I queued track 4.</text>
-
-    <rect x="432" y="444" width="102" height="100" rx="6" fill="#FEF3C7" stroke="#D97706"/>
-    <path d="M442 470 H524 M442 501 H524 M442 532 H524" fill="none" stroke="#D97706"/>
-    <circle cx="459" cy="486" r="10" fill="#FFFFFF" stroke="#D97706"/>
-    <circle cx="498" cy="517" r="10" fill="#FFFFFF" stroke="#D97706"/>
-
-    <circle cx="581" cy="443" r="10" fill="#7C3AED"/>
-    <path d="M581 454 L581 513 M581 466 L557 479 M581 466 L602 478 M581 513 L568 539 M581 513 L594 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <circle cx="716" cy="443" r="10" fill="#0EA5E9"/>
-    <path d="M716 454 L716 513 M716 466 L692 480 M716 466 L737 478 M716 513 L703 539 M716 513 L729 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-
-    <rect x="665" y="476" width="43" height="55" rx="4" fill="#EDE9FE" stroke="#7C3AED"/>
-    <circle cx="686.5" cy="501" r="12" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="686.5" y="506" font-size="13" font-weight="700" fill="#7C3AED" text-anchor="middle">4</text>
-
-    <path d="M543 548 C539 542 543 535 549 537 C554 539 553 547 549 552 Z M563 557 C559 551 563 544 569 546 C574 548 573 556 569 561 Z M607 550 C603 544 607 537 613 539 C618 541 617 549 613 554 Z" fill="#EDE9FE" stroke="#7C3AED"/>
-
-    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Apparently, hesitation is part of the order now.</text>
-  </g>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Digital footprints are interaction trails that continually train systems to model preferences.</text>
+<text x="320" y="624" font-size="17" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#065F46">Every click, skip and replay</tspan> is a footprint <tspan font-weight="700" fill="#7C3AED">the system learns from.</tspan></text>
 </svg>

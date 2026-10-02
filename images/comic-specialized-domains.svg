@@ -1,142 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Your Next Stop Is Highly Recommended</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <g>
-    <rect x="34" y="75" width="188" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="128" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I liked one beach photo.</text>
-
-    <rect x="240" y="112" width="126" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="303" y="136" font-size="12.5" fill="#1E1B4B" text-anchor="middle">A rich history.</text>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="105" cy="180" r="10" fill="#0EA5E9" stroke="none"/>
-      <path d="M105 191 L105 226 M105 201 L87 213 M105 202 L121 211 M105 226 L94 245 M105 226 L116 245"/>
-    </g>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="300" cy="180" r="10" fill="#7C3AED" stroke="none"/>
-      <path d="M300 191 L300 226 M300 201 L282 212 M300 201 L317 211 M300 226 L290 245 M300 226 L310 245"/>
-    </g>
-
-    <g>
-      <rect x="145" y="197" width="100" height="42" rx="5" fill="#FEF3C7" stroke="#D97706"/>
-      <circle cx="169" cy="216" r="8" fill="#D97706"/>
-      <path d="M184 226 L199 208 L213 226 L226 214 L238 226" fill="none" stroke="#1E1B4B" stroke-width="2"/>
-    </g>
-
-    <path d="M132 247 H270" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Travel starts sparse: one look, many possible trips.</text>
-  </g>
-
-  <!-- Panel 2 -->
-  <g>
-    <rect x="424" y="74" width="150" height="38" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="499" y="98" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Still just looking?</text>
-
-    <rect x="608" y="112" width="150" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="683" y="136" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Book the quiet one.</text>
-
-    <g>
-      <rect x="438" y="157" width="74" height="68" rx="6" fill="#FFFFFF" stroke="#E5E7EB"/>
-      <path d="M447 194 L462 174 L476 194 L488 181 L503 201" fill="none" stroke="#10B981" stroke-width="2"/>
-      <text x="475" y="216" font-size="12" fill="#6B7280" text-anchor="middle">Hike</text>
-
-      <rect x="522" y="157" width="74" height="68" rx="6" fill="#D1FAE5" stroke="#10B981"/>
-      <path d="M532 190 Q550 173 568 190 Q578 199 587 190" fill="none" stroke="#0EA5E9" stroke-width="2"/>
-      <text x="559" y="216" font-size="12" fill="#1E1B4B" text-anchor="middle">Quiet</text>
-
-      <rect x="606" y="157" width="74" height="68" rx="6" fill="#FFFFFF" stroke="#E5E7EB"/>
-      <circle cx="643" cy="183" r="10" fill="#D97706"/>
-      <text x="643" y="216" font-size="12" fill="#6B7280" text-anchor="middle">Party</text>
-    </g>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="713" cy="186" r="10" fill="#0EA5E9" stroke="none"/>
-      <path d="M713 197 L713 230 M713 205 L693 212 M713 205 L730 216 M713 230 L703 247 M713 230 L723 247"/>
-    </g>
-
-    <g>
-      <rect x="527" y="235" width="64" height="24" rx="8" fill="#10B981"/>
-      <text x="559" y="252" font-size="12" font-weight="700" fill="#FFFFFF" text-anchor="middle">BOOK</text>
-    </g>
-
-    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Travel recommendations must turn browsing into booking.</text>
-  </g>
-
-  <!-- Panel 3 -->
-  <g>
-    <rect x="32" y="355" width="130" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="97" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I choose them.</text>
-
-    <rect x="246" y="355" width="130" height="38" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="311" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">We choose you.</text>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="88" cy="440" r="10" fill="#0EA5E9" stroke="none"/>
-      <path d="M88 451 L88 493 M88 461 L115 474 M88 462 L69 474 M88 493 L76 517 M88 493 L100 517"/>
-    </g>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="204" cy="425" r="10" fill="#7C3AED" stroke="none"/>
-      <path d="M204 436 L204 482 M204 447 L177 461 M204 447 L230 461 M204 482 L194 510 M204 482 L214 510"/>
-    </g>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="320" cy="440" r="10" fill="#D97706" stroke="none"/>
-      <path d="M320 451 L320 493 M320 461 L293 474 M320 462 L339 474 M320 493 L308 517 M320 493 L332 517"/>
-    </g>
-
-    <g>
-      <path d="M116 474 L137 484 L158 473" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="137" cy="484" r="4" fill="#10B981"/>
-      <path d="M250 473 L271 484 L292 474" fill="none" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
-      <circle cx="271" cy="484" r="4" fill="#10B981"/>
-    </g>
-
-    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A job match only works when both sides say yes.</text>
-  </g>
-
-  <!-- Panel 4 -->
-  <g>
-    <rect x="424" y="355" width="166" height="38" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="507" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">But I watched all twelve.</text>
-
-    <rect x="600" y="397" width="166" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="683" y="418" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Then this quiz</text>
-    <text x="683" y="435" font-size="12.5" fill="#1E1B4B" text-anchor="middle">should be brief.</text>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="482" cy="465" r="10" fill="#0EA5E9" stroke="none"/>
-      <path d="M482 476 L482 518 M482 487 L510 496 M482 487 L463 500 M482 518 L471 542 M482 518 L493 542"/>
-    </g>
-
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="701" cy="477" r="10" fill="#7C3AED" stroke="none"/>
-      <path d="M701 488 L701 525 M701 498 L678 510 M701 498 L721 508 M701 525 L691 546 M701 525 L711 546"/>
-    </g>
-
-    <g>
-      <rect x="525" y="462" width="96" height="62" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
-      <text x="573" y="482" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">QUIZ</text>
-      <circle cx="543" cy="496" r="5" fill="#FFFFFF" stroke="#D97706"/>
-      <path d="M540 496 L543 499 L548 491" fill="none" stroke="#10B981" stroke-width="2"/>
-      <path d="M555 496 H603 M543 510 H603" stroke="#E5E7EB" stroke-width="2"/>
-    </g>
-
-    <g>
-      <rect x="430" y="530" width="87" height="27" rx="6" fill="#FEE2E2" stroke="#EF4444"/>
-      <text x="473.5" y="548" font-size="12" fill="#1E1B4B" text-anchor="middle">12 watched</text>
-    </g>
-
-    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Twelve videos watched. One suspiciously patient quiz.</text>
-  </g>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">All three match people to consequential opportunities, so success means real outcomes—not clicks.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb098-title pb098-desc">
+<title id="pb098-title">Your next stop is highly recommended</title>
+<desc id="pb098-desc">Four-panel comic about what travel, job and education recommendation share. On a travel site you have one week off this year; the recommender suggests Lisbon because it fits your 7 to 14 August dates, and success means a booking, not browsing. On a job board the recommender shows a night-nurse job to the candidate and the candidate's CV to the employer, who first wants a license; success is a hire both sides say yes to. On a learning app you watched 12 algebra videos, but the recommender gives a quiz first because algebra needs fractions; success is learning, not watching. The recommender's notes: all three are rare decisions with little data to learn from, high stakes, and hard limits such as dates, licenses and prerequisites. Your next stop matters more than your next click.</desc>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Your next stop is highly recommended</text>
+<text x="320" y="54" text-anchor="middle" font-size="15" fill="#4B5563"><tspan font-weight="700" fill="#7C3AED">The recommender</tspan> helps <tspan font-weight="700" fill="#065F46">you</tspan> pick a trip, a job and a course.</text>
+<!-- Panel 1: travel -->
+<g transform="translate(16,66)"><rect x="0" y="0" width="298" height="259" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/><path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/><rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/><text x="68" y="21" font-size="14" font-weight="600" fill="#1E1B4B">Travel site</text><path d="M12,220.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M22,40 H136 Q148,40 148,52 V100 Q148,112 136,112 H60 L58,134 L44,112 H22 Q10,112 10,100 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="79" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="79">My one week off</tspan><tspan x="79" dy="20">this year.</tspan><tspan x="79" dy="20" font-weight="700" fill="#1E1B4B">No pressure.</tspan></text><path d="M170,40 H278 Q290,40 290,52 V100 Q290,112 278,112 H248 L240,126 L232,112 H170 Q158,112 158,100 V52 Q158,40 170,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="224" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="224">Lisbon fits</tspan><tspan x="224" dy="20" font-weight="700" fill="#4C1D95">your 7–14 Aug.</tspan><tspan x="224" dy="20">Book it?</tspan></text><path d="M34,220 V190 Q34,174 50,174 H66 Q82,174 82,190 V220 Z" fill="#10B981"/><circle cx="58" cy="156" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="53" cy="154" r="2.2" fill="#1E1B4B"/><circle cx="63" cy="154" r="2.2" fill="#1E1B4B"/><path d="M52,163 Q55,160 58,163 Q61,166 64,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M218,192 L196,187" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/><rect x="150" y="181" width="62" height="6" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><text x="181" y="177" text-anchor="middle" font-size="28">🏖️</text><path d="M216,220 V180 Q216,164 232,164 H248 Q264,164 264,180 V220 Z" fill="#7C3AED"/><path d="M231,165 L240,170 L231,175 Z M249,165 L240,170 L249,175 Z" fill="#FFFFFF"/><circle cx="240" cy="146" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="235" cy="144" r="2.2" fill="#1E1B4B"/><circle cx="245" cy="144" r="2.2" fill="#1E1B4B"/><path d="M235,151 Q240,156 245,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="10" y="227" width="278" height="24" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><text x="149" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">✓ Success = booked, not browsed</text></g>
+<!-- Panel 2: jobs -->
+<g transform="translate(326,66)"><rect x="0" y="0" width="298" height="259" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/><path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/><rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/><text x="68" y="21" font-size="14" font-weight="600" fill="#1E1B4B">Job board</text><path d="M12,220.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M22,40 H136 Q148,40 148,52 V80 Q148,92 136,92 H54 L46,134 L38,92 H22 Q10,92 10,80 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="79" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="79">Night nurse job?</tspan><tspan x="79" dy="20">I’d love it!</tspan></text><path d="M170,40 H278 Q290,40 290,52 V100 Q290,112 278,112 H260 L252,128 L244,112 H170 Q158,112 158,100 V52 Q158,40 170,40 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/><text x="224" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="224" font-weight="700" fill="#92400E">Licensed?</tspan><tspan x="224" dy="20">Then we’d love</tspan><tspan x="224" dy="20">you too!</tspan></text><path d="M127,192 L109,184" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/><path d="M171,192 L189,184" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/><path d="M22,220 V190 Q22,174 38,174 H54 Q70,174 70,190 V220 Z" fill="#10B981"/><circle cx="46" cy="156" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="41" cy="154" r="2.2" fill="#1E1B4B"/><circle cx="51" cy="154" r="2.2" fill="#1E1B4B"/><path d="M41,161 Q46,166 51,161" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M228,220 V184 Q228,168 244,168 H260 Q276,168 276,184 V220 Z" fill="#F59E0B"/><path d="M248,169 H256 L255,196 L252,201 L249,196 Z" fill="#92400E"/><circle cx="252" cy="150" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><circle cx="247" cy="148" r="2.2" fill="#1E1B4B"/><circle cx="257" cy="148" r="2.2" fill="#1E1B4B"/><path d="M243,141 L250,140 M254,140 L261,141" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M247,156 Q252,160 257,156" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M125,220 V180 Q125,164 141,164 H157 Q173,164 173,180 V220 Z" fill="#7C3AED"/><path d="M140,165 L149,170 L140,175 Z M158,165 L149,170 L158,175 Z" fill="#FFFFFF"/><circle cx="149" cy="146" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="144" cy="144" r="2.2" fill="#1E1B4B"/><circle cx="154" cy="144" r="2.2" fill="#1E1B4B"/><path d="M144,151 Q149,156 154,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="75" y="166" width="36" height="34" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/><text x="93" y="190" text-anchor="middle" font-size="18">💼</text><rect x="187" y="166" width="36" height="34" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/><text x="205" y="189" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">CV</text><rect x="10" y="227" width="278" height="24" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><text x="149" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">✓ Success = a hire: both say yes</text></g>
+<!-- Panel 3: education -->
+<g transform="translate(16,337)"><rect x="0" y="0" width="298" height="259" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/><path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/><rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/><text x="68" y="21" font-size="14" font-weight="600" fill="#1E1B4B">Learning app</text><path d="M12,220.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M22,40 H136 Q148,40 148,52 V100 Q148,112 136,112 H60 L58,134 L44,112 H22 Q10,112 10,100 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="79" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="79">I watched 12</tspan><tspan x="79" dy="20">algebra videos.</tspan><tspan x="79" dy="20" font-weight="700" fill="#1E1B4B">Done?</tspan></text><path d="M170,40 H278 Q290,40 290,52 V100 Q290,112 278,112 H248 L240,126 L232,112 H170 Q158,112 158,100 V52 Q158,40 170,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="224" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="224">Quiz first:</tspan><tspan x="224" dy="20">algebra needs</tspan><tspan x="224" dy="20" font-weight="700" fill="#4C1D95">fractions.</tspan></text><path d="M34,220 V190 Q34,174 50,174 H66 Q82,174 82,190 V220 Z" fill="#10B981"/><circle cx="58" cy="156" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><path d="M50,154 Q53,150 56,154 M60,154 Q63,150 66,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M52,160 Q58,168 64,160" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M218,192 L196,187" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/><rect x="150" y="181" width="62" height="6" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><rect x="153" y="138" width="56" height="42" rx="5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><text x="181" y="160" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">½ + ¼</text><path d="M164,170 H198" stroke="#D1D5DB" stroke-width="2"/><path d="M216,220 V180 Q216,164 232,164 H248 Q264,164 264,180 V220 Z" fill="#7C3AED"/><path d="M231,165 L240,170 L231,175 Z M249,165 L240,170 L249,175 Z" fill="#FFFFFF"/><circle cx="240" cy="146" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="235" cy="144" r="2.2" fill="#1E1B4B"/><circle cx="245" cy="144" r="2.2" fill="#1E1B4B"/><path d="M235,151 Q240,156 245,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="10" y="227" width="278" height="24" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><text x="149" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">✓ Success = learned, not watched</text></g>
+<!-- Panel 4: what all three share -->
+<g transform="translate(326,337)"><rect x="1" y="1" width="296" height="257" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/><text x="149" y="38" text-anchor="middle" font-size="17" font-weight="700" fill="#4C1D95">What all three share</text><circle cx="34" cy="81" r="18" fill="#EDE9FE"/><text x="34" y="88" text-anchor="middle" font-size="19">🗓️</text><text x="62" y="76" font-size="16" font-weight="700" fill="#1E1B4B">Rare decisions</text><text x="62" y="96" font-size="15" fill="#4B5563">little data to learn from</text><path d="M16,112.5 H282" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="34" cy="143" r="18" fill="#EDE9FE"/><text x="34" y="150" text-anchor="middle" font-size="19">🎯</text><text x="62" y="138" font-size="16" font-weight="700" fill="#1E1B4B">High stakes</text><text x="62" y="158" font-size="15" fill="#4B5563">a holiday, a career, a skill</text><path d="M16,174.5 H282" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="34" cy="205" r="18" fill="#EDE9FE"/><text x="34" y="212" text-anchor="middle" font-size="19">🔒</text><text x="62" y="200" font-size="16" font-weight="700" fill="#1E1B4B">Hard limits</text><text x="62" y="220" font-size="15" fill="#4B5563">dates, licenses, prerequisites</text></g>
+<text x="320" y="620" text-anchor="middle" font-size="17" fill="#1E1B4B">Your <tspan font-weight="700" fill="#065F46">next stop</tspan> matters more than your <tspan font-weight="700" fill="#7C3AED">next click</tspan>.</text>
 </svg>

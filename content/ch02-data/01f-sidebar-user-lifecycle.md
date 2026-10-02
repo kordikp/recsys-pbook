@@ -26,7 +26,7 @@ carriers: prose|table|image
 
 A user who just created an account and a user who has been active for three years are in fundamentally different situations. The new user has no history — the system knows nothing. The veteran has thousands of interactions — the system knows them deeply. Treating both the same is a common mistake.
 
-![User recommendation journey from cold start to maturity](/images/anim-recommendation-journey.svg)
+![The user lifecycle in footprints: for each stage (cold start, growth, mature, declining), how many interactions there are, what the system knows, and the strategy it should use](/images/anim-recommendation-journey.svg)
 
 ## The Four Stages
 

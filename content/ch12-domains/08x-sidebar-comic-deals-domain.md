@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Today's Special Can't Wait for Tomorrow — a four-panel comic](images/comic-deals-domain.svg)
+![Today's Special Can't Wait for Tomorrow — a four-panel comic. At 10:00 a sushi bar posts half-price sushi that ends at noon; the recommender has no clicks yet and no time to wait. At 10:03 it matches the deal by what it is (sushi, Old Town) to Ben, who loves sushi and lives in Old Town. At 10:10 a taco partner offers +$2 per order to go first; at 10:11 the boost lifts the cilantro tacos to second, but not past Ben's sushi](images/comic-deals-domain.svg)
 
 *Deal aggregators match expiring offers in minutes, balancing user relevance with commissions.*

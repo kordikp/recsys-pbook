@@ -1,37 +1,99 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
-  <style>
-    .mergeL{animation:mL 5s ease-in-out infinite}
-    .mergeR{animation:mR 5s ease-in-out infinite}
-    @keyframes mL{0%,15%{transform:translate(0,0)}55%,85%{transform:translate(105px,0)}100%{transform:translate(0,0)}}
-    @keyframes mR{0%,15%{transform:translate(0,0)}55%,85%{transform:translate(-105px,0)}100%{transform:translate(0,0)}}
-    .core{animation:g 5s ease-in-out infinite}
-    @keyframes g{0%,15%,100%{opacity:.55}55%,85%{opacity:1}}
-  </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Search and Recommendations Are Converging</text>
-
-  <g class="mergeL" text-anchor="middle">
-    <rect x="80" y="110" width="230" height="180" rx="14" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2.5"/>
-    <text x="195" y="142" font-size="16" font-weight="800" fill="#075985">SEARCH</text>
-    <text x="195" y="168" font-size="12.5" fill="#075985">explicit intent: a query</text>
-    <text x="195" y="190" font-size="12.5" fill="#075985">"running shoes 44"</text>
-    <text x="195" y="222" font-size="12.5" fill="#6B7280">answers what you ASK</text>
-    <text x="195" y="266" font-size="12" fill="#6B7280">retrieval → ranking</text>
-  </g>
-  <g class="mergeR" text-anchor="middle">
-    <rect x="490" y="110" width="230" height="180" rx="14" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
-    <text x="605" y="142" font-size="16" font-weight="800" fill="#4C1D95">RECOMMENDATIONS</text>
-    <text x="605" y="168" font-size="12.5" fill="#4C1D95">implicit intent: behavior</text>
-    <text x="605" y="190" font-size="12.5" fill="#4C1D95">clicks · dwell · history</text>
-    <text x="605" y="222" font-size="12.5" fill="#6B7280">answers what you MEAN</text>
-    <text x="605" y="266" font-size="12" fill="#6B7280">retrieval → ranking</text>
-  </g>
-  <g class="core" text-anchor="middle">
-    <rect x="330" y="150" width="140" height="100" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="3"/>
-    <text x="400" y="184" font-size="14" font-weight="800" fill="#065F46">ONE ENGINE</text>
-    <text x="400" y="206" font-size="12" fill="#065F46">shared embeddings</text>
-    <text x="400" y="224" font-size="12" fill="#065F46">personalized ranking</text>
-  </g>
-  <text x="400" y="330" text-anchor="middle" font-size="13.5" fill="#1E1B4B" font-weight="600">query + profile → the same candidate machinery</text>
-  <text x="400" y="368" text-anchor="middle" font-size="13" fill="#6B7280">Personalized search IS recommendation with a query attached — the stacks merged years before the org charts did.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 492" role="img" aria-labelledby="pb029-title pb029-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb029-title">Search and recommendation: one engine, different inputs</title>
+<desc id="pb029-desc">Search and recommendation run on the same retrieval engine: a query becomes an embedding e_q, the user's history becomes e_u, every item has an embedding e_i in one shared ANN index, and one scorer f(e_q, e_u, e_i) ranks the items. Search leans on the query and uses history to personalize, so for a coder the query "python" ranks a Python course first and snake care far down. A conversational request uses both inputs, and a recommendation feed sets the query to zero: a feed is a search with an empty query.</desc>
+<style>
+.pb029-hs{opacity:0;animation:pb029-hs 12s ease-in-out infinite}
+.pb029-hc{opacity:0;animation:pb029-hc 12s ease-in-out infinite}
+.pb029-hf{opacity:0;animation:pb029-hf 12s ease-in-out infinite}
+@keyframes pb029-hs{0%{opacity:0}3%,18%{opacity:1}21%,100%{opacity:0}}
+@keyframes pb029-hc{0%,20%{opacity:0}23%,38%{opacity:1}41%,100%{opacity:0}}
+@keyframes pb029-hf{0%,40%{opacity:0}43%,58%{opacity:1}61%,100%{opacity:0}}
+.pb029-wq{animation:pb029-wq 12s ease-in-out infinite}
+.pb029-wu{animation:pb029-wu 12s ease-in-out infinite}
+.pb029-oq{animation:pb029-oq 12s ease-in-out infinite}
+@keyframes pb029-wq{0%{stroke-width:2.5}3%,18%{stroke-width:5}23%,38%{stroke-width:3.5}43%,58%{stroke-width:2.5}61%,100%{stroke-width:2.5}}
+@keyframes pb029-wu{0%{stroke-width:2.5}3%,18%{stroke-width:1.5}23%,38%{stroke-width:3.5}43%,58%{stroke-width:5}61%,100%{stroke-width:2.5}}
+@keyframes pb029-oq{0%,40%{opacity:1}43%,58%{opacity:.25}61%,100%{opacity:1}}
+@media (prefers-reduced-motion: reduce){.pb029-hs,.pb029-hc,.pb029-hf,.pb029-wq,.pb029-wu,.pb029-oq{animation:none !important}}
+</style>
+<defs><marker id="pb029-aq" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 Z" fill="#4B5563"/></marker><marker id="pb029-au" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 Z" fill="#10B981"/></marker><marker id="pb029-ai" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 Z" fill="#7C3AED"/></marker><marker id="pb029-ao" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 Z" fill="#7C3AED"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="491" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Search and recommendation: one engine, different inputs</text>
+<rect x="16" y="56" width="608" height="214" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<g class="pb029-oq">
+<rect x="28" y="78" width="148" height="36" rx="18" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+<text x="42" y="101" font-size="15">🔍</text>
+<text x="68" y="102" font-size="16" fill="#1E1B4B">python</text>
+<line class="pb029-wq" x1="180" y1="96" x2="204" y2="96" stroke="#4B5563" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb029-aq)"/>
+<rect x="208" y="90" width="12" height="12" fill="#D1D5DB" stroke="#FFFFFF" stroke-width="1"/><rect x="220" y="90" width="12" height="12" fill="#4B5563" stroke="#FFFFFF" stroke-width="1"/><rect x="232" y="90" width="12" height="12" fill="#9CA3AF" stroke="#FFFFFF" stroke-width="1"/><rect x="244" y="90" width="12" height="12" fill="#374151" stroke="#FFFFFF" stroke-width="1"/><rect x="256" y="90" width="12" height="12" fill="#E5E7EB" stroke="#FFFFFF" stroke-width="1"/>
+<text x="238" y="81" text-anchor="middle" font-size="16" fill="#4B5563"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">q</tspan></text>
+<line class="pb029-wq" x1="272" y1="96" x2="304" y2="96" stroke="#4B5563" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb029-aq)"/>
+</g>
+<rect x="28" y="136" width="148" height="52" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<text x="40" y="157" font-size="15" font-weight="700" fill="#065F46">user history</text>
+<text x="40" y="177" font-size="14" fill="#065F46">pandas · Git · SQL</text>
+<line class="pb029-wu" x1="180" y1="162" x2="204" y2="162" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb029-au)"/>
+<rect x="208" y="156" width="12" height="12" fill="#A7F3D0" stroke="#FFFFFF" stroke-width="1"/><rect x="220" y="156" width="12" height="12" fill="#10B981" stroke="#FFFFFF" stroke-width="1"/><rect x="232" y="156" width="12" height="12" fill="#6EE7B7" stroke="#FFFFFF" stroke-width="1"/><rect x="244" y="156" width="12" height="12" fill="#065F46" stroke="#FFFFFF" stroke-width="1"/><rect x="256" y="156" width="12" height="12" fill="#D1FAE5" stroke="#FFFFFF" stroke-width="1"/>
+<text x="238" y="147" text-anchor="middle" font-size="16" fill="#065F46"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">u</tspan></text>
+<line class="pb029-wu" x1="272" y1="162" x2="304" y2="162" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb029-au)"/>
+<rect x="28" y="202" width="148" height="52" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="40" y="223" font-size="15" font-weight="700" fill="#1E1B4B">all items</text>
+<text x="40" y="243" font-size="14" fill="#4B5563">one ANN index</text>
+<line x1="180" y1="228" x2="204" y2="228" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb029-ai)"/>
+<rect x="216" y="230" width="60" height="12" fill="#EDE9FE" stroke="#C4B5FD" stroke-width="1"/>
+<rect x="212" y="226" width="60" height="12" fill="#DDD6FE" stroke="#C4B5FD" stroke-width="1"/>
+<rect x="208" y="218" width="12" height="12" fill="#DDD6FE" stroke="#FFFFFF" stroke-width="1"/><rect x="220" y="218" width="12" height="12" fill="#7C3AED" stroke="#FFFFFF" stroke-width="1"/><rect x="232" y="218" width="12" height="12" fill="#C4B5FD" stroke="#FFFFFF" stroke-width="1"/><rect x="244" y="218" width="12" height="12" fill="#4C1D95" stroke="#FFFFFF" stroke-width="1"/><rect x="256" y="218" width="12" height="12" fill="#EDE9FE" stroke="#FFFFFF" stroke-width="1"/>
+<text x="238" y="210" text-anchor="middle" font-size="16" fill="#4C1D95"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">i</tspan></text>
+<line x1="280" y1="228" x2="304" y2="228" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb029-ai)"/>
+<rect x="308" y="78" width="128" height="172" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="372" y="140" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">one scorer</text>
+<text x="372" y="170" text-anchor="middle" font-size="15" fill="#4C1D95">score(q, u, i) =</text>
+<text x="372" y="194" text-anchor="middle" font-size="16" fill="#4C1D95">f(<tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">q</tspan><tspan dy="-4">, </tspan><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">u</tspan><tspan dy="-4">, </tspan><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">i</tspan><tspan dy="-4">)</tspan></text>
+<line x1="440" y1="164" x2="466" y2="164" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb029-ao)"/>
+<rect x="470" y="78" width="142" height="172" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="482" y="106" font-size="15" font-weight="700" fill="#1E1B4B">ranked results</text>
+<text x="484" y="136" font-size="14" font-weight="700" fill="#7C3AED">1</text>
+<text x="502" y="136" font-size="14" fill="#1E1B4B">Python course</text>
+<text x="484" y="162" font-size="14" font-weight="700" fill="#7C3AED">2</text>
+<text x="502" y="162" font-size="14" fill="#1E1B4B">pandas guide</text>
+<text x="484" y="188" font-size="14" font-weight="700" fill="#7C3AED">3</text>
+<text x="502" y="188" font-size="14" fill="#1E1B4B">Git basics</text>
+<line x1="482" y1="206" x2="600" y2="206" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 4"/>
+<text x="484" y="232" font-size="14" font-weight="700" fill="#6B7280">9</text>
+<text x="502" y="232" font-size="14" fill="#6B7280">🐍 snake care</text>
+<text x="28" y="298" font-size="16" font-weight="700" fill="#1E1B4B">Same engine, three ways to ask</text>
+<text x="612" y="298" text-anchor="end" font-size="14" fill="#6B7280">bar = how much each input counts</text>
+<rect class="pb029-hs" x="13" y="309" width="200" height="138" rx="14" fill="none" stroke="#7C3AED" stroke-width="3"/>
+<rect x="16" y="312" width="194" height="132" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="30" y="338" font-size="16" font-weight="700" fill="#1E1B4B">🔍 Search</text>
+<text x="30" y="360" font-size="14" fill="#4B5563">“python”</text>
+<text x="30" y="387" font-size="16" fill="#4B5563"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">q</tspan></text>
+<rect x="64" y="377" width="132" height="10" rx="5" fill="#F3F4F6"/>
+<rect x="64" y="377" width="112.2" height="10" rx="5" fill="#4B5563"/>
+<text x="30" y="409" font-size="16" fill="#065F46"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">u</tspan></text>
+<rect x="64" y="399" width="132" height="10" rx="5" fill="#F3F4F6"/>
+<rect x="64" y="399" width="39.6" height="10" rx="5" fill="#10B981"/>
+<text x="30" y="432" font-size="14" fill="#1E1B4B">history personalizes</text>
+<rect class="pb029-hc" x="220" y="309" width="200" height="138" rx="14" fill="none" stroke="#7C3AED" stroke-width="3"/>
+<rect x="223" y="312" width="194" height="132" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="237" y="338" font-size="16" font-weight="700" fill="#1E1B4B">💬 Conversational</text>
+<text x="237" y="360" font-size="14" fill="#4B5563">“fun to watch tonight?”</text>
+<text x="237" y="387" font-size="16" fill="#4B5563"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">q</tspan></text>
+<rect x="271" y="377" width="132" height="10" rx="5" fill="#F3F4F6"/>
+<rect x="271" y="377" width="79.2" height="10" rx="5" fill="#4B5563"/>
+<text x="237" y="409" font-size="16" fill="#065F46"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">u</tspan></text>
+<rect x="271" y="399" width="132" height="10" rx="5" fill="#F3F4F6"/>
+<rect x="271" y="399" width="79.2" height="10" rx="5" fill="#10B981"/>
+<text x="237" y="432" font-size="14" fill="#1E1B4B">both inputs count</text>
+<rect class="pb029-hf" x="427" y="309" width="200" height="138" rx="14" fill="none" stroke="#7C3AED" stroke-width="3"/>
+<rect x="430" y="312" width="194" height="132" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="444" y="338" font-size="16" font-weight="700" fill="#1E1B4B">📱 Feed</text>
+<text x="444" y="360" font-size="14" fill="#4B5563">no query typed</text>
+<text x="444" y="387" font-size="16" fill="#4B5563"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">q</tspan></text>
+<rect x="478" y="377" width="132" height="10" rx="5" fill="#F3F4F6"/>
+<text x="444" y="409" font-size="16" fill="#065F46"><tspan font-weight="700">e</tspan><tspan font-size="14" dy="4">u</tspan></text>
+<rect x="478" y="399" width="132" height="10" rx="5" fill="#F3F4F6"/>
+<rect x="478" y="399" width="132.0" height="10" rx="5" fill="#10B981"/>
+<text x="444" y="432" font-size="14" fill="#1E1B4B">zero-query search</text>
+<text x="320" y="470" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">A recommendation feed is a search with an <tspan fill="#7C3AED">empty query</tspan>.</text>
 </svg>

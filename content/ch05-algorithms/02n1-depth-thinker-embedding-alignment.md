@@ -30,7 +30,7 @@ Comparing them directly is meaningless. The cosine similarity between a text emb
 
 **Embedding alignment** maps embeddings from different sources into a shared space where cross-modal similarity becomes meaningful.
 
-![Text and behavior embedding spaces aligning](/images/anim-embedding-alignment.svg)
+![Three encoders put the same items into three unrelated spaces; a learned map brings them into one shared space where each item's text, image and behavior views cluster together](/images/anim-embedding-alignment.svg)
 
 ## Why Alignment Is Hard
 

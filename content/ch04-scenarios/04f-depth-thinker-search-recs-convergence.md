@@ -26,7 +26,7 @@ carriers: prose|image|formula
 
 Search and recommendation have traditionally been treated as separate problems with separate teams, separate codebases, and separate models. But they're converging — and understanding why reveals fundamental truths about information retrieval.
 
-![Search and recommendation converging into unified retrieval](/images/anim-search-recs-merge.svg)
+![One retrieval engine for search and recommendation: query, user-history and item embeddings feed one scorer f(e_q, e_u, e_i); search leans on the query, a feed sets it to zero](/images/anim-search-recs-merge.svg)
 
 ## The Structural Similarity
 

@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Clerk’s Favorite Movie Is a Metric — a four-panel comic](images/comic-objectives.svg)
+![The Clerk’s Favorite Movie Is a Metric — four-panel comic: the same clerk recommends a 12-part epic in a free, ad-paid shop (objective: max watch time; you are still up at 2 a.m.) and one film that fits you in a members’ shop (objective: max renewals; you are in bed by ten)](images/comic-objectives.svg)
 
 *An objective function defines what a recommender maximizes—and whose interests it serves.*

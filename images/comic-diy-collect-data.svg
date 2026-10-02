@@ -1,122 +1,182 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Office Snack Spreadsheet Gets Personal</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 630" role="img" aria-labelledby="pb059-title pb059-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb059-title">The office snack spreadsheet gets personal</title>
+<desc id="pb059-desc">Four-panel comic. A talking office spreadsheet asks the team to rate snacks from 1 to 5 and leave a blank for anything they never tried; Ava has never tried nuts. The answers form a rating matrix: users (Ava, Bo, Cy) are rows, items (cookies, apples, nuts) are columns, ratings fill the cells, and Ava's nuts cell is blank. When Bo adds all 1,000 snacks from the supplier, Ava has rated only 10 of them, so 99% of her row is blank. The spreadsheet notices Ava rates just like Cy, who gave nuts a 4, and guesses a 4 for her blank: the blanks are what a recommender predicts.</desc>
+<rect x=".5" y=".5" width="639" height="629" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<!-- ===== Panel 1: the survey ===== -->
+<g transform="translate(16,16)">
+<rect x="0" y="0" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">The survey</text>
 
-  <!-- Panel 1 -->
-  <g>
-    <rect x="34" y="76" width="190" height="48" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="49" y="96" font-size="12.5" fill="#1E1B4B">
-      <tspan x="49" dy="0">Quick survey:</tspan>
-      <tspan x="49" dy="17">Rate every snack, 1–5.</tspan>
-    </text>
+<path d="M24,42 H274 Q286,42 286,54 V82 Q286,94 274,94 H54 L46,128 L40,94 H24 Q12,94 12,82 V54 Q12,42 24,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="149" y="63" text-anchor="middle" font-size="15" fill="#1E1B4B">Rate each snack from 1 to 5.</text>
+<text x="149" y="84" text-anchor="middle" font-size="15" fill="#1E1B4B">Never tried one? Leave it blank.</text>
 
-    <circle cx="91" cy="166" r="10" fill="#7C3AED"/>
-    <path d="M91 177 L91 222 M91 187 L68 199 M91 188 L112 199 M91 222 L78 245 M91 222 L105 245" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+<path d="M102,106 H274 Q286,106 286,118 V128 Q286,140 274,140 H148 L140,160 L134,140 H102 Q90,140 90,128 V118 Q90,106 102,106 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="188" y="128" text-anchor="middle" font-size="15" fill="#1E1B4B">Nuts? Never tried. Blank!</text>
 
-    <rect x="111" y="181" width="84" height="66" rx="5" fill="#FFFFFF" stroke="#6B7280"/>
-    <text x="153" y="198" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">SNACKS</text>
-    <text x="122" y="217" font-size="12" fill="#6B7280">Chips</text>
-    <text x="181" y="217" font-size="12" fill="#7C3AED" text-anchor="end">5</text>
-    <text x="122" y="236" font-size="12" fill="#6B7280">Apple</text>
-    <text x="181" y="236" font-size="12" fill="#7C3AED" text-anchor="end">1</text>
+<path d="M12,230.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- desk + the spreadsheet -->
+<path d="M20,202 V230 M80,202 V230" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+<rect x="12" y="196" width="76" height="6" rx="3" fill="#D1D5DB"/>
+<rect x="24" y="134" width="50" height="62" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<path d="M24,168 H74 M24,182 H74 M41,168 V196 M57,168 V196" stroke="#C4B5FD" stroke-width="1.5"/>
+<circle cx="42" cy="151" r="2.2" fill="#1E1B4B"/><circle cx="56" cy="151" r="2.2" fill="#1E1B4B"/>
+<path d="M43,158 Q49,162 55,158" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-    <circle cx="267" cy="169" r="10" fill="#10B981"/>
-    <path d="M267 180 L267 224 M267 190 L246 204 M267 191 L286 203 M267 224 L254 247 M267 224 L280 247" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+<!-- Ava -->
+<path d="M121,230 V206 Q121,192 135,192 H145 Q159,192 159,206 V230 Z" fill="#10B981"/>
+<circle cx="140" cy="178" r="13" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="135.5" cy="176" r="2" fill="#1E1B4B"/><circle cx="144.5" cy="176" r="2" fill="#1E1B4B"/>
+<path d="M135.5,183 Q140,186.5 144.5,183" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- Bo -->
+<path d="M183,230 V206 Q183,192 197,192 H207 Q221,192 221,206 V230 Z" fill="#D1D5DB"/>
+<circle cx="202" cy="178" r="13" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+<circle cx="197.5" cy="176" r="2" fill="#1E1B4B"/><circle cx="206.5" cy="176" r="2" fill="#1E1B4B"/>
+<path d="M197.5,183 Q202,186.5 206.5,183" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- Cy -->
+<path d="M241,230 V206 Q241,192 255,192 H265 Q279,192 279,206 V230 Z" fill="#D1D5DB"/>
+<circle cx="260" cy="178" r="13" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+<circle cx="255.5" cy="176" r="2" fill="#1E1B4B"/><circle cx="264.5" cy="176" r="2" fill="#1E1B4B"/>
+<path d="M255.5,183 Q260,186.5 264.5,183" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-    <circle cx="338" cy="169" r="10" fill="#0EA5E9"/>
-    <path d="M338 180 L338 224 M338 190 L318 203 M338 190 L357 201 M338 224 L326 247 M338 224 L351 247" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">First, everyone rates the same snacks from 1 to 5.</text>
+<text x="50" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Snack sheet</text>
+<text x="140" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Ava</text>
+<text x="202" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#4B5563">Bo</text>
+<text x="260" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#4B5563">Cy</text>
+</g>
 
-  <!-- Panel 2 -->
-  <g>
-    <text x="615" y="82" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">TEAM SNACK RATINGS</text>
-    <rect x="438" y="92" width="324" height="145" rx="5" fill="#FFFFFF" stroke="#6B7280"/>
-    <rect x="438" y="92" width="324" height="36" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
-    <path d="M498 92 V237 M586 92 V237 M674 92 V237 M438 128 H762 M438 164 H762 M438 200 H762" fill="none" stroke="#E5E7EB" stroke-width="1.5"/>
+<!-- ===== Panel 2: the rating matrix ===== -->
+<g transform="translate(326,16)">
+<rect x="0" y="0" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">The rating matrix</text>
 
-    <text x="542" y="115" font-size="12" fill="#1E1B4B" text-anchor="middle">Chips</text>
-    <text x="630" y="115" font-size="12" fill="#1E1B4B" text-anchor="middle">Apple</text>
-    <text x="718" y="115" font-size="12" fill="#1E1B4B" text-anchor="middle">Nuts</text>
+<rect x="12" y="48" width="272" height="156" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M12.75,96 V56 Q12.75,48.75 20,48.75 H276 Q283.25,48.75 283.25,56 V96 Z" fill="#F3F4F6"/>
+<path d="M12,96 H284" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M12,132 H284 M12,168 H284" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M86,48 V204" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M152,48 V204 M218,48 V204" stroke="#E5E7EB" stroke-width="1.5"/>
 
-    <text x="468" y="151" font-size="12" fill="#10B981" text-anchor="middle">Ava</text>
-    <text x="468" y="187" font-size="12" fill="#D97706" text-anchor="middle">Bo</text>
-    <text x="468" y="223" font-size="12" fill="#0EA5E9" text-anchor="middle">Cy</text>
+<text x="78" y="68" text-anchor="end" font-size="14" fill="#4B5563">items →</text>
+<text x="20" y="89" font-size="14" fill="#4B5563">users ↓</text>
 
-    <text x="542" y="151" font-size="12.5" fill="#1E1B4B" text-anchor="middle">5</text>
-    <text x="630" y="151" font-size="12.5" fill="#1E1B4B" text-anchor="middle">1</text>
-    <text x="542" y="187" font-size="12.5" fill="#1E1B4B" text-anchor="middle">1</text>
-    <text x="630" y="187" font-size="12.5" fill="#1E1B4B" text-anchor="middle">5</text>
-    <text x="718" y="187" font-size="12.5" fill="#1E1B4B" text-anchor="middle">5</text>
-    <text x="542" y="223" font-size="12.5" fill="#1E1B4B" text-anchor="middle">5</text>
-    <text x="630" y="223" font-size="12.5" fill="#1E1B4B" text-anchor="middle">1</text>
-    <text x="718" y="223" font-size="12.5" fill="#1E1B4B" text-anchor="middle">4</text>
-  </g>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Rows are teammates; columns are snacks; cells hold ratings.</text>
+<text x="119" y="74" text-anchor="middle" font-size="20">🍪</text>
+<text x="185" y="74" text-anchor="middle" font-size="20">🍎</text>
+<text x="251" y="74" text-anchor="middle" font-size="20">🥜</text>
+<text x="119" y="91" text-anchor="middle" font-size="14" fill="#1E1B4B">Cookies</text>
+<text x="185" y="91" text-anchor="middle" font-size="14" fill="#1E1B4B">Apples</text>
+<text x="251" y="91" text-anchor="middle" font-size="14" fill="#1E1B4B">Nuts</text>
 
-  <!-- Panel 3 -->
-  <g>
-    <rect x="38" y="365" width="220" height="150" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
-    <path d="M58 365 V515 M78 365 V515 M98 365 V515 M118 365 V515 M138 365 V515 M158 365 V515 M178 365 V515 M198 365 V515 M218 365 V515 M238 365 V515 M38 390 H258 M38 415 H258 M38 440 H258 M38 465 H258 M38 490 H258" fill="none" stroke="#E5E7EB" stroke-width="1"/>
-    <rect x="59" y="391" width="18" height="23" rx="2" fill="#D1FAE5"/>
-    <rect x="159" y="441" width="18" height="23" rx="2" fill="#E0F2FE"/>
-    <rect x="219" y="466" width="18" height="23" rx="2" fill="#FEF3C7"/>
+<text x="22" y="119" font-size="15" font-weight="700" fill="#065F46">Ava</text>
+<text x="22" y="155" font-size="15" fill="#1E1B4B">Bo</text>
+<text x="22" y="191" font-size="15" fill="#1E1B4B">Cy</text>
 
-    <rect x="270" y="360" width="105" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="322.5" y="380" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="322.5" dy="0">10,000 columns.</tspan>
-      <tspan x="322.5" dy="17">Six coworkers.</tspan>
-    </text>
+<text x="119" y="120" text-anchor="middle" font-size="16" fill="#1E1B4B">5</text>
+<text x="185" y="120" text-anchor="middle" font-size="16" fill="#1E1B4B">1</text>
+<rect x="223" y="100" width="56" height="28" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="119" y="156" text-anchor="middle" font-size="16" fill="#1E1B4B">1</text>
+<text x="185" y="156" text-anchor="middle" font-size="16" fill="#1E1B4B">5</text>
+<text x="251" y="156" text-anchor="middle" font-size="16" fill="#1E1B4B">5</text>
+<text x="119" y="192" text-anchor="middle" font-size="16" fill="#1E1B4B">5</text>
+<text x="185" y="192" text-anchor="middle" font-size="16" fill="#1E1B4B">1</text>
+<text x="251" y="192" text-anchor="middle" font-size="16" fill="#1E1B4B">4</text>
 
-    <circle cx="319" cy="447" r="10" fill="#7C3AED"/>
-    <path d="M319 458 L319 500 M319 470 L296 480 M319 470 L339 480 M319 500 L307 522 M319 500 L332 522" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="361" cy="447" r="10" fill="#10B981"/>
-    <path d="M361 458 L361 500 M361 470 L344 481 M361 470 L377 480 M361 500 L350 522 M361 500 L374 522" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+<rect x="12" y="222" width="26" height="22" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="25" y="238" text-anchor="middle" font-size="15" fill="#1E1B4B">5</text>
+<text x="46" y="238" font-size="15" fill="#4B5563">= a rating</text>
+<rect x="134" y="222" width="26" height="22" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="168" y="238" font-size="15" fill="#4B5563">= not tried yet</text>
+</g>
 
-    <text x="148" y="535" font-size="12.5" font-weight="700" fill="#EF4444" text-anchor="middle">&gt;99% BLANK</text>
-  </g>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The sheet is impressive; the information is mostly air.</text>
+<!-- ===== Panel 3: the whole catalog ===== -->
+<g transform="translate(16,292)">
+<rect x="0" y="0" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">The whole catalog</text>
 
-  <!-- Panel 4 -->
-  <g>
-    <rect x="540" y="355" width="228" height="48" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="654" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="654" dy="0">Ava, your blank looks</tspan>
-      <tspan x="654" dy="17">very much like a 4.</tspan>
-    </text>
+<!-- Bo -->
+<path d="M21,116 V92 Q21,78 35,78 H45 Q59,78 59,92 V116 Z" fill="#D1D5DB"/>
+<circle cx="40" cy="64" r="13" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
+<circle cx="35.5" cy="62" r="2" fill="#1E1B4B"/><circle cx="44.5" cy="62" r="2" fill="#1E1B4B"/>
+<path d="M35,68 Q40,74 45,68 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M88,42 H274 Q286,42 286,54 V84 Q286,96 274,96 H88 Q76,96 76,84 V72 L58,66 L76,60 V54 Q76,42 88,42 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="181" y="64" text-anchor="middle" font-size="15" fill="#1E1B4B">Let’s add all 1,000 snacks</text>
+<text x="181" y="85" text-anchor="middle" font-size="15" fill="#1E1B4B">from the supplier!</text>
 
-    <rect x="430" y="415" width="148" height="98" rx="5" fill="#FFFFFF" stroke="#6B7280"/>
-    <path d="M470 415 V513 M506 415 V513 M542 415 V513 M430 447 H578 M430 480 H578" fill="none" stroke="#E5E7EB" stroke-width="1.5"/>
-    <text x="488" y="437" font-size="12" fill="#6B7280" text-anchor="middle">C</text>
-    <text x="524" y="437" font-size="12" fill="#6B7280" text-anchor="middle">A</text>
-    <text x="560" y="437" font-size="12" fill="#6B7280" text-anchor="middle">N</text>
-    <text x="450" y="469" font-size="12" fill="#10B981" text-anchor="middle">Ava</text>
-    <text x="450" y="502" font-size="12" fill="#0EA5E9" text-anchor="middle">Cy</text>
-    <text x="488" y="469" font-size="12.5" fill="#1E1B4B" text-anchor="middle">5</text>
-    <text x="524" y="469" font-size="12.5" fill="#1E1B4B" text-anchor="middle">1</text>
-    <text x="560" y="469" font-size="14" font-weight="700" fill="#D97706" text-anchor="middle">?</text>
-    <text x="488" y="502" font-size="12.5" fill="#1E1B4B" text-anchor="middle">5</text>
-    <text x="524" y="502" font-size="12.5" fill="#1E1B4B" text-anchor="middle">1</text>
-    <text x="560" y="502" font-size="12.5" fill="#0EA5E9" text-anchor="middle">4</text>
+<text x="258" y="121" text-anchor="end" font-size="14" fill="#4B5563">1,000 columns →</text>
+<rect x="58" y="130" width="200" height="66" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M68,130 V196 M78,130 V196 M88,130 V196 M98,130 V196 M108,130 V196 M118,130 V196 M128,130 V196 M138,130 V196 M148,130 V196 M158,130 V196 M168,130 V196 M178,130 V196 M188,130 V196 M198,130 V196 M208,130 V196 M218,130 V196 M228,130 V196 M238,130 V196 M248,130 V196 M58,152 H258 M58,174 H258" stroke="#E5E7EB" stroke-width="1"/>
+<rect x="69" y="131" width="8" height="20" fill="#6B7280"/>
+<rect x="119" y="153" width="8" height="20" fill="#6B7280"/>
+<rect x="209" y="153" width="8" height="20" fill="#6B7280"/>
+<rect x="69" y="175" width="8" height="20" fill="#6B7280"/>
+<rect x="169" y="175" width="8" height="20" fill="#6B7280"/>
+<text x="272" y="168" text-anchor="middle" font-size="16" font-weight="700" fill="#6B7280">…</text>
+<rect x="9" y="127" width="253" height="28" rx="6" fill="none" stroke="#10B981" stroke-width="2" stroke-dasharray="5 3"/>
+<text x="16" y="146" font-size="15" font-weight="700" fill="#065F46">Ava</text>
+<text x="16" y="168" font-size="15" fill="#1E1B4B">Bo</text>
+<text x="16" y="190" font-size="15" fill="#1E1B4B">Cy</text>
 
-    <rect x="635" y="416" width="133" height="34" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="701.5" y="438" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Fine. Cashews.</text>
+<rect x="12" y="206" width="274" height="46" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="24" y="238" font-size="25" font-weight="700" fill="#92400E">99% blank</text>
+<text x="164" y="225" font-size="15" fill="#1E1B4B">Ava rated 10</text>
+<text x="164" y="244" font-size="15" fill="#1E1B4B">of 1,000 snacks</text>
+</g>
 
-    <circle cx="620" cy="486" r="10" fill="#7C3AED"/>
-    <path d="M620 497 L620 538 M620 508 L645 517 M620 508 L601 520 M620 538 L608 558 M620 538 L633 558" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="708" cy="486" r="10" fill="#10B981"/>
-    <path d="M708 497 L708 538 M708 508 L683 518 M708 508 L730 518 M708 538 L696 558 M708 538 L721 558" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M647 514 Q664 530 681 514 L677 531 Q664 540 651 531 Z" fill="#FEF3C7" stroke="#D97706"/>
-    <circle cx="657" cy="518" r="3" fill="#D97706"/>
-    <circle cx="666" cy="520" r="3" fill="#D97706"/>
-    <circle cx="674" cy="517" r="3" fill="#D97706"/>
-  </g>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">At last, the empty box starts looking suspiciously edible.</text>
+<!-- ===== Panel 4: getting personal ===== -->
+<g transform="translate(326,292)">
+<rect x="0" y="0" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Getting personal</text>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">A rating matrix uses user rows, item columns, and rating cells; sparse blanks need prediction.</text>
+<path d="M24,42 H274 Q286,42 286,54 V82 Q286,94 274,94 H260 L255,110 L246,94 H24 Q12,94 12,82 V54 Q12,42 24,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="149" y="63" text-anchor="middle" font-size="15" fill="#1E1B4B">Ava, you rate just like Cy.</text>
+<text x="149" y="84" text-anchor="middle" font-size="15" fill="#1E1B4B">Your nuts blank? Probably a 4.</text>
+
+<!-- the spreadsheet -->
+<rect x="230" y="114" width="50" height="62" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<path d="M230,148 H280 M230,162 H280 M247,148 V176 M263,148 V176" stroke="#C4B5FD" stroke-width="1.5"/>
+<circle cx="248" cy="131" r="2.2" fill="#1E1B4B"/><circle cx="262" cy="131" r="2.2" fill="#1E1B4B"/>
+<path d="M249,138 Q255,142 261,138" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+<!-- mini matrix -->
+<rect x="16" y="104" width="192" height="80" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M16.75,128 V111 Q16.75,104.75 23,104.75 H201 Q207.25,104.75 207.25,111 V128 Z" fill="#F3F4F6"/>
+<path d="M16,128 H208" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M16,156 H208" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M64,104 V184" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M112,104 V184 M160,104 V184" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="68" y="132" width="88" height="48" rx="5" fill="#D1FAE5"/>
+<text x="88" y="123" text-anchor="middle" font-size="17">🍪</text>
+<text x="136" y="123" text-anchor="middle" font-size="17">🍎</text>
+<text x="184" y="123" text-anchor="middle" font-size="17">🥜</text>
+<text x="26" y="147" font-size="15" font-weight="700" fill="#065F46">Ava</text>
+<text x="26" y="175" font-size="15" fill="#1E1B4B">Cy</text>
+<text x="88" y="148" text-anchor="middle" font-size="16" fill="#1E1B4B">5</text>
+<text x="136" y="148" text-anchor="middle" font-size="16" fill="#1E1B4B">1</text>
+<rect x="164" y="132" width="40" height="20" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="184" y="148" text-anchor="middle" font-size="16" font-weight="700" fill="#7C3AED">4?</text>
+<text x="88" y="176" text-anchor="middle" font-size="16" fill="#1E1B4B">5</text>
+<text x="136" y="176" text-anchor="middle" font-size="16" fill="#1E1B4B">1</text>
+<text x="184" y="176" text-anchor="middle" font-size="16" fill="#1E1B4B">4</text>
+
+<!-- Ava, deadpan -->
+<path d="M21,258 V234 Q21,220 35,220 H45 Q59,220 59,234 V258 Z" fill="#10B981"/>
+<circle cx="40" cy="206" r="13" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="35.5" cy="204" r="2" fill="#1E1B4B"/><circle cx="44.5" cy="204" r="2" fill="#1E1B4B"/>
+<path d="M36,212 H44" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M88,194 H274 Q286,194 286,206 V216 Q286,228 274,228 H88 Q76,228 76,216 V214 L58,206 L76,202 V206 Q76,194 88,194 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="181" y="216" text-anchor="middle" font-size="15" fill="#1E1B4B">Creepy. …Pass the nuts.</text>
+</g>
+
+<!-- takeaway -->
+<text x="320" y="586" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">Users</tspan> are rows, <tspan font-weight="700">items</tspan> are columns, <tspan font-weight="700">ratings</tspan> fill the cells.</text>
+<text x="320" y="610" text-anchor="middle" font-size="16" fill="#1E1B4B">Most cells stay <tspan font-weight="700" fill="#92400E">blank</tspan>. The blanks are what you <tspan font-weight="700" fill="#7C3AED">predict</tspan>.</text>
 </svg>

@@ -1,33 +1,141 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 462" role="img" aria-labelledby="pb017-title pb017-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb017-title">Incident response: protect users first, find the cause second</title>
+  <desc id="pb017-desc">A recommender incident in six steps: detect (often silent), classify, fall back, diagnose, fix and verify, post-mortem; every post-mortem adds a new monitor that feeds detection. A bar shows what users see: wrong recommendations from the moment something breaks until the fallback is switched on, a safe fallback while the team diagnoses and fixes, then the fixed model once it is verified. The fallback has three pre-built tiers: degrade gracefully (roll back to the last good model), popular fallback (trending items, not personalized) and disable (a cached list or no widget at all); each step down carries less risk but is less personal.</desc>
   <style>
-    .orbit{animation:o 8s linear infinite;transform-origin:400px 235px}
-    @keyframes o{to{transform:rotate(360deg)}}
-    .counter{animation:c 8s linear infinite reverse;transform-origin:0 0}
+    .pb017-anim{animation-duration:10s;animation-iteration-count:infinite}
+    .pb017-cover{transform:scaleX(0);transform-box:fill-box;transform-origin:right center;animation-name:pb017-cover;animation-timing-function:linear}
+    @keyframes pb017-cover{0%{transform:scaleX(1)}40%,100%{transform:scaleX(0)}}
+    .pb017-cursor{opacity:0;animation-name:pb017-cursor;animation-timing-function:linear}
+    @keyframes pb017-cursor{0%{opacity:1;transform:translateX(0)}40%{opacity:1;transform:translateX(592px)}44%,100%{opacity:0;transform:translateX(592px)}}
+    .pb017-ring{opacity:0;animation-name:pb017-ring;animation-timing-function:ease-out}
+    @keyframes pb017-ring{0%{opacity:0}3%{opacity:1}14%,100%{opacity:0}}
+    .pb017-halo{opacity:0;animation-name:pb017-halo;animation-timing-function:ease-out}
+    @keyframes pb017-halo{0%{opacity:0}4%{opacity:1}24%,100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb017-anim{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Incident Response: The Loop That Never Panics</text>
+  <defs>
+    <marker id="pb017-ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9CA3AF"/>
+    </marker>
+    <marker id="pb017-agr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#10B981"/>
+    </marker>
+    <marker id="pb017-aa" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#F59E0B"/>
+    </marker>
+  </defs>
 
-  <circle cx="400" cy="235" r="120" fill="none" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="6 6"/>
-  <g class="orbit"><circle cx="400" cy="115" r="7" fill="#7C3AED"/></g>
+  <rect x=".5" y=".5" width="639" height="461" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="24" y="40" font-size="20" font-weight="700" fill="#1E1B4B">Protect users first, find the cause second</text>
 
-  <g text-anchor="middle" font-size="13">
-    <rect x="330" y="78" width="140" height="52" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-    <text x="400" y="99" font-weight="800" fill="#B91C1C">1 · DETECT</text>
-    <text x="400" y="118" fill="#B91C1C" font-size="11.5">alert fires: CTR −30 %</text>
+  <!-- the learning loop: post-mortem → new monitor → detection -->
+  <path d="M568,93 V68 H124 V91" fill="none" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#pb017-agr)"/>
+  <rect x="189" y="58" width="314" height="22" fill="#FAFAF7"/>
+  <text x="346" y="74" text-anchor="middle" font-size="15" font-weight="600" fill="#065F46">each post-mortem adds a new monitor</text>
 
-    <rect x="545" y="205" width="150" height="52" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="620" y="226" font-weight="800" fill="#92400E">2 · MITIGATE</text>
-    <text x="620" y="245" fill="#92400E" font-size="11.5">rollback / safe fallback</text>
+  <!-- the six steps -->
+  <text x="40" y="116" text-anchor="middle" font-size="18">💥</text>
+  <text x="40" y="146" text-anchor="middle" font-size="15" font-weight="600" fill="#991B1B">breaks</text>
+  <line x1="58" y1="110" x2="102" y2="110" stroke="#DC2626" stroke-width="2" stroke-dasharray="3 4" stroke-linecap="round"/>
+  <g stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb017-ag)">
+    <line x1="142" y1="110" x2="176" y2="110"/>
+    <line x1="214" y1="110" x2="257" y2="110"/>
+    <line x1="295" y1="110" x2="344" y2="110"/>
+    <line x1="382" y1="110" x2="440" y2="110"/>
+    <line x1="478" y1="110" x2="548" y2="110"/>
+  </g>
+  <g font-size="15" font-weight="700" text-anchor="middle">
+    <circle cx="124" cy="110" r="15" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="124" y="115" fill="#1E1B4B">1</text>
+    <circle cx="196" cy="110" r="15" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="196" y="115" fill="#1E1B4B">2</text>
+    <circle cx="277" cy="110" r="15" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <text x="277" y="115" fill="#92400E">3</text>
+    <circle cx="364" cy="110" r="15" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="364" y="115" fill="#1E1B4B">4</text>
+    <circle cx="460" cy="110" r="15" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="460" y="115" fill="#1E1B4B">5</text>
+    <circle cx="568" cy="110" r="15" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="568" y="115" fill="#1E1B4B">6</text>
+  </g>
+  <g fill="none" stroke-width="2.5">
+    <circle class="pb017-anim pb017-ring" style="animation-delay:0.68s" cx="124" cy="110" r="21" stroke="#9CA3AF"/>
+    <circle class="pb017-anim pb017-ring" style="animation-delay:1.16s" cx="196" cy="110" r="21" stroke="#9CA3AF"/>
+    <circle class="pb017-anim pb017-ring" style="animation-delay:1.71s" cx="277" cy="110" r="21" stroke="#F59E0B"/>
+    <circle class="pb017-anim pb017-ring" style="animation-delay:2.30s" cx="364" cy="110" r="21" stroke="#9CA3AF"/>
+    <circle class="pb017-anim pb017-ring" style="animation-delay:2.95s" cx="460" cy="110" r="21" stroke="#9CA3AF"/>
+    <circle class="pb017-anim pb017-ring" style="animation-delay:3.68s" cx="568" cy="110" r="21" stroke="#9CA3AF"/>
+  </g>
+  <g font-size="15" font-weight="600" text-anchor="middle" fill="#1E1B4B">
+    <text x="124" y="146">Detect</text>
+    <text x="196" y="146">Classify</text>
+    <text x="277" y="146" fill="#92400E">Fall back</text>
+    <text x="364" y="146">Diagnose</text>
+    <text x="460" y="146">Fix &amp; verify</text>
+    <text x="568" y="146">Post-mortem</text>
+  </g>
+  <text x="124" y="164" text-anchor="middle" font-size="14" fill="#991B1B">often silent</text>
 
-    <rect x="330" y="332" width="140" height="52" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="400" y="353" font-weight="800" fill="#075985">3 · DIAGNOSE</text>
-    <text x="400" y="372" fill="#075985" font-size="11.5">logs · diffs · features</text>
+  <!-- what users see meanwhile -->
+  <text x="24" y="190" font-size="14" font-weight="600" fill="#4B5563">What users see</text>
+  <rect x="24" y="198" width="253" height="28" rx="6" fill="#FEE2E2" stroke="#DC2626" stroke-width="1.5"/>
+  <rect x="277" y="198" width="237" height="28" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="514" y="198" width="102" height="28" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <g font-size="14" font-weight="700" text-anchor="middle">
+    <text x="150" y="217" fill="#991B1B">wrong recommendations</text>
+    <text x="395" y="217" fill="#92400E">safe fallback</text>
+    <text x="565" y="217" fill="#065F46">fixed model</text>
+  </g>
+  <rect class="pb017-anim pb017-cover" x="22" y="196" width="596" height="32" fill="#FAFAF7"/>
+  <line class="pb017-anim pb017-cursor" x1="24" y1="86" x2="24" y2="230" stroke="#1E1B4B" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>
 
-    <rect x="105" y="205" width="150" height="52" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="180" y="226" font-weight="800" fill="#065F46">4 · POST-MORTEM</text>
-    <text x="180" y="245" fill="#065F46" font-size="11.5">blameless → new guardrail</text>
+  <!-- zoom into the fallback -->
+  <polygon points="277,227 514,227 616,250 24,250" fill="#FEF3C7" opacity=".7"/>
+  <rect class="pb017-anim pb017-halo" style="animation-delay:1.71s" x="20" y="246" width="600" height="204" rx="15" fill="none" stroke="#F59E0B" stroke-width="6" stroke-opacity=".4"/>
+  <rect x="24" y="250" width="592" height="196" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="40" y="276" font-size="16" font-weight="700" fill="#1E1B4B">3 · Fall back: pre-built tiers</text>
+  <text x="600" y="276" text-anchor="end" font-size="14" font-weight="600" fill="#92400E">↓ less risk, less personal</text>
+
+  <!-- tier 1 -->
+  <rect x="40" y="290" width="560" height="44" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="50" y="302" width="58" height="20" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="79" y="317" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Tier 1</text>
+  <text x="120" y="309" font-size="15" font-weight="700" fill="#1E1B4B">Degrade gracefully</text>
+  <text x="120" y="327" font-size="14" fill="#4B5563">roll back to the last good model</text>
+  <rect x="432" y="298" width="156" height="28" rx="7" fill="#FAFAF7" stroke="#D1D5DB"/>
+  <text x="442" y="317" font-size="14" font-weight="600" fill="#4B5563">For you</text>
+  <g font-size="14" text-anchor="middle" fill="#6B7280">
+    <rect x="506" y="302" width="22" height="20" rx="4" fill="#E5E7EB"/><text x="517" y="317">●</text>
+    <rect x="532" y="302" width="22" height="20" rx="4" fill="#E5E7EB"/><text x="543" y="317">▲</text>
+    <rect x="558" y="302" width="22" height="20" rx="4" fill="#E5E7EB"/><text x="569" y="317">■</text>
   </g>
 
-  <text x="400" y="243" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">mitigate FIRST,</text>
-  <text x="400" y="262" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">understand second</text>
+  <!-- step down -->
+  <path d="M50,334 V362 H58" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#pb017-aa)"/>
+
+  <!-- tier 2 -->
+  <rect x="60" y="340" width="540" height="44" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="70" y="352" width="58" height="20" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="99" y="367" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Tier 2</text>
+  <text x="140" y="359" font-size="15" font-weight="700" fill="#1E1B4B">Popular fallback</text>
+  <text x="140" y="377" font-size="14" fill="#4B5563">trending items, not personalized</text>
+  <rect x="432" y="348" width="156" height="28" rx="7" fill="#FAFAF7" stroke="#D1D5DB"/>
+  <text x="442" y="367" font-size="14" font-weight="600" fill="#4B5563">Popular</text>
+  <g font-size="14" font-weight="700" text-anchor="middle" fill="#6B7280">
+    <rect x="506" y="352" width="22" height="20" rx="4" fill="#E5E7EB"/><text x="517" y="367">1</text>
+    <rect x="532" y="352" width="22" height="20" rx="4" fill="#E5E7EB"/><text x="543" y="367">2</text>
+    <rect x="558" y="352" width="22" height="20" rx="4" fill="#E5E7EB"/><text x="569" y="367">3</text>
+  </g>
+
+  <path d="M70,384 V412 H78" fill="none" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#pb017-aa)"/>
+
+  <!-- tier 3 -->
+  <rect x="80" y="390" width="520" height="44" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="90" y="402" width="58" height="20" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="119" y="417" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Tier 3</text>
+  <text x="160" y="409" font-size="15" font-weight="700" fill="#1E1B4B">Disable</text>
+  <text x="160" y="427" font-size="14" fill="#4B5563">cached list, or remove the widget</text>
+  <rect x="432" y="398" width="156" height="28" rx="7" fill="#FAFAF7" stroke="#D1D5DB"/>
+  <rect x="442" y="402" width="136" height="20" rx="10" fill="#FFFFFF" stroke="#D1D5DB"/>
+  <text x="454" y="417" font-size="14" fill="#6B7280">🔍 Search…</text>
 </svg>

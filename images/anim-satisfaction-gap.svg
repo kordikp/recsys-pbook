@@ -1,26 +1,97 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="pb027-title pb027-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb027-title">The dashboard crowned the wrong evening</title>
+  <desc id="pb027-desc">Two evenings on a video app. By watch time, the engagement metric, Evening A wins: 4 hours of autoplay against 2 hours for Evening B. But asked whether they were glad they watched, the Evening A viewer says not really, they meant to watch just one video, while the Evening B viewer would happily watch again; and only Evening B's viewer comes back on their own, not just when a notification pings them. Engagement counts what people do, not whether it was worth it.</desc>
   <style>
-    .gap{animation:g 5s ease-in-out infinite}
-    @keyframes g{0%,20%,100%{opacity:.35}50%,85%{opacity:1}}
+    .pb027-barA{transform-box:fill-box;transform-origin:left center;animation:pb027-barA 10s linear infinite both}
+    .pb027-barB{transform-box:fill-box;transform-origin:left center;animation:pb027-barB 10s linear infinite both}
+    @keyframes pb027-barA{0%{transform:scaleX(0);opacity:1}20%{transform:scaleX(1);opacity:1}94%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+    @keyframes pb027-barB{0%{transform:scaleX(0);opacity:1}10%{transform:scaleX(1);opacity:1}94%{transform:scaleX(1);opacity:1}100%{transform:scaleX(1);opacity:0}}
+    .pb027-valA{animation:pb027-valA 10s linear infinite both}
+    .pb027-valB{animation:pb027-valB 10s linear infinite both}
+    @keyframes pb027-valA{0%,19%{opacity:0}21%,94%{opacity:1}100%{opacity:0}}
+    @keyframes pb027-valB{0%,9%{opacity:0}11%,94%{opacity:1}100%{opacity:0}}
+    .pb027-pop{transform-box:fill-box;transform-origin:center;animation:pb027-pop 10s ease-out infinite both}
+    @keyframes pb027-pop{0%,21%{opacity:0;transform:scale(.6)}24%{opacity:1;transform:scale(1.1)}27%,94%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(1)}}
+    .pb027-r2{animation:pb027-r2 10s ease-out infinite both}
+    .pb027-r3{animation:pb027-r3 10s ease-out infinite both}
+    @keyframes pb027-r2{0%,28%{opacity:0}32%,94%{opacity:1}100%{opacity:0}}
+    @keyframes pb027-r3{0%,35%{opacity:0}39%,94%{opacity:1}100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb027-barA,.pb027-barB,.pb027-valA,.pb027-valB,.pb027-pop,.pb027-r2,.pb027-r3{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Engagement Up, Satisfaction Flat: Mind the Gap</text>
 
-  <g stroke="#9CA3AF" stroke-width="1.5"><line x1="90" y1="320" x2="740" y2="320"/><line x1="90" y1="320" x2="90" y2="80"/></g>
-  <text x="415" y="348" text-anchor="middle" font-size="12" fill="#6B7280">months of optimizing for clicks →</text>
-  <text x="74" y="200" text-anchor="middle" font-size="12" fill="#6B7280" transform="rotate(-90 74 200)">metric value</text>
+  <rect x=".5" y=".5" width="639" height="419" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <path d="M90 300 C220 270 360 200 500 150 C600 118 680 100 730 92" fill="none" stroke="#D97706" stroke-width="3.5"/>
-  <text x="600" y="88" font-size="13" font-weight="700" fill="#92400E">engagement (time spent)</text>
+  <!-- title -->
+  <text x="24" y="42" font-size="20" font-weight="700" fill="#1E1B4B">The dashboard crowned the wrong evening</text>
+  <text x="24" y="66" font-size="14" fill="#6B7280">Two evenings on a video app · toy example</text>
 
-  <path d="M90 302 C220 282 340 258 460 252 C580 248 670 252 730 258" fill="none" stroke="#10B981" stroke-width="3.5"/>
-  <text x="600" y="286" font-size="13" font-weight="700" fill="#065F46">satisfaction (surveys)</text>
+  <!-- column headers -->
+  <text x="277" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Evening A</text>
+  <text x="277" y="116" text-anchor="middle" font-size="15" fill="#4B5563">autoplay rabbit hole</text>
+  <text x="507" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Evening B</text>
+  <text x="507" y="116" text-anchor="middle" font-size="15" fill="#4B5563">a show they picked</text>
 
-  <g class="gap">
-    <path d="M660 100 L660 250" stroke="#EF4444" stroke-width="2" stroke-dasharray="6 5"/>
-    <rect x="560" y="160" width="196" height="40" rx="9" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-    <text x="658" y="178" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B91C1C">the gap = addiction risk,</text>
-    <text x="658" y="194" text-anchor="middle" font-size="12.5" font-weight="700" fill="#B91C1C">churn stored for later</text>
+  <!-- ROW 1: engagement -->
+  <rect x="24" y="137" width="112" height="26" rx="13" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="80" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Engagement</text>
+  <text x="28" y="186" font-size="15" fill="#1E1B4B">watch time</text>
+
+  <rect x="168" y="128" width="218" height="72" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text class="pb027-valA" x="184" y="158" font-size="22" font-weight="800" fill="#4C1D95">4 h</text>
+  <g class="pb027-pop">
+    <rect x="250" y="139" width="120" height="26" rx="13" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="310" y="157" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">🏆 top session</text>
   </g>
-  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">People kept scrolling — and liked it less. If you only chart engagement, this failure looks like success.</text>
+  <rect x="184" y="174" width="180" height="14" rx="7" fill="#FFFFFF" stroke="#DDD6FE"/>
+  <rect class="pb027-barA" x="184" y="174" width="180" height="14" rx="7" fill="#7C3AED"/>
+
+  <rect x="398" y="128" width="218" height="72" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text class="pb027-valB" x="414" y="158" font-size="22" font-weight="800" fill="#1E1B4B">2 h</text>
+  <rect x="414" y="174" width="180" height="14" rx="7" fill="#F3F4F6" stroke="#E5E7EB"/>
+  <rect class="pb027-barB" x="414" y="174" width="90" height="14" rx="7" fill="#7C3AED"/>
+
+  <!-- ROW 2 + 3 label: satisfaction -->
+  <rect x="24" y="221" width="112" height="26" rx="13" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="80" y="239" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Satisfaction</text>
+  <text x="28" y="270" font-size="15" fill="#1E1B4B">Glad you</text>
+  <text x="28" y="289" font-size="15" fill="#1E1B4B">watched?</text>
+  <text x="28" y="343" font-size="15" fill="#1E1B4B">Back by choice?</text>
+
+  <!-- ROW 2 cells -->
+  <rect x="168" y="212" width="218" height="92" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="398" y="212" width="218" height="92" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <g class="pb027-r2">
+    <!-- A: regret -->
+    <path d="M172,292 V280 Q172,264 190,264 Q208,264 208,280 V292 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="190" cy="244" r="13" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="185" cy="242" r="1.8" fill="#1E1B4B"/>
+    <circle cx="195" cy="242" r="1.8" fill="#1E1B4B"/>
+    <path d="M185,251 Q190,247 195,251" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M226,222 H370 Q378,222 378,230 V270 Q378,278 370,278 H226 Q218,278 218,270 V252 L210,246 L218,242 V230 Q218,222 226,222 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <text x="230" y="245" font-size="15" fill="#1E1B4B">Not really. I meant</text>
+    <text x="230" y="265" font-size="15" fill="#1E1B4B">to watch just one.</text>
+
+    <!-- B: glad -->
+    <rect x="398" y="212" width="218" height="92" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <path d="M402,292 V280 Q402,264 420,264 Q438,264 438,280 V292 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="420" cy="244" r="13" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="415" cy="242" r="1.8" fill="#1E1B4B"/>
+    <circle cx="425" cy="242" r="1.8" fill="#1E1B4B"/>
+    <path d="M415,248 Q420,253 425,248" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <path d="M456,222 H600 Q608,222 608,230 V270 Q608,278 600,278 H456 Q448,278 448,270 V252 L440,246 L448,242 V230 Q448,222 456,222 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <text x="460" y="245" font-size="15" fill="#1E1B4B">Yes! I’d happily</text>
+    <text x="460" y="265" font-size="15" fill="#1E1B4B">watch it again.</text>
+  </g>
+
+  <!-- ROW 3 cells -->
+  <rect x="168" y="316" width="218" height="44" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="398" y="316" width="218" height="44" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <g class="pb027-r3">
+    <text x="277" y="344" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">🔔 only when pinged</text>
+    <rect x="398" y="316" width="218" height="44" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="507" y="344" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">✓ yes, on their own</text>
+  </g>
+
+  <!-- takeaway -->
+  <text x="320" y="396" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Engagement counts what people do, not whether it was worth it.</text>
 </svg>

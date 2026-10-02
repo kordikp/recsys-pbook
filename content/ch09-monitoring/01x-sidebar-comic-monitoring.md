@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Everything Is Fine, Served Promptly — a four-panel comic](images/comic-monitoring.svg)
+![Everything Is Fine, Served Promptly — a four-panel café comic: the barista-recommender notes a regular loves muffins, then shows only muffins and calls them the best seller, misses that the regular now quietly wants a salad, and celebrates all-green health checks (uptime, speed, no errors) after the regular has gone](images/comic-monitoring.svg)
 
 *Uptime and latency miss silent quality loss; monitor recommendation drift and feedback loops.*

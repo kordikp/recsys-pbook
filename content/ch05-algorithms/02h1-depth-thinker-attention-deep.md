@@ -24,7 +24,7 @@ Every recommendation you receive carries an implicit assumption about how much y
 
 This section provides a complete architectural walkthrough of how transformer-based sequential recommenders work, from the foundational self-attention mechanism through production-deployed architectures.
 
-![Self-attention mechanism with animated weight connections](/images/anim-attention-mechanism.svg)
+![Self-attention worked through for one position: the newest item's query scores every past item, softmax turns the scores into weights that sum to 1, the future item is masked, and the weighted blend z5 predicts the next item](/images/anim-attention-mechanism.svg)
 
 ## Why Sequence Matters: Temporal Dynamics in Recommendation
 

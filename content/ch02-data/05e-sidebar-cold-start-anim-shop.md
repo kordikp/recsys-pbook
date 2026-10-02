@@ -5,7 +5,7 @@ title: "Watch: A New Product's First Day"
 readingTime: 1
 standalone: true
 core: false
-teaser: "Animated: a new hiking boot arrives, a tag bridges it to its neighbors, a first ❤ lands."
+teaser: "Animated: a new hiking boot with zero clicks, a tag that links it to the trail shoe, and its first ❤."
 voice: explorer
 parent: item-cold-start
 diagram: anim-cold-start-shop
@@ -24,4 +24,4 @@ genre: animation
 carriers: prose|animation
 ---
 
-Watch the loop: the **NEW** boot slides onto the shelf with no stars → its *hiking* tag links it to the trail shoe next door → one shopper from an exploration slot leaves the first ❤ — and the cold start is over.
+Watch the loop: the **NEW** boot arrives with zero clicks, so its *customers also liked* box is empty → its *hiking* tag links it to the trail shoe → a trail-shoe fan sees it in a small **trial slot** (the shop's exploration budget) and leaves the first ❤ — and real behavior starts to take over.

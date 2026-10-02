@@ -1,34 +1,118 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 484" role="img" aria-labelledby="pb021-title pb021-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb021-title">Not every “no” weighs the same</title>
+  <desc id="pb021-desc">One scroll through a feed, as the model reads it. Tapping “Not interested” on a video is an explicit, deliberate no and gets the most weight (e.g. 10). Opening an article and going back after 3 seconds is an inferred no (e.g. 3). Scrolling past a song that was on screen is a weak no (e.g. 1). Item #47 sat further down than the user ever scrolled: it was never seen, so it is missing data, not a rejection, and is not counted as a negative at all.</desc>
   <style>
-    .bar{animation:grow 4s ease-in-out infinite}
-    @keyframes grow{0%,15%{transform:scaleX(.4)}55%,85%{transform:scaleX(1)}100%{transform:scaleX(.4)}}
+    .pb021-fill{stroke-dasharray:100 100;stroke-dashoffset:0}
+    .pb021-f1{animation:pb021-f1 10s ease-out infinite}
+    .pb021-f2{animation:pb021-f2 10s ease-out infinite}
+    .pb021-f3{animation:pb021-f3 10s ease-out infinite}
+    @keyframes pb021-f1{0%,4%{stroke-dashoffset:100}13%,94%{stroke-dashoffset:0}100%{stroke-dashoffset:100}}
+    @keyframes pb021-f2{0%,14%{stroke-dashoffset:100}23%,94%{stroke-dashoffset:0}100%{stroke-dashoffset:100}}
+    @keyframes pb021-f3{0%,24%{stroke-dashoffset:100}33%,94%{stroke-dashoffset:0}100%{stroke-dashoffset:100}}
+    .pb021-ring{opacity:0;animation:pb021-ring 10s ease-out infinite}
+    @keyframes pb021-ring{0%{opacity:0}2%{opacity:1}9%,100%{opacity:0}}
+    .pb021-miss{animation:pb021-miss 10s ease-out infinite}
+    @keyframes pb021-miss{0%,34%{opacity:0}41%,94%{opacity:1}100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb021-f1,.pb021-f2,.pb021-f3,.pb021-ring,.pb021-miss{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">What a Skip Means Depends on WHEN You Skip</text>
+  <defs>
+    <marker id="pb021-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M1,1 L9,5 L1,9 Z" fill="#7C3AED"/>
+    </marker>
+    <marker id="pb021-arrA" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M1,1 L9,5 L1,9 Z" fill="#F59E0B"/>
+    </marker>
+    <clipPath id="pb021-c1"><rect x="510" y="156" width="100" height="18" rx="9"/></clipPath>
+    <clipPath id="pb021-c2"><rect x="510" y="224" width="100" height="18" rx="9"/></clipPath>
+    <clipPath id="pb021-c3"><rect x="510" y="292" width="100" height="18" rx="9"/></clipPath>
+  </defs>
 
-  <g font-size="13">
-    <text x="70" y="102" font-weight="700" fill="#B91C1C">skip &lt; 5 s</text>
-    <rect x="190" y="86" width="380" height="24" rx="12" fill="#FEE2E2"/>
-    <rect class="bar" x="190" y="86" width="330" height="24" rx="12" fill="#EF4444" style="transform-origin:190px 98px"/>
-    <text x="586" y="103" font-weight="700" fill="#B91C1C">strong negative</text>
-    <text x="190" y="130" fill="#6B7280" font-size="12">"not this, not now" — thumbnail or mood mismatch; demote hard</text>
+  <rect x=".5" y=".5" width="639" height="483" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="42" font-size="20" font-weight="700" fill="#1E1B4B">Not every “no” weighs the same</text>
+  <text x="32" y="66" font-size="14" fill="#6B7280">One scroll through a feed, as the model reads it · example weights</text>
 
-    <text x="70" y="182" font-weight="700" fill="#92400E">skip mid-way</text>
-    <rect x="190" y="166" width="380" height="24" rx="12" fill="#FEF3C7"/>
-    <rect class="bar" x="190" y="166" width="200" height="24" rx="12" fill="#D97706" style="transform-origin:190px 178px"/>
-    <text x="586" y="183" font-weight="700" fill="#92400E">mild negative</text>
-    <text x="190" y="210" fill="#6B7280" font-size="12">hooked, then lost — content promised more than it delivered</text>
-
-    <text x="70" y="262" font-weight="700" fill="#4B5563">skip at 90 %</text>
-    <rect x="190" y="246" width="380" height="24" rx="12" fill="#E5E7EB"/>
-    <rect class="bar" x="190" y="246" width="60" height="24" rx="12" fill="#9CA3AF" style="transform-origin:190px 258px"/>
-    <text x="586" y="263" font-weight="700" fill="#4B5563">barely negative</text>
-    <text x="190" y="290" fill="#6B7280" font-size="12">practically finished — often just the outro; treat as near-complete</text>
-
-    <text x="70" y="342" font-weight="700" fill="#065F46">replay / save</text>
-    <rect x="190" y="326" width="380" height="24" rx="12" fill="#D1FAE5"/>
-    <rect class="bar" x="190" y="326" width="360" height="24" rx="12" fill="#10B981" style="transform-origin:190px 338px"/>
-    <text x="586" y="343" font-weight="700" fill="#065F46">strong positive</text>
+  <!-- column headers -->
+  <g font-size="14" font-weight="700" fill="#4B5563">
+    <text x="38" y="98">What the user did</text>
+    <text x="314" y="98">What the model hears</text>
+    <text x="610" y="98" text-anchor="end">Weight</text>
   </g>
-  <text x="400" y="398" text-anchor="middle" font-size="13" fill="#6B7280">One event type, four meanings — duration turns "skip" from a click into a sentence.</text>
+
+  <!-- phone = what was on screen -->
+  <rect x="24" y="112" width="252" height="234" rx="24" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="2"/>
+  <rect x="126" y="120" width="48" height="6" rx="3" fill="#D1D5DB"/>
+
+  <!-- row 1: explicit -->
+  <rect x="38" y="136" width="224" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect class="pb021-ring" style="animation-delay:.4s" x="35" y="133" width="230" height="64" rx="12" fill="none" stroke="#7C3AED" stroke-width="3"/>
+  <rect x="48" y="147" width="36" height="36" rx="8" fill="#F3F4F6"/>
+  <text x="66" y="172" font-size="20" text-anchor="middle">🎬</text>
+  <text x="96" y="158" font-size="14" fill="#6B7280">Video</text>
+  <rect x="94" y="164" width="150" height="24" rx="12" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="1.5"/>
+  <text x="104" y="181" font-size="14" font-weight="700" fill="#1E1B4B">👎 Not interested</text>
+
+  <!-- row 2: short dwell -->
+  <rect x="38" y="204" width="224" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect class="pb021-ring" style="animation-delay:1.4s" x="35" y="201" width="230" height="64" rx="12" fill="none" stroke="#7C3AED" stroke-width="3"/>
+  <rect x="48" y="215" width="36" height="36" rx="8" fill="#F3F4F6"/>
+  <text x="66" y="240" font-size="20" text-anchor="middle">📰</text>
+  <text x="96" y="226" font-size="14" fill="#6B7280">Article</text>
+  <text x="96" y="248" font-size="15" font-weight="700" fill="#1E1B4B">Opened, back in 3 s</text>
+
+  <!-- row 3: scrolled past -->
+  <rect x="38" y="272" width="224" height="58" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect class="pb021-ring" style="animation-delay:2.4s" x="35" y="269" width="230" height="64" rx="12" fill="none" stroke="#7C3AED" stroke-width="3"/>
+  <rect x="48" y="283" width="36" height="36" rx="8" fill="#F3F4F6"/>
+  <text x="66" y="308" font-size="20" text-anchor="middle">🎵</text>
+  <text x="96" y="294" font-size="14" fill="#6B7280">Song</text>
+  <text x="96" y="316" font-size="15" font-weight="700" fill="#1E1B4B">Scrolled past it</text>
+
+  <!-- row 4: further down the feed, never seen -->
+  <text x="150" y="366" font-size="16" font-weight="700" text-anchor="middle" fill="#9CA3AF">⋮</text>
+  <rect x="38" y="372" width="224" height="58" rx="10" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <rect class="pb021-ring" style="animation-delay:3.4s" x="35" y="369" width="230" height="64" rx="12" fill="none" stroke="#F59E0B" stroke-width="3"/>
+  <rect x="48" y="383" width="36" height="36" rx="8" fill="#F3F4F6" stroke="#D1D5DB" stroke-dasharray="3 3"/>
+  <text x="66" y="407" font-size="16" font-weight="700" text-anchor="middle" fill="#9CA3AF">?</text>
+  <text x="96" y="394" font-size="14" fill="#6B7280">Item #47</text>
+  <text x="96" y="416" font-size="15" font-weight="700" fill="#4B5563">Never scrolled to</text>
+
+  <!-- arrows -->
+  <g stroke="#7C3AED" stroke-width="2" stroke-linecap="round" fill="none" marker-end="url(#pb021-arr)">
+    <line x1="282" y1="165" x2="302" y2="165"/>
+    <line x1="282" y1="233" x2="302" y2="233"/>
+    <line x1="282" y1="301" x2="302" y2="301"/>
+  </g>
+
+  <!-- what the model hears -->
+  <text x="314" y="162" font-size="16" font-weight="700" fill="#1E1B4B">Definitely not</text>
+  <text x="314" y="183" font-size="14" fill="#4B5563">explicit · on purpose</text>
+  <text x="314" y="230" font-size="16" font-weight="700" fill="#1E1B4B">Probably not</text>
+  <text x="314" y="251" font-size="14" fill="#4B5563">implicit · inferred</text>
+  <text x="314" y="298" font-size="16" font-weight="700" fill="#1E1B4B">Maybe not</text>
+  <text x="314" y="319" font-size="14" fill="#4B5563">implicit · inferred</text>
+
+  <!-- weights -->
+  <g font-size="18" font-weight="800" fill="#4C1D95" text-anchor="end">
+    <text x="500" y="171">10</text>
+    <text x="500" y="239">3</text>
+    <text x="500" y="307">1</text>
+  </g>
+  <rect x="510" y="156" width="100" height="18" rx="9" fill="#EDE9FE"/>
+  <rect x="510" y="224" width="100" height="18" rx="9" fill="#EDE9FE"/>
+  <rect x="510" y="292" width="100" height="18" rx="9" fill="#EDE9FE"/>
+  <g clip-path="url(#pb021-c1)"><line class="pb021-fill pb021-f1" pathLength="100" x1="510" y1="165" x2="610" y2="165" stroke="#7C3AED" stroke-width="18"/></g>
+  <g clip-path="url(#pb021-c2)"><line class="pb021-fill pb021-f2" pathLength="100" x1="510" y1="233" x2="540" y2="233" stroke="#7C3AED" stroke-width="18"/></g>
+  <g clip-path="url(#pb021-c3)"><line class="pb021-fill pb021-f3" pathLength="100" x1="510" y1="301" x2="520" y2="301" stroke="#7C3AED" stroke-width="18"/></g>
+
+  <!-- row 4: the trap -->
+  <g class="pb021-miss">
+    <line x1="282" y1="401" x2="294" y2="401" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb021-arrA)"/>
+    <rect x="304" y="372" width="312" height="58" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <text x="316" y="396" font-size="16" font-weight="700" fill="#92400E">Nothing at all</text>
+    <text x="316" y="417" font-size="14" fill="#92400E">missing data, not a “no”</text>
+    <rect x="510" y="390" width="96" height="22" rx="11" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+    <text x="558" y="406" font-size="14" font-weight="700" text-anchor="middle" fill="#92400E">not counted</text>
+  </g>
+
+  <text x="320" y="464" font-size="15" font-weight="600" text-anchor="middle" fill="#1E1B4B">Weigh each “no” by how deliberate it was — count only what was seen.</text>
 </svg>

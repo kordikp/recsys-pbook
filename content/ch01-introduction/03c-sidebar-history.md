@@ -26,7 +26,7 @@ carriers: prose|image
 
 Recommender systems have a surprisingly compact history. The entire field -- from first prototype to LLM-powered conversational recommendations -- spans roughly thirty years. Here's how it unfolded.
 
-![Recommender systems timeline from 1992 to 2024](/images/anim-history-timeline.svg)
+![Timeline of recommender systems in five eras, 1992 to today: collaborative filtering, industrial scale, deep learning, simplicity strikes back, LLMs plus lean models](/images/anim-history-timeline.svg)
 
 ## The Origins: Collaborative Filtering (1992--1998)
 
