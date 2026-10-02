@@ -198,6 +198,25 @@ export const uxMethods = {
     const sel = document.querySelector('#introLens .intro-voice.selected');
     if (sel) this.onboardPick('lens', sel.dataset.lens, sel);
   },
+  // The door's one primary button: save the (optional) picks, open Chapter 1.
+  // A first-time reader is reading after two taps (open the site, tap Start).
+  doorStart() {
+    this._saveFeatureToggles();
+    this._saveDoorPicks();
+    document.getElementById('onboarding')?.classList.add('hidden');
+    this.updateVoiceBadge?.();
+    this.updateXPBadge();
+    if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
+    if (this.user.readBlocks.size) { this._resumeReading(); return; }
+    const id = this._firstBlockId();
+    if (id) this.openBlock(id, 'door'); else this.switchView('home');
+    let tries = 0;
+    const tick = () => {
+      if (document.querySelector('#view-read.active .block-article')) { this._goalBanner(); return; }
+      if (++tries < 30) setTimeout(tick, 150);
+    };
+    tick();
+  },
   // How many sections really have examples from a world (honest door copy)
   _lensCoverage(lens) {
     return (this.allBlocks || []).filter(b => b.meta.type === 'spine' && this._facetValues(b.meta, 'lens').includes(lens)).length;

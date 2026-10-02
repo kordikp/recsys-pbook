@@ -1158,10 +1158,8 @@ class PBook {
     this.updateXPBadge();
     if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
     this.switchView(view || 'home');
-    // First-time tour
-    if (!localStorage.getItem('pbook-tour-done')) {
-      setTimeout(() => this.startTour(), 1000);
-    }
+    // First-time tour — only once the view has content (it used to open over a blank Home)
+    this._startTourWhenReady();
   }
 
   // One-tap onboarding pick with immediate, visible effect (selection + preview line)
@@ -1171,13 +1169,21 @@ class PBook {
     el.classList.add('selected');
     const lens = document.querySelector('#introLens .intro-voice.selected')?.dataset.lens || 'generic';
     const goal = document.querySelector('#introGoal .intro-voice.selected')?.dataset.goal || 'understand';
-    const WORLD = { generic: 'a mix of platforms', ecommerce: 'shops, carts and "customers also bought"', media: 'playlists, autoplay and watch history', 'social-feeds': 'feeds, follows and creators', education: 'courses, exercises and learners' };
-    const GOAL = { understand: 'clear explanations first', build: 'hands-on and technical depth when you want it', decide: 'trade-offs and evaluation focus', protect: 'your data, your controls, your rights' };
+    // Honest promise: say how many sections really are told in that world today
+    const GOAL = { understand: 'clear explanations first', build: 'more technical depth, and a guided path for builders', decide: 'a guided path through trade-offs, evaluation and build-vs-buy', protect: 'a guided path through your data, your controls and your rights' };
+    const n = lens === 'generic' ? 0 : this._lensCoverage(lens);
+    const world = lens === 'generic' ? 'Examples from many platforms'
+      : `<b>${this._fw('lens', lens)}</b> where the book has them (${n} section${n === 1 ? '' : 's'} today — any other section can be retold for you)`;
     const hint = document.getElementById('onboardHint');
-    if (hint) hint.innerHTML = `→ Examples will come from <b>${WORLD[lens]}</b> · ${GOAL[goal]}. You can steer any section later.`;
+    if (hint) hint.innerHTML = `${world} · ${GOAL[goal]}.`;
   }
 
   startWithVoiceAndGo(view) {
+    this._saveDoorPicks();
+    this.startAndGo(view);
+  }
+
+  _saveDoorPicks() {
     // (voice picker removed — the facet taxonomy replaced learning styles; legacy name kept)
     // Onboarding calibration (P0): lens + goal — light, skippable, seeds the facet profile
     const lensSel = document.querySelector('#introLens .intro-voice.selected');
@@ -1194,7 +1200,8 @@ class PBook {
     if (openMode) { this.user.readerMode = 'open'; this.rc.setUserProperties({ readerMode: 'open' }); }
     this.user.save();
     this.rc.logEvent('onboarding', { lens: lensSel?.dataset.lens, goal: goalSel?.dataset.goal, openMode: !!openMode });
-    this.startAndGo(view);
+    this._applyGoal();
+    try { localStorage.setItem('pbook-onboarded', '1'); } catch (e) {}
   }
 
   startRandom() {
@@ -1227,8 +1234,8 @@ class PBook {
 
     // Returning user — change CTA
     const continueBlock = this.getContinueBlock();
-    ctaBtn.textContent = 'Continue reading \u{1F4D6}';
-    ctaBtn.onclick = () => this.startWithVoiceAndGo('home');
+    ctaBtn.textContent = continueBlock ? 'Continue where you left off →' : 'Back to the book →';
+    ctaBtn.onclick = () => { this._saveFeatureToggles(); this.updateXPBadge(); this._resumeReading(); };
 
     // Add extra buttons below CTA
     let extras = document.getElementById('welcomeExtras');
@@ -1276,13 +1283,12 @@ class PBook {
   // ===== ONBOARDING TOUR =====
   startTour() {
     this._tourSteps = [
-      { target: '.tab[data-view="home"]', text: "\u{1F3E0} This is your Home! It's like Netflix but for learning. Scroll through and pick whatever looks cool.", pos: 'top' },
-      { target: '.tab[data-view="read"]', text: "\u{1F4F1} The Feed! Just keep scrolling — the app figures out what to show you next. Like TikTok, but you actually learn stuff.", pos: 'top' },
-      { target: '.tab[data-view="glossary"]', text: "\u{1F3AF} Missions! Each one is a quest with a story and a final boss quiz at the end. Beat the boss = earn a title!", pos: 'top' },
-      { target: '.tab[data-view="map"]', text: "\u{1F5FA} The Map! See everything in the book, plus your saved stuff and notes. Tap any chapter to jump there.", pos: 'top' },
-      { target: '.tab[data-view="quiz"]', text: "\u{1F9E0} Quiz! Test what you remember. Cards get smarter over time — hard stuff comes back more often, easy stuff less. Like Anki for recommendations!", pos: 'top' },
-      { target: '#xpBadge', text: "\u{1F31F} This is your level! You get XP for reading, playing mini-games, and finishing missions. Level up to unlock cool themes!", pos: 'bottom' },
-      { target: null, text: "You're all set! Just tap anything that looks interesting. There's no wrong way to read this book. If you ever get lost, tap \"p-book\" up top to come back here. GO! \u{1F680}", pos: 'center' },
+      { target: '.tab[data-view="home"]', text: "Browse: shelves of sections picked for you. Every pick has a “Why this?” — the book explains its own recommendations.", pos: 'top' },
+      { target: '.tab[data-view="read"]', text: "Read: the book in order, one section after another. Each section can be retold — simpler, deeper, or with examples from your world.", pos: 'top' },
+      { target: '.tab[data-view="glossary"]', text: "Missions: guided paths through the book for one goal, with a short final check.", pos: 'top' },
+      { target: '.tab[data-view="map"]', text: "Map: every concept in the book, what you have read, and your notes.", pos: 'top' },
+      { target: '.tab[data-view="quiz"]', text: "Recall: short questions that come back just before you would forget — the ones you miss return sooner.", pos: 'top' },
+      { target: null, text: "That is all. Your progress stays on this device; the back button takes you back through the book.", pos: 'center' },
     ];
     this._tourIdx = 0;
     this._showTourStep();
@@ -1312,13 +1318,14 @@ class PBook {
         // Highlight circle
         overlay.innerHTML = `<div class="tour-highlight" style="top:${rect.top - 4}px;left:${rect.left - 4}px;width:${rect.width + 8}px;height:${rect.height + 8}px"></div>`;
         // Tooltip
-        const tipTop = step.pos === 'top' ? rect.top - 80 : rect.bottom + 12;
+        // anchor the tip's BOTTOM edge above the tab (a taller tip used to cover it)
+        const tipPos = step.pos === 'top' ? `bottom:${Math.round(window.innerHeight - rect.top + 12)}px` : `top:${Math.round(rect.bottom + 12)}px`;
         const tipLeft = Math.max(10, Math.min(rect.left, window.innerWidth - 260));
-        overlay.innerHTML += `<div class="tour-tip" style="top:${tipTop}px;left:${tipLeft}px">
+        overlay.innerHTML += `<div class="tour-tip" role="dialog" aria-label="Tour" style="${tipPos};left:${tipLeft}px">
           <div class="tour-text">${step.text}</div>
           <div class="tour-nav">
             <span class="tour-count">${this._tourIdx + 1}/${total}</span>
-            ${isLast ? `<button class="tour-btn tour-btn-primary" onclick="app._endTour()">Got it!</button>` : `<button class="tour-btn tour-btn-primary" onclick="app._nextTour()">Next</button>`}
+            ${isLast ? `<button class="tour-btn tour-btn-primary" onclick="app._endTour()">Got it</button>` : `<button class="tour-btn tour-btn-primary" onclick="app._nextTour()">Next</button>`}
             <button class="tour-btn" onclick="app._endTour()">Skip</button>
           </div>
         </div>`;
@@ -1332,7 +1339,7 @@ class PBook {
       overlay.innerHTML = `<div class="tour-tip tour-center">
         <div class="tour-text">${step.text}</div>
         <div class="tour-nav">
-          <button class="tour-btn tour-btn-primary" onclick="app._endTour()">Start reading!</button>
+          <button class="tour-btn tour-btn-primary" onclick="app._endTour()">Start reading</button>
         </div>
       </div>`;
     }
@@ -1412,7 +1419,8 @@ class PBook {
   }
 
   // ===== VIEW SWITCHING =====
-  switchView(view, auto) {
+  // skipRender: the caller (openBlock) renders the right chapter itself — no double render
+  switchView(view, auto, skipRender) {
     setTimeout(() => { const mb = document.getElementById('miniBoard'); if (mb) mb.style.display = view === 'read' && this._cmapData ? '' : 'none'; }, 0);
     this.currentView = view;
     const modeMap = { home: 'netflix', read: 'read', map: 'map', glossary: 'mission', quiz: 'quiz', chat: 'tutor', profile: 'profile' };
@@ -1428,13 +1436,14 @@ class PBook {
 
     // Update tab highlights
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-    // Clear hash to prevent deep-link re-triggering on tab click
-    if (!auto && window.location.hash) history.replaceState(null, '', window.location.pathname);
+    // A user-initiated view switch is a history entry (system back walks back through
+    // the book — js/ux.js); it also clears a deep-link hash from the URL.
+    if (!auto) this._navPushView(view);
 
     // Linear nav only in read view
 
     if (view === 'home') this.renderHome();
-    else if (view === 'read') this.renderRead();
+    else if (view === 'read') { if (!skipRender) this.renderRead(); }
     else if (view === 'map') this.renderMap();
     else if (view === 'glossary') { if (this._f('missions')) this.renderMissions(); else this.switchView('home'); }
     else if (view === 'quiz') this.renderQuiz();
@@ -1789,7 +1798,7 @@ class PBook {
 
     // Scroll: if pending scroll (from openBlock), go to that block; otherwise top
     if (this._pendingScroll) {
-      this._scrollToBlock(this._pendingScroll.parentId, this._pendingScroll.meta);
+      this._scrollToBlock(this._pendingScroll.parentId, this._pendingScroll.meta, this._pendingScroll.instant);
       this._pendingScroll = null;
     } else {
       window.scrollTo(0, 0);
@@ -5246,13 +5255,13 @@ class PBook {
     const typing = document.getElementById('tutorTyping');
     if (typing) typing.style.display = 'flex';
     messages.scrollTop = messages.scrollHeight;
-    // Simulate thinking delay
+    // Local retrieval is instant; a short beat keeps the exchange readable
     setTimeout(() => {
       if (typing) typing.style.display = 'none';
       const response = this.generateChatResponse(msg);
       messages.innerHTML += `<div class="chat-msg bot">${response}</div>`;
       messages.scrollTop = messages.scrollHeight;
-    }, 600 + Math.random() * 400);
+    }, 250);
   }
 
   // ===== GLOSSARY / TOPICS =====
@@ -8198,11 +8207,11 @@ class PBook {
     const questions = this.tutor.getSuggestedQuestions(block);
     const chatEl = document.getElementById('chatMessagesFull');
     if (chatEl) {
-      chatEl.innerHTML = `<div class="chat-msg bot">Pavel wrote a lot about <b>${block.meta.title}</b>. What would you like to know? I can explain it, find related sections, or go deeper!</div>`;
+      chatEl.innerHTML = `<div class="chat-msg bot">Ask anything about <b>${this.escHtml(block.meta.title || '')}</b>. I answer from the book’s concept summaries and point you to the section that covers it — and say so when the book does not.</div>`;
       if (questions.length) {
         let sugHtml = '<div class="tutor-suggestions">';
         questions.forEach(q => {
-          sugHtml += `<button class="tutor-suggest-btn" onclick="app.askSuggested(this,'${this.escHtml(q)}')">${q}</button>`;
+          sugHtml += `<button class="tutor-suggest-btn" data-q="${this.escHtml(q)}" onclick="app.askSuggested(this,this.dataset.q)">${this.escHtml(q)}</button>`;
         });
         sugHtml += '</div>';
         chatEl.insertAdjacentHTML('beforeend', sugHtml);
@@ -9035,8 +9044,8 @@ class PBook {
     this.user.currentBlock = blockId;
     this.user.currentChapter = chIdx;
     this.user.save();
-    // Update URL hash for sharing
-    history.replaceState(null, '', '#' + blockId);
+    // URL hash for sharing + a history entry for the system back button (js/ux.js)
+    this._navPushBlock(blockId);
     // Set analytics context: where did user discover this block?
     const mode = source || (this._wizardMission ? 'mission' : this.currentView === 'home' ? 'netflix' : this.currentView === 'map' ? 'map' : this.currentView === 'read' ? 'read' : this.currentView);
     this.rc.setContext(mode, { blockId, chapter: chIdx });
@@ -9049,8 +9058,8 @@ class PBook {
       return;
     }
 
-    this._pendingScroll = { parentId, meta: block.meta };
-    this.switchView('read', true); // auto — don't log as user-initiated mode switch
+    this._pendingScroll = { parentId, meta: block.meta, instant: true };
+    this.switchView('read', true, true); // auto — don't log as user-initiated mode switch; renderRead below
     this.renderRead(chIdx);
   }
 
@@ -9117,9 +9126,11 @@ class PBook {
   }
 
   goBack() {
+    // Real browser history first (the same path the phone's back gesture takes);
+    // a visit that started on this section goes to Browse — never back to the door.
+    if (this._canGoBack()) { history.back(); return; }
     if (!this._navHistory || !this._navHistory.length) {
-      // No history — go to welcome/home
-      this.showWelcome();
+      this.switchView('home');
       return;
     }
     const prev = this._navHistory.pop();
@@ -9139,11 +9150,12 @@ class PBook {
   }
 
 
-  _scrollToBlock(parentId, meta) {
+  // instant: arriving from another view (no long animated scroll from the chapter top)
+  _scrollToBlock(parentId, meta, instant) {
     setTimeout(() => {
       const el = document.getElementById(`b-${meta.id}`) || document.getElementById(`b-${parentId}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+      if (el) el.scrollIntoView({ behavior: instant || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    }, instant ? 30 : 300);
   }
 
   goToMapChapter(idx) {
