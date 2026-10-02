@@ -12,7 +12,7 @@ status: accepted
 teaser: "Everyone agrees recommender systems should be diverse -- but what does that mean precisely? Formal metrics give us the vocabulary to quantify variety, novelty, and surprise."
 recallQ: "Why is intra-list diversity (ILD) not sufficient on its own as a diversity metric?"
 recallA: "ILD measures only pairwise dissimilarity within a single recommendation list. It says nothing about whether the system covers the full catalog, surfaces novel items, or surprises users with unexpected-but-relevant discoveries. A complete picture requires complementary metrics: coverage, novelty, and serendipity."
-concept: fairness
+concept: filter-bubbles
 state: edited
 lens: generic
 visuality: balanced
@@ -37,7 +37,7 @@ Three distinct concerns motivate diversity in recommendation:
 
 **Serendipity and discovery.** A system that only recommends what users already know they like provides diminishing value over time. The most memorable recommendations are often the ones users would never have found on their own -- the unexpected book that becomes a favorite, the unfamiliar genre that opens new interests.
 
-**Avoiding filter bubbles.** As discussed elsewhere in this chapter, systems that relentlessly optimize for engagement can trap users in increasingly narrow content loops. Diversity metrics provide a quantitative check against this tendency.
+**Avoiding filter bubbles.** As the [filter bubbles](#c/filter-bubbles) explainer shows, systems that relentlessly optimize for engagement can trap users in increasingly narrow content loops. Diversity metrics provide a quantitative check against this tendency.
 
 ## Intra-List Diversity (ILD)
 

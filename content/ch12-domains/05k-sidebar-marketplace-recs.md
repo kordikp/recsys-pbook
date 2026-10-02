@@ -7,8 +7,10 @@ standalone: true
 core: false
 voice: universal
 publishedAt: "2026-04-03"
+recallQ: "What makes recommendation in a two-sided marketplace different from one-sided recommendation?"
+recallA: "Both sides have preferences and constraints, so it is a matching problem rather than pure ranking: supply is limited and changes in real time, fairness matters on both sides, and a failed transaction does not tell you which side said no."
 status: accepted
-concept: business-rules
+concept: marketplace-domain
 state: edited
 lens: generic
 visuality: balanced

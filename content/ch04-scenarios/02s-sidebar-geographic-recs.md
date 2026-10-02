@@ -13,7 +13,7 @@ recallQ: "How can geographic information improve recommendations?"
 recallA: "Geographic location correlates with preferences (local cuisine, events, weather-dependent products). Inductive matrix factorization with geographic features discovers 'macro-regions' of similar taste, even across distant locations."
 publishedAt: "2026-04-03"
 status: accepted
-concept: multimodal
+concept: context-awareness
 state: edited
 lens: generic
 visuality: text-first

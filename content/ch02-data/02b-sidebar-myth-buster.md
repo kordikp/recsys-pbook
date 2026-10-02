@@ -16,7 +16,7 @@ highlights:
   - "One anomalous interaction will not permanently corrupt a profile -- recency dominates"
   - "Users can deliberately retrain the algorithm through intentional behavior changes"
 status: accepted
-concept: feedback-signals
+concept: algorithm-training
 state: core
 lens: generic
 visuality: text-first

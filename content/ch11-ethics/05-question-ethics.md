@@ -9,7 +9,7 @@ voice: universal
 parent: null
 diagram: null
 status: accepted
-concept: conversational-recs
+concept: ai-future
 state: edited
 lens: generic
 visuality: text-first

@@ -7,8 +7,10 @@ standalone: true
 core: false
 voice: universal
 publishedAt: "2026-04-03"
+recallQ: "Why is almost every production recommender a hybrid, and which pattern is the usual starting point?"
+recallA: "Each method fails somewhere (collaborative filtering on new items, content-based on serendipity, popularity on personalization), so systems combine them. The usual pattern is a cascade: switching retrieval sources feed one ranking model that learns how to combine their scores and features."
 status: accepted
-concept: graph-methods
+concept: content-based
 state: edited
 lens: generic
 visuality: balanced

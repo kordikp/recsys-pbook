@@ -13,7 +13,7 @@ recallQ: "What are the six categories in a recommender system ethics checklist?"
 recallA: "User impact, fairness, privacy, safety, transparency, and accountability. Each category contains specific questions that teams should answer before launching or updating a recommendation system."
 publishedAt: "2026-04-03"
 status: accepted
-concept: conversational-recs
+concept: ai-future
 state: edited
 lens: generic
 visuality: balanced

@@ -13,7 +13,7 @@ recallQ: "Why is regularization especially important for recommender systems?"
 recallA: "Interaction data is extremely sparse (<1% observed). Without regularization, models memorize the training data perfectly but generalize poorly — predicting noise instead of signal."
 publishedAt: "2026-04-03"
 status: accepted
-concept: beeformer
+concept: ease-elsa
 state: edited
 lens: generic
 visuality: text-first

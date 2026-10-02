@@ -13,7 +13,7 @@ recallQ: "What are the main challenges of algorithmic accountability in recommen
 recallA: "Diffuse responsibility (engineer vs. PM vs. executive vs. algorithm), emergent behavior (no one designed the failure), scale amplification (small biases cause massive harm), and opacity (it's hard to explain why a specific recommendation was made)."
 publishedAt: "2026-04-03"
 status: accepted
-concept: filter-bubbles
+concept: ai-future
 state: edited
 lens: generic
 visuality: text-first

@@ -13,7 +13,7 @@ recallQ: "What makes e-commerce recommendation different from media recommendati
 recallA: "Transactions are infrequent and high-stakes, the purchase funnel has distinct stages (browse → consider → purchase), product availability changes in real-time, and recommendations directly drive measurable revenue."
 publishedAt: "2026-04-03"
 status: accepted
-concept: specialized-domains
+concept: ecommerce-domain
 state: edited
 lens: generic
 visuality: text-first

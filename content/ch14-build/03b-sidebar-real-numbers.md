@@ -14,7 +14,7 @@ highlights:
   - "Netflix: 3.4 trillion cells. YouTube: 2.16 quintillion. >99% are empty."
   - "Matrix factorization finds patterns in this extreme sparsity"
 status: accepted
-concept: diy-similar-users
+concept: diy-collect-data
 state: edited
 lens: generic
 visuality: text-first

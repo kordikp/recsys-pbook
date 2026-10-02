@@ -13,7 +13,7 @@ recallQ: "Why does autoplay create problems for recommender systems?"
 recallA: "Autoplay generates passive consumption that looks like engagement but doesn't reflect genuine interest. The system can't distinguish 'I chose to watch this' from 'it played while I wasn't paying attention,' corrupting the training signal."
 publishedAt: "2026-04-03"
 status: accepted
-concept: llm-recommenders
+concept: satisfaction-vs-engagement
 state: edited
 lens: generic
 visuality: text-first

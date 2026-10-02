@@ -7,8 +7,10 @@ standalone: true
 core: false
 voice: universal
 publishedAt: "2026-04-03"
+recallQ: "Which layers does a production system combine to handle a brand-new item?"
+recallA: "Content features (or a text-to-embedding model such as beeFormer) and metadata similarity give a first estimate, exploration slots collect real interactions, editors can boost priority items, and collaborative filtering takes over once enough data has accumulated."
 status: accepted
-concept: business-rules
+concept: item-cold-start
 state: edited
 lens: generic
 visuality: balanced
@@ -71,7 +73,7 @@ This is the most straightforward approach and works well when item features are 
 
 ### beeFormer: Text-to-Embedding Alignment
 
-beeFormer (covered in depth in [Chapter 7](/chapters/ch7-research-and-progress#ch7-cold-start-language)) addresses the content-based approach's core limitation by training a Transformer to produce embeddings aligned with collaborative filtering space. Instead of learning what an item is about semantically, it learns what kind of user would interact with it -- using ELSA's recommendation loss as the training objective.
+beeFormer (covered in depth in [beeFormer: text meets interactions](#c/beeformer)) addresses the content-based approach's core limitation by training a Transformer to produce embeddings aligned with collaborative filtering space. Instead of learning what an item is about semantically, it learns what kind of user would interact with it -- using ELSA's recommendation loss as the training objective.
 
 The result is that a new item's text description can be mapped directly into the same embedding space used for behavioral recommendations. Zero-shot transfer experiments show dramatic improvements: +131% Recall@20 on cross-domain benchmarks compared to standard text embeddings. This is the current state of the art for bridging the gap between content features and behavioral signal.
 

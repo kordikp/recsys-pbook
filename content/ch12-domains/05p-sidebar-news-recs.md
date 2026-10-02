@@ -13,7 +13,7 @@ recallQ: "What makes news recommendation fundamentally different from entertainm
 recallA: "Extreme content velocity (articles go stale in hours), no long-term item value, editorial responsibility for information quality, and the risk of creating political filter bubbles."
 publishedAt: "2026-04-03"
 status: accepted
-concept: specialized-domains
+concept: news-domain
 state: edited
 lens: generic
 visuality: text-first

@@ -13,7 +13,7 @@ recallQ: "How does educational recommendation differ from entertainment recommen
 recallA: "The objective is learning, not engagement. This means recommending content at the right difficulty level (zone of proximal development), sequencing for knowledge building, and sometimes recommending content the learner wouldn't choose voluntarily."
 publishedAt: "2026-04-03"
 status: accepted
-concept: business-rules
+concept: specialized-domains
 state: edited
 lens: generic
 visuality: text-first

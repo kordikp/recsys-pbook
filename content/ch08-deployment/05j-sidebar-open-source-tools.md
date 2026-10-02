@@ -7,8 +7,10 @@ standalone: true
 core: false
 voice: explorer
 publishedAt: "2026-04-03"
+recallQ: "Why should a team start with a simple, well-tuned open-source stack instead of the most complex framework?"
+recallA: "A well-tuned simple model with a fast vector index usually beats a poorly configured complex pipeline, and it is ready in days rather than months; add complexity only when evaluation shows it pays off."
 status: accepted
-concept: business-rules
+concept: build-vs-buy
 state: edited
 lens: generic
 visuality: balanced
