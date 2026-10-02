@@ -901,8 +901,12 @@ class PBook {
   // After a chapter renders, re-apply the reader's saved telling choices.
   async _applyTellingChoices() {
     const choices = this._tellingChoices();
+    const essentials = !this._fullBook();
     for (const [cid, vid] of Object.entries(choices)) {
-      const anchor = this.concepts?.[cid]?.anchor;
+      // essentials flow serves a picked git telling directly; generated/community
+      // picks are swapped into the concept's served slot
+      if (essentials && this.findBlock(vid)) continue;
+      const anchor = (essentials && this._servedSlot?.[cid]) || this.concepts?.[cid]?.anchor;
       if (!anchor || !document.getElementById(`b-${anchor}`)) continue;
       let entry = this._findAnyBlock(vid);
       if (!entry) { try { await this._fetchCommunity(cid); entry = this._findAnyBlock(vid); } catch (e) {} }
@@ -1864,34 +1868,201 @@ class PBook {
     this._showMissionIntro();
   }
 
+  // ===== ESSENTIALS FLOW: one served telling per concept =====
+  // The chapter shows ONE telling of each concept, chosen for this reader, with
+  // a strip to the others; "Show every telling" (Profile / Settings) restores the
+  // full book. Games and questions stay inline after their concept.
+  _fullBook() { try { return localStorage.getItem('pbook-full-book') === '1'; } catch (e) { return false; } }
+  setFullBook(on) {
+    try { if (on) localStorage.setItem('pbook-full-book', '1'); else localStorage.removeItem('pbook-full-book'); } catch (e) {}
+    this.rc.logEvent('flow_mode', { mode: on ? 'full' : 'essentials' });
+    document.querySelectorAll('.full-book-toggle').forEach(el => { el.checked = !!on; });
+    if (this.currentView === 'read' && this._renderedChapter !== undefined) this.renderRead(this._renderedChapter);
+    else if (this.currentView === 'profile') this.renderProfile();
+  }
+  _readerLang() { return this.user.getTargetFacets().lang || 'en'; }
+
+  // Concept groups of a chapter in reading order (book.json): primary concept → tellings + games/questions
+  _chapterGroups(ch) {
+    if (ch._groups) return ch._groups;
+    const groups = [], byCid = {};
+    for (const b of ch.blocks) {
+      const cid = this._conceptIds(b)[0] || ('_' + b.id);
+      let g = byCid[cid];
+      if (!g) { g = byCid[cid] = { cid, tellings: [], extras: [] }; groups.push(g); }
+      (b.type === 'spine' ? g.tellings : g.extras).push(b);
+    }
+    return (ch._groups = groups);
+  }
+
+  // Which telling a reader gets by default: never a different language than the
+  // reader's when an alternative exists; pinned format preferences (Profile →
+  // Format preferences) pick the best-covering telling; otherwise the anchor.
+  _defaultTelling(cid, tellings) {
+    if (!tellings.length) return null;
+    const anchorId = this.concepts?.[cid]?.anchor;
+    const anchor = tellings.find(b => b.id === anchorId) || tellings[0];
+    const lang = this._readerLang();
+    const same = tellings.filter(b => this._covers(b, 'lang', lang));
+    const pool = same.length ? same : tellings;
+    const first = pool.includes(anchor) ? anchor : pool[0];
+    const pins = {};
+    for (const [k, v] of Object.entries(this.user.steerPrefs || {})) if (v && CONFIG.facets[k] && k !== 'lang') pins[k] = v;
+    if (!Object.keys(pins).length) return first;
+    let best = first, bestS = this._facetMatch(first, pins);
+    for (const b of pool) {
+      const s = this._facetMatch(b, pins);
+      if (s > bestS + 1e-9) { best = b; bestS = s; }          // ties keep the anchor
+    }
+    return best;
+  }
+  // The served telling: a telling the reader asked for (opened it this session,
+  // or picked it in the tellings panel) beats the default.
+  _servedTelling(cid, tellings) {
+    if (!tellings.length) return null;
+    const asked = this._requestedTellings?.[cid] || this._tellingChoices()[cid];
+    return tellings.find(b => b.id === asked) || this._defaultTelling(cid, tellings);
+  }
+
+  // The served telling of a concept anywhere in the book (null in full-book mode)
+  _servedTellingId(cid) {
+    if (this._fullBook()) return null;
+    const anchor = this.findBlock(this.concepts?.[cid]?.anchor);
+    const ch = anchor && this.chapters[anchor.meta._chapterIdx];
+    const g = ch && this._chapterGroups(ch).find(x => x.cid === cid);
+    return g ? this._servedTelling(cid, g.tellings)?.id || null : null;
+  }
+
+  // One short human label per telling, for the "more ways" strip
+  _tellingLabel(b) {
+    const genre = this._facetValues(b, 'genre')[0];
+    if (genre === 'comic' || genre === 'animation') return genre;
+    const lang = this._facetValues(b, 'lang');
+    if (!lang.includes(this._readerLang())) return lang.includes('cs') ? 'česky' : lang[0];
+    const lens = this._facetValues(b, 'lens');
+    const WORLD = { ecommerce: 'shop example', media: 'media example', 'social-feeds': 'feed example', education: 'classroom example', jobs: 'jobs example' };
+    if (!lens.includes('generic') && WORLD[lens[0]]) return WORLD[lens[0]];
+    const len = this._facetValues(b, 'lengthBand');
+    if (len.length === 1 && len[0] === 'tldr') return 'tl;dr';
+    const depth = this._facetValues(b, 'depth');
+    if (this._facetValues(b, 'formalism').includes('full')) return 'formal';
+    if (depth[0] === 'technical' || depth[0] === 'research') return 'technical';
+    if (genre === 'story') return 'story';
+    if (genre === 'worked-example') return 'worked example';
+    if (genre === 'code-walkthrough') return 'code';
+    if (len.includes('deep')) return 'deep';
+    if (depth[0] === 'intro') return 'gentle intro';
+    return 'another take';
+  }
+
+  // "🎛 N more ways to read this: tl;dr · story · comic…" under the served telling.
+  // A label swaps that telling in; the lead opens the full tellings panel.
+  _moreWaysStrip(served, tellings) {
+    const others = tellings.filter(b => b.id !== served.id);
+    if (!others.length || !this._f('steering')) return '';
+    const byLabel = new Map();
+    for (const b of others) { const l = this._tellingLabel(b); if (!byLabel.has(l)) byLabel.set(l, b); }
+    const shown = [...byLabel.entries()].slice(0, 5);
+    const chips = shown.map(([label, b]) =>
+      `<button class="mw-chip" onclick="app.pickTelling('${served.id}','${b.id}')" title="${this.escHtml(b.title || '')}">${this.escHtml(label)}</button>`).join('<span class="mw-sep">&middot;</span>');
+    return `<div class="more-ways fade-up" id="mw-${served.id}">
+      <button class="mw-lead" onclick="app.openTellings('${served.id}')" title="See every telling of this concept">&#127899;&#65039; ${others.length} more way${others.length > 1 ? 's' : ''} to read this:</button>
+      ${chips}${byLabel.size > shown.length ? '<span class="mw-sep">&hellip;</span>' : ''}
+    </div>`;
+  }
+
+  // Open (not toggle) the tellings panel of a block and bring it into view
+  async openTellings(blockId) {
+    const panel = document.getElementById(`tellings-${blockId}`);
+    if (!panel) return;
+    if (panel.style.display === 'none') await this.toggleTellings(blockId);
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Back to the default telling for a concept (drops this session's request and the saved pick)
+  resetTelling(cid) {
+    if (this._requestedTellings) delete this._requestedTellings[cid];
+    this._setTellingChoice(cid, null);
+    const ch = this.chapters[this._renderedChapter];
+    const g = ch && this._chapterGroups(ch).find(x => x.cid === cid);
+    const def = g && this._defaultTelling(cid, g.tellings);
+    if (def) this._pendingScroll = { parentId: def.id, meta: { id: def.id } };
+    this.renderRead(this._renderedChapter);
+  }
+
+  // Minutes at ~220 words/min, from the bodies (readingTime keys are estimates)
+  _minutesOf(blocks) {
+    const words = blocks.reduce((s, b) => s + String(b.body || '').split(/\s+/).filter(Boolean).length, 0);
+    return Math.max(1, Math.round(words / 220));
+  }
+  _fmtMinutes(m) { return m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')} min`; }
+
   async _renderChapterContent(ch, idx) {
-    let html = `<div class="ch-head fade-up" id="ch-head-${idx}"><div class="ch-label">Chapter ${ch.number}</div><h2>${ch.title}</h2><div class="ch-sub">${ch.subtitle}</div></div>`;
+    const full = this._fullBook();
+    const groups = this._chapterGroups(ch);
+    this._servedSlot = this._servedSlot || {};
+    const served = new Map();     // cid → served telling (essentials only)
+    if (!full) groups.forEach(g => { const s = this._servedTelling(g.cid, g.tellings); if (s) { served.set(g.cid, s); this._servedSlot[g.cid] = s.id; } });
+    const essentialMin = this._minutesOf([...served.values()]);
+    const fullMin = this._minutesOf(ch.blocks.filter(b => b.type === 'spine'));
+    const pathLine = full
+      ? `Every telling &middot; ${this._fmtMinutes(fullMin)} &middot; <a href="#" onclick="event.preventDefault();app.setFullBook(false)">show one telling per idea</a>`
+      : `${served.size} ideas, one telling each &middot; ~${this._fmtMinutes(essentialMin)} &middot; every telling ${this._fmtMinutes(fullMin)} &middot; <a href="#" onclick="event.preventDefault();app.setFullBook(true)">show all</a>`;
+    let html = `<div class="ch-head fade-up" id="ch-head-${idx}"><div class="ch-label">Chapter ${ch.number}</div><h2>${ch.title}</h2><div class="ch-sub">${ch.subtitle}</div><div class="ch-path">${pathLine}</div></div>`;
 
     let spineCount = 0;
-    for (const block of ch.blocks) {
-      if (block.type === 'spine') {
-        html += await this.renderSpine(block);
-        spineCount++;
-        // Interest-testing interstitial: one proposed-concept card per chapter
-        if (spineCount === 4) {
-          const gp = this._unvotedProposals();
-          if (gp.length) {
-            const pick = gp[idx % gp.length];
-            html += `<div class="fade-up" style="margin:1.2em 0;display:flex;justify-content:center">${this._ghostCardHtml(pick, 'feed' + idx)}</div>`;
-          }
-        }
-        // Insert inline quiz every 2-3 spine blocks
-        if (spineCount % 3 === 0) {
-          const quizHtml = this._generateQuiz(block);
-          if (quizHtml) html += `<div class="inline-quiz fade-up">${quizHtml}</div>`;
-        }
-      } else if (block.type === 'question') {
-        html += this.renderQuestion(block);
-      } else if (block.type === 'game' && this._f('games')) {
-        html += this.renderGame(block);
+    const renderExtra = block => {
+      if (block.type === 'question') return this.renderQuestion(block);
+      if (block.type === 'game' && this._f('games')) return this.renderGame(block);
+      return '';
+    };
+    // Spaced retrieval: after every second idea, a "Check yourself" on the one before it
+    const runs = [], checked = new Set();
+    const closeIdea = cid => {
+      runs.push(cid);
+      const prev = runs[runs.length - 2];
+      if (runs.length % 2 === 0 && this.concepts?.[prev] && !checked.has(prev)) { checked.add(prev); html += this._checkYourselfCard(prev); }
+    };
+    if (full) {
+      // full book: every block in book.json order (as before)
+      let cur = null;
+      for (const block of ch.blocks) {
+        const cid = this._conceptIds(block)[0] || ('_' + block.id);
+        if (cur !== null && cid !== cur) closeIdea(cur);
+        cur = cid;
+        if (block.type === 'spine') {
+          html += await this.renderSpine(block);
+          if (++spineCount === 4) html += this._ghostInterstitial(idx);
+        } else html += renderExtra(block);
       }
+      if (cur !== null) closeIdea(cur);
+      return html;
+    }
+    // essentials: per idea, the served telling + a strip to the others, then its games/questions
+    for (const g of groups) {
+      const s = served.get(g.cid);
+      if (s) {
+        const def = this._defaultTelling(g.cid, g.tellings);
+        if (def && def.id !== s.id) {
+          html += `<div class="variant-notice"><span>&#127899;&#65039; ${this._requestedTellings?.[g.cid] === s.id ? 'The telling you opened' : 'Your picked telling'}: ${this.escHtml(this._tellingLabel(s))}</span>
+            <span><button class="steer-chip" onclick="app.resetTelling('${g.cid}')">&#8617; Default telling</button></span></div>`;
+        }
+        html += await this.renderSpine(s);
+        html += this._moreWaysStrip(s, g.tellings);
+        if (++spineCount === 4) html += this._ghostInterstitial(idx);
+      }
+      for (const block of g.extras) html += renderExtra(block);
+      closeIdea(g.cid);
     }
     return html;
+  }
+
+  // Interest-testing interstitial: one proposed-concept card per chapter
+  _ghostInterstitial(idx) {
+    const gp = this._unvotedProposals();
+    if (!gp.length) return '';
+    const pick = gp[idx % gp.length];
+    return `<div class="fade-up" style="margin:1.2em 0;display:flex;justify-content:center">${this._ghostCardHtml(pick, 'feed' + idx)}</div>`;
   }
 
   _setupInfiniteScroll(pane, startIdx) {
@@ -2182,7 +2353,7 @@ class PBook {
           <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
           <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
           <button class="act-btn" onclick="app.startAuthoringFromBlock('${block.id}')" title="Open in the author studio — bigger edits your way">&#9997;&#65039;</button>
-          ${this.user.recall[block.id] ? `<button class="act-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#129504;</button>` : ''}
+          ${this.user.recall[this._recallKey(block.id)] ? `<button class="act-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#129504;</button>` : ''}
           <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save for later">&#128278;</button>
           <button class="act-btn share-btn" onclick="app.shareBlock('${block.id}')" title="Share">&#128279;</button>
           <button class="act-btn flag-btn" onclick="app.flagBlock('${block.id}')" title="Suggest edit to author">&#9873;</button>
@@ -2848,16 +3019,17 @@ class PBook {
     if (!quiz) return;
     const article = document.getElementById(`b-${blockId}`);
     if (!article) return;
+    const key = this._recallKey(blockId);     // the concept's card
     const html = `<div class="inline-recall fade-up" id="block-recall-${blockId}">
       <div class="ir-header"><span class="ir-icon">\u{1F9E0}</span> Test your memory</div>
       <div class="ir-question">${quiz.q}</div>
       <div class="ir-answer" id="br-a-${blockId}" style="display:none">
         <div class="ir-answer-text">${quiz.a}</div>
-        ${this.user.recall[blockId] ? `<div class="recall-buttons">
-          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${blockId}',0,this)">Forgot</button>
-          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${blockId}',1,this)">Hard</button>
-          <button class="recall-btn recall-good" onclick="app.scoreRecall('${blockId}',2,this)">Good</button>
-          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${blockId}',3,this)">Easy!</button>
+        ${this.user.recall[key] ? `<div class="recall-buttons">
+          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${key}',0,this)">Forgot</button>
+          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${key}',1,this)">Hard</button>
+          <button class="recall-btn recall-good" onclick="app.scoreRecall('${key}',2,this)">Good</button>
+          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${key}',3,this)">Easy!</button>
         </div>` : `<button class="recall-reveal" onclick="document.getElementById('block-recall-${blockId}').remove()">Got it!</button>`}
       </div>
       <button class="recall-reveal" onclick="document.getElementById('br-a-${blockId}').style.display='block';this.style.display='none'">Show answer</button>
@@ -2868,11 +3040,12 @@ class PBook {
 
   _insertInlineRecall(justReadId) {
     if (!this._f('spaceRepetition')) return;
-    // Find a due or almost-due recall for a DIFFERENT block
+    // Find a due or almost-due recall for a DIFFERENT concept
     const now = Date.now();
     const soonThreshold = 30 * 60 * 1000;
+    const justKey = this._recallKey(justReadId);
     const due = Object.entries(this.user.recall)
-      .filter(([id, c]) => id !== justReadId && c.nextReview <= now + soonThreshold)
+      .filter(([id, c]) => id !== justReadId && id !== justKey && c.nextReview <= now + soonThreshold)
       .sort((a, b) => a[1].nextReview - b[1].nextReview)
       .map(([blockId, card]) => ({ blockId, ...card }));
     if (!due.length) return;
@@ -2901,7 +3074,7 @@ class PBook {
           <button class="recall-btn recall-easy" onclick="app.scoreRecall('${r.blockId}',3,this)">Easy!</button>
         </div>
       </div>
-      <button class="recall-reveal" onclick="document.getElementById('ir-a-${r.blockId}').style.display='block';this.style.display='none'">Hmm... Show answer!</button>
+      <button class="recall-reveal" onclick="document.getElementById('ir-a-${r.blockId}').style.display='block';this.style.display='none'">Show answer</button>
     </div>`;
     insertAfter.insertAdjacentHTML('afterend', html);
   }
@@ -2928,168 +3101,68 @@ class PBook {
     </div>`;
   }
 
-  _generateQuiz(block) {
-    const body = (block.body || '').toLowerCase();
-    const quizzes = [];
+  // "Check yourself" — an interstitial built from the concept CONTRACT (human-owned
+  // recallQ/recallA, AGENTS §9), never from keyword templates. Rendered one concept
+  // after the reader met it (spaced retrieval); grading seeds the concept's card.
+  _checkYourselfCard(cid) {
+    const quiz = this._conceptRecall(cid);
+    if (!quiz) return '';                       // no contract recall → no interstitial
+    const key = this._recallKey(this.concepts?.[cid]?.anchor || cid);
+    const uid = 'cy-' + String(cid).replace(/[^\w-]/g, '');
+    return `<div class="inline-recall check-yourself fade-up" id="${uid}">
+      <div class="ir-header"><span class="ir-icon">&#129504;</span> Check yourself <span class="cy-concept">${this.escHtml(this.concepts?.[cid]?.title || '')}</span></div>
+      <div class="ir-question">${quiz.q}</div>
+      <div class="ir-answer" id="${uid}-a" style="display:none">
+        <div class="ir-answer-text">${quiz.a}</div>
+        <div class="ir-from">How well did you know it? Your answer schedules the next review.</div>
+        <div class="recall-buttons">
+          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${key}',0,this)">Forgot</button>
+          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${key}',1,this)">Hard</button>
+          <button class="recall-btn recall-good" onclick="app.scoreRecall('${key}',2,this)">Good</button>
+          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${key}',3,this)">Easy</button>
+        </div>
+      </div>
+      <button class="recall-reveal" onclick="document.getElementById('${uid}-a').style.display='block';this.style.display='none'">Think first, then show the answer</button>
+    </div>`;
+  }
 
-    // --- Kid-friendly quizzes matched to content keywords ---
-
-    // Ch1: What are recommendations
-    if (body.includes('youtube') && body.includes('recommend')) quizzes.push({ q: 'How does YouTube pick videos for your homepage?', a: 'It looks at what you watched before and finds patterns — if you liked cat videos, it guesses you might like more!' });
-    if (body.includes('pattern')) quizzes.push({ q: 'What are recommender systems really good at finding?', a: 'Patterns! They notice things like "people who liked X also liked Y" — like a super-powered detective.' });
-    if (body.includes('discover') && body.includes('find')) quizzes.push({ q: 'Can you name the 3 jobs of a recommender system?', a: '1) Help you DISCOVER new things, 2) Help you FIND stuff faster, 3) Keep you INTERESTED so you come back!' });
-    if (body.includes('peppa pig') || body.includes('wrong') || body.includes('hilarious')) quizzes.push({ q: 'Why do recommendations sometimes go totally wrong?', a: 'Because the system only sees clicks, not reasons. If your sibling watches cartoons on your account, it thinks YOU like cartoons!' });
-
-    // Ch2: How they learn
-    if (body.includes('footprint') || body.includes('digital')) quizzes.push({ q: 'What are "digital footprints"?', a: 'Every click, watch, skip, and search you make — like footprints in sand that tell the system about your taste!' });
-    if (body.includes('skip') && body.includes('watch')) quizzes.push({ q: 'Which tells the system MORE about you: watching a video to the end, or skipping after 3 seconds?', a: 'Both! Watching to the end says "loved it!" Skipping says "not for me." The system learns from everything you do.' });
-    if (body.includes('cold start') || body.includes('new account')) quizzes.push({ q: 'What happens when you create a brand new account?', a: 'The "cold start" problem! The system has zero clues about you, so recommendations are pretty random at first. But it learns FAST!' });
-    if (body.includes('privacy') || body.includes('your data')) quizzes.push({ q: 'True or false: You have NO control over what recommendations show you.', a: 'FALSE! You can clear history, say "not interested," use separate profiles, and even go incognito. Your data = your choice!' });
-
-    // Ch3: Different methods
-    if (body.includes('collaborative') || body.includes('similar taste')) quizzes.push({ q: 'You and your friend both love the same 5 movies. Your friend finds a new one and loves it. Will you probably like it too?', a: 'Probably yes! That is exactly how collaborative filtering works — finding people with matching taste and sharing their discoveries.' });
-    if (body.includes('content-based') || body.includes('look at the thing')) quizzes.push({ q: 'What is the difference between asking your friends vs. looking at the thing itself?', a: 'Asking friends (collaborative filtering) = find people with similar taste. Looking at the thing (content-based) = find items with similar features. Both work, but differently!' });
-    if (body.includes('popular') || body.includes('trending')) quizzes.push({ q: 'Why is "just show what is popular" not always the best strategy?', a: 'Because it does not know YOU at all! Popular stuff is popular for a reason, but you might have unique tastes that trending lists miss completely.' });
-    if (body.includes('pipeline') || body.includes('find') && body.includes('rank')) quizzes.push({ q: 'What are the 3 steps in a recommendation pipeline?', a: '1) FIND — gather hundreds of candidates, 2) RANK — score each one for you personally, 3) CHECK — add variety and remove stuff you already saw!' });
-    if (body.includes('netflix') && body.includes('prize')) quizzes.push({ q: 'Netflix offered $1 million for better recommendations. What happened?', a: 'Over 40,000 teams competed! The winners made it 10% better by combining 100+ methods. But it was too complicated to actually use. Sometimes simpler is better!' });
-
-    // Ch4: Making them better
-    if (body.includes('filter bubble') || body.includes('bubble')) quizzes.push({ q: 'What is a "filter bubble" and why should you care?', a: 'When recommendations only show you things you already like, you get stuck in a bubble. You never discover new interests! It is like only eating pizza forever.' });
-    if (body.includes('echo chamber')) quizzes.push({ q: 'How is an echo chamber different from a filter bubble?', a: 'A filter bubble limits what you discover. An echo chamber is worse — it makes you think EVERYONE agrees with you because you only hear your own opinions reflected back!' });
-    if (body.includes('fair') || body.includes('new creator')) quizzes.push({ q: 'Why might a recommendation system be unfair to new creators?', a: 'Because popular creators get recommended more → get more views → become even more popular. New creators barely get seen. Good systems give new content a chance!' });
-    if (body.includes('a/b test') || body.includes('experiment')) quizzes.push({ q: 'What is an A/B test?', a: 'A science experiment with real users! Half see version A, half see version B. Compare the results to find out which is actually better. Companies do this all the time!' });
-
-    // Ch5: Build your own
-    if (body.includes('survey') || body.includes('rate') && body.includes('movie')) quizzes.push({ q: 'What is the first step to building your own recommendation system?', a: 'Collect data! Survey your friends — ask them to rate movies 1-5 stars. That grid of ratings is exactly what Netflix and Spotify use!' });
-    if (body.includes('similar') && body.includes('rating')) quizzes.push({ q: 'How do you find people with similar taste using a rating grid?', a: 'Look for people who gave the SAME movies similar scores. If you both rated Frozen 5 stars and Moana 4 stars, you probably have matching taste!' });
-    if (body.includes('predict') || body.includes('empty cell')) quizzes.push({ q: 'How do you predict if someone will like a movie they have not seen?', a: 'Find 2-3 people with similar taste who DID see it. Average their ratings. If they gave it 4+ stars, recommend it!' });
-    if (body.includes('improve') || body.includes('more data')) quizzes.push({ q: 'Name 2 ways to make your recommendation system better.', a: 'Get MORE data (survey more people), and do not just look at ratings — also consider what TYPE of movie it is (animation, action, comedy)!' });
-
-    // Fallback: generate from title
-    if (quizzes.length === 0) {
-    // Ch6: Ethics
-    if (body.includes('rabbit hole') || body.includes('who decides')) quizzes.push({ q: 'Who decides what appears on your YouTube homepage — you, YouTube, or the algorithm?', a: 'The algorithm decides! It was built by YouTube engineers who told it to maximize watch time. You influence it with clicks, but the final call is the algorithm\'s.' });
-    if (body.includes('autoplay') || body.includes('infinite scroll') || body.includes('addictive')) quizzes.push({ q: 'Why is there no natural stopping point on TikTok or YouTube?', a: 'By design! Infinite scroll and autoplay mean there\'s always another video ready. It\'s like a bag of chips that never runs out. Knowing this is the first step to taking control.' });
-    if (body.includes('dopamine') || body.includes('one more')) quizzes.push({ q: 'What brain chemical makes you want to watch "just one more video"?', a: 'Dopamine! It\'s released when you see something surprising or rewarding. The uncertainty of "will the next video be good?" creates a dopamine loop. Recognizing it is a superpower!' });
-    if (body.includes('privacy') || body.includes('data') && body.includes('know')) quizzes.push({ q: 'Can you check what data YouTube has collected about you?', a: 'Yes! Go to myactivity.google.com — you can see every video you\'ve ever watched. You can also delete it or set it to auto-delete.' });
-    if (body.includes('future') || body.includes('your generation')) quizzes.push({ q: 'Why does YOUR generation understand algorithms better than most adults?', a: 'Because you grew up WITH them! You notice when recommendations are weird, you know how to game the algorithm, and you feel the pull of infinite scroll. That experience is real knowledge.' });
-    if (body.includes('eu') || body.includes('law') || body.includes('digital services')) quizzes.push({ q: 'What new right did the EU give people regarding algorithms?', a: 'The right to opt OUT of algorithmic recommendations! The Digital Services Act also stops platforms from using kids\' personal data for recommendations.' });
-
-    // Fallback
-    if (quizzes.length === 0)
-      quizzes.push({ q: 'Can you explain "' + (block.title || 'this topic') + '" to a friend in one sentence?', a: 'Try it! If you can explain it simply, you really understand it. If not, read the section again — it will make more sense the second time!' });
+  // The concept's recall question, in the reader's language when a telling in that
+  // language carries one (every telling answers the same contract); else the contract.
+  _conceptRecall(cid) {
+    const c = this.concepts?.[cid];
+    const clean = s => String(s).replace(/\\(["'])/g, '$1');   // concepts.json keeps YAML escapes
+    const lang = this._readerLang();
+    if (lang !== 'en') {
+      const local = (this.conceptBlocks?.[cid] || []).find(b => b.meta.recallQ && b.meta.recallA && this._covers(b.meta, 'lang', lang));
+      if (local) return { q: local.meta.recallQ, a: local.meta.recallA };
     }
+    if (c?.contract?.recallQ && c.contract.recallA) return { q: clean(c.contract.recallQ), a: clean(c.contract.recallA) };
+    const anchor = c?.anchor && this.findBlock(c.anchor);
+    if (anchor?.meta.recallQ && anchor.meta.recallA) return { q: anchor.meta.recallQ, a: anchor.meta.recallA };
+    return null;
+  }
 
-    const quiz = quizzes[Math.floor(Math.random() * quizzes.length)];
-    return `<h4>&#129504; Quick Quiz!</h4>
-      <div class="ctx-quiz">
-        <div class="ctx-quiz-q">${quiz.q}</div>
-        <button class="ctx-quiz-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Hmm, let me think... &#129300; Show answer!</button>
-        <div class="ctx-quiz-a" style="display:none">${quiz.a}</div>
-      </div>`;
+  // Card keys (concept anchor ids) of every concept that has a recall question
+  _recallConceptKeys() {
+    return Object.values(this.concepts || {})
+      .filter(c => c.anchor && this.findBlock(c.anchor) && this._conceptRecall(c.id))
+      .map(c => c.anchor);
   }
 
   // --- Spaced repetition recall ---
+  // A card keyed by a concept anchor asks the CONTRACT question; any other telling
+  // asks its own recallQ (same contract, its own language), falling back to the
+  // contract. No contract and no recallQ → no card (null) — callers skip it.
   _getRecallQuestion(block) {
     if (!block) return null;   // recall may reference a variant that no longer resolves
-    const id = block.meta?.id || block.id;
-    const title = block.meta?.title || '';
-    const body = (block.body || '').toLowerCase();
-    const meta = block.meta || {};
-
-    // 1. Prefer frontmatter Q&A (editable by content creators)
-    if (meta.recallQ && meta.recallA) return { q: meta.recallQ, a: meta.recallA };
-
-    // 2. Fallback: hardcoded questions (kept for backwards compat)
-    const QUESTIONS = {
-      // ── Ch1: What Are Recommendations? ──
-      'ch1-noticed': { q: 'How do apps like YouTube seem to "know" what you want?', a: 'They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content.' },
-      'ch1-everywhere': { q: 'Name 4 apps that use recommendation algorithms.', a: 'YouTube, TikTok, Spotify, Netflix, Amazon, Instagram, App Store — almost every app you use daily.' },
-      'ch1-not-magic': { q: 'Recommendations feel like magic — what are they really based on?', a: 'Patterns! Watch → find patterns → predict. Like a detective finding clues in your clicks.' },
-      'ch1-wrong-sidebar': { q: 'Why do recommendations sometimes go hilariously wrong?', a: 'The system only sees clicks, not reasons. If your sibling watches cartoons on your account, it thinks YOU like cartoons!' },
-      'ch1-patterns-d-think': { q: 'Why is finding patterns a "superpower" for algorithms?', a: 'Machines can spot patterns across millions of people simultaneously — connections no human could ever find manually.' },
-      'ch1-three-jobs': { q: 'What are the 3 jobs of a recommender system?', a: 'DISCOVER new things, FIND things faster in huge catalogs, and ENGAGE — keep you interested.' },
-      'ch1-wyr': { q: 'What is the main trade-off in recommendations?', a: 'Better recommendations need more data, but more data means companies know more about you. Privacy vs. personalization.' },
-      'ch1-ws-match': { q: 'Name 3 different recommendation models.', a: 'Friend-based, follow-based, interest-based, algorithm-based, and group-based. Most apps use hybrids.' },
-      // ── Ch2: How They Learn About You ──
-      'ch2-footprints': { q: 'What are digital footprints?', a: 'Every click, watch, skip, and search — invisible tracks that teach the system about your taste.' },
-      'ch2-track-d-exp': { q: 'Which signal is stronger: clicking a video or watching it to the end?', a: 'Watching to the end is MUCH stronger. The system tracks watch time, not just clicks.' },
-      'ch2-guess-signal': { q: 'What is the strongest signal you can send to an algorithm?', a: 'Sharing something! It takes real effort, which tells the system you really care about that content.' },
-      'ch2-clues': { q: 'Name the 3 types of clues recommenders use.', a: 'Item clues (what it IS), person clues (who YOU are), action clues (what you DO).' },
-      'ch2-incognito-sidebar': { q: 'What is the "cold start" problem?', a: 'When you create a new account, the system has zero info — it shows popular stuff until it learns who you are.' },
-      'ch2-myth': { q: 'True or false: your phone listens to your conversations for ads.', a: 'False! Algorithms predict so well from your clicks that it FEELS like they heard you — but they didn\'t.' },
-      'ch2-privacy': { q: 'Name 3 tools you have to control your data.', a: '"Not Interested" button, clear history, separate profiles, incognito mode, and app settings.' },
-      'ch2-privacy-d-create': { q: 'How fast does an algorithm start personalizing for you?', a: 'Just 5-10 videos! Watch a few cooking videos and your feed fills with cooking in minutes.' },
-      'ch2-ws-detective': { q: 'Can you train the algorithm on purpose?', a: 'Yes! Search for topics you want, like content deliberately, use "Not Interested" on what you don\'t want.' },
-      // ── Ch3: Different Ways to Recommend ──
-      'ch3-friends': { q: 'How does collaborative filtering work?', a: 'Find people with similar taste → recommend what THEY liked that you haven\'t tried yet.' },
-      'ch3-cf-d-exp': { q: 'What are "taste twins" in collaborative filtering?', a: 'People who liked the same things as you. If they also liked something new, you probably will too!' },
-      'ch3-cf-d-create': { q: 'Can you build collaborative filtering without a computer?', a: 'Yes! Survey friends, create a rating grid on paper, find who matches you best, check what they liked.' },
-      'ch3-netflix-sidebar': { q: 'What lesson did the Netflix Prize teach about algorithms?', a: 'Better accuracy doesn\'t always win — speed and simplicity matter more than perfection in real systems.' },
-      'ch3-content': { q: 'How does content-based filtering differ from collaborative?', a: 'Content-based looks at item FEATURES (genre, tags). Collaborative looks at USER BEHAVIOR (who liked what).' },
-      'ch3-compare-d-think': { q: 'When is content-based better than collaborative filtering?', a: 'For new items with no ratings yet, and for niche interests. Collaborative is better for surprising discoveries.' },
-      'ch3-spot-method': { q: '"Because you watched X" uses which method?', a: 'Content-based filtering! It finds items similar to X. "Fans also listen to" is collaborative filtering.' },
-      'ch3-bandits': { q: 'What is the explore-exploit dilemma?', a: 'Should the system show safe picks you\'ll like (exploit) or try new things you might discover (explore)? Both matter.' },
-      'ch3-deep-similarity': { q: 'What are "embeddings" in recommendation systems?', a: 'Items turned into lists of numbers (vectors). Close vectors = similar items. Neural networks learn these patterns.' },
-      'ch3-popular': { q: 'What is the biggest weakness of popularity-based recommendations?', a: 'No personalization — everyone sees the same thing. It can\'t account for YOUR unique taste.' },
-      'ch3-popular-sidebar': { q: 'What is the "rich-get-richer" problem?', a: 'Popular content gets more visibility → more views → stays popular. New creators get buried forever.' },
-      'ch3-pipeline': { q: 'What are the 3 stages of a recommendation pipeline?', a: 'FIND candidates (fast + rough), RANK them (precise scoring), CHECK for diversity.' },
-      'ch3-pipeline-d-exp': { q: 'How does YouTube find 20 videos from 800 million in 0.2 seconds?', a: 'Staged pipeline! Quick rough filters narrow 800M to 500 candidates, then careful ranking picks the best 20.' },
-      'ch3-speed': { q: 'How long would it take a human to do what YouTube does in 1 second?', a: '25 YEARS! That\'s why we need algorithms — the scale is impossibly large for humans.' },
-      'ch3-search-recs': { q: 'Are search results the same for everyone?', a: 'No! Search is increasingly personalized — what you see depends on your history, location, and past behavior.' },
-      // ── Ch4: Making Recommendations Better ──
-      'ch4-bubbles': { q: 'What is a filter bubble?', a: 'When the algorithm only shows you things you already like — you never discover anything new. The bubble is invisible.' },
-      'ch4-echo-d-think': { q: 'How is an echo chamber worse than a filter bubble?', a: 'Echo chambers make you think EVERYONE agrees with you — different people see different realities about the same topic.' },
-      'ch4-experiment': { q: 'How can you break out of a filter bubble?', a: 'Deliberately explore new content! Watch 3 videos on a new topic and your feed will start to change.' },
-      'ch4-fairness': { q: 'How can algorithms be unfair to new creators?', a: 'Popular → more recommended → more popular (repeat). New creators never get seen. Good systems give everyone a fair start.' },
-      'ch4-youtube-sidebar': { q: 'What percentage of YouTube watch time comes from recommendations?', a: '70%! That means algorithms — not you searching — drive most of what people watch.' },
-      'ch4-unfair-game': { q: 'How can platforms make recommendations fairer?', a: 'Random sampling, guaranteed visibility for new content, small-audience testing before scaling.' },
-      'ch4-objectives': { q: 'What is the algorithm actually trying to do?', a: 'It depends! Subscription services optimize for YOUR happiness. Free/ad services optimize for ADVERTISER revenue.' },
-      'ch4-explainability': { q: 'Why can\'t platforms fully explain their recommendations?', a: 'Neural networks use hundreds of signals — even engineers can\'t trace exactly why one item was chosen over another.' },
-      'ch4-testing': { q: 'What is an A/B test?', a: 'Show version A to half the users, version B to the other half, compare real behavior. Data decides, not guessing.' },
-      'ch4-ab-d-exp': { q: 'Do personalized recommendations actually work better than "just show popular"?', a: 'Yes! Tests show 37% more songs played, 4x more artist discovery, and higher engagement with personalization.' },
-      // ── Ch5: Build Your Own! ──
-      'ch5-start': { q: 'What are the 4 steps to build a recommendation system?', a: 'Collect data → find similar users → make predictions → test and improve.' },
-      'ch5-collect': { q: 'What is a rating matrix?', a: 'Users as rows, items as columns, ratings in cells. Most cells are empty — that\'s what you predict.' },
-      'ch5-spread-d-create': { q: 'Why can a spreadsheet help you build recommendations?', a: 'Color-coded ratings reveal taste patterns visually — you can see who matches before doing any math.' },
-      'ch5-similar': { q: 'How do you find "taste neighbors"?', a: 'Compare ratings on shared items — lower average difference = more similar taste.' },
-      'ch5-math-d-think': { q: 'What does cosine similarity measure?', a: 'The angle between two preference vectors — so someone who rates everything low but in the same PATTERN as you is still similar.' },
-      'ch5-real-numbers': { q: 'How many possible user-item combinations does Netflix have?', a: '3.4 TRILLION! And most cells are empty. Finding patterns in this sparse data is the core challenge.' },
-      'ch5-recommend': { q: 'How do you predict a rating for an unseen item?', a: 'Find 2-3 most similar users who rated it → average their ratings. Above 4 stars = recommend it.' },
-      'ch5-code-d-create': { q: 'How many lines of Python does it take to build basic collaborative filtering?', a: 'About 20! Data loading, similarity calculation, and prediction — the same logic Netflix uses, just smaller scale.' },
-      'ch5-debug': { q: 'Even Netflix\'s algorithm is wrong how often?', a: '20-30% of the time! Perfection isn\'t the goal — being right MOST of the time is what matters.' },
-      'ch5-improve': { q: 'What is the single biggest improvement for a recommendation system?', a: 'More data! More users and more ratings create more connections, which means better matches and predictions.' },
-      'ch5-career-sidebar': { q: 'What skills does a recommendation engineer need?', a: 'Math (statistics, linear algebra), programming (Python), creativity, and curiosity about user behavior.' },
-      'ch5-get-recommended': { q: 'What matters more to YouTube: clicks or watch time?', a: 'Watch time! A video 100 people watch fully beats 1,000 clicks that leave immediately.' },
-      'ch5-seo-algorithms': { q: 'Why doesn\'t "ranking #1 on Google" exist anymore?', a: 'Results are personalized — your content can be #1 for your audience and invisible to everyone else.' },
-      // ── Ch6: Ethics and You ──
-      'ch6-who-decides': { q: 'Who decides what you see when you open TikTok?', a: 'The algorithm — not you, not your parents, not TikTok employees. It optimizes for "what keeps you watching longest."' },
-      'ch6-rabbit-sidebar': { q: 'What is the "rabbit hole" effect?', a: 'Each recommended step feels small, but the accumulated path leads somewhere unexpected. The algorithm optimizes for the NEXT video, not the whole journey.' },
-      'ch6-addictive': { q: 'Name 2 design tricks that keep you scrolling.', a: 'Infinite scroll (no end point) and autoplay (next video starts automatically). These are deliberate design choices.' },
-      'ch6-control-d-create': { q: 'What is the "thumbnail test"?', a: 'Pause before clicking and ask: "Do I actually WANT this?" It breaks autopilot and puts you back in control.' },
-      'ch6-dopamine-sidebar': { q: 'Why does watching "just one more video" feel so hard to resist?', a: 'Dopamine! Your brain releases it for anticipation + uncertainty — the same mechanism as slot machines.' },
-      'ch6-adtech-vs-recs': { q: 'What is the difference between recommendations and ads?', a: 'Recommendations help you within ONE app. Adtech tracks you across the ENTIRE internet to sell your attention.' },
-      'ch6-privacy-real': { q: 'What is a "digital twin"?', a: 'A mathematical model of your behavior patterns — apps build one from your data without needing your name.' },
-      'ch6-data-d-exp': { q: 'Where can you see what Google knows about you?', a: 'myactivity.google.com — shows every search, video, and click. You can also auto-delete old data there.' },
-      'ch6-age-sidebar': { q: 'Can algorithms guess your age? How?', a: 'Within 3-5 years! From when you watch, how fast you scroll, music taste, and meme preferences — no personal info needed.' },
-      'ch6-ai-future': { q: 'Why does YOUR generation understand algorithms better than most adults?', a: 'You grew up WITH them — you notice weird recs, know how to game the algorithm, and feel the pull of infinite scroll.' },
-      'ch6-hard-d-think': { q: 'Name a hard question about algorithms that nobody has answered yet.', a: 'Should kids get different algorithms? Who defines "harmful"? Should algorithms show disagreement? No right answers exist yet.' },
-      'ch6-law-sidebar': { q: 'What right did the EU give people regarding algorithms?', a: 'The right to opt OUT of algorithmic recommendations, and a ban on using kids\' personal data for targeting.' },
-      'ch6-conversational': { q: 'How will LLMs change recommendations?', a: 'You\'ll ASK for what you want instead of scrolling. LLMs understand language, recommenders have the data — together they\'re powerful.' },
-    };
-
-    // Direct match by block ID
-    if (QUESTIONS[id]) return QUESTIONS[id];
-
-    // Generate from content — extract first meaningful sentence as answer
-    const sentences = (block.body || '').replace(/[#*_\[\]]/g, '').split(/[.!?]\s/).filter(s => s.length > 30 && s.length < 200);
-    if (sentences.length >= 2) {
-      const keyIdx = Math.floor(id.charCodeAt(id.length - 1) % sentences.length);
-      const answer = sentences[keyIdx].trim();
-      return { q: `What did you learn about "${title}"?`, a: answer + '.' };
+    const meta = block.meta || block;
+    const cid = this._conceptIds(meta)[0];
+    if (cid && this.concepts?.[cid]?.anchor === meta.id) {
+      const q = this._conceptRecall(cid);
+      if (q) return q;
     }
-
-    return { q: `What is the key idea of "${title}"?`, a: `Think about what this section explained. Try re-reading "${title}" to refresh your memory!` };
+    if (meta.recallQ && meta.recallA) return { q: meta.recallQ, a: meta.recallA };
+    return cid ? this._conceptRecall(cid) : null;
   }
 
   startPractice(dueOnly) {
@@ -3109,15 +3182,15 @@ class PBook {
         else easy.push(item);
       });
       const shuffle = arr => arr.sort(() => Math.random() - 0.5);
-      // Read blocks not yet in recall system
+      // Concepts read but not yet in the recall system (one card per concept)
       const recallSet = new Set(Object.keys(this.user.recall));
-      const newFromRead = [...this.user.readBlocks]
+      const newFromRead = [...new Set([...this.user.readBlocks].map(id => this._recallKey(id)))]
         .filter(id => !recallSet.has(id))
         .map(id => ({ blockId: id, isDue: false, ease: 2.5, reps: 0 }));
-      // ALL blocks with recallQ that user hasn't read yet (test knowledge even if not read)
-      const allWithQ = this.allBlocks
-        .filter(b => b.meta.recallQ && !this.user.readBlocks.has(b.meta.id) && !recallSet.has(b.meta.id))
-        .map(b => ({ blockId: b.meta.id, isDue: false, ease: 2.5, reps: 0 }));
+      // Every other concept with a contract question (test knowledge even if not read)
+      const allWithQ = this._recallConceptKeys()
+        .filter(id => !recallSet.has(id) && !newFromRead.some(n => n.blockId === id))
+        .map(id => ({ blockId: id, isDue: false, ease: 2.5, reps: 0 }));
       // Order: learning first (sweet spot), then struggling, new, confident, then unread with questions
       blocks = [...shuffle(med), ...shuffle(hard), ...shuffle(newFromRead), ...shuffle(easy), ...shuffle(allWithQ)];
     }
@@ -3249,7 +3322,8 @@ class PBook {
     const allSpines = this.allBlocks.filter(b => b.meta.type === 'spine');
     const unreadBlocks = allSpines.filter(b => !u.readBlocks.has(b.meta.id));
     const recallSet = new Set(Object.keys(u.recall));
-    const newCards = [...u.readBlocks].filter(id => !recallSet.has(id)); // read but no recall yet
+    // read but no recall yet — one card per concept
+    const newCards = [...new Set([...u.readBlocks].map(id => this._recallKey(id)))].filter(id => !recallSet.has(id));
 
     // ── Confidence map: each card is a small colored cell, hover shows title ──
     // Build ordered list: struggling → new → learning → confident → unread
@@ -3375,7 +3449,7 @@ class PBook {
 
     // ── Bottom actions (side by side on wide screens) ──
     const unread = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine' && !u.readBlocks.has(b.meta.id));
-    const totalWithQ = this.allBlocks.filter(b => b.meta.recallQ).length;
+    const totalWithQ = this._recallConceptKeys().length;   // one card per concept
     h += `<div style="padding:.8em 1em">`;
     h += `<div style="display:flex;gap:.5em;flex-wrap:wrap">`;
     if (unread.length > 0) {
@@ -3480,8 +3554,8 @@ class PBook {
 
     const item = q[idx];
     const block = this._findAnyBlock(item.blockId);
-    if (!block) { this._recallIdx++; this._renderQuizCard(); return; }
     const quiz = this._getRecallQuestion(block);
+    if (!block || !quiz) { this._recallIdx++; this._renderQuizCard(); return; }
     const card = this.user.recall[item.blockId];
     const reps = card ? card.reps : 0;
     const ease = card ? card.ease.toFixed(1) : '—';
@@ -3562,6 +3636,8 @@ class PBook {
     this._scoredRecall.add(blockId);
     setTimeout(() => this._scoredRecall.delete(blockId), 2000);
 
+    // a "Check yourself" card can be answered before its concept was ever scheduled
+    if (!this.user.recall[blockId]) this.user.scheduleRecall(blockId);
     const xpEarned = this.user.processRecall(blockId, quality);
     const labels = ['Forgot — reviewing soon!', 'Hard — keep at it!', 'Good — nice!', 'Easy — nailed it!'];
     this.showXPToast(`+${xpEarned} XP ${labels[quality]}`, quality >= 2 ? 'xp' : 'info');
@@ -4812,7 +4888,7 @@ class PBook {
 
     // Recall section
     if (this._f('spaceRepetition')) {
-      const totalWithQ = this.allBlocks.filter(b => b.meta.recallQ).length;
+      const totalWithQ = this._recallConceptKeys().length;
       const hardC = Object.values(u.recall).filter(c => c.ease < 1.8).length;
       const medC = Object.values(u.recall).filter(c => c.ease >= 1.8 && c.ease < 2.5).length;
       const easyC = Object.values(u.recall).filter(c => c.ease >= 2.5).length;
@@ -9102,8 +9178,16 @@ class PBook {
     this.rc.setContext(mode, { blockId, chapter: chIdx });
     this.rc.logEvent('open_block', { mode, blockId });
 
-    // If already viewing this chapter, just scroll
-    if (this.currentView === 'read' && this._renderedChapter === chIdx) {
+    // The essentials flow shows one telling per concept: opening a specific
+    // telling (search, mission step, shared link…) serves THAT one in its
+    // concept's slot for the rest of this session.
+    if (!this._fullBook() && block.meta.type === 'spine') {
+      const cid = this._conceptIds(block.meta)[0];
+      if (cid) (this._requestedTellings = this._requestedTellings || {})[cid] = blockId;
+    }
+
+    // If already viewing this chapter (and that telling is on screen), just scroll
+    if (this.currentView === 'read' && this._renderedChapter === chIdx && document.getElementById(`b-${blockId}`)) {
       this._scrollToBlock(parentId, block.meta);
       this._updateMissionBar();
       return;
@@ -10155,7 +10239,7 @@ document.addEventListener('click', (e) => {
   const concept = app?.concepts?.[slug];
   if (concept?.anchor && app.findBlock(concept.anchor)) {
     app.rc.logEvent('concept_link', { slug });
-    app.openBlock(concept.anchor, 'crosslink');
+    app.openBlock(app._servedTellingId(slug) || concept.anchor, 'crosslink');   // the reader's telling of that idea
   }
 });
 
