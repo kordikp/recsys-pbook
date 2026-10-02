@@ -46,7 +46,6 @@
         "01c-game-signal-sort.md",
         "01d-depth-thinker-interactions.md",
         "01e-depth-thinker-implicit-feedback.md",
-        "01f-sidebar-user-lifecycle.md",
         "01g-spine-data-foundation.md",
         "01gx-sidebar-comic-data-pillars.md",
         "04a-sidebar-data-quality.md",
@@ -83,7 +82,8 @@
         "05h-sidebar-cold-start-solutions.md",
         "07-spine-user-cold-start.md",
         "07a-sidebar-user-cold-start-tldr.md",
-        "07b-depth-user-cold-start-mechanics.md"
+        "07b-depth-user-cold-start-mechanics.md",
+        "01f-sidebar-user-lifecycle.md"
       ]
     },
     {
@@ -308,9 +308,9 @@
         "05ya-sidebar-launch-playbook-tldr.md",
         "05p-spine-real-time-signals.md",
         "05pa-sidebar-real-time-signals-tldr.md",
+        "05q-sidebar-realtime-personalization.md",
         "07-spine-production-at-scale.md",
         "07x-sidebar-comic-production-scale.md",
-        "05q-sidebar-realtime-personalization.md",
         "05n-sidebar-caching.md",
         "07a-sidebar-sparse-representations.md",
         "07b-sidebar-knowledge-distillation.md"
@@ -358,8 +358,6 @@
         "02a-sidebar-youtube-algorithm.md",
         "01b-sidebar-rabbit-hole.md",
         "01c-sidebar-attention-economy.md",
-        "02d-sidebar-creator-economy.md",
-        "03e-sidebar-content-safety.md",
         "02-spine-addictive-design.md",
         "02x-sidebar-comic-addictive-design.md",
         "02a-depth-creator-take-control.md",
@@ -367,6 +365,7 @@
         "02e-sidebar-dark-patterns.md",
         "02f-spine-supply-side-dynamics.md",
         "02fa-sidebar-supply-side-dynamics-tldr.md",
+        "02d-sidebar-creator-economy.md",
         "02c-spine-adtech-vs-recs.md",
         "02cx-sidebar-comic-ads-vs-recs.md",
         "03-spine-privacy-for-real.md",
@@ -379,6 +378,7 @@
         "03ga-sidebar-recommender-regulation-tldr.md",
         "03h-spine-harm-aware-ranking.md",
         "03ha-sidebar-harm-aware-ranking-tldr.md",
+        "03e-sidebar-content-safety.md",
         "04-spine-ai-and-you.md",
         "04x-sidebar-comic-ai-future.md",
         "04a-depth-thinker-hard-questions.md",

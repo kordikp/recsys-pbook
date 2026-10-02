@@ -255,8 +255,7 @@
         "ch2-guess-signal",
         "ch2-game-signal",
         "ch2-interactions",
-        "ch2-implicit-feedback",
-        "ch2-user-lifecycle"
+        "ch2-implicit-feedback"
       ],
       "contract": {
         "objective": "Every click, every skip, every replay -- you're leaving a trail of behavioral data.",
@@ -515,7 +514,8 @@
       "blocks": [
         "user-cold-start",
         "user-cold-start-tldr",
-        "user-cold-start-mechanics"
+        "user-cold-start-mechanics",
+        "ch2-user-lifecycle"
       ],
       "contract": {
         "objective": "A first-time visitor has no history. What can a recommender show in the first minute, and how fast can it get personal?",
@@ -2166,7 +2166,8 @@
       ],
       "blocks": [
         "real-time-signals",
-        "real-time-signals-tldr"
+        "real-time-signals-tldr",
+        "ch5-realtime"
       ],
       "contract": {
         "objective": "She has opened three tents in five minutes. The homepage still offers her a frying pan. Freshness costs money, and it can break in a way no dashboard shows.",
@@ -2212,7 +2213,6 @@
       "blocks": [
         "ch7-production-scale",
         "comic-production-scale",
-        "ch5-realtime",
         "ch5-caching",
         "ch7-sparse-reps",
         "ch7-distillation"
@@ -2331,9 +2331,7 @@
         "comic-who-decides",
         "ch4-youtube-sidebar",
         "ch6-rabbit-sidebar",
-        "ch6-attention-economy",
-        "ch6-creator-economy",
-        "ch6-content-safety"
+        "ch6-attention-economy"
       ],
       "contract": {
         "objective": "When you open a social media platform, who chose what's on your screen? Not you. Not the editorial team. Not even a human.",
@@ -2409,7 +2407,8 @@
       ],
       "blocks": [
         "supply-side-dynamics",
-        "supply-side-dynamics-tldr"
+        "supply-side-dynamics-tldr",
+        "ch6-creator-economy"
       ],
       "contract": {
         "objective": "A ranking objective is a job ad read by every creator on the platform. Change it, and six months later the catalog looks different.",
@@ -2575,7 +2574,8 @@
       ],
       "blocks": [
         "harm-aware-ranking",
-        "harm-aware-ranking-tldr"
+        "harm-aware-ranking-tldr",
+        "ch6-content-safety"
       ],
       "contract": {
         "objective": "Every video in the feed passed moderation. The feed as a whole still wasn't safe. Why the ranker needs its own safety layer, and how to measure whether it works.",

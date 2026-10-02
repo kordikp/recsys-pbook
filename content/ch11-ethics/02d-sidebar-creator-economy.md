@@ -13,7 +13,7 @@ recallQ: "How do recommendation algorithms influence content creation?"
 recallA: "Algorithms create incentive structures: creators optimize for algorithmic visibility (clickbait thumbnails, optimal length, trending topics), which can homogenize content and prioritize engagement over quality."
 publishedAt: "2026-04-03"
 status: accepted
-concept: who-decides
+concept: supply-side-dynamics
 state: edited
 lens: generic
 visuality: text-first
