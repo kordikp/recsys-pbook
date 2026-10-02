@@ -1,35 +1,95 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
-  <style>
-    .b1{animation:bb 5s ease-in-out infinite}
-    .b2{animation:bb 5s ease-in-out infinite;animation-delay:.3s}
-    .b3{animation:bb 5s ease-in-out infinite;animation-delay:.6s}
-    .b4{animation:bb 5s ease-in-out infinite;animation-delay:.9s}
-    @keyframes bb{0%,10%{transform:scaleY(.25)}45%,85%{transform:scaleY(1)}100%{transform:scaleY(.25)}}
-  </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">The Benchmarks Everyone Reports On</text>
-
-  <g stroke="#9CA3AF" stroke-width="1.5"><line x1="90" y1="300" x2="740" y2="300"/></g>
-  <g text-anchor="middle">
-    <rect class="b1" x="120" y="140" width="90" height="160" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2" style="transform-origin:165px 300px"/>
-    <text x="165" y="326" font-size="13.5" font-weight="700" fill="#4C1D95">MovieLens</text>
-    <text x="165" y="344" font-size="11.5" fill="#6B7280">25M ratings · movies</text>
-    <text x="165" y="128" font-size="12" fill="#4C1D95">the classic — everyone starts here</text>
-
-    <rect class="b2" x="280" y="170" width="90" height="130" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2" style="transform-origin:325px 300px"/>
-    <text x="325" y="326" font-size="13.5" font-weight="700" fill="#065F46">Amazon Reviews</text>
-    <text x="325" y="344" font-size="11.5" fill="#6B7280">233M · e-commerce</text>
-    <text x="325" y="158" font-size="12" fill="#065F46">rich text + sparse users</text>
-
-    <rect class="b3" x="440" y="190" width="90" height="110" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="2" style="transform-origin:485px 300px"/>
-    <text x="485" y="326" font-size="13.5" font-weight="700" fill="#92400E">Yelp</text>
-    <text x="485" y="344" font-size="11.5" fill="#6B7280">local businesses</text>
-    <text x="485" y="178" font-size="12" fill="#92400E">geo + social edges</text>
-
-    <rect class="b4" x="600" y="120" width="90" height="180" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2" style="transform-origin:645px 300px"/>
-    <text x="645" y="326" font-size="13.5" font-weight="700" fill="#075985">KuaiRand</text>
-    <text x="645" y="344" font-size="11.5" fill="#6B7280">video · RANDOM slots</text>
-    <text x="645" y="108" font-size="12" fill="#075985">unbiased gold: randomized exposure</text>
-  </g>
-  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Offline wins on MovieLens don't guarantee production wins — check the dataset's bias story before trusting a paper.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 408" role="img" aria-labelledby="pb002-title pb002-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb002-title">What a benchmark log can't see</title>
+<desc id="pb002-desc">A typical benchmark log only records reactions to what the old recommender chose to show, so its blank cells are unknowns, not dislikes. KuaiRand adds a few randomly shown slots that uncover some hidden likes; KuaiRec shows every item to every user, but only for a small block.</desc>
+<style>
+.pb002-a1{animation:pb002-k1 10s ease-out infinite}
+.pb002-a2{animation:pb002-k2 10s ease-out infinite}
+.pb002-a3{animation:pb002-k3 10s ease-out infinite}
+@keyframes pb002-k1{0%,4%{opacity:0}12%,95%{opacity:1}100%{opacity:0}}
+@keyframes pb002-k2{0%,20%{opacity:0}28%,95%{opacity:1}100%{opacity:0}}
+@keyframes pb002-k3{0%,34%{opacity:0}42%,95%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion: reduce){.pb002-a1,.pb002-a2,.pb002-a3{animation:none !important}}
+</style>
+<rect x=".5" y=".5" width="639" height="407" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="40" font-size="20" fill="#1E1B4B" font-weight="700" text-anchor="middle">What a benchmark log can't see</text>
+<text x="320" y="64" font-size="14" fill="#6B7280" text-anchor="middle">Each square: did this user like this item?</text>
+<g>
+<rect x="16" y="80" width="192" height="242" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="112" y="108" font-size="16" fill="#1E1B4B" font-weight="700" text-anchor="middle">Typical log</text>
+<text x="112" y="130" font-size="14" fill="#6B7280" text-anchor="middle">e.g. MovieLens, Amazon</text>
+<path d="M27,143 L113,143 L113,200 L141,200 L141,228 L169,228 L169,256 L197,256 L197,285 L111,285 L111,256 L83,256 L83,228 L55,228 L55,200 L27,200 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<rect x="114.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="142.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="170.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="114.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="142.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="170.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="30.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="142.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="170.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="30.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="58.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="170.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="30.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="58.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="86.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<g class="pb002-a1"><rect x="30" y="146" width="24" height="24" rx="5" fill="#10B981"/><rect x="58" y="146" width="24" height="24" rx="5" fill="#10B981"/><rect x="86" y="146" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="30" y="174" width="24" height="24" rx="5" fill="#10B981"/><rect x="58" y="174" width="24" height="24" rx="5" fill="#10B981"/><rect x="86" y="174" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="58" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="86" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="114" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="86" y="230" width="24" height="24" rx="5" fill="#10B981"/><rect x="114" y="230" width="24" height="24" rx="5" fill="#10B981"/><rect x="142" y="230" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="114" y="258" width="24" height="24" rx="5" fill="#10B981"/><rect x="142" y="258" width="24" height="24" rx="5" fill="#10B981"/><rect x="170" y="258" width="24" height="24" rx="5" fill="#D1D5DB"/></g>
+<text x="112" y="306" font-size="15" fill="#4C1D95" font-weight="700" text-anchor="middle" class="pb002-a1">blanks: unknown</text>
+</g>
+<g>
+<rect x="224" y="80" width="192" height="242" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="320" y="108" font-size="16" fill="#1E1B4B" font-weight="700" text-anchor="middle">KuaiRand</text>
+<text x="320" y="130" font-size="14" fill="#6B7280" text-anchor="middle">+ a few random slots</text>
+<path d="M235,143 L321,143 L321,200 L349,200 L349,228 L377,228 L377,256 L405,256 L405,285 L319,285 L319,256 L291,256 L291,228 L263,228 L263,200 L235,200 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<rect x="322.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="350.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="378.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="322.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="350.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="378.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="238.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="350.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="378.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="238.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="266.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="378.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="238.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="266.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="294.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<g class="pb002-a1"><rect x="238" y="146" width="24" height="24" rx="5" fill="#10B981"/><rect x="266" y="146" width="24" height="24" rx="5" fill="#10B981"/><rect x="294" y="146" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="238" y="174" width="24" height="24" rx="5" fill="#10B981"/><rect x="266" y="174" width="24" height="24" rx="5" fill="#10B981"/><rect x="294" y="174" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="266" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="294" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="322" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="294" y="230" width="24" height="24" rx="5" fill="#10B981"/><rect x="322" y="230" width="24" height="24" rx="5" fill="#10B981"/><rect x="350" y="230" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="322" y="258" width="24" height="24" rx="5" fill="#10B981"/><rect x="350" y="258" width="24" height="24" rx="5" fill="#10B981"/><rect x="378" y="258" width="24" height="24" rx="5" fill="#D1D5DB"/></g>
+<g class="pb002-a2"><rect x="351.5" y="147.5" width="21" height="21" rx="4" fill="#10B981" stroke="#F59E0B" stroke-width="3"/><rect x="323.5" y="175.5" width="21" height="21" rx="4" fill="#D1D5DB" stroke="#F59E0B" stroke-width="3"/><rect x="379.5" y="203.5" width="21" height="21" rx="4" fill="#D1D5DB" stroke="#F59E0B" stroke-width="3"/><rect x="267.5" y="231.5" width="21" height="21" rx="4" fill="#D1D5DB" stroke="#F59E0B" stroke-width="3"/><rect x="239.5" y="259.5" width="21" height="21" rx="4" fill="#10B981" stroke="#F59E0B" stroke-width="3"/></g>
+<text x="320" y="306" font-size="15" fill="#065F46" font-weight="700" text-anchor="middle" class="pb002-a2">2 hidden likes found</text>
+</g>
+<g>
+<rect x="432" y="80" width="192" height="242" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="528" y="108" font-size="16" fill="#1E1B4B" font-weight="700" text-anchor="middle">KuaiRec</text>
+<text x="528" y="130" font-size="14" fill="#6B7280" text-anchor="middle">small, but all shown</text>
+<path d="M443,143 L529,143 L529,200 L557,200 L557,228 L585,228 L585,256 L613,256 L613,285 L527,285 L527,256 L499,256 L499,228 L471,228 L471,200 L443,200 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<rect x="530.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="558.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="586.75" y="146.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="530.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="558.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="586.75" y="174.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="446.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="558.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="586.75" y="202.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="446.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="474.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="586.75" y="230.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="446.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="474.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="502.75" y="258.75" width="22.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<g class="pb002-a1"><rect x="446" y="146" width="24" height="24" rx="5" fill="#10B981"/><rect x="474" y="146" width="24" height="24" rx="5" fill="#10B981"/><rect x="502" y="146" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="446" y="174" width="24" height="24" rx="5" fill="#10B981"/><rect x="474" y="174" width="24" height="24" rx="5" fill="#10B981"/><rect x="502" y="174" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="474" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="502" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="530" y="202" width="24" height="24" rx="5" fill="#10B981"/><rect x="502" y="230" width="24" height="24" rx="5" fill="#10B981"/><rect x="530" y="230" width="24" height="24" rx="5" fill="#10B981"/><rect x="558" y="230" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="530" y="258" width="24" height="24" rx="5" fill="#10B981"/><rect x="558" y="258" width="24" height="24" rx="5" fill="#10B981"/><rect x="586" y="258" width="24" height="24" rx="5" fill="#D1D5DB"/></g>
+<g class="pb002-a3"><rect x="530" y="146" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="558" y="146" width="24" height="24" rx="5" fill="#10B981"/><rect x="586" y="146" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="530" y="174" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="558" y="174" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="586" y="174" width="24" height="24" rx="5" fill="#10B981"/><rect x="446" y="202" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="558" y="202" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="586" y="202" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="446" y="230" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="474" y="230" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="586" y="230" width="24" height="24" rx="5" fill="#10B981"/><rect x="446" y="258" width="24" height="24" rx="5" fill="#10B981"/><rect x="474" y="258" width="24" height="24" rx="5" fill="#D1D5DB"/><rect x="502" y="258" width="24" height="24" rx="5" fill="#D1D5DB"/></g>
+<text x="528" y="306" font-size="15" fill="#065F46" font-weight="700" text-anchor="middle" class="pb002-a3">every like visible</text>
+</g>
+<g>
+<g transform="translate(37.0,350)"><rect x="0" y="-8" width="16" height="16" rx="4" fill="#10B981"/><text x="22" y="5" font-size="14" fill="#6B7280">liked</text></g>
+<g transform="translate(113.0,350)"><rect x="0" y="-8" width="16" height="16" rx="4" fill="#D1D5DB"/><text x="22" y="5" font-size="14" fill="#6B7280">not liked</text></g>
+<g transform="translate(215.0,350)"><rect x=".75" y="-7.25" width="14.5" height="14.5" rx="3.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/><text x="22" y="5" font-size="14" fill="#6B7280">never shown</text></g>
+<g transform="translate(339.0,350)"><rect x=".75" y="-7.25" width="14.5" height="14.5" rx="3.5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="22" y="5" font-size="14" fill="#6B7280">old system's picks</text></g>
+<g transform="translate(501.0,350)"><rect x="1.5" y="-6.5" width="13" height="13" rx="3.5" fill="#FFFFFF" stroke="#F59E0B" stroke-width="3"/><text x="22" y="5" font-size="14" fill="#6B7280">random slot</text></g>
+</g>
+<text x="320" y="388" font-size="16" fill="#1E1B4B" font-weight="700" text-anchor="middle">A blank isn’t a “no” — the old system just never asked.</text>
 </svg>

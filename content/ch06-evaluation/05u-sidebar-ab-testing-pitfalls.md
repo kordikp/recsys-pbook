@@ -26,7 +26,7 @@ carriers: prose|image
 
 A/B testing is the gold standard for evaluating recommendation changes. In theory, it provides causal evidence that a new algorithm is better. In practice, most A/B tests are run incorrectly — producing results that look convincing but are unreliable.
 
-![A/B test flow: randomization, groups, and metric comparison](/images/anim-ab-test-flow.svg)
+![Peeking: in a toy A/B test, B's lift over A pokes above the noise band on day 2 (+3% CTR, p = 0.04) by luck, but shows no real difference at the planned end on day 14](/images/anim-ab-test-flow.svg)
 
 ## Pitfall 1: Peeking
 

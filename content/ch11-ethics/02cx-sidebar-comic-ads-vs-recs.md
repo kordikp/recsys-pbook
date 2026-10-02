@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Clerk Stays. The Ad Gets Around. — a four-panel comic](images/comic-ads-vs-recs.svg)
+![The Clerk Stays. The Ad Gets Around. A four-panel comic: in a shoe shop the clerk (the recommender) suggests socks because you bought running shoes there. An ad tracker who peeked in follows you to a news site and a recipe site, then auctions a file on you to bidders. Back in the shop the clerk says: Not me, I only know what you did in here.](images/comic-ads-vs-recs.svg)
 
 *Recs use first-party platform data; AdTech tracks across sites, raising privacy duties.*

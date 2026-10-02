@@ -26,7 +26,7 @@ carriers: prose|image
 
 Every recommendation system that reaches production will eventually exhibit at least one of these failure modes. They are not signs of incompetence -- they emerge naturally from reasonable-sounding decisions. The difference between a mediocre system and a great one is how quickly the team recognizes these patterns and corrects course.
 
-![Eight common recommender system anti-patterns](/images/diagram-anti-patterns.svg)
+![Eight recommender anti-patterns, each showing what looks good on the dashboard versus what users actually get; the popularity feedback loop is highlighted as the most dangerous because it feeds itself](/images/diagram-anti-patterns.svg)
 
 ## 1. The Accuracy Trap
 
