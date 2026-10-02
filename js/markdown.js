@@ -261,6 +261,22 @@ function parseCells(line) {
 }
 
 // --- Inline formatting ---
+// Smart punctuation for text outside HTML tags: ' -- ' → ' – ', '...' → '…',
+// straight quotes → curly. Attribute values (hrefs, classes) are never touched.
+export function smartPunct(html) {
+  return String(html ?? '').split(/(<[^>]*>)/).map((seg, i) => {
+    if (i % 2) return seg;                       // a tag
+    return seg
+      .replace(/(^|\s)--(?=\s|$)/g, '$1–')
+      .replace(/(\w)--(\w)/g, '$1–$2')
+      .replace(/\.\.\./g, '…')
+      .replace(/(^|[\s(\[{\u2013\u2014/])"(?=\S)/g, '$1“')
+      .replace(/"/g, '”')
+      .replace(/(^|[\s(\[{\u2013\u2014/])'(?=\S)/g, '$1‘')
+      .replace(/'/g, '’');
+  }).join('');
+}
+
 function inlineFmt(text) {
   // Protect math from inline processing
   const mathBlocks = [];
@@ -287,6 +303,9 @@ function inlineFmt(text) {
   text = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   // Italic (careful with LaTeX subscripts)
   text = text.replace(/(?<![\\*\w])\*([^*\n]+?)\*(?!\*)/g, '<em>$1</em>');
+
+  // Typography on prose only (tags, code and math are placeholders or skipped)
+  text = smartPunct(text);
 
   // Restore code
   text = text.replace(/%%IC(\d+)%%IC/g, (_, idx) => codeBlocks[parseInt(idx)]);

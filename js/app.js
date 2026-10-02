@@ -1,7 +1,7 @@
 // p-book v3: Adaptive UX with Netflix home, map, search, feedback, Recombee-powered
 
 import { CONFIG } from './config.js';
-import { renderMarkdown, parseFrontmatter } from './markdown.js';
+import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
 
@@ -2009,7 +2009,7 @@ class PBook {
 
   // Highlights come exclusively from frontmatter `highlights` array — no auto-generation
   _getHighlights(block) {
-    if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights;
+    if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights.map(h => smartPunct(h));
     return null;
   }
 
