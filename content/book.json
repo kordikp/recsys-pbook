@@ -24,6 +24,7 @@
         "04b-sidebar-would-you-rather.md",
         "04c-sidebar-personalization-spectrum.md",
         "05-question-what-type.md",
+        "05a-game-which-job.md",
         "06-spine-worksheet-match-apps.md",
         "06x-sidebar-comic-distribution-models.md"
       ]
@@ -74,7 +75,8 @@
         "05j-sidebar-cold-start-jobs.md",
         "05k-sidebar-cold-start-long.md",
         "05l-sidebar-cold-start-cs.md",
-        "05m-sidebar-cold-start-cs-shop.md"
+        "05m-sidebar-cold-start-cs-shop.md",
+        "05n-game-item-cold-start.md"
       ]
     },
     {
@@ -87,11 +89,13 @@
         "02c-spine-objectives.md",
         "02cx-sidebar-comic-objectives.md",
         "02c1-depth-thinker-multi-objective.md",
+        "02c2-game-tune-the-feed.md",
         "02-spine-fairness.md",
         "02x-sidebar-comic-fairness.md",
         "02a-sidebar-youtube-algorithm.md",
         "02b-sidebar-unfair-game.md",
         "02e1-depth-thinker-diversity-metrics.md",
+        "02e2-game-rich-get-richer.md",
         "02f-spine-long-tail.md",
         "02fx-sidebar-comic-long-tail.md",
         "02f1-sidebar-long-tail-media-tldr.md",
@@ -100,7 +104,8 @@
         "02hx-sidebar-comic-satisfaction-vs-engagement.md",
         "02i-sidebar-trust-calibration.md",
         "02j-sidebar-reward-design.md",
-        "02l-sidebar-spotify-paradox.md"
+        "02l-sidebar-spotify-paradox.md",
+        "02l1-game-metric-mirage.md"
       ]
     },
     {
@@ -115,6 +120,7 @@
         "02-sidebar-scenario-canvas.md",
         "05y-sidebar-recommendation-scenarios.md",
         "05z-sidebar-composite-recommendations.md",
+        "05z1-game-pick-the-scenario.md",
         "02j-spine-context-aware.md",
         "02jx-sidebar-comic-context-awareness.md",
         "02m-spine-session-based.md",
@@ -153,6 +159,7 @@
         "02dx-sidebar-comic-explore-exploit.md",
         "02d1-sidebar-bandits-radio-story.md",
         "02d1-sidebar-bandits-intuition.md",
+        "02d2-game-bandit-headlines.md",
         "02e-spine-deep-similarity.md",
         "02ex-sidebar-comic-embeddings.md",
         "02e1-sidebar-embeddings-education.md",
@@ -204,6 +211,7 @@
         "03c-depth-thinker-online-offline.md",
         "03d-depth-thinker-counterfactual.md",
         "03e-sidebar-interleaving.md",
+        "03f-game-ship-it.md",
         "01-spine-filter-bubbles.md",
         "01x-sidebar-comic-filter-bubbles.md",
         "01f-sidebar-bubble-social-story.md",
@@ -277,7 +285,8 @@
         "05r-sidebar-observability.md",
         "05m-sidebar-continual-learning.md",
         "05w-sidebar-data-flywheel.md",
-        "06-sidebar-incident-response.md"
+        "06-sidebar-incident-response.md",
+        "06a-game-silent-failures.md"
       ]
     },
     {
@@ -295,7 +304,8 @@
         "05k-sidebar-marketplace-recs.md",
         "05t-sidebar-education-recs.md",
         "05v-sidebar-feature-engineering.md",
-        "99x-sidebar-comic-business-rules.md"
+        "99x-sidebar-comic-business-rules.md",
+        "99y-game-rule-or-model.md"
       ]
     },
     {
