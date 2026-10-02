@@ -1434,6 +1434,20 @@ const GamesMixin = {
     if (start) start.click();
   },
 
+  // "Hands-on" chip beside a telling's tellings indicator: the concept's game(s), one tap away.
+  // Only on the concept's anchor, so a chapter with seven tellings doesn't repeat it seven times.
+  _conceptGameChip(concept, blockId) {
+    if (!this._f('games')) return '';
+    const slug = String(concept || '').split('|')[0].trim();
+    if (!slug) return '';
+    const anchor = this.concepts?.[slug]?.anchor;
+    if (anchor && blockId && anchor !== blockId) return '';
+    const g = this.allBlocks.find(b => b.meta.type === 'game' && String(b.meta.concept || '').split('|')[0].trim() === slug);
+    if (!g) return '';
+    const m = g.meta;
+    return `<button class="steer-chip g-handson-chip" onclick="app.openPlayground('${esc(m.id)}')" title="${esc(m.teaser || 'Try this concept hands-on')}">▶ Hands-on: ${esc(m.title)} <span class="g-small">(~${esc(String(m.readingTime || 2))} min)</span></button>`;
+  },
+
   // Browse shelf: the games as cards (unplayed first). Returns '' when games are off.
   _gamesShelfHtml() {
     if (!this._f('games')) return '';

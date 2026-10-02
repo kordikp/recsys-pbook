@@ -609,7 +609,7 @@ class PBook {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
     const others = this._conceptPool(block.concept).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
-      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>
+      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>${this._conceptGameChip?.(block.concept, block.id) || ''}
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
     </div>`;
   }

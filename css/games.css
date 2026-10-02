@@ -264,3 +264,6 @@ body.g-pg-open { overflow: hidden; }
   .g-bar > i, .g-meter-ci, .g-meter-dot { transition: none; }
   .g-feed li.g-enter { animation: none; }
 }
+/* "Hands-on" chip next to the tellings indicator */
+.g-handson-chip { margin-left: .4em; border-color: var(--accent); color: var(--accent); }
+.g-handson-chip .g-small { font-size: inherit; color: var(--text-3); }
