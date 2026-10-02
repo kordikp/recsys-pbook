@@ -166,7 +166,6 @@
         "02g1-depth-thinker-als-deep.md",
         "02k-depth-thinker-feature-interactions.md",
         "02h-depth-thinker-attention.md",
-        "02h1-depth-thinker-attention-deep.md",
         "02i-spine-graph-methods.md",
         "02ix-sidebar-comic-graph-methods.md",
         "02p-sidebar-social-recommendation.md",
@@ -194,13 +193,30 @@
       "subtitle": "Sequence models, generative retrieval, LLMs and agents — what changed and what it means for your product",
       "directory": "ch05m-modern-recommenders",
       "files": [
+        "01-spine-sequential-recommendation.md",
+        "01a-sidebar-sequential-recommendation-tldr.md",
+        "01b-depth-sequential-recommendation-practice.md",
+        "02h1-depth-thinker-attention-deep.md",
+        "07c-sidebar-realm-details.md",
         "02m-spine-session-based.md",
         "02mx-sidebar-comic-session-based.md",
+        "02-spine-generative-recommendation.md",
+        "02a-sidebar-generative-recommendation-tldr.md",
+        "02b-depth-generative-recommendation-mechanism.md",
+        "03-spine-recsys-foundation-models.md",
+        "03a-sidebar-recsys-foundation-models-tldr.md",
+        "03b-depth-recsys-foundation-models-inside.md",
         "04e-spine-llm-recommendations.md",
+        "04d-sidebar-llm-four-roles.md",
+        "04a-sidebar-llm-recommenders-tldr.md",
+        "04b-depth-llm-recommenders-four-jobs.md",
         "04ex-sidebar-comic-llm-recommenders.md",
         "04g-sidebar-retrieval-augmented.md",
         "04c-spine-conversational-recs.md",
-        "04cx-sidebar-comic-conversational-recs.md"
+        "04cx-sidebar-comic-conversational-recs.md",
+        "06-spine-agentic-recommendation.md",
+        "06a-sidebar-agentic-recommendation-tldr.md",
+        "06b-depth-agentic-recommendation-practitioner.md"
       ]
     },
     {
@@ -272,8 +288,7 @@
         "05q-sidebar-realtime-personalization.md",
         "05n-sidebar-caching.md",
         "07a-sidebar-sparse-representations.md",
-        "07b-sidebar-knowledge-distillation.md",
-        "07c-sidebar-realm-details.md"
+        "07b-sidebar-knowledge-distillation.md"
       ]
     },
     {

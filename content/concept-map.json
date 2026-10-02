@@ -316,7 +316,10 @@
    "tema": "ch05m-modern-recommenders",
    "state": "core",
    "teaser": "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleet",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "sequential-recommendation"
+   ]
   },
   {
    "slug": "llm-recommenders",

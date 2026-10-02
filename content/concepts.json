@@ -895,8 +895,7 @@
         "ch3-matrix-factorization",
         "ch3-als-deep",
         "ch3-feature-interactions",
-        "ch3-attention",
-        "ch3-attention-deep"
+        "ch3-attention"
       ],
       "contract": {
         "objective": "A jazz ballad and an ambient electronic track might evoke similar feelings. How does a machine learn to capture that?",
@@ -1095,13 +1094,59 @@
       }
     },
     {
+      "id": "sequential-recommendation",
+      "title": "Sequential recommendation",
+      "chapter": "ch05m-modern-recommenders",
+      "anchor": "sequential-recommendation",
+      "anchorPath": "ch05m-modern-recommenders/01-spine-sequential-recommendation.md",
+      "provenance": "anchored",
+      "parents": [
+        "embeddings",
+        "pipeline"
+      ],
+      "blocks": [
+        "sequential-recommendation",
+        "sequential-recommendation-tldr",
+        "sequential-recommendation-practice",
+        "ch3-attention-deep",
+        "ch7-realm"
+      ],
+      "contract": {
+        "objective": "Two listeners played the same five tracks in a different order. They should not get the same next song.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Same items, different order, different next need: order and recency reveal current intent",
+            "modality": "prose"
+          },
+          {
+            "point": "Next-item prediction works like next-word prediction: from transition counts to recurrent networks to transformers such as SASRec",
+            "modality": "prose"
+          },
+          {
+            "point": "It costs fresh event streams and compute; on short or repetitive sequences simple baselines often match it",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What does a sequential recommender use that an unordered profile ignores, and when is the extra cost worth it?",
+        "recallA": "The order and recency of a person's actions. It predicts the next item from the sequence, like next-word prediction, so it catches the current intent that an all-time profile averages away (models range from transition counts and recurrent networks to transformers such as SASRec, whose attention weighs which past actions matter now). It pays off with long, varied histories where intent shifts; on short sessions or repetitive habits, simple 'what usually comes next' baselines often match it at much lower cost.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "session-based",
       "title": "Session-based recommendation",
       "chapter": "ch05m-modern-recommenders",
       "anchor": "ch3-session-based",
       "anchorPath": "ch05m-modern-recommenders/02m-spine-session-based.md",
       "provenance": "anchored",
-      "parents": [],
+      "parents": [
+        "sequential-recommendation"
+      ],
       "blocks": [
         "ch3-session-based",
         "comic-session-based"
@@ -1133,6 +1178,99 @@
       }
     },
     {
+      "id": "generative-recommendation",
+      "title": "Generative recommendation and semantic IDs",
+      "chapter": "ch05m-modern-recommenders",
+      "anchor": "generative-recommendation",
+      "anchorPath": "ch05m-modern-recommenders/02-spine-generative-recommendation.md",
+      "provenance": "anchored",
+      "parents": [
+        "embeddings",
+        "pipeline",
+        "item-cold-start"
+      ],
+      "blocks": [
+        "generative-recommendation",
+        "generative-recommendation-tldr",
+        "generative-recommendation-mechanism"
+      ],
+      "contract": {
+        "objective": "Instead of searching the catalog for the closest products, a generative recommender writes the next product's code, one piece at a time, like autocomplete for a shop.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "A semantic ID is a short code learned from an item's content; similar items share the start of their code",
+            "modality": "prose"
+          },
+          {
+            "point": "A generative recommender writes the next item's code token by token instead of searching an index for nearest neighbours",
+            "modality": "prose"
+          },
+          {
+            "point": "New items get a code on day one; the price is more computing per request and codes that must be rebuilt",
+            "modality": "prose"
+          },
+          {
+            "point": "In production so far it mostly supplies candidates to a separate ranking stage",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is a semantic ID, and how does a generative recommender use it to pick the next item instead of searching for nearest neighbours?",
+        "recallA": "A semantic ID is a short code of tokens learned from an item's content, built coarse to fine, so similar items share the beginning of their code. A generative recommender reads the user's history as such codes and writes the next item's code token by token (several candidates in parallel); each code is looked up in the catalog and codes that match no item are dropped. It does not compare the user's embedding against an index of item embeddings.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "recsys-foundation-models",
+      "title": "Foundation models for recommendation",
+      "chapter": "ch05m-modern-recommenders",
+      "anchor": "recsys-foundation-models",
+      "anchorPath": "ch05m-modern-recommenders/03-spine-recsys-foundation-models.md",
+      "provenance": "anchored",
+      "parents": [
+        "embeddings",
+        "pipeline"
+      ],
+      "blocks": [
+        "recsys-foundation-models",
+        "recsys-foundation-models-tldr",
+        "recsys-foundation-models-inside"
+      ],
+      "contract": {
+        "objective": "Six widgets, six models, six opinions about the same viewer. Why the largest platforms now pretrain one model for all of them, and why you might not want to.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "One large model pretrained on all interactions (predict the next action) replaces the core of many per-widget models",
+            "modality": "prose"
+          },
+          {
+            "point": "Surfaces reuse it as embeddings, as a plug-in part of their own model, or as a fine-tuned copy",
+            "modality": "prose"
+          },
+          {
+            "point": "It buys shared learning and a head start for new titles and new surfaces; it costs compute, latency work and coupling",
+            "modality": "prose"
+          },
+          {
+            "point": "The evidence comes from platforms with hundreds of millions of users or more; with modest data, tuned simple models often win on value",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is a recommendation foundation model, and when is it worth building one?",
+        "recallA": "One large model pretrained on a platform's whole stream of user interactions (typically by predicting each person's next action) whose learning is reused by many surfaces: as shared embeddings, as a part plugged into a surface's own model, or as a fine-tuned copy. It pays off with very large behavior data and many surfaces to share the cost; with modest data or few surfaces, well-tuned simpler models are often as good and far cheaper.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "llm-recommenders",
       "title": "LLM-powered recommendation",
       "chapter": "ch05m-modern-recommenders",
@@ -1142,6 +1280,9 @@
       "parents": [],
       "blocks": [
         "ch3-llm-recs",
+        "llm-recommenders-four-jobs",
+        "llm-recommenders-tldr",
+        "llm-recommenders-four-jobs-deep",
         "comic-llm-recommenders",
         "ch3-rag-recs"
       ],
@@ -1198,6 +1339,54 @@
         ],
         "recallQ": "How are LLMs changing the recommendation paradigm?",
         "recallA": "LLMs enable natural language preference articulation and explanation, but lack access to real-time catalog data and user history — the future is hybrid architectures combining LLMs with traditional recommender systems.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "agentic-recommendation",
+      "title": "Agentic recommendation",
+      "chapter": "ch05m-modern-recommenders",
+      "anchor": "agentic-recommendation",
+      "anchorPath": "ch05m-modern-recommenders/06-spine-agentic-recommendation.md",
+      "provenance": "anchored",
+      "parents": [
+        "pipeline",
+        "embeddings",
+        "llm-recommenders",
+        "feedback-signals"
+      ],
+      "blocks": [
+        "agentic-recommendation",
+        "agentic-recommendation-tldr",
+        "agentic-recommendation-practitioner"
+      ],
+      "contract": {
+        "objective": "An AI assistant reads dozens of dishwasher listings and shows its person three. What should your recommender do differently?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Two roles: the agent calls your recommender as a tool, or shops at your store on a person's behalf",
+            "modality": "prose"
+          },
+          {
+            "point": "Agents read structured facts, not photos -- and an agent's click is not the person's vote",
+            "modality": "prose"
+          },
+          {
+            "point": "Guard item text against hidden instructions; a person confirms before money moves",
+            "modality": "prose"
+          },
+          {
+            "point": "Tool standards exist today; agents buying at scale is still being worked out",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What two roles can an AI agent play around a recommender, and what changes when an agent, not a person, reads the list?",
+        "recallA": "Caller: your own assistant uses the recommender as a tool inside a task. Customer: someone else's assistant browses and buys for a person. Either way a machine reads the list: it needs structured, checkable item data and factual reasons, its clicks no longer measure the person's taste (outcomes do), hidden instructions in item text can mislead it, and paying or booking needs the person's confirmation.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -1558,8 +1747,7 @@
         "ch5-realtime",
         "ch5-caching",
         "ch7-sparse-reps",
-        "ch7-distillation",
-        "ch7-realm"
+        "ch7-distillation"
       ],
       "contract": {
         "objective": "Research algorithms must survive the harsh reality of production: latency budgets, memory limits, and billions of daily interactions.",

@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: session-based
 conceptTitle: "Session-based recommendation"
+parents: sequential-recommendation
 state: core
 lens: generic
 visuality: balanced

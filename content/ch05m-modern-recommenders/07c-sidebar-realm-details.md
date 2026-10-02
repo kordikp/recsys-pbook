@@ -7,13 +7,13 @@ standalone: true
 core: false
 teaser: "A linear model with a closed-form solution outperforms LSTMs and Transformers on next-basket prediction. Here's why simplicity wins."
 voice: universal
-parent: ch7-production-scale
+parent: sequential-recommendation
 diagram: null
 recallQ: "Why does ReALM outperform deep models for next-basket prediction?"
 recallA: "Grocery shopping sequences are short (5-20 visits), highly habitual, and repetitive. Linear models capture 'if you bought X last time, you'll probably buy X again' without overfitting — deep models have too many parameters for this amount of data."
 publishedAt: "2026-04-03"
 status: accepted
-concept: production-scale
+concept: sequential-recommendation
 state: edited
 lens: generic
 visuality: text-first
