@@ -1444,3 +1444,9 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
   .mini-board { left: max(12px, calc(50% - 340px - var(--mb-w, 100px) - 40px)); bottom: calc(var(--bottomnav-h) + 16px); }
   .mini-board .mb-pill { display: none; }
 }
+.block-nav { font-size: .75rem; }
+.bnav-ch { font-size: inherit; padding: 0; }
+.bnav-back { min-width: 32px; min-height: 32px; }
+.bnav-core { text-transform: none; letter-spacing: 0; }
+.block-actions { display: flex; flex-wrap: wrap; gap: .4em; }
+.block-more-btn.active { color: var(--accent); border-color: var(--accent); }

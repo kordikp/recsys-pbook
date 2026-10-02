@@ -2074,11 +2074,12 @@ class PBook {
       ${this._prereqBanner(block)}
       ${overrideBar}
       <div class="block-nav">
-        <button class="bnav-back" onclick="app.goBack()" title="Go back">&larr;</button>
-        <span class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})">Ch${chNum}</span>
+        <button class="bnav-back" onclick="app.goBack()" title="Back" aria-label="Back">&larr;</button>
+        <span class="bnav-sep" aria-hidden="true">|</span>
+        <button class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})" title="Chapter ${chNum} on the map">Chapter ${chNum}</button>
         <span class="bnav-sep">&middot;</span>
-        <span class="bnav-progress">${posInCh}/${totalInCh}</span>
-        ${block.core ? '<span class="bnav-core">CORE</span>' : ''}
+        <span class="bnav-progress" title="Section ${posInCh} of ${totalInCh} in this chapter">${posInCh} of ${totalInCh}</span>
+        ${block.core ? '<span class="bnav-core" title="Essential and verified by the authors">Essential</span>' : ''}
         <div class="block-status ${isRead ? 'read' : this.user.seenBlocks.has(block.id) ? 'seen' : ''}"></div>
       </div>
       <div class="block-header">
@@ -2106,14 +2107,9 @@ class PBook {
           </button>
         </div>
         <div class="block-actions">
-          <button class="improve-btn" onclick="app.improveBlock('${block.id}')" title="Edit this section yourself, or let AI rewrite it">&#9999;&#65039; Improve</button>
-          <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
-          <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
-          <button class="act-btn" onclick="app.startAuthoringFromBlock('${block.id}')" title="Open in the author studio — bigger edits your way">&#9997;&#65039;</button>
-          ${this.user.recall[block.id] ? `<button class="act-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#129504;</button>` : ''}
-          <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save for later">&#128278;</button>
-          <button class="act-btn share-btn" onclick="app.shareBlock('${block.id}')" title="Share">&#128279;</button>
-          <button class="act-btn flag-btn" onclick="app.flagBlock('${block.id}')" title="Suggest edit to author">&#9873;</button>
+          ${this.user.recall[block.id] ? `<button class="block-more-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#10003; Check yourself</button>` : ''}
+          <button class="block-more-btn act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save" aria-label="Save for later">&#128278; Save</button>
+          <button class="block-more-btn" onclick="app.openBlockMenu('${block.id}')" aria-haspopup="dialog" title="More actions">&#8943; More</button>
         </div>
       </div>
       <div class="note-editor" id="note-${block.id}" style="display:none">
