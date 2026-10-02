@@ -538,6 +538,8 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .block-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.2em; padding-top: .8em; border-top: 1px solid var(--border); }
 .block-reactions { display: flex; gap: .3em; }
 .like-btn { display: flex; align-items: center; gap: .3em; padding: .35em .8em; border-radius: 20px; border: 1.5px solid var(--border); font-size: .82rem; font-family: var(--font-ui); color: var(--text-3); transition: all var(--transition); }
+.mark-read-btn { display: flex; align-items: center; gap: .3em; padding: .35em .8em; border-radius: 20px; border: 1.5px solid var(--border); font-size: .82rem; font-family: var(--font-ui); color: var(--text-3); background: none; cursor: pointer; transition: all var(--transition); }
+.mark-read-btn:hover { border-color: var(--accent); color: var(--accent); }
 .like-btn span { font-size: .72rem; }
 .like-btn:hover { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
 .like-btn.liked { border-color: #ef4444; color: #ef4444; background: #fef2f2; font-weight: 600; }

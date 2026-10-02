@@ -2202,6 +2202,39 @@ class PBook {
 
   // (moved inline to renderRead)
 
+  // Dwell needed before a block counts as read: a quarter of its reading time at
+  // ~230 wpm (from the body, not the readingTime estimate), at least 8 s, at most 3 min.
+  _readThresholdMs(block) {
+    const words = String(block?.body || '').split(/\s+/).filter(Boolean).length;
+    const fullMs = words ? (words / 230) * 60000 : (Number(block?.readingTime) || 2) * 60000;
+    return Math.min(Math.max(8000, fullMs * 0.25), 180000);
+  }
+
+  _markRead(id, block, ownerCh, elapsedMs) {
+    if (this.user.readBlocks.has(id)) return;
+    block = block || this.findBlock(id)?.meta;
+    ownerCh = ownerCh || (block && this.chapters[block._chapterIdx]);
+    this.user.trackRead(id, block?.voice, this._blockFacets(block));
+    this.rc.sendView(id, Math.round((elapsedMs || 0) / 1000));
+    const art = document.getElementById(`b-${id}`);
+    art?.querySelector('.block-status')?.classList.remove('seen');
+    art?.querySelector('.block-status')?.classList.add('read');
+    art?.querySelector('.mark-read-btn')?.remove();
+    this._revealFeedbackBar(id);
+    this._updateInlineReadNext(id, ownerCh);
+    this._insertInlineRecall(id);
+    this.showXPToast('+10 XP', 'xp');
+    this.checkGamificationEvents();
+    this._updateMissionBar();
+    this._refreshMiniBoard();
+  }
+
+  // Explicit "Mark as read" at the end of a block (counts like a full dwell)
+  markReadNow(id) {
+    if (this._dwellTimers?.[id]) { clearInterval(this._dwellTimers[id]); delete this._dwellTimers[id]; }
+    this._markRead(id, null, null, this._dwellAcc?.[id] || 0);
+  }
+
   _observeBlocks(ch) {
     // Dwell-time tracking: seen after 3s visible, read after estimated reading time
     // Create observer once; on subsequent calls just observe new elements
@@ -2223,16 +2256,23 @@ class PBook {
           const ownerCh = this._observedChapters[id];
           const block = ownerCh ? ownerCh.blocks.find(b => b.id === id) : null;
           if (block) this._setFeedFocus(block);
-          const readTimeMs = Math.min(((block?.readingTime || 2) * 60 * 1000) * 0.15, 12000); // 15% of reading time, max 12s — kids read fast!
-          const startTime = Date.now();
+          const readTimeMs = this._readThresholdMs(block);
+          // dwell ACCUMULATES across visits (scrolling back up does not reset it)
+          if (!this._dwellAcc) this._dwellAcc = {};
+          if (!this._reachedEnd) this._reachedEnd = {};
+          const startTime = Date.now() - (this._dwellAcc[id] || 0);
+          if (this._dwellTimers[id]) clearInterval(this._dwellTimers[id]);
 
           this._dwellTimers[id] = setInterval(() => {
             const elapsed = Date.now() - startTime;
+            this._dwellAcc[id] = elapsed;
+            // the end of the block has been on screen at least once
+            if (!this._reachedEnd[id] && e.target.getBoundingClientRect().bottom <= window.innerHeight + 24) this._reachedEnd[id] = true;
 
             // The steering bar stays hidden while the reader reads — asking
             // "how did this land" mid-read is invasive. It appears at the same
             // dwell threshold that marks the section read (also on revisits).
-            if (elapsed >= readTimeMs) this._revealFeedbackBar(id);
+            if (elapsed >= readTimeMs && this._reachedEnd[id]) this._revealFeedbackBar(id);
             // After 3s: mark as "seen" + update sidebar context
             if (elapsed >= 3000 && !this.user.seenBlocks.has(id)) {
               this.user.trackSeen(id);
@@ -2242,19 +2282,10 @@ class PBook {
               // context panel removed
             }
 
-            // After reading time: mark as "read"
-            if (elapsed >= readTimeMs && !this.user.readBlocks.has(id)) {
-              this.user.trackRead(id, block?.voice, this._blockFacets(block));
-              this.rc.sendView(id, Math.round(elapsed / 1000));
-              e.target.querySelector('.block-status')?.classList.remove('seen');
-              e.target.querySelector('.block-status')?.classList.add('read');
-              // context panel removed
-              this._updateInlineReadNext(id, ownerCh);
-              this._insertInlineRecall(id);
-              this.showXPToast('+10 XP', 'xp');
-              this.checkGamificationEvents();
-              this._updateMissionBar();
-              this._refreshMiniBoard();
+            // Read = the reader reached the end of the block AND stayed long
+            // enough for its length (or tapped "Mark as read")
+            if (elapsed >= readTimeMs && this._reachedEnd[id] && !this.user.readBlocks.has(id)) {
+              this._markRead(id, block, ownerCh, elapsed);
               clearInterval(this._dwellTimers[id]);
             }
 
@@ -2383,6 +2414,7 @@ class PBook {
             ${this.user.ratings.get(block.id)>=0.7?'&#10084;&#65039;':'&#9825;'}
             <span>${this.user.ratings.get(block.id)>=0.7?'Liked':'Like'}</span>
           </button>
+          ${isRead ? '' : `<button class="mark-read-btn" onclick="app.markReadNow('${block.id}')" title="Count this section as read">&#10003; Mark as read</button>`}
         </div>
         <div class="block-actions">
           <button class="improve-btn" onclick="app.improveBlock('${block.id}')" title="Edit this section yourself, or let AI rewrite it">&#9999;&#65039; Improve</button>
