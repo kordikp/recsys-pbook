@@ -1,12 +1,12 @@
 // p-book v3: Adaptive UX with Netflix home, map, search, feedback, Recombee-powered
 
 import { CONFIG } from './config.js';
-import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js';
+import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=2';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
 
-import { AskTheBook, ConversationManager } from './tutor.js';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js';
+import { AskTheBook, ConversationManager } from './tutor.js?v=2';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=1';
 
 class PBook {
   constructor() {

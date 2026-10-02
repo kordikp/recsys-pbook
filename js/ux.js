@@ -164,7 +164,8 @@ export const uxMethods = {
     const overlay = document.getElementById('onboarding');
     if (this._pendingStart) { const v = this._pendingStart; this._pendingStart = null; this.startAndGo(v); return; }
     if (!overlay || overlay.classList.contains('hidden')) { this.updateXPBadge(); return; }   // deep link
-    const returning = this.user.readBlocks.size > 0 || localStorage.getItem('pbook-onboarded') === '1';
+    // anyone who already opened a section (even via a shared link, skipping the door) resumes it
+    const returning = this.user.readBlocks.size > 0 || localStorage.getItem('pbook-onboarded') === '1' || !!(this.user.currentBlock && this.findBlock(this.user.currentBlock));
     if (!returning) { this._onboardingInit(); return; }
     overlay.classList.add('hidden');
     this.updateXPBadge();
