@@ -44,4 +44,4 @@ The cold start problem is also why many platforms ask you to select interests du
 
 In enterprise contexts, cold start is even more acute. When a company deploys an internal knowledge management system or a B2B recommendation engine, every user and every item starts cold simultaneously -- a scenario known as the **system cold start**, which is significantly harder than individual user cold start.
 
-**Consider this:** If you had to create a new account on your most-used platform tomorrow, how long would it take for the recommendations to reach acceptable quality? And what does that timeline tell you about how much behavioral data the system needs to function effectively?
+**Your turn:** If you had to create a new account on your most-used platform tomorrow, how long would it take for the recommendations to reach acceptable quality? And what does that timeline tell you about how much behavioral data the system needs to function effectively?

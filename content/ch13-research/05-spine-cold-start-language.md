@@ -88,4 +88,4 @@ This graceful degradation ensures that every item gets a fair chance at discover
 
 > **Research publication:** Vančura, Kordík & Straka, "beeFormer: Bridging the Gap Between Semantic and Interaction Similarity," RecSys 2024. The framework is [open-source on GitHub](https://github.com/recombee/beeFormer).
 
-**Consider this:** The cold-start problem isn't just technical — it has economic and cultural implications. If new items can't get recommended, established content has an insurmountable advantage. beeFormer doesn't just solve a technical problem; it creates a more level playing field for new creators and content.
+The cold-start problem isn't just technical — it has economic and cultural implications. If new items can't get recommended, established content has an insurmountable advantage. beeFormer doesn't just solve a technical problem; it creates a more level playing field for new creators and content.

@@ -45,4 +45,4 @@ You can recognize patterns among your colleagues — perhaps your coworker share
 
 No human analyst could identify all these cross-user correlations. The dimensionality of the data — millions of users, millions of items, billions of interactions — is simply beyond human cognitive capacity. That's why we need algorithms.
 
-**Consider this:** If finding patterns is so powerful, what happens when an algorithm finds patterns that aren't actually meaningful? Spurious correlations — statistical noise misinterpreted as signal — are a real problem in recommendation systems. We'll explore this challenge, and how the field addresses it, later in the book.
+**Your turn:** If finding patterns is so powerful, what happens when an algorithm finds patterns that aren't actually meaningful? Spurious correlations — statistical noise misinterpreted as signal — are a real problem in recommendation systems. We'll explore this challenge, and how the field addresses it, later in the book.

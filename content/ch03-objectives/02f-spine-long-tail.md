@@ -106,4 +106,4 @@ Netflix has spoken publicly about this: their most valuable recommendations are 
 
 The long tail is where recommendation systems earn their keep. Showing users what is already popular is trivial. Showing them what they did not know they wanted -- that is the hard problem, and the one worth solving.
 
-**Consider this:** If you were building a recommendation system for a music streaming platform, how would you balance the interests of the top 1% of artists (who drive most listening and whose absence would be noticed immediately) against the remaining 99% (whose collective catalog is the platform's competitive moat)? What fraction of recommendations would you reserve for exploration, and how would you measure whether it was working?
+**Your turn:** If you were building a recommendation system for a music streaming platform, how would you balance the interests of the top 1% of artists (who drive most listening and whose absence would be noticed immediately) against the remaining 99% (whose collective catalog is the platform's competitive moat)? What fraction of recommendations would you reserve for exploration, and how would you measure whether it was working?

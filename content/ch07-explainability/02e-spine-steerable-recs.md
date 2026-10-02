@@ -71,4 +71,4 @@ Steerability and explainability are deeply connected. A system with interpretabl
 
 For the full technical details of SAE-based steering, see [steering knobs](#c/steering-knobs).
 
-**Consider this:** Most debates about recommendation algorithms frame the choice as "more algorithmic vs. less algorithmic." Steerable recommendations suggest a third option: **better algorithmic** — systems where the algorithm's power is preserved but its direction is shared between the system and the user. The algorithm knows patterns across millions of users; you know what you want right now. Combining both should produce better results than either alone.
+Most debates about recommendation algorithms frame the choice as "more algorithmic vs. less algorithmic." Steerable recommendations suggest a third option: **better algorithmic** — systems where the algorithm's power is preserved but its direction is shared between the system and the user. The algorithm knows patterns across millions of users; you know what you want right now. Combining both should produce better results than either alone.

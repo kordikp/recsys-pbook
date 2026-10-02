@@ -92,4 +92,4 @@ The publications from the Recombee lab and collaborators across 2021–2026 — 
 
 > **Key venues:** RecSys (ACM Conference on Recommender Systems), WWW (The Web Conference), KDD (Knowledge Discovery and Data Mining), ICML (International Conference on Machine Learning), CIKM (Conference on Information and Knowledge Management)
 
-**Consider this:** The recommender systems that will shape the next decade of digital experience haven't been built yet. They'll emerge from research happening right now — in universities, industry labs, and the intersection of both. Understanding the mathematical foundations isn't just academic; it's the prerequisite for building systems that are both effective and responsible.
+The recommender systems that will shape the next decade of digital experience haven't been built yet. They'll emerge from research happening right now — in universities, industry labs, and the intersection of both. Understanding the mathematical foundations isn't just academic; it's the prerequisite for building systems that are both effective and responsible.

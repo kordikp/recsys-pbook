@@ -62,4 +62,4 @@ Well-designed recommendation systems employ several strategies to [counteract po
 
 The balance is genuinely difficult. You want to surface content users will find valuable (which correlates with popularity), but you also need to provide fair exposure for new entrants. There is no universally optimal solution, but the best systems continuously iterate on this tradeoff.
 
-**Consider this:** If you were designing a recommendation system for a professional marketplace, how would you balance the interests of established providers (who generate reliable revenue) against newcomers (who need initial visibility to demonstrate value)? What fairness definition would you prioritize, and what would you sacrifice?
+**Your turn:** If you were designing a recommendation system for a professional marketplace, how would you balance the interests of established providers (who generate reliable revenue) against newcomers (who need initial visibility to demonstrate value)? What fairness definition would you prioritize, and what would you sacrifice?

@@ -115,7 +115,7 @@ Detecting intent is challenging because users rarely declare it explicitly. Syst
 
 **Spotify** is perhaps the most visible practitioner of context-aware recommendation. Its "Daylist" feature generates playlists that shift throughout the day, reflecting the observation that the same listener wants different music at 7 AM, 2 PM, and 10 PM. The system combines time-of-day features with listening history patterns to identify contextual clusters: "Monday morning focus," "Friday evening energy," "Sunday afternoon chill."
 
-**Google Maps** restaurant suggestions are a masterclass in multi-contextual recommendation. They combine location (where you are), time (meal period), personal history (cuisines you've rated or visited), social signal (popular places nearby), and even real-time data (current wait times, open/closed status).
+**Google Maps** restaurant suggestions stack five contexts at once: location (where you are), time (meal period), personal history (cuisines you've rated or visited), social signal (popular places nearby), and even real-time data (current wait times, open/closed status).
 
 **News applications** like Apple News and Google News construct morning digests that differ from evening editions -- not just in recency, but in tone and depth. Morning editions tend toward briefings and summaries; evening editions lean toward analysis and long-form features.
 

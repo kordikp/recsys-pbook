@@ -128,4 +128,4 @@ For the full domain overview including editorial blending and multi-sport person
 - **DAZN:** Serving personalized recommendations across [200+ markets](https://www.recombee.com/case-studies) globally
 - Quote from Christoph Haas (DAZN EVP): "Their tech enables us to connect each viewer on any device with the right game or clip in real time"
 
-**Consider this:** Sports recommendation is where the emotional stakes are highest. Fans don't just want content — they want to feel connected to their teams and the broader fan community. The algorithm must understand not just preferences but *fandom* — a deeply emotional relationship that transcends standard preference modeling.
+Sports recommendation is where the emotional stakes are highest. Fans don't just want content — they want to feel connected to their teams and the broader fan community. The algorithm must understand not just preferences but *fandom* — a deeply emotional relationship that transcends standard preference modeling.

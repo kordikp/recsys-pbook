@@ -160,4 +160,4 @@ For the full recipe catalog including breaking news handling and section persona
 
 For implementation details, see the [news recommendation recipes](https://docs.recombee.com/recipes/news) and the [news & media domain overview](https://www.recombee.com/domains/articles-news-media).
 
-**Consider this:** News recommendation is where the tension between engagement and responsibility is most acute. An algorithm that maximizes clicks will gravitate toward sensationalism. One that maximizes read-through rate will favor quality but may miss breaking stories. The best news recommenders navigate this tension through explicit multi-objective optimization — with editorial judgment as a first-class input, not an afterthought.
+News recommendation is where the tension between engagement and responsibility is most acute. An algorithm that maximizes clicks will gravitate toward sensationalism. One that maximizes read-through rate will favor quality but may miss breaking stories. The best news recommenders navigate this tension through explicit multi-objective optimization — with editorial judgment as a first-class input, not an afterthought.

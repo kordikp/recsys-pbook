@@ -69,4 +69,4 @@ Lower mean absolute difference = more similar preferences. This is the simplest 
 
 **Compute this for every user pair in your matrix.** The result is a ranked list of nearest neighbors for each user -- and these neighbors are the key to generating predictions.
 
-**Consider this:** In your own data, which user pair turned out to be the most similar? The results can be surprising -- demographics or surface-level attributes often fail to predict preference alignment. That's precisely why data-driven approaches outperform intuition.
+**Your turn:** In your own data, which user pair turned out to be the most similar? The results can be surprising -- demographics or surface-level attributes often fail to predict preference alignment. That's precisely why data-driven approaches outperform intuition.

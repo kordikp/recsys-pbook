@@ -104,4 +104,4 @@ A common misconception: "We need more data." Often, the real need is **better da
 
 The [data quality section](ch2-data-quality) covers specific quality issues and how to detect them.
 
-**Consider this:** When a recommendation system fails, the first instinct is to blame the algorithm. But in most cases, the root cause is in the data foundation — missing metadata, noisy interactions, or stale catalogs. Before tuning your model, audit your data. It's less glamorous than algorithm research, but it's usually more impactful.
+**In your product:** When a recommendation system fails, the first instinct is to blame the algorithm. But in most cases, the root cause is in the data foundation — missing metadata, noisy interactions, or stale catalogs. Before tuning your model, audit your data. It's less glamorous than algorithm research, but it's usually more impactful.

@@ -94,4 +94,4 @@ This structural difference explains why Netflix (subscription) invests heavily i
 
 **Time well spent.** Apple's Screen Time and Google's Digital Wellbeing initiatives represent a shift toward measuring quality of time, not just quantity. If recommendation platforms adopted similar thinking, the optimization target would change fundamentally.
 
-**Consider this:** The distinction between engagement and satisfaction isn't just a measurement problem — it's an ethical one. Optimizing for engagement when it diverges from satisfaction means deliberately keeping users doing something they don't value. Whether this is acceptable depends on how you define the platform's responsibility to its users.
+The distinction between engagement and satisfaction isn't just a measurement problem — it's an ethical one. Optimizing for engagement when it diverges from satisfaction means deliberately keeping users doing something they don't value. Whether this is acceptable depends on how you define the platform's responsibility to its users.

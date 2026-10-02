@@ -105,4 +105,4 @@ Modern recommendation-as-a-service platforms like [Recombee](https://docs.recomb
 - **Domain-specific recipes** — optimized configurations for [e-commerce](https://docs.recombee.com/recipes/e-commerce), [video](https://docs.recombee.com/recipes/video), [news](https://docs.recombee.com/recipes/news)
 - **Cold-start handling** — automatic content-based and bandit-based strategies for new items
 
-**Consider this:** The build-vs-buy decision isn't about capability — a sufficiently resourced team can build anything. It's about **opportunity cost**: what else could your engineering team build if they weren't maintaining recommendation infrastructure? For most organizations, the answer makes the decision clear.
+**In your product:** The build-vs-buy decision isn't about capability — a sufficiently resourced team can build anything. It's about **opportunity cost**: what else could your engineering team build if they weren't maintaining recommendation infrastructure? For most organizations, the answer makes the decision clear.

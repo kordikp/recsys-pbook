@@ -73,4 +73,4 @@ This structure is called a **rating matrix** (or user-item matrix), denoted as *
 
 **Notice the sparsity.** Most of the matrix will be empty -- users haven't interacted with every item. This is expected and is in fact the core challenge. If the matrix were fully populated, there would be nothing left to recommend.
 
-**Consider this:** Examine your matrix. Can you already identify users with correlated preferences? The patterns you spot visually are exactly what the algorithm will quantify mathematically.
+**Try this:** Examine your matrix. Can you already identify users with correlated preferences? The patterns you spot visually are exactly what the algorithm will quantify mathematically.

@@ -65,4 +65,4 @@ In the following sections, we examine each major domain in detail — the unique
 
 For each domain, the practical implementation patterns are available as [domain-specific recipes](https://docs.recombee.com/) in production recommendation platforms.
 
-**Consider this:** Before choosing an algorithm, choose your domain's priorities. The best algorithm for your domain might not be the most sophisticated — it might be the one that best respects your domain's constraints. A job board that perfectly optimizes click-through rate but ignores match quality is solving the wrong problem.
+**In your product:** Before choosing an algorithm, choose your domain's priorities. The best algorithm for your domain might not be the most sophisticated — it might be the one that best respects your domain's constraints. A job board that perfectly optimizes click-through rate but ignores match quality is solving the wrong problem.

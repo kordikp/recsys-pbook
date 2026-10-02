@@ -164,4 +164,4 @@ For the full recipe catalog including upsell, next basket prediction, and person
 
 For implementation, see the [e-commerce recommendation recipes](https://docs.recombee.com/recipes/e-commerce) and the [e-commerce domain overview](https://www.recombee.com/domains/e-commerce).
 
-**Consider this:** The most sophisticated e-commerce recommenders don't just predict what users will buy — they understand *where in the purchase journey* the user is. Someone researching (browsing many alternatives) needs different recommendations than someone ready to buy (focused, comparing two options) or someone who just purchased (needs accessories, not competitors).
+The most sophisticated e-commerce recommenders don't just predict what users will buy — they understand *where in the purchase journey* the user is. Someone researching (browsing many alternatives) needs different recommendations than someone ready to buy (focused, comparing two options) or someone who just purchased (needs accessories, not competitors).

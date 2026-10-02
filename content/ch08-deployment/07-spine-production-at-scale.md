@@ -115,4 +115,4 @@ This is recommendation infrastructure being used not just for serving readers, b
 > - Vančura et al., "[Sparse ELSA](https://www.recombee.com/research-publications)," WWW 2026.
 > - Telegraph case study, [INRA@RecSys 2025](https://www.recombee.com/research-publications).
 
-**Consider this:** The gap between research and production is where most algorithms die. The ones that survive are typically those with strong mathematical properties (closed-form solutions, provable guarantees, interpretable structure) — because these properties translate directly into engineering virtues (efficiency, predictability, debuggability). Elegance in mathematics often corresponds to robustness in production.
+The gap between research and production is where most algorithms die. The ones that survive are typically those with strong mathematical properties (closed-form solutions, provable guarantees, interpretable structure) — because these properties translate directly into engineering virtues (efficiency, predictability, debuggability). Elegance in mathematics often corresponds to robustness in production.

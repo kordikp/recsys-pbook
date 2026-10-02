@@ -56,4 +56,4 @@ Autocomplete suggestions and personalized search results are recommendations —
 
 That's at least **eight domains**, and we haven't even covered dating apps, financial services, healthcare platforms, or enterprise tools like Slack and Microsoft Teams.
 
-**Consider this:** Try counting the recommendations you encounter in a single day. Research suggests the average person encounters hundreds of algorithmically curated items daily — most without even realizing it.
+**Try this:** Try counting the recommendations you encounter in a single day. Research suggests the average person encounters hundreds of algorithmically curated items daily — most without even realizing it.

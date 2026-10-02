@@ -63,4 +63,4 @@ In the following sections, we'll trace that journey: from elegant mathematical f
 
 > **Did you know?** The Recombee research lab at FIT CTU Prague has published 25+ papers at top venues (RecSys, WWW, ICML, KDD) — and every one of those research contributions runs in a production system serving 500+ customers across 40+ countries.
 
-**Consider this:** Think about the last recommendation that genuinely surprised you — a book, article, or song you loved but would never have found on your own. That moment of serendipity is the product of mathematical research. The algorithm didn't just get lucky; it leveraged patterns across millions of users to find something specifically for you.
+**Try this:** Think about the last recommendation that genuinely surprised you — a book, article, or song you loved but would never have found on your own. That moment of serendipity is the product of mathematical research. The algorithm didn't just get lucky; it leveraged patterns across millions of users to find something specifically for you.

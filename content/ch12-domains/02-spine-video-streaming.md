@@ -158,4 +158,4 @@ For the full recipe catalog including Editors' Picks For You and Last Chance sce
 
 For implementation details, see the [video recommendation recipes](https://docs.recombee.com/recipes/video) and [video domain overview](https://www.recombee.com/domains/video).
 
-**Consider this:** Video recommendation isn't just about finding the right content — it's about finding the right content *at the right moment in the viewing journey*. A user who just finished a heavy drama needs a different recommendation than one who just logged in fresh on a Saturday morning. Context-awareness separates good video recommenders from great ones.
+Video recommendation isn't just about finding the right content — it's about finding the right content *at the right moment in the viewing journey*. A user who just finished a heavy drama needs a different recommendation than one who just logged in fresh on a Saturday morning. Context-awareness separates good video recommenders from great ones.

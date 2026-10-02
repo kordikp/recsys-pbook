@@ -51,4 +51,4 @@ The key idea is this: **data is a transaction**. You provide platforms with beha
 
 If the recommendations are genuinely useful, the exchange may be worth it. If they're not, if the personalization feels invasive, or if you simply want more control, you have both the tools and the legal framework to change the terms.
 
-**Consider this:** When was the last time you reviewed the privacy settings on a platform you use daily? Most people have never looked. What would you find if you downloaded your data export today?
+**Your turn:** When was the last time you reviewed the privacy settings on a platform you use daily? Most people have never looked. What would you find if you downloaded your data export today?

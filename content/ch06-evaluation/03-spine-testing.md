@@ -28,7 +28,7 @@ genre: explainer
 carriers: prose|diagram
 ---
 
-You have built a recommendation system. You believe it performs well. But how do you actually know?
+You have built a recommendation system, and you believe it performs well. Belief is not evidence.
 
 You cannot rely on stakeholder opinion. "The VP of Product thinks it looks great" is not evidence. Neither is "our engineers feel confident about it."
 
@@ -70,4 +70,4 @@ They provide **causal evidence** rather than correlational observations. Instead
 
 **The nuances practitioners must navigate:** Sometimes Version A generates more short-term clicks but Version B produces better long-term retention. Short-term proxy metrics can diverge from long-term business outcomes. The best experimentation teams carefully select **primary metrics** that align with genuine user value and long-term business health -- not just metrics that are easy to move. They also watch for **novelty effects** (initial excitement about a new feature that fades) and **primacy effects** (resistance to change that dissipates over time).
 
-**Consider this:** If you could run an A/B test on any aspect of your organization -- onboarding process, internal communication tools, meeting formats, hiring pipeline -- what would you test? What would your primary metric be, and how would you distinguish a genuine improvement from noise?
+**Your turn:** If you could run an A/B test on any aspect of your organization -- onboarding process, internal communication tools, meeting formats, hiring pipeline -- what would you test? What would your primary metric be, and how would you distinguish a genuine improvement from noise?

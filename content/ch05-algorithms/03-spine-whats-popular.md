@@ -65,4 +65,4 @@ That's popularity-based recommendations. They treat every user identically. They
 
 The trending section is valuable for discovering what's culturally salient. But it's fundamentally limited for surfacing what YOU specifically would find valuable. That's why every serious platform maintains BOTH a trending/popular section AND a personalized feed.
 
-**Consider this:** Compare your YouTube home page (personalized) to the Trending tab (non-personalized). Which surfaces more content you'd actually engage with? The gap between them is the quantifiable value of personalization.
+**Try this:** Compare your YouTube home page (personalized) to the Trending tab (non-personalized). Which surfaces more content you'd actually engage with? The gap between them is the quantifiable value of personalization.
