@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Shortest Recipe Took Decades — a four-panel comic](images/comic-why-research.svg)
+![The Shortest Recipe Took Decades — a four-panel comic: an engineer stacks more layers; a researcher's EASE recipe (decades of math, one matrix inverse) wins the same test and runs in production for 500+ customers](images/comic-why-research.svg)
 
 *Research finds mathematical shortcuts that improve recommendations beyond brute-force engineering.*

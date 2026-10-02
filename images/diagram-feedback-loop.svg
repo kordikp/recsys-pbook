@@ -1,88 +1,96 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" font-family="system-ui, sans-serif">
-  <style>
-    .flow-arrow {
-      stroke-dasharray: 7 5;
-      animation: flow 2.4s linear infinite;
-    }
-    @keyframes flow {
-      to { stroke-dashoffset: -24; }
-    }
-  </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 460" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb125-title pb125-desc">
+<title id="pb125-title">The feedback loop: what you show is what you learn</title>
+<desc id="pb125-desc">The three data pillars feed the model, the model shows picks, and users can only click what they are shown; those clicks flow back as new interactions. So the loop feeds itself: a shown item collects more and more clicks, while an item that is never shown collects none and stays invisible.</desc>
+<style>
+.pb125-dot{animation:pb125-move 8s linear infinite}
+@keyframes pb125-move{0%{transform:translate(0,0);opacity:0}4%{transform:translate(0,0);opacity:1}12%{transform:translate(0,18px);opacity:1}48%{transform:translate(-464px,18px);opacity:1}54%{transform:translate(-464px,0);opacity:1}58%,100%{transform:translate(-464px,0);opacity:0}}
+.pb125-ping{animation:pb125-flash 8s linear infinite}
+@keyframes pb125-flash{0%,53%{stroke-width:2}56%,66%{stroke-width:4}70%,100%{stroke-width:2}}
+@media (prefers-reduced-motion: reduce){.pb125-dot,.pb125-ping{animation:none !important}}
+</style>
+<defs>
+<marker id="pb125-ah" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8 Z" fill="#7C3AED"/></marker>
+<marker id="pb125-ahg" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8 Z" fill="#10B981"/></marker>
+</defs>
+<rect x=".5" y=".5" width="639" height="459" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <defs>
-    <marker id="arrow-purple" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0 0 L8 4 L0 8 Z" fill="#7C3AED"/>
-    </marker>
-    <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0 0 L8 4 L0 8 Z" fill="#0EA5E9"/>
-    </marker>
-    <marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0 0 L8 4 L0 8 Z" fill="#D97706"/>
-    </marker>
-    <marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0 0 L8 4 L0 8 Z" fill="#10B981"/>
-    </marker>
-  </defs>
+<text x="320" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">What you show is what you learn</text>
+<text x="320" y="60" text-anchor="middle" font-size="14" fill="#6B7280">Every recommendation creates the data for the next one</text>
 
-  <rect x="1" y="1" width="498" height="398" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+<!-- 1 data pillars -->
+<rect x="16" y="80" width="160" height="142" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="96" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Your data</text>
+<rect x="28" y="116" width="136" height="28" rx="8" fill="#F3F4F6"/>
+<text x="96" y="135" text-anchor="middle" font-size="14" fill="#4B5563">Item catalog</text>
+<rect x="28" y="150" width="136" height="28" rx="8" fill="#F3F4F6"/>
+<text x="96" y="169" text-anchor="middle" font-size="14" fill="#4B5563">User catalog</text>
+<rect class="pb125-ping" x="28" y="184" width="136" height="28" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<text x="96" y="203" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Interactions</text>
 
-  <text x="250" y="29" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">The Recommendation Feedback Loop</text>
+<line x1="180" y1="151" x2="198" y2="151" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb125-ah)"/>
 
-  <!-- Flow connections -->
-  <path d="M325 79 C366 79 399 96 399 128"
-        class="flow-arrow" fill="none" stroke="#7C3AED" stroke-width="2.5"
-        stroke-linecap="round" marker-end="url(#arrow-purple)"/>
-  <path d="M399 188 C399 220 366 237 325 237"
-        class="flow-arrow" fill="none" stroke="#0EA5E9" stroke-width="2.5"
-        stroke-linecap="round" marker-end="url(#arrow-blue)"/>
-  <path d="M175 237 C134 237 101 220 101 188"
-        class="flow-arrow" fill="none" stroke="#D97706" stroke-width="2.5"
-        stroke-linecap="round" marker-end="url(#arrow-amber)"/>
-  <path d="M101 128 C101 96 134 79 175 79"
-        class="flow-arrow" fill="none" stroke="#10B981" stroke-width="2.5"
-        stroke-linecap="round" marker-end="url(#arrow-green)"/>
+<!-- 2 model -->
+<rect x="204" y="80" width="120" height="142" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<rect x="246" y="96" width="36" height="28" rx="8" fill="#7C3AED"/>
+<line x1="264" y1="96" x2="264" y2="89" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+<circle cx="264" cy="87" r="3" fill="#7C3AED"/>
+<circle cx="257" cy="110" r="3.5" fill="#FFFFFF"/>
+<circle cx="271" cy="110" r="3.5" fill="#FFFFFF"/>
+<text x="264" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Model</text>
+<text x="264" y="180" text-anchor="middle" font-size="14" fill="#4B5563">retrains on</text>
+<text x="264" y="198" text-anchor="middle" font-size="14" fill="#4B5563">the data</text>
 
-  <!-- Model -->
-  <g>
-    <rect x="175" y="49" width="150" height="60" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    <text x="250" y="73" text-anchor="middle" font-size="13" font-weight="700" fill="#1E1B4B">Model Trains</text>
-    <text x="250" y="92" text-anchor="middle" font-size="11" fill="#6B7280">Retrains on signals</text>
-  </g>
+<line x1="328" y1="151" x2="346" y2="151" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb125-ah)"/>
 
-  <!-- Recommendations -->
-  <g>
-    <rect x="324" y="128" width="150" height="60" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="399" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#1E1B4B">Recommends Items</text>
-    <text x="399" y="171" text-anchor="middle" font-size="11" fill="#6B7280">Recommendations change</text>
-  </g>
+<!-- 3 picks -->
+<rect x="352" y="80" width="120" height="142" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="412" y="104" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Shows picks</text>
+<rect x="362" y="116" width="100" height="28" rx="8" fill="#EDE9FE"/>
+<text x="412" y="135" text-anchor="middle" font-size="14" font-weight="600" fill="#4C1D95">Item A</text>
+<rect x="362" y="150" width="100" height="28" rx="8" fill="#EDE9FE"/>
+<text x="412" y="169" text-anchor="middle" font-size="14" font-weight="600" fill="#4C1D95">Item C</text>
+<rect x="362" y="184" width="100" height="28" rx="8" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="412" y="203" text-anchor="middle" font-size="14" fill="#6B7280">B: not shown</text>
 
-  <!-- User interaction -->
-  <g>
-    <rect x="175" y="207" width="150" height="60" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="250" y="231" text-anchor="middle" font-size="13" font-weight="700" fill="#1E1B4B">Users Interact</text>
-    <text x="250" y="250" text-anchor="middle" font-size="11" fill="#6B7280">User acts</text>
-  </g>
+<line x1="476" y1="151" x2="494" y2="151" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb125-ah)"/>
 
-  <!-- Data collection -->
-  <g>
-    <rect x="26" y="128" width="150" height="60" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="101" y="152" text-anchor="middle" font-size="13" font-weight="700" fill="#1E1B4B">Data Collected</text>
-    <text x="101" y="171" text-anchor="middle" font-size="11" fill="#6B7280">Signals logged</text>
-  </g>
+<!-- 4 users -->
+<rect x="500" y="80" width="124" height="142" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<circle cx="562" cy="100" r="9" fill="#10B981"/>
+<path d="M547 128 Q547 113 562 113 Q577 113 577 128 Z" fill="#10B981"/>
+<text x="562" y="158" text-anchor="middle" font-size="16" font-weight="700" fill="#065F46">Users</text>
+<text x="562" y="180" text-anchor="middle" font-size="14" fill="#1E1B4B">click A or C</text>
+<text x="562" y="198" text-anchor="middle" font-size="14" fill="#4B5563">never see B</text>
 
-  <!-- Bias amplification -->
-  <g>
-    <circle cx="250" cy="158" r="42" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-    <text x="250" y="155" text-anchor="middle" font-size="12" font-weight="700" fill="#EF4444">BIAS</text>
-    <text x="250" y="173" text-anchor="middle" font-size="11" font-weight="700" fill="#EF4444">AMPLIFIES</text>
-  </g>
+<!-- return path -->
+<path d="M562 226 V246 H96 V220" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#pb125-ahg)"/>
+<circle class="pb125-dot" cx="562" cy="228" r="6" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
+<rect x="190" y="234" width="276" height="24" rx="12" fill="#FAFAF7"/>
+<text x="328" y="251" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">Clicks flow back as new interactions</text>
 
-  <!-- Explanation -->
-  <g>
-    <rect x="20" y="288" width="460" height="98" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="250" y="311" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Each cycle reinforces existing patterns</text>
-    <text x="250" y="333" text-anchor="middle" font-size="11" fill="#6B7280">Popular items get more data → better predictions → more recommendations</text>
-    <text x="250" y="352" text-anchor="middle" font-size="11" fill="#6B7280">New items get no data → poor predictions → never recommended</text>
-    <text x="250" y="376" text-anchor="middle" font-size="11" font-weight="700" fill="#EF4444">Breaking the loop requires deliberate exploration</text>
-  </g>
+<!-- the catch -->
+<rect x="16" y="274" width="608" height="140" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="32" y="300" font-size="16" font-weight="700" fill="#92400E">The catch: the loop feeds itself</text>
+<text x="608" y="300" text-anchor="end" font-size="14" fill="#92400E">clicks per round · toy numbers</text>
+
+<text x="252" y="328" text-anchor="middle" font-size="14" font-weight="600" fill="#4B5563">Round 1</text>
+<text x="380" y="328" text-anchor="middle" font-size="14" font-weight="600" fill="#4B5563">Round 2</text>
+<text x="508" y="328" text-anchor="middle" font-size="14" font-weight="600" fill="#4B5563">Round 3</text>
+
+<rect x="28" y="338" width="584" height="30" rx="8" fill="#FFFFFF"/>
+<text x="40" y="358" font-size="15" font-weight="700" fill="#1E1B4B">Item A · shown</text>
+<rect x="200" y="345" width="16" height="16" rx="4" fill="#10B981"/>
+<text x="224" y="358" font-size="15" font-weight="700" fill="#065F46">2</text>
+<rect x="328" y="345" width="40" height="16" rx="4" fill="#10B981"/>
+<text x="376" y="358" font-size="15" font-weight="700" fill="#065F46">5</text>
+<rect x="456" y="345" width="72" height="16" rx="4" fill="#10B981"/>
+<text x="536" y="358" font-size="15" font-weight="700" fill="#065F46">9</text>
+
+<rect x="28" y="374" width="584" height="30" rx="8" fill="#FFFFFF"/>
+<text x="40" y="394" font-size="15" font-weight="700" fill="#1E1B4B">Item B · hidden</text>
+<text x="200" y="394" font-size="14" fill="#6B7280">not shown · <tspan font-size="15" font-weight="700">0</tspan></text>
+<text x="328" y="394" font-size="14" fill="#6B7280">not shown · <tspan font-size="15" font-weight="700">0</tspan></text>
+<text x="456" y="394" font-size="14" fill="#6B7280">not shown · <tspan font-size="15" font-weight="700">0</tspan></text>
+
+<text x="320" y="442" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Shown items get clicked and look better. <tspan fill="#92400E">Unshown ones stay invisible.</tspan></text>
 </svg>

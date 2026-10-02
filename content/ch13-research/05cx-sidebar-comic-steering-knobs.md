@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Algorithm Finally Hands Over the Remote — a four-panel comic](images/comic-steering-knobs.svg)
+![The Algorithm Finally Hands Over the Remote — a four-panel comic: the recommender untangles your taste into knobs (romance, Kurosawa, gloom); turning romance up lifts a rom-com to the top, an editor turns Kurosawa up in every viewer's list, and turning gloom down opens a gentle way out](images/comic-steering-knobs.svg)
 
 *Sparse autoencoders expose interpretable neurons; changing activation steers recommendations.*

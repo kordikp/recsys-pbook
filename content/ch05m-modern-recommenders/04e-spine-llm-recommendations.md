@@ -37,7 +37,7 @@ Large Language Models offer something fundamentally different: a **conversationa
 
 But does talking about recommendations make the recommendations better? The answer is nuanced.
 
-![Three LLM integration architectures for recommendation](/images/diagram-llm-recsys.svg)
+![Three places to put an LLM in a recommender: as the recommender itself (it may invent titles), as a feature extractor feeding a RecSys, or as a chat interface around a RecSys](/images/diagram-llm-recsys.svg)
 
 ## Three Architectures for LLM-Powered Recommendations
 

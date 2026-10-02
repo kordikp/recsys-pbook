@@ -115,7 +115,7 @@ Session-based recommendation is the right approach when:
 
 ## Session-Based vs. User-Level Collaborative Filtering
 
-![User-level CF vs session-based recommendation comparison](/images/diagram-session-vs-user.svg)
+![User-level CF learns long-term taste (literary fiction) from months of history; session-based catches current intent (cookbooks) from a few clicks of this visit; a logged-in user gets a blend of both](/images/diagram-session-vs-user.svg)
 
 The trade-off between these approaches reveals a fundamental tension in recommendation:
 

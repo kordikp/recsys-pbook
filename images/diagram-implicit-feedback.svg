@@ -1,77 +1,100 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400" font-family="system-ui, sans-serif">
-  <defs>
-    <linearGradient id="strengthGrad" x1="0" y1="1" x2="0" y2="0">
-      <stop offset="0%" stop-color="#D1FAE5"/>
-      <stop offset="100%" stop-color="#10B981"/>
-    </linearGradient>
-    <linearGradient id="barGreenGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#10B981"/>
-      <stop offset="100%" stop-color="#D1FAE5"/>
-    </linearGradient>
-  </defs>
-
-  <!-- Background -->
-  <rect x="1" y="1" width="498" height="398" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
-
-  <!-- Title -->
-  <text x="280" y="30" text-anchor="middle" font-size="17" font-weight="bold" fill="#1E1B4B">Implicit Feedback Signals</text>
-  <text x="280" y="49" text-anchor="middle" font-size="11" fill="#6B7280">Ranked by signal strength (strongest at top)</text>
-
-  <!-- Signal strength arrow on left -->
-  <line x1="58" y1="82" x2="58" y2="345" stroke="url(#strengthGrad)" stroke-width="4"/>
-  <path d="M52,82 L58,68 L64,82 Z" fill="#10B981"/>
-  <text x="58" y="62" text-anchor="middle" font-size="11" fill="#6B7280">Strong</text>
-  <text x="58" y="365" text-anchor="middle" font-size="11" fill="#6B7280">Weak</text>
-  <text x="30" y="218" text-anchor="middle" font-size="11" font-weight="bold" fill="#10B981" transform="rotate(-90,30,218)">Signal Strength</text>
-
-  <!-- Bar 1: Purchase -->
-  <g transform="translate(90,78)">
-    <rect width="370" height="36" rx="6" fill="url(#barGreenGrad)"/>
-    <text x="16" y="23" font-size="13" font-weight="bold" fill="#1E1B4B">Purchase / Subscribe</text>
-    <text x="354" y="23" text-anchor="end" font-size="11" font-weight="bold" fill="#1E1B4B">strongest</text>
-  </g>
-
-  <!-- Bar 2: Save/Bookmark -->
-  <g transform="translate(90,124)">
-    <rect width="310" height="36" rx="6" fill="url(#barGreenGrad)" opacity="0.82"/>
-    <text x="16" y="23" font-size="13" font-weight="bold" fill="#1E1B4B">Save / Bookmark / Favorite</text>
-  </g>
-
-  <!-- Bar 3: Complete -->
-  <g transform="translate(90,170)">
-    <rect width="260" height="36" rx="6" fill="url(#barGreenGrad)" opacity="0.64"/>
-    <text x="16" y="23" font-size="13" font-weight="bold" fill="#1E1B4B">Complete (watch/read 80%+)</text>
-  </g>
-
-  <!-- Bar 4: Click/View -->
-  <g transform="translate(90,216)">
-    <rect width="200" height="36" rx="6" fill="url(#barGreenGrad)" opacity="0.46"/>
-    <text x="16" y="23" font-size="12" font-weight="bold" fill="#1E1B4B">Click / View</text>
-  </g>
-
-  <!-- Bar 5: Impression -->
-  <g transform="translate(90,262)">
-    <rect width="130" height="36" rx="6" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-    <text x="16" y="23" font-size="11" font-weight="bold" fill="#6B7280">Impression</text>
-  </g>
-
-  <!-- Bar 6: Skip/Dismiss -->
-  <g transform="translate(90,308)">
-    <rect width="170" height="36" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-    <text x="16" y="23" font-size="12" font-weight="bold" fill="#EF4444">Skip / Dismiss</text>
-    <text x="154" y="23" text-anchor="end" font-size="11" fill="#EF4444">negative</text>
-  </g>
-
-  <!-- Clear right-side annotations -->
-  <g transform="translate(414,130)">
-    <text x="0" y="0" font-size="11" fill="#6B7280">Explicit</text>
-    <text x="0" y="15" font-size="11" fill="#6B7280">commitment</text>
-  </g>
-  <g transform="translate(310,232)">
-    <text x="0" y="0" font-size="11" fill="#6B7280">Low effort,</text>
-    <text x="0" y="15" font-size="11" fill="#6B7280">high volume</text>
-  </g>
-
-  <!-- Separator between positive and negative -->
-  <line x1="90" y1="303" x2="460" y2="303" stroke="#EF4444" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 568" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb129-title pb129-desc">
+<title id="pb129-title">Implicit signals differ in how much intent they carry</title>
+<desc id="pb129-desc">Six implicit signals ordered from frequent and cheap to rare and deliberate: impression, click or tap, extended view or read, add to cart or save, purchase or subscribe, plus return or cancel as a strong negative. Intent strength rises down the list while ambiguity falls. A composite score weights each signal type, for example click weight 1 and purchase weight 5, so 3 clicks plus 1 purchase give 3 times 1 plus 1 times 5 equals 8: one purchase outweighs a handful of clicks.</desc>
+<rect x=".5" y=".5" width="639" height="567" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Six signals, six levels of intent</text>
+<text x="320" y="62" text-anchor="middle" font-size="14" fill="#6B7280">Frequent and cheap at the top · rare and deliberate below</text>
+<rect x="16" y="80" width="608" height="318" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="40" y="108" font-size="14" font-weight="700" fill="#4B5563">Signal</text>
+<text x="380" y="108" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Intent strength</text>
+<text x="550" y="108" text-anchor="middle" font-size="14" font-weight="700" fill="#4B5563">Ambiguity</text>
+<line x1="32" y1="120" x2="608" y2="120" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="40" y="151" font-size="17">👁️</text>
+<text x="72" y="151" font-size="16" fill="#1E1B4B">Impression</text>
+<circle cx="336" cy="145" r="7.5" fill="#10B981"/>
+<circle cx="358" cy="145" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="380" cy="145" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="402" cy="145" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="424" cy="145" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="506" cy="145" r="7.5" fill="#9CA3AF"/>
+<circle cx="528" cy="145" r="7.5" fill="#9CA3AF"/>
+<circle cx="550" cy="145" r="7.5" fill="#9CA3AF"/>
+<circle cx="572" cy="145" r="7.5" fill="#9CA3AF"/>
+<circle cx="594" cy="145" r="7.5" fill="#9CA3AF"/>
+<line x1="32" y1="166" x2="608" y2="166" stroke="#F3F4F6" stroke-width="1"/>
+<text x="40" y="193" font-size="17">👆</text>
+<text x="72" y="193" font-size="16" fill="#1E1B4B">Click / tap</text>
+<circle cx="336" cy="187" r="7.5" fill="#10B981"/>
+<circle cx="358" cy="187" r="7.5" fill="#10B981"/>
+<circle cx="380" cy="187" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="402" cy="187" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="424" cy="187" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="506" cy="187" r="7.5" fill="#9CA3AF"/>
+<circle cx="528" cy="187" r="7.5" fill="#9CA3AF"/>
+<circle cx="550" cy="187" r="7.5" fill="#9CA3AF"/>
+<circle cx="572" cy="187" r="7.5" fill="#9CA3AF"/>
+<circle cx="594" cy="187" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<line x1="32" y1="208" x2="608" y2="208" stroke="#F3F4F6" stroke-width="1"/>
+<text x="40" y="235" font-size="17">📖</text>
+<text x="72" y="235" font-size="16" fill="#1E1B4B">Extended view / read</text>
+<circle cx="336" cy="229" r="7.5" fill="#10B981"/>
+<circle cx="358" cy="229" r="7.5" fill="#10B981"/>
+<circle cx="380" cy="229" r="7.5" fill="#10B981"/>
+<circle cx="402" cy="229" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="424" cy="229" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="506" cy="229" r="7.5" fill="#9CA3AF"/>
+<circle cx="528" cy="229" r="7.5" fill="#9CA3AF"/>
+<circle cx="550" cy="229" r="7.5" fill="#9CA3AF"/>
+<circle cx="572" cy="229" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="594" cy="229" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<line x1="32" y1="250" x2="608" y2="250" stroke="#F3F4F6" stroke-width="1"/>
+<text x="40" y="277" font-size="17">🛒</text>
+<text x="72" y="277" font-size="16" fill="#1E1B4B">Add to cart / save</text>
+<circle cx="336" cy="271" r="7.5" fill="#10B981"/>
+<circle cx="358" cy="271" r="7.5" fill="#10B981"/>
+<circle cx="380" cy="271" r="7.5" fill="#10B981"/>
+<circle cx="402" cy="271" r="7.5" fill="#10B981"/>
+<circle cx="424" cy="271" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="506" cy="271" r="7.5" fill="#9CA3AF"/>
+<circle cx="528" cy="271" r="7.5" fill="#9CA3AF"/>
+<circle cx="550" cy="271" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="572" cy="271" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="594" cy="271" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<line x1="32" y1="292" x2="608" y2="292" stroke="#F3F4F6" stroke-width="1"/>
+<text x="40" y="319" font-size="17">💳</text>
+<text x="72" y="319" font-size="16" fill="#1E1B4B" font-weight="700">Purchase / subscribe</text>
+<circle cx="336" cy="313" r="7.5" fill="#10B981"/>
+<circle cx="358" cy="313" r="7.5" fill="#10B981"/>
+<circle cx="380" cy="313" r="7.5" fill="#10B981"/>
+<circle cx="402" cy="313" r="7.5" fill="#10B981"/>
+<circle cx="424" cy="313" r="7.5" fill="#10B981"/>
+<circle cx="506" cy="313" r="7.5" fill="#9CA3AF"/>
+<circle cx="528" cy="313" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="550" cy="313" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="572" cy="313" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="594" cy="313" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<line x1="32" y1="340" x2="608" y2="340" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="40" y="373" font-size="17">↩️</text>
+<text x="72" y="373" font-size="16" fill="#1E1B4B">Return / cancel</text>
+<rect x="200" y="355" width="76" height="24" rx="12" fill="#FEE2E2"/>
+<text x="238" y="372" text-anchor="middle" font-size="14" font-weight="700" fill="#991B1B">negative</text>
+<circle cx="336" cy="367" r="7.5" fill="#DC2626"/>
+<circle cx="358" cy="367" r="7.5" fill="#DC2626"/>
+<circle cx="380" cy="367" r="7.5" fill="#DC2626"/>
+<circle cx="402" cy="367" r="7.5" fill="#DC2626"/>
+<circle cx="424" cy="367" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="316" y="373" text-anchor="middle" font-size="18" font-weight="700" fill="#DC2626">−</text>
+<circle cx="506" cy="367" r="7.5" fill="#9CA3AF"/>
+<circle cx="528" cy="367" r="7.5" fill="#9CA3AF"/>
+<circle cx="550" cy="367" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="572" cy="367" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="594" cy="367" r="6.75" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<rect x="16" y="412" width="608" height="104" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="36" y="444" font-size="16" font-weight="700" fill="#4C1D95">Composite score</text>
+<text x="604" y="444" text-anchor="end" font-size="18" fill="#1E1B4B" font-style="italic">r<tspan font-size="14" dy="5">ij</tspan><tspan dy="-5" font-style="normal"> = Σ</tspan><tspan font-size="14" dy="5" font-style="normal">k</tspan><tspan dy="-5"> w</tspan><tspan font-size="14" dy="5">k</tspan><tspan dy="-5" font-style="normal"> · </tspan>a<tspan font-size="14" dy="5">ij</tspan><tspan font-size="14" dy="-12" font-style="normal">(k)</tspan></text>
+<line x1="36" y1="460" x2="604" y2="460" stroke="#C4B5FD" stroke-width="1"/>
+<text x="36" y="492" font-size="15" fill="#1E1B4B">e.g. w<tspan font-size="14" dy="4">click</tspan><tspan dy="-4"> = 1, w</tspan><tspan font-size="14" dy="4">purchase</tspan><tspan dy="-4"> = 5:</tspan></text>
+<text x="582" y="492" text-anchor="end" font-size="15" fill="#1E1B4B">3 clicks × 1 + 1 purchase × 5 =</text>
+<text x="604" y="496" text-anchor="end" font-size="28" font-weight="700" fill="#7C3AED">8</text>
+<text x="320" y="546" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">One purchase outweighs a handful of clicks.</text>
 </svg>

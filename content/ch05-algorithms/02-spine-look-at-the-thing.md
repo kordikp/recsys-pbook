@@ -90,4 +90,4 @@ It's like having a domain expert who has analyzed every item in the catalog and 
 
 **Try this:** Next time you see "More like this" on any platform, examine the recommendations. Are they similar in topic, style, or attributes? That's likely content-based filtering at work -- potentially using learned representations rather than simple keyword matching.
 
-![Algorithm Families](/images/diagram-algorithm-taxonomy.svg)
+![Two algorithm families: collaborative filtering looks at what other users did, content-based filtering looks at what the item is (its tags and text), so only content-based can recommend a new article with zero readers; hybrid systems combine both](/images/diagram-algorithm-taxonomy.svg)

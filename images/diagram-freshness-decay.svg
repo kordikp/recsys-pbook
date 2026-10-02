@@ -1,81 +1,87 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 300" width="500" height="300" font-family="system-ui, sans-serif">
-  <rect x="0.75" y="0.75" width="498.5" height="298.5" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="1.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 472" role="img" aria-labelledby="pb126-title pb126-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb126-title">Every kind of content has its own shelf life</title>
+  <desc id="pb126-desc">Four bars on a shared timeline from minutes to decades show how long an item stays worth recommending after it is published: breaking news fades within minutes to hours, social media posts within hours to days, e-commerce products within weeks to months, while music and movies stay relevant for years to decades. One decay speed for all content would either push yesterday's news to the top or bury the classics.</desc>
+  <defs>
+    <linearGradient id="pb126-g-news" gradientUnits="userSpaceOnUse" x1="68" y1="0" x2="194" y2="0">
+      <stop offset="0" stop-color="#7C3AED" stop-opacity="1"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="pb126-g-social" gradientUnits="userSpaceOnUse" x1="152" y1="0" x2="278" y2="0">
+      <stop offset="0" stop-color="#7C3AED" stop-opacity="1"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="pb126-g-shop" gradientUnits="userSpaceOnUse" x1="320" y1="0" x2="446" y2="0">
+      <stop offset="0" stop-color="#7C3AED" stop-opacity="1"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="pb126-g-music" gradientUnits="userSpaceOnUse" x1="488" y1="0" x2="614" y2="0">
+      <stop offset="0" stop-color="#7C3AED" stop-opacity="1"/><stop offset="1" stop-color="#7C3AED" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
 
-  <text x="250" y="25" text-anchor="middle" fill="#1E1B4B" font-size="14" font-weight="700">Freshness Decay by Domain</text>
+  <rect x=".5" y=".5" width="639" height="471" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <!-- Grid lines -->
-  <g stroke="#E5E7EB" stroke-width="1">
-    <line x1="60" y1="52" x2="470" y2="52"/>
-    <line x1="60" y1="97" x2="470" y2="97"/>
-    <line x1="60" y1="142" x2="470" y2="142"/>
-    <line x1="60" y1="189" x2="470" y2="189"/>
+  <text x="26" y="40" font-size="20" font-weight="700" fill="#1E1B4B">Every kind of content has its own shelf life</text>
+  <text x="26" y="64" font-size="15" fill="#4B5563">Purple bar = how much an item is still worth recommending</text>
+
+  <!-- Row 1: breaking news (y0 = 92) -->
+  <g>
+    <text x="26" y="108" font-size="16" fill="#1E1B4B"><tspan>📰 </tspan><tspan font-weight="700">Breaking news</tspan><tspan font-size="14" fill="#6B7280"> · e.g. election results</tspan></text>
+    <text x="614" y="108" text-anchor="end" font-size="15" font-weight="600" fill="#4C1D95">fresh for minutes–hours</text>
+    <rect x="26" y="118" width="588" height="24" rx="6" fill="#EEF0F3"/>
+    <g stroke="#D1D5DB" stroke-width="1" stroke-dasharray="3 3">
+      <line x1="110" y1="114" x2="110" y2="146"/><line x1="194" y1="114" x2="194" y2="146"/><line x1="278" y1="114" x2="278" y2="146"/>
+      <line x1="362" y1="114" x2="362" y2="146"/><line x1="446" y1="114" x2="446" y2="146"/><line x1="530" y1="114" x2="530" y2="146"/>
+    </g>
+    <rect x="26" y="118" width="588" height="24" rx="6" fill="url(#pb126-g-news)"/>
   </g>
 
-  <!-- Axes -->
-  <g stroke="#1E1B4B" stroke-width="1.25">
-    <line x1="60" y1="45" x2="60" y2="240"/>
-    <line x1="60" y1="240" x2="470" y2="240"/>
+  <!-- Row 2: social media (y0 = 158) -->
+  <g>
+    <text x="26" y="174" font-size="16" fill="#1E1B4B"><tspan>💬 </tspan><tspan font-weight="700">Social media</tspan><tspan font-size="14" fill="#6B7280"> · e.g. trending memes</tspan></text>
+    <text x="614" y="174" text-anchor="end" font-size="15" font-weight="600" fill="#4C1D95">fresh for hours–days</text>
+    <rect x="26" y="184" width="588" height="24" rx="6" fill="#EEF0F3"/>
+    <g stroke="#D1D5DB" stroke-width="1" stroke-dasharray="3 3">
+      <line x1="110" y1="180" x2="110" y2="212"/><line x1="194" y1="180" x2="194" y2="212"/><line x1="278" y1="180" x2="278" y2="212"/>
+      <line x1="362" y1="180" x2="362" y2="212"/><line x1="446" y1="180" x2="446" y2="212"/><line x1="530" y1="180" x2="530" y2="212"/>
+    </g>
+    <rect x="26" y="184" width="588" height="24" rx="6" fill="url(#pb126-g-social)"/>
   </g>
 
-  <!-- Y axis label and ticks -->
-  <text x="18" y="145" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="500" transform="rotate(-90 18 145)">Relevance Weight</text>
-  <g fill="#6B7280" font-size="11">
-    <text x="53" y="56" text-anchor="end">1.0</text>
-    <text x="53" y="101" text-anchor="end">0.75</text>
-    <text x="53" y="146" text-anchor="end">0.50</text>
-    <text x="53" y="193" text-anchor="end">0.25</text>
-    <text x="53" y="244" text-anchor="end">0.0</text>
+  <!-- Row 3: e-commerce (y0 = 224) -->
+  <g>
+    <text x="26" y="240" font-size="16" fill="#1E1B4B"><tspan>🛍️ </tspan><tspan font-weight="700">E-commerce</tspan><tspan font-size="14" fill="#6B7280"> · e.g. holiday products</tspan></text>
+    <text x="614" y="240" text-anchor="end" font-size="15" font-weight="600" fill="#4C1D95">fresh for weeks–months</text>
+    <rect x="26" y="250" width="588" height="24" rx="6" fill="#EEF0F3"/>
+    <g stroke="#D1D5DB" stroke-width="1" stroke-dasharray="3 3">
+      <line x1="110" y1="246" x2="110" y2="278"/><line x1="194" y1="246" x2="194" y2="278"/><line x1="278" y1="246" x2="278" y2="278"/>
+      <line x1="362" y1="246" x2="362" y2="278"/><line x1="446" y1="246" x2="446" y2="278"/><line x1="530" y1="246" x2="530" y2="278"/>
+    </g>
+    <rect x="26" y="250" width="588" height="24" rx="6" fill="url(#pb126-g-shop)"/>
   </g>
 
-  <!-- X axis ticks and label -->
-  <g fill="#6B7280" font-size="11">
-    <text x="100" y="256" text-anchor="middle">1h</text>
-    <text x="150" y="256" text-anchor="middle">6h</text>
-    <text x="200" y="256" text-anchor="middle">1d</text>
-    <text x="260" y="256" text-anchor="middle">1w</text>
-    <text x="330" y="256" text-anchor="middle">1m</text>
-    <text x="400" y="256" text-anchor="middle">1y</text>
-    <text x="455" y="256" text-anchor="middle">5y</text>
+  <!-- Row 4: music & movies (y0 = 290) -->
+  <g>
+    <text x="26" y="306" font-size="16" fill="#1E1B4B"><tspan>🎵 </tspan><tspan font-weight="700">Music &amp; movies</tspan><tspan font-size="14" fill="#6B7280"> · e.g. classic albums</tspan></text>
+    <text x="614" y="306" text-anchor="end" font-size="15" font-weight="600" fill="#4C1D95">fresh for years–decades</text>
+    <rect x="26" y="316" width="588" height="24" rx="6" fill="#EEF0F3"/>
+    <g stroke="#D1D5DB" stroke-width="1" stroke-dasharray="3 3">
+      <line x1="110" y1="312" x2="110" y2="344"/><line x1="194" y1="312" x2="194" y2="344"/><line x1="278" y1="312" x2="278" y2="344"/>
+      <line x1="362" y1="312" x2="362" y2="344"/><line x1="446" y1="312" x2="446" y2="344"/><line x1="530" y1="312" x2="530" y2="344"/>
+    </g>
+    <rect x="26" y="316" width="588" height="24" rx="6" fill="url(#pb126-g-music)"/>
   </g>
-  <text x="265" y="272" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="500">Time Since Publication</text>
 
-  <!-- Subtle fill areas -->
-  <path d="M60,52 Q80,55 100,100 Q120,170 150,220 Q180,235 250,238 L470,239 L470,240 L60,240 Z" fill="#FEE2E2" opacity="0.45"/>
-  <path d="M60,52 Q100,55 150,65 Q200,100 250,150 Q300,200 350,225 Q400,235 470,238 L470,240 L60,240 Z" fill="#FEF3C7" opacity="0.32"/>
-  <path d="M60,52 Q150,55 250,62 Q350,72 400,80 Q450,90 470,95 L470,240 L60,240 Z" fill="#D1FAE5" opacity="0.32"/>
+  <!-- Shared time axis -->
+  <g font-size="14" fill="#4B5563" text-anchor="middle">
+    <text x="68" y="366">minutes</text>
+    <text x="152" y="366">hours</text>
+    <text x="236" y="366">days</text>
+    <text x="320" y="366">weeks</text>
+    <text x="404" y="366">months</text>
+    <text x="488" y="366">years</text>
+    <text x="572" y="366">decades</text>
+  </g>
+  <text x="320" y="388" text-anchor="middle" font-size="14" fill="#6B7280">time since it was published →</text>
 
-  <!-- Domain curves -->
-  <path d="M60,52 Q80,55 100,100 Q120,170 150,220 Q180,235 250,238 L470,239" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M60,52 Q100,55 150,65 Q200,100 250,150 Q300,200 350,225 Q400,235 470,238" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M60,52 Q150,55 250,62 Q350,72 400,80 Q450,90 470,95" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-
-  <!-- Breaking news annotation -->
-  <circle cx="115" cy="130" r="3.5" fill="#EF4444"/>
-  <line x1="118" y1="128" x2="142" y2="114" stroke="#EF4444" stroke-width="1"/>
-  <text x="148" y="116" fill="#EF4444" font-size="11" font-weight="500">Breaking news</text>
-  <text x="148" y="130" fill="#EF4444" font-size="11">loses value fast</text>
-
-  <!-- Movies annotation -->
-  <circle cx="440" cy="86" r="3.5" fill="#10B981"/>
-  <line x1="437" y1="89" x2="414" y2="99" stroke="#10B981" stroke-width="1"/>
-  <text x="350" y="108" fill="#10B981" font-size="11" font-weight="500">Classics remain</text>
-  <text x="350" y="122" fill="#10B981" font-size="11">relevant for years</text>
-
-  <!-- Legend, positioned fully clear of all curves -->
-  <rect x="320" y="132" width="145" height="72" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
-
-  <line x1="328" y1="150" x2="344" y2="150" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="350" y="154" fill="#1E1B4B" font-size="11" font-weight="600">News</text>
-  <text x="456" y="154" text-anchor="end" fill="#6B7280" font-size="11">hours</text>
-
-  <line x1="328" y1="173" x2="344" y2="173" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="350" y="177" fill="#1E1B4B" font-size="11" font-weight="600">Social Media</text>
-  <text x="456" y="177" text-anchor="end" fill="#6B7280" font-size="11">days</text>
-
-  <line x1="328" y1="196" x2="344" y2="196" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="350" y="200" fill="#1E1B4B" font-size="11" font-weight="600">Movies</text>
-  <text x="456" y="200" text-anchor="end" fill="#6B7280" font-size="11">years</text>
-
-  <!-- Bottom note -->
-  <text x="250" y="291" text-anchor="middle" fill="#6B7280" font-size="11">Decay function: w(t) = exp(-lambda * t) -- lambda varies by domain</text>
+  <!-- Takeaway: the trade-off -->
+  <rect x="26" y="404" width="588" height="48" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="320" y="434" text-anchor="middle" font-size="15" fill="#92400E"><tspan font-weight="700">One decay speed for all?</tspan> Stale news on top, or classics buried.</text>
 </svg>

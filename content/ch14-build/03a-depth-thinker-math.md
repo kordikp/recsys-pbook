@@ -66,6 +66,6 @@ To address the scale-invariance limitation (where a user rating [1, 2] appears s
 
 ![Matrix factorization: taste vectors pointing the same way get a high predicted rating](/images/comic-mf.svg)
 
-![Matrix Decomposition](/images/diagram-mf-decomposition.svg)
+![Matrix factorization R ≈ U × Vᵀ: a mostly empty ratings matrix becomes two thin taste-factor matrices; You's row times thriller A's column fills the gap with 0.74](/images/diagram-mf-decomposition.svg)
 
 **The key takeaway:** Similarity measures quantify how closely two users' preference vectors align in rating space. The choice of measure -- cosine, Pearson correlation, adjusted cosine, or Jaccard -- encodes different assumptions about what "similar" means. Production systems typically evaluate multiple measures via A/B testing to determine which yields the best downstream recommendation quality.

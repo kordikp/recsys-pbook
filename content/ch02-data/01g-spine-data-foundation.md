@@ -80,7 +80,7 @@ For a video platform: title, description, genre, duration, release date, cast, l
 
 **Temporal dimension:** Interactions have timestamps, and recency matters. A purchase from yesterday is more predictive than one from last year. Most systems apply exponential decay to older interactions.
 
-![The recommendation feedback loop and bias amplification](/images/diagram-feedback-loop.svg)
+![The feedback loop: item catalog, user catalog and interactions feed the model; users can only click the items it shows; those clicks flow back as new interactions — so a shown item keeps gaining clicks while a never-shown item stays at zero](/images/diagram-feedback-loop.svg)
 
 ## The Feedback Loop
 

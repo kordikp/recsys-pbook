@@ -1,123 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" width="680" height="380" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="attArrow" markerWidth="8" markerHeight="7" refX="7" refY="3.5" orient="auto" markerUnits="strokeWidth">
-      <path d="M0,0 L8,3.5 L0,7 Z" fill="#D97706"/>
-    </marker>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 474" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb112-title pb112-desc">
+<title id="pb112-title">Same history, three ways to weigh it</title>
+<desc id="pb112-desc">Five past interactions, oldest first: a one-off horror film last October, a sci-fi film, an action film, a cooking binge while sick last week, and a sci-fi series yesterday. Averaging gives every item 0.20, so the two one-offs keep 40% of the vote. Keeping only the last 2 items drops the older sci-fi film and hands the cooking binge 50%. Self-attention computes the weights with softmax of q times k over root d: the relevant items get 0.45, 0.25 and 0.22, the one-offs only 8% together. Toy numbers.</desc>
+<rect x=".5" y=".5" width="639" height="473" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Same history, three ways to weigh it</text>
+<text x="320" y="58" text-anchor="middle" font-size="14" fill="#6B7280">Bar = each past item's share of the vote for the next recs · toy numbers</text>
 
-  <!-- Warm card background -->
-  <rect x="1" y="1" width="678" height="378" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+<!-- method columns -->
+<rect x="208" y="72" width="134" height="352" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="349" y="72" width="134" height="352" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="490" y="72" width="134" height="352" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="275" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Average all</text>
+<text x="275" y="116" text-anchor="middle" font-size="14" fill="#6B7280">each item 1/5</text>
+<text x="416" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Last 2 only</text>
+<text x="416" y="116" text-anchor="middle" font-size="14" fill="#6B7280">window k = 2</text>
+<text x="557" y="96" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Self-attention</text>
+<text x="557" y="116" text-anchor="middle" font-size="14" fill="#4C1D95">softmax(qᵀk / √d)</text>
 
-  <!-- Title -->
-  <text x="340" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1E1B4B">Self-Attention: Not All Past Interactions Matter Equally</text>
-  <text x="340" y="48" text-anchor="middle" font-size="12" fill="#6B7280">The model learns which historical items are most relevant for the next prediction</text>
+<!-- history header -->
+<text x="24" y="96" font-size="16" font-weight="700" fill="#1E1B4B">Your history</text>
+<text x="24" y="116" font-size="14" fill="#6B7280">oldest first ↓</text>
 
-  <!-- Timeline base -->
-  <line x1="60" y1="230" x2="630" y2="230" stroke="#E5E7EB" stroke-width="2"/>
+<!-- history rows: y0 = 130 + 48i, centre c = y0 + 22 -->
+<rect x="16" y="130" width="184" height="44" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="38" y="159" text-anchor="middle" font-size="20">🎃</text>
+<text x="60" y="149" font-size="15" font-weight="700" fill="#1E1B4B">Horror film</text>
+<text x="60" y="166" font-size="14" fill="#92400E">last Oct · once</text>
 
-  <!-- Attention arcs, vertically separated to prevent collisions -->
-  <path d="M598,145 C550,60 135,60 60,154" fill="none" stroke="#D97706" stroke-width="1.5" opacity="0.45" marker-end="url(#attArrow)"/>
-  <path d="M598,150 C550,82 270,82 200,154" fill="none" stroke="#D97706" stroke-width="2.5" opacity="0.6" marker-end="url(#attArrow)"/>
-  <path d="M598,155 C555,103 395,103 340,154" fill="none" stroke="#D97706" stroke-width="4" opacity="0.72" marker-end="url(#attArrow)"/>
-  <path d="M598,163 C568,120 477,120 440,154" fill="none" stroke="#D97706" stroke-width="6" opacity="0.85" marker-end="url(#attArrow)"/>
-  <path d="M598,174 C582,136 558,134 540,154" fill="none" stroke="#D97706" stroke-width="5" opacity="0.78" marker-end="url(#attArrow)"/>
+<rect x="16" y="178" width="184" height="44" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="38" y="207" text-anchor="middle" font-size="20">🚀</text>
+<text x="60" y="197" font-size="15" font-weight="700" fill="#1E1B4B">Sci-fi film</text>
+<text x="60" y="214" font-size="14" fill="#6B7280">2 months ago</text>
 
-  <!-- Weight labels on clear background badges -->
-  <g>
-    <rect x="279" y="55" width="46" height="22" rx="6" fill="#FFFFFF" stroke="#FEF3C7"/>
-    <text x="302" y="70" text-anchor="middle" font-size="11" fill="#D97706">0.03</text>
-  </g>
-  <g>
-    <rect x="357" y="77" width="46" height="22" rx="6" fill="#FFFFFF" stroke="#FEF3C7"/>
-    <text x="380" y="92" text-anchor="middle" font-size="11" fill="#D97706">0.15</text>
-  </g>
-  <g>
-    <rect x="442" y="97" width="46" height="22" rx="6" fill="#FFFFFF" stroke="#FEF3C7"/>
-    <text x="465" y="112" text-anchor="middle" font-size="11" fill="#D97706">0.22</text>
-  </g>
-  <g>
-    <rect x="491" y="115" width="46" height="22" rx="6" fill="#FFFFFF" stroke="#D97706"/>
-    <text x="514" y="130" text-anchor="middle" font-size="11" font-weight="bold" fill="#D97706">0.32</text>
-  </g>
-  <g>
-    <rect x="548" y="133" width="46" height="22" rx="6" fill="#FFFFFF" stroke="#D97706"/>
-    <text x="571" y="148" text-anchor="middle" font-size="11" font-weight="bold" fill="#D97706">0.28</text>
-  </g>
+<rect x="16" y="226" width="184" height="44" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="38" y="255" text-anchor="middle" font-size="20">💥</text>
+<text x="60" y="245" font-size="15" font-weight="700" fill="#1E1B4B">Action film</text>
+<text x="60" y="262" font-size="14" fill="#6B7280">3 weeks ago</text>
 
-  <!-- Item 1: Cooking show -->
-  <g transform="translate(60,155)">
-    <rect x="-35" y="0" width="70" height="70" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="0" y="27" text-anchor="middle" font-size="20">🍳</text>
-    <text x="0" y="49" text-anchor="middle" font-size="11" fill="#10B981" font-weight="bold">Cooking</text>
-    <text x="0" y="63" text-anchor="middle" font-size="11" fill="#10B981">Show</text>
-  </g>
+<rect x="16" y="274" width="184" height="44" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="38" y="303" text-anchor="middle" font-size="20">🍳</text>
+<text x="60" y="293" font-size="15" font-weight="700" fill="#1E1B4B">Cooking binge</text>
+<text x="60" y="310" font-size="14" fill="#92400E">last week · sick</text>
 
-  <!-- Item 2: Sci-fi movie -->
-  <g transform="translate(200,155)">
-    <rect x="-35" y="0" width="70" height="70" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="0" y="27" text-anchor="middle" font-size="20">🚀</text>
-    <text x="0" y="49" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">Sci-Fi</text>
-    <text x="0" y="63" text-anchor="middle" font-size="11" fill="#0EA5E9">Movie</text>
-  </g>
+<rect x="16" y="322" width="184" height="44" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="38" y="351" text-anchor="middle" font-size="20">🛸</text>
+<text x="60" y="341" font-size="15" font-weight="700" fill="#1E1B4B">Sci-fi series</text>
+<text x="60" y="358" font-size="14" fill="#6B7280">yesterday</text>
 
-  <!-- Item 3: Action movie -->
-  <g transform="translate(340,155)">
-    <rect x="-35" y="0" width="70" height="70" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="0" y="27" text-anchor="middle" font-size="20">💥</text>
-    <text x="0" y="49" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">Action</text>
-    <text x="0" y="63" text-anchor="middle" font-size="11" fill="#0EA5E9">Movie</text>
-  </g>
+<!-- A: average all (scale 140 px per 1.0, origin x=222) -->
+<rect x="222" y="144" width="28" height="16" rx="3" fill="#F59E0B"/>
+<rect x="222" y="192" width="28" height="16" rx="3" fill="#9CA3AF"/>
+<rect x="222" y="240" width="28" height="16" rx="3" fill="#9CA3AF"/>
+<rect x="222" y="288" width="28" height="16" rx="3" fill="#F59E0B"/>
+<rect x="222" y="336" width="28" height="16" rx="3" fill="#9CA3AF"/>
+<text x="330" y="157" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">0.20</text>
+<text x="330" y="205" text-anchor="end" font-size="15" fill="#4B5563">0.20</text>
+<text x="330" y="253" text-anchor="end" font-size="15" fill="#4B5563">0.20</text>
+<text x="330" y="301" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">0.20</text>
+<text x="330" y="349" text-anchor="end" font-size="15" fill="#4B5563">0.20</text>
 
-  <!-- Item 4: Action sequel -->
-  <g transform="translate(440,155)">
-    <rect x="-35" y="0" width="70" height="70" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="0" y="27" text-anchor="middle" font-size="20">🎬</text>
-    <text x="0" y="49" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">Action</text>
-    <text x="0" y="63" text-anchor="middle" font-size="11" fill="#0EA5E9">Sequel</text>
-  </g>
+<!-- B: last 2 only (origin x=363) -->
+<rect x="359" y="132" width="114" height="136" rx="8" fill="none" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="416" y="196" text-anchor="middle" font-size="14" fill="#6B7280">outside the</text>
+<text x="416" y="214" text-anchor="middle" font-size="14" fill="#6B7280">window → 0</text>
+<rect x="363" y="288" width="70" height="16" rx="3" fill="#F59E0B"/>
+<rect x="363" y="336" width="70" height="16" rx="3" fill="#9CA3AF"/>
+<text x="471" y="301" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">0.50</text>
+<text x="471" y="349" text-anchor="end" font-size="15" fill="#4B5563">0.50</text>
 
-  <!-- Item 5: Space drama -->
-  <g transform="translate(540,155)">
-    <rect x="-35" y="0" width="70" height="70" rx="8" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="0" y="27" text-anchor="middle" font-size="20">🌌</text>
-    <text x="0" y="49" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">Space</text>
-    <text x="0" y="63" text-anchor="middle" font-size="11" fill="#0EA5E9">Drama</text>
-  </g>
+<!-- C: self-attention (origin x=504) -->
+<rect x="504" y="144" width="4.2" height="16" rx="1.5" fill="#F59E0B"/>
+<rect x="504" y="192" width="35" height="16" rx="3" fill="#7C3AED"/>
+<rect x="504" y="240" width="30.8" height="16" rx="3" fill="#7C3AED"/>
+<rect x="504" y="288" width="7" height="16" rx="2" fill="#F59E0B"/>
+<rect x="504" y="336" width="63" height="16" rx="3" fill="#7C3AED"/>
+<text x="612" y="157" text-anchor="end" font-size="15" fill="#92400E">0.03</text>
+<text x="612" y="205" text-anchor="end" font-size="15" font-weight="700" fill="#4C1D95">0.25</text>
+<text x="612" y="253" text-anchor="end" font-size="15" font-weight="700" fill="#4C1D95">0.22</text>
+<text x="612" y="301" text-anchor="end" font-size="15" fill="#92400E">0.05</text>
+<text x="612" y="349" text-anchor="end" font-size="15" font-weight="700" fill="#4C1D95">0.45</text>
 
-  <!-- Prediction target -->
-  <g transform="translate(630,155)">
-    <rect x="-32" y="0" width="64" height="70" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="2" stroke-dasharray="5,3"/>
-    <text x="0" y="29" text-anchor="middle" font-size="22" fill="#D97706" font-weight="bold">?</text>
-    <text x="0" y="50" text-anchor="middle" font-size="11" fill="#D97706" font-weight="bold">Next</text>
-    <text x="0" y="64" text-anchor="middle" font-size="11" fill="#D97706" font-weight="bold">Rec</text>
-  </g>
+<!-- bottom row: share of the two one-offs -->
+<line x1="220" y1="376" x2="330" y2="376" stroke="#E5E7EB" stroke-width="1.5"/>
+<line x1="361" y1="376" x2="471" y2="376" stroke="#E5E7EB" stroke-width="1.5"/>
+<line x1="502" y1="376" x2="612" y2="376" stroke="#C4B5FD" stroke-width="1.5"/>
+<text x="24" y="396" font-size="15" font-weight="700" fill="#92400E">One-offs' share</text>
+<text x="24" y="414" font-size="14" fill="#6B7280">horror + cooking</text>
+<text x="275" y="410" text-anchor="middle" font-size="26" font-weight="700" fill="#92400E">40%</text>
+<text x="416" y="410" text-anchor="middle" font-size="26" font-weight="700" fill="#92400E">50%</text>
+<text x="557" y="410" text-anchor="middle" font-size="26" font-weight="700" fill="#4C1D95">8%</text>
 
-  <!-- Time labels -->
-  <text x="60" y="251" text-anchor="middle" font-size="11" fill="#6B7280">3 months ago</text>
-  <text x="200" y="251" text-anchor="middle" font-size="11" fill="#6B7280">2 months ago</text>
-  <text x="340" y="251" text-anchor="middle" font-size="11" fill="#6B7280">1 month ago</text>
-  <text x="440" y="251" text-anchor="middle" font-size="11" fill="#6B7280">Last week</text>
-  <text x="540" y="251" text-anchor="middle" font-size="11" fill="#6B7280">Yesterday</text>
-
-  <!-- Weight legend -->
-  <g transform="translate(60,274)">
-    <rect x="0" y="0" width="560" height="52" rx="8" fill="#FFFFFF" stroke="#E5E7EB"/>
-    <text x="18" y="19" font-size="11" font-weight="bold" fill="#1E1B4B">Attention Weights:</text>
-    <text x="18" y="41" font-size="11" fill="#6B7280">Arrow thickness = how much each past item influences the next prediction</text>
-
-    <line x1="300" y1="15" x2="330" y2="15" stroke="#D97706" stroke-width="1.5" opacity="0.45"/>
-    <text x="338" y="19" font-size="11" fill="#6B7280">Low</text>
-
-    <line x1="385" y1="15" x2="415" y2="15" stroke="#D97706" stroke-width="3" opacity="0.65"/>
-    <text x="423" y="19" font-size="11" fill="#6B7280">Medium</text>
-
-    <line x1="475" y1="15" x2="505" y2="15" stroke="#D97706" stroke-width="6" opacity="0.85"/>
-    <text x="513" y="19" font-size="11" fill="#6B7280">High</text>
-  </g>
-
-  <!-- Insight -->
-  <g transform="translate(60,338)">
-    <rect x="0" y="0" width="560" height="32" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="280" y="20" text-anchor="middle" font-size="11" fill="#7C3AED">The cooking show from months ago barely matters. Recent action/sci-fi items drive the prediction.</text>
-  </g>
+<!-- takeaway -->
+<text x="320" y="454" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Fixed rules</tspan> keep counting one-offs; <tspan font-weight="700" fill="#4C1D95">attention learns</tspan> to tune them out.</text>
 </svg>

@@ -33,7 +33,7 @@ Imagine a bookstore with a million titles. A hundred bestsellers sit on the fron
 
 **This is the shape of nearly every recommendation dataset.** Plot the number of interactions per item, sorted from most to least popular, and you get a curve that spikes sharply on the left and stretches endlessly to the right. Mathematicians call it a **power law distribution**. The industry calls it **the long tail**.
 
-![Long tail distribution: head vs tail items](/images/diagram-long-tail.svg)
+![The long tail in a toy bookstore: 100 bestsellers take half of all sales, a few thousand titles most of the rest, and 990,000 warehouse titles are technically available but effectively invisible](/images/diagram-long-tail.svg)
 
 ## The Numbers Are Stark
 

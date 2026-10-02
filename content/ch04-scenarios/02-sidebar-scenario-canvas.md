@@ -32,7 +32,7 @@ carriers: prose|table|image
 
 The canvas works for any recommendation placement in any domain. Below is the framework, followed by two worked examples that show how the same eight questions produce radically different designs for different contexts.
 
-![The Scenario Canvas: 8 design elements](/images/diagram-scenario-canvas.svg)
+![The scenario canvas: the same eight questions answered for a homepage carousel and a cart cross-sell give two different systems, one built for discovery, one for extra revenue](/images/diagram-scenario-canvas.svg)
 
 ## The Eight Elements
 

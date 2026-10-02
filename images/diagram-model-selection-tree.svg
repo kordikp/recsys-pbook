@@ -1,95 +1,58 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 400" width="650" height="400" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="arrD" markerWidth="6" markerHeight="4" refX="6" refY="2" orient="auto">
-      <polygon points="0,0 6,2 0,4" fill="#999"/>
-    </marker>
-  </defs>
-
-  <rect width="650" height="400" rx="8" fill="#f5f5f4"/>
-  <text x="325" y="24" text-anchor="middle" fill="#0b1225" font-size="14" font-weight="700">Model Selection Decision Tree</text>
-
-  <!-- Root diamond: How much data? -->
-  <polygon points="325,50 425,90 325,130 225,90" fill="white" stroke="#0c8383" stroke-width="1.5"/>
-  <text x="325" y="87" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">How much</text>
-  <text x="325" y="99" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">data?</text>
-
-  <!-- Branch labels from root -->
-  <!-- Left: Sparse -->
-  <line x1="225" y1="90" x2="110" y2="170" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
-  <text x="155" y="125" text-anchor="middle" fill="#ef4444" font-size="8" font-weight="600">Sparse</text>
-  <text x="155" y="135" text-anchor="middle" fill="#ef4444" font-size="7">&lt;100K</text>
-
-  <!-- Middle: Medium -->
-  <line x1="325" y1="130" x2="325" y2="175" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
-  <text x="345" y="155" fill="#f59e0b" font-size="8" font-weight="600">Medium</text>
-
-  <!-- Right: Dense -->
-  <line x1="425" y1="90" x2="540" y2="170" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
-  <text x="495" y="125" text-anchor="middle" fill="#3bc4a1" font-size="8" font-weight="600">Dense</text>
-  <text x="495" y="135" text-anchor="middle" fill="#3bc4a1" font-size="7">&gt;10M</text>
-
-  <!-- === Sparse branch: answer box === -->
-  <rect x="30" y="174" width="160" height="50" rx="10" fill="white" stroke="#ef4444" stroke-width="1.2"/>
-  <text x="110" y="195" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Popularity</text>
-  <text x="110" y="210" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">+ Simple CF</text>
-  <text x="110" y="240" text-anchor="middle" fill="#999" font-size="7">ItemKNN, co-occurrence</text>
-  <text x="110" y="252" text-anchor="middle" fill="#999" font-size="7">Start simple, validate first</text>
-
-  <!-- === Medium branch: decision diamond === -->
-  <polygon points="325,180 415,215 325,250 235,215" fill="white" stroke="#f59e0b" stroke-width="1.5"/>
-  <text x="325" y="212" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">Need</text>
-  <text x="325" y="223" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">cold-start?</text>
-
-  <!-- Medium -> Yes -->
-  <line x1="235" y1="215" x2="170" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
-  <text x="195" y="258" text-anchor="middle" fill="#3bc4a1" font-size="9" font-weight="600">Yes</text>
-
-  <!-- Medium -> No -->
-  <line x1="415" y1="215" x2="430" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
-  <text x="430" y="258" text-anchor="middle" fill="#ef4444" font-size="9" font-weight="600">No</text>
-
-  <!-- Yes answer: Hybrid/beeFormer -->
-  <rect x="70" y="298" width="160" height="50" rx="10" fill="white" stroke="#3bc4a1" stroke-width="1.2"/>
-  <text x="150" y="318" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Hybrid / beeFormer</text>
-  <text x="150" y="334" text-anchor="middle" fill="#999" font-size="8">Content features bootstrap</text>
-  <text x="150" y="346" text-anchor="middle" fill="#999" font-size="8">new users &amp; items</text>
-
-  <!-- No answer: ALS/EASE -->
-  <rect x="360" y="298" width="140" height="50" rx="10" fill="white" stroke="#f59e0b" stroke-width="1.2"/>
-  <text x="430" y="318" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">ALS / EASE</text>
-  <text x="430" y="334" text-anchor="middle" fill="#999" font-size="8">Efficient, strong baselines</text>
-  <text x="430" y="346" text-anchor="middle" fill="#999" font-size="8">low engineering cost</text>
-
-  <!-- === Dense branch: decision diamond === -->
-  <polygon points="555,175 620,210 555,245 490,210" fill="white" stroke="#3bc4a1" stroke-width="1.5"/>
-  <text x="555" y="207" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">Latency</text>
-  <text x="555" y="218" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">budget?</text>
-
-  <!-- Dense -> <50ms -->
-  <line x1="510" y1="245" x2="510" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
-  <text x="490" y="272" fill="#0c8383" font-size="8" font-weight="600">&lt;50ms</text>
-
-  <!-- Dense -> >200ms -->
-  <line x1="600" y1="245" x2="605" y2="295" stroke="#999" stroke-width="1.2" marker-end="url(#arrD)"/>
-  <text x="612" y="272" fill="#ef4444" font-size="8" font-weight="600">&gt;200ms</text>
-
-  <!-- <50ms answer -->
-  <rect x="460" y="298" width="100" height="50" rx="10" fill="white" stroke="#0c8383" stroke-width="1.2"/>
-  <text x="510" y="316" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">Two-Tower</text>
-  <text x="510" y="329" text-anchor="middle" fill="#0b1225" font-size="10" font-weight="600">+ ANN</text>
-  <text x="510" y="346" text-anchor="middle" fill="#999" font-size="7">Fast lookup</text>
-
-  <!-- >200ms answer -->
-  <rect x="570" y="298" width="70" height="50" rx="10" fill="white" stroke="#ef4444" stroke-width="1.2"/>
-  <text x="605" y="314" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">Deep</text>
-  <text x="605" y="326" text-anchor="middle" fill="#0b1225" font-size="9" font-weight="600">Ranking</text>
-  <text x="605" y="342" text-anchor="middle" fill="#999" font-size="7">DeepFM, DCN</text>
-
-  <!-- Legend -->
-  <rect x="15" y="370" width="620" height="22" rx="4" fill="white" opacity="0.7"/>
-  <polygon points="30,376 42,381 30,386 18,381" fill="white" stroke="#999" stroke-width="0.5"/>
-  <text x="48" y="384" fill="#666" font-size="8">Decision</text>
-  <rect x="100" y="376" width="24" height="10" rx="5" fill="white" stroke="#999" stroke-width="0.5"/>
-  <text x="130" y="384" fill="#666" font-size="8">Answer</text>
-  <text x="300" y="384" text-anchor="middle" fill="#999" font-size="8">Start simple. Upgrade only when you have evidence that complexity pays off.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 466" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb134-title pb134-desc">
+<title id="pb134-title">Choosing a model: start simple, upgrade on evidence</title>
+<desc id="pb134-desc">Model selection in three steps: a popularity baseline is the floor, a strong simple model such as item k-NN or EASE is the working baseline, and you upgrade only when a test shows the upgrade wins. Which upgrade to try depends on your hardest constraint: frequent new items or users point to hybrids or beeFormer, order-dependent behaviour to SASRec or BERT4Rec, a fast-changing catalog to contextual bandits, many feature types to DeepFM or DCN, and 100M+ items to two-tower retrieval with ANN search.</desc>
+<defs><marker id="pb134-ahg" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L9 4.5 L0 9 Z" fill="#9CA3AF"/></marker><marker id="pb134-ahp" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L9 4.5 L0 9 Z" fill="#7C3AED"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="465" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="40" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Choosing a model: start simple, upgrade on evidence</text>
+<rect x="20" y="64" width="172" height="64" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="44" cy="96.0" r="12" fill="#10B981"/>
+<text x="44" y="101.0" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="64" y="92" font-size="15" font-weight="700" fill="#1E1B4B">Popularity</text>
+<text x="64" y="112" font-size="14" fill="#4B5563">the floor to beat</text>
+<line x1="196" y1="96.0" x2="212" y2="96.0" stroke="#9CA3AF" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb134-ahg)"/>
+<rect x="218" y="64" width="172" height="64" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="242" cy="96.0" r="12" fill="#10B981"/>
+<text x="242" y="101.0" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="262" y="92" font-size="15" font-weight="700" fill="#1E1B4B">Simple model</text>
+<text x="262" y="112" font-size="14" fill="#4B5563">k-NN or EASE</text>
+<line x1="394" y1="96.0" x2="410" y2="96.0" stroke="#9CA3AF" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb134-ahg)"/>
+<rect x="416" y="64" width="204" height="64" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<circle cx="440" cy="96.0" r="12" fill="#F59E0B"/>
+<text x="440" y="101.0" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="460" y="92" font-size="15" font-weight="700" fill="#1E1B4B">Upgrade if it wins</text>
+<text x="460" y="112" font-size="14" fill="#92400E">tested against step 2</text>
+<line x1="518" y1="132" x2="518" y2="150" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round"/>
+<text x="20" y="168" font-size="14" font-weight="700" fill="#4B5563">If your hardest constraint is…</text>
+<text x="518" y="168" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">…step 3 tries</text>
+<rect x="20" y="180" width="346" height="40" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="38" cy="200" r="5" fill="#F59E0B"/>
+<text x="54" y="205" font-size="15" fill="#1E1B4B">New items or users all the time</text>
+<line x1="374" y1="200" x2="408" y2="200" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb134-ahp)"/>
+<rect x="416" y="180" width="204" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="518" y="205" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Hybrid · beeFormer</text>
+<rect x="20" y="228" width="346" height="40" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="38" cy="248" r="5" fill="#F59E0B"/>
+<text x="54" y="253" font-size="15" fill="#1E1B4B">Order matters: what comes next?</text>
+<line x1="374" y1="248" x2="408" y2="248" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb134-ahp)"/>
+<rect x="416" y="228" width="204" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="518" y="253" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">SASRec · BERT4Rec</text>
+<rect x="20" y="276" width="346" height="40" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="38" cy="296" r="5" fill="#F59E0B"/>
+<text x="54" y="301" font-size="15" fill="#1E1B4B">Catalog churns, must explore</text>
+<line x1="374" y1="296" x2="408" y2="296" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb134-ahp)"/>
+<rect x="416" y="276" width="204" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="518" y="301" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Contextual bandits</text>
+<rect x="20" y="324" width="346" height="40" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="38" cy="344" r="5" fill="#F59E0B"/>
+<text x="54" y="349" font-size="15" fill="#1E1B4B">Many kinds of features</text>
+<line x1="374" y1="344" x2="408" y2="344" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb134-ahp)"/>
+<rect x="416" y="324" width="204" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="518" y="349" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">DeepFM · DCN</text>
+<rect x="20" y="372" width="346" height="40" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="38" cy="392" r="5" fill="#F59E0B"/>
+<text x="54" y="397" font-size="15" fill="#1E1B4B">100M+ items</text>
+<line x1="374" y1="392" x2="408" y2="392" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb134-ahp)"/>
+<rect x="416" y="372" width="204" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="518" y="397" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Two-tower + ANN</text>
+<text x="320" y="442" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">No test win, no upgrade: the <tspan fill="#065F46">simple model</tspan> stays.</text>
 </svg>

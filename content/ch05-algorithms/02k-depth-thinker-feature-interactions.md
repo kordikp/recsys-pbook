@@ -24,7 +24,7 @@ carriers: prose|table|image|formula
 
 Matrix factorization captures interactions between users and items -- but what about interactions between *features*? A 25-year-old male who watches sci-fi on weekday evenings is a very different signal than any of those features alone. The challenge is modeling these combinatorial feature interactions efficiently and at scale.
 
-![Feature interaction models: FM, DeepFM, DCN](/images/diagram-feature-interactions.svg)
+![Three ways to learn feature interactions from the same per-feature embeddings: FM scores every pair as a dot product, DeepFM adds a deep net, DCN stacks cross layers (L layers reach order L+1)](/images/diagram-feature-interactions.svg)
 
 ## Why Feature Interactions Matter
 

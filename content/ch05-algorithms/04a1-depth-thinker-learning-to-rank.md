@@ -26,7 +26,7 @@ This section formalizes the three families of Learning to Rank (LTR) approaches,
 
 ## The Ranking Problem Formulation
 
-![Learning to Rank approaches: pointwise, pairwise, listwise](/images/diagram-learning-to-rank.svg)
+![Pointwise, pairwise and listwise learning to rank grading the same toy ranking where the model swaps A and B: MSE 0.30, 1 of 3 pairs wrong, NDCG@3 0.80](/images/diagram-learning-to-rank.svg)
 
 Given a user $u$ and a set of candidate items $\mathcal{C} = \{i_1, i_2, \ldots, i_n\}$, a ranking model produces a scoring function $f(u, i) \in \mathbb{R}$ that induces an ordering over $\mathcal{C}$. The goal is to learn $f$ such that the induced ordering maximizes a ranking quality metric (e.g., NDCG, MAP) on held-out data.
 

@@ -27,7 +27,7 @@ You have trained a recommendation model and produced embeddings -- 128-dimension
 
 You cannot inspect 128 dimensions directly. But you can project them down to 2 or 3 dimensions and look at the result. This is embedding visualization, and it is one of the most powerful tools for understanding, debugging, and communicating what recommendation models do.
 
-![Embedding space visualization with genre clusters](/images/diagram-embedding-visualization.svg)
+![Each movie's 128-number embedding squashed to a 2D map: genre clusters, an action-to-sci-fi transition zone and an outlier to check; t-SNE keeps neighbors but distorts gaps and cluster sizes, UMAP keeps the layout more faithfully](/images/diagram-embedding-visualization.svg)
 
 ## PCA: The Fast First Look
 

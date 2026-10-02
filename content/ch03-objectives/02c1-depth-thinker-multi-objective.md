@@ -46,7 +46,7 @@ where $\pi$ is the recommendation policy and $f_1, \ldots, f_m$ are the $m$ comp
 
 ## Pareto Optimality: The Frontier of Trade-Offs
 
-![Pareto frontier showing engagement-diversity trade-off](/images/diagram-multi-objective.svg)
+![Pareto frontier of five rankings, relevance (nDCG@10) vs. diversity: four lie on the frontier, random ranking is dominated by heavy diversification](/images/diagram-multi-objective.svg)
 
 The central concept in multi-objective optimization is the **Pareto frontier** (also called the Pareto front or Pareto optimal set).
 
@@ -62,9 +62,9 @@ Consider a simplified two-objective problem: relevance (measured by nDCG) versus
 | Mild diversification | 0.79 | 0.52 | Yes |
 | Balanced | 0.73 | 0.68 | Yes |
 | Heavy diversification | 0.61 | 0.84 | Yes |
-| Random ranking | 0.35 | 0.90 | No (dominated) |
+| Random ranking | 0.35 | 0.80 | No (dominated) |
 
-The random ranking is *not* Pareto optimal because the heavy diversification configuration achieves both better relevance and nearly as much diversity. Every other configuration is Pareto optimal -- improving one metric necessarily degrades the other.
+The random ranking is *not* Pareto optimal because the heavy diversification configuration achieves both better relevance (0.61 vs 0.35) and more diversity (0.84 vs 0.80). Every other configuration is Pareto optimal -- improving one metric necessarily degrades the other.
 
 ## Scalarization: Reducing Many Objectives to One
 

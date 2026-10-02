@@ -21,7 +21,7 @@ carriers: prose|table|image|code
 
 There is no universally best recommendation algorithm. The right choice depends on your data, your constraints, and the problem you are actually trying to solve -- not the problem that produced the most impressive result in the last paper you read. This section provides a structured decision framework for matching algorithms to real-world conditions.
 
-![Model selection decision tree](/images/diagram-model-selection-tree.svg)
+![Model selection: start with a popularity baseline, then a simple model such as k-NN or EASE, and upgrade only when a test shows it wins. Your hardest constraint picks the upgrade: cold start to a hybrid or beeFormer, sequence to SASRec, exploration to bandits, rich features to DeepFM or DCN, 100M+ items to two-tower + ANN](/images/diagram-model-selection-tree.svg)
 
 ## The Six Decision Factors
 

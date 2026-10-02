@@ -143,7 +143,7 @@ This normalization prevents systematic bias toward long-form content. Without it
 
 ## Multi-Signal Fusion
 
-![Implicit feedback signal strength hierarchy from purchase to skip](/images/diagram-implicit-feedback.svg)
+![Six implicit signals from impression to purchase, plus return as a negative, rated by intent strength and ambiguity, with a weighted-score example: 3 clicks × 1 + 1 purchase × 5 = 8](/images/diagram-implicit-feedback.svg)
 
 Real-world systems observe multiple implicit signals simultaneously, and these signals carry different levels of intent:
 

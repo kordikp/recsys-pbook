@@ -23,7 +23,7 @@ Not all content ages the same way. A breaking news article about an earthquake i
 
 This is the freshness problem, and it's one of the most domain-dependent challenges in recommendation design.
 
-![Freshness decay curves across domains](/images/diagram-freshness-decay.svg)
+![Shelf life by content type: breaking news stays fresh for minutes to hours, social media for hours to days, e-commerce for weeks to months, music and movies for years to decades](/images/diagram-freshness-decay.svg)
 
 ## The Shelf Life of Content
 

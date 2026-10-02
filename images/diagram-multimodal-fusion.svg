@@ -1,133 +1,142 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 340" width="700" height="340" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 450" role="img" aria-labelledby="pb137-title pb137-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb137-title">Three ways to combine modalities: early fusion, late fusion, cross-attention</title>
+  <desc id="pb137-desc">The fusion strategies differ in where text, image and audio meet: early fusion joins the embeddings (768 + 2048 + 512 = 3328 numbers) before one model, late fusion runs a model per modality and joins their scores with a weighted sum, and cross-attention lets the modalities look at each other inside the model, so the word floral attends to the flower pattern in the image. Earlier and deeper mixing learns more cross-modal combinations but needs more data and compute; late fusion is easy to debug but misses combinations.</desc>
   <defs>
-    <marker id="arrowRed" markerWidth="5" markerHeight="5" refX="4.5" refY="2.5" orient="auto">
-      <path d="M0,0 L5,2.5 L0,5 Z" fill="#EF4444"/>
+    <marker id="pb137-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M1,1 L9,5 L1,9 Z" fill="#9CA3AF"/>
+    </marker>
+    <marker id="pb137-ahp" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M1,1 L9,5 L1,9 Z" fill="#7C3AED"/>
     </marker>
   </defs>
 
-  <rect x="1" y="1" width="698" height="338" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+  <rect x=".5" y=".5" width="639" height="449" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Three ways to combine modalities</text>
 
-  <text x="350" y="25" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Multimodal Fusion Strategies</text>
-  <text x="350" y="44" text-anchor="middle" font-size="11" fill="#6B7280">How to combine text, image, and audio signals in recommendations</text>
+  <!-- ============ Row 1: early fusion (y0 = 56) ============ -->
+  <rect x="16" y="56" width="608" height="118" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="32" y="88" font-size="16" font-weight="700" fill="#1E1B4B">Early fusion</text>
+  <text x="32" y="108" font-size="14" font-weight="600" fill="#4C1D95">join, then learn</text>
+  <text x="32" y="138" font-size="14" fill="#4B5563"><tspan font-weight="700" fill="#065F46">+ </tspan>learns combinations</text>
+  <text x="32" y="158" font-size="14" fill="#4B5563"><tspan font-weight="700" fill="#92400E">− </tspan>needs lots of data</text>
 
-  <line x1="233" y1="58" x2="233" y2="320" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4 4"/>
-  <line x1="467" y1="58" x2="467" y2="320" stroke="#E5E7EB" stroke-width="1" stroke-dasharray="4 4"/>
+  <g font-size="15">
+    <rect x="212" y="72" width="112" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <rect x="219" y="80" width="10" height="10" rx="3" fill="#C4B5FD"/>
+    <text x="234" y="90" fill="#1E1B4B">Text</text>
+    <text x="316" y="90" text-anchor="end" font-size="14" fill="#6B7280">768</text>
 
-  <!-- Early Fusion -->
-  <g transform="translate(117 0)">
-    <rect x="-95" y="58" width="190" height="30" rx="7" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="0" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Early Fusion</text>
+    <rect x="212" y="102" width="112" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <rect x="219" y="110" width="10" height="10" rx="3" fill="#8B5CF6"/>
+    <text x="234" y="120" fill="#1E1B4B">Image</text>
+    <text x="316" y="120" text-anchor="end" font-size="14" fill="#6B7280">2048</text>
 
-    <rect x="-83" y="102" width="50" height="27" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="-58" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Text</text>
-
-    <rect x="-25" y="102" width="50" height="27" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="0" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Image</text>
-
-    <rect x="33" y="102" width="50" height="27" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="58" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Audio</text>
-
-    <line x1="-58" y1="129" x2="-14" y2="151" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="0" y1="129" x2="0" y2="151" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="58" y1="129" x2="14" y2="151" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
-
-    <rect x="-47" y="151" width="94" height="28" rx="5" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="0" y="169" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">Concatenate</text>
-
-    <line x1="0" y1="179" x2="0" y2="190" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
-
-    <rect x="-50" y="190" width="100" height="30" rx="6" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="0" y="209" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Shared Model</text>
-
-    <line x1="0" y1="220" x2="0" y2="239" stroke="#0EA5E9" stroke-width="1.5" stroke-linecap="round"/>
-
-    <rect x="-38" y="239" width="76" height="28" rx="5" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="0" y="257" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Output</text>
-
-    <text x="0" y="294" text-anchor="middle" font-size="11" fill="#6B7280">Combine raw features first,</text>
-    <text x="0" y="310" text-anchor="middle" font-size="11" fill="#6B7280">then learn jointly</text>
+    <rect x="212" y="132" width="112" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <rect x="219" y="140" width="10" height="10" rx="3" fill="#5B21B6"/>
+    <text x="234" y="150" fill="#1E1B4B">Audio</text>
+    <text x="316" y="150" text-anchor="end" font-size="14" fill="#6B7280">512</text>
   </g>
-
-  <!-- Late Fusion -->
-  <g transform="translate(350 0)">
-    <rect x="-95" y="58" width="190" height="30" rx="7" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="0" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Late Fusion</text>
-
-    <rect x="-87" y="102" width="54" height="27" rx="5" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="-60" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Text</text>
-    <line x1="-60" y1="129" x2="-60" y2="143" stroke="#10B981" stroke-width="1.5"/>
-
-    <rect x="-27" y="102" width="54" height="27" rx="5" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="0" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Image</text>
-    <line x1="0" y1="129" x2="0" y2="143" stroke="#10B981" stroke-width="1.5"/>
-
-    <rect x="33" y="102" width="54" height="27" rx="5" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="60" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Audio</text>
-    <line x1="60" y1="129" x2="60" y2="143" stroke="#10B981" stroke-width="1.5"/>
-
-    <rect x="-87" y="143" width="54" height="27" rx="5" fill="#FFFFFF" stroke="#10B981"/>
-    <text x="-60" y="161" text-anchor="middle" font-size="11" fill="#1E1B4B">Model 1</text>
-
-    <rect x="-27" y="143" width="54" height="27" rx="5" fill="#FFFFFF" stroke="#10B981"/>
-    <text x="0" y="161" text-anchor="middle" font-size="11" fill="#1E1B4B">Model 2</text>
-
-    <rect x="33" y="143" width="54" height="27" rx="5" fill="#FFFFFF" stroke="#10B981"/>
-    <text x="60" y="161" text-anchor="middle" font-size="11" fill="#1E1B4B">Model 3</text>
-
-    <line x1="-60" y1="170" x2="-13" y2="190" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="0" y1="170" x2="0" y2="190" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="60" y1="170" x2="13" y2="190" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
-
-    <rect x="-41" y="190" width="82" height="28" rx="5" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="0" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#D97706">Combine</text>
-
-    <line x1="0" y1="218" x2="0" y2="239" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
-
-    <rect x="-38" y="239" width="76" height="28" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="0" y="257" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Output</text>
-
-    <text x="0" y="294" text-anchor="middle" font-size="11" fill="#6B7280">Independent models per modality,</text>
-    <text x="0" y="310" text-anchor="middle" font-size="11" fill="#6B7280">combine predictions at the end</text>
+  <g fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round">
+    <path d="M324,85 C336,85 334,115 344,115"/>
+    <path d="M324,115 L344,115"/>
+    <path d="M324,145 C336,145 334,115 344,115"/>
   </g>
+  <!-- concatenated vector: segment widths proportional to 768 / 2048 / 512 -->
+  <text x="401" y="94" text-anchor="middle" font-size="14" font-weight="600" fill="#4C1D95">3328 numbers</text>
+  <rect x="344" y="102" width="26.3" height="26" fill="#C4B5FD"/>
+  <rect x="370.3" y="102" width="70.2" height="26" fill="#8B5CF6"/>
+  <rect x="440.5" y="102" width="17.5" height="26" fill="#5B21B6"/>
+  <rect x="344" y="102" width="114" height="26" rx="3" fill="none" stroke="#7C3AED" stroke-width="2"/>
+  <line x1="460" y1="115" x2="476" y2="115" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb137-ah)"/>
+  <rect x="480" y="102" width="68" height="26" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="514" y="120" text-anchor="middle" font-size="15" fill="#1E1B4B">model</text>
+  <line x1="550" y1="115" x2="564" y2="115" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" marker-end="url(#pb137-ahp)"/>
+  <text x="568" y="120" font-size="15" font-weight="700" fill="#1E1B4B">score</text>
 
-  <!-- Cross-Attention -->
-  <g transform="translate(583 0)">
-    <rect x="-95" y="58" width="190" height="30" rx="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    <text x="0" y="78" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Cross-Attention</text>
+  <!-- ============ Row 2: late fusion (y0 = 186) ============ -->
+  <rect x="16" y="186" width="608" height="118" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="32" y="218" font-size="16" font-weight="700" fill="#1E1B4B">Late fusion</text>
+  <text x="32" y="238" font-size="14" font-weight="600" fill="#4C1D95">learn apart, then join</text>
+  <text x="32" y="268" font-size="14" fill="#4B5563"><tspan font-weight="700" fill="#065F46">+ </tspan>easy to debug, swap</text>
+  <text x="32" y="288" font-size="14" fill="#4B5563"><tspan font-weight="700" fill="#92400E">− </tspan>misses combinations</text>
 
-    <rect x="-83" y="102" width="50" height="27" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="-58" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Text</text>
+  <g font-size="15">
+    <rect x="212" y="202" width="112" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <rect x="219" y="210" width="10" height="10" rx="3" fill="#C4B5FD"/>
+    <text x="234" y="220" fill="#1E1B4B">Text</text>
 
-    <rect x="-25" y="102" width="50" height="27" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="0" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Image</text>
+    <rect x="212" y="232" width="112" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <rect x="219" y="240" width="10" height="10" rx="3" fill="#8B5CF6"/>
+    <text x="234" y="250" fill="#1E1B4B">Image</text>
 
-    <rect x="33" y="102" width="50" height="27" rx="5" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="58" y="120" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Audio</text>
-
-    <line x1="-33" y1="108" x2="-25" y2="108" stroke="#EF4444" stroke-width="1.4" marker-end="url(#arrowRed)"/>
-    <line x1="-25" y1="123" x2="-33" y2="123" stroke="#EF4444" stroke-width="1.4" marker-end="url(#arrowRed)"/>
-    <line x1="25" y1="108" x2="33" y2="108" stroke="#EF4444" stroke-width="1.4" marker-end="url(#arrowRed)"/>
-    <line x1="33" y1="123" x2="25" y2="123" stroke="#EF4444" stroke-width="1.4" marker-end="url(#arrowRed)"/>
-
-    <line x1="-58" y1="129" x2="-34" y2="150" stroke="#7C3AED" stroke-width="1.3" stroke-linecap="round"/>
-    <line x1="0" y1="129" x2="0" y2="150" stroke="#7C3AED" stroke-width="1.3" stroke-linecap="round"/>
-    <line x1="58" y1="129" x2="34" y2="150" stroke="#7C3AED" stroke-width="1.3" stroke-linecap="round"/>
-
-    <rect x="-80" y="150" width="160" height="44" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-    <text x="0" y="168" text-anchor="middle" font-size="11" font-weight="700" fill="#EF4444">Cross-Attention</text>
-    <text x="0" y="184" text-anchor="middle" font-size="11" fill="#6B7280">Q, K, V across modalities</text>
-
-    <line x1="0" y1="194" x2="0" y2="207" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
-
-    <rect x="-68" y="207" width="136" height="28" rx="5" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
-    <text x="0" y="225" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Fused Representation</text>
-
-    <line x1="0" y1="235" x2="0" y2="245" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
-
-    <rect x="-38" y="245" width="76" height="28" rx="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
-    <text x="0" y="263" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Output</text>
-
-    <text x="0" y="294" text-anchor="middle" font-size="11" fill="#6B7280">Modalities attend to each other,</text>
-    <text x="0" y="310" text-anchor="middle" font-size="11" fill="#6B7280">learning cross-modal interactions</text>
+    <rect x="212" y="262" width="112" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <rect x="219" y="270" width="10" height="10" rx="3" fill="#5B21B6"/>
+    <text x="234" y="280" fill="#1E1B4B">Audio</text>
   </g>
+  <g stroke="#9CA3AF" stroke-width="2" stroke-linecap="round">
+    <line x1="326" y1="215" x2="340" y2="215" marker-end="url(#pb137-ah)"/>
+    <line x1="326" y1="245" x2="340" y2="245" marker-end="url(#pb137-ah)"/>
+    <line x1="326" y1="275" x2="340" y2="275" marker-end="url(#pb137-ah)"/>
+  </g>
+  <g font-size="15">
+    <rect x="344" y="202" width="60" height="26" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="374" y="220" text-anchor="middle" fill="#1E1B4B">model</text>
+    <rect x="344" y="232" width="60" height="26" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="374" y="250" text-anchor="middle" fill="#1E1B4B">model</text>
+    <rect x="344" y="262" width="60" height="26" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="374" y="280" text-anchor="middle" fill="#1E1B4B">model</text>
+  </g>
+  <g fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round">
+    <path d="M404,215 C418,215 416,245 428,245"/>
+    <path d="M404,245 L428,245"/>
+    <path d="M404,275 C418,275 416,245 428,245"/>
+  </g>
+  <rect x="430" y="232" width="118" height="26" rx="7" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="489" y="250" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">weighted sum</text>
+  <line x1="550" y1="245" x2="564" y2="245" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" marker-end="url(#pb137-ahp)"/>
+  <text x="568" y="250" font-size="15" font-weight="700" fill="#1E1B4B">score</text>
+
+  <!-- ============ Row 3: cross-attention (y0 = 316) ============ -->
+  <rect x="16" y="316" width="608" height="118" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="32" y="348" font-size="16" font-weight="700" fill="#1E1B4B">Cross-attention</text>
+  <text x="32" y="368" font-size="14" font-weight="600" fill="#4C1D95">look at each other</text>
+  <text x="32" y="398" font-size="14" fill="#4B5563"><tspan font-weight="700" fill="#065F46">+ </tspan>finest combinations</text>
+  <text x="32" y="418" font-size="14" fill="#4B5563"><tspan font-weight="700" fill="#92400E">− </tspan>costly, needs pairs</text>
+
+  <!-- the meeting zone -->
+  <rect x="204" y="324" width="224" height="102" rx="10" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+  <g font-size="15">
+    <rect x="214" y="332" width="76" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="252" y="350" text-anchor="middle" fill="#1E1B4B">“dress”</text>
+    <rect x="214" y="362" width="76" height="26" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <text x="252" y="380" text-anchor="middle" font-weight="700" fill="#4C1D95">“floral”</text>
+    <rect x="214" y="392" width="76" height="26" rx="7" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="252" y="410" text-anchor="middle" fill="#1E1B4B">“midi”</text>
+  </g>
+  <!-- product image: a floral midi dress -->
+  <rect x="350" y="332" width="68" height="86" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <path d="M371,340 Q384,350 397,340 L394,364 L410,406 Q384,413 358,406 L374,364 Z" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5" stroke-linejoin="round"/>
+  <line x1="374" y1="364" x2="394" y2="364" stroke="#6B7280" stroke-width="1.5"/>
+  <g fill="#6B7280">
+    <circle cx="380" cy="378" r="3"/>
+    <circle cx="391" cy="388" r="3"/>
+    <circle cx="376" cy="394" r="3"/>
+    <circle cx="390" cy="399" r="3"/>
+  </g>
+  <circle cx="384" cy="388" r="17" fill="none" stroke="#7C3AED" stroke-width="2" stroke-dasharray="4 3"/>
+  <!-- attention links: thickness = how much the word looks at that part -->
+  <g fill="none" stroke="#7C3AED" stroke-linecap="round">
+    <path d="M290,345 C320,345 340,350 380,350" stroke-width="1.5" stroke-opacity=".55"/>
+    <path d="M290,375 C318,375 340,384 366,386" stroke-width="3.5"/>
+    <path d="M290,405 C318,405 340,407 364,405" stroke-width="1.5" stroke-opacity=".55"/>
+  </g>
+  <g fill="#7C3AED">
+    <circle cx="380" cy="350" r="3"/>
+    <circle cx="364" cy="405" r="3"/>
+  </g>
+  <line x1="430" y1="375" x2="476" y2="375" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb137-ah)"/>
+  <rect x="480" y="362" width="68" height="26" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="514" y="380" text-anchor="middle" font-size="15" fill="#1E1B4B">model</text>
+  <line x1="550" y1="375" x2="564" y2="375" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" marker-end="url(#pb137-ahp)"/>
+  <text x="568" y="380" font-size="15" font-weight="700" fill="#1E1B4B">score</text>
 </svg>

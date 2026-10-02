@@ -1,106 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 520" width="680" height="520" font-family="system-ui, sans-serif">
-  <!-- Title -->
-  <text x="340" y="24" text-anchor="middle" font-size="16" font-weight="bold" fill="#1C1917">The Explore-Exploit Dilemma</text>
-  <text x="340" y="42" text-anchor="middle" font-size="11" fill="#78716C">Should we recommend what we know works, or try something new?</text>
-
-  <!-- Person at crossroads -->
-  <circle cx="340" cy="80" r="10" fill="#1C1917" opacity="0.8"/>
-  <line x1="340" y1="90" x2="340" y2="112" stroke="#1C1917" stroke-width="2"/>
-  <line x1="328" y1="100" x2="352" y2="100" stroke="#1C1917" stroke-width="2"/>
-  <text x="340" y="70" text-anchor="middle" font-size="18" fill="#D97706" font-weight="bold">?</text>
-
-  <!-- Left arrow to Exploit -->
-  <path d="M325,105 C280,120 220,130 170,145" fill="none" stroke="#059669" stroke-width="2.5" opacity="0.5"/>
-  <!-- Right arrow to Explore -->
-  <path d="M355,105 C400,120 460,130 510,145" fill="none" stroke="#D97706" stroke-width="2.5" opacity="0.5"/>
-
-  <!-- EXPLOIT box (left) -->
-  <rect x="30" y="148" width="280" height="100" rx="10" fill="#059669" fill-opacity="0.06" stroke="#059669" stroke-width="1.5"/>
-  <text x="170" y="170" text-anchor="middle" font-size="13" font-weight="bold" fill="#059669">EXPLOIT</text>
-  <text x="170" y="185" text-anchor="middle" font-size="10" fill="#78716C">Recommend what we know works</text>
-  <!-- Known items -->
-  <g transform="translate(50, 198)">
-    <rect x="0" y="0" width="48" height="36" rx="5" fill="#059669" fill-opacity="0.15" stroke="#059669"/>
-    <text x="24" y="15" text-anchor="middle" font-size="9" fill="#059669" font-weight="bold">Item A</text>
-    <text x="24" y="30" text-anchor="middle" font-size="10" fill="#D97706">★★★★</text>
-  </g>
-  <g transform="translate(110, 198)">
-    <rect x="0" y="0" width="48" height="36" rx="5" fill="#059669" fill-opacity="0.15" stroke="#059669"/>
-    <text x="24" y="15" text-anchor="middle" font-size="9" fill="#059669" font-weight="bold">Item B</text>
-    <text x="24" y="30" text-anchor="middle" font-size="10" fill="#D97706">★★★★★</text>
-  </g>
-  <g transform="translate(170, 198)">
-    <rect x="0" y="0" width="48" height="36" rx="5" fill="#059669" fill-opacity="0.15" stroke="#059669"/>
-    <text x="24" y="15" text-anchor="middle" font-size="9" fill="#059669" font-weight="bold">Item C</text>
-    <text x="24" y="30" text-anchor="middle" font-size="10" fill="#D97706">★★★★</text>
-  </g>
-  <text x="170" y="256" text-anchor="middle" font-size="9" fill="#059669" font-style="italic">Safe, but might miss better options</text>
-
-  <!-- EXPLORE box (right) -->
-  <rect x="370" y="148" width="280" height="100" rx="10" fill="#D97706" fill-opacity="0.06" stroke="#D97706" stroke-width="1.5"/>
-  <text x="510" y="170" text-anchor="middle" font-size="13" font-weight="bold" fill="#D97706">EXPLORE</text>
-  <text x="510" y="185" text-anchor="middle" font-size="10" fill="#78716C">Try items with uncertain rewards</text>
-  <!-- Unknown items -->
-  <g transform="translate(390, 198)">
-    <rect x="0" y="0" width="48" height="36" rx="5" fill="#D97706" fill-opacity="0.1" stroke="#D97706" stroke-dasharray="4,3"/>
-    <text x="24" y="15" text-anchor="middle" font-size="9" fill="#D97706" font-weight="bold">Item X</text>
-    <text x="24" y="31" text-anchor="middle" font-size="13" fill="#D97706">?</text>
-  </g>
-  <g transform="translate(450, 198)">
-    <rect x="0" y="0" width="48" height="36" rx="5" fill="#D97706" fill-opacity="0.1" stroke="#D97706" stroke-dasharray="4,3"/>
-    <text x="24" y="15" text-anchor="middle" font-size="9" fill="#D97706" font-weight="bold">Item Y</text>
-    <text x="24" y="31" text-anchor="middle" font-size="13" fill="#D97706">?</text>
-  </g>
-  <g transform="translate(510, 198)">
-    <rect x="0" y="0" width="48" height="36" rx="5" fill="#D97706" fill-opacity="0.1" stroke="#D97706" stroke-dasharray="4,3"/>
-    <text x="24" y="15" text-anchor="middle" font-size="9" fill="#D97706" font-weight="bold">Item Z</text>
-    <text x="24" y="31" text-anchor="middle" font-size="13" fill="#D97706">?</text>
-  </g>
-  <text x="510" y="256" text-anchor="middle" font-size="9" fill="#D97706" font-style="italic">Risky, but might find hidden gems</text>
-
-  <!-- UCB Bar Chart -->
-  <text x="340" y="290" text-anchor="middle" font-size="13" font-weight="bold" fill="#1C1917">How UCB Solves It: reward + uncertainty bonus</text>
-
-  <g transform="translate(80, 305)">
-    <!-- Axis -->
-    <line x1="0" y1="140" x2="500" y2="140" stroke="#E7E5E4" stroke-width="1"/>
-
-    <!-- Item A -->
-    <rect x="20" y="40" width="55" height="100" rx="4" fill="#059669" fill-opacity="0.3" stroke="#059669"/>
-    <rect x="20" y="30" width="55" height="10" rx="2" fill="#059669" fill-opacity="0.1" stroke="#059669" stroke-dasharray="3,2"/>
-    <text x="47" y="155" text-anchor="middle" font-size="9" fill="#1C1917" font-weight="bold">A</text>
-    <text x="47" y="95" text-anchor="middle" font-size="9" fill="#059669">4.0</text>
-
-    <!-- Item B -->
-    <rect x="110" y="25" width="55" height="115" rx="4" fill="#059669" fill-opacity="0.3" stroke="#059669"/>
-    <rect x="110" y="18" width="55" height="7" rx="2" fill="#059669" fill-opacity="0.1" stroke="#059669" stroke-dasharray="3,2"/>
-    <text x="137" y="155" text-anchor="middle" font-size="9" fill="#1C1917" font-weight="bold">B</text>
-    <text x="137" y="85" text-anchor="middle" font-size="9" fill="#059669">4.5</text>
-
-    <!-- Item C: WINNER (medium reward + high uncertainty) -->
-    <rect x="200" y="60" width="55" height="80" rx="4" fill="#D97706" fill-opacity="0.3" stroke="#D97706" stroke-width="2"/>
-    <rect x="200" y="10" width="55" height="50" rx="2" fill="#D97706" fill-opacity="0.12" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,2"/>
-    <text x="227" y="155" text-anchor="middle" font-size="9" fill="#D97706" font-weight="bold">C ★</text>
-    <text x="227" y="100" text-anchor="middle" font-size="9" fill="#D97706">3.2</text>
-    <text x="227" y="0" text-anchor="middle" font-size="8" fill="#D97706" font-weight="bold">Highest UCB!</text>
-
-    <!-- Item D -->
-    <rect x="290" y="80" width="55" height="60" rx="4" fill="#78716C" fill-opacity="0.2" stroke="#78716C"/>
-    <rect x="290" y="60" width="55" height="20" rx="2" fill="#78716C" fill-opacity="0.08" stroke="#78716C" stroke-dasharray="3,2"/>
-    <text x="317" y="155" text-anchor="middle" font-size="9" fill="#1C1917" font-weight="bold">D</text>
-    <text x="317" y="110" text-anchor="middle" font-size="9" fill="#78716C">2.5</text>
-
-    <!-- Item E -->
-    <rect x="380" y="95" width="55" height="45" rx="4" fill="#78716C" fill-opacity="0.2" stroke="#78716C"/>
-    <rect x="380" y="72" width="55" height="23" rx="2" fill="#78716C" fill-opacity="0.08" stroke="#78716C" stroke-dasharray="3,2"/>
-    <text x="407" y="155" text-anchor="middle" font-size="9" fill="#1C1917" font-weight="bold">E</text>
-    <text x="407" y="120" text-anchor="middle" font-size="9" fill="#78716C">1.8</text>
-
-    <!-- Legend -->
-    <rect x="10" y="170" width="12" height="8" rx="2" fill="#059669" fill-opacity="0.3" stroke="#059669" stroke-width="0.5"/>
-    <text x="27" y="178" font-size="9" fill="#78716C">Known reward</text>
-    <rect x="150" y="170" width="12" height="8" rx="2" fill="#D97706" fill-opacity="0.12" stroke="#D97706" stroke-width="0.5" stroke-dasharray="3,2"/>
-    <text x="167" y="178" font-size="9" fill="#78716C">Uncertainty bonus</text>
-    <text x="330" y="178" font-size="9" fill="#D97706" font-weight="600">★ = system picks this one to try</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 532" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb113-title pb113-desc">
+<title id="pb113-title">How UCB balances exploring and exploiting</title>
+<desc id="pb113-desc">Toy example of the UCB rule: each item gets a score equal to its estimated click rate plus an uncertainty bonus that is large when the item has been served only a few times. With 1,000 serves so far, item C has the lowest estimate (3.0%) but has been tried only 20 times, so its bonus of 2.9 gives it the top score of 5.9 and it is served to explore. After 30 more tries its estimate is 3.4% and its bonus has shrunk to 1.9, so its score of 5.3 falls below item A's 5.5 and the system goes back to exploiting A. Few tries earn a big bonus; each try shrinks it until the data decides.</desc>
+<rect x=".5" y=".5" width="639" height="531" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">UCB: estimate + uncertainty bonus</text>
+<text x="320" y="62" text-anchor="middle" font-size="15" fill="#4B5563">score = estimated click rate + c·√(ln t / n) · toy numbers, c = 5</text>
+<rect x="16" y="80" width="608" height="194" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="40" cy="104" r="12" fill="#7C3AED"/><text x="40" y="109" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="62" y="110" font-size="16" font-weight="700" fill="#1E1B4B">Now · t = 1,000 serves</text>
+<rect x="420" y="97" width="18" height="14" rx="3" fill="#7C3AED"/><text x="444" y="109" font-size="14" fill="#4B5563">estimate</text>
+<rect x="516" y="97" width="18" height="14" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/><text x="540" y="109" font-size="14" fill="#4B5563">bonus</text>
+<text x="40" y="147.5" font-size="16" font-weight="700" fill="#1E1B4B">A</text>
+<text x="60" y="147" font-size="14" fill="#4B5563">n = 700</text>
+<rect x="150" y="132" width="240.0" height="20" rx="3" fill="#7C3AED"/>
+<text x="384.0" y="147" text-anchor="end" font-size="14" font-weight="700" fill="#FFFFFF">5.0</text>
+<rect x="391.0" y="132" width="23.0" height="20" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="488" y="147.5" font-size="16" font-weight="700" fill="#1E1B4B">= 5.5</text>
+<text x="40" y="185.5" font-size="16" font-weight="700" fill="#1E1B4B">B</text>
+<text x="60" y="185" font-size="14" fill="#4B5563">n = 280</text>
+<rect x="150" y="170" width="201.6" height="20" rx="3" fill="#7C3AED"/>
+<text x="345.6" y="185" text-anchor="end" font-size="14" font-weight="700" fill="#FFFFFF">4.2</text>
+<rect x="352.6" y="170" width="37.4" height="20" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="488" y="185.5" font-size="16" font-weight="700" fill="#1E1B4B">= 5.0</text>
+<rect x="28" y="201" width="584" height="34" rx="8" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+<text x="40" y="223.5" font-size="16" font-weight="700" fill="#1E1B4B">C</text>
+<text x="60" y="223" font-size="14" fill="#4B5563">n = 20</text>
+<rect x="150" y="208" width="144.0" height="20" rx="3" fill="#7C3AED"/>
+<text x="288.0" y="223" text-anchor="end" font-size="14" font-weight="700" fill="#FFFFFF">3.0</text>
+<rect x="295.0" y="208" width="138.2" height="20" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="363.6" y="223" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">+2.9</text>
+<text x="488" y="223.5" font-size="16" font-weight="700" fill="#92400E">= 5.9</text>
+<rect x="540" y="206" width="64" height="24" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="572" y="223" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">explore</text>
+<line x1="150" y1="244" x2="486" y2="244" stroke="#D1D5DB" stroke-width="1.5"/>
+<line x1="150" y1="244" x2="150" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="150" y="264" text-anchor="middle" font-size="14" fill="#6B7280">0</text>
+<line x1="198" y1="244" x2="198" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="198" y="264" text-anchor="middle" font-size="14" fill="#6B7280">1</text>
+<line x1="246" y1="244" x2="246" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="246" y="264" text-anchor="middle" font-size="14" fill="#6B7280">2</text>
+<line x1="294" y1="244" x2="294" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="294" y="264" text-anchor="middle" font-size="14" fill="#6B7280">3</text>
+<line x1="342" y1="244" x2="342" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="342" y="264" text-anchor="middle" font-size="14" fill="#6B7280">4</text>
+<line x1="390" y1="244" x2="390" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="390" y="264" text-anchor="middle" font-size="14" fill="#6B7280">5</text>
+<line x1="438" y1="244" x2="438" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="438" y="264" text-anchor="middle" font-size="14" fill="#6B7280">6</text>
+<line x1="486" y1="244" x2="486" y2="248" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="486" y="264" text-anchor="middle" font-size="14" fill="#6B7280">7</text>
+<text x="40" y="264" font-size="14" fill="#4B5563">click rate, %</text>
+<rect x="16" y="290" width="608" height="194" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="40" cy="314" r="12" fill="#7C3AED"/><text x="40" y="319" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="62" y="320" font-size="16" font-weight="700" fill="#1E1B4B">After 30 more tries of C · t = 1,030</text>
+<rect x="28" y="335" width="584" height="34" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<text x="40" y="357.5" font-size="16" font-weight="700" fill="#1E1B4B">A</text>
+<text x="60" y="357" font-size="14" fill="#4B5563">n = 700</text>
+<rect x="150" y="342" width="240.0" height="20" rx="3" fill="#7C3AED"/>
+<text x="384.0" y="357" text-anchor="end" font-size="14" font-weight="700" fill="#FFFFFF">5.0</text>
+<rect x="391.0" y="342" width="23.0" height="20" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="488" y="357.5" font-size="16" font-weight="700" fill="#7C3AED">= 5.5</text>
+<rect x="540" y="340" width="64" height="24" rx="12" fill="#7C3AED"/><text x="572" y="357" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">exploit</text>
+<text x="40" y="395.5" font-size="16" font-weight="700" fill="#1E1B4B">B</text>
+<text x="60" y="395" font-size="14" fill="#4B5563">n = 280</text>
+<rect x="150" y="380" width="201.6" height="20" rx="3" fill="#7C3AED"/>
+<text x="345.6" y="395" text-anchor="end" font-size="14" font-weight="700" fill="#FFFFFF">4.2</text>
+<rect x="352.6" y="380" width="37.4" height="20" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="488" y="395.5" font-size="16" font-weight="700" fill="#1E1B4B">= 5.0</text>
+<text x="40" y="433.5" font-size="16" font-weight="700" fill="#1E1B4B">C</text>
+<text x="60" y="433" font-size="14" fill="#4B5563">n = 50</text>
+<rect x="150" y="418" width="163.2" height="20" rx="3" fill="#7C3AED"/>
+<text x="307.2" y="433" text-anchor="end" font-size="14" font-weight="700" fill="#FFFFFF">3.4</text>
+<rect x="314.2" y="418" width="90.2" height="20" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="3 2"/>
+<text x="358.8" y="433" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">+1.9</text>
+<text x="488" y="433.5" font-size="16" font-weight="700" fill="#1E1B4B">= 5.3</text>
+<line x1="150" y1="454" x2="486" y2="454" stroke="#D1D5DB" stroke-width="1.5"/>
+<line x1="150" y1="454" x2="150" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="150" y="474" text-anchor="middle" font-size="14" fill="#6B7280">0</text>
+<line x1="198" y1="454" x2="198" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="198" y="474" text-anchor="middle" font-size="14" fill="#6B7280">1</text>
+<line x1="246" y1="454" x2="246" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="246" y="474" text-anchor="middle" font-size="14" fill="#6B7280">2</text>
+<line x1="294" y1="454" x2="294" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="294" y="474" text-anchor="middle" font-size="14" fill="#6B7280">3</text>
+<line x1="342" y1="454" x2="342" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="342" y="474" text-anchor="middle" font-size="14" fill="#6B7280">4</text>
+<line x1="390" y1="454" x2="390" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="390" y="474" text-anchor="middle" font-size="14" fill="#6B7280">5</text>
+<line x1="438" y1="454" x2="438" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="438" y="474" text-anchor="middle" font-size="14" fill="#6B7280">6</text>
+<line x1="486" y1="454" x2="486" y2="458" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="486" y="474" text-anchor="middle" font-size="14" fill="#6B7280">7</text>
+<text x="40" y="474" font-size="14" fill="#4B5563">click rate, %</text>
+<text x="320" y="514" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Few tries earn a big <tspan fill="#92400E">bonus</tspan>; each try shrinks it until the data decides.</text>
 </svg>

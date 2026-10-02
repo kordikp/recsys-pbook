@@ -1,112 +1,67 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 300" width="650" height="300" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="640" height="420" role="img" aria-labelledby="pb142-title pb142-desc" font-family="system-ui, -apple-system, &apos;Segoe UI&apos;, sans-serif">
+  <title id="pb142-title">User-level CF vs. session-based recommendation</title>
+  <desc id="pb142-desc">User-level collaborative filtering reads months of a known user&apos;s history and learns stable taste (literary fiction); session-based recommendation reads only the few clicks of the current visit and catches what the visitor wants right now (cookbooks), even without a login; for a logged-in user the best system blends both.</desc>
   <defs>
-    <marker id="arrRightGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5 Z" fill="#10B981"/>
-    </marker>
-    <marker id="arrRightAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5 Z" fill="#D97706"/>
-    </marker>
+    <marker id="pb142-head-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 Z" fill="#10B981"/></marker>
+    <marker id="pb142-head-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,1 L9,5 L0,9 Z" fill="#F59E0B"/></marker>
   </defs>
+  <rect x=".5" y=".5" width="639" height="419" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Two memories: who you are, what you want now</text>
 
-  <rect x="0.75" y="0.75" width="648.5" height="298.5" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="1.5"/>
-
-  <text x="325" y="28" text-anchor="middle" font-size="17" font-weight="700" fill="#1E1B4B">User-Level CF vs. Session-Based Recommendations</text>
-
-  <line x1="325" y1="48" x2="325" y2="274" stroke="#E5E7EB" stroke-width="1.5" stroke-dasharray="5,4"/>
-  <text x="325" y="291" text-anchor="middle" font-size="11" fill="#6B7280">vs.</text>
-
-  <g transform="translate(20,55)">
-    <text x="145" y="0" text-anchor="middle" font-size="14" font-weight="700" fill="#10B981">User-Level CF</text>
-
-    <circle cx="30" cy="42" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <circle cx="30" cy="37" r="5" fill="#10B981"/>
-    <path d="M20,48 Q30,55 40,48" fill="none" stroke="#10B981" stroke-width="1.5"/>
-
-    <line x1="55" y1="42" x2="260" y2="42" stroke="#10B981" stroke-width="2"/>
-    <circle cx="68" cy="42" r="5" fill="#D1FAE5" stroke="#10B981"/>
-    <circle cx="86" cy="42" r="5" fill="#D1FAE5" stroke="#10B981"/>
-    <circle cx="104" cy="42" r="5" fill="#D1FAE5" stroke="#10B981"/>
-    <circle cx="122" cy="42" r="5" fill="#D1FAE5" stroke="#10B981"/>
-    <circle cx="140" cy="42" r="5" fill="#D1FAE5" stroke="#10B981"/>
-    <circle cx="158" cy="42" r="5" fill="#D1FAE5" stroke="#10B981"/>
-    <circle cx="176" cy="42" r="5" fill="#10B981" fill-opacity="0.45" stroke="#10B981"/>
-    <circle cx="194" cy="42" r="5" fill="#10B981" fill-opacity="0.6" stroke="#10B981"/>
-    <circle cx="212" cy="42" r="5" fill="#10B981" fill-opacity="0.75" stroke="#10B981"/>
-    <circle cx="230" cy="42" r="5" fill="#10B981" fill-opacity="0.9" stroke="#10B981"/>
-    <circle cx="248" cy="42" r="5" fill="#10B981" stroke="#10B981"/>
-
-    <text x="68" y="64" text-anchor="middle" font-size="11" fill="#6B7280">months ago</text>
-    <text x="248" y="64" text-anchor="middle" font-size="11" fill="#6B7280">today</text>
-
-    <line x1="150" y1="74" x2="150" y2="96" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrRightGreen)"/>
-
-    <rect x="65" y="100" width="170" height="44" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="150" y="117" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Stable Profile</text>
-    <text x="150" y="135" text-anchor="middle" font-size="11" fill="#6B7280">Long-term preferences</text>
-
-    <g transform="translate(30,155)">
-      <circle cx="5" cy="6" r="3" fill="#10B981"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Deep personalization</text>
-    </g>
-    <g transform="translate(30,172)">
-      <circle cx="5" cy="6" r="3" fill="#10B981"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Requires login / user ID</text>
-    </g>
-    <g transform="translate(30,189)">
-      <circle cx="5" cy="6" r="3" fill="#10B981"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Slow to adapt to changes</text>
-    </g>
-    <g transform="translate(30,206)">
-      <circle cx="5" cy="6" r="3" fill="#10B981"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Rich similarity signals</text>
-    </g>
+  <!-- left: user-level CF -->
+  <rect x="24" y="60" width="284" height="210" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="166" y="88" text-anchor="middle" font-size="17" font-weight="700" fill="#065F46">User-level CF</text>
+  <text x="166" y="109" text-anchor="middle" font-size="14" fill="#4B5563">months of a known user&apos;s history</text>
+  <g>
+    <rect x="49" y="138" width="10" height="30" rx="2" fill="#D1FAE5" stroke="#065F46" stroke-width="1"/>
+    <rect x="62" y="132" width="10" height="36" rx="2" fill="#10B981" stroke="#065F46" stroke-width="1"/>
+    <rect x="75" y="140" width="10" height="28" rx="2" fill="#A7F3D0" stroke="#065F46" stroke-width="1"/>
+    <rect x="88" y="128" width="10" height="40" rx="2" fill="#6EE7B7" stroke="#065F46" stroke-width="1"/>
+    <rect x="101" y="135" width="10" height="33" rx="2" fill="#D1FAE5" stroke="#065F46" stroke-width="1"/>
+    <rect x="114" y="142" width="10" height="26" rx="2" fill="#10B981" stroke="#065F46" stroke-width="1"/>
+    <rect x="127" y="130" width="10" height="38" rx="2" fill="#A7F3D0" stroke="#065F46" stroke-width="1"/>
+    <rect x="140" y="137" width="10" height="31" rx="2" fill="#6EE7B7" stroke="#065F46" stroke-width="1"/>
+    <rect x="153" y="133" width="10" height="35" rx="2" fill="#D1FAE5" stroke="#065F46" stroke-width="1"/>
+    <rect x="166" y="139" width="10" height="29" rx="2" fill="#10B981" stroke="#065F46" stroke-width="1"/>
+    <rect x="179" y="129" width="10" height="39" rx="2" fill="#A7F3D0" stroke="#065F46" stroke-width="1"/>
+    <rect x="192" y="141" width="10" height="27" rx="2" fill="#6EE7B7" stroke="#065F46" stroke-width="1"/>
+    <rect x="205" y="134" width="10" height="34" rx="2" fill="#D1FAE5" stroke="#065F46" stroke-width="1"/>
+    <rect x="218" y="131" width="10" height="37" rx="2" fill="#10B981" stroke="#065F46" stroke-width="1"/>
+    <rect x="231" y="138" width="10" height="30" rx="2" fill="#A7F3D0" stroke="#065F46" stroke-width="1"/>
+    <rect x="244" y="132" width="10" height="36" rx="2" fill="#6EE7B7" stroke="#065F46" stroke-width="1"/>
+    <rect x="257" y="140" width="10" height="28" rx="2" fill="#D1FAE5" stroke="#065F46" stroke-width="1"/>
+    <rect x="270" y="135" width="10" height="33" rx="2" fill="#10B981" stroke="#065F46" stroke-width="1"/>
+    <line x1="42" y1="169" x2="290" y2="169" stroke="#D1D5DB" stroke-width="2" stroke-linecap="round"/>
   </g>
+  <text x="44" y="188" font-size="14" fill="#6B7280">months ago</text>
+  <text x="288" y="188" text-anchor="end" font-size="14" fill="#6B7280">today</text>
+  <rect x="50" y="200" width="232" height="34" rx="17" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="166" y="222" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">📚 Taste: literary fiction</text>
+  <text x="166" y="256" text-anchor="middle" font-size="14" fill="#4B5563">🔑 needs login · slow to notice change</text>
 
-  <g transform="translate(345,55)">
-    <text x="145" y="0" text-anchor="middle" font-size="14" font-weight="700" fill="#D97706">Session-Based</text>
+  <!-- right: session-based -->
+  <rect x="332" y="60" width="284" height="210" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="474" y="88" text-anchor="middle" font-size="17" font-weight="700" fill="#92400E">Session-based</text>
+  <text x="474" y="109" text-anchor="middle" font-size="14" fill="#4B5563">only the clicks of this visit</text>
+    <rect x="360" y="124" width="56" height="44" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="388" y="153" text-anchor="middle" font-size="20">🍳</text>
+    <rect x="446" y="124" width="56" height="44" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="474" y="153" text-anchor="middle" font-size="20">🍳</text>
+    <rect x="532" y="124" width="56" height="44" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="560" y="153" text-anchor="middle" font-size="20">🍳</text>
+    <line x1="420" y1="146" x2="440" y2="146" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb142-head-amber)"/>
+    <line x1="506" y1="146" x2="526" y2="146" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb142-head-amber)"/>
+  <text x="474" y="188" text-anchor="middle" font-size="14" fill="#6B7280">click 1 → 2 → 3, just now</text>
+  <rect x="358" y="200" width="232" height="34" rx="17" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="474" y="222" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">🍳 Right now: cookbooks</text>
+  <text x="474" y="256" text-anchor="middle" font-size="14" fill="#4B5563">👤 no login · but only a few clicks</text>
 
-    <rect x="20" y="20" width="250" height="46" rx="6" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <!-- blend -->
+  <line x1="166" y1="276" x2="238" y2="300" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb142-head-green)"/>
+  <line x1="474" y1="276" x2="402" y2="300" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb142-head-amber)"/>
+  <rect x="150" y="304" width="340" height="62" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="320" y="327" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Logged in? Blend both:</text>
+  <text x="320" y="352" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">cookbooks with literary flair</text>
 
-    <line x1="55" y1="42" x2="230" y2="42" stroke="#D97706" stroke-width="2"/>
-
-    <rect x="65" y="30" width="28" height="24" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="79" y="47" text-anchor="middle" font-size="11" fill="#1E1B4B">1</text>
-    <line x1="95" y1="42" x2="109" y2="42" stroke="#D97706" stroke-width="1.5" marker-end="url(#arrRightAmber)"/>
-
-    <rect x="115" y="30" width="28" height="24" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="129" y="47" text-anchor="middle" font-size="11" fill="#1E1B4B">2</text>
-    <line x1="145" y1="42" x2="157" y2="42" stroke="#D97706" stroke-width="1.5" marker-end="url(#arrRightAmber)"/>
-
-    <rect x="163" y="30" width="28" height="24" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="177" y="47" text-anchor="middle" font-size="11" fill="#1E1B4B">3</text>
-    <line x1="193" y1="42" x2="203" y2="42" stroke="#D97706" stroke-width="1.5" marker-end="url(#arrRightAmber)"/>
-
-    <rect x="207" y="30" width="28" height="24" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="221" y="47" text-anchor="middle" font-size="11" fill="#1E1B4B">4</text>
-
-    <text x="145" y="81" text-anchor="middle" font-size="11" fill="#6B7280">current session (minutes)</text>
-
-    <line x1="150" y1="85" x2="150" y2="96" stroke="#D97706" stroke-width="1.5" marker-end="url(#arrRightAmber)"/>
-
-    <rect x="65" y="100" width="170" height="44" rx="8" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-    <text x="150" y="117" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Current Intent</text>
-    <text x="150" y="135" text-anchor="middle" font-size="11" fill="#6B7280">What they want right now</text>
-
-    <g transform="translate(30,155)">
-      <circle cx="5" cy="6" r="3" fill="#D97706"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Immediate responsiveness</text>
-    </g>
-    <g transform="translate(30,172)">
-      <circle cx="5" cy="6" r="3" fill="#D97706"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Works for anonymous users</text>
-    </g>
-    <g transform="translate(30,189)">
-      <circle cx="5" cy="6" r="3" fill="#D97706"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Captures shifting intent</text>
-    </g>
-    <g transform="translate(30,206)">
-      <circle cx="5" cy="6" r="3" fill="#D97706"/>
-      <text x="14" y="10" font-size="11" fill="#1E1B4B">Sparse data per session</text>
-    </g>
-  </g>
+  <text x="320" y="398" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">History knows who you are; the session knows what you want now.</text>
 </svg>

@@ -62,7 +62,7 @@ Before Graph Neural Networks, researchers adapted techniques from network scienc
 
 For recommendation, random walks on the user-item bipartite graph naturally alternate between user and item nodes. A walk like User A -> Item 1 -> User B -> Item 2 -> User C captures the collaborative filtering intuition: items consumed by similar users get embedded nearby.
 
-![Bipartite user-item graph with message passing](/images/diagram-graph-nn.svg)
+![A toy user-item graph unrolled from user U2: layer 1 brings in U2's items, layer 2 the users who share them, layer 3 their other items I4 and I5, so after three layers U2's embedding reflects items it never touched](/images/diagram-graph-nn.svg)
 
 ## Graph Neural Networks: Message Passing on the Interaction Graph
 

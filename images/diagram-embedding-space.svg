@@ -1,100 +1,90 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 480" width="680" height="480" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="arrowOrange2" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6" fill="#D97706"/>
-    </marker>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 456" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb120-title pb120-desc">
+<title id="pb120-title">Similar songs sit close together in an embedding space</title>
+<desc id="pb120-desc">An embedding turns every song into a vector, a point in a learned space where distance means similarity. A calm jazz ballad, an acoustic folk track and an ambient electronic track sit close together despite different genre tags, while an upbeat jazz swing track sits far away despite sharing the jazz tag. Recommending means finding the points nearest to you: here the three songs inside the circle.</desc>
+<rect x=".5" y=".5" width="639" height="455" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <rect x="1" y="1" width="678" height="478" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+<text x="320" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Similar songs sit close together</text>
+<text x="320" y="62" text-anchor="middle" font-size="14" fill="#6B7280">Embedding space · 2 of many dimensions, named for illustration</text>
 
-  <text x="340" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1E1B4B">Items in Embedding Space</text>
-  <text x="340" y="48" text-anchor="middle" font-size="12" fill="#6B7280">Similar items cluster together; recommendations = finding nearest neighbors</text>
+<!-- plot -->
+<g>
+  <line x1="48" y1="372" x2="428" y2="372" stroke="#D1D5DB" stroke-width="1.5"/>
+  <line x1="48" y1="84" x2="48" y2="372" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="238" y="396" text-anchor="middle" font-size="14" fill="#4B5563">energy: calm → intense</text>
+  <text x="30" y="228" text-anchor="middle" font-size="14" fill="#4B5563" transform="rotate(-90 30 228)">mood: sad → euphoric</text>
 
-  <g transform="translate(60,70)">
-    <line x1="0" y1="310" x2="560" y2="310" stroke="#E5E7EB" stroke-width="1.5"/>
-    <line x1="0" y1="0" x2="0" y2="310" stroke="#E5E7EB" stroke-width="1.5"/>
-    <text x="280" y="340" text-anchor="middle" font-size="11" fill="#6B7280">Dimension 1</text>
-    <text x="-20" y="155" text-anchor="middle" font-size="11" fill="#6B7280" transform="rotate(-90,-20,155)">Dimension 2</text>
-
-    <!-- Sci-Fi cluster -->
-    <g>
-      <ellipse cx="130" cy="75" rx="85" ry="65" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <g fill="#7C3AED">
-        <circle cx="100" cy="60" r="6"/>
-        <circle cx="140" cy="50" r="6"/>
-        <circle cx="120" cy="90" r="6"/>
-        <circle cx="155" cy="75" r="6"/>
-        <circle cx="90" cy="80" r="6"/>
-        <circle cx="135" cy="105" r="6"/>
-        <circle cx="165" cy="55" r="6"/>
-        <circle cx="110" cy="45" r="6"/>
-      </g>
-      <text x="130" y="20" text-anchor="middle" font-size="12" font-weight="bold" fill="#7C3AED">Sci-Fi Movies</text>
-    </g>
-
-    <!-- Cooking cluster -->
-    <g>
-      <ellipse cx="420" cy="140" rx="80" ry="60" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <g fill="#10B981">
-        <circle cx="400" cy="125" r="6"/>
-        <circle cx="430" cy="145" r="6"/>
-        <circle cx="445" cy="120" r="6"/>
-        <circle cx="410" cy="160" r="6"/>
-        <circle cx="460" cy="150" r="6"/>
-        <circle cx="390" cy="145" r="6"/>
-        <circle cx="440" cy="170" r="6"/>
-      </g>
-      <text x="420" y="90" text-anchor="middle" font-size="12" font-weight="bold" fill="#10B981">Cooking Shows</text>
-    </g>
-
-    <!-- Sports cluster -->
-    <g>
-      <ellipse cx="280" cy="245" rx="90" ry="50" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" stroke-dasharray="4,3"/>
-      <g fill="#D97706">
-        <circle cx="260" cy="235" r="6"/>
-        <circle cx="290" cy="250" r="6"/>
-        <circle cx="310" cy="230" r="6"/>
-        <circle cx="245" cy="255" r="6"/>
-        <circle cx="275" cy="270" r="6"/>
-        <circle cx="320" cy="260" r="6"/>
-        <circle cx="300" cy="215" r="6"/>
-        <circle cx="255" cy="220" r="6"/>
-      </g>
-      <text x="280" y="298" text-anchor="middle" font-size="12" font-weight="bold" fill="#D97706">Sports Content</text>
-    </g>
-
-    <!-- User preference -->
-    <polygon points="105,75 109,86 121,86 112,93 115,105 105,98 95,105 98,93 89,86 101,86" fill="#D97706" stroke="#D97706" stroke-width="1"/>
-    <line x1="115" y1="85" x2="150" y2="98" stroke="#D97706" stroke-width="2" marker-end="url(#arrowOrange2)"/>
-    <text x="75" y="72" font-size="11" fill="#D97706" font-weight="bold">Your taste</text>
-
-    <!-- New item -->
-    <g transform="translate(175,65)">
-      <circle cx="0" cy="0" r="8" fill="#7C3AED"/>
-      <rect x="8" y="-15" width="42" height="26" rx="5" fill="#7C3AED"/>
-      <text x="29" y="3" text-anchor="middle" font-size="11" fill="#FFFFFF" font-weight="bold">NEW</text>
-    </g>
-    <line x1="175" y1="65" x2="155" y2="75" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="3,2"/>
+  <!-- many other songs -->
+  <g fill="#D1D5DB">
+    <circle cx="92" cy="128" r="4"/>
+    <circle cx="168" cy="150" r="4"/>
+    <circle cx="232" cy="112" r="4"/>
+    <circle cx="214" cy="178" r="4"/>
+    <circle cx="262" cy="292" r="4"/>
+    <circle cx="318" cy="338" r="4"/>
+    <circle cx="410" cy="246" r="4"/>
+    <circle cx="336" cy="262" r="4"/>
+    <circle cx="300" cy="96" r="4"/>
   </g>
 
-  <!-- Explanatory callout positioned clear of every cluster label -->
-  <g>
-    <rect x="350" y="72" width="280" height="34" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
-    <circle cx="367" cy="89" r="5" fill="#7C3AED"/>
-    <text x="380" y="93" font-size="11" font-weight="bold" fill="#1E1B4B">Items close together = behaviorally similar</text>
+
+  <!-- neighbourhood of you -->
+  <circle cx="150" cy="274" r="90" fill="#EDE9FE" fill-opacity="0.6" stroke="#7C3AED" stroke-width="2" stroke-dasharray="6 4"/>
+
+  <!-- same tag, far apart -->
+  <line x1="196" y1="290" x2="366" y2="124" stroke="#F59E0B" stroke-width="2" stroke-dasharray="5 4" stroke-linecap="round"/>
+
+  <!-- far songs -->
+  <g fill="#9CA3AF">
+    <circle cx="366" cy="124" r="7"/>
+    <circle cx="404" cy="166" r="7"/>
+    <circle cx="282" cy="168" r="7"/>
+    <circle cx="384" cy="318" r="7"/>
   </g>
+  <text x="366" y="108" text-anchor="middle" font-size="15" fill="#1E1B4B">jazz swing</text>
+  <text x="404" y="150" text-anchor="middle" font-size="15" fill="#1E1B4B">dance</text>
+  <text x="282" y="152" text-anchor="middle" font-size="15" fill="#1E1B4B">pop</text>
+  <text x="384" y="302" text-anchor="middle" font-size="15" fill="#1E1B4B">metal</text>
 
-  <!-- Legend, separated from the Dimension 1 label -->
-  <g transform="translate(80,438)">
-    <polygon points="0,-8 2,-2 9,-2 4,2 6,9 0,5 -6,9 -4,2 -9,-2 -2,-2" fill="#D97706"/>
-    <text x="20" y="4" font-size="11" fill="#6B7280">User preference</text>
-
-    <line x1="130" y1="0" x2="160" y2="0" stroke="#D97706" stroke-width="2" marker-end="url(#arrowOrange2)"/>
-    <text x="168" y="4" font-size="11" fill="#6B7280">Recommendation direction</text>
-
-    <circle cx="335" cy="0" r="5" fill="#7C3AED"/>
-    <text x="345" y="4" font-size="11" fill="#6B7280">New item (placed by content)</text>
+  <!-- near songs = recommended -->
+  <g fill="#7C3AED">
+    <circle cx="196" cy="290" r="7"/>
+    <circle cx="100" cy="292" r="7"/>
+    <circle cx="124" cy="224" r="7"/>
   </g>
+  <text x="186" y="320" text-anchor="middle" font-size="15" font-weight="600" fill="#4C1D95">jazz ballad</text>
+  <text x="100" y="318" text-anchor="middle" font-size="15" font-weight="600" fill="#4C1D95">folk</text>
+  <text x="136" y="229" font-size="15" font-weight="600" fill="#4C1D95">ambient</text>
 
-  <text x="340" y="469" text-anchor="middle" font-size="11" fill="#6B7280">New items can be placed in embedding space based on their content features alone</text>
+  <!-- you -->
+  <circle cx="152" cy="262" r="6.5" fill="#10B981"/>
+  <path d="M140,282 a12,12 0 0 1 24,0 z" fill="#10B981"/>
+  <text x="152" y="300" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">you</text>
+
+  <!-- callouts -->
+  <rect x="220" y="194" width="186" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="313" y="212" text-anchor="middle" font-size="14" font-weight="600" fill="#92400E">same tag “jazz”, far apart</text>
+  <text x="236" y="362" font-size="15" font-weight="700" fill="#4C1D95">3 nearest = recommended</text>
+</g>
+
+<!-- vector card -->
+<g>
+  <rect x="448" y="80" width="176" height="308" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="462" y="108" font-size="15" font-weight="700" fill="#1E1B4B">Each dot is a vector</text>
+  <text x="462" y="130" font-size="14" fill="#6B7280">(energy, mood, …)</text>
+
+  <rect x="456" y="144" width="160" height="104" rx="8" fill="#EDE9FE"/>
+  <text x="466" y="168" font-size="14" fill="#1E1B4B">jazz ballad</text>
+  <text x="466" y="190" font-size="15" font-weight="600" fill="#4C1D95" font-family="ui-monospace, Menlo, Consolas, monospace">[0.4, 0.3, …]</text>
+  <text x="466" y="216" font-size="14" fill="#1E1B4B">ambient</text>
+  <text x="466" y="238" font-size="15" font-weight="600" fill="#4C1D95" font-family="ui-monospace, Menlo, Consolas, monospace">[0.2, 0.5, …]</text>
+
+  <text x="466" y="276" font-size="14" fill="#1E1B4B">jazz swing</text>
+  <text x="466" y="298" font-size="15" font-weight="600" fill="#4B5563" font-family="ui-monospace, Menlo, Consolas, monospace">[0.8, 0.9, …]</text>
+
+  <line x1="462" y1="318" x2="610" y2="318" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="462" y="342" font-size="14" fill="#4B5563">Learned from what</text>
+  <text x="462" y="362" font-size="14" fill="#4B5563">people play together</text>
+</g>
+
+<text x="320" y="434" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Recommend the nearest points: distance decides, not the genre tag.</text>
 </svg>

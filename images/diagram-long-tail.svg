@@ -1,80 +1,35 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="600" height="300" font-family="system-ui, sans-serif">
-  <rect x="1" y="1" width="598" height="298" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
-
-  <!-- Title -->
-  <text x="300" y="22" text-anchor="middle" font-size="16" font-weight="bold" fill="#1E1B4B">The Long-Tail Distribution</text>
-  <text x="300" y="40" text-anchor="middle" font-size="11" fill="#6B7280">Most interactions concentrate on a few popular items</text>
-
-  <!-- Axes -->
-  <line x1="70" y1="50" x2="70" y2="220" stroke="#1E1B4B" stroke-width="1.5"/>
-  <line x1="70" y1="220" x2="560" y2="220" stroke="#1E1B4B" stroke-width="1.5"/>
-
-  <text x="30" y="135" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B" transform="rotate(-90, 30, 135)">Interactions</text>
-  <text x="315" y="246" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Items (ranked by popularity)</text>
-
-  <!-- Y-axis ticks -->
-  <line x1="65" y1="70" x2="70" y2="70" stroke="#1E1B4B" stroke-width="1"/>
-  <line x1="65" y1="120" x2="70" y2="120" stroke="#1E1B4B" stroke-width="1"/>
-  <line x1="65" y1="170" x2="70" y2="170" stroke="#1E1B4B" stroke-width="1"/>
-
-  <!-- Head boundary -->
-  <line x1="168" y1="50" x2="168" y2="225" stroke="#1E1B4B" stroke-width="1" stroke-dasharray="4,3" opacity="0.4"/>
-  <text x="168" y="237" text-anchor="middle" font-size="11" fill="#6B7280">20%</text>
-
-  <defs>
-    <clipPath id="headClip">
-      <rect x="70" y="50" width="98" height="170"/>
-    </clipPath>
-    <clipPath id="tailClip">
-      <rect x="168" y="50" width="392" height="170"/>
-    </clipPath>
-  </defs>
-
-  <!-- Head shading -->
-  <path d="M70,220 L70,62 C85,62 95,65 105,72 C120,82 135,105 148,135 C158,158 163,180 168,200 L168,220 Z"
-        fill="#10B981" fill-opacity="0.22"/>
-
-  <!-- Tail shading -->
-  <path d="M168,220 L168,200 C175,207 190,212 220,215 C260,217 320,218 400,219 C450,219 520,219.5 560,219.8 L560,220 Z"
-        fill="#D97706" fill-opacity="0.2"/>
-
-  <!-- Main curve -->
-  <path d="M70,62 C85,62 95,65 105,72 C120,82 135,105 148,135 C158,158 163,180 168,200 C175,207 190,212 220,215 C260,217 320,218 400,219 C450,219 520,219.5 560,219.8"
-        fill="none" stroke="#1E1B4B" stroke-width="2.5"/>
-
-  <!-- Head label, positioned clear of the curve -->
-  <g transform="translate(75, 143)">
-    <rect x="0" y="0" width="72" height="72" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="36" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#10B981">Head</text>
-    <text x="36" y="29" text-anchor="middle" font-size="11" fill="#1E1B4B">20% of</text>
-    <text x="36" y="41" text-anchor="middle" font-size="11" fill="#1E1B4B">items</text>
-    <text x="36" y="55" text-anchor="middle" font-size="11" fill="#1E1B4B">80% of</text>
-    <text x="36" y="67" text-anchor="middle" font-size="11" fill="#1E1B4B">interactions</text>
-  </g>
-
-  <!-- Tail label -->
-  <g transform="translate(290, 158)">
-    <rect x="0" y="0" width="128" height="52" rx="6" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-    <text x="64" y="15" text-anchor="middle" font-size="11" font-weight="bold" fill="#D97706">Long Tail</text>
-    <text x="64" y="31" text-anchor="middle" font-size="11" fill="#1E1B4B">80% of items</text>
-    <text x="64" y="45" text-anchor="middle" font-size="11" fill="#1E1B4B">20% of interactions</text>
-  </g>
-
-  <!-- Hidden-value insight -->
-  <g transform="translate(430, 98)">
-    <rect x="0" y="0" width="155" height="56" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-    <text x="77.5" y="17" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Hidden value</text>
-    <text x="77.5" y="34" text-anchor="middle" font-size="11" fill="#1E1B4B">Niche items with highest</text>
-    <text x="77.5" y="49" text-anchor="middle" font-size="11" fill="#1E1B4B">per-user satisfaction</text>
-  </g>
-
-  <!-- Arrow pointing to tail -->
-  <g transform="translate(430, 158)">
-    <path d="M55,0 Q35,20 20,35 Q10,45 0,55" fill="none" stroke="#EF4444" stroke-width="1.5"/>
-    <polygon points="-3,52 0,60 3,52" fill="#EF4444" transform="rotate(-15, 0, 55)"/>
-  </g>
-
-  <!-- Bottom insight -->
-  <rect x="85" y="260" width="430" height="30" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-  <text x="300" y="280" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Good recommenders help users discover the tail, not just echo the head.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 404" role="img" aria-labelledby="pb132-title pb132-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb132-title">The long tail: a few hits, a huge unseen rest</title>
+<desc id="pb132-desc">A toy bookstore with a million titles ranked by sales: 100 bestsellers take half of all sales, a few thousand titles take most of the rest, and 990,000 titles in the warehouse barely sell. Tail titles have too little data, so recommenders rarely show them.</desc>
+<style>
+.pb132-head{fill:#7C3AED}.pb132-mid{fill:#C4B5FD}.pb132-tail{fill:#B8BEC7}
+</style>
+<rect x=".5" y=".5" width="639" height="403" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">A few hits, a very long tail</text>
+<text x="320" y="62" text-anchor="middle" font-size="15" fill="#6B7280">Toy bookstore: a million titles, ranked by sales</text>
+<line x1="52" y1="96" x2="52" y2="300" stroke="#D1D5DB" stroke-width="1.5"/>
+<line x1="52" y1="300" x2="604" y2="300" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="0" y="0" transform="translate(36 198) rotate(-90)" text-anchor="middle" font-size="14" fill="#4B5563">Sales per title</text>
+<rect class="pb132-head" x="60" y="110.0" width="9" height="190.0" rx="2"/><rect class="pb132-head" x="71" y="186.7" width="9" height="113.3" rx="2"/><rect class="pb132-head" x="82" y="220.2" width="9" height="79.8" rx="2"/><rect class="pb132-head" x="93" y="238.8" width="9" height="61.2" rx="2"/><rect class="pb132-head" x="104" y="250.6" width="9" height="49.4" rx="2"/><rect class="pb132-head" x="115" y="258.6" width="9" height="41.4" rx="2"/><rect class="pb132-head" x="126" y="264.5" width="9" height="35.5" rx="2"/><rect class="pb132-head" x="137" y="269.0" width="9" height="31.0" rx="2"/><rect class="pb132-mid" x="156" y="272.5" width="7" height="27.5" rx="1.5"/><rect class="pb132-mid" x="165.5" y="275.3" width="7" height="24.7" rx="1.5"/><rect class="pb132-mid" x="175" y="277.7" width="7" height="22.3" rx="1.5"/><rect class="pb132-mid" x="184.5" y="279.6" width="7" height="20.4" rx="1.5"/><rect class="pb132-mid" x="194" y="281.2" width="7" height="18.8" rx="1.5"/><rect class="pb132-mid" x="203.5" y="282.6" width="7" height="17.4" rx="1.5"/><rect class="pb132-mid" x="213" y="283.8" width="7" height="16.2" rx="1.5"/><rect class="pb132-mid" x="222.5" y="284.9" width="7" height="15.1" rx="1.5"/><rect class="pb132-mid" x="232" y="285.8" width="7" height="14.2" rx="1.5"/><rect class="pb132-mid" x="241.5" y="286.7" width="7" height="13.3" rx="1.5"/><rect class="pb132-mid" x="251" y="287.4" width="7" height="12.6" rx="1.5"/><rect class="pb132-mid" x="260.5" y="288.1" width="7" height="11.9" rx="1.5"/><rect class="pb132-mid" x="270" y="288.7" width="7" height="11.3" rx="1.5"/><rect class="pb132-mid" x="279.5" y="289.2" width="7" height="10.8" rx="1.5"/><rect class="pb132-tail" x="314" y="292.0" width="5" height="8.0" rx="1"/><rect class="pb132-tail" x="322.5" y="292.1" width="5" height="7.9" rx="1"/><rect class="pb132-tail" x="331" y="292.3" width="5" height="7.7" rx="1"/><rect class="pb132-tail" x="339.5" y="292.4" width="5" height="7.6" rx="1"/><rect class="pb132-tail" x="348" y="292.6" width="5" height="7.4" rx="1"/><rect class="pb132-tail" x="356.5" y="292.7" width="5" height="7.3" rx="1"/><rect class="pb132-tail" x="365" y="292.8" width="5" height="7.2" rx="1"/><rect class="pb132-tail" x="373.5" y="293.0" width="5" height="7.0" rx="1"/><rect class="pb132-tail" x="382" y="293.1" width="5" height="6.9" rx="1"/><rect class="pb132-tail" x="390.5" y="293.3" width="5" height="6.7" rx="1"/><rect class="pb132-tail" x="399" y="293.4" width="5" height="6.6" rx="1"/><rect class="pb132-tail" x="407.5" y="293.5" width="5" height="6.5" rx="1"/><rect class="pb132-tail" x="416" y="293.7" width="5" height="6.3" rx="1"/><rect class="pb132-tail" x="424.5" y="293.8" width="5" height="6.2" rx="1"/><rect class="pb132-tail" x="433" y="294.0" width="5" height="6.0" rx="1"/><rect class="pb132-tail" x="441.5" y="294.1" width="5" height="5.9" rx="1"/><rect class="pb132-tail" x="450" y="294.2" width="5" height="5.8" rx="1"/><rect class="pb132-tail" x="458.5" y="294.4" width="5" height="5.6" rx="1"/><rect class="pb132-tail" x="467" y="294.5" width="5" height="5.5" rx="1"/><rect class="pb132-tail" x="475.5" y="294.7" width="5" height="5.3" rx="1"/><rect class="pb132-tail" x="484" y="294.8" width="5" height="5.2" rx="1"/><rect class="pb132-tail" x="492.5" y="294.9" width="5" height="5.1" rx="1"/><rect class="pb132-tail" x="501" y="295.1" width="5" height="4.9" rx="1"/><rect class="pb132-tail" x="509.5" y="295.2" width="5" height="4.8" rx="1"/><rect class="pb132-tail" x="518" y="295.4" width="5" height="4.6" rx="1"/><rect class="pb132-tail" x="526.5" y="295.5" width="5" height="4.5" rx="1"/><rect class="pb132-tail" x="535" y="295.6" width="5" height="4.4" rx="1"/><rect class="pb132-tail" x="543.5" y="295.8" width="5" height="4.2" rx="1"/><rect class="pb132-tail" x="552" y="295.9" width="5" height="4.1" rx="1"/><rect class="pb132-tail" x="560.5" y="296.1" width="5" height="3.9" rx="1"/><rect class="pb132-tail" x="569" y="296.2" width="5" height="3.8" rx="1"/><rect class="pb132-tail" x="577.5" y="296.3" width="5" height="3.7" rx="1"/><rect class="pb132-tail" x="586" y="296.5" width="5" height="3.5" rx="1"/>
+<g stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"><line x1="297" y1="306" x2="303" y2="294"/><line x1="303" y1="306" x2="309" y2="294"/></g>
+<rect x="162" y="96" width="186" height="74" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="255" y="122" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">🔥 Front tables</text>
+<text x="255" y="155" text-anchor="middle" font-size="22" font-weight="800" fill="#4C1D95">½ of all sales</text>
+<text x="222" y="230" text-anchor="middle" font-size="15" font-weight="700" fill="#4B5563">Main shelves</text>
+<text x="222" y="249" text-anchor="middle" font-size="14" fill="#4B5563">most of the rest</text>
+<rect x="368" y="176" width="232" height="80" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="484" y="201" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">📦 Warehouse</text>
+<text x="484" y="222" text-anchor="middle" font-size="14" fill="#1E1B4B">Technically available.</text>
+<text x="484" y="241" text-anchor="middle" font-size="14" fill="#1E1B4B">Effectively invisible.</text>
+<line x1="484" y1="258" x2="484" y2="286" stroke="#F59E0B" stroke-width="2" stroke-dasharray="3 4" stroke-linecap="round"/>
+<g stroke-width="2" stroke-linecap="round" fill="none">
+<path d="M60 312 V318 H147 V312" stroke="#7C3AED"/>
+<path d="M156 312 V318 H287 V312" stroke="#9CA3AF"/>
+<path d="M314 312 V318 H596 V312" stroke="#F59E0B"/>
+</g>
+<text x="104" y="338" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">100 titles</text>
+<text x="222" y="338" text-anchor="middle" font-size="14" font-weight="700" fill="#4B5563">a few thousand</text>
+<text x="455" y="338" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">990,000 titles →</text>
+<line x1="40" y1="356" x2="600" y2="356" stroke="#E5E7EB" stroke-width="1"/>
+<text x="320" y="383" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Tail titles have too little data, so recommenders <tspan fill="#7C3AED">rarely show them</tspan>.</text>
 </svg>

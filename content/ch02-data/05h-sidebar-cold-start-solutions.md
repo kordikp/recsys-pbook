@@ -23,7 +23,7 @@ carriers: prose|table|image
 
 The cold-start problem splits into two distinct challenges, each with its own set of solutions. A new user arrives with no interaction history -- the system knows nothing about their preferences. A new item enters the catalog with zero interactions -- collaborative filtering has no signal to work with. The solutions for each case overlap in philosophy but differ substantially in mechanism.
 
-![Cold start solutions radiating from the new user/item problem](/images/diagram-cold-start.svg)
+![Cold start as a hand-off: for a new user or a new item, first an educated guess (popularity, survey, content features, beeFormer), then exploration (bandits, exploration slots), until collaborative filtering takes over](/images/diagram-cold-start.svg)
 
 ## New User Cold Start
 
