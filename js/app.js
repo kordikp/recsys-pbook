@@ -787,14 +787,14 @@ class PBook {
           oninput="(app._steerWish=app._steerWish||{})['${conceptId}']=this.value"
           placeholder="Optional note: anything specific? (e.g. 'use a running-shop example')">
         <button class="steer-chip steer-gen" onclick="app.generateVariant('${blockId}','${conceptId}')">&#10024; Generate exactly this (~30 s) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-        ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
+        ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.7rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.7rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
     } else if (canGen) {
       h += `<span>No telling covers this yet — turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> to generate it.</span>`;
     } else {
       h += `<span>No telling covers this yet — your interest was recorded and helps editors decide what to write next. &#128203;</span>`;
     }
     h += '</div>';
-    h += `<div style="font-size:.68rem;color:var(--text-3);margin-top:.35em">These are tellings of one concept. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a> (+10 XP).</div>`;
+    h += `<div style="font-size:.7rem;color:var(--text-3);margin-top:.35em">These are tellings of one concept. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a> (+10 XP).</div>`;
     panel.innerHTML = h;
   }
 
@@ -3185,7 +3185,7 @@ class PBook {
         <div style="display:flex;flex-wrap:wrap;gap:2px" id="quizMap">
           ${allCards.map(c => `<div style="width:${cellW}px;height:${cellW}px;border-radius:2px;background:${c.color};cursor:pointer;transition:transform .1s" title="${this.escHtml(c.label + ': ' + c.q)}" onclick="app.${c.label === 'Unread' ? "openBlock('" + c.id + "')" : "showBlockRecall('" + c.id + "')"}"></div>`).join('')}
         </div>
-        <div style="display:flex;gap:.8em;font-size:.58rem;color:var(--text-3);margin-top:.4em">
+        <div style="display:flex;gap:.8em;font-size:.7rem;color:var(--text-3);margin-top:.4em">
           ${hardCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#dc2626;vertical-align:middle"></span> ${hardCards.length} struggling</span>` : ''}
           ${newCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);vertical-align:middle"></span> ${newCards.length} new</span>` : ''}
           ${medCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--warn);vertical-align:middle"></span> ${medCards.length} learning</span>` : ''}
@@ -3248,7 +3248,7 @@ class PBook {
         return `<div class="card" style="border-top:3px solid var(--border);flex:0 0 240px;opacity:.7;cursor:pointer" onclick="app.openBlock('${b.meta.id}')">
           <div style="font-size:.6rem;font-weight:700;color:var(--text-3);margin-bottom:.2em">\u{1F512} Not read yet</div>
           <div class="card-title" style="font-size:.82rem;line-height:1.3">${b.meta.title}</div>
-          <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${b.meta._chapterNum} · Read to unlock card</div>
+          <div style="font-size:.7rem;color:var(--text-3);margin-top:.2em">Ch${b.meta._chapterNum} · Read to unlock card</div>
         </div>`;
       });
       h += this.shelf(`\u{26AA} Haven't read yet (${unreadBlocks.length})`, uCards);
@@ -3282,7 +3282,7 @@ class PBook {
         ${upcoming.map(([id, c]) => {
           const b = this.findBlock(id);
           const title = b?.meta?.title || id;
-          return `<div style="display:flex;align-items:center;gap:.4em;font-size:.68rem;padding:.2em 0;color:var(--text-2)">
+          return `<div style="display:flex;align-items:center;gap:.4em;font-size:.7rem;padding:.2em 0;color:var(--text-2)">
             <span style="color:var(--warn);font-weight:600;min-width:3.5em">${this._timeUntil(c.nextReview)}</span>
             <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${this.escHtml(title)}</span>
           </div>`;
@@ -3332,10 +3332,10 @@ class PBook {
     return `<div class="card" style="border-top:3px solid ${color};flex:0 0 260px;cursor:pointer" onclick="var a=document.getElementById('qp-${uid}');if(a)a.style.display=a.style.display==='none'?'block':'none'">
       <div style="display:flex;justify-content:space-between;margin-bottom:.2em">
         <span style="font-size:.6rem;font-weight:700;color:${color}">${label}</span>
-        <span style="font-size:.55rem;color:${isDue ? 'var(--warn)' : 'var(--text-3)'};font-weight:${isDue ? '600' : '400'}">${card.reps ? card.reps + 'x · ' : ''}${timeLabel}</span>
+        <span style="font-size:.7rem;color:${isDue ? 'var(--warn)' : 'var(--text-3)'};font-weight:${isDue ? '600' : '400'}">${card.reps ? card.reps + 'x · ' : ''}${timeLabel}</span>
       </div>
       <div class="card-title" style="font-size:.82rem;line-height:1.3">${quiz.q}</div>
-      <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum}: ${block.meta.title}</div>
+      <div style="font-size:.7rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum}: ${block.meta.title}</div>
       <div id="qp-${uid}" style="display:none;margin-top:.4em;padding-top:.4em;border-top:1px solid var(--border)">
         <div style="font-size:.78rem;color:var(--text-2);line-height:1.4;margin-bottom:.4em">${quiz.a}</div>
         <div class="recall-buttons" onclick="event.stopPropagation()">
@@ -3344,7 +3344,7 @@ class PBook {
           <button class="recall-btn recall-good" onclick="app.scoreRecall('${blockId}',2,this)">Good</button>
           <button class="recall-btn recall-easy" onclick="app.scoreRecall('${blockId}',3,this)">Easy!</button>
         </div>
-        <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="display:block;font-size:.62rem;color:var(--accent);margin-top:.3em;text-align:center">Re-read this section &rarr;</a>
+        <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="display:block;font-size:.7rem;color:var(--accent);margin-top:.3em;text-align:center">Re-read this section &rarr;</a>
       </div>
     </div>`;
   }
@@ -3762,25 +3762,25 @@ class PBook {
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em ${isFocus ? '.35em' : '0'};border-bottom:1px dashed var(--border)${isFocus ? ';background:color-mix(in srgb, #6366F1 7%, transparent);border-radius:8px' : ''}">
           <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
           <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || n.def || '')}">${this.escHtml(n.title)}</a>
-          ${hasSpine ? '' : '<span style="font-size:.62rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
+          ${hasSpine ? '' : '<span style="font-size:.7rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
           ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:#EC4899;color:#EC4899" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">✍️ draft in progress</button>` : ''}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling of this concept (author studio with an AI coach)" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
         </div>`;
       });
       if (ghosts.length) {
-        h += `<div style="margin-top:.45em;font-size:.68rem;color:#0EA5E9;font-weight:700">🌱 Where to go deeper — not written yet, vote:</div>`;
+        h += `<div style="margin-top:.45em;font-size:.7rem;color:#0EA5E9;font-weight:700">🌱 Where to go deeper — not written yet, vote:</div>`;
         ghosts.forEach(g => {
           const voted = g.slug in votes;
           h += `<div style="display:flex;align-items:flex-start;gap:.5em;padding:.22em 0">
             <span style="font-size:.72rem;width:1.1em;text-align:center">🌱</span>
             <div style="flex:1 1 auto"><span style="font-size:.78rem;font-weight:600;color:var(--text-2)">${this.escHtml(g.title)}</span>
-              <span style="font-size:.68rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
+              <span style="font-size:.7rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
             <span id="ghost-${g.slug}-cmap" style="flex-shrink:0;display:flex;gap:.25em">${voted
-              ? `<span style="font-size:.68rem;color:#0EA5E9">${votes[g.slug] > 0 ? '✓ want' : '✓ passed'}</span>`
-              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">👍 want</button>
-                 <button class="steer-chip" style="font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">no</button>`}
-              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.62rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">✍️ write it</button>
-              <button class="steer-chip" style="border-color:#7C3AED;color:#7C3AED;font-size:.62rem;padding:.06em .4em" title="Creative workshop with the coach: align → create → certificate with your contribution" onclick="app.startWorkshop('${g.slug}')">🎓 workshop</button></span>
+              ? `<span style="font-size:.7rem;color:#0EA5E9">${votes[g.slug] > 0 ? '✓ want' : '✓ passed'}</span>`
+              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">👍 want</button>
+                 <button class="steer-chip" style="font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">no</button>`}
+              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.7rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">✍️ write it</button>
+              <button class="steer-chip" style="border-color:#7C3AED;color:#7C3AED;font-size:.7rem;padding:.06em .4em" title="Creative workshop with the coach: align → create → certificate with your contribution" onclick="app.startWorkshop('${g.slug}')">🎓 workshop</button></span>
           </div>`;
         });
       }
@@ -3855,7 +3855,7 @@ class PBook {
     try { if ((JSON.parse(localStorage.getItem('pbook-prereq-dismissed') || '[]')).includes(block.concept)) return ''; } catch (e) {}
     const unmet = this._unmetPrereqs(block.concept);
     if (!unmet.length) return '';
-    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.68rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
+    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.7rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
     return `<div class="prereq-banner" style="display:flex;flex-wrap:wrap;gap:.35em;align-items:center;margin:0 0 .6em;padding:.45em .6em;border:1.5px dashed #0EA5E9;border-radius:9px;background:color-mix(in srgb, #0EA5E9 6%, transparent);font-size:.72rem">
       <b>🧩 To make sense of this, first read:</b>${chips}
       <a href="#" style="margin-left:auto;color:var(--text-3)" onclick="event.preventDefault();try{const k='pbook-prereq-dismissed';const a=JSON.parse(localStorage.getItem(k)||'[]');a.push('${block.concept}');localStorage.setItem(k,JSON.stringify(a));}catch(e){};this.closest('.prereq-banner').remove()">read anyway</a>
@@ -3870,10 +3870,10 @@ class PBook {
     if (!rels.length) return '';
     const chips = rels.map(r => {
       const anchorId = this._nodeAnchor(r);
-      return `<button class="steer-chip" style="font-size:.66rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
+      return `<button class="steer-chip" style="font-size:.7rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
     }).join('');
     return `<div class="concept-links" style="display:flex;flex-wrap:wrap;gap:.3em;align-items:center;margin:.5em 0;padding:.45em .55em;border:1px dashed var(--border);border-radius:9px">
-      <span style="font-size:.66rem;font-weight:700;color:var(--text-3)">🧭 Where next:</span>${chips}</div>`;
+      <span style="font-size:.7rem;font-weight:700;color:var(--text-3)">🧭 Where next:</span>${chips}</div>`;
   }
 
   async renderMap() {
@@ -3960,7 +3960,7 @@ class PBook {
     html += `<div class="map-legend">
       <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#059669"/></svg> Read</span>
       <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#E7E5E4"/></svg> Unread</span>
-      <span class="ml-item"><span style="font-size:.65rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.1em .3em;border-radius:3px">CORE</span> Must read</span>
+      <span class="ml-item"><span style="font-size:.7rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.1em .3em;border-radius:3px">CORE</span> Must read</span>
       <span class="ml-item"><span style="font-size:.65rem">\u{1F3AE}</span> Mini-game</span>
     </div>`;
 
@@ -4147,7 +4147,7 @@ class PBook {
           `<button class="steer-chip ${d === dim ? 'dim-active' : ''}" onclick="app.setCovDim('${d}')">${l}</button>`).join('')}
         </div>
         <p style="font-size:.78rem;margin-bottom:.3em">Every article of the living book — <b>${totalArticles}</b> rows; per value:${values.map(v => ` ${icons[v] || v} <b>${coveringCount[v]}</b>`).join(' ·')}. ● marks the values an article's subspace covers — one article can serve several${myVal && myVal !== this._facetDefault(dim) ? `; your setting <b>${icons[myVal] || ''} ${myVal}</b> is highlighted` : ''}. Click a row to read; to request or generate a missing telling, use the 🎛 panel inside any section. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a>.</p>
-        <p style="font-size:.68rem;color:var(--text-3)">● color = state: <span style="color:#7C3AED">■</span> core · <span style="color:#10B981">■</span> edited · <span style="color:#D97706">■</span> reader content (✨ yours / ⚡ shared)</p>
+        <p style="font-size:.7rem;color:var(--text-3)">● color = state: <span style="color:#7C3AED">■</span> core · <span style="color:#10B981">■</span> edited · <span style="color:#D97706">■</span> reader content (✨ yours / ⚡ shared)</p>
       </div>
       <div id="covInspector"></div>
       ${sections}`;
@@ -4185,7 +4185,7 @@ class PBook {
           ${this._facetChips(b.meta)}
           <button class="steer-chip" onclick="app.openTelling('${b.meta.id}')">Read</button>
         </div>`).join('');
-      h += `<div style="font-size:.66rem;color:var(--text-3);margin-top:.4em">Chips show each telling's full covered subspace — one telling can serve several cells of this map.</div>`;
+      h += `<div style="font-size:.7rem;color:var(--text-3);margin-top:.4em">Chips show each telling's full covered subspace — one telling can serve several cells of this map.</div>`;
     }
     h += '</div>';
     box.innerHTML = h;
@@ -4237,7 +4237,7 @@ class PBook {
         <div class="map-dot ${isRead ? 'done' : ''}"></div>
         <span class="map-block-title">${b.meta.title}</span>
         ${isCore ? '<span class="map-core-badge">CORE</span>' : ''}
-        <span style="font-size:.65rem;color:var(--text-3)">Ch${b.meta._chapterNum}</span>
+        <span style="font-size:.7rem;color:var(--text-3)">Ch${b.meta._chapterNum}</span>
         <button class="saved-remove-btn" onclick="event.stopPropagation();app.unsaveBlock('${b.meta.id}')" title="Remove from saved">&times;</button>
       </div>`;
     });
@@ -4295,7 +4295,7 @@ class PBook {
         <div style="display:flex;align-items:center;gap:.4em">
           <div class="map-dot ${this.user.readBlocks.has(n.blockId) ? 'done' : ''}"></div>
           <span class="map-block-title">${title}</span>
-          <span style="font-size:.65rem;color:var(--text-3)">Ch${ch}</span>
+          <span style="font-size:.7rem;color:var(--text-3)">Ch${ch}</span>
           <button class="saved-remove-btn" onclick="event.stopPropagation();app.deleteUserNote('${n.blockId}',${n.idx});app.renderMap()" title="Delete note">&times;</button>
         </div>
         ${quoteHtml}${textHtml}
@@ -4376,12 +4376,12 @@ class PBook {
     html += `</svg></div>`;
 
     // Legend
-    html += `<div style="display:flex;flex-wrap:wrap;gap:.3em .5em;padding:.4em .2em;font-size:.65rem;align-items:center">`;
+    html += `<div style="display:flex;flex-wrap:wrap;gap:.3em .5em;padding:.4em .2em;font-size:.7rem;align-items:center">`;
     mapData.chapters.forEach(ch => {
       html += `<span class="vmap-ch-pill" data-ch="${ch.id}" onclick="app._vmapHighlightCh('${ch.id}')" style="display:inline-flex;align-items:center;gap:.2em;cursor:pointer;padding:.1em .4em;border-radius:10px;white-space:nowrap;border:1.5px solid transparent"><span style="width:7px;height:7px;border-radius:50%;background:${ch.color};display:inline-block;flex-shrink:0"></span>${ch.title}</span>`;
     });
     html += `</div>`;
-    html += `<div style="font-size:.65rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
+    html += `<div style="font-size:.7rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
       <span>Progress: ${readCount}/${mapData.items.length} read · ${coreRead}/${coreCount} core</span>
       <span>◉ core · <span style="color:#10B981">◉</span> read · <span style="color:#f59e0b">◉</span> saved</span>
     </div></div>`;
@@ -4607,7 +4607,7 @@ class PBook {
       const sharedList = priv.filter(b => b.meta.state === 'community');
       const shareRows = sharedList.slice(0, 5).map(b =>
         `<div style="font-size:.72rem;padding:.1em 0">⚡ ${this.escHtml(b.meta.title || b.meta.id)}
-          <button class="steer-chip" style="font-size:.62rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
+          <button class="steer-chip" style="font-size:.7rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
       h += (shareRows ? `<div style="margin:.3em 0">${shareRows}</div>` : '');
       h += `<div class="dna-contrib">🌱 <b>Your living-book contributions:</b>
         ${generated ? `${generated} generated telling${generated > 1 ? 's' : ''} · ` : ''}${remixes ? `${remixes} remix${remixes > 1 ? 'es' : ''} · ` : ''}${shared ? `<b>${shared} shared with readers</b> · ` : ''}${!priv.length ? 'none yet — select any passage and hit ✨, or find a gap on the ' : 'see the '}<a href="#" onclick="app.switchView('map');app.setMapMode('coverage');return false">🌱 map</a></div>`;
@@ -4624,7 +4624,7 @@ class PBook {
       { facet: 'lens', label: '🌐 World', words: FACET_WORDS.lens },
       { facet: 'carriers', label: '🧩 Blocks', words: { prose: 'text', table: 'tables', diagram: 'diagrams', image: 'images', animation: 'animations', formula: 'formulas', code: 'code' } },
     ];
-    h += '<div style="margin-top:.6em;padding-top:.5em;border-top:1px solid var(--border)"><b style="font-size:.8rem">🎛 Format preferences</b><p style="font-size:.68rem;color:var(--text-3);margin:.15em 0 .4em">How should the book tell things to you? Explicit picks always beat the learned model.</p>';
+    h += '<div style="margin-top:.6em;padding-top:.5em;border-top:1px solid var(--border)"><b style="font-size:.8rem">🎛 Format preferences</b><p style="font-size:.7rem;color:var(--text-3);margin:.15em 0 .4em">How should the book tell things to you? Explicit picks always beat the learned model.</p>';
     PREF_DIMS.forEach(({ facet, label, words }) => {
       const vals = CONFIG.facets[facet].values.filter(v => facet !== 'lens' || v !== 'generic');
       const pinned = u.steerPrefs[facet] || '';
@@ -4750,7 +4750,7 @@ class PBook {
           ${medC ? `<div style="width:${Math.round(medC/totalRecall*100)}%;background:var(--warn)"></div>` : ''}
           ${easyC ? `<div style="width:${Math.round(easyC/totalRecall*100)}%;background:var(--product)"></div>` : ''}
         </div>`;
-        h += `<div style="display:flex;gap:.6em;font-size:.68rem;color:var(--text-3);margin-bottom:.5em">`;
+        h += `<div style="display:flex;gap:.6em;font-size:.7rem;color:var(--text-3);margin-bottom:.5em">`;
         if (hardC) h += `<span style="color:#dc2626">${hardC} struggling</span>`;
         if (medC) h += `<span style="color:var(--warn)">${medC} learning</span>`;
         if (easyC) h += `<span style="color:var(--product)">${easyC} confident</span>`;
@@ -4762,7 +4762,7 @@ class PBook {
           .sort((a, b) => a[1].nextReview - b[1].nextReview)
           .slice(0, 3);
         if (upcoming.length) {
-          h += `<div style="font-size:.68rem;color:var(--text-3);margin-bottom:.5em">Next reviews: ${upcoming.map(([id, c]) => {
+          h += `<div style="font-size:.7rem;color:var(--text-3);margin-bottom:.5em">Next reviews: ${upcoming.map(([id, c]) => {
             const title = this.findBlock(id)?.meta?.title || id;
             return `<span style="color:var(--warn)">${this._timeUntil(c.nextReview)}</span> ${this.escHtml(title)}`;
           }).join(' · ')}</div>`;
@@ -4791,8 +4791,8 @@ class PBook {
       drafts.slice(0, 12).forEach(d => {
         const when = d.st.ts ? new Date(d.st.ts).toLocaleString('en-GB', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.3em 0;border-bottom:1px dashed var(--border)">
-          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b>${d.st.sourceTitle && d.st.sourceTitle !== d.title ? ` <span style="color:var(--text-3);font-size:.68rem">(${this.escHtml(d.st.sourceTitle.slice(0, 34))})</span>` : ''} <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
-          <button class="steer-chip" style="font-size:.68rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
+          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b>${d.st.sourceTitle && d.st.sourceTitle !== d.title ? ` <span style="color:var(--text-3);font-size:.7rem">(${this.escHtml(d.st.sourceTitle.slice(0, 34))})</span>` : ''} <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
         </div>`;
       });
       h += '</div>';
@@ -4926,7 +4926,7 @@ class PBook {
       ${etBar('🚩 issues reported', et.flags, 5)}
       ${etBar('⚡ tellings shared', et.shared, 5)}
       ${etBar('📖 adopted into book', et.adopted, 1)}
-      <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
+      <p style="font-size:.7rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
       ${et.adopted >= 1 ? `<button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('My telling made it into the book', 'My explanation was adopted into the living book “How Recommendations Work” 📖', location.origin + '/#' + (Object.values(app.privateBlocks).find(b => (b.meta.sharedAt || b.meta.state === 'community') && app.findBlock(b.meta.id))?.meta.id || ''))">📣 Brag about your adoption</button>` : ''}
     </div>
 
@@ -4970,7 +4970,7 @@ class PBook {
     h += '<button class="btn-ghost" style="border:1px solid var(--border);border-radius:6px;padding:.4em 1em;font-size:.78rem;color:var(--text-2)" onclick="app.toggleSettings()">&#9881; Settings &amp; data</button>';
     h += '</div>';
 
-    h += `<div style=\"text-align:center;font-size:.62rem;color:var(--text-3);margin:.8em 0\">p-book ${this._appVersion()}</div>`;
+    h += `<div style=\"text-align:center;font-size:.7rem;color:var(--text-3);margin:.8em 0\">p-book ${this._appVersion()}</div>`;
     el.innerHTML = h;
     this._foldProfile(el);   // wallet, XP rules, editor track, invites: one tap away, not in the way
   }
@@ -6026,8 +6026,8 @@ class PBook {
       <div style="max-width:780px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">✍️ Author studio</div>
-          <span id="stEarn" style="font-size:.64rem;color:#15803D;margin-left:auto;text-align:right"></span>
-          <span id="stSaved" style="font-size:.66rem;color:var(--text-3,#999)"></span>
+          <span id="stEarn" style="font-size:.7rem;color:#15803D;margin-left:auto;text-align:right"></span>
+          <span id="stSaved" style="font-size:.7rem;color:var(--text-3,#999)"></span>
           <button onclick="app._studioClose()" title="Close — everything autosaves" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
         <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">Write straight into the page: click a paragraph to edit it, select and drag images. Everything saves continuously.</div>
@@ -6055,7 +6055,7 @@ class PBook {
               <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
-        <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
+        <div style="font-size:.7rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
         <textarea id="stDraft" style="display:none">${this.escHtml(cleanText)}</textarea>
       </div>
     </div>`;
@@ -6095,8 +6095,8 @@ class PBook {
       this._stBackupOffer = false;
       const rb = document.createElement('div');
       rb.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;font-size:.75rem;border:1.5px dashed #7C3AED;border-radius:9px;padding:.4em .6em;margin:.4em 0;color:var(--text-2,#666);background:color-mix(in srgb, #7C3AED 5%, transparent)';
-      rb.innerHTML = `Your previous work-in-progress for this concept is safe. <button class="steer-chip" style="font-size:.68rem;border-color:#7C3AED;color:#7C3AED" onclick="this.closest('div').remove();app._studioRestoreBackup()">↩ Go back to it</button>
-        <button class="steer-chip" style="font-size:.68rem" onclick="this.closest('div').remove()">✕</button>`;
+      rb.innerHTML = `Your previous work-in-progress for this concept is safe. <button class="steer-chip" style="font-size:.7rem;border-color:#7C3AED;color:#7C3AED" onclick="this.closest('div').remove();app._studioRestoreBackup()">↩ Go back to it</button>
+        <button class="steer-chip" style="font-size:.7rem" onclick="this.closest('div').remove()">✕</button>`;
       document.getElementById('stCanvas')?.before(rb);
     }
     this.rc.logEvent('author_open', { slug });
@@ -6132,7 +6132,7 @@ class PBook {
       h = h.replace(this._studioMarkerRx(), (_, k, w) => {
         const mi = mkIdx++;
         return `<span style="display:inline-block;max-width:100%;border:1.5px dashed #7C3AED;border-radius:10px;padding:.35em .6em;margin:.15em .1em;color:#7C3AED;font-size:.78rem;vertical-align:middle">🎨 ${/anim/i.test(k) ? 'ANIMATION' : 'DIAGRAM'}: ${this.escHtml(w.trim())}
-          <button class="steer-chip" style="font-size:.64rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">🎨 Draw this one · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button></span>`;
+          <button class="steer-chip" style="font-size:.7rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">🎨 Draw this one · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button></span>`;
       });
       inner += `<div class="st-block" data-bi="${i}" title="click to edit this paragraph" style="border-radius:8px;padding:.15em .35em;margin:0 -.35em;cursor:text">${h}</div>`;
     });
@@ -6147,9 +6147,9 @@ class PBook {
       fig.style.touchAction = 'none';
       const bar = document.createElement('div');
       bar.style.cssText = 'display:flex;gap:.4em;align-items:center;margin:.25em 0 .1em;flex-wrap:wrap';
-      bar.innerHTML = `<button class="steer-chip" style="font-size:.66rem" onclick="app.studioEditImage('${aid}')">✨ Edit (AI) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-        <button class="steer-chip" style="font-size:.66rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
-        <span style="font-size:.62rem;color:var(--text-3,#999)">✏️ click an element = select & drag · double-click a label = rewrite</span>`;
+      bar.innerHTML = `<button class="steer-chip" style="font-size:.7rem" onclick="app.studioEditImage('${aid}')">✨ Edit (AI) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
+        <button class="steer-chip" style="font-size:.7rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
+        <span style="font-size:.7rem;color:var(--text-3,#999)">✏️ click an element = select & drag · double-click a label = rewrite</span>`;
       fig.appendChild(bar);
     });
     if (!pane._svgEditBound) {
@@ -6481,8 +6481,8 @@ class PBook {
       out.innerHTML = items.length ? `<div style="border:1.5px solid var(--border,#ddd);border-radius:8px;padding:.4em .6em;font-size:.78rem;background:var(--card,#fff)">
         ${items.map(it => `<div style="display:flex;gap:.5em;align-items:center;padding:.25em 0;border-bottom:1px dashed var(--border,#eee)">
           <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">${this.escHtml(it.author || '')} · ${it.n} slides · rev ${it.rev}</span></span>
-          <a class="steer-chip" style="font-size:.68rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}">▶ SlAIdy</a>
-          <button class="steer-chip" style="font-size:.68rem" onclick="app.slaidyCloudLoad('${this.escHtml(it.id)}')">📥 to studio</button>
+          <a class="steer-chip" style="font-size:.7rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}">▶ SlAIdy</a>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app.slaidyCloudLoad('${this.escHtml(it.id)}')">📥 to studio</button>
         </div>`).join('')}</div>`
         : `<div style="font-size:.76rem;color:var(--text-3);padding:.3em 0">No deck under <code>${this.escHtml(group)}</code> yet.</div>`;
     } catch (e) {
@@ -6606,7 +6606,7 @@ class PBook {
         <button class="steer-chip" style="font-size:.72rem" onclick="document.getElementById('stSlaidy').remove()">✕</button>
       </div>
       <div id="stSlaidyOut"></div>
-      <span style="color:var(--text-2,#666);font-size:.72rem">Layout is chosen adaptively (figure+text → two columns, short → centered); fine-tune with <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code>, <code>&lt;!-- gap --&gt;</code> — invisible in the book. 🎬 reveal steps play on their own on a slide. Manual file: <button class="steer-chip" style="font-size:.66rem" onclick="app.slaidyExportDraft()">⬇</button> <label class="steer-chip" style="font-size:.66rem;cursor:pointer">⬆<input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label></span>
+      <span style="color:var(--text-2,#666);font-size:.72rem">Layout is chosen adaptively (figure+text → two columns, short → centered); fine-tune with <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code>, <code>&lt;!-- gap --&gt;</code> — invisible in the book. 🎬 reveal steps play on their own on a slide. Manual file: <button class="steer-chip" style="font-size:.7rem" onclick="app.slaidyExportDraft()">⬇</button> <label class="steer-chip" style="font-size:.7rem;cursor:pointer">⬆<input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label></span>
     </div>`;
   }
 
@@ -6659,11 +6659,11 @@ class PBook {
         </div>
         <div id="wsBriefBox" style="margin-top:.6em">${ws.brief ? `<div style="border:1.5px solid #10B981;border-radius:12px;padding:.6em .8em;background:var(--card,#fff)">
           <b>🤝 Agreed:</b> <span id="wsBriefTxt" style="font-size:.85rem">${this.escHtml(ws.brief)}</span>
-          <button class="steer-chip" style="font-size:.66rem" onclick="app._wsBriefEdit()">✏️ edit</button>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app._wsBriefEdit()">✏️ edit</button>
           <div style="margin-top:.5em"><button class="note-save" style="background:#10B981" onclick="app._wsToStudio()">Let’s create →</button></div>
         </div>` : `<div style="font-size:.72rem;color:var(--text-3)">Keep aligning — the brief appears once you genuinely contribute.
           <div style="margin-top:.4em"><button class="steer-chip" style="font-size:.7rem" onclick="app._wsToStudio()">✍️ Not waiting — I will create on my own (free) →</button>
-          <span style="color:var(--text-3);font-size:.66rem">writing earns ⚡, the coach can join later</span></div></div>`}</div>`;
+          <span style="color:var(--text-3);font-size:.7rem">writing earns ⚡, the coach can join later</span></div></div>`}</div>`;
     } else if (ws.step === 'reflect') {
       const st = this._authorState()[ws.slug] || {};
       const stats = st.stats || { manual: 0, ai: 0, coach: 0 };
@@ -6852,13 +6852,13 @@ class PBook {
     const KIND = { works: '👍', question: '❓', idea: '💡' };
     out.innerHTML = `<div style="border:1.5px solid var(--accent);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
       <b>💬 Feedback (${comments.length})</b>
-      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbStatus('${shareId}')">↻ refresh</button>
-      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbUnshare('${shareId}')">🗑 unshare</button>
-      <button class="steer-chip" style="font-size:.66rem" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioFbStatus('${shareId}')">↻ refresh</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioFbUnshare('${shareId}')">🗑 unshare</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
       <div style="font-size:.7rem;margin:.35em 0;display:flex;gap:.4em;align-items:center;flex-wrap:wrap"><span style="color:var(--text-2)">Link created — send it to whoever you like:</span>
-        <code style="font-size:.66rem;background:var(--bg,#f6f6f2);padding:.1em .4em;border-radius:6px;word-break:break-all">${link}</code>
-        <button class="steer-chip" style="font-size:.64rem" onclick="navigator.clipboard&&navigator.clipboard.writeText('${link}')">Copy</button></div>
-      ${comments.length ? comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0;font-size:.78rem">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')
+        <code style="font-size:.7rem;background:var(--bg,#f6f6f2);padding:.1em .4em;border-radius:6px;word-break:break-all">${link}</code>
+        <button class="steer-chip" style="font-size:.7rem" onclick="navigator.clipboard&&navigator.clipboard.writeText('${link}')">Copy</button></div>
+      ${comments.length ? comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0;font-size:.78rem">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.7rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')
         : `<div style="color:var(--text-3);font-size:.72rem">No comments yet — the link is active.</div>`}
     </div>`;
   }
@@ -6913,7 +6913,7 @@ class PBook {
       if (!box || !tells.length) return;
       const g = this._galState;
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">✍️ Book submissions</div>
-        <div style="font-size:.68rem;color:var(--text-3);margin:0 0 .3em">Visible to this class only. Hearts vote; ⭐ = the teacher recommends it to the editors for the shared book.</div>`
+        <div style="font-size:.7rem;color:var(--text-3);margin:0 0 .3em">Visible to this class only. Hearts vote; ⭐ = the teacher recommends it to the editors for the shared book.</div>`
         + tells.map(t => `<div style="display:flex;gap:.6em;align-items:center;padding:.45em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.3em 0;cursor:pointer"
             onclick="app._showTellingPreview('${this.escHtml(t.meta.id)}','${this.escHtml(code)}')">
             <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(t.meta.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">— ${this.escHtml(t.meta.sharedAs || 'anonymous')}${t.meta.nominated ? ' · ⭐ recommended' : ''}</span></span>
@@ -7115,7 +7115,7 @@ class PBook {
       }).sort((a, b2) => b2.score - a.score);
       if (!rows.length) { box.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.4em 0">Nothing to rank yet — submissions, works and reactions will appear here.</div>`; return; }
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">📊 Telling leaderboard</div>
-        <div style="font-size:.68rem;color:var(--text-3);margin:0 0 .3em">Score = ❤️ votes ×3 + presentation reactions (😕1/🙂2/🤩3) + 👍 reader likes ×3 + 👀 readers ÷2. Long-term signals keep growing after adoption into the book.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:0 0 .3em">Score = ❤️ votes ×3 + presentation reactions (😕1/🙂2/🤩3) + 👍 reader likes ×3 + 👀 readers ÷2. Long-term signals keep growing after adoption into the book.</div>
         ${rows.map((r, i) => `<div style="display:flex;gap:.55em;align-items:center;padding:.4em .55em;border:1.5px solid ${i === 0 ? '#F59E0B' : 'var(--border,#eee)'};border-radius:10px;margin:.28em 0">
           <span style="font-weight:800;color:${i < 3 ? '#B45309' : 'var(--text-3)'};min-width:1.4em">${i + 1}.</span>
           <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(r.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">— ${this.escHtml(r.who || 'anonymous')}${r.kind === '📖 in the book' ? ' · 📖 in the book' : ''}</span></span>
@@ -7213,7 +7213,7 @@ class PBook {
           <input id="fbNick" placeholder="Your nickname (optional)" style="flex:1 1 130px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
           <button class="note-save" style="background:var(--accent)" onclick="app._sendDraftComment('${this.escHtml(shareId)}')">Send the comment</button>
         </div>
-        ${data.comments.length ? `<div style="margin-top:.6em;font-size:.76rem">${data.comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')}</div>` : ''}`;
+        ${data.comments.length ? `<div style="margin-top:.6em;font-size:.76rem">${data.comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.7rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')}</div>` : ''}`;
     el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:270;overflow-y:auto" onclick="if(event.target===this)document.getElementById('draftFb').remove()">
       <div style="max-width:680px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 1.4em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
@@ -7250,7 +7250,7 @@ class PBook {
       const vals = CONFIG.facets?.[dim]?.values || [];
       return `<div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin-top:.25em">${(L._dim || {})[dim] || dim}:
         <span>${vals.map(v => `<button class="steer-chip st-fac" data-dim="${dim}" data-v="${v}"
-          style="font-size:.66rem;margin:.1em${fac[dim] === v ? ';background:#EDE9FE;border-color:#7C3AED' : ''}"
+          style="font-size:.7rem;margin:.1em${fac[dim] === v ? ';background:#EDE9FE;border-color:#7C3AED' : ''}"
           onclick="app._studioFacetPick(this)">${this.escHtml((L[dim] || {})[v] || v)}</button>`).join('')}</span></div>`;
     }).join('');
   }
@@ -7964,7 +7964,7 @@ class PBook {
     const m = this._wizardMission;
     const blocks = (m?.core || []).map(id => this.findBlock(id)).filter(Boolean).slice(0, 6);
     const chip = (b, kind) => `<button class="steer-chip st-refl" data-kind="${kind}" data-id="${this.escHtml(b.meta.id)}"
-      style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">${this.escHtml((b.meta.title || b.meta.id).slice(0, 30))}</button>`;
+      style="font-size:.7rem;margin:.12em" onclick="app._bossReflToggle(this)">${this.escHtml((b.meta.title || b.meta.id).slice(0, 30))}</button>`;
     const box = document.createElement('div');
     box.id = 'bossRefl';
     box.style.cssText = 'margin-top:.7em;border-top:1px dashed var(--border,#ddd);padding-top:.55em;font-size:.8rem;text-align:left';
@@ -8475,21 +8475,21 @@ class PBook {
       const scopeLabel = quote ? 'this passage' : 'this section';
       const whereHint = insert
         ? (opts.anchorText
-            ? `<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes here: right after “${this.escHtml(opts.anchorText.slice(0, 70))}${opts.anchorText.length > 70 ? '…' : ''}”</div>`
-            : '<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes at the end of this section.</div>')
+            ? `<div style="font-size:.7rem;color:var(--text-3);margin:.2em 0">Goes here: right after “${this.escHtml(opts.anchorText.slice(0, 70))}${opts.anchorText.length > 70 ? '…' : ''}”</div>`
+            : '<div style="font-size:.7rem;color:var(--text-3);margin:.2em 0">Goes at the end of this section.</div>')
         : '';
       box.innerHTML = `
         <b>${insert ? '➕ Add here' : `✏️ Improve ${scopeLabel}`}</b>
         ${whereHint}
-        <div style="font-size:.68rem;color:var(--text-3);margin:.2em 0 .1em">${insert ? 'Write your own text…' : 'Edit the text directly…'}</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.2em 0 .1em">${insert ? 'Write your own text…' : 'Edit the text directly…'}</div>
         <textarea id="edit-src-${blockId}" rows="${insert ? 3 : Math.min(12, Math.max(3, slice.split('\n').length + 1))}"
           ${insert ? 'placeholder="The text that will appear at this spot…"' : ''}
           style="width:100%;padding:.45em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.76rem;font-family:ui-monospace,monospace;line-height:1.45">${this.escHtml(slice)}</textarea>
-        ${canGen ? `<div style="font-size:.68rem;color:var(--text-3);margin:.3em 0 .1em">…or describe ${insert ? 'what to add' : 'the change'} and let AI write it:</div>
+        ${canGen ? `<div style="font-size:.7rem;color:var(--text-3);margin:.3em 0 .1em">…or describe ${insert ? 'what to add' : 'the change'} and let AI write it:</div>
         <textarea id="remix-prompt-${blockId}" rows="2" placeholder="${insert ? `e.g. 'draw a diagram of the ranking pipeline and explain it', 'add a worked example'` : `e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'`}"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>` : ''}
-        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
-        <div style="font-size:.66rem;color:var(--text-3);margin:.15em 0">${this.aiEconHint()}</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.15em 0">${this.aiEconHint()}</div>
         <div class="note-actions">
           <button class="note-save" onclick="app.submitManualEdit('${blockId}')">${insert ? '💾 Insert my text' : '💾 Save my edit'}</button>
           ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">${insert ? '✨ Let AI write it' : '✨ AI rewrite'} · from ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>` : ''}
@@ -8847,7 +8847,7 @@ class PBook {
         <b>✨ Remix this diagram${el.querySelector('animate, animateTransform, animateMotion') ? ' / animation' : ''}</b>
         <textarea id="remix-prompt-${blockId}" rows="2" placeholder="What should change? e.g. 'make the products running shoes', 'slow the animation down', 'add a third user to the example'"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem;margin-top:.3em"></textarea>
-        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
         <div class="note-actions">
           <button class="note-save" onclick="app.submitDiagramRemix('${blockId}')">✨ Generate improved version · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
           <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
@@ -8936,7 +8936,7 @@ class PBook {
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
       <input type="text" id="share-group-${blockId}" placeholder="Class code (optional — the telling then stays within your class)" maxlength="16" value="${this.escHtml(this._classCode())}"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
-      <div style="font-size:.66rem;color:var(--text-3)">With a code: classmates and the teacher see it in the class gallery, the class votes — and the teacher ⭐ recommends the best to the editors for the shared book. Without a code it joins the book's reader tellings right away.</div>
+      <div style="font-size:.7rem;color:var(--text-3)">With a code: classmates and the teacher see it in the class gallery, the class votes — and the teacher ⭐ recommends the best to the editors for the shared book. Without a code it joins the book's reader tellings right away.</div>
       <div class="note-actions">
         <button class="note-save" onclick="app.shareGeneratedBlock('${blockId}')">📣 Share into the book</button>
         <button class="note-cancel" onclick="document.getElementById('share-consent-${blockId}').remove()">Keep private</button>
@@ -9161,9 +9161,9 @@ class PBook {
           <div class="auth-avatar" style="width:32px;height:32px;font-size:1.1rem">${this.getLevelIcon()}</div>
           <div class="auth-info">
             <div class="auth-name" style="font-size:.8rem">${this.escHtml(auth.displayName || 'Reader')}</div>
-            <div class="auth-email" style="font-size:.65rem"><span style="color:var(--product)">&#9679;</span> ${this.escHtml(auth.email)}</div>
+            <div class="auth-email" style="font-size:.7rem"><span style="color:var(--product)">&#9679;</span> ${this.escHtml(auth.email)}</div>
           </div>
-          <button class="auth-secondary-btn" style="font-size:.68rem;padding:.3em .5em" onclick="app._showEditAccount()">Edit</button>
+          <button class="auth-secondary-btn" style="font-size:.7rem;padding:.3em .5em" onclick="app._showEditAccount()">Edit</button>
           <button class="auth-logout-btn" onclick="app.logout();app._renderSettingsAccount();app.renderProfile()">Log out</button>
         </div>
         <div id="editAccountForm" style="display:none;margin-top:.4em">
@@ -9492,7 +9492,7 @@ class PBook {
     if (kind === 'login' || (!this._getAuth() && this._trialUsedLocal())) {
       return `<div style="border:1.5px solid #0EA5E9;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
         <b>🔑 AI needs an account</b><br>The free try is used. Log in via <a href="#" onclick="event.preventDefault();app.switchView('profile')">Profile</a> — your ⚡ start counting server-side and existing XP migrates (up to 100).<br>
-        <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span></div>`;
+        <span style="color:#15803D;font-size:.7rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span></div>`;
     }
     const tierName = tier === 'advanced' ? 'Advanced AI (variants & diagrams)' : 'Basic AI (text)';
     return `<div style="border:1.5px solid #D97706;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
@@ -9500,7 +9500,7 @@ class PBook {
       ${'{tier} costs <b>{p} ⚡</b>, you have <b>⚡{b}</b>. Earn by working with the book:'.replace('{tier}', tierName).replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance())}<br>
       <span style="color:var(--text-2,#666)">${'read a section +10 · recall +2 · game +5 · note +3 · <b>manual edit +{me}</b> · <b>your own writing in the studio +{me} per ~{z} chars</b>'.replace(/\{me\}/g, c.earnManualEdit).replace('{z}', c.earnStudioChars || 250)}</span><br>
       <span style="color:var(--text-2,#666)">You can keep creating by hand right now — nothing stops you, and work earns your ⚡ back.</span><br>
-      <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
+      <span style="color:#15803D;font-size:.7rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
     </div>`;
   }
   // 402/401 ze serveru → paywall místo obecné chyby
@@ -9682,7 +9682,7 @@ class PBook {
       <div class="card-chapter" style="color:#0EA5E9;font-weight:700">🌱 PROPOSED · not written yet</div>
       <div class="card-title">${this.escHtml(p.title)}</div>
       <div class="card-teaser" style="font-size:.72rem">${this.escHtml(p.objective)}</div>
-      <div style="font-size:.64rem;color:var(--text-3);font-style:italic;margin:.3em 0">You'd be able to answer: ${this.escHtml(p.recallQ)}</div>
+      <div style="font-size:.7rem;color:var(--text-3);font-style:italic;margin:.3em 0">You'd be able to answer: ${this.escHtml(p.recallQ)}</div>
       <div id="ghost-${p.slug}-${ctx}" style="display:flex;gap:.4em;margin-top:.35em">
         <button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9" onclick="app.ghostVote('${p.slug}',1,'${ctx}')">👍 I'd read this</button>
         <button class="steer-chip" onclick="app.ghostVote('${p.slug}',-1,'${ctx}')">Not for me</button>
