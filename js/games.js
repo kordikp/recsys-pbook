@@ -1187,11 +1187,16 @@ const GamesMixin = {
     let run2 = null, chosen = {}, bestGoals = 0, attempts = 0;
     const gemName = (g.items.find(x => x.gem) || {}).name || '';
     const goals = g.goals || [];
-    const evalGoals = (r) => goals.map(goal => Object.entries(goal.check || {}).every(([k, v]) => {
-      if (k === 'gemTop') return r.gemTop === v;
-      if (k === 'clickRel') return checkCond(r.total / Math.max(1, run1.total), v);
-      return false;
-    }));
+    // a goal with "andPrev": true ("…while keeping clicks") only counts when the goal before it is met
+    const evalGoals = (r) => goals.reduce((acc, goal, k) => {
+      const ok = Object.entries(goal.check || {}).every(([key, v]) => {
+        if (key === 'gemTop') return r.gemTop === v;
+        if (key === 'clickRel') return checkCond(r.total / Math.max(1, run1.total), v);
+        return false;
+      });
+      acc.push(ok && !(goal.andPrev && k > 0 && !acc[k - 1]));
+      return acc;
+    }, []);
     const rows = (r, day) => {
       const h = r.history[day - 1];
       const maxC = Math.max(1, ...r.history[r.history.length - 1].clicks);

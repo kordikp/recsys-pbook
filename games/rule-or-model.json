@@ -11,7 +11,7 @@
     {
       "text": "Never show out-of-stock products",
       "answer": 0,
-      "why": "A hard constraint: the model can't be trusted to learn it from clicks, and one miss costs a sale."
+      "why": "Stock is a fact, not a taste: clicks can't teach it, and every out-of-stock pick wastes a slot the user can't act on."
     },
     {
       "text": "People who buy a tent often buy a sleeping pad next",

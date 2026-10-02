@@ -26,6 +26,7 @@
 .g-kind { font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: .04em; font-size: .72rem; }
 .g-teaser { font-size: .92rem; color: var(--text-2); margin: 0 0 .8em; line-height: 1.5; }
 .g-launch { display: flex; gap: .5em; flex-wrap: wrap; }
+.g-launch[hidden] { display: none; }
 .g-launch .game-start-btn { width: auto; flex: 1 1 140px; }
 .g-area { font-family: var(--font-ui); font-size: .92rem; line-height: 1.5; color: var(--text); }
 .g-area:empty { min-height: 0; }

@@ -87,7 +87,8 @@
       "text": "…while keeping at least 95% of run 1's clicks",
       "check": {
         "clickRel": ">=0.95"
-      }
+      },
+      "andPrev": true
     }
   ],
   "debrief": "Ranking by total clicks measures past exposure, not quality: whoever was shown first keeps winning, and the best newcomer can stay invisible forever. A little exploration, or a signal that is fair to the less-shown, breaks the loop at almost no cost."

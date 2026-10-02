@@ -76,7 +76,7 @@ Common fields: `type`, `title`, `instruction`, `debrief` (the takeaway on the en
 | `bandit` | Spends impressions on options with hidden click rates, then races Thompson sampling, greedy and uniform | `arms[]` of `{label, text?, p}`, `pulls`, `shuffleArms`, `compare[]`, `armWord`, `toyNote` |
 | `mixer` | Moves ranking-weight sliders and rule toggles to meet goals | `weights[]`, `toggles[]` (`kind`: `maxPer`, `reserve`, `hide`, `pin`), `kpis[]`, `items[]`, `goals[]` of `{text, check{kpi: ">=0.6"}, why}` |
 | `abstop` | Runs A/B tests day by day and decides when to ship | `usersPerDay`, `plannedDays`, `rounds[]` of `{label, pA, pB, trap?, novelty?{boost, halfLifeDays}}`, `scoring{}` |
-| `loop` | `mode: "creator"`: replays 30 days of a rich-get-richer ranking with fixes. `mode: "user"`: watches a feed narrow, then bursts the bubble | creator: `items[]` of `{name, appeal, seedClicks, gem?}`, `interventions[]`, `goals[]`; user: `topics[]` of `{name, items[]}`, `goalTopics`, `exploreSlots` |
+| `loop` | `mode: "creator"`: replays 30 days of a rich-get-richer ranking with fixes. `mode: "user"`: watches a feed narrow, then bursts the bubble | creator: `items[]` of `{name, appeal, seedClicks, gem?}`, `interventions[]`, `goals[]` (a goal with `andPrev: true` only counts when the one before it is met); user: `topics[]` of `{name, items[]}`, `goalTopics`, `exploreSlots` |
 
 Every number on a simulation's end screen is computed live by the engine; never type a result into the data.
 
