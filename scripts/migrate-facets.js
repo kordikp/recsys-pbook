@@ -245,6 +245,13 @@ for (const [, v] of fileFacets) {
   }
 }
 
+// Front/back matter ("concept: null" on a satellite, e.g. About this book) is a
+// telling of NO concept: keep it out of every concept's block list, which reading
+// order would otherwise extend with it.
+const noConcept = new Set([...fileFacets.values()]
+  .filter(v => v.meta.concept === null && !v.file.includes('-spine-')).map(v => v.meta.id));
+for (const c of conceptsOut) c.blocks = c.blocks.filter(id => !noConcept.has(id));
+
 if (!DRY) {
   fs.writeFileSync(
     path.join(CONTENT_DIR, 'concepts.json'),
