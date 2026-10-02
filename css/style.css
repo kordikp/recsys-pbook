@@ -535,7 +535,7 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .key-takeaway { margin: 1.5em 0 1em; padding: 1em 1.2em; background: var(--bg-card); border-left: 4px solid var(--accent); border-radius: 0 8px 8px 0; }
 .key-takeaway-label { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: .4em; }
 .key-takeaway-text { font-size: .92rem; line-height: 1.5; color: var(--text-1); }
-.block-footer { display: flex; justify-content: space-between; align-items: center; margin-top: 1.2em; padding-top: .8em; border-top: 1px solid var(--border); }
+.block-footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: .5em; margin-top: 1.2em; padding-top: .8em; border-top: 1px solid var(--border); }
 .block-reactions { display: flex; gap: .3em; }
 .like-btn { display: flex; align-items: center; gap: .3em; padding: .35em .8em; border-radius: 20px; border: 1.5px solid var(--border); font-size: .82rem; font-family: var(--font-ui); color: var(--text-3); transition: all var(--transition); }
 .mark-read-btn { display: flex; align-items: center; gap: .3em; padding: .35em .8em; border-radius: 20px; border: 1.5px solid var(--border); font-size: .82rem; font-family: var(--font-ui); color: var(--text-3); background: none; cursor: pointer; transition: all var(--transition); }
@@ -544,7 +544,7 @@ textarea.cert-input { resize: vertical; line-height: 1.4; }
 .like-btn:hover { border-color: #ef4444; color: #ef4444; background: #fef2f2; }
 .like-btn.liked { border-color: #ef4444; color: #ef4444; background: #fef2f2; font-weight: 600; }
 
-.block-actions { display: flex; gap: .2em; }
+.block-actions { display: flex; flex-wrap: wrap; gap: .2em; }
 .act-btn { padding: .3em .5em; border-radius: 6px; font-size: .9rem; color: var(--text-3); transition: all var(--transition); }
 .act-btn:hover { background: var(--border-light); color: var(--text); }
 .act-btn.active { color: var(--accent); }
