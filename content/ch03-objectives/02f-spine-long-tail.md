@@ -90,11 +90,11 @@ The long tail is not an abstract concern. It matters concretely to every stakeho
 
 The research community and industry practitioners have developed several approaches to counteract popularity concentration:
 
-**Exploration via bandits.** Instead of always recommending the item with the highest predicted relevance, multi-armed bandit algorithms deliberately allocate a fraction of recommendations to items with uncertain value. This exploration serves a dual purpose: it gathers interaction data for under-exposed items, and it occasionally surfaces unexpected gems. Thompson sampling and epsilon-greedy are the most common approaches.
+**Exploration via bandits.** Instead of always recommending the item with the highest predicted relevance, [multi-armed bandit](#c/explore-exploit) algorithms deliberately allocate a fraction of recommendations to items with uncertain value. This exploration serves a dual purpose: it gathers interaction data for under-exposed items, and it occasionally surfaces unexpected gems. Thompson sampling and epsilon-greedy are the most common approaches.
 
 **Inverse popularity weighting.** During training, interactions with popular items can be downweighted relative to interactions with niche items. This prevents the model from learning that "popular = good" and forces it to develop a more nuanced understanding of item quality across the popularity spectrum.
 
-**beeFormer for cold-start items.** Items with zero or very few interactions are the extreme case of the long-tail problem -- the algorithm has no behavioral signal to work with. beeFormer (RecSys 2024) addresses this by training a language model to generate recommendation-quality embeddings directly from item text and images, bypassing the need for interaction data entirely. A new item can be recommended the moment it enters the catalog, based on its description alone.
+**[beeFormer](#c/beeformer) for cold-start items.** Items with zero or very few interactions are the extreme case of the long-tail problem -- the algorithm has no behavioral signal to work with. beeFormer (RecSys 2024) addresses this by training a language model to generate recommendation-quality embeddings directly from item text and images, bypassing the need for interaction data entirely. A new item can be recommended the moment it enters the catalog, based on its description alone.
 
 **Fair exposure constraints.** Rather than leaving exposure distribution to emerge from relevance optimization, the system can enforce explicit constraints: every item (or every item category, or every provider) must receive a minimum baseline of impressions. This can be implemented as a constrained optimization problem or through re-ranking with exposure budgets.
 

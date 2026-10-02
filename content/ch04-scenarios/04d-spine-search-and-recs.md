@@ -43,7 +43,7 @@ That's **search + recommendation** working in concert. The search engine retriev
 
 ## Query Understanding and Semantic Search
 
-Modern search goes beyond keyword matching. **Semantic search** uses the same embedding techniques as recommendation systems:
+Modern search goes beyond keyword matching. **Semantic search** uses the same [embedding techniques](#c/embeddings) as recommendation systems:
 
 1. The query is encoded into a dense vector by a language model
 2. Items are represented by pre-computed embedding vectors (from titles, descriptions, content)
@@ -58,7 +58,7 @@ This means a query like "lightweight framework for building APIs" can match item
 When you start typing and the search bar suggests completions -- that's a recommendation system. It predicts:
 - What you're likely looking for (based on your history and current session)
 - What's trending right now (popular queries in this context)
-- What similar users searched for (collaborative filtering applied to query logs)
+- What similar users searched for ([collaborative filtering](#c/collaborative-filtering) applied to query logs)
 
 Google's "People also searched for" is collaborative filtering applied to search query sequences.
 

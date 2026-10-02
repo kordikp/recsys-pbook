@@ -115,7 +115,7 @@ Transformer-based architectures naturally support this through cross-attention l
 
 ## beeFormer: Multimodal Embeddings for Recommendation
 
-**beeFormer** (Kasalicky et al., 2024) demonstrates a particularly elegant approach to multimodal recommendation. It adapts Sentence Transformer models to produce recommendation-quality embeddings from item content -- text, images, or both.
+**[beeFormer](#c/beeformer)** (Kasalicky et al., 2024) demonstrates a particularly elegant approach to multimodal recommendation. It adapts Sentence Transformer models to produce recommendation-quality embeddings from item content -- text, images, or both.
 
 The key insight: standard text and image embeddings (from BERT, CLIP, etc.) are trained for general-purpose semantic similarity. "Similar meaning" does not always equal "similar preference." Two technical textbooks might be semantically similar but appeal to completely different audiences. beeFormer fine-tunes multimodal encoders on user interaction data, learning to produce embeddings where proximity reflects **behavioral similarity** (items consumed by the same users) rather than just semantic similarity.
 

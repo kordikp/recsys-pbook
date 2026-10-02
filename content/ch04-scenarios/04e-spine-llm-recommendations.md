@@ -63,7 +63,7 @@ A more architecturally sound approach uses the LLM to **enrich item representati
 
 This is where LLMs genuinely excel. A content-based recommender that previously relied on genre tags and manually curated metadata can now leverage deep semantic understanding of item content. An LLM can infer that a book is "suitable for readers who enjoyed the philosophical undertones of Ursula K. Le Guin" from a plot summary alone -- a level of semantic richness that no tag taxonomy captures.
 
-Production systems increasingly use LLM-generated embeddings as one signal among many in their retrieval and ranking stages.
+Production systems increasingly use LLM-generated [embeddings](#c/embeddings) as one signal among many in their retrieval and ranking stages.
 
 ### 3. LLM as Conversational Interface
 
@@ -71,7 +71,7 @@ The third pattern keeps the traditional RecSys engine intact but wraps it in a c
 
 - **User says:** "I'm looking for a weekend project, something hands-on with electronics but not too advanced"
 - **LLM interprets:** category=electronics, difficulty=beginner-intermediate, time_commitment=weekend, type=hands-on
-- **RecSys retrieves and ranks** candidates using collaborative filtering, content similarity, and contextual features
+- **RecSys retrieves and ranks** candidates using [collaborative filtering](#c/collaborative-filtering), content similarity, and contextual features
 - **LLM presents:** natural language explanations of why each item was recommended, with follow-up questions to refine the results
 
 This hybrid architecture preserves the personalization strengths of traditional systems while adding the expressiveness of natural language interaction.
@@ -137,7 +137,7 @@ The [SHIELD framework](https://www.recombee.com/blog/shield-the-universal-framew
 - Rich behavioral data is available and personalization accuracy matters most
 - Latency requirements are strict (real-time feed ranking, ad serving)
 - The catalog is dynamic and changes faster than model retraining cycles
-- Evaluation rigor is required (standard offline metrics, A/B testing infrastructure)
+- Evaluation rigor is required (standard offline metrics, [A/B testing](#c/ab-testing) infrastructure)
 
 ## Looking Forward: Multimodal and Agentic Recommendations
 

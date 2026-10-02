@@ -55,7 +55,7 @@ In the fairness literature, researchers distinguish among several formal definit
 **What can be done?**
 
 Well-designed recommendation systems employ several strategies to [counteract popularity bias](https://www.recombee.com/blog/making-recommendations-fairer-a-new-way-to-guarantee-exposure-for-all):
-- **Exploration slots** -- Reserving a fraction of recommendations for new or under-exposed content, often using multi-armed bandit approaches
+- **Exploration slots** -- Reserving a fraction of recommendations for new or under-exposed content, often using [multi-armed bandit](#c/explore-exploit) approaches
 - **Freshness boosts** -- Applying time-decay functions that give new content elevated visibility during an initial exposure window
 - **Diversity constraints** -- Ensuring recommendations are not dominated by a small number of providers, using techniques like Maximal Marginal Relevance (MMR)
 - **Quality signals beyond clicks** -- Measuring deep engagement (dwell time, completion rate, saves, shares) rather than just clicks, to identify genuinely valuable content that lacks initial popularity signal

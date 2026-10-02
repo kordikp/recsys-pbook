@@ -87,7 +87,7 @@ where $\alpha_l$ can be uniform ($\alpha_l = \frac{1}{L+1}$) or learned. This mu
 
 ### Connection to EASE
 
-An intriguing theoretical connection: LightGCN with $L=1$ (a single aggregation layer) approximates a form closely related to **EASE** (Steck, 2019). Both methods effectively compute predictions as a weighted combination of a user's interaction history, where the weights are derived from the item-item co-occurrence structure normalized by popularity. The key difference is that EASE solves for these weights in closed form via the precision matrix, while LightGCN learns them through gradient descent on the graph. Deeper LightGCN ($L > 1$) goes beyond what EASE can capture by incorporating multi-hop neighborhood information.
+An intriguing theoretical connection: LightGCN with $L=1$ (a single aggregation layer) approximates a form closely related to **[EASE](#c/ease-elsa)** (Steck, 2019). Both methods effectively compute predictions as a weighted combination of a user's interaction history, where the weights are derived from the item-item co-occurrence structure normalized by popularity. The key difference is that EASE solves for these weights in closed form via the precision matrix, while LightGCN learns them through gradient descent on the graph. Deeper LightGCN ($L > 1$) goes beyond what EASE can capture by incorporating multi-hop neighborhood information.
 
 ## PinSage: Graph Methods at Pinterest Scale
 

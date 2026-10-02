@@ -78,7 +78,7 @@ where **K** = W_dec^T W_dec is precomputed. Since s_x and s_y are k-sparse, the 
 
 ## Sparse ELSA: Interpretable Compression
 
-Sparse ELSA takes a different approach: instead of compressing dense embeddings post-hoc, it learns **intrinsically sparse** embeddings during training.
+Sparse [ELSA](#c/ease-elsa) takes a different approach: instead of compressing dense embeddings post-hoc, it learns **intrinsically sparse** embeddings during training.
 
 The method uses a top-k sparsification schedule with exponential decay: start with dense embeddings, then gradually prune during training:
 
@@ -93,7 +93,7 @@ $$k_t = k_{\max} \cdot \exp(-\gamma \cdot t)$$
 In production at Recombee, these components integrate as follows:
 
 1. **Offline training:** ELSA embeddings computed from the full interaction matrix (batch, typically nightly)
-2. **Cold-start path:** beeFormer generates initial embeddings from text/images
+2. **Cold-start path:** [beeFormer](#c/beeformer) generates initial embeddings from text/images
 3. **Embedding compression:** CompresSAE reduces storage for ANN index
 4. **Online serving:** Two-tower retrieval (candidate generation) → ELSA/VASP scoring → bandit-based exploration slots → business rule re-ranking
 5. **Evaluation:** LLOO+β offline metrics → A/B testing for final deployment decisions

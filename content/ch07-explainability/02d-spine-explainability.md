@@ -45,7 +45,7 @@ A single recommendation might be influenced by:
 1. **Collaborative filtering** identified that users with similar behavioral profiles engaged with this item
 2. **Content embeddings** in a learned latent space placed it near items the user has previously valued
 3. **An exploration component** (e.g., Thompson sampling or epsilon-greedy) decided to surface something novel
-4. **Business rules** boosted it because it is a new release or a strategically promoted title
+4. **[Business rules](#c/business-rules)** boosted it because it is a new release or a strategically promoted title
 5. **Diversity re-ranking** placed it at this position to break up a sequence of similar items
 
 Which of these was the "real" reason? All of them contributed. None of them alone is sufficient as an explanation.

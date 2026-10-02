@@ -39,7 +39,7 @@ Recommender systems maintain rich metadata about every item:
 - A Spotify track has an artist, genre, tempo, energy level, key, danceability, and acoustic fingerprint
 - An Amazon product has a category taxonomy, price point, brand, customer segments, and related items
 
-This metadata forms the system's knowledge base -- a structured representation of every item that enables content-based filtering and feature engineering.
+This metadata forms the system's knowledge base -- a structured representation of every item that enables [content-based filtering](#c/content-based) and feature engineering.
 
 ## Data Type 2: User Attributes (Who You Are)
 
@@ -53,7 +53,7 @@ These attributes matter because a software engineer in Berlin likely has differe
 
 ## Data Type 3: Interaction Data (What You DO)
 
-This is the most powerful data source by far. Your actions. Your digital footprints. Everything covered in the previous section -- clicks, consumption patterns, skips, searches, saves, purchases, and shares.
+This is the most powerful data source by far: your actions, the [digital footprints](#c/digital-footprints) you leave -- clicks, consumption patterns, skips, searches, saves, purchases, and shares.
 
 Why is this the most important? Because behavior reveals actual preferences far more reliably than stated preferences. You might list "industry analysis" as an interest in your profile, but if you actually spend three hours a day consuming product design content... the system trusts your behavior, not your self-reported preferences. This is a well-established finding in behavioral psychology known as the attitude-behavior gap.
 

@@ -31,7 +31,7 @@ carriers: prose|formula
 
 Every recommendation system faces a chicken-and-egg problem: **you can't recommend items nobody has interacted with, but nobody can interact with items that aren't recommended.**
 
-This is the **cold-start problem**, and it's one of the most practically important challenges in the field. A new product on Amazon, a fresh article on a news site, an emerging artist on Spotify — all start with zero interaction data.
+This is the **[cold-start problem](#c/item-cold-start)**, and it's one of the most practically important challenges in the field. A new product on Amazon, a fresh article on a news site, an emerging artist on Spotify — all start with zero interaction data.
 
 ## The Limitation of Collaborative Filtering
 

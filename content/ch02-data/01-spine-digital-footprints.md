@@ -51,4 +51,4 @@ You're continuously training the recommender system about your preferences -- ev
 
 **Consider this:** If a data analyst could review EVERY interaction you made across platforms in the last week, what profile would they construct? What patterns would emerge that you'd never have articulated yourself? And where would their inferences be wrong?
 
-**Want to go deeper?** The next section shows exactly WHAT platforms track -- with a ranking of which signals carry the most weight.
+**Want to go deeper?** [What Do They Actually Track?](#ch2-track-d-exp) shows exactly what platforms track, ranked by how much weight each signal carries.

@@ -41,7 +41,7 @@ When teams evaluate building in-house, they typically estimate the cost of the *
 
 The **hidden bulk** includes:
 
-- **Monitoring and alerting** — detecting when recommendation quality degrades before users notice
+- **[Monitoring and alerting](#c/monitoring)** — detecting when recommendation quality degrades before users notice
 - **A/B testing infrastructure** — not just running tests, but the statistical rigor (power analysis, multiple testing correction, novelty effects)
 - **Incident response** — when recommendations go wrong at 3 AM, someone needs to fix it
 - **Scalability engineering** — handling traffic spikes, catalog growth, and increasing user base

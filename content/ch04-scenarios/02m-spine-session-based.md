@@ -37,13 +37,13 @@ This is the **session-based recommendation** problem, and it is not a niche edge
 
 Industry estimates consistently place anonymous traffic at **60-80% of all e-commerce visits**. Users browse without logging in, use incognito mode, switch devices, clear cookies, or visit for the first time. Even platforms with large registered user bases -- Amazon, eBay, Zalando -- see the majority of their page views from sessions with no authenticated identity.
 
-Traditional collaborative filtering assumes you know who the user is and can look up their interaction history. Strip that away, and you are left with a single session: a short, ordered sequence of item interactions from an unknown visitor. Everything you can learn about this person must come from those few clicks.
+Traditional [collaborative filtering](#c/collaborative-filtering) assumes you know who the user is and can look up their interaction history. Strip that away, and you are left with a single session: a short, ordered sequence of item interactions from an unknown visitor. Everything you can learn about this person must come from those few clicks.
 
 ## GRU4Rec: Deep Learning Enters the Session
 
 The foundational work in deep session-based recommendation is **GRU4Rec** (Hidasi et al., 2016), which applied recurrent neural networks to the problem. The architecture is straightforward:
 
-1. Each item in the session is represented as an embedding vector
+1. Each item in the session is represented as an [embedding](#c/embeddings) vector
 2. A **Gated Recurrent Unit** (GRU) processes the sequence of embeddings one by one, maintaining a hidden state that summarizes "what has happened so far in this session"
 3. The hidden state after the last click is used to predict the next item
 

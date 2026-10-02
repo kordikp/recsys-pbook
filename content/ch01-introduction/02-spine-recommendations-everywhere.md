@@ -46,7 +46,7 @@ Netflix explicitly surfaces the reasoning behind its recommendations — a form 
 Professional networking platforms use recommendations for job matching, content feeds, and connection suggestions — a high-stakes domain where recommendation quality directly impacts careers.
 
 **Amazon and E-commerce**
-"Customers who bought this also bought..." This collaborative filtering approach is one of the earliest and most commercially successful recommendation techniques. Amazon attributes roughly 35% of its revenue to recommendations.
+"Customers who bought this also bought..." This [collaborative filtering](#c/collaborative-filtering) approach is one of the earliest and most commercially successful recommendation techniques. Amazon attributes roughly 35% of its revenue to recommendations.
 
 **News Aggregators — Google News, Apple News**
 These platforms curate entire information diets using recommendation algorithms, raising profound questions about epistemic diversity and information quality.

@@ -45,7 +45,7 @@ Context is any information beyond the user and the item that influences whether 
 
 ## Three Architectural Approaches
 
-There are three fundamental ways to incorporate context into a recommendation pipeline. Each represents a different engineering trade-off.
+There are three fundamental ways to incorporate context into a [recommendation pipeline](#c/pipeline). Each represents a different engineering trade-off.
 
 ### Pre-Filtering
 
@@ -59,7 +59,7 @@ Disadvantages: hard boundaries can be too aggressive. A candidate removed by the
 
 **Score all candidates with a context-agnostic model, then re-rank or filter the results by context.** The scoring model produces its standard ranked list. A downstream component then adjusts: suppress items inappropriate for the current context, boost items that match it, or re-order based on contextual relevance.
 
-Advantages: the base model is simpler and can be trained on all data without context segmentation. Context logic is modular -- you can swap re-ranking strategies without retraining the model. Post-filters are also useful for applying business rules (don't recommend alcohol to minors, don't surface horror movies in a children's session).
+Advantages: the base model is simpler and can be trained on all data without context segmentation. Context logic is modular -- you can swap re-ranking strategies without retraining the model. Post-filters are also useful for applying [business rules](#c/business-rules) (don't recommend alcohol to minors, don't surface horror movies in a children's session).
 
 Disadvantages: the model may waste capacity scoring candidates that will be filtered out. The re-ranking step can be crude if it operates on simple rules rather than learned contextual preferences.
 
