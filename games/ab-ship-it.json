@@ -1,0 +1,52 @@
+{
+  "type": "abstop",
+  "title": "Ship It?",
+  "minutes": 4,
+  "instruction": "Each tap adds one day of data (500 users per variant). Ship B, keep A, or wait. The plan said 14 days.",
+  "usersPerDay": 500,
+  "plannedDays": 14,
+  "maxDays": 21,
+  "alpha": 0.05,
+  "rounds": [
+    {
+      "label": "A new 'Because you liked' row",
+      "pA": 0.1,
+      "pB": 0.1,
+      "trap": true
+    },
+    {
+      "label": "Bigger thumbnails",
+      "pA": 0.1,
+      "pB": 0.115
+    },
+    {
+      "label": "Redesigned homepage",
+      "pA": 0.1,
+      "pB": 0.1,
+      "novelty": {
+        "boost": 0.03,
+        "halfLifeDays": 3
+      }
+    },
+    {
+      "label": "Fewer items per row",
+      "pA": 0.1,
+      "pB": 0.092
+    },
+    {
+      "label": "A freshness boost for new arrivals",
+      "pA": 0.1,
+      "pB": 0.1
+    }
+  ],
+  "scoring": {
+    "correctShip": 3,
+    "correctKeep": 2,
+    "falseShip": -3,
+    "missedWin": 0,
+    "waitedToPlan": 1
+  },
+  "peekSims": 200,
+  "peekRate": 0.1,
+  "debrief": "Watching a moving p-value and stopping the moment it dips under 0.05 ships noise. Fix the sample size first, wait for it, and check that the effect outlasts the novelty."
+}

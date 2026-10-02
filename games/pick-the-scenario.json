@@ -1,0 +1,39 @@
+{
+  "type": "pairs",
+  "title": "Pick the Scenario",
+  "minutes": 2,
+  "instruction": "Which placement needs this strategy?",
+  "pairs": [
+    {
+      "a": "Homepage",
+      "b": "A broad, personalized mix for someone who hasn't said what they want yet",
+      "why": "The homepage has the least context about intent, so it leans on the profile and variety."
+    },
+    {
+      "a": "Product detail page",
+      "b": "Close alternatives to the item on screen: the user is comparing",
+      "why": "Here the item on screen is the strongest context; substitutes help the comparison."
+    },
+    {
+      "a": "Cart",
+      "b": "Things that go with what is already chosen, not substitutes for it",
+      "why": "Showing alternatives in the cart can undo a decision; complements add to it."
+    },
+    {
+      "a": "Search results",
+      "b": "The query states the intent; personalization only re-orders relevant matches",
+      "why": "Relevance to the query comes first. Taste breaks ties, it doesn't override the request."
+    },
+    {
+      "a": "Weekly email",
+      "b": "No live context, and it must earn the open: what's new since the last visit",
+      "why": "An email is read later, out of session, so freshness and a reason to click matter most."
+    },
+    {
+      "a": "End of a video",
+      "b": "The episode just ended: pick the next thing while attention is still here",
+      "why": "The just-finished item is the context, and the decision has to be made in seconds."
+    }
+  ],
+  "debrief": "Homepage, product page, cart, search, email and end screen each have their own intent, constraints and definition of success. One algorithm for all of them leaves results on the table."
+}

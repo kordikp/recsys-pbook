@@ -1,0 +1,94 @@
+{
+  "type": "loop",
+  "mode": "creator",
+  "title": "Rich Get Richer",
+  "minutes": 3,
+  "instruction": "Each day the feed shows the 3 creators with the most clicks so far. Watch who gets seen, then try a fix.",
+  "slots": 3,
+  "usersPerDay": 100,
+  "days": 30,
+  "freshUnder": 50,
+  "items": [
+    {
+      "name": "Apex",
+      "appeal": 0.3,
+      "seedClicks": 12,
+      "seedImpressions": 40
+    },
+    {
+      "name": "Bold",
+      "appeal": 0.28,
+      "seedClicks": 9,
+      "seedImpressions": 32
+    },
+    {
+      "name": "Cora",
+      "appeal": 0.25,
+      "seedClicks": 8,
+      "seedImpressions": 32
+    },
+    {
+      "name": "Dune",
+      "appeal": 0.26,
+      "seedClicks": 3,
+      "seedImpressions": 12
+    },
+    {
+      "name": "Echo",
+      "appeal": 0.22,
+      "seedClicks": 2,
+      "seedImpressions": 10
+    },
+    {
+      "name": "Nova",
+      "appeal": 0.45,
+      "seedClicks": 0,
+      "seedImpressions": 0,
+      "gem": true
+    },
+    {
+      "name": "Pico",
+      "appeal": 0.2,
+      "seedClicks": 1,
+      "seedImpressions": 5
+    },
+    {
+      "name": "Quill",
+      "appeal": 0.24,
+      "seedClicks": 0,
+      "seedImpressions": 0
+    }
+  ],
+  "interventions": [
+    {
+      "key": "exploreSlot",
+      "short": "exploration slot",
+      "label": "Reserve the 3rd slot for the least-shown creator"
+    },
+    {
+      "key": "ctrRank",
+      "short": "rank by click rate",
+      "label": "Rank by click rate (clicks per showing, smoothed) instead of total clicks"
+    },
+    {
+      "key": "freshBoost",
+      "short": "newcomer boost",
+      "label": "Show creators with fewer than 50 showings first"
+    }
+  ],
+  "goals": [
+    {
+      "text": "Get Nova into the top 3 by total clicks by day 30",
+      "check": {
+        "gemTop": true
+      }
+    },
+    {
+      "text": "…while keeping at least 95% of run 1's clicks",
+      "check": {
+        "clickRel": ">=0.95"
+      }
+    }
+  ],
+  "debrief": "Ranking by total clicks measures past exposure, not quality: whoever was shown first keeps winning, and the best newcomer can stay invisible forever. A little exploration, or a signal that is fair to the less-shown, breaks the loop at almost no cost."
+}
