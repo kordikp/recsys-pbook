@@ -2,7 +2,7 @@
 id: ch7-glossary
 type: spine
 title: "RecSys Glossary: Key Terms and Concepts"
-readingTime: 5
+readingTime: 11
 standalone: true
 core: true
 voice: universal

@@ -2,7 +2,7 @@
 id: ch7-cold-start-language
 type: spine
 title: "Cold Start and Language: Teaching Algorithms to Read"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "New items have zero interactions. How do you recommend something nobody has seen? The answer involves teaching computers to read."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---

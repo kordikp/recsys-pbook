@@ -2,7 +2,7 @@
 id: ch5-case-studies
 type: spine
 title: "Real-World Case Studies: How Industry Does It"
-readingTime: 5
+readingTime: 12
 standalone: true
 core: true
 teaser: "The best way to learn recommender systems is to study production systems at scale — where theory meets the chaos of real users, real latency budgets, and real business metrics."

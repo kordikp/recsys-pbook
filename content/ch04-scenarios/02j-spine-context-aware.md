@@ -2,7 +2,7 @@
 id: ch3-context-aware
 type: spine
 title: "Context-Aware Recommendation: It's Not Just What You Like"
-readingTime: 3
+readingTime: 7
 standalone: true
 core: true
 teaser: "The same person wants different things at different times. Context-aware systems recognize that preferences aren't fixed -- they shift with time, place, device, and intent."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

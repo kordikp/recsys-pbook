@@ -2,7 +2,7 @@
 id: ch13-music
 type: spine
 title: "Music & Podcasts: The Mood Machine"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: true
 teaser: "Music recommendation must adapt to mood, context, and the unique dynamic where repeat listening is a feature, not a bug."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|table|image|code
 ---

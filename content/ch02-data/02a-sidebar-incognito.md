@@ -2,7 +2,7 @@
 id: ch2-incognito-sidebar
 type: spine
 title: "The Cold Start Problem"
-readingTime: 1
+readingTime: 2
 standalone: false
 core: true
 teaser: "New account, zero data -- now what?"
@@ -22,7 +22,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose|diagram
 ---

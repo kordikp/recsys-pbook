@@ -2,7 +2,7 @@
 id: ch13-marketplaces
 type: spine
 title: "P2P Marketplaces: When Every Item Is Unique"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "In a marketplace, each listing can only be sold once. This changes everything about how recommendations work."

@@ -2,7 +2,7 @@
 id: ch3-graph-methods
 type: spine
 title: "Graph-Based Methods: Recommendations as Network Science"
-readingTime: 4
+readingTime: 7
 standalone: true
 core: true
 teaser: "What if the best way to recommend isn't to decompose a matrix, but to traverse a network? Graph methods reveal structural patterns that linear algebra alone cannot see."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---

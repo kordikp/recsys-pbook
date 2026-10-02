@@ -2,7 +2,7 @@
 id: ch4-bubbles
 type: spine
 title: "Trapped in a Bubble"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "When recommendations are too effective, users only encounter what they already prefer -- and never realize what they are missing."
@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|diagram
 ---

@@ -2,7 +2,7 @@
 id: ch13-domains-intro
 type: spine
 title: "Why Domains Matter: One Algorithm Doesn't Fit All"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "The same algorithm that works for Netflix will fail for a job board. Domain-specific constraints shape every design decision."

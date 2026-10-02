@@ -2,7 +2,7 @@
 id: ch6-who-decides
 type: spine
 title: "Who Decides What You See?"
-readingTime: 4
+readingTime: 2
 standalone: true
 core: true
 teaser: "When you open a social media platform, who chose what's on your screen? Not you. Not the editorial team. Not even a human."

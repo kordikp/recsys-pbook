@@ -2,7 +2,7 @@
 id: ch4-long-tail
 type: spine
 title: "The Long Tail: Why Most Items Never Get Recommended"
-readingTime: 3
+readingTime: 7
 standalone: true
 core: true
 teaser: "In most recommendation datasets, a tiny fraction of items accounts for the vast majority of interactions. This power law distribution shapes everything -- and algorithms often make it worse."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

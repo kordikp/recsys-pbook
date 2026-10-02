@@ -2,7 +2,7 @@
 id: ch13-sports
 type: spine
 title: "Sports & Live Events: Real-Time Personalization at Scale"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: true
 teaser: "When the final whistle blows, millions of fans need their next recommendation in seconds — not minutes. Sports recommendation operates at the speed of live events."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|image|code
 ---

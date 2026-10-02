@@ -2,7 +2,7 @@
 id: ch4-what-scenarios
 type: spine
 title: "What Are Recommendation Scenarios?"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: true
 teaser: "A homepage recommendation and a cart cross-sell serve completely different purposes, face different constraints, and should use different algorithms. The scenario concept formalizes this: each placement gets its own strategy."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

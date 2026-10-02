@@ -2,7 +2,7 @@
 id: ch3-multimodal
 type: spine
 title: "Multimodal Recommendation: Beyond Text and Clicks"
-readingTime: 3
+readingTime: 12
 standalone: true
 core: true
 voice: universal
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

@@ -2,7 +2,7 @@
 id: ch13-video
 type: spine
 title: "Video & Streaming: Keeping Viewers Engaged"
-readingTime: 4
+readingTime: 5
 standalone: true
 core: true
 teaser: "Video recommendation is the most visible application of RecSys — and one of the most complex, with content hierarchies, watch progress tracking, and multi-platform delivery."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|table|image|code
 ---

@@ -2,7 +2,7 @@
 id: ch5-recommend
 type: spine
 title: "Step 3: Make Your Predictions"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Use nearest neighbors to predict ratings and generate actionable recommendations."

@@ -2,7 +2,7 @@
 id: ch3-session-based
 type: spine
 title: "Session-Based Recommendation: When You Don't Know the User"
-readingTime: 3
+readingTime: 8
 standalone: true
 core: true
 teaser: "Most visitors never log in. Session-based systems must recommend using only the handful of clicks from the current visit -- no history, no profile, just a fleeting trail of intent."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

@@ -2,7 +2,7 @@
 id: ch7-bandits
 type: spine
 title: "The Exploration Problem: Bandit Algorithms in Practice"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "Should you recommend what you know works, or take a risk on something new? Bandit algorithms solve this fundamental dilemma."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

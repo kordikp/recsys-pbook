@@ -2,7 +2,7 @@
 id: ch6-privacy-real
 type: spine
 title: "Your Data: What They Actually Know"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "Skip the vague privacy warnings. Here is exactly what platforms collect, how they model you, and why re-identification is easier than you think."
@@ -22,7 +22,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

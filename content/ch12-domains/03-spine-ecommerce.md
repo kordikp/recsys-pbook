@@ -2,7 +2,7 @@
 id: ch13-ecommerce
 type: spine
 title: "E-Commerce: Where Recommendations Drive Revenue"
-readingTime: 4
+readingTime: 6
 standalone: true
 core: true
 teaser: "Amazon attributes 35% of revenue to recommendations. E-commerce is where RecSys has the most directly measurable business impact."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|table|image|code
 ---

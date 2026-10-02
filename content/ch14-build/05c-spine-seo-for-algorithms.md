@@ -2,7 +2,7 @@
 id: ch5-seo-algorithms
 type: spine
 title: "SEO for the Algorithm Age"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "Search engines and recommendation systems are converging. Here's how to optimize for both."
@@ -22,7 +22,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---

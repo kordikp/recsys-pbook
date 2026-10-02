@@ -2,7 +2,7 @@
 id: ch4-unfair-game
 type: spine
 title: "The Unfair Marketplace"
-readingTime: 1
+readingTime: 2
 standalone: true
 core: true
 teaser: "What happens when only established players get visibility? The same dynamic that governs popular content on every platform."
@@ -21,7 +21,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: tldr
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

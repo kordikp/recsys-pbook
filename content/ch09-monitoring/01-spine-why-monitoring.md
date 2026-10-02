@@ -2,7 +2,7 @@
 id: ch9-why-monitor
 type: spine
 title: "Why RecSys Monitoring Is Different"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: true
 teaser: "A recommendation system can return HTTP 200 on every request and still be catastrophically broken. Traditional software monitoring catches crashes. RecSys monitoring must catch silent degradation in a system that learns from its own output."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---

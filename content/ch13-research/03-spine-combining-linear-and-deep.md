@@ -2,7 +2,7 @@
 id: ch7-vasp-combining
 type: spine
 title: "Combining Linear and Deep: The VASP Architecture"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Linear models find smooth patterns. Deep models find complex clusters. What happens when you combine them?"
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---

@@ -2,7 +2,7 @@
 id: ch7-why-explain
 type: spine
 title: "Why Explainability Matters"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: true
 teaser: "Users who understand why they received a recommendation get more value from it. Developers who can explain their system can debug it. Regulators who can audit it can protect the public. Explainability is where trust, engineering, and law converge."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

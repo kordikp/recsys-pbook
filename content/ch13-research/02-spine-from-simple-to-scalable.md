@@ -2,7 +2,7 @@
 id: ch7-simple-to-scalable
 type: spine
 title: "From Simple to Scalable: The EASE-to-ELSA Story"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "How a single matrix inverse led to one of the most elegant recommendation algorithms — and why it needed to evolve."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|formula
 ---

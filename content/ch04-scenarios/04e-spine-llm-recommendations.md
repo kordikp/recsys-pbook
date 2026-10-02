@@ -2,7 +2,7 @@
 id: ch3-llm-recs
 type: spine
 title: "LLM-Powered Recommendations: A New Paradigm?"
-readingTime: 4
+readingTime: 8
 standalone: true
 core: true
 teaser: "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better than a well-tuned collaborative filter?"
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|image|code
 ---

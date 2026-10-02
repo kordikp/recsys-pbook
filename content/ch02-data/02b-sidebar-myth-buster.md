@@ -2,7 +2,7 @@
 id: ch2-myth
 type: spine
 title: "Myth Busters: True or False?"
-readingTime: 1
+readingTime: 3
 standalone: true
 core: true
 teaser: "Is your phone REALLY listening to you? Let's separate fact from fiction about how recommendations actually work."
@@ -22,7 +22,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: tldr
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

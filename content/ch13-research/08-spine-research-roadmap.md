@@ -2,7 +2,7 @@
 id: ch7-roadmap
 type: spine
 title: "The Research Roadmap: What's Next"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: true
 teaser: "Open problems in recommender systems — from fairness guarantees to LLM-powered recommendations."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

@@ -2,7 +2,7 @@
 id: ch5-collect
 type: spine
 title: "Step 1: Collect the Data"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Survey your team, build a rating matrix, and watch the patterns emerge."

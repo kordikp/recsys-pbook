@@ -2,7 +2,7 @@
 id: ch13-news
 type: spine
 title: "News & Media: Racing Against the Clock"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: true
 teaser: "News recommendation is a race against time — content goes stale in hours, and the stakes include an informed society."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: code-walkthrough
 carriers: prose|image|code
 ---

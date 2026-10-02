@@ -2,7 +2,7 @@
 id: ch6-ai-future
 type: spine
 title: "The Future Is Ours to Shape"
-readingTime: 4
+readingTime: 2
 standalone: true
 core: true
 teaser: "Recommendation systems are becoming more powerful, more pervasive, and more consequential. The design choices being made now will shape information access for decades."

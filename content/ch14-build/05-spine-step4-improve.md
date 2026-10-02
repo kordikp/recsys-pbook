@@ -2,7 +2,7 @@
 id: ch5-improve
 type: spine
 title: "Step 4: Make It Better"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Your system works. Now let's iterate toward production quality."
@@ -22,7 +22,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

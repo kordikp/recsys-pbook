@@ -2,7 +2,7 @@
 id: ch5-similar
 type: spine
 title: "Step 2: Find Similar Users"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Who has correlated preferences? Identify your nearest neighbors."

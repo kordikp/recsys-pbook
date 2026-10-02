@@ -2,7 +2,7 @@
 id: ch1-three-jobs
 type: spine
 title: "The Three Jobs of a Recommender"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: true
 teaser: "Discovery, navigation, and engagement — the three core functions."

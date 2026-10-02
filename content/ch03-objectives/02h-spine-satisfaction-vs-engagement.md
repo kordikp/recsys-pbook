@@ -2,7 +2,7 @@
 id: ch4-satisfaction
 type: spine
 title: "Satisfaction vs. Engagement: Measuring What Actually Matters"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: true
 teaser: "High engagement doesn't mean high satisfaction. 'I can't stop watching' and 'I'm glad I watched' are very different things."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
