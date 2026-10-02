@@ -163,4 +163,4 @@ For implementation details, see the [video recommendation recipes](https://docs.
 **Sources:**
 - Gomez-Uribe & Hunt, "The Netflix Recommender System: Algorithms, Business Value, and Innovation," *ACM TMIS* 6(4), 2015. [doi:10.1145/2843948](https://doi.org/10.1145/2843948)
 - Zielnicki et al., "[The Value of Personalized Recommendations: Evidence from Netflix](https://arxiv.org/abs/2511.07280)," arXiv:2511.07280, 2025.
-- Joan E. Solsman, "[CES 2018: YouTube's AI recommendations drive 70 percent of viewing](https://web.archive.org/web/20190120005609/https://www.cnet.com/news/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (archived copy; Neal Mohan at CES: "more than 70 percent of the time you spend watching"; viewers watch "more than a billion hours of video" daily).
+- Joan E. Solsman, "[CES 2018: YouTube's AI recommendations drive 70 percent of viewing](https://web.archive.org/web/20190120005609/www.cnet.com/news/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (archived copy; Neal Mohan at CES: "more than 70 percent of the time you spend watching"; viewers watch "more than a billion hours of video" daily).

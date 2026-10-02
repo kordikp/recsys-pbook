@@ -84,7 +84,7 @@ For a deeper exploration of how modern recommender systems have evolved and how 
 
 **Sources:**
 - Netflix Technology Blog, "[Netflix Recommendations: Beyond the 5 stars (Part 1)](https://netflixtechblog.com/netflix-recommendations-beyond-the-5-stars-part-1-55838468f429)," 6 April 2012 (what Netflix deployed from the Prize).
-- [Netflix Prize leaderboard](https://web.archive.org/web/2019/https://www.netflixprize.com/leaderboard.html) (archived; 41,305 teams from 186 countries).
+- [Netflix Prize leaderboard](https://web.archive.org/web/20200101104754/www.netflixprize.com/leaderboard.html) (archived; 41,305 teams from 186 countries).
 - Steck, "Embarrassingly Shallow Autoencoders for Sparse Data," WWW 2019. [arXiv:1905.03375](https://arxiv.org/abs/1905.03375)
 - Ferrari Dacrema, Cremonesi & Jannach, "Are We Really Making Much Progress? A Worrying Analysis of Recent Neural Recommendation Approaches," RecSys 2019. [arXiv:1907.06902](https://arxiv.org/abs/1907.06902)
 - He et al., "LightGCN: Simplifying and Powering Graph Convolution Network for Recommendation," SIGIR 2020. [arXiv:2002.02126](https://arxiv.org/abs/2002.02126)

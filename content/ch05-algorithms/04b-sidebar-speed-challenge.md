@@ -69,4 +69,4 @@ The next time your app takes a moment to load recommendations, consider: it's re
 
 **Sources:**
 - [YouTube press page](https://blog.youtube/press/) (over 20 million videos uploaded daily; accessed October 2026).
-- Joan E. Solsman, "[CES 2018: YouTube's AI recommendations drive 70 percent of viewing](https://web.archive.org/web/20190120005609/https://www.cnet.com/news/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (archived copy; more than a billion hours watched daily, more than 70% of watch time from recommendations).
+- Joan E. Solsman, "[CES 2018: YouTube's AI recommendations drive 70 percent of viewing](https://web.archive.org/web/20190120005609/www.cnet.com/news/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (archived copy; more than a billion hours watched daily, more than 70% of watch time from recommendations).
