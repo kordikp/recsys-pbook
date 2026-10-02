@@ -22,7 +22,7 @@ conceptTitle: "Session-based recommendation"
 state: core
 lens: generic
 visuality: balanced
-depth: standard
+depth: technical
 formalism: none
 lengthBand: deep
 genre: explainer

@@ -20,7 +20,7 @@ concept: algorithm-training
 state: core
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
 lengthBand: deep
 genre: explainer

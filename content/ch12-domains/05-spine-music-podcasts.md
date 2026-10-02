@@ -25,7 +25,7 @@ visuality: balanced
 depth: technical
 formalism: none
 lengthBand: deep
-genre: code-walkthrough
+genre: explainer
 carriers: prose|table|image|code
 ---
 

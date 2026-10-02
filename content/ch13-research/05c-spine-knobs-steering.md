@@ -23,7 +23,7 @@ state: core
 lens: generic
 visuality: balanced
 depth: research
-formalism: full
+formalism: light
 lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
