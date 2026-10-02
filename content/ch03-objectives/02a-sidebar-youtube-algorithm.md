@@ -37,7 +37,7 @@ That last figure deserves emphasis. The majority of what people consume on YouTu
 
 **The Power:**
 
-When YouTube modifies its recommendation algorithm -- even in ways that appear minor -- the downstream effects are enormous. A change that shifts click-through rate by just 0.1% translates to billions of altered video views across the platform.
+When YouTube modifies its recommendation algorithm -- even in ways that appear minor -- the downstream effects are enormous. YouTube Shorts alone averages over 200 billion views a day (YouTube, 2026), so even a change that moves click-through rate by a tenth of a percent redirects a very large number of views.
 
 The implications are significant:
 - A single algorithmic adjustment can propel a creator to viral status overnight
@@ -53,6 +53,6 @@ YouTube's engineers can observe *what* the algorithm does at an aggregate level.
 **Why this matters:** When a single system exerts this much influence over what billions of people watch, learn, and discuss, the stakes of getting it right -- in terms of accuracy, fairness, and societal impact -- are extraordinarily high.
 
 **Sources:**
-- Joan E. Solsman, "[CES: YouTube's AI is the puppetmaster over what you watch](https://www.cbsnews.com/news/ces-youtubes-ai-is-the-puppetmaster-over-what-you-watch/)," CNET via CBS News, 10 January 2018 (Neal Mohan at CES; also the "more than a billion hours daily" figure).
+- Joan E. Solsman, "[YouTube's AI is the puppet master over most of what you watch](https://www.cnet.com/tech/services-and-software/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (Neal Mohan at CES: "more than 70 percent" of watch time; also "more than a billion hours of video" watched daily).
 - "[YouTube Says 70% Of All Watch Time Is Driven By Its Own Recommendations](https://www.tubefilter.com/2018/01/11/youtube-most-watch-time-driven-by-recommendations/)," Tubefilter, 11 January 2018.
-- [YouTube press page](https://blog.youtube/press/) (over 20 million uploads per day; accessed 2026).
+- [YouTube press page](https://blog.youtube/press/) (over 20 million uploads per day; Shorts over 200 billion daily views; accessed October 2026).

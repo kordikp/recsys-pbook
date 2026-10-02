@@ -55,5 +55,5 @@ In this book, we're going to examine how it all works. You'll understand how the
 **Consider this:** Open any platform right now — YouTube, Spotify, Netflix, Amazon. Look at the first thing it shows you. What data points do you think it used to make that choice? Keep your hypothesis in mind — we'll revisit it.
 
 **Sources:**
-- Joan E. Solsman, "[CES: YouTube's AI is the puppetmaster over what you watch](https://www.cbsnews.com/news/ces-youtubes-ai-is-the-puppetmaster-over-what-you-watch/)," CNET via CBS News, 10 January 2018 (Neal Mohan at CES; also the "more than a billion hours daily" figure).
+- Joan E. Solsman, "[YouTube's AI is the puppet master over most of what you watch](https://www.cnet.com/tech/services-and-software/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (Neal Mohan at CES: "more than 70 percent" of watch time; also "more than a billion hours of video" watched daily).
 - "[YouTube Says 70% Of All Watch Time Is Driven By Its Own Recommendations](https://www.tubefilter.com/2018/01/11/youtube-most-watch-time-driven-by-recommendations/)," Tubefilter, 11 January 2018.
