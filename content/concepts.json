@@ -161,6 +161,48 @@
       }
     },
     {
+      "id": "modern-recommender-map",
+      "title": "A modern recommender on one page",
+      "chapter": "ch01-introduction",
+      "anchor": "modern-recommender-map",
+      "anchorPath": "ch01-introduction/05a-spine-modern-recommender-map.md",
+      "provenance": "anchored",
+      "parents": [
+        "patterns-not-magic",
+        "three-jobs"
+      ],
+      "blocks": [
+        "modern-recommender-map",
+        "modern-recommender-map-tldr",
+        "modern-recommender-map-stack"
+      ],
+      "contract": {
+        "objective": "Follow one tap through the whole machine: the data, four stations, the feedback loop, and the places where LLMs now plug in.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Four stations: retrieve a broad shortlist, rank it carefully, re-rank with rules and variety, present it in a placement",
+            "modality": "prose"
+          },
+          {
+            "point": "What users do with what they were shown becomes tomorrow's training data: the loop that teaches the system and can mislead it",
+            "modality": "prose"
+          },
+          {
+            "point": "LLMs mostly plug in beside the stations: front door, item enrichment, short-list reranking, written answers",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Which stations does a modern recommender pass a request through, what closes the loop, and where do LLMs plug in?",
+        "recallA": "Data (catalog, users, interactions) feeds four stations: candidate retrieval (fast and broad), ranking (a heavier model scores each candidate on predicted outcomes), re-ranking with business rules, variety and policy, and presentation in a placement such as a homepage row, search or chat. What users do with what they were shown is logged and becomes the next training data: the feedback loop. LLMs mostly plug in beside the stations: as the conversational front door, as offline enrichers of item data, as rerankers of a short list, and as writers of answers and explanations.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "distribution-models",
       "title": "Content distribution models",
       "chapter": "ch01-introduction",
@@ -459,6 +501,53 @@
       }
     },
     {
+      "id": "user-cold-start",
+      "title": "User cold start",
+      "chapter": "ch02-data",
+      "anchor": "user-cold-start",
+      "anchorPath": "ch02-data/07-spine-user-cold-start.md",
+      "provenance": "anchored",
+      "parents": [
+        "digital-footprints",
+        "feedback-signals",
+        "item-cold-start"
+      ],
+      "blocks": [
+        "user-cold-start",
+        "user-cold-start-tldr",
+        "user-cold-start-mechanics"
+      ],
+      "contract": {
+        "objective": "A first-time visitor has no history. What can a recommender show in the first minute, and how fast can it get personal?",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "User cold start mirrors item cold start: the person is unknown, but the catalog is well known",
+            "modality": "prose"
+          },
+          {
+            "point": "Before any history: the context of the visit plus what is popular in the right segment",
+            "modality": "prose"
+          },
+          {
+            "point": "Onboarding questions buy signal at the price of friction, so ask few and make them skippable",
+            "modality": "prose"
+          },
+          {
+            "point": "Early clicks count the most: show some variety, then shift weight to the person's own history",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "A brand-new visitor has no history. What can a recommender use instead, and how does it move from generic to personal?",
+        "recallA": "The context of the visit (where they came from, device, time, what they click in this session), what is popular among similar visits, and optionally a few skippable onboarding questions. It treats the first clicks as exploration and shifts weight from these defaults to the person's own history as interactions accumulate.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "objectives",
       "title": "Optimization objectives",
       "chapter": "ch03-objectives",
@@ -620,6 +709,52 @@
       }
     },
     {
+      "id": "north-star-and-guardrails",
+      "title": "North-star and guardrail metrics",
+      "chapter": "ch03-objectives",
+      "anchor": "north-star-and-guardrails",
+      "anchorPath": "ch03-objectives/02m-spine-north-star-and-guardrails.md",
+      "provenance": "anchored",
+      "parents": [
+        "objectives",
+        "satisfaction-vs-engagement"
+      ],
+      "blocks": [
+        "north-star-and-guardrails",
+        "north-star-and-guardrails-tldr",
+        "north-star-and-guardrails-formal"
+      ],
+      "contract": {
+        "objective": "A bug made Bing's search results worse, and two of its headline metrics went up. Choosing what to measure is the first design decision.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The north-star metric is the one number you try to improve, picked because it tracks long-term value, not because it moves easily",
+            "modality": "prose"
+          },
+          {
+            "point": "Guardrail metrics are not targets, but they must not get worse beyond an agreed margin",
+            "modality": "prose"
+          },
+          {
+            "point": "A quick proxy such as clicks counts only after you check that it moves together with the north star",
+            "modality": "prose"
+          },
+          {
+            "point": "In an A/B test the pair becomes the launch rule: ship only if the north star improves and every guardrail holds",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is the difference between a north-star metric and a guardrail metric, and why does a recommender need both?",
+        "recallA": "The north-star metric is the one number the team tries to improve, chosen because it tracks long-term value (for example customers who stay or revenue left after returns), not because it is easy to move like clicks. Guardrails are metrics the team does not try to improve but that must not get worse beyond an agreed margin (returns, complaints, diversity, speed). Any single number can be pushed up through harmful shortcuts, so a change ships only if the north star improves and no guardrail breaks.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "scenarios",
       "title": "Recommendation scenarios",
       "chapter": "ch04-scenarios",
@@ -692,6 +827,103 @@
         ],
         "recallQ": "What are the three main architectural approaches to incorporating context into a recommender system?",
         "recallA": "Pre-filtering (narrow candidates by context before scoring), post-filtering (score all candidates then re-rank by context), and contextual modeling (include context features directly in the scoring model so the model learns context-dependent preferences).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "personalization-levels",
+      "title": "Levels of personalization",
+      "chapter": "ch04-scenarios",
+      "anchor": "personalization-levels",
+      "anchorPath": "ch04-scenarios/02n-spine-personalization-levels.md",
+      "provenance": "anchored",
+      "parents": [
+        "scenarios",
+        "popularity",
+        "context-awareness",
+        "session-based",
+        "user-cold-start",
+        "steerability",
+        "ab-testing"
+      ],
+      "blocks": [
+        "personalization-levels",
+        "personalization-levels-tldr"
+      ],
+      "contract": {
+        "objective": "Not every slot on the screen needs to know who you are. Each surface gets the level of personalization it can earn.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Five levels: generic, segment, contextual, individual, steerable",
+            "modality": "prose"
+          },
+          {
+            "point": "Each level needs more data or engineering than the one below and gives something the one below cannot",
+            "modality": "prose"
+          },
+          {
+            "point": "Choose the level per surface, not once for the whole product",
+            "modality": "prose"
+          },
+          {
+            "point": "A level stays only if it beats the one below in an A/B test; popularity is the first yardstick",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How do you decide how personalized a recommendation surface should be?",
+        "recallA": "Treat personalization as a ladder of five levels: generic (same for everyone), segment (same for a group), contextual (depends on the current situation, such as the item on screen), individual (depends on the person's own history) and steerable (the person can adjust it). For each surface, climb only as far as the data available at that moment and the surface's purpose allow, and keep a higher level only if it beats the level below in a test.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "recommendation-presentation",
+      "title": "Presenting recommendations",
+      "chapter": "ch04-scenarios",
+      "anchor": "recommendation-presentation",
+      "anchorPath": "ch04-scenarios/02p-spine-recommendation-presentation.md",
+      "provenance": "anchored",
+      "parents": [
+        "scenarios",
+        "feedback-signals",
+        "explanations",
+        "ab-testing"
+      ],
+      "blocks": [
+        "recommendation-presentation",
+        "recommendation-presentation-tldr"
+      ],
+      "contract": {
+        "objective": "Where a row sits, how many tiles fit and what its label says can move results as much as a new model, and they decide what the next model learns.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Placement, slot count, row label, artwork and feedback controls are levers a product team controls without touching the model",
+            "modality": "prose"
+          },
+          {
+            "point": "People click top positions partly because they are on top (position bias), so click logs record the layout as well as taste",
+            "modality": "prose"
+          },
+          {
+            "point": "Log where every item was shown, and let training account for it, or the layout trains the next model",
+            "modality": "prose"
+          },
+          {
+            "point": "Test one presentation change at a time, and never in the same test as a model change",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Name two presentation choices that change a recommender's results without changing the model, and explain why they also affect the training data.",
+        "recallA": "For example placement and slot count, or the row label and artwork. They change which items get seen and clicked. The model learns from those clicks, and people click high positions partly because they are high (position bias), so the layout leaks into the next model unless each impression's position is logged and accounted for in training.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -1094,6 +1326,52 @@
       }
     },
     {
+      "id": "multi-task-ranking",
+      "title": "Multi-task ranking and the value model",
+      "chapter": "ch05-algorithms",
+      "anchor": "multi-task-ranking",
+      "anchorPath": "ch05-algorithms/04d-spine-multi-task-ranking.md",
+      "provenance": "anchored",
+      "parents": [
+        "pipeline",
+        "objectives",
+        "feedback-signals"
+      ],
+      "blocks": [
+        "multi-task-ranking",
+        "multi-task-ranking-tldr"
+      ],
+      "contract": {
+        "objective": "A ranker that only predicts clicks fills the page with clickbait. Modern rankers predict clicks, purchases, returns and hides, and a product team decides what each one is worth.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "One ranking model predicts several behaviours per item: click, purchase, return, hide",
+            "modality": "prose"
+          },
+          {
+            "point": "A value model combines the predictions into one score: each chance times a weight, negative weights for unwanted behaviours",
+            "modality": "prose"
+          },
+          {
+            "point": "The weights are product decisions, tuned with A/B tests and changeable without retraining",
+            "modality": "prose"
+          },
+          {
+            "point": "The predictions must be calibrated, or the head that overstates its chances takes over the ranking",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why does a modern ranking model predict several behaviours for each item instead of one score, and how do those predictions become a single ranking?",
+        "recallA": "Because no single behaviour captures value: optimizing clicks alone rewards clickbait, and a purchase that gets returned or an item the user hides is a loss. One shared model predicts several behaviours per item (click, purchase, return, hide), and a value model multiplies each prediction by a weight, negative for unwanted behaviours, and adds them up into one score. The weights encode the product's goals and are tuned with experiments.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "sequential-recommendation",
       "title": "Sequential recommendation",
       "chapter": "ch05m-modern-recommenders",
@@ -1440,6 +1718,52 @@
       }
     },
     {
+      "id": "incrementality",
+      "title": "Incrementality",
+      "chapter": "ch06-evaluation",
+      "anchor": "incrementality",
+      "anchorPath": "ch06-evaluation/03f-spine-incrementality.md",
+      "provenance": "anchored",
+      "parents": [
+        "ab-testing",
+        "objectives"
+      ],
+      "blocks": [
+        "incrementality",
+        "incrementality-tldr",
+        "incrementality-holdout-design"
+      ],
+      "contract": {
+        "objective": "The dashboard says recommendations bring in 18% of revenue. The number that matters is how much of it would have happened without them.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Attributed revenue counts sales that passed through a recommendation, not sales it caused",
+            "modality": "prose"
+          },
+          {
+            "point": "Incrementality is the gap between a recommended group and a random holdout that gets no recommendations",
+            "modality": "prose"
+          },
+          {
+            "point": "Report lift per user in money or retention, with a confidence interval, not clicks",
+            "modality": "prose"
+          },
+          {
+            "point": "Keep a small holdout running for months to catch slow effects in both directions",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why is 'X% of revenue comes through recommendations' not proof that the recommender works, and what is?",
+        "recallA": "That number is attributed revenue: it counts every sale that passed through a recommendation, including sales that would have happened anyway or only moved from another shelf. Proof is incremental lift: compare shoppers who get recommendations with a randomly held-out control group that doesn't, and report the difference in revenue or retention per user, with its uncertainty (a confidence interval).",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "filter-bubbles",
       "title": "Filter bubbles and diversity",
       "chapter": "ch06-evaluation",
@@ -1522,6 +1846,53 @@
         ],
         "recallQ": "What is the offline evaluation bias and how can it be corrected?",
         "recallA": "Offline data reflects the OLD system — new models recommending different items look worse because those items were never shown. Correction: LLOO with popularity penalization (β ≈ 0.30) improves model selection accuracy from 12.9% to 34.3%.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "llm-judge-evaluation",
+      "title": "LLM judges and simulated users",
+      "chapter": "ch06-evaluation",
+      "anchor": "llm-judge-evaluation",
+      "anchorPath": "ch06-evaluation/07-spine-llm-judge-evaluation.md",
+      "provenance": "anchored",
+      "parents": [
+        "evaluation-metrics",
+        "ab-testing",
+        "llm-recommenders"
+      ],
+      "blocks": [
+        "llm-judge-evaluation",
+        "llm-judge-evaluation-tldr",
+        "llm-judge-calibration"
+      ],
+      "contract": {
+        "objective": "An LLM can grade thousands of recommendation explanations before lunch. Swap the order of two answers, though, and it may change its mind.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "LLM judges grade outputs that have no clicks yet (explanations, chat answers) in hours instead of weeks",
+            "modality": "prose"
+          },
+          {
+            "point": "Judges have documented biases: option order, length, their own model's writing, popular items",
+            "modality": "prose"
+          },
+          {
+            "point": "Simulated users are too agreeable and too mainstream to stand in for real ones",
+            "modality": "prose"
+          },
+          {
+            "point": "Check the judge against human labels, swap order and hide authorship, then let an A/B test decide",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "Why can't an LLM judge replace an A/B test for a recommender, and how do you make it useful anyway?",
+        "recallA": "The judge has systematic biases (it is swayed by the order options appear in, and favors longer answers, text from its own model, and popular items), and simulated users behave unlike real ones, so their verdicts can disagree with what real users do. It becomes useful as a fast filter once you check its agreement with human labels, swap the order and hide which model wrote what, and confirm the winners in an online A/B test.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -1731,6 +2102,103 @@
       }
     },
     {
+      "id": "launch-playbook",
+      "title": "Launching recommendations in a product",
+      "chapter": "ch08-deployment",
+      "anchor": "launch-playbook",
+      "anchorPath": "ch08-deployment/05y-spine-launch-playbook.md",
+      "provenance": "anchored",
+      "parents": [
+        "build-vs-buy",
+        "scenarios",
+        "feedback-signals",
+        "popularity",
+        "ab-testing",
+        "incrementality",
+        "north-star-and-guardrails",
+        "monitoring"
+      ],
+      "blocks": [
+        "launch-playbook",
+        "launch-playbook-tldr"
+      ],
+      "contract": {
+        "objective": "The model is the last thing you need on day one. A month-by-month checklist for the product owner who just got the green light.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Start with one high-traffic surface and a popularity baseline the model must beat",
+            "modality": "prose"
+          },
+          {
+            "point": "Log impressions with their position, not just clicks and purchases, before training anything",
+            "modality": "prose"
+          },
+          {
+            "point": "Launch as an A/B test with a long-running holdout and guardrails written down in advance",
+            "modality": "prose"
+          },
+          {
+            "point": "Run a weekly ship-or-kill review and a monthly one-page update with lift in money",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What three things should be in place before the first personalized model goes live?",
+        "recallA": "One chosen surface with a non-personalized baseline (such as bestsellers) that the model has to beat; event tracking that logs impressions with their position as well as clicks and purchases, under stable user and item IDs; and an A/B test with a random holdout and a primary metric plus guardrail metrics agreed before the start.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "real-time-signals",
+      "title": "Real-time signals",
+      "chapter": "ch08-deployment",
+      "anchor": "real-time-signals",
+      "anchorPath": "ch08-deployment/05p-spine-real-time-signals.md",
+      "provenance": "anchored",
+      "parents": [
+        "pipeline",
+        "session-based",
+        "context-awareness"
+      ],
+      "blocks": [
+        "real-time-signals",
+        "real-time-signals-tldr"
+      ],
+      "contract": {
+        "objective": "She has opened three tents in five minutes. The homepage still offers her a frying pan. Freshness costs money, and it can break in a way no dashboard shows.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Signals arrive in three tiers: nightly batch (long-term taste), streaming (minutes: counts and trends), request-time (seconds: this session)",
+            "modality": "prose"
+          },
+          {
+            "point": "Freshness pays where intent shifts fast (news, live events, short video, in-session shopping); a stable catalog and stable taste can live with daily updates",
+            "modality": "prose"
+          },
+          {
+            "point": "Training–serving skew: the model is trained on one version of a feature and served another, so it fails quietly",
+            "modality": "prose"
+          },
+          {
+            "point": "Log features at serving time and train on those logs; reuse the same feature code in both paths",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What is training–serving skew, and why do real-time features make it more likely?",
+        "recallA": "Training–serving skew is when the features a model sees in production differ from the ones it was trained on: computed by different code, at a different time, or with future information that leaked into the training data. Real-time features are computed on a separate streaming path, under time pressure, while the training copy is usually rebuilt later from complete logs, so the two versions drift apart easily. The fix is to log the features exactly as they were served and train on those logs.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "production-scale",
       "title": "Production at scale",
       "chapter": "ch08-deployment",
@@ -1927,6 +2395,53 @@
       }
     },
     {
+      "id": "supply-side-dynamics",
+      "title": "Recommenders shape supply",
+      "chapter": "ch11-ethics",
+      "anchor": "supply-side-dynamics",
+      "anchorPath": "ch11-ethics/02f-spine-supply-side-dynamics.md",
+      "provenance": "anchored",
+      "parents": [
+        "objectives",
+        "fairness",
+        "long-tail",
+        "item-cold-start"
+      ],
+      "blocks": [
+        "supply-side-dynamics",
+        "supply-side-dynamics-tldr"
+      ],
+      "contract": {
+        "objective": "A ranking objective is a job ad read by every creator on the platform. Change it, and six months later the catalog looks different.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Creators and sellers adapt to whatever the ranking rewards, so the objective shapes the future catalog",
+            "modality": "prose"
+          },
+          {
+            "point": "Engagement-only ranking homogenizes content and makes mass-produced AI uploads a cheap lottery ticket",
+            "modality": "prose"
+          },
+          {
+            "point": "Track supply health next to user metrics: newcomer exposure, creator retention, concentration",
+            "modality": "prose"
+          },
+          {
+            "point": "Levers: exposure budgets for newcomers, diversity re-ranking, rewarding satisfaction and originality, filtering or labelling mass uploads",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How can a recommender's objective change the catalog itself over time?",
+        "recallA": "Creators and sellers learn what the ranking rewards and make more of it. An engagement-only objective breeds look-alike or bait content, starves newcomers of an audience and invites mass-produced AI uploads. Objectives and guardrails that include newcomer exposure, diversity and satisfaction, tracked with supply-health metrics such as creator retention and concentration, keep the supply varied and healthy.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
       "id": "ads-vs-recs",
       "title": "Ads vs. recommendations",
       "chapter": "ch11-ethics",
@@ -1991,6 +2506,100 @@
         ],
         "recallQ": "What is a \"digital twin\" in the context of recommender systems?",
         "recallA": "A mathematical model of your behavioral patterns — platforms construct one from your interaction data without necessarily needing your real identity.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "recommender-regulation",
+      "title": "Recommender rules in the EU",
+      "chapter": "ch11-ethics",
+      "anchor": "recommender-regulation",
+      "anchorPath": "ch11-ethics/03g-spine-recommender-regulation.md",
+      "provenance": "anchored",
+      "parents": [
+        "explanations",
+        "steerability",
+        "privacy-reality",
+        "who-decides"
+      ],
+      "blocks": [
+        "recommender-regulation",
+        "recommender-regulation-tldr"
+      ],
+      "contract": {
+        "objective": "Platform, small, very large: three questions decide whether the Digital Services Act's recommender duties are yours. GDPR applies either way.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "The DSA's recommender duties apply to online platforms, where users publish to others, not to a shop recommending its own catalogue",
+            "modality": "prose"
+          },
+          {
+            "point": "Micro and small platforms are exempt; other platforms must explain their recommenders' main parameters in plain language",
+            "modality": "prose"
+          },
+          {
+            "point": "Only very large platforms must offer a feed option not based on profiling",
+            "modality": "prose"
+          },
+          {
+            "point": "GDPR and consumer law apply to every personalized recommender; check the details with counsel",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "How does a product team find out which EU rules apply to its recommender, and what does the Digital Services Act require at each level?",
+        "recallA": "Ask three questions in order. Is the service an online platform, where users publish content to the public through it? If not, or if it is a micro or small enterprise, the DSA's recommender duties do not apply. Other platforms must explain the main parameters of their recommenders in plain language in their terms and conditions, including any options users have to change them (Art. 27). Only very large platforms (at least 45 million monthly EU users, designated by the Commission) must also offer at least one option not based on profiling (Art. 38). GDPR and consumer law apply to every personalized recommender regardless.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "harm-aware-ranking",
+      "title": "Safety in ranking",
+      "chapter": "ch11-ethics",
+      "anchor": "harm-aware-ranking",
+      "anchorPath": "ch11-ethics/03h-spine-harm-aware-ranking.md",
+      "provenance": "anchored",
+      "parents": [
+        "pipeline",
+        "filter-bubbles",
+        "who-decides",
+        "satisfaction-vs-engagement"
+      ],
+      "blocks": [
+        "harm-aware-ranking",
+        "harm-aware-ranking-tldr"
+      ],
+      "contract": {
+        "objective": "Every video in the feed passed moderation. The feed as a whole still wasn't safe. Why the ranker needs its own safety layer, and how to measure whether it works.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Remove what breaks the rules, reduce the reach of borderline content, inform with labels and context",
+            "modality": "prose"
+          },
+          {
+            "point": "Harm can come from the sequence and the audience, not only from a single item",
+            "modality": "prose"
+          },
+          {
+            "point": "Integrity signals act inside ranking as eligibility filters, score penalties and sequence limits",
+            "modality": "prose"
+          },
+          {
+            "point": "Measure prevalence (the share of views that were harmful) and the legitimate content you demoted by mistake",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What does 'reduce' mean in content safety for recommenders, and why isn't removal enough?",
+        "recallA": "'Reduce' means borderline content stays on the platform but is not amplified: it is ranked lower or kept out of recommendations, while followers or search can still reach it. Removal only handles clear rule violations; the recommender's own choices about what to push, to whom and in what sequence can still cause harm, and engagement tends to rise as content nears the policy line. So safety signals must enter ranking, and success is measured by prevalence: the share of views that land on harmful content.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
@@ -2973,6 +3582,53 @@
         ],
         "recallQ": "Why doesn't \"ranking #1 on Google\" exist anymore?",
         "recallA": "Results are personalized — your content can be #1 for your target audience and invisible to everyone else.",
+        "forbidden": [
+          "invented statistics or benchmark numbers",
+          "invented citations, URLs, or paper titles",
+          "claiming a single method fully solves the problem"
+        ]
+      }
+    },
+    {
+      "id": "ai-assistant-visibility",
+      "title": "Visibility in AI assistants",
+      "chapter": "ch14-build",
+      "anchor": "ai-assistant-visibility",
+      "anchorPath": "ch14-build/05c2-spine-ai-assistant-visibility.md",
+      "provenance": "anchored",
+      "parents": [
+        "algorithmic-seo",
+        "search-vs-recs",
+        "llm-recommenders",
+        "pipeline"
+      ],
+      "blocks": [
+        "ai-assistant-visibility",
+        "ai-assistant-visibility-tldr"
+      ],
+      "contract": {
+        "objective": "A customer asks an assistant which trail shoes to buy. Your shoe is a perfect fit and goes unmentioned. Here is what decides that, and what you can change.",
+        "objectiveSource": "teaser-bootstrap",
+        "mustCover": [
+          {
+            "point": "Assistants retrieve first, then write: an item that is not in the retrieved set cannot be mentioned",
+            "modality": "prose"
+          },
+          {
+            "point": "What you control: being crawlable, accurate product data, and pages that state plainly who the item is for",
+            "modality": "prose"
+          },
+          {
+            "point": "There is no stable rank #1 in an assistant; measure share of mentions across a prompt set",
+            "modality": "prose"
+          },
+          {
+            "point": "Hidden instructions and planted prompts are spam and prompt injection, not optimization",
+            "modality": "prose"
+          }
+        ],
+        "recallQ": "What has to be true before an AI assistant can recommend your product, and how do you measure whether it does?",
+        "recallA": "The product must first be retrievable: present, with accurate data, in the sources the assistant searches (crawlable and indexed web pages, product feeds, independent reviews). Then its content must plainly answer the kind of request people make, because the language model chooses what to mention from what it retrieved. Answers change with phrasing, context and model, so you measure the share of mentions across many realistic prompts run repeatedly, not a rank.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
