@@ -24,7 +24,7 @@ genre: explainer
 carriers: prose|table|formula
 ---
 
-E-commerce is where recommendation systems have the most directly measurable impact. Amazon famously attributes 35% of its revenue to recommendations. The reason is straightforward: in a catalog of millions of products, helping users find what they need translates directly into sales.
+E-commerce is where recommendation systems have the most directly measurable impact. A much-quoted 2013 McKinsey estimate puts 35% of Amazon purchases downstream of a recommendation (a share of sales that passed through recommendations, not sales they caused; Amazon itself never published the number). The reason is straightforward: in a catalog of millions of products, helping users find what they need translates directly into sales.
 
 ## What Makes E-commerce Different
 
@@ -102,3 +102,6 @@ Price creates unique challenges:
 For practical implementation guidance, see the [e-commerce recommendation recipes](https://docs.recombee.com/recipes/e-commerce) and an overview of [e-commerce domain solutions](https://www.recombee.com/domains/e-commerce).
 
 **Consider this:** E-commerce recommendation is the domain where the ROI of a better algorithm is most directly measurable. A 1% improvement in recommendation relevance can translate to millions in incremental revenue for a large retailer. This direct feedback loop makes e-commerce both the most rewarding and the most competitive domain for RecSys.
+
+**Sources:**
+- MacKenzie, Meyer & Noble, "[How retailers can keep up with consumers](https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers)," McKinsey & Company, October 2013 (source of the 35% figure; no underlying data published).

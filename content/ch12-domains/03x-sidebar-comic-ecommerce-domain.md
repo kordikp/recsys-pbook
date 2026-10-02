@@ -26,4 +26,4 @@ carriers: image
 
 ![Your Cart Has Been Taking Notes — a four-panel comic](images/comic-ecommerce-domain.svg)
 
-*Amazon attributes 35% of revenue to recommendations—a directly measurable business impact.*
+*A 2013 McKinsey estimate: 35% of what people buy on Amazon passes through a recommendation. Passed through, not caused by: only a holdout test tells you how much the recommendations added.*
