@@ -18,6 +18,7 @@ highlights:
 status: accepted
 concept: content-based
 conceptTitle: "Content-based recommendation"
+parents: data-pillars
 state: core
 lens: generic
 visuality: balanced

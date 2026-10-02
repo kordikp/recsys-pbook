@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: evaluation-metrics
 conceptTitle: "Evaluation metrics"
+parents: objectives
 state: core
 lens: generic
 visuality: text-first

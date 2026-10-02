@@ -19,6 +19,7 @@ publishedAt: "2026-04-07"
 status: accepted
 concept: steerability
 conceptTitle: "Steerable recommendations"
+parents: explanations
 state: core
 lens: generic
 visuality: balanced

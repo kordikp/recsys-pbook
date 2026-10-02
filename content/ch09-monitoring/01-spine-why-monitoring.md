@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: monitoring
 conceptTitle: "Monitoring recommender systems"
+parents: ab-testing
 state: core
 lens: generic
 visuality: balanced

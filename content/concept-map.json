@@ -158,7 +158,10 @@
    "tema": "ch02-data",
    "state": "core",
    "teaser": "A brand-new item has zero interactions. How does a recommender give it a fair first day?",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "data-pillars"
+   ]
   },
   {
    "slug": "objectives",
@@ -238,7 +241,11 @@
    "tema": "ch05-algorithms",
    "state": "core",
    "teaser": "What if a million users with your exact preferences could recommend items to you?",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "digital-footprints",
+    "data-pillars"
+   ]
   },
   {
    "slug": "content-based",
@@ -246,7 +253,10 @@
    "tema": "ch05-algorithms",
    "state": "core",
    "teaser": "Forget other users. What if the system analyzed the ITEM's intrinsic properties instead?",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "data-pillars"
+   ]
   },
   {
    "slug": "explore-exploit",
@@ -262,7 +272,11 @@
    "tema": "ch05-algorithms",
    "state": "core",
    "teaser": "A jazz ballad and an ambient electronic track might evoke similar feelings. How does a machine learn to capture that?",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "collaborative-filtering",
+    "content-based"
+   ]
   },
   {
    "slug": "graph-methods",
@@ -270,7 +284,11 @@
    "tema": "ch05-algorithms",
    "state": "core",
    "teaser": "What if the best way to recommend isn't to decompose a matrix, but to traverse a network? Graph methods reveal structural patterns that linear algebra alone can",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "collaborative-filtering",
+    "embeddings"
+   ]
   },
   {
    "slug": "multimodal",
@@ -278,7 +296,11 @@
    "tema": "ch05-algorithms",
    "state": "core",
    "teaser": "Multimodal recommendation",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "embeddings",
+    "content-based"
+   ]
   },
   {
    "slug": "popularity",
@@ -294,7 +316,10 @@
    "tema": "ch05-algorithms",
    "state": "core",
    "teaser": "Production systems don't use just one method. They orchestrate ALL of them in a multi-stage pipeline.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "embeddings"
+   ]
   },
   {
    "slug": "ab-testing",
@@ -310,7 +335,10 @@
    "tema": "ch06-evaluation",
    "state": "core",
    "teaser": "When recommendations are too effective, users only encounter what they already prefer -- and never realize what they are missing.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "objectives"
+   ]
   },
   {
    "slug": "evaluation-metrics",
@@ -318,7 +346,10 @@
    "tema": "ch06-evaluation",
    "state": "core",
    "teaser": "The biggest risk in recommender systems isn't a bad algorithm — it's measuring the wrong thing.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "objectives"
+   ]
   },
   {
    "slug": "why-explain",
@@ -342,7 +373,11 @@
    "tema": "ch07-explainability",
    "state": "core",
    "teaser": "From transparent models you can read directly to post-hoc methods that approximate what a black box is doing -- every explainability approach trades off between",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "explanations",
+    "embeddings"
+   ]
   },
   {
    "slug": "steerability",
@@ -350,7 +385,10 @@
    "tema": "ch07-explainability",
    "state": "core",
    "teaser": "What if you could tell the algorithm 'more of this, less of that' — not by fighting it, but by turning its own knobs?",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "explanations"
+   ]
   },
   {
    "slug": "build-vs-buy",
@@ -366,7 +404,11 @@
    "tema": "ch08-deployment",
    "state": "core",
    "teaser": "Research algorithms must survive the harsh reality of production: latency budgets, memory limits, and billions of daily interactions.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "pipeline",
+    "embeddings"
+   ]
   },
   {
    "slug": "monitoring",
@@ -374,7 +416,10 @@
    "tema": "ch09-monitoring",
    "state": "core",
    "teaser": "A recommendation system can return HTTP 200 on every request and still be catastrophically broken. Traditional software monitoring catches crashes. RecSys monit",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "ab-testing"
+   ]
   },
   {
    "slug": "business-rules",
@@ -382,7 +427,10 @@
    "tema": "ch10-customization",
    "state": "core",
    "teaser": "The algorithm says 'recommend item X.' The product manager says 'but X is out of stock.' Business rules bridge the gap between algorithmic optimization and real",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "pipeline"
+   ]
   },
   {
    "slug": "who-decides",
@@ -526,7 +574,10 @@
    "tema": "ch13-research",
    "state": "core",
    "teaser": "How a single matrix inverse led to one of the most elegant recommendation algorithms — and why it needed to evolve.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "collaborative-filtering"
+   ]
   },
   {
    "slug": "vasp",
@@ -534,7 +585,10 @@
    "tema": "ch13-research",
    "state": "core",
    "teaser": "Linear models find smooth patterns. Deep models find complex clusters. What happens when you combine them?",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "ease-elsa"
+   ]
   },
   {
    "slug": "bandits-in-practice",
@@ -542,7 +596,10 @@
    "tema": "ch13-research",
    "state": "core",
    "teaser": "Should you recommend what you know works, or take a risk on something new? Bandit algorithms solve this fundamental dilemma.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "explore-exploit"
+   ]
   },
   {
    "slug": "beeformer",
@@ -550,7 +607,11 @@
    "tema": "ch13-research",
    "state": "core",
    "teaser": "New items have zero interactions. How do you recommend something nobody has seen? The answer involves teaching computers to read.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "item-cold-start",
+    "ease-elsa"
+   ]
   },
   {
    "slug": "steering-knobs",
@@ -558,7 +619,11 @@
    "tema": "ch13-research",
    "state": "core",
    "teaser": "What if users could turn knobs to steer their recommendations — boosting 'date night movies' or promoting a favorite director? Sparse autoencoders make this pos",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "steerability",
+    "embeddings"
+   ]
   },
   {
    "slug": "research-roadmap",
@@ -598,7 +663,10 @@
    "tema": "ch14-build",
    "state": "core",
    "teaser": "Who has correlated preferences? Identify your nearest neighbors.",
-   "rel": []
+   "rel": [],
+   "prereq": [
+    "collaborative-filtering"
+   ]
   },
   {
    "slug": "diy-predict",

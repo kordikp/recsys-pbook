@@ -17,6 +17,7 @@ highlights:
 status: accepted
 concept: diy-similar-users
 conceptTitle: "Build your own: similar users"
+parents: collaborative-filtering
 state: core
 lens: generic
 visuality: text-first

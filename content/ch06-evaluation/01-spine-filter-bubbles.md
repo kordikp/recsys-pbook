@@ -18,6 +18,7 @@ highlights:
 status: accepted
 concept: filter-bubbles
 conceptTitle: "Filter bubbles and diversity"
+parents: objectives
 state: core
 lens: generic
 visuality: balanced

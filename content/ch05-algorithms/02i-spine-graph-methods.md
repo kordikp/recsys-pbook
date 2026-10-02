@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: graph-methods
 conceptTitle: "Graph-based methods"
+parents: collaborative-filtering|embeddings
 state: core
 lens: generic
 visuality: balanced

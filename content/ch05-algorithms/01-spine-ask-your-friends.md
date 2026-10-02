@@ -18,6 +18,7 @@ highlights:
 status: accepted
 concept: collaborative-filtering
 conceptTitle: "Collaborative filtering"
+parents: digital-footprints|data-pillars
 state: core
 lens: generic
 visuality: balanced

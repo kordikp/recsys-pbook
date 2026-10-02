@@ -19,6 +19,7 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: ease-elsa
 conceptTitle: "EASE to ELSA"
+parents: collaborative-filtering
 state: core
 lens: generic
 visuality: text-first
