@@ -1,0 +1,51 @@
+{
+  "type": "mixer",
+  "title": "Tune the Feed",
+  "minutes": 4,
+  "instruction": "You run a video feed. Each video has two predictions: how likely you'll click it, and how likely you'll be glad you watched it. Set how much each one counts and watch the top 5 change.",
+  "slots": 5,
+  "weights": [
+    { "key": "click", "label": "Weight on predicted click", "default": 100 },
+    { "key": "glad", "label": "Weight on predicted \"glad I watched\"", "default": 0 }
+  ],
+  "toggles": [
+    { "key": "topicCap", "label": "Rule: at most 2 videos per topic", "kind": "maxPer", "field": "topic", "n": 2 },
+    { "key": "newSlot", "label": "Rule: reserve 1 slot for a new creator", "kind": "reserve", "field": "newCreator", "n": 1 }
+  ],
+  "kpis": [
+    { "key": "click", "label": "Expected clicks (top 5)", "agg": "sum" },
+    { "key": "glad", "label": "Glad I watched (average)", "agg": "mean" },
+    { "key": "topic", "as": "topics", "label": "Topics shown", "agg": "distinct" },
+    { "key": "newCreator", "as": "newCreators", "label": "New creators shown", "agg": "count" }
+  ],
+  "chips": [
+    { "field": "topic" },
+    { "field": "newCreator", "flag": "new creator", "tone": "user" }
+  ],
+  "show": [
+    { "key": "click", "label": "Predicted click", "short": "click" },
+    { "key": "glad", "label": "Predicted glad I watched", "short": "glad" }
+  ],
+  "items": [
+    { "title": "You won't believe what happens at 0:47", "topic": "trivia", "click": 0.92, "glad": 0.15 },
+    { "title": "Celebrity feud, part 1", "topic": "gossip", "click": 0.88, "glad": 0.1 },
+    { "title": "Celebrity feud, part 2", "topic": "gossip", "click": 0.86, "glad": 0.12 },
+    { "title": "10 facts you'll forget by tomorrow", "topic": "trivia", "click": 0.85, "glad": 0.15 },
+    { "title": "5 kitchen hacks that actually work", "topic": "cooking", "click": 0.82, "glad": 0.78 },
+    { "title": "Cat compilation #48", "topic": "pets", "click": 0.8, "glad": 0.4 },
+    { "title": "15-minute dinner recipe", "topic": "cooking", "click": 0.72, "glad": 0.76 },
+    { "title": "Another weeknight pasta", "topic": "cooking", "click": 0.7, "glad": 0.7 },
+    { "title": "Tiny apartment tour", "topic": "home", "click": 0.58, "glad": 0.55 },
+    { "title": "How airplanes actually stay up", "topic": "science", "click": 0.45, "glad": 0.85 },
+    { "title": "Personal finance basics in 8 minutes", "topic": "money", "click": 0.45, "glad": 0.8 },
+    { "title": "Beginner guitar, lesson 1", "topic": "music", "click": 0.42, "glad": 0.72, "newCreator": true },
+    { "title": "A local hiking trail, filmed by a first-time creator", "topic": "outdoors", "click": 0.36, "glad": 0.8, "newCreator": true }
+  ],
+  "goals": [
+    { "text": "The feed ranks by predicted click only. Look at what wins.", "why": "Clickbait and a celebrity feud take the top slots. They are the most clickable, and nothing else counts, so 'glad I watched' stays low." },
+    { "text": "Get 'glad I watched' to 0.60 or more while keeping at least 70 % of the clicks.", "check": { "glad": ">=0.6", "click_rel": ">=0.7" }, "why": "Blending a satisfaction prediction into the score gives up a few clicks for a feed people are glad they watched. The objective, not the algorithm, decides what a good feed is." },
+    { "text": "Keep both, and also show at least 5 topics and at least 1 new creator.", "check": { "glad": ">=0.6", "click_rel": ">=0.7", "topics": ">=5", "newCreators": ">=1" }, "why": "Weights alone rarely buy variety or a fair start for newcomers. Rules in the re-ranking step, like a topic cap or a reserved slot, do it directly, at a cost in clicks you can see." }
+  ],
+  "toyNote": "Toy predictions for illustration, not measurements from a real platform.",
+  "debrief": "A ranking is a weighted objective plus rules. Whoever sets the weights decides what the feed is for: clicks, satisfaction, variety or a fair start for new creators."
+}
