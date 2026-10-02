@@ -100,6 +100,6 @@ Embedding visualizations are powerful but easy to over-interpret:
 
 Visualization is a workaround for the opacity of dense embeddings. If the embeddings themselves are interpretable, visualization becomes less necessary.
 
-Sparse ELSA (discussed in the research chapter) learns embeddings where each active dimension corresponds to a semantic category -- "children's classics," "detective fiction," "science fiction romance." Instead of projecting 128 opaque dimensions to 2, you can directly inspect the 10 active dimensions of an item's sparse representation and immediately understand what the model has learned about it.
+Sparse ELSA (see [EASE to ELSA](#c/ease-elsa)) learns embeddings where each active dimension corresponds to a semantic category -- "children's classics," "detective fiction," "science fiction romance." Instead of projecting 128 opaque dimensions to 2, you can directly inspect the 10 active dimensions of an item's sparse representation and immediately understand what the model has learned about it.
 
 This does not replace visualization entirely -- you still want to see global structure, clusters, and outliers. But interpretable factors reduce the burden on visualization as the primary tool for understanding model behavior.

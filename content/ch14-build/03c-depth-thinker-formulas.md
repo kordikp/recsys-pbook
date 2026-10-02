@@ -58,7 +58,7 @@ where I_AB is the set of co-rated items and ā, b̄ are the respective user mean
 
 ## 2. Matrix Factorization & ALS — "Find the hidden dimensions"
 
-For the full treatment of matrix factorization -- how it decomposes the rating matrix **R ≈ P × Qᵀ** into low-rank user and item factor matrices, how the ALS (Alternating Least Squares) algorithm optimizes the latent factors, and why this approach won the Netflix Prize -- see the dedicated section in Chapter 3.
+For the full treatment of matrix factorization -- how it decomposes the rating matrix **R ≈ P × Qᵀ** into low-rank user and item factor matrices, how the ALS (Alternating Least Squares) algorithm optimizes the latent factors, and why this approach won the Netflix Prize -- see [Matrix Factorization](#ch3-matrix-factorization).
 
 ## 3. Precision and Recall — "Did we recommend the right items?"
 
@@ -106,7 +106,7 @@ $$\text{nDCG@k} = \frac{\text{DCG@k}}{\text{IDCG@k}}$$
 |---------|-----------------|-------------|
 | Cosine similarity | Direction alignment between preference vectors | User-user or item-item collaborative filtering |
 | Adjusted cosine / Pearson | Mean-centered pattern similarity | Bias-aware collaborative filtering |
-| Matrix factorization | Latent factor decomposition | Model training (see Ch. 3) |
+| Matrix factorization | Latent factor decomposition | Model training (see [Matrix Factorization](#ch3-matrix-factorization)) |
 | Precision@k | Fraction of relevant items in top-k | Recommendation quality (relevance) |
 | Recall@k | Fraction of relevant items captured | Recommendation quality (coverage) |
 | nDCG@k | Ranking quality with position discounting | Evaluation of ranked recommendation lists |

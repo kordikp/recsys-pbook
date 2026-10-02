@@ -23,7 +23,7 @@ genre: explainer
 carriers: prose|table|image|formula
 ---
 
-The parent section established that every recommender optimizes an objective function, and that different stakeholders want different things. This section confronts the mathematical reality of what happens when you try to optimize for *all of them at once*.
+The [objectives explainer](#c/objectives) established that every recommender optimizes an objective function, and that different stakeholders want different things. This section confronts the mathematical reality of what happens when you try to optimize for *all of them at once*.
 
 The short answer: you cannot. The longer answer involves Pareto frontiers, Lagrangian multipliers, and a healthy respect for Goodhart's Law.
 

@@ -31,13 +31,13 @@ carriers: prose|diagram
 
 Every item in a catalog was new once. And on its first day, the recommender's favorite trick fails completely.
 
-**Collaborative filtering runs on co-interaction patterns** — "people who liked this also liked that." A brand-new item has no interactions, so there are no patterns. It is invisible to the very algorithm that drives most recommendations. This is the **item cold start** problem, and it is not an edge case: on platforms with fast-moving catalogs (news, jobs, fashion), a meaningful share of the catalog is *always* cold.
+**[Collaborative filtering](#c/collaborative-filtering) runs on co-interaction patterns** — "people who liked this also liked that." A brand-new item has no interactions, so there are no patterns. It is invisible to the very algorithm that drives most recommendations. This is the **item cold start** problem, and it is not an edge case: on platforms with fast-moving catalogs (news, jobs, fashion), a meaningful share of the catalog is *always* cold.
 
 Two bridges carry a new item across its first days:
 
-**Bridge 1 — content similarity.** The item may have no behavioral history, but it is not a blank: it has a title, a description, tags, an image, maybe audio. From these attributes the system computes where the item *belongs* — next to which known items it would sit in the embedding space. Modern systems (like the beeFormer approach we meet later) train text encoders so that "similar by attributes" predicts "similar by future behavior" as closely as possible. The new item can then ride its neighbors' reputation: shown to the people who love the items it resembles.
+**Bridge 1 — content similarity.** The item may have no behavioral history, but it is not a blank: it has a title, a description, tags, an image, maybe audio. From these attributes the system computes where the item *belongs* — next to which known items it would sit in the [embedding space](#c/embeddings). Modern systems (like the beeFormer approach we meet later) train text encoders so that "similar by attributes" predicts "similar by future behavior" as closely as possible. The new item can then ride its neighbors' reputation: shown to the people who love the items it resembles.
 
-**Bridge 2 — controlled exploration.** Content similarity is a guess; only real interactions confirm it. So the system spends a small **exploration budget**: the new item gets a bounded number of fair impressions — enough to gather honest signal, not so many that a poor item pollutes everyone's feed. Every click, save or purchase during this window is disproportionately valuable, because it converts the item from "guessed" to "known."
+**Bridge 2 — controlled exploration.** Content similarity is a guess; only real interactions confirm it. So the system spends a small **[exploration budget](#c/explore-exploit)**: the new item gets a bounded number of fair impressions — enough to gather honest signal, not so many that a poor item pollutes everyone's feed. Every click, save or purchase during this window is disproportionately valuable, because it converts the item from "guessed" to "known."
 
 Once the first interactions accrue, collaborative signal takes over and the training wheels come off. The craft is in the handoff: lean on content when behavior is scarce, and shift weight to behavior as it arrives.
 
