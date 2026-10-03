@@ -2017,6 +2017,9 @@ class PBook {
     if (genre === 'code-walkthrough') return 'code';
     if (len.includes('deep')) return 'deep';
     if (depth[0] === 'intro') return 'gentle intro';
+    // the anchor is not "another take" (the notice read "The telling you opened: another take")
+    const id = b.id || b.meta?.id;
+    if (id && this.concepts?.[this._conceptIds(b.meta || b)[0]]?.anchor === id) return 'main telling';
     return 'another take';
   }
 
