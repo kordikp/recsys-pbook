@@ -2,7 +2,7 @@
 id: ch6-law-sidebar
 type: spine
 title: "The Regulatory Landscape: Laws Catching Up to Algorithms"
-readingTime: 2
+readingTime: 4
 standalone: true
 teaser: "The DSA, AI Act, GDPR, CCPA -- a growing regulatory framework is targeting recommendation algorithms. But enforcement remains the hard problem."
 voice: universal

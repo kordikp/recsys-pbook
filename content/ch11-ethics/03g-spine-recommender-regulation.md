@@ -2,7 +2,7 @@
 id: recommender-regulation
 type: spine
 title: "Does the EU Regulate Your Recommender? Three Questions"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "Platform, small, very large: three questions decide whether the Digital Services Act's recommender duties are yours. GDPR applies either way."
@@ -25,7 +25,7 @@ lang: en
 depth: standard
 formalism: none
 visuality: balanced
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|diagram
 ---

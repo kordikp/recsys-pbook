@@ -4,14 +4,14 @@ type: spine
 title: "The Scale of Modern Recommendation"
 readingTime: 2
 standalone: true
-teaser: "800 million items. 200 milliseconds. The computational demands behind production recommendation systems are staggering."
+teaser: "Even a deliberately small 800-million-video slice of YouTube has to be searched, scored and filtered in about 200 milliseconds. The arithmetic behind production recommenders."
 voice: thinker
 parent: null
 diagram: null
 recallQ: "How long would it take a human to do what YouTube does in 1 second?"
 recallA: "About 25 years of non-stop work at one item per second, just for an 800-million-item catalog (YouTube's real catalog is larger). That's why algorithmic retrieval and staged pipelines are essential."
 highlights:
-  - "YouTube selects 20 optimal videos from 800M in 0.2 seconds"
+  - "Even an 800-million-video slice of YouTube (the real catalog runs into the billions) must be narrowed to 20 picks in about 0.2 seconds"
   - "A human reviewing 1 video/second would need 25 years for YouTube's 1-second task"
   - "Multi-stage pipeline makes the computationally impossible achievable"
 status: accepted

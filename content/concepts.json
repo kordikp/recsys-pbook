@@ -849,12 +849,8 @@
       "provenance": "anchored",
       "parents": [
         "scenarios",
-        "popularity",
         "context-awareness",
-        "session-based",
-        "user-cold-start",
-        "steerability",
-        "ab-testing"
+        "user-cold-start"
       ],
       "blocks": [
         "personalization-levels",
@@ -899,9 +895,7 @@
       "provenance": "anchored",
       "parents": [
         "scenarios",
-        "feedback-signals",
-        "explanations",
-        "ab-testing"
+        "feedback-signals"
       ],
       "blocks": [
         "recommendation-presentation",
@@ -2123,8 +2117,7 @@
         "popularity",
         "ab-testing",
         "incrementality",
-        "north-star-and-guardrails",
-        "monitoring"
+        "north-star-and-guardrails"
       ],
       "blocks": [
         "launch-playbook",

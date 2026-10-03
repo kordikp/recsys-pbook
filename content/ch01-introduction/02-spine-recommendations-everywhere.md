@@ -56,7 +56,7 @@ Autocomplete suggestions and personalized search results are recommendations —
 
 That's at least **eight domains**, and we haven't even covered dating apps, financial services, healthcare platforms, or enterprise tools like Slack and Microsoft Teams.
 
-**Try this:** Try counting the recommendations you encounter in a single day. Feeds, search results, "up next" queues, shop carousels and notification picks all count. Most people stop counting well before lunch, and most of the picks arrive without being noticed.
+**Try this:** Count the recommendations you encounter in a single day. Feeds, search results, "up next" queues, shop carousels and notification picks all count. Most people stop counting well before lunch, and most of the picks arrive without being noticed.
 
 **Sources:**
 - MacKenzie, Meyer & Noble, "[How retailers can keep up with consumers](https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers)," McKinsey & Company, October 2013 (source of the 35% figure; no underlying data published).

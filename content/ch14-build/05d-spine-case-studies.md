@@ -39,7 +39,7 @@ Academic papers give you the theory. Benchmarks give you a leaderboard. But prod
 
 ### The Problem
 
-By 2015, Spotify had 75 million tracks and growing. Users were drowning in choice. The existing "Related Artists" and editorial playlists helped, but they couldn't personalize at the individual level. Spotify needed a system that could say: "Here are 30 songs you've never heard, released by artists you've never followed, that you'll love."
+By 2015, Spotify's catalog held tens of millions of tracks and kept growing. Users were drowning in choice. The existing "Related Artists" and editorial playlists helped, but they couldn't personalize at the individual level. Spotify needed a system that could say: "Here are 30 songs you've never heard, released by artists you've never followed, that you'll love."
 
 ### The Solution
 

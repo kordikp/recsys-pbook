@@ -18,7 +18,7 @@ highlights:
 status: draft
 concept: launch-playbook
 conceptTitle: "Launching recommendations in a product"
-parents: build-vs-buy|scenarios|feedback-signals|popularity|ab-testing|incrementality|north-star-and-guardrails|monitoring
+parents: build-vs-buy|scenarios|feedback-signals|popularity|ab-testing|incrementality|north-star-and-guardrails
 state: edited
 lens: ecommerce
 lang: en

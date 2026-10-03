@@ -102,4 +102,4 @@ The β-penalization explicitly addresses this form of Simpson's paradox by down-
 > **Key references:** See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 > - Järvelin & Kekäläinen (2002). Cumulated Gain-Based Evaluation of IR Techniques.
 > - Schnabel et al. (2016). Recommendations as Treatments. ICML 2016.
-> - Kasalický et al. (2023). [Bridging Offline-Online Evaluation](https://www.recombee.com/research-publications). evalRS@KDD 2023.
+> - Kasalický, Alves & Kordík (2023). [Bridging Offline-Online Evaluation with a Time-dependent and Popularity Bias-free Offline Metric for Recommenders](https://arxiv.org/abs/2308.06885). evalRS@KDD 2023.

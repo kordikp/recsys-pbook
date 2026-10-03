@@ -11,8 +11,8 @@ diagram: null
 recallQ: "What percentage of YouTube watch time comes from recommendations?"
 recallA: "More than 70%, according to YouTube's chief product officer in 2018. Recommendations -- not user-initiated search -- carry the majority of watch time (a share that passed through recommendations, not one they caused)."
 highlights:
-  - "70% of YouTube watch time comes from algorithmic recommendations, not user search"
-  - "A single algorithm change shifts billions of daily views instantly"
+  - "More than 70% of YouTube watch time passes through recommendations, not search (YouTube's chief product officer, 2018)"
+  - "With Shorts alone above 200 billion views a day, even a tiny ranking change redirects a very large number of views"
 status: accepted
 concept: who-decides
 state: edited

@@ -2,7 +2,7 @@
 id: agentic-recommendation
 type: spine
 title: "Agentic Recommendation: When the Reader Has No Eyes"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "An AI assistant reads dozens of dishwasher listings and shows its person three. What should your recommender do differently?"
@@ -25,7 +25,7 @@ lang: en
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|diagram
 ---
