@@ -4,7 +4,7 @@ type: spine
 title: "Four Jobs for an LLM in Your Recommender"
 readingTime: 3
 standalone: true
-core: false
+core: true
 teaser: "The CEO wants to 'just put ChatGPT on the shop'. An LLM can do four jobs inside a recommender: here is what each one buys, what it risks, and the one job to keep away from it."
 parent: null
 diagram: diagram-llm-four-roles
