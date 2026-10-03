@@ -346,6 +346,13 @@ class PBook {
         this.conceptBlocks[cid].push(b);      // multi-concept blocks appear in every pool
       }
     });
+    // A concept with no visible telling (all its blocks are drafts and this is
+    // not an admin view) does not exist for this reader: otherwise the topbar
+    // said 0/89 where only 71 can be read, and a chapter holding a draft
+    // concept could never count as complete.
+    if (this.allBlocks.length) {
+      for (const cid of Object.keys(this.concepts)) if (!this.conceptBlocks[cid]) delete this.concepts[cid];
+    }
     // Recall is per CONCEPT: reading any telling schedules one card, keyed by
     // the concept's anchor id (resolves like any block id everywhere else).
     this.user.recallKeyFor = id => this._recallKey(id);
@@ -3588,6 +3595,18 @@ class PBook {
       this._cmapData = r.ok ? await r.json() : null;
     } catch (e) { this._cmapData = null; }
     if (this._cmapData) {
+      // Concepts the exported map does not know yet (new anchors, visible as
+      // drafts in admin view) still get a node in their chapter — otherwise the
+      // Map silently left out every concept added since the last export.
+      const known = new Set(this._cmapData.nodes.map(n => n.slug));
+      const added = this._conceptOrder().filter(cid => !known.has(cid)).map(cid => {
+        const c = this.concepts[cid];
+        return { slug: cid, title: c.title || cid, tema: c.chapter, state: 'core', teaser: this.findBlock(c.anchor)?.meta?.teaser || '', rel: [], ...(c.parents?.length ? { prereq: c.parents } : {}) };
+      });
+      if (added.length) {
+        const ti = new Map(this._cmapData.temata.map((t, i) => [t.id, i]));
+        this._cmapData.nodes = [...this._cmapData.nodes, ...added].sort((a, b) => (ti.get(a.tema) ?? 99) - (ti.get(b.tema) ?? 99));
+      }
       this._cmapNodes = {};
       this._cmapByPool = {};
       this._cmapData.nodes.forEach(n => {
