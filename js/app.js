@@ -3753,7 +3753,9 @@ class PBook {
       arrows += `<path d="M${a.x} ${a.y} Q ${mx} ${my}, ${b.x} ${b.y}" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#jarr)" opacity="0.55">${why ? `<title>Why first: ${this.escHtml(why)}</title>` : ''}</path>`;
     }));
     const R = 25;
-    let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" font-family="system-ui,sans-serif">
+    // min-width keeps the 10 px labels legible on a phone (the 800-wide board
+    // shrank them to ~5 px); the wrapper scrolls sideways instead
+    let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;min-width:640px;height:auto;display:block" font-family="system-ui,sans-serif">
       <defs><marker id="jarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#94A3B8"/></marker></defs>`;
     temata.forEach(t => {
       const pts = cm.nodes.filter(n => n.tema === t.id).map(n => pos[n.slug]);
@@ -3809,7 +3811,7 @@ class PBook {
       ${this._mapReturnToRead ? `<p style="margin:.1em 0 .3em"><button class="steer-chip" style="font-size:.74rem;border-color:#6366F1;color:#6366F1" onclick="app._mapReturnToRead=false;app.switchView('read')">← Back to reading</button></p>` : ''}
       <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .2em">The book as a game board: fields are concepts, the number shows how many of their articles you have read (✓ = all). Dashed ＋ fields are still waiting for an article — click to write it yourself. Hover a field for its definition, hover an arrow for the reason of the dependency.</p>
       ${(this.proposals || []).length ? `<p style="font-size:.7rem;margin:0 0 .3em"><a href="#" style="color:#0EA5E9" onclick="event.preventDefault();app.setMapMode('koncepty')">🌱 ${(this.proposals || []).length} proposals waiting for votes or an author →</a></p>` : ''}
-      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p>${svg}</div>`;
+      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p><div class="journey-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch">${svg}</div></div>`;
   }
 
   async renderConceptsMap() {
