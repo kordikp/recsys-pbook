@@ -5390,7 +5390,7 @@ class PBook {
         intros: [
           "Something seems off. Your feed converges to a narrow content type. A colleague sees entirely different things. Why?",
           "Bubbles are one concern. But is the system fair to all content creators and users?",
-          "The long tail: 80% of items never get recommended. Is popularity-based selection inevitable?",
+          "The long tail: most of a catalog rarely or never gets recommended, while a few hits take most of the slots. Is that popularity pull inevitable?",
           "Engagement and satisfaction are not the same thing. What should we actually optimize for?",
           "How do organizations evaluate whether their recommendations are working? Rigorous experimentation."
         ],
@@ -5451,7 +5451,7 @@ class PBook {
         reward: { title: 'Production Engineer', xp: 35 },
         core: ['ch5-tech-stack', 'ch5-model-selection', 'ch5-monitoring', 'ch5-caching', 'ch5-scale'],
         intros: [
-          "A production RecSys is 10% algorithm, 90% infrastructure. Let's examine the full stack.",
+          "In a production RecSys the model is a small part of the code; data pipelines, serving and monitoring are most of it. Let's examine the full stack.",
           "With so many algorithms available, choosing the right one for your problem is the first critical decision.",
           "Your system is live. How do you know it's working? Monitoring and observability are your lifeline.",
           "Latency is tight. Caching helps — but introduces freshness trade-offs.",
@@ -5495,7 +5495,7 @@ class PBook {
         core: ['ch7-why-research', 'ch7-simple-to-scalable', 'ch7-vasp-combining', 'ch7-bandits', 'ch7-cold-start-language', 'ch7-evaluation', 'ch7-production-scale', 'ch7-roadmap'],
         intros: [
           "Every recommendation you see is the product of mathematical research. Let's trace how theory becomes practice.",
-          "EASE: a single matrix inverse that outperforms deep learning. Elegant but unscalable. Enter ELSA.",
+          "EASE: a single matrix inverse that holds its own against deep models on standard benchmarks. Elegant but hard to scale. Enter ELSA.",
           "Linear models find smooth patterns. Deep models find complex ones. VASP combines them with a clever trick.",
           "Should you exploit what you know or explore the unknown? Bandit algorithms formalize this dilemma.",
           "New items have zero interactions. beeFormer bridges the gap by teaching algorithms to read.",
@@ -5525,7 +5525,7 @@ class PBook {
           "Thompson Sampling is Bayesian-optimal. Here's the proof, the regret bound, and the Lai-Robbins connection.",
           "The offline evaluation bias formalizes why good models can look bad. MNAR, IPS, and the LLOO+β correction."
         ],
-        boss: { q: 'Derive the ALS update step from the matrix factorization objective. Then explain why EASE outperforms deep models despite being linear, using the bias-variance trade-off framework.', hints: ['ridge regression', 'closed-form', 'sparse data', 'variance', 'spectral shrinkage', 'nuclear norm'] },
+        boss: { q: 'Derive the ALS update step from the matrix factorization objective. Then explain why EASE can match or beat deep models on standard benchmarks despite being linear, using the bias-variance trade-off framework.', hints: ['ridge regression', 'closed-form', 'sparse data', 'variance', 'spectral shrinkage', 'nuclear norm'] },
         branches: {
           thinker: { label: 'More theory', blocks: ['ch7-causal-bandits', 'ch7-regularization', 'ch3-two-tower-math'] },
           explorer: { label: 'See in practice', blocks: ['ch7-vasp-ablation', 'ch7-distillation', 'ch7-transfer-learning'] },
