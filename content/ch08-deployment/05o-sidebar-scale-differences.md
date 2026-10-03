@@ -24,7 +24,7 @@ genre: explainer
 carriers: prose|table
 ---
 
-A common mistake in recommendation engineering: designing for the wrong scale. The architecture that works for Netflix (15,000 titles) would fail catastrophically at YouTube (800M videos), and vice versa. Scale isn't just a performance concern — it fundamentally changes which algorithms, architectures, and trade-offs are appropriate.
+A common mistake in recommendation engineering: designing for the wrong scale. The architecture that works for Netflix (thousands of titles) would fail catastrophically at YouTube (billions of videos), and vice versa. Scale isn't just a performance concern — it fundamentally changes which algorithms, architectures, and trade-offs are appropriate.
 
 ## Small Scale: Startup (< 10K items, < 100K users)
 

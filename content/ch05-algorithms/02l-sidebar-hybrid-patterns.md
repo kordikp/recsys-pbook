@@ -91,7 +91,7 @@ Stage 1 uses fast, lightweight methods (ANN search over embeddings, inverted ind
 - End-to-end optimization is difficult because stages are often trained independently with different objectives
 - System complexity is high: multiple models, multiple serving stacks, multiple teams
 
-**Real-world example:** YouTube's recommendation pipeline retrieves ~1000 candidates from 800M+ videos using multiple ANN indices in ~5ms, scores them with a deep ranking model in ~50ms, and re-ranks the top ~100 for diversity and policy compliance. Spotify, Netflix, TikTok, Pinterest, and virtually every large-scale platform uses a variant of this architecture.
+**Real-world example:** YouTube's published design ([Covington et al., 2016](https://doi.org/10.1145/2959100.2959190)) uses one network to narrow millions of videos to a few hundred candidates and a second, heavier network to rank them; re-ranking for diversity and policy sits on top. Spotify, Netflix, TikTok, Pinterest, and virtually every large-scale platform uses a variant of this architecture.
 
 ## Pattern 4: Feature Augmentation
 

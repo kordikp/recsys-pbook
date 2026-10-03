@@ -8,8 +8,8 @@ teaser: "Follow one recommendation request from app launch to rendered feed -- s
 voice: explorer
 parent: null
 diagram: null
-recallQ: "How does YouTube find 20 videos from 800 million in 0.2 seconds?"
-recallA: "Multi-stage pipeline: fast retrieval narrows 800M to ~1000 candidates, cross-feature ranking scores those candidates, re-ranking applies diversity and policy constraints."
+recallQ: "How does a platform like YouTube narrow hundreds of millions of videos to a handful of picks in under a second?"
+recallA: "Multi-stage pipeline: fast retrieval narrows hundreds of millions of items to ~1000 candidates, cross-feature ranking scores those candidates, re-ranking applies diversity and policy constraints."
 highlights:
   - "Retrieval casts a wide net (~1000 candidates from millions)"
   - "Scoring evaluates each candidate with the full feature set"
