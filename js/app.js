@@ -685,6 +685,16 @@ class PBook {
     return pool;
   }
 
+  // A mission step counts once its IDEA is read in any verified telling: the
+  // feed serves one telling per concept (maybe the tl;dr or a comic), and a
+  // reader who met the idea there should not have to re-read the anchor.
+  _stepRead(id) {
+    if (this.user.readBlocks.has(id)) return true;
+    const b = this.findBlock(id);
+    const cid = b && this._conceptIds(b.meta)[0];
+    return !!cid && this._tellingPool(cid).some(t => t.meta?.state !== 'private' && t.meta?.state !== 'community' && this.user.readBlocks.has(t.meta?.id || t.id));
+  }
+
   // Only tellings (spines, private/community texts): a concept's question and
   // game blocks share its pool but are not "ways to read" it — counting them
   // made the chip say 4 where the strip said 3, and steering could serve a quiz.
@@ -1635,13 +1645,13 @@ class PBook {
       });
       const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
       const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
-        const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+        const coreRead = m.core.filter(id => this._stepRead(id)).length;
         const isNext = coreRead === 0;
         return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
           <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Suggested path' : 'In progress'}</div>
           <div style="font-size:1.3rem;margin:.1em 0" aria-hidden="true">${m.icon}</div>
           <div class="card-title">${m.title}</div>
-          <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
+          <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this._stepRead(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
           <div class="card-meta"><span class="card-time">${coreRead} of ${m.core.length} steps</span></div>
         </div>`;
       });
@@ -5592,7 +5602,7 @@ class PBook {
   }
 
   _getMissionProgress(mission) {
-    const read = mission.core.filter(id => this.user.readBlocks.has(id)).length;
+    const read = mission.core.filter(id => this._stepRead(id)).length;
     return { read, total: mission.core.length, pct: Math.round((read / Math.max(mission.core.length, 1)) * 100) };
   }
 
@@ -5734,7 +5744,7 @@ class PBook {
     const isComplete = (this.user.completedMissions || []).includes(m.id);
     const branch = this.user.missionBranches?.[m.id];
     const allBlocks = this._getMissionBlocks(m);
-    const coreComplete = m.core.every(id => this.user.readBlocks.has(id));
+    const coreComplete = m.core.every(id => this._stepRead(id));
 
     let html = '<div class="missions-inner">';
     html += `<button class="btn-ghost" onclick="app.renderMissions()" style="margin-bottom:.5em">&larr; All missions</button>`;
@@ -5755,7 +5765,7 @@ class PBook {
     }
 
     // Progress overview — show core dots + optional branch dots
-    const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+    const coreRead = m.core.filter(id => this._stepRead(id)).length;
     html += `<div class="mission-detail-progress">
       <div class="mission-progress-dots" style="justify-content:center">
         ${m.core.map((id, i) => {
@@ -5767,7 +5777,7 @@ class PBook {
           return `<span class="mission-dot branch-dot ${read ? 'done' : ''}" title="${this.findBlock(id)?.meta?.title || id}"></span>`;
         }).join('') : ''}
       </div>
-      <div style="text-align:center;font-size:.75rem;color:var(--text-3);margin-top:.3em">${coreRead}/${m.core.length} core steps${branch ? ` + bonus ${m.branches[branch].blocks.filter(id => this.user.readBlocks.has(id)).length}/${m.branches[branch].blocks.length}` : ''}</div>
+      <div style="text-align:center;font-size:.75rem;color:var(--text-3);margin-top:.3em">${coreRead}/${m.core.length} core steps${branch ? ` + bonus ${m.branches[branch].blocks.filter(id => this._stepRead(id)).length}/${m.branches[branch].blocks.length}` : ''}</div>
     </div>`;
 
     // Step list — core blocks
@@ -7879,8 +7889,10 @@ class PBook {
     this._wizardMission = m;
     this._wizardStep = 0;
     // Find first unread core block
-    const firstUnread = m.core.findIndex(id => !this.user.readBlocks.has(id));
+    const firstUnread = m.core.findIndex(id => !this._stepRead(id));
     if (firstUnread >= 0) this._wizardStep = firstUnread;
+    // every step read but the boss not beaten yet → straight to the boss
+    else if (!(this.user.completedMissions || []).includes(m.id)) this._wizardStep = m.core.length;
     this._renderWizardStep();
   }
 
@@ -7899,7 +7911,7 @@ class PBook {
     const blockId = blocks[step];
     const block = this.findBlock(blockId);
     const intro = m.intros?.[step] || '';
-    const isRead = this.user.readBlocks.has(blockId);
+    const isRead = this._stepRead(blockId);
 
     // Render wizard overlay in the glossary view
     const el = document.getElementById('glossaryContent');
@@ -9089,7 +9101,7 @@ class PBook {
       <div class="mission-bar-dots">${m.core.map((id, i) => {
         const b = this.findBlock(id);
         const title = b?.meta?.title || id;
-        const cls = this.user.readBlocks.has(id) ? 'done' : i === step ? 'current' : '';
+        const cls = this._stepRead(id) ? 'done' : i === step ? 'current' : '';
         return `<span class="mission-dot ${cls}" title="${this.escHtml(title)}" onclick="app._wizardStep=${i};app._pendingMissionIntro='${(m.intros?.[i]||'').replace(/'/g,"\\'")}';app.openBlock('${id}')" style="cursor:pointer"></span>`;
       }).join('')}</div>
     `;
@@ -9102,8 +9114,8 @@ class PBook {
     // Find next unread step
     let nextStep = this._wizardStep;
     const currentId = m.core[nextStep];
-    if (currentId && this.user.readBlocks.has(currentId)) nextStep++;
-    while (nextStep < m.core.length && this.user.readBlocks.has(m.core[nextStep])) nextStep++;
+    if (currentId && this._stepRead(currentId)) nextStep++;
+    while (nextStep < m.core.length && this._stepRead(m.core[nextStep])) nextStep++;
     this._wizardStep = nextStep;
 
     if (nextStep >= m.core.length) {
