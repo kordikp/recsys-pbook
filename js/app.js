@@ -3,7 +3,7 @@
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=2';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
-import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
+import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=5';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
@@ -1777,6 +1777,7 @@ class PBook {
     const m = (body || '').match(/!\[[^\]]*\]\((images\/[^)\s]+\.(?:svg|png|jpe?g|webp))\)/);
     if (m) return m[1];
     if (block.diagram && DIAGRAM_FILES[block.diagram]) return DIAGRAM_FILES[block.diagram];
+    if (block.diagram && /^[a-z0-9][a-z0-9-]*$/i.test(block.diagram)) return `images/${block.diagram}.svg`;   // bare figure name
     return null;
   }
 

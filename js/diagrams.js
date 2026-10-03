@@ -82,7 +82,11 @@ export async function getDiagram(name) {
   if (diagramCache[name]) return diagramCache[name];
 
   // Direct paths (diagram: images/x.svg, markdown images) alongside registered names
-  const file = DIAGRAM_FILES[name] || (/\.(svg|png|jpg|jpeg|webp|gif)$/i.test(name) ? name : null);
+  // Registered names, direct paths, or a bare figure name (diagram: diagram-foo →
+  // images/diagram-foo.svg) — new figures need no entry in the table above.
+  const file = DIAGRAM_FILES[name]
+    || (/\.(svg|png|jpg|jpeg|webp|gif)$/i.test(name) ? name
+    : (/^[a-z0-9][a-z0-9-]*$/i.test(name) ? `images/${name}.svg` : null));
   if (file) {
     // For raster images (PNG, JPG, WEBP), return <img> tag
     if (/\.(png|jpg|jpeg|webp|gif)$/i.test(file)) {
