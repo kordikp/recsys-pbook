@@ -8230,11 +8230,17 @@ class PBook {
     const name = $('ctName').value.trim(), contact = $('ctContact').value.trim();
     const message = $('ctMsg').value.trim(), topic = $('ctTopic').value;
     const status = $('ctStatus'), btn = $('ctSend');
-    $('ctContact').classList.toggle('cert-error', !contact);
+    // Something we can reply to: a well-formed email, or another handle/phone of 5+ characters
+    const contactOk = contact.includes('@') && !/^@/.test(contact)
+      ? /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact)
+      : contact.length >= 5;
+    $('ctContact').classList.toggle('cert-error', !contactOk);
     $('ctMsg').classList.toggle('cert-error', !message);
-    if (!contact || !message) {
+    if (!contactOk || !message) {
       status.className = 'contact-status err';
-      status.textContent = 'Please fill in a contact and a message.';
+      status.textContent = !contact || !message ? 'Please fill in a contact and a message.'
+        : 'Please check the contact — we need an email address (or a phone or handle) to reply to.';
+      (contactOk ? $('ctMsg') : $('ctContact')).focus();
       return;
     }
     btn.disabled = true; btn.textContent = 'Sending…'; status.textContent = '';
