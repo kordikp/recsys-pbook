@@ -678,6 +678,13 @@ class PBook {
     return pool;
   }
 
+  // Only tellings (spines, private/community texts): a concept's question and
+  // game blocks share its pool but are not "ways to read" it — counting them
+  // made the chip say 4 where the strip said 3, and steering could serve a quiz.
+  _tellingPool(conceptId) {
+    return this._conceptPool(conceptId).filter(b => { const t = b.meta?.type || b.type; return !t || t === 'spine'; });
+  }
+
   // Lazily fetch community variants for a concept (open mode only; graceful empty)
   // The reader's class code — one source of truth for drafts, decks, submissions
   _classCode() {
@@ -700,7 +707,7 @@ class PBook {
   _renderTellingsIndicator(block) {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
     // primary concept, not the raw "a|b" string (multi-concept blocks counted 0 and the label flipped)
-    const others = this._conceptPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
+    const others = this._tellingPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
       <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this idea is told" aria-expanded="false">&#127899;&#65039; ${others ? `${others} other way${others > 1 ? 's' : ''} to read this` : 'Tell it differently'} &#9662;</button>
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
@@ -802,7 +809,7 @@ class PBook {
     await this._fetchCommunity(conceptId);
 
     const concept = this.concepts?.[conceptId];
-    const pool = this._conceptPool(conceptId);
+    const pool = this._tellingPool(conceptId);
     // COMPOSED REQUEST: the profile only seeds the target once; after that every
     // dimension the reader picks in this panel sticks until the panel is reset.
     if (!this._steerTargets) this._steerTargets = {};
@@ -1048,7 +1055,7 @@ class PBook {
   // Shared serve/honest-miss tail of every steer
   async _serveOrMiss(blockId, conceptId, target, candidateFilter, info) {
     await this._fetchCommunity(conceptId);
-    const pool = this._conceptPool(conceptId).filter(b => (b.meta?.id || b.id) !== blockId);
+    const pool = this._tellingPool(conceptId).filter(b => (b.meta?.id || b.id) !== blockId);
     const candidates = pool.filter(candidateFilter);
     let best = null, bestScore = 0;
     for (const b of candidates) {
