@@ -304,32 +304,20 @@ if (fs.existsSync(ALIASES_JSON)) {
   }
 }
 
-// 3. Validate game JSON files
+// 3. Validate game JSON files — per-type schema and semantic checks live in
+//    scripts/check-games.mjs (it uses the engine's own helpers from js/games.js)
 console.log('Validating game files...\n');
 
 if (fs.existsSync(GAMES_DIR)) {
-  fs.readdirSync(GAMES_DIR).filter(f => f.endsWith('.json')).forEach(file => {
-    const full = path.join(GAMES_DIR, file);
-    try {
-      const game = JSON.parse(fs.readFileSync(full, 'utf8'));
-      if (!game.type) error(`games/${file}`, 'Missing required field: type');
-      if (!game.title) error(`games/${file}`, 'Missing required field: title');
-      if (game.type === 'sort' && (!game.items || !game.buckets)) {
-        error(`games/${file}`, 'Sort game requires items[] and buckets[]');
-      }
-      if (game.type === 'order' && !game.steps) {
-        error(`games/${file}`, 'Order game requires steps[]');
-      }
-      if (game.type === 'match' && (!game.items || !game.users)) {
-        error(`games/${file}`, 'Match game requires items[] and users[]');
-      }
-      if (game.type === 'pop' && !game.categories) {
-        error(`games/${file}`, 'Pop game requires categories[]');
-      }
-    } catch (e) {
-      error(`games/${file}`, `Invalid JSON: ${e.message}`);
-    }
-  });
+  try {
+    const { execFileSync } = require('child_process');
+    const out = execFileSync(process.execPath, [path.join(ROOT, 'scripts/check-games.mjs'), '--json'], { encoding: 'utf8', env: { ...process.env, NODE_NO_WARNINGS: '1' } });
+    const res = JSON.parse(out);
+    res.errors.forEach(([f, m]) => error(f, m));
+    res.warnings.forEach(([f, m]) => warn(f, m));
+  } catch (e) {
+    error('games/', `check-games.mjs failed: ${String(e.message).slice(0, 300)}`);
+  }
 }
 
 // Summary

@@ -1,0 +1,21 @@
+{
+  "type": "order",
+  "title": "Life of a New Item",
+  "minutes": 2,
+  "instruction": "A product goes live today with zero interactions. Put its first days in order.",
+  "steps": [
+    "It arrives with a title, description, tags and photos, but no clicks",
+    "A content model places it next to similar, well-known items",
+    "It is shown to fans of those similar items, within a small exploration budget",
+    "The first clicks, saves and purchases come in",
+    "Collaborative signal takes over as behaviour accumulates"
+  ],
+  "why": [
+    "Collaborative filtering is blind here: nobody has interacted with the item, so it has no co-interactions.",
+    "Bridge 1: similar by what it IS, not by who clicked it.",
+    "Bridge 2: a capped number of fair showings buys honest signal without flooding feeds with an unknown.",
+    "Each early interaction turns the item from guessed into known.",
+    "The handoff: weight shifts from content to behaviour as the data arrives."
+  ],
+  "debrief": "Collaborative filtering can't see an item nobody has touched. Two bridges carry it across: content similarity (where it belongs) and a small exploration budget (its first real interactions)."
+}

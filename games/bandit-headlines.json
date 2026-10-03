@@ -1,0 +1,33 @@
+{
+  "type": "bandit",
+  "title": "Three New Headlines",
+  "minutes": 3,
+  "instruction": "Three headlines for the same article. You have 40 impressions: each tap shows one headline to one reader, who clicks or doesn't. Collect as many clicks as you can.",
+  "armWord": "headline",
+  "pulls": 40,
+  "shuffleArms": true,
+  "arms": [
+    {
+      "label": "Headline A",
+      "text": "City council approves new tram line",
+      "p": 0.25
+    },
+    {
+      "label": "Headline B",
+      "text": "Your commute is about to change: the new tram line, explained",
+      "p": 0.35
+    },
+    {
+      "label": "Headline C",
+      "text": "5 streets that get a tram stop by 2028",
+      "p": 0.55
+    }
+  ],
+  "compare": [
+    "thompson",
+    "greedy",
+    "uniform"
+  ],
+  "toyNote": "Toy click rates, much higher than real ones so that the difference shows within 40 tries. Which headline gets which rate is shuffled every game.",
+  "debrief": "Exploring costs clicks early but finds the winner; exploiting too soon can lock onto a lucky loser. Thompson sampling explores where it is still uncertain and shifts to the winner as the evidence grows."
+}

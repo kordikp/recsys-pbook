@@ -1,6 +1,63 @@
 {
-  "type": "pop",
+  "type": "sort",
   "title": "Privacy Spotter",
-  "instruction": "Some of these are fine, some are privacy risks. Tap the RISKY ones!",
-  "categories": ["Saves your search history", "Tracks you across websites", "Remembers your language", "Shares data with advertisers", "Stores your login cookie", "Records your location 24/7", "Shows your username", "Guesses your age from behavior", "Keeps your dark mode setting", "Sells your browsing profile"]
+  "minutes": 2,
+  "instruction": "Routine data use, or a privacy risk?",
+  "buckets": [
+    "Routine, expected",
+    "Privacy risk"
+  ],
+  "items": [
+    {
+      "text": "The app remembers the language you picked",
+      "answer": 0,
+      "why": "A setting you chose, stored to serve you. Nothing about you is inferred."
+    },
+    {
+      "text": "A login cookie keeps you signed in",
+      "answer": 0,
+      "why": "First-party and functional: needed for the service you asked for."
+    },
+    {
+      "text": "A shop recommends accessories based on what you bought in that same shop",
+      "answer": 0,
+      "why": "First-party data used inside the service that collected it: the normal job of a recommender."
+    },
+    {
+      "text": "Your watch history is kept so you can resume, and you can delete it",
+      "answer": 0,
+      "why": "Useful, first-party, and under your control: the delete button keeps it routine."
+    },
+    {
+      "text": "Your dark-mode preference is saved on your device",
+      "answer": 0,
+      "why": "A local display setting that reveals nothing about you."
+    },
+    {
+      "text": "A tracker follows you across unrelated websites",
+      "answer": 1,
+      "why": "Cross-site tracking is AdTech, not the platform's recommender: a company you never dealt with builds a profile of you."
+    },
+    {
+      "text": "Your browsing profile is sold to a data broker",
+      "answer": 1,
+      "why": "Your data leaves the service you chose, for purposes you never saw."
+    },
+    {
+      "text": "Your precise location is recorded around the clock, even when the app is closed",
+      "answer": 1,
+      "why": "Far beyond what the service needs, and location trails can identify a person on their own."
+    },
+    {
+      "text": "The app infers your health condition from what you browse",
+      "answer": 1,
+      "why": "A sensitive trait you never shared: the model of your behaviour knows more than you told it."
+    },
+    {
+      "text": "Your viewing history is shared with advertisers",
+      "answer": 1,
+      "why": "Viewing history reveals interests and beliefs. Sharing it outside the platform is the risk."
+    }
+  ],
+  "debrief": "Platforms build a digital twin of you: a model of your behaviour, built from interaction data, that needs no name to work. The line is not whether data is collected, but whether it stays in the service you chose and whether you can see and control it."
 }

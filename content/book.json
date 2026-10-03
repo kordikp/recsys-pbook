@@ -24,6 +24,7 @@
         "04b-sidebar-would-you-rather.md",
         "04c-sidebar-personalization-spectrum.md",
         "05-question-what-type.md",
+        "05a-game-which-job.md",
         "05a-spine-modern-recommender-map.md",
         "05b-sidebar-modern-recommender-map-tldr.md",
         "05c-depth-modern-recommender-map-stack.md",
@@ -80,6 +81,7 @@
         "05l-sidebar-cold-start-cs.md",
         "05m-sidebar-cold-start-cs-shop.md",
         "05h-sidebar-cold-start-solutions.md",
+        "05n-game-item-cold-start.md",
         "07-spine-user-cold-start.md",
         "07a-sidebar-user-cold-start-tldr.md",
         "07b-depth-user-cold-start-mechanics.md",
@@ -97,9 +99,11 @@
         "02cx-sidebar-comic-objectives.md",
         "02c1-depth-thinker-multi-objective.md",
         "04-question-ethics.md",
+        "02c2-game-tune-the-feed.md",
         "02-spine-fairness.md",
         "02x-sidebar-comic-fairness.md",
         "02b-sidebar-unfair-game.md",
+        "02e2-game-rich-get-richer.md",
         "02f-spine-long-tail.md",
         "02fx-sidebar-comic-long-tail.md",
         "02f1-sidebar-long-tail-media-tldr.md",
@@ -110,6 +114,7 @@
         "02j-sidebar-reward-design.md",
         "02l-sidebar-spotify-paradox.md",
         "02t-sidebar-autoplay-problem.md",
+        "02l1-game-metric-mirage.md",
         "02m-spine-north-star-and-guardrails.md",
         "02m1-sidebar-north-star-and-guardrails-tldr.md",
         "02m2-depth-north-star-and-guardrails-formal.md"
@@ -127,6 +132,7 @@
         "02-sidebar-scenario-canvas.md",
         "05y-sidebar-recommendation-scenarios.md",
         "05z-sidebar-composite-recommendations.md",
+        "05z1-game-pick-the-scenario.md",
         "02j-spine-context-aware.md",
         "02jx-sidebar-comic-context-awareness.md",
         "02s-sidebar-geographic-recs.md",
@@ -166,6 +172,7 @@
         "02d1-sidebar-bandits-radio-story.md",
         "02d1-sidebar-bandits-intuition.md",
         "02o-depth-thinker-rl-recsys.md",
+        "02d2-game-bandit-headlines.md",
         "02e-spine-deep-similarity.md",
         "02ex-sidebar-comic-embeddings.md",
         "02e1-sidebar-embeddings-education.md",
@@ -250,6 +257,7 @@
         "03d-depth-thinker-counterfactual.md",
         "03e-sidebar-interleaving.md",
         "05u-sidebar-ab-testing-pitfalls.md",
+        "03f-game-ship-it.md",
         "03f-spine-incrementality.md",
         "03fa-sidebar-incrementality-tldr.md",
         "03fb-depth-incrementality-holdouts.md",
@@ -330,7 +338,8 @@
         "05r-sidebar-observability.md",
         "05m-sidebar-continual-learning.md",
         "05w-sidebar-data-flywheel.md",
-        "06-sidebar-incident-response.md"
+        "06-sidebar-incident-response.md",
+        "06a-game-silent-failures.md"
       ]
     },
     {
@@ -343,7 +352,8 @@
         "06a-sidebar-business-rules.md",
         "99x-sidebar-comic-business-rules.md",
         "05e-sidebar-anti-patterns.md",
-        "05i-sidebar-model-selection.md"
+        "05i-sidebar-model-selection.md",
+        "99y-game-rule-or-model.md"
       ]
     },
     {

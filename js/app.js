@@ -7,6 +7,7 @@ import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
 
 const APP_VERSION = '5.12.4';
 import { MockTutorEngine, ConversationManager } from './tutor.js';
+import { installGames } from './games.js?v=1';
 
 class PBook {
   constructor() {
@@ -191,6 +192,12 @@ class PBook {
         this._mapMode = 'coverage';
         this.switchView('map');
         setTimeout(() => document.querySelectorAll('.covmap-chapter-sec').forEach((d, i) => { if (i < 2) d.open = true; }), 1500);
+      } else if (hash === 'play' || hash.startsWith('play/')) {
+        // Playground deep link: #play (all games) or #play/<game block id>
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.switchView('home');
+        this.openPlayground(hash.slice(5) || undefined);
       } else if (hash.startsWith('quiz-')) {
         // Single quiz card deep link — show in quiz view
         const blockId = hash.replace('quiz-', '');
@@ -678,7 +685,7 @@ class PBook {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
     const others = this._conceptPool(block.concept).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
-      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>
+      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>${this._conceptGameChip?.(block.concept, block.id) || ''}
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
     </div>`;
   }
@@ -1650,6 +1657,8 @@ class PBook {
         .slice(0, 10);
       if (scored.length >= 3) html += this.shelf('🎛 Told your way', scored.map(x => this.cardHtml(x.b.meta)));
     }
+
+    html += this._gamesShelfHtml(); // 🎮 Play with the ideas → Playground
 
     // 4. Quick reads
     const quickReads = this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)).slice(0, 10);
@@ -2735,195 +2744,7 @@ class PBook {
     }
   }
 
-  // ===== MINI-GAMES (data-driven from games/*.json) =====
-  renderGame(block) {
-    const gameFile = block.game || block.gameType || block.id;
-    return `<div class="game-block fade-up" id="b-${block.id}">
-      <div class="game-header">
-        <span class="game-icon">\u{1F3AE}</span>
-        <h4>${block.title}</h4>
-        <span class="game-timer" id="gt-${block.id}">1:00</span>
-      </div>
-      <div class="game-area" id="ga-${block.id}"></div>
-      <button class="game-start-btn" onclick="app.startGame('${block.id}','${gameFile}')">Play!</button>
-    </div>`;
-  }
-
-  async startGame(blockId, gameFile) {
-    const area = document.getElementById(`ga-${blockId}`);
-    const timerEl = document.getElementById(`gt-${blockId}`);
-    const startBtn = area?.parentElement?.querySelector('.game-start-btn');
-    if (!area) return;
-    if (startBtn) startBtn.style.display = 'none';
-
-    // Load game data from JSON
-    let game;
-    try {
-      const res = await fetch(`games/${gameFile}.json`);
-      game = await res.json();
-    } catch (e) {
-      area.innerHTML = '<div class="game-over">Could not load game.</div>';
-      return;
-    }
-
-    // 60s timer
-    let seconds = 60;
-    if (this._activeGameTimer) clearInterval(this._activeGameTimer);
-    this._activeGameTimer = setInterval(() => {
-      seconds--;
-      if (timerEl) timerEl.textContent = `0:${seconds.toString().padStart(2, '0')}`;
-      if (seconds <= 10 && timerEl) timerEl.style.color = '#EF4444';
-      if (seconds <= 0) {
-        clearInterval(this._activeGameTimer);
-        this._gameEnd(area, 'Time\'s up! Nice try.');
-      }
-    }, 1000);
-
-    // Launch by type
-    if (game.type === 'sort') this._gameSort(area, game);
-    else if (game.type === 'pairs' || (game.type === 'match' && game.pairs)) this._gamePairs(area, game);
-    else if (game.type === 'match') this._gameMatch(area, game);
-    else if (game.type === 'pop') this._gamePop(area, game);
-    else if (game.type === 'order') this._gameOrder(area, game);
-    else this._gameSort(area, game);
-  }
-
-  _gameEnd(area, msg) {
-    if (this._activeGameTimer) clearInterval(this._activeGameTimer);
-    area.innerHTML = `<div class="game-over">${msg} <b>+5 XP</b></div>`;
-    this.user.addXP(5); this.user.save();
-    this.showXPToast('+5 XP \u{1F3AE}', 'xp');
-    this._updateMissionBar();
-    setTimeout(() => {
-      const block = area.closest('.game-block');
-      if (block) { block.style.opacity = '.5'; block.style.pointerEvents = 'none'; }
-    }, 2500);
-  }
-
-  // Sort game: classify items into two buckets
-  _gameSort(area, game) {
-    const items = [...game.items].sort(() => Math.random() - 0.5);
-    let score = 0, idx = 0;
-    const show = () => {
-      if (idx >= items.length) { this._gameEnd(area, `Done! ${score}/${items.length} correct.`); return; }
-      const item = items[idx++];
-      area.innerHTML = `<div class="game-signal-card">${item.text}</div>
-        <div class="game-buckets">${game.buckets.map((b, bi) =>
-          `<button class="game-bucket ${bi === 0 ? 'strong' : 'weak'}" data-ans="${bi}">${b}</button>`
-        ).join('')}</div>
-        <div class="game-score">${score}/${idx - 1} correct</div>`;
-      area.querySelectorAll('.game-bucket').forEach(btn => {
-        btn.onclick = () => {
-          area.querySelectorAll('.game-bucket').forEach(b => b.disabled = true);
-          if (parseInt(btn.dataset.ans) === item.answer) { btn.classList.add('game-correct'); score++; }
-          else btn.classList.add('game-wrong');
-          setTimeout(show, 500);
-        };
-      });
-    };
-    show();
-  }
-
-  // Match game: find taste twin in a rating grid
-  _gameMatch(area, game) {
-    const items = game.items;
-    const you = items.map(() => Math.ceil(Math.random() * 5));
-    const users = game.users.map(name => ({
-      name,
-      ratings: items.map(() => Math.ceil(Math.random() * 5))
-    }));
-    const twin = Math.floor(Math.random() * users.length);
-    users[twin].ratings = items.map((_, j) => Math.max(1, Math.min(5, you[j] + (Math.random() < 0.65 ? 0 : (Math.random() < 0.5 ? -1 : 1)))));
-
-    let table = `<table class="game-table"><tr><th></th>${items.map(m => `<th>${m}</th>`).join('')}</tr>`;
-    table += `<tr class="game-you"><td><b>You</b></td>${you.map(r => `<td>${'\u2B50'.repeat(r)}</td>`).join('')}</tr>`;
-    users.forEach(u => { table += `<tr><td class="game-pick">${u.name}</td>${u.ratings.map(r => `<td>${'\u2B50'.repeat(r)}</td>`).join('')}</tr>`; });
-    table += '</table>';
-    area.innerHTML = `<div class="game-prompt">${game.instruction}</div>${table}`;
-    area.querySelectorAll('.game-pick').forEach((td, i) => {
-      td.onclick = () => {
-        if (i === twin) { this._gameEnd(area, `Correct! ${users[twin].name} is your taste twin! That's collaborative filtering.`); }
-        else { td.style.color = '#EF4444'; td.style.textDecoration = 'line-through'; }
-      };
-    });
-  }
-
-  // Pairs game: one definition at a time, pick the matching term from 4 choices.
-  // (A generic term↔definition mechanic — the old approach of abusing the sort
-  // game with 8-10 "buckets" produced an unusable wall of buttons.)
-  _gamePairs(area, game) {
-    const pairs = [...game.pairs].sort(() => Math.random() - 0.5);
-    let score = 0, idx = 0;
-    const show = () => {
-      if (idx >= pairs.length) { this._gameEnd(area, `Done! Correct: ${score}/${pairs.length}.`); return; }
-      const cur = pairs[idx++];
-      const wrong = game.pairs.map(x => x.a).filter(a => a !== cur.a).sort(() => Math.random() - 0.5).slice(0, 3);
-      const opts = [cur.a, ...wrong].sort(() => Math.random() - 0.5);
-      area.innerHTML = `<div class="game-signal-card">${cur.b}</div>
-        <div class="game-prompt" style="margin:.3em 0">${game.instruction || 'Which term is it?'}</div>
-        <div class="game-buckets game-pairs">${opts.map(o => `<button class="game-bucket">${o}</button>`).join('')}</div>
-        <div class="game-score">Correct: ${score}/${idx - 1}</div>`;
-      area.querySelectorAll('.game-bucket').forEach(btn => {
-        btn.onclick = () => {
-          area.querySelectorAll('.game-bucket').forEach(b => b.disabled = true);
-          if (btn.textContent === cur.a) { btn.classList.add('game-correct'); score++; }
-          else {
-            btn.classList.add('game-wrong');
-            area.querySelectorAll('.game-bucket').forEach(b => { if (b.textContent === cur.a) b.classList.add('game-correct'); });
-          }
-          setTimeout(show, 750);
-        };
-      });
-    };
-    show();
-  }
-
-  // Pop game: click items to collect/escape
-  _gamePop(area, game) {
-    const cats = [...game.categories];
-    const target = cats[Math.floor(Math.random() * cats.length)];
-    const popped = new Set();
-    const render = () => {
-      area.innerHTML = `<div class="game-prompt">${game.instruction} Your bubble: <b>${target}</b> (${popped.size}/${cats.length - 1})</div>
-        <div class="game-bubble-grid">${cats.sort(() => Math.random() - 0.5).map(c => {
-          const done = popped.has(c);
-          return `<button class="game-bubble-item ${c === target ? 'in-bubble' : ''} ${done ? 'popped' : ''}" ${done ? 'disabled' : ''}>${c}</button>`;
-        }).join('')}</div>`;
-      area.querySelectorAll('.game-bubble-item:not([disabled])').forEach(btn => {
-        btn.onclick = () => {
-          if (btn.textContent.trim() === target) { btn.classList.add('game-wrong'); }
-          else { popped.add(btn.textContent.trim()); if (popped.size >= cats.length - 1) this._gameEnd(area, 'Bubble popped! Diversity wins!'); else render(); }
-        };
-      });
-    };
-    render();
-  }
-
-  // Order game: put steps in correct sequence
-  _gameOrder(area, game) {
-    const steps = game.steps;
-    const shuffled = steps.map((text, i) => ({ text, order: i })).sort(() => Math.random() - 0.5);
-    const selected = [];
-    const render = () => {
-      const remaining = shuffled.filter(s => !selected.includes(s));
-      area.innerHTML = `<div class="game-prompt">${game.instruction}</div>
-        <div class="game-pipeline-selected">${selected.map((s, i) => `<div class="game-pipe-step done">${i + 1}. ${s.text}</div>`).join('')}</div>
-        <div class="game-pipeline-options">${remaining.map(s =>
-          `<button class="game-pipe-btn">${s.text}</button>`
-        ).join('')}</div>`;
-      area.querySelectorAll('.game-pipe-btn').forEach(btn => {
-        btn.onclick = () => {
-          const step = remaining.find(s => s.text === btn.textContent);
-          if (step && step.order === selected.length) {
-            selected.push(step);
-            if (selected.length >= steps.length) this._gameEnd(area, 'Perfect order! You nailed the pipeline!');
-            else render();
-          } else { btn.classList.add('game-wrong'); setTimeout(() => btn.classList.remove('game-wrong'), 400); }
-        };
-      });
-    };
-    render();
-  }
+  // ===== MINI-GAMES: the engine lives in js/games.js (installGames, below) =====
 
   renderQuestion(block) {
     // Structured options in frontmatter
@@ -3329,6 +3150,7 @@ class PBook {
       <h2 style="font-family:var(--font-ui);font-size:1.15rem;font-weight:800">\u{1F9E0} Test Your Knowledge</h2>
       <p style="font-size:.75rem;color:var(--text-3);margin-top:.1em">Spaced repetition — review what you learned</p>
     </div>`;
+    h += this._gamesShelfHtml(); // hands-on games: a way to practise even before anything is read
 
     if (totalRead === 0) {
       h += `<div style="text-align:center;padding:3em 1em;color:var(--text-3)">
@@ -10240,6 +10062,7 @@ class PBook {
 }
 
 // ===== INIT =====
+installGames(PBook);
 const app = new PBook();
 window.app = app;
 app.init();

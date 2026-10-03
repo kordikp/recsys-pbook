@@ -132,7 +132,8 @@
         "comic-three-jobs",
         "ch1-wyr",
         "ch1-personalization-spectrum",
-        "ch1-q1"
+        "ch1-q1",
+        "three-jobs-game"
       ],
       "contract": {
         "objective": "Discovery, navigation, and engagement — the three core functions.",
@@ -471,7 +472,8 @@
         "item-cold-start-long",
         "item-cold-start-cs",
         "item-cold-start-cs-shop",
-        "ch5-cold-start"
+        "ch5-cold-start",
+        "item-cold-start-game"
       ],
       "contract": {
         "objective": "A brand-new item has zero interactions. How does a recommender give it a fair first day?",
@@ -559,7 +561,8 @@
         "ch4-objectives",
         "comic-objectives",
         "ch4-multi-objective",
-        "ch4-q1"
+        "ch4-q1",
+        "objectives-game-tune-the-feed"
       ],
       "contract": {
         "objective": "Every recommender optimizes a specific objective function. The critical question is: whose goals does that function serve?",
@@ -598,7 +601,8 @@
       "blocks": [
         "ch4-fairness",
         "comic-fairness",
-        "ch4-unfair-game"
+        "ch4-unfair-game",
+        "fairness-game-rich-get-richer"
       ],
       "contract": {
         "objective": "Dominant suppliers get more exposure. New entrants remain invisible. What does fairness actually mean in this context?",
@@ -680,7 +684,8 @@
         "ch4-trust",
         "ch4-reward-design",
         "ch4-spotify-paradox",
-        "ch3-autoplay"
+        "ch3-autoplay",
+        "satisfaction-game-metric-mirage"
       ],
       "contract": {
         "objective": "High engagement doesn't mean high satisfaction. 'I can't stop watching' and 'I'm glad I watched' are very different things.",
@@ -767,7 +772,8 @@
         "comic-scenarios",
         "ch4-canvas",
         "ch5-rec-scenarios",
-        "ch5-composite-recs"
+        "ch5-composite-recs",
+        "scenarios-game-pick-the-scenario"
       ],
       "contract": {
         "objective": "A homepage recommendation and a cart cross-sell serve completely different purposes, face different constraints, and should use different algorithms. The scenario concept formalizes this: each placement gets its own strategy.",
@@ -1075,7 +1081,8 @@
         "comic-explore-exploit",
         "bandits-radio-story",
         "ch3-bandits-intuition",
-        "ch3-rl-recsys"
+        "ch3-rl-recsys",
+        "explore-exploit-game-bandit"
       ],
       "contract": {
         "objective": "Should the algorithm serve a proven winner or test an unknown candidate? This is one of the most fundamental trade-offs in recommendations.",
@@ -1689,7 +1696,8 @@
         "ch4-online-offline",
         "ch4-counterfactual",
         "ch4-interleaving",
-        "ch5-ab-pitfalls"
+        "ch5-ab-pitfalls",
+        "ab-testing-game-ship-it"
       ],
       "contract": {
         "objective": "How do you know if a recommendation system actually works? Rigorous experimentation -- not intuition.",
@@ -2261,7 +2269,8 @@
         "ch5-observability",
         "ch5-continual-learning",
         "ch5-flywheel",
-        "ch9-incidents"
+        "ch9-incidents",
+        "monitoring-game-silent-failures"
       ],
       "contract": {
         "objective": "A recommendation system can return HTTP 200 on every request and still be catastrophically broken. Traditional software monitoring catches crashes. RecSys monitoring must catch silent degradation in a system that learns from its own output.",
@@ -2303,7 +2312,8 @@
         "ch5-business-rules",
         "comic-business-rules",
         "ch5-anti-patterns",
-        "ch5-model-selection"
+        "ch5-model-selection",
+        "business-rules-game"
       ],
       "contract": {
         "objective": "The algorithm says 'recommend item X.' The product manager says 'but X is out of stock.' Business rules bridge the gap between algorithmic optimization and real-world constraints.",

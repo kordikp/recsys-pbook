@@ -1,18 +1,58 @@
 {
   "type": "sort",
-  "title": "Cold Start Challenge",
-  "instruction": "A brand new user just signed up. Which strategy helps with cold start?",
-  "buckets": ["Helps with cold start", "Needs existing data"],
+  "title": "New User, Zero History",
+  "minutes": 2,
+  "instruction": "A brand-new visitor just arrived with no history. Does this strategy work for them today?",
+  "buckets": [
+    "Works on the first visit",
+    "Needs their history first"
+  ],
   "items": [
-    { "text": "Show what's popular right now", "answer": 0 },
-    { "text": "Use collaborative filtering", "answer": 1 },
-    { "text": "Ask the user to pick favorite genres", "answer": 0 },
-    { "text": "Recommend based on similar users' history", "answer": 1 },
-    { "text": "Show trending items from today", "answer": 0 },
-    { "text": "Use the user's past purchase history", "answer": 1 },
-    { "text": "Recommend based on the user's country/language", "answer": 0 },
-    { "text": "Find taste twins from their rating history", "answer": 1 },
-    { "text": "Show editor's picks and curated lists", "answer": 0 },
-    { "text": "Predict preferences from their watch history", "answer": 1 }
-  ]
+    {
+      "text": "Show what's popular right now",
+      "answer": 0,
+      "why": "Popularity needs data about everyone, not about this user: a safe default."
+    },
+    {
+      "text": "Use the visitor's country, language and device",
+      "answer": 0,
+      "why": "Context is available from the very first request."
+    },
+    {
+      "text": "Ask them to pick three favourite genres",
+      "answer": 0,
+      "why": "A short onboarding question gives a few explicit preferences immediately."
+    },
+    {
+      "text": "Use the first three clicks of this visit",
+      "answer": 0,
+      "why": "Session-based recommendation works without any account history."
+    },
+    {
+      "text": "Show editors' picks and curated lists",
+      "answer": 0,
+      "why": "Hand-picked lists need no data about the visitor at all."
+    },
+    {
+      "text": "Find taste twins from their rating history",
+      "answer": 1,
+      "why": "User-to-user collaborative filtering needs ratings this visitor doesn't have yet."
+    },
+    {
+      "text": "Use their past purchase history",
+      "answer": 1,
+      "why": "There is none yet."
+    },
+    {
+      "text": "Factorize their rating history into taste factors",
+      "answer": 1,
+      "why": "Matrix factorization needs a row of interactions to learn this user's factors."
+    },
+    {
+      "text": "Predict preferences from their watch history",
+      "answer": 1,
+      "why": "Same problem: no history, nothing to predict from."
+    }
+  ],
+  "debrief": "For a new user, start with what needs no history (popularity, context, a few onboarding answers, the clicks of this session) and hand over to personalization as history builds up."
 }
