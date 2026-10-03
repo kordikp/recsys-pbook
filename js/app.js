@@ -316,13 +316,19 @@ class PBook {
     // Word-start matching: 'search' must not fire on "research", 'als ' (trailing
     // space = whole word) not on "signals" — substring matching tagged Ch1 intro
     // cards as Matrix Factorization · Search & Retrieval.
-    const rx = kw => new RegExp('\\b' + kw.trim().replace(/[.*+?^${}()|[\]\\/]/g, '\\$&') + (kw.endsWith(' ') ? '\\b' : ''));
+    // A passing mention is not a topic (one "you didn't search for it" tagged the
+    // opening section Search & Retrieval): a topic needs a hit in the title or
+    // teaser, or at least two hits in the body.
+    const rx = kw => new RegExp('\\b' + kw.trim().replace(/[.*+?^${}()|[\]\\/]/g, '\\$&') + (kw.endsWith(' ') ? '\\b' : ''), 'g');
     const MATCHERS = Object.fromEntries(Object.entries(TOPICS).map(([t, kws]) => [t, kws.map(rx)]));
     this.allBlocks.forEach(b => {
-      const text = ((b.meta.title || '') + ' ' + (b.body || '')).toLowerCase();
+      const head = ((b.meta.title || '') + ' ' + (b.meta.teaser || '')).toLowerCase();
+      const body = String(b.body || '').toLowerCase();
       const tags = [];
       for (const [topic, keywords] of Object.entries(MATCHERS)) {
-        if (keywords.some(re => re.test(text))) tags.push(topic);
+        const inHead = keywords.some(re => { re.lastIndex = 0; return re.test(head); });
+        const hits = inHead ? 0 : keywords.reduce((n, re) => n + (body.match(re) || []).length, 0);
+        if (inHead || hits >= 2) tags.push(topic);
       }
       this.blockTopics[b.meta.id] = tags;
       tags.forEach(t => {
