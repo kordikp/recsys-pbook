@@ -432,7 +432,10 @@ export const uxMethods = {
   },
   openConcept(slug) {
     const a = this.concepts?.[slug]?.anchor;
-    if (a && this.findBlock(a)) this.openBlock(a, 'concept');
+    if (a && this.findBlock(a)) { this.openBlock(a, 'concept'); return; }
+    // draft anchor, accepted satellites: open one of those
+    const t = this.concepts?.[slug] && this._tellingPool(slug).find(b => this.findBlock(b.meta?.id));
+    if (t) this.openBlock(t.meta.id, 'concept');
   },
 
   // ---------------------------------------------------------------- Browse helpers
