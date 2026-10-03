@@ -316,13 +316,19 @@ class PBook {
     // Word-start matching: 'search' must not fire on "research", 'als ' (trailing
     // space = whole word) not on "signals" — substring matching tagged Ch1 intro
     // cards as Matrix Factorization · Search & Retrieval.
-    const rx = kw => new RegExp('\\b' + kw.trim().replace(/[.*+?^${}()|[\]\\/]/g, '\\$&') + (kw.endsWith(' ') ? '\\b' : ''));
+    // A passing mention is not a topic (one "you didn't search for it" tagged the
+    // opening section Search & Retrieval): a topic needs a hit in the title or
+    // teaser, or at least two hits in the body.
+    const rx = kw => new RegExp('\\b' + kw.trim().replace(/[.*+?^${}()|[\]\\/]/g, '\\$&') + (kw.endsWith(' ') ? '\\b' : ''), 'g');
     const MATCHERS = Object.fromEntries(Object.entries(TOPICS).map(([t, kws]) => [t, kws.map(rx)]));
     this.allBlocks.forEach(b => {
-      const text = ((b.meta.title || '') + ' ' + (b.body || '')).toLowerCase();
+      const head = ((b.meta.title || '') + ' ' + (b.meta.teaser || '')).toLowerCase();
+      const body = String(b.body || '').toLowerCase();
       const tags = [];
       for (const [topic, keywords] of Object.entries(MATCHERS)) {
-        if (keywords.some(re => re.test(text))) tags.push(topic);
+        const inHead = keywords.some(re => { re.lastIndex = 0; return re.test(head); });
+        const hits = inHead ? 0 : keywords.reduce((n, re) => n + (body.match(re) || []).length, 0);
+        if (inHead || hits >= 2) tags.push(topic);
       }
       this.blockTopics[b.meta.id] = tags;
       tags.forEach(t => {
@@ -346,6 +352,13 @@ class PBook {
         this.conceptBlocks[cid].push(b);      // multi-concept blocks appear in every pool
       }
     });
+    // A concept with no visible telling (all its blocks are drafts and this is
+    // not an admin view) does not exist for this reader: otherwise the topbar
+    // said 0/89 where only 71 can be read, and a chapter holding a draft
+    // concept could never count as complete.
+    if (this.allBlocks.length) {
+      for (const cid of Object.keys(this.concepts)) if (!this.conceptBlocks[cid]) delete this.concepts[cid];
+    }
     // Recall is per CONCEPT: reading any telling schedules one card, keyed by
     // the concept's anchor id (resolves like any block id everywhere else).
     this.user.recallKeyFor = id => this._recallKey(id);
@@ -678,6 +691,23 @@ class PBook {
     return pool;
   }
 
+  // A mission step counts once its IDEA is read in any verified telling: the
+  // feed serves one telling per concept (maybe the tl;dr or a comic), and a
+  // reader who met the idea there should not have to re-read the anchor.
+  _stepRead(id) {
+    if (this.user.readBlocks.has(id)) return true;
+    const b = this.findBlock(id);
+    const cid = b && this._conceptIds(b.meta)[0];
+    return !!cid && this._tellingPool(cid).some(t => t.meta?.state !== 'private' && t.meta?.state !== 'community' && this.user.readBlocks.has(t.meta?.id || t.id));
+  }
+
+  // Only tellings (spines, private/community texts): a concept's question and
+  // game blocks share its pool but are not "ways to read" it — counting them
+  // made the chip say 4 where the strip said 3, and steering could serve a quiz.
+  _tellingPool(conceptId) {
+    return this._conceptPool(conceptId).filter(b => { const t = b.meta?.type || b.type; return !t || t === 'spine'; });
+  }
+
   // Lazily fetch community variants for a concept (open mode only; graceful empty)
   // The reader's class code — one source of truth for drafts, decks, submissions
   _classCode() {
@@ -700,7 +730,7 @@ class PBook {
   _renderTellingsIndicator(block) {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
     // primary concept, not the raw "a|b" string (multi-concept blocks counted 0 and the label flipped)
-    const others = this._conceptPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
+    const others = this._tellingPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
       <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this idea is told" aria-expanded="false">&#127899;&#65039; ${others ? `${others} other way${others > 1 ? 's' : ''} to read this` : 'Tell it differently'} &#9662;</button>
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
@@ -802,7 +832,7 @@ class PBook {
     await this._fetchCommunity(conceptId);
 
     const concept = this.concepts?.[conceptId];
-    const pool = this._conceptPool(conceptId);
+    const pool = this._tellingPool(conceptId);
     // COMPOSED REQUEST: the profile only seeds the target once; after that every
     // dimension the reader picks in this panel sticks until the panel is reset.
     if (!this._steerTargets) this._steerTargets = {};
@@ -1048,7 +1078,7 @@ class PBook {
   // Shared serve/honest-miss tail of every steer
   async _serveOrMiss(blockId, conceptId, target, candidateFilter, info) {
     await this._fetchCommunity(conceptId);
-    const pool = this._conceptPool(conceptId).filter(b => (b.meta?.id || b.id) !== blockId);
+    const pool = this._tellingPool(conceptId).filter(b => (b.meta?.id || b.id) !== blockId);
     const candidates = pool.filter(candidateFilter);
     let best = null, bestScore = 0;
     for (const b of candidates) {
@@ -1621,13 +1651,13 @@ class PBook {
       });
       const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
       const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
-        const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+        const coreRead = m.core.filter(id => this._stepRead(id)).length;
         const isNext = coreRead === 0;
         return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
           <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Suggested path' : 'In progress'}</div>
           <div style="font-size:1.3rem;margin:.1em 0" aria-hidden="true">${m.icon}</div>
           <div class="card-title">${m.title}</div>
-          <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
+          <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this._stepRead(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
           <div class="card-meta"><span class="card-time">${coreRead} of ${m.core.length} steps</span></div>
         </div>`;
       });
@@ -1993,6 +2023,9 @@ class PBook {
     if (genre === 'code-walkthrough') return 'code';
     if (len.includes('deep')) return 'deep';
     if (depth[0] === 'intro') return 'gentle intro';
+    // the anchor is not "another take" (the notice read "The telling you opened: another take")
+    const id = b.id || b.meta?.id;
+    if (id && this.concepts?.[this._conceptIds(b.meta || b)[0]]?.anchor === id) return 'main telling';
     return 'another take';
   }
 
@@ -2405,6 +2438,7 @@ class PBook {
         <span class="bnav-sep">&middot;</span>
         <span class="bnav-progress" title="Section ${posInCh} of ${totalInCh} in this chapter">${posInCh} of ${totalInCh}</span>
         ${block.core ? '<span class="bnav-core" title="Essential and verified by the authors">Essential</span>' : ''}
+        ${block.status && block.status !== 'accepted' ? `<span class="bnav-core bnav-draft" title="Visible only in admin preview (pbook-admin) until an editor accepts it">${this.escHtml(block.status)}</span>` : ''}
         <div class="block-status ${isRead ? 'read' : this.user.seenBlocks.has(block.id) ? 'seen' : ''}"></div>
       </div>
       <div class="block-header">
@@ -3581,6 +3615,18 @@ class PBook {
       this._cmapData = r.ok ? await r.json() : null;
     } catch (e) { this._cmapData = null; }
     if (this._cmapData) {
+      // Concepts the exported map does not know yet (new anchors, visible as
+      // drafts in admin view) still get a node in their chapter — otherwise the
+      // Map silently left out every concept added since the last export.
+      const known = new Set(this._cmapData.nodes.map(n => n.slug));
+      const added = this._conceptOrder().filter(cid => !known.has(cid)).map(cid => {
+        const c = this.concepts[cid];
+        return { slug: cid, title: c.title || cid, tema: c.chapter, state: 'core', teaser: this.findBlock(c.anchor)?.meta?.teaser || '', rel: [], ...(c.parents?.length ? { prereq: c.parents } : {}) };
+      });
+      if (added.length) {
+        const ti = new Map(this._cmapData.temata.map((t, i) => [t.id, i]));
+        this._cmapData.nodes = [...this._cmapData.nodes, ...added].sort((a, b) => (ti.get(a.tema) ?? 99) - (ti.get(b.tema) ?? 99));
+      }
       this._cmapNodes = {};
       this._cmapByPool = {};
       this._cmapData.nodes.forEach(n => {
@@ -3707,7 +3753,9 @@ class PBook {
       arrows += `<path d="M${a.x} ${a.y} Q ${mx} ${my}, ${b.x} ${b.y}" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#jarr)" opacity="0.55">${why ? `<title>Why first: ${this.escHtml(why)}</title>` : ''}</path>`;
     }));
     const R = 25;
-    let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" font-family="system-ui,sans-serif">
+    // min-width keeps the 10 px labels legible on a phone (the 800-wide board
+    // shrank them to ~5 px); the wrapper scrolls sideways instead
+    let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;min-width:640px;height:auto;display:block" font-family="system-ui,sans-serif">
       <defs><marker id="jarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#94A3B8"/></marker></defs>`;
     temata.forEach(t => {
       const pts = cm.nodes.filter(n => n.tema === t.id).map(n => pos[n.slug]);
@@ -3763,7 +3811,7 @@ class PBook {
       ${this._mapReturnToRead ? `<p style="margin:.1em 0 .3em"><button class="steer-chip" style="font-size:.74rem;border-color:#6366F1;color:#6366F1" onclick="app._mapReturnToRead=false;app.switchView('read')">← Back to reading</button></p>` : ''}
       <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .2em">The book as a game board: fields are concepts, the number shows how many of their articles you have read (✓ = all). Dashed ＋ fields are still waiting for an article — click to write it yourself. Hover a field for its definition, hover an arrow for the reason of the dependency.</p>
       ${(this.proposals || []).length ? `<p style="font-size:.7rem;margin:0 0 .3em"><a href="#" style="color:#0EA5E9" onclick="event.preventDefault();app.setMapMode('koncepty')">🌱 ${(this.proposals || []).length} proposals waiting for votes or an author →</a></p>` : ''}
-      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p>${svg}</div>`;
+      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p><div class="journey-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch">${svg}</div></div>`;
   }
 
   async renderConceptsMap() {
@@ -5390,7 +5438,7 @@ class PBook {
         intros: [
           "Something seems off. Your feed converges to a narrow content type. A colleague sees entirely different things. Why?",
           "Bubbles are one concern. But is the system fair to all content creators and users?",
-          "The long tail: 80% of items never get recommended. Is popularity-based selection inevitable?",
+          "The long tail: most of a catalog rarely or never gets recommended, while a few hits take most of the slots. Is that popularity pull inevitable?",
           "Engagement and satisfaction are not the same thing. What should we actually optimize for?",
           "How do organizations evaluate whether their recommendations are working? Rigorous experimentation."
         ],
@@ -5451,7 +5499,7 @@ class PBook {
         reward: { title: 'Production Engineer', xp: 35 },
         core: ['ch5-tech-stack', 'ch5-model-selection', 'ch5-monitoring', 'ch5-caching', 'ch5-scale'],
         intros: [
-          "A production RecSys is 10% algorithm, 90% infrastructure. Let's examine the full stack.",
+          "In a production RecSys the model is a small part of the code; data pipelines, serving and monitoring are most of it. Let's examine the full stack.",
           "With so many algorithms available, choosing the right one for your problem is the first critical decision.",
           "Your system is live. How do you know it's working? Monitoring and observability are your lifeline.",
           "Latency is tight. Caching helps — but introduces freshness trade-offs.",
@@ -5495,7 +5543,7 @@ class PBook {
         core: ['ch7-why-research', 'ch7-simple-to-scalable', 'ch7-vasp-combining', 'ch7-bandits', 'ch7-cold-start-language', 'ch7-evaluation', 'ch7-production-scale', 'ch7-roadmap'],
         intros: [
           "Every recommendation you see is the product of mathematical research. Let's trace how theory becomes practice.",
-          "EASE: a single matrix inverse that outperforms deep learning. Elegant but unscalable. Enter ELSA.",
+          "EASE: a single matrix inverse that holds its own against deep models on standard benchmarks. Elegant but hard to scale. Enter ELSA.",
           "Linear models find smooth patterns. Deep models find complex ones. VASP combines them with a clever trick.",
           "Should you exploit what you know or explore the unknown? Bandit algorithms formalize this dilemma.",
           "New items have zero interactions. beeFormer bridges the gap by teaching algorithms to read.",
@@ -5525,7 +5573,7 @@ class PBook {
           "Thompson Sampling is Bayesian-optimal. Here's the proof, the regret bound, and the Lai-Robbins connection.",
           "The offline evaluation bias formalizes why good models can look bad. MNAR, IPS, and the LLOO+β correction."
         ],
-        boss: { q: 'Derive the ALS update step from the matrix factorization objective. Then explain why EASE outperforms deep models despite being linear, using the bias-variance trade-off framework.', hints: ['ridge regression', 'closed-form', 'sparse data', 'variance', 'spectral shrinkage', 'nuclear norm'] },
+        boss: { q: 'Derive the ALS update step from the matrix factorization objective. Then explain why EASE can match or beat deep models on standard benchmarks despite being linear, using the bias-variance trade-off framework.', hints: ['ridge regression', 'closed-form', 'sparse data', 'variance', 'spectral shrinkage', 'nuclear norm'] },
         branches: {
           thinker: { label: 'More theory', blocks: ['ch7-causal-bandits', 'ch7-regularization', 'ch3-two-tower-math'] },
           explorer: { label: 'See in practice', blocks: ['ch7-vasp-ablation', 'ch7-distillation', 'ch7-transfer-learning'] },
@@ -5566,7 +5614,7 @@ class PBook {
   }
 
   _getMissionProgress(mission) {
-    const read = mission.core.filter(id => this.user.readBlocks.has(id)).length;
+    const read = mission.core.filter(id => this._stepRead(id)).length;
     return { read, total: mission.core.length, pct: Math.round((read / Math.max(mission.core.length, 1)) * 100) };
   }
 
@@ -5708,7 +5756,7 @@ class PBook {
     const isComplete = (this.user.completedMissions || []).includes(m.id);
     const branch = this.user.missionBranches?.[m.id];
     const allBlocks = this._getMissionBlocks(m);
-    const coreComplete = m.core.every(id => this.user.readBlocks.has(id));
+    const coreComplete = m.core.every(id => this._stepRead(id));
 
     let html = '<div class="missions-inner">';
     html += `<button class="btn-ghost" onclick="app.renderMissions()" style="margin-bottom:.5em">&larr; All missions</button>`;
@@ -5729,7 +5777,7 @@ class PBook {
     }
 
     // Progress overview — show core dots + optional branch dots
-    const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+    const coreRead = m.core.filter(id => this._stepRead(id)).length;
     html += `<div class="mission-detail-progress">
       <div class="mission-progress-dots" style="justify-content:center">
         ${m.core.map((id, i) => {
@@ -5741,7 +5789,7 @@ class PBook {
           return `<span class="mission-dot branch-dot ${read ? 'done' : ''}" title="${this.findBlock(id)?.meta?.title || id}"></span>`;
         }).join('') : ''}
       </div>
-      <div style="text-align:center;font-size:.75rem;color:var(--text-3);margin-top:.3em">${coreRead}/${m.core.length} core steps${branch ? ` + bonus ${m.branches[branch].blocks.filter(id => this.user.readBlocks.has(id)).length}/${m.branches[branch].blocks.length}` : ''}</div>
+      <div style="text-align:center;font-size:.75rem;color:var(--text-3);margin-top:.3em">${coreRead}/${m.core.length} core steps${branch ? ` + bonus ${m.branches[branch].blocks.filter(id => this._stepRead(id)).length}/${m.branches[branch].blocks.length}` : ''}</div>
     </div>`;
 
     // Step list — core blocks
@@ -7853,8 +7901,10 @@ class PBook {
     this._wizardMission = m;
     this._wizardStep = 0;
     // Find first unread core block
-    const firstUnread = m.core.findIndex(id => !this.user.readBlocks.has(id));
+    const firstUnread = m.core.findIndex(id => !this._stepRead(id));
     if (firstUnread >= 0) this._wizardStep = firstUnread;
+    // every step read but the boss not beaten yet → straight to the boss
+    else if (!(this.user.completedMissions || []).includes(m.id)) this._wizardStep = m.core.length;
     this._renderWizardStep();
   }
 
@@ -7873,7 +7923,7 @@ class PBook {
     const blockId = blocks[step];
     const block = this.findBlock(blockId);
     const intro = m.intros?.[step] || '';
-    const isRead = this.user.readBlocks.has(blockId);
+    const isRead = this._stepRead(blockId);
 
     // Render wizard overlay in the glossary view
     const el = document.getElementById('glossaryContent');
@@ -8182,6 +8232,7 @@ class PBook {
         <div class="contact-status" id="ctStatus" role="status"></div>
       </div>`;
     document.body.appendChild(overlay);
+    this._navOverlayOpen?.('contact');
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
     document.getElementById(contact ? 'ctMsg' : 'ctContact')?.focus();
     this.rc?.logEvent?.('contact_open', { topic });
@@ -8192,11 +8243,17 @@ class PBook {
     const name = $('ctName').value.trim(), contact = $('ctContact').value.trim();
     const message = $('ctMsg').value.trim(), topic = $('ctTopic').value;
     const status = $('ctStatus'), btn = $('ctSend');
-    $('ctContact').classList.toggle('cert-error', !contact);
+    // Something we can reply to: a well-formed email, or another handle/phone of 5+ characters
+    const contactOk = contact.includes('@') && !/^@/.test(contact)
+      ? /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact)
+      : contact.length >= 5;
+    $('ctContact').classList.toggle('cert-error', !contactOk);
     $('ctMsg').classList.toggle('cert-error', !message);
-    if (!contact || !message) {
+    if (!contactOk || !message) {
       status.className = 'contact-status err';
-      status.textContent = 'Please fill in a contact and a message.';
+      status.textContent = !contact || !message ? 'Please fill in a contact and a message.'
+        : 'Please check the contact — we need an email address (or a phone or handle) to reply to.';
+      (contactOk ? $('ctMsg') : $('ctContact')).focus();
       return;
     }
     btn.disabled = true; btn.textContent = 'Sending…'; status.textContent = '';
@@ -9063,7 +9120,7 @@ class PBook {
       <div class="mission-bar-dots">${m.core.map((id, i) => {
         const b = this.findBlock(id);
         const title = b?.meta?.title || id;
-        const cls = this.user.readBlocks.has(id) ? 'done' : i === step ? 'current' : '';
+        const cls = this._stepRead(id) ? 'done' : i === step ? 'current' : '';
         return `<span class="mission-dot ${cls}" title="${this.escHtml(title)}" onclick="app._wizardStep=${i};app._pendingMissionIntro='${(m.intros?.[i]||'').replace(/'/g,"\\'")}';app.openBlock('${id}')" style="cursor:pointer"></span>`;
       }).join('')}</div>
     `;
@@ -9076,8 +9133,8 @@ class PBook {
     // Find next unread step
     let nextStep = this._wizardStep;
     const currentId = m.core[nextStep];
-    if (currentId && this.user.readBlocks.has(currentId)) nextStep++;
-    while (nextStep < m.core.length && this.user.readBlocks.has(m.core[nextStep])) nextStep++;
+    if (currentId && this._stepRead(currentId)) nextStep++;
+    while (nextStep < m.core.length && this._stepRead(m.core[nextStep])) nextStep++;
     this._wizardStep = nextStep;
 
     if (nextStep >= m.core.length) {
@@ -9829,6 +9886,7 @@ class PBook {
         <div id="certPreview" style="margin-top:1em"></div>
       </div>`;
     document.body.appendChild(overlay);
+    this._navOverlayOpen?.('certificate');
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
     document.getElementById('certName').focus();
   }
@@ -10103,7 +10161,12 @@ document.addEventListener('click', (e) => {
   if (concept?.anchor && app.findBlock(concept.anchor)) {
     app.rc.logEvent('concept_link', { slug });
     app.openBlock(app._servedTellingId(slug) || concept.anchor, 'crosslink');   // the reader's telling of that idea
+    return;
   }
+  // anchor still a draft: any visible telling of the idea, else say so (the link used to do nothing)
+  const t = concept && app._tellingPool(slug).find(b => app.findBlock(b.meta?.id));
+  if (t) { app.rc.logEvent('concept_link', { slug }); app.openBlock(t.meta.id, 'crosslink'); }
+  else app.showXPToast?.('That idea is still being written — it is not in the book yet', 'info');
 });
 
 document.addEventListener('contextmenu', (e) => {

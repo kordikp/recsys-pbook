@@ -99,14 +99,15 @@ export class AskTheBook {
     const card = (r, lead) => {
       const c = r.concept, k = c.contract || {};
       const tellings = (app.conceptBlocks?.[c.id] || []).filter(b => b.meta.type === 'spine').length;
-      const anchor = app.findBlock(c.anchor);
+      // anchor still a draft (hidden from readers): point at a visible telling instead
+      const anchor = app.findBlock(c.anchor) || (app.conceptBlocks?.[c.id] || []).find(b => b.meta.type === 'spine') || null;
       const ch = app._conceptChapterNum ? app._conceptChapterNum(c.id) : '';
       return `<div class="ask-card${lead ? '' : ' ask-card-related'}">
         <div class="ask-kicker">${lead ? 'From the book' : 'Related'} · Chapter ${esc(ch)}</div>
         <div class="ask-title">${esc(c.title)}</div>
         ${lead && k.recallQ ? `<div class="ask-q">${esc(clean(k.recallQ))}</div>` : ''}
         <p class="ask-a">${esc(clean(k.recallA || k.objective || ''))}</p>
-        ${anchor ? `<button class="tutor-suggest-btn" onclick="app.openBlock('${esc(c.anchor)}','ask')">Read: ${esc(anchor.meta.title || c.title)} →</button>` : ''}
+        ${anchor ? `<button class="tutor-suggest-btn" onclick="app.openBlock('${esc(anchor.meta.id)}','ask')">Read: ${esc(anchor.meta.title || c.title)} →</button>` : ''}
         ${lead && tellings > 1 ? `<span class="ask-note">${tellings} ways to read it in the book</span>` : ''}
       </div>`;
     };
