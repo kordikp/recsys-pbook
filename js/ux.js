@@ -111,6 +111,36 @@ export const uxMethods = {
     this._navReady = true;
     try { history.replaceState({ pb: 1, i: 0, view: 'home' }, '', location.pathname + location.search); } catch (e) {}
     window.addEventListener('popstate', e => this._onPopState(e.state));
+    // Modals (certificate, contact) are closed by their own buttons with a plain
+    // .remove(): drop their history entry when that happens
+    try {
+      new MutationObserver(muts => {
+        if (muts.some(m => [...m.removedNodes].some(n => n.classList?.contains('cert-overlay')))
+          && !document.querySelector('.cert-overlay')) this._navOverlayClosed();
+      }).observe(document.body, { childList: true });
+    } catch (e) {}
+  },
+  // Full-screen overlays (Playground, certificate, contact) get a history entry
+  // of their own, so the phone's back gesture closes the overlay instead of
+  // switching the view underneath it (or leaving the book).
+  _navOverlayOpen(name) {
+    this._navInit();
+    if (this._navRestoring) return;
+    const cur = history.state || {};
+    if (!cur.pb || cur.overlay) return;
+    try { history.pushState({ ...cur, i: (cur.i || 0) + 1, overlay: name }, '', location.href); } catch (e) {}
+  },
+  _navOverlayClosed() {
+    if (this._navRestoring || !history.state?.overlay) return;
+    this._navSkipPop = true;
+    history.back();
+  },
+  _closeOverlays() {
+    const pg = document.getElementById('gPlayground');
+    const open = (pg && !pg.hidden) || !!document.querySelector('.cert-overlay');
+    if (pg && !pg.hidden) this.closePlayground?.();
+    document.querySelectorAll('.cert-overlay').forEach(o => o.remove());
+    return open;
   },
   _navPush(state, url) {
     this._navInit();
@@ -130,9 +160,11 @@ export const uxMethods = {
     this._navPush({ view: 'read', blockId }, '#' + blockId);
   },
   _onPopState(st) {
+    if (this._navSkipPop) { this._navSkipPop = false; return; }   // an overlay closed itself
     if (!st || !st.pb) return;               // not one of ours
     this._navRestoring = true;
     try {
+      if (this._closeOverlays()) return;     // back closes the overlay, the view stays
       this._closeSheet();
       document.getElementById('previewPanel')?.remove();
       document.getElementById('searchOverlay')?.classList.remove('open');

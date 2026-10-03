@@ -1372,7 +1372,7 @@ const GamesMixin = {
       // concept links inside the overlay: close it first, the global #c/ handler then opens the concept
       ov.addEventListener('click', e => { if (e.target.closest('a[href^="#c/"]')) this.closePlayground(); }, true);
     }
-    if (ov.hidden !== false || !ov.innerHTML) this._pgPrevFocus = document.activeElement;
+    if (ov.hidden !== false || !ov.innerHTML) { this._pgPrevFocus = document.activeElement; this._navOverlayOpen?.('playground'); }
     ov.hidden = false;
     document.body.classList.add('g-pg-open');
     this.rc?.logEvent?.('playground_open', { focus: focusId || '' });
@@ -1382,9 +1382,11 @@ const GamesMixin = {
   closePlayground() {
     const ov = document.getElementById('gPlayground');
     if (!ov) return;
+    const wasOpen = !ov.hidden;
     ov.hidden = true;
     ov.innerHTML = '';
     document.body.classList.remove('g-pg-open');
+    if (wasOpen) this._navOverlayClosed?.();
     try { this._pgPrevFocus?.focus?.({ preventScroll: true }); } catch (e) { /* element gone */ }
   },
 

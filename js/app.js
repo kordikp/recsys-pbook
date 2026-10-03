@@ -8220,6 +8220,7 @@ class PBook {
         <div class="contact-status" id="ctStatus" role="status"></div>
       </div>`;
     document.body.appendChild(overlay);
+    this._navOverlayOpen?.('contact');
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
     document.getElementById(contact ? 'ctMsg' : 'ctContact')?.focus();
     this.rc?.logEvent?.('contact_open', { topic });
@@ -9873,6 +9874,7 @@ class PBook {
         <div id="certPreview" style="margin-top:1em"></div>
       </div>`;
     document.body.appendChild(overlay);
+    this._navOverlayOpen?.('certificate');
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
     document.getElementById('certName').focus();
   }
