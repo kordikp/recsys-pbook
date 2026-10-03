@@ -2438,6 +2438,7 @@ class PBook {
         <span class="bnav-sep">&middot;</span>
         <span class="bnav-progress" title="Section ${posInCh} of ${totalInCh} in this chapter">${posInCh} of ${totalInCh}</span>
         ${block.core ? '<span class="bnav-core" title="Essential and verified by the authors">Essential</span>' : ''}
+        ${block.status && block.status !== 'accepted' ? `<span class="bnav-core bnav-draft" title="Visible only in admin preview (pbook-admin) until an editor accepts it">${this.escHtml(block.status)}</span>` : ''}
         <div class="block-status ${isRead ? 'read' : this.user.seenBlocks.has(block.id) ? 'seen' : ''}"></div>
       </div>
       <div class="block-header">
