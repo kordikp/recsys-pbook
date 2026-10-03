@@ -99,7 +99,7 @@ export class AskTheBook {
     const card = (r, lead) => {
       const c = r.concept, k = c.contract || {};
       const tellings = (app.conceptBlocks?.[c.id] || []).filter(b => b.meta.type === 'spine').length;
-      // draft anchor (admin preview only): point at a visible telling instead
+      // anchor still a draft (hidden from readers): point at a visible telling instead
       const anchor = app.findBlock(c.anchor) || (app.conceptBlocks?.[c.id] || []).find(b => b.meta.type === 'spine') || null;
       const ch = app._conceptChapterNum ? app._conceptChapterNum(c.id) : '';
       return `<div class="ask-card${lead ? '' : ' ask-card-related'}">
