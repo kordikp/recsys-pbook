@@ -326,8 +326,12 @@
    "title": "LLM-powered recommendation",
    "tema": "ch05m-modern-recommenders",
    "state": "core",
-   "teaser": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better th",
-   "rel": []
+   "teaser": "The CEO wants to 'just put ChatGPT on the shop'. An LLM can do four jobs inside a recommender: here is what each one buys, what it risks, and the one job to kee",
+   "rel": [],
+   "prereq": [
+    "embeddings",
+    "pipeline"
+   ]
   },
   {
    "slug": "ab-testing",

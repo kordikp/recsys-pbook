@@ -6,12 +6,19 @@ readingTime: 3
 standalone: true
 core: false
 teaser: "The CEO wants to 'just put ChatGPT on the shop'. An LLM can do four jobs inside a recommender: here is what each one buys, what it risks, and the one job to keep away from it."
-parent: ch3-llm-recs
+parent: null
 diagram: diagram-llm-four-roles
 recallQ: "What are the key strengths and limitations of using LLMs for recommendations?"
 recallA: "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff."
+highlights:
+  - "An LLM can take four jobs in a recommender: conversational front-end, metadata/feature generator, re-ranker of a retrieved shortlist, explainer. Each has its own cost profile: offline once per item, or online on every request."
+  - "LLMs can confidently recommend items that do not exist or that the catalog does not carry, so hallucination is critical. Constrain output to catalog queries or candidate IDs."
+  - "Without the user's interaction history an LLM recommends for a stereotype, so personalization still comes from behavioral data."
+  - "Best results: the LLM as interface, enrichment and reasoning layer, with the behavioral recommender as the backbone that picks from the real catalog."
 status: accepted
 concept: llm-recommenders
+conceptTitle: "LLM-powered recommendation"
+parents: embeddings|pipeline
 state: edited
 lens: ecommerce
 lang: en
@@ -21,6 +28,8 @@ visuality: balanced
 lengthBand: standard
 genre: explainer
 carriers: prose|table|diagram
+objective: "Know the four jobs an LLM can do inside a recommender (conversational front-end, feature/metadata generator, re-ranker of a retrieved shortlist, explainer), what each one buys and risks, and why picking items from the real catalog stays with the behavioral recommender."
+forbidden: "presenting an LLM as a drop-in replacement for the behavioral recommender | specific latency or cost figures, or named company deployments, without a source"
 ---
 
 The CEO of Trailhead, an outdoor-gear shop, is back from a conference with one request: "Put ChatGPT on the shop and let it recommend."

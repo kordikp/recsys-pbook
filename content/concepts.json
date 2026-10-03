@@ -1647,13 +1647,16 @@
       "id": "llm-recommenders",
       "title": "LLM-powered recommendation",
       "chapter": "ch05m-modern-recommenders",
-      "anchor": "ch3-llm-recs",
-      "anchorPath": "ch05m-modern-recommenders/04e-spine-llm-recommendations.md",
+      "anchor": "llm-recommenders-four-jobs",
+      "anchorPath": "ch05m-modern-recommenders/04-spine-llm-recommenders.md",
       "provenance": "anchored",
-      "parents": [],
+      "parents": [
+        "embeddings",
+        "pipeline"
+      ],
       "blocks": [
-        "ch3-llm-recs",
         "llm-recommenders-four-jobs",
+        "ch3-llm-recs",
         "llm-recommenders-tldr",
         "llm-recommenders-four-jobs-deep",
         "comic-llm-recommenders",
@@ -1662,19 +1665,23 @@
         "comic-conversational-recs"
       ],
       "contract": {
-        "objective": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better than a well-tuned collaborative filter?",
-        "objectiveSource": "teaser-bootstrap",
+        "objective": "Know the four jobs an LLM can do inside a recommender (conversational front-end, feature/metadata generator, re-ranker of a retrieved shortlist, explainer), what each one buys and risks, and why picking items from the real catalog stays with the behavioral recommender.",
+        "objectiveSource": "anchor",
         "mustCover": [
           {
-            "point": "LLMs can confidently recommend items that do not exist -- hallucination is critical",
+            "point": "An LLM can take four jobs in a recommender: conversational front-end, metadata/feature generator, re-ranker of a retrieved shortlist, explainer. Each has its own cost profile: offline once per item, or online on every request.",
             "modality": "prose"
           },
           {
-            "point": "Six months of behavioral data beats any LLM prompt on personalization",
+            "point": "LLMs can confidently recommend items that do not exist or that the catalog does not carry, so hallucination is critical. Constrain output to catalog queries or candidate IDs.",
             "modality": "prose"
           },
           {
-            "point": "Best results: LLM as interface and reasoning, traditional RecSys as backbone",
+            "point": "Without the user's interaction history an LLM recommends for a stereotype, so personalization still comes from behavioral data.",
+            "modality": "prose"
+          },
+          {
+            "point": "Best results: the LLM as interface, enrichment and reasoning layer, with the behavioral recommender as the backbone that picks from the real catalog.",
             "modality": "prose"
           }
         ],
@@ -1683,7 +1690,9 @@
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",
-          "claiming a single method fully solves the problem"
+          "claiming a single method fully solves the problem",
+          "presenting an LLM as a drop-in replacement for the behavioral recommender",
+          "specific latency or cost figures, or named company deployments, without a source"
         ]
       }
     },
