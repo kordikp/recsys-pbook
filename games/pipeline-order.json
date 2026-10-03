@@ -15,7 +15,7 @@
     "Retrieval is fast and broad: it must not miss good items (high recall), and it can afford to be rough.",
     "Ranking is the precise, expensive model, affordable only because retrieval shrank the list.",
     "The last pass fixes what a pure relevance score gets wrong: five near-identical items, out-of-stock products, things already bought.",
-    "Retrieve, rank and re-rank together usually have a few hundred milliseconds."
+    "The user is waiting: retrieve, rank and re-rank together usually have a budget of a few hundred milliseconds."
   ],
   "debrief": "Retrieve, rank, re-rank: each stage trades speed for precision, so the expensive model only ever sees a few hundred items."
 }
