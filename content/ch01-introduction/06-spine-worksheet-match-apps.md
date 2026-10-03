@@ -56,9 +56,7 @@ Now let's examine specific platforms:
 
 ---
 
-**type: question**
-
-Which model gives you the most control over what you see?
+**Your turn:** Which model gives you the most control over what you see?
 
 - A) Social-graph-based
 - B) Subscription-based

@@ -58,7 +58,6 @@
         "02d-sidebar-negative-signals.md",
         "02e-depth-thinker-rating-quality.md",
         "02f-sidebar-visibility-bias.md",
-        "02c-game-cold-start.md",
         "03-spine-your-data-your-choice.md",
         "03x-sidebar-comic-data-control.md",
         "03c-sidebar-data-ownership.md",
@@ -85,6 +84,7 @@
         "07-spine-user-cold-start.md",
         "07a-sidebar-user-cold-start-tldr.md",
         "07b-depth-user-cold-start-mechanics.md",
+        "02c-game-cold-start.md",
         "01f-sidebar-user-lifecycle.md"
       ]
     },

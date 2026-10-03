@@ -339,8 +339,7 @@
         "ch2-incognito-sidebar",
         "ch2-negative-signals",
         "ch2-rating-quality",
-        "ch2-visibility-bias",
-        "ch2-game-cold"
+        "ch2-visibility-bias"
       ],
       "contract": {
         "objective": "Item features, user profiles, and behavioral signals -- the three pillars of every recommendation.",
@@ -517,6 +516,7 @@
         "user-cold-start",
         "user-cold-start-tldr",
         "user-cold-start-mechanics",
+        "ch2-game-cold",
         "ch2-user-lifecycle"
       ],
       "contract": {
