@@ -51,9 +51,9 @@
       "why": "A ranking by volume, identical for every user."
     },
     {
-      "text": "A visitor with no account views three tents; the next suggestion is a sleeping pad",
+      "text": "No account, no history: the suggestions change after every click in this visit, following what was just viewed",
       "answer": 3,
-      "why": "Only the clicks of this visit are known, so their order drives the next suggestion."
+      "why": "Only the clicks of this visit are known, and the most recent ones count most: that is session-based recommendation."
     },
     {
       "text": "The next song is chosen from the order of your last five plays",

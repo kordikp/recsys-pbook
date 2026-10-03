@@ -17,7 +17,7 @@
     {
       "text": "A: 100,000 users, 3.1% converted. B: 100,000 users, 3.5% converted.",
       "answer": 0,
-      "why": "A small lift on a huge sample is real (z ≈ 5). Whether it is worth shipping is a separate question."
+      "why": "A small lift on a huge sample is real: chance alone would produce it far less than once in a thousand tests (p well below 0.001). Whether it is worth shipping is a separate question."
     },
     {
       "text": "A: 5,000 users, 25% engaged. B: 5,000 users, 15% engaged.",

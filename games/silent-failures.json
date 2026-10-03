@@ -41,7 +41,7 @@
     {
       "text": "Clicks stay flat while returns and 'Not interested' taps climb",
       "answer": 1,
-      "why": "Delayed outcomes: the damage shows downstream, weeks later."
+      "why": "The click dashboard looks healthy and no request fails. The damage shows only in outcome signals like returns and rejections, often weeks later."
     },
     {
       "text": "Tastes shift after the holiday season; last month's model is slightly wrong every day",
