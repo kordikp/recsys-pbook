@@ -4,7 +4,7 @@
 // any more — install derives it from /content/book.json (every content file),
 // the games, diagrams and images those files reference, and app.js's imports.
 // (A hand-kept list once missed 97 of 307 content files, all comics included.)
-const CACHE_NAME = 'pbook-v73';
+const CACHE_NAME = 'pbook-v80';
 
 // App shell: the few files content cannot point at
 const SHELL = [

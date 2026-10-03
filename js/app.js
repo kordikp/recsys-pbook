@@ -1,13 +1,14 @@
 // p-book v3: Adaptive UX with Netflix home, map, search, feedback, Recombee-powered
 
 import { CONFIG } from './config.js';
-import { renderMarkdown, parseFrontmatter } from './markdown.js';
+import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=2';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
 
 const APP_VERSION = '5.12.4';
-import { MockTutorEngine, ConversationManager } from './tutor.js';
+import { AskTheBook, ConversationManager } from './tutor.js?v=2';
 import { installGames } from './games.js?v=1';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=1';
 
 class PBook {
   constructor() {
@@ -20,7 +21,7 @@ class PBook {
     this.feedbackTimeout = null;
     this.topicIndex = {};  // topic → [blockIds]
     this.blockTopics = {}; // blockId → [topics]
-    this.tutor = new MockTutorEngine();
+    this.tutor = new AskTheBook(this);   // answers from concepts.json only — see js/tutor.js
     this.convManager = new ConversationManager();
     this._activeConvId = null;
   }
@@ -83,7 +84,7 @@ class PBook {
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
     this.rc.setBookScope((this.book?.chapters || []).map(c => c.id), Object.keys(this.concepts || {}));
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
-    console.info('[pbook] app', APP_VERSION);
+    console.info('[pbook] app', this._appVersion());
     this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
     this._loadOverrides();       // accepted remixes: originalId → your version (persistent)
     this._checkAdoptions();      // shared telling merged into the book? → +100 XP, editor track
@@ -236,6 +237,7 @@ class PBook {
 
     // Customize welcome screen for returning users
     this._customizeWelcome();
+    this._resumeOrWelcome();   // first visit → the door; returning → where you left off (js/ux.js)
 
     if (this._getAuth()) this.refreshAiBalance(true);
     // Auto-sync for logged-in users: save every 2 minutes
@@ -260,6 +262,15 @@ class PBook {
     // not mistake a hidden draft or a failed fetch for a deleted block.
     this._knownIds = new Set();
     this._contentFetchFailed = false;
+    // Start EVERY file download at once (the loop below used to wait chapter by
+    // chapter: ~5 s for 307 files on a slow link). The loop is unchanged — its
+    // `fetch` just picks up the request that is already in flight.
+    const inflight = new Map();
+    for (const c of this.book.chapters) for (const f of c.files) {
+      const url = `${CONFIG.book.contentDir}/${c.directory}/${f}`;
+      inflight.set(url, window.fetch(url).catch(() => null));
+    }
+    const fetch = url => inflight.get(url) || window.fetch(url);
     for (let i = 0; i < this.book.chapters.length; i++) {
       const ch = this.book.chapters[i];
       const dir = `${CONFIG.book.contentDir}/${ch.directory}`;
@@ -302,11 +313,16 @@ class PBook {
       'Data & Signals': ['interaction data', 'item catalog', 'user catalog', 'feedback loop', 'implicit'],
       'Privacy & Ethics': ['privacy', 'gdpr', 'ethical', 'transparency', 'consent'],
     };
+    // Word-start matching: 'search' must not fire on "research", 'als ' (trailing
+    // space = whole word) not on "signals" — substring matching tagged Ch1 intro
+    // cards as Matrix Factorization · Search & Retrieval.
+    const rx = kw => new RegExp('\\b' + kw.trim().replace(/[.*+?^${}()|[\]\\/]/g, '\\$&') + (kw.endsWith(' ') ? '\\b' : ''));
+    const MATCHERS = Object.fromEntries(Object.entries(TOPICS).map(([t, kws]) => [t, kws.map(rx)]));
     this.allBlocks.forEach(b => {
       const text = ((b.meta.title || '') + ' ' + (b.body || '')).toLowerCase();
       const tags = [];
-      for (const [topic, keywords] of Object.entries(TOPICS)) {
-        if (keywords.some(kw => text.includes(kw))) tags.push(topic);
+      for (const [topic, keywords] of Object.entries(MATCHERS)) {
+        if (keywords.some(re => re.test(text))) tags.push(topic);
       }
       this.blockTopics[b.meta.id] = tags;
       tags.forEach(t => {
@@ -683,9 +699,10 @@ class PBook {
   // Slim indicator at the top of a block: how many other tellings exist, click to see them
   _renderTellingsIndicator(block) {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
-    const others = this._conceptPool(block.concept).filter(b => (b.meta?.id || b.id) !== block.id).length;
+    // primary concept, not the raw "a|b" string (multi-concept blocks counted 0 and the label flipped)
+    const others = this._conceptPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
-      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>${this._conceptGameChip?.(block.concept, block.id) || ''}
+      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this idea is told" aria-expanded="false">&#127899;&#65039; ${others ? `${others} other way${others > 1 ? 's' : ''} to read this` : 'Tell it differently'} &#9662;</button>
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
     </div>`;
   }
@@ -697,18 +714,19 @@ class PBook {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
     const lensVals = CONFIG.facets.lens.values;
     const lensIcons = CONFIG.facets.lens.icons || {};
-    const canSimpler = (block.depth || 'standard') !== 'intro';
-    const canDeeper = (block.depth || 'standard') !== 'research';
-    return `<div class="steer-bar feedback-bar fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
-      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss">&times;</button>
-      <span class="steer-label">How was this telling?</span>
-      <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Great</button>
-      ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="Same idea, gentler telling">&#128315; Simpler</button>` : ''}
-      ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="Same idea, more depth">&#128316; Deeper</button>` : ''}
-      ${block.visuality !== 'visual-first' ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="Same idea, more visual">&#128444;&#65039; More visual</button>` : ''}
-      <select class="steer-chip steer-lens" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="Examples from your world">
-        <option value="">&#127758; my world&hellip;</option>
-        ${lensVals.filter(l => l !== (block.lens || 'generic')).map(l => `<option value="${l}">${lensIcons[l] || ''} ${l}</option>`).join('')}
+    const depths = this._facetValues(block, 'depth');
+    const canSimpler = !depths.includes('intro');
+    const canDeeper = !depths.includes('research');
+    return `<div class="steer-bar telling-feedback fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
+      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss" aria-label="Dismiss">&times;</button>
+      <span class="steer-label">How did this land?</span>
+      <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Worked for me</button>
+      ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="Same idea, gentler telling">Simpler</button>` : ''}
+      ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="Same idea, more depth">Deeper</button>` : ''}
+      ${!this._facetValues(block, 'visuality').includes('visual-first') ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="Same idea, more visual">More visual</button>` : ''}
+      <select class="steer-chip steer-lens" aria-label="Examples from another world" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="Examples from your world">
+        <option value="">&#127758; Examples from&hellip;</option>
+        ${lensVals.filter(l => !this._facetValues(block, 'lens').includes(l)).map(l => `<option value="${l}">${lensIcons[l] || ''} ${this._fw('lensShort', l)}</option>`).join('')}
       </select>
     </div>`;
   }
@@ -723,7 +741,7 @@ class PBook {
   }
   _armFeedbackBar(blockId) {
     const bar = document.getElementById(`steer-${blockId}`);
-    if (!bar || !bar.classList.contains('feedback-bar') || bar.dataset.armed) return;
+    if (!bar || !bar.classList.contains('telling-feedback') || bar.dataset.armed) return;
     bar.dataset.armed = '1';
     if (!this._fbTimers) this._fbTimers = {};
     this._fbTimers[blockId] = setTimeout(() => {
@@ -748,7 +766,7 @@ class PBook {
       const def = this._facetDefault(dim);
       if (!always && set.length === 1 && set[0] === def) return null;
       const ordered = CONFIG.facets[dim]?.ordered;
-      const label = ordered && set.length > 1 ? `${set[0]}–${set[set.length - 1]}` : set.join(' · ');
+      const label = dim === 'depth' ? this._depthPhrase(set) : ordered && set.length > 1 ? `${this._fw(dim, set[0])} to ${this._fw(dim, set[set.length - 1])}` : set.map(v => this._fw(dim === 'lens' ? 'lensShort' : dim, v)).join(' · ');
       const icon = dim === 'lens' ? (set.length === 1 ? lensIcons[set[0]] || '' : '🌐') : dim === 'lang' ? '🌍' : '';
       return `<span class="telling-chip">${icon ? icon + ' ' : ''}${label}</span>`;
     };
@@ -763,7 +781,7 @@ class PBook {
         ? '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ reader remix</span>'
         : '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ your remix</span>';
     }
-    if (s === 'core') return '<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED">CORE</span>';
+    if (s === 'core') return '<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED" title="Essential and verified by the authors">ESSENTIAL</span>';
     if (s === 'community') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ reader-shared</span>';
     if (s === 'private') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ yours</span>';
     return '<span class="telling-badge" style="color:#10B981;border-color:#10B981">edited</span>';
@@ -824,13 +842,13 @@ class PBook {
       const cfg = [this._facetValues(m, 'lens').join('|'), this._facetValues(m, 'lang').join('|'),
                    g, this._facetValues(m, 'depth').join('–'), this._facetValues(m, 'visuality').join('–'),
                    this._facetValues(m, 'lengthBand').join('–')].join(' · ');
-      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${state.toUpperCase()} · ${cfg}${isCurrent ? '\n(reading now)' : ''}`;
+      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${this._tellingWords(m, ['genre', 'lens', 'depth', 'lengthBand']) || cfg}${isCurrent ? '\n(reading now)' : ''}`;
       return `<button class="tstrip-chip ${isCurrent ? 'tstrip-current' : ''}" style="--sc:${color}"
         title="${this.escHtml(tip)}" ${isCurrent ? '' : `onclick="app.pickTelling('${blockId}','${m.id}')"`}>${GENRE_ICONS[g] || '📄'}</button>`;
-    }).join('')}<span class="tstrip-hint">${pool.length} tellings — hover for details, click to read</span><button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling (coach)" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
+    }).join('')}<span class="tstrip-hint">${pool.length} ways to read this idea — tap one to switch</span><button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling (coach)" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
 
     h += `<div class="tellings-compose">
-      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = this telling · <span class="legend-active">filled</span> = your target · numbers = existing tellings${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
+      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = what you are reading · <span class="legend-active">highlighted</span> = what you asked for · number = how many versions exist${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
       ${DIMS.map(({ dim, label }) => `<div class="dna-row" style="align-items:flex-start"><span class="dna-label" style="padding-top:.2em">${label}</span>
         <div class="tellings-dimvals" style="margin:0">${this._renderDimValues(blockId, dim, pool, curMeta)}</div></div>`).join('')}
     </div>`;
@@ -853,14 +871,14 @@ class PBook {
           oninput="(app._steerWish=app._steerWish||{})['${conceptId}']=this.value"
           placeholder="Optional note: anything specific? (e.g. 'use a running-shop example')">
         <button class="steer-chip steer-gen" onclick="app.generateVariant('${blockId}','${conceptId}')">&#10024; Generate exactly this (~30 s) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-        ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
+        ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.7rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.7rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
     } else if (canGen) {
       h += `<span>No telling covers this yet — turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> to generate it.</span>`;
     } else {
       h += `<span>No telling covers this yet — your interest was recorded and helps editors decide what to write next. &#128203;</span>`;
     }
     h += '</div>';
-    h += `<div style="font-size:.68rem;color:var(--text-3);margin-top:.35em">These are tellings of one concept. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a> (+10 XP).</div>`;
+    h += `<div style="font-size:.7rem;color:var(--text-3);margin-top:.35em">These are tellings of one concept. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a> (+10 XP).</div>`;
     panel.innerHTML = h;
   }
 
@@ -883,7 +901,7 @@ class PBook {
       const isSel = selSet.includes(v);
       return `<button class="steer-chip dimval ${isCur ? 'dim-current' : ''} ${isSel ? 'dim-active' : ''} ${count ? '' : 'dim-empty'}"
         onclick="app.steerDim('${blockId}','${dim}','${v}')" title="${isCur ? 'the telling you are reading covers this · ' : ''}${isSel ? 'in your target (click to remove) · ' : ''}${count ? count + ' telling(s) cover this' : 'no telling yet — be the first'}">
-        ${isCur ? '◉ ' : ''}${icons[v] ? icons[v] + ' ' : ''}${v}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
+        ${isCur ? '◉ ' : ''}${icons[v] ? icons[v] + ' ' : ''}${this.escHtml(this._fw(dim === 'lens' ? 'lensShort' : dim, v))}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
     }).join('');
   }
 
@@ -1076,9 +1094,8 @@ class PBook {
     this._slotDom[originalId] = vMeta.id;
 
     const isGenerated = vMeta.state === 'private' || vMeta.state === 'community';
-    const noticeBits = [];
-    if (vMeta.lens && vMeta.lens !== 'generic') noticeBits.push(`${(CONFIG.facets.lens.icons || {})[vMeta.lens] || ''} ${vMeta.lens} examples`);
-    if (vMeta.depth) noticeBits.push(`${vMeta.depth} depth`);
+    // plain words ("job-board examples · standard to technical depth"), never raw "a..b"
+    const noticeBits = [this._tellingWords(vMeta, ['lens', 'depth', 'genre']).replace(/^examples from everywhere · /, '')].filter(Boolean);
     const provenance = vMeta.state === 'community'
       ? `<span class="gen-badge">shared by a reader &middot; not yet editor-verified</span>`
       : vMeta.state === 'private'
@@ -1107,6 +1124,10 @@ class PBook {
       }
     });
 
+    // Chained steering (Deeper, then another world) used to stack a stale notice
+    // above the new one — the slot keeps exactly one.
+    const oldNotice = el.previousElementSibling;
+    if (oldNotice && oldNotice.classList?.contains('variant-notice') && !oldNotice.dataset.swappedInto) oldNotice.remove();
     el.outerHTML = notice + html;
     // Register the variant for dwell tracking (falls back to default reading time)
     const newEl = document.getElementById(`b-${vMeta.id}`);
@@ -1243,10 +1264,8 @@ class PBook {
     this.updateXPBadge();
     if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
     this.switchView(view || 'home');
-    // First-time tour
-    if (!localStorage.getItem('pbook-tour-done')) {
-      setTimeout(() => this.startTour(), 1000);
-    }
+    // First-time tour — only once the view has content (it used to open over a blank Home)
+    this._startTourWhenReady();
   }
 
   // One-tap onboarding pick with immediate, visible effect (selection + preview line)
@@ -1256,13 +1275,21 @@ class PBook {
     el.classList.add('selected');
     const lens = document.querySelector('#introLens .intro-voice.selected')?.dataset.lens || 'generic';
     const goal = document.querySelector('#introGoal .intro-voice.selected')?.dataset.goal || 'understand';
-    const WORLD = { generic: 'a mix of platforms', ecommerce: 'shops, carts and "customers also bought"', media: 'playlists, autoplay and watch history', 'social-feeds': 'feeds, follows and creators', education: 'courses, exercises and learners' };
-    const GOAL = { understand: 'clear explanations first', build: 'hands-on and technical depth when you want it', decide: 'trade-offs and evaluation focus', protect: 'your data, your controls, your rights' };
+    // Honest promise: say how many sections really are told in that world today
+    const GOAL = { understand: 'clear explanations first', build: 'more technical depth, and a guided path for builders', decide: 'a guided path through trade-offs, evaluation and build-vs-buy', protect: 'a guided path through your data, your controls and your rights' };
+    const n = lens === 'generic' ? 0 : this._lensCoverage(lens);
+    const world = lens === 'generic' ? 'Examples from many platforms'
+      : `<b>${this._fw('lens', lens)}</b> where the book has them (${n} section${n === 1 ? '' : 's'} today — any other section can be retold for you)`;
     const hint = document.getElementById('onboardHint');
-    if (hint) hint.innerHTML = `→ Examples will come from <b>${WORLD[lens]}</b> · ${GOAL[goal]}. You can steer any section later.`;
+    if (hint) hint.innerHTML = `${world} · ${GOAL[goal]}.`;
   }
 
   startWithVoiceAndGo(view) {
+    this._saveDoorPicks();
+    this.startAndGo(view);
+  }
+
+  _saveDoorPicks() {
     // (voice picker removed — the facet taxonomy replaced learning styles; legacy name kept)
     // Onboarding calibration (P0): lens + goal — light, skippable, seeds the facet profile
     const lensSel = document.querySelector('#introLens .intro-voice.selected');
@@ -1279,7 +1306,8 @@ class PBook {
     if (openMode) { this.user.readerMode = 'open'; this.rc.setUserProperties({ readerMode: 'open' }); }
     this.user.save();
     this.rc.logEvent('onboarding', { lens: lensSel?.dataset.lens, goal: goalSel?.dataset.goal, openMode: !!openMode });
-    this.startAndGo(view);
+    this._applyGoal();
+    try { localStorage.setItem('pbook-onboarded', '1'); } catch (e) {}
   }
 
   startRandom() {
@@ -1312,8 +1340,8 @@ class PBook {
 
     // Returning user — change CTA
     const continueBlock = this.getContinueBlock();
-    ctaBtn.textContent = 'Continue reading \u{1F4D6}';
-    ctaBtn.onclick = () => this.startWithVoiceAndGo('home');
+    ctaBtn.textContent = continueBlock ? 'Continue where you left off →' : 'Back to the book →';
+    ctaBtn.onclick = () => { this._saveFeatureToggles(); this.updateXPBadge(); this._resumeReading(); };
 
     // Add extra buttons below CTA
     let extras = document.getElementById('welcomeExtras');
@@ -1361,13 +1389,12 @@ class PBook {
   // ===== ONBOARDING TOUR =====
   startTour() {
     this._tourSteps = [
-      { target: '.tab[data-view="home"]', text: "\u{1F3E0} This is your Home! It's like Netflix but for learning. Scroll through and pick whatever looks cool.", pos: 'top' },
-      { target: '.tab[data-view="read"]', text: "\u{1F4F1} The Feed! Just keep scrolling — the app figures out what to show you next. Like TikTok, but you actually learn stuff.", pos: 'top' },
-      { target: '.tab[data-view="glossary"]', text: "\u{1F3AF} Missions! Each one is a quest with a story and a final boss quiz at the end. Beat the boss = earn a title!", pos: 'top' },
-      { target: '.tab[data-view="map"]', text: "\u{1F5FA} The Map! See everything in the book, plus your saved stuff and notes. Tap any chapter to jump there.", pos: 'top' },
-      { target: '.tab[data-view="quiz"]', text: "\u{1F9E0} Quiz! Test what you remember. Cards get smarter over time — hard stuff comes back more often, easy stuff less. Like Anki for recommendations!", pos: 'top' },
-      { target: '#xpBadge', text: "\u{1F31F} This is your level! You get XP for reading, playing mini-games, and finishing missions. Level up to unlock cool themes!", pos: 'bottom' },
-      { target: null, text: "You're all set! Just tap anything that looks interesting. There's no wrong way to read this book. If you ever get lost, tap \"p-book\" up top to come back here. GO! \u{1F680}", pos: 'center' },
+      { target: '.tab[data-view="home"]', text: "Browse: shelves of sections picked for you. Every pick has a “Why this?” — the book explains its own recommendations.", pos: 'top' },
+      { target: '.tab[data-view="read"]', text: "Read: the book in order, one section after another. Each section can be retold — simpler, deeper, or with examples from your world.", pos: 'top' },
+      { target: '.tab[data-view="glossary"]', text: "Missions: guided paths through the book for one goal, with a short final check.", pos: 'top' },
+      { target: '.tab[data-view="map"]', text: "Map: every concept in the book, what you have read, and your notes.", pos: 'top' },
+      { target: '.tab[data-view="quiz"]', text: "Recall: short questions that come back just before you would forget — the ones you miss return sooner.", pos: 'top' },
+      { target: null, text: "That is all. Your progress stays on this device; the back button takes you back through the book.", pos: 'center' },
     ];
     this._tourIdx = 0;
     this._showTourStep();
@@ -1397,13 +1424,14 @@ class PBook {
         // Highlight circle
         overlay.innerHTML = `<div class="tour-highlight" style="top:${rect.top - 4}px;left:${rect.left - 4}px;width:${rect.width + 8}px;height:${rect.height + 8}px"></div>`;
         // Tooltip
-        const tipTop = step.pos === 'top' ? rect.top - 80 : rect.bottom + 12;
+        // anchor the tip's BOTTOM edge above the tab (a taller tip used to cover it)
+        const tipPos = step.pos === 'top' ? `bottom:${Math.round(window.innerHeight - rect.top + 12)}px` : `top:${Math.round(rect.bottom + 12)}px`;
         const tipLeft = Math.max(10, Math.min(rect.left, window.innerWidth - 260));
-        overlay.innerHTML += `<div class="tour-tip" style="top:${tipTop}px;left:${tipLeft}px">
+        overlay.innerHTML += `<div class="tour-tip" role="dialog" aria-label="Tour" style="${tipPos};left:${tipLeft}px">
           <div class="tour-text">${step.text}</div>
           <div class="tour-nav">
             <span class="tour-count">${this._tourIdx + 1}/${total}</span>
-            ${isLast ? `<button class="tour-btn tour-btn-primary" onclick="app._endTour()">Got it!</button>` : `<button class="tour-btn tour-btn-primary" onclick="app._nextTour()">Next</button>`}
+            ${isLast ? `<button class="tour-btn tour-btn-primary" onclick="app._endTour()">Got it</button>` : `<button class="tour-btn tour-btn-primary" onclick="app._nextTour()">Next</button>`}
             <button class="tour-btn" onclick="app._endTour()">Skip</button>
           </div>
         </div>`;
@@ -1417,7 +1445,7 @@ class PBook {
       overlay.innerHTML = `<div class="tour-tip tour-center">
         <div class="tour-text">${step.text}</div>
         <div class="tour-nav">
-          <button class="tour-btn tour-btn-primary" onclick="app._endTour()">Start reading!</button>
+          <button class="tour-btn tour-btn-primary" onclick="app._endTour()">Start reading</button>
         </div>
       </div>`;
     }
@@ -1497,7 +1525,8 @@ class PBook {
   }
 
   // ===== VIEW SWITCHING =====
-  switchView(view, auto) {
+  // skipRender: the caller (openBlock) renders the right chapter itself — no double render
+  switchView(view, auto, skipRender) {
     setTimeout(() => { const mb = document.getElementById('miniBoard'); if (mb) mb.style.display = view === 'read' && this._cmapData ? '' : 'none'; }, 0);
     this.currentView = view;
     const modeMap = { home: 'netflix', read: 'read', map: 'map', glossary: 'mission', quiz: 'quiz', chat: 'tutor', profile: 'profile' };
@@ -1513,13 +1542,14 @@ class PBook {
 
     // Update tab highlights
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-    // Clear hash to prevent deep-link re-triggering on tab click
-    if (!auto && window.location.hash) history.replaceState(null, '', window.location.pathname);
+    // A user-initiated view switch is a history entry (system back walks back through
+    // the book — js/ux.js); it also clears a deep-link hash from the URL.
+    if (!auto) this._navPushView(view);
 
     // Linear nav only in read view
 
     if (view === 'home') this.renderHome();
-    else if (view === 'read') this.renderRead();
+    else if (view === 'read') { if (!skipRender) this.renderRead(); }
     else if (view === 'map') this.renderMap();
     else if (view === 'glossary') { if (this._f('missions')) this.renderMissions(); else this.switchView('home'); }
     else if (view === 'quiz') this.renderQuiz();
@@ -1529,123 +1559,93 @@ class PBook {
   }
 
   // ===== HOME VIEW (Netflix shelves) =====
+  // Browse paints at once from what the book knows locally; the three network
+  // shelves (Recombee personal, item-to-item, community) arrive as placeholders
+  // and fill in when — and only if — their requests come back (js/ux.js).
+  // A card appears at most once per page (`shown`); every pick says why.
   async renderHome() {
     const el = document.getElementById('homeContent');
+    const token = this._homeToken = (this._homeToken || 0) + 1;
+    const shown = new Set();
+    // metas/blocks → metas not yet on the page (max n)
+    const take = (list, max = 10) => {
+      const out = [];
+      for (const x of list) {
+        const m = x?.meta || x;
+        if (!m?.id || shown.has(m.id)) continue;
+        shown.add(m.id); out.push(m);
+        if (out.length >= max) break;
+      }
+      return out;
+    };
     let html = '';
 
-    // 1. Continue reading (hero)
-    const continueBlock = this.getContinueBlock();
-    if (continueBlock) {
-      html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
-    }
-
-    // Recently added — new content (publishedAt within 30 days), local only
-    {
-      const newBlocks = this.allBlocks
-        .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
-        .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt))
-        .slice(0, 12);
-      if (newBlocks.length) {
-        html += this.shelf('Recently added', newBlocks.map(b => this.cardHtml(b.meta)));
-      }
-    }
+    // 1. Start here (new reader) / Continue reading (returning)
+    html += this._homeHero(take);
 
     // Recall cards — show due + almost due (within 30 min)
     if (this._f('spaceRepetition')) {
       const now = Date.now();
-      const soonThreshold = 30 * 60 * 1000; // 30 minutes
+      const soonThreshold = 30 * 60 * 1000;
       const dueAndSoon = Object.entries(this.user.recall)
         .filter(([_, c]) => c.nextReview <= now + soonThreshold)
         .sort((a, b) => a[1].nextReview - b[1].nextReview)
         .map(([blockId, card]) => ({ blockId, ...card }));
       if (dueAndSoon.length > 0) {
         const recallCards = dueAndSoon.slice(0, 8).map(r => this._recallCardHtml(r)).filter(Boolean);
-        if (recallCards.length) html += this.shelf(`\u{1F9E0} Do you remember? (${recallCards.length})`, recallCards);
+        if (recallCards.length) html += this.shelf(`Do you remember? (${recallCards.length})`, recallCards, 'Answer before you peek — the ones you miss come back sooner.');
       }
     }
 
-    // Active missions (guarded)
-    if (!this._f('missions')) { /* skip missions shelf */ } else {
-    const missions = this.getMissions();
-    const activeMissions = missions.filter(m => {
-      if (this._isMissionLocked(m)) return false;
-      const p = this._getMissionProgress(m);
-      return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
-    });
-    const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
-    const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
-      const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
-      const isNext = coreRead === 0;
-      return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
-        <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Next mission' : 'In progress'}</div>
-        <div style="font-size:1.3rem;margin:.1em 0">${m.icon}</div>
-        <div class="card-title">${m.title}</div>
-        <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
-        <div class="card-meta"><span class="card-time">${coreRead}/${m.core.length} steps</span></div>
-      </div>`;
-    });
-    if (missionCards.length) html += this.shelf('Your missions', missionCards);
-    } // end missions guard
-
-    // Core essentials — unread core blocks
-    // Essentials = the core matter; review blocks are core for missions, but do not belong here
-    const unreadCore = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine'
-      && !this.user.readBlocks.has(b.meta.id)
-      && !/opakov/i.test(String(b._chapter || b.meta.chapter || ''))
-      && !/^\s*(opakování|review)\b/i.test(String(b.meta.title || ''))).slice(0, 10);
-    if (unreadCore.length) {
-      html += this.shelf('Essential reading', unreadCore.map(b => this.cardHtml(b.meta)));
+    // 2. Next for you — the local, explainable recommender (concept order,
+    // prerequisites, your facet profile, active missions)
+    if (this.user.readBlocks.size) {
+      const picks = this._nextPicks({ exclude: shown, limit: 8 });
+      const cards = picks.filter(p => take([p.meta], 1).length).map(p => this.cardHtml(p.meta, false, p));
+      if (cards.length) html += this.shelf('Next for you', cards, 'Unread ideas you are ready for, each in the telling that fits you best.');
     }
 
-    // 2. Recommended for you (Recombee scenario: homepage-personal)
-    const forYou = await this.rc.getRecsForUser('homepage-personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
-    if (forYou?.recomms?.length) {
-      const forYouCards = forYou.recomms.map(r => this.cardFromRec(r)).filter(Boolean);
-      if (forYouCards.length) html += this.shelf('Picked for you', forYouCards);
-    }
-
-    // "Because you read X" — related to the last read block (Items to Item; the
-    // related-item scenario refines the logic once created in the Admin UI).
-    const lastReadId = [...this.user.readBlocks].pop();
+    // Network shelves: placeholders now, filled asynchronously
+    const lastReadId = [...this.user.readBlocks].reverse().find(id => this.findBlock(id));
     const lastReadBlock = lastReadId && this.findBlock(lastReadId);
-    if (lastReadBlock) {
-      const rel = await this.rc.getRecsForItem(lastReadId, 8, this.rc.reql({ type: 'spine' }), 'context-related');
-      const relCards = (rel?.recomms || [])
-        .filter(r => r.id !== lastReadId && !this.user.readBlocks.has(r.id))
-        .map(r => this.cardFromRec(r)).filter(Boolean);
-      if (relCards.length >= 3) html += this.shelf('Because you read: ' + this.escHtml(lastReadBlock.meta.title || ''), relCards);
+    html += this._pendingShelf('rcPersonal', 'Picked for you');
+    if (lastReadBlock) html += this._pendingShelf('rcRelated', 'Because you read: ' + this.escHtml(lastReadBlock.meta.title || ''));
+
+    // Active missions (guarded)
+    if (this._f('missions')) {
+      const missions = this.getMissions();
+      const activeMissions = missions.filter(m => {
+        if (this._isMissionLocked(m)) return false;
+        const p = this._getMissionProgress(m);
+        return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
+      });
+      const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
+      const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
+        const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+        const isNext = coreRead === 0;
+        return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
+          <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Suggested path' : 'In progress'}</div>
+          <div style="font-size:1.3rem;margin:.1em 0" aria-hidden="true">${m.icon}</div>
+          <div class="card-title">${m.title}</div>
+          <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
+          <div class="card-meta"><span class="card-time">${coreRead} of ${m.core.length} steps</span></div>
+        </div>`;
+      });
+      if (missionCards.length) html += this.shelf('Guided paths', missionCards);
     }
 
-    // Community layer (open mode only, spec §6): tellings other readers generated & shared,
-    // clearly labelled, blended into discovery — the living part of the book
-    if (this._f('community') && this.user.readerMode === 'open') {
-      try {
-        const shared = await this.rc.listCommunityBlocks(null, 8);
-        if (shared.length) {
-          const cards = shared.map(b => {
-            const m = b.meta;
-            const facetLine = [m.lens, m.depth].filter(v => v && v !== 'generic').join(' · ');
-            return `<div class="card" style="border-top:3px solid var(--warn,#D97706);flex:0 0 240px;cursor:pointer" onclick="app.openCommunityBlock('${this.escHtml(m.id)}')">
-              <div class="card-chapter" style="color:var(--warn,#D97706);font-weight:700">⚡ reader-generated</div>
-              <div class="card-title">${this.escHtml(m.title || m.id)}</div>
-              <div class="card-teaser" style="font-size:.7rem">${facetLine ? this.escHtml(facetLine) + ' · ' : ''}shared by ${this.escHtml(m.sharedAs || 'a reader')}</div>
-            </div>`;
-          });
-          html += this.shelf('From fellow readers 🌱', cards);
-        }
-      } catch (e) { /* community shelf is best-effort */ }
+    // 3. Frontier: the next ideas, each shown as all of its tellings
+    html += this._frontierShelves(take);
+
+    // Recently added — new content (publishedAt within 30 days)
+    {
+      const newBlocks = take(this.allBlocks
+        .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
+        .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt)), 12);
+      if (newBlocks.length) html += this.shelf('Recently added', newBlocks.map(m => this.cardHtml(m, false, { reasons: [`Added ${new Date(m.publishedAt).toLocaleDateString()}`] })));
     }
 
-    // Interest testing: proposed concepts as clearly labeled ghost items — demand
-    // is measured before anyone writes (the pre-mint stage of the elastic catalog)
-    const ghosts = this._unvotedProposals();
-    if (ghosts.length) {
-      html += this.shelf('Should we write this? 🌱 Vote on proposed concepts',
-        ghosts.slice(0, 4).map(p => this._ghostCardHtml(p, 'home')));
-    }
-
-    // 3. Told your way — facet-matched picks: unread tellings whose subspace best
-    // covers the reader's target facets (local subspace scoring, no scenario needed)
+    // Told your way — facet-matched picks (only once the reader has a profile)
     const target = this.user.getTargetFacets();
     const isDefaultTarget = Object.values(this.user.steerPrefs || {}).every(v => !v) && this.user.getAffinitySummary().total < 3;
     if (!isDefaultTarget) {
@@ -1653,69 +1653,64 @@ class PBook {
         .filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id))
         .map(b => ({ b, s: this._facetMatch(b.meta, target) }))
         .filter(x => x.s >= 0.7)
-        .sort((x, y) => y.s - x.s)
-        .slice(0, 10);
-      if (scored.length >= 3) html += this.shelf('🎛 Told your way', scored.map(x => this.cardHtml(x.b.meta)));
+        .sort((x, y) => y.s - x.s);
+      const metas = take(scored.map(x => x.b), 10);
+      if (metas.length >= 3) html += this.shelf('Told your way', metas.map(m => this.cardHtml(m, false,
+        { reasons: [this._fitReason(m, target) || 'Matches the format you have been choosing'] })));
     }
+
+    // Essential reading — unread core sections (review blocks excluded)
+    const unreadCore = take(this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine'
+      && !this.user.readBlocks.has(b.meta.id)
+      && !/opakov/i.test(String(b._chapter || b.meta.chapter || ''))
+      && !/^\s*(opakování|review)\b/i.test(String(b.meta.title || ''))), 10);
+    if (unreadCore.length >= 2) html += this.shelf('Essential reading', unreadCore.map(m => this.cardHtml(m, false, { reasons: ['Verified by the authors as essential for the certificate path'] })));
 
     html += this._gamesShelfHtml(); // 🎮 Play with the ideas → Playground
 
-    // 4. Quick reads
-    const quickReads = this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)).slice(0, 10);
-    if (quickReads.length) {
-      html += this.shelf('Quick reads', quickReads.map(b => this.cardHtml(b.meta)));
+    // Quick reads
+    const quick = take(this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)), 10);
+    if (quick.length >= 2) html += this.shelf('Quick reads', quick.map(m => this.cardHtml(m)), 'Stand-alone sections — no earlier reading needed.');
+
+    // Community + interest testing
+    if (this._f('community') && this.user.readerMode === 'open') html += this._pendingShelf('community', 'From fellow readers 🌱');
+    const ghosts = this._unvotedProposals();
+    if (ghosts.length) {
+      html += this.shelf('Should we write this? Vote on proposed concepts 🌱',
+        ghosts.slice(0, 4).map(p => this._ghostCardHtml(p, 'home')));
     }
 
-    // 5. Liked items (if any)
+    // Your collections (personal lists: not deduplicated)
     const liked = [...this.user.ratings].filter(([_, r]) => r >= 0.7).map(([id]) => this.findBlock(id)).filter(Boolean);
-    if (liked.length) {
-      html += this.shelf('&#10084; Your liked', liked.reverse().map(b => this.cardHtml(b.meta)));
-    }
-
-    // 6. Saved items (if any)
+    if (liked.length) html += this.shelf('&#10084; Your favourites', liked.reverse().map(b => this.cardHtml(b.meta)));
     const saved = [...this.user.savedBlocks].map(id => this.findBlock(id)).filter(Boolean);
-    if (saved.length) {
-      html += this.shelf('&#128278; Saved for later', saved.reverse().map(b => this.cardHtml(b.meta)));
-    }
+    if (saved.length) html += this.shelf('&#128278; Saved for later', saved.reverse().map(b => this.cardHtml(b.meta)));
 
-    // 7. Topic carousels (pick top 3 topics user hasn't explored much)
-    const topicEntries = Object.entries(this.topicIndex).filter(([_, ids]) => ids.length >= 3).sort((a, b) => b[1].length - a[1].length);
-    const shownTopics = new Set();
-    topicEntries.slice(0, 6).forEach(([topic, ids]) => {
-      if (shownTopics.size >= 3) return;
-      const topicBlocks = ids.map(id => this.findBlock(id)).filter(Boolean).slice(0, 10);
-      if (topicBlocks.length >= 3) {
-        html += this.shelf(topic, topicBlocks.map(b => this.cardHtml(b.meta)));
-        shownTopics.add(topic);
-      }
-    });
-
-    // 8. By chapter (unread first)
+    // By chapter — the book's own order, minus what is already on the page
     this.book.chapters.forEach((ch, i) => {
       const allSpines = (this.chapters[i]?.blocks || []).filter(b => b.type === 'spine');
       const unread = allSpines.filter(b => !this.user.readBlocks.has(b.id));
       const read = allSpines.filter(b => this.user.readBlocks.has(b.id));
-      const chBlocks = [...unread, ...read].slice(0, 8);
-      if (chBlocks.length) {
-        html += this.shelf(`Ch${ch.number}: ${ch.title}`, chBlocks.map(b => this.cardHtml(b)));
-      }
+      const metas = take([...unread, ...read], 8);
+      if (metas.length) html += this.shelf(`Chapter ${ch.number}: ${ch.title}`, metas.map(m => this.cardHtml(m)), ch.subtitle ? this.escHtml(ch.subtitle) : '');
     });
 
     el.innerHTML = html || '<div class="search-empty">Loading content...</div>';
-    // Update arrows multiple times to catch layout settling
     this._updateShelfArrows();
     setTimeout(() => this._updateShelfArrows(), 200);
     setTimeout(() => this._updateShelfArrows(), 600);
+    this._fillHomeAsync(token, shown, lastReadBlock);
   }
 
-  shelf(title, cardHtmls) {
+  shelf(title, cardHtmls, sub) {
     const id = 'shelf-' + (this._shelfCounter = (this._shelfCounter || 0) + 1);
     return `<section class="shelf fade-up">
       <div class="shelf-head"><h3 class="shelf-title">${title}</h3></div>
+      ${sub ? `<p class="shelf-sub">${sub}</p>` : ''}
       <div class="shelf-wrap">
-        <button class="shelf-btn shelf-btn-left arrow-hidden" onclick="app.scrollShelf('${id}',-1)">&#8249;</button>
+        <button class="shelf-btn shelf-btn-left arrow-hidden" onclick="app.scrollShelf('${id}',-1)" aria-label="Scroll left">&#8249;</button>
         <div class="shelf-scroll" id="${id}">${cardHtmls.join('')}</div>
-        <button class="shelf-btn shelf-btn-right arrow-hidden" onclick="app.scrollShelf('${id}',1)">&#8250;</button>
+        <button class="shelf-btn shelf-btn-right arrow-hidden" onclick="app.scrollShelf('${id}',1)" aria-label="Scroll right">&#8250;</button>
       </div>
     </section>`;
   }
@@ -1785,11 +1780,14 @@ class PBook {
     return null;
   }
 
-  cardHtml(block, hero = false) {
+  // why: { reasons[], math? } — rendered as a "Why this?" disclosure (js/ux.js)
+  cardHtml(block, hero = false, why = null) {
     const chLabel = block._chapterTitle || this.getChapterLabel(block);
     const isRead = this.user.readBlocks.has(block.id);
     const isNew = this._isNew(block);
-    const badge = block.type === 'depth' ? `<span class="card-badge ${block.voice}">${CONFIG.voices[block.voice]?.label || block.voice}</span>` : '';
+    // facet words (genre · depth · world) replace the retired voice badge
+    const facetLine = this._cardFacetLine(block);
+    const badge = facetLine ? `<span class="card-facets">${this.escHtml(facetLine)}</span>` : '';
     const newBadge = isNew ? '<span class="card-badge-new">NEW</span>' : '';
     const teaser = block.teaser ? `<div class="card-teaser">${block.teaser}</div>` : '';
 
@@ -1813,8 +1811,7 @@ class PBook {
       preview = `<div class="card-tags">${tags.join('')}</div>`;
     }
 
-    // Voice-colored top border for depth cards
-    const borderStyle = block.type === 'depth' && block.voice ? `border-top: 3px solid var(--${block.voice})` : '';
+    const borderStyle = '';
 
     // Topic tags
     const topics = (this.blockTopics[block.id] || []).slice(0, 2);
@@ -1828,6 +1825,7 @@ class PBook {
       ${teaser}
       ${topicHtml}
       <div class="card-meta">${newBadge}${badge}<span class="card-time">${block.readingTime || 3} min</span></div>
+      ${this._whyHtml(why)}
     </div>`;
   }
 
@@ -1893,7 +1891,7 @@ class PBook {
 
     // Scroll: if pending scroll (from openBlock), go to that block; otherwise top
     if (this._pendingScroll) {
-      this._scrollToBlock(this._pendingScroll.parentId, this._pendingScroll.meta);
+      this._scrollToBlock(this._pendingScroll.parentId, this._pendingScroll.meta, this._pendingScroll.instant);
       this._pendingScroll = null;
     } else {
       window.scrollTo(0, 0);
@@ -2176,9 +2174,19 @@ class PBook {
       }
     }
 
-    // Fallback: sequential not-yet-shown blocks, voice-preferred, unread first
+    // Fallback 1: the local explainable recommender (ready concepts, best-fitting telling)
     if (blocks.length < count) {
-      const voice = this.user.preferredVoice;
+      const ex = new Set([...shown, ...blocks.map(b => b.meta.id)]);
+      for (const p of this._nextPicks({ exclude: ex, limit: count - blocks.length })) {
+        const b = this.findBlock(p.meta.id);
+        if (b) blocks.push(b);
+      }
+    }
+    // Fallback 2: sequential not-yet-shown blocks, unread first, best facet fit first
+    if (blocks.length < count) {
+      const target = this.user.getTargetFacets();
+      const fitCache = new Map();
+      const fit = b => { if (!fitCache.has(b)) fitCache.set(b, Math.round(this._facetMatch(b.meta, target) * 3)); return fitCache.get(b); };
       const candidates = this.allBlocks.filter(b =>
         (b.meta.type === 'spine' || (b.meta.type === 'game' && this._f('games'))) &&
         !shown.has(b.meta.id) && !blocks.find(x => x.meta.id === b.meta.id)
@@ -2193,12 +2201,8 @@ class PBook {
         const aRead = this.user.readBlocks.has(a.meta.id) ? 1 : 0;
         const bRead = this.user.readBlocks.has(b.meta.id) ? 1 : 0;
         if (aRead !== bRead) return aRead - bRead;
-        if (voice && voice !== 'universal') {
-          const av = a.meta.voice === voice ? 0 : a.meta.voice === 'universal' ? 1 : 2;
-          const bv = b.meta.voice === voice ? 0 : b.meta.voice === 'universal' ? 1 : 2;
-          return av - bv;
-        }
-        return 0;
+        // coarse fit buckets keep the book's order among similar fits (the sort is stable)
+        return fit(b) - fit(a);
       });
       for (const b of candidates) {
         blocks.push(b);
@@ -2295,6 +2299,7 @@ class PBook {
             // enough for its length (or tapped "Mark as read")
             if (elapsed >= readTimeMs && this._reachedEnd[id] && !this.user.readBlocks.has(id)) {
               this._markRead(id, block, ownerCh, elapsed);
+              this._checkProgressMoments?.();   // chapter complete card (js/ux.js)
               clearInterval(this._dwellTimers[id]);
             }
 
@@ -2326,7 +2331,7 @@ class PBook {
 
   // Highlights come exclusively from frontmatter `highlights` array — no auto-generation
   _getHighlights(block) {
-    if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights;
+    if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights.map(h => smartPunct(h));
     return null;
   }
 
@@ -2393,11 +2398,12 @@ class PBook {
       ${this._prereqBanner(block)}
       ${overrideBar}
       <div class="block-nav">
-        <button class="bnav-back" onclick="app.goBack()" title="Go back">&larr;</button>
-        <span class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})">Ch${chNum}</span>
+        <button class="bnav-back" onclick="app.goBack()" title="Back" aria-label="Back">&larr;</button>
+        <span class="bnav-sep" aria-hidden="true">|</span>
+        <button class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})" title="Chapter ${chNum} on the map">Chapter ${chNum}</button>
         <span class="bnav-sep">&middot;</span>
-        <span class="bnav-progress">${posInCh}/${totalInCh}</span>
-        ${block.core ? '<span class="bnav-core">CORE</span>' : ''}
+        <span class="bnav-progress" title="Section ${posInCh} of ${totalInCh} in this chapter">${posInCh} of ${totalInCh}</span>
+        ${block.core ? '<span class="bnav-core" title="Essential and verified by the authors">Essential</span>' : ''}
         <div class="block-status ${isRead ? 'read' : this.user.seenBlocks.has(block.id) ? 'seen' : ''}"></div>
       </div>
       <div class="block-header">
@@ -2426,14 +2432,9 @@ class PBook {
           ${isRead ? '' : `<button class="mark-read-btn" onclick="app.markReadNow('${block.id}')" title="Count this section as read">&#10003; Mark as read</button>`}
         </div>
         <div class="block-actions">
-          <button class="improve-btn" onclick="app.improveBlock('${block.id}')" title="Edit this section yourself, or let AI rewrite it">&#9999;&#65039; Improve</button>
-          <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
-          <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
-          <button class="act-btn" onclick="app.startAuthoringFromBlock('${block.id}')" title="Open in the author studio — bigger edits your way">&#9997;&#65039;</button>
-          ${this.user.recall[this._recallKey(block.id)] ? `<button class="act-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#129504;</button>` : ''}
-          <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save for later">&#128278;</button>
-          <button class="act-btn share-btn" onclick="app.shareBlock('${block.id}')" title="Share">&#128279;</button>
-          <button class="act-btn flag-btn" onclick="app.flagBlock('${block.id}')" title="Suggest edit to author">&#9873;</button>
+          ${this.user.recall[this._recallKey(block.id)] ? `<button class="block-more-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#10003; Check yourself</button>` : ''}
+          <button class="block-more-btn act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save" aria-label="Save for later">&#128278; Save</button>
+          <button class="block-more-btn" onclick="app.openBlockMenu('${block.id}')" aria-haspopup="dialog" title="More actions">&#8943; More</button>
         </div>
       </div>
       <div class="note-editor" id="note-${block.id}" style="display:none">
@@ -2784,25 +2785,20 @@ class PBook {
     }
     const nextInChapter = spines[currentIdx + 1];
 
-    // Find a personalized recommendation (different from sequential next)
-    let recBlock = null;
-    const unreadOther = this.allBlocks.filter(b =>
-      b._chapter !== ch.id && b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id) && b.meta.id !== nextInChapter?.id
-    );
-    // Prefer voice-matching blocks
-    const voice = this.user.preferredVoice;
-    if (voice && voice !== 'universal') {
-      recBlock = unreadOther.find(b => b.meta.voice === voice) || unreadOther[0];
-    } else {
-      recBlock = unreadOther.sort(() => Math.random() - 0.5)[0];
-    }
+    // The local explainable recommender (js/ux.js _nextPicks) — it used to be a
+    // random unread block from anywhere in the book, with no reason given.
+    const here = new Set([blockId, nextInChapter?.id].filter(Boolean).flatMap(id => {
+      const b = this._findAnyBlock(id); return b ? this._conceptIds(b.meta) : [];
+    }));
+    const pick = this._nextPicks({ exclude: new Set([blockId, nextInChapter?.id]), limit: 6 }).find(p => !here.has(p.cid)) || null;
+    const recBlock = pick ? { meta: pick.meta } : null;
 
     let items = '';
     if (nextInChapter) {
       items += `<div class="rn-item" onclick="app.previewBlock('${nextInChapter.id}')"><span class="rn-label">Next</span><span class="rn-title">${nextInChapter.title}</span><span class="rn-time">${nextInChapter.readingTime || 3}m</span></div>`;
     }
     if (recBlock) {
-      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">\u2728 Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${recBlock.meta._chapterNum}</span></div>`;
+      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${this._conceptChapterNum(pick.cid)}</span></div>${this._whyHtml(pick)}`;
     }
     if (!items) return '';
 
@@ -3236,7 +3232,7 @@ class PBook {
         <div style="display:flex;flex-wrap:wrap;gap:2px" id="quizMap">
           ${allCards.map(c => `<div style="width:${cellW}px;height:${cellW}px;border-radius:2px;background:${c.color};cursor:pointer;transition:transform .1s" title="${this.escHtml(c.label + ': ' + c.q)}" onclick="app.${c.label === 'Unread' ? "openBlock('" + c.id + "')" : "showBlockRecall('" + c.id + "')"}"></div>`).join('')}
         </div>
-        <div style="display:flex;gap:.8em;font-size:.58rem;color:var(--text-3);margin-top:.4em">
+        <div style="display:flex;gap:.8em;font-size:.7rem;color:var(--text-3);margin-top:.4em">
           ${hardCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#dc2626;vertical-align:middle"></span> ${hardCards.length} struggling</span>` : ''}
           ${newCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);vertical-align:middle"></span> ${newCards.length} new</span>` : ''}
           ${medCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--warn);vertical-align:middle"></span> ${medCards.length} learning</span>` : ''}
@@ -3299,7 +3295,7 @@ class PBook {
         return `<div class="card" style="border-top:3px solid var(--border);flex:0 0 240px;opacity:.7;cursor:pointer" onclick="app.openBlock('${b.meta.id}')">
           <div style="font-size:.6rem;font-weight:700;color:var(--text-3);margin-bottom:.2em">\u{1F512} Not read yet</div>
           <div class="card-title" style="font-size:.82rem;line-height:1.3">${b.meta.title}</div>
-          <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${b.meta._chapterNum} · Read to unlock card</div>
+          <div style="font-size:.7rem;color:var(--text-3);margin-top:.2em">Ch${b.meta._chapterNum} · Read to unlock card</div>
         </div>`;
       });
       h += this.shelf(`\u{26AA} Haven't read yet (${unreadBlocks.length})`, uCards);
@@ -3333,7 +3329,7 @@ class PBook {
         ${upcoming.map(([id, c]) => {
           const b = this.findBlock(id);
           const title = b?.meta?.title || id;
-          return `<div style="display:flex;align-items:center;gap:.4em;font-size:.68rem;padding:.2em 0;color:var(--text-2)">
+          return `<div style="display:flex;align-items:center;gap:.4em;font-size:.7rem;padding:.2em 0;color:var(--text-2)">
             <span style="color:var(--warn);font-weight:600;min-width:3.5em">${this._timeUntil(c.nextReview)}</span>
             <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${this.escHtml(title)}</span>
           </div>`;
@@ -3383,10 +3379,10 @@ class PBook {
     return `<div class="card" style="border-top:3px solid ${color};flex:0 0 260px;cursor:pointer" onclick="var a=document.getElementById('qp-${uid}');if(a)a.style.display=a.style.display==='none'?'block':'none'">
       <div style="display:flex;justify-content:space-between;margin-bottom:.2em">
         <span style="font-size:.6rem;font-weight:700;color:${color}">${label}</span>
-        <span style="font-size:.55rem;color:${isDue ? 'var(--warn)' : 'var(--text-3)'};font-weight:${isDue ? '600' : '400'}">${card.reps ? card.reps + 'x · ' : ''}${timeLabel}</span>
+        <span style="font-size:.7rem;color:${isDue ? 'var(--warn)' : 'var(--text-3)'};font-weight:${isDue ? '600' : '400'}">${card.reps ? card.reps + 'x · ' : ''}${timeLabel}</span>
       </div>
       <div class="card-title" style="font-size:.82rem;line-height:1.3">${quiz.q}</div>
-      <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum}: ${block.meta.title}</div>
+      <div style="font-size:.7rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum}: ${block.meta.title}</div>
       <div id="qp-${uid}" style="display:none;margin-top:.4em;padding-top:.4em;border-top:1px solid var(--border)">
         <div style="font-size:.78rem;color:var(--text-2);line-height:1.4;margin-bottom:.4em">${quiz.a}</div>
         <div class="recall-buttons" onclick="event.stopPropagation()">
@@ -3395,7 +3391,7 @@ class PBook {
           <button class="recall-btn recall-good" onclick="app.scoreRecall('${blockId}',2,this)">Good</button>
           <button class="recall-btn recall-easy" onclick="app.scoreRecall('${blockId}',3,this)">Easy!</button>
         </div>
-        <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="display:block;font-size:.62rem;color:var(--accent);margin-top:.3em;text-align:center">Re-read this section &rarr;</a>
+        <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="display:block;font-size:.7rem;color:var(--accent);margin-top:.3em;text-align:center">Re-read this section &rarr;</a>
       </div>
     </div>`;
   }
@@ -3732,7 +3728,7 @@ class PBook {
           <title>${this.escHtml((defTip ? defTip + ' — ' : '') + 'No article yet — click to write the first one! (author studio with AI coach)')}</title>
           <circle cx="${x}" cy="${y}" r="17" fill="var(--card, #fff)" stroke="${color}" stroke-width="2" stroke-dasharray="4 4" opacity="0.85"/>
           <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="${this._nodeDraft(n) ? 12 : 14}" fill="${color}" opacity="0.9">${this._nodeDraft(n) ? '✍️' : '＋'}</text>
-          <text x="${x}" y="${y + 32}" text-anchor="middle" font-size="10" fill="var(--text-3, #999)">${label}</text>
+          ${this._svgLabel(n.short || n.title, x, y + 32, 'font-size="10" fill="var(--text-3, #999)"', 16)}
         </g>`;
         if (st.game) svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
           <circle cx="${x + 27}" cy="${y}" r="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
@@ -3752,7 +3748,7 @@ class PBook {
         ${cur && cur.slug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="3 5"/><text x="${x - R + 1}" y="${y - R + 3}" text-anchor="middle" font-size="15">🧭</text>` : ''}
         ${this._feedFocusSlug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 13}" fill="none" stroke="#6366F1" stroke-width="2" opacity="0.85"><title>reading now</title></circle>` : ''}
         ${this._nodeDraft(n) && !stat[n.slug].ghost ? `<text x="${x - R + 2}" y="${y + R + 4}" font-size="11" onclick="event.stopPropagation();app.startAuthoring('${this._nodeDraftSlug(n)}')"><title>✍️ draft in progress</title>✍️</text>` : ''}
-        <text x="${x}" y="${y + R + 16}" text-anchor="middle" font-size="10.5" fill="var(--text-2, #666)">${label}</text>
+        ${this._svgLabel(n.short || n.title, x, y + R + 16, 'font-size="10.5" fill="var(--text-2, #666)"', 16)}
       </g>`;
       if (st.game) {
         svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
@@ -3815,25 +3811,25 @@ class PBook {
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em ${isFocus ? '.35em' : '0'};border-bottom:1px dashed var(--border)${isFocus ? ';background:color-mix(in srgb, #6366F1 7%, transparent);border-radius:8px' : ''}">
           <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
           <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || n.def || '')}">${this.escHtml(n.title)}</a>
-          ${hasSpine ? '' : '<span style="font-size:.62rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
+          ${hasSpine ? '' : '<span style="font-size:.7rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
           ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:#EC4899;color:#EC4899" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">✍️ draft in progress</button>` : ''}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling of this concept (author studio with an AI coach)" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
         </div>`;
       });
       if (ghosts.length) {
-        h += `<div style="margin-top:.45em;font-size:.68rem;color:#0EA5E9;font-weight:700">🌱 Where to go deeper — not written yet, vote:</div>`;
+        h += `<div style="margin-top:.45em;font-size:.7rem;color:#0EA5E9;font-weight:700">🌱 Where to go deeper — not written yet, vote:</div>`;
         ghosts.forEach(g => {
           const voted = g.slug in votes;
           h += `<div style="display:flex;align-items:flex-start;gap:.5em;padding:.22em 0">
             <span style="font-size:.72rem;width:1.1em;text-align:center">🌱</span>
             <div style="flex:1 1 auto"><span style="font-size:.78rem;font-weight:600;color:var(--text-2)">${this.escHtml(g.title)}</span>
-              <span style="font-size:.68rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
+              <span style="font-size:.7rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
             <span id="ghost-${g.slug}-cmap" style="flex-shrink:0;display:flex;gap:.25em">${voted
-              ? `<span style="font-size:.68rem;color:#0EA5E9">${votes[g.slug] > 0 ? '✓ want' : '✓ passed'}</span>`
-              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">👍 want</button>
-                 <button class="steer-chip" style="font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">no</button>`}
-              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.62rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">✍️ write it</button>
-              <button class="steer-chip" style="border-color:#7C3AED;color:#7C3AED;font-size:.62rem;padding:.06em .4em" title="Creative workshop with the coach: align → create → certificate with your contribution" onclick="app.startWorkshop('${g.slug}')">🎓 workshop</button></span>
+              ? `<span style="font-size:.7rem;color:#0EA5E9">${votes[g.slug] > 0 ? '✓ want' : '✓ passed'}</span>`
+              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">👍 want</button>
+                 <button class="steer-chip" style="font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">no</button>`}
+              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.7rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">✍️ write it</button>
+              <button class="steer-chip" style="border-color:#7C3AED;color:#7C3AED;font-size:.7rem;padding:.06em .4em" title="Creative workshop with the coach: align → create → certificate with your contribution" onclick="app.startWorkshop('${g.slug}')">🎓 workshop</button></span>
           </div>`;
         });
       }
@@ -3860,15 +3856,15 @@ class PBook {
     if (!cm || !cm.nodes?.length) { if (el) el.style.display = 'none'; return; }
     const { temata, W, H, pos, temaColor } = this._journeyLayout(cm);
     const width = Math.min(100, Math.round(170 * W / H));
+    // Wide screens: the board sits in the left gutter (it used to cover the right
+    // edge of the text). Narrow screens: a progress pill that opens it in a sheet.
     if (!el) {
       el = document.createElement('div');
       el.id = 'miniBoard';
-      el.title = 'Journey — open the game board';
-      el.style.cssText = 'position:fixed;right:10px;bottom:64px;z-index:60;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:10px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer;opacity:.94';
-      el.onclick = () => { this._mapReturnToRead = true; this.switchView('map'); this.setMapMode('cesta'); };
+      el.className = 'mini-board';
       document.body.appendChild(el);
     }
-    el.style.width = width + 'px';
+    el.style.setProperty('--mb-w', width + 'px');
     const hasArt = n => this._nodePool(n).some(b => ((b.meta || b).type) === 'spine');
     const cur = cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug) && !this._unmetPrereqs(n.slug).length) || cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug));
     let svg = `<svg viewBox="0 0 ${W} ${H}" style="display:block;width:100%">`;
@@ -3894,7 +3890,11 @@ class PBook {
         : `<circle cx="${x}" cy="${y}" r="${isCur ? 22 : 17}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--card,#fff)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 9 : 5}">${tip}</circle>`;
     });
     svg += '</svg>';
-    el.innerHTML = svg;
+    const { read, total } = this._conceptProgress();
+    el.innerHTML = `<button class="mb-board" title="Your journey — open the map" aria-label="Your journey: ${read} of ${total} concepts read. Open the map"
+        onclick="app._mapReturnToRead=true;app.switchView('map');app.setMapMode('cesta')">${svg}</button>
+      <button class="mb-pill${this._justRead?.size ? ' pulse' : ''}" aria-label="Your journey: ${read} of ${total} concepts read" onclick="app.openMiniSheet()">${this._ringSvg(total ? read / total : 0, 20)}<span>${read}/${total}</span></button>`;
+    this._justRead = null;
     el.style.display = this.currentView === 'read' ? '' : 'none';
   }
 
@@ -3904,7 +3904,7 @@ class PBook {
     try { if ((JSON.parse(localStorage.getItem('pbook-prereq-dismissed') || '[]')).includes(block.concept)) return ''; } catch (e) {}
     const unmet = this._unmetPrereqs(block.concept);
     if (!unmet.length) return '';
-    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.68rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
+    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.7rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
     return `<div class="prereq-banner" style="display:flex;flex-wrap:wrap;gap:.35em;align-items:center;margin:0 0 .6em;padding:.45em .6em;border:1.5px dashed #0EA5E9;border-radius:9px;background:color-mix(in srgb, #0EA5E9 6%, transparent);font-size:.72rem">
       <b>🧩 To make sense of this, first read:</b>${chips}
       <a href="#" style="margin-left:auto;color:var(--text-3)" onclick="event.preventDefault();try{const k='pbook-prereq-dismissed';const a=JSON.parse(localStorage.getItem(k)||'[]');a.push('${block.concept}');localStorage.setItem(k,JSON.stringify(a));}catch(e){};this.closest('.prereq-banner').remove()">read anyway</a>
@@ -3919,10 +3919,10 @@ class PBook {
     if (!rels.length) return '';
     const chips = rels.map(r => {
       const anchorId = this._nodeAnchor(r);
-      return `<button class="steer-chip" style="font-size:.66rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
+      return `<button class="steer-chip" style="font-size:.7rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
     }).join('');
     return `<div class="concept-links" style="display:flex;flex-wrap:wrap;gap:.3em;align-items:center;margin:.5em 0;padding:.45em .55em;border:1px dashed var(--border);border-radius:9px">
-      <span style="font-size:.66rem;font-weight:700;color:var(--text-3)">🧭 Where next:</span>${chips}</div>`;
+      <span style="font-size:.7rem;font-weight:700;color:var(--text-3)">🧭 Where next:</span>${chips}</div>`;
   }
 
   async renderMap() {
@@ -4009,7 +4009,7 @@ class PBook {
     html += `<div class="map-legend">
       <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#059669"/></svg> Read</span>
       <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#E7E5E4"/></svg> Unread</span>
-      <span class="ml-item"><span style="font-size:.65rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.1em .3em;border-radius:3px">CORE</span> Must read</span>
+      <span class="ml-item"><span style="font-size:.7rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.1em .3em;border-radius:3px">CORE</span> Must read</span>
       <span class="ml-item"><span style="font-size:.65rem">\u{1F3AE}</span> Mini-game</span>
     </div>`;
 
@@ -4194,7 +4194,7 @@ class PBook {
           `<button class="steer-chip ${d === dim ? 'dim-active' : ''}" onclick="app.setCovDim('${d}')">${l}</button>`).join('')}
         </div>
         <p style="font-size:.78rem;margin-bottom:.3em">Every article of the living book — <b>${totalArticles}</b> rows; per value:${values.map(v => ` ${icons[v] || v} <b>${coveringCount[v]}</b>`).join(' ·')}. ● marks the values an article's subspace covers — one article can serve several${myVal && myVal !== this._facetDefault(dim) ? `; your setting <b>${icons[myVal] || ''} ${myVal}</b> is highlighted` : ''}. Click a row to read; to request or generate a missing telling, use the 🎛 panel inside any section. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a>.</p>
-        <p style="font-size:.68rem;color:var(--text-3)">● color = state: <span style="color:#7C3AED">■</span> core · <span style="color:#10B981">■</span> edited · <span style="color:#D97706">■</span> reader content (✨ yours / ⚡ shared)</p>
+        <p style="font-size:.7rem;color:var(--text-3)">● color = state: <span style="color:#7C3AED">■</span> core · <span style="color:#10B981">■</span> edited · <span style="color:#D97706">■</span> reader content (✨ yours / ⚡ shared)</p>
       </div>
       <div id="covInspector"></div>
       ${sections}`;
@@ -4232,7 +4232,7 @@ class PBook {
           ${this._facetChips(b.meta)}
           <button class="steer-chip" onclick="app.openTelling('${b.meta.id}')">Read</button>
         </div>`).join('');
-      h += `<div style="font-size:.66rem;color:var(--text-3);margin-top:.4em">Chips show each telling's full covered subspace — one telling can serve several cells of this map.</div>`;
+      h += `<div style="font-size:.7rem;color:var(--text-3);margin-top:.4em">Chips show each telling's full covered subspace — one telling can serve several cells of this map.</div>`;
     }
     h += '</div>';
     box.innerHTML = h;
@@ -4284,7 +4284,7 @@ class PBook {
         <div class="map-dot ${isRead ? 'done' : ''}"></div>
         <span class="map-block-title">${b.meta.title}</span>
         ${isCore ? '<span class="map-core-badge">CORE</span>' : ''}
-        <span style="font-size:.65rem;color:var(--text-3)">Ch${b.meta._chapterNum}</span>
+        <span style="font-size:.7rem;color:var(--text-3)">Ch${b.meta._chapterNum}</span>
         <button class="saved-remove-btn" onclick="event.stopPropagation();app.unsaveBlock('${b.meta.id}')" title="Remove from saved">&times;</button>
       </div>`;
     });
@@ -4342,7 +4342,7 @@ class PBook {
         <div style="display:flex;align-items:center;gap:.4em">
           <div class="map-dot ${this.user.readBlocks.has(n.blockId) ? 'done' : ''}"></div>
           <span class="map-block-title">${title}</span>
-          <span style="font-size:.65rem;color:var(--text-3)">Ch${ch}</span>
+          <span style="font-size:.7rem;color:var(--text-3)">Ch${ch}</span>
           <button class="saved-remove-btn" onclick="event.stopPropagation();app.deleteUserNote('${n.blockId}',${n.idx});app.renderMap()" title="Delete note">&times;</button>
         </div>
         ${quoteHtml}${textHtml}
@@ -4423,12 +4423,12 @@ class PBook {
     html += `</svg></div>`;
 
     // Legend
-    html += `<div style="display:flex;flex-wrap:wrap;gap:.3em .5em;padding:.4em .2em;font-size:.65rem;align-items:center">`;
+    html += `<div style="display:flex;flex-wrap:wrap;gap:.3em .5em;padding:.4em .2em;font-size:.7rem;align-items:center">`;
     mapData.chapters.forEach(ch => {
       html += `<span class="vmap-ch-pill" data-ch="${ch.id}" onclick="app._vmapHighlightCh('${ch.id}')" style="display:inline-flex;align-items:center;gap:.2em;cursor:pointer;padding:.1em .4em;border-radius:10px;white-space:nowrap;border:1.5px solid transparent"><span style="width:7px;height:7px;border-radius:50%;background:${ch.color};display:inline-block;flex-shrink:0"></span>${ch.title}</span>`;
     });
     html += `</div>`;
-    html += `<div style="font-size:.65rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
+    html += `<div style="font-size:.7rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
       <span>Progress: ${readCount}/${mapData.items.length} read · ${coreRead}/${coreCount} core</span>
       <span>◉ core · <span style="color:#10B981">◉</span> read · <span style="color:#f59e0b">◉</span> saved</span>
     </div></div>`;
@@ -4584,7 +4584,7 @@ class PBook {
     const target = u.getTargetFacets();
     const summary = u.getAffinitySummary();
     const FACET_WORDS = {
-      lens: { generic: 'examples from everywhere', ecommerce: 'shopping examples', media: 'music & video examples', 'social-feeds': 'social feed examples', education: 'learning examples' },
+      lens: CONFIG.facetWords.lens,   // the one vocabulary of reader-facing words (js/config.js), incl. jobs
       visuality: { 'text-first': 'text explanations', balanced: 'a mix of text and diagrams', 'visual-first': 'visual explanations' },
       depth: { intro: 'gentle introductions', standard: 'standard depth', technical: 'technical depth', research: 'research-level depth' },
       formalism: { none: 'no formulas', light: 'a few formulas', full: 'full math' },
@@ -4654,7 +4654,7 @@ class PBook {
       const sharedList = priv.filter(b => b.meta.state === 'community');
       const shareRows = sharedList.slice(0, 5).map(b =>
         `<div style="font-size:.72rem;padding:.1em 0">⚡ ${this.escHtml(b.meta.title || b.meta.id)}
-          <button class="steer-chip" style="font-size:.62rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
+          <button class="steer-chip" style="font-size:.7rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
       h += (shareRows ? `<div style="margin:.3em 0">${shareRows}</div>` : '');
       h += `<div class="dna-contrib">🌱 <b>Your living-book contributions:</b>
         ${generated ? `${generated} generated telling${generated > 1 ? 's' : ''} · ` : ''}${remixes ? `${remixes} remix${remixes > 1 ? 'es' : ''} · ` : ''}${shared ? `<b>${shared} shared with readers</b> · ` : ''}${!priv.length ? 'none yet — select any passage and hit ✨, or find a gap on the ' : 'see the '}<a href="#" onclick="app.switchView('map');app.setMapMode('coverage');return false">🌱 map</a></div>`;
@@ -4671,7 +4671,7 @@ class PBook {
       { facet: 'lens', label: '🌐 World', words: FACET_WORDS.lens },
       { facet: 'carriers', label: '🧩 Blocks', words: { prose: 'text', table: 'tables', diagram: 'diagrams', image: 'images', animation: 'animations', formula: 'formulas', code: 'code' } },
     ];
-    h += '<div style="margin-top:.6em;padding-top:.5em;border-top:1px solid var(--border)"><b style="font-size:.8rem">🎛 Format preferences</b><p style="font-size:.68rem;color:var(--text-3);margin:.15em 0 .4em">How should the book tell things to you? Explicit picks always beat the learned model.</p>';
+    h += '<div style="margin-top:.6em;padding-top:.5em;border-top:1px solid var(--border)"><b style="font-size:.8rem">🎛 Format preferences</b><p style="font-size:.7rem;color:var(--text-3);margin:.15em 0 .4em">How should the book tell things to you? Explicit picks always beat the learned model.</p>';
     PREF_DIMS.forEach(({ facet, label, words }) => {
       const vals = CONFIG.facets[facet].values.filter(v => facet !== 'lens' || v !== 'generic');
       const pinned = u.steerPrefs[facet] || '';
@@ -4783,6 +4783,9 @@ class PBook {
       <div class="gami-stat"><span class="gs-num">${p.readingTimeMin}</span><span class="gs-label">Min read</span></div>
     </div>`;
 
+    // Reading DNA first: ideas you can explain, then your preference model (js/ux.js)
+    h += this._conceptBadgesHtml();
+    h += this._renderFacetProfile();
     // Recall section
     if (this._f('spaceRepetition')) {
       const totalWithQ = this._recallConceptKeys().length;
@@ -4799,7 +4802,7 @@ class PBook {
           ${medC ? `<div style="width:${Math.round(medC/totalRecall*100)}%;background:var(--warn)"></div>` : ''}
           ${easyC ? `<div style="width:${Math.round(easyC/totalRecall*100)}%;background:var(--product)"></div>` : ''}
         </div>`;
-        h += `<div style="display:flex;gap:.6em;font-size:.68rem;color:var(--text-3);margin-bottom:.5em">`;
+        h += `<div style="display:flex;gap:.6em;font-size:.7rem;color:var(--text-3);margin-bottom:.5em">`;
         if (hardC) h += `<span style="color:#dc2626">${hardC} struggling</span>`;
         if (medC) h += `<span style="color:var(--warn)">${medC} learning</span>`;
         if (easyC) h += `<span style="color:var(--product)">${easyC} confident</span>`;
@@ -4811,7 +4814,7 @@ class PBook {
           .sort((a, b) => a[1].nextReview - b[1].nextReview)
           .slice(0, 3);
         if (upcoming.length) {
-          h += `<div style="font-size:.68rem;color:var(--text-3);margin-bottom:.5em">Next reviews: ${upcoming.map(([id, c]) => {
+          h += `<div style="font-size:.7rem;color:var(--text-3);margin-bottom:.5em">Next reviews: ${upcoming.map(([id, c]) => {
             const title = this.findBlock(id)?.meta?.title || id;
             return `<span style="color:var(--warn)">${this._timeUntil(c.nextReview)}</span> ${this.escHtml(title)}`;
           }).join(' · ')}</div>`;
@@ -4840,8 +4843,8 @@ class PBook {
       drafts.slice(0, 12).forEach(d => {
         const when = d.st.ts ? new Date(d.st.ts).toLocaleString('en-GB', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.3em 0;border-bottom:1px dashed var(--border)">
-          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b>${d.st.sourceTitle && d.st.sourceTitle !== d.title ? ` <span style="color:var(--text-3);font-size:.68rem">(${this.escHtml(d.st.sourceTitle.slice(0, 34))})</span>` : ''} <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
-          <button class="steer-chip" style="font-size:.68rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
+          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b>${d.st.sourceTitle && d.st.sourceTitle !== d.title ? ` <span style="color:var(--text-3);font-size:.7rem">(${this.escHtml(d.st.sourceTitle.slice(0, 34))})</span>` : ''} <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
         </div>`;
       });
       h += '</div>';
@@ -4850,23 +4853,14 @@ class PBook {
     if (u.achievements.length) {
       h += '<div class="gami-badges">';
       u.achievements.forEach(a => {
-        h += `<div class="gami-badge earned" title="${a.desc}"><span class="badge-icon">${a.icon}</span><span class="badge-name">${a.name}</span></div>`;
+        const n = ACHIEVEMENT_NAMES[a.id] || a;   // stored names are the old ones; show the current wording
+        h += `<div class="gami-badge earned" title="${a.desc || ''}"><span class="badge-icon">${n.icon}</span><span class="badge-name">${n.name}</span></div>`;
       });
       h += '</div>';
     }
     // Show locked achievements
     const earnedIds = new Set(u.achievements.map(a => a.id));
-    const allBadges = [
-      { id: 'first_read', icon: '👣', name: 'First Steps' }, { id: 'reader_5', icon: '📚', name: 'Bookworm' },
-      { id: 'reader_15', icon: '⚡', name: 'Speed Reader' }, { id: 'reader_30', icon: '🤖', name: 'Knowledge Machine' },
-      { id: 'first_like', icon: '❤️', name: 'Thumbs Up' }, { id: 'like_10', icon: '🌟', name: 'Super Fan' },
-      { id: 'first_note', icon: '📝', name: 'Note Taker' }, { id: 'voice_all', icon: '🎭', name: 'Triple Threat' },
-      { id: 'curious_cat', icon: '🐱', name: 'Curious Cat' }, { id: 'quiz_master', icon: '🧩', name: 'Quiz Master' },
-      { id: 'level_5', icon: '🏆', name: 'Level 5!' }, { id: 'save_5', icon: '🔖', name: 'Collector' },
-      { id: 'xp_200', icon: '💎', name: 'XP Hunter' }, { id: 'deep_diver', icon: '🤿', name: 'Deep Diver' },
-      { id: 'recall_5', icon: '🧠', name: 'Memory Pro' },
-      { id: 'certified', icon: '🎓', name: 'Certified!' },
-    ];
+    const allBadges = Object.entries(ACHIEVEMENT_NAMES).map(([id, n]) => ({ id, ...n }));
     const locked = allBadges.filter(a => !earnedIds.has(a.id));
     if (locked.length) {
       h += '<div class="gami-badges">';
@@ -4902,8 +4896,7 @@ class PBook {
 
 
     // Voice preference — computed from actually read non-core blocks by voice
-    // Transparent facet profile — the book shows you your own preference model (and lets you fix it)
-    h += this._renderFacetProfile();
+    // Transparent facet profile — the book shows you your own preference model (and lets you fix it) — rendered above, after the concept badges
 
     // Activity heatmap (last 8 weeks, GitHub-style, inline SVG)
     h += this._renderActivityHeatmap();
@@ -4985,7 +4978,7 @@ class PBook {
       ${etBar('🚩 issues reported', et.flags, 5)}
       ${etBar('⚡ tellings shared', et.shared, 5)}
       ${etBar('📖 adopted into book', et.adopted, 1)}
-      <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
+      <p style="font-size:.7rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
       ${et.adopted >= 1 ? `<button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('My telling made it into the book', 'My explanation was adopted into the living book “How Recommendations Work” 📖', location.origin + '/#' + (Object.values(app.privateBlocks).find(b => (b.meta.sharedAt || b.meta.state === 'community') && app.findBlock(b.meta.id))?.meta.id || ''))">📣 Brag about your adoption</button>` : ''}
     </div>
 
@@ -5029,8 +5022,9 @@ class PBook {
     h += '<button class="btn-ghost" style="border:1px solid var(--border);border-radius:6px;padding:.4em 1em;font-size:.78rem;color:var(--text-2)" onclick="app.toggleSettings()">&#9881; Settings &amp; data</button>';
     h += '</div>';
 
-    h += `<div style=\"text-align:center;font-size:.62rem;color:var(--text-3);margin:.8em 0\">p-book ${APP_VERSION}</div>`;
+    h += `<div style=\"text-align:center;font-size:.7rem;color:var(--text-3);margin:.8em 0\">p-book ${this._appVersion()}</div>`;
     el.innerHTML = h;
+    this._foldProfile(el);   // wallet, XP rules, editor track, invites: one tap away, not in the way
   }
 
   // ===== ACCOUNT & SYNC =====
@@ -5279,13 +5273,13 @@ class PBook {
     const typing = document.getElementById('tutorTyping');
     if (typing) typing.style.display = 'flex';
     messages.scrollTop = messages.scrollHeight;
-    // Simulate thinking delay
+    // Local retrieval is instant; a short beat keeps the exchange readable
     setTimeout(() => {
       if (typing) typing.style.display = 'none';
       const response = this.generateChatResponse(msg);
       messages.innerHTML += `<div class="chat-msg bot">${response}</div>`;
       messages.scrollTop = messages.scrollHeight;
-    }, 600 + Math.random() * 400);
+    }, 250);
   }
 
   // ===== GLOSSARY / TOPICS =====
@@ -5666,7 +5660,7 @@ class PBook {
     const completed = new Set(this.user.completedMissions || []);
 
     let html = '<div class="missions-inner">';
-    html += '<div class="missions-head"><h2>Missions</h2><p>Choose your adventure. Each mission tells a story and teaches you something new.</p></div>';
+    html += '<div class="missions-head"><h2>Missions</h2><p>Guided paths through the book: each one follows a single question across chapters, in reading order.</p></div>';
     html += this._personalMissionCard() || `<div style="font-size:.75rem;color:var(--text-3);margin:.2em 0 .6em">🎯 <a href="#" onclick="event.preventDefault();app.editPersonalMission()" style="color:var(--accent)">Tell the book what you want to learn</a> — it will compose a personal mission from matching concepts.</div>`;
 
     missions.forEach(m => {
@@ -5769,11 +5763,11 @@ class PBook {
     // Branch point
     if (!branch) {
       html += `<div class="mission-branch-point">
-        <div class="branch-label">Choose your path</div>
-        <div class="branch-desc">The story branches here. Pick your style — the book adapts to you!</div>
+        <div class="branch-label">How do you want to continue?</div>
+        <div class="branch-desc">Same mission, three ways to finish it. You can switch later.</div>
         <div class="branch-options">`;
       Object.entries(m.branches).forEach(([voice, b]) => {
-        const vc = CONFIG.voices[voice] || {};
+        const vc = BRANCH_WORDS[voice] || CONFIG.voices[voice] || {};
         html += `<button class="branch-option ${voice}" onclick="app.pickBranch('${m.id}','${voice}')">
           <span class="branch-icon">${vc.icon || ''}</span>
           <span class="branch-name">${vc.label || voice}</span>
@@ -5785,7 +5779,7 @@ class PBook {
     } else {
       // Show chosen branch blocks
       const b = m.branches[branch];
-      const vc = CONFIG.voices[branch] || {};
+      const vc = BRANCH_WORDS[branch] || CONFIG.voices[branch] || {};
       html += `<div class="mission-branch-chosen">
         <div class="branch-label">${vc.icon || ''} ${vc.label || branch} path <button class="btn-ghost" style="font-size:.7rem" onclick="app.pickBranch('${m.id}',null)">change</button></div>
       </div>`;
@@ -6084,8 +6078,8 @@ class PBook {
       <div style="max-width:780px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">✍️ Author studio</div>
-          <span id="stEarn" style="font-size:.64rem;color:#15803D;margin-left:auto;text-align:right"></span>
-          <span id="stSaved" style="font-size:.66rem;color:var(--text-3,#999)"></span>
+          <span id="stEarn" style="font-size:.7rem;color:#15803D;margin-left:auto;text-align:right"></span>
+          <span id="stSaved" style="font-size:.7rem;color:var(--text-3,#999)"></span>
           <button onclick="app._studioClose()" title="Close — everything autosaves" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
         <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">Write straight into the page: click a paragraph to edit it, select and drag images. Everything saves continuously.</div>
@@ -6113,7 +6107,7 @@ class PBook {
               <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
-        <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
+        <div style="font-size:.7rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
         <textarea id="stDraft" style="display:none">${this.escHtml(cleanText)}</textarea>
       </div>
     </div>`;
@@ -6153,8 +6147,8 @@ class PBook {
       this._stBackupOffer = false;
       const rb = document.createElement('div');
       rb.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;font-size:.75rem;border:1.5px dashed #7C3AED;border-radius:9px;padding:.4em .6em;margin:.4em 0;color:var(--text-2,#666);background:color-mix(in srgb, #7C3AED 5%, transparent)';
-      rb.innerHTML = `Your previous work-in-progress for this concept is safe. <button class="steer-chip" style="font-size:.68rem;border-color:#7C3AED;color:#7C3AED" onclick="this.closest('div').remove();app._studioRestoreBackup()">↩ Go back to it</button>
-        <button class="steer-chip" style="font-size:.68rem" onclick="this.closest('div').remove()">✕</button>`;
+      rb.innerHTML = `Your previous work-in-progress for this concept is safe. <button class="steer-chip" style="font-size:.7rem;border-color:#7C3AED;color:#7C3AED" onclick="this.closest('div').remove();app._studioRestoreBackup()">↩ Go back to it</button>
+        <button class="steer-chip" style="font-size:.7rem" onclick="this.closest('div').remove()">✕</button>`;
       document.getElementById('stCanvas')?.before(rb);
     }
     this.rc.logEvent('author_open', { slug });
@@ -6190,7 +6184,7 @@ class PBook {
       h = h.replace(this._studioMarkerRx(), (_, k, w) => {
         const mi = mkIdx++;
         return `<span style="display:inline-block;max-width:100%;border:1.5px dashed #7C3AED;border-radius:10px;padding:.35em .6em;margin:.15em .1em;color:#7C3AED;font-size:.78rem;vertical-align:middle">🎨 ${/anim/i.test(k) ? 'ANIMATION' : 'DIAGRAM'}: ${this.escHtml(w.trim())}
-          <button class="steer-chip" style="font-size:.64rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">🎨 Draw this one · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button></span>`;
+          <button class="steer-chip" style="font-size:.7rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">🎨 Draw this one · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button></span>`;
       });
       inner += `<div class="st-block" data-bi="${i}" title="click to edit this paragraph" style="border-radius:8px;padding:.15em .35em;margin:0 -.35em;cursor:text">${h}</div>`;
     });
@@ -6205,9 +6199,9 @@ class PBook {
       fig.style.touchAction = 'none';
       const bar = document.createElement('div');
       bar.style.cssText = 'display:flex;gap:.4em;align-items:center;margin:.25em 0 .1em;flex-wrap:wrap';
-      bar.innerHTML = `<button class="steer-chip" style="font-size:.66rem" onclick="app.studioEditImage('${aid}')">✨ Edit (AI) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-        <button class="steer-chip" style="font-size:.66rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
-        <span style="font-size:.62rem;color:var(--text-3,#999)">✏️ click an element = select & drag · double-click a label = rewrite</span>`;
+      bar.innerHTML = `<button class="steer-chip" style="font-size:.7rem" onclick="app.studioEditImage('${aid}')">✨ Edit (AI) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
+        <button class="steer-chip" style="font-size:.7rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
+        <span style="font-size:.7rem;color:var(--text-3,#999)">✏️ click an element = select & drag · double-click a label = rewrite</span>`;
       fig.appendChild(bar);
     });
     if (!pane._svgEditBound) {
@@ -6539,8 +6533,8 @@ class PBook {
       out.innerHTML = items.length ? `<div style="border:1.5px solid var(--border,#ddd);border-radius:8px;padding:.4em .6em;font-size:.78rem;background:var(--card,#fff)">
         ${items.map(it => `<div style="display:flex;gap:.5em;align-items:center;padding:.25em 0;border-bottom:1px dashed var(--border,#eee)">
           <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">${this.escHtml(it.author || '')} · ${it.n} slides · rev ${it.rev}</span></span>
-          <a class="steer-chip" style="font-size:.68rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}">▶ SlAIdy</a>
-          <button class="steer-chip" style="font-size:.68rem" onclick="app.slaidyCloudLoad('${this.escHtml(it.id)}')">📥 to studio</button>
+          <a class="steer-chip" style="font-size:.7rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}">▶ SlAIdy</a>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app.slaidyCloudLoad('${this.escHtml(it.id)}')">📥 to studio</button>
         </div>`).join('')}</div>`
         : `<div style="font-size:.76rem;color:var(--text-3);padding:.3em 0">No deck under <code>${this.escHtml(group)}</code> yet.</div>`;
     } catch (e) {
@@ -6664,7 +6658,7 @@ class PBook {
         <button class="steer-chip" style="font-size:.72rem" onclick="document.getElementById('stSlaidy').remove()">✕</button>
       </div>
       <div id="stSlaidyOut"></div>
-      <span style="color:var(--text-2,#666);font-size:.72rem">Layout is chosen adaptively (figure+text → two columns, short → centered); fine-tune with <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code>, <code>&lt;!-- gap --&gt;</code> — invisible in the book. 🎬 reveal steps play on their own on a slide. Manual file: <button class="steer-chip" style="font-size:.66rem" onclick="app.slaidyExportDraft()">⬇</button> <label class="steer-chip" style="font-size:.66rem;cursor:pointer">⬆<input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label></span>
+      <span style="color:var(--text-2,#666);font-size:.72rem">Layout is chosen adaptively (figure+text → two columns, short → centered); fine-tune with <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code>, <code>&lt;!-- gap --&gt;</code> — invisible in the book. 🎬 reveal steps play on their own on a slide. Manual file: <button class="steer-chip" style="font-size:.7rem" onclick="app.slaidyExportDraft()">⬇</button> <label class="steer-chip" style="font-size:.7rem;cursor:pointer">⬆<input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label></span>
     </div>`;
   }
 
@@ -6717,11 +6711,11 @@ class PBook {
         </div>
         <div id="wsBriefBox" style="margin-top:.6em">${ws.brief ? `<div style="border:1.5px solid #10B981;border-radius:12px;padding:.6em .8em;background:var(--card,#fff)">
           <b>🤝 Agreed:</b> <span id="wsBriefTxt" style="font-size:.85rem">${this.escHtml(ws.brief)}</span>
-          <button class="steer-chip" style="font-size:.66rem" onclick="app._wsBriefEdit()">✏️ edit</button>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app._wsBriefEdit()">✏️ edit</button>
           <div style="margin-top:.5em"><button class="note-save" style="background:#10B981" onclick="app._wsToStudio()">Let’s create →</button></div>
         </div>` : `<div style="font-size:.72rem;color:var(--text-3)">Keep aligning — the brief appears once you genuinely contribute.
           <div style="margin-top:.4em"><button class="steer-chip" style="font-size:.7rem" onclick="app._wsToStudio()">✍️ Not waiting — I will create on my own (free) →</button>
-          <span style="color:var(--text-3);font-size:.66rem">writing earns ⚡, the coach can join later</span></div></div>`}</div>`;
+          <span style="color:var(--text-3);font-size:.7rem">writing earns ⚡, the coach can join later</span></div></div>`}</div>`;
     } else if (ws.step === 'reflect') {
       const st = this._authorState()[ws.slug] || {};
       const stats = st.stats || { manual: 0, ai: 0, coach: 0 };
@@ -6910,13 +6904,13 @@ class PBook {
     const KIND = { works: '👍', question: '❓', idea: '💡' };
     out.innerHTML = `<div style="border:1.5px solid var(--accent);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
       <b>💬 Feedback (${comments.length})</b>
-      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbStatus('${shareId}')">↻ refresh</button>
-      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbUnshare('${shareId}')">🗑 unshare</button>
-      <button class="steer-chip" style="font-size:.66rem" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioFbStatus('${shareId}')">↻ refresh</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioFbUnshare('${shareId}')">🗑 unshare</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
       <div style="font-size:.7rem;margin:.35em 0;display:flex;gap:.4em;align-items:center;flex-wrap:wrap"><span style="color:var(--text-2)">Link created — send it to whoever you like:</span>
-        <code style="font-size:.66rem;background:var(--bg,#f6f6f2);padding:.1em .4em;border-radius:6px;word-break:break-all">${link}</code>
-        <button class="steer-chip" style="font-size:.64rem" onclick="navigator.clipboard&&navigator.clipboard.writeText('${link}')">Copy</button></div>
-      ${comments.length ? comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0;font-size:.78rem">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')
+        <code style="font-size:.7rem;background:var(--bg,#f6f6f2);padding:.1em .4em;border-radius:6px;word-break:break-all">${link}</code>
+        <button class="steer-chip" style="font-size:.7rem" onclick="navigator.clipboard&&navigator.clipboard.writeText('${link}')">Copy</button></div>
+      ${comments.length ? comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0;font-size:.78rem">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.7rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')
         : `<div style="color:var(--text-3);font-size:.72rem">No comments yet — the link is active.</div>`}
     </div>`;
   }
@@ -6971,7 +6965,7 @@ class PBook {
       if (!box || !tells.length) return;
       const g = this._galState;
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">✍️ Book submissions</div>
-        <div style="font-size:.68rem;color:var(--text-3);margin:0 0 .3em">Visible to this class only. Hearts vote; ⭐ = the teacher recommends it to the editors for the shared book.</div>`
+        <div style="font-size:.7rem;color:var(--text-3);margin:0 0 .3em">Visible to this class only. Hearts vote; ⭐ = the teacher recommends it to the editors for the shared book.</div>`
         + tells.map(t => `<div style="display:flex;gap:.6em;align-items:center;padding:.45em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.3em 0;cursor:pointer"
             onclick="app._showTellingPreview('${this.escHtml(t.meta.id)}','${this.escHtml(code)}')">
             <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(t.meta.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">— ${this.escHtml(t.meta.sharedAs || 'anonymous')}${t.meta.nominated ? ' · ⭐ recommended' : ''}</span></span>
@@ -7173,7 +7167,7 @@ class PBook {
       }).sort((a, b2) => b2.score - a.score);
       if (!rows.length) { box.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.4em 0">Nothing to rank yet — submissions, works and reactions will appear here.</div>`; return; }
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">📊 Telling leaderboard</div>
-        <div style="font-size:.68rem;color:var(--text-3);margin:0 0 .3em">Score = ❤️ votes ×3 + presentation reactions (😕1/🙂2/🤩3) + 👍 reader likes ×3 + 👀 readers ÷2. Long-term signals keep growing after adoption into the book.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:0 0 .3em">Score = ❤️ votes ×3 + presentation reactions (😕1/🙂2/🤩3) + 👍 reader likes ×3 + 👀 readers ÷2. Long-term signals keep growing after adoption into the book.</div>
         ${rows.map((r, i) => `<div style="display:flex;gap:.55em;align-items:center;padding:.4em .55em;border:1.5px solid ${i === 0 ? '#F59E0B' : 'var(--border,#eee)'};border-radius:10px;margin:.28em 0">
           <span style="font-weight:800;color:${i < 3 ? '#B45309' : 'var(--text-3)'};min-width:1.4em">${i + 1}.</span>
           <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(r.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">— ${this.escHtml(r.who || 'anonymous')}${r.kind === '📖 in the book' ? ' · 📖 in the book' : ''}</span></span>
@@ -7271,7 +7265,7 @@ class PBook {
           <input id="fbNick" placeholder="Your nickname (optional)" style="flex:1 1 130px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
           <button class="note-save" style="background:var(--accent)" onclick="app._sendDraftComment('${this.escHtml(shareId)}')">Send the comment</button>
         </div>
-        ${data.comments.length ? `<div style="margin-top:.6em;font-size:.76rem">${data.comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')}</div>` : ''}`;
+        ${data.comments.length ? `<div style="margin-top:.6em;font-size:.76rem">${data.comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.7rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')}</div>` : ''}`;
     el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:270;overflow-y:auto" onclick="if(event.target===this)document.getElementById('draftFb').remove()">
       <div style="max-width:680px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 1.4em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
@@ -7308,7 +7302,7 @@ class PBook {
       const vals = CONFIG.facets?.[dim]?.values || [];
       return `<div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin-top:.25em">${(L._dim || {})[dim] || dim}:
         <span>${vals.map(v => `<button class="steer-chip st-fac" data-dim="${dim}" data-v="${v}"
-          style="font-size:.66rem;margin:.1em${fac[dim] === v ? ';background:#EDE9FE;border-color:#7C3AED' : ''}"
+          style="font-size:.7rem;margin:.1em${fac[dim] === v ? ';background:#EDE9FE;border-color:#7C3AED' : ''}"
           onclick="app._studioFacetPick(this)">${this.escHtml((L[dim] || {})[v] || v)}</button>`).join('')}</span></div>`;
     }).join('');
   }
@@ -8023,7 +8017,7 @@ class PBook {
     const m = this._wizardMission;
     const blocks = (m?.core || []).map(id => this.findBlock(id)).filter(Boolean).slice(0, 6);
     const chip = (b, kind) => `<button class="steer-chip st-refl" data-kind="${kind}" data-id="${this.escHtml(b.meta.id)}"
-      style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">${this.escHtml((b.meta.title || b.meta.id).slice(0, 30))}</button>`;
+      style="font-size:.7rem;margin:.12em" onclick="app._bossReflToggle(this)">${this.escHtml((b.meta.title || b.meta.id).slice(0, 30))}</button>`;
     const box = document.createElement('div');
     box.id = 'bossRefl';
     box.style.cssText = 'margin-top:.7em;border-top:1px dashed var(--border,#ddd);padding-top:.55em;font-size:.8rem;text-align:left';
@@ -8237,11 +8231,11 @@ class PBook {
     const questions = this.tutor.getSuggestedQuestions(block);
     const chatEl = document.getElementById('chatMessagesFull');
     if (chatEl) {
-      chatEl.innerHTML = `<div class="chat-msg bot">Pavel wrote a lot about <b>${block.meta.title}</b>. What would you like to know? I can explain it, find related sections, or go deeper!</div>`;
+      chatEl.innerHTML = `<div class="chat-msg bot">Ask anything about <b>${this.escHtml(block.meta.title || '')}</b>. I answer from the book’s concept summaries and point you to the section that covers it — and say so when the book does not.</div>`;
       if (questions.length) {
         let sugHtml = '<div class="tutor-suggestions">';
         questions.forEach(q => {
-          sugHtml += `<button class="tutor-suggest-btn" onclick="app.askSuggested(this,'${this.escHtml(q)}')">${q}</button>`;
+          sugHtml += `<button class="tutor-suggest-btn" data-q="${this.escHtml(q)}" onclick="app.askSuggested(this,this.dataset.q)">${this.escHtml(q)}</button>`;
         });
         sugHtml += '</div>';
         chatEl.insertAdjacentHTML('beforeend', sugHtml);
@@ -8310,7 +8304,8 @@ class PBook {
       if (!results.length) { el.innerHTML = '<div class="search-empty">No results found.</div>'; return; }
       el.innerHTML = results.map(r => {
         const meta = r.meta || r;
-        const badge = meta.voice && meta.voice !== 'universal' ? `<span class="card-badge ${meta.voice}">${CONFIG.voices[meta.voice]?.label || meta.voice}</span>` : '';
+        const fl = this._cardFacetLine(meta);
+        const badge = fl ? `<span class="card-facets">${this.escHtml(fl)}</span>` : '';
         return `<div class="card" style="margin-bottom:.5em" onclick="app.openBlock('${meta.id}','search');app.closeSearch()"><div class="card-chapter">${meta._chapterTitle || ''}</div><div class="card-title">${meta.title || meta.id}</div><div class="card-meta">${badge}<span class="card-time">${meta.readingTime || 3} min</span></div></div>`;
       }).join('');
     };
@@ -8489,21 +8484,21 @@ class PBook {
       const scopeLabel = quote ? 'this passage' : 'this section';
       const whereHint = insert
         ? (opts.anchorText
-            ? `<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes here: right after “${this.escHtml(opts.anchorText.slice(0, 70))}${opts.anchorText.length > 70 ? '…' : ''}”</div>`
-            : '<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes at the end of this section.</div>')
+            ? `<div style="font-size:.7rem;color:var(--text-3);margin:.2em 0">Goes here: right after “${this.escHtml(opts.anchorText.slice(0, 70))}${opts.anchorText.length > 70 ? '…' : ''}”</div>`
+            : '<div style="font-size:.7rem;color:var(--text-3);margin:.2em 0">Goes at the end of this section.</div>')
         : '';
       box.innerHTML = `
         <b>${insert ? '➕ Add here' : `✏️ Improve ${scopeLabel}`}</b>
         ${whereHint}
-        <div style="font-size:.68rem;color:var(--text-3);margin:.2em 0 .1em">${insert ? 'Write your own text…' : 'Edit the text directly…'}</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.2em 0 .1em">${insert ? 'Write your own text…' : 'Edit the text directly…'}</div>
         <textarea id="edit-src-${blockId}" rows="${insert ? 3 : Math.min(12, Math.max(3, slice.split('\n').length + 1))}"
           ${insert ? 'placeholder="The text that will appear at this spot…"' : ''}
           style="width:100%;padding:.45em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.76rem;font-family:ui-monospace,monospace;line-height:1.45">${this.escHtml(slice)}</textarea>
-        ${canGen ? `<div style="font-size:.68rem;color:var(--text-3);margin:.3em 0 .1em">…or describe ${insert ? 'what to add' : 'the change'} and let AI write it:</div>
+        ${canGen ? `<div style="font-size:.7rem;color:var(--text-3);margin:.3em 0 .1em">…or describe ${insert ? 'what to add' : 'the change'} and let AI write it:</div>
         <textarea id="remix-prompt-${blockId}" rows="2" placeholder="${insert ? `e.g. 'draw a diagram of the ranking pipeline and explain it', 'add a worked example'` : `e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'`}"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>` : ''}
-        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
-        <div style="font-size:.66rem;color:var(--text-3);margin:.15em 0">${this.aiEconHint()}</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.15em 0">${this.aiEconHint()}</div>
         <div class="note-actions">
           <button class="note-save" onclick="app.submitManualEdit('${blockId}')">${insert ? '💾 Insert my text' : '💾 Save my edit'}</button>
           ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">${insert ? '✨ Let AI write it' : '✨ AI rewrite'} · from ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>` : ''}
@@ -8861,7 +8856,7 @@ class PBook {
         <b>✨ Remix this diagram${el.querySelector('animate, animateTransform, animateMotion') ? ' / animation' : ''}</b>
         <textarea id="remix-prompt-${blockId}" rows="2" placeholder="What should change? e.g. 'make the products running shoes', 'slow the animation down', 'add a third user to the example'"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem;margin-top:.3em"></textarea>
-        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
         <div class="note-actions">
           <button class="note-save" onclick="app.submitDiagramRemix('${blockId}')">✨ Generate improved version · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
           <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
@@ -8950,7 +8945,7 @@ class PBook {
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
       <input type="text" id="share-group-${blockId}" placeholder="Class code (optional — the telling then stays within your class)" maxlength="16" value="${this.escHtml(this._classCode())}"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
-      <div style="font-size:.66rem;color:var(--text-3)">With a code: classmates and the teacher see it in the class gallery, the class votes — and the teacher ⭐ recommends the best to the editors for the shared book. Without a code it joins the book's reader tellings right away.</div>
+      <div style="font-size:.7rem;color:var(--text-3)">With a code: classmates and the teacher see it in the class gallery, the class votes — and the teacher ⭐ recommends the best to the editors for the shared book. Without a code it joins the book's reader tellings right away.</div>
       <div class="note-actions">
         <button class="note-save" onclick="app.shareGeneratedBlock('${blockId}')">📣 Share into the book</button>
         <button class="note-cancel" onclick="document.getElementById('share-consent-${blockId}').remove()">Keep private</button>
@@ -9025,8 +9020,8 @@ class PBook {
     this.user.currentBlock = blockId;
     this.user.currentChapter = chIdx;
     this.user.save();
-    // Update URL hash for sharing
-    history.replaceState(null, '', '#' + blockId);
+    // URL hash for sharing + a history entry for the system back button (js/ux.js)
+    this._navPushBlock(blockId);
     // Set analytics context: where did user discover this block?
     const mode = source || (this._wizardMission ? 'mission' : this.currentView === 'home' ? 'netflix' : this.currentView === 'map' ? 'map' : this.currentView === 'read' ? 'read' : this.currentView);
     this.rc.setContext(mode, { blockId, chapter: chIdx });
@@ -9047,8 +9042,8 @@ class PBook {
       return;
     }
 
-    this._pendingScroll = { parentId, meta: block.meta };
-    this.switchView('read', true); // auto — don't log as user-initiated mode switch
+    this._pendingScroll = { parentId, meta: block.meta, instant: true };
+    this.switchView('read', true, true); // auto — don't log as user-initiated mode switch; renderRead below
     this.renderRead(chIdx);
   }
 
@@ -9115,9 +9110,11 @@ class PBook {
   }
 
   goBack() {
+    // Real browser history first (the same path the phone's back gesture takes);
+    // a visit that started on this section goes to Browse — never back to the door.
+    if (this._canGoBack()) { history.back(); return; }
     if (!this._navHistory || !this._navHistory.length) {
-      // No history — go to welcome/home
-      this.showWelcome();
+      this.switchView('home');
       return;
     }
     const prev = this._navHistory.pop();
@@ -9137,11 +9134,12 @@ class PBook {
   }
 
 
-  _scrollToBlock(parentId, meta) {
+  // instant: arriving from another view (no long animated scroll from the chapter top)
+  _scrollToBlock(parentId, meta, instant) {
     setTimeout(() => {
       const el = document.getElementById(`b-${meta.id}`) || document.getElementById(`b-${parentId}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+      if (el) el.scrollIntoView({ behavior: instant || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    }, instant ? 30 : 300);
   }
 
   goToMapChapter(idx) {
@@ -9180,9 +9178,9 @@ class PBook {
           <div class="auth-avatar" style="width:32px;height:32px;font-size:1.1rem">${this.getLevelIcon()}</div>
           <div class="auth-info">
             <div class="auth-name" style="font-size:.8rem">${this.escHtml(auth.displayName || 'Reader')}</div>
-            <div class="auth-email" style="font-size:.65rem"><span style="color:var(--product)">&#9679;</span> ${this.escHtml(auth.email)}</div>
+            <div class="auth-email" style="font-size:.7rem"><span style="color:var(--product)">&#9679;</span> ${this.escHtml(auth.email)}</div>
           </div>
-          <button class="auth-secondary-btn" style="font-size:.68rem;padding:.3em .5em" onclick="app._showEditAccount()">Edit</button>
+          <button class="auth-secondary-btn" style="font-size:.7rem;padding:.3em .5em" onclick="app._showEditAccount()">Edit</button>
           <button class="auth-logout-btn" onclick="app.logout();app._renderSettingsAccount();app.renderProfile()">Log out</button>
         </div>
         <div id="editAccountForm" style="display:none;margin-top:.4em">
@@ -9286,9 +9284,9 @@ class PBook {
     URL.revokeObjectURL(a.href);
   }
 
-  setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme === 'light' ? '' : theme);
-    localStorage.setItem('pbook-theme', theme);
+  setTheme(theme) {   // 'light' | 'dark' | 'auto' (follows the device) — js/ux.js
+    try { localStorage.setItem('pbook-theme', theme); } catch (e) {}
+    this._applyThemeChoice();
     this.updateSettingsUI();
   }
 
@@ -9300,8 +9298,7 @@ class PBook {
   }
 
   applyTheme() {
-    const theme = localStorage.getItem('pbook-theme');
-    if (theme && theme !== 'light') document.documentElement.setAttribute('data-theme', theme);
+    this._applyThemeChoice();
     const fs = localStorage.getItem('pbook-fs');
     if (fs) { const map = { small: '0.95rem', medium: '1.1rem', large: '1.3rem' }; document.documentElement.style.setProperty('--fs', map[fs]); }
     this._applyLevelTheme();
@@ -9398,7 +9395,7 @@ class PBook {
 
     let h = '<div class="profile-section"><h3>Your Activity</h3>';
     h += `<div style="display:flex;gap:1em;margin-bottom:.6em;font-size:.78rem">`;
-    h += `<span style="color:var(--text-3)">${totalActive} active days</span>`;
+    h += `<span style="color:var(--text-3)">${totalActive} active day${totalActive === 1 ? '' : 's'}</span>`;
     h += `<span style="color:var(--text-3)">${totalInteractions} interactions</span>`;
     h += `</div>`;
     h += svg;
@@ -9512,7 +9509,7 @@ class PBook {
     if (kind === 'login' || (!this._getAuth() && this._trialUsedLocal())) {
       return `<div style="border:1.5px solid #0EA5E9;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
         <b>🔑 AI needs an account</b><br>The free try is used. Log in via <a href="#" onclick="event.preventDefault();app.switchView('profile')">Profile</a> — your ⚡ start counting server-side and existing XP migrates (up to 100).<br>
-        <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span></div>`;
+        <span style="color:#15803D;font-size:.7rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span></div>`;
     }
     const tierName = tier === 'advanced' ? 'Advanced AI (variants & diagrams)' : 'Basic AI (text)';
     return `<div style="border:1.5px solid #D97706;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
@@ -9520,7 +9517,7 @@ class PBook {
       ${'{tier} costs <b>{p} ⚡</b>, you have <b>⚡{b}</b>. Earn by working with the book:'.replace('{tier}', tierName).replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance())}<br>
       <span style="color:var(--text-2,#666)">${'read a section +10 · recall +2 · game +5 · note +3 · <b>manual edit +{me}</b> · <b>your own writing in the studio +{me} per ~{z} chars</b>'.replace(/\{me\}/g, c.earnManualEdit).replace('{z}', c.earnStudioChars || 250)}</span><br>
       <span style="color:var(--text-2,#666)">You can keep creating by hand right now — nothing stops you, and work earns your ⚡ back.</span><br>
-      <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
+      <span style="color:#15803D;font-size:.7rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
     </div>`;
   }
   // 402/401 ze serveru → paywall místo obecné chyby
@@ -9541,19 +9538,22 @@ class PBook {
   updateXPBadge() {
     const el = document.getElementById('xpBadge');
     if (!el) return;
-    if (!this._f('gamification')) { el.style.display = 'none'; return; }
+    // Progress first: concepts read out of the book's concepts (XP and level live in Profile)
     el.style.display = '';
-    const reward = this.getLevelRewards().filter(r => r.level <= this.user.level).pop();
+    const { read, total } = this._conceptProgress();
     const editor = this.getEditorTrack?.().tier === 'editor' ? '🛠 ' : '';
-    el.textContent = editor + (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP' + (CONFIG.aiEconomy?.enabled && this._srvBalance != null ? ' · ⚡' + this._srvBalance : '');
-    el.title = editor ? 'Editor — earned through accepted contributions' : '';
+    el.innerHTML = `<span class="xp-ring">${this._ringSvg(total ? read / total : 0, 18)}<span>${editor}${read}/${total}</span></span>`;
+    el.title = `${read} of ${total} concepts read` + (this._f('gamification') ? ` · level ${this.user.level} · ${this.user.xp} XP` : '') + (editor ? ' · editor' : '');
+    el.setAttribute('aria-label', `Your progress: ${read} of ${total} concepts read. Open your profile`);
     // Apply cosmetic theme
     this._applyLevelTheme();
     // Update quiz tab badge
     const quizTab = document.querySelector('.tab[data-view="quiz"] .tab-label');
     if (quizTab && this._f('spaceRepetition')) {
       const dueCount = this.user.getDueRecalls().length;
-      quizTab.textContent = dueCount > 0 ? `Quiz (${dueCount})` : 'Quiz';
+      // a dot on the icon, not a count in the label (the label width jumped)
+      quizTab.closest('.tab')?.classList.toggle('has-due', dueCount > 0);
+      quizTab.closest('.tab')?.setAttribute('aria-label', dueCount > 0 ? `Quiz, ${dueCount} cards due` : 'Quiz');
     }
   }
 
@@ -9586,11 +9586,11 @@ class PBook {
   checkGamificationEvents() {
     if (!this._f('gamification')) return;
     if (this.user._pendingLevelUp) {
-      this.showXPToast('Level ' + this.user._pendingLevelUp + '! You are now: ' + this.user.getLevelTitle(), 'levelup');
+      this.showXPToast('Level ' + this.user._pendingLevelUp + ' · ' + this.user.getLevelTitle(), 'levelup');
       this.user._pendingLevelUp = null;
     } else if (this.user._pendingAchievement) {
-      const a = this.user._pendingAchievement;
-      this.showXPToast(a.icon + ' ' + a.name + '!', 'achievement');
+      const a = this.user._pendingAchievement, n = ACHIEVEMENT_NAMES[a.id] || a;
+      this.showXPToast(n.icon + ' ' + n.name, 'achievement');
       this.user._pendingAchievement = null;
     }
     this.updateXPBadge();
@@ -9699,7 +9699,7 @@ class PBook {
       <div class="card-chapter" style="color:#0EA5E9;font-weight:700">🌱 PROPOSED · not written yet</div>
       <div class="card-title">${this.escHtml(p.title)}</div>
       <div class="card-teaser" style="font-size:.72rem">${this.escHtml(p.objective)}</div>
-      <div style="font-size:.64rem;color:var(--text-3);font-style:italic;margin:.3em 0">You'd be able to answer: ${this.escHtml(p.recallQ)}</div>
+      <div style="font-size:.7rem;color:var(--text-3);font-style:italic;margin:.3em 0">You'd be able to answer: ${this.escHtml(p.recallQ)}</div>
       <div id="ghost-${p.slug}-${ctx}" style="display:flex;gap:.4em;margin-top:.35em">
         <button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9" onclick="app.ghostVote('${p.slug}',1,'${ctx}')">👍 I'd read this</button>
         <button class="steer-chip" onclick="app.ghostVote('${p.slug}',-1,'${ctx}')">Not for me</button>
@@ -9939,7 +9939,7 @@ class PBook {
 
     // Award certificate achievement
     if (!u.achievements.find(a => a.id === 'certified')) {
-      u.achievements.push({ id: 'certified', name: 'Certified!', icon: '\u{1F393}', desc: 'Earned your certificate', earnedAt: Date.now() });
+      u.achievements.push({ id: 'certified', name: 'Certified', icon: '\u{1F393}', desc: 'Earned your certificate', earnedAt: Date.now() });
       u.addXP(50);
       u.save();
       this.showXPToast('+50 XP \u{1F393} Certificate earned!', 'achievement');
@@ -10065,6 +10065,7 @@ class PBook {
 installGames(PBook);
 const app = new PBook();
 window.app = app;
+installUx(PBook);   // js/ux.js: navigation, door/resume, explainable picks, progress moments
 app.init();
 
 // Text highlight on selection (desktop + mobile)

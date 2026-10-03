@@ -78,6 +78,22 @@ export const CONFIG = {
                  icons: { prose: '\u{1F4DD}', table: '\u{1F4CA}', diagram: '\u{1F4D0}', image: '\u{1F5BC}', animation: '\u{1F39E}', formula: '\u{2211}', code: '\u{1F4BB}' } },
   },
 
+  // Reader-facing words for the facet vocabulary above — the ONE place where
+  // 'social-feeds' becomes "social feed examples". Used by the tellings panel,
+  // swap notices, cards, search, Profile and the in-app "Why this?" reasons.
+  // (Display labels only: the vocabulary of record stays CONFIG.facets.)
+  facetWords: {
+    lens:       { generic: 'examples from everywhere', ecommerce: 'shopping examples', media: 'music & video examples', 'social-feeds': 'social feed examples', education: 'learning examples', jobs: 'job-board examples' },
+    lensShort:  { generic: 'Everywhere', ecommerce: 'Shopping', media: 'Music & video', 'social-feeds': 'Social feeds', education: 'Learning', jobs: 'Jobs' },
+    depth:      { intro: 'gentle introduction', standard: 'standard depth', technical: 'technical depth', research: 'research depth' },
+    visuality:  { 'text-first': 'mostly text', balanced: 'text and pictures', 'visual-first': 'mostly visual' },
+    formalism:  { none: 'no formulas', light: 'a few formulas', full: 'full math' },
+    lengthBand: { tldr: 'short', standard: 'medium length', deep: 'long read' },
+    genre:      { explainer: 'explainer', story: 'story', 'worked-example': 'worked example', 'code-walkthrough': 'code walkthrough', comic: 'comic', animation: 'animation' },
+    lang:       { en: 'English', cs: 'Czech' },
+    carriers:   { prose: 'text', table: 'tables', diagram: 'diagrams', image: 'images', animation: 'animations', formula: 'formulas', code: 'code' },
+  },
+
   // Steering & generation (P1) + community catalog economics (P2)
   // Thresholds per _design-collective-pbook.md §5-§7 — tunable defaults for the pilot.
   // Frugal AI: generation is paid with XP earned by reading,
