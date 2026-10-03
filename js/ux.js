@@ -569,7 +569,17 @@ export const uxMethods = {
       bar.classList.toggle('on', frac !== null);
       if (frac !== null) bar.firstChild.style.transform = `scaleX(${frac.toFixed(3)})`;
     };
-    window.addEventListener('scroll', () => { if (!raf) raf = requestAnimationFrame(update); }, { passive: true });
+    let idle = 0;
+    window.addEventListener('scroll', () => {
+      if (!raf) raf = requestAnimationFrame(update);
+      // phones: the journey pill steps aside while the reader scrolls
+      const mb = document.getElementById('miniBoard');
+      if (mb && window.innerWidth < 1100) {
+        mb.classList.add('mb-hide');
+        clearTimeout(idle);
+        idle = setTimeout(() => mb.classList.remove('mb-hide'), 900);
+      }
+    }, { passive: true });
   },
 
   // ---------------------------------------------------------------- progress
