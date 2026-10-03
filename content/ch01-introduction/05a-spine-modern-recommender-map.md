@@ -2,7 +2,7 @@
 id: modern-recommender-map
 type: spine
 title: "A Modern Recommender on One Page"
-readingTime: 2
+readingTime: 3
 standalone: true
 core: false
 teaser: "Follow one tap through the whole machine: the data, four stations, the feedback loop, and the places where LLMs now plug in."
@@ -23,7 +23,7 @@ lang: en
 depth: standard
 formalism: none
 visuality: balanced
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 state: edited
 carriers: prose|diagram

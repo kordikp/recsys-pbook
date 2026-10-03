@@ -25,7 +25,7 @@ lang: en
 depth: intro..standard
 formalism: none
 visuality: balanced
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|diagram
 ---

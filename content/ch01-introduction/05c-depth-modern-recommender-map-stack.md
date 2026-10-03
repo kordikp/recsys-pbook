@@ -2,7 +2,7 @@
 id: modern-recommender-map-stack
 type: spine
 title: "The Modern Stack, Station by Station"
-readingTime: 4
+readingTime: 6
 standalone: true
 core: false
 teaser: "The one-page map with the practitioner details put back: candidate sources, pre-ranking, multi-task scores, impression logs, five LLM sockets, and generative models that merge two stations."
