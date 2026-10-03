@@ -38,7 +38,7 @@ A recommender system bridges this gap. "You read Andrej Karpathy's blog? You mig
 
 ## Function #2: NAVIGATION — Reducing Information Overload
 
-Consider a catalog of 800 million YouTube videos, 100 million Spotify tracks, or thousands of Netflix titles. Without algorithmic curation, finding relevant content in these catalogs would be like searching an unindexed library.
+Consider YouTube, where more than 20 million videos are uploaded every day, Spotify's catalog of over 100 million tracks, or the thousands of titles on Netflix. Without algorithmic curation, finding relevant content in these catalogs would be like searching an unindexed library.
 
 Recommender systems act as intelligent filters: "Given your preferences, start here." They dramatically reduce the cognitive load of navigating massive item spaces by ranking the most relevant options first.
 
@@ -49,3 +49,7 @@ This function is more complex. Platforms need to retain users to generate value 
 This function is beneficial when it surfaces genuinely valuable content. But it can become problematic when engagement optimization diverges from user well-being — a tension we'll examine in depth when we discuss [filter bubbles](#c/filter-bubbles), addictive design patterns, and the alignment of platform incentives with user interests.
 
 **Your turn:** Which function do you think matters most? The answer depends on context. For e-commerce, navigation dominates. For media platforms, discovery is key. For social networks, engagement drives the business model. The relative priority shapes the entire system architecture — and its societal impact.
+
+**Sources:**
+- [YouTube press page](https://blog.youtube/press/) (over 20 million videos uploaded daily; accessed October 2026).
+- [Spotify company info](https://newsroom.spotify.com/company-info/) ("over 100 million tracks"; accessed October 2026).

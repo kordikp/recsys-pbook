@@ -59,7 +59,7 @@ But EASE has a fundamental problem: **it requires inverting an n×n matrix**, wh
 | 1,000,000 | days | TBs |
 | 100,000,000 | impossible | 4 PB |
 
-YouTube has 800 million videos. Spotify has 100 million songs. Amazon has hundreds of millions of products. EASE simply cannot scale to these catalogs.
+YouTube receives more than 20 million new videos every day. Spotify has over 100 million tracks. Amazon has hundreds of millions of products. EASE simply cannot scale to these catalogs.
 
 ## ELSA: The Low-Rank Insight
 
@@ -88,3 +88,7 @@ This isn't just an academic curiosity — it means ELSA's embeddings can be used
 > **Research publication:** Vančura et al., "Scalable Linear Shallow Autoencoder for Collaborative Filtering," RecSys 2022. Joint work between Recombee and FIT CTU Prague. Read more about [ELSA's scalability approach](https://www.recombee.com/blog/making-linear-autoencoders-work-for-large-scale-recommendation-systems) and explore the [open-source implementation on GitHub](https://github.com/recombee/ELSA).
 
 The EASE-to-ELSA progression illustrates a common pattern in applied mathematics: a beautiful closed-form solution hits practical limits, and the path forward requires understanding the *structure* of the solution (its rank, its sparsity, its spectrum) to find a tractable approximation. The mathematics isn't just ornamental — it's the engine of scalability.
+
+**Sources:**
+- [YouTube press page](https://blog.youtube/press/) (over 20 million videos uploaded daily; accessed October 2026).
+- [Spotify company info](https://newsroom.spotify.com/company-info/) ("over 100 million tracks"; accessed October 2026).

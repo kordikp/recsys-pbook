@@ -26,4 +26,4 @@ carriers: image
 
 ![Your Cart Has Been Taking Notes — a four-panel comic: cross-sell, upsell, next basket, and a return the recommender writes down](images/comic-ecommerce-domain.svg)
 
-*Amazon attributes 35% of revenue to recommendations—a directly measurable business impact.*
+*McKinsey, 2013: 35% of Amazon purchases pass through a recommendation. Passed through, not caused by.*

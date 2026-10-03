@@ -264,7 +264,7 @@ Understanding the computational cost is essential for production decisions.
 - With $n = 200$ (longer history), $n^2 = 40000$ is still manageable
 - With $n = 1000+$ (full history for power users), the quadratic cost becomes a bottleneck
 
-This is why most recommendation transformers truncate sequences to the most recent $n_{\max}$ items (typically 50--200). The information lost from truncation is usually less damaging than the computational cost of processing full histories.
+This is why academic benchmarks and many smaller production models truncate sequences to the most recent $n_{\max}$ items (often 50--200). The largest platforms have moved the other way: Meta's HSTU (ICML 2024) was designed and benchmarked for histories of 8,192 actions, using an attention variant that is several times faster than a standard transformer at that length. Long histories are affordable when the architecture is built for them; otherwise truncation loses less than the quadratic cost would.
 
 ## Comparison with RNN/LSTM/GRU Approaches
 
@@ -301,7 +301,7 @@ Most deployed systems truncate to the most recent $n$ interactions. The choice o
 
 - **Too short** ($n < 20$): Loses medium-term preference signals; the model sees only the current micro-session
 - **Too long** ($n > 200$): Quadratic attention cost becomes significant; ancient interactions contribute noise more than signal
-- **Sweet spot** ($n = 50$--$100$): Captures multiple sessions and preference drift without excessive cost
+- **Starting point for small teams** ($n = 50$--$100$): Captures multiple sessions and preference drift without excessive cost; revisit once serving can afford longer, possibly sub-sampled histories
 
 Some systems use logarithmic sampling from history -- dense sampling of recent interactions and sparse sampling of older ones -- to capture both recency and long-term patterns within a fixed sequence budget.
 
@@ -329,3 +329,6 @@ This is significantly more expensive than a matrix factorization model but far c
 - Latency-critical environments without GPU serving infrastructure
 
 The transformer is a powerful tool, but like all tools, it has a domain of applicability. Understanding where sequence complexity justifies architectural complexity is the key engineering judgment in deploying these systems.
+
+**Sources:**
+- Zhai et al., "Actions Speak Louder than Words: Trillion-Parameter Sequential Transducers for Generative Recommendations," ICML 2024. [arXiv:2402.17152](https://arxiv.org/abs/2402.17152)

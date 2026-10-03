@@ -29,7 +29,7 @@ genre: explainer
 carriers: prose|table|image|code
 ---
 
-Video streaming is where recommendation systems are most visible — and most consequential. Netflix attributes 80% of content discovery to its recommendation engine. YouTube's algorithm drives 70% of all watch time. The quality of video recommendations directly determines platform retention and content ROI.
+Video streaming is where recommendation systems are most visible — and most consequential. In 2015 Netflix reported that its recommender "influences choice for about 80% of hours streamed", with the remaining 20% coming from search. In 2018 YouTube said recommendations drive more than 70% of its watch time. Both numbers count viewing that passed *through* recommendations, which is not the same as viewing they *caused*: a 2025 Netflix study estimated that swapping its recommender for a plain popularity ranking would cut engagement by about 12%, and for a matrix-factorization model by about 4%. The quality of video recommendations directly determines platform retention and content ROI.
 
 ## What Makes Video Unique
 
@@ -159,3 +159,8 @@ For the full recipe catalog including Editors' Picks For You and Last Chance sce
 For implementation details, see the [video recommendation recipes](https://docs.recombee.com/recipes/video) and [video domain overview](https://www.recombee.com/domains/video).
 
 Video recommendation isn't just about finding the right content — it's about finding the right content *at the right moment in the viewing journey*. A user who just finished a heavy drama needs a different recommendation than one who just logged in fresh on a Saturday morning. Context-awareness separates good video recommenders from great ones.
+
+**Sources:**
+- Gomez-Uribe & Hunt, "The Netflix Recommender System: Algorithms, Business Value, and Innovation," *ACM TMIS* 6(4), 2015. [doi:10.1145/2843948](https://doi.org/10.1145/2843948)
+- Zielnicki et al., "[The Value of Personalized Recommendations: Evidence from Netflix](https://arxiv.org/abs/2511.07280)," arXiv:2511.07280, 2025.
+- Joan E. Solsman, "[CES 2018: YouTube's AI recommendations drive 70 percent of viewing](https://web.archive.org/web/20190120005609/www.cnet.com/news/youtube-ces-2018-neal-mohan/)," CNET, 10 January 2018 (archived copy; Neal Mohan at CES: "more than 70 percent of the time you spend watching"; viewers watch "more than a billion hours of video" daily).

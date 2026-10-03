@@ -70,7 +70,7 @@ Since self-attention is permutation-invariant by default, the model needs explic
 
 Before attention, sequential recommenders used RNNs (which struggle with long-range dependencies) or simple windowed approaches. Self-attention enables the model to be surgical -- focusing on the 5 items from your history that actually predict your current intent, while appropriately downweighting the other 495.
 
-The SASRec architecture (Self-Attentive Sequential Recommendation) and its successor BERT4Rec demonstrated that transformer-based sequential models significantly outperform traditional sequential approaches on standard benchmarks.
+The SASRec architecture (Self-Attentive Sequential Recommendation, 2018) outperformed recurrent and Markov-chain sequential models on standard benchmarks, and BERT4Rec (2019) claimed to beat SASRec. That second claim turned out to be fragile: a replicability study (Petrov & Macdonald, RecSys 2022) found that later papers disagreed, and that BERT4Rec reaches its reported accuracy only when trained up to 30 times longer than its default configuration. The lesson generalizes: compare against well-tuned baselines before believing a leaderboard.
 
 ## Transformer-Based Recommendation Architectures
 
@@ -85,9 +85,15 @@ These blocks are stacked (typically 2-4 layers for recommendation) to create inc
 
 ## Production Impact
 
-- **YouTube**: Temporal context determines whether to weight weekend browsing history (entertainment-oriented) or weekday history (informational)
-- **Spotify**: Morning listening patterns receive different attention weights than late-night sessions
-- **LinkedIn**: Professional content engagement during business hours is weighted differently from casual browsing
-- **TikTok**: The platform's sequential model learns that scrolling patterns carry entirely different signals at different times of day
+Platforms rarely publish *which* attention pattern drives *which* result, so treat confident claims about "how TikTok weights your late-night scrolling" with suspicion. Two published, dated examples of sequence models in production:
 
-The adoption of transformer-based architectures has measurably improved recommendation quality across major platforms, particularly for users with long and diverse interaction histories.
+- **Meta (HSTU, ICML 2024):** a transformer-style generative recommender over users' action sequences, benchmarked on histories of 8,192 actions. A 1.5-trillion-parameter version improved online A/B metrics by 12.4% and runs on surfaces with billions of users.
+- **Netflix (2025):** a single foundation model, built on ideas from large language models and trained on hundreds of billions of member interactions, replaces many specialized recommendation models.
+
+Both bets pay off most for users with long and diverse interaction histories, which is where attention has the most to choose from.
+
+**Sources:**
+- Kang & McAuley, "Self-Attentive Sequential Recommendation," ICDM 2018. [arXiv:1808.09781](https://arxiv.org/abs/1808.09781)
+- Petrov & Macdonald, "A Systematic Review and Replicability Study of BERT4Rec for Sequential Recommendation," RecSys 2022. [arXiv:2207.07483](https://arxiv.org/abs/2207.07483)
+- Zhai et al., "Actions Speak Louder than Words: Trillion-Parameter Sequential Transducers for Generative Recommendations," ICML 2024. [arXiv:2402.17152](https://arxiv.org/abs/2402.17152)
+- Netflix Technology Blog, "[Foundation Model for Personalized Recommendation](https://netflixtechblog.com/foundation-model-for-personalized-recommendation-1a0bd8e02d39)," 21 March 2025.

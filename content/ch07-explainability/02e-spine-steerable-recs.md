@@ -62,7 +62,7 @@ The most impactful application of steerability is **rabbit hole detection and ex
 
 ## Why This Matters for Regulation
 
-The EU's [Digital Services Act](https://www.recombee.com/blog/shield-the-universal-framework-making-ai-search-safer-for-everyone) mandates that platforms offer recommendation options not based on profiling. Steerable recommendations provide a better solution than the binary "personalized vs. chronological" switch: they give users **granular control** over how personalization works, rather than an all-or-nothing choice.
+The EU's [Digital Services Act](#ch6-law-sidebar) requires **very large** online platforms (45 million or more monthly active users in the EU) to offer at least one recommendation option not based on profiling. Other online platforms, except micro and small enterprises, must explain the main parameters of their recommenders and any options users have to change them. Steerable recommendations provide a better solution than the binary "personalized vs. chronological" switch: they give users **granular control** over how personalization works, rather than an all-or-nothing choice.
 
 A recommendation system with visible, adjustable knobs is inherently more transparent than one that simply says "personalized for you." Users can see *how* it's personalized and change what they don't like.
 
@@ -73,3 +73,6 @@ Steerability and explainability are deeply connected. A system with interpretabl
 For the full technical details of SAE-based steering, see [steering knobs](#c/steering-knobs).
 
 Most debates about recommendation algorithms frame the choice as "more algorithmic vs. less algorithmic." Steerable recommendations suggest a third option: **better algorithmic** — systems where the algorithm's power is preserved but its direction is shared between the system and the user. The algorithm knows patterns across millions of users; you know what you want right now. Combining both should produce better results than either alone.
+
+**Sources:**
+- [Regulation (EU) 2022/2065 (Digital Services Act)](https://eur-lex.europa.eu/eli/reg/2022/2065/oj), Official Journal of the EU, 2022: Art. 3(i) (definition of an online platform), Art. 19 (micro and small enterprises exempt), Art. 27 (recommender transparency), Art. 28 (minors), Art. 33 (45 million threshold), Art. 34 (risk assessment), Art. 38 (non-profiling option), Art. 93 (application from 17 February 2024).

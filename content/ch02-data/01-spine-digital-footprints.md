@@ -47,8 +47,12 @@ Here's the critical insight: most of these footprints are invisible to you. You 
 
 You're continuously training the recommender system about your preferences -- even when you're entirely unaware of it.
 
-> **Did you know?** TikTok starts personalizing your feed after just 8 minutes of use -- roughly 40 swipes. Research from the Wall Street Journal confirmed it's one of the fastest-learning algorithms ever deployed, and this rapid profiling has drawn scrutiny from regulators worldwide, including the EU's Digital Services Act investigations.
+> **Did you know?** In 2021 the Wall Street Journal ran 100 automated TikTok accounts, each programmed with a few interests and nothing else. The only thing the bots did differently was **how long they lingered on, or rewatched, a video**. For many of them, TikTok had worked out their interests in under two hours, without a single like, follow or search. In 2024 the European Commission opened formal proceedings against TikTok under the Digital Services Act, covering among other things the risk management of addictive design.
 
 **Your turn:** If a data analyst could review EVERY interaction you made across platforms in the last week, what profile would they construct? What patterns would emerge that you'd never have articulated yourself? And where would their inferences be wrong?
 
 **Want to go deeper?** [What Do They Actually Track?](#ch2-track-d-exp) shows exactly what platforms track, ranked by how much weight each signal carries.
+
+**Sources:**
+- Tubefilter, "[TikTok's Recommendation Algorithm Is Even More Powerful—And Potentially Dangerous—Than YouTube's](https://www.tubefilter.com/2021/07/21/tiktok-recommendation-algorithm-wall-street-journal-guillaume-chaslot/)," 21 July 2021 (summary of the WSJ video investigation "Inside TikTok's Algorithm").
+- European Commission, "[Commission opens formal proceedings against TikTok under the Digital Services Act](https://digital-strategy.ec.europa.eu/en/news/commission-opens-formal-proceedings-against-tiktok-under-digital-services-act)," 19 February 2024.

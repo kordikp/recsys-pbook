@@ -39,8 +39,8 @@ Imagine a bookstore with a million titles. A hundred bestsellers sit on the fron
 
 The concentration of attention in digital platforms is extreme:
 
-- On **Spotify**, roughly 80% of tracks have never been streamed even once. The top 1% of artists capture the overwhelming majority of listening time.
-- On **YouTube**, a tiny fraction of videos -- far less than 1% -- accounts for the vast majority of total views. Billions of videos sit with negligible watch counts.
+- Across **music streaming services**, Luminate counted 184 million tracks in 2023. About a quarter of them (45.6 million) were not played even once that year, and 86% (158.6 million) got 1,000 plays or fewer.
+- On **YouTube**, more than 20 million videos are uploaded every day. Most of them collect only a handful of views, while a small number of hits draws a large share of all watching.
 - On **Amazon**, a small percentage of products generate most of the revenue. The catalog contains hundreds of millions of items; most of them sell rarely or never.
 - On **Netflix**, a handful of titles dominate viewing hours in any given week, while thousands of films in the catalog receive almost no attention.
 
@@ -107,3 +107,7 @@ Netflix has spoken publicly about this: their most valuable recommendations are 
 The long tail is where recommendation systems earn their keep. Showing users what is already popular is trivial. Showing them what they did not know they wanted -- that is the hard problem, and the one worth solving.
 
 **Your turn:** If you were building a recommendation system for a music streaming platform, how would you balance the interests of the top 1% of artists (who drive most listening and whose absence would be noticed immediately) against the remaining 99% (whose collective catalog is the platform's competitive moat)? What fraction of recommendations would you reserve for exploration, and how would you measure whether it was working?
+
+**Sources:**
+- Music Business Worldwide, "[158 million tracks had 1,000 plays or fewer on music streaming services last year. 45 million had no plays at all.](https://www.musicbusinessworldwide.com/158-million-tracks-1000-plays-on-streaming-services/)," 10 January 2024 (reporting Luminate's 2023 Year-End Music Report).
+- [YouTube press page](https://blog.youtube/press/) (over 20 million videos uploaded daily; accessed October 2026).

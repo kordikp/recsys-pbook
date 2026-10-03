@@ -46,7 +46,7 @@ Netflix explicitly surfaces the reasoning behind its recommendations — a form 
 Professional networking platforms use recommendations for job matching, content feeds, and connection suggestions — a high-stakes domain where recommendation quality directly impacts careers.
 
 **Amazon and E-commerce**
-"Customers who bought this also bought..." This [collaborative filtering](#c/collaborative-filtering) approach is one of the earliest and most commercially successful recommendation techniques. Amazon attributes roughly 35% of its revenue to recommendations.
+"Customers who bought this also bought..." This [collaborative filtering](#c/collaborative-filtering) approach is one of the earliest and most commercially successful recommendation techniques. You will often read that 35% of Amazon's revenue comes from recommendations. The number traces to a [McKinsey, 2013](https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers) consulting article, not to Amazon, and it says 35% of what customers *purchase* "comes from" recommendations: sales that **passed through** a recommendation, not sales a recommendation **caused**. Many of those shoppers would have found the item anyway; only a [holdout test](#c/ab-testing) measures the difference.
 
 **News Aggregators — Google News, Apple News**
 These platforms curate entire information diets using recommendation algorithms, raising profound questions about epistemic diversity and information quality.
@@ -56,4 +56,7 @@ Autocomplete suggestions and personalized search results are recommendations —
 
 That's at least **eight domains**, and we haven't even covered dating apps, financial services, healthcare platforms, or enterprise tools like Slack and Microsoft Teams.
 
-**Try this:** Try counting the recommendations you encounter in a single day. Research suggests the average person encounters hundreds of algorithmically curated items daily — most without even realizing it.
+**Try this:** Try counting the recommendations you encounter in a single day. Feeds, search results, "up next" queues, shop carousels and notification picks all count. Most people stop counting well before lunch, and most of the picks arrive without being noticed.
+
+**Sources:**
+- MacKenzie, Meyer & Noble, "[How retailers can keep up with consumers](https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers)," McKinsey & Company, October 2013 (source of the 35% figure; no underlying data published).
