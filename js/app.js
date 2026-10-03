@@ -10161,7 +10161,12 @@ document.addEventListener('click', (e) => {
   if (concept?.anchor && app.findBlock(concept.anchor)) {
     app.rc.logEvent('concept_link', { slug });
     app.openBlock(app._servedTellingId(slug) || concept.anchor, 'crosslink');   // the reader's telling of that idea
+    return;
   }
+  // anchor still a draft: any visible telling of the idea, else say so (the link used to do nothing)
+  const t = concept && app._tellingPool(slug).find(b => app.findBlock(b.meta?.id));
+  if (t) { app.rc.logEvent('concept_link', { slug }); app.openBlock(t.meta.id, 'crosslink'); }
+  else app.showXPToast?.('That idea is still being written — it is not in the book yet', 'info');
 });
 
 document.addEventListener('contextmenu', (e) => {
