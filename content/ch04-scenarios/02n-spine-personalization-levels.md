@@ -18,7 +18,7 @@ highlights:
 status: draft
 concept: personalization-levels
 conceptTitle: "Levels of personalization"
-parents: scenarios|popularity|context-awareness|session-based|user-cold-start|steerability|ab-testing
+parents: scenarios|context-awareness|user-cold-start
 state: edited
 lens: media
 lang: en

@@ -18,7 +18,7 @@ highlights:
 status: draft
 concept: recommendation-presentation
 conceptTitle: "Presenting recommendations"
-parents: scenarios|feedback-signals|explanations|ab-testing
+parents: scenarios|feedback-signals
 state: edited
 lens: media
 lang: en
