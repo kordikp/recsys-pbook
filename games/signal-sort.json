@@ -57,7 +57,7 @@
     {
       "text": "Skipped a song after 3 seconds",
       "answer": 2,
-      "why": "In music, an early skip is a deliberate 'not this'. Skips are rarely accidental."
+      "why": "In music, a skip within seconds is a quick, deliberate 'not this, not now', and music recommenders treat it as a negative."
     },
     {
       "text": "Opened an article and bounced back within 2 seconds",

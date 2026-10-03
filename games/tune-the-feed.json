@@ -166,7 +166,7 @@
       "why": "Clickbait and a celebrity feud take the top slots. They are the most clickable, and nothing else counts, so 'glad I watched' stays low."
     },
     {
-      "text": "Get 'glad I watched' to 0.60 or more while keeping at least 70 % of the clicks.",
+      "text": "Get 'glad I watched' to 0.60 or more while keeping at least 70% of the clicks.",
       "check": {
         "glad": ">=0.6",
         "click_rel": ">=0.7"
