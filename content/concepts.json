@@ -1657,7 +1657,9 @@
         "llm-recommenders-tldr",
         "llm-recommenders-four-jobs-deep",
         "comic-llm-recommenders",
-        "ch3-rag-recs"
+        "ch3-rag-recs",
+        "ch6-conversational",
+        "comic-conversational-recs"
       ],
       "contract": {
         "objective": "Large Language Models can interpret 'I want something like early Radiohead but more electronic and less depressing' -- but can they actually recommend better than a well-tuned collaborative filter?",
@@ -1678,40 +1680,6 @@
         ],
         "recallQ": "What are the key strengths and limitations of using LLMs for recommendations?",
         "recallA": "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff.",
-        "forbidden": [
-          "invented statistics or benchmark numbers",
-          "invented citations, URLs, or paper titles",
-          "claiming a single method fully solves the problem"
-        ]
-      }
-    },
-    {
-      "id": "conversational-recs",
-      "title": "Conversational recommendation",
-      "chapter": "ch05m-modern-recommenders",
-      "anchor": "ch6-conversational",
-      "anchorPath": "ch05m-modern-recommenders/04c-spine-conversational-recs.md",
-      "provenance": "anchored",
-      "parents": [],
-      "blocks": [
-        "ch6-conversational",
-        "comic-conversational-recs"
-      ],
-      "contract": {
-        "objective": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this real -- but the challenges are substantial.",
-        "objectiveSource": "teaser-bootstrap",
-        "mustCover": [
-          {
-            "point": "LLMs understand nuanced preference expression but lack real-time behavioral data",
-            "modality": "prose"
-          },
-          {
-            "point": "The future is hybrid: LLM language understanding + RecSys behavioral prediction",
-            "modality": "prose"
-          }
-        ],
-        "recallQ": "How are LLMs changing the recommendation paradigm?",
-        "recallA": "LLMs enable natural language preference articulation and explanation, but lack access to real-time catalog data and user history — the future is hybrid architectures combining LLMs with traditional recommender systems.",
         "forbidden": [
           "invented statistics or benchmark numbers",
           "invented citations, URLs, or paper titles",

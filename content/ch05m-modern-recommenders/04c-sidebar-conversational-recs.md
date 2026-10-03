@@ -7,16 +7,12 @@ standalone: true
 core: true
 teaser: "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this real -- but the challenges are substantial."
 voice: universal
-parent: null
+parent: llm-recommenders
 diagram: null
-recallQ: "How are LLMs changing the recommendation paradigm?"
-recallA: "LLMs enable natural language preference articulation and explanation, but lack access to real-time catalog data and user history — the future is hybrid architectures combining LLMs with traditional recommender systems."
-highlights:
-  - "LLMs understand nuanced preference expression but lack real-time behavioral data"
-  - "The future is hybrid: LLM language understanding + RecSys behavioral prediction"
+recallQ: "What are the key strengths and limitations of using LLMs for recommendations?"
+recallA: "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff."
 status: accepted
-concept: conversational-recs
-conceptTitle: "Conversational recommendation"
+concept: llm-recommenders
 state: core
 lens: generic
 visuality: text-first
@@ -45,6 +41,7 @@ These systems combine **natural language understanding** (interpreting nuanced, 
 [Large Language Models](#c/llm-recommenders) (ChatGPT, Claude, Gemini, and their successors) bring several capabilities that traditional recommender systems lack:
 - **Nuanced preference articulation**: "I liked the atmosphere of that film, not necessarily the genre" -- LLMs can interpret subjective, multi-dimensional preference descriptions
 - **Interactive preference elicitation**: "Would you prefer something set in a realistic or speculative world?" -- multi-turn dialogue refines the recommendation
+- **Zero-shot reasoning about items**: from a description alone, an LLM can judge whether a title fits "under two hours, no gratuitous violence", even one nobody on the platform has rated yet
 - **Explainability by default**: LLMs can articulate WHY they recommend something, addressing a long-standing challenge in recommendation research
 - **Contextual memory**: Conversation history maintains session context without requiring explicit session modeling
 
@@ -56,7 +53,8 @@ LLMs have structural limitations as standalone recommenders:
 2. **No access to personal behavioral data**: An LLM does not know your watch history, purchase patterns, or implicit preferences unless explicitly provided -- and providing that data raises its own privacy concerns.
 3. **Hallucination risk**: LLMs can confidently recommend items that do not exist, misattribute properties, or fabricate availability. In recommendation contexts, this is not just inaccurate -- it erodes trust.
 4. **Popularity bias amplification**: LLMs tend to recommend well-known items that appeared frequently in training data, potentially exacerbating the long-tail discovery problem that already plagues traditional recommenders.
-5. **Evaluation difficulty**: How do you measure the quality of a conversational recommendation? Traditional offline metrics (precision, recall, NDCG) do not capture the nuances of a multi-turn dialogue.
+5. **Latency and cost**: every reply is a fresh model call that writes its answer word by word, which is slower and more expensive than reading scores from a trained recommender. That is acceptable in a chat, but too slow and costly to run on every feed or homepage request.
+6. **Evaluation difficulty**: How do you measure the quality of a conversational recommendation? Traditional offline metrics (precision, recall, NDCG) do not capture the nuances of a multi-turn dialogue.
 
 ## The Hybrid Architecture
 

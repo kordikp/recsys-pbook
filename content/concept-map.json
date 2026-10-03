@@ -330,14 +330,6 @@
    "rel": []
   },
   {
-   "slug": "conversational-recs",
-   "title": "Conversational recommendation",
-   "tema": "ch05m-modern-recommenders",
-   "state": "core",
-   "teaser": "What if instead of scrolling through recommendations, you could articulate exactly what you want in natural language? LLM-based recommendation is making this re",
-   "rel": []
-  },
-  {
    "slug": "ab-testing",
    "title": "A/B testing",
    "tema": "ch06-evaluation",
