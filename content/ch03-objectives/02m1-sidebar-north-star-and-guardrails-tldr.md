@@ -9,7 +9,7 @@ teaser: "One number to push up, a few that must not fall, and the launch rule th
 parent: north-star-and-guardrails
 recallQ: "What is a north-star metric, what is a guardrail metric, and why use both?"
 recallA: "The north star is the one number you try to improve, chosen because it tracks long-term value rather than because it is easy to move. Guardrails are numbers that must not get worse. A single number can be raised through harmful shortcuts, so a new version ships only if the north star improves and every guardrail holds."
-status: draft
+status: accepted
 concept: north-star-and-guardrails
 state: edited
 lens: generic

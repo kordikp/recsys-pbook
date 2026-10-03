@@ -11,11 +11,12 @@ diagram: diagram-semantic-id-spelling
 recallQ: "What is a semantic ID, and how does a generative recommender use it to pick the next item instead of searching for nearest neighbours?"
 recallA: "A semantic ID is a short code of tokens learned from an item's content, built coarse to fine, so similar items share the beginning of their code. A generative recommender reads the user's history as such codes and writes the next item's code token by token (several candidates in parallel); each code is looked up in the catalog and codes that match no item are dropped. It does not compare the user's embedding against an index of item embeddings."
 highlights:
-  - "A semantic ID is a short code learned from an item's content; similar items share the start of their code"
-  - "A generative recommender writes the next item's code token by token instead of searching an index for nearest neighbours"
-  - "New items get a code on day one; the price is more computing per request and codes that must be rebuilt"
-  - "In production so far it mostly supplies candidates to a separate ranking stage"
-status: draft
+  - "Semantic IDs: a short, coarse-to-fine sequence of tokens learned from item content (and often also from behaviour), so similar items share the start of their code. The tokens are learned numbers, not human-named categories. Contrast with arbitrary or random item IDs."
+  - "Generation instead of lookup: a sequence model reads the user's history as codes and writes the next item's code token by token. Beam search produces several codes in parallel. Each code is looked up in the catalog, codes that match no item are dropped, and the shortlist goes on to ranking and business rules."
+  - "What it buys: a new item gets a code from its content on day one, which helps with item cold start. The model also needs no separate embedding for every item."
+  - "What it costs: step-by-step decoding takes more compute per request than nearest-neighbour retrieval. Codes that include behaviour go stale, and rebuilding them means retraining."
+  - "Maturity: the evidence comes from very large platforms (YouTube, Spotify, Kuaishou), mostly as a source of candidates for an existing ranker, and most of those results are self-reported. A well-built two-tower retriever remains competitive."
+status: accepted
 concept: generative-recommendation
 conceptTitle: "Generative recommendation and semantic IDs"
 parents: embeddings|pipeline|item-cold-start
@@ -28,6 +29,8 @@ formalism: none
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "Understand how a generative recommender picks the next item by writing its semantic ID token by token, instead of searching an embedding index for nearest neighbours. A semantic ID is a short code derived from item content, in which similar items share prefixes. The reader should also know what this buys (day-one codes for new items, no per-item embedding table) and what it costs (heavier decoding, code upkeep), so a product owner can judge a generative-retrieval proposal."
+forbidden: "invented statistics or benchmark numbers | invented citations, URLs, or paper titles | claiming a single method fully solves the problem | presenting semantic-ID tokens as human-defined category labels (e.g. an order game of 'Media > Music > Jazz') | claiming generative retrieval has replaced retrieve-then-rank pipelines in general or always beats two-tower retrieval | equating generative retrieval with prompting a chatbot/LLM for recommendations | conflating HSTU-style 'generative recommenders' (ordinary item IDs) with semantic-ID generative retrieval without saying so | presenting self-reported company results (e.g. OneRec's operating-cost figure) as independently verified"
 ---
 
 Lena runs product at an outdoor-gear shop with 80,000 products, and her data team wants to try **generative retrieval**.

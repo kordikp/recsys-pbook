@@ -11,10 +11,11 @@ diagram: diagram-order-matters
 recallQ: "What does a sequential recommender use that an unordered profile ignores, and when is the extra cost worth it?"
 recallA: "The order and recency of a person's actions. It predicts the next item from the sequence, like next-word prediction, so it catches the current intent that an all-time profile averages away (models range from transition counts and recurrent networks to transformers such as SASRec, whose attention weighs which past actions matter now). It pays off with long, varied histories where intent shifts; on short sessions or repetitive habits, simple 'what usually comes next' baselines often match it at much lower cost."
 highlights:
-  - "Same items, different order, different next need: order and recency reveal current intent"
-  - "Next-item prediction works like next-word prediction: from transition counts to recurrent networks to transformers such as SASRec"
-  - "It costs fresh event streams and compute; on short or repetitive sequences simple baselines often match it"
-status: draft
+  - "Same items in a different order imply a different next need: order and recency reveal current intent, which an unordered (bag-of-items) profile averages away; the task is next-item prediction, framed like next-word prediction."
+  - "The model ladder: transition counts / Markov chains -> recurrent networks (GRU4Rec) -> transformers with self-attention (SASRec, BERT4Rec) that learn which past actions matter now; items enter as embeddings, and the output feeds retrieval (a 'right now' query) or ranking."
+  - "Why order pays off for a product: intent shifts within and across sessions (moods, series, complements); training to predict the next action from earlier ones beats predicting a randomly held-out one (Covington et al., 2016)."
+  - "Costs and limits: fresh events must reach the model quickly (streaming vs daily batch), attention cost grows with the square of history length (truncate, or retrieve the relevant part and then attend), and on short or repetitive sequences simple co-occurrence or linear baselines often match deep sequence models, so compare against tuned baselines."
+status: accepted
 concept: sequential-recommendation
 conceptTitle: "Sequential recommendation"
 parents: embeddings|pipeline
@@ -27,6 +28,8 @@ formalism: none
 lengthBand: standard
 genre: explainer
 carriers: prose|diagram
+objective: "Understand that reading a person's actions as an ordered sequence and predicting the next one (next-item prediction, framed like next-word prediction) captures current intent that an unordered profile averages away; know the model ladder from transition counts to transformers, and judge when the extra cost is worth paying."
+forbidden: "invented statistics or benchmark numbers | invented citations, URLs, or paper titles | claiming a single method fully solves the problem | claiming transformers always beat simple sequence baselines | presenting BERT4Rec as settled-superior to SASRec (contested by Petrov & Macdonald 2022 and Klenitskiy & Vasilev 2023) | unsourced platform-specific claims about how a named company weights user history"
 ---
 
 Ana and Ben each played the same five tracks in the last 24 hours: three fast running songs and two recordings of gentle rain. Ana ran in the morning and has just put the rain on at 23:00. Ben fell asleep to the rain last night and is three songs into his morning run.

@@ -11,11 +11,11 @@ diagram: diagram-llm-judge-triage
 recallQ: "Why can't an LLM judge replace an A/B test for a recommender, and how do you make it useful anyway?"
 recallA: "The judge has systematic biases (it is swayed by the order options appear in, and favors longer answers, text from its own model, and popular items), and simulated users behave unlike real ones, so their verdicts can disagree with what real users do. It becomes useful as a fast filter once you check its agreement with human labels, swap the order and hide which model wrote what, and confirm the winners in an online A/B test."
 highlights:
-  - "LLM judges grade outputs that have no clicks yet (explanations, chat answers) in hours instead of weeks"
-  - "Judges have documented biases: option order, length, their own model's writing, popular items"
-  - "Simulated users are too agreeable and too mainstream to stand in for real ones"
-  - "Check the judge against human labels, swap order and hide authorship, then let an A/B test decide"
-status: draft
+  - "Why teams use them: generated text (explanations, chat answers) has no clicks or ground truth yet, and an LLM can grade thousands of outputs in hours instead of weeks, so it suits fast iteration and regression checks"
+  - "Documented judge biases: answer position/order, verbosity (longer wins), self-preference for its own model's text, popularity pull when ranking recommendations, and sensitivity to prompt wording"
+  - "Simulated users are not real users: they are too agreeable and optimistic, name more popular and less varied items, and can leak information, so their results transfer poorly unless checked against real behavior"
+  - "Safe practice: measure judge-human agreement on a labeled sample, swap order and hide authorship, use a different model family or an ensemble, use the judge for triage and regression gates, and keep the online A/B test as the final arbiter"
+status: accepted
 concept: llm-judge-evaluation
 conceptTitle: "LLM judges and simulated users"
 parents: evaluation-metrics|ab-testing|llm-recommenders
@@ -28,6 +28,8 @@ visuality: balanced
 lengthBand: standard
 genre: worked-example
 carriers: prose|diagram
+objective: "Know when LLM judges and LLM-simulated users can speed up recommender evaluation, which systematic biases keep them from being the final word, and how to calibrate them against human labels and online tests."
+forbidden: "invented statistics or benchmark numbers | invented citations, URLs, or paper titles | claiming LLM judges or simulated users can replace online A/B tests | claiming a judge validated on one task, catalog or prompt stays reliable after any of them changes without re-checking | presenting simulated-user results as estimates of real launch effects"
 ---
 
 A streaming app's team has three prompts that write a one-line "why we picked this" under each recommended show. One ships Friday.

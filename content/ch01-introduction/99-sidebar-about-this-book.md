@@ -8,7 +8,7 @@ core: false
 teaser: "Who makes this book, how people and AI share the work, how it adapts to you, and how to cite it or join in."
 recallQ: "How does this book decide which telling to offer you first, and how can you overrule it?"
 recallA: "It learns which facets you tend to choose (depth, length, example world, form, language) from what you read, pick and steer, and Recombee uses your reading interactions to fill the shelves and the feed. Explicit picks in Profile → Format preferences beat the learned profile."
-status: draft
+status: accepted
 concept: null
 state: edited
 lens: education

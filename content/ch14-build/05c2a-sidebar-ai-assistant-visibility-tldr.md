@@ -9,7 +9,7 @@ teaser: "Why an AI assistant mentions some products and not yours, and the hones
 parent: ai-assistant-visibility
 recallQ: "What has to be true before an AI assistant can recommend your product, and how do you measure whether it does?"
 recallA: "The product must first be retrievable: present, with accurate data, in the sources the assistant searches (crawlable and indexed web pages, product feeds, independent reviews). Then its content must plainly answer the kind of request people make, because the language model chooses what to mention from what it retrieved. Answers change with phrasing, context and model, so you measure the share of mentions across many realistic prompts run repeatedly, not a rank."
-status: draft
+status: accepted
 concept: ai-assistant-visibility
 state: edited
 lens: ecommerce

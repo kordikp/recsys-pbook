@@ -10,7 +10,7 @@ parent: generative-recommendation
 diagram: diagram-residual-quantization
 recallQ: "How are semantic IDs built, and how does beam search turn a sequence model into a retriever?"
 recallA: "An item's content embedding is quantized level by level. At each level the quantizer picks the codebook vector nearest to what the earlier levels left unexplained (the residual), which gives a coarse-to-fine tuple of tokens where similar items share prefixes; items that collide get an extra token. A sequence model trained on users' time-ordered histories, flattened into these tokens, generates the next item's tokens. Beam search keeps the B most probable partial codes at each step, and the B finished codes go through a lookup table to become items. Invalid codes are filtered out and the rest go on to ranking."
-status: draft
+status: accepted
 concept: generative-recommendation
 state: edited
 lens: generic

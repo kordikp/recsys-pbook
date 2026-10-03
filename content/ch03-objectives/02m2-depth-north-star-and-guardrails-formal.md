@@ -9,7 +9,7 @@ teaser: "The launch rule as one superiority test plus a set of non-inferiority t
 parent: north-star-and-guardrails
 recallQ: "Why do guardrails need no multiple-testing correction of the false-positive rate, yet still make experiments bigger?"
 recallA: "A change ships only if every test passes at once (north star superior, every guardrail non-inferior within its margin), so there are no multiple chances to ship by luck and the significance level needs no adjustment for guardrails. But the probability that all tests pass together falls with each added guardrail, so each test must be powered more strictly, which takes more users or a longer test."
-status: draft
+status: accepted
 concept: north-star-and-guardrails
 state: edited
 lens: generic

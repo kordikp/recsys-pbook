@@ -9,7 +9,7 @@ teaser: "Two roles, four changes, and one rule about clicks."
 parent: agentic-recommendation
 recallQ: "What two roles can an AI agent play around a recommender, and what changes when the agent reads the list?"
 recallA: "Caller (your own assistant uses the recommender as a tool) or customer (someone else's assistant shops for a person). The agent reads structured facts, its clicks are not the person's taste, it needs checkable reasons, hidden text can steer it, and payments need the person's confirmation."
-status: draft
+status: accepted
 concept: agentic-recommendation
 state: edited
 lens: ecommerce

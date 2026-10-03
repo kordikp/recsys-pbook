@@ -8,7 +8,7 @@ standalone: true
 teaser: "Eight incidents. Some trip the alarms; others return HTTP 200 while the recommendations quietly go wrong."
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: monitoring
 state: edited
 lang: en

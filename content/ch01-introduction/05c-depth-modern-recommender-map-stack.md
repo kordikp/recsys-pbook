@@ -9,7 +9,7 @@ teaser: "The one-page map with the practitioner details put back: candidate sour
 parent: modern-recommender-map
 recallQ: "In a current recommender stack, what do LLMs and generative recommenders change, and which jobs stay no matter which model you use?"
 recallA: "LLMs plug in at five sockets, mostly beside the cascade: feature engineering, feature encoding, scoring or reranking a short list, the conversational interface, and pipeline control. Generative recommenders such as TIGER, HSTU and OneRec merge retrieval and ranking into one model. The jobs stay: find candidates, order them, enforce rules and policy on the final list, present it, and log what was shown so the next model can learn from it."
-status: draft
+status: accepted
 concept: modern-recommender-map
 lens: generic
 lang: en

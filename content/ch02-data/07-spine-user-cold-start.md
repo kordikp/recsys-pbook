@@ -11,11 +11,12 @@ diagram: diagram-user-cold-start-handoff
 recallQ: "A brand-new visitor has no history. What can a recommender use instead, and how does it move from generic to personal?"
 recallA: "The context of the visit (where they came from, device, time, what they click in this session), what is popular among similar visits, and optionally a few skippable onboarding questions. It treats the first clicks as exploration and shifts weight from these defaults to the person's own history as interactions accumulate."
 highlights:
-  - "User cold start mirrors item cold start: the person is unknown, but the catalog is well known"
-  - "Before any history: the context of the visit plus what is popular in the right segment"
-  - "Onboarding questions buy signal at the price of friction, so ask few and make them skippable"
-  - "Early clicks count the most: show some variety, then shift weight to the person's own history"
-status: draft
+  - "User cold start mirrors item cold start: the person is unknown but the catalog is well known, so a single click can already plug the newcomer into item-to-item recommendations"
+  - "Before any history: the context of the visit (where they came from, device, time, clicks in this session) plus popularity within a fitting segment, not the global bestsellers"
+  - "Onboarding questions buy signal at the price of friction: ask few, make them skippable, visibly use the answer, and ask what people can answer and what splits them apart"
+  - "Early interactions are the most informative: show some variety at first (explore) and shift weight from the defaults to the person's own history as interactions accumulate"
+  - "A privacy-friendly start is possible: in-visit context and what the person chooses to tell are enough to begin, with no cross-site tracking or inferred demographics"
+status: accepted
 concept: user-cold-start
 conceptTitle: "User cold start"
 parents: digital-footprints|feedback-signals|item-cold-start
@@ -28,6 +29,8 @@ formalism: none
 lengthBand: standard
 genre: explainer
 carriers: prose|table|diagram
+objective: "A first-time visitor has no history. What can a recommender show in the first minute, and how does it get personal quickly without asking too much or tracking too much?"
+forbidden: "invented statistics or benchmark numbers | invented citations, URLs, or paper titles | claiming a single method fully solves the problem | conflating user cold start (new person) with item cold start (new item) | presenting inferred demographics as a reliable or neutral default | numeric claims about onboarding drop-off, anonymous-traffic share or conversion lift without a cited source"
 ---
 
 A new visitor is the mirror image of a new item, and the fix is different too.

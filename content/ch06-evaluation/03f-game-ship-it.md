@@ -8,7 +8,7 @@ standalone: true
 teaser: "Run five A/B tests day by day and decide when to stop. The p-value moves; the plan does not."
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: ab-testing
 state: edited
 lang: en

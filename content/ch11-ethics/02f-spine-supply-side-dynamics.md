@@ -11,11 +11,12 @@ diagram: diagram-supply-loop
 recallQ: "How can a recommender's objective change the catalog itself over time?"
 recallA: "Creators and sellers learn what the ranking rewards and make more of it. An engagement-only objective breeds look-alike or bait content, starves newcomers of an audience and invites mass-produced AI uploads. Objectives and guardrails that include newcomer exposure, diversity and satisfaction, tracked with supply-health metrics such as creator retention and concentration, keep the supply varied and healthy."
 highlights:
-  - "Creators and sellers adapt to whatever the ranking rewards, so the objective shapes the future catalog"
-  - "Engagement-only ranking homogenizes content and makes mass-produced AI uploads a cheap lottery ticket"
-  - "Track supply health next to user metrics: newcomer exposure, creator retention, concentration"
-  - "Levers: exposure budgets for newcomers, diversity re-ranking, rewarding satisfaction and originality, filtering or labelling mass uploads"
-status: draft
+  - "The loop: ranking rewards -> creators/sellers copy winning formats -> catalog homogenizes -> recommender learns from the narrower catalog"
+  - "Mass-produced AI-generated uploads: why engagement-only ranking invites them; responses via labelling, filtering and removing from recommendations (verified platform examples only)"
+  - "Newcomer viability: new creators have no history, and without early exposure they leave"
+  - "Supply-health metrics next to user metrics: newcomer exposure, creator retention, concentration"
+  - "Levers: exposure budgets for newcomers, diversity re-ranking, rewarding satisfaction and originality over raw engagement, filtering/down-ranking mass uploads"
+status: accepted
 concept: supply-side-dynamics
 conceptTitle: "Recommenders shape supply"
 parents: objectives|fairness|long-tail|item-cold-start
@@ -28,6 +29,8 @@ visuality: balanced
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "Understand recommenders as market makers: creators and sellers adapt to what the ranking rewards, so the choice of objective changes the future catalog, now including floods of mass-produced AI-generated uploads, and platform teams can steer it."
+forbidden: "Claiming that AI-generated content is inherently bad or that platforms ban AI music as a category (Spotify explicitly targets spam and impersonation, not AI use as such) | Invented platform policies, statistics or upload figures | Presenting the illustrative 'Loop' app numbers or effects as real data | Claiming a specific platform's ranking formula"
 ---
 
 A music app (call it Loop) ranks its "New for you" shelf by one number: how many listeners **don't skip** a track in its first 30 seconds. Sensible, since a skip means "not for me". Six months later the team notices that new songs have stopped having intros. Vocals start at second one, the chorus arrives by second ten, and many new releases sound alike.

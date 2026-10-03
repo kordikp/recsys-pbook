@@ -8,7 +8,7 @@ standalone: true
 teaser: "Homepage, cart, search, email: match each placement to the strategy it needs."
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: scenarios
 state: edited
 lang: en

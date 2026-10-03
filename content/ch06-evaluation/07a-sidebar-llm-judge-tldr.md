@@ -9,7 +9,7 @@ teaser: "Fast, cheap, biased: what an AI grader can and cannot tell you about yo
 parent: llm-judge-evaluation
 recallQ: "Why can't an LLM judge replace an A/B test, and how do you use one safely?"
 recallA: "Judges are swayed by the order options appear in and favor longer answers, their own model's text and popular items, and simulated users act unlike real ones. So check the judge against human labels, swap the order and hide who wrote what, use it as a fast filter, and let a live A/B test decide."
-status: draft
+status: accepted
 concept: llm-judge-evaluation
 state: edited
 lens: generic

@@ -8,7 +8,7 @@ standalone: true
 teaser: "Set how much clicks and satisfaction count, and watch the top five videos change."
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: objectives
 state: edited
 lang: en

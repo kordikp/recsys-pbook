@@ -263,12 +263,14 @@ const conceptsOut = concepts.map(c => {
     parents: String(a.parents || '').split('|').map(s => s.trim()).filter(Boolean),
     blocks: c.blocks.map(b => b.id),
     contract: {
-      objective: a.teaser || c.title,
-      objectiveSource: a.teaser ? 'teaser-bootstrap' : 'title-bootstrap',
+      // `objective:` on the anchor is the human-reviewed learning objective; the teaser is only a fallback
+      objective: a.objective || a.teaser || c.title,
+      objectiveSource: a.objective ? 'anchor' : a.teaser ? 'teaser-bootstrap' : 'title-bootstrap',
       mustCover,
       recallQ: a.recallQ || null,
       recallA: a.recallA || null,
-      forbidden: FORBIDDEN_DEFAULT,
+      // concept-specific forbidden claims: flat `forbidden: claim | claim` on the anchor, on top of the defaults
+      forbidden: [...FORBIDDEN_DEFAULT, ...String(a.forbidden || '').split(' | ').map(x => x.trim()).filter(Boolean)],
     },
   };
 });

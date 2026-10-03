@@ -9,7 +9,7 @@ teaser: "Search versus spelling: the idea, its perk and its price, in one minute
 parent: generative-recommendation
 recallQ: "What is a semantic ID, and what does a generative recommender do with it?"
 recallA: "A short code learned from an item's content, where similar items share the start of the code. The recommender writes the next item's code piece by piece, several codes in parallel, and looks each one up in the catalog instead of searching for the nearest items."
-status: draft
+status: accepted
 concept: generative-recommendation
 state: edited
 lens: generic

@@ -8,7 +8,7 @@ standalone: true
 teaser: "Thirty days of a feed that ranks creators by total clicks. Can the best newcomer ever break in?"
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: fairness
 state: edited
 lang: en

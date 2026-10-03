@@ -9,7 +9,7 @@ teaser: "Whatever the ranking rewards, creators make more of. Choose the reward 
 parent: supply-side-dynamics
 recallQ: "How can a recommender's objective change the catalog itself over time?"
 recallA: "Creators and sellers learn what the ranking rewards and make more of it. An engagement-only objective breeds look-alike or bait content, starves newcomers and invites mass-produced AI uploads; adding newcomer exposure, diversity and satisfaction keeps the supply varied and healthy."
-status: draft
+status: accepted
 concept: supply-side-dynamics
 state: edited
 lens: media

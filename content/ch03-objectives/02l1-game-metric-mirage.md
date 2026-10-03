@@ -8,7 +8,7 @@ standalone: true
 teaser: "Nine dashboard numbers. Which ones track whether people are better off, and which only track behaviour?"
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: satisfaction-vs-engagement
 state: edited
 lang: en

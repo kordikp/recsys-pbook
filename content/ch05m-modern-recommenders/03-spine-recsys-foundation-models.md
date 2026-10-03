@@ -11,11 +11,13 @@ diagram: diagram-recsys-foundation-model
 recallQ: "What is a recommendation foundation model, and when is it worth building one?"
 recallA: "One large model pretrained on a platform's whole stream of user interactions (typically by predicting each person's next action) whose learning is reused by many surfaces: as shared embeddings, as a part plugged into a surface's own model, or as a fine-tuned copy. It pays off with very large behavior data and many surfaces to share the cost; with modest data or few surfaces, well-tuned simpler models are often as good and far cheaper."
 highlights:
-  - "One large model pretrained on all interactions (predict the next action) replaces the core of many per-widget models"
-  - "Surfaces reuse it as embeddings, as a plug-in part of their own model, or as a fine-tuned copy"
-  - "It buys shared learning and a head start for new titles and new surfaces; it costs compute, latency work and coupling"
-  - "The evidence comes from platforms with hundreds of millions of users or more; with modest data, tuned simple models often win on value"
-status: draft
+  - "The shift: instead of a separate model per surface (home rows, search, similar items, notifications), one large model learns from the whole interaction stream and distributes what it learned to every surface"
+  - "Pretraining on behavior, typically by predicting each person's next action (actions as 'tokens', like next-word prediction); trained on behavior, not internet text, so it is not a chatbot"
+  - "Three ways surfaces consume it: precomputed embeddings (cheap, stale between refreshes), the model plugged into a surface's own model and trained further (fresh, heavier), a fine-tuned copy (tailored, another model to run)"
+  - "What it buys: improvements transfer across surfaces; new surfaces start from a fine-tuned baseline; new items get a start by blending metadata with learned IDs; longer histories than per-surface models can afford"
+  - "What it costs: training compute and retraining cadence, the millisecond serving budget (precomputed embeddings, distillation), and coupling of every surface to one shared artifact"
+  - "When it pays: published evidence comes from platforms with hundreds of millions to billions of users; quality can keep rising with compute there, but at low compute hand-engineered models can win and tuned simple baselines are often competitive, so smaller products should start simple or borrow pretrained representations"
+status: accepted
 concept: recsys-foundation-models
 conceptTitle: "Foundation models for recommendation"
 parents: embeddings|pipeline
@@ -28,6 +30,8 @@ formalism: none
 lengthBand: standard
 genre: explainer
 carriers: prose|diagram
+objective: "Understand the shift from one specialized model per recommendation surface to one large model pretrained on a platform's whole interaction stream and reused across surfaces, what that buys and costs, and when it is worth building."
+forbidden: "Presenting a recommendation foundation model as an LLM or chatbot trained on internet text | Presenting it as the default every product should build, or claiming scaling curves guarantee gains at any data size | Claiming it replaces the whole pipeline (re-ranking, business rules, safety policy) | Company deployment figures, gains or model sizes not traceable to the cited sources"
 ---
 
 Count the places in your product that recommend something, then count the models behind them: if the numbers match, this idea is about you.

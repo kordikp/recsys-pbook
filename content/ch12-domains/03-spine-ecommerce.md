@@ -5,7 +5,7 @@ title: "E-Commerce: Where Recommendations Drive Revenue"
 readingTime: 6
 standalone: true
 core: true
-teaser: "Amazon attributes 35% of revenue to recommendations. E-commerce is where RecSys has the most directly measurable business impact."
+teaser: "A much-quoted 2013 McKinsey estimate puts 35% of Amazon purchases downstream of recommendations. E-commerce is where RecSys has the most directly measurable business impact."
 voice: universal
 parent: null
 diagram: null

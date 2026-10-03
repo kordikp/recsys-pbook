@@ -12,7 +12,7 @@ diagram: null
 recallQ: "Why do recommendation algorithms tend to ignore long-tail items?"
 recallA: "More interactions mean better predictions, which generate more recommendations, which produce more interactions -- a self-reinforcing cycle known as the Matthew effect. Items with few interactions never accumulate enough signal to be confidently recommended."
 highlights:
-  - "On Spotify, roughly 80% of tracks have never been streamed even once"
+  - "Across streaming services in 2023, about a quarter of 184 million tracks were never played and 86% got 1,000 plays or fewer (Luminate)"
   - "The Matthew effect: popularity is self-reinforcing via the feedback loop"
   - "Users who discover niche content become more loyal and less likely to churn"
 publishedAt: "2026-04-03"

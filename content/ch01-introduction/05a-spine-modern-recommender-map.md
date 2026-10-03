@@ -11,10 +11,14 @@ diagram: diagram-modern-recommender-map
 recallQ: "Which stations does a modern recommender pass a request through, what closes the loop, and where do LLMs plug in?"
 recallA: "Data (catalog, users, interactions) feeds four stations: candidate retrieval (fast and broad), ranking (a heavier model scores each candidate on predicted outcomes), re-ranking with business rules, variety and policy, and presentation in a placement such as a homepage row, search or chat. What users do with what they were shown is logged and becomes the next training data: the feedback loop. LLMs mostly plug in beside the stations: as the conversational front door, as offline enrichers of item data, as rerankers of a short list, and as writers of answers and explanations."
 highlights:
-  - "Four stations: retrieve a broad shortlist, rank it carefully, re-rank with rules and variety, present it in a placement"
-  - "What users do with what they were shown becomes tomorrow's training data: the loop that teaches the system and can mislead it"
-  - "LLMs mostly plug in beside the stations: front door, item enrichment, short-list reranking, written answers"
-status: draft
+  - "The fuel: the catalog (items and attributes), the users, and the interactions between them (views, add-to-carts, purchases, returns)"
+  - "Station 1, candidate retrieval: several fast sources (co-purchase/collaborative, similar-to-viewed, bestsellers, new arrivals) each nominate a broad shortlist from the whole catalog. The aim is not to miss good items; precision comes later."
+  - "Station 2, ranking: a heavier model scores each candidate on predicted outcomes (click, purchase, return) and blends them into one score that reflects what the business values"
+  - "Station 3, re-ranking and rules: a list-level step removes sold-out or policy-violating items, adds variety and honours agreed promotions"
+  - "Station 4, presentation: the same engine fills many placements (homepage row, similar items, search, email, chat), each a scenario with its own goal. The label shown with the list is part of the product."
+  - "Feedback loop: what users do with what they were shown is logged and becomes the next training data. The system learns only about what it chose to show, so it needs exploration and A/B tests."
+  - "LLMs mostly plug in beside the stations: as a conversational front door whose answers are built from the catalog via retrieval, as offline enrichers of item data, as rerankers of a short list, and as writers of answers and explanations. (Optional beyond standard depth: generative recommenders merge retrieval and ranking at a few large platforms, but the jobs remain.)"
+status: accepted
 concept: modern-recommender-map
 conceptTitle: "A modern recommender on one page"
 parents: patterns-not-magic|three-jobs
@@ -27,6 +31,8 @@ lengthBand: deep
 genre: explainer
 state: edited
 carriers: prose|diagram
+objective: "Give a reader without a CS background one mental map of a modern recommender. Data feeds four stations: candidate retrieval, then ranking, then re-ranking with rules, then presentation. A feedback loop turns what users do with what they were shown into the next training data. LLMs and AI assistants plug in at several points. Every later chapter should have a place on this map."
+forbidden: "invented statistics or benchmark numbers (e.g. a universal pipeline latency in milliseconds, or revenue shares attributed to recommendations) | invented citations, URLs, or paper titles | claiming LLMs have replaced the behavioural recommender, or that an AI assistant picks products without retrieving them from a real catalog | claiming a single method or model fully solves recommendation | presenting a vendor's or paper's self-reported uplift as a general expectation"
 ---
 
 Petra opens an outdoor-gear shop app, and a row called **Picked for you** appears before she starts scrolling. Behind it run four stations, fed by data and closed by a loop; the links lead to the chapters that zoom in.

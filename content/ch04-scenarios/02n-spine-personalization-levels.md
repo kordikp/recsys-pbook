@@ -11,11 +11,11 @@ diagram: diagram-personalization-ladder
 recallQ: "How do you decide how personalized a recommendation surface should be?"
 recallA: "Treat personalization as a ladder of five levels: generic (same for everyone), segment (same for a group), contextual (depends on the current situation, such as the item on screen), individual (depends on the person's own history) and steerable (the person can adjust it). For each surface, climb only as far as the data available at that moment and the surface's purpose allow, and keep a higher level only if it beats the level below in a test."
 highlights:
-  - "Five levels: generic, segment, contextual, individual, steerable"
-  - "Each level needs more data or engineering than the one below and gives something the one below cannot"
-  - "Choose the level per surface, not once for the whole product"
-  - "A level stays only if it beats the one below in an A/B test; popularity is the first yardstick"
-status: draft
+  - "The five levels and what each looks like: generic (same for everyone), segment (same per group), contextual (depends on the current situation, works for anonymous users), individual (depends on personal history), steerable (user can adjust it)"
+  - "What each level needs (aggregate counts / one grouping attribute / situational signals / identity plus history per person / UI controls the system obeys) and what it gives"
+  - "The choice is made per surface, not once for the whole product; some surfaces (emergency banners, legal notices, shared moments) should stay generic on purpose"
+  - "Each step up must beat the level below in an A/B test; popularity is the first baseline, and complex models are not automatically better"
+status: accepted
 concept: personalization-levels
 conceptTitle: "Levels of personalization"
 parents: scenarios|context-awareness|user-cold-start
@@ -28,6 +28,8 @@ visuality: balanced
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "Personalization is a ladder, not a switch: generic, segment, contextual, individual and steerable levels each need more data or engineering and give something the level below cannot; the right level is chosen per surface, based on what is known about the user at that moment, whether the surface should differ between people at all, and whether the higher level beats the lower one in a test."
+forbidden: "Claiming more personalization is always better | Claiming a fixed interaction threshold (e.g. '10+ interactions') as an established rule | Treating the level as a single product-wide decision | Inventing adoption statistics for steering controls or lift numbers per level"
 ---
 
 Mira is the product owner of a city news app, and her boss wants "personalization everywhere" by spring. The app recommends stories in five places, and Mira suspects they don't all need the same thing.

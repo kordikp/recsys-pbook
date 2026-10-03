@@ -9,7 +9,7 @@ teaser: "What your recommender should return to an agent, what it should stop le
 parent: agentic-recommendation
 recallQ: "What should a recommender expose and log when an AI agent, not a person, is its caller or its customer?"
 recallA: "Expose a short list of structured, verifiable item facts (attributes, price, availability, delivery) with attribute-based reasons and a machine-readable sponsored flag through a schema-typed tool. Log agent traffic separately and learn from the person's outcomes (confirmations, keeps, returns) instead of agent clicks. Treat catalog text as untrusted input and require human confirmation before payment. Evidence on how agents choose comes from sandboxes so far: position biases that change between model versions, and penalties for sponsored tags."
-status: draft
+status: accepted
 concept: agentic-recommendation
 state: edited
 lens: ecommerce

@@ -9,7 +9,7 @@ teaser: "Three questions tell you whether the Digital Services Act regulates you
 parent: recommender-regulation
 recallQ: "How does a product team find out which EU rules apply to its recommender, and what does the Digital Services Act require at each level?"
 recallA: "Ask three questions in order. Is the service an online platform, where users publish content to the public through it? If not, or if it is a micro or small enterprise, the DSA's recommender duties do not apply. Other platforms must explain the main parameters of their recommenders in plain language in their terms and conditions, including any options users have to change them (Art. 27). Only very large platforms (at least 45 million monthly EU users, designated by the Commission) must also offer at least one option not based on profiling (Art. 38). GDPR and consumer law apply to every personalized recommender regardless."
-status: draft
+status: accepted
 concept: recommender-regulation
 state: edited
 lens: ecommerce

@@ -11,11 +11,11 @@ diagram: diagram-incrementality-holdout
 recallQ: "Why is 'X% of revenue comes through recommendations' not proof that the recommender works, and what is?"
 recallA: "That number is attributed revenue: it counts every sale that passed through a recommendation, including sales that would have happened anyway or only moved from another shelf. Proof is incremental lift: compare shoppers who get recommendations with a randomly held-out control group that doesn't, and report the difference in revenue or retention per user, with its uncertainty (a confidence interval)."
 highlights:
-  - "Attributed revenue counts sales that passed through a recommendation, not sales it caused"
-  - "Incrementality is the gap between a recommended group and a random holdout that gets no recommendations"
-  - "Report lift per user in money or retention, with a confidence interval, not clicks"
-  - "Keep a small holdout running for months to catch slow effects in both directions"
-status: draft
+  - "Attributed revenue (sales that passed through a recommendation click, the 'X% of revenue' figure) overstates impact: many of those purchases would have happened anyway (habitual reorders, items found by search) or only moved from another shelf (cannibalization). Attribution can also miss indirect effects."
+  - "Incrementality is the difference in outcomes between users who get recommendations and a randomly assigned holdout group that gets none (or a non-personalized baseline). Randomization is what makes the gap causal."
+  - "Report lift per user in business units (revenue, orders, retention) with a confidence interval, not CTR or attributed share. A range that includes zero means the effect is not shown yet."
+  - "Keep a small, long-running holdout to catch slow effects in both directions (later purchases via search, churn), and accept its cost in forgone lift."
+status: accepted
 concept: incrementality
 conceptTitle: "Incrementality"
 parents: ab-testing|objectives
@@ -28,6 +28,8 @@ visuality: balanced
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "Revenue that flows through recommendations is not revenue the recommender created. Its real value is the incremental lift over a randomly held-out control group, reported per user in business units with its uncertainty."
+forbidden: "invented statistics or benchmark numbers (illustrative numbers must be labelled as illustrative) | invented citations, URLs, or paper titles | presenting an attributed share (e.g. 'X% of a retailer's sales come from recommendations') as proof of causal impact | claiming that a high CTR or click share proves the recommender caused the sales | claiming a single method fully solves the problem"
 ---
 
 A grocery store hires Pete to stand by the milk fridge and say "Milk?" to everyone who walks past. His monthly report: **4,000 bottles sold** after his recommendation. Employee of the month, by his own count. The manager is unmoved: most of them were heading for the milk anyway.

@@ -11,11 +11,11 @@ diagram: diagram-harm-aware-ranking
 recallQ: "What does 'reduce' mean in content safety for recommenders, and why isn't removal enough?"
 recallA: "'Reduce' means borderline content stays on the platform but is not amplified: it is ranked lower or kept out of recommendations, while followers or search can still reach it. Removal only handles clear rule violations; the recommender's own choices about what to push, to whom and in what sequence can still cause harm, and engagement tends to rise as content nears the policy line. So safety signals must enter ranking, and success is measured by prevalence: the share of views that land on harmful content."
 highlights:
-  - "Remove what breaks the rules, reduce the reach of borderline content, inform with labels and context"
-  - "Harm can come from the sequence and the audience, not only from a single item"
-  - "Integrity signals act inside ranking as eligibility filters, score penalties and sequence limits"
-  - "Measure prevalence (the share of views that were harmful) and the legitimate content you demoted by mistake"
-status: draft
+  - "Remove / reduce / inform: violating content removed, borderline content kept but not amplified, labels and context added"
+  - "Why amplification needs its own safety layer: harm from sequences and audience (minors), and engagement rising as content nears the policy line"
+  - "Integrity signals inside ranking: eligibility filters, score penalties in the multi-task ranker, sequence limits"
+  - "Measuring prevalence (share of views that were harmful, by sampling and human labelling) and the cost: wrongly demoted legitimate content, transparency to creators, appeal"
+status: accepted
 concept: harm-aware-ranking
 conceptTitle: "Safety in ranking"
 parents: pipeline|filter-bubbles|who-decides|satisfaction-vs-engagement
@@ -28,6 +28,8 @@ visuality: balanced
 lengthBand: standard
 genre: explainer
 carriers: prose|diagram
+objective: "Understand how platforms keep recommenders from amplifying harmful or borderline content beyond removing rule-breaking items, how safety signals enter ranking, and how to measure whether it works and what it costs."
+forbidden: "Graphic description of self-harm, eating-disorder or violent content | Presenting demotion as cost-free or classifiers as error-free | Claiming specific platforms' internal filter rules beyond what they published (e.g. inventing exact thresholds) | Conflating with spam/fake-signal manipulation (separate data-side proposal spam-and-manipulation)"
 ---
 
 A 15-year-old opens a short-video app to find workout ideas. Ten swipes later, the clips have drifted from home workouts to "what I eat in a day" to skipping meals. Moderators had reviewed every one of those videos, and none broke a rule. The problem is the **sequence**, and the recommender built it.

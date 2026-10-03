@@ -9,7 +9,7 @@ teaser: "Why the order of what you did matters, and when it is worth paying for.
 parent: sequential-recommendation
 recallQ: "What does a sequential recommender use that an unordered profile ignores, and when is the extra cost worth it?"
 recallA: "The order and recency of actions: it predicts the next item from the sequence, like autocomplete predicts the next word, which reveals current intent. It is worth it for long, varied histories; on short visits or repetitive habits, simple 'what usually comes next' counts often do as well for less."
-status: draft
+status: accepted
 concept: sequential-recommendation
 state: edited
 lens: generic

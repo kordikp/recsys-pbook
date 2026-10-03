@@ -9,7 +9,7 @@ teaser: "Three months, three steps, and why the model comes last."
 parent: launch-playbook
 recallQ: "What three things should be in place before the first personalized model goes live?"
 recallA: "One chosen surface with a non-personalized baseline (such as bestsellers) that the model has to beat; event tracking that logs impressions with their position as well as clicks and purchases, under stable user and item IDs; and an A/B test with a random holdout and a primary metric plus guardrail metrics agreed before the start."
-status: draft
+status: accepted
 concept: launch-playbook
 state: edited
 lens: ecommerce

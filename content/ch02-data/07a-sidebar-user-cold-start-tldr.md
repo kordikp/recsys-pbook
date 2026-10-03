@@ -9,7 +9,7 @@ teaser: "A total stranger arrives. Here is what the recommender does first, and 
 parent: user-cold-start
 recallQ: "A brand-new visitor has no history. What can a recommender use instead, and how does it get personal?"
 recallA: "The visit's context (where they came from, device, time, clicks right now), what is popular among similar visits, and maybe a short skippable question; then it learns from the first clicks and shifts weight to the person's own history."
-status: draft
+status: accepted
 concept: user-cold-start
 state: edited
 lens: generic

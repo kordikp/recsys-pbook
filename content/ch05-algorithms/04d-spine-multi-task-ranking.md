@@ -11,11 +11,12 @@ diagram: diagram-multi-task-value-model
 recallQ: "Why does a modern ranking model predict several behaviours for each item instead of one score, and how do those predictions become a single ranking?"
 recallA: "Because no single behaviour captures value: optimizing clicks alone rewards clickbait, and a purchase that gets returned or an item the user hides is a loss. One shared model predicts several behaviours per item (click, purchase, return, hide), and a value model multiplies each prediction by a weight, negative for unwanted behaviours, and adds them up into one score. The weights encode the product's goals and are tuned with experiments."
 highlights:
-  - "One ranking model predicts several behaviours per item: click, purchase, return, hide"
-  - "A value model combines the predictions into one score: each chance times a weight, negative weights for unwanted behaviours"
-  - "The weights are product decisions, tuned with A/B tests and changeable without retraining"
-  - "The predictions must be calibrated, or the head that overstates its chances takes over the ranking"
-status: draft
+  - "The ranker predicts several behaviours per item with one shared model and one output (head) per behaviour, including negative behaviours such as returns and hides"
+  - "A value model combines the predictions into one sortable score: each predicted chance times a weight, with negative weights for unwanted behaviours"
+  - "Optimizing a single behaviour (clicks) rewards clickbait, which is why several are predicted"
+  - "The weights encode product goals (this is where objectives become code), are tuned with A/B tests, and can change without retraining"
+  - "Predictions must be calibrated for the weighted combination to be meaningful"
+status: accepted
 concept: multi-task-ranking
 conceptTitle: "Multi-task ranking and the value model"
 parents: pipeline|objectives|feedback-signals
@@ -28,6 +29,8 @@ visuality: balanced
 lengthBand: standard
 genre: explainer
 carriers: prose|table|diagram
+objective: "Understand that a modern ranking model predicts several user behaviours per candidate (click, purchase, return, hide) and that a value model combines them into one score whose weights are product decisions."
+forbidden: "Claiming the weights are learned automatically or are objective facts about users | Presenting the illustrative Wardrobe numbers as real data | Claiming any specific platform's current weights (X's published weights are a 2023 snapshot) | Implying a single-objective click model is how modern production rankers work"
 ---
 
 Wardrobe, an online fashion shop, has 300 candidate items for Anna's home page, and its **ranker** (the model that orders candidates; see [the pipeline](#c/pipeline)) has to sort them. The first version predicted one thing: will she click? The top of the page filled with neon dresses: things people click, sometimes buy, and often send back.

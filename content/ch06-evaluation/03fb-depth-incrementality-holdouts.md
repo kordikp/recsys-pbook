@@ -9,7 +9,7 @@ teaser: "A holdout sounds simple until you choose what the control sees, size it
 parent: incrementality
 recallQ: "Why does a randomized holdout measure a recommender's incremental lift when attributed revenue cannot, and what limits how precisely it measures it?"
 recallA: "Attributed revenue counts every sale that passed through a recommendation, including sales that would have happened anyway or moved from another surface. Random assignment makes the holdout comparable to the treated users, so the site-wide difference in revenue or retention per user (intent-to-treat) is the caused lift. Precision is limited by the small holdout arm and heavy-tailed outcomes; outlier capping, CUPED, triggered analysis with counterfactual logging and longer, sticky holdouts tighten the confidence interval."
-status: draft
+status: accepted
 concept: incrementality
 state: edited
 lens: generic

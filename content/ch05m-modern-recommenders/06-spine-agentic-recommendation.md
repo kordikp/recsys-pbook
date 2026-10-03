@@ -11,11 +11,13 @@ diagram: diagram-agent-two-sides
 recallQ: "What two roles can an AI agent play around a recommender, and what changes when an agent, not a person, reads the list?"
 recallA: "Caller: your own assistant uses the recommender as a tool inside a task. Customer: someone else's assistant browses and buys for a person. Either way a machine reads the list: it needs structured, checkable item data and factual reasons, its clicks no longer measure the person's taste (outcomes do), hidden instructions in item text can mislead it, and paying or booking needs the person's confirmation."
 highlights:
-  - "Two roles: the agent calls your recommender as a tool, or shops at your store on a person's behalf"
-  - "Agents read structured facts, not photos -- and an agent's click is not the person's vote"
-  - "Guard item text against hidden instructions; a person confirms before money moves"
-  - "Tool standards exist today; agents buying at scale is still being worked out"
-status: draft
+  - "Two roles. As caller, an LLM assistant invokes the recommender's retrieve and rank steps as tools inside a multi-step task, and a model reads the output instead of a grid being shown to a person. As customer, an outside assistant browses, compares and may buy for a person, so the recommender ranks for a machine visitor that represents someone else."
+  - "Signals: an agent's impressions and clicks describe the agent, not the person. Feedback shifts to the person's outcomes (confirmation, keep or return), and agent traffic should be identified and logged separately."
+  - "Ranking and data: agents filter on structured, checkable item facts (attributes, price, stock, delivery) rather than visuals. Agent choice has its own biases, such as list position and badges, and these vary between models, so there is no universal top slot."
+  - "Explanations: reasons must be checkable facts the agent can pass on, and sponsored items need a machine-readable label."
+  - "Trust: catalog text can carry hidden instructions (indirect prompt injection), and consequential actions such as paying or booking need the person's explicit confirmation."
+  - "Established vs. emerging: open standards for connecting tools exist (e.g. MCP, 2024), and commerce protocols were published in 2025–26. Agents completing purchases at scale, how agents rank, and the rules for agents visiting shops are still unsettled."
+status: accepted
 concept: agentic-recommendation
 conceptTitle: "Agentic recommendation"
 parents: pipeline|embeddings|llm-recommenders|feedback-signals
@@ -28,6 +30,8 @@ formalism: none
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "Understand what changes when an AI agent, rather than a person looking at a screen, asks for, reads and acts on recommendations. This covers two roles: the recommender as a tool that your own assistant calls (agent as caller), and an outside assistant that browses and buys on a person's behalf (agent as customer). It also covers which parts are established today and which are still emerging."
+forbidden: "Adoption, market-size or conversion statistics for agentic shopping without an opened, citable source | Presenting sandbox or simulation findings (e.g. ACES, Magentic Marketplace) as measured behaviour of production assistants | Naming any protocol (MCP, ACP, AP2, UCP) as the winning or universal standard | Claiming agents make the recommender unnecessary, or that an LLM alone replaces retrieval and ranking | Describing checkout inside an assistant as settled or universally live | Advice to influence agents through hidden or instruction-like text in item data | Hype framing (revolution, game-changer, the end of shopping as we know it) | Invented citations, URLs, paper titles or company facts"
 ---
 
 Mira types one sentence into her AI assistant: *"Find a quiet dishwasher under €600 that fits a 45 cm gap and arrives before Friday."* Seconds later she gets three options and a "Buy?" button. She never saw a product grid. Somewhere, a recommender ranked dishwashers for a reader with no eyes.

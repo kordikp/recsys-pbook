@@ -11,11 +11,11 @@ diagram: diagram-launch-90-days
 recallQ: "What three things should be in place before the first personalized model goes live?"
 recallA: "One chosen surface with a non-personalized baseline (such as bestsellers) that the model has to beat; event tracking that logs impressions with their position as well as clicks and purchases, under stable user and item IDs; and an A/B test with a random holdout and a primary metric plus guardrail metrics agreed before the start."
 highlights:
-  - "Start with one high-traffic surface and a popularity baseline the model must beat"
-  - "Log impressions with their position, not just clicks and purchases, before training anything"
-  - "Launch as an A/B test with a long-running holdout and guardrails written down in advance"
-  - "Run a weekly ship-or-kill review and a monthly one-page update with lift in money"
-status: draft
+  - "Start with one high-traffic surface and a non-personalized (popularity) baseline the model must beat"
+  - "Instrument first: a tracking plan that logs impressions with position, clicks and purchases under stable user and item IDs, before any model is trained"
+  - "Launch as an A/B test with a long-running random holdout, and agree on a primary metric and guardrails before the start"
+  - "Iteration rhythm and stakeholder updates: one change per experiment, a regular ship-or-kill review, a monthly update with lift in money and a range; expand to the next surface only after a measured lift"
+status: accepted
 concept: launch-playbook
 conceptTitle: "Launching recommendations in a product"
 parents: build-vs-buy|scenarios|feedback-signals|popularity|ab-testing|incrementality|north-star-and-guardrails
@@ -28,6 +28,8 @@ visuality: balanced
 lengthBand: deep
 genre: worked-example
 carriers: prose|diagram
+objective: "Take a product owner from 'we want recommendations' to a measured launch in about 90 days, in an order of work that avoids the usual traps."
+forbidden: "Do not claim a specific lift, revenue gain or timeline is typical unless a cited source supports it; label example numbers as illustrative | Do not recommend training a model before tracking and a baseline exist | Do not present attributed revenue or click-through as proof that the launch worked | Do not name or endorse a specific vendor"
 ---
 
 Klara is the product owner at an online outdoor-gear shop. The board has approved "personalization" and the [build-or-buy](#c/build-vs-buy) question is settled. Here is how her first 90 days go, and what she ticks off before moving on.

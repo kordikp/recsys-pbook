@@ -9,7 +9,7 @@ teaser: "Every video was allowed. The feed still wasn't safe. Remove, reduce, in
 parent: harm-aware-ranking
 recallQ: "What does 'reduce' mean in content safety for recommenders, and why isn't removal enough?"
 recallA: "'Reduce' means borderline content stays on the platform but is not amplified: it is ranked lower or kept out of recommendations. Removal only handles clear rule violations, while the recommender's choices about what to push, to whom and in what order can still cause harm, so safety signals must enter ranking."
-status: draft
+status: accepted
 concept: harm-aware-ranking
 state: edited
 lens: social-feeds

@@ -9,7 +9,7 @@ teaser: "Priors that hand over to evidence, models with no user parameters, inte
 parent: user-cold-start
 recallQ: "How does a recommender blend defaults with personal evidence for a new user, and why do the first interactions matter so much?"
 recallA: "It scores with a weighted blend of a context/segment prior and a personal estimate, where the personal weight grows with the user's interaction count (for example n/(n+k)). The first interactions move that weight the most, and item-based models can use them on the next request because the items were already learned from everyone else."
-status: draft
+status: accepted
 concept: user-cold-start
 state: edited
 lens: generic

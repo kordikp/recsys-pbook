@@ -11,11 +11,13 @@ diagram: diagram-recommender-regulation-tree
 recallQ: "How does a product team find out which EU rules apply to its recommender, and what does the Digital Services Act require at each level?"
 recallA: "Ask three questions in order. Is the service an online platform, where users publish content to the public through it? If not, or if it is a micro or small enterprise, the DSA's recommender duties do not apply. Other platforms must explain the main parameters of their recommenders in plain language in their terms and conditions, including any options users have to change them (Art. 27). Only very large platforms (at least 45 million monthly EU users, designated by the Commission) must also offer at least one option not based on profiling (Art. 38). GDPR and consumer law apply to every personalized recommender regardless."
 highlights:
-  - "The DSA's recommender duties apply to online platforms, where users publish to others, not to a shop recommending its own catalogue"
-  - "Micro and small platforms are exempt; other platforms must explain their recommenders' main parameters in plain language"
-  - "Only very large platforms must offer a feed option not based on profiling"
-  - "GDPR and consumer law apply to every personalized recommender; check the details with counsel"
-status: draft
+  - "Online platform = hosting service that stores and shows users' content to the public (DSA Art. 3(i)); own-catalogue shops and publishers are typically not one; minor ancillary features such as newspaper comments don't count (recital 13)"
+  - "Micro and small enterprises (<50 staff and ≤€10M turnover or balance sheet) are exempt from the platform section, which includes Art. 27, unless designated very large (Art. 19)"
+  - "Non-exempt platforms: main parameters of each recommender in plain language in the T&C, including the most significant criteria, why they matter, and any user options to change them; if there are several options, a selector directly accessible where the list is ranked (Art. 27). The DSA's recommender definition includes ordering search results (Art. 3(s))"
+  - "VLOP/VLOSE only (≥45M average monthly active EU users AND designated): at least one option per recommender not based on profiling (Art. 38); yearly systemic-risk assessment covering algorithmic systems (Art. 34)"
+  - "Everyone: GDPR (personalization is profiling, Art. 4(4); needs a lawful basis; right to object to direct-marketing profiling, Art. 21) and consumer law (marketplace search ranking parameters, disclosure of paid placement in search results)"
+  - "Orientation, not legal advice: check with counsel"
+status: accepted
 concept: recommender-regulation
 conceptTitle: "Recommender rules in the EU"
 parents: explanations|steerability|privacy-reality|who-decides
@@ -28,6 +30,8 @@ visuality: balanced
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "A product owner can work out which EU rules apply to their recommender by asking three questions in order (online platform? micro/small? very large?), and knows what the DSA requires at each level and what applies regardless (GDPR, consumer law)."
+forbidden: "Claiming Art. 27 applies to every online service or every online platform regardless of size | Claiming the non-profiling option (Art. 38) is required of all platforms | Claiming recommender systems are high-risk under the AI Act per se | Presenting the content as legal advice or omitting the 'check with counsel' caveat | Invented fines, case outcomes, or article numbers not verified against the official text"
 ---
 
 Jana owns the product at an online bookshop with 120 employees and a "For you" row. Legal asks whether the EU **Digital Services Act (DSA)** applies to it. Three questions, in order, decide it.

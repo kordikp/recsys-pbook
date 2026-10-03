@@ -11,11 +11,11 @@ diagram: diagram-north-star-guardrails
 recallQ: "What is the difference between a north-star metric and a guardrail metric, and why does a recommender need both?"
 recallA: "The north-star metric is the one number the team tries to improve, chosen because it tracks long-term value (for example customers who stay or revenue left after returns), not because it is easy to move like clicks. Guardrails are metrics the team does not try to improve but that must not get worse beyond an agreed margin (returns, complaints, diversity, speed). Any single number can be pushed up through harmful shortcuts, so a change ships only if the north star improves and no guardrail breaks."
 highlights:
-  - "The north-star metric is the one number you try to improve, picked because it tracks long-term value, not because it moves easily"
-  - "Guardrail metrics are not targets, but they must not get worse beyond an agreed margin"
-  - "A quick proxy such as clicks counts only after you check that it moves together with the north star"
-  - "In an A/B test the pair becomes the launch rule: ship only if the north star improves and every guardrail holds"
-status: draft
+  - "Pick ONE north-star (primary) metric per product. It should reflect value users actually get, predict long-term business health (e.g. retention, return visits, revenue after returns) and be movable within a test. It should not be the easiest number to move, such as clicks."
+  - "Guardrail metrics are not targets, but they must not degrade beyond a margin agreed before the test. Typical families: user harm (returns, complaints, 'not interested'), ecosystem (diversity, catalog coverage, creator exposure), operations (speed, errors)."
+  - "A fast proxy (clicks, viewing time) counts only once it is shown to move in the same direction as the north star. Some metrics move the wrong way when the product gets worse (Bing: worse results raised queries and revenue per user)."
+  - "The pair links objectives to A/B tests as the launch rule: ship only if the north star improves and every guardrail holds. Write both down before the first experiment."
+status: accepted
 concept: north-star-and-guardrails
 conceptTitle: "North-star and guardrail metrics"
 parents: objectives|satisfaction-vs-engagement
@@ -28,6 +28,8 @@ formalism: none
 lengthBand: standard
 genre: explainer
 carriers: prose|table|diagram
+objective: "Before a recommender is tuned or tested, the team must decide what 'better' means: one north-star metric that tracks long-term value for users and the business, plus guardrail metrics that must not get worse beyond margins agreed in advance."
+forbidden: "invented statistics or benchmark numbers | invented citations, URLs, or paper titles | presenting a named company's internal north-star metric as fact without a source | recommending clicks/CTR as a north star without validating it against long-term value | claiming guardrails guarantee no harm, or that one metric captures all value"
 ---
 
 Before anyone trains a recommender, someone has to finish the sentence *"the new version is better if…"*.

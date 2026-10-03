@@ -9,7 +9,7 @@ teaser: "Why the ranker predicts clicks, purchases, returns and hides, and who d
 parent: multi-task-ranking
 recallQ: "Why does a modern ranking model predict several behaviours for each item instead of one score, and how do those predictions become a single ranking?"
 recallA: "Because no single behaviour captures value: optimizing clicks alone rewards clickbait, and a purchase that gets returned or an item the user hides is a loss. One shared model predicts several behaviours per item (click, purchase, return, hide), and a value model multiplies each prediction by a weight, negative for unwanted behaviours, and adds them up into one score. The weights encode the product's goals and are tuned with experiments."
-status: draft
+status: accepted
 concept: multi-task-ranking
 state: edited
 lens: ecommerce

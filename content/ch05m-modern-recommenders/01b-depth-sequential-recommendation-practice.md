@@ -9,7 +9,7 @@ teaser: "From Markov chains to sequence transducers at Meta scale, the replicati
 parent: sequential-recommendation
 recallQ: "What should a team check before believing that a transformer sequence model beats a simple baseline in its product?"
 recallA: "That the split runs forward in time (predict the next action from earlier ones only), that 'what usually comes next' and linear baselines are tuned as carefully, that implementations are correct and both models get the same loss and training budget (BERT4Rec's lead over SASRec vanished under equal loss), and that the freshness and history-length budget fit serving: real-time stream, daily batch or hybrid; truncation or retrieve-then-attend. Order pays off on long, varied histories; on short or habitual sequences simple models often match it."
-status: draft
+status: accepted
 concept: sequential-recommendation
 state: edited
 lens: generic

@@ -9,7 +9,7 @@ teaser: "How Netflix, Meta and Pinterest pretrain on behavior, the three ways a 
 parent: recsys-foundation-models
 recallQ: "Which three integration patterns let surfaces consume a recommendation foundation model, and why does the scaling evidence not settle whether you should build one?"
 recallA: "Precomputed embeddings (cheap, stale between refreshes), the model as a subgraph fine-tuned inside the surface's model (fresh, but heavier and slower), and a fine-tuned copy used directly (adapted to one surface, but another model to serve and maintain). Scaling curves show quality rising with compute at platforms with billions of interactions, while at low compute hand-engineered models can win and tuned simple baselines are often competitive; whether a step up pays depends on how many surfaces and how much traffic share its training and serving cost."
-status: draft
+status: accepted
 concept: recsys-foundation-models
 state: edited
 lens: generic

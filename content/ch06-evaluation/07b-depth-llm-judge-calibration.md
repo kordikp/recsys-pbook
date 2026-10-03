@@ -9,7 +9,7 @@ teaser: "Why judges are noisy item by item yet can rank whole systems well, wher
 parent: llm-judge-evaluation
 recallQ: "Why can an LLM judge rank whole systems well while disagreeing with humans on many single items, and what does that imply for how you use it?"
 recallA: "Item-level errors are frequent, but when they do not favor any particular system they average out over many user-item pairs, so system-level rankings stay stable. Biases that do favor a system (its own model family, verbose outputs, popular items, answer order) do not average out, and simulated users miss how real users behave. So debias order, length and authorship, measure chance-corrected agreement with human labels, use the judge for aggregate triage and regression checks, and confirm launches with an online A/B test."
-status: draft
+status: accepted
 concept: llm-judge-evaluation
 state: edited
 lens: generic

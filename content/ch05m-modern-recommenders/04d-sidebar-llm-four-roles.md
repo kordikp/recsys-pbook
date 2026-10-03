@@ -10,7 +10,7 @@ parent: ch3-llm-recs
 diagram: diagram-llm-four-roles
 recallQ: "What are the key strengths and limitations of using LLMs for recommendations?"
 recallA: "Strengths: natural language preference articulation, zero-shot reasoning about items, conversational interface. Limitations: hallucination (recommending nonexistent items), no real personalization without user interaction data, popularity bias amplification, high inference latency, and knowledge cutoff."
-status: draft
+status: accepted
 concept: llm-recommenders
 state: edited
 lens: ecommerce

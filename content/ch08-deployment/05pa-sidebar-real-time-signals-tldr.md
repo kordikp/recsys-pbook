@@ -9,7 +9,7 @@ teaser: "Fresh clicks make better recommendations, until the model is trained on
 parent: real-time-signals
 recallQ: "What is training–serving skew, and why do real-time features make it more likely?"
 recallA: "Training–serving skew is when the features a model sees in production differ from the ones it was trained on: computed by different code, at a different time, or with future information that leaked into the training data. Real-time features are computed on a separate streaming path, under time pressure, while the training copy is usually rebuilt later from complete logs, so the two versions drift apart easily. The fix is to log the features exactly as they were served and train on those logs."
-status: draft
+status: accepted
 concept: real-time-signals
 state: edited
 lens: ecommerce

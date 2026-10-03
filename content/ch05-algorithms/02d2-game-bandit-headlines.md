@@ -8,7 +8,7 @@ standalone: true
 teaser: "Forty impressions, three headlines, one winner. Find it yourself, then race Thompson sampling."
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: explore-exploit
 state: edited
 lang: en

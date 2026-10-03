@@ -8,7 +8,7 @@ standalone: true
 teaser: "Discover, navigate or engage: sort six real recommendations by the job they do."
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: three-jobs
 state: edited
 lang: en

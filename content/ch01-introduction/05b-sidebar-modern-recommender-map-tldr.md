@@ -9,7 +9,7 @@ teaser: "Four stations, one loop and a chatty helper, in under a minute."
 parent: modern-recommender-map
 recallQ: "What are a recommender's four stations, what closes the loop, and what do LLMs mostly do?"
 recallA: "Retrieval, ranking, re-ranking with rules, and presentation; the feedback loop turns what users do into new training data; LLMs mostly help beside the stations by understanding requests, enriching item data, reordering a short list and writing replies."
-status: draft
+status: accepted
 concept: modern-recommender-map
 lens: ecommerce
 lang: en

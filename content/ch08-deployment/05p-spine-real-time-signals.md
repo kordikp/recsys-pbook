@@ -11,11 +11,11 @@ diagram: diagram-real-time-signals-tiers
 recallQ: "What is training–serving skew, and why do real-time features make it more likely?"
 recallA: "Training–serving skew is when the features a model sees in production differ from the ones it was trained on: computed by different code, at a different time, or with future information that leaked into the training data. Real-time features are computed on a separate streaming path, under time pressure, while the training copy is usually rebuilt later from complete logs, so the two versions drift apart easily. The fix is to log the features exactly as they were served and train on those logs."
 highlights:
-  - "Signals arrive in three tiers: nightly batch (long-term taste), streaming (minutes: counts and trends), request-time (seconds: this session)"
-  - "Freshness pays where intent shifts fast (news, live events, short video, in-session shopping); a stable catalog and stable taste can live with daily updates"
-  - "Training–serving skew: the model is trained on one version of a feature and served another, so it fails quietly"
-  - "Log features at serving time and train on those logs; reuse the same feature code in both paths"
-status: draft
+  - "Three freshness tiers: batch (daily: long-term taste), streaming (minutes: counters, trends, stock), request-time (seconds: session context), and what each is for"
+  - "The path: event -> stream -> feature store / session state -> model at request time"
+  - "Cost and failure: streams run 24/7 and stall silently (features freeze); freshness pays where intent shifts fast (news, live, short video, in-session shopping), daily is often enough for stable catalogs and taste; measure what a day of staleness costs first"
+  - "Training–serving skew: features computed by different code, at different times, or with future information leaking into training; prevented by logging features at serving time (plus code reuse and point-in-time joins)"
+status: accepted
 concept: real-time-signals
 conceptTitle: "Real-time signals"
 parents: pipeline|session-based|context-awareness
@@ -28,6 +28,8 @@ visuality: balanced
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "Understand how fresh behavioural signals get from a click into the next recommendation within seconds, what that freshness costs, and how it most often breaks (training–serving skew)."
+forbidden: "Claiming that real-time always beats daily batch, or giving universal latency or lift numbers without a source | Invented company case studies or numbers for freshness gains | Treating skew as an error the system reports (it fails silently) | Naming specific vendor products as required"
 ---
 
 For a year, Maya has bought kitchen gear from an online department store. Tonight at 21:04 she searches "tent" and opens three of them. The homepage still offers her a frying pan, because her profile was last computed at 3 a.m.

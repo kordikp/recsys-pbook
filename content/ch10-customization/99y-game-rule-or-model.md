@@ -8,7 +8,7 @@ standalone: true
 teaser: "Out-of-stock items, age limits, licensing, tastes: which belong in a hard rule and which should the model learn?"
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: business-rules
 state: edited
 lang: en

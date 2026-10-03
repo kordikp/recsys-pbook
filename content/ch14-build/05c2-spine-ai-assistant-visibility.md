@@ -11,11 +11,12 @@ diagram: diagram-assistant-visibility
 recallQ: "What has to be true before an AI assistant can recommend your product, and how do you measure whether it does?"
 recallA: "The product must first be retrievable: present, with accurate data, in the sources the assistant searches (crawlable and indexed web pages, product feeds, independent reviews). Then its content must plainly answer the kind of request people make, because the language model chooses what to mention from what it retrieved. Answers change with phrasing, context and model, so you measure the share of mentions across many realistic prompts run repeatedly, not a rank."
 highlights:
-  - "Assistants retrieve first, then write: an item that is not in the retrieved set cannot be mentioned"
-  - "What you control: being crawlable, accurate product data, and pages that state plainly who the item is for"
-  - "There is no stable rank #1 in an assistant; measure share of mentions across a prompt set"
-  - "Hidden instructions and planted prompts are spam and prompt injection, not optimization"
-status: draft
+  - "Assistants retrieve first (web search, often several fanned-out queries; product feeds; reviews), then a language model generates the answer from the retrieved set; an item outside that set cannot be mentioned"
+  - "Controllable levers: crawlability/indexing (e.g., not blocking the assistant's search crawler), accurate structured product data/feeds, pages that state plainly in text who the item is for, independent coverage"
+  - "Uncontrollable factors: query phrasing, user context, model version, generation randomness; there is no stable 'rank #1'"
+  - "Measurement: share of mentions (and correctness of stated facts) across a fixed set of realistic prompts run repeatedly, not rank position"
+  - "Manipulation (hidden text, planted 'remember us' prompts) is spam / prompt injection and backfires"
+status: accepted
 concept: ai-assistant-visibility
 conceptTitle: "Visibility in AI assistants"
 parents: algorithmic-seo|search-vs-recs|llm-recommenders|pipeline
@@ -28,6 +29,8 @@ visuality: balanced
 lengthBand: deep
 genre: worked-example
 carriers: prose|diagram
+objective: "Understand how AI assistants and answer engines choose which products, sources or creators to mention, what a business can and cannot influence, and how to measure visibility honestly."
+forbidden: "Promising guaranteed placement or a 'rank #1' in assistant answers | Presenting hidden text, prompt injection or fake reviews as legitimate optimization | Claiming paid placement exists (or does not exist) in organic assistant answers without a current, opened source | Inventing benchmark numbers or uplift figures for GEO tactics"
 ---
 
 Jana runs a small online shop for trail-running shoes. Her best seller is a waterproof shoe that comes in a wide fit for €139. A customer types into an AI assistant: *"Waterproof trail shoes for wide feet, under €150?"* The answer names four shoes. Jana's is not one of them.

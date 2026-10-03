@@ -9,7 +9,7 @@ teaser: "One big model instead of one per widget: what it is and who should buil
 parent: recsys-foundation-models
 recallQ: "What is a recommendation foundation model, and who should build one?"
 recallA: "One large model that learns from all user actions on a platform by guessing each person's next action, then shares what it learned with every widget. It suits platforms with huge behavior data and many widgets; smaller products are often better served by simple, well-tuned models."
-status: draft
+status: accepted
 concept: recsys-foundation-models
 state: edited
 lens: generic

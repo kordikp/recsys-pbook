@@ -11,11 +11,13 @@ diagram: diagram-presentation-levers-loop
 recallQ: "Name two presentation choices that change a recommender's results without changing the model, and explain why they also affect the training data."
 recallA: "For example placement and slot count, or the row label and artwork. They change which items get seen and clicked. The model learns from those clicks, and people click high positions partly because they are high (position bias), so the layout leaks into the next model unless each impression's position is logged and accounted for in training."
 highlights:
-  - "Placement, slot count, row label, artwork and feedback controls are levers a product team controls without touching the model"
-  - "People click top positions partly because they are on top (position bias), so click logs record the layout as well as taste"
-  - "Log where every item was shown, and let training account for it, or the layout trains the next model"
-  - "Test one presentation change at a time, and never in the same test as a model change"
-status: draft
+  - "Placement and slot count decide what gets seen at all, so presentation is part of the recommender"
+  - "Row labels and reasons ('Because you watched X') set expectations; they are short explanations and can be A/B tested like models"
+  - "Item artwork and snippets can be personalized per user too (Netflix artwork personalization)"
+  - "A cheap negative control ('Not interested', hide) is a signal, but only if it actually changes the list"
+  - "Position bias: top items get clicked partly because they are on top, so click logs record the layout as well as taste; log each impression's position and account for it in training"
+  - "Test one presentation change at a time, and keep presentation changes and model changes in separate tests"
+status: accepted
 concept: recommendation-presentation
 conceptTitle: "Presenting recommendations"
 parents: scenarios|feedback-signals
@@ -28,6 +30,8 @@ visuality: balanced
 lengthBand: deep
 genre: explainer
 carriers: prose|diagram
+objective: "The same ranked list can succeed or fail depending on where it appears, how many items show, how the row is labelled, which image represents each item and what users can do with it. Because the model learns from clicks, and clicks follow the layout, presentation also shapes the next model."
+forbidden: "Claiming a specific real-world lift from a layout change without a source (the anchor's 0.5% vs 3% are labelled illustrative) | Claiming user feedback buttons reliably remove content (Mozilla 2022 found 'Not interested' prevented only 11%) | Presenting position bias as purely a search phenomenon or as fully solved | Inventing Netflix/YouTube figures beyond the cited ones (about 40 rows, up to 75 titles, 60-90 seconds; artwork examples; position used only in training)"
 ---
 
 A streaming service spends a quarter on a better ranking model: plays from the home screen go up 0.5%. Then a designer moves the "Recommended for you" row from sixth place to second and renames it "Because you watched *Dark*". Plays go up 3% (illustrative numbers). Nobody touched the algorithm, and the data scientists took it well. Mostly.

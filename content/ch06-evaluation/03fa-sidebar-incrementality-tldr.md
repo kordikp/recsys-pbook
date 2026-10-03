@@ -9,7 +9,7 @@ teaser: "Why 'recommendations bring in X% of revenue' proves little, and the one
 parent: incrementality
 recallQ: "What is the difference between attributed and incremental revenue from recommendations, and how do you measure the incremental part?"
 recallA: "Attributed revenue is everything that passed through a recommendation, including sales that would have happened anyway; incremental revenue is only what the recommendations caused. You measure it as the difference in revenue (or retention) per user between a recommended group and a randomly held-out group without recommendations, reported with a range."
-status: draft
+status: accepted
 concept: incrementality
 state: edited
 lens: ecommerce

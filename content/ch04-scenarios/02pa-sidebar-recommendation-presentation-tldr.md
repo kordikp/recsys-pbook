@@ -9,7 +9,7 @@ teaser: "Same model, same list: moving the row or changing its label still chang
 parent: recommendation-presentation
 recallQ: "Name two presentation choices that change a recommender's results without changing the model, and explain why they also affect the training data."
 recallA: "For example where the row is placed and how many items it shows, or its label and images. They change which items get seen and clicked; the model learns from those clicks, and top positions get clicked partly because they are on top, so the layout leaks into the next model unless the position of each shown item is logged and accounted for."
-status: draft
+status: accepted
 concept: recommendation-presentation
 state: edited
 lens: ecommerce

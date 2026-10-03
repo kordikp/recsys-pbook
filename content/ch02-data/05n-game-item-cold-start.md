@@ -8,7 +8,7 @@ standalone: true
 teaser: "A product goes live with zero clicks. Walk it through its first days, in order."
 parent: null
 diagram: null
-status: draft
+status: accepted
 concept: item-cold-start
 state: edited
 lang: en
