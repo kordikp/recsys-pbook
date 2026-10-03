@@ -2,7 +2,7 @@
 id: ch12-video-recipes
 type: spine
 title: "Video Recipes: Complete Scenario Reference"
-readingTime: 5
+readingTime: 2
 standalone: false
 core: false
 teaser: "Every video recommendation scenario with exact logic names, parameters, and configuration patterns from production systems."
@@ -17,9 +17,9 @@ concept: video-domain
 state: edited
 lens: generic
 visuality: text-first
-depth: standard
+depth: technical
 formalism: none
-lengthBand: deep
+lengthBand: standard
 genre: explainer
 carriers: prose|table
 ---

@@ -2,7 +2,7 @@
 id: ch9-why-monitor
 type: spine
 title: "Why RecSys Monitoring Is Different"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: true
 teaser: "A recommendation system can return HTTP 200 on every request and still be catastrophically broken. Traditional software monitoring catches crashes. RecSys monitoring must catch silent degradation in a system that learns from its own output."
@@ -19,19 +19,20 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: monitoring
 conceptTitle: "Monitoring recommender systems"
+parents: ab-testing
 state: core
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
 
 Every software system needs monitoring. But recommendation systems need a fundamentally different kind of monitoring than traditional applications -- and the teams that discover this late pay for it with silent degradation, user churn, and weeks of debugging that could have been minutes.
 
-![Alert severity levels: info, warning, critical](/images/anim-monitoring-alerts.svg)
+![All green, and still broken: a data job silently fails, health checks stay green with no alert, recommendation quality drops at once, and retention and revenue drop weeks later](/images/anim-monitoring-alerts.svg)
 
 ## The Illusion of Health
 

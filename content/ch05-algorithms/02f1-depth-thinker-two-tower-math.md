@@ -2,7 +2,7 @@
 id: ch3-two-tower-math
 type: spine
 title: "Two-Tower Architecture: Training, Serving, and the Mathematics of Scale"
-readingTime: 5
+readingTime: 13
 standalone: false
 core: false
 voice: thinker
@@ -26,7 +26,7 @@ This section formalizes the training objectives, negative sampling strategies, a
 
 ## The Independence Assumption
 
-![Two-tower architecture with user and item towers converging to similarity score](/images/diagram-two-tower-architecture.svg)
+![Two-tower architecture: the user tower runs online per request, the item tower runs offline into an ANN index, and the two meet only at the dot product s(u,i) = e_u^T e_i](/images/diagram-two-tower-architecture.svg)
 
 In a general scoring model, relevance is a function of the joint input:
 

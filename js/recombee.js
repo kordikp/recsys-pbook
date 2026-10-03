@@ -476,7 +476,7 @@ export class UserModel {
     this.preferredVoice = null;
     this.firstVisit = null;
     this.sessionCount = 0;
-    // Gamification (no streaks — safe for kids)
+    // Gamification (no streaks — no pressure mechanics)
     this.xp = 0;
     this.level = 1;
     this.achievements = [];
@@ -635,7 +635,8 @@ export class UserModel {
     // Drift facet affinities from actual reading behaviour (weight 1)
     if (facets) this.updateFacetAffinity(facets, 1);
     if (CONFIG.features.gamification !== false) { this.addXP(10); this.checkAchievements(); }
-    if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(blockId);
+    // one card per CONCEPT (the app maps a telling to its concept's card key)
+    if (CONFIG.features.spaceRepetition !== false) this.scheduleRecall(this.recallKeyFor ? this.recallKeyFor(blockId) : blockId);
     this.save();
   }
 
@@ -716,7 +717,7 @@ export class UserModel {
       card.ease = Math.min(3.0, card.ease + 0.15);
     }
 
-    // Cap at 30 days for kids
+    // Cap the review interval at 30 days
     card.interval = Math.min(30, card.interval);
     // Forgot (interval=0) → 4 hours. Everything else → interval in days.
     card.nextReview = card.interval === 0
@@ -758,21 +759,21 @@ export class UserModel {
   checkAchievements() {
     const earned = new Set(this.achievements.map(a => a.id));
     const checks = [
-      { id: 'first_read', name: 'First Steps', icon: '👣', desc: 'Read your first section', test: () => this.readBlocks.size >= 1 },
-      { id: 'reader_5', name: 'Bookworm', icon: '📚', desc: 'Read 5 sections', test: () => this.readBlocks.size >= 5 },
-      { id: 'reader_15', name: 'Speed Reader', icon: '⚡', desc: 'Read 15 sections', test: () => this.readBlocks.size >= 15 },
-      { id: 'reader_30', name: 'Knowledge Machine', icon: '🤖', desc: 'Read 30 sections', test: () => this.readBlocks.size >= 30 },
-      { id: 'first_like', name: 'Thumbs Up', icon: '❤️', desc: 'Like your first section', test: () => [...this.ratings.values()].some(r => r >= 0.7) },
-      { id: 'like_10', name: 'Super Fan', icon: '🌟', desc: 'Like 10 sections', test: () => [...this.ratings.values()].filter(r => r >= 0.7).length >= 10 },
-      { id: 'first_note', name: 'Note Taker', icon: '📝', desc: 'Write your first note', test: () => this.notes.size >= 1 },
-      { id: 'voice_all', name: 'Triple Threat', icon: '🎭', desc: 'Try all 3 depth voices', test: () => Object.values(this.voiceScores).every(v => v > 0) },
-      { id: 'curious_cat', name: 'Curious Cat', icon: '🐱', desc: 'Read sections from 3 different chapters', test: () => { const chs = new Set(); this.readBlocks.forEach(id => { for (const [k,v] of Object.entries(this.signals)) { if (k === id) chs.add(v.chapter || ''); }}); return chs.size >= 3 || this.readBlocks.size >= 12; }},
-      { id: 'quiz_master', name: 'Quiz Master', icon: '🧩', desc: 'Answer 3 questions', test: () => this.totalInteractions >= 15 },
-      { id: 'level_5', name: 'Level 5!', icon: '🏆', desc: 'Reach level 5', test: () => this.level >= 5 },
+      { id: 'first_read', name: 'First section', icon: '👣', desc: 'Read your first section', test: () => this.readBlocks.size >= 1 },
+      { id: 'reader_5', name: 'Five sections', icon: '📚', desc: 'Read 5 sections', test: () => this.readBlocks.size >= 5 },
+      { id: 'reader_15', name: 'Fifteen sections', icon: '📖', desc: 'Read 15 sections', test: () => this.readBlocks.size >= 15 },
+      { id: 'reader_30', name: 'Thirty sections', icon: '🗂️', desc: 'Read 30 sections', test: () => this.readBlocks.size >= 30 },
+      { id: 'first_like', name: 'First favourite', icon: '❤️', desc: 'Like your first section', test: () => [...this.ratings.values()].some(r => r >= 0.7) },
+      { id: 'like_10', name: 'Ten favourites', icon: '🌟', desc: 'Like 10 sections', test: () => [...this.ratings.values()].filter(r => r >= 0.7).length >= 10 },
+      { id: 'first_note', name: 'Note taker', icon: '📝', desc: 'Write your first note', test: () => this.notes.size >= 1 },
+      { id: 'voice_all', name: 'Every kind of section', icon: '🎭', desc: 'Read every kind of section', test: () => Object.values(this.voiceScores).every(v => v > 0) },
+      { id: 'curious_cat', name: 'Wide reader', icon: '🧭', desc: 'Read sections from 3 different chapters', test: () => { const chs = new Set(); this.readBlocks.forEach(id => { for (const [k,v] of Object.entries(this.signals)) { if (k === id) chs.add(v.chapter || ''); }}); return chs.size >= 3 || this.readBlocks.size >= 12; }},
+      { id: 'quiz_master', name: 'Active reader', icon: '🧩', desc: 'Answer 3 questions', test: () => this.totalInteractions >= 15 },
+      { id: 'level_5', name: 'Level 5', icon: '🏆', desc: 'Reach level 5', test: () => this.level >= 5 },
       { id: 'save_5', name: 'Collector', icon: '🔖', desc: 'Save 5 sections', test: () => this.savedBlocks.size >= 5 },
-      { id: 'xp_200', name: 'XP Hunter', icon: '💎', desc: 'Earn 200 XP', test: () => this.xp >= 200 },
-      { id: 'deep_diver', name: 'Deep Diver', icon: '🤿', desc: 'Expand 10 depth cards', test: () => Object.values(this.voiceScores).reduce((s,v) => s+v, 0) >= 10 },
-      { id: 'recall_5', name: 'Memory Pro', icon: '🧠', desc: 'Complete 5 recall reviews', test: () => Object.values(this.recall).reduce((s, c) => s + c.reps, 0) >= 5 },
+      { id: 'xp_200', name: '200 XP', icon: '💎', desc: 'Earn 200 XP', test: () => this.xp >= 200 },
+      { id: 'deep_diver', name: 'Deep diver', icon: '🤿', desc: 'Expand 10 depth cards', test: () => Object.values(this.voiceScores).reduce((s,v) => s+v, 0) >= 10 },
+      { id: 'recall_5', name: 'Five reviews', icon: '🧠', desc: 'Complete 5 recall reviews', test: () => Object.values(this.recall).reduce((s, c) => s + c.reps, 0) >= 5 },
     ];
     checks.forEach(a => {
       if (!earned.has(a.id) && a.test()) {
@@ -783,8 +784,9 @@ export class UserModel {
   }
 
   getLevelTitle() {
-    const titles = ['Newbie', 'Curious', 'Apprentice', 'Explorer', 'Scholar', 'Expert', 'Wizard', 'Legend', 'Grandmaster', 'Recommendation Guru'];
-    return titles[Math.min(this.level - 1, titles.length - 1)];
+    // Fewer, meaningful steps (level numbers still come from XP)
+    const l = this.level;
+    return l >= 9 ? 'Recommender architect' : l >= 6 ? 'Expert' : l >= 3 ? 'Practitioner' : 'Reader';
   }
 
   getXPForNextLevel() { return this.level * 50; }

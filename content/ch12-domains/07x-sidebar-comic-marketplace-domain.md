@@ -1,7 +1,7 @@
 ---
 id: comic-marketplace-domain
 type: spine
-title: "The Recommendation Has Left the Table"
+title: "One Lamp, One Buyer"
 readingTime: 1
 standalone: true
 core: false
@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Recommendation Has Left the Table — a four-panel comic](images/comic-marketplace-domain.svg)
+![One Lamp, One Buyer — a four-panel comic: a one-of-a-kind lamp is listed with zero clicks and understood from its photo and text, gets a fair first spot in the feed, sells to someone else an hour later, and the next morning the recommender drops it and shows two similar lamps](images/comic-marketplace-domain.svg)
 
 *Marketplace recommenders must rank unique listings that vanish from inventory when sold.*

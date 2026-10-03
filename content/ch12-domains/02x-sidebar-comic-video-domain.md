@@ -1,7 +1,7 @@
 ---
 id: comic-video-domain
 type: spine
-title: "The Server Remembers Every Bite"
+title: "It Remembers Where You Fell Asleep"
 readingTime: 1
 standalone: true
 core: false
@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Server Remembers Every Bite — a four-panel comic](images/comic-video-domain.svg)
+![It remembers where you fell asleep — a four-panel comic: a viewer dozes off at 50% of episode 3, the phone offers Continue Watching at 50% the next morning, the recommender knows series → season → episode order, and episode 4 is lined up as Watch Next before the credits end](images/comic-video-domain.svg)
 
 *Progress and hierarchy make Continue Watching and Watch Next high-engagement rows across devices.*

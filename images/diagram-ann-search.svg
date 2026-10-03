@@ -1,193 +1,238 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 440" width="680" height="440" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="annArrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6" fill="#2563EB"/>
-    </marker>
-  </defs>
-
-  <!-- Title -->
-  <text x="340" y="28" text-anchor="middle" font-size="18" font-weight="bold" fill="#1C1917">Finding Similar Items Fast: ANN Search</text>
-  <text x="340" y="48" text-anchor="middle" font-size="12" fill="#78716C">Approximate Nearest Neighbors trade tiny accuracy loss for massive speed gains</text>
-
-  <!-- Divider -->
-  <line x1="340" y1="60" x2="340" y2="380" stroke="#E7E5E4" stroke-width="1" stroke-dasharray="6,4"/>
-
-  <!-- LEFT: Brute Force -->
-  <g transform="translate(20, 60)">
-    <text x="150" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#DC2626">Brute Force (Exact)</text>
-    <text x="150" y="35" text-anchor="middle" font-size="11" fill="#78716C">Check every single point</text>
-
-    <!-- Scatter plot area -->
-    <rect x="10" y="45" width="280" height="230" rx="8" fill="#DC2626" fill-opacity="0.02" stroke="#E7E5E4" stroke-width="1"/>
-
-    <!-- Many dots (items) -->
-    <g fill="#78716C" opacity="0.4">
-      <circle cx="45" cy="80" r="3.5"/>
-      <circle cx="80" cy="100" r="3.5"/>
-      <circle cx="120" cy="70" r="3.5"/>
-      <circle cx="155" cy="95" r="3.5"/>
-      <circle cx="190" cy="75" r="3.5"/>
-      <circle cx="225" cy="110" r="3.5"/>
-      <circle cx="260" cy="85" r="3.5"/>
-      <circle cx="55" cy="140" r="3.5"/>
-      <circle cx="95" cy="155" r="3.5"/>
-      <circle cx="130" cy="130" r="3.5"/>
-      <circle cx="170" cy="165" r="3.5"/>
-      <circle cx="210" cy="145" r="3.5"/>
-      <circle cx="245" cy="170" r="3.5"/>
-      <circle cx="70" cy="200" r="3.5"/>
-      <circle cx="110" cy="215" r="3.5"/>
-      <circle cx="145" cy="190" r="3.5"/>
-      <circle cx="185" cy="220" r="3.5"/>
-      <circle cx="220" cy="195" r="3.5"/>
-      <circle cx="255" cy="230" r="3.5"/>
-      <circle cx="40" cy="250" r="3.5"/>
-      <circle cx="100" cy="260" r="3.5"/>
-      <circle cx="165" cy="245" r="3.5"/>
-      <circle cx="235" cy="255" r="3.5"/>
-      <circle cx="275" cy="150" r="3.5"/>
-    </g>
-
-    <!-- Query point -->
-    <polygon points="160,180 164,191 176,191 167,198 170,210 160,203 150,210 153,198 144,191 156,191" fill="#D97706"/>
-
-    <!-- Lines from query to ALL points (showing exhaustive) -->
-    <g stroke="#DC2626" stroke-width="0.5" opacity="0.25">
-      <line x1="160" y1="180" x2="45" y2="80"/>
-      <line x1="160" y1="180" x2="80" y2="100"/>
-      <line x1="160" y1="180" x2="120" y2="70"/>
-      <line x1="160" y1="180" x2="155" y2="95"/>
-      <line x1="160" y1="180" x2="190" y2="75"/>
-      <line x1="160" y1="180" x2="225" y2="110"/>
-      <line x1="160" y1="180" x2="260" y2="85"/>
-      <line x1="160" y1="180" x2="55" y2="140"/>
-      <line x1="160" y1="180" x2="95" y2="155"/>
-      <line x1="160" y1="180" x2="130" y2="130"/>
-      <line x1="160" y1="180" x2="170" y2="165"/>
-      <line x1="160" y1="180" x2="210" y2="145"/>
-      <line x1="160" y1="180" x2="245" y2="170"/>
-      <line x1="160" y1="180" x2="70" y2="200"/>
-      <line x1="160" y1="180" x2="110" y2="215"/>
-      <line x1="160" y1="180" x2="145" y2="190"/>
-      <line x1="160" y1="180" x2="185" y2="220"/>
-      <line x1="160" y1="180" x2="220" y2="195"/>
-      <line x1="160" y1="180" x2="255" y2="230"/>
-      <line x1="160" y1="180" x2="40" y2="250"/>
-      <line x1="160" y1="180" x2="100" y2="260"/>
-      <line x1="160" y1="180" x2="165" y2="245"/>
-      <line x1="160" y1="180" x2="235" y2="255"/>
-      <line x1="160" y1="180" x2="275" y2="150"/>
-    </g>
-
-    <!-- Concentric circles -->
-    <circle cx="160" cy="180" r="30" fill="none" stroke="#DC2626" stroke-width="0.8" opacity="0.3"/>
-    <circle cx="160" cy="180" r="60" fill="none" stroke="#DC2626" stroke-width="0.6" opacity="0.2"/>
-    <circle cx="160" cy="180" r="100" fill="none" stroke="#DC2626" stroke-width="0.4" opacity="0.15"/>
-  </g>
-
-  <!-- RIGHT: ANN (HNSW) -->
-  <g transform="translate(360, 60)">
-    <text x="150" y="18" text-anchor="middle" font-size="14" font-weight="bold" fill="#2563EB">ANN / HNSW (Approximate)</text>
-    <text x="150" y="35" text-anchor="middle" font-size="11" fill="#78716C">Navigate a graph, visit few points</text>
-
-    <!-- Scatter plot area -->
-    <rect x="10" y="45" width="280" height="230" rx="8" fill="#2563EB" fill-opacity="0.02" stroke="#E7E5E4" stroke-width="1"/>
-
-    <!-- Same dots but only some connected -->
-    <g fill="#78716C" opacity="0.25">
-      <circle cx="45" cy="80" r="3.5"/>
-      <circle cx="80" cy="100" r="3.5"/>
-      <circle cx="120" cy="70" r="3.5"/>
-      <circle cx="155" cy="95" r="3.5"/>
-      <circle cx="190" cy="75" r="3.5"/>
-      <circle cx="225" cy="110" r="3.5"/>
-      <circle cx="260" cy="85" r="3.5"/>
-      <circle cx="55" cy="140" r="3.5"/>
-      <circle cx="95" cy="155" r="3.5"/>
-      <circle cx="130" cy="130" r="3.5"/>
-      <circle cx="170" cy="165" r="3.5"/>
-      <circle cx="210" cy="145" r="3.5"/>
-      <circle cx="245" cy="170" r="3.5"/>
-      <circle cx="70" cy="200" r="3.5"/>
-      <circle cx="110" cy="215" r="3.5"/>
-      <circle cx="145" cy="190" r="3.5"/>
-      <circle cx="185" cy="220" r="3.5"/>
-      <circle cx="220" cy="195" r="3.5"/>
-      <circle cx="255" cy="230" r="3.5"/>
-      <circle cx="40" cy="250" r="3.5"/>
-      <circle cx="100" cy="260" r="3.5"/>
-      <circle cx="165" cy="245" r="3.5"/>
-      <circle cx="235" cy="255" r="3.5"/>
-      <circle cx="275" cy="150" r="3.5"/>
-    </g>
-
-    <!-- HNSW Graph edges (sparse, navigable) -->
-    <g stroke="#2563EB" stroke-width="0.6" opacity="0.2">
-      <!-- Layer 0 connections (many) -->
-      <line x1="45" y1="80" x2="80" y2="100"/>
-      <line x1="80" y1="100" x2="120" y2="70"/>
-      <line x1="120" y1="70" x2="155" y2="95"/>
-      <line x1="155" y1="95" x2="190" y2="75"/>
-      <line x1="190" y1="75" x2="225" y2="110"/>
-      <line x1="225" y1="110" x2="260" y2="85"/>
-      <line x1="55" y1="140" x2="95" y2="155"/>
-      <line x1="95" y1="155" x2="130" y2="130"/>
-      <line x1="130" y1="130" x2="170" y2="165"/>
-      <line x1="170" y1="165" x2="210" y2="145"/>
-      <line x1="210" y1="145" x2="245" y2="170"/>
-      <line x1="70" y1="200" x2="110" y2="215"/>
-      <line x1="110" y1="215" x2="145" y2="190"/>
-      <line x1="145" y1="190" x2="185" y2="220"/>
-      <line x1="185" y1="220" x2="220" y2="195"/>
-      <line x1="80" y1="100" x2="55" y2="140"/>
-      <line x1="155" y1="95" x2="130" y2="130"/>
-      <line x1="225" y1="110" x2="210" y2="145"/>
-      <line x1="95" y1="155" x2="70" y2="200"/>
-      <line x1="170" y1="165" x2="145" y2="190"/>
-      <line x1="245" y1="170" x2="275" y2="150"/>
-    </g>
-
-    <!-- Query point -->
-    <polygon points="160,180 164,191 176,191 167,198 170,210 160,203 150,210 153,198 144,191 156,191" fill="#D97706"/>
-
-    <!-- HNSW search path (highlighted) -->
-    <!-- Entry point (top layer) -->
-    <circle cx="225" cy="110" r="5" fill="#2563EB" opacity="0.6"/>
-    <!-- Hop 1 -->
-    <line x1="225" y1="110" x2="210" y2="145" stroke="#2563EB" stroke-width="2.5" opacity="0.7"/>
-    <circle cx="210" cy="145" r="5" fill="#2563EB" opacity="0.6"/>
-    <!-- Hop 2 -->
-    <line x1="210" y1="145" x2="170" y2="165" stroke="#2563EB" stroke-width="2.5" opacity="0.7"/>
-    <circle cx="170" cy="165" r="5" fill="#2563EB" opacity="0.7"/>
-    <!-- Hop 3 -->
-    <line x1="170" y1="165" x2="145" y2="190" stroke="#2563EB" stroke-width="2.5" opacity="0.8"/>
-    <circle cx="145" cy="190" r="5" fill="#059669" opacity="0.9"/>
-
-    <!-- Found neighbors highlighted -->
-    <circle cx="170" cy="165" r="6" fill="none" stroke="#059669" stroke-width="2"/>
-    <circle cx="145" cy="190" r="6" fill="none" stroke="#059669" stroke-width="2"/>
-    <circle cx="185" cy="220" r="5" fill="#059669" opacity="0.6"/>
-    <circle cx="185" cy="220" r="6" fill="none" stroke="#059669" stroke-width="2"/>
-
-    <!-- "Entry" label -->
-    <text x="235" y="105" font-size="8" fill="#2563EB" font-weight="bold">entry</text>
-
-    <!-- Path labels -->
-    <text x="260" y="138" font-size="8" fill="#2563EB">hop 1</text>
-    <text x="210" y="162" font-size="8" fill="#2563EB">hop 2</text>
-    <text x="120" y="200" font-size="8" fill="#2563EB">hop 3</text>
-  </g>
-
-  <!-- Comparison stats -->
-  <g transform="translate(40, 390)">
-    <!-- Brute force stats -->
-    <rect x="0" y="0" width="280" height="40" rx="8" fill="#DC2626" fill-opacity="0.06" stroke="#DC2626" stroke-width="1"/>
-    <text x="140" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#DC2626">O(n) distance computations</text>
-    <text x="140" y="32" text-anchor="middle" font-size="10" fill="#78716C">1M items = 1M comparisons (100ms+)</text>
-
-    <!-- ANN stats -->
-    <rect x="320" y="0" width="280" height="40" rx="8" fill="#2563EB" fill-opacity="0.06" stroke="#2563EB" stroke-width="1"/>
-    <text x="460" y="16" text-anchor="middle" font-size="11" font-weight="bold" fill="#2563EB">O(log n) graph hops</text>
-    <text x="460" y="32" text-anchor="middle" font-size="10" fill="#78716C">1M items = ~20 hops, 99%+ recall (&lt;1ms)</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb110-title pb110-desc">
+<title id="pb110-title">Exact versus approximate nearest-neighbor search</title>
+<desc id="pb110-desc">Items are points in an embedding space, so finding similar items means finding the nearest points. Exact search computes the distance from the query to all 34 items. A graph-based ANN search such as HNSW hops along neighbor links toward the query, computes only 11 distances, and here finds the same 3 nearest items. It can occasionally miss one, but it stays fast even with billions of items.</desc>
+<style>@keyframes pb110-l0{0%,2%{opacity:0}4%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-l0{animation:pb110-l0 10s linear infinite}
+@keyframes pb110-l1{0%,10%{opacity:0}12%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-l1{animation:pb110-l1 10s linear infinite}
+@keyframes pb110-l2{0%,18%{opacity:0}20%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-l2{animation:pb110-l2 10s linear infinite}
+@keyframes pb110-l3{0%,26%{opacity:0}28%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-l3{animation:pb110-l3 10s linear infinite}
+@keyframes pb110-l4{0%,34%{opacity:0}36%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-l4{animation:pb110-l4 10s linear infinite}
+@keyframes pb110-l5{0%,42%{opacity:0}44%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-l5{animation:pb110-l5 10s linear infinite}
+@keyframes pb110-ln{0%,48%{opacity:0}50%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-ln{animation:pb110-ln 10s linear infinite}
+@keyframes pb110-s0{0%,2%{opacity:0}4%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-s0{animation:pb110-s0 10s linear infinite}
+@keyframes pb110-s1{0%,6%{opacity:0}8%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-s1{animation:pb110-s1 10s linear infinite}
+@keyframes pb110-s2{0%,10%{opacity:0}12%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-s2{animation:pb110-s2 10s linear infinite}
+@keyframes pb110-s3{0%,14%{opacity:0}16%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-s3{animation:pb110-s3 10s linear infinite}
+@keyframes pb110-s4{0%,18%{opacity:0}20%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-s4{animation:pb110-s4 10s linear infinite}
+@keyframes pb110-rn{0%,22%{opacity:0}24%,92%{opacity:1}96%,100%{opacity:0}}
+.pb110-rn{animation:pb110-rn 10s linear infinite}
+@media (prefers-reduced-motion: reduce){.pb110-l0,.pb110-l1,.pb110-l2,.pb110-l3,.pb110-l4,.pb110-l5,.pb110-ln,.pb110-s0,.pb110-s1,.pb110-s2,.pb110-s3,.pb110-s4,.pb110-rn{animation:none !important}}</style>
+<defs><marker id="pb110-ah" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L9,4.5 L0,9 Z" fill="#7C3AED"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="419" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Finding the closest items without checking them all</text>
+<text x="320" y="59" text-anchor="middle" font-size="14" fill="#6B7280">Dot = an item's embedding. Close dots = similar items.</text>
+<rect x="16" y="72" width="296" height="300" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="328" y="72" width="296" height="300" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="164" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Exact search</text>
+<text x="164" y="117" text-anchor="middle" font-size="14" fill="#6B7280">compare with every item</text>
+<text x="476" y="98" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">ANN graph search (e.g. HNSW)</text>
+<text x="476" y="117" text-anchor="middle" font-size="14" fill="#6B7280">hop to ever-closer neighbors</text>
+<rect x="24" y="122" width="280" height="176" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+<rect x="336" y="122" width="280" height="176" rx="8" fill="#F9FAFB" stroke="#E5E7EB"/>
+<line class="pb110-l0" x1="174" y1="212" x2="93" y2="210" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l0" x1="174" y1="212" x2="47" y2="204" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l0" x1="174" y1="212" x2="116" y2="204" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l0" x1="174" y1="212" x2="41" y2="172" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l0" x1="174" y1="212" x2="84" y2="172" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l0" x1="174" y1="212" x2="37" y2="136" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l1" x1="174" y1="212" x2="83" y2="144" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l1" x1="174" y1="212" x2="130" y2="177" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l1" x1="174" y1="212" x2="120" y2="136" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l1" x1="174" y1="212" x2="157" y2="145" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l1" x1="174" y1="212" x2="206" y2="143" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l1" x1="174" y1="212" x2="204" y2="175" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l2" x1="174" y1="212" x2="248" y2="150" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l2" x1="174" y1="212" x2="275" y2="147" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l2" x1="174" y1="212" x2="242" y2="171" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l2" x1="174" y1="212" x2="275" y2="170" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l2" x1="174" y1="212" x2="248" y2="209" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l3" x1="174" y1="212" x2="285" y2="211" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l3" x1="174" y1="212" x2="278" y2="248" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l3" x1="174" y1="212" x2="242" y2="241" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l3" x1="174" y1="212" x2="287" y2="280" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l3" x1="174" y1="212" x2="236" y2="271" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l3" x1="174" y1="212" x2="206" y2="251" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l4" x1="174" y1="212" x2="207" y2="275" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l4" x1="174" y1="212" x2="171" y2="275" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l4" x1="174" y1="212" x2="130" y2="279" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l4" x1="174" y1="212" x2="93" y2="275" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l4" x1="174" y1="212" x2="125" y2="241" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l4" x1="174" y1="212" x2="41" y2="279" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l5" x1="174" y1="212" x2="94" y2="246" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l5" x1="174" y1="212" x2="48" y2="241" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l5" x1="174" y1="212" x2="156" y2="224" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l5" x1="174" y1="212" x2="191" y2="200" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<line class="pb110-l5" x1="174" y1="212" x2="188" y2="230" stroke="#F59E0B" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>
+<circle cx="37" cy="136" r="4.5" fill="#9CA3AF"/>
+<circle cx="83" cy="144" r="4.5" fill="#9CA3AF"/>
+<circle cx="120" cy="136" r="4.5" fill="#9CA3AF"/>
+<circle cx="157" cy="145" r="4.5" fill="#9CA3AF"/>
+<circle cx="206" cy="143" r="4.5" fill="#9CA3AF"/>
+<circle cx="248" cy="150" r="4.5" fill="#9CA3AF"/>
+<circle cx="275" cy="147" r="4.5" fill="#9CA3AF"/>
+<circle cx="41" cy="172" r="4.5" fill="#9CA3AF"/>
+<circle cx="84" cy="172" r="4.5" fill="#9CA3AF"/>
+<circle cx="130" cy="177" r="4.5" fill="#9CA3AF"/>
+<circle cx="204" cy="175" r="4.5" fill="#9CA3AF"/>
+<circle cx="242" cy="171" r="4.5" fill="#9CA3AF"/>
+<circle cx="275" cy="170" r="4.5" fill="#9CA3AF"/>
+<circle cx="47" cy="204" r="4.5" fill="#9CA3AF"/>
+<circle cx="93" cy="210" r="4.5" fill="#9CA3AF"/>
+<circle cx="116" cy="204" r="4.5" fill="#9CA3AF"/>
+<circle cx="248" cy="209" r="4.5" fill="#9CA3AF"/>
+<circle cx="285" cy="211" r="4.5" fill="#9CA3AF"/>
+<circle cx="48" cy="241" r="4.5" fill="#9CA3AF"/>
+<circle cx="94" cy="246" r="4.5" fill="#9CA3AF"/>
+<circle cx="125" cy="241" r="4.5" fill="#9CA3AF"/>
+<circle cx="206" cy="251" r="4.5" fill="#9CA3AF"/>
+<circle cx="242" cy="241" r="4.5" fill="#9CA3AF"/>
+<circle cx="278" cy="248" r="4.5" fill="#9CA3AF"/>
+<circle cx="41" cy="279" r="4.5" fill="#9CA3AF"/>
+<circle cx="93" cy="275" r="4.5" fill="#9CA3AF"/>
+<circle cx="130" cy="279" r="4.5" fill="#9CA3AF"/>
+<circle cx="171" cy="275" r="4.5" fill="#9CA3AF"/>
+<circle cx="207" cy="275" r="4.5" fill="#9CA3AF"/>
+<circle cx="236" cy="271" r="4.5" fill="#9CA3AF"/>
+<circle cx="287" cy="280" r="4.5" fill="#9CA3AF"/>
+<circle cx="156" cy="224" r="4.5" fill="#9CA3AF"/><circle class="pb110-ln" cx="156" cy="224" r="4.5" fill="#10B981"/>
+<circle cx="191" cy="200" r="4.5" fill="#9CA3AF"/><circle class="pb110-ln" cx="191" cy="200" r="4.5" fill="#10B981"/>
+<circle cx="188" cy="230" r="4.5" fill="#9CA3AF"/><circle class="pb110-ln" cx="188" cy="230" r="4.5" fill="#10B981"/>
+<circle class="pb110-ln" cx="156" cy="224" r="9" fill="none" stroke="#10B981" stroke-width="2.5"/>
+<circle class="pb110-ln" cx="191" cy="200" r="9" fill="none" stroke="#10B981" stroke-width="2.5"/>
+<circle class="pb110-ln" cx="188" cy="230" r="9" fill="none" stroke="#10B981" stroke-width="2.5"/>
+<polygon points="174,202.5 176.5,208.5 183,209.1 178.1,213.3 179.6,219.7 174,216.3 168.4,219.7 169.9,213.3 165,209.1 171.5,208.5" fill="#1E1B4B" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="160" y="200" text-anchor="end" font-size="14" font-weight="700" fill="#1E1B4B" stroke="#F9FAFB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
+<text class="pb110-ln" x="178" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46" stroke="#F9FAFB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">3 nearest</text>
+<line x1="349" y1="136" x2="353" y2="172" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="349" y1="136" x2="395" y2="144" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="349" y1="136" x2="396" y2="172" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="395" y1="144" x2="396" y2="172" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="395" y1="144" x2="432" y2="136" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="432" y1="136" x2="469" y2="145" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="432" y1="136" x2="442" y2="177" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="469" y1="145" x2="442" y2="177" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="469" y1="145" x2="518" y2="143" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="143" x2="516" y2="175" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="143" x2="560" y2="150" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="143" x2="554" y2="171" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="560" y1="150" x2="554" y2="171" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="560" y1="150" x2="587" y2="147" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="560" y1="150" x2="587" y2="170" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="587" y1="147" x2="587" y2="170" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="587" y1="147" x2="554" y2="171" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="353" y1="172" x2="359" y2="204" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="353" y1="172" x2="396" y2="172" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="396" y1="172" x2="405" y2="210" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="442" y1="177" x2="428" y2="204" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="516" y1="175" x2="503" y2="200" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="516" y1="175" x2="554" y2="171" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="554" y1="171" x2="587" y2="170" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="554" y1="171" x2="560" y2="209" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="587" y1="170" x2="597" y2="211" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="359" y1="204" x2="360" y2="241" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="359" y1="204" x2="405" y2="210" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="405" y1="210" x2="428" y2="204" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="405" y1="210" x2="406" y2="246" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="428" y1="204" x2="437" y2="241" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="560" y1="209" x2="554" y2="241" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="560" y1="209" x2="597" y2="211" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="597" y1="211" x2="590" y2="248" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="360" y1="241" x2="353" y2="279" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="360" y1="241" x2="406" y2="246" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="406" y1="246" x2="405" y2="275" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="406" y1="246" x2="437" y2="241" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="406" y1="246" x2="353" y2="279" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="437" y1="241" x2="468" y2="224" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="437" y1="241" x2="405" y2="275" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="437" y1="241" x2="442" y2="279" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="251" x2="519" y2="275" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="251" x2="500" y2="230" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="251" x2="548" y2="271" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="251" x2="483" y2="275" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="518" y1="251" x2="599" y2="280" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="554" y1="241" x2="548" y2="271" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="554" y1="241" x2="590" y2="248" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="554" y1="241" x2="599" y2="280" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="590" y1="248" x2="599" y2="280" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="353" y1="279" x2="405" y2="275" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="405" y1="275" x2="442" y2="279" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="442" y1="279" x2="483" y2="275" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="483" y1="275" x2="519" y2="275" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="519" y1="275" x2="548" y2="271" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="548" y1="271" x2="599" y2="280" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="468" y1="224" x2="500" y2="230" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="468" y1="224" x2="503" y2="200" stroke="#DDE0E5" stroke-width="1.4"/>
+<line x1="503" y1="200" x2="500" y2="230" stroke="#DDE0E5" stroke-width="1.4"/>
+<circle cx="349" cy="136" r="4.5" fill="#CBD0D6"/>
+<circle cx="395" cy="144" r="4.5" fill="#CBD0D6"/>
+<circle cx="432" cy="136" r="4.5" fill="#CBD0D6"/>
+<circle cx="469" cy="145" r="4.5" fill="#CBD0D6"/>
+<circle cx="518" cy="143" r="4.5" fill="#CBD0D6"/>
+<circle cx="560" cy="150" r="4.5" fill="#CBD0D6"/>
+<circle cx="587" cy="147" r="4.5" fill="#CBD0D6"/>
+<circle cx="353" cy="172" r="4.5" fill="#CBD0D6"/>
+<circle cx="396" cy="172" r="4.5" fill="#CBD0D6"/>
+<circle cx="442" cy="177" r="4.5" fill="#CBD0D6"/>
+<circle cx="516" cy="175" r="4.5" fill="#CBD0D6"/>
+<circle cx="554" cy="171" r="4.5" fill="#CBD0D6"/>
+<circle cx="587" cy="170" r="4.5" fill="#CBD0D6"/>
+<circle cx="359" cy="204" r="4.5" fill="#CBD0D6"/>
+<circle cx="405" cy="210" r="4.5" fill="#CBD0D6"/>
+<circle cx="428" cy="204" r="4.5" fill="#CBD0D6"/>
+<circle cx="560" cy="209" r="4.5" fill="#CBD0D6"/>
+<circle cx="597" cy="211" r="4.5" fill="#CBD0D6"/>
+<circle cx="360" cy="241" r="4.5" fill="#CBD0D6"/>
+<circle cx="406" cy="246" r="4.5" fill="#CBD0D6"/>
+<circle cx="437" cy="241" r="4.5" fill="#CBD0D6"/>
+<circle cx="518" cy="251" r="4.5" fill="#CBD0D6"/>
+<circle cx="554" cy="241" r="4.5" fill="#CBD0D6"/>
+<circle cx="590" cy="248" r="4.5" fill="#CBD0D6"/>
+<circle cx="353" cy="279" r="4.5" fill="#CBD0D6"/>
+<circle cx="405" cy="275" r="4.5" fill="#CBD0D6"/>
+<circle cx="442" cy="279" r="4.5" fill="#CBD0D6"/>
+<circle cx="483" cy="275" r="4.5" fill="#CBD0D6"/>
+<circle cx="519" cy="275" r="4.5" fill="#CBD0D6"/>
+<circle cx="548" cy="271" r="4.5" fill="#CBD0D6"/>
+<circle cx="599" cy="280" r="4.5" fill="#CBD0D6"/>
+<circle cx="468" cy="224" r="4.5" fill="#CBD0D6"/>
+<circle cx="503" cy="200" r="4.5" fill="#CBD0D6"/>
+<circle cx="500" cy="230" r="4.5" fill="#CBD0D6"/>
+<circle class="pb110-s4" cx="516" cy="175" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s1" cx="518" cy="251" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s1" cx="554" cy="241" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s1" cx="590" cy="248" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s2" cx="483" cy="275" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s2" cx="519" cy="275" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s1" cx="548" cy="271" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s0" cx="599" cy="280" r="5" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb110-s3" cx="468" cy="224" r="5" fill="#10B981" stroke="#10B981" stroke-width="2"/>
+<circle class="pb110-s3" cx="503" cy="200" r="5" fill="#10B981" stroke="#10B981" stroke-width="2"/>
+<circle class="pb110-s2" cx="500" cy="230" r="5" fill="#10B981" stroke="#10B981" stroke-width="2"/>
+<line class="pb110-s1" x1="591.5" y1="277.3" x2="527.4" y2="254.4" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb110-ah)"/>
+<line class="pb110-s2" x1="512.8" y1="244.9" x2="506.5" y2="237.6" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb110-ah)"/>
+<line class="pb110-s3" x1="500.8" y1="222" x2="502" y2="210" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb110-ah)"/>
+<circle class="pb110-s0" cx="599" cy="280" r="5.5" fill="#7C3AED"/>
+<circle class="pb110-s1" cx="518" cy="251" r="5.5" fill="#7C3AED"/>
+<circle class="pb110-s2" cx="500" cy="230" r="5.5" fill="#10B981"/>
+<circle class="pb110-rn" cx="468" cy="224" r="9" fill="none" stroke="#10B981" stroke-width="2.5"/>
+<circle class="pb110-rn" cx="503" cy="200" r="9" fill="none" stroke="#10B981" stroke-width="2.5"/>
+<circle class="pb110-rn" cx="500" cy="230" r="9" fill="none" stroke="#10B981" stroke-width="2.5"/>
+<polygon points="486,202.5 488.5,208.5 495,209.1 490.1,213.3 491.6,219.7 486,216.3 480.4,219.7 481.9,213.3 477,209.1 483.5,208.5" fill="#1E1B4B" stroke="#FFFFFF" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="614" y="268" text-anchor="end" font-size="14" font-weight="700" fill="#7C3AED" stroke="#F9FAFB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">entry</text>
+<text x="472" y="200" text-anchor="end" font-size="14" font-weight="700" fill="#1E1B4B" stroke="#F9FAFB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">query</text>
+<text x="402" y="163" text-anchor="middle" font-size="14" font-style="italic" fill="#6B7280" stroke="#F9FAFB" stroke-width="5" stroke-linejoin="round" paint-order="stroke">never checked</text>
+<rect x="28" y="310" width="272" height="52" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="164" y="334" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E"><tspan font-size="22">34</tspan> of 34 distances computed</text><text x="164" y="354" text-anchor="middle" font-size="14" fill="#92400E">always exact · grows with every item</text>
+<rect x="340" y="310" width="272" height="52" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="476" y="334" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95"><tspan font-size="22">11</tspan> of 34 distances computed</text><text x="476" y="354" text-anchor="middle" font-size="14" fill="#4C1D95">same 3 found · may rarely miss one</text>
+<text x="320" y="400" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">A few hops instead of a full scan: milliseconds, even for billions.</text>
 </svg>

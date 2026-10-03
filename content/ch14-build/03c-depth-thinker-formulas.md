@@ -2,7 +2,7 @@
 id: ch5-formulas
 type: spine
 title: "The Math Behind Recommendations"
-readingTime: 5
+readingTime: 4
 standalone: false
 teaser: "Cosine similarity, matrix factorization, precision, recall, and nDCG — the core formulas behind every production recommender system."
 voice: thinker
@@ -27,8 +27,6 @@ carriers: prose|table|image|formula
 ---
 
 This section provides a reference for the key mathematical formulas underlying recommendation systems. The goal is not rote memorization but rather building fluency -- you should be able to recognize each formula, understand what it measures, and know when to apply it.
-
-![Key RecSys formulas: cosine similarity, nDCG, BPR](/images/anim-formulas-overview.svg)
 
 ## 1. Cosine Similarity — "Are we pointing the same direction?"
 
@@ -56,9 +54,13 @@ $$\text{sim}_{\text{adj}}(A, B) = \frac{\sum_{i \in I_{AB}} (a_i - \bar{a})(b_i 
 
 where I_AB is the set of co-rated items and ā, b̄ are the respective user means. This is equivalent to Pearson correlation and is often preferred in practice.
 
+To see why centering matters, add a third toy user, Carol, who rates [1, 5, 1]. Raw cosine with Alice is 30 / (8.12 × 5.20) ≈ **0.71** — she looks like a decent neighbor. Centered, her ratings become [−1.33, 2.67, −1.33], exactly −4 × Alice's centered [0.33, −0.67, 0.33], so adjusted cosine is **−1.00**: she likes most what Alice likes least. Bob centers to exactly Alice's vector and stays at **1.00**.
+
+![Rating vectors drawn as arrows. Raw cosine: Bob points the same way as Alice, only shorter, so cosine is 1.00; Carol is 45 degrees off, 0.71. Adjusted cosine, each user's average subtracted first: Bob equals Alice at 1.00, Carol points the opposite way at −1.00.](/images/anim-formulas-overview.svg)
+
 ## 2. Matrix Factorization & ALS — "Find the hidden dimensions"
 
-For the full treatment of matrix factorization -- how it decomposes the rating matrix **R ≈ P × Qᵀ** into low-rank user and item factor matrices, how the ALS (Alternating Least Squares) algorithm optimizes the latent factors, and why this approach won the Netflix Prize -- see the dedicated section in Chapter 3.
+For the full treatment of matrix factorization -- how it decomposes the rating matrix **R ≈ P × Qᵀ** into low-rank user and item factor matrices, how the ALS (Alternating Least Squares) algorithm optimizes the latent factors, and why this approach won the Netflix Prize -- see [Matrix Factorization](#ch3-matrix-factorization).
 
 ## 3. Precision and Recall — "Did we recommend the right items?"
 
@@ -106,7 +108,7 @@ $$\text{nDCG@k} = \frac{\text{DCG@k}}{\text{IDCG@k}}$$
 |---------|-----------------|-------------|
 | Cosine similarity | Direction alignment between preference vectors | User-user or item-item collaborative filtering |
 | Adjusted cosine / Pearson | Mean-centered pattern similarity | Bias-aware collaborative filtering |
-| Matrix factorization | Latent factor decomposition | Model training (see Ch. 3) |
+| Matrix factorization | Latent factor decomposition | Model training (see [Matrix Factorization](#ch3-matrix-factorization)) |
 | Precision@k | Fraction of relevant items in top-k | Recommendation quality (relevance) |
 | Recall@k | Fraction of relevant items captured | Recommendation quality (coverage) |
 | nDCG@k | Ranking quality with position discounting | Evaluation of ranked recommendation lists |

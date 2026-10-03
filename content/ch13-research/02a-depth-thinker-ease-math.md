@@ -2,7 +2,7 @@
 id: ch7-ease-math
 type: spine
 title: "The Mathematics of EASE: A Complete Derivation"
-readingTime: 5
+readingTime: 2
 standalone: false
 core: false
 teaser: "From optimization problem to closed-form solution — every step of the EASE derivation explained."

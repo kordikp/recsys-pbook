@@ -2,7 +2,7 @@
 id: ch7-thompson-math
 type: spine
 title: "Thompson Sampling: The Full Mathematical Framework"
-readingTime: 5
+readingTime: 2
 standalone: false
 core: false
 teaser: "From Bayesian inference to regret bounds — the complete mathematical treatment of Thompson Sampling."
@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: deep
+lengthBand: standard
 genre: explainer
 carriers: prose|formula
 ---

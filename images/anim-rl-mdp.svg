@@ -1,35 +1,100 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520" role="img" aria-labelledby="pb026-title pb026-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb026-title">A bandit sees one step; reinforcement learning sees the whole session</title>
+  <desc id="pb026-desc">Toy music example. Two playlist policies for one listener over four steps. Greedy (top 3 favorites on repeat) earns rewards 5, 4, 2, 0 as the listener gets bored and leaves; Mixed (favorites plus new tracks) earns 4, 4, 5, 5. A bandit weighs only the immediate reward (gamma = 0) and picks Greedy, 5 against 4. Reinforcement learning weighs every step by gamma to the power t (gamma = 0.9) and picks Mixed, 15.3 against 10.2, because each recommendation changes the listener's next state. A bandit is reinforcement learning with gamma = 0.</desc>
+  <defs>
+    <marker id="pb026-ah" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="9" markerHeight="9" orient="auto"><path d="M0 1 L9 5 L0 9 z" fill="#7C3AED"/></marker>
+  </defs>
   <style>
-    .tok{animation:t 6s linear infinite;offset-path:path('M400 120 C610 120 610 320 400 320 C190 320 190 120 400 120');}
-    @keyframes t{to{offset-distance:100%}}
+    .pb026-hz{fill:#EDE9FE;animation:pb026-grow 10s ease-in-out infinite}
+    @keyframes pb026-grow{0%,13%{clip-path:inset(0 76% 0 0 round 12px);fill:#FEF3C7}17%{fill:#EDE9FE}22%,25%{clip-path:inset(0 50.5% 0 0 round 12px)}31%,34%{clip-path:inset(0 25% 0 0 round 12px)}40%,100%{clip-path:inset(0 0% 0 0 round 12px);fill:#EDE9FE}}
+    @media (prefers-reduced-motion: reduce){.pb026-hz{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Recommendation as Reinforcement Learning</text>
-
-  <path d="M400 120 C610 120 610 320 400 320 C190 320 190 120 400 120" fill="none" stroke="#E5E7EB" stroke-width="2.5" stroke-dasharray="7 6"/>
-  <circle class="tok" r="7" fill="#7C3AED"/>
-
-  <g text-anchor="middle" font-size="12.5">
-    <rect x="315" y="86" width="170" height="62" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2.5"/>
-    <text x="400" y="112" font-size="15" font-weight="800" fill="#4C1D95">AGENT</text>
-    <text x="400" y="132" fill="#4C1D95">the recommender π(a|s)</text>
-
-    <rect x="580" y="185" width="165" height="70" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="662" y="209" font-weight="800" fill="#92400E">ACTION a</text>
-    <text x="662" y="228" fill="#92400E">show this slate</text>
-    <text x="662" y="245" fill="#6B7280">(pick from millions)</text>
-
-    <rect x="315" y="288" width="170" height="62" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2.5"/>
-    <text x="400" y="314" font-size="15" font-weight="800" fill="#075985">ENVIRONMENT</text>
-    <text x="400" y="334" fill="#075985">the user reacts</text>
-
-    <rect x="55" y="185" width="165" height="70" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="137" y="207" font-weight="800" fill="#065F46">STATE s′ · REWARD r</text>
-    <text x="137" y="226" fill="#065F46">new context + signal</text>
-    <text x="137" y="245" fill="#6B7280">watch? like? leave?</text>
-  </g>
-
-  <text x="400" y="226" text-anchor="middle" font-size="13.5" font-weight="700" fill="#1E1B4B">maximize Σ γᵗ rₜ</text>
-  <text x="400" y="246" text-anchor="middle" font-size="12" fill="#6B7280">long-term value, not the next click</text>
-  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">Myopic CTR chasing is a greedy policy — RL framing makes tomorrow's session part of today's objective.</text>
+  <rect x=".5" y=".5" width="639" height="519" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="24" y="40" font-size="20" font-weight="700" fill="#1E1B4B">A bandit sees one step. RL sees the whole session.</text>
+  <text x="24" y="64" font-size="14" fill="#6B7280">Toy numbers · face = listener state <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">s</tspan>ₜ · arrow = recommendation <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">a</tspan>ₜ · +n = reward <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">r</tspan>ₜ</text>
+  <rect class="pb026-hz" x="12" y="158" width="402" height="90" rx="12"/>
+  <rect class="pb026-hz" x="12" y="280" width="402" height="90" rx="12"/>
+  <text x="60" y="124" font-size="15" font-weight="700" text-anchor="middle" fill="#4B5563"><tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">t</tspan> = 0</text>
+  <text x="162" y="124" font-size="15" font-weight="700" text-anchor="middle" fill="#4B5563"><tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">t</tspan> = 1</text>
+  <text x="264" y="124" font-size="15" font-weight="700" text-anchor="middle" fill="#4B5563"><tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">t</tspan> = 2</text>
+  <text x="366" y="124" font-size="15" font-weight="700" text-anchor="middle" fill="#4B5563"><tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">t</tspan> = 3</text>
+  <text x="470" y="102" font-size="16" font-weight="700" text-anchor="middle" fill="#92400E">Bandit</text>
+  <text x="470" y="124" font-size="15" text-anchor="middle" fill="#4B5563"><tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">r</tspan>₀ only</text>
+  <text x="574" y="102" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">RL</text>
+  <text x="574" y="124" font-size="15" text-anchor="middle" fill="#4B5563">Σ <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">γ</tspan>ᵗ <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">r</tspan>ₜ</text>
+  <text x="20" y="148" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Greedy</tspan>: top 3 favorites on repeat</text>
+  <rect x="20" y="166" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="44" cy="194" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <circle cx="39.5" cy="191" r="1.8" fill="#065F46"/><circle cx="48.5" cy="191" r="1.8" fill="#065F46"/><path d="M38 197 Q44 204 50 197" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round"/>
+  <text x="78" y="202" font-size="22" font-weight="800" text-anchor="middle" fill="#065F46">+5</text>
+  <text x="60" y="230" font-size="14" text-anchor="middle" fill="#4B5563">happy</text>
+  <line x1="103" y1="203" x2="118" y2="203" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb026-ah)"/>
+  <rect x="122" y="166" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="146" cy="194" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <circle cx="141.5" cy="191" r="1.8" fill="#065F46"/><circle cx="150.5" cy="191" r="1.8" fill="#065F46"/><path d="M141 198 Q146 201.5 151 198" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round"/>
+  <text x="180" y="202" font-size="22" font-weight="800" text-anchor="middle" fill="#065F46">+4</text>
+  <text x="162" y="230" font-size="14" text-anchor="middle" fill="#4B5563">ok</text>
+  <line x1="205" y1="203" x2="220" y2="203" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb026-ah)"/>
+  <rect x="224" y="166" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="248" cy="194" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <path d="M241 191 h5 M250 191 h5" stroke="#065F46" stroke-width="2" stroke-linecap="round"/><path d="M243 199.5 L253 199.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round"/>
+  <text x="282" y="202" font-size="22" font-weight="800" text-anchor="middle" fill="#065F46">+2</text>
+  <text x="264" y="230" font-size="14" text-anchor="middle" fill="#4B5563">bored</text>
+  <line x1="307" y1="203" x2="322" y2="203" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb026-ah)"/>
+  <rect x="326" y="166" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="350" cy="194" r="14" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="3 3"/>
+    <text x="350" y="200" font-size="18" text-anchor="middle">👋</text>
+  <text x="384" y="202" font-size="22" font-weight="800" text-anchor="middle" fill="#6B7280">0</text>
+  <text x="366" y="230" font-size="14" text-anchor="middle" fill="#4B5563">gone</text>
+  <rect x="424" y="166" width="92" height="74" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="470" y="204" font-size="26" font-weight="800" text-anchor="middle" fill="#92400E">5</text>
+  <text x="470" y="228" font-size="14" font-weight="700" text-anchor="middle" fill="#92400E">✓ picks</text>
+  <rect x="528" y="166" width="92" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="574" y="211" font-size="22" font-weight="700" text-anchor="middle" fill="#6B7280">10.2</text>
+  <text x="20" y="270" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#4C1D95">Mixed</tspan>: favorites + new tracks</text>
+  <rect x="20" y="288" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="44" cy="316" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <circle cx="39.5" cy="313" r="1.8" fill="#065F46"/><circle cx="48.5" cy="313" r="1.8" fill="#065F46"/><path d="M39 320 Q44 323.5 49 320" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round"/>
+  <text x="78" y="324" font-size="22" font-weight="800" text-anchor="middle" fill="#065F46">+4</text>
+  <text x="60" y="352" font-size="14" text-anchor="middle" fill="#4B5563">ok</text>
+  <line x1="103" y1="325" x2="118" y2="325" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb026-ah)"/>
+  <rect x="122" y="288" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="146" cy="316" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <circle cx="141.5" cy="313" r="1.8" fill="#065F46"/><circle cx="150.5" cy="313" r="1.8" fill="#065F46"/><path d="M141 320 Q146 323.5 151 320" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round"/>
+  <text x="180" y="324" font-size="22" font-weight="800" text-anchor="middle" fill="#065F46">+4</text>
+  <text x="162" y="352" font-size="14" text-anchor="middle" fill="#4B5563">curious</text>
+  <line x1="205" y1="325" x2="220" y2="325" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb026-ah)"/>
+  <rect x="224" y="288" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="248" cy="316" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <circle cx="243.5" cy="313" r="1.8" fill="#065F46"/><circle cx="252.5" cy="313" r="1.8" fill="#065F46"/><path d="M242 319 Q248 326 254 319" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round"/>
+  <text x="282" y="324" font-size="22" font-weight="800" text-anchor="middle" fill="#065F46">+5</text>
+  <text x="264" y="352" font-size="14" text-anchor="middle" fill="#4B5563">happy</text>
+  <line x1="307" y1="325" x2="322" y2="325" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb026-ah)"/>
+  <rect x="326" y="288" width="80" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="350" cy="316" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <circle cx="345.5" cy="313" r="1.8" fill="#065F46"/><circle cx="354.5" cy="313" r="1.8" fill="#065F46"/><path d="M344 319 Q350 326 356 319" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round"/>
+  <text x="384" y="324" font-size="22" font-weight="800" text-anchor="middle" fill="#065F46">+5</text>
+  <text x="366" y="352" font-size="14" text-anchor="middle" fill="#4B5563">happy</text>
+  <rect x="424" y="288" width="92" height="74" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="470" y="333" font-size="22" font-weight="700" text-anchor="middle" fill="#6B7280">4</text>
+  <rect x="528" y="288" width="92" height="74" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="574" y="326" font-size="26" font-weight="800" text-anchor="middle" fill="#4C1D95">15.3</text>
+  <text x="574" y="350" font-size="14" font-weight="700" text-anchor="middle" fill="#4C1D95">✓ picks</text>
+  <line x1="20" y1="384" x2="620" y2="384" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="28" y="402" width="64" height="28" rx="14" fill="#FEF3C7"/>
+  <text x="60" y="421" font-size="16" font-weight="700" text-anchor="middle" fill="#92400E">×1</text>
+  <text x="162" y="421" font-size="16" font-weight="700" text-anchor="middle" fill="#9CA3AF">×0</text>
+  <text x="264" y="421" font-size="16" font-weight="700" text-anchor="middle" fill="#9CA3AF">×0</text>
+  <text x="366" y="421" font-size="16" font-weight="700" text-anchor="middle" fill="#9CA3AF">×0</text>
+  <text x="424" y="421" font-size="15" font-weight="700" fill="#92400E">← Bandit weights, <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">γ</tspan> = 0</text>
+  <rect x="28" y="436" width="64" height="28" rx="14" fill="#EDE9FE"/>
+  <text x="60" y="455" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">×1</text>
+  <rect x="130" y="436" width="64" height="28" rx="14" fill="#EDE9FE"/>
+  <text x="162" y="455" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">×0.9</text>
+  <rect x="232" y="436" width="64" height="28" rx="14" fill="#EDE9FE"/>
+  <text x="264" y="455" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">×0.81</text>
+  <rect x="334" y="436" width="64" height="28" rx="14" fill="#EDE9FE"/>
+  <text x="366" y="455" font-size="16" font-weight="700" text-anchor="middle" fill="#4C1D95">×0.73</text>
+  <text x="424" y="455" font-size="15" font-weight="700" fill="#4C1D95">← RL weights, <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">γ</tspan> = 0.9</text>
+  <text x="320" y="496" font-size="16" font-weight="700" text-anchor="middle" fill="#1E1B4B">A bandit is RL with <tspan font-family="Georgia, 'Times New Roman', serif" font-style="italic">γ</tspan> = 0: it never sees the boredom coming.</text>
 </svg>

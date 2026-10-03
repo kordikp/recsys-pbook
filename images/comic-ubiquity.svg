@@ -1,80 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">A Highly Recommended Day Off</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <rect x="104" y="76" width="246" height="56" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="227" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="227" dy="0">Today: no algorithmic</tspan>
-    <tspan x="227" dy="17">suggestions.</tspan>
-  </text>
-  <circle cx="75" cy="162" r="10" fill="#7C3AED"/>
-  <path d="M75 173 L75 219 M75 187 L104 201 M75 219 L58 245 M75 219 L91 245" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="242" y="150" width="108" height="96" rx="8" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="296" y="175" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="296" dy="0">VIDEO · NEXT</tspan>
-    <tspan x="296" dy="24">MUSIC · FOR YOU</tspan>
-    <tspan x="296" dy="24">NEWS · TOP PICKS</tspan>
-  </text>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Mira attempts one recommendation-free day.</text>
-
-  <!-- Panel 2 -->
-  <circle cx="450" cy="190" r="10" fill="#7C3AED"/>
-  <path d="M450 201 L450 243 M450 215 L431 231 M450 216 L468 228 M450 243 L433 270 M450 243 L472 266" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="492" y="82" width="132" height="49" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="558" y="102" font-size="12" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="558" dy="0" font-weight="700">MAPS</tspan>
-    <tspan x="558" dy="16">Faster route</tspan>
-  </text>
-  <rect x="635" y="143" width="130" height="49" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="700" y="163" font-size="12" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="700" dy="0" font-weight="700">RIDES</tspan>
-    <tspan x="700" dy="16">Car nearby</tspan>
-  </text>
-  <rect x="500" y="215" width="139" height="49" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="569.5" y="235" font-size="12" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="569.5" dy="0" font-weight="700">PODCASTS</tspan>
-    <tspan x="569.5" dy="16">Play next</tspan>
-  </text>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Maps, rides, and podcasts volunteer before she asks.</text>
-
-  <!-- Panel 3 -->
-  <rect x="34" y="354" width="153" height="53" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
-  <text x="110.5" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="110.5" dy="0" font-weight="700">237 suggestions</tspan>
-    <tspan x="110.5" dy="17">before lunch.</tspan>
-  </text>
-  <circle cx="91" cy="448" r="10" fill="#7C3AED"/>
-  <path d="M91 459 L91 508 M91 474 L127 488 M91 508 L74 535 M91 508 L110 535" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="180" y="416" width="174" height="101" rx="8" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2"/>
-  <rect x="191" y="427" width="152" height="77" rx="5" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="267" y="449" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="267" dy="0">SHOPPING · SOCIAL</tspan>
-    <tspan x="267" dy="22">SEARCH · FOOD</tspan>
-    <tspan x="267" dy="22">Picked for you</tspan>
-  </text>
-  <path d="M165 518 L367 518" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Naming each one somehow makes the total worse.</text>
-
-  <!-- Panel 4 -->
-  <rect x="548" y="354" width="218" height="56" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="657" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="657" dy="0">For you: a quieter</tspan>
-    <tspan x="657" dy="17">digital day tomorrow.</tspan>
-  </text>
-  <circle cx="470" cy="448" r="10" fill="#7C3AED"/>
-  <path d="M470 459 L470 507 M470 475 L516 493 M470 507 L452 536 M470 507 L490 536" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="508" y="492" width="76" height="50" rx="6" fill="#FEF3C7" stroke="#D97706"/>
-  <rect x="529" y="474" width="24" height="39" rx="4" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <rect x="624" y="424" width="121" height="122" rx="8" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
-  <path d="M624 466 L745 466" fill="none" stroke="#10B981" stroke-width="2"/>
-  <text x="684.5" y="447" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">SMART HOME</text>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Even the escape plan arrives as a personalized suggestion.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Recommenders span daily platforms; once noticed, hundreds of suggestions appear everywhere.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="pb103-title pb103-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb103-title">A highly recommended day off</title>
+<desc id="pb103-desc">Four-panel comic. Mira plans a day off with no recommendations. At breakfast her phone shows YouTube Up next, Spotify Discover Weekly and Netflix Because you watched; she says those three do not count. Browsing, Amazon shows customers who bought this also bought and LinkedIn shows jobs you might be interested in; she wonders whether everything is a recommendation. She searches how to avoid recommendations and the search box autocompletes her question: six spotted by 10 a.m. Almost every app recommends; once you start counting, you cannot stop.</desc>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">A highly recommended day off</text>
+<g transform="translate(16,52)"><rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="22" cy="24" r="11" fill="#1E1B4B"/><text x="22" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text><text x="41" y="29" font-size="16" font-weight="700" fill="#1E1B4B">8:00 · Day off</text><rect x="196" y="11" width="90" height="26" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="241" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Spotted: 0</text><path d="M12,236 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M168,236 V202 M256,236 V202" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/><rect x="154" y="196" width="116" height="7" rx="3.5" fill="#D1D5DB"/><text x="186" y="191" font-size="26" text-anchor="middle">☕</text><rect x="216" y="184" width="42" height="12" rx="3" fill="#1E1B4B"/><text x="250" y="174" font-size="14" font-style="italic" fill="#6B7280" text-anchor="middle">zz</text><circle cx="70" cy="140" r="7" fill="#065F46"/><path d="M47,236 V196 Q47,180 63,180 H77 Q93,180 93,196 V236 Z" fill="#10B981"/><circle cx="70" cy="159" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="64" cy="157" r="2.2" fill="#1E1B4B"/><circle cx="76" cy="157" r="2.2" fill="#1E1B4B"/><path d="M64,165 Q70,170 76,165" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><text x="70" y="256" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">Mira</text><path d="M34,50 H264 Q276,50 276,62 V88 Q276,100 264,100 H78 L70,134 L62,100 H34 Q22,100 22,88 V62 Q22,50 34,50 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="149" y="70.5" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="149">Day off! No recommendations</tspan><tspan x="149" dy="20">today. I choose everything.</tspan></text></g>
+<g transform="translate(326,52)"><rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="22" cy="24" r="11" fill="#1E1B4B"/><text x="22" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text><text x="41" y="29" font-size="16" font-weight="700" fill="#1E1B4B">8:15 · Breakfast</text><rect x="196" y="11" width="90" height="26" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="241" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Spotted: 3</text><path d="M12,246 H64" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><circle cx="38" cy="150" r="7" fill="#065F46"/><path d="M15,246 V206 Q15,190 31,190 H45 Q61,190 61,206 V246 Z" fill="#10B981"/><circle cx="38" cy="169" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="32" cy="167" r="2.2" fill="#1E1B4B"/><circle cx="44" cy="167" r="2.2" fill="#1E1B4B"/><path d="M33,177 H43" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="74" y="92" width="212" height="166" rx="16" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/><rect x="160" y="98" width="40" height="6" rx="3" fill="#D1D5DB"/><rect x="84" y="112" width="192" height="42" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="96" y="130" font-size="14" font-weight="700" fill="#4C1D95">YouTube</text><text x="96" y="148" font-size="15" fill="#1E1B4B">▶ Up next</text><rect x="84" y="160" width="192" height="42" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="96" y="178" font-size="14" font-weight="700" fill="#4C1D95">Spotify</text><text x="96" y="196" font-size="15" fill="#1E1B4B">Discover Weekly</text><rect x="84" y="208" width="192" height="42" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="96" y="226" font-size="14" font-weight="700" fill="#4C1D95">Netflix</text><text x="96" y="244" font-size="15" fill="#1E1B4B">Because you watched…</text><path d="M24,48 H210 Q222,48 222,60 V72 Q222,84 210,84 H48 L40,140 L32,84 H24 Q12,84 12,72 V60 Q12,48 24,48 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="117" y="71.5" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="117">Those three don’t count.</tspan></text></g>
+<g transform="translate(16,330)"><rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="22" cy="24" r="11" fill="#1E1B4B"/><text x="22" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text><text x="41" y="29" font-size="16" font-weight="700" fill="#1E1B4B">9:30 · Browsing</text><rect x="196" y="11" width="90" height="26" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="241" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Spotted: 5</text><path d="M12,246 H64" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><circle cx="38" cy="150" r="7" fill="#065F46"/><path d="M15,246 V206 Q15,190 31,190 H45 Q61,190 61,206 V246 Z" fill="#10B981"/><circle cx="38" cy="169" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="32" cy="167" r="2.2" fill="#1E1B4B"/><circle cx="44" cy="167" r="2.2" fill="#1E1B4B"/><path d="M32,178 Q38,174 44,178" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M28,162 L35,159 M41,159 L48,162" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><rect x="74" y="104" width="212" height="142" rx="10" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/><path d="M68,247 H292 L286,255 H74 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><rect x="84" y="112" width="192" height="60" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="96" y="130" font-size="14" font-weight="700" fill="#4C1D95">Amazon</text><text x="96" y="148" font-size="15" fill="#1E1B4B">Customers who bought</text><text x="96" y="166" font-size="15" fill="#1E1B4B">this also bought…</text><rect x="84" y="178" width="192" height="60" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="96" y="196" font-size="14" font-weight="700" fill="#4C1D95">LinkedIn</text><text x="96" y="214" font-size="15" fill="#1E1B4B">Jobs you might be</text><text x="96" y="232" font-size="15" fill="#1E1B4B">interested in</text><path d="M24,48 H178 Q190,48 190,60 V86 Q190,98 178,98 H48 L40,140 L32,98 H24 Q12,98 12,86 V60 Q12,48 24,48 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="101" y="68.5" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="101">Wait… is everything</tspan><tspan x="101" dy="20">a recommendation?</tspan></text></g>
+<g transform="translate(326,330)"><rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="22" cy="24" r="11" fill="#1E1B4B"/><text x="22" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text><text x="41" y="29" font-size="16" font-weight="700" fill="#1E1B4B">10:00 · Escape</text><rect x="196" y="11" width="90" height="26" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="241" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Spotted: 6</text><rect x="12" y="46" width="274" height="34" rx="17" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><text x="30" y="69" font-size="15" text-anchor="middle">🔍</text><text x="46" y="68" font-size="15" fill="#1E1B4B">how to avoid recomm</text><path d="M202,54 V72" stroke="#1E1B4B" stroke-width="1.5"/><text x="274" y="68" font-size="14" font-weight="700" fill="#6B7280" text-anchor="end">Google</text><rect x="12" y="86" width="274" height="58" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><text x="26" y="109" font-size="15" fill="#1E1B4B">how to avoid recomm<tspan font-weight="700" fill="#4C1D95">endations</tspan></text><text x="26" y="134" font-size="15" fill="#1E1B4B">how to avoid recomm<tspan font-weight="700" fill="#4C1D95">ended videos</tspan></text><path d="M12,256 H80" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><circle cx="44" cy="160" r="7" fill="#065F46"/><path d="M21,256 V216 Q21,200 37,200 H51 Q67,200 67,216 V256 Z" fill="#10B981"/><circle cx="44" cy="179" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="38" cy="177" r="2.2" fill="#1E1B4B"/><circle cx="50" cy="177" r="2.2" fill="#1E1B4B"/><circle cx="44" cy="187" r="3" fill="none" stroke="#1E1B4B" stroke-width="1.8"/><path d="M34,170 Q38,166 42,169 M46,169 Q50,166 54,170" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M108,168 H274 Q286,168 286,180 V204 Q286,216 274,216 H108 Q96,216 96,204 V202 L68,179 L96,188 V180 Q96,168 108,168 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="191" y="187.5" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="191">It even recommends</tspan><tspan x="191" dy="20">my questions!</tspan></text><text x="191" y="244" font-size="15" font-weight="700" fill="#92400E" text-anchor="middle">…and it’s only 10 a.m.</text></g>
+<text x="320" y="622" text-anchor="middle" font-size="17" fill="#1E1B4B"><tspan font-weight="700" fill="#7C3AED">Almost every app recommends.</tspan> Once you start counting, you can’t stop.</text>
 </svg>

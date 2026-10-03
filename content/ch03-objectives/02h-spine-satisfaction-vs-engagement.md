@@ -2,7 +2,7 @@
 id: ch4-satisfaction
 type: spine
 title: "Satisfaction vs. Engagement: Measuring What Actually Matters"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: true
 teaser: "High engagement doesn't mean high satisfaction. 'I can't stop watching' and 'I'm glad I watched' are very different things."
@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
@@ -35,7 +35,7 @@ But ask that user afterward: "Did you enjoy that?" The answer might be: "Not rea
 
 This gap between **engagement** (what users do) and **satisfaction** (how users feel about what they did) is one of the most important challenges in recommender systems — and one that the industry has been slow to address.
 
-![Engagement vs satisfaction divergence over time](/images/anim-satisfaction-gap.svg)
+![Two evenings on a video app: the dashboard crowns the 4-hour autoplay rabbit hole, but only the viewer of the 2-hour show they picked was glad they watched and comes back on their own](/images/anim-satisfaction-gap.svg)
 
 ## The Metric Problem
 
@@ -94,4 +94,4 @@ This structural difference explains why Netflix (subscription) invests heavily i
 
 **Time well spent.** Apple's Screen Time and Google's Digital Wellbeing initiatives represent a shift toward measuring quality of time, not just quantity. If recommendation platforms adopted similar thinking, the optimization target would change fundamentally.
 
-**Consider this:** The distinction between engagement and satisfaction isn't just a measurement problem — it's an ethical one. Optimizing for engagement when it diverges from satisfaction means deliberately keeping users doing something they don't value. Whether this is acceptable depends on how you define the platform's responsibility to its users.
+The distinction between engagement and satisfaction isn't just a measurement problem — it's an ethical one. Optimizing for engagement when it diverges from satisfaction means deliberately keeping users doing something they don't value. Whether this is acceptable depends on how you define the platform's responsibility to its users.

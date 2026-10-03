@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Tonight’s Special Has Terms and Conditions — a four-panel comic](images/comic-business-rules.svg)
+![Tonight’s Special Has Terms and Conditions — a four-panel comic: the waiter, as the recommender, ranks desserts by taste (lemon tart, tiramisu, cheesecake); the manager, as business rules, drops the sold-out lemon tart and boosts the cheesecake because twelve are left; the guest gets cheesecake, the best one they have](images/comic-business-rules.svg)
 
 *Business rules keep recommendations feasible, available, and aligned with real business needs.*

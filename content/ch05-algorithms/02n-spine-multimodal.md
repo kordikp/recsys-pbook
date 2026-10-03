@@ -2,7 +2,7 @@
 id: ch3-multimodal
 type: spine
 title: "Multimodal Recommendation: Beyond Text and Clicks"
-readingTime: 3
+readingTime: 13
 standalone: true
 core: true
 voice: universal
@@ -14,15 +14,18 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: multimodal
 conceptTitle: "Multimodal recommendation"
+parents: embeddings|content-based
 state: core
 lens: generic
 visuality: balanced
-depth: standard
+depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
+
+> **In short:** Metadata misses a lot: two dresses both labelled "elegant evening wear" can look nothing alike. **Multimodal** recommenders also read the item itself (text, images, audio) and turn each into an embedding, a list of numbers in which similar items sit close together. The modalities are combined early (joined before one model), late (separate models whose predictions are merged) or through cross-attention, where each modality looks at the others. CLIP maps images and text into one shared space, so a text query can find matching pictures. beeFormer trains text embeddings on behavior, so items end up close when the same people choose them, not merely when their descriptions sound alike. The hard part is alignment: getting the different spaces to agree.
 
 A product listing has a title, a photograph, maybe a video review, and thousands of behavioral signals from users who browsed, clicked, and purchased it. Traditional recommender systems pick one of these signals -- typically user behavior or text metadata -- and ignore the rest. **Multimodal recommendation** uses all of them simultaneously, building a richer understanding of items than any single data source can provide.
 
@@ -83,7 +86,7 @@ Music and audio recommendation benefit enormously from processing the audio sign
 
 The central engineering question in multimodal recommendation is how to combine information from different modalities. Three strategies dominate, each with distinct trade-offs.
 
-![Three multimodal fusion strategies: early, late, and cross-attention](/images/diagram-multimodal-fusion.svg)
+![Three ways to combine modalities: early fusion joins text, image and audio embeddings into one 3328-number vector before a single model; late fusion runs one model per modality and joins their scores with a weighted sum; cross-attention lets words like "floral" look at the matching part of the image inside the model](/images/diagram-multimodal-fusion.svg)
 
 ### Early Fusion: Concatenate Before the Model
 
@@ -115,7 +118,7 @@ Transformer-based architectures naturally support this through cross-attention l
 
 ## beeFormer: Multimodal Embeddings for Recommendation
 
-**beeFormer** (Kasalicky et al., 2024) demonstrates a particularly elegant approach to multimodal recommendation. It adapts Sentence Transformer models to produce recommendation-quality embeddings from item content -- text, images, or both.
+**[beeFormer](#c/beeformer)** (Vančura, Kordík & Straka, RecSys 2024) demonstrates a particularly elegant approach to multimodal recommendation. It adapts Sentence Transformer models to produce recommendation-quality embeddings from item content -- text, images, or both.
 
 The key insight: standard text and image embeddings (from BERT, CLIP, etc.) are trained for general-purpose semantic similarity. "Similar meaning" does not always equal "similar preference." Two technical textbooks might be semantically similar but appeal to completely different audiences. beeFormer fine-tunes multimodal encoders on user interaction data, learning to produce embeddings where proximity reflects **behavioral similarity** (items consumed by the same users) rather than just semantic similarity.
 

@@ -19,9 +19,9 @@ concept: three-jobs
 state: edited
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose
 ---

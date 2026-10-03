@@ -2,7 +2,7 @@
 id: ch2-implicit-feedback
 type: spine
 title: "Implicit Feedback: The Mathematics of Behavioral Signals"
-readingTime: 5
+readingTime: 9
 standalone: false
 core: false
 voice: thinker
@@ -20,7 +20,7 @@ genre: explainer
 carriers: prose|table|image|formula
 ---
 
-The previous section established that implicit feedback -- what users *do* rather than what they *say* -- is the dominant signal in modern recommender systems. But implicit data introduces mathematical challenges that explicit ratings don't have. Here we formalize those challenges and examine the key frameworks that address them.
+[Explicit vs. Implicit](#ch2-interactions) established that implicit feedback -- what users *do* rather than what they *say* -- is the dominant signal in modern recommender systems. But implicit data introduces mathematical challenges that explicit ratings don't have. Here we formalize those challenges and examine the key frameworks that address them.
 
 ## The Fundamental Asymmetry
 
@@ -143,7 +143,7 @@ This normalization prevents systematic bias toward long-form content. Without it
 
 ## Multi-Signal Fusion
 
-![Implicit feedback signal strength hierarchy from purchase to skip](/images/diagram-implicit-feedback.svg)
+![Six implicit signals from impression to purchase, plus return as a negative, rated by intent strength and ambiguity, with a weighted-score example: 3 clicks × 1 + 1 purchase × 5 = 8](/images/diagram-implicit-feedback.svg)
 
 Real-world systems observe multiple implicit signals simultaneously, and these signals carry different levels of intent:
 

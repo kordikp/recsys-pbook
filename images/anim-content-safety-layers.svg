@@ -1,39 +1,127 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" role="img" aria-labelledby="pb008-title pb008-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb008-title">Three safety layers between an upload and a feed</title>
+  <desc id="pb008-desc">Three uploads fall through three safety layers. A rule-breaking video is removed by layer 1, content moderation. A borderline outrage clip breaks no rule and is the most watched, so it passes layer 1, but layer 2, recommendation filtering, keeps it findable in search and never pushes it. A medical lecture on self-harm passes both, and layer 3, contextual safety, recommends it to a nurse but not to a teen in crisis. No single layer is enough: each catches what the others let through.</desc>
   <style>
-    .item{animation:go 5s linear infinite}
-    .item2{animation:go 5s linear infinite;animation-delay:1.6s}
-    .item3{animation:stop3 5s linear infinite;animation-delay:3.2s}
-    @keyframes go{0%{transform:translateX(0);opacity:0}6%{opacity:1}30%{transform:translateX(180px)}60%{transform:translateX(390px)}92%{opacity:1}100%{transform:translateX(600px);opacity:0}}
-    @keyframes stop3{0%{transform:translateX(0);opacity:0}6%{opacity:1}30%{transform:translateX(180px)}55%,70%{transform:translateX(330px);opacity:1}85%,100%{transform:translateX(330px) translateY(90px);opacity:0}}
+    .pb008-tok{opacity:0;animation:10s ease-in-out infinite}
+    .pb008-t1{animation-name:pb008-t1}
+    .pb008-t2{animation-name:pb008-t2}
+    .pb008-t3{animation-name:pb008-t3}
+    @keyframes pb008-t1{0%{transform:translateY(-29px);opacity:0}2%{opacity:1}10%{transform:translateY(0);opacity:1}13%,100%{transform:translateY(0);opacity:0}}
+    @keyframes pb008-t2{0%,10%{transform:translateY(-115px);opacity:0}12%{opacity:1}28%{transform:translateY(0);opacity:1}31%,100%{transform:translateY(0);opacity:0}}
+    @keyframes pb008-t3{0%,26%{transform:translateY(-217px);opacity:0}28%{opacity:1}46%{transform:translateY(0);opacity:1}49%,100%{transform:translateY(0);opacity:0}}
+    .pb008-ring{opacity:0;animation:10s ease-out infinite}
+    .pb008-r1{animation-name:pb008-r1}
+    .pb008-r2{animation-name:pb008-r2}
+    .pb008-r3{animation-name:pb008-r3}
+    @keyframes pb008-r1{0%,10%{opacity:0}13%{opacity:1}24%,100%{opacity:0}}
+    @keyframes pb008-r2{0%,28%{opacity:0}31%{opacity:1}42%,100%{opacity:0}}
+    @keyframes pb008-r3{0%,46%{opacity:0}49%{opacity:1}60%,100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb008-tok,.pb008-ring{animation:none !important}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Content Safety: Three Gates Before the Feed</text>
+  <defs>
+    <marker id="pb008-ah" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#9CA3AF"/>
+    </marker>
+  </defs>
 
-  <g text-anchor="middle" font-size="12.5">
-    <rect x="160" y="90" width="170" height="200" rx="12" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-    <text x="245" y="118" font-size="14" font-weight="800" fill="#B91C1C">1 · UPLOAD</text>
-    <text x="245" y="142" fill="#B91C1C">automated scan</text>
-    <text x="245" y="162" fill="#6B7280">hashes · classifiers</text>
-    <text x="245" y="182" fill="#6B7280">blocks the illegal</text>
+  <rect x=".5" y=".5" width="639" height="499" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="38" font-size="20" font-weight="700" fill="#1E1B4B">Three safety layers between an upload and a feed</text>
 
-    <rect x="370" y="90" width="170" height="200" rx="12" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="455" y="118" font-size="14" font-weight="800" fill="#92400E">2 · ELIGIBILITY</text>
-    <text x="455" y="142" fill="#92400E">recommendable?</text>
-    <text x="455" y="162" fill="#6B7280">borderline stays</text>
-    <text x="455" y="182" fill="#6B7280">searchable, NOT pushed</text>
+  <!-- ===== row 0: uploads ===== -->
+  <text x="32" y="108" font-size="16" font-weight="700" fill="#1E1B4B">New uploads</text>
+  <text x="32" y="128" font-size="14" fill="#6B7280">toy example</text>
 
-    <rect x="580" y="90" width="170" height="200" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="665" y="118" font-size="14" font-weight="800" fill="#065F46">3 · RANKING</text>
-    <text x="665" y="142" fill="#065F46">quality signals</text>
-    <text x="665" y="162" fill="#6B7280">reports · trust · age</text>
-    <text x="665" y="182" fill="#6B7280">gates amplification</text>
+  <rect x="200" y="64" width="118" height="90" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="259" y="98" text-anchor="middle" font-size="22">⛔</text>
+  <text x="259" y="122" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">Rule-breaking</text>
+  <text x="259" y="140" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">video</text>
+
+  <rect x="328" y="64" width="118" height="90" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="387" y="98" text-anchor="middle" font-size="22">😡</text>
+  <text x="387" y="122" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">Outrage clip</text>
+  <text x="387" y="140" text-anchor="middle" font-size="15" fill="#92400E">borderline</text>
+  <!-- sticker -->
+  <rect x="331" y="51" width="112" height="24" rx="12" fill="#F59E0B"/>
+  <text x="387" y="68" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">most watched</text>
+
+  <rect x="456" y="64" width="160" height="90" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="536" y="98" text-anchor="middle" font-size="22">🩺</text>
+  <text x="536" y="122" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">Medical lecture</text>
+  <text x="536" y="140" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">on self-harm</text>
+
+  <!-- ===== layer bands ===== -->
+  <rect x="16" y="168" width="608" height="80" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="16" y="262" width="608" height="80" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="16" y="356" width="608" height="100" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+
+  <!-- paths -->
+  <g stroke="#9CA3AF" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <line x1="259" y1="157" x2="259" y2="188" marker-end="url(#pb008-ah)"/>
+    <line x1="387" y1="157" x2="387" y2="276" marker-end="url(#pb008-ah)"/>
+    <line x1="536" y1="157" x2="536" y2="374"/>
+    <line x1="536" y1="374" x2="500" y2="394" marker-end="url(#pb008-ah)"/>
+    <line x1="536" y1="374" x2="572" y2="394" marker-end="url(#pb008-ah)"/>
   </g>
 
-  <line x1="70" y1="240" x2="750" y2="240" stroke="#E5E7EB" stroke-width="2"/>
-  <g class="item"><rect x="70" y="226" width="56" height="28" rx="7" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/><text x="98" y="245" text-anchor="middle" font-size="11">video A</text></g>
-  <g class="item2"><rect x="70" y="226" width="56" height="28" rx="7" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/><text x="98" y="245" text-anchor="middle" font-size="11">video B</text></g>
-  <g class="item3"><rect x="70" y="226" width="56" height="28" rx="7" fill="#FFFFFF" stroke="#D97706" stroke-width="2"/><text x="98" y="245" text-anchor="middle" font-size="11">video C</text></g>
-  <text x="455" y="352" text-anchor="middle" font-size="12" fill="#92400E">C: allowed to exist, denied the megaphone</text>
+  <!-- layer labels -->
+  <g font-size="15" font-weight="700" fill="#1E1B4B">
+    <circle cx="40" cy="192" r="12" fill="#7C3AED"/>
+    <text x="40" y="197" text-anchor="middle" fill="#FFFFFF">1</text>
+    <text x="60" y="197">Content</text>
+    <text x="60" y="215">moderation</text>
+    <text x="60" y="237" font-size="14" font-weight="400" fill="#4B5563">Breaks the rules?</text>
 
-  <text x="400" y="392" text-anchor="middle" font-size="13" fill="#6B7280">"Free to post" and "free to be amplified" are different rights — the recommender is where the second one is decided.</text>
+    <circle cx="40" cy="286" r="12" fill="#7C3AED"/>
+    <text x="40" y="291" text-anchor="middle" fill="#FFFFFF">2</text>
+    <text x="60" y="291">Recommendation</text>
+    <text x="60" y="309">filtering</text>
+    <text x="60" y="331" font-size="14" font-weight="400" fill="#4B5563">Borderline?</text>
+
+    <circle cx="40" cy="380" r="12" fill="#7C3AED"/>
+    <text x="40" y="385" text-anchor="middle" fill="#FFFFFF">3</text>
+    <text x="60" y="385">Contextual</text>
+    <text x="60" y="403">safety</text>
+    <text x="60" y="425" font-size="14" font-weight="400" fill="#4B5563">Who is watching?</text>
+  </g>
+
+  <!-- pass checks -->
+  <g stroke="#10B981" stroke-width="1.5">
+    <circle cx="387" cy="208" r="11" fill="#D1FAE5"/>
+    <circle cx="536" cy="208" r="11" fill="#D1FAE5"/>
+    <circle cx="536" cy="302" r="11" fill="#D1FAE5"/>
+  </g>
+  <g stroke="#065F46" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <path d="M382 208 l3.5 3.5 l6 -7"/>
+    <path d="M531 208 l3.5 3.5 l6 -7"/>
+    <path d="M531 302 l3.5 3.5 l6 -7"/>
+  </g>
+
+  <text x="404" y="213" font-size="14" fill="#065F46">breaks no rule</text>
+
+  <!-- layer 1 stop: removed -->
+  <rect x="209" y="192" width="100" height="32" rx="16" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5"/>
+  <text x="259" y="213" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">✕ Removed</text>
+  <rect class="pb008-ring pb008-r1" x="205" y="188" width="108" height="40" rx="20" fill="none" stroke="#6B7280" stroke-width="2"/>
+
+  <!-- layer 2 stop: search only -->
+  <rect x="333" y="280" width="108" height="46" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="387" y="299" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">Search only</text>
+  <text x="387" y="317" text-anchor="middle" font-size="14" fill="#92400E">never pushed</text>
+  <rect class="pb008-ring pb008-r2" x="329" y="276" width="116" height="54" rx="15" fill="none" stroke="#F59E0B" stroke-width="2"/>
+
+  <!-- layer 3: depends on the viewer -->
+  <circle cx="536" cy="374" r="4" fill="#9CA3AF"/>
+  <rect x="462" y="398" width="70" height="44" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="497" y="425" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">✓ Nurse</text>
+  <rect x="540" y="398" width="72" height="44" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="576" y="416" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">✕ Teen</text>
+  <text x="576" y="434" text-anchor="middle" font-size="14" fill="#92400E">in crisis</text>
+  <rect class="pb008-ring pb008-r3" x="457" y="393" width="160" height="54" rx="16" fill="none" stroke="#7C3AED" stroke-width="2"/>
+
+  <!-- moving tokens (motion only; final positions = stop points) -->
+  <circle class="pb008-tok pb008-t1" cx="259" cy="186" r="6" fill="#7C3AED"/>
+  <circle class="pb008-tok pb008-t2" cx="387" cy="272" r="6" fill="#7C3AED"/>
+  <circle class="pb008-tok pb008-t3" cx="536" cy="374" r="6" fill="#7C3AED"/>
+
+  <text x="320" y="482" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">No single layer is enough: each catches what the others let through.</text>
 </svg>

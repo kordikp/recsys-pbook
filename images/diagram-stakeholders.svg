@@ -1,81 +1,81 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 380" width="680" height="380" font-family="system-ui, sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" width="640" height="420" role="img" aria-labelledby="pb143-title pb143-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb143-title">The rich-get-richer loop</title>
+  <desc id="pb143-desc">Being shown earns clicks, clicks make an item look like a safer bet, and safer bets get shown more, so a new provider with zero clicks is never shown; reserving a slot for newcomers gives them their first clicks and a fair chance to enter the loop.</desc>
   <defs>
-    <marker id="tensionStart" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-      <circle cx="3" cy="3" r="2" fill="#6B7280"/>
+    <marker id="pb143-ah-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#7C3AED"/>
     </marker>
-    <marker id="tensionEnd" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
-      <circle cx="3" cy="3" r="2" fill="#6B7280"/>
+    <marker id="pb143-ah-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1 L9 5 L1 9 Z" fill="#10B981"/>
     </marker>
   </defs>
 
-  <!-- Warm card background -->
-  <rect x="1" y="1" width="678" height="378" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+  <rect x=".5" y=".5" width="639" height="419" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <!-- Title -->
-  <text x="340" y="30" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Stakeholder Triangle</text>
-  <text x="340" y="49" text-anchor="middle" font-size="11" fill="#6B7280">Balancing competing interests in recommender systems</text>
+  <text x="320" y="40" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">The rich-get-richer loop</text>
 
-  <!-- Triangle edges -->
-  <line x1="340" y1="102" x2="130" y2="292" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="6 4"/>
-  <line x1="340" y1="102" x2="550" y2="292" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="6 4"/>
-  <line x1="130" y1="292" x2="550" y2="292" stroke="#E5E7EB" stroke-width="2" stroke-dasharray="6 4"/>
+  <!-- ============ Left panel: without a fix ============ -->
+  <rect x="16" y="60" width="296" height="300" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="164" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Without a fix</text>
 
-  <!-- Bidirectional tension relationships -->
-  <path d="M285 132 L188 258" fill="none" stroke="#6B7280" stroke-width="1.2" marker-start="url(#tensionStart)" marker-end="url(#tensionEnd)"/>
-  <path d="M395 132 L492 258" fill="none" stroke="#6B7280" stroke-width="1.2" marker-start="url(#tensionStart)" marker-end="url(#tensionEnd)"/>
-  <path d="M230 295 L450 295" fill="none" stroke="#6B7280" stroke-width="1.2" marker-start="url(#tensionStart)" marker-end="url(#tensionEnd)"/>
+  <!-- loop arrows -->
+  <path d="M228 124 Q266 150 254 214" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb143-ah-purple)"/>
+  <path d="M220 258 Q164 290 110 258" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb143-ah-purple)"/>
+  <path d="M76 218 Q62 152 98 126" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb143-ah-purple)"/>
 
-  <!-- Readable edge labels -->
-  <g transform="translate(207 184) rotate(-40)">
-    <rect x="-92" y="-13" width="184" height="26" rx="8" fill="#FAFAF7"/>
-    <text x="0" y="4" text-anchor="middle" font-size="11" font-weight="600" fill="#6B7280">fair exposure vs. relevance</text>
+  <!-- loop nodes -->
+  <rect x="102" y="104" width="124" height="34" rx="17" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="164" y="126" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Shown more</text>
+
+  <rect x="178" y="222" width="118" height="34" rx="17" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="237" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">More clicks</text>
+
+  <rect x="32" y="222" width="118" height="34" rx="17" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="91" y="244" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Safer bet</text>
+
+  <!-- who rides the loop -->
+  <text x="164" y="181" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">★ Big provider</text>
+  <text x="164" y="201" text-anchor="middle" font-size="14" fill="#4B5563">years of clicks</text>
+
+  <!-- newcomer left out -->
+  <rect x="32" y="290" width="264" height="54" rx="10" fill="#FAFAF7" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="164" y="312" text-anchor="middle" font-size="15" font-weight="700" fill="#4B5563">🌱 New provider</text>
+  <text x="164" y="333" text-anchor="middle" font-size="14" fill="#4B5563">0 clicks → no data → not shown</text>
+
+  <!-- ============ Right panel: with an exploration slot ============ -->
+  <rect x="328" y="60" width="296" height="300" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="476" y="88" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">With an exploration slot</text>
+
+  <!-- feed rows -->
+  <g>
+    <rect x="344" y="104" width="264" height="34" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="363" cy="121" r="10" fill="#7C3AED"/>
+    <text x="363" y="126" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="382" y="126" font-size="15" fill="#1E1B4B">★ Big provider</text>
+
+    <rect x="344" y="146" width="264" height="34" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="363" cy="163" r="10" fill="#7C3AED"/>
+    <text x="363" y="168" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="382" y="168" font-size="15" fill="#1E1B4B">★ Big provider</text>
+
+    <rect x="344" y="188" width="264" height="34" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="363" cy="205" r="10" fill="#7C3AED"/>
+    <text x="363" y="210" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="382" y="210" font-size="15" fill="#1E1B4B">★ Big provider</text>
+
+    <rect x="344" y="230" width="264" height="36" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <circle cx="363" cy="248" r="10" fill="#F59E0B"/>
+    <text x="363" y="253" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="382" y="253" font-size="15" font-weight="700" fill="#92400E">🌱 New provider</text>
+    <rect x="522" y="238" width="78" height="20" rx="10" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="561" y="253" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">reserved</text>
   </g>
-  <g transform="translate(473 184) rotate(40)">
-    <rect x="-95" y="-13" width="190" height="26" rx="8" fill="#FAFAF7"/>
-    <text x="0" y="4" text-anchor="middle" font-size="11" font-weight="600" fill="#6B7280">engagement vs. well-being</text>
-  </g>
-  <g transform="translate(340 292)">
-    <rect x="-91" y="-13" width="182" height="26" rx="8" fill="#FAFAF7"/>
-    <text x="0" y="4" text-anchor="middle" font-size="11" font-weight="600" fill="#6B7280">revenue vs. creator fairness</text>
-  </g>
 
-  <!-- Connections mediated by recommender system -->
-  <line x1="340" y1="192" x2="340" y2="146" stroke="#1E1B4B" stroke-width="1.5"/>
-  <line x1="276" y1="228" x2="183" y2="267" stroke="#1E1B4B" stroke-width="1.5"/>
-  <line x1="404" y1="228" x2="497" y2="267" stroke="#1E1B4B" stroke-width="1.5"/>
+  <!-- payoff -->
+  <path d="M476 270 L476 288" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb143-ah-green)"/>
+  <text x="476" y="314" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">First clicks = first data</text>
+  <text x="476" y="336" text-anchor="middle" font-size="15" fill="#4B5563">a fair shot at the loop</text>
 
-  <!-- Users -->
-  <rect x="252" y="68" width="176" height="78" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-  <circle cx="340" cy="89" r="9" fill="none" stroke="#0EA5E9" stroke-width="1.7"/>
-  <path d="M327 106 Q340 98 353 106" fill="none" stroke="#0EA5E9" stroke-width="1.7" stroke-linecap="round"/>
-  <text x="340" y="122" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Users</text>
-  <text x="340" y="137" text-anchor="middle" font-size="11" fill="#6B7280">relevance, discovery, trust</text>
-
-  <!-- Content Producers -->
-  <rect x="30" y="254" width="200" height="78" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <rect x="123" y="263" width="14" height="18" rx="2" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
-  <line x1="127" y1="269" x2="133" y2="269" stroke="#10B981" stroke-width="1.2"/>
-  <line x1="127" y1="273" x2="133" y2="273" stroke="#10B981" stroke-width="1.2"/>
-  <line x1="127" y1="277" x2="131" y2="277" stroke="#10B981" stroke-width="1.2"/>
-  <text x="130" y="300" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Content Producers</text>
-  <text x="130" y="318" text-anchor="middle" font-size="11" fill="#6B7280">audience, fair exposure, reach</text>
-
-  <!-- Platform Owners -->
-  <rect x="450" y="254" width="200" height="78" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <rect x="538" y="267" width="5" height="14" rx="1" fill="#7C3AED"/>
-  <rect x="547" y="263" width="5" height="18" rx="1" fill="#7C3AED"/>
-  <rect x="556" y="270" width="5" height="11" rx="1" fill="#7C3AED"/>
-  <text x="550" y="300" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Platform Owners</text>
-  <text x="550" y="318" text-anchor="middle" font-size="11" fill="#6B7280">engagement, revenue, growth</text>
-
-  <!-- Recommender System -->
-  <rect x="270" y="192" width="140" height="52" rx="20" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-  <text x="340" y="214" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Recommender</text>
-  <text x="340" y="230" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">System</text>
-
-  <!-- Legend -->
-  <line x1="190" y1="358" x2="220" y2="358" stroke="#6B7280" stroke-width="2" stroke-dasharray="6 4"/>
-  <text x="228" y="362" font-size="11" fill="#6B7280">Tension / trade-off</text>
-  <line x1="378" y1="358" x2="408" y2="358" stroke="#1E1B4B" stroke-width="1.5"/>
-  <text x="416" y="362" font-size="11" fill="#6B7280">Mediated by RS</text>
+  <!-- takeaway -->
+  <text x="320" y="396" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Exposure feeds on itself — newcomers need a <tspan fill="#92400E">reserved first chance</tspan>.</text>
 </svg>

@@ -1,105 +1,76 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 305" width="600" height="305" font-family="system-ui, sans-serif">
-  <defs>
-    <clipPath id="spectrumClip">
-      <rect x="40" y="64" width="520" height="46" rx="23"/>
-    </clipPath>
-    <marker id="arrLeft" markerWidth="7" markerHeight="6" refX="1" refY="3" orient="auto">
-      <polygon points="7,0 1,3 7,6" fill="#0EA5E9"/>
-    </marker>
-    <marker id="arrRight" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
-      <polygon points="0,0 6,3 0,6" fill="#10B981"/>
-    </marker>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 456" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb123-title pb123-desc">
+<title id="pb123-title">Two ways to explain a recommendation: intrinsic and post-hoc</title>
+<desc id="pb123-desc">Intrinsic methods use a transparent model, such as a linear scorer with weights for genre match 0.4, recency 0.3 and popularity 0.2, so the explanation is read directly from the model and is faithful by construction, but simple models miss complex taste. Post-hoc methods such as LIME, SHAP and counterfactuals probe a black-box deep model by tweaking inputs and watching the score, producing estimated contributions such as genre match about +0.3; they work on any model, but the explanation is an approximation.</desc>
+<defs>
+<marker id="pb123-ahg" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 Z" fill="#10B981"/></marker>
+<marker id="pb123-aha" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,0 L10,5 L0,10 Z" fill="#F59E0B"/></marker>
+</defs>
+<rect x=".5" y=".5" width="639" height="455" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Two ways to answer “why this item?”</text>
 
-  <rect x="1" y="1" width="598" height="303" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+<!-- cards -->
+<rect x="16" y="56" width="296" height="350" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="328" y="56" width="296" height="350" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="164" y="84" text-anchor="middle" font-size="17" font-weight="700" fill="#1E1B4B">Intrinsic</text>
+<text x="164" y="104" text-anchor="middle" font-size="14" fill="#4B5563">the model is the explanation</text>
+<text x="476" y="84" text-anchor="middle" font-size="17" font-weight="700" fill="#1E1B4B">Post-hoc</text>
+<text x="476" y="104" text-anchor="middle" font-size="14" fill="#4B5563">explain a black box afterwards</text>
 
-  <text x="300" y="25" text-anchor="middle" fill="#1E1B4B" font-size="14" font-weight="700">Explainability Spectrum</text>
+<!-- LEFT: glass box with readable weights -->
+<rect x="36" y="120" width="256" height="116" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<text x="164" y="142" text-anchor="middle" font-size="14" font-weight="600" fill="#4C1D95">transparent model (linear)</text>
+<text x="52" y="168" font-size="14" fill="#1E1B4B">genre match</text>
+<rect x="148" y="156" width="100" height="14" rx="3" fill="#7C3AED"/>
+<text x="256" y="168" font-size="14" font-weight="600" fill="#1E1B4B">0.4</text>
+<text x="52" y="194" font-size="14" fill="#1E1B4B">recency</text>
+<rect x="148" y="182" width="75" height="14" rx="3" fill="#7C3AED"/>
+<text x="231" y="194" font-size="14" font-weight="600" fill="#1E1B4B">0.3</text>
+<text x="52" y="220" font-size="14" fill="#1E1B4B">popularity</text>
+<rect x="148" y="208" width="50" height="14" rx="3" fill="#7C3AED"/>
+<text x="206" y="220" font-size="14" font-weight="600" fill="#1E1B4B">0.2</text>
 
-  <!-- Accuracy versus interpretability -->
-  <text x="105" y="46" text-anchor="middle" fill="#0EA5E9" font-size="11" font-weight="600">More accurate</text>
-  <text x="300" y="46" text-anchor="middle" fill="#6B7280" font-size="11">Trade-off</text>
-  <text x="495" y="46" text-anchor="middle" fill="#10B981" font-size="11" font-weight="600">More interpretable</text>
-  <line x1="151" y1="54" x2="60" y2="54" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrLeft)"/>
-  <line x1="449" y1="54" x2="540" y2="54" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrRight)"/>
+<line x1="64" y1="244" x2="64" y2="270" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb123-ahg)"/>
+<text x="78" y="262" font-size="14" fill="#4B5563">read the weights directly</text>
 
-  <!-- Main spectrum -->
-  <g clip-path="url(#spectrumClip)">
-    <rect x="40" y="64" width="174" height="46" fill="#1E1B4B"/>
-    <rect x="214" y="64" width="172" height="46" fill="#EDE9FE"/>
-    <rect x="386" y="64" width="174" height="46" fill="#D1FAE5"/>
-  </g>
-  <rect x="40" y="64" width="520" height="46" rx="23" fill="none" stroke="#7C3AED" stroke-width="2"/>
-  <line x1="214" y1="69" x2="214" y2="105" stroke="#FFFFFF" stroke-opacity="0.65" stroke-width="2"/>
-  <line x1="386" y1="69" x2="386" y2="105" stroke="#7C3AED" stroke-opacity="0.35" stroke-width="2"/>
+<rect x="36" y="280" width="256" height="40" rx="20" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<text x="164" y="305" text-anchor="middle" font-size="15" font-weight="600" fill="#065F46">“Because: genre match”</text>
 
-  <text x="130" y="83" text-anchor="middle" fill="#FFFFFF" font-size="11" font-weight="700">Black Box</text>
-  <text x="130" y="101" text-anchor="middle" fill="#FFFFFF" fill-opacity="0.8" font-size="11">Opaque</text>
+<!-- RIGHT: black box probed from outside -->
+<rect x="348" y="120" width="256" height="66" rx="10" fill="#1E1B4B"/>
+<text x="476" y="148" text-anchor="middle" font-size="16" font-weight="700" fill="#FFFFFF">deep model</text>
+<text x="476" y="171" text-anchor="middle" font-size="14" fill="#C4B5FD">inside: not human-readable</text>
 
-  <text x="300" y="83" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Gray Box</text>
-  <text x="300" y="101" text-anchor="middle" fill="#6B7280" font-size="11">Semi-transparent</text>
+<line x1="376" y1="194" x2="376" y2="218" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="5 5" marker-end="url(#pb123-aha)"/>
+<text x="390" y="211" font-size="14" fill="#4B5563">tweak inputs, watch the score</text>
 
-  <text x="470" y="83" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Glass Box</text>
-  <text x="470" y="101" text-anchor="middle" fill="#6B7280" font-size="11">Transparent</text>
+<rect x="348" y="226" width="256" height="94" rx="10" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="6 4"/>
+<text x="362" y="254" font-size="14" fill="#1E1B4B">genre match</text>
+<rect x="458" y="242" width="81" height="14" rx="3" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="547" y="254" font-size="14" font-weight="600" fill="#92400E">≈ +0.3</text>
+<text x="362" y="280" font-size="14" fill="#1E1B4B">recency</text>
+<rect x="458" y="268" width="54" height="14" rx="3" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="520" y="280" font-size="14" font-weight="600" fill="#92400E">≈ +0.2</text>
+<text x="362" y="306" font-size="14" fill="#1E1B4B">social signal</text>
+<rect x="458" y="294" width="27" height="14" rx="3" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="4 3"/>
+<text x="493" y="306" font-size="14" font-weight="600" fill="#92400E">≈ +0.1</text>
 
-  <!-- Black Box models -->
-  <rect x="50" y="121" width="160" height="96" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
-  <text x="130" y="139" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Deep Learning</text>
+<!-- verdicts -->
+<circle cx="45" cy="345" r="9" fill="#10B981"/>
+<text x="45" y="350" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">+</text>
+<text x="62" y="350" font-size="15" font-weight="600" fill="#065F46">faithful by construction</text>
+<circle cx="45" cy="371" r="9" fill="#F59E0B"/>
+<text x="45" y="376" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">−</text>
+<text x="62" y="376" font-size="15" fill="#92400E">misses complex taste</text>
+<text x="164" y="398" text-anchor="middle" font-size="14" fill="#6B7280">e.g. decision trees, rules, k-NN</text>
 
-  <rect x="58" y="147" width="88" height="20" rx="5" fill="#EDE9FE"/>
-  <text x="102" y="161" text-anchor="middle" fill="#1E1B4B" font-size="11">Transformers</text>
-  <rect x="150" y="147" width="52" height="20" rx="5" fill="#EDE9FE"/>
-  <text x="176" y="161" text-anchor="middle" fill="#1E1B4B" font-size="11">Ensembles</text>
+<circle cx="357" cy="345" r="9" fill="#10B981"/>
+<text x="357" y="350" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">+</text>
+<text x="374" y="350" font-size="15" font-weight="600" fill="#065F46">works on any model</text>
+<circle cx="357" cy="371" r="9" fill="#F59E0B"/>
+<text x="357" y="376" text-anchor="middle" font-size="15" font-weight="700" fill="#FFFFFF">−</text>
+<text x="374" y="376" font-size="15" fill="#92400E">only an approximation</text>
+<text x="476" y="398" text-anchor="middle" font-size="14" fill="#6B7280">e.g. LIME, SHAP, counterfactuals</text>
 
-  <rect x="58" y="171" width="66" height="20" rx="5" fill="#EDE9FE"/>
-  <text x="91" y="185" text-anchor="middle" fill="#1E1B4B" font-size="11">Deep MF</text>
-  <rect x="128" y="171" width="74" height="20" rx="5" fill="#EDE9FE"/>
-  <text x="165" y="185" text-anchor="middle" fill="#1E1B4B" font-size="11">GNN models</text>
-
-  <!-- Gray Box models -->
-  <rect x="220" y="121" width="160" height="96" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
-  <text x="300" y="139" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Post-hoc Explanations</text>
-
-  <rect x="228" y="147" width="92" height="20" rx="5" fill="#E0F2FE"/>
-  <text x="274" y="161" text-anchor="middle" fill="#1E1B4B" font-size="11">Attention wts</text>
-  <rect x="324" y="147" width="48" height="20" rx="5" fill="#E0F2FE"/>
-  <text x="348" y="161" text-anchor="middle" fill="#1E1B4B" font-size="11">SHAP</text>
-
-  <rect x="228" y="171" width="94" height="20" rx="5" fill="#E0F2FE"/>
-  <text x="275" y="185" text-anchor="middle" fill="#1E1B4B" font-size="11">Saliency maps</text>
-  <rect x="326" y="171" width="46" height="20" rx="5" fill="#E0F2FE"/>
-  <text x="349" y="185" text-anchor="middle" fill="#1E1B4B" font-size="11">LIME</text>
-
-  <rect x="247" y="195" width="106" height="18" rx="5" fill="#E0F2FE"/>
-  <text x="300" y="208" text-anchor="middle" fill="#1E1B4B" font-size="11">Counterfactual</text>
-
-  <!-- Glass Box models -->
-  <rect x="390" y="121" width="160" height="96" rx="8" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
-  <text x="470" y="139" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Inherently Interpretable</text>
-
-  <rect x="398" y="147" width="88" height="20" rx="5" fill="#D1FAE5"/>
-  <text x="442" y="161" text-anchor="middle" fill="#1E1B4B" font-size="11">Decision tree</text>
-  <rect x="490" y="147" width="52" height="20" rx="5" fill="#D1FAE5"/>
-  <text x="516" y="161" text-anchor="middle" fill="#1E1B4B" font-size="11">k-NN</text>
-
-  <rect x="398" y="171" width="86" height="20" rx="5" fill="#D1FAE5"/>
-  <text x="441" y="185" text-anchor="middle" fill="#1E1B4B" font-size="11">Rule-based</text>
-  <rect x="488" y="171" width="54" height="20" rx="5" fill="#D1FAE5"/>
-  <text x="515" y="185" text-anchor="middle" fill="#1E1B4B" font-size="11">Linear</text>
-
-  <rect x="432" y="195" width="76" height="18" rx="5" fill="#D1FAE5"/>
-  <text x="470" y="208" text-anchor="middle" fill="#1E1B4B" font-size="11">ItemKNN</text>
-
-  <!-- DSA/GDPR requirement -->
-  <rect x="40" y="229" width="520" height="62" rx="8" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5" stroke-dasharray="5 3"/>
-
-  <path d="M57 242 L57 266 Q57 275 70 279 Q83 275 83 266 L83 242 Q70 237 57 242 Z" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-  <text x="70" y="264" text-anchor="middle" fill="#D97706" font-size="14" font-weight="800">!</text>
-
-  <text x="95" y="249" fill="#1E1B4B" font-size="11" font-weight="700">DSA / GDPR Requirement</text>
-
-  <rect x="463" y="237" width="87" height="20" rx="10" fill="#FEF3C7"/>
-  <text x="506.5" y="251" text-anchor="middle" fill="#D97706" font-size="11" font-weight="700">Art. 27 DSA</text>
-
-  <text x="95" y="269" fill="#6B7280" font-size="11">EU Digital Services Act requires platforms to explain</text>
-  <text x="95" y="284" fill="#6B7280" font-size="11">&quot;the main parameters&quot; of recommender systems.</text>
+<!-- takeaway -->
+<text x="320" y="436" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B"><tspan fill="#065F46">Intrinsic:</tspan> the explanation is the model. <tspan fill="#92400E">Post-hoc:</tspan> an estimate of it.</text>
 </svg>

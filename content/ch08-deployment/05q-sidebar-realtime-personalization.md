@@ -13,14 +13,14 @@ recallQ: "What are the key challenges of real-time personalization?"
 recallA: "Feature freshness (using the latest interaction immediately), latency constraints (computing within the request cycle), and model consistency (ensuring the model reflects current state without full retrain)."
 publishedAt: "2026-04-03"
 status: accepted
-concept: build-vs-buy
+concept: real-time-signals
 state: edited
 lens: generic
 visuality: text-first
 depth: technical
-formalism: full
-lengthBand: standard
-genre: code-walkthrough
+formalism: light
+lengthBand: deep
+genre: explainer
 carriers: prose|table|formula|code
 ---
 
@@ -115,4 +115,4 @@ Session Buffer              User Features (fresh)
 
 For a production perspective on these techniques, see this discussion of [real-time personalization of content with AI-powered recommendations](https://www.recombee.com/blog/real-time-personalization-of-content-with-ai-powered-recommendations) and the [platform features](https://www.recombee.com/features) that make sub-200ms serving possible at scale.
 
-**Consider this:** Real-time personalization is the difference between a system that knows who you are and a system that knows who you are *right now*. The technical challenge is significant, but the user experience difference is dramatic — recommendations that adapt to your current mood and intent feel qualitatively different from static profile-based suggestions.
+**In your product:** Real-time personalization is the difference between a system that knows who you are and a system that knows who you are *right now*. The technical challenge is significant, but the user experience difference is dramatic — recommendations that adapt to your current mood and intent feel qualitatively different from static profile-based suggestions.

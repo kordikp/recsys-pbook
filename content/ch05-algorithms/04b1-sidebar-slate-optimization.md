@@ -2,7 +2,7 @@
 id: ch3-slate
 type: spine
 title: "Slate Optimization: Recommending Sets, Not Items"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: false
 voice: universal
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -27,7 +27,7 @@ Most recommendation algorithms score items independently: compute a relevance sc
 
 If your top 10 items by independent score are all variations of the same topic, the user sees a wall of redundancy. The ninth-best item on a different topic would have been far more valuable than the third-best item on the same topic. Independent scoring cannot capture this.
 
-![Slate optimization: individual vs set-based scoring](/images/anim-slate-optimization.svg)
+![Greedy slate building on six toy films: once one sci-fi film is picked, every other sci-fi film adds only half, so the greedy slate adds a comedy and a documentary. Its item scores sum lower (3.14 vs 3.56), but the slate is worth more (2.69 vs 1.70)](/images/anim-slate-optimization.svg)
 
 ## The Page-Level Problem
 

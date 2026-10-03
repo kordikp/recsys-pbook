@@ -2,26 +2,28 @@
 id: ch4-user-fatigue
 type: spine
 title: "User Fatigue: When Good Recommendations Go Stale"
-readingTime: 2
+readingTime: 7
 standalone: true
 core: false
 voice: universal
 publishedAt: "2026-04-03"
+recallQ: "Why do recommendations go stale even when each one is accurate?"
+recallA: "Repeating the same category, creator or format causes fatigue: every item is relevant, but the feed turns monotonous and users slowly disengage. It shows up as falling per-category click-through, shorter sessions and rising skip rates."
 status: accepted
-concept: long-tail
+concept: satisfaction-vs-engagement
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
 
 A recommendation system can be doing everything right -- surfacing relevant items, matching user preferences, optimizing for engagement -- and still lose users over time. The culprit is often not inaccuracy but monotony. When the system keeps delivering the same *type* of content, even if each individual recommendation is technically relevant, users gradually disengage. This is user fatigue, and it is one of the most insidious failure modes in production recommender systems because it does not show up as a sudden drop. It manifests as a slow, steady erosion of engagement that is easy to mistake for seasonal variation or external factors.
 
-![User fatigue curve: discovery, peak, decline](/images/diagram-user-fatigue.svg)
+![Toy example: over 12 weeks a viewer's feed narrows to thrillers only; every pick still fits their taste, yet clicks on thrillers fall from 40% to 15% and the viewer starts searching instead](/images/diagram-user-fatigue.svg)
 
 ## The Four Faces of Fatigue
 
@@ -49,7 +51,7 @@ Fatigue leaves measurable traces in behavioral data, often well before users con
 
 The research literature and industry practice have converged on several effective countermeasures:
 
-**Diversity injection.** Methods like Maximal Marginal Relevance (MMR) and Determinantal Point Processes (DPPs) -- discussed in detail in the diversity metrics section of this chapter -- explicitly penalize redundancy within a recommendation list. They ensure that even when the top relevance-scored items are all from the same category, the final list presented to the user contains deliberate variety.
+**Diversity injection.** Methods like Maximal Marginal Relevance (MMR) and Determinantal Point Processes (DPPs) -- discussed in detail in [Diversity Metrics](#ch4-diversity-metrics) -- explicitly penalize redundancy within a recommendation list. They ensure that even when the top relevance-scored items are all from the same category, the final list presented to the user contains deliberate variety.
 
 **Frequency capping.** Set explicit limits on how many items from the same category, creator, or format can appear in a single recommendation session or within a given time window. This is a blunt instrument compared to diversity-aware re-ranking, but it is simple to implement, easy to explain, and surprisingly effective. Most major platforms use some form of frequency capping as a baseline defense against fatigue.
 

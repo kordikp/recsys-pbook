@@ -46,7 +46,7 @@ function parseFrontmatter(text) {
     if (!kv) continue;
     let val = kv[2].trim();
     if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'")))
-      val = val.slice(1, -1);
+      val = val.slice(1, -1).replace(/\\"/g, '"').replace(/\\'/g, "'");   // = js/markdown.js cleanVal
     if (val === 'true') val = true;
     else if (val === 'false') val = false;
     else if (val === 'null') val = null;

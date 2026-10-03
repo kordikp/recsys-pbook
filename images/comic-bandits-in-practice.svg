@@ -1,75 +1,224 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Thompson's Scoop of the Draw</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb041-title pb041-desc">
+<title id="pb041-title">Thompson's Scoop of the Draw</title>
+<desc id="pb041-desc">Four-panel comic. A guest asks an ice-cream recommender what is good. It can play safe with vanilla, sold 50 times (exploit), or risk the new mango, sold twice (explore). It keeps a jar of guesses from 0 to 10 for each flavour: vanilla's guesses agree (7 or 8), mango's, from only two scoops, are all over the place (2 to 10): fewer scoops, wilder guesses. For each guest it draws one guess from each jar and serves the highest: this time mango's 9 beats vanilla's 8, so mango gets a try. "You pick by lottery?" "A well-informed lottery." A month and 40 scoops later, mango's guesses agree at 8 or 9 and the guest asks for mango again. Thompson Sampling: unsure options sometimes draw high, so they get tried.</desc>
+<defs>
+<marker id="pb041-up" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+<path d="M0,0 L8,4 L0,8 Z" fill="#9CA3AF"/>
+</marker>
+<g id="pb041-guest">
+<path d="M-23,0 V-40 Q-23,-56 -7,-56 H7 Q23,-56 23,-40 V0 Z" fill="#10B981"/>
+<circle cx="0" cy="-77" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+</g>
+<g id="pb041-rec">
+<path d="M-23,0 V-40 Q-23,-56 -7,-56 H7 Q23,-56 23,-40 V0 Z" fill="#7C3AED"/>
+<rect x="5" y="-47" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="0" cy="-77" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+</g>
+</defs>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Thompson's Scoop of the Draw</text>
 
-  <!-- Panel 1 -->
-  <circle cx="92" cy="157" r="10" fill="#7C3AED"/>
-  <path d="M92 168 L92 213 M92 178 L70 195 M92 178 L118 193 M92 213 L77 237 M92 213 L107 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="300" cy="157" r="10" fill="#0EA5E9"/>
-  <path d="M300 168 L300 213 M300 180 L279 194 M300 180 L321 194 M300 213 L286 237 M300 213 L314 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="220" y="76" width="153" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="296.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="296.5" dy="0">The usual...</tspan>
-    <tspan x="296.5" dy="17">or something new?</tspan>
-  </text>
-  <path d="M132 205 Q151 234 170 205 Z" fill="#EDE9FE" stroke="#7C3AED"/>
-  <path d="M187 205 Q206 234 225 205 Z" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="178" y="199" font-size="11.5" fill="#6B7280" text-anchor="middle">VANILLA　 MANGO?</text>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Exploit the favorite—or explore the uncertain special?</text>
+<!-- ===== Panel 1: the usual, or new? ===== -->
+<g transform="translate(16,48)">
+<rect x="0" y="0" width="298" height="270" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">The usual, or new?</text>
+<path d="M12,236.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-  <!-- Panel 2 -->
-  <circle cx="466" cy="157" r="10" fill="#7C3AED"/>
-  <path d="M466 168 L466 213 M466 180 L493 197 M466 181 L447 196 M466 213 L452 237 M466 213 L480 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="735" cy="157" r="10" fill="#0EA5E9"/>
-  <path d="M735 168 L735 213 M735 180 L716 195 M735 180 L752 195 M735 213 L722 237 M735 213 L748 237" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="500" y="76" width="190" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="595" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="595" dy="0">I draw one guess</tspan>
-    <tspan x="595" dy="17">from each jar.</tspan>
-  </text>
-  <path d="M525 184 H568 V232 H525 Z M536 198 A4 4 0 1 0 544 198 A4 4 0 1 0 536 198 M548 215 A4 4 0 1 0 556 215 A4 4 0 1 0 548 215 M590 184 H633 V232 H590 Z M600 207 A4 4 0 1 0 608 207 A4 4 0 1 0 600 207 M616 194 A4 4 0 1 0 624 194 A4 4 0 1 0 616 194" fill="none" stroke="#7C3AED" stroke-width="2"/>
-  <text x="579" y="248" font-size="11.5" fill="#6B7280" text-anchor="middle">KNOWN　　 UNCERTAIN</text>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Thompson samples beliefs, so the balance tunes itself.</text>
+<!-- guest -->
+<use href="#pb041-guest" transform="translate(34,236)"/>
+<g transform="translate(34,236)" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round">
+<circle cx="-3" cy="-79" r="2.2" fill="#1E1B4B" stroke="none"/><circle cx="9" cy="-79" r="2.2" fill="#1E1B4B" stroke="none"/>
+<path d="M-2,-71 Q3,-67 8,-71"/>
+</g>
+<!-- recommender -->
+<use href="#pb041-rec" transform="translate(254,236)"/>
+<g transform="translate(254,236)" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round">
+<circle cx="-9" cy="-80" r="2.2" fill="#1E1B4B" stroke="none"/><circle cx="3" cy="-80" r="2.2" fill="#1E1B4B" stroke="none"/>
+<path d="M-8,-70 H0"/>
+</g>
 
-  <!-- Panel 3 -->
-  <circle cx="82" cy="443" r="10" fill="#7C3AED"/>
-  <path d="M82 454 L82 499 M82 466 L107 480 M82 466 L62 481 M82 499 L69 523 M82 499 L95 523" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="354" cy="443" r="10" fill="#0EA5E9"/>
-  <path d="M354 454 L354 499 M354 466 L334 481 M354 466 L373 481 M354 499 L341 523 M354 499 L367 523" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="34" y="356" width="174" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="121" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="121" dy="0">New crowd.</tspan>
-    <tspan x="121" dy="17">Fresh jars.</tspan>
-  </text>
-  <rect x="218" y="381" width="120" height="74" rx="8" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="278" y="405" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="278" dy="0">MANGO ↑</tspan>
-    <tspan x="278" dy="19">TRENDING: 3 MIN</tspan>
-  </text>
-  <text x="278" y="370" font-size="12.5" font-weight="700" fill="#D97706" text-anchor="middle">DING! CHANGE POINT</text>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">BMAB resets priors at change points; trends surface in minutes.</text>
+<!-- counter with two tubs -->
+<rect x="68" y="192" width="150" height="44" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<rect x="64" y="184" width="158" height="9" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+<path d="M86,164 H130 L127,184 H89 Z" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M88,165 A20,17 0 0 1 128,165 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+<circle cx="101" cy="157" r="1.4" fill="#9CA3AF"/><circle cx="112" cy="153" r="1.4" fill="#9CA3AF"/><circle cx="117" cy="160" r="1.4" fill="#9CA3AF"/>
+<path d="M158,164 H202 L199,184 H161 Z" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M160,165 A20,17 0 0 1 200,165 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="108" y="211" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">Vanilla</text>
+<text x="108" y="228" text-anchor="middle" font-size="14" fill="#4B5563">50 scoops</text>
+<text x="180" y="211" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Mango</text>
+<text x="180" y="228" text-anchor="middle" font-size="14" fill="#4B5563">2 scoops</text>
 
-  <!-- Panel 4 -->
-  <circle cx="474" cy="448" r="10" fill="#7C3AED"/>
-  <path d="M474 459 L474 504 M474 470 L526 477 M474 470 L454 484 M474 504 L461 528 M474 504 L487 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="708" cy="448" r="10" fill="#0EA5E9"/>
-  <path d="M708 459 L708 504 M708 470 L662 483 M708 470 L727 484 M708 504 L695 528 M708 504 L721 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="590" y="356" width="175" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="677.5" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="677.5" dy="0">Put my regret</tspan>
-    <tspan x="677.5" dy="17">on the receipt.</tspan>
-  </text>
-  <rect x="526" y="435" width="136" height="82" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
-  <text x="594" y="458" font-size="12" fill="#6B7280" text-anchor="middle">
-    <tspan x="594" dy="0">CUMULATIVE REGRET</tspan>
-    <tspan x="594" dy="23" font-size="14" font-weight="700" fill="#1E1B4B">O(√(KT log T))</tspan>
-  </text>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Regret remains near-optimal: O(√(KT log T)).</text>
+<!-- bubbles -->
+<path d="M22,42 H156 Q168,42 168,54 V58 Q168,70 156,70 H45 L38,132 L31,70 H22 Q10,70 10,58 V54 Q10,42 22,42 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="89" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B">What's good here?</text>
+<path d="M100,78 H276 Q288,78 288,90 V114 Q288,126 276,126 H243 L252,136 L229,126 H100 Q88,126 88,114 V90 Q88,78 100,78 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="188" y="97" text-anchor="middle" font-size="16" fill="#1E1B4B">Safe vanilla (<tspan font-weight="700">exploit</tspan>),</text>
+<text x="188" y="117" text-anchor="middle" font-size="16" fill="#1E1B4B">or new mango (<tspan font-weight="700" fill="#92400E">explore</tspan>)?</text>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Explore uncertainty or exploit winners; Thompson Sampling balances both by sampling beliefs.</text>
+<text x="36" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+<text x="240" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
+</g>
+
+<!-- ===== Panel 2: a jar of guesses each ===== -->
+<g transform="translate(326,48)">
+<rect x="0" y="0" width="298" height="270" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">A jar of guesses each</text>
+<path d="M12,236.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+<use href="#pb041-rec" transform="translate(254,236)"/>
+<g transform="translate(254,236)" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round">
+<circle cx="-9" cy="-79" r="2.2" fill="#1E1B4B" stroke="none"/><circle cx="3" cy="-79" r="2.2" fill="#1E1B4B" stroke="none"/>
+<path d="M-8,-71 Q-3,-67 2,-71"/>
+</g>
+
+<!-- vanilla jar -->
+<g transform="translate(18,0)">
+<rect x="0" y="122" width="88" height="114" rx="14" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="8" y="112" width="72" height="12" rx="3" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="8" y="130" width="72" height="22" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.2"/>
+<text x="44" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">Vanilla</text>
+<g fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.2">
+<rect x="10" y="158" width="32" height="20" rx="3"/><rect x="46" y="158" width="32" height="20" rx="3"/>
+<rect x="10" y="182" width="32" height="20" rx="3"/><rect x="46" y="182" width="32" height="20" rx="3"/>
+<rect x="10" y="206" width="32" height="20" rx="3"/><rect x="46" y="206" width="32" height="20" rx="3"/>
+</g>
+<g font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+<text x="26" y="173">7</text><text x="62" y="173">8</text>
+<text x="26" y="197">8</text><text x="62" y="197">7</text>
+<text x="26" y="221">7</text><text x="62" y="221">8</text>
+</g>
+</g>
+<!-- mango jar -->
+<g transform="translate(122,0)">
+<rect x="0" y="122" width="88" height="114" rx="14" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="8" y="112" width="72" height="12" rx="3" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="8" y="130" width="72" height="22" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.2"/>
+<text x="44" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Mango</text>
+<g fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2">
+<rect x="10" y="158" width="32" height="20" rx="3"/><rect x="46" y="158" width="32" height="20" rx="3"/>
+<rect x="10" y="182" width="32" height="20" rx="3"/><rect x="46" y="182" width="32" height="20" rx="3"/>
+<rect x="10" y="206" width="32" height="20" rx="3"/><rect x="46" y="206" width="32" height="20" rx="3"/>
+</g>
+<g font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+<text x="26" y="173">9</text><text x="62" y="173">2</text>
+<text x="26" y="197">5</text><text x="62" y="197">10</text>
+<text x="26" y="221">3</text><text x="62" y="221">7</text>
+</g>
+</g>
+
+<path d="M22,42 H276 Q288,42 288,54 V80 Q288,92 276,92 H251 L252,136 L237,92 H22 Q10,92 10,80 V54 Q10,42 22,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="149" y="62" text-anchor="middle" font-size="16" fill="#1E1B4B">My guesses: how tasty, 0 to 10.</text>
+<text x="149" y="82" text-anchor="middle" font-size="16" fill="#1E1B4B">Fewer scoops, <tspan font-weight="700" fill="#92400E">wilder guesses</tspan>.</text>
+
+<text x="62" y="258" text-anchor="middle" font-size="14" fill="#4B5563">they agree</text>
+<text x="166" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">all over!</text>
+</g>
+
+<!-- ===== Panel 3: draw one, serve the best ===== -->
+<g transform="translate(16,330)">
+<rect x="0" y="0" width="298" height="270" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Draw one, serve the best</text>
+<path d="M12,236.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+<use href="#pb041-guest" transform="translate(36,236)"/>
+<g transform="translate(36,236)" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round">
+<circle cx="-3" cy="-80" r="2.2" fill="#1E1B4B" stroke="none"/><circle cx="9" cy="-80" r="2.2" fill="#1E1B4B" stroke="none"/>
+<circle cx="3" cy="-69" r="3"/>
+</g>
+<use href="#pb041-rec" transform="translate(254,236)"/>
+<g transform="translate(254,236)" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round">
+<path d="M-12,-79 Q-9,-82 -6,-79 M0,-79 Q3,-82 6,-79"/>
+<path d="M-9,-71 Q-3,-66 3,-71"/>
+</g>
+
+<!-- small jars -->
+<g transform="translate(80,0)">
+<rect x="0" y="200" width="52" height="36" rx="10" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="6" y="192" width="40" height="10" rx="3" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="9" y="212" width="15" height="12" rx="2" fill="#FFFFFF" stroke="#9CA3AF"/><rect x="28" y="212" width="15" height="12" rx="2" fill="#FFFFFF" stroke="#9CA3AF"/>
+</g>
+<g transform="translate(160,0)">
+<rect x="0" y="200" width="52" height="36" rx="10" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="6" y="192" width="40" height="10" rx="3" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="9" y="212" width="15" height="12" rx="2" fill="#FEF3C7" stroke="#F59E0B"/><rect x="28" y="212" width="15" height="12" rx="2" fill="#FEF3C7" stroke="#F59E0B"/>
+</g>
+<path d="M106,188 V176" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb041-up)"/>
+<path d="M186,188 V176" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb041-up)"/>
+
+<!-- drawn slips -->
+<rect x="70" y="116" width="72" height="52" rx="8" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+<text x="106" y="135" text-anchor="middle" font-size="14" fill="#4B5563">Vanilla</text>
+<text x="106" y="161" text-anchor="middle" font-size="24" font-weight="700" fill="#1E1B4B">8</text>
+<rect x="150" y="116" width="72" height="52" rx="8" fill="#FEF3C7" stroke="#7C3AED" stroke-width="2.5"/>
+<text x="186" y="135" text-anchor="middle" font-size="14" fill="#92400E">Mango</text>
+<text x="186" y="161" text-anchor="middle" font-size="24" font-weight="700" fill="#4C1D95">9</text>
+
+<path d="M22,42 H174 Q186,42 186,54 V58 Q186,70 174,70 H47 L42,132 L33,70 H22 Q10,70 10,58 V54 Q10,42 22,42 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="98" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B">You pick by lottery?!</text>
+<path d="M100,78 H276 Q288,78 288,90 V94 Q288,106 276,106 H243 L252,136 L229,106 H100 Q88,106 88,94 V90 Q88,78 100,78 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="188" y="97" text-anchor="middle" font-size="16" fill="#1E1B4B">A well-informed lottery.</text>
+
+<text x="149" y="258" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan font-weight="700">9 beats 8</tspan>, so mango gets a try.</text>
+</g>
+
+<!-- ===== Panel 4: a month later ===== -->
+<g transform="translate(326,330)">
+<rect x="0" y="0" width="298" height="270" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">A month later</text>
+<path d="M12,236.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+<use href="#pb041-guest" transform="translate(36,236)"/>
+<g transform="translate(36,236)" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round">
+<path d="M-6,-79 Q-3,-83 0,-79 M6,-79 Q9,-83 12,-79"/>
+<path d="M-3,-72 Q3,-64 9,-72"/>
+</g>
+<!-- arm + mango cone -->
+<path d="M52,196 L68,186" stroke="#10B981" stroke-width="7" stroke-linecap="round"/>
+<path d="M66,176 H88 L77,206 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+<circle cx="77" cy="169" r="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+
+<use href="#pb041-rec" transform="translate(254,236)"/>
+<g transform="translate(254,236)" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round">
+<path d="M-12,-79 Q-9,-82 -6,-79 M0,-79 Q3,-82 6,-79"/>
+<path d="M-9,-71 Q-3,-66 3,-71"/>
+</g>
+
+<!-- mango jar, now sure -->
+<g transform="translate(106,0)">
+<rect x="0" y="122" width="88" height="114" rx="14" fill="#F9FAFB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="8" y="112" width="72" height="12" rx="3" fill="#D1D5DB" stroke="#9CA3AF" stroke-width="1.5"/>
+<rect x="8" y="130" width="72" height="22" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.2"/>
+<text x="44" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Mango</text>
+<g fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.2">
+<rect x="10" y="158" width="32" height="20" rx="3"/><rect x="46" y="158" width="32" height="20" rx="3"/>
+<rect x="10" y="182" width="32" height="20" rx="3"/><rect x="46" y="182" width="32" height="20" rx="3"/>
+<rect x="10" y="206" width="32" height="20" rx="3"/><rect x="46" y="206" width="32" height="20" rx="3"/>
+</g>
+<g font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+<text x="26" y="173">8</text><text x="62" y="173">9</text>
+<text x="26" y="197">9</text><text x="62" y="197">8</text>
+<text x="26" y="221">8</text><text x="62" y="221">9</text>
+</g>
+</g>
+
+<path d="M22,42 H180 Q192,42 192,54 V58 Q192,70 180,70 H47 L42,132 L33,70 H22 Q10,70 10,58 V54 Q10,42 22,42 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="101" y="61" text-anchor="middle" font-size="16" fill="#1E1B4B">Mango again, please!</text>
+<path d="M136,76 H276 Q288,76 288,88 V92 Q288,104 276,104 H243 L252,136 L229,104 H136 Q124,104 124,92 V88 Q124,76 136,76 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="206" y="95" text-anchor="middle" font-size="16" fill="#1E1B4B">Knew it. Eventually.</text>
+
+<text x="149" y="258" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan font-weight="700">40 scoops later</tspan>, the guesses agree.</text>
+</g>
+
+<text x="320" y="626" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#7C3AED">Thompson Sampling:</tspan> unsure options sometimes draw high, so they <tspan font-weight="700" fill="#92400E">get tried</tspan>.</text>
 </svg>

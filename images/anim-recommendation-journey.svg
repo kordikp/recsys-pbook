@@ -1,42 +1,169 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 478" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb025-title pb025-desc">
+  <title id="pb025-title">The user lifecycle in footprints: what the system knows and what it should do at each stage</title>
+  <desc id="pb025-desc">A user walks a trail of footprints (interactions). At cold start (0 to 10 interactions) the system knows almost nothing, so it shows popular picks and asks at sign-up. In growth (10 to 100) it knows basic tastes and moves to taste neighbors plus a few surprises. When mature (100 to 1,000+) it knows detailed tastes and gives tailored picks plus diversity. When the user is declining, footprints thin out and old tastes fade, so it tries something new to win them back. Exploration share, from the telling's table: 50%+, 20 to 30%, 5 to 10%, 15 to 20%. Footprints build the picture, and each stage needs its own strategy.</desc>
   <style>
-    .walker{animation:w 7s ease-in-out infinite}
-    @keyframes w{0%,8%{transform:translateX(0)}30%{transform:translateX(170px)}55%{transform:translateX(360px)}80%,92%{transform:translateX(545px)}100%{transform:translateX(0)}}
+    .pb025-anim { animation-duration: 10s; animation-iteration-count: infinite; animation-timing-function: linear; }
+    .pb025-walk { animation-name: pb025-walk; }
+    .pb025-cover { animation-name: pb025-walk-c; }
+    .pb025-grow2, .pb025-grow3 { transform-box: fill-box; transform-origin: 0 50%; animation-timing-function: ease-out; }
+    .pb025-grow2 { animation-name: pb025-grow2; }
+    .pb025-grow3 { animation-name: pb025-grow3; }
+    .pb025-stale { animation-name: pb025-stale; }
+    .pb025-zzz, .pb025-sleepy { animation-name: pb025-zzz; }
+    .pb025-awake { animation-name: pb025-awake; }
+    @keyframes pb025-walk {
+      0% { transform: translateX(-556px); opacity: 0; }
+      3% { transform: translateX(-556px); opacity: 1; }
+      45%, 94% { transform: translateX(0); opacity: 1; }
+      97% { transform: translateX(0); opacity: 0; }
+      100% { transform: translateX(-556px); opacity: 0; }
+    }
+    @keyframes pb025-walk-c {
+      0%, 3% { transform: translateX(-556px); }
+      45%, 96% { transform: translateX(0); }
+      99%, 100% { transform: translateX(-556px); }
+    }
+    @keyframes pb025-grow2 { 0%, 16.5% { transform: scaleX(0); } 22.5%, 96% { transform: scaleX(1); } 99%, 100% { transform: scaleX(0); } }
+    @keyframes pb025-grow3 { 0%, 28.2% { transform: scaleX(0); } 34.2%, 96% { transform: scaleX(1); } 99%, 100% { transform: scaleX(0); } }
+    @keyframes pb025-stale { 0%, 28.2% { opacity: 0; } 34.2%, 40.7% { opacity: 1; } 46.7%, 96% { opacity: .35; } 99%, 100% { opacity: 0; } }
+    @keyframes pb025-zzz { 0%, 41% { opacity: 0; } 43%, 100% { opacity: 1; } }
+    @keyframes pb025-awake { 0%, 41% { opacity: 1; } 43%, 100% { opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .pb025-anim { animation: none !important; } }
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">A Reader's Journey Through the Recommender</text>
-
-  <line x1="70" y1="300" x2="730" y2="300" stroke="#E5E7EB" stroke-width="3"/>
-  <g class="walker"><text x="95" y="284" font-size="26" text-anchor="middle">🚶</text></g>
-
-  <g text-anchor="middle" font-size="12.5">
-    <circle cx="95" cy="300" r="8" fill="#EF4444"/>
-    <rect x="35" y="90" width="130" height="120" rx="10" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-    <text x="100" y="115" font-weight="800" fill="#B91C1C">DAY 0 · cold</text>
-    <text x="100" y="138" fill="#B91C1C">zero history</text>
-    <text x="100" y="158" fill="#6B7280">popular + onboarding</text>
-    <text x="100" y="178" fill="#6B7280">picks carry the day</text>
-
-    <circle cx="270" cy="300" r="8" fill="#D97706"/>
-    <rect x="205" y="90" width="130" height="120" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="270" y="115" font-weight="800" fill="#92400E">WEEK 1 · warm</text>
-    <text x="270" y="138" fill="#92400E">a dozen signals</text>
-    <text x="270" y="158" fill="#6B7280">CF wakes up, mixes</text>
-    <text x="270" y="178" fill="#6B7280">with content features</text>
-
-    <circle cx="455" cy="300" r="8" fill="#0EA5E9"/>
-    <rect x="390" y="90" width="130" height="120" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="455" y="115" font-weight="800" fill="#075985">MONTH 1 · known</text>
-    <text x="455" y="138" fill="#075985">stable taste profile</text>
-    <text x="455" y="158" fill="#6B7280">personalized shelves,</text>
-    <text x="455" y="178" fill="#6B7280">exploration ~10 %</text>
-
-    <circle cx="640" cy="300" r="8" fill="#10B981"/>
-    <rect x="575" y="90" width="130" height="120" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="640" y="115" font-weight="800" fill="#065F46">MATURE</text>
-    <text x="640" y="138" fill="#065F46">risk: the loop closes</text>
-    <text x="640" y="158" fill="#6B7280">diversity + novelty</text>
-    <text x="640" y="178" fill="#6B7280">keep it breathing</text>
+  <defs>
+    <g id="pb025-fp" fill="#10B981">
+      <path d="M-1.5,-4.4 C4,-5.4 10,-4.2 10,0 C10,4.2 4,5.4 -1.5,4.4 C-4,3.9 -4,-3.9 -1.5,-4.4 Z"/>
+      <ellipse cx="-8" cy="0" rx="3" ry="3.4"/>
+    </g>
+    <clipPath id="pb025-bandclip"><rect x="17.5" y="47.5" width="605" height="55" rx="27.5"/></clipPath>
+  </defs>
+  <rect x=".5" y=".5" width="639" height="477" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <circle cx="22" cy="29" r="5" fill="#10B981"/>
+  <text x="34" y="34" font-size="15" font-weight="600" fill="#4B5563">Your footprints: clicks, views, skips</text>
+  <rect x="16" y="46" width="608" height="58" rx="29" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <g>
+    <use href="#pb025-fp" transform="translate(48 69) rotate(-6)"/>
+    <use href="#pb025-fp" transform="translate(92 81) rotate(6)"/>
+    <use href="#pb025-fp" transform="translate(136 69) rotate(-6)"/>
+    <use href="#pb025-fp" transform="translate(190 69) rotate(-6)"/>
+    <use href="#pb025-fp" transform="translate(209 81) rotate(6)"/>
+    <use href="#pb025-fp" transform="translate(228 69) rotate(-6)"/>
+    <use href="#pb025-fp" transform="translate(247 81) rotate(6)"/>
+    <use href="#pb025-fp" transform="translate(266 69) rotate(-6)"/>
+    <use href="#pb025-fp" transform="translate(285 81) rotate(6)"/>
+    <use href="#pb025-fp" transform="translate(304 69) rotate(-6)"/>
+    <use href="#pb025-fp" transform="translate(342 63.9) rotate(-8)"/>
+    <use href="#pb025-fp" transform="translate(353.6 74.4) rotate(5)"/>
+    <use href="#pb025-fp" transform="translate(355.7 88.5) rotate(-3)"/>
+    <use href="#pb025-fp" transform="translate(365.8 63) rotate(9)"/>
+    <use href="#pb025-fp" transform="translate(372.4 74.1) rotate(-6)"/>
+    <use href="#pb025-fp" transform="translate(381.5 87.6) rotate(2)"/>
+    <use href="#pb025-fp" transform="translate(386.6 61.5) rotate(7)"/>
+    <use href="#pb025-fp" transform="translate(399.7 75.9) rotate(-9)"/>
+    <use href="#pb025-fp" transform="translate(402.8 87) rotate(4)"/>
+    <use href="#pb025-fp" transform="translate(408.9 62.4) rotate(-4)"/>
+    <use href="#pb025-fp" transform="translate(421 76.2) rotate(8)"/>
+    <use href="#pb025-fp" transform="translate(423.1 87) rotate(-2)"/>
+    <use href="#pb025-fp" transform="translate(434.7 64.2) rotate(-7)"/>
+    <use href="#pb025-fp" transform="translate(442.8 74.1) rotate(6)"/>
+    <use href="#pb025-fp" transform="translate(447.4 87.6) rotate(-5)"/>
+    <use href="#pb025-fp" transform="translate(458 61.8) rotate(3)"/>
+    <use href="#pb025-fp" transform="translate(500 69) rotate(-6)" opacity="0.75"/>
+    <use href="#pb025-fp" transform="translate(534 81) rotate(6)" opacity="0.5"/>
+    <use href="#pb025-fp" transform="translate(564 69) rotate(-6)" opacity="0.3"/>
   </g>
-  <text x="400" y="355" text-anchor="middle" font-size="13" fill="#6B7280">The right algorithm depends on where the reader stands — a mature profile needs freshness more than accuracy.</text>
+  <g clip-path="url(#pb025-bandclip)"><rect class="pb025-anim pb025-cover" x="590" y="46" width="640" height="58" fill="#FFFFFF"/></g>
+  <line x1="165.5" y1="56" x2="165.5" y2="94" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="320.5" y1="56" x2="320.5" y2="94" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <line x1="475.5" y1="56" x2="475.5" y2="94" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <g class="pb025-anim pb025-walk">
+    <path d="M577,100 V92 Q577,80 590,80 Q603,80 603,92 V100 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="590" cy="69" r="10" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <g class="pb025-anim pb025-sleepy">
+      <path d="M584.5,68 H588.5 M591.5,68 H595.5" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M586.5,73.5 H593.5" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+    <g class="pb025-anim pb025-awake" opacity="0">
+      <circle cx="586.5" cy="68" r="1.7" fill="#1E1B4B"/>
+      <circle cx="593.5" cy="68" r="1.7" fill="#1E1B4B"/>
+      <path d="M586,72.5 Q590,76 594,72.5" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+  </g>
+  <text class="pb025-anim pb025-zzz" x="603" y="62" font-size="14" font-weight="700" fill="#4B5563">z</text>
+  <text x="87.5" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Cold start</text>
+  <text x="87.5" y="148" text-anchor="middle" font-size="15" fill="#4B5563">0–10</text>
+  <text x="242.5" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Growth</text>
+  <text x="242.5" y="148" text-anchor="middle" font-size="15" fill="#4B5563">10–100</text>
+  <text x="397.5" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Mature</text>
+  <text x="397.5" y="148" text-anchor="middle" font-size="15" fill="#4B5563">100–1,000+</text>
+  <text x="552.5" y="128" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Declining</text>
+  <text x="552.5" y="148" text-anchor="middle" font-size="15" fill="#4B5563">fewer &amp; fewer</text>
+  <circle cx="22" cy="173" r="5" fill="#10B981"/>
+  <text x="34" y="178" font-size="15" font-weight="600" fill="#4B5563">What the system knows about you</text>
+  <rect x="16" y="190" width="143" height="84" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="6 5"/>
+  <text x="87.5" y="260" text-anchor="middle" font-size="15" fill="#1E1B4B">almost nothing</text>
+  <text x="87.5" y="234" text-anchor="middle" font-size="28" font-weight="700" fill="#9CA3AF">?</text>
+  <rect x="171" y="190" width="143" height="84" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="242.5" y="260" text-anchor="middle" font-size="15" fill="#1E1B4B">basic tastes</text>
+  <rect x="185" y="202" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="185" y="213" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="185" y="224" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="185" y="235" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <g class="pb025-anim pb025-grow2">
+    <rect x="185" y="202" width="64" height="7" rx="3.5" fill="#10B981"/>
+    <rect x="185" y="213" width="36" height="7" rx="3.5" fill="#10B981"/>
+  </g>
+  <rect x="326" y="190" width="143" height="84" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="397.5" y="260" text-anchor="middle" font-size="15" fill="#1E1B4B">detailed tastes</text>
+  <rect x="340" y="202" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="340" y="213" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="340" y="224" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="340" y="235" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <g class="pb025-anim pb025-grow3">
+    <rect x="340" y="202" width="104" height="7" rx="3.5" fill="#10B981"/>
+    <rect x="340" y="213" width="82" height="7" rx="3.5" fill="#10B981"/>
+    <rect x="340" y="224" width="60" height="7" rx="3.5" fill="#10B981"/>
+    <rect x="340" y="235" width="38" height="7" rx="3.5" fill="#10B981"/>
+  </g>
+  <rect x="481" y="190" width="143" height="84" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="552.5" y="260" text-anchor="middle" font-size="15" fill="#1E1B4B">old tastes fading</text>
+  <rect x="495" y="202" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="495" y="213" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="495" y="224" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <rect x="495" y="235" width="115" height="7" rx="3.5" fill="#F3F4F6"/>
+  <g class="pb025-anim pb025-stale" opacity=".35">
+    <rect x="495" y="202" width="104" height="7" rx="3.5" fill="#10B981"/>
+    <rect x="495" y="213" width="82" height="7" rx="3.5" fill="#10B981"/>
+    <rect x="495" y="224" width="60" height="7" rx="3.5" fill="#10B981"/>
+    <rect x="495" y="235" width="38" height="7" rx="3.5" fill="#10B981"/>
+  </g>
+  <circle cx="22" cy="297" r="5" fill="#7C3AED"/>
+  <text x="34" y="302" font-size="15" font-weight="600" fill="#4B5563">So it should</text>
+  <rect x="16" y="314" width="143" height="58" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="87.5" y="339" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Popular picks</text>
+  <text x="87.5" y="358" text-anchor="middle" font-size="15" fill="#1E1B4B">+ ask at sign-up</text>
+  <rect x="171" y="314" width="143" height="58" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="242.5" y="339" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Taste neighbors</text>
+  <text x="242.5" y="358" text-anchor="middle" font-size="15" fill="#1E1B4B">+ a few surprises</text>
+  <rect x="326" y="314" width="143" height="58" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="397.5" y="339" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Tailored picks</text>
+  <text x="397.5" y="358" text-anchor="middle" font-size="15" fill="#1E1B4B">+ diversity</text>
+  <rect x="481" y="314" width="143" height="58" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="552.5" y="339" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Something new</text>
+  <text x="552.5" y="358" text-anchor="middle" font-size="15" fill="#1E1B4B">+ win them back</text>
+  <circle cx="22" cy="393" r="5" fill="#F59E0B"/>
+  <text x="34" y="398" font-size="15" font-weight="600" fill="#4B5563">Share of picks spent exploring</text>
+  <rect x="30" y="410" width="78.4" height="14" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <rect x="30" y="410" width="70.0" height="14" rx="4" fill="#F59E0B"/>
+  <text x="116.4" y="422" font-size="15" font-weight="700" fill="#92400E">50%+</text>
+  <rect x="185" y="410" width="42.0" height="14" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <rect x="185" y="410" width="28.0" height="14" rx="4" fill="#F59E0B"/>
+  <text x="235.0" y="422" font-size="15" font-weight="700" fill="#92400E">20–30%</text>
+  <rect x="340" y="410" width="14.0" height="14" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <rect x="340" y="410" width="7.0" height="14" rx="4" fill="#F59E0B"/>
+  <text x="362.0" y="422" font-size="15" font-weight="700" fill="#92400E">5–10%</text>
+  <rect x="495" y="410" width="28.0" height="14" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1"/>
+  <rect x="495" y="410" width="21.0" height="14" rx="4" fill="#F59E0B"/>
+  <text x="531.0" y="422" font-size="15" font-weight="700" fill="#92400E">15–20%</text>
+  <text x="320" y="456" text-anchor="middle" font-size="15" font-weight="700" fill="#4B5563"><tspan fill="#065F46">Footprints</tspan> build the picture — and each stage needs its own <tspan fill="#4C1D95">strategy</tspan>.</text>
 </svg>

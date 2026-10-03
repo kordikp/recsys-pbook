@@ -2,7 +2,7 @@
 id: item-cold-start-cs
 type: spine
 title: "Studený start položky: první den nové položky"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: false
 teaser: "Úplně nová položka nemá žádné interakce. Jak jí doporučovací systém dá férový první den?"

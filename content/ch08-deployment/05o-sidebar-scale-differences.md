@@ -19,12 +19,12 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
 
-A common mistake in recommendation engineering: designing for the wrong scale. The architecture that works for Netflix (15,000 titles) would fail catastrophically at YouTube (800M videos), and vice versa. Scale isn't just a performance concern — it fundamentally changes which algorithms, architectures, and trade-offs are appropriate.
+A common mistake in recommendation engineering: designing for the wrong scale. The architecture that works for Netflix (thousands of titles) would fail catastrophically at YouTube (billions of videos), and vice versa. Scale isn't just a performance concern — it fundamentally changes which algorithms, architectures, and trade-offs are appropriate.
 
 ## Small Scale: Startup (< 10K items, < 100K users)
 
@@ -96,4 +96,4 @@ A common mistake in recommendation engineering: designing for the wrong scale. T
 | Large | Serving latency | Multi-stage pipeline, ANN search |
 | Hyperscale | System complexity | Infrastructure, compression, distributed systems |
 
-**Consider this:** Most teams overengineer for their current scale — building YouTube-scale infrastructure for a 5,000-item catalog. The right question isn't "What does YouTube use?" but "What's the simplest thing that works at my scale?" You can always add complexity later. You can rarely remove it.
+**In your product:** Most teams overengineer for their current scale — building YouTube-scale infrastructure for a 5,000-item catalog. The right question isn't "What does YouTube use?" but "What's the simplest thing that works at my scale?" You can always add complexity later. You can rarely remove it.

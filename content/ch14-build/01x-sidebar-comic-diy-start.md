@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Before You Code, Take Their Order — a four-panel comic](images/comic-diy-start.svg)
+![Before You Code, Take Their Order — a four-panel comic: with a pen, you ask Mina, Leo and Sam which snacks they like, see that Leo answers like Mina, predict Mina will like pretzels because Leo does, then check the guess and repeat](images/comic-diy-start.svg)
 
 *Start manually: collect data, find similar users, predict, then test and improve.*

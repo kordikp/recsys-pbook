@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Usual, for Absolutely Everyone — a four-panel comic](images/comic-popularity.svg)
+![The Usual, for Absolutely Everyone — a four-panel diner comic: a first-time guest asks what's good; the waiter checks today's most-ordered dishes and serves the top one, cilantro noodles, to every table, whatever each guest craved; the guest who hates cilantro is told they're outvoted, 27 to 1.](images/comic-popularity.svg)
 
 *Popularity recommends trends to everyone; its biggest weakness is ignoring individual preferences.*

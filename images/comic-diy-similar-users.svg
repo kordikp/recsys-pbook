@@ -1,104 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <defs>
-    <symbol id="person" viewBox="0 0 30 72">
-      <circle cx="15" cy="11" r="10" fill="currentColor"/>
-      <line x1="15" y1="22" x2="15" y2="50" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="15" y1="31" x2="3" y2="42" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="15" y1="31" x2="27" y2="42" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="15" y1="50" x2="6" y2="69" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-      <line x1="15" y1="50" x2="24" y2="69" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
-    </symbol>
-  </defs>
-
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Closest Neighbor Is a Matter of Taste</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <rect x="92" y="78" width="224" height="58" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="204" y="101" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="204" y="101">Same three takeout places?</tspan>
-    <tspan x="204" y="121">Give each one 1–5.</tspan>
-  </text>
-  <use href="#person" x="68" y="166" width="30" height="72" color="#7C3AED"/>
-  <use href="#person" x="190" y="166" width="30" height="72" color="#10B981"/>
-  <use href="#person" x="312" y="166" width="30" height="72" color="#D97706"/>
-  <text x="83" y="254" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">MIRA</text>
-  <text x="205" y="254" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">NIA</text>
-  <text x="327" y="254" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">SOL</text>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Mira asks two actual neighbors about the same three meals.</text>
-
-  <!-- Panel 2 -->
-  <rect x="426" y="80" width="340" height="166" rx="9" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <text x="596" y="103" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">SAME ORDERS, SIDE BY SIDE</text>
-  <text font-size="12" fill="#1E1B4B">
-    <tspan x="442" y="129" font-weight="700">ORDER</tspan>
-    <tspan x="556" y="129" font-weight="700" fill="#7C3AED">MIRA</tspan>
-    <tspan x="612" y="129" font-weight="700" fill="#10B981">NIA Δ</tspan>
-    <tspan x="687" y="129" font-weight="700" fill="#D97706">SOL Δ</tspan>
-
-    <tspan x="442" y="160">NOODLES</tspan>
-    <tspan x="570" y="160">5</tspan>
-    <tspan x="622" y="160">4  (1)</tspan>
-    <tspan x="697" y="160">2  (3)</tspan>
-
-    <tspan x="442" y="194">TACOS</tspan>
-    <tspan x="570" y="194">2</tspan>
-    <tspan x="622" y="194">2  (0)</tspan>
-    <tspan x="697" y="194">5  (3)</tspan>
-
-    <tspan x="442" y="228">CURRY</tspan>
-    <tspan x="570" y="228">4</tspan>
-    <tspan x="622" y="228">5  (1)</tspan>
-    <tspan x="697" y="228">3  (1)</tspan>
-  </text>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Shared ratings make their differences comparable.</text>
-
-  <!-- Panel 3 -->
-  <rect x="36" y="360" width="160" height="105" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="116" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="116" y="385" font-weight="700" fill="#10B981">NIA</tspan>
-    <tspan x="116" y="409">1 + 0 + 1</tspan>
-    <tspan x="116" y="429">÷ 3 = 0.67</tspan>
-  </text>
-  <rect x="72" y="438" width="88" height="20" rx="9" fill="#10B981" stroke="#10B981"/>
-  <text x="116" y="452" font-size="11.5" font-weight="700" fill="#FFFFFF" text-anchor="middle">CLOSEST</text>
-
-  <rect x="218" y="360" width="160" height="105" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="298" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="298" y="385" font-weight="700" fill="#D97706">SOL</tspan>
-    <tspan x="298" y="409">3 + 3 + 1</tspan>
-    <tspan x="298" y="429">÷ 3 = 2.33</tspan>
-  </text>
-
-  <rect x="68" y="485" width="230" height="44" rx="9" fill="#FFFFFF" stroke="#D97706"/>
-  <text x="183" y="512" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Can we recount the tacos?</text>
-  <use href="#person" x="330" y="474" width="30" height="72" color="#D97706"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The lower average difference identifies Nia as Mira's match.</text>
-
-  <!-- Panel 4 -->
-  <rect x="424" y="358" width="160" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="504" y="389" font-size="12.5" fill="#1E1B4B" text-anchor="middle">What should I order next?</text>
-
-  <rect x="598" y="358" width="172" height="52" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="684" y="379" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="684" y="379">Dumplings.</tspan>
-    <tspan x="684" y="398">Apparently, we love them.</tspan>
-  </text>
-
-  <use href="#person" x="480" y="443" width="30" height="72" color="#7C3AED"/>
-  <use href="#person" x="686" y="443" width="30" height="72" color="#10B981"/>
-  <line x1="450" y1="524" x2="742" y2="524" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="587" y="466" width="74" height="58" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="624" y="491" font-size="10.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="624" y="491">DUMPLINGS</tspan>
-    <tspan x="624" y="510">5 / 5</tspan>
-  </text>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Mira's dinner now comes with peer-reviewed confidence.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Taste neighbors have low mean differences on shared ratings and drive collaborative filtering.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 652" role="img" aria-labelledby="pb062-title pb062-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb062-title">The closest neighbor is a matter of taste</title>
+<desc id="pb062-desc">Four-panel comic. Mira asks Sol, who lives next door, and Nia, who lives across town, to rate the same three takeout dishes from 1 to 5. Mira gives noodles 5, tacos 2, curry 4; Nia gives 4, 2, 5; Sol gives 2, 5, 3. Dumplings are left out because Mira has not tried them. Nia is off from Mira by 1, 0 and 1, an average gap of 0.67; Sol is off by 3, 3 and 1, an average of 2.33, and asks for a recount of the tacos. Nia is the closest taste neighbor, so Mira tries the dumplings Nia rated 5. Taste neighbor means the smallest average gap on dishes you both rated; collaborative filtering recommends what taste neighbors loved.</desc>
+<rect x=".5" y=".5" width="639" height="651" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" font-size="19" font-weight="700" fill="#1E1B4B" text-anchor="middle">The closest neighbor is a matter of taste</text>
+<g transform="translate(16,52)"><rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Same three dishes</text><path d="M12,196 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M24,44 H204 Q216,44 216,56 V86 Q216,98 204,98 H60 L50,112 L44,98 H24 Q12,98 12,86 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="114" y="66.25" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="114">Noodles, tacos, curry:</tspan><tspan x="114" dy="20">rate each one 1 to 5?</tspan></text><path d="M26,196 V158 Q26,142 42,142 H54 Q70,142 70,158 V196 Z" fill="#10B981"/><circle cx="48" cy="122" r="16" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="43" cy="123" r="2.1" fill="#1E1B4B"/><circle cx="53" cy="123" r="2.1" fill="#1E1B4B"/><path d="M43,129 Q48,133 53,129" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M90,196 V158 Q90,142 106,142 H118 Q134,142 134,158 V196 Z" fill="#F59E0B"/><circle cx="112" cy="122" r="16" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><path d="M96,119 A16,16 0 0 1 128,119 Z" fill="#92400E"/><path d="M122,119 H137" stroke="#92400E" stroke-width="3.5" stroke-linecap="round"/><circle cx="107" cy="123" r="2.1" fill="#1E1B4B"/><circle cx="117" cy="123" r="2.1" fill="#1E1B4B"/><path d="M107,129 Q112,133 117,129" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M228,196 V158 Q228,142 244,142 H256 Q272,142 272,158 V196 Z" fill="#D1D5DB"/><circle cx="250" cy="104" r="7" fill="#4B5563"/><circle cx="250" cy="122" r="16" fill="#FFFFFF" stroke="#4B5563" stroke-width="2"/><circle cx="245" cy="123" r="2.1" fill="#1E1B4B"/><circle cx="255" cy="123" r="2.1" fill="#1E1B4B"/><path d="M245,129 Q250,133 255,129" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M152,180 H210" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="2 6" stroke-linecap="round"/><text x="48" y="218" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">Mira</text><text x="112" y="218" font-size="15" font-weight="700" fill="#92400E" text-anchor="middle">Sol</text><text x="250" y="218" font-size="15" font-weight="700" fill="#4B5563" text-anchor="middle">Nia</text><text x="112" y="238" font-size="14" fill="#6B7280" text-anchor="middle">next door</text><text x="250" y="238" font-size="14" fill="#6B7280" text-anchor="middle">across town</text></g>
+<g transform="translate(326,52)"><rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Line up the scores</text><rect x="128" y="46" width="44" height="130" rx="8" fill="#D1FAE5"/><text x="150" y="66" font-size="15" font-weight="700" fill="#065F46" text-anchor="middle">Mira</text><text x="204" y="66" font-size="15" font-weight="700" fill="#4B5563" text-anchor="middle">Nia</text><text x="258" y="66" font-size="15" font-weight="700" fill="#92400E" text-anchor="middle">Sol</text><text x="16" y="98" font-size="15" fill="#1E1B4B">🍜 Noodles</text><text x="150" y="98" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">5</text><text x="204" y="98" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">4</text><text x="258" y="98" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">2</text><text x="16" y="128" font-size="15" fill="#1E1B4B">🌮 Tacos</text><text x="150" y="128" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">2</text><text x="204" y="128" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">2</text><text x="258" y="128" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">5</text><text x="16" y="158" font-size="15" fill="#1E1B4B">🍛 Curry</text><text x="150" y="158" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">4</text><text x="204" y="158" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">5</text><text x="258" y="158" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">3</text><path d="M14,186 H284" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 4"/><text x="16" y="210" font-size="15" fill="#6B7280">🥟 Dumplings</text><text x="150" y="210" font-size="16" font-weight="700" fill="#065F46" text-anchor="middle">?</text><text x="204" y="210" font-size="16" font-weight="700" fill="#6B7280" text-anchor="middle">5</text><text x="258" y="210" font-size="16" font-weight="700" fill="#6B7280" text-anchor="middle">–</text><text x="149" y="240" font-size="14" fill="#4B5563" text-anchor="middle">Compare only dishes both people rated.</text></g>
+<g transform="translate(16,322)"><rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">How far from Mira?</text><rect x="12" y="42" width="132" height="106" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><text x="78" y="63" font-size="15" font-weight="700" fill="#4B5563" text-anchor="middle">Nia</text><text x="78" y="84" font-size="15" fill="#1E1B4B" text-anchor="middle">off by 1, 0, 1</text><text x="78" y="110" text-anchor="middle" fill="#065F46"><tspan font-size="14">avg gap </tspan><tspan font-size="22" font-weight="700">0.67</tspan></text><rect x="22" y="118" width="112" height="22" rx="11" fill="#10B981"/><text x="78" y="134" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">closest taste</text><rect x="154" y="42" width="132" height="106" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="220" y="63" font-size="15" font-weight="700" fill="#92400E" text-anchor="middle">Sol</text><text x="220" y="84" font-size="15" fill="#1E1B4B" text-anchor="middle">off by 3, 3, 1</text><text x="220" y="110" text-anchor="middle" fill="#92400E"><tspan font-size="14">avg gap </tspan><tspan font-size="22" font-weight="700">2.33</tspan></text><text x="220" y="134" font-size="14" fill="#92400E" text-anchor="middle">far apart</text><path d="M12,250 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M236,250 V212 Q236,196 252,196 H264 Q280,196 280,212 V250 Z" fill="#F59E0B"/><circle cx="258" cy="176" r="16" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><path d="M242,173 A16,16 0 0 1 274,173 Z" fill="#92400E"/><path d="M268,173 H283" stroke="#92400E" stroke-width="3.5" stroke-linecap="round"/><circle cx="253" cy="177" r="2.1" fill="#1E1B4B"/><circle cx="263" cy="177" r="2.1" fill="#1E1B4B"/><path d="M253,186 Q258,182 263,186" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M249,170 L255,172 M261,172 L267,170" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M26,182 H206 Q218,182 218,194 V193 L236,198 L218,207 V214 Q218,226 206,226 H26 Q14,226 14,214 V194 Q14,182 26,182 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/><text x="116" y="209.25" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="116">Can we recount the tacos?</tspan></text></g>
+<g transform="translate(326,322)"><rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text><text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Borrow her taste</text><path d="M12,246 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><path d="M24,42 H176 Q188,42 188,54 V80 Q188,92 176,92 H58 L52,134 L42,92 H24 Q12,92 12,80 V54 Q12,42 24,42 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><text x="100" y="62.25" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="100">Try the dumplings.</tspan><tspan x="100" dy="20">I gave them a 5!</tspan></text><path d="M124,100 H274 Q286,100 286,112 V138 Q286,150 274,150 H246 L244,150 L230,150 H124 Q112,150 112,138 V112 Q112,100 124,100 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="199" y="120.25" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="199">My closest neighbor</tspan><tspan x="199" dy="20">lives across town!</tspan></text><path d="M30,246 V208 Q30,192 46,192 H58 Q74,192 74,208 V246 Z" fill="#D1D5DB"/><circle cx="52" cy="154" r="7" fill="#4B5563"/><circle cx="52" cy="172" r="16" fill="#FFFFFF" stroke="#4B5563" stroke-width="2"/><circle cx="47" cy="173" r="2.1" fill="#1E1B4B"/><circle cx="57" cy="173" r="2.1" fill="#1E1B4B"/><path d="M47,179 Q52,183 57,179" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M224,246 V208 Q224,192 240,192 H252 Q268,192 268,208 V246 Z" fill="#10B981"/><circle cx="246" cy="172" r="16" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="241" cy="173" r="2.1" fill="#1E1B4B"/><circle cx="251" cy="173" r="2.1" fill="#1E1B4B"/><circle cx="246" cy="181" r="2.6" fill="none" stroke="#1E1B4B" stroke-width="1.8"/><rect x="96" y="164" width="108" height="76" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><text x="150" y="183" font-size="14" fill="#4C1D95" text-anchor="middle">for Mira</text><text x="150" y="211" font-size="24" fill="#1E1B4B" text-anchor="middle">🥟</text><text x="150" y="232" font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">dumplings</text></g>
+<text x="320" y="608" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#065F46">Taste neighbor</tspan> = smallest average gap on dishes you both rated.</text>
+<text x="320" y="634" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#7C3AED">Collaborative filtering</tspan> recommends what your taste neighbors loved.</text>
 </svg>

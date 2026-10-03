@@ -2,7 +2,7 @@
 id: ch2-myth
 type: spine
 title: "Myth Busters: True or False?"
-readingTime: 1
+readingTime: 3
 standalone: true
 core: true
 teaser: "Is your phone REALLY listening to you? Let's separate fact from fiction about how recommendations actually work."
@@ -16,13 +16,13 @@ highlights:
   - "One anomalous interaction will not permanently corrupt a profile -- recency dominates"
   - "Users can deliberately retrain the algorithm through intentional behavior changes"
 status: accepted
-concept: feedback-signals
+concept: algorithm-training
 state: core
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---

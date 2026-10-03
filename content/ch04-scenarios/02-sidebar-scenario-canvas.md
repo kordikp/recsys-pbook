@@ -2,7 +2,7 @@
 id: ch4-canvas
 type: spine
 title: "The Scenario Canvas: A Design Framework"
-readingTime: 3
+readingTime: 6
 standalone: true
 core: false
 teaser: "Before writing a single line of code, fill out the scenario canvas. Eight questions that prevent the most common recommendation design mistakes."
@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
@@ -32,7 +32,7 @@ carriers: prose|table|image
 
 The canvas works for any recommendation placement in any domain. Below is the framework, followed by two worked examples that show how the same eight questions produce radically different designs for different contexts.
 
-![The Scenario Canvas: 8 design elements](/images/diagram-scenario-canvas.svg)
+![The scenario canvas: the same eight questions answered for a homepage carousel and a cart cross-sell give two different systems, one built for discovery, one for extra revenue](/images/diagram-scenario-canvas.svg)
 
 ## The Eight Elements
 

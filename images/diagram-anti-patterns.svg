@@ -1,163 +1,93 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 480" width="700" height="480" font-family="system-ui, sans-serif">
-  <rect x="1" y="1" width="698" height="478" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
-
-  <text x="350" y="25" text-anchor="middle" font-size="17" font-weight="700" fill="#1E1B4B">RecSys Anti-Patterns</text>
-  <text x="350" y="44" text-anchor="middle" font-size="11" fill="#6B7280">Common pitfalls that silently degrade recommender systems</text>
-
-  <!-- 1. Accuracy Trap -->
-  <g transform="translate(15,60)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#D97706"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Accuracy Trap</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">Optimizing accuracy alone</text>
-      <text x="80" y="85">recommends only popular</text>
-      <text x="80" y="100">items. High nDCG, zero</text>
-      <text x="80" y="115">serendipity.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Accuracy &#x2260;</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">User Satisfaction</text>
-  </g>
-
-  <!-- 2. Popularity Loop -->
-  <g transform="translate(185,60)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#D97706"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Popularity Loop</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">Popular items get</text>
-      <text x="80" y="85">recommended more, collect</text>
-      <text x="80" y="100">more clicks, become even</text>
-      <text x="80" y="115">more popular.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Rich-get-richer</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">feedback loop</text>
-  </g>
-
-  <!-- 3. Power User Bias -->
-  <g transform="translate(355,60)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#D97706"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Power User Bias</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">1% of users generate 50%</text>
-      <text x="80" y="85">of training data. Model</text>
-      <text x="80" y="100">overfits to power users'</text>
-      <text x="80" y="115">tastes.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Majority of users</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">underserved</text>
-  </g>
-
-  <!-- 4. Ignoring Temporal -->
-  <g transform="translate(525,60)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#D97706"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Ignoring Temporal</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">Random train/test split</text>
-      <text x="80" y="85">leaks future info into</text>
-      <text x="80" y="100">training. Inflated offline</text>
-      <text x="80" y="115">metrics.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Data leakage from</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">the future</text>
-  </g>
-
-  <!-- 5. Cold Start Avoidance -->
-  <g transform="translate(15,240)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#EF4444"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Cold Start Avoidance</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">Excluding new users/items</text>
-      <text x="80" y="85">from evaluation. Model</text>
-      <text x="80" y="100">looks great but fails</text>
-      <text x="80" y="115">in production.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Survival bias in</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">evaluation</text>
-  </g>
-
-  <!-- 6. Click Optimization -->
-  <g transform="translate(185,240)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#EF4444"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Click Optimization</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">Maximizing clicks</text>
-      <text x="80" y="85">promotes clickbait. Users</text>
-      <text x="80" y="100">click but bounce</text>
-      <text x="80" y="115">immediately.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Clicks &#x2260;</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Engagement</text>
-  </g>
-
-  <!-- 7. Feature Kitchen Sink -->
-  <g transform="translate(355,240)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#EF4444"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Feature Kitchen Sink</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">Adding every available</text>
-      <text x="80" y="85">feature without ablation.</text>
-      <text x="80" y="100">Noise drowns signal;</text>
-      <text x="80" y="115">latency increases.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">More features &#x2260;</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Better model</text>
-  </g>
-
-  <!-- 8. Position Bias -->
-  <g transform="translate(525,240)">
-    <rect width="160" height="170" rx="10" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <g transform="translate(65,8)">
-      <polygon points="15,0 30,26 0,26" fill="#EF4444"/>
-      <text x="15" y="21" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">!</text>
-    </g>
-    <text x="80" y="52" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Position Bias</text>
-    <g text-anchor="middle" font-size="11" fill="#6B7280">
-      <text x="80" y="70">Top-ranked items get clicked</text>
-      <text x="80" y="85">regardless of relevance.</text>
-      <text x="80" y="100">Model learns position,</text>
-      <text x="80" y="115">not quality.</text>
-    </g>
-    <rect x="10" y="124" width="140" height="39" rx="6" fill="#FEE2E2"/>
-    <text x="80" y="140" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Position &#x2260;</text>
-    <text x="80" y="154" text-anchor="middle" font-size="11" font-weight="600" fill="#EF4444">Relevance</text>
-  </g>
-
-  <!-- Bottom note -->
-  <rect x="120" y="424" width="460" height="42" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <text x="350" y="441" text-anchor="middle" font-size="11" fill="#1E1B4B">Each anti-pattern can persist undetected for months</text>
-  <text x="350" y="456" text-anchor="middle" font-size="11" fill="#1E1B4B">if only standard accuracy metrics are tracked.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb111-title pb111-desc">
+<title id="pb111-title">Eight anti-patterns: the number looks good, users lose out</title>
+<desc id="pb111-desc">Eight recommender anti-patterns, each pairing something that looks good on a dashboard with what users actually get. The most dangerous, the popularity feedback loop, feeds itself: items shown more get clicked more, get ranked higher and are shown even more, while new items are never shown.</desc>
+<style>
+.pb111-dot{animation:pb111-loop 8s linear infinite}
+@keyframes pb111-loop{0%{transform:translate(0,0)}45%{transform:translate(308px,0)}50%{transform:translate(308px,34px)}95%{transform:translate(0,34px)}100%{transform:translate(0,0)}}
+.pb111-p1{animation:pb111-a1 8s linear infinite}.pb111-p2{animation:pb111-a2 8s linear infinite}.pb111-p3{animation:pb111-a3 8s linear infinite}
+@keyframes pb111-a1{0%,6%{fill:#FCD34D}9%,93%{fill:#FEF3C7}96%,100%{fill:#FCD34D}}
+@keyframes pb111-a2{0%,12%{fill:#FEF3C7}15%,29%{fill:#FCD34D}32%,100%{fill:#FEF3C7}}
+@keyframes pb111-a3{0%,35%{fill:#FEF3C7}38%,49%{fill:#FCD34D}52%,100%{fill:#FEF3C7}}
+@media (prefers-reduced-motion: reduce){.pb111-dot,.pb111-p1,.pb111-p2,.pb111-p3{animation:none !important}}
+</style>
+<defs><marker id="pb111-ah" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8 Z" fill="#F59E0B"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="479" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="48" y="36" font-size="14" font-weight="600" fill="#6B7280">Anti-pattern</text>
+<rect x="242" y="16" width="186" height="30" rx="15" fill="#EDE9FE"/>
+<polyline points="254,37 261,31 266,34 275,25" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="284" y="36" font-size="15" font-weight="700" fill="#4C1D95">What looks good</text>
+<rect x="436" y="16" width="188" height="30" rx="15" fill="#FEE2E2"/>
+<polyline points="448,25 455,31 460,28 469,37" fill="none" stroke="#DC2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="478" y="36" font-size="15" font-weight="700" fill="#991B1B">What users get</text>
+<rect x="16" y="56" width="608" height="32" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="31" y="77" text-anchor="middle" font-size="14" font-weight="700" fill="#9CA3AF">1</text>
+<text x="48" y="77" font-size="15" font-weight="700" fill="#1E1B4B">Accuracy trap</text>
+<path d="M249 77 L259 77 L254 68 Z" fill="#7C3AED"/>
+<text x="268" y="77" font-size="14" fill="#4C1D95">Offline accuracy</text>
+<path d="M443 68 L453 68 L448 77 Z" fill="#DC2626"/>
+<text x="462" y="77" font-size="14" fill="#991B1B">Repetitive lists</text>
+<rect x="16" y="93" width="608" height="32" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="31" y="114" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">2</text>
+<text x="48" y="114" font-size="15" font-weight="700" fill="#1E1B4B">Popularity loop <tspan fill="#B45309">↻</tspan></text>
+<path d="M249 114 L259 114 L254 105 Z" fill="#7C3AED"/>
+<text x="268" y="114" font-size="14" fill="#4C1D95">Clicks on hits</text>
+<path d="M443 105 L453 105 L448 114 Z" fill="#DC2626"/>
+<text x="462" y="114" font-size="14" fill="#991B1B">New items buried</text>
+<rect x="16" y="130" width="608" height="32" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="31" y="151" text-anchor="middle" font-size="14" font-weight="700" fill="#9CA3AF">3</text>
+<text x="48" y="151" font-size="15" font-weight="700" fill="#1E1B4B">Power-user bias</text>
+<path d="M249 151 L259 151 L254 142 Z" fill="#7C3AED"/>
+<text x="268" y="151" font-size="14" fill="#4C1D95">Average accuracy</text>
+<path d="M443 142 L453 142 L448 151 Z" fill="#DC2626"/>
+<text x="462" y="151" font-size="14" fill="#991B1B">Casual users ignored</text>
+<rect x="16" y="167" width="608" height="32" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="31" y="188" text-anchor="middle" font-size="14" font-weight="700" fill="#9CA3AF">4</text>
+<text x="48" y="188" font-size="15" font-weight="700" fill="#1E1B4B">Ignoring time</text>
+<path d="M249 188 L259 188 L254 179 Z" fill="#7C3AED"/>
+<text x="268" y="188" font-size="14" fill="#4C1D95">Years of history</text>
+<path d="M443 179 L453 179 L448 188 Z" fill="#DC2626"/>
+<text x="462" y="188" font-size="14" fill="#991B1B">Horror recs in July</text>
+<rect x="16" y="204" width="608" height="32" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="31" y="225" text-anchor="middle" font-size="14" font-weight="700" fill="#9CA3AF">5</text>
+<text x="48" y="225" font-size="15" font-weight="700" fill="#1E1B4B">Cold-start avoidance</text>
+<path d="M249 225 L259 225 L254 216 Z" fill="#7C3AED"/>
+<text x="268" y="225" font-size="14" fill="#4C1D95">Fine on average</text>
+<path d="M443 216 L453 216 L448 225 Z" fill="#DC2626"/>
+<text x="462" y="225" font-size="14" fill="#991B1B">Generic first visit</text>
+<rect x="16" y="241" width="608" height="32" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="31" y="262" text-anchor="middle" font-size="14" font-weight="700" fill="#9CA3AF">6</text>
+<text x="48" y="262" font-size="15" font-weight="700" fill="#1E1B4B">Chasing clicks</text>
+<path d="M249 262 L259 262 L254 253 Z" fill="#7C3AED"/>
+<text x="268" y="262" font-size="14" fill="#4C1D95">Click-through rate</text>
+<path d="M443 253 L453 253 L448 262 Z" fill="#DC2626"/>
+<text x="462" y="262" font-size="14" fill="#991B1B">Click, then quit</text>
+<rect x="16" y="278" width="608" height="32" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="31" y="299" text-anchor="middle" font-size="14" font-weight="700" fill="#9CA3AF">7</text>
+<text x="48" y="299" font-size="15" font-weight="700" fill="#1E1B4B">Feature kitchen sink</text>
+<path d="M249 299 L259 299 L254 290 Z" fill="#7C3AED"/>
+<text x="268" y="299" font-size="14" fill="#4C1D95">Feature count</text>
+<path d="M443 290 L453 290 L448 299 Z" fill="#DC2626"/>
+<text x="462" y="299" font-size="14" fill="#991B1B">Slower, less accurate</text>
+<rect x="16" y="315" width="608" height="32" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="31" y="336" text-anchor="middle" font-size="14" font-weight="700" fill="#9CA3AF">8</text>
+<text x="48" y="336" font-size="15" font-weight="700" fill="#1E1B4B">Position bias</text>
+<path d="M249 336 L259 336 L254 327 Z" fill="#7C3AED"/>
+<text x="268" y="336" font-size="14" fill="#4C1D95">Top-slot clicks</text>
+<path d="M443 327 L453 327 L448 336 Z" fill="#DC2626"/>
+<text x="462" y="336" font-size="14" fill="#991B1B">Good items stuck low</text>
+<rect x="16" y="360" width="608" height="104" rx="12" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+<text x="32" y="386" font-size="15" font-weight="700" fill="#1E1B4B"><tspan fill="#B45309">↻</tspan> Why #2 is the most dangerous: it feeds itself</text>
+<path d="M396 426 V446 H88 V428" fill="none" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#pb111-ah)"/>
+<line x1="146" y1="412" x2="172" y2="412" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb111-ah)"/>
+<line x1="302" y1="412" x2="328" y2="412" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb111-ah)"/>
+<circle class="pb111-dot" cx="88" cy="412" r="5.5" fill="#B45309"/>
+<rect class="pb111-p1" x="32" y="398" width="112" height="28" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="88" y="417" text-anchor="middle" font-size="14" font-weight="600" fill="#1E1B4B">Shown more</text>
+<rect class="pb111-p2" x="176" y="398" width="124" height="28" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="238" y="417" text-anchor="middle" font-size="14" font-weight="600" fill="#1E1B4B">Clicked more</text>
+<rect class="pb111-p3" x="332" y="398" width="128" height="28" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="396" y="417" text-anchor="middle" font-size="14" font-weight="600" fill="#1E1B4B">Ranked higher</text>
+<rect x="486" y="398" width="122" height="50" rx="10" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="547" y="417" text-anchor="middle" font-size="14" font-weight="700" fill="#6B7280">New items</text>
+<text x="547" y="438" text-anchor="middle" font-size="14" fill="#6B7280">never shown</text>
 </svg>

@@ -1,97 +1,171 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Jukebox That Takes Its Own Requests</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 624" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb079-title pb079-desc">
+  <title id="pb079-title">The jukebox that takes its own requests</title>
+  <desc id="pb079-desc">Four-panel comic. The jukebox's play counts: one hit has 9,842 plays, a few songs have some, and most songs, like Track #847, have zero, the long tail. You ask the jukebox to surprise you and it plays the hit again, now 9,843 plays. That is the loop: more plays make it a surer bet, so it gets picked again and earns more plays (the Matthew effect), while Track #847 with zero plays never gets a chance. One night the jukebox plays Track #847 as a wild card; you love it and promise to come back tomorrow. Plays earn plays, and one niche find can turn a listener into a regular.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <defs>
+    <marker id="pb079-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#7C3AED"/>
+    </marker>
+  </defs>
 
-  <!-- Panel 1 -->
-  <g>
-    <rect x="34" y="76" width="156" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="112" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="112" dy="0">Play me something</tspan>
-      <tspan x="112" dy="17">nobody knows.</tspan>
-    </text>
+  <rect x="0.5" y="0.5" width="639" height="623" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-    <circle cx="104" cy="169" r="10" fill="#0EA5E9"/>
-    <path d="M104 180 L104 219 M104 190 L85 204 M104 190 L123 201 M104 219 L90 244 M104 219 L119 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- ===== Panel 1: what the jukebox knows ===== -->
+  <g transform="translate(16,16)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">What the jukebox knows</text>
 
-    <rect x="205" y="76" width="168" height="154" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="289" y="99" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">ON SPOTIFY</text>
-    <text x="221" y="121" font-size="12" fill="#6B7280">tracks ever streamed</text>
-    <rect x="221" y="135" width="136" height="14" rx="7" fill="#E5E7EB"/>
-    <rect x="221" y="135" width="27" height="14" rx="7" fill="#10B981"/>
-    <text x="221" y="168" font-size="12" fill="#10B981">≈20% yes</text>
-    <text x="221" y="193" font-size="12.5" font-weight="700" fill="#6B7280">≈80%: zero streams</text>
-    <path d="M221 211 L357 211" fill="none" stroke="#E5E7EB" stroke-width="2" stroke-linecap="round"/>
+    <!-- plays per song, sorted -->
+    <text x="22" y="66" font-size="14" font-weight="700" fill="#4C1D95">Hit song: 9,842 plays</text>
+    <rect x="22" y="76" width="12" height="110" rx="2" fill="#7C3AED"/>
+    <rect x="38" y="122" width="12" height="64" rx="2" fill="#7C3AED"/>
+    <rect x="54" y="148" width="12" height="38" rx="2" fill="#7C3AED"/>
+    <rect x="70" y="162" width="12" height="24" rx="2" fill="#D1D5DB"/>
+    <rect x="86" y="171" width="12" height="15" rx="2" fill="#D1D5DB"/>
+    <rect x="102" y="176" width="12" height="10" rx="2" fill="#D1D5DB"/>
+    <rect x="118" y="180" width="12" height="6" rx="2" fill="#D1D5DB"/>
+    <rect x="134" y="182" width="12" height="4" rx="2" fill="#D1D5DB"/>
+    <g fill="#D1D5DB">
+      <circle cx="155" cy="182" r="3"/><circle cx="164" cy="182" r="3"/><circle cx="173" cy="182" r="3"/>
+      <circle cx="182" cy="182" r="3"/><circle cx="191" cy="182" r="3"/><circle cx="200" cy="182" r="3"/>
+      <circle cx="209" cy="182" r="3"/><circle cx="218" cy="182" r="3"/><circle cx="227" cy="182" r="3"/>
+      <circle cx="245" cy="182" r="3"/><circle cx="254" cy="182" r="3"/>
+      <circle cx="263" cy="182" r="3"/><circle cx="272" cy="182" r="3"/><circle cx="281" cy="182" r="3"/>
+    </g>
+    <circle cx="236" cy="182" r="3" fill="#4B5563"/>
+    <circle cx="236" cy="182" r="7" fill="none" stroke="#4B5563" stroke-width="1.5"/>
+    <path d="M236,154 V171" stroke="#9CA3AF" stroke-width="1.5" stroke-linecap="round"/>
+    <text x="236" y="146" text-anchor="middle" font-size="14" font-weight="700" fill="#4B5563">Track #847</text>
+    <path d="M16,186.5 H286" stroke="#D1D5DB" stroke-width="1.5"/>
+
+    <path d="M22,194 V199 H66 V194" fill="none" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="44" y="217" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">hits</text>
+    <path d="M70,194 V199 H286 V194" fill="none" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="178" y="217" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">the long tail</text>
+    <text x="178" y="238" text-anchor="middle" font-size="14" fill="#4B5563">most songs: 0 plays</text>
   </g>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The catalog is enormous. The listening history is tiny.</text>
 
-  <!-- Panel 2 -->
-  <g>
-    <rect x="426" y="76" width="145" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="498.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="498.5" dy="0">Why that song</tspan>
-      <tspan x="498.5" dy="17">again?</tspan>
-    </text>
+  <!-- ===== Panel 2: a request ===== -->
+  <g transform="translate(326,16)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">A request</text>
 
-    <circle cx="498" cy="169" r="10" fill="#0EA5E9"/>
-    <path d="M498 180 L498 219 M498 190 L480 202 M498 190 L516 202 M498 219 L484 244 M498 219 L513 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <rect x="594" y="76" width="172" height="156" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="680" y="99" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">RECOMMENDER</text>
-    <rect x="610" y="113" width="140" height="47" rx="8" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="680" y="133" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">THE HIT</text>
-    <text x="680" y="151" font-size="12" fill="#6B7280" text-anchor="middle">9,842 → 9,843 plays</text>
-    <path d="M625 185 C625 169 648 168 660 177" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M655 171 L662 177 L654 181" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-    <text x="680" y="211" font-size="12" fill="#D97706" text-anchor="middle">RECOMMENDED AGAIN</text>
+    <!-- you -->
+    <path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#10B981"/>
+    <circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="52" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="64" cy="147" r="2.2" fill="#1E1B4B"/>
+    <path d="M53,155 Q58,159 63,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- jukebox -->
+    <path d="M200,226 V144 A36,36 0 0 1 272,144 V226 Z" fill="#7C3AED"/>
+    <path d="M205,224 V144 A31,31 0 0 1 267,144 V224" fill="none" stroke="#EDE9FE" stroke-width="2" stroke-opacity="0.55"/>
+    <path d="M212,168 V146 A24,24 0 0 1 260,146 V168 Z" fill="#FFFFFF" stroke="#4C1D95" stroke-width="1.5"/>
+    <circle cx="229" cy="146" r="2.2" fill="#1E1B4B"/><circle cx="243" cy="146" r="2.2" fill="#1E1B4B"/>
+    <path d="M230,155 Q236,160 242,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="224" cy="179" r="3.2" fill="#FFFFFF"/><circle cx="236" cy="179" r="3.2" fill="#FFFFFF"/><circle cx="248" cy="179" r="3.2" fill="#FFFFFF"/>
+    <path d="M216,192 H256 M216,200 H256 M216,208 H256" stroke="#EDE9FE" stroke-width="3" stroke-linecap="round"/>
+    <rect x="229" y="215" width="14" height="4" rx="2" fill="#4C1D95"/>
+
+    <text x="280" y="128" text-anchor="middle" font-size="18" fill="#7C3AED">♪</text>
+
+    <!-- now playing -->
+    <rect x="90" y="150" width="102" height="54" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="141" y="172" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">♪ Hit song</text>
+    <text x="141" y="194" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">9,843 plays</text>
+
+    <!-- bubbles -->
+    <path d="M22,44 H112 Q124,44 124,56 V70 Q124,82 112,82 H64 L58,126 L52,82 H22 Q10,82 10,70 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="67" y="69" text-anchor="middle" font-size="16" fill="#1E1B4B">Surprise me!</text>
+    <path d="M146,44 H274 Q286,44 286,56 V86 Q286,98 274,98 H242 L236,106 L230,98 H146 Q134,98 134,86 V56 Q134,44 146,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="210" y="66" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="210">Surprise! The hit.</tspan><tspan x="210" dy="20">Again.</tspan></text>
+
+    <text x="58" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+    <text x="236" y="250" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Jukebox</text>
   </g>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The hit gets played because it got played.</text>
 
-  <!-- Panel 3 -->
-  <g>
-    <rect x="34" y="356" width="140" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="104" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="104" dy="0">What’s hiding</tspan>
-      <tspan x="104" dy="17">down there?</tspan>
-    </text>
+  <!-- ===== Panel 3: plays earn plays ===== -->
+  <g transform="translate(16,290)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Plays earn plays</text>
 
-    <circle cx="102" cy="449" r="10" fill="#0EA5E9"/>
-    <path d="M102 460 L102 499 M102 470 L121 458 M102 470 L84 485 M102 499 L88 524 M102 499 L117 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- the loop -->
+    <rect x="38" y="52" width="124" height="32" rx="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="100" y="73" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">more plays</text>
+    <rect x="38" y="116" width="124" height="32" rx="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="100" y="137" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">surer bet</text>
+    <rect x="38" y="180" width="124" height="32" rx="16" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="100" y="201" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">picked again</text>
+    <path d="M100,86 V112" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb079-arrow)"/>
+    <path d="M100,150 V176" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb079-arrow)"/>
+    <path d="M36,196 H28 Q18,196 18,186 V78 Q18,68 28,68 H32" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb079-arrow)"/>
+    <text x="100" y="240" text-anchor="middle" font-size="14" fill="#4B5563">(the Matthew effect)</text>
 
-    <rect x="188" y="356" width="172" height="157" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="274" y="379" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">DEEP SEARCH</text>
-    <rect x="204" y="395" width="140" height="73" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
-    <circle cx="226" cy="431" r="13" fill="#7C3AED"/>
-    <path d="M222 424 L222 438 L233 431 Z" fill="#FFFFFF"/>
-    <text x="249" y="423" font-size="12.5" font-weight="700" fill="#1E1B4B">TRACK #847</text>
-    <text x="249" y="444" font-size="12" fill="#6B7280">0 streams</text>
-    <text x="274" y="492" font-size="12.5" fill="#10B981" text-anchor="middle">Oh. This is mine.</text>
-    <text x="347" y="482" font-size="21" fill="#7C3AED">♪</text>
+    <!-- track #847, still waiting in the corner -->
+    <path d="M190,199 H288 V112" fill="none" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="238" cy="166" r="32" fill="#4B5563"/>
+    <circle cx="238" cy="166" r="25" fill="none" stroke="#6B7280" stroke-width="1"/>
+    <circle cx="238" cy="166" r="20" fill="none" stroke="#6B7280" stroke-width="1"/>
+    <circle cx="238" cy="166" r="14" fill="#F3F4F6"/>
+    <circle cx="233" cy="164" r="1.8" fill="#1E1B4B"/><circle cx="243" cy="164" r="1.8" fill="#1E1B4B"/>
+    <path d="M233,172 Q238,169 243,172" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <!-- cobweb -->
+    <g fill="none" stroke="#9CA3AF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M288,122 L254,138 M288,122 L262.5,145.4 M288,122 L268,155 M288,122 L270,166"/>
+      <path d="M273.8,129.2 L277.6,132.5 L280.1,136.9 L281,141.8"/>
+      <path d="M261.2,134.8 L268,140.7 L272.4,148.4 L274,157.2"/>
+    </g>
+    <text x="238" y="224" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">Track #847</text>
+    <text x="238" y="242" text-anchor="middle" font-size="14" fill="#6B7280">0 plays</text>
+    <path d="M194,58 H272 Q284,58 284,70 V80 Q284,92 272,92 H244 L238,130 L232,92 H194 Q182,92 182,80 V70 Q182,58 194,58 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="233" y="81" text-anchor="middle" font-size="16" fill="#1E1B4B">Pick me?</text>
   </g>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The first play requires leaving the front page.</text>
 
-  <!-- Panel 4 -->
-  <g>
-    <rect x="426" y="356" width="155" height="151" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="503.5" y="380" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">NICHE MIX</text>
-    <rect x="443" y="395" width="121" height="47" rx="8" fill="#FFFFFF" stroke="#10B981"/>
-    <text x="503.5" y="415" font-size="12" fill="#6B7280" text-anchor="middle">LISTENING STREAK</text>
-    <text x="503.5" y="434" font-size="12.5" font-weight="700" fill="#10B981" text-anchor="middle">43 days</text>
-    <text x="503.5" y="476" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Still listening?</text>
+  <!-- ===== Panel 4: a wild card ===== -->
+  <g transform="translate(326,290)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+    <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">One wild card</text>
 
-    <rect x="602" y="356" width="164" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="684" y="387" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I brought a charger.</text>
+    <path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <circle cx="686" cy="451" r="10" fill="#0EA5E9"/>
-    <path d="M686 462 L686 500 M686 474 L666 487 M686 474 L705 487 M686 500 L670 522 M686 500 L711 500" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M711 500 L737 500 L737 476" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="732" y="463" width="10" height="14" rx="2" fill="#FEF3C7" stroke="#D97706"/>
+    <!-- you, delighted -->
+    <path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#10B981"/>
+    <circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <path d="M49,147 Q52,143 55,147 M61,147 Q64,143 67,147" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M51,154 Q58,162 65,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- jukebox -->
+    <path d="M200,226 V144 A36,36 0 0 1 272,144 V226 Z" fill="#7C3AED"/>
+    <path d="M205,224 V144 A31,31 0 0 1 267,144 V224" fill="none" stroke="#EDE9FE" stroke-width="2" stroke-opacity="0.55"/>
+    <path d="M212,168 V146 A24,24 0 0 1 260,146 V168 Z" fill="#FFFFFF" stroke="#4C1D95" stroke-width="1.5"/>
+    <circle cx="229" cy="146" r="2.2" fill="#1E1B4B"/><circle cx="243" cy="146" r="2.2" fill="#1E1B4B"/>
+    <path d="M230,155 Q236,160 242,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="224" cy="179" r="3.2" fill="#FFFFFF"/><circle cx="236" cy="179" r="3.2" fill="#FFFFFF"/><circle cx="248" cy="179" r="3.2" fill="#FFFFFF"/>
+    <path d="M216,192 H256 M216,200 H256 M216,208 H256" stroke="#EDE9FE" stroke-width="3" stroke-linecap="round"/>
+    <rect x="229" y="215" width="14" height="4" rx="2" fill="#4C1D95"/>
+    <text x="280" y="128" text-anchor="middle" font-size="18" fill="#7C3AED">♪</text>
+
+    <!-- now playing: the wild card -->
+    <rect x="90" y="146" width="102" height="66" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <text x="141" y="166" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">🎲 Wild card</text>
+    <text x="141" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">Track #847</text>
+    <text x="141" y="203" text-anchor="middle" font-size="14" fill="#92400E">1st play</text>
+
+    <path d="M22,44 H208 Q220,44 220,56 V86 Q220,98 208,98 H64 L58,126 L52,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="115" y="66" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="115">Never heard this. Love it.</tspan><tspan x="115" dy="20">I'm back tomorrow!</tspan></text>
+
   </g>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">One obscure track later, the listener stops leaving.</text>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Tail data is sparse; rankers favor and amplify hits, while niche finds improve retention.</text>
+  <!-- takeaway -->
+  <text x="320" y="582" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#7C3AED">Plays earn plays:</tspan> the hit snowballs, the tail never gets a first spin.</text>
+  <text x="320" y="606" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">One niche find</tspan> can turn a listener into a regular.</text>
 </svg>

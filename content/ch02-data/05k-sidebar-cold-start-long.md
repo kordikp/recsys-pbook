@@ -2,7 +2,7 @@
 id: item-cold-start-long
 type: spine
 title: "The Case of the Invisible Bestseller"
-readingTime: 5
+readingTime: 3
 standalone: true
 core: false
 teaser: "Three thousand copies bought, twelve sold. The analytics team investigates a book that never got its first day."

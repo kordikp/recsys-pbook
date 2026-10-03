@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Today’s Special: Whatever Keeps You Here — a four-panel comic](images/comic-who-decides.svg)
+![Today’s Special: Whatever Keeps You Here — a four-panel comic at a conveyor-belt restaurant: a diner gets dishes she never ordered, the waiter says neither he nor the chef picks them, a robot loads the belt with more cake because it counts plates taken, and it celebrates a record 12 plates while she feels sick](images/comic-who-decides.svg)
 
 *On recommendation platforms, algorithms choose what you see—often for engagement, not well-being.*

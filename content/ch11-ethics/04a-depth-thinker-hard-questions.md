@@ -2,7 +2,7 @@
 id: ch6-hard-d-think
 type: spine
 title: "Open Questions in Recommendation Ethics"
-readingTime: 4
+readingTime: 3
 standalone: true
 teaser: "These are genuine open problems where reasonable experts disagree. Analyzing them requires a stakeholder framework, not just intuition."
 voice: thinker
@@ -20,7 +20,7 @@ lens: generic
 visuality: text-first
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -53,4 +53,4 @@ Spotify can predict what song you want based on time of day, recent listening pa
 
 When a platform's revenue scales directly with time-on-platform, there is a structural conflict of interest: the company profits from maximizing engagement while users may benefit from moderation. Can corporate governance mechanisms (ESG frameworks, benefit corporation structures, regulatory oversight) resolve this conflict? Or is it inherent to the business model -- meaning the only real solutions are structural ones like subscription models, public-interest platforms, or regulatory mandates?
 
-**Consider this:** Select the question you find most consequential. Apply the stakeholder framework: map the interests, identify the conflicts, and consider what evidence would change your position. These are not abstract philosophical puzzles -- they are active design decisions being made right now by product teams, regulators, and legislators. Informed engagement with these questions is not optional for anyone who participates in the digital information ecosystem.
+**Try this:** Select the question you find most consequential. Apply the stakeholder framework: map the interests, identify the conflicts, and consider what evidence would change your position. These are not abstract philosophical puzzles -- they are active design decisions being made right now by product teams, regulators, and legislators. Informed engagement with these questions is not optional for anyone who participates in the digital information ecosystem.

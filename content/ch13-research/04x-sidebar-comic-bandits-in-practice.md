@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Thompson's Scoop of the Draw — a four-panel comic](images/comic-bandits-in-practice.svg)
+![Thompson's Scoop of the Draw — a four-panel comic: an ice-cream recommender keeps a jar of 0–10 guesses per flavour, draws one from each and serves the highest, so the barely-tried mango sometimes beats safe vanilla and gets tried](images/comic-bandits-in-practice.svg)
 
 *Explore uncertainty or exploit winners; Thompson Sampling balances both by sampling beliefs.*

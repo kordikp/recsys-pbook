@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Judging an Album by Its Cover Data — a four-panel comic](images/comic-content-based.svg)
+![Judging an Album by Its Cover Data — a four-panel comic: a content-based clerk recommends a brand-new jazz album with zero plays because its features match your favorite, while a collaborative clerk asks the other shoppers and has nothing yet](images/comic-content-based.svg)
 
 *Content-based uses item features and preferences; collaborative uses other users' behavior.*

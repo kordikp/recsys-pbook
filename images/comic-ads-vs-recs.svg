@@ -1,70 +1,50 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Clerk Stays. The Ad Gets Around.</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <rect x="126" y="76" width="244" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="248" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="248" dy="0">From your purchases here,</tspan>
-    <tspan x="248" dy="17">I'd suggest this shoe.</tspan>
-  </text>
-  <circle cx="76" cy="181" r="10" fill="#10B981"/>
-  <path d="M76 192 L76 238 M76 204 L57 219 M76 204 L96 217" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="320" cy="181" r="10" fill="#0EA5E9"/>
-  <path d="M320 192 L320 238 M320 204 L301 218 M320 204 L339 216" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M174 218 C190 217 192 204 199 203 C204 214 216 218 230 218 L230 229 L174 229 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">One platform uses its own customer history to recommend.</text>
-
-  <!-- Panel 2 -->
-  <text x="426" y="82" font-size="12" font-weight="700" fill="#6B7280">CAFÉ SITE</text>
-  <rect x="534" y="88" width="228" height="54" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="648" y="109" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="648" dy="0">Still considering</tspan>
-    <tspan x="648" dy="17">that shoe?</tspan>
-  </text>
-  <circle cx="486" cy="188" r="10" fill="#0EA5E9"/>
-  <path d="M486 199 L486 244 M486 211 L468 225 M486 211 L503 223" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="704" cy="188" r="10" fill="#D97706"/>
-  <path d="M704 199 L704 244 M704 211 L686 224 M704 211 L722 224" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">At another site, a retargeted ad takes the next table.</text>
-
-  <!-- Panel 3 -->
-  <text x="34" y="362" font-size="12" font-weight="700" fill="#6B7280">NEWS SITE</text>
-  <rect x="34" y="376" width="148" height="54" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="108" y="397" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="108" dy="0">How far do you</tspan>
-    <tspan x="108" dy="17">follow me?</tspan>
-  </text>
-  <rect x="202" y="376" width="168" height="54" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="286" y="397" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="286" dy="0">Across sites.</tspan>
-    <tspan x="286" dy="17">It's in the policy.</tspan>
-  </text>
-  <circle cx="92" cy="476" r="10" fill="#0EA5E9"/>
-  <path d="M92 487 L92 532 M92 499 L74 514 M92 499 L110 512" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="306" cy="476" r="10" fill="#D97706"/>
-  <path d="M306 487 L306 532 M306 499 L288 512 M306 499 L324 513" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">By the third website, tracking feels less like service.</text>
-
-  <!-- Panel 4 -->
-  <rect x="498" y="356" width="250" height="54" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="623" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="623" dy="0">No. He's not</tspan>
-    <tspan x="623" dy="17">on our payroll.</tspan>
-  </text>
-  <circle cx="470" cy="476" r="10" fill="#0EA5E9"/>
-  <path d="M470 487 L470 532 M470 499 L452 514 M470 499 L488 512" fill="none" stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="570" cy="476" r="10" fill="#10B981"/>
-  <path d="M570 487 L570 532 M570 499 L552 512 M570 499 L588 514" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M650 426 L650 548" fill="none" stroke="#E5E7EB" stroke-width="3" stroke-linecap="round"/>
-  <circle cx="720" cy="476" r="10" fill="#D97706"/>
-  <path d="M720 487 L720 532 M720 499 L702 512 M720 499 L738 513" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Back at the shop, nobody claims the persistent salesman.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Recs use first-party platform data; AdTech tracks across sites, raising privacy duties.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 634" role="img" aria-labelledby="pb037-title pb037-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb037-title">The clerk stays. The ad gets around.</title>
+<desc id="pb037-desc">Four-panel comic. In a shoe shop the clerk, the shop's recommender, suggests socks because you bought running shoes there: it uses only what you did on that one platform. An ad tracker peeking in notes the shoes, follows you to a news site and a recipe site, builds a file on you and auctions your attention to bidders. Back in the shop the clerk says he only knows what you did in there.</desc>
+<defs><clipPath id="pb037-clip"><rect x="0" y="0" width="298" height="262" rx="12"/></clipPath></defs>
+<rect x=".5" y=".5" width="639" height="633" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<g transform="translate(16,16)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#EDE9FE" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" fill="#6B7280">Shoe shop</text>
+<path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#10B981"/><circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="55" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="147" r="2.2" fill="#1E1B4B"/><path d="M56,155 Q61,159 66,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M153,226 V186 Q153,170 169,170 H183 Q199,170 199,186 V226 Z" fill="#7C3AED"/><rect x="181" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="176" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="167" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="179" cy="147" r="2.2" fill="#1E1B4B"/><path d="M168,155 Q173,159 178,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="122" y="188" width="100" height="38" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><text x="141" y="185" font-size="22" text-anchor="middle">🧦</text><g clip-path="url(#pb037-clip)"><path d="M273,226 V186 Q273,170 289,170 H303 Q319,170 319,186 V226 Z" fill="#F59E0B"/><path d="M287,170 L296,188 L305,170" fill="none" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/><path d="M273,204 H319" stroke="#92400E" stroke-width="2"/><circle cx="296" cy="149" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><rect x="278" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><rect x="293" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><path d="M289,146 H293" stroke="#1E1B4B" stroke-width="1.6"/><rect x="271" y="134" width="50" height="5" rx="2.5" fill="#92400E"/><rect x="281" y="116" width="30" height="21" rx="6" fill="#92400E"/><path d="M286,157 Q292,159 297,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M274,184 L264,180" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/><rect x="238" y="164" width="30" height="30" rx="3" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5"/><text x="253" y="186" font-size="16" text-anchor="middle">👟</text></g><path d="M24,40 H268 Q280,40 280,52 V82 Q280,94 268,94 H184 L176,129 L168,94 H24 Q12,94 12,82 V52 Q12,40 24,40 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="146" y="62" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="146">You bought running shoes here.</tspan><tspan x="146" dy="20">Socks to match?</tspan></text><text x="58" y="250" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text><text x="176" y="250" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text>
+</g>
+<g transform="translate(326,16)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" fill="#6B7280">Daily news</text>
+<path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M41,226 V186 Q41,170 57,170 H71 Q87,170 87,186 V226 Z" fill="#F59E0B"/><path d="M55,170 L64,188 L73,170" fill="none" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/><path d="M41,204 H87" stroke="#92400E" stroke-width="2"/><circle cx="64" cy="149" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><rect x="55" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><rect x="70" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><path d="M66,146 H70" stroke="#1E1B4B" stroke-width="1.6"/><rect x="39" y="134" width="50" height="5" rx="2.5" fill="#92400E"/><rect x="49" y="116" width="30" height="21" rx="6" fill="#92400E"/><path d="M63,157 Q69,159 74,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M86,182 L100,176" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/><rect x="98" y="146" width="54" height="44" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/><text x="125" y="177" font-size="24" text-anchor="middle">👟</text><path d="M211,226 V186 Q211,170 227,170 H241 Q257,170 257,186 V226 Z" fill="#10B981"/><circle cx="234" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="224" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="236" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="230" cy="157" r="2.6" fill="none" stroke="#1E1B4B" stroke-width="1.8"/><rect x="208" y="170" width="52" height="40" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><path d="M214,178 H254" stroke="#6B7280" stroke-width="3"/><path d="M214,187 H254 M214,194 H248 M214,201 H252" stroke="#D1D5DB" stroke-width="2"/><path d="M22,40 H166 Q178,40 178,52 V82 Q178,94 166,94 H70 L62,114 L54,94 H22 Q10,94 10,82 V52 Q10,40 22,40 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/><text x="94" y="62" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="94">Still thinking about</tspan><tspan x="94" dy="20">those shoes?</tspan></text><path d="M198,40 H276 Q288,40 288,52 V82 Q288,94 276,94 H242 L234,129 L226,94 H198 Q186,94 186,82 V52 Q186,40 198,40 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="237" y="62" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="237">How do</tspan><tspan x="237" dy="20">you know?</tspan></text><text x="64" y="250" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle">Ad tracker</text><text x="234" y="250" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+</g>
+<g transform="translate(16,290)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" fill="#6B7280">Recipes</text>
+<path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#F59E0B"/><path d="M49,170 L58,188 L67,170" fill="none" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/><path d="M35,204 H81" stroke="#92400E" stroke-width="2"/><circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><rect x="49" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><rect x="64" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><path d="M60,146 H64" stroke="#1E1B4B" stroke-width="1.6"/><rect x="33" y="134" width="50" height="5" rx="2.5" fill="#92400E"/><rect x="43" y="116" width="30" height="21" rx="6" fill="#92400E"/><path d="M57,157 Q63,159 68,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M80,180 L94,172" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/><rect x="92" y="134" width="86" height="56" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/><text x="135" y="154" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle">File: you</text><text x="135" y="179" font-size="17" text-anchor="middle">👟📰🍲</text><path d="M193,226 V186 Q193,170 209,170 H223 Q239,170 239,186 V226 Z" fill="#10B981"/><circle cx="216" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="214" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="226" cy="147" r="2.2" fill="#1E1B4B"/><path d="M215,155 Q220,159 225,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="248" y="204" width="40" height="22" rx="3" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/><text x="268" y="202" font-size="24" text-anchor="middle">🍲</text><path d="M22,40 H188 Q200,40 200,52 V82 Q200,94 188,94 H66 L58,114 L50,94 H22 Q10,94 10,82 V52 Q10,40 22,40 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/><text x="105" y="62" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="105">Shoe fan, reads news,</tspan><tspan x="105" dy="20">cooks. Who bids?</tspan></text><path d="M242,40 H270 Q282,40 282,52 V49 L297,46 L282,61 V58 Q282,70 270,70 H242 Q230,70 230,58 V52 Q230,40 242,40 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><text x="256" y="60" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle"><tspan x="256">Me!</tspan></text><path d="M224,80 H252 Q264,80 264,92 V89 L297,102 L264,101 V98 Q264,110 252,110 H224 Q212,110 212,98 V92 Q212,80 224,80 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><text x="238" y="100" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle"><tspan x="238">Me!</tspan></text>
+</g>
+<g transform="translate(326,290)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M0.75,32 V12 Q0.75,0.75 12,0.75 H286 Q297.25,0.75 297.25,12 V32 Z" fill="#F3F4F6"/>
+<path d="M0.75,32 H297.25" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="16" cy="16" r="4" fill="#D1D5DB"/><circle cx="29" cy="16" r="4" fill="#D1D5DB"/><circle cx="42" cy="16" r="4" fill="#D1D5DB"/>
+<rect x="56" y="6" width="226" height="20" rx="10" fill="#EDE9FE" stroke="#E5E7EB"/>
+<text x="68" y="21" font-size="14" fill="#6B7280">Shoe shop</text>
+<path d="M12,226 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M35,226 V186 Q35,170 51,170 H65 Q81,170 81,186 V226 Z" fill="#10B981"/><circle cx="58" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="55" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="147" r="2.2" fill="#1E1B4B"/><path d="M57,157 H65" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M153,226 V186 Q153,170 169,170 H183 Q199,170 199,186 V226 Z" fill="#7C3AED"/><rect x="181" y="179" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="176" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="167" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="179" cy="147" r="2.2" fill="#1E1B4B"/><path d="M168,155 Q173,159 178,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="122" y="188" width="100" height="38" rx="4" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><g clip-path="url(#pb037-clip)"><path d="M273,226 V186 Q273,170 289,170 H303 Q319,170 319,186 V226 Z" fill="#F59E0B"/><path d="M287,170 L296,188 L305,170" fill="none" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/><path d="M273,204 H319" stroke="#92400E" stroke-width="2"/><circle cx="296" cy="149" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><rect x="278" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><rect x="293" y="143" width="11" height="7" rx="3" fill="#1E1B4B"/><path d="M289,146 H293" stroke="#1E1B4B" stroke-width="1.6"/><rect x="271" y="134" width="50" height="5" rx="2.5" fill="#92400E"/><rect x="281" y="116" width="30" height="21" rx="6" fill="#92400E"/><path d="M286,157 Q292,159 297,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M274,184 L264,180" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/><rect x="232" y="160" width="62" height="30" rx="4" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="263" y="181" font-size="15" text-anchor="middle">👟📰🍲</text></g><path d="M22,40 H94 Q106,40 106,52 V82 Q106,94 94,94 H66 L58,129 L50,94 H22 Q10,94 10,82 V52 Q10,40 22,40 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="58" y="62" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="58">Is he</tspan><tspan x="58" dy="20">with you?</tspan></text><path d="M126,40 H280 Q292,40 292,52 V82 Q292,94 280,94 H184 L176,129 L168,94 H126 Q114,94 114,82 V52 Q114,40 126,40 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="203" y="62" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="203">Not me. I only know</tspan><tspan x="203" dy="20">what you did in here.</tspan></text>
+</g>
+<text x="320" y="584" font-size="17" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#7C3AED">Recommender:</tspan> one shop, its own data.</text>
+<text x="320" y="610" font-size="17" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#92400E">Ad tech:</tspan> tracks you across sites, sells your attention.</text>
 </svg>

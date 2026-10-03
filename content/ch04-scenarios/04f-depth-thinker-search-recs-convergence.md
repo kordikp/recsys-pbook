@@ -19,14 +19,14 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
 
 Search and recommendation have traditionally been treated as separate problems with separate teams, separate codebases, and separate models. But they're converging — and understanding why reveals fundamental truths about information retrieval.
 
-![Search and recommendation converging into unified retrieval](/images/anim-search-recs-merge.svg)
+![One retrieval engine for search and recommendation: query, user-history and item embeddings feed one scorer f(e_q, e_u, e_i); search leans on the query, a feed sets it to zero](/images/anim-search-recs-merge.svg)
 
 ## The Structural Similarity
 
@@ -89,7 +89,7 @@ The most effective systems use search queries as features for recommendation and
 
 ## beeFormer and the Text-Behavior Bridge
 
-beeFormer (from the MFF presentation) sits exactly at this convergence point. It trains a text encoder with a recommendation loss (ELSA), producing embeddings that:
+[beeFormer](#c/beeformer) (RecSys 2024) sits exactly at this convergence point. It trains a text encoder with a recommendation loss (ELSA), producing embeddings that:
 - Understand text semantics (useful for search)
 - Predict user behavior (useful for recommendation)
 - Bridge text and interaction data (useful for both)
@@ -108,4 +108,4 @@ The SHIELD framework (UMAP 2025) addresses a challenge that arises specifically 
 > - Vančura, V., Kordík, P. & Straka, M. (2024). [beeFormer: Bridging the Gap Between Semantic and Interaction Similarity](https://doi.org/10.1145/3640457.3691707). *RecSys 2024*.
 > - For more Recombee research, see the [full publications list](https://www.recombee.com/research-publications).
 
-**Consider this:** The convergence of search and recommendation suggests that the future of information access isn't about "searching" or "being recommended" — it's about a fluid interaction where you express needs (sometimes explicitly, sometimes implicitly) and the system retrieves relevant information from any modality using a unified understanding of both content and user.
+The convergence of search and recommendation suggests that the future of information access isn't about "searching" or "being recommended" — it's about a fluid interaction where you express needs (sometimes explicitly, sometimes implicitly) and the system retrieves relevant information from any modality using a unified understanding of both content and user.

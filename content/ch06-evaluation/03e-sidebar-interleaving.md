@@ -62,4 +62,4 @@ Instead of showing different users different models (A/B test), interleaving sho
 
 **The evaluation funnel:** Use offline metrics to screen candidates → interleaving to identify the winner → A/B test to measure business impact before full deployment.
 
-**Consider this:** Interleaving is underused in practice — many teams jump straight from offline metrics to A/B testing, missing the fast feedback that interleaving provides. Adding interleaving to your evaluation pipeline can accelerate model development by an order of magnitude.
+**In your product:** Interleaving is underused in practice — many teams jump straight from offline metrics to A/B testing, missing the fast feedback that interleaving provides. Adding interleaving to your evaluation pipeline can accelerate model development by an order of magnitude.

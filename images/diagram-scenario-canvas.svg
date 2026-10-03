@@ -1,114 +1,64 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 350" width="650" height="350" font-family="system-ui, sans-serif">
-  <defs>
-    <filter id="cardShadow" x="-3%" y="-3%" width="106%" height="106%">
-      <feDropShadow dx="0" dy="1" stdDeviation="2" flood-color="#1E1B4B" flood-opacity="0.06"/>
-    </filter>
-  </defs>
-
-  <rect x="0.5" y="0.5" width="649" height="349" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-
-  <!-- Title -->
-  <text x="325" y="27" text-anchor="middle" fill="#1E1B4B" font-size="16" font-weight="700">The Scenario Canvas</text>
-  <text x="325" y="45" text-anchor="middle" fill="#6B7280" font-size="11">Define each element before choosing an algorithm</text>
-
-  <!-- Card 1: Entry Point -->
-  <rect x="20" y="60" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M28 60H155A8 8 0 0 1 163 68H20A8 8 0 0 1 28 60Z" fill="#0EA5E9"/>
-  <circle cx="91" cy="91" r="18" fill="#E0F2FE"/>
-  <rect x="82" y="78" width="14" height="20" rx="1" fill="none" stroke="#0EA5E9" stroke-width="1.5"/>
-  <rect x="82" y="78" width="14" height="3" rx="1" fill="#0EA5E9" opacity="0.3"/>
-  <circle cx="93" cy="89" r="1.5" fill="#0EA5E9"/>
-  <text x="91" y="118" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Entry Point</text>
-  <text x="91" y="136" text-anchor="middle" fill="#6B7280" font-size="11">Where does the user</text>
-  <text x="91" y="151" text-anchor="middle" fill="#6B7280" font-size="11">encounter recs?</text>
-  <text x="31" y="172" fill="#0EA5E9" font-size="11" font-weight="700">1</text>
-
-  <!-- Card 2: User State -->
-  <rect x="175" y="60" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M183 60H310A8 8 0 0 1 318 68H175A8 8 0 0 1 183 60Z" fill="#0EA5E9"/>
-  <circle cx="246" cy="91" r="18" fill="#E0F2FE"/>
-  <circle cx="246" cy="83" r="5" fill="none" stroke="#0EA5E9" stroke-width="1.5"/>
-  <path d="M237 98Q237 91 246 91Q255 91 255 98" fill="none" stroke="#0EA5E9" stroke-width="1.5"/>
-  <text x="246" y="118" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">User State</text>
-  <text x="246" y="136" text-anchor="middle" fill="#6B7280" font-size="11">New, returning,</text>
-  <text x="246" y="151" text-anchor="middle" fill="#6B7280" font-size="11">or anonymous?</text>
-  <text x="186" y="172" fill="#0EA5E9" font-size="11" font-weight="700">2</text>
-
-  <!-- Card 3: Latency Budget -->
-  <rect x="330" y="60" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M338 60H465A8 8 0 0 1 473 68H330A8 8 0 0 1 338 60Z" fill="#10B981"/>
-  <circle cx="401" cy="91" r="18" fill="#D1FAE5"/>
-  <circle cx="401" cy="90" r="8" fill="none" stroke="#10B981" stroke-width="1.5"/>
-  <line x1="401" y1="90" x2="401" y2="84" stroke="#10B981" stroke-width="1.5"/>
-  <line x1="401" y1="90" x2="406" y2="92" stroke="#10B981" stroke-width="1.5"/>
-  <text x="401" y="118" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Latency Budget</text>
-  <text x="401" y="136" text-anchor="middle" fill="#6B7280" font-size="11">Real-time, near-time,</text>
-  <text x="401" y="151" text-anchor="middle" fill="#6B7280" font-size="11">or batch?</text>
-  <text x="341" y="172" fill="#10B981" font-size="11" font-weight="700">3</text>
-
-  <!-- Card 4: Candidate Pool -->
-  <rect x="485" y="60" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M493 60H620A8 8 0 0 1 628 68H485A8 8 0 0 1 493 60Z" fill="#10B981"/>
-  <circle cx="556" cy="91" r="18" fill="#D1FAE5"/>
-  <ellipse cx="556" cy="83" rx="9" ry="4" fill="none" stroke="#10B981" stroke-width="1.5"/>
-  <path d="M547 83V95Q547 99 556 99Q565 99 565 95V83" fill="none" stroke="#10B981" stroke-width="1.5"/>
-  <ellipse cx="556" cy="89" rx="9" ry="3" fill="none" stroke="#10B981" stroke-width="1"/>
-  <text x="556" y="118" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Candidate Pool</text>
-  <text x="556" y="136" text-anchor="middle" fill="#6B7280" font-size="11">How many items</text>
-  <text x="556" y="151" text-anchor="middle" fill="#6B7280" font-size="11">to choose from?</text>
-  <text x="496" y="172" fill="#10B981" font-size="11" font-weight="700">4</text>
-
-  <!-- Card 5: Constraints -->
-  <rect x="20" y="195" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M28 195H155A8 8 0 0 1 163 203H20A8 8 0 0 1 28 195Z" fill="#D97706"/>
-  <circle cx="91" cy="226" r="18" fill="#FEF3C7"/>
-  <rect x="84" y="226" width="14" height="12" rx="2" fill="none" stroke="#D97706" stroke-width="1.5"/>
-  <path d="M87 226V221Q87 217 91 217Q95 217 95 221V226" fill="none" stroke="#D97706" stroke-width="1.5"/>
-  <circle cx="91" cy="232" r="1.5" fill="#D97706"/>
-  <text x="91" y="253" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Constraints</text>
-  <text x="91" y="274" text-anchor="middle" fill="#6B7280" font-size="11">Business rules,</text>
-  <text x="91" y="289" text-anchor="middle" fill="#6B7280" font-size="11">legal, editorial?</text>
-  <text x="31" y="307" fill="#D97706" font-size="11" font-weight="700">5</text>
-
-  <!-- Card 6: Exploration Policy -->
-  <rect x="175" y="195" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M183 195H310A8 8 0 0 1 318 203H175A8 8 0 0 1 183 195Z" fill="#D97706"/>
-  <circle cx="246" cy="226" r="18" fill="#FEF3C7"/>
-  <circle cx="246" cy="226" r="9" fill="none" stroke="#D97706" stroke-width="1.5"/>
-  <polygon points="246,218 248,225 246,228 244,225" fill="#D97706" opacity="0.5"/>
-  <polygon points="246,234 244,227 246,224 248,227" fill="#D97706"/>
-  <text x="246" y="253" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Exploration Policy</text>
-  <text x="246" y="274" text-anchor="middle" fill="#6B7280" font-size="11">How much to explore</text>
-  <text x="246" y="289" text-anchor="middle" fill="#6B7280" font-size="11">vs exploit?</text>
-  <text x="186" y="307" fill="#D97706" font-size="11" font-weight="700">6</text>
-
-  <!-- Card 7: Success Metrics -->
-  <rect x="330" y="195" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M338 195H465A8 8 0 0 1 473 203H330A8 8 0 0 1 338 195Z" fill="#EF4444"/>
-  <circle cx="401" cy="226" r="18" fill="#FEE2E2"/>
-  <rect x="390" y="226" width="4" height="10" rx="1" fill="#EF4444" opacity="0.5"/>
-  <rect x="396" y="220" width="4" height="16" rx="1" fill="#EF4444" opacity="0.7"/>
-  <rect x="402" y="216" width="4" height="20" rx="1" fill="#EF4444"/>
-  <rect x="408" y="223" width="4" height="13" rx="1" fill="#EF4444" opacity="0.6"/>
-  <text x="401" y="253" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Success Metrics</text>
-  <text x="401" y="274" text-anchor="middle" fill="#6B7280" font-size="11">CTR, revenue,</text>
-  <text x="401" y="289" text-anchor="middle" fill="#6B7280" font-size="11">engagement, diversity?</text>
-  <text x="341" y="307" fill="#EF4444" font-size="11" font-weight="700">7</text>
-
-  <!-- Card 8: Evaluation Plan -->
-  <rect x="485" y="195" width="143" height="120" rx="8" fill="#FFFFFF" filter="url(#cardShadow)" stroke="#E5E7EB"/>
-  <path d="M493 195H620A8 8 0 0 1 628 203H485A8 8 0 0 1 493 195Z" fill="#EF4444"/>
-  <circle cx="556" cy="226" r="18" fill="#FEE2E2"/>
-  <rect x="548" y="221" width="16" height="20" rx="2" fill="none" stroke="#EF4444" stroke-width="1.5"/>
-  <rect x="552" y="218" width="8" height="5" rx="1" fill="#FEE2E2" stroke="#EF4444"/>
-  <line x1="552" y1="229" x2="560" y2="229" stroke="#EF4444" stroke-width="1"/>
-  <line x1="552" y1="233" x2="560" y2="233" stroke="#EF4444" stroke-width="1"/>
-  <line x1="552" y1="237" x2="558" y2="237" stroke="#EF4444" stroke-width="1"/>
-  <text x="556" y="253" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Evaluation Plan</text>
-  <text x="556" y="274" text-anchor="middle" fill="#6B7280" font-size="11">Offline, A/B test,</text>
-  <text x="556" y="289" text-anchor="middle" fill="#6B7280" font-size="11">or interleaving?</text>
-  <text x="496" y="307" fill="#EF4444" font-size="11" font-weight="700">8</text>
-
-  <!-- Bottom note -->
-  <text x="325" y="340" text-anchor="middle" fill="#6B7280" font-size="11">Fill in all 8 elements for each recommendation scenario before choosing an approach.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 544" role="img" aria-labelledby="pb141-title pb141-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb141-title">One canvas, two placements</title>
+<desc id="pb141-desc">The scenario canvas asks the same eight questions for every placement; answered for a homepage carousel and a cart cross-sell in the same shop, they produce two very different designs: one tuned for discovery, one for extra revenue.</desc>
+<rect x=".5" y=".5" width="639" height="543" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<defs><marker id="pb141-ah" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M1 1 L9 5 L1 9 Z" fill="#7C3AED"/></marker></defs>
+<text x="320" y="38" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">One canvas, two placements</text>
+<text x="320" y="61" text-anchor="middle" font-size="14" fill="#6B7280">Same 8 questions, answered for one online shop</text>
+<text x="28" y="98" font-size="14" fill="#6B7280">The 8 questions</text>
+<rect x="214" y="74" width="200" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="314" y="99" text-anchor="middle" font-size="15" fill="#4C1D95"><tspan font-weight="700">🏠 Homepage</tspan> · discovery</text>
+<rect x="424" y="74" width="200" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="524" y="99" text-anchor="middle" font-size="15" fill="#4C1D95"><tspan font-weight="700">🛒 Cart page</tspan> · cross-sell</text>
+<rect x="16" y="122" width="608" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="36" cy="137" r="11" fill="#EDE9FE"/><text x="36" y="142" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">1</text>
+<text x="56" y="142" font-size="15" font-weight="600" fill="#1E1B4B">Entry point</text>
+<text x="226" y="142" font-size="15" fill="#1E1B4B">Carousel, 12 items</text>
+<text x="436" y="142" font-size="15" fill="#1E1B4B">Grid, 4 items</text>
+<rect x="16" y="156" width="608" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="36" cy="171" r="11" fill="#EDE9FE"/><text x="36" y="176" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">2</text>
+<text x="56" y="176" font-size="15" font-weight="600" fill="#1E1B4B">User state</text>
+<text x="226" y="176" font-size="15" fill="#1E1B4B">Anyone, even anonymous</text>
+<text x="436" y="176" font-size="15" fill="#1E1B4B">Logged-in only</text>
+<rect x="16" y="190" width="608" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="36" cy="205" r="11" fill="#EDE9FE"/><text x="36" y="210" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">3</text>
+<text x="56" y="210" font-size="15" font-weight="600" fill="#1E1B4B">Latency budget</text>
+<text x="226" y="210" font-size="15" font-weight="700" fill="#1E1B4B">300 ms</text><rect x="288" y="200" width="90" height="11" rx="5.5" fill="#7C3AED"/>
+<text x="436" y="210" font-size="15" font-weight="700" fill="#1E1B4B">100 ms</text><rect x="498" y="200" width="30" height="11" rx="5.5" fill="#7C3AED"/>
+<rect x="16" y="224" width="608" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="36" cy="239" r="11" fill="#EDE9FE"/><text x="36" y="244" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">4</text>
+<text x="56" y="244" font-size="15" font-weight="600" fill="#1E1B4B">Candidate pool</text>
+<text x="226" y="244" font-size="15" fill="#1E1B4B">In stock, not seen lately</text>
+<text x="436" y="244" font-size="15" fill="#1E1B4B">Bought with cart items</text>
+<rect x="16" y="258" width="608" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="36" cy="273" r="11" fill="#EDE9FE"/><text x="36" y="278" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">5</text>
+<text x="56" y="278" font-size="15" font-weight="600" fill="#1E1B4B">Constraints</text>
+<text x="226" y="278" font-size="15" fill="#1E1B4B">Max 2 per category</text>
+<text x="436" y="278" font-size="15" fill="#1E1B4B">Max 1 per category</text>
+<rect x="16" y="292" width="608" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="36" cy="307" r="11" fill="#EDE9FE"/><text x="36" y="312" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">6</text>
+<text x="56" y="312" font-size="15" font-weight="600" fill="#1E1B4B">Exploration</text>
+<text x="226" y="312" font-size="15" font-weight="700" fill="#1E1B4B">15%</text><rect x="288" y="302" width="90" height="11" rx="5.5" fill="#F59E0B"/>
+<text x="436" y="312" font-size="15" font-weight="700" fill="#1E1B4B">2%</text><rect x="498" y="302" width="12" height="11" rx="5.5" fill="#F59E0B"/>
+<rect x="16" y="326" width="608" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="36" cy="341" r="11" fill="#EDE9FE"/><text x="36" y="346" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">7</text>
+<text x="56" y="346" font-size="15" font-weight="600" fill="#1E1B4B">Success metric</text>
+<text x="226" y="346" font-size="15" fill="#1E1B4B">Session depth</text>
+<text x="436" y="346" font-size="15" fill="#1E1B4B">Add-to-cart rate</text>
+<rect x="16" y="360" width="608" height="50" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<circle cx="36" cy="375" r="11" fill="#F59E0B"/><text x="36" y="380" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">8</text>
+<text x="56" y="380" font-size="15" font-weight="600" fill="#1E1B4B">Evaluation plan</text>
+<text x="56" y="400" font-size="14" font-weight="600" fill="#92400E">most often skipped</text>
+<text x="226" y="380" font-size="15" fill="#1E1B4B">A/B test, 2 weeks</text><text x="226" y="400" font-size="15" fill="#1E1B4B">vs popularity list</text>
+<text x="436" y="380" font-size="15" fill="#1E1B4B">A/B test, 1 week</text><text x="436" y="400" font-size="15" fill="#1E1B4B">vs no cross-sell</text>
+<line x1="314" y1="414" x2="314" y2="438" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb141-ah)"/>
+<rect x="214" y="442" width="200" height="54" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="314" y="464" text-anchor="middle" font-size="14" fill="#4C1D95">a system built for</text>
+<text x="314" y="485" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">discovery</text>
+<line x1="524" y1="414" x2="524" y2="438" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb141-ah)"/>
+<rect x="424" y="442" width="200" height="54" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="524" y="464" text-anchor="middle" font-size="14" fill="#4C1D95">a system built for</text>
+<text x="524" y="485" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">extra revenue</text>
+<text x="56" y="475" font-size="15" font-weight="600" fill="#1E1B4B">Result</text>
+<text x="320" y="524" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Same questions, different answers: fill one canvas per placement.</text>
 </svg>

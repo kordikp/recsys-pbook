@@ -1,38 +1,40 @@
 ---
 id: ch5-q1
 type: question
-title: "What would YOU build recommendations for?"
+title: "What Would You Build Next?"
 readingTime: 1
 standalone: false
-teaser: "You have the skills. What's your next recommender system project?"
+teaser: "You have built a recommender from scratch. Pick your next project and see what will make it hard."
 voice: universal
 parent: null
 diagram: null
 status: accepted
-description: "Now that you can build a recommendation system, what domain would you apply it to?"
-options:
-  - letter: A, text: Professional development -- recommend courses, conferences, and learning paths tailored to career goals, voice: creator
-  - letter: B, text: Content discovery -- surface niche content across genres and formats that users would never find on their own, voice: explorer
-  - letter: C, text: Research papers -- match researchers with relevant literature based on reading patterns and citation networks, voice: thinker
-  - letter: D, text: An entirely new domain that hasn't been explored yet, voice: universal
+feedbackA: "Expect sparse data and slow feedback: career outcomes take months to show. Borrow from education recommenders (recommend what the learner needs, not only what they click) and lean on content features for cold start."
+feedbackB: "You will need an objective beyond clicks: diversity, novelty or serendipity metrics, with guardrails so relevance does not collapse. Validate it online; offline accuracy on old logs tends to penalize exactly the discoveries you want."
+feedbackC: "Text is your friend: embeddings of titles and abstracts handle new papers, and the citation network is a natural graph signal. The hard part is recency, because the newest papers have no citations yet."
+feedbackD: "Start from the decision you want to improve and the signal you can log. Popularity plus item-item similarity is a credible first version almost anywhere; the domain's constraints decide what comes next."
 concept: case-studies
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 carriers: prose
 ---
 
-You now understand how recommendation systems work. You've implemented one from scratch. The question is: **what would you build next?**
+You understand how recommenders work and you have built one from scratch. What would you build next?
 
-**A) Professional Development Recommender** -- A system that models your skills, career trajectory, and learning preferences to recommend courses, conferences, mentors, and career moves. It could factor in industry trends, skill gaps, and the career paths of professionals similar to you.
+**A) "A learning and career recommender"**
+Model skills, career goals and learning preferences to suggest courses, conferences, mentors and next roles, informed by the paths of people with similar profiles.
 
-**B) Serendipity-Optimized Content Discovery** -- A recommender designed not to maximize engagement on familiar content, but to deliberately expand horizons. It would optimize for a diversity metric: introducing users to high-quality content in adjacent genres, unfamiliar formats, and underrepresented creators. The algorithmic antidote to filter bubbles.
+**B) "A discovery engine that widens taste"**
+Instead of maximizing engagement with the familiar, deliberately introduce people to good content in adjacent genres, unfamiliar formats and under-represented creators.
 
-**C) Academic Literature Navigator** -- A recommendation system that understands your research interests, reading history, and citation network to surface relevant papers you'd otherwise miss. It could model semantic similarity between papers, track emerging research fronts, and recommend both foundational works and cutting-edge preprints.
+**C) "A research-paper navigator"**
+Use reading history, semantic similarity between papers and the citation network to surface the foundational and the newest work you would otherwise miss.
 
-**D) An unexplored domain** -- Perhaps recommending optimal team compositions for projects, matching patients with clinical trials, suggesting architectural design patterns, or recommending investment strategies. The most impactful applications often emerge when someone deeply understands both the algorithmic toolkit and the domain-specific problem.
+**D) "A domain nobody has tried yet"**
+Team composition, clinical-trial matching, design patterns: the most useful applications often appear where someone understands both the algorithmic toolkit and the domain.
 
-Whatever you choose, you have the foundational methodology. Collect data. Compute similarity. Generate predictions. Evaluate and iterate. That's the recipe. Now go build something that matters.
+Whatever you pick, the method is the one you just used: collect data, compute similarity, predict, then evaluate and iterate.

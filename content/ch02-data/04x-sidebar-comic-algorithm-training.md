@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Who’s Training Whom? — a four-panel comic](images/comic-algorithm-training.svg)
+![Who’s Training Whom? — a four-panel comic: your algorithm is an eager puppy that fetches your feed. An accidental pause makes it fetch bread videos, one tap of “Not interested” removes them, and a deliberate search watched to the end brings deep-sea videos](images/comic-algorithm-training.svg)
 
 *You can train recommendations: one click, pause, or “Not Interested” can reshape the feed.*

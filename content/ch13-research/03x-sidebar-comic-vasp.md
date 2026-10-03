@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Two Doormen, One Very Selective Door — a four-panel comic](images/comic-vasp.svg)
+![Two Doormen, One Very Selective Door — a four-panel comic: two doormen, Routine (the linear model) and Vibes (the deep model), score each guest; adding their scores lets a stranger in, multiplying keeps him out unless both agree](images/comic-vasp.svg)
 
-*VASP multiplies path scores so agreement filters false positives; linear anchors sparse data.*
+*VASP multiplies the two models' scores instead of adding them, so an item gets through only when both agree. That filters out false positives. On sparse data, the simple linear model is the one you can't lose.*

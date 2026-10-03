@@ -1,0 +1,134 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 454" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pn19-title pn19-desc">
+  <title id="pn19-title">Safety inside ranking: remove, reduce, inform</title>
+  <desc id="pn19-desc">Integrity signals sort candidate posts into three levers: a rule-breaking post is removed, a borderline skip-meals clip stays up but is not pushed: it drops to rank 9 where followers can still see it, and a diet fad gets a label; a sequence limit breaks a run of diet clips. Success is measured by sampling views: prevalence is harmful views divided by all views, plus a check of posts demoted by mistake.</desc>
+  <defs>
+    <marker id="pn19-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/>
+    </marker>
+    <marker id="pn19-arr-am" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="pn19-arr-pu" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
+
+  <rect x=".5" y=".5" width="639" height="453" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+
+  <g transform="translate(0,-30)">
+    <!-- column headers -->
+    <g font-size="15" font-weight="700" fill="#4B5563" text-anchor="middle">
+      <text x="65" y="68">Candidates</text>
+      <text x="190" y="68">Integrity signals</text>
+      <text x="331" y="68">Three levers</text>
+      <text x="520" y="68">“For you” feed</text>
+    </g>
+
+    <!-- candidates -->
+    <g font-size="14" fill="#1E1B4B" text-anchor="middle">
+      <rect x="16" y="87" width="98" height="28" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="65" y="106">Workout</text>
+      <rect x="16" y="121" width="98" height="28" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="65" y="140">Diet tips</text>
+      <rect x="16" y="155" width="98" height="28" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+      <text x="65" y="174">Diet fad</text>
+      <rect x="16" y="189" width="98" height="28" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="65" y="208">Yoga</text>
+      <rect x="16" y="223" width="98" height="28" rx="8" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5"/>
+      <text x="65" y="242">Skip meals</text>
+      <rect x="16" y="257" width="98" height="28" rx="8" fill="#FFFFFF" stroke="#DC2626" stroke-width="1.5"/>
+      <text x="65" y="276">Breaks rules</text>
+    </g>
+    <line x1="117" y1="186" x2="130" y2="186" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn19-arr)"/>
+
+    <!-- integrity signals -->
+    <rect x="136" y="82" width="108" height="208" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <g font-size="15" fill="#1E1B4B" text-anchor="middle">
+      <text x="190" y="141">Classifier</text>
+      <line x1="152" y1="163" x2="228" y2="163" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="190" y="191">Track record</text>
+      <line x1="152" y1="213" x2="228" y2="213" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="190" y="241">User reports</text>
+    </g>
+
+    <!-- signals -> levers -->
+    <g stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn19-arr)">
+      <line x1="248" y1="124" x2="266" y2="124"/>
+      <line x1="248" y1="186" x2="266" y2="186"/>
+      <line x1="248" y1="248" x2="266" y2="248"/>
+    </g>
+
+    <!-- levers -->
+    <rect x="272" y="98" width="118" height="52" rx="10" fill="#FEE2E2" stroke="#DC2626" stroke-width="2"/>
+    <text x="331" y="120" text-anchor="middle" font-size="16" font-weight="700" fill="#B91C1C">Remove</text>
+    <text x="331" y="140" text-anchor="middle" font-size="14" fill="#1E1B4B">🗑 taken down</text>
+
+    <rect x="272" y="160" width="118" height="52" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <text x="331" y="182" text-anchor="middle" font-size="16" font-weight="700" fill="#92400E">Reduce</text>
+    <text x="331" y="202" text-anchor="middle" font-size="14" fill="#1E1B4B">⬇ not pushed</text>
+
+    <rect x="272" y="222" width="118" height="52" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="331" y="244" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">Inform</text>
+    <text x="331" y="264" text-anchor="middle" font-size="14" fill="#1E1B4B">🏷 label added</text>
+
+    <!-- levers -> feed -->
+    <line x1="394" y1="186" x2="420" y2="174" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn19-arr-am)"/>
+    <line x1="394" y1="248" x2="420" y2="210" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn19-arr-pu)"/>
+
+    <!-- feed -->
+    <rect x="416" y="82" width="208" height="254" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <g font-size="15" fill="#1E1B4B">
+      <rect x="426" y="90" width="188" height="28" rx="7" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="436" y="109">Workout</text>
+      <rect x="426" y="124" width="188" height="28" rx="7" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="436" y="143">Diet tips</text>
+      <!-- ghost: where the borderline clip would have ranked -->
+      <rect x="426" y="158" width="188" height="28" rx="7" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="5 4"/>
+      <text x="436" y="177" fill="#92400E" font-size="14" text-decoration="line-through">Skip meals</text>
+      <text x="604" y="177" fill="#92400E" font-size="14" font-weight="700" text-anchor="end">↓ to #9</text>
+      <rect x="426" y="192" width="188" height="28" rx="7" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="436" y="211">Diet fad</text>
+      <rect x="540" y="197" width="66" height="18" rx="9" fill="#EDE9FE"/>
+      <text x="573" y="211" font-size="14" fill="#4C1D95" text-anchor="middle">🏷 label</text>
+      <rect x="426" y="226" width="188" height="28" rx="7" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+      <text x="436" y="245">Yoga</text>
+      <rect x="488" y="231" width="118" height="18" rx="9" fill="#EDE9FE"/>
+      <text x="547" y="245" font-size="14" fill="#4C1D95" text-anchor="middle">sequence limit</text>
+      <text x="520" y="274" fill="#6B7280" font-size="16" text-anchor="middle" font-weight="700">⋮</text>
+      <rect x="426" y="282" width="188" height="44" rx="7" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+      <text x="436" y="300" font-weight="700" fill="#92400E">Skip meals</text>
+      <text x="604" y="300" font-weight="700" fill="#92400E" text-anchor="end">#9</text>
+      <text x="436" y="318" font-size="14" fill="#4B5563">followers still see it</text>
+    </g>
+
+    <!-- measurement -->
+    <rect x="16" y="352" width="608" height="84" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="32" y="377" font-size="15" font-weight="700" fill="#1E1B4B">🔍 Sample what people saw</text>
+    <g fill="#E5E7EB">
+      <rect x="32" y="388" width="14" height="14" rx="3"/>
+      <rect x="51" y="388" width="14" height="14" rx="3"/>
+      <rect x="70" y="388" width="14" height="14" rx="3"/>
+      <rect x="89" y="388" width="14" height="14" rx="3"/>
+      <rect x="108" y="388" width="14" height="14" rx="3"/>
+      <rect x="127" y="388" width="14" height="14" rx="3"/>
+      <rect x="146" y="388" width="14" height="14" rx="3"/>
+      <rect x="165" y="388" width="14" height="14" rx="3"/>
+      <rect x="184" y="388" width="14" height="14" rx="3"/>
+      <rect x="203" y="388" width="14" height="14" rx="3"/>
+      <rect x="222" y="388" width="14" height="14" rx="3" fill="#DC2626"/>
+      <rect x="241" y="388" width="14" height="14" rx="3"/>
+      <rect x="260" y="388" width="14" height="14" rx="3"/>
+      <rect x="279" y="388" width="14" height="14" rx="3"/>
+      <rect x="298" y="388" width="14" height="14" rx="3"/>
+      <rect x="317" y="388" width="14" height="14" rx="3"/>
+    </g>
+    <text x="32" y="425" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#4C1D95">Prevalence</tspan> = harmful views ÷ all views</text>
+
+    <line x1="514" y1="326" x2="514" y2="356" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 4" stroke-linecap="round" marker-end="url(#pn19-arr-am)"/>
+    <rect x="420" y="362" width="188" height="64" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <text x="514" y="388" font-size="15" font-weight="700" fill="#92400E" text-anchor="middle">Check the cost</text>
+    <text x="514" y="410" font-size="14" fill="#1E1B4B" text-anchor="middle">demoted by mistake?</text>
+
+    <text x="320" y="462" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Judge the feed by what it put in front of people.</text>
+  </g>
+</svg>

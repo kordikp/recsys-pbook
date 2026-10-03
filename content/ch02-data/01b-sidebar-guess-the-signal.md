@@ -2,7 +2,7 @@
 id: ch2-guess-signal
 type: spine
 title: "Exercise: Strong Signal or Weak Signal?"
-readingTime: 1
+readingTime: 2
 standalone: true
 teaser: "Not all interactions carry equal weight. Can you rank them the way the algorithm does?"
 voice: explorer
@@ -21,7 +21,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose
 ---

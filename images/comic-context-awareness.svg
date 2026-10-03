@@ -1,172 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Same Regular, Different Right Now</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <g>
-    <rect x="32" y="72" width="188" height="28" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="126" y="91" font-size="11.5" fill="#1E1B4B" text-anchor="middle">4:59:59 • café desk • laptop</text>
-  </g>
-  <g>
-    <rect x="45" y="112" width="143" height="50" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="116.5" y="133" font-size="12.5" fill="#1E1B4B" text-anchor="middle">My usual.</text>
-    <text x="116.5" y="150" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I'm still working.</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="104" cy="194" r="10" fill="#7C3AED" stroke="none"/>
-    <line x1="104" y1="204" x2="104" y2="239"/>
-    <line x1="104" y1="214" x2="86" y2="225"/>
-    <line x1="104" y1="214" x2="125" y2="221"/>
-    <line x1="104" y1="239" x2="91" y2="256"/>
-    <line x1="104" y1="239" x2="117" y2="256"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="292" cy="183" r="10" fill="#10B981" stroke="none"/>
-    <line x1="292" y1="193" x2="292" y2="230"/>
-    <line x1="292" y1="205" x2="270" y2="220"/>
-    <line x1="292" y1="205" x2="314" y2="216"/>
-    <line x1="292" y1="230" x2="280" y2="254"/>
-    <line x1="292" y1="230" x2="304" y2="254"/>
-  </g>
-  <line x1="142" y1="235" x2="248" y2="235" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <g>
-    <rect x="178" y="212" width="25" height="20" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-    <path d="M203 217 C216 216 216 229 203 228" fill="none" stroke="#D97706" stroke-width="2"/>
-  </g>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Coffee is a real favorite; work makes it the active one.</text>
-
-  <!-- Panel 2 -->
-  <g>
-    <rect x="430" y="72" width="332" height="38" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="596" y="96" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I have three ways to read the table.</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="450" cy="145" r="10" fill="#10B981" stroke="none"/>
-    <line x1="450" y1="155" x2="450" y2="202"/>
-    <line x1="450" y1="166" x2="472" y2="151"/>
-    <line x1="450" y1="166" x2="470" y2="181"/>
-    <line x1="450" y1="202" x2="438" y2="222"/>
-    <line x1="450" y1="202" x2="462" y2="222"/>
-  </g>
-  <g>
-    <rect x="488" y="130" width="84" height="92" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="530" y="151" font-size="10.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">PRE-FILTER</text>
-    <line x1="500" y1="161" x2="560" y2="161" stroke="#0EA5E9"/>
-    <text x="530" y="181" font-size="11" fill="#6B7280" text-anchor="middle">hide wine</text>
-    <text x="530" y="198" font-size="11" fill="#6B7280" text-anchor="middle">before picking</text>
-  </g>
-  <g>
-    <rect x="584" y="130" width="84" height="92" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="626" y="148" font-size="10.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">MODEL</text>
-    <text x="626" y="161" font-size="10.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">CONTEXT</text>
-    <text x="626" y="181" font-size="11" fill="#6B7280" text-anchor="middle">score using</text>
-    <text x="626" y="198" font-size="11" fill="#6B7280" text-anchor="middle">right now</text>
-  </g>
-  <g>
-    <rect x="680" y="130" width="84" height="92" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="722" y="151" font-size="10.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">POST-FILTER</text>
-    <line x1="692" y1="161" x2="752" y2="161" stroke="#D97706"/>
-    <text x="722" y="181" font-size="11" fill="#6B7280" text-anchor="middle">pick first,</text>
-    <text x="722" y="198" font-size="11" fill="#6B7280" text-anchor="middle">then veto</text>
-  </g>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">She can narrow first, adapt while choosing, or veto after.</text>
-
-  <!-- Panel 3 -->
-  <g>
-    <rect x="32" y="352" width="185" height="28" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="124.5" y="371" font-size="11.5" fill="#1E1B4B" text-anchor="middle">5:00:00 • patio • phone</text>
-  </g>
-  <g>
-    <rect x="171" y="391" width="187" height="48" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-    <text x="264.5" y="412" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Actually—date night.</text>
-    <text x="264.5" y="429" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Here.</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="101" cy="460" r="10" fill="#7C3AED" stroke="none"/>
-    <line x1="101" y1="470" x2="101" y2="512"/>
-    <line x1="101" y1="482" x2="84" y2="495"/>
-    <line x1="101" y1="482" x2="124" y2="470"/>
-    <line x1="101" y1="512" x2="89" y2="535"/>
-    <line x1="101" y1="512" x2="113" y2="535"/>
-    <rect x="123" y="456" width="12" height="20" rx="2" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="164" cy="470" r="10" fill="#D97706" stroke="none"/>
-    <line x1="164" y1="480" x2="164" y2="516"/>
-    <line x1="164" y1="490" x2="145" y2="480"/>
-    <line x1="164" y1="490" x2="181" y2="499"/>
-    <line x1="164" y1="516" x2="152" y2="536"/>
-    <line x1="164" y1="516" x2="176" y2="536"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="306" cy="468" r="10" fill="#10B981" stroke="none"/>
-    <line x1="306" y1="478" x2="306" y2="517"/>
-    <line x1="306" y1="488" x2="281" y2="495"/>
-    <line x1="306" y1="488" x2="328" y2="497"/>
-    <line x1="306" y1="517" x2="294" y2="537"/>
-    <line x1="306" y1="517" x2="318" y2="537"/>
-    <line x1="267" y1="499" x2="294" y2="499" stroke="#6B7280"/>
-    <rect x="273" y="480" width="16" height="17" rx="3" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-  </g>
-  <g>
-    <line x1="190" y1="518" x2="258" y2="518" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-    <line x1="224" y1="518" x2="224" y2="542" stroke="#6B7280" stroke-width="2.5"/>
-    <line x1="207" y1="542" x2="241" y2="542" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">One second later: same person, new place, device, and intent.</text>
-
-  <!-- Panel 4 -->
-  <g>
-    <rect x="425" y="352" width="174" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="512" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">You know me so well.</text>
-  </g>
-  <g>
-    <rect x="607" y="352" width="160" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="687" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I read the timestamp.</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="475" cy="452" r="10" fill="#7C3AED" stroke="none"/>
-    <line x1="475" y1="462" x2="475" y2="509"/>
-    <line x1="475" y1="474" x2="457" y2="487"/>
-    <line x1="475" y1="474" x2="495" y2="484"/>
-    <line x1="475" y1="509" x2="463" y2="535"/>
-    <line x1="475" y1="509" x2="487" y2="535"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="532" cy="460" r="10" fill="#D97706" stroke="none"/>
-    <line x1="532" y1="470" x2="532" y2="511"/>
-    <line x1="532" y1="481" x2="514" y2="488"/>
-    <line x1="532" y1="481" x2="549" y2="490"/>
-    <line x1="532" y1="511" x2="520" y2="535"/>
-    <line x1="532" y1="511" x2="544" y2="535"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="612" cy="450" r="10" fill="#10B981" stroke="none"/>
-    <line x1="612" y1="460" x2="612" y2="507"/>
-    <line x1="612" y1="472" x2="587" y2="486"/>
-    <line x1="612" y1="472" x2="632" y2="484"/>
-    <line x1="612" y1="507" x2="600" y2="534"/>
-    <line x1="612" y1="507" x2="624" y2="534"/>
-  </g>
-  <g>
-    <line x1="550" y1="509" x2="592" y2="509" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-    <path d="M564 473 L579 473 L576 490 Q571.5 496 567 490 Z" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-    <line x1="571.5" y1="496" x2="571.5" y2="507" stroke="#EF4444" stroke-width="1.5"/>
-  </g>
-  <g>
-    <rect x="657" y="438" width="101" height="73" rx="8" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="707.5" y="458" font-size="10.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">NIGHTLY BATCH</text>
-    <text x="707.5" y="476" font-size="11" fill="#6B7280" text-anchor="middle">coffee for work</text>
-    <rect x="694" y="482" width="22" height="17" rx="3" fill="#FEF3C7" stroke="#D97706"/>
-    <circle cx="678" cy="516" r="5" fill="#6B7280"/>
-    <circle cx="738" cy="516" r="5" fill="#6B7280"/>
-  </g>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The nightly batch is still confidently pouring coffee.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Use context by pre-filtering candidates, modeling it directly, or post-filtering results.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 632" role="img" aria-labelledby="pb051-title pb051-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb051-title">Same regular, different right now</title>
+<desc id="pb051-desc">Comic. At 4:59 pm a café regular working on her laptop happily gets her usual coffee from the barista, who stands for the recommender. One second later, at 5:00 pm, she is on her phone with a date, and the barista offers coffee again; she answers: a second ago, sure, now it is date night. Below, three ways the recommender can use the moment "5 pm, date": a pre-filter drops coffee from the menu before ranking; a contextual model takes the moment as an input to the ranking, so wine ranks first and coffee last; a post-filter ranks as usual with coffee first, then drops coffee. All three serve wine. Takeaway: same tastes, different moment; use context before, inside or after ranking.</desc>
+<defs>
+<marker id="pb051-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#6B7280"/></marker>
+<g id="pb051-cup"><path d="M7.5,6.5 Q6,4.5 7.5,2.5 M12,6.5 Q10.5,4.5 12,2.5" fill="none" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/><path d="M17,11 H18.5 Q21.5,11 21.5,14 Q21.5,17 18.5,17 H16.5" fill="none" stroke="#92400E" stroke-width="2"/><path d="M3.5,9 H17.5 V15 Q17.5,20.5 10.5,20.5 Q3.5,20.5 3.5,15 Z" fill="#FEF3C7" stroke="#92400E" stroke-width="2" stroke-linejoin="round"/><path d="M1.5,22.5 H19.5" stroke="#92400E" stroke-width="2" stroke-linecap="round"/></g>
+<g id="pb051-wine"><path d="M6,2.5 H18 Q18.6,12.2 12,13.6 Q5.4,12.2 6,2.5 Z" fill="#FFFFFF" stroke="#4C1D95" stroke-width="1.8" stroke-linejoin="round"/><path d="M6.5,7.5 H17.5 Q16.6,12.4 12,13.3 Q7.4,12.4 6.5,7.5 Z" fill="#4C1D95"/><path d="M12,13.6 V21 M7.5,22 H16.5" stroke="#4C1D95" stroke-width="1.8" stroke-linecap="round"/></g>
+<g id="pb051-cake"><path d="M2.5,21 H21.5 V9 L2.5,15.5 Z" fill="#FEF3C7" stroke="#92400E" stroke-width="1.8" stroke-linejoin="round"/><path d="M2.5,15.5 L21.5,9 V12.5 L2.5,18.5 Z" fill="#FFFFFF" stroke="#92400E" stroke-width="1.2" stroke-linejoin="round"/><circle cx="16.5" cy="7.2" r="2.6" fill="#92400E"/></g>
+</defs>
+<rect x=".5" y=".5" width="639" height="631" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" font-size="19" font-weight="700" fill="#1E1B4B" text-anchor="middle">Same regular, different right now</text>
+<!-- panel 1: 4:59 pm, the usual works -->
+<g transform="translate(16,52)"><rect x="0" y="0" width="298" height="218" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><path d="M12,186 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><rect x="12" y="12" width="192" height="24" rx="12" fill="#1E1B4B"/><text x="108" y="29" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">4:59 pm · laptop · alone</text><rect x="112" y="146" width="92" height="5" rx="2" fill="#D1D5DB"/><rect x="155" y="150" width="6" height="36" fill="#D1D5DB"/><rect x="166" y="120" width="32" height="25" rx="3" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5"/><circle cx="182" cy="132.5" r="3" fill="#D1D5DB"/><use href="#pb051-cup" x="126" y="122.5"/><path d="M34,186 V148 Q34,132 50,132 H62 Q78,132 78,148 V186 Z" fill="#7C3AED"/><path d="M48,139 L43,132 M64,139 L69,132" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/><path d="M48,139 H64 V153 H69 V183 Q69,186 66,186 H46 Q43,186 43,183 V153 H48 Z" fill="#FFFFFF"/><path d="M43,153 H69" stroke="#4C1D95" stroke-width="1.5"/><path d="M50,167 H62" stroke="#4C1D95" stroke-width="1.5" stroke-linecap="round"/><circle cx="56" cy="112" r="16" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="51" cy="110" r="2.2" fill="#1E1B4B"/><circle cx="61" cy="110" r="2.2" fill="#1E1B4B"/><path d="M51,119 Q56,123 61,119" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M220,186 V148 Q220,132 236,132 H248 Q264,132 264,148 V186 Z" fill="#10B981"/><circle cx="242" cy="112" r="16" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="237" cy="110" r="2.2" fill="#1E1B4B"/><circle cx="247" cy="110" r="2.2" fill="#1E1B4B"/><path d="M237,119 Q242,123 247,119" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M22,44 H104 Q116,44 116,56 V78 Q116,90 104,90 H63 L58,97 L49,90 H22 Q10,90 10,78 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="63" y="62.5" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="63">Your usual</tspan><tspan x="63" dy="20">coffee!</tspan></text><path d="M182,44 H276 Q288,44 288,56 V78 Q288,90 276,90 H243 L240,97 L229,90 H182 Q170,90 170,78 V56 Q170,44 182,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="229" y="62.5" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="229">Perfect.</tspan><tspan x="229" dy="20">Still working.</tspan></text><text x="56" y="206" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text><text x="242" y="206" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">Regular</text></g>
+<!-- panel 2: one second later, same offer, wrong moment -->
+<g transform="translate(326,52)"><rect x="0" y="0" width="298" height="218" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><path d="M12,186 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/><rect x="12" y="12" width="184" height="24" rx="12" fill="#1E1B4B"/><text x="104" y="29" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">5:00 pm · phone · date</text><path d="M34,186 V148 Q34,132 50,132 H62 Q78,132 78,148 V186 Z" fill="#7C3AED"/><path d="M48,139 L43,132 M64,139 L69,132" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/><path d="M48,139 H64 V153 H69 V183 Q69,186 66,186 H46 Q43,186 43,183 V153 H48 Z" fill="#FFFFFF"/><path d="M43,153 H69" stroke="#4C1D95" stroke-width="1.5"/><path d="M50,167 H62" stroke="#4C1D95" stroke-width="1.5" stroke-linecap="round"/><circle cx="56" cy="112" r="16" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="51" cy="110" r="2.2" fill="#1E1B4B"/><circle cx="61" cy="110" r="2.2" fill="#1E1B4B"/><path d="M51,119 Q56,123 61,119" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M74,142 L98,129" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/><use href="#pb051-cup" x="92" y="104"/><path d="M174,186 V148 Q174,132 190,132 H202 Q218,132 218,148 V186 Z" fill="#10B981"/><circle cx="196" cy="112" r="16" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="191" cy="110" r="2.2" fill="#1E1B4B"/><circle cx="201" cy="110" r="2.2" fill="#1E1B4B"/><path d="M191,121 Q197,122 202,118" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="167" y="136" width="10" height="16" rx="2" fill="#1E1B4B"/><rect x="169" y="138" width="6" height="10" rx="1" fill="#9CA3AF"/><path d="M232,186 V148 Q232,132 248,132 H260 Q276,132 276,148 V186 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/><circle cx="254" cy="112" r="16" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/><circle cx="249" cy="110" r="2.2" fill="#1E1B4B"/><circle cx="259" cy="110" r="2.2" fill="#1E1B4B"/><path d="M249,119 Q254,123 259,119" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M248,136 L254,139 L260,136 V142 L254,139 L248,142 Z" fill="#1E1B4B"/><path d="M22,44 H104 Q116,44 116,56 V78 Q116,90 104,90 H63 L58,97 L49,90 H22 Q10,90 10,78 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="63" y="62.5" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="63">Your usual</tspan><tspan x="63" dy="20">coffee?</tspan></text><path d="M136,44 H276 Q288,44 288,56 V78 Q288,90 276,90 H197 L194,97 L183,90 H136 Q124,90 124,78 V56 Q124,44 136,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="206" y="62.5" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan x="206">A second ago, sure.</tspan><tspan x="206" dy="20">Now? Date night!</tspan></text><text x="56" y="206" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text><text x="196" y="206" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">Regular</text><text x="254" y="206" font-size="14" font-weight="700" fill="#6B7280" text-anchor="middle">Date</text></g>
+<!-- panel 3: where the moment enters the recommender -->
+<g transform="translate(16,282)"><rect x="0" y="0" width="608" height="304" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><text x="16" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Three ways the recommender can use the moment</text><text x="210" y="56" font-size="14" fill="#6B7280" text-anchor="middle">menu</text><text x="396" y="56" font-size="14" fill="#6B7280" text-anchor="middle">ranked, best first</text><text x="569" y="56" font-size="14" fill="#6B7280" text-anchor="middle">serves</text><text x="16" y="102" font-size="16" font-weight="700" fill="#1E1B4B">Pre-filter</text><text x="16" y="122" font-size="14" fill="#4B5563">before ranking</text><rect x="168" y="88" width="84" height="36" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><use href="#pb051-cup" transform="translate(173,95) scale(0.92)"/><use href="#pb051-wine" transform="translate(199,95) scale(0.92)"/><use href="#pb051-cake" transform="translate(225,95) scale(0.92)"/><path d="M254,106 H348" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb051-arrow)"/><path d="M440,106 H540" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb051-arrow)"/><rect x="354" y="88" width="84" height="36" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><use href="#pb051-wine" transform="translate(372,95) scale(0.92)"/><use href="#pb051-cake" transform="translate(398,95) scale(0.92)"/><rect x="546" y="85" width="46" height="42" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><use href="#pb051-wine" transform="translate(555,92) scale(1.15)"/><rect x="255" y="68" width="96" height="24" rx="12" fill="#1E1B4B"/><text x="303" y="85" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">5 pm · date</text><path d="M303,92 V101" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/><g opacity="0.6"><use href="#pb051-cup" x="291" y="114"/></g><path d="M289,138 L317,114" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/><path d="M16,143 H592" stroke="#E5E7EB" stroke-width="1.5"/><text x="16" y="180" font-size="16" font-weight="700" fill="#1E1B4B">Contextual model</text><text x="16" y="200" font-size="14" fill="#4B5563">inside ranking</text><rect x="168" y="166" width="84" height="36" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><use href="#pb051-cup" transform="translate(173,173) scale(0.92)"/><use href="#pb051-wine" transform="translate(199,173) scale(0.92)"/><use href="#pb051-cake" transform="translate(225,173) scale(0.92)"/><path d="M254,184 H336" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb051-arrow)"/><path d="M452,184 H540" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb051-arrow)"/><rect x="342" y="146" width="108" height="68" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><rect x="348" y="153" width="96" height="24" rx="12" fill="#1E1B4B"/><text x="396" y="170" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">5 pm · date</text><use href="#pb051-wine" transform="translate(359,184) scale(0.92)"/><use href="#pb051-cake" transform="translate(385,184) scale(0.92)"/><use href="#pb051-cup" transform="translate(411,184) scale(0.92)"/><rect x="546" y="163" width="46" height="42" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><use href="#pb051-wine" transform="translate(555,170) scale(1.15)"/><path d="M16,221 H592" stroke="#E5E7EB" stroke-width="1.5"/><text x="16" y="258" font-size="16" font-weight="700" fill="#1E1B4B">Post-filter</text><text x="16" y="278" font-size="14" fill="#4B5563">after ranking</text><rect x="168" y="244" width="84" height="36" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><use href="#pb051-cup" transform="translate(173,251) scale(0.92)"/><use href="#pb051-wine" transform="translate(199,251) scale(0.92)"/><use href="#pb051-cake" transform="translate(225,251) scale(0.92)"/><path d="M254,262 H348" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb051-arrow)"/><path d="M440,262 H540" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb051-arrow)"/><rect x="354" y="244" width="84" height="36" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><use href="#pb051-cup" transform="translate(359,251) scale(0.92)"/><use href="#pb051-wine" transform="translate(385,251) scale(0.92)"/><use href="#pb051-cake" transform="translate(411,251) scale(0.92)"/><rect x="546" y="241" width="46" height="42" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><use href="#pb051-wine" transform="translate(555,248) scale(1.15)"/><rect x="444" y="224" width="96" height="24" rx="12" fill="#1E1B4B"/><text x="492" y="241" font-size="14" font-weight="600" fill="#FFFFFF" text-anchor="middle">5 pm · date</text><path d="M492,248 V257" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/><g opacity="0.6"><use href="#pb051-cup" x="480" y="270"/></g><path d="M478,294 L506,270" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/></g>
+<text x="320" y="614" font-size="16" fill="#1E1B4B" text-anchor="middle">Same tastes, different moment: use context <tspan font-weight="700" fill="#4C1D95">before</tspan>, <tspan font-weight="700" fill="#4C1D95">inside</tspan> or <tspan font-weight="700" fill="#4C1D95">after</tspan> ranking.</text>
 </svg>

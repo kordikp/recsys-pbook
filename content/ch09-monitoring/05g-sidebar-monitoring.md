@@ -2,7 +2,7 @@
 id: ch5-monitoring
 type: spine
 title: "Production Monitoring: Keeping Your Recommender Healthy"
-readingTime: 3
+readingTime: 13
 standalone: true
 core: false
 teaser: "A recommender system that works today can silently degrade tomorrow. Production monitoring is the discipline of detecting problems before your users do -- and it requires a fundamentally different approach than monitoring traditional software."
@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
@@ -28,7 +28,7 @@ A recommendation system can return HTTP 200 on every request, meet its latency S
 
 This is why recommender systems demand a monitoring philosophy that goes far beyond uptime and error rates. You are monitoring a system that learns from its own output, operates on non-stationary data, and produces effects that may not be visible for days or weeks.
 
-![Production monitoring dashboard](/images/diagram-monitoring-dashboard.svg)
+![Two dashboards for the same recommender: traditional monitoring shows all green (HTTP 200, normal errors, latency within SLA) while recommender monitoring shows it quietly broken (falling nDCG, same 50 items for everyone, feature nulls 0.1% to 15%)](/images/diagram-monitoring-dashboard.svg)
 
 ## Why RecSys Monitoring Is Different
 

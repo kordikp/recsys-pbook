@@ -2,7 +2,7 @@
 id: ch4-what-scenarios
 type: spine
 title: "What Are Recommendation Scenarios?"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: true
 teaser: "A homepage recommendation and a cart cross-sell serve completely different purposes, face different constraints, and should use different algorithms. The scenario concept formalizes this: each placement gets its own strategy."
@@ -24,16 +24,16 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
 
 One of the most consequential mistakes in recommendation engineering is treating "recommendations" as a single feature. It is not. It is a family of features, each serving a different purpose in a different context with different constraints -- and each requiring its own strategy.
 
-The concept of a **recommendation scenario** formalizes this insight: each placement where recommendations appear in a product is a distinct scenario with its own configuration, algorithm selection, business rules, and success metrics.
+The concept of a **recommendation scenario** formalizes this insight: each placement where recommendations appear in a product is a distinct scenario with its own configuration, algorithm selection, [business rules](#c/business-rules), and success metrics.
 
-![Six recommendation scenario types](/images/anim-scenario-types.svg)
+![One recommender, a different job in each placement: the homepage is tuned for discovery, the cart for fast cross-sell](/images/anim-scenario-types.svg)
 
 ## Why Context Changes Everything
 
@@ -53,7 +53,7 @@ Every recommendation scenario can be defined by eight elements. Together, they f
 
 **1. Entry point.** Where in the product does this scenario appear? Homepage, product detail page, cart, checkout, email, push notification, search results, in-app banner, onboarding flow. The entry point determines the user's mindset and the visual real estate available.
 
-**2. User state and intent.** What do we know about the user at this moment? Are they anonymous or logged in? New or returning? Browsing or transacting? The user state determines which signals are available (a new anonymous user has no history) and which algorithms are appropriate (collaborative filtering requires history; popularity or content-based methods do not).
+**2. User state and intent.** What do we know about the user at this moment? Are they anonymous or logged in? New or returning? Browsing or transacting? The user state determines which signals are available (a new anonymous user has no history) and which algorithms are appropriate ([collaborative filtering](#c/collaborative-filtering) requires history; popularity or content-based methods do not).
 
 **3. Latency budget.** How many milliseconds does the system have to generate recommendations? A homepage that loads asynchronously might tolerate 500ms. A search results page that must feel instant needs sub-100ms. An email batch job has minutes. The latency budget constrains the complexity of the algorithm -- you cannot run a multi-stage neural re-ranker in 50ms on commodity hardware.
 
@@ -61,11 +61,11 @@ Every recommendation scenario can be defined by eight elements. Together, they f
 
 **5. Constraints and guardrails.** Business rules that override algorithmic judgment. Maximum two items per brand. No adult content for users under 18. Never recommend a product the user has already purchased (unless it is consumable). Exclude items with fewer than five reviews. Constraints protect the business and the user from algorithmic edge cases.
 
-**6. Exploration policy.** How much should the system explore versus exploit? A homepage benefits from higher exploration (Thompson sampling, epsilon-greedy) to help users discover new interests and to gather data on new items. A cart page benefits from low exploration -- the user is about to spend money and does not want experiments. The exploration policy directly affects the tradeoff between short-term engagement and long-term system learning.
+**6. Exploration policy.** How much should the system explore versus exploit? A homepage benefits from higher exploration ([Thompson sampling](#c/explore-exploit), epsilon-greedy) to help users discover new interests and to gather data on new items. A cart page benefits from low exploration -- the user is about to spend money and does not want experiments. The exploration policy directly affects the tradeoff between short-term engagement and long-term system learning.
 
 **7. Success metrics.** What does success look like for this specific scenario? CTR? Conversion rate? Revenue per impression? Session depth? Retention? Different scenarios should be measured by different primary metrics. A homepage measured by conversion rate will be optimized toward safe, transactional items rather than discovery. A cart page measured by session depth will suggest rabbit holes rather than quick add-ons.
 
-**8. Evaluation plan.** How will you know whether this scenario is working? Online A/B testing, interleaving experiments, offline replay evaluation? What is the minimum detectable effect, and how long must the experiment run? The evaluation plan prevents the team from shipping a scenario and never measuring whether it actually improved outcomes.
+**8. Evaluation plan.** How will you know whether this scenario is working? Online [A/B testing](#c/ab-testing), interleaving experiments, offline replay evaluation? What is the minimum detectable effect, and how long must the experiment run? The evaluation plan prevents the team from shipping a scenario and never measuring whether it actually improved outcomes.
 
 ## Common Scenarios in Practice
 

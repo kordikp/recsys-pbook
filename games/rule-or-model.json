@@ -1,0 +1,58 @@
+{
+  "type": "sort",
+  "title": "Rule or Model?",
+  "minutes": 2,
+  "instruction": "Should this be a hard business rule, or something the model learns?",
+  "buckets": [
+    "Business rule",
+    "Learned by the model"
+  ],
+  "items": [
+    {
+      "text": "Never show out-of-stock products",
+      "answer": 0,
+      "why": "Stock is a fact, not a taste: clicks can't teach it, and every out-of-stock pick wastes a slot the user can't act on."
+    },
+    {
+      "text": "People who buy a tent often buy a sleeping pad next",
+      "answer": 1,
+      "why": "A pattern in behaviour: exactly what models learn."
+    },
+    {
+      "text": "Don't recommend alcohol to users under the legal age",
+      "answer": 0,
+      "why": "A legal requirement must never be violated, however rare the case."
+    },
+    {
+      "text": "This customer prefers trail shoes to road shoes",
+      "answer": 1,
+      "why": "A personal preference, visible in their behaviour."
+    },
+    {
+      "text": "This series may only be shown in countries where it is licensed",
+      "answer": 0,
+      "why": "Licensing is a contract, not a prediction."
+    },
+    {
+      "text": "Pin the spring campaign item to slot 1 this week",
+      "answer": 0,
+      "why": "A strategic decision, not a relevance prediction."
+    },
+    {
+      "text": "Evening visitors click more on long reads",
+      "answer": 1,
+      "why": "A context pattern the model can pick up from data."
+    },
+    {
+      "text": "Show at most 2 items from the same brand in the top 10",
+      "answer": 0,
+      "why": "A diversity constraint applied in re-ranking."
+    },
+    {
+      "text": "Rank new arrivals by how likely this user is to click them",
+      "answer": 1,
+      "why": "Relevance ranking is the model's job."
+    }
+  ],
+  "debrief": "Algorithms optimize relevance. Rules enforce what the model can't know or must never get wrong: inventory, law, licensing, strategy."
+}

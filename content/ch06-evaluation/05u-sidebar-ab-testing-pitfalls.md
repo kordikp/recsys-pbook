@@ -2,7 +2,7 @@
 id: ch5-ab-pitfalls
 type: spine
 title: "A/B Testing Pitfalls: How to Get Reliable Results"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: false
 teaser: "Most A/B tests in recommendation systems produce unreliable results. Here's what goes wrong and how to fix it."
@@ -13,20 +13,20 @@ recallQ: "What is the most common A/B testing mistake in recommender systems?"
 recallA: "Peeking — checking results before the test reaches statistical significance, then stopping when results look favorable. This inflates false positive rates from 5% to 20-30%."
 publishedAt: "2026-04-03"
 status: accepted
-concept: filter-bubbles
+concept: ab-testing
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
 
 A/B testing is the gold standard for evaluating recommendation changes. In theory, it provides causal evidence that a new algorithm is better. In practice, most A/B tests are run incorrectly — producing results that look convincing but are unreliable.
 
-![A/B test flow: randomization, groups, and metric comparison](/images/anim-ab-test-flow.svg)
+![Peeking: in a toy A/B test, B's lift over A pokes above the noise band on day 2 (+3% CTR, p = 0.04) by luck, but shows no real difference at the planned end on day 14](/images/anim-ab-test-flow.svg)
 
 ## Pitfall 1: Peeking
 
@@ -87,4 +87,4 @@ A/B testing is the gold standard for evaluating recommendation changes. In theor
 - [ ] Intent-to-treat analysis (no survivorship bias)
 - [ ] Practical significance assessed (is a 0.1% improvement worth the complexity?)
 
-**Consider this:** A well-run A/B test is one of the most valuable tools in recommendation engineering — and a poorly-run one is one of the most dangerous, because it provides false confidence in bad decisions. The statistical methodology matters as much as the algorithm being tested.
+**In your product:** A well-run A/B test is one of the most valuable tools in recommendation engineering — and a poorly-run one is one of the most dangerous, because it provides false confidence in bad decisions. The statistical methodology matters as much as the algorithm being tested.

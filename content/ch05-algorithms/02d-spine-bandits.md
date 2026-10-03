@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -82,6 +82,6 @@ They learn: "For THIS user, in THIS context, THESE items tend to maximize engage
 
 Contextual bandits power much of the exploration logic at companies like Microsoft (in Bing and MSN), Netflix, and Spotify. The LinUCB algorithm (Li et al., 2010) and its variants remain widely deployed.
 
-![Explore-Exploit Dilemma](/images/diagram-bandit-exploration.svg)
+![How UCB balances exploring and exploiting: a rarely tried item wins on its uncertainty bonus, then the bonus shrinks and the proven item is served again](/images/diagram-bandit-exploration.svg)
 
 **Why this matters in production**: Without exploration, recommendations converge to a stale, narrow set and the system loses the ability to adapt to changing user preferences. Without exploitation, the user experience feels random and unsatisfying. The best systems maintain a principled balance -- and bandit algorithms provide the theoretical framework for doing so optimally.

@@ -1,6 +1,100 @@
 {
-  "type": "pop",
-  "title": "Pop the Bubble",
-  "instruction": "You're stuck in a filter bubble! Click DIFFERENT topics to break free.",
-  "categories": ["Music", "Games", "Sports", "Books", "Cooking", "Science", "Art", "Travel", "Nature", "History"]
+  "type": "loop",
+  "mode": "user",
+  "title": "Burst the Bubble",
+  "minutes": 3,
+  "instruction": "This is your video feed. Each day, open the one item you'd watch. Watch the topic count.",
+  "instruction2": "Get your feed back to 5 or more topics within 5 days. Open something different, search a topic, tap 'Not interested', or switch on the platform's exploration setting.",
+  "feedSize": 6,
+  "phase1Days": 8,
+  "phase2Days": 5,
+  "goalTopics": 5,
+  "exploreSlots": 2,
+  "gamma": 2,
+  "rate": 0.2,
+  "topics": [
+    {
+      "name": "Football",
+      "items": [
+        "Goal of the week",
+        "Transfer rumours, explained",
+        "Tactics: the high press",
+        "Derby highlights",
+        "Training-ground drills"
+      ]
+    },
+    {
+      "name": "Cooking",
+      "items": [
+        "15-minute dinner",
+        "Knife skills in 5 minutes",
+        "Sourdough for beginners",
+        "One-pan pasta",
+        "Spice basics"
+      ]
+    },
+    {
+      "name": "Science",
+      "items": [
+        "Why the sky is blue",
+        "How vaccines are tested",
+        "Black holes in 8 minutes",
+        "The chemistry of coffee",
+        "How bridges stand up"
+      ]
+    },
+    {
+      "name": "Music",
+      "items": [
+        "Guitar lesson 1",
+        "Behind a hit song",
+        "Jazz for beginners",
+        "Live session: string quartet",
+        "How a mix is made"
+      ]
+    },
+    {
+      "name": "Travel",
+      "items": [
+        "48 hours in Lisbon",
+        "Night trains of Europe",
+        "Packing light",
+        "Hiking the Tatras",
+        "Budget city breaks"
+      ]
+    },
+    {
+      "name": "History",
+      "items": [
+        "The printing press",
+        "Life in a medieval town",
+        "How maps changed",
+        "The space race",
+        "Ancient trade routes"
+      ]
+    },
+    {
+      "name": "Money",
+      "items": [
+        "Budgeting basics",
+        "What is an index fund?",
+        "Reading a payslip",
+        "Saving for a flat",
+        "Inflation, simply"
+      ]
+    },
+    {
+      "name": "Gaming",
+      "items": [
+        "Speedrun breakdown",
+        "Indie games of the month",
+        "How game music works",
+        "Retro console tour",
+        "Puzzle game walkthrough"
+      ]
+    }
+  ],
+  "reveal": "The narrowing happened without anyone deciding it: each click nudged the profile, and the feed is sampled from the profile. From inside, nothing looks missing. That is why a filter bubble is invisible.",
+  "reveal2": "Opening something different moves your profile slowly. 'Not interested' and the platform's exploration slots move it fastest, and exploration also shows you topics you could not have asked for.",
+  "debrief": "A filter bubble forms from ordinary clicks feeding back into the feed, and it is invisible because you cannot see what is withheld. Deliberate variety and exploration slots are how it is burst."
 }

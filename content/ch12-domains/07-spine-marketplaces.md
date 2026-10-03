@@ -2,7 +2,7 @@
 id: ch13-marketplaces
 type: spine
 title: "P2P Marketplaces: When Every Item Is Unique"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "In a marketplace, each listing can only be sold once. This changes everything about how recommendations work."
@@ -59,4 +59,4 @@ P2P marketplaces (eBay, Craigslist, Vinted, OLX) face a recommendation challenge
 - **Pet Media Group:** [+17% conversion rate](https://www.recombee.com/case-studies/pet-media-group) from visitor to active buyer
 - **Reliving:** [+37% bids placed](https://www.recombee.com/case-studies/reliving) through personalization
 
-**Consider this:** Marketplace recommendation is fundamentally about fairness at scale. If the algorithm only surfaces popular sellers' items, new sellers get no visibility, list fewer items, and the marketplace's catalog shrinks. A healthy marketplace needs an algorithm that balances relevance for buyers with opportunity for sellers — a multi-stakeholder optimization problem that mirrors the broader challenges of algorithmic fairness.
+Marketplace recommendation is fundamentally about fairness at scale. If the algorithm only surfaces popular sellers' items, new sellers get no visibility, list fewer items, and the marketplace's catalog shrinks. A healthy marketplace needs an algorithm that balances relevance for buyers with opportunity for sellers — a multi-stakeholder optimization problem that mirrors the broader challenges of algorithmic fairness.

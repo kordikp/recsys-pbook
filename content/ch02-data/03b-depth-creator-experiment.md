@@ -15,7 +15,7 @@ highlights:
   - "Systems overreact to new topics: 2 articles on a new subject can flood recommendations"
   - "Running controlled experiments reveals how responsive the system really is"
 status: accepted
-concept: data-control
+concept: algorithm-training
 state: edited
 lens: generic
 visuality: text-first

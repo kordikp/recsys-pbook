@@ -1,0 +1,58 @@
+{
+  "type": "sort",
+  "title": "Metric or Mirage?",
+  "minutes": 2,
+  "instruction": "Does this number track whether people are actually better off?",
+  "buckets": [
+    "Closer to real satisfaction",
+    "Engagement that can mislead"
+  ],
+  "items": [
+    {
+      "text": "Click-through rate on thumbnails",
+      "answer": 1,
+      "why": "Clickbait wins on CTR and leaves people feeling deceived."
+    },
+    {
+      "text": "Share of users who come back on their own next week",
+      "answer": 0,
+      "why": "Voluntary return is a better proxy for value than time spent."
+    },
+    {
+      "text": "Total minutes per session",
+      "answer": 1,
+      "why": "Three hours of doom-scrolling scores high here."
+    },
+    {
+      "text": "Answers to 'Was this worth your time?' after watching",
+      "answer": 0,
+      "why": "It asks about value, not behaviour."
+    },
+    {
+      "text": "Videos started, including ones abandoned after 3 seconds",
+      "answer": 1,
+      "why": "It counts starts, not satisfaction."
+    },
+    {
+      "text": "Subscriptions still active after three months",
+      "answer": 0,
+      "why": "Months of paying are hard to win with clickbait. Inertia plays a part too, but long-term retention is much closer to value than a click."
+    },
+    {
+      "text": "How far people scroll in an infinite feed",
+      "answer": 1,
+      "why": "A feed with no stopping point is not the same as a valuable one."
+    },
+    {
+      "text": "Saved items that are later actually used or bought",
+      "answer": 0,
+      "why": "Follow-through shows the recommendation helped."
+    },
+    {
+      "text": "Notification open rate",
+      "answer": 1,
+      "why": "It measures how well the ping interrupts, not whether it helped."
+    }
+  ],
+  "debrief": "Engagement measures behaviour; satisfaction measures value. Optimize the first alone and the number rises while the experience gets worse (Goodhart's law: a measure that becomes a target stops being a good measure)."
+}

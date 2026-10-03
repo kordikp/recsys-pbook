@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Special Is Under Controlled Conditions — a four-panel comic](images/comic-ab-testing.svg)
+![Four-panel comic: a chef and the owner argue over the special; a coin flip sends each guest to special A (burger) or B (soup); a guest praises the soup but orders the burger; after 4 weeks with 200 guests per group, more A guests came back, so the burger stays](images/comic-ab-testing.svg)
 
 *An A/B test randomly assigns users to variants and compares their real behavior over time.*

@@ -1,0 +1,35 @@
+cff-version: 1.2.0
+message: "If you cite this book, please cite it as below. The book keeps changing, so add the date you read it."
+type: software
+title: "How Recommendations Work: a living book about recommender systems"
+version: "2.0"
+authors:
+  - family-names: "Kordík"
+    given-names: "Pavel"
+    affiliation: "Recombee; Czech Technical University in Prague"
+  - family-names: "Nečasová"
+    given-names: "Eva"
+    affiliation: "AI dětem"
+  - name: "the Recombee team"
+url: "https://recsys-pbook.vercel.app"
+repository-code: "https://github.com/kordikp/recsys-pbook"
+license:
+  - CC-BY-NC-SA-4.0
+  - MIT
+keywords:
+  - recommender systems
+  - personalization
+  - interactive book
+  - living book
+preferred-citation:
+  type: book
+  title: "How Recommendations Work: a living book about recommender systems"
+  authors:
+    - family-names: "Kordík"
+      given-names: "Pavel"
+    - family-names: "Nečasová"
+      given-names: "Eva"
+    - name: "the Recombee team"
+  year: 2026
+  edition: "2"
+  url: "https://recsys-pbook.vercel.app"

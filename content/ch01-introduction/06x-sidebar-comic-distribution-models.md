@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The House Always Recommends — a four-panel comic](images/comic-distribution-models.svg)
+![The House Always Recommends — a four-panel comic: a friend, a follow, community votes, a group or the algorithm can put a post in your feed, and over time the algorithm's For you posts take over](images/comic-distribution-models.svg)
 
 *Feeds use social, subscription, community, group, or algorithmic models; the last is taking over.*

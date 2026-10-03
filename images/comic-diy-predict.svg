@@ -1,62 +1,181 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Let the Neighbors Pick Dinner</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb061-title pb061-desc">
+  <title id="pb061-title">Let the Neighbors Pick Dinner</title>
+  <desc id="pb061-desc">Four-panel comic. Mina has never had ramen and asks whether she would like it; the recommender, a waiter, says it will ask diners who rate food like her. A small ratings table shows that Leo and Ava scored pizza, tacos and curry almost exactly like Mina, while Max scored them the opposite way, so Leo and Ava are her taste neighbors. Leo gave the ramen 4 stars and Ava 5, so Mina's predicted rating is their average, (4 + 5) / 2 = 4.5 stars, which lands in the recommend zone of 4 stars and up. Mina tries it and gives it 4 stars, joking that her taste neighbors were half a star too excited: the prediction was off by 0.5, within one star, so it was a good guess. Takeaway: average your taste neighbors' scores, then check against real ratings.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <defs>
+    <marker id="pb061-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#6B7280"/>
+    </marker>
+  </defs>
 
-  <!-- Panel 1 -->
-  <rect x="62" y="78" width="284" height="54" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="204" y="100" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="204" dy="0">Same three dishes.</tspan>
-    <tspan x="204" dy="17">Same three scores.</tspan>
-  </text>
-  <circle cx="125" cy="178" r="10" fill="#10B981"/>
-  <path d="M125 188 L125 235 M125 199 L106 217 M125 199 L144 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="204" cy="178" r="10" fill="#7C3AED"/>
-  <path d="M204 188 L204 235 M204 199 L185 217 M204 199 L223 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="283" cy="178" r="10" fill="#0EA5E9"/>
-  <path d="M283 188 L283 235 M283 199 L264 217 M283 199 L302 217" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Known dishes reveal which diners have tastes closest to Mina's.</text>
+  <rect x="0.5" y="0.5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Let the Neighbors Pick Dinner</text>
 
-  <!-- Panel 2 -->
-  <text x="500" y="111" font-size="13" font-weight="700" fill="#10B981" text-anchor="middle">RAMEN: 4</text>
-  <text x="700" y="111" font-size="13" font-weight="700" fill="#0EA5E9" text-anchor="middle">RAMEN: 5</text>
-  <text x="600" y="127" font-size="22" font-weight="700" fill="#7C3AED" text-anchor="middle">?</text>
-  <circle cx="500" cy="171" r="10" fill="#10B981"/>
-  <path d="M500 181 L500 232 M500 193 L482 211 M500 193 L518 211" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="600" cy="171" r="10" fill="#7C3AED"/>
-  <path d="M600 181 L600 232 M600 193 L582 211 M600 193 L618 211" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="700" cy="171" r="10" fill="#0EA5E9"/>
-  <path d="M700 181 L700 232 M700 193 L682 211 M700 193 L718 211" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">For unseen ramen, neighbor ratings 4 and 5 average to 4.5.</text>
+  <!-- Panels: 298 x 264 each -->
+  <rect x="16" y="52" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="326" y="52" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="16" y="328" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <rect x="326" y="328" width="298" height="264" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
 
-  <!-- Panel 3 -->
-  <circle cx="84" cy="447" r="10" fill="#7C3AED"/>
-  <path d="M84 457 L84 519 M84 470 L67 488 M84 470 L101 488" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="143" y="382" width="218" height="55" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="252" y="415" font-size="13" font-weight="700" fill="#1E1B4B" text-anchor="middle">PREDICTED: 4.5</text>
-  <rect x="143" y="454" width="218" height="55" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="252" y="487" font-size="13" font-weight="700" fill="#1E1B4B" text-anchor="middle">HELD-OUT RATING: 4</text>
-  <text x="252" y="538" font-size="13" font-weight="700" fill="#10B981" text-anchor="middle">✓ 0.5 star off</text>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Her held-out rating is 4: error 0.5, safely within one star.</text>
+  <!-- ===== Panel 1: the question ===== -->
+  <circle cx="40" cy="77" r="11" fill="#1E1B4B"/>
+  <text x="40" y="82" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="59" y="82" font-size="16" font-weight="700" fill="#1E1B4B">A dish Mina never tried</text>
 
-  <!-- Panel 4 -->
-  <rect x="478" y="356" width="236" height="56" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="596" y="378" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="596" dy="0">One ramen.</tspan>
-    <tspan x="596" dy="17">My neighbors insist.</tspan>
-  </text>
-  <circle cx="520" cy="463" r="10" fill="#10B981"/>
-  <path d="M520 473 L520 529 M520 485 L540 505 M520 485 L503 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="600" cy="463" r="10" fill="#7C3AED"/>
-  <path d="M600 473 L600 519 M600 485 L578 508 M600 485 L622 508" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="680" cy="463" r="10" fill="#0EA5E9"/>
-  <path d="M680 473 L680 529 M680 485 L660 505 M680 485 L697 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M566 517 L634 517 Q630 548 600 548 Q570 548 566 517 Z" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A prediction becomes actionable when someone actually orders.</text>
+  <!-- Mina's bubble, tail to her head -->
+  <path d="M42,96 H202 Q214,96 214,108 V132 Q214,144 202,144 H76 L68,200 L62,144 H42 Q30,144 30,132 V108 Q30,96 42,96 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="122" y="115" text-anchor="middle" font-size="15" fill="#1E1B4B">Never had ramen.</text>
+  <text x="122" y="135" text-anchor="middle" font-size="15" fill="#1E1B4B">Would I like it?</text>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Predict an unseen rating by averaging nearest neighbors' ratings; test on held-out ratings.</text>
+  <!-- recommender's bubble, tail to the waiter -->
+  <path d="M114,150 H294 Q306,150 306,162 V182 Q306,194 294,194 H258 L252,204 L244,194 H114 Q102,194 102,182 V162 Q102,150 114,150 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="204" y="168" text-anchor="middle" font-size="15" fill="#1E1B4B">Let me ask diners</text>
+  <text x="204" y="188" text-anchor="middle" font-size="15" fill="#1E1B4B">who rate food like you.</text>
+
+  <line x1="30" y1="280.5" x2="300" y2="280.5" stroke="#E5E7EB" stroke-width="1.5"/>
+
+  <!-- table with the menu -->
+  <rect x="120" y="210" width="84" height="42" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="162" y="226" text-anchor="middle" font-size="14" font-weight="700" fill="#6B7280" letter-spacing="1">MENU</text>
+  <text x="162" y="246" text-anchor="middle" font-size="15" fill="#1E1B4B">🍜 Ramen</text>
+  <rect x="104" y="252" width="116" height="6" rx="3" fill="#D1D5DB"/>
+  <path d="M116,258 V280 M208,258 V280" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- Mina (user, green) -->
+  <circle cx="54" cy="211" r="7" fill="#10B981"/>
+  <path d="M45,280 V254 Q45,240 59,240 H73 Q87,240 87,254 V280 Z" fill="#10B981"/>
+  <circle cx="66" cy="222" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <circle cx="61" cy="221" r="2" fill="#1E1B4B"/>
+  <circle cx="71" cy="221" r="2" fill="#1E1B4B"/>
+  <circle cx="66" cy="229" r="2.4" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
+
+  <!-- recommender (purple waiter) -->
+  <path d="M229,280 V254 Q229,240 243,240 H257 Q271,240 271,254 V280 Z" fill="#7C3AED"/>
+  <path d="M243,245 L250,249 L243,253 Z M257,245 L250,249 L257,253 Z" fill="#FFFFFF"/>
+  <rect x="266" y="250" width="16" height="20" rx="2" fill="#FFFFFF" stroke="#4C1D95" stroke-width="1.5"/>
+  <path d="M269,257 H279 M269,263 H277" stroke="#D1D5DB" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="250" cy="222" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <circle cx="245" cy="221" r="2" fill="#1E1B4B"/>
+  <circle cx="255" cy="221" r="2" fill="#1E1B4B"/>
+  <path d="M245,228 Q250,232 255,228" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+  <text x="66" y="302" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">Mina</text>
+  <text x="250" y="302" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Recommender</text>
+
+  <!-- ===== Panel 2: who rates like Mina? ===== -->
+  <circle cx="350" cy="77" r="11" fill="#1E1B4B"/>
+  <text x="350" y="82" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="369" y="82" font-size="16" font-weight="700" fill="#1E1B4B">Who rates like Mina?</text>
+
+  <!-- column heads: dishes everyone rated | the new dish -->
+  <g text-anchor="middle">
+    <text x="434" y="111" font-size="18">🍕</text>
+    <text x="480" y="111" font-size="18">🌮</text>
+    <text x="526" y="111" font-size="18">🍛</text>
+    <text x="584" y="111" font-size="18">🍜</text>
+    <g font-size="14" fill="#4B5563">
+      <text x="434" y="129">Pizza</text>
+      <text x="480" y="129">Tacos</text>
+      <text x="526" y="129">Curry</text>
+      <text x="584" y="129" font-weight="700" fill="#4C1D95">Ramen</text>
+    </g>
+  </g>
+
+  <rect x="336" y="136" width="278" height="28" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <rect x="336" y="168" width="278" height="28" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="336" y="200" width="278" height="28" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <rect x="336" y="232" width="278" height="28" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <line x1="554" y1="96" x2="554" y2="264" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <g font-size="16" fill="#1E1B4B" text-anchor="middle">
+    <text x="348" y="156" text-anchor="start" font-weight="700" fill="#065F46">Mina</text>
+    <text x="434" y="156">5</text><text x="480" y="156">2</text><text x="526" y="156">4</text>
+
+    <text x="348" y="188" text-anchor="start" font-weight="700">Leo</text>
+    <text x="434" y="188">5</text><text x="480" y="188">1</text><text x="526" y="188">4</text>
+    <text x="584" y="188" font-weight="700" fill="#92400E">4</text>
+
+    <text x="348" y="220" text-anchor="start" font-weight="700">Ava</text>
+    <text x="434" y="220">4</text><text x="480" y="220">2</text><text x="526" y="220">5</text>
+    <text x="584" y="220" font-weight="700" fill="#92400E">5</text>
+
+    <text x="348" y="252" text-anchor="start" font-weight="700" fill="#6B7280">Max</text>
+    <text x="434" y="252" fill="#6B7280">1</text><text x="480" y="252" fill="#6B7280">5</text><text x="526" y="252" fill="#6B7280">2</text>
+    <text x="584" y="252" fill="#6B7280">1</text>
+  </g>
+  <circle cx="584" cy="150" r="10.5" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="3 3"/>
+  <text x="584" y="156" text-anchor="middle" font-size="16" font-weight="700" fill="#7C3AED">?</text>
+
+  <text x="475" y="286" text-anchor="middle" font-size="15" fill="#4B5563">Leo and Ava score dishes like Mina:</text>
+  <text x="475" y="306" text-anchor="middle" font-size="15" fill="#4B5563">her <tspan font-weight="700" fill="#92400E">taste neighbors</tspan>.</text>
+
+  <!-- ===== Panel 3: average their ramen scores ===== -->
+  <circle cx="40" cy="353" r="11" fill="#1E1B4B"/>
+  <text x="40" y="358" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="59" y="358" font-size="16" font-weight="700" fill="#1E1B4B">Average their ramen scores</text>
+
+  <rect x="30" y="378" width="98" height="32" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="79" y="400" text-anchor="middle" font-size="16" fill="#1E1B4B">Leo: <tspan font-weight="700" fill="#92400E">4 ★</tspan></text>
+  <rect x="30" y="440" width="98" height="32" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="79" y="462" text-anchor="middle" font-size="16" fill="#1E1B4B">Ava: <tspan font-weight="700" fill="#92400E">5 ★</tspan></text>
+
+  <line x1="134" y1="396" x2="170" y2="412" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb061-arrow)"/>
+  <line x1="134" y1="454" x2="170" y2="438" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb061-arrow)"/>
+
+  <!-- the guess: tail points at 4.5 on the scale below -->
+  <path d="M188,372 H288 Q298,372 298,382 V452 Q298,462 288,462 H246 L238,486 L230,462 H188 Q178,462 178,452 V382 Q178,372 188,372 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2" stroke-linejoin="round"/>
+  <text x="238" y="395" text-anchor="middle" font-size="15" fill="#4B5563">(4 + 5) ÷ 2</text>
+  <text x="238" y="426" text-anchor="middle" font-size="26" font-weight="700" fill="#7C3AED">4.5 ★</text>
+  <text x="238" y="450" text-anchor="middle" font-size="14" fill="#4C1D95">Mina’s guess</text>
+
+  <!-- rating scale: 1★ at x=42, one star = 56 units, y=502; recommend from 4★ up -->
+  <line x1="42" y1="502" x2="210" y2="502" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+  <rect x="210" y="494" width="56" height="16" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <circle cx="42" cy="502" r="3" fill="#9CA3AF"/>
+  <circle cx="98" cy="502" r="3" fill="#9CA3AF"/>
+  <circle cx="154" cy="502" r="3" fill="#9CA3AF"/>
+  <circle cx="238" cy="502" r="7" fill="#7C3AED" stroke="#FFFFFF" stroke-width="2"/>
+  <g font-size="14" fill="#4B5563" text-anchor="middle">
+    <text x="42" y="529">1★</text><text x="98" y="529">2★</text><text x="154" y="529">3★</text><text x="210" y="529">4★</text><text x="266" y="529">5★</text>
+  </g>
+  <path d="M42,541 V547 H200 V541" fill="none" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+  <path d="M212,541 V547 H266 V541" fill="none" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="121" y="567" text-anchor="middle" font-size="14" fill="#6B7280">skip</text>
+  <text x="239" y="567" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">recommend</text>
+
+  <!-- ===== Panel 4: check the guess ===== -->
+  <circle cx="350" cy="353" r="11" fill="#1E1B4B"/>
+  <text x="350" y="358" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+  <text x="369" y="358" font-size="16" font-weight="700" fill="#1E1B4B">Check the guess</text>
+
+  <path d="M350,372 H600 Q612,372 612,384 V406 Q612,418 600,418 H392 L386,434 L378,418 H350 Q338,418 338,406 V384 Q338,372 350,372 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="475" y="391" text-anchor="middle" font-size="15" fill="#1E1B4B">Four stars. My taste neighbors</text>
+  <text x="475" y="411" text-anchor="middle" font-size="15" fill="#1E1B4B">were half a star too excited.</text>
+
+  <line x1="340" y1="512.5" x2="448" y2="512.5" stroke="#E5E7EB" stroke-width="1.5"/>
+  <!-- Mina again, happy -->
+  <circle cx="370" cy="441" r="7" fill="#10B981"/>
+  <path d="M361,512 V486 Q361,472 375,472 H389 Q403,472 403,486 V512 Z" fill="#10B981"/>
+  <circle cx="382" cy="454" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <path d="M375,453 Q377,450 379,453 M385,453 Q387,450 389,453" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M377,460 Q382,465 387,460" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <!-- small table with the bowl -->
+  <rect x="400" y="496" width="46" height="6" rx="3" fill="#D1D5DB"/>
+  <path d="M423,502 V512" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+  <text x="423" y="493" text-anchor="middle" font-size="22">🍜</text>
+  <text x="382" y="534" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">Mina</text>
+
+  <!-- scorecard -->
+  <rect x="458" y="438" width="154" height="96" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="471" y="464" font-size="15" fill="#4B5563">Predicted</text>
+  <text x="599" y="464" text-anchor="end" font-size="16" font-weight="700" fill="#7C3AED">4.5 ★</text>
+  <text x="471" y="491" font-size="15" fill="#4B5563">Real rating</text>
+  <text x="599" y="491" text-anchor="end" font-size="16" font-weight="700" fill="#065F46">4 ★</text>
+  <line x1="470" y1="502.5" x2="600" y2="502.5" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="535" y="524" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">Off by 0.5 ✓</text>
+
+  <text x="475" y="566" text-anchor="middle" font-size="15" fill="#4B5563">Within 1 star = a good guess.</text>
+
+  <!-- takeaway -->
+  <text x="320" y="622" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B"><tspan fill="#7C3AED">Average</tspan> your taste neighbors’ scores, then <tspan fill="#065F46">check</tspan> against real ratings.</text>
 </svg>

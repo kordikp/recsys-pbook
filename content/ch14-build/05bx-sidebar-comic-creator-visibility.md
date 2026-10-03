@@ -1,7 +1,7 @@
 ---
 id: comic-creator-visibility
 type: spine
-title: "Opening for the Algorithm"
+title: "1,000 Clicks, Nobody Stayed"
 readingTime: 1
 standalone: true
 core: false
@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Opening for the Algorithm — a four-panel comic](images/comic-creator-visibility.svg)
+![1,000 Clicks, Nobody Stayed — a four-panel comic: a clickbait video gets 1,000 clicks but everyone leaves after 3 seconds; an honest 8-minute video gets only 100 clicks, but all 100 watch to the end, so it earns 800 minutes of watch time versus 50 and gets recommended more](images/comic-creator-visibility.svg)
 
 *Strong starts and engagement rate drive reach; YouTube values watch time, TikTok completion.*

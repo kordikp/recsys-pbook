@@ -2,26 +2,28 @@
 id: ch5-benchmarks
 type: spine
 title: "RecSys Benchmarks: Standard Datasets and Their Limitations"
-readingTime: 3
+readingTime: 9
 standalone: true
 core: false
 voice: explorer
 publishedAt: "2026-04-03"
+recallQ: "Why can results on MovieLens mislead a team whose product learns from clicks and purchases?"
+recallA: "MovieLens holds explicit, self-selected star ratings; production systems learn from implicit signals with different dynamics, so gains measured on the benchmark often do not transfer."
 status: accepted
-concept: filter-bubbles
+concept: evaluation-metrics
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
 
 Recommender systems research depends on shared benchmarks. Without common datasets, results from different papers cannot be compared, and progress cannot be measured. Over the past two decades, a small number of datasets have become the de facto standard -- each with distinct strengths and, critically, distinct blind spots that every practitioner should understand before drawing conclusions from experimental results.
 
-![Standard RecSys benchmark datasets comparison](/images/anim-benchmark-comparison.svg)
+![What a benchmark log can't see: a typical dataset records only what the old system showed, KuaiRand adds a few random slots, KuaiRec shows everything for a small block](/images/anim-benchmark-comparison.svg)
 
 ## MovieLens
 

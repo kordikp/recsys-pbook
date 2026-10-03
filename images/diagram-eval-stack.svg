@@ -1,61 +1,107 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 340" width="680" height="340" font-family="system-ui, sans-serif">
-  <rect x="1" y="1" width="678" height="338" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 474" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb122-title pb122-desc">
+  <title id="pb122-title">A/B test: let the listeners decide</title>
+  <desc id="pb122-desc">Listeners are split at random into two groups that see recommendation version A or B; their real behaviour (skips, saves, coming back next day) is measured, and a statistical test shows whether the gap is real: in the text's example B raises retention by 3.2% with a 95% confidence range of 1.8% to 4.6%, entirely above zero, while a range that crosses zero (as in another, hypothetical test) could be luck.</desc>
+  <defs>
+    <marker id="pb122-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/>
+    </marker>
+    <marker id="pb122-arr-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/>
+    </marker>
+  </defs>
 
-  <!-- Title -->
-  <text x="340" y="25" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">How Do We Know If Recommendations Are Good?</text>
-  <text x="340" y="43" text-anchor="middle" font-size="11" fill="#6B7280">Three ways to test, from quick to gold standard</text>
+  <rect x=".5" y=".5" width="639" height="473" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <!-- Step 1: Offline -->
-  <rect x="30" y="60" width="190" height="126" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-  <text x="125" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#0EA5E9">1. Offline Test</text>
-  <text x="125" y="102" text-anchor="middle" font-size="11" fill="#6B7280">Use old data to simulate</text>
-  <text x="125" y="130" text-anchor="middle" font-size="22" fill="#1E1B4B">💻</text>
-  <text x="125" y="153" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="600">Fast (minutes)</text>
-  <text x="125" y="169" text-anchor="middle" font-size="11" fill="#6B7280">Cheap and repeatable,</text>
-  <text x="125" y="182" text-anchor="middle" font-size="11" fill="#6B7280">but past ≠ future</text>
+  <text x="320" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">A/B test: let the listeners decide</text>
+  <text x="320" y="57" text-anchor="middle" font-size="14" fill="#4B5563">Same app, same weeks. Only the recommendations differ.</text>
 
-  <!-- Arrow -->
-  <path d="M226 123 H248" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-  <polygon points="248,118 258,123 248,128" fill="#6B7280"/>
-
-  <!-- Step 2: A/B Test -->
-  <rect x="260" y="60" width="180" height="126" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="350" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#10B981">2. A/B Test</text>
-  <text x="350" y="102" text-anchor="middle" font-size="11" fill="#6B7280">Real users, two groups</text>
-  <g transform="translate(322 110)">
-    <rect x="0" y="0" width="24" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="12" y="19" text-anchor="middle" font-size="11" font-weight="700" fill="#10B981">A</text>
-    <rect x="32" y="0" width="24" height="28" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
-    <text x="44" y="19" text-anchor="middle" font-size="11" font-weight="700" fill="#7C3AED">B</text>
+  <!-- ===== Listeners ===== -->
+  <rect x="16" y="76" width="112" height="152" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="72" y="101" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Listeners</text>
+  <g fill="#10B981">
+    <circle cx="46" cy="124" r="5"/><path d="M38,139 Q38,130 46,130 Q54,130 54,139 Z"/>
+    <circle cx="72" cy="124" r="5"/><path d="M64,139 Q64,130 72,130 Q80,130 80,139 Z"/>
+    <circle cx="98" cy="124" r="5"/><path d="M90,139 Q90,130 98,130 Q106,130 106,139 Z"/>
+    <circle cx="46" cy="156" r="5"/><path d="M38,171 Q38,162 46,162 Q54,162 54,171 Z"/>
+    <circle cx="72" cy="156" r="5"/><path d="M64,171 Q64,162 72,162 Q80,162 80,171 Z"/>
+    <circle cx="98" cy="156" r="5"/><path d="M90,171 Q90,162 98,162 Q106,162 106,171 Z"/>
+    <circle cx="46" cy="188" r="5"/><path d="M38,203 Q38,194 46,194 Q54,194 54,203 Z"/>
+    <circle cx="72" cy="188" r="5"/><path d="M64,203 Q64,194 72,194 Q80,194 80,203 Z"/>
+    <circle cx="98" cy="188" r="5"/><path d="M90,203 Q90,194 98,194 Q106,194 106,203 Z"/>
   </g>
-  <text x="350" y="156" text-anchor="middle" font-size="11" fill="#10B981" font-weight="600">Reliable (days)</text>
-  <text x="350" y="175" text-anchor="middle" font-size="11" fill="#6B7280">Gold standard — real behavior</text>
 
-  <!-- Arrow -->
-  <path d="M446 123 H468" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-  <polygon points="468,118 478,123 468,128" fill="#6B7280"/>
+  <!-- ===== Random split ===== -->
+  <path d="M130,152 H146" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb122-arr)"/>
+  <circle cx="172" cy="152" r="20" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="1.5"/>
+  <text x="172" y="159" text-anchor="middle" font-size="18">🎲</text>
+  <text x="172" y="194" text-anchor="middle" font-size="14" fill="#1E1B4B">random</text>
+  <text x="172" y="212" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">50 / 50</text>
+  <path d="M189,141 C202,126 204,110 216,110" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb122-arr)"/>
+  <path d="M189,163 C202,178 204,194 216,194" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb122-arr)"/>
 
-  <!-- Step 3: Monitor -->
-  <rect x="480" y="60" width="170" height="126" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-  <text x="565" y="84" text-anchor="middle" font-size="13" font-weight="700" fill="#D97706">3. Monitor</text>
-  <text x="565" y="102" text-anchor="middle" font-size="11" fill="#6B7280">Watch it live</text>
-  <text x="565" y="130" text-anchor="middle" font-size="22" fill="#1E1B4B">📊</text>
-  <text x="565" y="153" text-anchor="middle" font-size="11" fill="#D97706" font-weight="600">Always on</text>
-  <text x="565" y="169" text-anchor="middle" font-size="11" fill="#6B7280">Catch problems;</text>
-  <text x="565" y="182" text-anchor="middle" font-size="11" fill="#6B7280">alert if performance drops</text>
+  <!-- ===== Group A ===== -->
+  <rect x="222" y="76" width="204" height="68" rx="12" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="238" y="101" font-size="15" font-weight="700" fill="#1E1B4B">A · Popular per genre</text>
+  <g fill="#10B981">
+    <circle cx="246" cy="117" r="4.5"/><path d="M239,131 Q239,123 246,123 Q253,123 253,131 Z"/>
+    <circle cx="266" cy="117" r="4.5"/><path d="M259,131 Q259,123 266,123 Q273,123 273,131 Z"/>
+    <circle cx="286" cy="117" r="4.5"/><path d="M279,131 Q279,123 286,123 Q293,123 293,131 Z"/>
+  </g>
+  <text x="410" y="130" text-anchor="end" font-size="14" fill="#4B5563">baseline</text>
 
-  <!-- What they measure -->
-  <rect x="30" y="200" width="620" height="48" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="2"/>
-  <text x="340" y="218" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">What do they all measure?</text>
-  <text x="95" y="238" text-anchor="middle" font-size="11" fill="#0EA5E9">📈 Click rate</text>
-  <text x="220" y="238" text-anchor="middle" font-size="11" fill="#10B981">⏱ Watch time</text>
-  <text x="350" y="238" text-anchor="middle" font-size="11" fill="#7C3AED">🔄 Return visits</text>
-  <text x="480" y="238" text-anchor="middle" font-size="11" fill="#D97706">🎯 Diversity</text>
-  <text x="595" y="238" text-anchor="middle" font-size="11" fill="#EF4444">😊 Satisfaction</text>
+  <!-- ===== Group B ===== -->
+  <rect x="222" y="160" width="204" height="68" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="238" y="185" font-size="15" font-weight="700" fill="#4C1D95">B · From your history</text>
+  <g fill="#10B981">
+    <circle cx="246" cy="201" r="4.5"/><path d="M239,215 Q239,207 246,207 Q253,207 253,215 Z"/>
+    <circle cx="266" cy="201" r="4.5"/><path d="M259,215 Q259,207 266,207 Q273,207 273,215 Z"/>
+    <circle cx="286" cy="201" r="4.5"/><path d="M279,215 Q279,207 286,207 Q293,207 293,215 Z"/>
+  </g>
+  <text x="410" y="214" text-anchor="end" font-size="14" fill="#4C1D95">personalized</text>
 
-  <!-- Key insight -->
-  <rect x="130" y="264" width="420" height="62" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <text x="340" y="284" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Key insight</text>
-  <text x="340" y="303" text-anchor="middle" font-size="11" fill="#1E1B4B">Never trust just one metric. More clicks can mean addictive</text>
-  <text x="340" y="318" text-anchor="middle" font-size="11" fill="#1E1B4B">design, not better recommendations. Measure what matters.</text>
+  <!-- ===== Measure ===== -->
+  <path d="M428,110 H450" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb122-arr)"/>
+  <path d="M428,194 H450" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb122-arr)"/>
+  <rect x="458" y="76" width="166" height="152" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="474" y="101" font-size="15" font-weight="700" fill="#1E1B4B">Measure behaviour</text>
+  <circle cx="479" cy="124" r="3" fill="#6B7280"/><text x="490" y="129" font-size="14" fill="#1E1B4B">skips</text>
+  <circle cx="479" cy="148" r="3" fill="#6B7280"/><text x="490" y="153" font-size="14" fill="#1E1B4B">playlist saves</text>
+  <circle cx="479" cy="172" r="3" fill="#10B981"/><text x="490" y="177" font-size="14" font-weight="700" fill="#065F46">back next day</text>
+  <text x="474" y="211" font-size="14" fill="#6B7280">for 1–4 weeks</text>
+  <path d="M541,232 V250" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb122-arr)"/>
+
+  <!-- ===== Real or luck? ===== -->
+  <rect x="16" y="256" width="608" height="168" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="34" y="282" font-size="16" font-weight="700" fill="#1E1B4B">Is the gap real, or just luck?</text>
+  <text x="606" y="282" text-anchor="end" font-size="14" fill="#6B7280">bar = 95% confidence range</text>
+
+  <!-- zero line -->
+  <path d="M150,296 V392" fill="none" stroke="#1E1B4B" stroke-width="1.5" stroke-dasharray="4 4"/>
+
+  <!-- row 1: the text's example, 3.2% [1.8, 4.6] -->
+  <text x="36" y="329" font-size="14" font-weight="700" fill="#4C1D95">B vs A</text>
+  <path d="M231,324 H357" fill="none" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="294" cy="324" r="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="3"/>
+  <text x="294" y="308" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">+3.2% retention</text>
+  <text x="446" y="320" font-size="15" font-weight="700" fill="#065F46">✓ Whole bar above 0</text>
+  <text x="446" y="339" font-size="14" fill="#1E1B4B">B really is better</text>
+
+  <!-- row 2: a hypothetical, e.g. -->
+  <text x="36" y="377" font-size="14" fill="#4B5563">another test</text>
+  <path d="M137,372 H263" fill="none" stroke="#9CA3AF" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="200" cy="372" r="7" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="3"/>
+  <text x="446" y="368" font-size="15" font-weight="700" fill="#92400E">⚠ Bar crosses 0</text>
+  <text x="446" y="387" font-size="14" fill="#1E1B4B">could be luck</text>
+
+  <!-- axis -->
+  <path d="M52,396 H428" fill="none" stroke="#D1D5DB" stroke-width="1.5"/>
+  <g font-size="14" fill="#6B7280" text-anchor="middle">
+    <text x="60" y="414">−2%</text>
+    <text x="150" y="414" font-weight="700" fill="#1E1B4B">0 = no change</text>
+    <text x="240" y="414">+2%</text>
+    <text x="330" y="414">+4%</text>
+    <text x="420" y="414">+6%</text>
+  </g>
+
+  <text x="320" y="454" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B"><tspan fill="#7C3AED">Data decides</tspan> — not the loudest opinion in the meeting.</text>
 </svg>

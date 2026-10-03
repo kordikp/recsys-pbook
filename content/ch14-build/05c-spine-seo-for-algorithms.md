@@ -2,7 +2,7 @@
 id: ch5-seo-algorithms
 type: spine
 title: "SEO for the Algorithm Age"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "Search engines and recommendation systems are converging. Here's how to optimize for both."
@@ -22,14 +22,14 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
 
 SEO -- Search Engine Optimization -- used to mean keyword stuffing and link farming to climb Google's rankings. Today, search and recommendation systems have fundamentally converged, and the optimization landscape has shifted accordingly.
 
-![Old SEO vs new algorithmic discoverability](/images/anim-seo-algorithms.svg)
+![Same search, three different #1s: your guide ranks #1 for Ana and #50 for Ben and Cleo](/images/anim-seo-algorithms.svg)
 
 ## Traditional SEO vs. Modern Content Discovery
 

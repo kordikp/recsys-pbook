@@ -2,7 +2,7 @@
 id: ch3-rl-recsys
 type: spine
 title: "Reinforcement Learning for Recommendations: Beyond Bandits"
-readingTime: 4
+readingTime: 6
 standalone: false
 core: false
 voice: thinker
@@ -12,13 +12,13 @@ recallQ: "How does reinforcement learning differ from bandit approaches in recom
 recallA: "Bandits optimize single-step reward (1-step horizon). RL optimizes cumulative long-term reward over a sequence of recommendations, modeling how today's recommendation affects tomorrow's user behavior."
 publishedAt: "2026-04-03"
 status: accepted
-concept: multimodal
+concept: explore-exploit
 state: edited
 lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image|formula
 ---
@@ -27,7 +27,7 @@ Bandit algorithms solve one step at a time: given this user in this context, whi
 
 Reinforcement learning extends bandits to multi-step decision-making. Instead of maximizing a single reward, the system learns a **policy** that maximizes **cumulative reward** across an entire session -- or even across the user's lifetime on the platform.
 
-![Reinforcement learning MDP loop for recommendations](/images/anim-rl-mdp.svg)
+![Bandit vs RL on a toy playlist: scoring only the first reward (γ = 0) picks the greedy playlist, while summing discounted rewards over four steps (γ = 0.9) picks the mixed one](/images/anim-rl-mdp.svg)
 
 ## The MDP Formulation
 

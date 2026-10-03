@@ -13,13 +13,13 @@ recallQ: "What is the main trade-off in recommendation caching?"
 recallA: "Speed vs. freshness — cached recommendations are fast and cheap but may not reflect the user's most recent behavior or new items in the catalog."
 publishedAt: "2026-04-03"
 status: accepted
-concept: build-vs-buy
+concept: production-scale
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -74,4 +74,4 @@ The production-standard approach uses layered caching:
 
 This preserves freshness where it matters (scoring, context, exploration) while eliminating the most expensive computation (candidate generation over the full catalog).
 
-**Consider this:** The best caching strategy depends on how fast your domain changes. A movie recommender can cache aggressively (preferences shift slowly). A news recommender can barely cache at all. Know your domain's clock speed.
+**In your product:** The best caching strategy depends on how fast your domain changes. A movie recommender can cache aggressively (preferences shift slowly). A news recommender can barely cache at all. Know your domain's clock speed.

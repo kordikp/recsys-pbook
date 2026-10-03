@@ -1,85 +1,131 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 250" font-family="system-ui, sans-serif">
-  <style>
-    @keyframes fadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes labelFadeIn { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes privacyPulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    @keyframes qualityPulse { 0% { opacity: 0; } 8% { opacity: 1; } 65% { opacity: 1; } 75% { opacity: 0; } 100% { opacity: 0; } }
-    .method-label { opacity: 0; }
-    .ml1 { animation: labelFadeIn 18s ease-out 1.5s infinite; }
-    .ml2 { animation: labelFadeIn 18s ease-out 1.0s infinite; }
-    .ml3 { animation: labelFadeIn 18s ease-out 1.5s infinite; }
-    .fade-in { opacity: 0; animation: fadeIn 18s ease-out 0.3s infinite; }
-    .privacy-glow { animation: privacyPulse 18s ease-in-out 2s infinite; }
-    .quality-glow { animation: qualityPulse 18s ease-in-out 2s infinite; }
-  </style>
-
-
-  <!-- Title -->
-  <text x="300" y="25" text-anchor="middle" font-size="16" font-weight="bold" fill="#0b1225">Privacy-Utility Tradeoff</text>
-
-  <!-- Balance stand -->
-  <g class="fade-in">
-    <rect x="293" y="88" width="14" height="100" rx="2" fill="#0b1225" />
-    <rect x="280" y="185" width="40" height="8" rx="4" fill="#0b1225" />
-    <circle cx="300" cy="90" r="8" fill="#0b1225" />
-  </g>
-
-  <!-- Static beam (slightly tilted via coordinates to suggest tension) -->
-  <g class="fade-in">
-    <rect x="100" y="86" width="400" height="8" rx="4" fill="#0b1225" />
-
-    <!-- Left pan: Privacy -->
-    <g>
-      <!-- Strings -->
-      <line x1="130" y1="94" x2="115" y2="130" stroke="#0b1225" stroke-width="1.5" />
-      <line x1="170" y1="94" x2="185" y2="130" stroke="#0b1225" stroke-width="1.5" />
-      <!-- Pan -->
-      <ellipse cx="150" cy="134" rx="45" ry="10" fill="#0c8383" opacity="0.8" />
-      <!-- Lock icon -->
-      <rect x="138" y="114" width="24" height="18" rx="3" fill="#0c8383" />
-      <rect x="144" y="106" width="12" height="12" rx="6" fill="none" stroke="#0c8383" stroke-width="2.5" />
-      <circle cx="150" cy="125" r="2" fill="#f5f5f4" />
-      <!-- Label with pulse -->
-      <text class="privacy-glow" x="150" y="160" text-anchor="middle" font-size="13" font-weight="bold" fill="#0c8383">Privacy</text>
-    </g>
-
-    <!-- Right pan: Personalization Quality -->
-    <g>
-      <!-- Strings -->
-      <line x1="430" y1="94" x2="415" y2="130" stroke="#0b1225" stroke-width="1.5" />
-      <line x1="470" y1="94" x2="485" y2="130" stroke="#0b1225" stroke-width="1.5" />
-      <!-- Pan -->
-      <ellipse cx="450" cy="134" rx="45" ry="10" fill="#f59e0b" opacity="0.8" />
-      <!-- Star icon (quality) -->
-      <text x="450" y="127" text-anchor="middle" font-size="20" fill="#f59e0b">&#x2605;</text>
-      <!-- Label with pulse -->
-      <text class="quality-glow" x="450" y="160" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Personalization</text>
-      <text class="quality-glow" x="450" y="174" text-anchor="middle" font-size="12" font-weight="bold" fill="#f59e0b">Quality</text>
-    </g>
-  </g>
-
-  <!-- Spectrum labels along bottom -->
-  <line x1="100" y1="215" x2="500" y2="215" stroke="#0b1225" stroke-width="1" opacity="0.3" />
-
-  <g class="method-label ml1">
-    <circle cx="160" cy="215" r="4" fill="#0c8383" />
-    <text x="160" y="232" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">On-Device</text>
-    <text x="160" y="244" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Max privacy</text>
-  </g>
-
-  <g class="method-label ml2">
-    <circle cx="300" cy="215" r="4" fill="#3bc4a1" />
-    <text x="300" y="232" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">Federated Learning</text>
-    <text x="300" y="244" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Balanced</text>
-  </g>
-
-  <g class="method-label ml3">
-    <circle cx="440" cy="215" r="4" fill="#f59e0b" />
-    <text x="440" y="232" text-anchor="middle" font-size="10" fill="#0b1225" font-weight="600">Differential Privacy</text>
-    <text x="440" y="244" text-anchor="middle" font-size="8" fill="#0b1225" opacity="0.5">Tunable &#x3b5;</text>
-  </g>
-
-  <!-- More privacy arrow -->
-  <text x="100" y="210" text-anchor="middle" font-size="8" fill="#0c8383">&#x25c0; More privacy</text>
-  <text x="500" y="210" text-anchor="middle" font-size="8" fill="#f59e0b">Better recs &#x25b6;</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 506" role="img" aria-labelledby="pb023-title pb023-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb023-title">What leaves your phone in five privacy setups, and what each costs in recommendation quality</title>
+<desc id="pb023-desc">Five ways to train a recommender, ordered from least to most private. With no protection your raw clicks go to the server. Central differential privacy (epsilon 5) still sends raw clicks but the server adds noise to what it outputs: roughly 2 to 5 percent quality loss. Federated learning trains on your phone and sends only gradients: 5 to 15 percent. Local differential privacy (epsilon 1) adds noise on your phone before anything leaves: 15 to 30 percent. On-device only sends nothing and loses collaborative filtering. Encrypted setups such as MPC and homomorphic encryption pay in compute: fully homomorphic encryption carries about 10,000 times overhead. No setup gets privacy for free; the rough percentages come from the comparison table in the text.</desc>
+<style>
+.pb023-flow{opacity:0;animation:pb023-flow 2.4s linear infinite}
+@keyframes pb023-flow{0%{transform:translateX(0);opacity:0}12%{opacity:1}82%{opacity:1}100%{transform:translateX(92px);opacity:0}}
+@keyframes pb023-jit{0%{transform:translate(0,0);opacity:0}12%{opacity:1}20%{transform:translate(18.4px,-3px)}35%{transform:translate(32.2px,3px)}50%{transform:translate(46.0px,-3px)}65%{transform:translate(59.8px,3px)}82%{opacity:1;transform:translate(75.4px,-3px)}100%{transform:translate(92px,0);opacity:0}}
+.pb023-jit{opacity:0;animation:pb023-jit 2.4s linear infinite}
+@media (prefers-reduced-motion: reduce){.pb023-flow,.pb023-jit{animation:none !important}}
+</style>
+<defs><marker id="pb023-ah-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#10B981"/></marker><marker id="pb023-ah-p" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/></marker><marker id="pb023-ah-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#F59E0B"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="505" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="32" y="40" font-size="20" font-weight="700" fill="#1E1B4B">What leaves your phone — and what it costs</text>
+<g><circle cx="41" cy="59" r="9" fill="#F59E0B" stroke="#FFFFFF" stroke-width="2"/><path d="M36,59.5 q2.5,-5 5,0 t5,0" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/></g>
+<text x="56" y="64" font-size="14" fill="#6B7280">marks where noise is added</text>
+<rect x="24" y="80" width="592" height="304" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="40" y="104" font-size="14" font-weight="600" fill="#065F46">More private ↓</text>
+<text x="226" y="104" text-anchor="middle" font-size="14" font-weight="600" fill="#065F46">your phone</text>
+<text x="372" y="104" text-anchor="middle" font-size="14" font-weight="600" fill="#4C1D95">server</text>
+<text x="410" y="104" font-size="14" font-weight="600" fill="#92400E">Quality loss (rough)</text>
+<line x1="24" y1="116" x2="616" y2="116" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="40" y="139" font-size="15" font-weight="700" fill="#1E1B4B">No protection</text>
+<text x="40" y="158" font-size="14" fill="#6B7280">server sees everything</text>
+<rect x="214" y="125" width="24" height="34" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<line x1="222" y1="153" x2="230" y2="153" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+<rect x="358" y="125" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="130" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="130" x2="381" y2="130" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="137" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="142" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="142" x2="381" y2="142" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="149" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="154" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="154" x2="381" y2="154" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="244" y1="142" x2="350" y2="142" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb023-ah-g)"/>
+<circle class="pb023-flow" style="animation-delay:0.0s" cx="248" cy="142" r="4" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+<circle class="pb023-flow" style="animation-delay:0.8s" cx="248" cy="142" r="4" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+<circle class="pb023-flow" style="animation-delay:1.6s" cx="248" cy="142" r="4" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+<text x="297" y="132" text-anchor="middle" font-size="14" fill="#1E1B4B">raw clicks</text>
+<rect x="410" y="136" width="120" height="12" rx="3" fill="#F3F4F6"/>
+<text x="600" y="147" text-anchor="end" font-size="14" fill="#6B7280">baseline</text>
+<line x1="36" y1="168" x2="604" y2="168" stroke="#F3F4F6" stroke-width="1.5"/>
+<text x="40" y="191" font-size="15" font-weight="700" fill="#1E1B4B">Central DP</text>
+<text x="40" y="210" font-size="14" fill="#6B7280">ε = 5 · noisy output</text>
+<rect x="214" y="177" width="24" height="34" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<line x1="222" y1="205" x2="230" y2="205" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+<rect x="358" y="177" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="182" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="182" x2="381" y2="182" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="189" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="194" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="194" x2="381" y2="194" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="201" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="206" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="206" x2="381" y2="206" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="244" y1="194" x2="350" y2="194" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb023-ah-g)"/>
+<circle class="pb023-flow" style="animation-delay:0.0s" cx="248" cy="194" r="4" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+<circle class="pb023-flow" style="animation-delay:0.8s" cx="248" cy="194" r="4" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+<circle class="pb023-flow" style="animation-delay:1.6s" cx="248" cy="194" r="4" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+<text x="297" y="184" text-anchor="middle" font-size="14" fill="#1E1B4B">raw clicks</text>
+<g><circle cx="386" cy="179" r="9" fill="#F59E0B" stroke="#FFFFFF" stroke-width="2"/><path d="M381,179.5 q2.5,-5 5,0 t5,0" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/></g>
+<rect x="410" y="188" width="120" height="12" rx="3" fill="#F3F4F6"/>
+<rect x="418" y="188" width="12" height="12" rx="3" fill="#F59E0B"/>
+<text x="600" y="199" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">2–5%</text>
+<line x1="36" y1="220" x2="604" y2="220" stroke="#F3F4F6" stroke-width="1.5"/>
+<text x="40" y="243" font-size="15" font-weight="700" fill="#1E1B4B">Federated learning</text>
+<text x="40" y="262" font-size="14" fill="#6B7280">trains on your phone</text>
+<rect x="214" y="229" width="24" height="34" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<line x1="222" y1="257" x2="230" y2="257" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+<rect x="358" y="229" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="234" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="234" x2="381" y2="234" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="241" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="246" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="246" x2="381" y2="246" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="253" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="258" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="258" x2="381" y2="258" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="244" y1="246" x2="350" y2="246" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb023-ah-p)"/>
+<circle class="pb023-flow" style="animation-delay:0.0s" cx="248" cy="246" r="4" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb023-flow" style="animation-delay:0.8s" cx="248" cy="246" r="4" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<circle class="pb023-flow" style="animation-delay:1.6s" cx="248" cy="246" r="4" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<text x="297" y="236" text-anchor="middle" font-size="14" fill="#1E1B4B">gradients</text>
+<rect x="410" y="240" width="120" height="12" rx="3" fill="#F3F4F6"/>
+<rect x="430" y="240" width="40" height="12" rx="3" fill="#F59E0B"/>
+<text x="600" y="251" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">5–15%</text>
+<line x1="36" y1="272" x2="604" y2="272" stroke="#F3F4F6" stroke-width="1.5"/>
+<text x="40" y="295" font-size="15" font-weight="700" fill="#1E1B4B">Local DP</text>
+<text x="40" y="314" font-size="14" fill="#6B7280">ε = 1 · noisy input</text>
+<rect x="214" y="281" width="24" height="34" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<line x1="222" y1="309" x2="230" y2="309" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+<rect x="358" y="281" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="286" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="286" x2="381" y2="286" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="293" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="298" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="298" x2="381" y2="298" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="305" width="28" height="10" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="364" cy="310" r="1.6" fill="#7C3AED"/>
+<line x1="370" y1="310" x2="381" y2="310" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="244" y1="298" x2="350" y2="298" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb023-ah-a)"/>
+<circle class="pb023-jit" style="animation-delay:0.0s" cx="248" cy="298" r="4" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+<circle class="pb023-jit" style="animation-delay:0.8s" cx="248" cy="298" r="4" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+<circle class="pb023-jit" style="animation-delay:1.6s" cx="248" cy="298" r="4" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+<text x="297" y="288" text-anchor="middle" font-size="14" fill="#92400E">noisy clicks</text>
+<g><circle cx="238" cy="283" r="9" fill="#F59E0B" stroke="#FFFFFF" stroke-width="2"/><path d="M233,283.5 q2.5,-5 5,0 t5,0" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/></g>
+<rect x="410" y="292" width="120" height="12" rx="3" fill="#F3F4F6"/>
+<rect x="470" y="292" width="60" height="12" rx="3" fill="#F59E0B"/>
+<text x="600" y="303" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">15–30%</text>
+<line x1="36" y1="324" x2="604" y2="324" stroke="#F3F4F6" stroke-width="1.5"/>
+<text x="40" y="355" font-size="15" font-weight="700" fill="#1E1B4B">On-device only</text>
+<rect x="214" y="333" width="24" height="34" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<line x1="222" y1="361" x2="230" y2="361" stroke="#10B981" stroke-width="2" stroke-linecap="round"/>
+<rect x="358" y="333" width="28" height="10" rx="3" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="364" cy="338" r="1.6" fill="#D1D5DB"/>
+<line x1="370" y1="338" x2="381" y2="338" stroke="#D1D5DB" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="345" width="28" height="10" rx="3" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="364" cy="350" r="1.6" fill="#D1D5DB"/>
+<line x1="370" y1="350" x2="381" y2="350" stroke="#D1D5DB" stroke-width="1.5" stroke-linecap="round"/>
+<rect x="358" y="357" width="28" height="10" rx="3" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.5"/>
+<circle cx="364" cy="362" r="1.6" fill="#D1D5DB"/>
+<line x1="370" y1="362" x2="381" y2="362" stroke="#D1D5DB" stroke-width="1.5" stroke-linecap="round"/>
+<line x1="244" y1="350" x2="346" y2="350" stroke="#D1D5DB" stroke-width="2" stroke-dasharray="4 5" stroke-linecap="round"/>
+<text x="297" y="340" text-anchor="middle" font-size="14" fill="#6B7280">nothing leaves</text>
+<text x="600" y="355" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">high (no CF)</text>
+<rect x="24" y="400" width="592" height="58" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="44" y="437" font-size="24" font-weight="800" fill="#92400E">10,000×</text>
+<text x="180" y="424" font-size="15" fill="#92400E">overhead of fully homomorphic encryption:</text>
+<text x="180" y="444" font-size="15" fill="#92400E">encrypted setups (MPC, HE) pay in compute</text>
+<text x="320" y="486" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">No setup gets privacy for free: it costs quality or compute.</text>
 </svg>

@@ -2,7 +2,7 @@
 id: ch9-drift
 type: spine
 title: "Drift Detection: When Your Model Goes Stale"
-readingTime: 3
+readingTime: 5
 standalone: true
 core: false
 teaser: "Every deployed model is drifting from reality. The question is not whether drift is happening -- it is whether you can detect it before your users do."
@@ -23,14 +23,14 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
 
 A model trained on last month's data is making predictions in today's world. The gap between these two realities is drift -- and in recommender systems, drift is not an occasional anomaly but a continuous process.
 
-![Model drift: production distribution shifting from training](/images/anim-drift-detection.svg)
+![Four ways a model goes stale: inputs shift, scores bunch up, the base click rate falls, and predictions stop matching clicks, while the server dashboard stays green](/images/anim-drift-detection.svg)
 
 ## The Four Types of Drift
 

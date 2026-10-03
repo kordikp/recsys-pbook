@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![A Highly Recommended Day Off — a four-panel comic](images/comic-ubiquity.svg)
+![A Highly Recommended Day Off — a four-panel comic: Mira plans a recommendation-free day off, but by 10 a.m. she has spotted six recommenders: YouTube, Spotify and Netflix at breakfast, Amazon and LinkedIn while browsing, and finally the search box autocompleting "how to avoid recommendations"](images/comic-ubiquity.svg)
 
 *Recommenders span daily platforms; once noticed, hundreds of suggestions appear everywhere.*

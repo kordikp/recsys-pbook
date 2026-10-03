@@ -1,188 +1,199 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Company Your Cart Keeps</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb049-title pb049-desc">
+  <title id="pb049-title">The company your cart keeps</title>
+  <desc id="pb049-desc">Four-panel comic. A shopper wants a book they will love but cannot describe their taste, so the recommender just asks for their cart: a rocket book, a robot book and an alien book. Ana bought the same three books plus a dragon book; Ben (romance, cooking) shares none. Same books bought means probably the same taste, so Ana's dragon book becomes the tip. "Dragons? I never said dragons!" "You didn't. Readers like you did." With a million shoppers, comparing carts gets too slow, so the recommender links books instead: people who bought this also bought these, linked ahead of time — item-to-item, as Amazon described in 2003. Collaborative filtering recommends what people with your taste bought next.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <defs>
+    <marker id="pb049-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+      <path d="M0 0 L8 4 L0 8 Z" fill="#7C3AED"/>
+    </marker>
+  </defs>
 
-  <!-- Panel 1 -->
-  <g>
-    <rect x="30" y="76" width="180" height="58" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="120" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I want a book I'll love.</text>
-    <text x="120" y="118" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I cannot explain my taste.</text>
+  <rect x="0.5" y="0.5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">The company your cart keeps</text>
 
-    <rect x="232" y="82" width="144" height="44" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="304" y="109" font-size="12.5" fill="#1E1B4B" text-anchor="middle">What do you buy?</text>
+  <!-- ===== Panel 1: taste is hard to say ===== -->
+  <g transform="translate(16,48)">
+    <rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Taste is hard to say</text>
 
-    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="94" cy="187" r="10" fill="#EDE9FE"/>
-      <line x1="94" y1="197" x2="94" y2="231"/>
-      <line x1="94" y1="207" x2="72" y2="218"/>
-      <line x1="94" y1="208" x2="116" y2="216"/>
-      <line x1="94" y1="231" x2="82" y2="248"/>
-      <line x1="94" y1="231" x2="106" y2="248"/>
-    </g>
+    <path d="M22,40 H210 Q222,40 222,52 V76 Q222,88 210,88 H62 L55,141 L46,88 H22 Q10,88 10,76 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="116" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B">I want a book I'll love.</text>
+    <text x="116" y="80" text-anchor="middle" font-size="15" fill="#1E1B4B">I can't describe my taste.</text>
 
-    <g>
-      <rect x="126" y="207" width="54" height="35" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
-      <rect x="133" y="194" width="10" height="30" rx="2" fill="#EDE9FE" stroke="#7C3AED"/>
-      <rect x="146" y="189" width="10" height="35" rx="2" fill="#E0F2FE" stroke="#0EA5E9"/>
-      <rect x="159" y="197" width="10" height="27" rx="2" fill="#FEF3C7" stroke="#D97706"/>
-    </g>
+    <path d="M124,96 H276 Q288,96 288,108 V118 Q288,130 276,130 H244 L238,141 L228,130 H124 Q112,130 112,118 V108 Q112,96 124,96 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="200" y="118" text-anchor="middle" font-size="15" fill="#1E1B4B">Just show me your cart.</text>
 
-    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="303" cy="187" r="10" fill="#D1FAE5"/>
-      <line x1="303" y1="197" x2="303" y2="231"/>
-      <line x1="303" y1="207" x2="280" y2="217"/>
-      <line x1="303" y1="207" x2="326" y2="216"/>
-      <line x1="303" y1="231" x2="291" y2="248"/>
-      <line x1="303" y1="231" x2="315" y2="248"/>
-    </g>
+    <path d="M12,238.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">At the bookstore, taste is easier to show than to describe.</text>
+    <!-- you -->
+    <path d="M33,238 V199 Q33,183 49,183 H63 Q79,183 79,199 V238 Z" fill="#10B981"/>
+    <circle cx="56" cy="162" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="53" cy="160" r="2.2" fill="#1E1B4B"/>
+    <circle cx="63" cy="160" r="2.2" fill="#1E1B4B"/>
+    <path d="M54,168 Q59,172 64,168" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- basket with three books -->
+    <path d="M115,210 Q149,168 183,210" fill="none" stroke="#9CA3AF" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="105" y="180" width="26" height="40" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="118" y="203" text-anchor="middle" font-size="17">🚀</text>
+    <rect x="136" y="176" width="26" height="44" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="149" y="199" text-anchor="middle" font-size="17">🤖</text>
+    <rect x="167" y="182" width="26" height="38" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="180" y="205" text-anchor="middle" font-size="17">👽</text>
+    <path d="M101,210 H197 L189,238 H109 Z" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+    <path d="M106,220 H192 M108,229 H190" stroke="#D1D5DB" stroke-width="1.5"/>
+
+    <!-- recommender -->
+    <path d="M219,238 V199 Q219,183 235,183 H249 Q265,183 265,199 V238 Z" fill="#7C3AED"/>
+    <rect x="247" y="192" width="12" height="8" rx="2" fill="#FFFFFF"/>
+    <circle cx="242" cy="162" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="235" cy="160" r="2.2" fill="#1E1B4B"/>
+    <circle cx="245" cy="160" r="2.2" fill="#1E1B4B"/>
+    <path d="M234,168 Q239,172 244,168" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <text x="56" y="257" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+    <text x="242" y="257" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
   </g>
 
-  <!-- Panel 2 -->
-  <g>
-    <rect x="422" y="76" width="170" height="44" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="507" y="103" font-size="12.5" fill="#1E1B4B" text-anchor="middle">They bought my three.</text>
+  <!-- ===== Panel 2: find your taste twins ===== -->
+  <g transform="translate(326,48)">
+    <rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Find your taste twins</text>
 
-    <rect x="604" y="76" width="164" height="44" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="686" y="103" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Then they bought this.</text>
+    <!-- you row -->
+    <rect x="10" y="44" width="278" height="40" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="30" cy="64" r="11" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="27" cy="63" r="1.6" fill="#1E1B4B"/>
+    <circle cx="33" cy="63" r="1.6" fill="#1E1B4B"/>
+    <path d="M27,68 Q30,70.5 33,68" fill="none" stroke="#1E1B4B" stroke-width="1.4" stroke-linecap="round"/>
+    <text x="48" y="69" font-size="15" font-weight="700" fill="#1E1B4B">You</text>
+    <rect x="88" y="48" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="103" y="70" text-anchor="middle" font-size="17">🚀</text>
+    <rect x="122" y="48" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="137" y="70" text-anchor="middle" font-size="17">🤖</text>
+    <rect x="156" y="48" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="171" y="70" text-anchor="middle" font-size="17">👽</text>
+    <rect x="190" y="48" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2" stroke-dasharray="4 3"/>
+    <text x="205" y="70" text-anchor="middle" font-size="17" font-weight="700" fill="#7C3AED">?</text>
 
-    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="470" cy="172" r="10" fill="#EDE9FE"/>
-      <line x1="470" y1="182" x2="470" y2="217"/>
-      <line x1="470" y1="192" x2="450" y2="203"/>
-      <line x1="470" y1="193" x2="491" y2="202"/>
-      <line x1="470" y1="217" x2="458" y2="235"/>
-      <line x1="470" y1="217" x2="482" y2="235"/>
-    </g>
+    <!-- the tip travels up -->
+    <line x1="205" y1="121" x2="205" y2="92" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb049-arrow)"/>
+    <text x="216" y="109" font-size="14" font-weight="700" fill="#4C1D95">for you</text>
 
-    <g stroke="#0EA5E9" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="574" cy="172" r="10" fill="#E0F2FE"/>
-      <line x1="574" y1="182" x2="574" y2="217"/>
-      <line x1="574" y1="192" x2="555" y2="202"/>
-      <line x1="574" y1="192" x2="593" y2="202"/>
-      <line x1="574" y1="217" x2="563" y2="235"/>
-      <line x1="574" y1="217" x2="585" y2="235"/>
-    </g>
+    <!-- ana row: a match -->
+    <rect x="10" y="124" width="278" height="40" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2" stroke-dasharray="6 4"/>
+    <circle cx="30" cy="144" r="11" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="27" cy="143" r="1.6" fill="#1E1B4B"/>
+    <circle cx="33" cy="143" r="1.6" fill="#1E1B4B"/>
+    <path d="M27,148 Q30,150.5 33,148" fill="none" stroke="#1E1B4B" stroke-width="1.4" stroke-linecap="round"/>
+    <text x="48" y="149" font-size="15" font-weight="700" fill="#1E1B4B">Ana</text>
+    <rect x="88" y="128" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="103" y="150" text-anchor="middle" font-size="17">🚀</text>
+    <rect x="122" y="128" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="137" y="150" text-anchor="middle" font-size="17">🤖</text>
+    <rect x="156" y="128" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="171" y="150" text-anchor="middle" font-size="17">👽</text>
+    <rect x="190" y="128" width="30" height="32" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="205" y="150" text-anchor="middle" font-size="17">🐉</text>
+    <text x="230" y="149" font-size="14" font-weight="700" fill="#065F46">3 same</text>
 
-    <g stroke="#D97706" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="630" cy="172" r="10" fill="#FEF3C7"/>
-      <line x1="630" y1="182" x2="630" y2="217"/>
-      <line x1="630" y1="192" x2="611" y2="202"/>
-      <line x1="630" y1="192" x2="649" y2="202"/>
-      <line x1="630" y1="217" x2="619" y2="235"/>
-      <line x1="630" y1="217" x2="641" y2="235"/>
-    </g>
+    <!-- ben row: no overlap -->
+    <rect x="10" y="174" width="278" height="40" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="30" cy="194" r="11" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="27" cy="193" r="1.6" fill="#1E1B4B"/>
+    <circle cx="33" cy="193" r="1.6" fill="#1E1B4B"/>
+    <path d="M27,198 Q30,200.5 33,198" fill="none" stroke="#1E1B4B" stroke-width="1.4" stroke-linecap="round"/>
+    <text x="48" y="199" font-size="15" font-weight="700" fill="#1E1B4B">Ben</text>
+    <rect x="88" y="178" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="103" y="200" text-anchor="middle" font-size="17">🌹</text>
+    <rect x="122" y="178" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="137" y="200" text-anchor="middle" font-size="17">🍳</text>
+    <text x="230" y="199" font-size="14" fill="#6B7280">0 same</text>
 
-    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="730" cy="172" r="10" fill="#D1FAE5"/>
-      <line x1="730" y1="182" x2="730" y2="217"/>
-      <line x1="730" y1="192" x2="710" y2="203"/>
-      <line x1="730" y1="193" x2="750" y2="202"/>
-      <line x1="730" y1="217" x2="718" y2="235"/>
-      <line x1="730" y1="217" x2="742" y2="235"/>
-    </g>
-
-    <g>
-      <rect x="521" y="238" width="14" height="25" rx="2" fill="#EDE9FE" stroke="#7C3AED"/>
-      <rect x="541" y="234" width="14" height="29" rx="2" fill="#E0F2FE" stroke="#0EA5E9"/>
-      <rect x="561" y="240" width="14" height="23" rx="2" fill="#FEF3C7" stroke="#D97706"/>
-      <path d="M585 250 L675 250" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-      <path d="M667 244 L675 250 L667 256" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-      <rect x="686" y="230" width="18" height="33" rx="2" fill="#D1FAE5" stroke="#10B981"/>
-    </g>
-
-    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Similar shopping histories reveal taste without a questionnaire.</text>
+    <text x="149" y="246" text-anchor="middle" font-size="15" fill="#4B5563">Same 3 books → probably same taste.</text>
   </g>
 
-  <!-- Panel 3 -->
-  <g>
-    <rect x="30" y="354" width="132" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="96" y="373" font-size="12.5" fill="#1E1B4B" text-anchor="middle">One million</text>
-    <text x="96" y="391" font-size="12.5" fill="#1E1B4B" text-anchor="middle">taste twins?</text>
+  <!-- ===== Panel 3: the surprise ===== -->
+  <g transform="translate(16,326)">
+    <rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Wait… dragons?</text>
 
-    <rect x="174" y="354" width="202" height="46" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="275" y="373" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Let's ask what</text>
-    <text x="275" y="391" font-size="12.5" fill="#1E1B4B" text-anchor="middle">travels together.</text>
+    <path d="M22,40 H238 Q250,40 250,52 V62 Q250,74 238,74 H62 L55,141 L46,74 H22 Q10,74 10,62 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="130" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">Dragons? I never said dragons!</text>
 
-    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="70" cy="452" r="10" fill="#EDE9FE"/>
-      <line x1="70" y1="462" x2="70" y2="500"/>
-      <line x1="70" y1="473" x2="51" y2="484"/>
-      <line x1="70" y1="473" x2="89" y2="484"/>
-      <line x1="70" y1="500" x2="59" y2="518"/>
-      <line x1="70" y1="500" x2="81" y2="518"/>
-    </g>
+    <path d="M124,82 H276 Q288,82 288,94 V118 Q288,130 276,130 H244 L238,141 L228,130 H124 Q112,130 112,118 V94 Q112,82 124,82 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="200" y="102" text-anchor="middle" font-size="15" fill="#1E1B4B">You didn't.</text>
+    <text x="200" y="122" text-anchor="middle" font-size="15" fill="#1E1B4B">Readers like you did.</text>
 
-    <g>
-      <line x1="145" y1="453" x2="196" y2="478" stroke="#6B7280" stroke-width="2"/>
-      <line x1="145" y1="453" x2="236" y2="443" stroke="#6B7280" stroke-width="2"/>
-      <line x1="196" y1="478" x2="236" y2="443" stroke="#6B7280" stroke-width="2"/>
-      <rect x="132" y="434" width="18" height="34" rx="2" fill="#EDE9FE" stroke="#7C3AED"/>
-      <rect x="187" y="462" width="18" height="34" rx="2" fill="#E0F2FE" stroke="#0EA5E9"/>
-      <rect x="227" y="426" width="18" height="34" rx="2" fill="#FEF3C7" stroke="#D97706"/>
-    </g>
+    <path d="M12,238.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <g>
-      <rect x="154" y="509" width="112" height="31" rx="5" fill="#FEF3C7" stroke="#D97706"/>
-      <path d="M154 519 L210 532 L266 519" fill="none" stroke="#D97706" stroke-width="1.5"/>
-      <text x="210" y="521" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">AMAZON · 2003</text>
-    </g>
+    <!-- you, surprised -->
+    <path d="M33,238 V199 Q33,183 49,183 H63 Q79,183 79,199 V238 Z" fill="#10B981"/>
+    <circle cx="56" cy="162" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="53" cy="159" r="2.4" fill="#1E1B4B"/>
+    <circle cx="63" cy="159" r="2.4" fill="#1E1B4B"/>
+    <path d="M49,152 L55,150 M61,150 L67,152" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+    <ellipse cx="59" cy="169" rx="2.6" ry="3.4" fill="#1E1B4B"/>
 
-    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="330" cy="452" r="10" fill="#D1FAE5"/>
-      <line x1="330" y1="462" x2="330" y2="500"/>
-      <line x1="330" y1="473" x2="311" y2="484"/>
-      <line x1="330" y1="473" x2="349" y2="484"/>
-      <line x1="330" y1="500" x2="319" y2="518"/>
-      <line x1="330" y1="500" x2="341" y2="518"/>
-    </g>
+    <!-- recommender hands over the tip -->
+    <path d="M226,202 L186,208" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+    <path d="M219,238 V199 Q219,183 235,183 H249 Q265,183 265,199 V238 Z" fill="#7C3AED"/>
+    <rect x="247" y="192" width="12" height="8" rx="2" fill="#FFFFFF"/>
+    <circle cx="242" cy="162" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="235" cy="160" r="2.2" fill="#1E1B4B"/>
+    <circle cx="245" cy="160" r="2.2" fill="#1E1B4B"/>
+    <path d="M234,168 Q239,172 244,168" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <rect x="150" y="186" width="38" height="44" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="169" y="216" text-anchor="middle" font-size="22">🐉</text>
 
-    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Amazon's 2003 trick: item-to-item links scale better.</text>
+    <text x="56" y="257" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+    <text x="242" y="257" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
   </g>
 
-  <!-- Panel 4 -->
-  <g>
-    <rect x="422" y="356" width="92" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="468" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">No quiz?</text>
+  <!-- ===== Panel 4: a million shoppers later ===== -->
+  <g transform="translate(326,326)">
+    <rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">A million shoppers later</text>
 
-    <rect x="530" y="356" width="240" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="650" y="382" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The products have references.</text>
+    <path d="M22,40 H264 Q276,40 276,52 V76 Q276,88 264,88 H262 L254,141 L246,88 H22 Q10,88 10,76 V52 Q10,40 22,40 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="143" y="60" text-anchor="middle" font-size="15" fill="#1E1B4B">Compare every cart? Too slow.</text>
+    <text x="143" y="80" text-anchor="middle" font-size="15" fill="#1E1B4B">So I link books, not people.</text>
 
-    <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="470" cy="450" r="10" fill="#EDE9FE"/>
-      <line x1="470" y1="460" x2="470" y2="500"/>
-      <line x1="470" y1="471" x2="451" y2="482"/>
-      <line x1="470" y1="471" x2="489" y2="482"/>
-      <line x1="470" y1="500" x2="459" y2="518"/>
-      <line x1="470" y1="500" x2="481" y2="518"/>
-    </g>
+    <path d="M12,238.5 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-    <g>
-      <line x1="535" y1="514" x2="659" y2="514" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-      <rect x="542" y="468" width="19" height="46" rx="2" fill="#EDE9FE" stroke="#7C3AED"/>
-      <rect x="574" y="478" width="19" height="36" rx="2" fill="#E0F2FE" stroke="#0EA5E9"/>
-      <rect x="625" y="460" width="22" height="54" rx="2" fill="#D1FAE5" stroke="#10B981"/>
-      <path d="M561 480 C572 456 606 451 625 472" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-      <path d="M617 468 L625 472 L618 478" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-    </g>
+    <!-- book page card -->
+    <rect x="10" y="100" width="218" height="130" rx="10" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="1.5"/>
+    <rect x="22" y="110" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="37" y="132" text-anchor="middle" font-size="17">👽</text>
+    <text x="62" y="123" font-size="14" fill="#1E1B4B">People who bought this</text>
+    <text x="62" y="140" font-size="14" fill="#1E1B4B">also bought:</text>
+    <rect x="22" y="154" width="30" height="32" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="37" y="176" text-anchor="middle" font-size="17">🐉</text>
+    <rect x="58" y="154" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="73" y="176" text-anchor="middle" font-size="17">🚀</text>
+    <rect x="94" y="154" width="30" height="32" rx="4" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="109" y="176" text-anchor="middle" font-size="17">🤖</text>
+    <text x="22" y="214" font-size="14" fill="#4B5563">Linked ahead of time</text>
 
-    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="714" cy="450" r="10" fill="#D1FAE5"/>
-      <line x1="714" y1="460" x2="714" y2="500"/>
-      <line x1="714" y1="471" x2="695" y2="482"/>
-      <line x1="714" y1="471" x2="733" y2="482"/>
-      <line x1="714" y1="500" x2="703" y2="518"/>
-      <line x1="714" y1="500" x2="725" y2="518"/>
-    </g>
+    <!-- recommender, relaxed -->
+    <path d="M235,238 V199 Q235,183 251,183 H265 Q281,183 281,199 V238 Z" fill="#7C3AED"/>
+    <rect x="263" y="192" width="12" height="8" rx="2" fill="#FFFFFF"/>
+    <circle cx="258" cy="162" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="251" cy="160" r="2.2" fill="#1E1B4B"/>
+    <circle cx="261" cy="160" r="2.2" fill="#1E1B4B"/>
+    <path d="M250,168 Q255,172 260,168" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Soon the shelf knows which books keep getting introduced.</text>
+    <text x="149" y="257" text-anchor="middle" font-size="15"><tspan font-weight="700" fill="#4C1D95">Item-to-item</tspan><tspan fill="#6B7280"> (Amazon, 2003)</tspan></text>
   </g>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Collaborative filtering recommends what similar users liked; item-item links make this scale.</text>
+  <!-- takeaway -->
+  <text x="320" y="620" text-anchor="middle" font-size="16" font-weight="700"><tspan fill="#7C3AED">Collaborative filtering:</tspan><tspan fill="#1E1B4B"> recommend what people like you bought next.</tspan></text>
 </svg>

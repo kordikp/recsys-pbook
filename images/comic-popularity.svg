@@ -1,130 +1,188 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Usual, for Absolutely Everyone</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 636" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb089-title pb089-desc">
+<title id="pb089-title">The usual, for absolutely everyone</title>
+<desc id="pb089-desc">Four-panel diner comic. A first-time guest with no order history asks what is good. The waiter, who plays the recommender, checks a board of today's most-ordered dishes (cilantro noodles 27, burger 19, salad 12) and suggests the top one: a safe bet with zero history. He then serves the same noodles to every table, although each guest was craving something different. The guest who hates cilantro is told: sorry, you're outvoted, 27 to 1. Popularity is a solid start for newcomers, but everyone gets the same list.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<rect x=".5" y=".5" width="639" height="635" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">The usual, for absolutely everyone</text>
 
-  <!-- Panel 1 -->
+<!-- ===== Panel 1: a new guest ===== -->
+<g transform="translate(16,50)">
+  <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">A new guest</text>
+  <path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- guest (you) -->
+  <path d="M37,222 V186 Q37,170 53,170 H67 Q83,170 83,186 V222 Z" fill="#10B981"/>
+  <circle cx="60" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <circle cx="57" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="69" cy="147" r="2.2" fill="#1E1B4B"/>
+  <path d="M58,155 Q63,159 68,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- empty history card -->
+  <rect x="96" y="150" width="106" height="56" rx="8" fill="#FAFAF7" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="149" y="173" text-anchor="middle" font-size="14" font-weight="700" fill="#4B5563">Past orders</text>
+  <text x="149" y="195" text-anchor="middle" font-size="15" fill="#6B7280">none yet</text>
+
+  <!-- waiter (recommender) -->
+  <path d="M215,222 V186 Q215,170 231,170 H245 Q261,170 261,186 V222 Z" fill="#7C3AED"/>
+  <rect x="224" y="192" width="28" height="30" rx="3" fill="#FFFFFF"/>
+  <path d="M231,171 L238,175 L231,179 Z M245,171 L238,175 L245,179 Z" fill="#FFFFFF"/>
+  <circle cx="238" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <circle cx="229" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="241" cy="147" r="2.2" fill="#1E1B4B"/>
+  <path d="M230,155 Q235,159 240,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+  <path d="M24,44 H150 Q162,44 162,56 V82 Q162,94 150,94 H70 L62,127 L54,94 H24 Q12,94 12,82 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="87" y="64" text-anchor="middle" font-size="16" fill="#1E1B4B">First time here.</text>
+  <text x="87" y="84" text-anchor="middle" font-size="16" fill="#1E1B4B">What’s good?</text>
+
+  <text x="60" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+  <text x="238" y="247" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
+</g>
+
+<!-- ===== Panel 2: count the orders ===== -->
+<g transform="translate(326,50)">
+  <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">Count the orders</text>
+  <path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- board -->
+  <path d="M36,210 V221 M188,210 V221" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+  <rect x="8" y="104" width="208" height="106" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="20" y="124" font-size="14" font-weight="700" fill="#4C1D95">Most ordered today</text>
+  <rect x="14" y="131" width="196" height="25" rx="6" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="22" y="149" font-size="16">🍜</text>
+  <text x="44" y="149" font-size="15" font-weight="700" fill="#1E1B4B">Cilantro noodles</text>
+  <text x="202" y="149" text-anchor="end" font-size="15" font-weight="700" fill="#7C3AED">27</text>
+  <text x="22" y="176" font-size="16">🍔</text>
+  <text x="44" y="176" font-size="15" fill="#1E1B4B">Burger</text>
+  <text x="202" y="176" text-anchor="end" font-size="15" fill="#4B5563">19</text>
+  <text x="22" y="200" font-size="16">🥗</text>
+  <text x="44" y="200" font-size="15" fill="#1E1B4B">Salad</text>
+  <text x="202" y="200" text-anchor="end" font-size="15" fill="#4B5563">12</text>
+
+  <!-- waiter -->
+  <path d="M233,222 V186 Q233,170 249,170 H263 Q279,170 279,186 V222 Z" fill="#7C3AED"/>
+  <rect x="242" y="192" width="28" height="30" rx="3" fill="#FFFFFF"/>
+  <path d="M249,171 L256,175 L249,179 Z M263,171 L256,175 L263,179 Z" fill="#FFFFFF"/>
+  <circle cx="256" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <circle cx="247" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="259" cy="147" r="2.2" fill="#1E1B4B"/>
+  <path d="M248,155 Q253,159 258,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+  <path d="M70,42 H276 Q288,42 288,54 V82 Q288,94 276,94 H260 L254,127 L246,94 H70 Q58,94 58,82 V54 Q58,42 70,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="173" y="63" text-anchor="middle" font-size="16" fill="#1E1B4B">Most people order the</text>
+  <text x="173" y="83" text-anchor="middle" font-size="16" fill="#1E1B4B">noodles. Safe bet!</text>
+
+  <text x="149" y="247" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">Decent guess, zero history needed.</text>
+</g>
+
+<!-- ===== Panel 3: same dish for every table ===== -->
+<g transform="translate(16,324)">
+  <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">Same dish for every table</text>
+  <path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- three other guests, three different cravings -->
   <g>
-    <rect x="42" y="78" width="180" height="58" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="62" y="101" font-size="12.5" fill="#1E1B4B">
-      <tspan x="62" dy="0">First time here.</tspan>
-      <tspan x="62" dy="18">What's good?</tspan>
-    </text>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="92" cy="184" r="10" fill="#0EA5E9" stroke="none"/>
-      <line x1="92" y1="195" x2="92" y2="229"/>
-      <line x1="92" y1="205" x2="75" y2="216"/>
-      <line x1="92" y1="205" x2="109" y2="216"/>
-    </g>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="310" cy="184" r="10" fill="#7C3AED" stroke="none"/>
-      <line x1="310" y1="195" x2="310" y2="229"/>
-      <line x1="310" y1="205" x2="292" y2="216"/>
-      <line x1="310" y1="205" x2="327" y2="211"/>
-    </g>
-    <line x1="52" y1="236" x2="352" y2="236" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-    <g>
-      <path d="M171 218 Q184 238 197 218 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-      <line x1="169" y1="218" x2="199" y2="218" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-    </g>
+    <path d="M19,222 V186 Q19,170 35,170 H49 Q65,170 65,186 V222 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+    <circle cx="42" cy="149" r="17" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="37" cy="148" r="2.2" fill="#1E1B4B"/><circle cx="47" cy="148" r="2.2" fill="#1E1B4B"/>
+    <path d="M38,157 H46" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="54" cy="126" r="2.5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <circle cx="58" cy="100" r="16" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="58" y="106" text-anchor="middle" font-size="17">🍣</text>
   </g>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">A new diner arrives with zero order history.</text>
-
-  <!-- Panel 2 -->
   <g>
-    <g>
-      <rect x="430" y="76" width="140" height="108" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-      <text x="500" y="99" font-size="12.5" font-weight="700" fill="#1E1B4B" text-anchor="middle">TRENDING</text>
-      <path d="M483 121 Q500 146 517 121 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
-      <line x1="481" y1="121" x2="519" y2="121" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-      <text x="500" y="167" font-size="12.5" fill="#1E1B4B" text-anchor="middle">27 ORDERS</text>
-    </g>
-    <rect x="584" y="78" width="176" height="56" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="602" y="101" font-size="12.5" fill="#1E1B4B">
-      <tspan x="602" dy="0">The green bowl.</tspan>
-      <tspan x="602" dy="18">Everyone's getting it.</tspan>
-    </text>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="680" cy="204" r="10" fill="#7C3AED" stroke="none"/>
-      <line x1="680" y1="215" x2="680" y2="254"/>
-      <line x1="680" y1="226" x2="650" y2="237"/>
-      <line x1="680" y1="226" x2="700" y2="240"/>
-    </g>
-    <g>
-      <path d="M625 230 Q638 250 651 230 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-      <line x1="623" y1="230" x2="653" y2="230" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-    </g>
+    <path d="M87,222 V186 Q87,170 103,170 H117 Q133,170 133,186 V222 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+    <circle cx="110" cy="149" r="17" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="105" cy="148" r="2.2" fill="#1E1B4B"/><circle cx="115" cy="148" r="2.2" fill="#1E1B4B"/>
+    <path d="M106,157 H114" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="122" cy="126" r="2.5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <circle cx="126" cy="100" r="16" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="126" y="106" text-anchor="middle" font-size="17">🍕</text>
   </g>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The crowd supplies a surprisingly solid default.</text>
-
-  <!-- Panel 3 -->
   <g>
-    <rect x="62" y="358" width="234" height="56" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="82" y="381" font-size="12.5" fill="#1E1B4B">
-      <tspan x="82" dy="0">Green bowl for you.</tspan>
-      <tspan x="82" dy="18">And you. And you.</tspan>
-    </text>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="348" cy="464" r="10" fill="#7C3AED" stroke="none"/>
-      <line x1="348" y1="475" x2="348" y2="523"/>
-      <line x1="348" y1="487" x2="323" y2="498"/>
-      <line x1="348" y1="487" x2="366" y2="499"/>
-    </g>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="76" cy="468" r="10" fill="#0EA5E9" stroke="none"/>
-      <line x1="76" y1="479" x2="76" y2="521"/>
-      <circle cx="178" cy="468" r="10" fill="#D97706" stroke="none"/>
-      <line x1="178" y1="479" x2="178" y2="521"/>
-      <circle cx="280" cy="468" r="10" fill="#10B981" stroke="none"/>
-      <line x1="280" y1="479" x2="280" y2="521"/>
-    </g>
-    <g fill="#D1FAE5" stroke="#10B981" stroke-width="2">
-      <path d="M59 510 Q76 534 93 510 Z"/>
-      <path d="M161 510 Q178 534 195 510 Z"/>
-      <path d="M263 510 Q280 534 297 510 Z"/>
-    </g>
-    <g stroke="#10B981" stroke-width="2.5" stroke-linecap="round">
-      <line x1="57" y1="510" x2="95" y2="510"/>
-      <line x1="159" y1="510" x2="197" y2="510"/>
-      <line x1="261" y1="510" x2="299" y2="510"/>
-    </g>
+    <path d="M155,222 V186 Q155,170 171,170 H185 Q201,170 201,186 V222 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+    <circle cx="178" cy="149" r="17" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="173" cy="148" r="2.2" fill="#1E1B4B"/><circle cx="183" cy="148" r="2.2" fill="#1E1B4B"/>
+    <path d="M174,157 H182" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <circle cx="190" cy="126" r="2.5" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <circle cx="194" cy="100" r="16" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="194" y="106" text-anchor="middle" font-size="17">🌮</text>
   </g>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">One recommendation scales beautifully to every table.</text>
 
-  <!-- Panel 4 -->
-  <g>
-    <rect x="430" y="358" width="144" height="52" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-    <text x="449" y="389" font-size="12.5" fill="#1E1B4B">I hate cilantro.</text>
-    <rect x="590" y="358" width="174" height="56" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="608" y="381" font-size="12.5" fill="#1E1B4B">
-      <tspan x="608" dy="0">Excellent.</tspan>
-      <tspan x="608" dy="18">You're outvoted.</tspan>
-    </text>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="500" cy="466" r="10" fill="#0EA5E9" stroke="none"/>
-      <line x1="500" y1="477" x2="500" y2="523"/>
-      <line x1="500" y1="489" x2="480" y2="501"/>
-      <line x1="500" y1="489" x2="521" y2="501"/>
-    </g>
-    <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-      <circle cx="684" cy="466" r="10" fill="#7C3AED" stroke="none"/>
-      <line x1="684" y1="477" x2="684" y2="523"/>
-      <line x1="684" y1="489" x2="662" y2="501"/>
-      <line x1="684" y1="489" x2="704" y2="501"/>
-    </g>
-    <line x1="448" y1="532" x2="736" y2="532" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-    <g>
-      <path d="M574 510 Q592 534 610 510 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-      <line x1="572" y1="510" x2="612" y2="510" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-      <circle cx="585" cy="506" r="3" fill="#10B981"/>
-      <circle cx="597" cy="505" r="3" fill="#10B981"/>
-    </g>
+  <!-- counter with the same bowl for everyone -->
+  <path d="M20,202 V221 M210,202 V221" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+  <rect x="8" y="194" width="214" height="9" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+  <g stroke="#9CA3AF" stroke-width="1.5" fill="#FFFFFF" stroke-linejoin="round">
+    <path d="M25,180 H59 Q58,194 42,194 Q26,194 25,180 Z"/>
+    <path d="M93,180 H127 Q126,194 110,194 Q94,194 93,180 Z"/>
+    <path d="M161,180 H195 Q194,194 178,194 Q162,194 161,180 Z"/>
   </g>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The bestseller remains unmoved by one person's taste.</text>
+  <g fill="#10B981">
+    <ellipse cx="35" cy="177" rx="5" ry="2.6" transform="rotate(-25 35 177)"/><ellipse cx="43" cy="175" rx="5" ry="2.6" transform="rotate(15 43 175)"/><ellipse cx="51" cy="177" rx="5" ry="2.6" transform="rotate(-20 51 177)"/>
+    <ellipse cx="103" cy="177" rx="5" ry="2.6" transform="rotate(-25 103 177)"/><ellipse cx="111" cy="175" rx="5" ry="2.6" transform="rotate(15 111 175)"/><ellipse cx="119" cy="177" rx="5" ry="2.6" transform="rotate(-20 119 177)"/>
+    <ellipse cx="171" cy="177" rx="5" ry="2.6" transform="rotate(-25 171 177)"/><ellipse cx="179" cy="175" rx="5" ry="2.6" transform="rotate(15 179 175)"/><ellipse cx="187" cy="177" rx="5" ry="2.6" transform="rotate(-20 187 177)"/>
+  </g>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Popularity recommends trends to everyone; its biggest weakness is ignoring individual preferences.</text>
+  <!-- waiter -->
+  <path d="M229,222 V186 Q229,170 245,170 H259 Q275,170 275,186 V222 Z" fill="#7C3AED"/>
+  <rect x="238" y="192" width="28" height="30" rx="3" fill="#FFFFFF"/>
+  <path d="M245,171 L252,175 L245,179 Z M259,171 L252,175 L259,179 Z" fill="#FFFFFF"/>
+  <circle cx="252" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <circle cx="243" cy="147" r="2.2" fill="#1E1B4B"/><circle cx="255" cy="147" r="2.2" fill="#1E1B4B"/>
+  <path d="M244,155 Q249,159 254,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+  <path d="M22,42 H276 Q288,42 288,54 V64 Q288,76 276,76 H258 L252,128 L244,76 H22 Q10,76 10,64 V54 Q10,42 22,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="149" y="64" text-anchor="middle" font-size="15" fill="#1E1B4B">Noodles for you. And you. And you.</text>
+
+  <text x="149" y="247" text-anchor="middle" font-size="15" fill="#4B5563">Different cravings, same dish.</text>
+</g>
+
+<!-- ===== Panel 4: outvoted ===== -->
+<g transform="translate(326,324)">
+  <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <circle cx="24" cy="25" r="11" fill="#1E1B4B"/>
+  <text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+  <text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">Outvoted</text>
+  <path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+  <!-- guest (you), not happy -->
+  <path d="M39,222 V186 Q39,170 55,170 H69 Q85,170 85,186 V222 Z" fill="#10B981"/>
+  <circle cx="62" cy="149" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+  <path d="M52,141 L60,144 M72,141 L64,144" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <circle cx="57" cy="148.5" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="148.5" r="2.2" fill="#1E1B4B"/>
+  <path d="M56,159.5 Q62,153 68,159.5" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+  <path d="M22,202 V221 M126,202 V221" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/>
+  <rect x="10" y="194" width="128" height="9" rx="3" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+  <path d="M45,180 H79 Q78,194 62,194 Q46,194 45,180 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+  <g fill="#10B981">
+    <ellipse cx="55" cy="177" rx="5" ry="2.6" transform="rotate(-25 55 177)"/><ellipse cx="63" cy="175" rx="5" ry="2.6" transform="rotate(15 63 175)"/><ellipse cx="71" cy="177" rx="5" ry="2.6" transform="rotate(-20 71 177)"/>
+  </g>
+
+  <!-- waiter -->
+  <path d="M215,222 V186 Q215,170 231,170 H245 Q261,170 261,186 V222 Z" fill="#7C3AED"/>
+  <rect x="224" y="192" width="28" height="30" rx="3" fill="#FFFFFF"/>
+  <path d="M231,171 L238,175 L231,179 Z M245,171 L238,175 L245,179 Z" fill="#FFFFFF"/>
+  <circle cx="238" cy="149" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+  <path d="M227,147 Q230,144 233,147 M239,147 Q242,144 245,147" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  <path d="M230,155 Q235,159 240,155" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+  <path d="M22,42 H98 Q110,42 110,54 V82 Q110,94 98,94 H70 L62,127 L56,94 H22 Q10,94 10,82 V54 Q10,42 22,42 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="60" y="63" text-anchor="middle" font-size="16" fill="#1E1B4B">I hate</text>
+  <text x="60" y="83" text-anchor="middle" font-size="16" fill="#1E1B4B">cilantro.</text>
+
+  <path d="M132,42 H278 Q290,42 290,54 V82 Q290,94 278,94 H246 L238,127 L232,94 H132 Q120,94 120,82 V54 Q120,42 132,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <text x="205" y="63" text-anchor="middle" font-size="16" fill="#1E1B4B">Sorry. You’re</text>
+  <text x="205" y="83" text-anchor="middle" font-size="16" fill="#1E1B4B">outvoted, 27 to 1.</text>
+
+  <text x="149" y="247" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">Your taste never enters the count.</text>
+</g>
+
+<text x="320" y="616" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#7C3AED">Popularity:</tspan> a <tspan font-weight="700" fill="#065F46">solid start</tspan> for newcomers, but <tspan font-weight="700" fill="#92400E">the same list for everyone</tspan>.</text>
 </svg>

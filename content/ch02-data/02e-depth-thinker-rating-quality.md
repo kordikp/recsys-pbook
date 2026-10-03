@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---
@@ -84,4 +84,4 @@ For recommendation engineers:
 3. **LLMs can assess review quality.** Modern language models can score review comprehensiveness, enabling automatic trustworthiness estimation at scale.
 4. **Ask the right questions.** Instead of "Rate this 1-5 stars," consider "Would you recommend this to a friend?" or "Would you use this again?" — questions that elicit more thoughtful responses.
 
-**Consider this:** The Anna vs. Bob problem is a specific instance of a universal challenge: **signal quality matters as much as signal quantity.** A recommender system trained on 1 million high-quality ratings will outperform one trained on 10 million noisy ones. Investing in data quality — not just data volume — is one of the highest-leverage improvements you can make.
+The Anna vs. Bob problem is a specific instance of a universal challenge: **signal quality matters as much as signal quantity.** A recommender system trained on 1 million high-quality ratings will outperform one trained on 10 million noisy ones. Investing in data quality — not just data volume — is one of the highest-leverage improvements you can make.

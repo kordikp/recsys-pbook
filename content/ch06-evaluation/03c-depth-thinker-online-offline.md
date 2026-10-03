@@ -2,7 +2,7 @@
 id: ch4-online-offline
 type: spine
 title: "Online vs. Offline Evaluation: Bridging the Gap"
-readingTime: 4
+readingTime: 14
 standalone: false
 core: false
 voice: thinker
@@ -15,12 +15,12 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
 
-The parent section established that A/B testing is the gold standard for evaluating recommender systems. But A/B tests are expensive, slow, and risky. You cannot A/B test every idea -- you would need millions of users and months of experimentation time. This creates a fundamental tension: **offline evaluation is cheap but biased; online evaluation is trustworthy but scarce.** The field's central evaluation challenge is bridging this gap.
+[A/B testing](#c/ab-testing) is the gold standard for evaluating recommender systems. But A/B tests are expensive, slow, and risky. You cannot A/B test every idea -- you would need millions of users and months of experimentation time. This creates a fundamental tension: **offline evaluation is cheap but biased; online evaluation is trustworthy but scarce.** The field's central evaluation challenge is bridging this gap.
 
 ![The evaluation funnel: offline to deployment](/images/anim-eval-funnel.svg)
 
@@ -44,7 +44,7 @@ Offline evaluation uses historical interaction data -- logs of what users clicke
 
 ## Online Evaluation (A/B Testing): Trustworthy but Expensive
 
-Online evaluation deploys candidate models to real users and measures behavioral outcomes under controlled experimental conditions. As described in the parent section, users are randomly assigned to treatment groups, and statistical tests determine whether observed differences are significant.
+Online evaluation deploys candidate models to real users and measures behavioral outcomes under controlled experimental conditions. As in any [A/B test](#c/ab-testing), users are randomly assigned to treatment groups, and statistical tests determine whether observed differences are significant.
 
 **Advantages:**
 
@@ -217,6 +217,6 @@ The ultimate test of any recommendation system is whether real users, over susta
 > **Key references:**
 > - Chapelle, O., Joachims, T., Radlinski, F., & Yue, Y. (2012). [Large-scale Validation and Analysis of Interleaved Search Evaluation](https://doi.org/10.1145/2094072.2094078). *TOIS*, 30(1).
 > - Gilotte, A., Calauzenes, C., Nedelec, T., Abraham, A., & Dolle, S. (2018). [Offline A/B Testing for Recommender Systems](https://doi.org/10.1145/3159652.3159687). *WSDM 2018*.
-> - Kasalicky, F., Alves, R., & Kordik, P. (2023). [Bridging Offline-Online Evaluation with a Rejection Sampling Estimator](https://ceur-ws.org/Vol-3450/). *evalRS@KDD 2023*. See also the [Recombee publications list](https://www.recombee.com/research-publications).
+> - Kasalický, P., Alves, R., & Kordík, P. (2023). [Bridging Offline-Online Evaluation with a Time-dependent and Popularity Bias-free Offline Metric for Recommenders](https://arxiv.org/abs/2308.06885). *evalRS@KDD 2023*. See also the [Recombee publications list](https://www.recombee.com/research-publications).
 > - Schnabel, T., Swaminathan, A., Singh, A., Chandak, N., & Joachims, T. (2016). [Recommendations as Treatments: Debiasing Learning and Evaluation](https://proceedings.mlr.press/v48/schnabel16.html). *ICML 2016*.
 > - Kohavi, R., Tang, D., & Xu, Y. (2020). *Trustworthy Online Controlled Experiments: A Practical Guide to A/B Testing*. Cambridge University Press.

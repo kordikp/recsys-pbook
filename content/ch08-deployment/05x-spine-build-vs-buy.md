@@ -24,7 +24,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
@@ -33,7 +33,7 @@ You've decided your product needs recommendations. Now comes a strategic decisio
 
 The intuition is simple: building gives you control, buying gives you speed. The reality is more nuanced — and the hidden costs of building are larger than most teams expect.
 
-![Build vs buy: time to value comparison](/images/anim-build-vs-buy.svg)
+![Building in-house is an iceberg: a model and API on top (about 3 months), hidden operations work below (about 18 more months)](/images/anim-build-vs-buy.svg)
 
 ## The Visible vs. Hidden Iceberg
 
@@ -41,7 +41,7 @@ When teams evaluate building in-house, they typically estimate the cost of the *
 
 The **hidden bulk** includes:
 
-- **Monitoring and alerting** — detecting when recommendation quality degrades before users notice
+- **[Monitoring and alerting](#c/monitoring)** — detecting when recommendation quality degrades before users notice
 - **A/B testing infrastructure** — not just running tests, but the statistical rigor (power analysis, multiple testing correction, novelty effects)
 - **Incident response** — when recommendations go wrong at 3 AM, someone needs to fix it
 - **Scalability engineering** — handling traffic spikes, catalog growth, and increasing user base
@@ -105,4 +105,4 @@ Modern recommendation-as-a-service platforms like [Recombee](https://docs.recomb
 - **Domain-specific recipes** — optimized configurations for [e-commerce](https://docs.recombee.com/recipes/e-commerce), [video](https://docs.recombee.com/recipes/video), [news](https://docs.recombee.com/recipes/news)
 - **Cold-start handling** — automatic content-based and bandit-based strategies for new items
 
-**Consider this:** The build-vs-buy decision isn't about capability — a sufficiently resourced team can build anything. It's about **opportunity cost**: what else could your engineering team build if they weren't maintaining recommendation infrastructure? For most organizations, the answer makes the decision clear.
+**In your product:** The build-vs-buy decision isn't about capability — a sufficiently resourced team can build anything. It's about **opportunity cost**: what else could your engineering team build if they weren't maintaining recommendation infrastructure? For most organizations, the answer makes the decision clear.

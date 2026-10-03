@@ -2,7 +2,7 @@
 id: ch5-anti-patterns
 type: spine
 title: "RecSys Anti-Patterns: Mistakes Everyone Makes"
-readingTime: 4
+readingTime: 11
 standalone: true
 core: false
 teaser: "The most instructive lessons in recommendation engineering come from failures. These eight anti-patterns have derailed systems at companies of every scale -- and recognizing them early can save months of wasted effort."
@@ -19,14 +19,14 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
 
 Every recommendation system that reaches production will eventually exhibit at least one of these failure modes. They are not signs of incompetence -- they emerge naturally from reasonable-sounding decisions. The difference between a mediocre system and a great one is how quickly the team recognizes these patterns and corrects course.
 
-![Eight common recommender system anti-patterns](/images/diagram-anti-patterns.svg)
+![Eight recommender anti-patterns, each showing what looks good on the dashboard versus what users actually get; the popularity feedback loop is highlighted as the most dangerous because it feeds itself](/images/diagram-anti-patterns.svg)
 
 ## 1. The Accuracy Trap
 

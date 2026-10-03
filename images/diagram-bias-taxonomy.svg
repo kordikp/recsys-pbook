@@ -1,62 +1,116 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 450" width="700" height="450" font-family="system-ui, sans-serif">
-  <rect x="1" y="1" width="698" height="448" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 590" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb114-title pb114-desc">
+<title id="pb114-title">Where six biases enter one loop</title>
+<desc id="pb114-desc">The recommender runs in a loop: the model trains, a ranked page is shown, users click and rate, and those clicks become the next training data. Popularity and exposure bias enter when the model trains, position and conformity bias on the ranked page, selection bias when users choose; algorithmic amplification is the loop itself, compounding all five so exposure narrows each lap. No single fix breaks the loop.</desc>
+<defs>
+<marker id="pb114-ah-g" markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L9 4.5 L0 9 Z" fill="#6B7280"/></marker>
+<marker id="pb114-ah-a" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L10 5 L0 10 Z" fill="#F59E0B"/></marker>
+</defs>
+<rect x=".5" y=".5" width="639" height="589" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <!-- Title -->
-  <text x="350" y="28" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Bias in Recommender Systems</text>
-  <text x="350" y="48" text-anchor="middle" font-size="11" fill="#6B7280">Common biases that distort recommendations and feedback loops</text>
+<text x="320" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Where six biases enter one loop</text>
 
-  <!-- Root node -->
-  <rect x="20" y="190" width="130" height="40" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-  <text x="85" y="215" text-anchor="middle" font-size="12" font-weight="700" fill="#1E1B4B">Bias in RecSys</text>
+<!-- return loop: amplification feeds the next training run -->
+<path d="M56 472 H32 V120 H50" fill="none" stroke="#F59E0B" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" marker-end="url(#pb114-ah-a)"/>
 
-  <!-- Main trunk -->
-  <line x1="150" y1="210" x2="185" y2="210" stroke="#7C3AED" stroke-width="2"/>
-  <line x1="185" y1="72" x2="185" y2="370" stroke="#7C3AED" stroke-width="2"/>
+<!-- forward flow -->
+<line x1="148" y1="176" x2="148" y2="196" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-g)"/>
+<line x1="148" y1="312" x2="148" y2="332" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-g)"/>
+<line x1="148" y1="388" x2="148" y2="408" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-g)"/>
 
-  <!-- Selection Bias -->
-  <line x1="185" y1="85" x2="220" y2="85" stroke="#10B981" stroke-width="2"/>
-  <rect x="220" y="68" width="150" height="34" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="295" y="90" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Selection Bias</text>
-  <text x="388" y="82" font-size="11" fill="#6B7280">Users only rate items they choose;</text>
-  <text x="388" y="96" font-size="11" fill="#6B7280">missing data is not random</text>
+<!-- station 1: model trains -->
+<rect x="56" y="64" width="184" height="112" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<line x1="85" y1="104" x2="85" y2="110" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+<circle cx="85" cy="103" r="2.5" fill="#7C3AED"/>
+<rect x="72" y="110" width="26" height="22" rx="7" fill="#7C3AED"/>
+<circle cx="80" cy="120" r="2.5" fill="#FFFFFF"/>
+<circle cx="90" cy="120" r="2.5" fill="#FFFFFF"/>
+<text x="110" y="126" font-size="16" font-weight="700" fill="#4C1D95">Model trains</text>
 
-  <!-- Position Bias -->
-  <line x1="185" y1="143" x2="220" y2="143" stroke="#0EA5E9" stroke-width="2"/>
-  <rect x="220" y="126" width="150" height="34" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-  <text x="295" y="148" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Position Bias</text>
-  <text x="388" y="140" font-size="11" fill="#6B7280">Items shown higher get more clicks</text>
-  <text x="388" y="154" font-size="11" fill="#6B7280">regardless of true relevance</text>
+<!-- station 2: ranked page -->
+<rect x="56" y="200" width="184" height="112" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="72" y="241" width="26" height="31" rx="4" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<line x1="78" y1="250" x2="92" y2="250" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+<line x1="78" y1="257" x2="89" y2="257" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+<line x1="78" y1="264" x2="86" y2="264" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+<text x="110" y="262" font-size="16" font-weight="700" fill="#4C1D95">Ranked page</text>
 
-  <!-- Popularity Bias -->
-  <line x1="185" y1="200" x2="220" y2="200" stroke="#10B981" stroke-width="2"/>
-  <rect x="220" y="183" width="150" height="34" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="295" y="205" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Popularity Bias</text>
-  <text x="388" y="197" font-size="11" fill="#6B7280">Popular items dominate; niche items</text>
-  <text x="388" y="211" font-size="11" fill="#6B7280">are systematically under-recommended</text>
+<!-- station 3: users -->
+<rect x="56" y="336" width="184" height="52" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<circle cx="85" cy="354" r="6" fill="#10B981"/>
+<path d="M75 374 Q75 362 85 362 Q95 362 95 374 Z" fill="#10B981"/>
+<text x="110" y="358" font-size="16" font-weight="700" fill="#065F46">Users click</text>
+<text x="110" y="378" font-size="16" font-weight="700" fill="#065F46">&amp; rate</text>
 
-  <!-- Exposure Bias -->
-  <line x1="185" y1="258" x2="220" y2="258" stroke="#0EA5E9" stroke-width="2"/>
-  <rect x="220" y="241" width="150" height="34" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-  <text x="295" y="263" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Exposure Bias</text>
-  <text x="388" y="255" font-size="11" fill="#6B7280">Users can only interact with items</text>
-  <text x="388" y="269" font-size="11" fill="#6B7280">the system chooses to show them</text>
+<!-- bias chips -->
+<g font-size="16">
+<line x1="262" y1="90" x2="246" y2="90" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-a)"/>
+<rect x="264" y="64" width="360" height="52" rx="10" fill="#FEF3C7"/>
+<circle cx="286" cy="90" r="11" fill="#92400E"/>
+<text x="286" y="95" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="306" y="86" font-size="16" font-weight="700" fill="#92400E">Popularity</text>
+<text x="306" y="106" fill="#1E1B4B">hits dominate the training signal</text>
 
-  <!-- Conformity Bias -->
-  <line x1="185" y1="315" x2="220" y2="315" stroke="#10B981" stroke-width="2"/>
-  <rect x="220" y="298" width="150" height="34" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="295" y="320" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Conformity Bias</text>
-  <text x="388" y="312" font-size="11" fill="#6B7280">Users align ratings with public opinion</text>
-  <text x="388" y="326" font-size="11" fill="#6B7280">rather than personal preference</text>
+<line x1="262" y1="150" x2="246" y2="150" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-a)"/>
+<rect x="264" y="124" width="360" height="52" rx="10" fill="#FEF3C7"/>
+<circle cx="286" cy="150" r="11" fill="#92400E"/>
+<text x="286" y="155" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="306" y="146" font-size="16" font-weight="700" fill="#92400E">Exposure</text>
+<text x="306" y="166" fill="#1E1B4B">never shown gets scored as “not liked”</text>
 
-  <!-- Algorithmic Amplification -->
-  <line x1="185" y1="370" x2="220" y2="370" stroke="#EF4444" stroke-width="2"/>
-  <rect x="220" y="350" width="150" height="40" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-  <text x="295" y="367" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Algorithmic</text>
-  <text x="295" y="382" text-anchor="middle" font-size="11" font-weight="600" fill="#1E1B4B">Amplification</text>
-  <text x="388" y="364" font-size="11" fill="#6B7280">Feedback loops reinforce existing</text>
-  <text x="388" y="378" font-size="11" fill="#6B7280">biases, creating filter bubbles</text>
+<line x1="262" y1="226" x2="246" y2="226" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-a)"/>
+<rect x="264" y="200" width="360" height="52" rx="10" fill="#FEF3C7"/>
+<circle cx="286" cy="226" r="11" fill="#92400E"/>
+<text x="286" y="231" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="306" y="222" font-size="16" font-weight="700" fill="#92400E">Position</text>
+<text x="306" y="242" fill="#1E1B4B">top slots win clicks, relevant or not</text>
 
-  <!-- Feedback loop -->
-  <path d="M360,395 C360,425 220,425 220,395" fill="none" stroke="#EF4444" stroke-width="1.5" stroke-dasharray="4 3"/>
-  <text x="290" y="442" text-anchor="middle" font-size="11" fill="#EF4444" font-style="italic">feedback loop</text>
+<line x1="262" y1="286" x2="246" y2="286" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-a)"/>
+<rect x="264" y="260" width="360" height="52" rx="10" fill="#FEF3C7"/>
+<circle cx="286" cy="286" r="11" fill="#92400E"/>
+<text x="286" y="291" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">5</text>
+<text x="306" y="282" font-size="16" font-weight="700" fill="#92400E">Conformity</text>
+<text x="306" y="302" fill="#1E1B4B">the shown ★ average pulls new ratings</text>
+
+<line x1="262" y1="362" x2="246" y2="362" stroke="#F59E0B" stroke-width="2" stroke-linecap="round" marker-end="url(#pb114-ah-a)"/>
+<rect x="264" y="336" width="360" height="52" rx="10" fill="#FEF3C7"/>
+<circle cx="286" cy="362" r="11" fill="#92400E"/>
+<text x="286" y="367" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="306" y="358" font-size="16" font-weight="700" fill="#92400E">Selection</text>
+<text x="306" y="378" fill="#1E1B4B">only what people chose gets rated</text>
+</g>
+
+<!-- amplification: the loop itself -->
+<rect x="56" y="412" width="568" height="120" rx="12" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+<circle cx="86" cy="441" r="11" fill="#92400E"/>
+<text x="86" y="446" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">6</text>
+<text x="106" y="447" font-size="16" font-weight="700" fill="#92400E">Amplification <tspan fill="#92400E">↻</tspan></text>
+<text x="74" y="476" font-size="16" fill="#1E1B4B">Clicks become the next training data,</text>
+<text x="74" y="499" font-size="16" fill="#1E1B4B">so 1–5 compound and exposure narrows.</text>
+
+<text x="511" y="440" text-anchor="middle" font-size="14" fill="#6B7280">exposure per item (toy)</text>
+<g fill="#7C3AED">
+<rect x="402" y="474" width="10" height="26" rx="2"/>
+<rect x="415" y="477" width="10" height="23" rx="2"/>
+<rect x="428" y="479" width="10" height="21" rx="2"/>
+<rect x="441" y="481" width="10" height="19" rx="2"/>
+<rect x="454" y="483" width="10" height="17" rx="2"/>
+
+<rect x="480" y="464" width="10" height="36" rx="2"/>
+<rect x="493" y="474" width="10" height="26" rx="2"/>
+<rect x="506" y="481" width="10" height="19" rx="2"/>
+<rect x="519" y="486" width="10" height="14" rx="2"/>
+<rect x="532" y="489" width="10" height="11" rx="2"/>
+
+<rect x="558" y="452" width="10" height="48" rx="2"/>
+<rect x="571" y="472" width="10" height="28" rx="2"/>
+<rect x="584" y="485" width="10" height="15" rx="2"/>
+<rect x="597" y="491" width="10" height="9" rx="2"/>
+<rect x="610" y="494" width="10" height="6" rx="2"/>
+</g>
+<line x1="396" y1="500.5" x2="616" y2="500.5" stroke="#D1D5DB" stroke-width="1"/>
+<text x="433" y="520" text-anchor="middle" font-size="14" fill="#4B5563">lap 1</text>
+<text x="511" y="520" text-anchor="middle" font-size="14" fill="#4B5563">lap 2</text>
+<text x="589" y="520" text-anchor="middle" font-size="14" fill="#4B5563">lap 3</text>
+
+<text x="320" y="566" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">No single fix breaks the loop: <tspan fill="#92400E">debias at several stations.</tspan></text>
 </svg>

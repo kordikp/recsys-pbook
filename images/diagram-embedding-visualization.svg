@@ -1,98 +1,133 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="500" height="400" font-family="system-ui, sans-serif">
-  <rect x="1" y="1" width="498" height="398" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
-
-  <text x="250" y="25" text-anchor="middle" fill="#1E1B4B" font-size="15" font-weight="700">Learned Embedding Space</text>
-  <text x="250" y="43" text-anchor="middle" fill="#6B7280" font-size="11">(no metadata used -- purely behavioral)</text>
-
-  <!-- Main plot area -->
-  <rect x="30" y="52" width="440" height="296" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
-
-  <!-- Cluster 1: Action / Thriller -->
-  <circle cx="100" cy="110" r="5" fill="#7C3AED" opacity="0.78"/>
-  <circle cx="120" cy="95" r="4" fill="#7C3AED" opacity="0.68"/>
-  <circle cx="115" cy="120" r="5" fill="#7C3AED" opacity="0.82"/>
-  <circle cx="135" cy="105" r="4" fill="#7C3AED" opacity="0.72"/>
-  <circle cx="90" cy="125" r="3" fill="#7C3AED" opacity="0.65"/>
-  <circle cx="128" cy="130" r="4" fill="#7C3AED" opacity="0.78"/>
-  <circle cx="105" cy="100" r="5" fill="#7C3AED" opacity="0.9"/>
-  <circle cx="140" cy="120" r="3" fill="#7C3AED" opacity="0.68"/>
-  <circle cx="95" cy="135" r="4" fill="#7C3AED" opacity="0.72"/>
-  <circle cx="110" cy="90" r="3" fill="#7C3AED" opacity="0.6"/>
-  <circle cx="82" cy="105" r="4" fill="#7C3AED" opacity="0.68"/>
-  <circle cx="125" cy="85" r="3" fill="#7C3AED" opacity="0.62"/>
-  <rect x="52" y="60" width="114" height="25" rx="12.5" fill="#EDE9FE"/>
-  <text x="109" y="77" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="600">Action / Thriller</text>
-
-  <!-- Cluster 2: Romance / Drama -->
-  <circle cx="110" cy="260" r="5" fill="#D97706" opacity="0.78"/>
-  <circle cx="130" cy="275" r="4" fill="#D97706" opacity="0.68"/>
-  <circle cx="95" cy="280" r="5" fill="#D97706" opacity="0.82"/>
-  <circle cx="125" cy="250" r="4" fill="#D97706" opacity="0.72"/>
-  <circle cx="85" cy="265" r="3" fill="#D97706" opacity="0.65"/>
-  <circle cx="140" cy="265" r="4" fill="#D97706" opacity="0.78"/>
-  <circle cx="115" cy="285" r="5" fill="#D97706" opacity="0.9"/>
-  <circle cx="100" cy="250" r="3" fill="#D97706" opacity="0.68"/>
-  <circle cx="145" cy="280" r="3" fill="#D97706" opacity="0.62"/>
-  <circle cx="120" cy="295" r="4" fill="#D97706" opacity="0.72"/>
-  <circle cx="80" cy="278" r="3" fill="#D97706" opacity="0.6"/>
-  <rect x="50" y="299" width="124" height="25" rx="12.5" fill="#FEF3C7"/>
-  <text x="112" y="316" text-anchor="middle" fill="#D97706" font-size="11" font-weight="600">Romance / Drama</text>
-
-  <!-- Cluster 3: Sci-Fi -->
-  <circle cx="370" cy="100" r="5" fill="#0EA5E9" opacity="0.78"/>
-  <circle cx="390" cy="115" r="4" fill="#0EA5E9" opacity="0.68"/>
-  <circle cx="355" cy="120" r="5" fill="#0EA5E9" opacity="0.82"/>
-  <circle cx="385" cy="95" r="4" fill="#0EA5E9" opacity="0.72"/>
-  <circle cx="400" cy="105" r="3" fill="#0EA5E9" opacity="0.65"/>
-  <circle cx="365" cy="90" r="4" fill="#0EA5E9" opacity="0.78"/>
-  <circle cx="375" cy="130" r="5" fill="#0EA5E9" opacity="0.9"/>
-  <circle cx="410" cy="120" r="3" fill="#0EA5E9" opacity="0.68"/>
-  <circle cx="350" cy="105" r="4" fill="#0EA5E9" opacity="0.72"/>
-  <circle cx="395" cy="135" r="3" fill="#0EA5E9" opacity="0.6"/>
-  <circle cx="360" cy="135" r="3" fill="#0EA5E9" opacity="0.62"/>
-  <rect x="341" y="60" width="73" height="25" rx="12.5" fill="#E0F2FE"/>
-  <text x="377.5" y="77" text-anchor="middle" fill="#0EA5E9" font-size="11" font-weight="600">Sci-Fi</text>
-
-  <!-- Cluster 4: Documentary -->
-  <circle cx="370" cy="270" r="5" fill="#10B981" opacity="0.78"/>
-  <circle cx="390" cy="285" r="4" fill="#10B981" opacity="0.68"/>
-  <circle cx="355" cy="260" r="5" fill="#10B981" opacity="0.82"/>
-  <circle cx="405" cy="268" r="4" fill="#10B981" opacity="0.72"/>
-  <circle cx="380" cy="255" r="3" fill="#10B981" opacity="0.65"/>
-  <circle cx="365" cy="290" r="4" fill="#10B981" opacity="0.78"/>
-  <circle cx="395" cy="250" r="5" fill="#10B981" opacity="0.9"/>
-  <circle cx="350" cy="280" r="3" fill="#10B981" opacity="0.68"/>
-  <circle cx="410" cy="285" r="4" fill="#10B981" opacity="0.72"/>
-  <circle cx="385" cy="300" r="3" fill="#10B981" opacity="0.6"/>
-  <rect x="331" y="302" width="113" height="25" rx="12.5" fill="#D1FAE5"/>
-  <text x="387.5" y="319" text-anchor="middle" fill="#10B981" font-size="11" font-weight="600">Documentary</text>
-
-  <!-- Cross-genre items -->
-  <circle cx="230" cy="170" r="4" fill="#6B7280" opacity="0.68"/>
-  <circle cx="250" cy="190" r="3.5" fill="#6B7280" opacity="0.62"/>
-  <circle cx="210" cy="200" r="3" fill="#6B7280" opacity="0.58"/>
-  <circle cx="270" cy="165" r="3" fill="#6B7280" opacity="0.58"/>
-  <circle cx="240" cy="210" r="3.5" fill="#6B7280" opacity="0.62"/>
-
-  <!-- Cross-genre annotation -->
-  <rect x="278" y="177" width="128" height="25" rx="12.5" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <text x="342" y="194" text-anchor="middle" fill="#6B7280" font-size="11">cross-genre items</text>
-
-  <defs>
-    <marker id="arrAnno" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
-      <polygon points="0,0 8,3 0,6" fill="#1E1B4B"/>
-    </marker>
-  </defs>
-
-  <!-- Behavioral similarity annotation -->
-  <rect x="181" y="75" width="250" height="25" rx="7" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <text x="306" y="92" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="500">Items close together = behaviorally similar</text>
-  <line x1="232" y1="103" x2="155" y2="116" stroke="#1E1B4B" stroke-width="1.5" marker-end="url(#arrAnno)"/>
-
-  <!-- Dimension label -->
-  <text x="250" y="362" text-anchor="middle" fill="#6B7280" font-size="11">t-SNE / UMAP projection of learned embeddings</text>
-
-  <!-- Bottom caption -->
-  <rect x="76" y="368" width="348" height="25" rx="8" fill="#D1FAE5"/>
-  <text x="250" y="385" text-anchor="middle" fill="#10B981" font-size="11" font-weight="600">Learned embedding space (no metadata used!)</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" role="img" aria-labelledby="pb121-title pb121-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb121-title">Reading a 2D map of item embeddings</title>
+<desc id="pb121-desc">Each movie's 128-number embedding is projected to a 2D map with PCA, t-SNE or UMAP. On the map, look for clusters of the same genre, transition zones where one genre blends into another, and outliers worth checking. Trust who sits next to whom; t-SNE distorts the gaps and sizes between clusters, while UMAP keeps the overall layout more faithfully. Toy example.</desc>
+<rect x=".5" y=".5" width="639" height="499" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<defs><marker id="pb121-ah" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7C3AED"/></marker></defs>
+<text x="320" y="36" font-size="19" font-weight="700" fill="#1E1B4B" text-anchor="middle">What did the model learn? Draw it in 2D</text>
+<rect x="16" y="56" width="268" height="48" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="30" y="86" font-size="15" font-weight="700" fill="#1E1B4B">1 movie</text>
+<rect x="96" y="77.2" width="6" height="14.8" rx="1.5" fill="#7C3AED" opacity="0.65"/>
+<rect x="105" y="66.2" width="6" height="25.8" rx="1.5" fill="#7C3AED" opacity="0.90"/>
+<rect x="114" y="80.5" width="6" height="11.5" rx="1.5" fill="#7C3AED" opacity="0.57"/>
+<rect x="123" y="70.6" width="6" height="21.4" rx="1.5" fill="#7C3AED" opacity="0.80"/>
+<rect x="132" y="73.9" width="6" height="18.1" rx="1.5" fill="#7C3AED" opacity="0.73"/>
+<rect x="141" y="82.7" width="6" height="9.3" rx="1.5" fill="#7C3AED" opacity="0.53"/>
+<rect x="150" y="68.4" width="6" height="23.6" rx="1.5" fill="#7C3AED" opacity="0.85"/>
+<rect x="159" y="78.3" width="6" height="13.7" rx="1.5" fill="#7C3AED" opacity="0.63"/>
+<text x="172" y="86" font-size="15" font-weight="700" fill="#4C1D95">… 128 numbers</text>
+<path d="M292 80 H334" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none" marker-end="url(#pb121-ah)"/>
+<rect x="344" y="56" width="280" height="48" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="484" y="78" font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">squash to 2 numbers</text>
+<text x="484" y="97" font-size="15" fill="#4C1D95" text-anchor="middle">PCA · t-SNE · UMAP</text>
+<rect x="16" y="116" width="608" height="252" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="30" y="138" font-size="14" fill="#6B7280">Each dot = one movie · toy map</text>
+<circle cx="130.4" cy="214.0" r="4.3" fill="#7C3AED" fill-opacity="0.67"/>
+<circle cx="87.5" cy="226.5" r="4.8" fill="#7C3AED" fill-opacity="0.62"/>
+<circle cx="88.2" cy="193.7" r="5.2" fill="#7C3AED" fill-opacity="0.85"/>
+<circle cx="75.4" cy="235.3" r="5.1" fill="#7C3AED" fill-opacity="0.77"/>
+<circle cx="92.9" cy="193.4" r="4.0" fill="#7C3AED" fill-opacity="0.64"/>
+<circle cx="79.2" cy="193.5" r="5.4" fill="#7C3AED" fill-opacity="0.65"/>
+<circle cx="100.0" cy="201.4" r="5.0" fill="#7C3AED" fill-opacity="0.91"/>
+<circle cx="68.3" cy="230.7" r="4.1" fill="#7C3AED" fill-opacity="0.91"/>
+<circle cx="89.0" cy="207.8" r="5.3" fill="#7C3AED" fill-opacity="0.95"/>
+<circle cx="81.0" cy="196.5" r="5.4" fill="#7C3AED" fill-opacity="0.87"/>
+<circle cx="123.8" cy="202.2" r="4.6" fill="#7C3AED" fill-opacity="0.69"/>
+<circle cx="112.5" cy="228.0" r="5.1" fill="#7C3AED" fill-opacity="0.91"/>
+<circle cx="121.4" cy="203.2" r="4.6" fill="#7C3AED" fill-opacity="0.68"/>
+<circle cx="73.2" cy="197.3" r="4.6" fill="#7C3AED" fill-opacity="0.91"/>
+<circle cx="124.4" cy="200.0" r="4.8" fill="#7C3AED" fill-opacity="0.72"/>
+<circle cx="75.9" cy="225.7" r="4.9" fill="#7C3AED" fill-opacity="0.86"/>
+<circle cx="330.0" cy="192.2" r="4.5" fill="#7C3AED" fill-opacity="0.85"/>
+<circle cx="330.5" cy="218.5" r="4.6" fill="#7C3AED" fill-opacity="0.67"/>
+<circle cx="298.4" cy="212.6" r="4.5" fill="#7C3AED" fill-opacity="0.94"/>
+<circle cx="345.6" cy="198.0" r="5.5" fill="#7C3AED" fill-opacity="0.82"/>
+<circle cx="313.1" cy="180.0" r="5.3" fill="#7C3AED" fill-opacity="0.92"/>
+<circle cx="337.5" cy="211.3" r="4.3" fill="#7C3AED" fill-opacity="0.83"/>
+<circle cx="291.5" cy="198.6" r="4.2" fill="#7C3AED" fill-opacity="0.77"/>
+<circle cx="302.5" cy="211.8" r="4.8" fill="#7C3AED" fill-opacity="0.87"/>
+<circle cx="325.9" cy="202.4" r="5.4" fill="#7C3AED" fill-opacity="0.77"/>
+<circle cx="302.4" cy="218.3" r="4.3" fill="#7C3AED" fill-opacity="0.76"/>
+<circle cx="298.3" cy="182.9" r="4.2" fill="#7C3AED" fill-opacity="0.83"/>
+<circle cx="301.8" cy="204.9" r="4.8" fill="#7C3AED" fill-opacity="0.80"/>
+<circle cx="300.3" cy="214.3" r="4.8" fill="#7C3AED" fill-opacity="0.87"/>
+<circle cx="300.8" cy="219.7" r="4.5" fill="#7C3AED" fill-opacity="0.86"/>
+<circle cx="303.5" cy="223.7" r="4.0" fill="#7C3AED" fill-opacity="0.70"/>
+<circle cx="303.4" cy="197.1" r="4.8" fill="#7C3AED" fill-opacity="0.67"/>
+<circle cx="131.7" cy="307.0" r="5.1" fill="#7C3AED" fill-opacity="0.70"/>
+<circle cx="129.8" cy="301.5" r="4.4" fill="#7C3AED" fill-opacity="0.83"/>
+<circle cx="88.0" cy="303.1" r="4.6" fill="#7C3AED" fill-opacity="0.63"/>
+<circle cx="73.2" cy="315.4" r="5.2" fill="#7C3AED" fill-opacity="0.89"/>
+<circle cx="132.6" cy="310.4" r="5.4" fill="#7C3AED" fill-opacity="0.92"/>
+<circle cx="102.5" cy="304.4" r="5.0" fill="#7C3AED" fill-opacity="0.94"/>
+<circle cx="86.7" cy="308.6" r="4.0" fill="#7C3AED" fill-opacity="0.87"/>
+<circle cx="95.3" cy="329.1" r="4.9" fill="#7C3AED" fill-opacity="0.85"/>
+<circle cx="118.9" cy="294.4" r="5.3" fill="#7C3AED" fill-opacity="0.61"/>
+<circle cx="137.1" cy="330.0" r="4.2" fill="#7C3AED" fill-opacity="0.63"/>
+<circle cx="131.7" cy="323.2" r="4.2" fill="#7C3AED" fill-opacity="0.63"/>
+<circle cx="114.7" cy="321.5" r="4.0" fill="#7C3AED" fill-opacity="0.81"/>
+<circle cx="127.7" cy="315.7" r="5.4" fill="#7C3AED" fill-opacity="0.67"/>
+<circle cx="97.3" cy="309.3" r="4.2" fill="#7C3AED" fill-opacity="0.67"/>
+<circle cx="285.3" cy="320.9" r="5.0" fill="#7C3AED" fill-opacity="0.69"/>
+<circle cx="345.4" cy="333.6" r="4.7" fill="#7C3AED" fill-opacity="0.95"/>
+<circle cx="349.1" cy="301.0" r="4.6" fill="#7C3AED" fill-opacity="0.84"/>
+<circle cx="349.5" cy="300.9" r="5.2" fill="#7C3AED" fill-opacity="0.74"/>
+<circle cx="319.6" cy="303.4" r="4.6" fill="#7C3AED" fill-opacity="0.62"/>
+<circle cx="339.9" cy="316.8" r="4.3" fill="#7C3AED" fill-opacity="0.88"/>
+<circle cx="319.6" cy="316.4" r="5.5" fill="#7C3AED" fill-opacity="0.65"/>
+<circle cx="302.3" cy="308.3" r="5.4" fill="#7C3AED" fill-opacity="0.78"/>
+<circle cx="316.3" cy="299.2" r="4.2" fill="#7C3AED" fill-opacity="0.67"/>
+<circle cx="309.8" cy="305.2" r="4.9" fill="#7C3AED" fill-opacity="0.66"/>
+<circle cx="333.7" cy="308.1" r="4.1" fill="#7C3AED" fill-opacity="0.70"/>
+<circle cx="288.8" cy="332.2" r="5.0" fill="#7C3AED" fill-opacity="0.79"/>
+<circle cx="340.6" cy="327.4" r="4.7" fill="#7C3AED" fill-opacity="0.95"/>
+<circle cx="360.0" cy="316.4" r="4.1" fill="#7C3AED" fill-opacity="0.74"/>
+<circle cx="290.4" cy="298.5" r="4.5" fill="#7C3AED" fill-opacity="0.60"/>
+<circle cx="150.0" cy="205.3" r="4.0" fill="#A78BFA" fill-opacity="0.74"/>
+<circle cx="169.0" cy="217.6" r="4.1" fill="#A78BFA" fill-opacity="0.68"/>
+<circle cx="188.0" cy="207.6" r="5.4" fill="#A78BFA" fill-opacity="0.87"/>
+<circle cx="207.0" cy="218.6" r="5.1" fill="#A78BFA" fill-opacity="0.75"/>
+<circle cx="226.0" cy="212.9" r="5.3" fill="#A78BFA" fill-opacity="0.94"/>
+<circle cx="245.0" cy="214.5" r="5.2" fill="#A78BFA" fill-opacity="0.83"/>
+<circle cx="264.0" cy="208.7" r="4.9" fill="#A78BFA" fill-opacity="0.72"/>
+<circle cx="392" cy="262" r="5" fill="#F59E0B"/><circle cx="392" cy="262" r="13" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 3"/>
+<text x="92" y="174" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Action</text>
+<text x="318" y="166" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Sci-fi</text>
+<text x="108" y="358" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Romance</text>
+<text x="318" y="358" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Documentary</text>
+<circle cx="150" cy="164" r="11" fill="#4C1D95"/>
+<text x="150" y="169" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<circle cx="205" cy="186" r="11" fill="#4C1D95"/>
+<text x="205" y="191" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<circle cx="392" cy="232" r="11" fill="#92400E"/>
+<text x="392" y="237" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<line x1="424" y1="148" x2="424" y2="352" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="452" cy="165" r="11" fill="#4C1D95"/>
+<text x="452" y="170" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="472" y="170" font-size="15" font-weight="700" fill="#1E1B4B">Clusters</text>
+<text x="472" y="191" font-size="15" fill="#4B5563">same genre sits</text>
+<text x="472" y="210" font-size="15" fill="#4B5563">close together</text>
+<circle cx="452" cy="235" r="11" fill="#4C1D95"/>
+<text x="452" y="240" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="472" y="240" font-size="15" font-weight="700" fill="#1E1B4B">Transition zone</text>
+<text x="472" y="261" font-size="15" fill="#4B5563">action fades</text>
+<text x="472" y="280" font-size="15" fill="#4B5563">into sci-fi</text>
+<circle cx="452" cy="305" r="11" fill="#92400E"/>
+<text x="452" y="310" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="472" y="310" font-size="15" font-weight="700" fill="#1E1B4B">Outlier</text>
+<text x="472" y="331" font-size="15" fill="#4B5563">few interactions?</text>
+<text x="472" y="350" font-size="15" fill="#4B5563">worth a check</text>
+<text x="16" y="392" font-size="15" font-weight="700" fill="#1E1B4B">Read with care</text>
+<rect x="16" y="402" width="300" height="62" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="32" y="439" font-size="16" font-weight="700" fill="#1E1B4B">t-SNE</text>
+<text x="104" y="426" font-size="15" font-weight="700" fill="#065F46">✓</text>
+<text x="122" y="426" font-size="15" fill="#1E1B4B">who sits next to whom</text>
+<text x="104" y="450" font-size="15" font-weight="700" fill="#92400E">✗</text>
+<text x="122" y="450" font-size="15" fill="#1E1B4B">gaps and cluster sizes</text>
+<rect x="324" y="402" width="300" height="62" rx="10" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="340" y="439" font-size="16" font-weight="700" fill="#1E1B4B">UMAP</text>
+<text x="412" y="426" font-size="15" font-weight="700" fill="#065F46">✓</text>
+<text x="430" y="426" font-size="15" fill="#1E1B4B">who sits next to whom</text>
+<text x="412" y="450" font-size="15" font-weight="700" fill="#065F46">✓</text>
+<text x="430" y="450" font-size="15" fill="#1E1B4B">where clusters sit, too</text>
+<text x="320" y="488" font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">A map for neighbors and clusters — not a ruler.</text>
 </svg>

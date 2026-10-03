@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![The Usual, in Unusual Words — a four-panel comic](images/comic-glossary.svg)
+![The Usual, in Unusual Words — a four-panel comic: a data scientist's jargon (item-to-item CF, implicit feedback, cold start) is looked up in the glossary and turns out to mean plain things; at the next meeting you slide the glossary to the new hire](images/comic-glossary.svg)
 
 *A glossary maps specialized or unfamiliar terms to concise definitions for quick reference.*

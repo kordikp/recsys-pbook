@@ -1,12 +1,14 @@
 // p-book v3: Adaptive UX with Netflix home, map, search, feedback, Recombee-powered
 
 import { CONFIG } from './config.js';
-import { renderMarkdown, parseFrontmatter } from './markdown.js';
+import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=2';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
-import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=4';
+import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=5';
 
 const APP_VERSION = '5.12.4';
-import { MockTutorEngine, ConversationManager } from './tutor.js';
+import { AskTheBook, ConversationManager } from './tutor.js?v=2';
+import { installGames } from './games.js?v=1';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=1';
 
 class PBook {
   constructor() {
@@ -19,7 +21,7 @@ class PBook {
     this.feedbackTimeout = null;
     this.topicIndex = {};  // topic → [blockIds]
     this.blockTopics = {}; // blockId → [topics]
-    this.tutor = new MockTutorEngine();
+    this.tutor = new AskTheBook(this);   // answers from concepts.json only — see js/tutor.js
     this.convManager = new ConversationManager();
     this._activeConvId = null;
   }
@@ -82,7 +84,7 @@ class PBook {
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
     this.rc.setBookScope((this.book?.chapters || []).map(c => c.id), Object.keys(this.concepts || {}));
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
-    console.info('[pbook] app', APP_VERSION);
+    console.info('[pbook] app', this._appVersion());
     this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
     this._loadOverrides();       // accepted remixes: originalId → your version (persistent)
     this._checkAdoptions();      // shared telling merged into the book? → +100 XP, editor track
@@ -117,15 +119,10 @@ class PBook {
       });
     }
 
-    // Detect stale data: if readBlocks has IDs that don't exist in allBlocks, reset
-    if (this.user.readBlocks.size > 0) {
-      const validIds = new Set(this.allBlocks.map(b => b.meta.id));
-      const stale = [...this.user.readBlocks].filter(id => !validIds.has(id));
-      if (stale.length > this.user.readBlocks.size * 0.3) {
-        // More than 30% of read IDs are invalid — data is from old version
-        this.user.reset();
-      }
-    }
+    // Returning readers keep their progress across content releases: renamed or
+    // merged ids transfer through content/id-aliases.json, and only ids that are
+    // gone for good are pruned. Never a wipe, and never while any fetch failed.
+    await this._reconcileProgress();
 
     // Check for deep link: #blockId or #mission-missionId
     const hash = window.location.hash?.substring(1);
@@ -196,6 +193,12 @@ class PBook {
         this._mapMode = 'coverage';
         this.switchView('map');
         setTimeout(() => document.querySelectorAll('.covmap-chapter-sec').forEach((d, i) => { if (i < 2) d.open = true; }), 1500);
+      } else if (hash === 'play' || hash.startsWith('play/')) {
+        // Playground deep link: #play (all games) or #play/<game block id>
+        document.getElementById('onboarding').classList.add('hidden');
+        this.updateXPBadge();
+        this.switchView('home');
+        this.openPlayground(hash.slice(5) || undefined);
       } else if (hash.startsWith('quiz-')) {
         // Single quiz card deep link — show in quiz view
         const blockId = hash.replace('quiz-', '');
@@ -234,6 +237,7 @@ class PBook {
 
     // Customize welcome screen for returning users
     this._customizeWelcome();
+    this._resumeOrWelcome();   // first visit → the door; returning → where you left off (js/ux.js)
 
     if (this._getAuth()) this.refreshAiBalance(true);
     // Auto-sync for logged-in users: save every 2 minutes
@@ -254,17 +258,35 @@ class PBook {
   }
 
   async loadAllContent() {
+    // Every id that exists in git (any status) — the progress-pruning check must
+    // not mistake a hidden draft or a failed fetch for a deleted block.
+    this._knownIds = new Set();
+    this._contentFetchFailed = false;
+    // Start EVERY file download at once (the loop below used to wait chapter by
+    // chapter: ~5 s for 307 files on a slow link). The loop is unchanged — its
+    // `fetch` just picks up the request that is already in flight.
+    const inflight = new Map();
+    for (const c of this.book.chapters) for (const f of c.files) {
+      const url = `${CONFIG.book.contentDir}/${c.directory}/${f}`;
+      inflight.set(url, window.fetch(url).catch(() => null));
+    }
+    const fetch = url => inflight.get(url) || window.fetch(url);
     for (let i = 0; i < this.book.chapters.length; i++) {
       const ch = this.book.chapters[i];
       const dir = `${CONFIG.book.contentDir}/${ch.directory}`;
-      const blocks = await Promise.all(ch.files.map(async f => {
+      const blocks = await Promise.all(ch.files.map(async (f, fileIdx) => {
         try {
-          const text = await (await fetch(`${dir}/${f}`)).text();
+          const res = await fetch(`${dir}/${f}`);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const text = await res.text();
           const { meta, body } = parseFrontmatter(text);
-          const seq = f.match(/^(\d+)([a-z]?)/);
-          const sequence = seq ? parseInt(seq[1]) * 10 + (seq[2] ? seq[2].charCodeAt(0) - 96 : 0) : 999;
+          if (!meta.id) throw new Error('no frontmatter id');
+          this._knownIds.add(meta.id);
+          // Reading order = book.json order. Filename prefixes are labels only
+          // (the arbiter reorders by editing book.json, never by renaming files).
+          const sequence = fileIdx;
           return { ...meta, body, sequence, _chapter: ch.id, _chapterNum: ch.number, _chapterTitle: ch.title, meta: { ...meta, chapter: ch.id } };
-        } catch (e) { return null; }
+        } catch (e) { this._contentFetchFailed = true; return null; }
       }));
       const isAdmin = localStorage.getItem('pbook-admin') === '1';
       const valid = blocks.filter(b => b && (!b.status || b.status === 'accepted' || isAdmin)).sort((a, b) => a.sequence - b.sequence);
@@ -291,11 +313,22 @@ class PBook {
       'Data & Signals': ['interaction data', 'item catalog', 'user catalog', 'feedback loop', 'implicit'],
       'Privacy & Ethics': ['privacy', 'gdpr', 'ethical', 'transparency', 'consent'],
     };
+    // Word-start matching: 'search' must not fire on "research", 'als ' (trailing
+    // space = whole word) not on "signals" — substring matching tagged Ch1 intro
+    // cards as Matrix Factorization · Search & Retrieval.
+    // A passing mention is not a topic (one "you didn't search for it" tagged the
+    // opening section Search & Retrieval): a topic needs a hit in the title or
+    // teaser, or at least two hits in the body.
+    const rx = kw => new RegExp('\\b' + kw.trim().replace(/[.*+?^${}()|[\]\\/]/g, '\\$&') + (kw.endsWith(' ') ? '\\b' : ''), 'g');
+    const MATCHERS = Object.fromEntries(Object.entries(TOPICS).map(([t, kws]) => [t, kws.map(rx)]));
     this.allBlocks.forEach(b => {
-      const text = ((b.meta.title || '') + ' ' + (b.body || '')).toLowerCase();
+      const head = ((b.meta.title || '') + ' ' + (b.meta.teaser || '')).toLowerCase();
+      const body = String(b.body || '').toLowerCase();
       const tags = [];
-      for (const [topic, keywords] of Object.entries(TOPICS)) {
-        if (keywords.some(kw => text.includes(kw))) tags.push(topic);
+      for (const [topic, keywords] of Object.entries(MATCHERS)) {
+        const inHead = keywords.some(re => { re.lastIndex = 0; return re.test(head); });
+        const hits = inHead ? 0 : keywords.reduce((n, re) => n + (body.match(re) || []).length, 0);
+        if (inHead || hits >= 2) tags.push(topic);
       }
       this.blockTopics[b.meta.id] = tags;
       tags.forEach(t => {
@@ -319,6 +352,85 @@ class PBook {
         this.conceptBlocks[cid].push(b);      // multi-concept blocks appear in every pool
       }
     });
+    // A concept with no visible telling (all its blocks are drafts and this is
+    // not an admin view) does not exist for this reader: otherwise the topbar
+    // said 0/89 where only 71 can be read, and a chapter holding a draft
+    // concept could never count as complete.
+    if (this.allBlocks.length) {
+      for (const cid of Object.keys(this.concepts)) if (!this.conceptBlocks[cid]) delete this.concepts[cid];
+    }
+    // Recall is per CONCEPT: reading any telling schedules one card, keyed by
+    // the concept's anchor id (resolves like any block id everywhere else).
+    this.user.recallKeyFor = id => this._recallKey(id);
+  }
+
+  // The recall-card key for a block: its primary concept's anchor id (or the id itself)
+  _recallKey(id) {
+    const b = this._findAnyBlock(id);
+    const cid = b && this._conceptIds(b.meta)[0];
+    const anchor = cid && this.concepts?.[cid]?.anchor;
+    return anchor && this.findBlock(anchor) ? anchor : id;
+  }
+
+  // ===== PROGRESS RECONCILIATION (release safety) =====
+  // content/id-aliases.json: { "aliases": { "<retired block id>": "<block id | concept slug>" } }
+  async _loadIdAliases() {
+    try {
+      const r = await fetch(`${CONFIG.book.contentDir}/id-aliases.json`);
+      if (!r.ok) return {};
+      const d = await r.json();
+      return (d && d.aliases && typeof d.aliases === 'object') ? d.aliases : {};
+    } catch (e) { return {}; }
+  }
+  _aliasTarget(target) {
+    if (!target) return null;
+    const t = String(target).replace(/^#?c\//, '');
+    if (this.findBlock(t)) return t;
+    const a = this.concepts?.[t]?.anchor;
+    return a && this.findBlock(a) ? a : null;
+  }
+  _isRuntimeId(id) { return /^(gen--|autor--|remix--)/.test(id) || !!this.privateBlocks?.[id]; }
+
+  // Runs once at startup, after content, concepts and private blocks are loaded.
+  // 1) ids retired in a release move to their successor (alias map);
+  // 2) per-block recall cards fold into their concept's card (keeps the more practised one);
+  // 3) ids that are gone for good are dropped — XP, badges, notes, missions stay.
+  // Pruning is skipped entirely when any content file failed to load (offline,
+  // partial deploy): an unknown id then means "not fetched", not "deleted".
+  async _reconcileProgress() {
+    const u = this.user;
+    const aliases = await this._loadIdAliases();
+    let renamed = 0, folded = 0, pruned = 0;
+    const live = id => !!this.findBlock(id) || this._isRuntimeId(id);
+    const mapId = id => (live(id) ? id : (this._aliasTarget(aliases[id]) || id));
+    const remap = set => {
+      const out = new Set();
+      for (const id of set) { const n = mapId(id); if (n !== id) renamed++; out.add(n); }
+      return out;
+    };
+    u.readBlocks = remap(u.readBlocks);
+    u.seenBlocks = remap(u.seenBlocks);
+    u.savedBlocks = remap(u.savedBlocks);
+    const recall = {};
+    for (const [id, card] of Object.entries(u.recall || {})) {
+      const moved = mapId(id);
+      const key = this._recallKey(moved);
+      if (moved !== id) renamed++; else if (key !== id) folded++;
+      const prev = recall[key];
+      recall[key] = !prev || (card.reps || 0) > (prev.reps || 0) ? card : prev;
+    }
+    u.recall = recall;
+    if (!this._contentFetchFailed && this.allBlocks.length) {
+      const known = id => this._knownIds?.has(id) || this._isRuntimeId(id);
+      for (const set of [u.readBlocks, u.seenBlocks, u.savedBlocks]) {
+        for (const id of [...set]) if (!known(id)) { set.delete(id); pruned++; }
+      }
+      for (const id of Object.keys(u.recall)) if (!known(id)) { delete u.recall[id]; pruned++; }
+    }
+    if (renamed || folded || pruned) {
+      u.save();
+      this.rc.logEvent('progress_reconciled', { renamed, folded, pruned });
+    }
   }
 
   // Floating decision sheet — fixed to the viewport bottom so it CANNOT be missed,
@@ -579,6 +691,23 @@ class PBook {
     return pool;
   }
 
+  // A mission step counts once its IDEA is read in any verified telling: the
+  // feed serves one telling per concept (maybe the tl;dr or a comic), and a
+  // reader who met the idea there should not have to re-read the anchor.
+  _stepRead(id) {
+    if (this.user.readBlocks.has(id)) return true;
+    const b = this.findBlock(id);
+    const cid = b && this._conceptIds(b.meta)[0];
+    return !!cid && this._tellingPool(cid).some(t => t.meta?.state !== 'private' && t.meta?.state !== 'community' && this.user.readBlocks.has(t.meta?.id || t.id));
+  }
+
+  // Only tellings (spines, private/community texts): a concept's question and
+  // game blocks share its pool but are not "ways to read" it — counting them
+  // made the chip say 4 where the strip said 3, and steering could serve a quiz.
+  _tellingPool(conceptId) {
+    return this._conceptPool(conceptId).filter(b => { const t = b.meta?.type || b.type; return !t || t === 'spine'; });
+  }
+
   // Lazily fetch community variants for a concept (open mode only; graceful empty)
   // The reader's class code — one source of truth for drafts, decks, submissions
   _classCode() {
@@ -600,9 +729,10 @@ class PBook {
   // Slim indicator at the top of a block: how many other tellings exist, click to see them
   _renderTellingsIndicator(block) {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
-    const others = this._conceptPool(block.concept).filter(b => (b.meta?.id || b.id) !== block.id).length;
+    // primary concept, not the raw "a|b" string (multi-concept blocks counted 0 and the label flipped)
+    const others = this._tellingPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
-      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this concept is told">&#127899;&#65039; ${others ? `${others} other telling${others > 1 ? 's' : ''}` : 'tellings'} &#9662;</button>
+      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="Other ways this idea is told" aria-expanded="false">&#127899;&#65039; ${others ? `${others} other way${others > 1 ? 's' : ''} to read this` : 'Tell it differently'} &#9662;</button>
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
     </div>`;
   }
@@ -614,18 +744,19 @@ class PBook {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
     const lensVals = CONFIG.facets.lens.values;
     const lensIcons = CONFIG.facets.lens.icons || {};
-    const canSimpler = (block.depth || 'standard') !== 'intro';
-    const canDeeper = (block.depth || 'standard') !== 'research';
-    return `<div class="steer-bar feedback-bar fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
-      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss">&times;</button>
-      <span class="steer-label">How was this telling?</span>
-      <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Great</button>
-      ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="Same idea, gentler telling">&#128315; Simpler</button>` : ''}
-      ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="Same idea, more depth">&#128316; Deeper</button>` : ''}
-      ${block.visuality !== 'visual-first' ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="Same idea, more visual">&#128444;&#65039; More visual</button>` : ''}
-      <select class="steer-chip steer-lens" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="Examples from your world">
-        <option value="">&#127758; my world&hellip;</option>
-        ${lensVals.filter(l => l !== (block.lens || 'generic')).map(l => `<option value="${l}">${lensIcons[l] || ''} ${l}</option>`).join('')}
+    const depths = this._facetValues(block, 'depth');
+    const canSimpler = !depths.includes('intro');
+    const canDeeper = !depths.includes('research');
+    return `<div class="steer-bar telling-feedback fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
+      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss" aria-label="Dismiss">&times;</button>
+      <span class="steer-label">How did this land?</span>
+      <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="This telling worked for me">&#128077; Worked for me</button>
+      ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="Same idea, gentler telling">Simpler</button>` : ''}
+      ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="Same idea, more depth">Deeper</button>` : ''}
+      ${!this._facetValues(block, 'visuality').includes('visual-first') ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="Same idea, more visual">More visual</button>` : ''}
+      <select class="steer-chip steer-lens" aria-label="Examples from another world" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="Examples from your world">
+        <option value="">&#127758; Examples from&hellip;</option>
+        ${lensVals.filter(l => !this._facetValues(block, 'lens').includes(l)).map(l => `<option value="${l}">${lensIcons[l] || ''} ${this._fw('lensShort', l)}</option>`).join('')}
       </select>
     </div>`;
   }
@@ -640,7 +771,7 @@ class PBook {
   }
   _armFeedbackBar(blockId) {
     const bar = document.getElementById(`steer-${blockId}`);
-    if (!bar || !bar.classList.contains('feedback-bar') || bar.dataset.armed) return;
+    if (!bar || !bar.classList.contains('telling-feedback') || bar.dataset.armed) return;
     bar.dataset.armed = '1';
     if (!this._fbTimers) this._fbTimers = {};
     this._fbTimers[blockId] = setTimeout(() => {
@@ -665,7 +796,7 @@ class PBook {
       const def = this._facetDefault(dim);
       if (!always && set.length === 1 && set[0] === def) return null;
       const ordered = CONFIG.facets[dim]?.ordered;
-      const label = ordered && set.length > 1 ? `${set[0]}–${set[set.length - 1]}` : set.join(' · ');
+      const label = dim === 'depth' ? this._depthPhrase(set) : ordered && set.length > 1 ? `${this._fw(dim, set[0])} to ${this._fw(dim, set[set.length - 1])}` : set.map(v => this._fw(dim === 'lens' ? 'lensShort' : dim, v)).join(' · ');
       const icon = dim === 'lens' ? (set.length === 1 ? lensIcons[set[0]] || '' : '🌐') : dim === 'lang' ? '🌍' : '';
       return `<span class="telling-chip">${icon ? icon + ' ' : ''}${label}</span>`;
     };
@@ -680,7 +811,7 @@ class PBook {
         ? '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ reader remix</span>'
         : '<span class="telling-badge" style="color:#D97706;border-color:#D97706">✨ your remix</span>';
     }
-    if (s === 'core') return '<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED">CORE</span>';
+    if (s === 'core') return '<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED" title="Essential and verified by the authors">ESSENTIAL</span>';
     if (s === 'community') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ reader-shared</span>';
     if (s === 'private') return '<span class="telling-badge" style="color:#D97706;border-color:#D97706">⚡ yours</span>';
     return '<span class="telling-badge" style="color:#10B981;border-color:#10B981">edited</span>';
@@ -701,7 +832,7 @@ class PBook {
     await this._fetchCommunity(conceptId);
 
     const concept = this.concepts?.[conceptId];
-    const pool = this._conceptPool(conceptId);
+    const pool = this._tellingPool(conceptId);
     // COMPOSED REQUEST: the profile only seeds the target once; after that every
     // dimension the reader picks in this panel sticks until the panel is reset.
     if (!this._steerTargets) this._steerTargets = {};
@@ -741,13 +872,13 @@ class PBook {
       const cfg = [this._facetValues(m, 'lens').join('|'), this._facetValues(m, 'lang').join('|'),
                    g, this._facetValues(m, 'depth').join('–'), this._facetValues(m, 'visuality').join('–'),
                    this._facetValues(m, 'lengthBand').join('–')].join(' · ');
-      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${state.toUpperCase()} · ${cfg}${isCurrent ? '\n(reading now)' : ''}`;
+      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${this._tellingWords(m, ['genre', 'lens', 'depth', 'lengthBand']) || cfg}${isCurrent ? '\n(reading now)' : ''}`;
       return `<button class="tstrip-chip ${isCurrent ? 'tstrip-current' : ''}" style="--sc:${color}"
         title="${this.escHtml(tip)}" ${isCurrent ? '' : `onclick="app.pickTelling('${blockId}','${m.id}')"`}>${GENRE_ICONS[g] || '📄'}</button>`;
-    }).join('')}<span class="tstrip-hint">${pool.length} tellings — hover for details, click to read</span><button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling (coach)" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
+    }).join('')}<span class="tstrip-hint">${pool.length} ways to read this idea — tap one to switch</span><button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling (coach)" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
 
     h += `<div class="tellings-compose">
-      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = this telling · <span class="legend-active">filled</span> = your target · numbers = existing tellings${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
+      <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">🎛 Want it told differently? <span style="font-weight:400;color:var(--text-3)">◉ = what you are reading · <span class="legend-active">highlighted</span> = what you asked for · number = how many versions exist${changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">↺ reset (${changed} changed)</a>` : ''}</span></div>
       ${DIMS.map(({ dim, label }) => `<div class="dna-row" style="align-items:flex-start"><span class="dna-label" style="padding-top:.2em">${label}</span>
         <div class="tellings-dimvals" style="margin:0">${this._renderDimValues(blockId, dim, pool, curMeta)}</div></div>`).join('')}
     </div>`;
@@ -770,14 +901,14 @@ class PBook {
           oninput="(app._steerWish=app._steerWish||{})['${conceptId}']=this.value"
           placeholder="Optional note: anything specific? (e.g. 'use a running-shop example')">
         <button class="steer-chip steer-gen" onclick="app.generateVariant('${blockId}','${conceptId}')">&#10024; Generate exactly this (~30 s) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-        ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.65rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
+        ${(target.genre === 'comic' || target.genre === 'animation') ? `<span style="font-size:.7rem;color:var(--text-3);flex-basis:100%">${target.genre === 'comic' ? 'A four-panel comic' : 'An animated SVG'} will be drawn for this segment (~40 s).</span>` : (target.visuality === 'visual-first' || /diagram|image/.test(target.carriers || '')) ? `<span style="font-size:.7rem;color:var(--text-3);flex-basis:100%">For genre comic/animation the generator draws a real visual; plain text requests deliver prose, tables, formulas and code.</span>` : ''}`;
     } else if (canGen) {
       h += `<span>No telling covers this yet — turn on <b>Open mode</b> in your <a href="#" onclick="app.switchView('profile');return false">Profile</a> to generate it.</span>`;
     } else {
       h += `<span>No telling covers this yet — your interest was recorded and helps editors decide what to write next. &#128203;</span>`;
     }
     h += '</div>';
-    h += `<div style="font-size:.68rem;color:var(--text-3);margin-top:.35em">These are tellings of one concept. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a> (+10 XP).</div>`;
+    h += `<div style="font-size:.7rem;color:var(--text-3);margin-top:.35em">These are tellings of one concept. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a> (+10 XP).</div>`;
     panel.innerHTML = h;
   }
 
@@ -800,7 +931,7 @@ class PBook {
       const isSel = selSet.includes(v);
       return `<button class="steer-chip dimval ${isCur ? 'dim-current' : ''} ${isSel ? 'dim-active' : ''} ${count ? '' : 'dim-empty'}"
         onclick="app.steerDim('${blockId}','${dim}','${v}')" title="${isCur ? 'the telling you are reading covers this · ' : ''}${isSel ? 'in your target (click to remove) · ' : ''}${count ? count + ' telling(s) cover this' : 'no telling yet — be the first'}">
-        ${isCur ? '◉ ' : ''}${icons[v] ? icons[v] + ' ' : ''}${v}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
+        ${isCur ? '◉ ' : ''}${icons[v] ? icons[v] + ' ' : ''}${this.escHtml(this._fw(dim === 'lens' ? 'lensShort' : dim, v))}${count ? ` <span class="dimcount">${count}</span>` : ' ＋'}</button>`;
     }).join('');
   }
 
@@ -825,8 +956,12 @@ class PBook {
   // After a chapter renders, re-apply the reader's saved telling choices.
   async _applyTellingChoices() {
     const choices = this._tellingChoices();
+    const essentials = !this._fullBook();
     for (const [cid, vid] of Object.entries(choices)) {
-      const anchor = this.concepts?.[cid]?.anchor;
+      // essentials flow serves a picked git telling directly; generated/community
+      // picks are swapped into the concept's served slot
+      if (essentials && this.findBlock(vid)) continue;
+      const anchor = (essentials && this._servedSlot?.[cid]) || this.concepts?.[cid]?.anchor;
       if (!anchor || !document.getElementById(`b-${anchor}`)) continue;
       let entry = this._findAnyBlock(vid);
       if (!entry) { try { await this._fetchCommunity(cid); entry = this._findAnyBlock(vid); } catch (e) {} }
@@ -840,8 +975,24 @@ class PBook {
     if (!variant) return;
     this.user.updateFacetAffinity(this._blockFacets(variant.meta), 2); // choosing a telling is a strong signal
     this.rc.logEvent('steer', { blockId, action: 'pick', servedId: variantId, result: 'served' });
+    const cid = this._conceptIds(variant.meta)[0];
+    this._setTellingChoice(cid, variantId);
+    // Essentials flow: a git telling becomes the concept's served telling — re-render
+    // so the "more ways" strip and the notice describe what is actually on screen.
+    if (!this._fullBook() && this.findBlock(variantId)) {
+      if (this._requestedTellings) delete this._requestedTellings[cid];
+      this._rerenderAt(variantId);
+      return;
+    }
     this._swapBlock(blockId, variant, this._blockFacets(variant.meta) || {});
-    this._setTellingChoice(this._conceptIds(variant.meta)[0], variantId);
+  }
+
+  // Re-render the chapter that holds a block and land on that block
+  _rerenderAt(blockId) {
+    const b = this.findBlock(blockId);
+    const chIdx = b ? b.meta._chapterIdx : this._renderedChapter;
+    this._pendingScroll = { parentId: blockId, meta: { id: blockId } };
+    this.renderRead(chIdx);
   }
 
   // Steering with an honest miss path: the steered facet must actually move —
@@ -927,7 +1078,7 @@ class PBook {
   // Shared serve/honest-miss tail of every steer
   async _serveOrMiss(blockId, conceptId, target, candidateFilter, info) {
     await this._fetchCommunity(conceptId);
-    const pool = this._conceptPool(conceptId).filter(b => (b.meta?.id || b.id) !== blockId);
+    const pool = this._tellingPool(conceptId).filter(b => (b.meta?.id || b.id) !== blockId);
     const candidates = pool.filter(candidateFilter);
     let best = null, bestScore = 0;
     for (const b of candidates) {
@@ -973,9 +1124,8 @@ class PBook {
     this._slotDom[originalId] = vMeta.id;
 
     const isGenerated = vMeta.state === 'private' || vMeta.state === 'community';
-    const noticeBits = [];
-    if (vMeta.lens && vMeta.lens !== 'generic') noticeBits.push(`${(CONFIG.facets.lens.icons || {})[vMeta.lens] || ''} ${vMeta.lens} examples`);
-    if (vMeta.depth) noticeBits.push(`${vMeta.depth} depth`);
+    // plain words ("job-board examples · standard to technical depth"), never raw "a..b"
+    const noticeBits = [this._tellingWords(vMeta, ['lens', 'depth', 'genre']).replace(/^examples from everywhere · /, '')].filter(Boolean);
     const provenance = vMeta.state === 'community'
       ? `<span class="gen-badge">shared by a reader &middot; not yet editor-verified</span>`
       : vMeta.state === 'private'
@@ -1004,6 +1154,10 @@ class PBook {
       }
     });
 
+    // Chained steering (Deeper, then another world) used to stack a stale notice
+    // above the new one — the slot keeps exactly one.
+    const oldNotice = el.previousElementSibling;
+    if (oldNotice && oldNotice.classList?.contains('variant-notice') && !oldNotice.dataset.swappedInto) oldNotice.remove();
     el.outerHTML = notice + html;
     // Register the variant for dwell tracking (falls back to default reading time)
     const newEl = document.getElementById(`b-${vMeta.id}`);
@@ -1140,10 +1294,8 @@ class PBook {
     this.updateXPBadge();
     if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
     this.switchView(view || 'home');
-    // First-time tour
-    if (!localStorage.getItem('pbook-tour-done')) {
-      setTimeout(() => this.startTour(), 1000);
-    }
+    // First-time tour — only once the view has content (it used to open over a blank Home)
+    this._startTourWhenReady();
   }
 
   // One-tap onboarding pick with immediate, visible effect (selection + preview line)
@@ -1153,13 +1305,21 @@ class PBook {
     el.classList.add('selected');
     const lens = document.querySelector('#introLens .intro-voice.selected')?.dataset.lens || 'generic';
     const goal = document.querySelector('#introGoal .intro-voice.selected')?.dataset.goal || 'understand';
-    const WORLD = { generic: 'a mix of platforms', ecommerce: 'shops, carts and "customers also bought"', media: 'playlists, autoplay and watch history', 'social-feeds': 'feeds, follows and creators', education: 'courses, exercises and learners' };
-    const GOAL = { understand: 'clear explanations first', build: 'hands-on and technical depth when you want it', decide: 'trade-offs and evaluation focus', protect: 'your data, your controls, your rights' };
+    // Honest promise: say how many sections really are told in that world today
+    const GOAL = { understand: 'clear explanations first', build: 'more technical depth, and a guided path for builders', decide: 'a guided path through trade-offs, evaluation and build-vs-buy', protect: 'a guided path through your data, your controls and your rights' };
+    const n = lens === 'generic' ? 0 : this._lensCoverage(lens);
+    const world = lens === 'generic' ? 'Examples from many platforms'
+      : `<b>${this._fw('lens', lens)}</b> where the book has them (${n} section${n === 1 ? '' : 's'} today — any other section can be retold for you)`;
     const hint = document.getElementById('onboardHint');
-    if (hint) hint.innerHTML = `→ Examples will come from <b>${WORLD[lens]}</b> · ${GOAL[goal]}. You can steer any section later.`;
+    if (hint) hint.innerHTML = `${world} · ${GOAL[goal]}.`;
   }
 
   startWithVoiceAndGo(view) {
+    this._saveDoorPicks();
+    this.startAndGo(view);
+  }
+
+  _saveDoorPicks() {
     // (voice picker removed — the facet taxonomy replaced learning styles; legacy name kept)
     // Onboarding calibration (P0): lens + goal — light, skippable, seeds the facet profile
     const lensSel = document.querySelector('#introLens .intro-voice.selected');
@@ -1176,7 +1336,8 @@ class PBook {
     if (openMode) { this.user.readerMode = 'open'; this.rc.setUserProperties({ readerMode: 'open' }); }
     this.user.save();
     this.rc.logEvent('onboarding', { lens: lensSel?.dataset.lens, goal: goalSel?.dataset.goal, openMode: !!openMode });
-    this.startAndGo(view);
+    this._applyGoal();
+    try { localStorage.setItem('pbook-onboarded', '1'); } catch (e) {}
   }
 
   startRandom() {
@@ -1209,8 +1370,8 @@ class PBook {
 
     // Returning user — change CTA
     const continueBlock = this.getContinueBlock();
-    ctaBtn.textContent = 'Continue reading \u{1F4D6}';
-    ctaBtn.onclick = () => this.startWithVoiceAndGo('home');
+    ctaBtn.textContent = continueBlock ? 'Continue where you left off →' : 'Back to the book →';
+    ctaBtn.onclick = () => { this._saveFeatureToggles(); this.updateXPBadge(); this._resumeReading(); };
 
     // Add extra buttons below CTA
     let extras = document.getElementById('welcomeExtras');
@@ -1258,13 +1419,12 @@ class PBook {
   // ===== ONBOARDING TOUR =====
   startTour() {
     this._tourSteps = [
-      { target: '.tab[data-view="home"]', text: "\u{1F3E0} This is your Home! It's like Netflix but for learning. Scroll through and pick whatever looks cool.", pos: 'top' },
-      { target: '.tab[data-view="read"]', text: "\u{1F4F1} The Feed! Just keep scrolling — the app figures out what to show you next. Like TikTok, but you actually learn stuff.", pos: 'top' },
-      { target: '.tab[data-view="glossary"]', text: "\u{1F3AF} Missions! Each one is a quest with a story and a final boss quiz at the end. Beat the boss = earn a title!", pos: 'top' },
-      { target: '.tab[data-view="map"]', text: "\u{1F5FA} The Map! See everything in the book, plus your saved stuff and notes. Tap any chapter to jump there.", pos: 'top' },
-      { target: '.tab[data-view="quiz"]', text: "\u{1F9E0} Quiz! Test what you remember. Cards get smarter over time — hard stuff comes back more often, easy stuff less. Like Anki for recommendations!", pos: 'top' },
-      { target: '#xpBadge', text: "\u{1F31F} This is your level! You get XP for reading, playing mini-games, and finishing missions. Level up to unlock cool themes!", pos: 'bottom' },
-      { target: null, text: "You're all set! Just tap anything that looks interesting. There's no wrong way to read this book. If you ever get lost, tap \"p-book\" up top to come back here. GO! \u{1F680}", pos: 'center' },
+      { target: '.tab[data-view="home"]', text: "Browse: shelves of sections picked for you. Every pick has a “Why this?” — the book explains its own recommendations.", pos: 'top' },
+      { target: '.tab[data-view="read"]', text: "Read: the book in order, one section after another. Each section can be retold — simpler, deeper, or with examples from your world.", pos: 'top' },
+      { target: '.tab[data-view="glossary"]', text: "Missions: guided paths through the book for one goal, with a short final check.", pos: 'top' },
+      { target: '.tab[data-view="map"]', text: "Map: every concept in the book, what you have read, and your notes.", pos: 'top' },
+      { target: '.tab[data-view="quiz"]', text: "Recall: short questions that come back just before you would forget — the ones you miss return sooner.", pos: 'top' },
+      { target: null, text: "That is all. Your progress stays on this device; the back button takes you back through the book.", pos: 'center' },
     ];
     this._tourIdx = 0;
     this._showTourStep();
@@ -1294,13 +1454,14 @@ class PBook {
         // Highlight circle
         overlay.innerHTML = `<div class="tour-highlight" style="top:${rect.top - 4}px;left:${rect.left - 4}px;width:${rect.width + 8}px;height:${rect.height + 8}px"></div>`;
         // Tooltip
-        const tipTop = step.pos === 'top' ? rect.top - 80 : rect.bottom + 12;
+        // anchor the tip's BOTTOM edge above the tab (a taller tip used to cover it)
+        const tipPos = step.pos === 'top' ? `bottom:${Math.round(window.innerHeight - rect.top + 12)}px` : `top:${Math.round(rect.bottom + 12)}px`;
         const tipLeft = Math.max(10, Math.min(rect.left, window.innerWidth - 260));
-        overlay.innerHTML += `<div class="tour-tip" style="top:${tipTop}px;left:${tipLeft}px">
+        overlay.innerHTML += `<div class="tour-tip" role="dialog" aria-label="Tour" style="${tipPos};left:${tipLeft}px">
           <div class="tour-text">${step.text}</div>
           <div class="tour-nav">
             <span class="tour-count">${this._tourIdx + 1}/${total}</span>
-            ${isLast ? `<button class="tour-btn tour-btn-primary" onclick="app._endTour()">Got it!</button>` : `<button class="tour-btn tour-btn-primary" onclick="app._nextTour()">Next</button>`}
+            ${isLast ? `<button class="tour-btn tour-btn-primary" onclick="app._endTour()">Got it</button>` : `<button class="tour-btn tour-btn-primary" onclick="app._nextTour()">Next</button>`}
             <button class="tour-btn" onclick="app._endTour()">Skip</button>
           </div>
         </div>`;
@@ -1314,7 +1475,7 @@ class PBook {
       overlay.innerHTML = `<div class="tour-tip tour-center">
         <div class="tour-text">${step.text}</div>
         <div class="tour-nav">
-          <button class="tour-btn tour-btn-primary" onclick="app._endTour()">Start reading!</button>
+          <button class="tour-btn tour-btn-primary" onclick="app._endTour()">Start reading</button>
         </div>
       </div>`;
     }
@@ -1394,7 +1555,8 @@ class PBook {
   }
 
   // ===== VIEW SWITCHING =====
-  switchView(view, auto) {
+  // skipRender: the caller (openBlock) renders the right chapter itself — no double render
+  switchView(view, auto, skipRender) {
     setTimeout(() => { const mb = document.getElementById('miniBoard'); if (mb) mb.style.display = view === 'read' && this._cmapData ? '' : 'none'; }, 0);
     this.currentView = view;
     const modeMap = { home: 'netflix', read: 'read', map: 'map', glossary: 'mission', quiz: 'quiz', chat: 'tutor', profile: 'profile' };
@@ -1410,13 +1572,14 @@ class PBook {
 
     // Update tab highlights
     document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.view === view));
-    // Clear hash to prevent deep-link re-triggering on tab click
-    if (!auto && window.location.hash) history.replaceState(null, '', window.location.pathname);
+    // A user-initiated view switch is a history entry (system back walks back through
+    // the book — js/ux.js); it also clears a deep-link hash from the URL.
+    if (!auto) this._navPushView(view);
 
     // Linear nav only in read view
 
     if (view === 'home') this.renderHome();
-    else if (view === 'read') this.renderRead();
+    else if (view === 'read') { if (!skipRender) this.renderRead(); }
     else if (view === 'map') this.renderMap();
     else if (view === 'glossary') { if (this._f('missions')) this.renderMissions(); else this.switchView('home'); }
     else if (view === 'quiz') this.renderQuiz();
@@ -1426,123 +1589,93 @@ class PBook {
   }
 
   // ===== HOME VIEW (Netflix shelves) =====
+  // Browse paints at once from what the book knows locally; the three network
+  // shelves (Recombee personal, item-to-item, community) arrive as placeholders
+  // and fill in when — and only if — their requests come back (js/ux.js).
+  // A card appears at most once per page (`shown`); every pick says why.
   async renderHome() {
     const el = document.getElementById('homeContent');
+    const token = this._homeToken = (this._homeToken || 0) + 1;
+    const shown = new Set();
+    // metas/blocks → metas not yet on the page (max n)
+    const take = (list, max = 10) => {
+      const out = [];
+      for (const x of list) {
+        const m = x?.meta || x;
+        if (!m?.id || shown.has(m.id)) continue;
+        shown.add(m.id); out.push(m);
+        if (out.length >= max) break;
+      }
+      return out;
+    };
     let html = '';
 
-    // 1. Continue reading (hero)
-    const continueBlock = this.getContinueBlock();
-    if (continueBlock) {
-      html += this.shelf('Continue reading', [this.cardHtml(continueBlock, true)]);
-    }
-
-    // Recently added — new content (publishedAt within 30 days), local only
-    {
-      const newBlocks = this.allBlocks
-        .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
-        .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt))
-        .slice(0, 12);
-      if (newBlocks.length) {
-        html += this.shelf('Recently added', newBlocks.map(b => this.cardHtml(b.meta)));
-      }
-    }
+    // 1. Start here (new reader) / Continue reading (returning)
+    html += this._homeHero(take);
 
     // Recall cards — show due + almost due (within 30 min)
     if (this._f('spaceRepetition')) {
       const now = Date.now();
-      const soonThreshold = 30 * 60 * 1000; // 30 minutes
+      const soonThreshold = 30 * 60 * 1000;
       const dueAndSoon = Object.entries(this.user.recall)
         .filter(([_, c]) => c.nextReview <= now + soonThreshold)
         .sort((a, b) => a[1].nextReview - b[1].nextReview)
         .map(([blockId, card]) => ({ blockId, ...card }));
       if (dueAndSoon.length > 0) {
         const recallCards = dueAndSoon.slice(0, 8).map(r => this._recallCardHtml(r)).filter(Boolean);
-        if (recallCards.length) html += this.shelf(`\u{1F9E0} Do you remember? (${recallCards.length})`, recallCards);
+        if (recallCards.length) html += this.shelf(`Do you remember? (${recallCards.length})`, recallCards, 'Answer before you peek — the ones you miss come back sooner.');
       }
     }
 
-    // Active missions (guarded)
-    if (!this._f('missions')) { /* skip missions shelf */ } else {
-    const missions = this.getMissions();
-    const activeMissions = missions.filter(m => {
-      if (this._isMissionLocked(m)) return false;
-      const p = this._getMissionProgress(m);
-      return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
-    });
-    const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
-    const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
-      const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
-      const isNext = coreRead === 0;
-      return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
-        <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Next mission' : 'In progress'}</div>
-        <div style="font-size:1.3rem;margin:.1em 0">${m.icon}</div>
-        <div class="card-title">${m.title}</div>
-        <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this.user.readBlocks.has(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
-        <div class="card-meta"><span class="card-time">${coreRead}/${m.core.length} steps</span></div>
-      </div>`;
-    });
-    if (missionCards.length) html += this.shelf('Your missions', missionCards);
-    } // end missions guard
-
-    // Core essentials — unread core blocks
-    // Essentials = the core matter; review blocks are core for missions, but do not belong here
-    const unreadCore = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine'
-      && !this.user.readBlocks.has(b.meta.id)
-      && !/opakov/i.test(String(b._chapter || b.meta.chapter || ''))
-      && !/^\s*(opakování|review)\b/i.test(String(b.meta.title || ''))).slice(0, 10);
-    if (unreadCore.length) {
-      html += this.shelf('Essential reading', unreadCore.map(b => this.cardHtml(b.meta)));
+    // 2. Next for you — the local, explainable recommender (concept order,
+    // prerequisites, your facet profile, active missions)
+    if (this.user.readBlocks.size) {
+      const picks = this._nextPicks({ exclude: shown, limit: 8 });
+      const cards = picks.filter(p => take([p.meta], 1).length).map(p => this.cardHtml(p.meta, false, p));
+      if (cards.length) html += this.shelf('Next for you', cards, 'Unread ideas you are ready for, each in the telling that fits you best.');
     }
 
-    // 2. Recommended for you (Recombee scenario: homepage-personal)
-    const forYou = await this.rc.getRecsForUser('homepage-personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
-    if (forYou?.recomms?.length) {
-      const forYouCards = forYou.recomms.map(r => this.cardFromRec(r)).filter(Boolean);
-      if (forYouCards.length) html += this.shelf('Picked for you', forYouCards);
-    }
-
-    // "Because you read X" — related to the last read block (Items to Item; the
-    // related-item scenario refines the logic once created in the Admin UI).
-    const lastReadId = [...this.user.readBlocks].pop();
+    // Network shelves: placeholders now, filled asynchronously
+    const lastReadId = [...this.user.readBlocks].reverse().find(id => this.findBlock(id));
     const lastReadBlock = lastReadId && this.findBlock(lastReadId);
-    if (lastReadBlock) {
-      const rel = await this.rc.getRecsForItem(lastReadId, 8, this.rc.reql({ type: 'spine' }), 'context-related');
-      const relCards = (rel?.recomms || [])
-        .filter(r => r.id !== lastReadId && !this.user.readBlocks.has(r.id))
-        .map(r => this.cardFromRec(r)).filter(Boolean);
-      if (relCards.length >= 3) html += this.shelf('Because you read: ' + this.escHtml(lastReadBlock.meta.title || ''), relCards);
+    html += this._pendingShelf('rcPersonal', 'Picked for you');
+    if (lastReadBlock) html += this._pendingShelf('rcRelated', 'Because you read: ' + this.escHtml(lastReadBlock.meta.title || ''));
+
+    // Active missions (guarded)
+    if (this._f('missions')) {
+      const missions = this.getMissions();
+      const activeMissions = missions.filter(m => {
+        if (this._isMissionLocked(m)) return false;
+        const p = this._getMissionProgress(m);
+        return p.read > 0 && !((this.user.completedMissions || []).includes(m.id));
+      });
+      const nextMission = missions.find(m => !this._isMissionLocked(m) && this._getMissionProgress(m).read === 0);
+      const missionCards = [...activeMissions, ...(nextMission ? [nextMission] : [])].slice(0, 4).map(m => {
+        const coreRead = m.core.filter(id => this._stepRead(id)).length;
+        const isNext = coreRead === 0;
+        return `<div class="card" style="border-top: 3px solid var(--accent); flex: 0 0 240px; cursor:pointer" onclick="app.showMission('${m.id}')">
+          <div class="card-chapter" style="color:var(--accent);font-weight:700">${isNext ? 'Suggested path' : 'In progress'}</div>
+          <div style="font-size:1.3rem;margin:.1em 0" aria-hidden="true">${m.icon}</div>
+          <div class="card-title">${m.title}</div>
+          <div class="mission-progress-dots" style="margin:.3em 0">${m.core.map((id, i) => `<span class="mission-dot ${this._stepRead(id) ? 'done' : i === coreRead ? 'current' : ''}"></span>`).join('')}</div>
+          <div class="card-meta"><span class="card-time">${coreRead} of ${m.core.length} steps</span></div>
+        </div>`;
+      });
+      if (missionCards.length) html += this.shelf('Guided paths', missionCards);
     }
 
-    // Community layer (open mode only, spec §6): tellings other readers generated & shared,
-    // clearly labelled, blended into discovery — the living part of the book
-    if (this._f('community') && this.user.readerMode === 'open') {
-      try {
-        const shared = await this.rc.listCommunityBlocks(null, 8);
-        if (shared.length) {
-          const cards = shared.map(b => {
-            const m = b.meta;
-            const facetLine = [m.lens, m.depth].filter(v => v && v !== 'generic').join(' · ');
-            return `<div class="card" style="border-top:3px solid var(--warn,#D97706);flex:0 0 240px;cursor:pointer" onclick="app.openCommunityBlock('${this.escHtml(m.id)}')">
-              <div class="card-chapter" style="color:var(--warn,#D97706);font-weight:700">⚡ reader-generated</div>
-              <div class="card-title">${this.escHtml(m.title || m.id)}</div>
-              <div class="card-teaser" style="font-size:.7rem">${facetLine ? this.escHtml(facetLine) + ' · ' : ''}shared by ${this.escHtml(m.sharedAs || 'a reader')}</div>
-            </div>`;
-          });
-          html += this.shelf('From fellow readers 🌱', cards);
-        }
-      } catch (e) { /* community shelf is best-effort */ }
+    // 3. Frontier: the next ideas, each shown as all of its tellings
+    html += this._frontierShelves(take);
+
+    // Recently added — new content (publishedAt within 30 days)
+    {
+      const newBlocks = take(this.allBlocks
+        .filter(b => this._isNew(b.meta) && b.meta.type === 'spine')
+        .sort((a, b) => new Date(b.meta.publishedAt) - new Date(a.meta.publishedAt)), 12);
+      if (newBlocks.length) html += this.shelf('Recently added', newBlocks.map(m => this.cardHtml(m, false, { reasons: [`Added ${new Date(m.publishedAt).toLocaleDateString()}`] })));
     }
 
-    // Interest testing: proposed concepts as clearly labeled ghost items — demand
-    // is measured before anyone writes (the pre-mint stage of the elastic catalog)
-    const ghosts = this._unvotedProposals();
-    if (ghosts.length) {
-      html += this.shelf('Should we write this? 🌱 Vote on proposed concepts',
-        ghosts.slice(0, 4).map(p => this._ghostCardHtml(p, 'home')));
-    }
-
-    // 3. Told your way — facet-matched picks: unread tellings whose subspace best
-    // covers the reader's target facets (local subspace scoring, no scenario needed)
+    // Told your way — facet-matched picks (only once the reader has a profile)
     const target = this.user.getTargetFacets();
     const isDefaultTarget = Object.values(this.user.steerPrefs || {}).every(v => !v) && this.user.getAffinitySummary().total < 3;
     if (!isDefaultTarget) {
@@ -1550,67 +1683,64 @@ class PBook {
         .filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id))
         .map(b => ({ b, s: this._facetMatch(b.meta, target) }))
         .filter(x => x.s >= 0.7)
-        .sort((x, y) => y.s - x.s)
-        .slice(0, 10);
-      if (scored.length >= 3) html += this.shelf('🎛 Told your way', scored.map(x => this.cardHtml(x.b.meta)));
+        .sort((x, y) => y.s - x.s);
+      const metas = take(scored.map(x => x.b), 10);
+      if (metas.length >= 3) html += this.shelf('Told your way', metas.map(m => this.cardHtml(m, false,
+        { reasons: [this._fitReason(m, target) || 'Matches the format you have been choosing'] })));
     }
 
-    // 4. Quick reads
-    const quickReads = this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)).slice(0, 10);
-    if (quickReads.length) {
-      html += this.shelf('Quick reads', quickReads.map(b => this.cardHtml(b.meta)));
+    // Essential reading — unread core sections (review blocks excluded)
+    const unreadCore = take(this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine'
+      && !this.user.readBlocks.has(b.meta.id)
+      && !/opakov/i.test(String(b._chapter || b.meta.chapter || ''))
+      && !/^\s*(opakování|review)\b/i.test(String(b.meta.title || ''))), 10);
+    if (unreadCore.length >= 2) html += this.shelf('Essential reading', unreadCore.map(m => this.cardHtml(m, false, { reasons: ['Verified by the authors as essential for the certificate path'] })));
+
+    html += this._gamesShelfHtml(); // 🎮 Play with the ideas → Playground
+
+    // Quick reads
+    const quick = take(this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)), 10);
+    if (quick.length >= 2) html += this.shelf('Quick reads', quick.map(m => this.cardHtml(m)), 'Stand-alone sections — no earlier reading needed.');
+
+    // Community + interest testing
+    if (this._f('community') && this.user.readerMode === 'open') html += this._pendingShelf('community', 'From fellow readers 🌱');
+    const ghosts = this._unvotedProposals();
+    if (ghosts.length) {
+      html += this.shelf('Should we write this? Vote on proposed concepts 🌱',
+        ghosts.slice(0, 4).map(p => this._ghostCardHtml(p, 'home')));
     }
 
-    // 5. Liked items (if any)
+    // Your collections (personal lists: not deduplicated)
     const liked = [...this.user.ratings].filter(([_, r]) => r >= 0.7).map(([id]) => this.findBlock(id)).filter(Boolean);
-    if (liked.length) {
-      html += this.shelf('&#10084; Your liked', liked.reverse().map(b => this.cardHtml(b.meta)));
-    }
-
-    // 6. Saved items (if any)
+    if (liked.length) html += this.shelf('&#10084; Your favourites', liked.reverse().map(b => this.cardHtml(b.meta)));
     const saved = [...this.user.savedBlocks].map(id => this.findBlock(id)).filter(Boolean);
-    if (saved.length) {
-      html += this.shelf('&#128278; Saved for later', saved.reverse().map(b => this.cardHtml(b.meta)));
-    }
+    if (saved.length) html += this.shelf('&#128278; Saved for later', saved.reverse().map(b => this.cardHtml(b.meta)));
 
-    // 7. Topic carousels (pick top 3 topics user hasn't explored much)
-    const topicEntries = Object.entries(this.topicIndex).filter(([_, ids]) => ids.length >= 3).sort((a, b) => b[1].length - a[1].length);
-    const shownTopics = new Set();
-    topicEntries.slice(0, 6).forEach(([topic, ids]) => {
-      if (shownTopics.size >= 3) return;
-      const topicBlocks = ids.map(id => this.findBlock(id)).filter(Boolean).slice(0, 10);
-      if (topicBlocks.length >= 3) {
-        html += this.shelf(topic, topicBlocks.map(b => this.cardHtml(b.meta)));
-        shownTopics.add(topic);
-      }
-    });
-
-    // 8. By chapter (unread first)
+    // By chapter — the book's own order, minus what is already on the page
     this.book.chapters.forEach((ch, i) => {
       const allSpines = (this.chapters[i]?.blocks || []).filter(b => b.type === 'spine');
       const unread = allSpines.filter(b => !this.user.readBlocks.has(b.id));
       const read = allSpines.filter(b => this.user.readBlocks.has(b.id));
-      const chBlocks = [...unread, ...read].slice(0, 8);
-      if (chBlocks.length) {
-        html += this.shelf(`Ch${ch.number}: ${ch.title}`, chBlocks.map(b => this.cardHtml(b)));
-      }
+      const metas = take([...unread, ...read], 8);
+      if (metas.length) html += this.shelf(`Chapter ${ch.number}: ${ch.title}`, metas.map(m => this.cardHtml(m)), ch.subtitle ? this.escHtml(ch.subtitle) : '');
     });
 
     el.innerHTML = html || '<div class="search-empty">Loading content...</div>';
-    // Update arrows multiple times to catch layout settling
     this._updateShelfArrows();
     setTimeout(() => this._updateShelfArrows(), 200);
     setTimeout(() => this._updateShelfArrows(), 600);
+    this._fillHomeAsync(token, shown, lastReadBlock);
   }
 
-  shelf(title, cardHtmls) {
+  shelf(title, cardHtmls, sub) {
     const id = 'shelf-' + (this._shelfCounter = (this._shelfCounter || 0) + 1);
     return `<section class="shelf fade-up">
       <div class="shelf-head"><h3 class="shelf-title">${title}</h3></div>
+      ${sub ? `<p class="shelf-sub">${sub}</p>` : ''}
       <div class="shelf-wrap">
-        <button class="shelf-btn shelf-btn-left arrow-hidden" onclick="app.scrollShelf('${id}',-1)">&#8249;</button>
+        <button class="shelf-btn shelf-btn-left arrow-hidden" onclick="app.scrollShelf('${id}',-1)" aria-label="Scroll left">&#8249;</button>
         <div class="shelf-scroll" id="${id}">${cardHtmls.join('')}</div>
-        <button class="shelf-btn shelf-btn-right arrow-hidden" onclick="app.scrollShelf('${id}',1)">&#8250;</button>
+        <button class="shelf-btn shelf-btn-right arrow-hidden" onclick="app.scrollShelf('${id}',1)" aria-label="Scroll right">&#8250;</button>
       </div>
     </section>`;
   }
@@ -1677,14 +1807,18 @@ class PBook {
     const m = (body || '').match(/!\[[^\]]*\]\((images\/[^)\s]+\.(?:svg|png|jpe?g|webp))\)/);
     if (m) return m[1];
     if (block.diagram && DIAGRAM_FILES[block.diagram]) return DIAGRAM_FILES[block.diagram];
+    if (block.diagram && /^[a-z0-9][a-z0-9-]*$/i.test(block.diagram)) return `images/${block.diagram}.svg`;   // bare figure name
     return null;
   }
 
-  cardHtml(block, hero = false) {
+  // why: { reasons[], math? } — rendered as a "Why this?" disclosure (js/ux.js)
+  cardHtml(block, hero = false, why = null) {
     const chLabel = block._chapterTitle || this.getChapterLabel(block);
     const isRead = this.user.readBlocks.has(block.id);
     const isNew = this._isNew(block);
-    const badge = block.type === 'depth' ? `<span class="card-badge ${block.voice}">${CONFIG.voices[block.voice]?.label || block.voice}</span>` : '';
+    // facet words (genre · depth · world) replace the retired voice badge
+    const facetLine = this._cardFacetLine(block);
+    const badge = facetLine ? `<span class="card-facets">${this.escHtml(facetLine)}</span>` : '';
     const newBadge = isNew ? '<span class="card-badge-new">NEW</span>' : '';
     const teaser = block.teaser ? `<div class="card-teaser">${block.teaser}</div>` : '';
 
@@ -1708,8 +1842,7 @@ class PBook {
       preview = `<div class="card-tags">${tags.join('')}</div>`;
     }
 
-    // Voice-colored top border for depth cards
-    const borderStyle = block.type === 'depth' && block.voice ? `border-top: 3px solid var(--${block.voice})` : '';
+    const borderStyle = '';
 
     // Topic tags
     const topics = (this.blockTopics[block.id] || []).slice(0, 2);
@@ -1723,6 +1856,7 @@ class PBook {
       ${teaser}
       ${topicHtml}
       <div class="card-meta">${newBadge}${badge}<span class="card-time">${block.readingTime || 3} min</span></div>
+      ${this._whyHtml(why)}
     </div>`;
   }
 
@@ -1733,13 +1867,30 @@ class PBook {
   }
 
   getContinueBlock() {
-    // Find next unread spine block after last read position
+    // Find the next unread idea (essentials) / spine block (full book)
     for (let ci = this.user.currentChapter; ci < this.book.chapters.length; ci++) {
       const ch = this.chapters[ci];
       if (!ch) continue;
-      const spines = ch.blocks.filter(b => b.type === 'spine');
-      const next = spines.find(b => !this.user.readBlocks.has(b.id));
+      const next = this._nextUnreadInFlow(ch);
       if (next) return next;
+    }
+    return null;
+  }
+
+  // The spine blocks the reader actually meets in a chapter, in order: one served
+  // telling per idea (essentials) or every spine (full book).
+  _flowSpines(ch) {
+    if (!ch) return [];
+    if (this._fullBook()) return ch.blocks.filter(b => b.type === 'spine');
+    return this._chapterGroups(ch).map(g => this._servedTelling(g.cid, g.tellings)).filter(Boolean);
+  }
+  // Next unread step of the flow: in essentials an idea counts as read once ANY
+  // of its tellings was read (the reader chose how to meet it).
+  _nextUnreadInFlow(ch) {
+    if (this._fullBook()) return ch.blocks.find(b => b.type === 'spine' && !this.user.readBlocks.has(b.id)) || null;
+    for (const g of this._chapterGroups(ch)) {
+      if (!g.tellings.length || g.tellings.some(b => this.user.readBlocks.has(b.id))) continue;
+      return this._servedTelling(g.cid, g.tellings);
     }
     return null;
   }
@@ -1771,7 +1922,7 @@ class PBook {
 
     // Scroll: if pending scroll (from openBlock), go to that block; otherwise top
     if (this._pendingScroll) {
-      this._scrollToBlock(this._pendingScroll.parentId, this._pendingScroll.meta);
+      this._scrollToBlock(this._pendingScroll.parentId, this._pendingScroll.meta, this._pendingScroll.instant);
       this._pendingScroll = null;
     } else {
       window.scrollTo(0, 0);
@@ -1788,34 +1939,205 @@ class PBook {
     this._showMissionIntro();
   }
 
+  // ===== ESSENTIALS FLOW: one served telling per concept =====
+  // The chapter shows ONE telling of each concept, chosen for this reader, with
+  // a strip to the others; "Show every telling" (Profile / Settings) restores the
+  // full book. Games and questions stay inline after their concept.
+  _fullBook() { try { return localStorage.getItem('pbook-full-book') === '1'; } catch (e) { return false; } }
+  setFullBook(on) {
+    try { if (on) localStorage.setItem('pbook-full-book', '1'); else localStorage.removeItem('pbook-full-book'); } catch (e) {}
+    this.rc.logEvent('flow_mode', { mode: on ? 'full' : 'essentials' });
+    document.querySelectorAll('.full-book-toggle').forEach(el => { el.checked = !!on; });
+    if (this.currentView === 'read' && this._renderedChapter !== undefined) this.renderRead(this._renderedChapter);
+    else if (this.currentView === 'profile') this.renderProfile();
+  }
+  _readerLang() { return this.user.getTargetFacets().lang || 'en'; }
+
+  // Concept groups of a chapter in reading order (book.json): primary concept → tellings + games/questions
+  _chapterGroups(ch) {
+    if (ch._groups) return ch._groups;
+    const groups = [], byCid = {};
+    for (const b of ch.blocks) {
+      const cid = this._conceptIds(b)[0] || ('_' + b.id);
+      let g = byCid[cid];
+      if (!g) { g = byCid[cid] = { cid, tellings: [], extras: [] }; groups.push(g); }
+      (b.type === 'spine' ? g.tellings : g.extras).push(b);
+    }
+    return (ch._groups = groups);
+  }
+
+  // Which telling a reader gets by default: never a different language than the
+  // reader's when an alternative exists; pinned format preferences (Profile →
+  // Format preferences) pick the best-covering telling; otherwise the anchor.
+  _defaultTelling(cid, tellings) {
+    if (!tellings.length) return null;
+    const anchorId = this.concepts?.[cid]?.anchor;
+    const anchor = tellings.find(b => b.id === anchorId) || tellings[0];
+    const lang = this._readerLang();
+    const same = tellings.filter(b => this._covers(b, 'lang', lang));
+    const pool = same.length ? same : tellings;
+    const first = pool.includes(anchor) ? anchor : pool[0];
+    const pins = {};
+    for (const [k, v] of Object.entries(this.user.steerPrefs || {})) if (v && CONFIG.facets[k] && k !== 'lang') pins[k] = v;
+    if (!Object.keys(pins).length) return first;
+    let best = first, bestS = this._facetMatch(first, pins);
+    for (const b of pool) {
+      const s = this._facetMatch(b, pins);
+      if (s > bestS + 1e-9) { best = b; bestS = s; }          // ties keep the anchor
+    }
+    return best;
+  }
+  // The served telling: a telling the reader asked for (opened it this session,
+  // or picked it in the tellings panel) beats the default.
+  _servedTelling(cid, tellings) {
+    if (!tellings.length) return null;
+    const asked = this._requestedTellings?.[cid] || this._tellingChoices()[cid];
+    return tellings.find(b => b.id === asked) || this._defaultTelling(cid, tellings);
+  }
+
+  // The served telling of a concept anywhere in the book (null in full-book mode)
+  _servedTellingId(cid) {
+    if (this._fullBook()) return null;
+    const anchor = this.findBlock(this.concepts?.[cid]?.anchor);
+    const ch = anchor && this.chapters[anchor.meta._chapterIdx];
+    const g = ch && this._chapterGroups(ch).find(x => x.cid === cid);
+    return g ? this._servedTelling(cid, g.tellings)?.id || null : null;
+  }
+
+  // One short human label per telling, for the "more ways" strip
+  _tellingLabel(b) {
+    const genre = this._facetValues(b, 'genre')[0];
+    if (genre === 'comic' || genre === 'animation') return genre;
+    const lang = this._facetValues(b, 'lang');
+    if (!lang.includes(this._readerLang())) return lang.includes('cs') ? 'česky' : lang[0];
+    const lens = this._facetValues(b, 'lens');
+    const WORLD = { ecommerce: 'shop example', media: 'media example', 'social-feeds': 'feed example', education: 'classroom example', jobs: 'jobs example' };
+    if (!lens.includes('generic') && WORLD[lens[0]]) return WORLD[lens[0]];
+    const len = this._facetValues(b, 'lengthBand');
+    if (len.length === 1 && len[0] === 'tldr') return 'tl;dr';
+    const depth = this._facetValues(b, 'depth');
+    if (this._facetValues(b, 'formalism').includes('full')) return 'formal';
+    if (depth[0] === 'technical' || depth[0] === 'research') return 'technical';
+    if (genre === 'story') return 'story';
+    if (genre === 'worked-example') return 'worked example';
+    if (genre === 'code-walkthrough') return 'code';
+    if (len.includes('deep')) return 'deep';
+    if (depth[0] === 'intro') return 'gentle intro';
+    // the anchor is not "another take" (the notice read "The telling you opened: another take")
+    const id = b.id || b.meta?.id;
+    if (id && this.concepts?.[this._conceptIds(b.meta || b)[0]]?.anchor === id) return 'main telling';
+    return 'another take';
+  }
+
+  // "🎛 N more ways to read this: tl;dr · story · comic…" under the served telling.
+  // A label swaps that telling in; the lead opens the full tellings panel.
+  _moreWaysStrip(served, tellings) {
+    const others = tellings.filter(b => b.id !== served.id);
+    if (!others.length || !this._f('steering')) return '';
+    const byLabel = new Map();
+    for (const b of others) { const l = this._tellingLabel(b); if (!byLabel.has(l)) byLabel.set(l, b); }
+    const shown = [...byLabel.entries()].slice(0, 5);
+    const chips = shown.map(([label, b]) =>
+      `<button class="mw-chip" onclick="app.pickTelling('${served.id}','${b.id}')" title="${this.escHtml(b.title || '')}">${this.escHtml(label)}</button>`).join('<span class="mw-sep">&middot;</span>');
+    return `<div class="more-ways fade-up" id="mw-${served.id}">
+      <button class="mw-lead" onclick="app.openTellings('${served.id}')" title="See every telling of this concept">&#127899;&#65039; ${others.length} more way${others.length > 1 ? 's' : ''} to read this:</button>
+      ${chips}${byLabel.size > shown.length ? '<span class="mw-sep">&hellip;</span>' : ''}
+    </div>`;
+  }
+
+  // Open (not toggle) the tellings panel of a block and bring it into view
+  async openTellings(blockId) {
+    const panel = document.getElementById(`tellings-${blockId}`);
+    if (!panel) return;
+    if (panel.style.display === 'none') await this.toggleTellings(blockId);
+    panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // Back to the default telling for a concept (drops this session's request and the saved pick)
+  resetTelling(cid) {
+    if (this._requestedTellings) delete this._requestedTellings[cid];
+    this._setTellingChoice(cid, null);
+    const anchor = this.findBlock(this.concepts?.[cid]?.anchor);
+    const ch = anchor ? this.chapters[anchor.meta._chapterIdx] : this.chapters[this._renderedChapter];
+    const g = ch && this._chapterGroups(ch).find(x => x.cid === cid);
+    const def = g && this._defaultTelling(cid, g.tellings);
+    if (def) this._rerenderAt(def.id);
+    else this.renderRead(this._renderedChapter);
+  }
+
+  // Minutes at ~220 words/min, from the bodies (readingTime keys are estimates)
+  _minutesOf(blocks) {
+    const words = blocks.reduce((s, b) => s + String(b.body || '').split(/\s+/).filter(Boolean).length, 0);
+    return Math.max(1, Math.round(words / 220));
+  }
+  _fmtMinutes(m) { return m < 60 ? `${m} min` : `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')} min`; }
+
   async _renderChapterContent(ch, idx) {
-    let html = `<div class="ch-head fade-up" id="ch-head-${idx}"><div class="ch-label">Chapter ${ch.number}</div><h2>${ch.title}</h2><div class="ch-sub">${ch.subtitle}</div></div>`;
+    const full = this._fullBook();
+    const groups = this._chapterGroups(ch);
+    this._servedSlot = this._servedSlot || {};
+    const served = new Map();     // cid → served telling (essentials only)
+    if (!full) groups.forEach(g => { const s = this._servedTelling(g.cid, g.tellings); if (s) { served.set(g.cid, s); this._servedSlot[g.cid] = s.id; } });
+    const essentialMin = this._minutesOf([...served.values()]);
+    const fullMin = this._minutesOf(ch.blocks.filter(b => b.type === 'spine'));
+    const pathLine = full
+      ? `Every telling &middot; ${this._fmtMinutes(fullMin)} &middot; <a href="#" onclick="event.preventDefault();app.setFullBook(false)">show one telling per idea</a>`
+      : `${served.size} ideas, one telling each &middot; ~${this._fmtMinutes(essentialMin)} &middot; every telling ${this._fmtMinutes(fullMin)} &middot; <a href="#" onclick="event.preventDefault();app.setFullBook(true)">show all</a>`;
+    let html = `<div class="ch-head fade-up" id="ch-head-${idx}"><div class="ch-label">Chapter ${ch.number}</div><h2>${ch.title}</h2><div class="ch-sub">${ch.subtitle}</div><div class="ch-path">${pathLine}</div></div>`;
 
     let spineCount = 0;
-    for (const block of ch.blocks) {
-      if (block.type === 'spine') {
-        html += await this.renderSpine(block);
-        spineCount++;
-        // Interest-testing interstitial: one proposed-concept card per chapter
-        if (spineCount === 4) {
-          const gp = this._unvotedProposals();
-          if (gp.length) {
-            const pick = gp[idx % gp.length];
-            html += `<div class="fade-up" style="margin:1.2em 0;display:flex;justify-content:center">${this._ghostCardHtml(pick, 'feed' + idx)}</div>`;
-          }
-        }
-        // Insert inline quiz every 2-3 spine blocks
-        if (spineCount % 3 === 0) {
-          const quizHtml = this._generateQuiz(block);
-          if (quizHtml) html += `<div class="inline-quiz fade-up">${quizHtml}</div>`;
-        }
-      } else if (block.type === 'question') {
-        html += this.renderQuestion(block);
-      } else if (block.type === 'game' && this._f('games')) {
-        html += this.renderGame(block);
+    const renderExtra = block => {
+      if (block.type === 'question') return this.renderQuestion(block);
+      if (block.type === 'game' && this._f('games')) return this.renderGame(block);
+      return '';
+    };
+    // Spaced retrieval: after every second idea, a "Check yourself" on the one before it
+    const runs = [], checked = new Set();
+    const closeIdea = cid => {
+      runs.push(cid);
+      const prev = runs[runs.length - 2];
+      if (runs.length % 2 === 0 && this.concepts?.[prev] && !checked.has(prev)) { checked.add(prev); html += this._checkYourselfCard(prev); }
+    };
+    if (full) {
+      // full book: every block in book.json order (as before)
+      let cur = null;
+      for (const block of ch.blocks) {
+        const cid = this._conceptIds(block)[0] || ('_' + block.id);
+        if (cur !== null && cid !== cur) closeIdea(cur);
+        cur = cid;
+        if (block.type === 'spine') {
+          html += await this.renderSpine(block);
+          if (++spineCount === 4) html += this._ghostInterstitial(idx);
+        } else html += renderExtra(block);
       }
+      if (cur !== null) closeIdea(cur);
+      return html;
+    }
+    // essentials: per idea, the served telling + a strip to the others, then its games/questions
+    for (const g of groups) {
+      const s = served.get(g.cid);
+      if (s) {
+        const def = this._defaultTelling(g.cid, g.tellings);
+        if (def && def.id !== s.id) {
+          html += `<div class="variant-notice"><span>&#127899;&#65039; ${this._requestedTellings?.[g.cid] === s.id ? 'The telling you opened' : 'Your picked telling'}: ${this.escHtml(this._tellingLabel(s))}</span>
+            <span><button class="steer-chip" onclick="app.resetTelling('${g.cid}')">&#8617; Default telling</button></span></div>`;
+        }
+        html += await this.renderSpine(s);
+        html += this._moreWaysStrip(s, g.tellings);
+        if (++spineCount === 4) html += this._ghostInterstitial(idx);
+      }
+      for (const block of g.extras) html += renderExtra(block);
+      closeIdea(g.cid);
     }
     return html;
+  }
+
+  // Interest-testing interstitial: one proposed-concept card per chapter
+  _ghostInterstitial(idx) {
+    const gp = this._unvotedProposals();
+    if (!gp.length) return '';
+    const pick = gp[idx % gp.length];
+    return `<div class="fade-up" style="margin:1.2em 0;display:flex;justify-content:center">${this._ghostCardHtml(pick, 'feed' + idx)}</div>`;
   }
 
   _setupInfiniteScroll(pane, startIdx) {
@@ -1886,9 +2208,19 @@ class PBook {
       }
     }
 
-    // Fallback: sequential not-yet-shown blocks, voice-preferred, unread first
+    // Fallback 1: the local explainable recommender (ready concepts, best-fitting telling)
     if (blocks.length < count) {
-      const voice = this.user.preferredVoice;
+      const ex = new Set([...shown, ...blocks.map(b => b.meta.id)]);
+      for (const p of this._nextPicks({ exclude: ex, limit: count - blocks.length })) {
+        const b = this.findBlock(p.meta.id);
+        if (b) blocks.push(b);
+      }
+    }
+    // Fallback 2: sequential not-yet-shown blocks, unread first, best facet fit first
+    if (blocks.length < count) {
+      const target = this.user.getTargetFacets();
+      const fitCache = new Map();
+      const fit = b => { if (!fitCache.has(b)) fitCache.set(b, Math.round(this._facetMatch(b.meta, target) * 3)); return fitCache.get(b); };
       const candidates = this.allBlocks.filter(b =>
         (b.meta.type === 'spine' || (b.meta.type === 'game' && this._f('games'))) &&
         !shown.has(b.meta.id) && !blocks.find(x => x.meta.id === b.meta.id)
@@ -1903,12 +2235,8 @@ class PBook {
         const aRead = this.user.readBlocks.has(a.meta.id) ? 1 : 0;
         const bRead = this.user.readBlocks.has(b.meta.id) ? 1 : 0;
         if (aRead !== bRead) return aRead - bRead;
-        if (voice && voice !== 'universal') {
-          const av = a.meta.voice === voice ? 0 : a.meta.voice === 'universal' ? 1 : 2;
-          const bv = b.meta.voice === voice ? 0 : b.meta.voice === 'universal' ? 1 : 2;
-          return av - bv;
-        }
-        return 0;
+        // coarse fit buckets keep the book's order among similar fits (the sort is stable)
+        return fit(b) - fit(a);
       });
       for (const b of candidates) {
         blocks.push(b);
@@ -1920,6 +2248,39 @@ class PBook {
   }
 
   // (moved inline to renderRead)
+
+  // Dwell needed before a block counts as read: a quarter of its reading time at
+  // ~230 wpm (from the body, not the readingTime estimate), at least 8 s, at most 3 min.
+  _readThresholdMs(block) {
+    const words = String(block?.body || '').split(/\s+/).filter(Boolean).length;
+    const fullMs = words ? (words / 230) * 60000 : (Number(block?.readingTime) || 2) * 60000;
+    return Math.min(Math.max(8000, fullMs * 0.25), 180000);
+  }
+
+  _markRead(id, block, ownerCh, elapsedMs) {
+    if (this.user.readBlocks.has(id)) return;
+    block = block || this.findBlock(id)?.meta;
+    ownerCh = ownerCh || (block && this.chapters[block._chapterIdx]);
+    this.user.trackRead(id, block?.voice, this._blockFacets(block));
+    this.rc.sendView(id, Math.round((elapsedMs || 0) / 1000));
+    const art = document.getElementById(`b-${id}`);
+    art?.querySelector('.block-status')?.classList.remove('seen');
+    art?.querySelector('.block-status')?.classList.add('read');
+    art?.querySelector('.mark-read-btn')?.remove();
+    this._revealFeedbackBar(id);
+    this._updateInlineReadNext(id, ownerCh);
+    this._insertInlineRecall(id);
+    this.showXPToast('+10 XP', 'xp');
+    this.checkGamificationEvents();
+    this._updateMissionBar();
+    this._refreshMiniBoard();
+  }
+
+  // Explicit "Mark as read" at the end of a block (counts like a full dwell)
+  markReadNow(id) {
+    if (this._dwellTimers?.[id]) { clearInterval(this._dwellTimers[id]); delete this._dwellTimers[id]; }
+    this._markRead(id, null, null, this._dwellAcc?.[id] || 0);
+  }
 
   _observeBlocks(ch) {
     // Dwell-time tracking: seen after 3s visible, read after estimated reading time
@@ -1942,16 +2303,23 @@ class PBook {
           const ownerCh = this._observedChapters[id];
           const block = ownerCh ? ownerCh.blocks.find(b => b.id === id) : null;
           if (block) this._setFeedFocus(block);
-          const readTimeMs = Math.min(((block?.readingTime || 2) * 60 * 1000) * 0.15, 12000); // 15% of reading time, max 12s — kids read fast!
-          const startTime = Date.now();
+          const readTimeMs = this._readThresholdMs(block);
+          // dwell ACCUMULATES across visits (scrolling back up does not reset it)
+          if (!this._dwellAcc) this._dwellAcc = {};
+          if (!this._reachedEnd) this._reachedEnd = {};
+          const startTime = Date.now() - (this._dwellAcc[id] || 0);
+          if (this._dwellTimers[id]) clearInterval(this._dwellTimers[id]);
 
           this._dwellTimers[id] = setInterval(() => {
             const elapsed = Date.now() - startTime;
+            this._dwellAcc[id] = elapsed;
+            // the end of the block has been on screen at least once
+            if (!this._reachedEnd[id] && e.target.getBoundingClientRect().bottom <= window.innerHeight + 24) this._reachedEnd[id] = true;
 
             // The steering bar stays hidden while the reader reads — asking
             // "how did this land" mid-read is invasive. It appears at the same
             // dwell threshold that marks the section read (also on revisits).
-            if (elapsed >= readTimeMs) this._revealFeedbackBar(id);
+            if (elapsed >= readTimeMs && this._reachedEnd[id]) this._revealFeedbackBar(id);
             // After 3s: mark as "seen" + update sidebar context
             if (elapsed >= 3000 && !this.user.seenBlocks.has(id)) {
               this.user.trackSeen(id);
@@ -1961,19 +2329,11 @@ class PBook {
               // context panel removed
             }
 
-            // After reading time: mark as "read"
-            if (elapsed >= readTimeMs && !this.user.readBlocks.has(id)) {
-              this.user.trackRead(id, block?.voice, this._blockFacets(block));
-              this.rc.sendView(id, Math.round(elapsed / 1000));
-              e.target.querySelector('.block-status')?.classList.remove('seen');
-              e.target.querySelector('.block-status')?.classList.add('read');
-              // context panel removed
-              this._updateInlineReadNext(id, ownerCh);
-              this._insertInlineRecall(id);
-              this.showXPToast('+10 XP', 'xp');
-              this.checkGamificationEvents();
-              this._updateMissionBar();
-              this._refreshMiniBoard();
+            // Read = the reader reached the end of the block AND stayed long
+            // enough for its length (or tapped "Mark as read")
+            if (elapsed >= readTimeMs && this._reachedEnd[id] && !this.user.readBlocks.has(id)) {
+              this._markRead(id, block, ownerCh, elapsed);
+              this._checkProgressMoments?.();   // chapter complete card (js/ux.js)
               clearInterval(this._dwellTimers[id]);
             }
 
@@ -2005,7 +2365,7 @@ class PBook {
 
   // Highlights come exclusively from frontmatter `highlights` array — no auto-generation
   _getHighlights(block) {
-    if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights;
+    if (block.highlights && Array.isArray(block.highlights) && block.highlights.length) return block.highlights.map(h => smartPunct(h));
     return null;
   }
 
@@ -2062,19 +2422,23 @@ class PBook {
     const chTitle = block._chapterTitle || '';
     // Position within chapter
     const ch = this.chapters[block._chapterIdx];
-    const chSpines = ch ? ch.blocks.filter(b => b.type === 'spine') : [];
-    const posInCh = chSpines.findIndex(b => b.id === block.id) + 1;
+    const chSpines = this._flowSpines(ch);
+    const myCid = this._conceptIds(block)[0];
+    const posInCh = (chSpines.findIndex(b => b.id === block.id) + 1)
+      || (chSpines.findIndex(b => myCid && this._conceptIds(b)[0] === myCid) + 1);
     const totalInCh = chSpines.length;
 
     return `<article class="block-article fade-up" id="b-${block.id}">
       ${this._prereqBanner(block)}
       ${overrideBar}
       <div class="block-nav">
-        <button class="bnav-back" onclick="app.goBack()" title="Go back">&larr;</button>
-        <span class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})">Ch${chNum}</span>
+        <button class="bnav-back" onclick="app.goBack()" title="Back" aria-label="Back">&larr;</button>
+        <span class="bnav-sep" aria-hidden="true">|</span>
+        <button class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})" title="Chapter ${chNum} on the map">Chapter ${chNum}</button>
         <span class="bnav-sep">&middot;</span>
-        <span class="bnav-progress">${posInCh}/${totalInCh}</span>
-        ${block.core ? '<span class="bnav-core">CORE</span>' : ''}
+        <span class="bnav-progress" title="Section ${posInCh} of ${totalInCh} in this chapter">${posInCh} of ${totalInCh}</span>
+        ${block.core ? '<span class="bnav-core" title="Essential and verified by the authors">Essential</span>' : ''}
+        ${block.status && block.status !== 'accepted' ? `<span class="bnav-core bnav-draft" title="Visible only in admin preview (pbook-admin) until an editor accepts it">${this.escHtml(block.status)}</span>` : ''}
         <div class="block-status ${isRead ? 'read' : this.user.seenBlocks.has(block.id) ? 'seen' : ''}"></div>
       </div>
       <div class="block-header">
@@ -2100,16 +2464,12 @@ class PBook {
             ${this.user.ratings.get(block.id)>=0.7?'&#10084;&#65039;':'&#9825;'}
             <span>${this.user.ratings.get(block.id)>=0.7?'Liked':'Like'}</span>
           </button>
+          ${isRead ? '' : `<button class="mark-read-btn" onclick="app.markReadNow('${block.id}')" title="Count this section as read">&#10003; Mark as read</button>`}
         </div>
         <div class="block-actions">
-          <button class="improve-btn" onclick="app.improveBlock('${block.id}')" title="Edit this section yourself, or let AI rewrite it">&#9999;&#65039; Improve</button>
-          <button class="act-btn tutor-btn" onclick="app.askAboutBlock('${block.id}')" title="Ask the tutor">&#10067;</button>
-          <button class="act-btn" onclick="app.toggleNote('${block.id}')" title="Add note">&#128221;</button>
-          <button class="act-btn" onclick="app.startAuthoringFromBlock('${block.id}')" title="Open in the author studio — bigger edits your way">&#9997;&#65039;</button>
-          ${this.user.recall[block.id] ? `<button class="act-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#129504;</button>` : ''}
-          <button class="act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save for later">&#128278;</button>
-          <button class="act-btn share-btn" onclick="app.shareBlock('${block.id}')" title="Share">&#128279;</button>
-          <button class="act-btn flag-btn" onclick="app.flagBlock('${block.id}')" title="Suggest edit to author">&#9873;</button>
+          ${this.user.recall[this._recallKey(block.id)] ? `<button class="block-more-btn" onclick="app.showBlockRecall('${block.id}')" title="Test your memory">&#10003; Check yourself</button>` : ''}
+          <button class="block-more-btn act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save" aria-label="Save for later">&#128278; Save</button>
+          <button class="block-more-btn" onclick="app.openBlockMenu('${block.id}')" aria-haspopup="dialog" title="More actions">&#8943; More</button>
         </div>
       </div>
       <div class="note-editor" id="note-${block.id}" style="display:none">
@@ -2420,200 +2780,12 @@ class PBook {
     }
   }
 
-  // ===== MINI-GAMES (data-driven from games/*.json) =====
-  renderGame(block) {
-    const gameFile = block.game || block.gameType || block.id;
-    return `<div class="game-block fade-up" id="b-${block.id}">
-      <div class="game-header">
-        <span class="game-icon">\u{1F3AE}</span>
-        <h4>${block.title}</h4>
-        <span class="game-timer" id="gt-${block.id}">1:00</span>
-      </div>
-      <div class="game-area" id="ga-${block.id}"></div>
-      <button class="game-start-btn" onclick="app.startGame('${block.id}','${gameFile}')">Play!</button>
-    </div>`;
-  }
-
-  async startGame(blockId, gameFile) {
-    const area = document.getElementById(`ga-${blockId}`);
-    const timerEl = document.getElementById(`gt-${blockId}`);
-    const startBtn = area?.parentElement?.querySelector('.game-start-btn');
-    if (!area) return;
-    if (startBtn) startBtn.style.display = 'none';
-
-    // Load game data from JSON
-    let game;
-    try {
-      const res = await fetch(`games/${gameFile}.json`);
-      game = await res.json();
-    } catch (e) {
-      area.innerHTML = '<div class="game-over">Could not load game.</div>';
-      return;
-    }
-
-    // 60s timer
-    let seconds = 60;
-    if (this._activeGameTimer) clearInterval(this._activeGameTimer);
-    this._activeGameTimer = setInterval(() => {
-      seconds--;
-      if (timerEl) timerEl.textContent = `0:${seconds.toString().padStart(2, '0')}`;
-      if (seconds <= 10 && timerEl) timerEl.style.color = '#EF4444';
-      if (seconds <= 0) {
-        clearInterval(this._activeGameTimer);
-        this._gameEnd(area, 'Time\'s up! Nice try.');
-      }
-    }, 1000);
-
-    // Launch by type
-    if (game.type === 'sort') this._gameSort(area, game);
-    else if (game.type === 'pairs' || (game.type === 'match' && game.pairs)) this._gamePairs(area, game);
-    else if (game.type === 'match') this._gameMatch(area, game);
-    else if (game.type === 'pop') this._gamePop(area, game);
-    else if (game.type === 'order') this._gameOrder(area, game);
-    else this._gameSort(area, game);
-  }
-
-  _gameEnd(area, msg) {
-    if (this._activeGameTimer) clearInterval(this._activeGameTimer);
-    area.innerHTML = `<div class="game-over">${msg} <b>+5 XP</b></div>`;
-    this.user.addXP(5); this.user.save();
-    this.showXPToast('+5 XP \u{1F3AE}', 'xp');
-    this._updateMissionBar();
-    setTimeout(() => {
-      const block = area.closest('.game-block');
-      if (block) { block.style.opacity = '.5'; block.style.pointerEvents = 'none'; }
-    }, 2500);
-  }
-
-  // Sort game: classify items into two buckets
-  _gameSort(area, game) {
-    const items = [...game.items].sort(() => Math.random() - 0.5);
-    let score = 0, idx = 0;
-    const show = () => {
-      if (idx >= items.length) { this._gameEnd(area, `Done! ${score}/${items.length} correct.`); return; }
-      const item = items[idx++];
-      area.innerHTML = `<div class="game-signal-card">${item.text}</div>
-        <div class="game-buckets">${game.buckets.map((b, bi) =>
-          `<button class="game-bucket ${bi === 0 ? 'strong' : 'weak'}" data-ans="${bi}">${b}</button>`
-        ).join('')}</div>
-        <div class="game-score">${score}/${idx - 1} correct</div>`;
-      area.querySelectorAll('.game-bucket').forEach(btn => {
-        btn.onclick = () => {
-          area.querySelectorAll('.game-bucket').forEach(b => b.disabled = true);
-          if (parseInt(btn.dataset.ans) === item.answer) { btn.classList.add('game-correct'); score++; }
-          else btn.classList.add('game-wrong');
-          setTimeout(show, 500);
-        };
-      });
-    };
-    show();
-  }
-
-  // Match game: find taste twin in a rating grid
-  _gameMatch(area, game) {
-    const items = game.items;
-    const you = items.map(() => Math.ceil(Math.random() * 5));
-    const users = game.users.map(name => ({
-      name,
-      ratings: items.map(() => Math.ceil(Math.random() * 5))
-    }));
-    const twin = Math.floor(Math.random() * users.length);
-    users[twin].ratings = items.map((_, j) => Math.max(1, Math.min(5, you[j] + (Math.random() < 0.65 ? 0 : (Math.random() < 0.5 ? -1 : 1)))));
-
-    let table = `<table class="game-table"><tr><th></th>${items.map(m => `<th>${m}</th>`).join('')}</tr>`;
-    table += `<tr class="game-you"><td><b>You</b></td>${you.map(r => `<td>${'\u2B50'.repeat(r)}</td>`).join('')}</tr>`;
-    users.forEach(u => { table += `<tr><td class="game-pick">${u.name}</td>${u.ratings.map(r => `<td>${'\u2B50'.repeat(r)}</td>`).join('')}</tr>`; });
-    table += '</table>';
-    area.innerHTML = `<div class="game-prompt">${game.instruction}</div>${table}`;
-    area.querySelectorAll('.game-pick').forEach((td, i) => {
-      td.onclick = () => {
-        if (i === twin) { this._gameEnd(area, `Correct! ${users[twin].name} is your taste twin! That's collaborative filtering.`); }
-        else { td.style.color = '#EF4444'; td.style.textDecoration = 'line-through'; }
-      };
-    });
-  }
-
-  // Pairs game: one definition at a time, pick the matching term from 4 choices.
-  // (A generic term↔definition mechanic — the old approach of abusing the sort
-  // game with 8-10 "buckets" produced an unusable wall of buttons.)
-  _gamePairs(area, game) {
-    const pairs = [...game.pairs].sort(() => Math.random() - 0.5);
-    let score = 0, idx = 0;
-    const show = () => {
-      if (idx >= pairs.length) { this._gameEnd(area, `Done! Correct: ${score}/${pairs.length}.`); return; }
-      const cur = pairs[idx++];
-      const wrong = game.pairs.map(x => x.a).filter(a => a !== cur.a).sort(() => Math.random() - 0.5).slice(0, 3);
-      const opts = [cur.a, ...wrong].sort(() => Math.random() - 0.5);
-      area.innerHTML = `<div class="game-signal-card">${cur.b}</div>
-        <div class="game-prompt" style="margin:.3em 0">${game.instruction || 'Which term is it?'}</div>
-        <div class="game-buckets game-pairs">${opts.map(o => `<button class="game-bucket">${o}</button>`).join('')}</div>
-        <div class="game-score">Correct: ${score}/${idx - 1}</div>`;
-      area.querySelectorAll('.game-bucket').forEach(btn => {
-        btn.onclick = () => {
-          area.querySelectorAll('.game-bucket').forEach(b => b.disabled = true);
-          if (btn.textContent === cur.a) { btn.classList.add('game-correct'); score++; }
-          else {
-            btn.classList.add('game-wrong');
-            area.querySelectorAll('.game-bucket').forEach(b => { if (b.textContent === cur.a) b.classList.add('game-correct'); });
-          }
-          setTimeout(show, 750);
-        };
-      });
-    };
-    show();
-  }
-
-  // Pop game: click items to collect/escape
-  _gamePop(area, game) {
-    const cats = [...game.categories];
-    const target = cats[Math.floor(Math.random() * cats.length)];
-    const popped = new Set();
-    const render = () => {
-      area.innerHTML = `<div class="game-prompt">${game.instruction} Your bubble: <b>${target}</b> (${popped.size}/${cats.length - 1})</div>
-        <div class="game-bubble-grid">${cats.sort(() => Math.random() - 0.5).map(c => {
-          const done = popped.has(c);
-          return `<button class="game-bubble-item ${c === target ? 'in-bubble' : ''} ${done ? 'popped' : ''}" ${done ? 'disabled' : ''}>${c}</button>`;
-        }).join('')}</div>`;
-      area.querySelectorAll('.game-bubble-item:not([disabled])').forEach(btn => {
-        btn.onclick = () => {
-          if (btn.textContent.trim() === target) { btn.classList.add('game-wrong'); }
-          else { popped.add(btn.textContent.trim()); if (popped.size >= cats.length - 1) this._gameEnd(area, 'Bubble popped! Diversity wins!'); else render(); }
-        };
-      });
-    };
-    render();
-  }
-
-  // Order game: put steps in correct sequence
-  _gameOrder(area, game) {
-    const steps = game.steps;
-    const shuffled = steps.map((text, i) => ({ text, order: i })).sort(() => Math.random() - 0.5);
-    const selected = [];
-    const render = () => {
-      const remaining = shuffled.filter(s => !selected.includes(s));
-      area.innerHTML = `<div class="game-prompt">${game.instruction}</div>
-        <div class="game-pipeline-selected">${selected.map((s, i) => `<div class="game-pipe-step done">${i + 1}. ${s.text}</div>`).join('')}</div>
-        <div class="game-pipeline-options">${remaining.map(s =>
-          `<button class="game-pipe-btn">${s.text}</button>`
-        ).join('')}</div>`;
-      area.querySelectorAll('.game-pipe-btn').forEach(btn => {
-        btn.onclick = () => {
-          const step = remaining.find(s => s.text === btn.textContent);
-          if (step && step.order === selected.length) {
-            selected.push(step);
-            if (selected.length >= steps.length) this._gameEnd(area, 'Perfect order! You nailed the pipeline!');
-            else render();
-          } else { btn.classList.add('game-wrong'); setTimeout(() => btn.classList.remove('game-wrong'), 400); }
-        };
-      });
-    };
-    render();
-  }
+  // ===== MINI-GAMES: the engine lives in js/games.js (installGames, below) =====
 
   renderQuestion(block) {
     // Structured options in frontmatter
     if (block.options && Array.isArray(block.options)) {
-      const opts = block.options.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.voice || 'universal'}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${o.text}</span></button>`).join('');
+      const opts = block.options.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.letter}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${o.text}</span></button>`).join('');
       return `<div class="q-block fade-up"><h4>${block.title}</h4><div class="q-desc">${block.description || ''}</div><div class="q-opts">${opts}</div></div>`;
     }
     // Body-based question: parse A/B/C/D options from markdown body
@@ -2621,14 +2793,13 @@ class PBook {
       const bodyHtml = renderMarkdown(block.body);
       // Extract lettered options and create clickable buttons
       const optRegex = /\*\*([A-D])[):.]*\*{0,2}\s*"([^"]+)"/g;
-      const voiceMap = { A: 'explorer', B: 'creator', C: 'thinker', D: 'universal' };
       const opts = [];
       let m;
       while ((m = optRegex.exec(block.body)) !== null) {
-        opts.push({ letter: m[1], text: m[2].trim().substring(0, 80), voice: voiceMap[m[1]] || 'universal' });
+        opts.push({ letter: m[1], text: m[2].trim().substring(0, 80) });
       }
       if (opts.length >= 2) {
-        const optsHtml = opts.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.voice}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${o.text}</span></button>`).join('');
+        const optsHtml = opts.map(o => `<button class="q-opt" onclick="app.answerQ(this,'${o.letter}','${block.id}')"><span class="q-letter">${o.letter}</span><span>${this.escHtml(o.text)}</span></button>`).join('');
         return `<div class="q-block fade-up" id="b-${block.id}"><div class="block-header"><h4>${block.title}</h4></div><div class="spine-body">${bodyHtml}</div><div class="q-opts">${optsHtml}</div></div>`;
       }
       // No parseable options — just render as article
@@ -2640,29 +2811,29 @@ class PBook {
   // Inline "read next" below each article — shown after block is read
   renderReadNext(blockId, ch) {
     if (!ch || !Array.isArray(ch.blocks)) return '';   // generated/remixed blocks have no chapter entry
-    const spines = ch.blocks.filter(b => b.type === 'spine');
-    const currentIdx = spines.findIndex(b => b.id === blockId);
+    const spines = this._flowSpines(ch);
+    let currentIdx = spines.findIndex(b => b.id === blockId);
+    if (currentIdx < 0) {           // a telling other than the served one: continue after its idea
+      const cur = ch.blocks.find(b => b.id === blockId);
+      const cid = cur && this._conceptIds(cur)[0];
+      currentIdx = cid ? spines.findIndex(b => this._conceptIds(b)[0] === cid) : -1;
+    }
     const nextInChapter = spines[currentIdx + 1];
 
-    // Find a personalized recommendation (different from sequential next)
-    let recBlock = null;
-    const unreadOther = this.allBlocks.filter(b =>
-      b._chapter !== ch.id && b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id) && b.meta.id !== nextInChapter?.id
-    );
-    // Prefer voice-matching blocks
-    const voice = this.user.preferredVoice;
-    if (voice && voice !== 'universal') {
-      recBlock = unreadOther.find(b => b.meta.voice === voice) || unreadOther[0];
-    } else {
-      recBlock = unreadOther.sort(() => Math.random() - 0.5)[0];
-    }
+    // The local explainable recommender (js/ux.js _nextPicks) — it used to be a
+    // random unread block from anywhere in the book, with no reason given.
+    const here = new Set([blockId, nextInChapter?.id].filter(Boolean).flatMap(id => {
+      const b = this._findAnyBlock(id); return b ? this._conceptIds(b.meta) : [];
+    }));
+    const pick = this._nextPicks({ exclude: new Set([blockId, nextInChapter?.id]), limit: 6 }).find(p => !here.has(p.cid)) || null;
+    const recBlock = pick ? { meta: pick.meta } : null;
 
     let items = '';
     if (nextInChapter) {
       items += `<div class="rn-item" onclick="app.previewBlock('${nextInChapter.id}')"><span class="rn-label">Next</span><span class="rn-title">${nextInChapter.title}</span><span class="rn-time">${nextInChapter.readingTime || 3}m</span></div>`;
     }
     if (recBlock) {
-      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">\u2728 Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${recBlock.meta._chapterNum}</span></div>`;
+      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">Recommended</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">Ch${this._conceptChapterNum(pick.cid)}</span></div>${this._whyHtml(pick)}`;
     }
     if (!items) return '';
 
@@ -2772,16 +2943,17 @@ class PBook {
     if (!quiz) return;
     const article = document.getElementById(`b-${blockId}`);
     if (!article) return;
+    const key = this._recallKey(blockId);     // the concept's card
     const html = `<div class="inline-recall fade-up" id="block-recall-${blockId}">
       <div class="ir-header"><span class="ir-icon">\u{1F9E0}</span> Test your memory</div>
       <div class="ir-question">${quiz.q}</div>
       <div class="ir-answer" id="br-a-${blockId}" style="display:none">
         <div class="ir-answer-text">${quiz.a}</div>
-        ${this.user.recall[blockId] ? `<div class="recall-buttons">
-          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${blockId}',0,this)">Forgot</button>
-          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${blockId}',1,this)">Hard</button>
-          <button class="recall-btn recall-good" onclick="app.scoreRecall('${blockId}',2,this)">Good</button>
-          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${blockId}',3,this)">Easy!</button>
+        ${this.user.recall[key] ? `<div class="recall-buttons">
+          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${key}',0,this)">Forgot</button>
+          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${key}',1,this)">Hard</button>
+          <button class="recall-btn recall-good" onclick="app.scoreRecall('${key}',2,this)">Good</button>
+          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${key}',3,this)">Easy!</button>
         </div>` : `<button class="recall-reveal" onclick="document.getElementById('block-recall-${blockId}').remove()">Got it!</button>`}
       </div>
       <button class="recall-reveal" onclick="document.getElementById('br-a-${blockId}').style.display='block';this.style.display='none'">Show answer</button>
@@ -2792,11 +2964,12 @@ class PBook {
 
   _insertInlineRecall(justReadId) {
     if (!this._f('spaceRepetition')) return;
-    // Find a due or almost-due recall for a DIFFERENT block
+    // Find a due or almost-due recall for a DIFFERENT concept
     const now = Date.now();
     const soonThreshold = 30 * 60 * 1000;
+    const justKey = this._recallKey(justReadId);
     const due = Object.entries(this.user.recall)
-      .filter(([id, c]) => id !== justReadId && c.nextReview <= now + soonThreshold)
+      .filter(([id, c]) => id !== justReadId && id !== justKey && c.nextReview <= now + soonThreshold)
       .sort((a, b) => a[1].nextReview - b[1].nextReview)
       .map(([blockId, card]) => ({ blockId, ...card }));
     if (!due.length) return;
@@ -2825,7 +2998,7 @@ class PBook {
           <button class="recall-btn recall-easy" onclick="app.scoreRecall('${r.blockId}',3,this)">Easy!</button>
         </div>
       </div>
-      <button class="recall-reveal" onclick="document.getElementById('ir-a-${r.blockId}').style.display='block';this.style.display='none'">Hmm... Show answer!</button>
+      <button class="recall-reveal" onclick="document.getElementById('ir-a-${r.blockId}').style.display='block';this.style.display='none'">Show answer</button>
     </div>`;
     insertAfter.insertAdjacentHTML('afterend', html);
   }
@@ -2852,168 +3025,68 @@ class PBook {
     </div>`;
   }
 
-  _generateQuiz(block) {
-    const body = (block.body || '').toLowerCase();
-    const quizzes = [];
+  // "Check yourself" — an interstitial built from the concept CONTRACT (human-owned
+  // recallQ/recallA, AGENTS §9), never from keyword templates. Rendered one concept
+  // after the reader met it (spaced retrieval); grading seeds the concept's card.
+  _checkYourselfCard(cid) {
+    const quiz = this._conceptRecall(cid);
+    if (!quiz) return '';                       // no contract recall → no interstitial
+    const key = this._recallKey(this.concepts?.[cid]?.anchor || cid);
+    const uid = 'cy-' + String(cid).replace(/[^\w-]/g, '');
+    return `<div class="inline-recall check-yourself fade-up" id="${uid}">
+      <div class="ir-header"><span class="ir-icon">&#129504;</span> Check yourself <span class="cy-concept">${this.escHtml(this.concepts?.[cid]?.title || '')}</span></div>
+      <div class="ir-question">${quiz.q}</div>
+      <div class="ir-answer" id="${uid}-a" style="display:none">
+        <div class="ir-answer-text">${quiz.a}</div>
+        <div class="ir-from">How well did you know it? Your answer schedules the next review.</div>
+        <div class="recall-buttons">
+          <button class="recall-btn recall-forgot" onclick="app.scoreRecall('${key}',0,this)">Forgot</button>
+          <button class="recall-btn recall-hard" onclick="app.scoreRecall('${key}',1,this)">Hard</button>
+          <button class="recall-btn recall-good" onclick="app.scoreRecall('${key}',2,this)">Good</button>
+          <button class="recall-btn recall-easy" onclick="app.scoreRecall('${key}',3,this)">Easy</button>
+        </div>
+      </div>
+      <button class="recall-reveal" onclick="document.getElementById('${uid}-a').style.display='block';this.style.display='none'">Think first, then show the answer</button>
+    </div>`;
+  }
 
-    // --- Kid-friendly quizzes matched to content keywords ---
-
-    // Ch1: What are recommendations
-    if (body.includes('youtube') && body.includes('recommend')) quizzes.push({ q: 'How does YouTube pick videos for your homepage?', a: 'It looks at what you watched before and finds patterns — if you liked cat videos, it guesses you might like more!' });
-    if (body.includes('pattern')) quizzes.push({ q: 'What are recommender systems really good at finding?', a: 'Patterns! They notice things like "people who liked X also liked Y" — like a super-powered detective.' });
-    if (body.includes('discover') && body.includes('find')) quizzes.push({ q: 'Can you name the 3 jobs of a recommender system?', a: '1) Help you DISCOVER new things, 2) Help you FIND stuff faster, 3) Keep you INTERESTED so you come back!' });
-    if (body.includes('peppa pig') || body.includes('wrong') || body.includes('hilarious')) quizzes.push({ q: 'Why do recommendations sometimes go totally wrong?', a: 'Because the system only sees clicks, not reasons. If your sibling watches cartoons on your account, it thinks YOU like cartoons!' });
-
-    // Ch2: How they learn
-    if (body.includes('footprint') || body.includes('digital')) quizzes.push({ q: 'What are "digital footprints"?', a: 'Every click, watch, skip, and search you make — like footprints in sand that tell the system about your taste!' });
-    if (body.includes('skip') && body.includes('watch')) quizzes.push({ q: 'Which tells the system MORE about you: watching a video to the end, or skipping after 3 seconds?', a: 'Both! Watching to the end says "loved it!" Skipping says "not for me." The system learns from everything you do.' });
-    if (body.includes('cold start') || body.includes('new account')) quizzes.push({ q: 'What happens when you create a brand new account?', a: 'The "cold start" problem! The system has zero clues about you, so recommendations are pretty random at first. But it learns FAST!' });
-    if (body.includes('privacy') || body.includes('your data')) quizzes.push({ q: 'True or false: You have NO control over what recommendations show you.', a: 'FALSE! You can clear history, say "not interested," use separate profiles, and even go incognito. Your data = your choice!' });
-
-    // Ch3: Different methods
-    if (body.includes('collaborative') || body.includes('similar taste')) quizzes.push({ q: 'You and your friend both love the same 5 movies. Your friend finds a new one and loves it. Will you probably like it too?', a: 'Probably yes! That is exactly how collaborative filtering works — finding people with matching taste and sharing their discoveries.' });
-    if (body.includes('content-based') || body.includes('look at the thing')) quizzes.push({ q: 'What is the difference between asking your friends vs. looking at the thing itself?', a: 'Asking friends (collaborative filtering) = find people with similar taste. Looking at the thing (content-based) = find items with similar features. Both work, but differently!' });
-    if (body.includes('popular') || body.includes('trending')) quizzes.push({ q: 'Why is "just show what is popular" not always the best strategy?', a: 'Because it does not know YOU at all! Popular stuff is popular for a reason, but you might have unique tastes that trending lists miss completely.' });
-    if (body.includes('pipeline') || body.includes('find') && body.includes('rank')) quizzes.push({ q: 'What are the 3 steps in a recommendation pipeline?', a: '1) FIND — gather hundreds of candidates, 2) RANK — score each one for you personally, 3) CHECK — add variety and remove stuff you already saw!' });
-    if (body.includes('netflix') && body.includes('prize')) quizzes.push({ q: 'Netflix offered $1 million for better recommendations. What happened?', a: 'Over 40,000 teams competed! The winners made it 10% better by combining 100+ methods. But it was too complicated to actually use. Sometimes simpler is better!' });
-
-    // Ch4: Making them better
-    if (body.includes('filter bubble') || body.includes('bubble')) quizzes.push({ q: 'What is a "filter bubble" and why should you care?', a: 'When recommendations only show you things you already like, you get stuck in a bubble. You never discover new interests! It is like only eating pizza forever.' });
-    if (body.includes('echo chamber')) quizzes.push({ q: 'How is an echo chamber different from a filter bubble?', a: 'A filter bubble limits what you discover. An echo chamber is worse — it makes you think EVERYONE agrees with you because you only hear your own opinions reflected back!' });
-    if (body.includes('fair') || body.includes('new creator')) quizzes.push({ q: 'Why might a recommendation system be unfair to new creators?', a: 'Because popular creators get recommended more → get more views → become even more popular. New creators barely get seen. Good systems give new content a chance!' });
-    if (body.includes('a/b test') || body.includes('experiment')) quizzes.push({ q: 'What is an A/B test?', a: 'A science experiment with real users! Half see version A, half see version B. Compare the results to find out which is actually better. Companies do this all the time!' });
-
-    // Ch5: Build your own
-    if (body.includes('survey') || body.includes('rate') && body.includes('movie')) quizzes.push({ q: 'What is the first step to building your own recommendation system?', a: 'Collect data! Survey your friends — ask them to rate movies 1-5 stars. That grid of ratings is exactly what Netflix and Spotify use!' });
-    if (body.includes('similar') && body.includes('rating')) quizzes.push({ q: 'How do you find people with similar taste using a rating grid?', a: 'Look for people who gave the SAME movies similar scores. If you both rated Frozen 5 stars and Moana 4 stars, you probably have matching taste!' });
-    if (body.includes('predict') || body.includes('empty cell')) quizzes.push({ q: 'How do you predict if someone will like a movie they have not seen?', a: 'Find 2-3 people with similar taste who DID see it. Average their ratings. If they gave it 4+ stars, recommend it!' });
-    if (body.includes('improve') || body.includes('more data')) quizzes.push({ q: 'Name 2 ways to make your recommendation system better.', a: 'Get MORE data (survey more people), and do not just look at ratings — also consider what TYPE of movie it is (animation, action, comedy)!' });
-
-    // Fallback: generate from title
-    if (quizzes.length === 0) {
-    // Ch6: Ethics
-    if (body.includes('rabbit hole') || body.includes('who decides')) quizzes.push({ q: 'Who decides what appears on your YouTube homepage — you, YouTube, or the algorithm?', a: 'The algorithm decides! It was built by YouTube engineers who told it to maximize watch time. You influence it with clicks, but the final call is the algorithm\'s.' });
-    if (body.includes('autoplay') || body.includes('infinite scroll') || body.includes('addictive')) quizzes.push({ q: 'Why is there no natural stopping point on TikTok or YouTube?', a: 'By design! Infinite scroll and autoplay mean there\'s always another video ready. It\'s like a bag of chips that never runs out. Knowing this is the first step to taking control.' });
-    if (body.includes('dopamine') || body.includes('one more')) quizzes.push({ q: 'What brain chemical makes you want to watch "just one more video"?', a: 'Dopamine! It\'s released when you see something surprising or rewarding. The uncertainty of "will the next video be good?" creates a dopamine loop. Recognizing it is a superpower!' });
-    if (body.includes('privacy') || body.includes('data') && body.includes('know')) quizzes.push({ q: 'Can you check what data YouTube has collected about you?', a: 'Yes! Go to myactivity.google.com — you can see every video you\'ve ever watched. You can also delete it or set it to auto-delete.' });
-    if (body.includes('future') || body.includes('your generation')) quizzes.push({ q: 'Why does YOUR generation understand algorithms better than most adults?', a: 'Because you grew up WITH them! You notice when recommendations are weird, you know how to game the algorithm, and you feel the pull of infinite scroll. That experience is real knowledge.' });
-    if (body.includes('eu') || body.includes('law') || body.includes('digital services')) quizzes.push({ q: 'What new right did the EU give people regarding algorithms?', a: 'The right to opt OUT of algorithmic recommendations! The Digital Services Act also stops platforms from using kids\' personal data for recommendations.' });
-
-    // Fallback
-    if (quizzes.length === 0)
-      quizzes.push({ q: 'Can you explain "' + (block.title || 'this topic') + '" to a friend in one sentence?', a: 'Try it! If you can explain it simply, you really understand it. If not, read the section again — it will make more sense the second time!' });
+  // The concept's recall question, in the reader's language when a telling in that
+  // language carries one (every telling answers the same contract); else the contract.
+  _conceptRecall(cid) {
+    const c = this.concepts?.[cid];
+    const clean = s => String(s).replace(/\\(["'])/g, '$1');   // concepts.json keeps YAML escapes
+    const lang = this._readerLang();
+    if (lang !== 'en') {
+      const local = (this.conceptBlocks?.[cid] || []).find(b => b.meta.recallQ && b.meta.recallA && this._covers(b.meta, 'lang', lang));
+      if (local) return { q: local.meta.recallQ, a: local.meta.recallA };
     }
+    if (c?.contract?.recallQ && c.contract.recallA) return { q: clean(c.contract.recallQ), a: clean(c.contract.recallA) };
+    const anchor = c?.anchor && this.findBlock(c.anchor);
+    if (anchor?.meta.recallQ && anchor.meta.recallA) return { q: anchor.meta.recallQ, a: anchor.meta.recallA };
+    return null;
+  }
 
-    const quiz = quizzes[Math.floor(Math.random() * quizzes.length)];
-    return `<h4>&#129504; Quick Quiz!</h4>
-      <div class="ctx-quiz">
-        <div class="ctx-quiz-q">${quiz.q}</div>
-        <button class="ctx-quiz-reveal" onclick="this.nextElementSibling.style.display='block';this.style.display='none'">Hmm, let me think... &#129300; Show answer!</button>
-        <div class="ctx-quiz-a" style="display:none">${quiz.a}</div>
-      </div>`;
+  // Card keys (concept anchor ids) of every concept that has a recall question
+  _recallConceptKeys() {
+    return Object.values(this.concepts || {})
+      .filter(c => c.anchor && this.findBlock(c.anchor) && this._conceptRecall(c.id))
+      .map(c => c.anchor);
   }
 
   // --- Spaced repetition recall ---
+  // A card keyed by a concept anchor asks the CONTRACT question; any other telling
+  // asks its own recallQ (same contract, its own language), falling back to the
+  // contract. No contract and no recallQ → no card (null) — callers skip it.
   _getRecallQuestion(block) {
     if (!block) return null;   // recall may reference a variant that no longer resolves
-    const id = block.meta?.id || block.id;
-    const title = block.meta?.title || '';
-    const body = (block.body || '').toLowerCase();
-    const meta = block.meta || {};
-
-    // 1. Prefer frontmatter Q&A (editable by content creators)
-    if (meta.recallQ && meta.recallA) return { q: meta.recallQ, a: meta.recallA };
-
-    // 2. Fallback: hardcoded questions (kept for backwards compat)
-    const QUESTIONS = {
-      // ── Ch1: What Are Recommendations? ──
-      'ch1-noticed': { q: 'How do apps like YouTube seem to "know" what you want?', a: 'They track your clicks, watches, and skips to build a picture of your taste — then use algorithms to find similar content.' },
-      'ch1-everywhere': { q: 'Name 4 apps that use recommendation algorithms.', a: 'YouTube, TikTok, Spotify, Netflix, Amazon, Instagram, App Store — almost every app you use daily.' },
-      'ch1-not-magic': { q: 'Recommendations feel like magic — what are they really based on?', a: 'Patterns! Watch → find patterns → predict. Like a detective finding clues in your clicks.' },
-      'ch1-wrong-sidebar': { q: 'Why do recommendations sometimes go hilariously wrong?', a: 'The system only sees clicks, not reasons. If your sibling watches cartoons on your account, it thinks YOU like cartoons!' },
-      'ch1-patterns-d-think': { q: 'Why is finding patterns a "superpower" for algorithms?', a: 'Machines can spot patterns across millions of people simultaneously — connections no human could ever find manually.' },
-      'ch1-three-jobs': { q: 'What are the 3 jobs of a recommender system?', a: 'DISCOVER new things, FIND things faster in huge catalogs, and ENGAGE — keep you interested.' },
-      'ch1-wyr': { q: 'What is the main trade-off in recommendations?', a: 'Better recommendations need more data, but more data means companies know more about you. Privacy vs. personalization.' },
-      'ch1-ws-match': { q: 'Name 3 different recommendation models.', a: 'Friend-based, follow-based, interest-based, algorithm-based, and group-based. Most apps use hybrids.' },
-      // ── Ch2: How They Learn About You ──
-      'ch2-footprints': { q: 'What are digital footprints?', a: 'Every click, watch, skip, and search — invisible tracks that teach the system about your taste.' },
-      'ch2-track-d-exp': { q: 'Which signal is stronger: clicking a video or watching it to the end?', a: 'Watching to the end is MUCH stronger. The system tracks watch time, not just clicks.' },
-      'ch2-guess-signal': { q: 'What is the strongest signal you can send to an algorithm?', a: 'Sharing something! It takes real effort, which tells the system you really care about that content.' },
-      'ch2-clues': { q: 'Name the 3 types of clues recommenders use.', a: 'Item clues (what it IS), person clues (who YOU are), action clues (what you DO).' },
-      'ch2-incognito-sidebar': { q: 'What is the "cold start" problem?', a: 'When you create a new account, the system has zero info — it shows popular stuff until it learns who you are.' },
-      'ch2-myth': { q: 'True or false: your phone listens to your conversations for ads.', a: 'False! Algorithms predict so well from your clicks that it FEELS like they heard you — but they didn\'t.' },
-      'ch2-privacy': { q: 'Name 3 tools you have to control your data.', a: '"Not Interested" button, clear history, separate profiles, incognito mode, and app settings.' },
-      'ch2-privacy-d-create': { q: 'How fast does an algorithm start personalizing for you?', a: 'Just 5-10 videos! Watch a few cooking videos and your feed fills with cooking in minutes.' },
-      'ch2-ws-detective': { q: 'Can you train the algorithm on purpose?', a: 'Yes! Search for topics you want, like content deliberately, use "Not Interested" on what you don\'t want.' },
-      // ── Ch3: Different Ways to Recommend ──
-      'ch3-friends': { q: 'How does collaborative filtering work?', a: 'Find people with similar taste → recommend what THEY liked that you haven\'t tried yet.' },
-      'ch3-cf-d-exp': { q: 'What are "taste twins" in collaborative filtering?', a: 'People who liked the same things as you. If they also liked something new, you probably will too!' },
-      'ch3-cf-d-create': { q: 'Can you build collaborative filtering without a computer?', a: 'Yes! Survey friends, create a rating grid on paper, find who matches you best, check what they liked.' },
-      'ch3-netflix-sidebar': { q: 'What lesson did the Netflix Prize teach about algorithms?', a: 'Better accuracy doesn\'t always win — speed and simplicity matter more than perfection in real systems.' },
-      'ch3-content': { q: 'How does content-based filtering differ from collaborative?', a: 'Content-based looks at item FEATURES (genre, tags). Collaborative looks at USER BEHAVIOR (who liked what).' },
-      'ch3-compare-d-think': { q: 'When is content-based better than collaborative filtering?', a: 'For new items with no ratings yet, and for niche interests. Collaborative is better for surprising discoveries.' },
-      'ch3-spot-method': { q: '"Because you watched X" uses which method?', a: 'Content-based filtering! It finds items similar to X. "Fans also listen to" is collaborative filtering.' },
-      'ch3-bandits': { q: 'What is the explore-exploit dilemma?', a: 'Should the system show safe picks you\'ll like (exploit) or try new things you might discover (explore)? Both matter.' },
-      'ch3-deep-similarity': { q: 'What are "embeddings" in recommendation systems?', a: 'Items turned into lists of numbers (vectors). Close vectors = similar items. Neural networks learn these patterns.' },
-      'ch3-popular': { q: 'What is the biggest weakness of popularity-based recommendations?', a: 'No personalization — everyone sees the same thing. It can\'t account for YOUR unique taste.' },
-      'ch3-popular-sidebar': { q: 'What is the "rich-get-richer" problem?', a: 'Popular content gets more visibility → more views → stays popular. New creators get buried forever.' },
-      'ch3-pipeline': { q: 'What are the 3 stages of a recommendation pipeline?', a: 'FIND candidates (fast + rough), RANK them (precise scoring), CHECK for diversity.' },
-      'ch3-pipeline-d-exp': { q: 'How does YouTube find 20 videos from 800 million in 0.2 seconds?', a: 'Staged pipeline! Quick rough filters narrow 800M to 500 candidates, then careful ranking picks the best 20.' },
-      'ch3-speed': { q: 'How long would it take a human to do what YouTube does in 1 second?', a: '25 YEARS! That\'s why we need algorithms — the scale is impossibly large for humans.' },
-      'ch3-search-recs': { q: 'Are search results the same for everyone?', a: 'No! Search is increasingly personalized — what you see depends on your history, location, and past behavior.' },
-      // ── Ch4: Making Recommendations Better ──
-      'ch4-bubbles': { q: 'What is a filter bubble?', a: 'When the algorithm only shows you things you already like — you never discover anything new. The bubble is invisible.' },
-      'ch4-echo-d-think': { q: 'How is an echo chamber worse than a filter bubble?', a: 'Echo chambers make you think EVERYONE agrees with you — different people see different realities about the same topic.' },
-      'ch4-experiment': { q: 'How can you break out of a filter bubble?', a: 'Deliberately explore new content! Watch 3 videos on a new topic and your feed will start to change.' },
-      'ch4-fairness': { q: 'How can algorithms be unfair to new creators?', a: 'Popular → more recommended → more popular (repeat). New creators never get seen. Good systems give everyone a fair start.' },
-      'ch4-youtube-sidebar': { q: 'What percentage of YouTube watch time comes from recommendations?', a: '70%! That means algorithms — not you searching — drive most of what people watch.' },
-      'ch4-unfair-game': { q: 'How can platforms make recommendations fairer?', a: 'Random sampling, guaranteed visibility for new content, small-audience testing before scaling.' },
-      'ch4-objectives': { q: 'What is the algorithm actually trying to do?', a: 'It depends! Subscription services optimize for YOUR happiness. Free/ad services optimize for ADVERTISER revenue.' },
-      'ch4-explainability': { q: 'Why can\'t platforms fully explain their recommendations?', a: 'Neural networks use hundreds of signals — even engineers can\'t trace exactly why one item was chosen over another.' },
-      'ch4-testing': { q: 'What is an A/B test?', a: 'Show version A to half the users, version B to the other half, compare real behavior. Data decides, not guessing.' },
-      'ch4-ab-d-exp': { q: 'Do personalized recommendations actually work better than "just show popular"?', a: 'Yes! Tests show 37% more songs played, 4x more artist discovery, and higher engagement with personalization.' },
-      // ── Ch5: Build Your Own! ──
-      'ch5-start': { q: 'What are the 4 steps to build a recommendation system?', a: 'Collect data → find similar users → make predictions → test and improve.' },
-      'ch5-collect': { q: 'What is a rating matrix?', a: 'Users as rows, items as columns, ratings in cells. Most cells are empty — that\'s what you predict.' },
-      'ch5-spread-d-create': { q: 'Why can a spreadsheet help you build recommendations?', a: 'Color-coded ratings reveal taste patterns visually — you can see who matches before doing any math.' },
-      'ch5-similar': { q: 'How do you find "taste neighbors"?', a: 'Compare ratings on shared items — lower average difference = more similar taste.' },
-      'ch5-math-d-think': { q: 'What does cosine similarity measure?', a: 'The angle between two preference vectors — so someone who rates everything low but in the same PATTERN as you is still similar.' },
-      'ch5-real-numbers': { q: 'How many possible user-item combinations does Netflix have?', a: '3.4 TRILLION! And most cells are empty. Finding patterns in this sparse data is the core challenge.' },
-      'ch5-recommend': { q: 'How do you predict a rating for an unseen item?', a: 'Find 2-3 most similar users who rated it → average their ratings. Above 4 stars = recommend it.' },
-      'ch5-code-d-create': { q: 'How many lines of Python does it take to build basic collaborative filtering?', a: 'About 20! Data loading, similarity calculation, and prediction — the same logic Netflix uses, just smaller scale.' },
-      'ch5-debug': { q: 'Even Netflix\'s algorithm is wrong how often?', a: '20-30% of the time! Perfection isn\'t the goal — being right MOST of the time is what matters.' },
-      'ch5-improve': { q: 'What is the single biggest improvement for a recommendation system?', a: 'More data! More users and more ratings create more connections, which means better matches and predictions.' },
-      'ch5-career-sidebar': { q: 'What skills does a recommendation engineer need?', a: 'Math (statistics, linear algebra), programming (Python), creativity, and curiosity about user behavior.' },
-      'ch5-get-recommended': { q: 'What matters more to YouTube: clicks or watch time?', a: 'Watch time! A video 100 people watch fully beats 1,000 clicks that leave immediately.' },
-      'ch5-seo-algorithms': { q: 'Why doesn\'t "ranking #1 on Google" exist anymore?', a: 'Results are personalized — your content can be #1 for your audience and invisible to everyone else.' },
-      // ── Ch6: Ethics and You ──
-      'ch6-who-decides': { q: 'Who decides what you see when you open TikTok?', a: 'The algorithm — not you, not your parents, not TikTok employees. It optimizes for "what keeps you watching longest."' },
-      'ch6-rabbit-sidebar': { q: 'What is the "rabbit hole" effect?', a: 'Each recommended step feels small, but the accumulated path leads somewhere unexpected. The algorithm optimizes for the NEXT video, not the whole journey.' },
-      'ch6-addictive': { q: 'Name 2 design tricks that keep you scrolling.', a: 'Infinite scroll (no end point) and autoplay (next video starts automatically). These are deliberate design choices.' },
-      'ch6-control-d-create': { q: 'What is the "thumbnail test"?', a: 'Pause before clicking and ask: "Do I actually WANT this?" It breaks autopilot and puts you back in control.' },
-      'ch6-dopamine-sidebar': { q: 'Why does watching "just one more video" feel so hard to resist?', a: 'Dopamine! Your brain releases it for anticipation + uncertainty — the same mechanism as slot machines.' },
-      'ch6-adtech-vs-recs': { q: 'What is the difference between recommendations and ads?', a: 'Recommendations help you within ONE app. Adtech tracks you across the ENTIRE internet to sell your attention.' },
-      'ch6-privacy-real': { q: 'What is a "digital twin"?', a: 'A mathematical model of your behavior patterns — apps build one from your data without needing your name.' },
-      'ch6-data-d-exp': { q: 'Where can you see what Google knows about you?', a: 'myactivity.google.com — shows every search, video, and click. You can also auto-delete old data there.' },
-      'ch6-age-sidebar': { q: 'Can algorithms guess your age? How?', a: 'Within 3-5 years! From when you watch, how fast you scroll, music taste, and meme preferences — no personal info needed.' },
-      'ch6-ai-future': { q: 'Why does YOUR generation understand algorithms better than most adults?', a: 'You grew up WITH them — you notice weird recs, know how to game the algorithm, and feel the pull of infinite scroll.' },
-      'ch6-hard-d-think': { q: 'Name a hard question about algorithms that nobody has answered yet.', a: 'Should kids get different algorithms? Who defines "harmful"? Should algorithms show disagreement? No right answers exist yet.' },
-      'ch6-law-sidebar': { q: 'What right did the EU give people regarding algorithms?', a: 'The right to opt OUT of algorithmic recommendations, and a ban on using kids\' personal data for targeting.' },
-      'ch6-conversational': { q: 'How will LLMs change recommendations?', a: 'You\'ll ASK for what you want instead of scrolling. LLMs understand language, recommenders have the data — together they\'re powerful.' },
-    };
-
-    // Direct match by block ID
-    if (QUESTIONS[id]) return QUESTIONS[id];
-
-    // Generate from content — extract first meaningful sentence as answer
-    const sentences = (block.body || '').replace(/[#*_\[\]]/g, '').split(/[.!?]\s/).filter(s => s.length > 30 && s.length < 200);
-    if (sentences.length >= 2) {
-      const keyIdx = Math.floor(id.charCodeAt(id.length - 1) % sentences.length);
-      const answer = sentences[keyIdx].trim();
-      return { q: `What did you learn about "${title}"?`, a: answer + '.' };
+    const meta = block.meta || block;
+    const cid = this._conceptIds(meta)[0];
+    if (cid && this.concepts?.[cid]?.anchor === meta.id) {
+      const q = this._conceptRecall(cid);
+      if (q) return q;
     }
-
-    return { q: `What is the key idea of "${title}"?`, a: `Think about what this section explained. Try re-reading "${title}" to refresh your memory!` };
+    if (meta.recallQ && meta.recallA) return { q: meta.recallQ, a: meta.recallA };
+    return cid ? this._conceptRecall(cid) : null;
   }
 
   startPractice(dueOnly) {
@@ -3033,15 +3106,15 @@ class PBook {
         else easy.push(item);
       });
       const shuffle = arr => arr.sort(() => Math.random() - 0.5);
-      // Read blocks not yet in recall system
+      // Concepts read but not yet in the recall system (one card per concept)
       const recallSet = new Set(Object.keys(this.user.recall));
-      const newFromRead = [...this.user.readBlocks]
+      const newFromRead = [...new Set([...this.user.readBlocks].map(id => this._recallKey(id)))]
         .filter(id => !recallSet.has(id))
         .map(id => ({ blockId: id, isDue: false, ease: 2.5, reps: 0 }));
-      // ALL blocks with recallQ that user hasn't read yet (test knowledge even if not read)
-      const allWithQ = this.allBlocks
-        .filter(b => b.meta.recallQ && !this.user.readBlocks.has(b.meta.id) && !recallSet.has(b.meta.id))
-        .map(b => ({ blockId: b.meta.id, isDue: false, ease: 2.5, reps: 0 }));
+      // Every other concept with a contract question (test knowledge even if not read)
+      const allWithQ = this._recallConceptKeys()
+        .filter(id => !recallSet.has(id) && !newFromRead.some(n => n.blockId === id))
+        .map(id => ({ blockId: id, isDue: false, ease: 2.5, reps: 0 }));
       // Order: learning first (sweet spot), then struggling, new, confident, then unread with questions
       blocks = [...shuffle(med), ...shuffle(hard), ...shuffle(newFromRead), ...shuffle(easy), ...shuffle(allWithQ)];
     }
@@ -3108,6 +3181,7 @@ class PBook {
       <h2 style="font-family:var(--font-ui);font-size:1.15rem;font-weight:800">\u{1F9E0} Test Your Knowledge</h2>
       <p style="font-size:.75rem;color:var(--text-3);margin-top:.1em">Spaced repetition — review what you learned</p>
     </div>`;
+    h += this._gamesShelfHtml(); // hands-on games: a way to practise even before anything is read
 
     if (totalRead === 0) {
       h += `<div style="text-align:center;padding:3em 1em;color:var(--text-3)">
@@ -3123,9 +3197,11 @@ class PBook {
     // Self-heal: prune recall cards whose git block no longer exists (renamed/removed).
     // Reader-generated ids (gen--/remix--) are kept — they resolve via the private store
     // or the community cache and are simply skipped from display when uncached.
+    // Same safety rule as _reconcileProgress: never prune after a failed fetch,
+    // and a hidden draft (known id) is not a deleted block.
     let pruned = false;
-    Object.keys(u.recall).forEach(id => {
-      if (!/^(gen--|remix--)/.test(id) && !this._findAnyBlock(id)) { delete u.recall[id]; pruned = true; }
+    if (!this._contentFetchFailed) Object.keys(u.recall).forEach(id => {
+      if (!this._isRuntimeId(id) && !this._knownIds?.has(id) && !this._findAnyBlock(id)) { delete u.recall[id]; pruned = true; }
     });
     if (pruned) u.save();
 
@@ -3171,7 +3247,8 @@ class PBook {
     const allSpines = this.allBlocks.filter(b => b.meta.type === 'spine');
     const unreadBlocks = allSpines.filter(b => !u.readBlocks.has(b.meta.id));
     const recallSet = new Set(Object.keys(u.recall));
-    const newCards = [...u.readBlocks].filter(id => !recallSet.has(id)); // read but no recall yet
+    // read but no recall yet — one card per concept
+    const newCards = [...new Set([...u.readBlocks].map(id => this._recallKey(id)))].filter(id => !recallSet.has(id));
 
     // ── Confidence map: each card is a small colored cell, hover shows title ──
     // Build ordered list: struggling → new → learning → confident → unread
@@ -3190,7 +3267,7 @@ class PBook {
         <div style="display:flex;flex-wrap:wrap;gap:2px" id="quizMap">
           ${allCards.map(c => `<div style="width:${cellW}px;height:${cellW}px;border-radius:2px;background:${c.color};cursor:pointer;transition:transform .1s" title="${this.escHtml(c.label + ': ' + c.q)}" onclick="app.${c.label === 'Unread' ? "openBlock('" + c.id + "')" : "showBlockRecall('" + c.id + "')"}"></div>`).join('')}
         </div>
-        <div style="display:flex;gap:.8em;font-size:.58rem;color:var(--text-3);margin-top:.4em">
+        <div style="display:flex;gap:.8em;font-size:.7rem;color:var(--text-3);margin-top:.4em">
           ${hardCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#dc2626;vertical-align:middle"></span> ${hardCards.length} struggling</span>` : ''}
           ${newCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);vertical-align:middle"></span> ${newCards.length} new</span>` : ''}
           ${medCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--warn);vertical-align:middle"></span> ${medCards.length} learning</span>` : ''}
@@ -3253,7 +3330,7 @@ class PBook {
         return `<div class="card" style="border-top:3px solid var(--border);flex:0 0 240px;opacity:.7;cursor:pointer" onclick="app.openBlock('${b.meta.id}')">
           <div style="font-size:.6rem;font-weight:700;color:var(--text-3);margin-bottom:.2em">\u{1F512} Not read yet</div>
           <div class="card-title" style="font-size:.82rem;line-height:1.3">${b.meta.title}</div>
-          <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${b.meta._chapterNum} · Read to unlock card</div>
+          <div style="font-size:.7rem;color:var(--text-3);margin-top:.2em">Ch${b.meta._chapterNum} · Read to unlock card</div>
         </div>`;
       });
       h += this.shelf(`\u{26AA} Haven't read yet (${unreadBlocks.length})`, uCards);
@@ -3287,7 +3364,7 @@ class PBook {
         ${upcoming.map(([id, c]) => {
           const b = this.findBlock(id);
           const title = b?.meta?.title || id;
-          return `<div style="display:flex;align-items:center;gap:.4em;font-size:.68rem;padding:.2em 0;color:var(--text-2)">
+          return `<div style="display:flex;align-items:center;gap:.4em;font-size:.7rem;padding:.2em 0;color:var(--text-2)">
             <span style="color:var(--warn);font-weight:600;min-width:3.5em">${this._timeUntil(c.nextReview)}</span>
             <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${this.escHtml(title)}</span>
           </div>`;
@@ -3297,7 +3374,7 @@ class PBook {
 
     // ── Bottom actions (side by side on wide screens) ──
     const unread = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine' && !u.readBlocks.has(b.meta.id));
-    const totalWithQ = this.allBlocks.filter(b => b.meta.recallQ).length;
+    const totalWithQ = this._recallConceptKeys().length;   // one card per concept
     h += `<div style="padding:.8em 1em">`;
     h += `<div style="display:flex;gap:.5em;flex-wrap:wrap">`;
     if (unread.length > 0) {
@@ -3337,10 +3414,10 @@ class PBook {
     return `<div class="card" style="border-top:3px solid ${color};flex:0 0 260px;cursor:pointer" onclick="var a=document.getElementById('qp-${uid}');if(a)a.style.display=a.style.display==='none'?'block':'none'">
       <div style="display:flex;justify-content:space-between;margin-bottom:.2em">
         <span style="font-size:.6rem;font-weight:700;color:${color}">${label}</span>
-        <span style="font-size:.55rem;color:${isDue ? 'var(--warn)' : 'var(--text-3)'};font-weight:${isDue ? '600' : '400'}">${card.reps ? card.reps + 'x · ' : ''}${timeLabel}</span>
+        <span style="font-size:.7rem;color:${isDue ? 'var(--warn)' : 'var(--text-3)'};font-weight:${isDue ? '600' : '400'}">${card.reps ? card.reps + 'x · ' : ''}${timeLabel}</span>
       </div>
       <div class="card-title" style="font-size:.82rem;line-height:1.3">${quiz.q}</div>
-      <div style="font-size:.62rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum}: ${block.meta.title}</div>
+      <div style="font-size:.7rem;color:var(--text-3);margin-top:.2em">Ch${block.meta._chapterNum}: ${block.meta.title}</div>
       <div id="qp-${uid}" style="display:none;margin-top:.4em;padding-top:.4em;border-top:1px solid var(--border)">
         <div style="font-size:.78rem;color:var(--text-2);line-height:1.4;margin-bottom:.4em">${quiz.a}</div>
         <div class="recall-buttons" onclick="event.stopPropagation()">
@@ -3349,7 +3426,7 @@ class PBook {
           <button class="recall-btn recall-good" onclick="app.scoreRecall('${blockId}',2,this)">Good</button>
           <button class="recall-btn recall-easy" onclick="app.scoreRecall('${blockId}',3,this)">Easy!</button>
         </div>
-        <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="display:block;font-size:.62rem;color:var(--accent);margin-top:.3em;text-align:center">Re-read this section &rarr;</a>
+        <a href="#" onclick="event.stopPropagation();event.preventDefault();app.openBlock('${blockId}')" style="display:block;font-size:.7rem;color:var(--accent);margin-top:.3em;text-align:center">Re-read this section &rarr;</a>
       </div>
     </div>`;
   }
@@ -3402,8 +3479,8 @@ class PBook {
 
     const item = q[idx];
     const block = this._findAnyBlock(item.blockId);
-    if (!block) { this._recallIdx++; this._renderQuizCard(); return; }
     const quiz = this._getRecallQuestion(block);
+    if (!block || !quiz) { this._recallIdx++; this._renderQuizCard(); return; }
     const card = this.user.recall[item.blockId];
     const reps = card ? card.reps : 0;
     const ease = card ? card.ease.toFixed(1) : '—';
@@ -3484,6 +3561,8 @@ class PBook {
     this._scoredRecall.add(blockId);
     setTimeout(() => this._scoredRecall.delete(blockId), 2000);
 
+    // a "Check yourself" card can be answered before its concept was ever scheduled
+    if (!this.user.recall[blockId]) this.user.scheduleRecall(blockId);
     const xpEarned = this.user.processRecall(blockId, quality);
     const labels = ['Forgot — reviewing soon!', 'Hard — keep at it!', 'Good — nice!', 'Easy — nailed it!'];
     this.showXPToast(`+${xpEarned} XP ${labels[quality]}`, quality >= 2 ? 'xp' : 'info');
@@ -3536,6 +3615,18 @@ class PBook {
       this._cmapData = r.ok ? await r.json() : null;
     } catch (e) { this._cmapData = null; }
     if (this._cmapData) {
+      // Concepts the exported map does not know yet (new anchors, visible as
+      // drafts in admin view) still get a node in their chapter — otherwise the
+      // Map silently left out every concept added since the last export.
+      const known = new Set(this._cmapData.nodes.map(n => n.slug));
+      const added = this._conceptOrder().filter(cid => !known.has(cid)).map(cid => {
+        const c = this.concepts[cid];
+        return { slug: cid, title: c.title || cid, tema: c.chapter, state: 'core', teaser: this.findBlock(c.anchor)?.meta?.teaser || '', rel: [], ...(c.parents?.length ? { prereq: c.parents } : {}) };
+      });
+      if (added.length) {
+        const ti = new Map(this._cmapData.temata.map((t, i) => [t.id, i]));
+        this._cmapData.nodes = [...this._cmapData.nodes, ...added].sort((a, b) => (ti.get(a.tema) ?? 99) - (ti.get(b.tema) ?? 99));
+      }
       this._cmapNodes = {};
       this._cmapByPool = {};
       this._cmapData.nodes.forEach(n => {
@@ -3662,7 +3753,9 @@ class PBook {
       arrows += `<path d="M${a.x} ${a.y} Q ${mx} ${my}, ${b.x} ${b.y}" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="5 5" marker-end="url(#jarr)" opacity="0.55">${why ? `<title>Why first: ${this.escHtml(why)}</title>` : ''}</path>`;
     }));
     const R = 25;
-    let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;height:auto" font-family="system-ui,sans-serif">
+    // min-width keeps the 10 px labels legible on a phone (the 800-wide board
+    // shrank them to ~5 px); the wrapper scrolls sideways instead
+    let svg = `<svg viewBox="0 0 ${W} ${H}" style="width:100%;min-width:640px;height:auto;display:block" font-family="system-ui,sans-serif">
       <defs><marker id="jarr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#94A3B8"/></marker></defs>`;
     temata.forEach(t => {
       const pts = cm.nodes.filter(n => n.tema === t.id).map(n => pos[n.slug]);
@@ -3684,7 +3777,7 @@ class PBook {
           <title>${this.escHtml((defTip ? defTip + ' — ' : '') + 'No article yet — click to write the first one! (author studio with AI coach)')}</title>
           <circle cx="${x}" cy="${y}" r="17" fill="var(--card, #fff)" stroke="${color}" stroke-width="2" stroke-dasharray="4 4" opacity="0.85"/>
           <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="${this._nodeDraft(n) ? 12 : 14}" fill="${color}" opacity="0.9">${this._nodeDraft(n) ? '✍️' : '＋'}</text>
-          <text x="${x}" y="${y + 32}" text-anchor="middle" font-size="10" fill="var(--text-3, #999)">${label}</text>
+          ${this._svgLabel(n.short || n.title, x, y + 32, 'font-size="10" fill="var(--text-3, #999)"', 16)}
         </g>`;
         if (st.game) svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
           <circle cx="${x + 27}" cy="${y}" r="10" fill="#FEF3C7" stroke="#D97706" stroke-width="1.6"/>
@@ -3704,7 +3797,7 @@ class PBook {
         ${cur && cur.slug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="3 5"/><text x="${x - R + 1}" y="${y - R + 3}" text-anchor="middle" font-size="15">🧭</text>` : ''}
         ${this._feedFocusSlug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 13}" fill="none" stroke="#6366F1" stroke-width="2" opacity="0.85"><title>reading now</title></circle>` : ''}
         ${this._nodeDraft(n) && !stat[n.slug].ghost ? `<text x="${x - R + 2}" y="${y + R + 4}" font-size="11" onclick="event.stopPropagation();app.startAuthoring('${this._nodeDraftSlug(n)}')"><title>✍️ draft in progress</title>✍️</text>` : ''}
-        <text x="${x}" y="${y + R + 16}" text-anchor="middle" font-size="10.5" fill="var(--text-2, #666)">${label}</text>
+        ${this._svgLabel(n.short || n.title, x, y + R + 16, 'font-size="10.5" fill="var(--text-2, #666)"', 16)}
       </g>`;
       if (st.game) {
         svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${st.game}')">
@@ -3718,7 +3811,7 @@ class PBook {
       ${this._mapReturnToRead ? `<p style="margin:.1em 0 .3em"><button class="steer-chip" style="font-size:.74rem;border-color:#6366F1;color:#6366F1" onclick="app._mapReturnToRead=false;app.switchView('read')">← Back to reading</button></p>` : ''}
       <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .2em">The book as a game board: fields are concepts, the number shows how many of their articles you have read (✓ = all). Dashed ＋ fields are still waiting for an article — click to write it yourself. Hover a field for its definition, hover an arrow for the reason of the dependency.</p>
       ${(this.proposals || []).length ? `<p style="font-size:.7rem;margin:0 0 .3em"><a href="#" style="color:#0EA5E9" onclick="event.preventDefault();app.setMapMode('koncepty')">🌱 ${(this.proposals || []).length} proposals waiting for votes or an author →</a></p>` : ''}
-      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p>${svg}</div>`;
+      <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author</p><div class="journey-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch">${svg}</div></div>`;
   }
 
   async renderConceptsMap() {
@@ -3767,25 +3860,25 @@ class PBook {
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em ${isFocus ? '.35em' : '0'};border-bottom:1px dashed var(--border)${isFocus ? ';background:color-mix(in srgb, #6366F1 7%, transparent);border-radius:8px' : ''}">
           <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
           <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || n.def || '')}">${this.escHtml(n.title)}</a>
-          ${hasSpine ? '' : '<span style="font-size:.62rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
+          ${hasSpine ? '' : '<span style="font-size:.7rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">🌱 no articles yet</span>'}
           ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:#EC4899;color:#EC4899" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">✍️ draft in progress</button>` : ''}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="Write your own telling of this concept (author studio with an AI coach)" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
         </div>`;
       });
       if (ghosts.length) {
-        h += `<div style="margin-top:.45em;font-size:.68rem;color:#0EA5E9;font-weight:700">🌱 Where to go deeper — not written yet, vote:</div>`;
+        h += `<div style="margin-top:.45em;font-size:.7rem;color:#0EA5E9;font-weight:700">🌱 Where to go deeper — not written yet, vote:</div>`;
         ghosts.forEach(g => {
           const voted = g.slug in votes;
           h += `<div style="display:flex;align-items:flex-start;gap:.5em;padding:.22em 0">
             <span style="font-size:.72rem;width:1.1em;text-align:center">🌱</span>
             <div style="flex:1 1 auto"><span style="font-size:.78rem;font-weight:600;color:var(--text-2)">${this.escHtml(g.title)}</span>
-              <span style="font-size:.68rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
+              <span style="font-size:.7rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
             <span id="ghost-${g.slug}-cmap" style="flex-shrink:0;display:flex;gap:.25em">${voted
-              ? `<span style="font-size:.68rem;color:#0EA5E9">${votes[g.slug] > 0 ? '✓ want' : '✓ passed'}</span>`
-              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">👍 want</button>
-                 <button class="steer-chip" style="font-size:.62rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">no</button>`}
-              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.62rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">✍️ write it</button>
-              <button class="steer-chip" style="border-color:#7C3AED;color:#7C3AED;font-size:.62rem;padding:.06em .4em" title="Creative workshop with the coach: align → create → certificate with your contribution" onclick="app.startWorkshop('${g.slug}')">🎓 workshop</button></span>
+              ? `<span style="font-size:.7rem;color:#0EA5E9">${votes[g.slug] > 0 ? '✓ want' : '✓ passed'}</span>`
+              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">👍 want</button>
+                 <button class="steer-chip" style="font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">no</button>`}
+              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.7rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">✍️ write it</button>
+              <button class="steer-chip" style="border-color:#7C3AED;color:#7C3AED;font-size:.7rem;padding:.06em .4em" title="Creative workshop with the coach: align → create → certificate with your contribution" onclick="app.startWorkshop('${g.slug}')">🎓 workshop</button></span>
           </div>`;
         });
       }
@@ -3812,15 +3905,15 @@ class PBook {
     if (!cm || !cm.nodes?.length) { if (el) el.style.display = 'none'; return; }
     const { temata, W, H, pos, temaColor } = this._journeyLayout(cm);
     const width = Math.min(100, Math.round(170 * W / H));
+    // Wide screens: the board sits in the left gutter (it used to cover the right
+    // edge of the text). Narrow screens: a progress pill that opens it in a sheet.
     if (!el) {
       el = document.createElement('div');
       el.id = 'miniBoard';
-      el.title = 'Journey — open the game board';
-      el.style.cssText = 'position:fixed;right:10px;bottom:64px;z-index:60;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:10px;padding:4px;box-shadow:0 2px 10px rgba(0,0,0,.12);cursor:pointer;opacity:.94';
-      el.onclick = () => { this._mapReturnToRead = true; this.switchView('map'); this.setMapMode('cesta'); };
+      el.className = 'mini-board';
       document.body.appendChild(el);
     }
-    el.style.width = width + 'px';
+    el.style.setProperty('--mb-w', width + 'px');
     const hasArt = n => this._nodePool(n).some(b => ((b.meta || b).type) === 'spine');
     const cur = cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug) && !this._unmetPrereqs(n.slug).length) || cm.nodes.find(n => hasArt(n) && !this._conceptRead(n.slug));
     let svg = `<svg viewBox="0 0 ${W} ${H}" style="display:block;width:100%">`;
@@ -3846,7 +3939,11 @@ class PBook {
         : `<circle cx="${x}" cy="${y}" r="${isCur ? 22 : 17}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--card,#fff)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 9 : 5}">${tip}</circle>`;
     });
     svg += '</svg>';
-    el.innerHTML = svg;
+    const { read, total } = this._conceptProgress();
+    el.innerHTML = `<button class="mb-board" title="Your journey — open the map" aria-label="Your journey: ${read} of ${total} concepts read. Open the map"
+        onclick="app._mapReturnToRead=true;app.switchView('map');app.setMapMode('cesta')">${svg}</button>
+      <button class="mb-pill${this._justRead?.size ? ' pulse' : ''}" aria-label="Your journey: ${read} of ${total} concepts read" onclick="app.openMiniSheet()">${this._ringSvg(total ? read / total : 0, 20)}<span>${read}/${total}</span></button>`;
+    this._justRead = null;
     el.style.display = this.currentView === 'read' ? '' : 'none';
   }
 
@@ -3856,7 +3953,7 @@ class PBook {
     try { if ((JSON.parse(localStorage.getItem('pbook-prereq-dismissed') || '[]')).includes(block.concept)) return ''; } catch (e) {}
     const unmet = this._unmetPrereqs(block.concept);
     if (!unmet.length) return '';
-    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.68rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
+    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.7rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
     return `<div class="prereq-banner" style="display:flex;flex-wrap:wrap;gap:.35em;align-items:center;margin:0 0 .6em;padding:.45em .6em;border:1.5px dashed #0EA5E9;border-radius:9px;background:color-mix(in srgb, #0EA5E9 6%, transparent);font-size:.72rem">
       <b>🧩 To make sense of this, first read:</b>${chips}
       <a href="#" style="margin-left:auto;color:var(--text-3)" onclick="event.preventDefault();try{const k='pbook-prereq-dismissed';const a=JSON.parse(localStorage.getItem(k)||'[]');a.push('${block.concept}');localStorage.setItem(k,JSON.stringify(a));}catch(e){};this.closest('.prereq-banner').remove()">read anyway</a>
@@ -3871,10 +3968,10 @@ class PBook {
     if (!rels.length) return '';
     const chips = rels.map(r => {
       const anchorId = this._nodeAnchor(r);
-      return `<button class="steer-chip" style="font-size:.66rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
+      return `<button class="steer-chip" style="font-size:.7rem" title="${this.escHtml(r.teaser || '')}" onclick="app.openBlock('${anchorId}')">${this.escHtml(r.title)}</button>`;
     }).join('');
     return `<div class="concept-links" style="display:flex;flex-wrap:wrap;gap:.3em;align-items:center;margin:.5em 0;padding:.45em .55em;border:1px dashed var(--border);border-radius:9px">
-      <span style="font-size:.66rem;font-weight:700;color:var(--text-3)">🧭 Where next:</span>${chips}</div>`;
+      <span style="font-size:.7rem;font-weight:700;color:var(--text-3)">🧭 Where next:</span>${chips}</div>`;
   }
 
   async renderMap() {
@@ -3961,7 +4058,7 @@ class PBook {
     html += `<div class="map-legend">
       <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#059669"/></svg> Read</span>
       <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#E7E5E4"/></svg> Unread</span>
-      <span class="ml-item"><span style="font-size:.65rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.1em .3em;border-radius:3px">CORE</span> Must read</span>
+      <span class="ml-item"><span style="font-size:.7rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.1em .3em;border-radius:3px">CORE</span> Must read</span>
       <span class="ml-item"><span style="font-size:.65rem">\u{1F3AE}</span> Mini-game</span>
     </div>`;
 
@@ -4054,9 +4151,7 @@ class PBook {
 
   getSuggestedNext(prereqs) {
     for (let ci = 0; ci < this.book.chapters.length; ci++) {
-      const blocks = this.chapters[ci]?.blocks || [];
-      const spines = blocks.filter(b => b.type === 'spine');
-      const next = spines.find(b => !this.user.readBlocks.has(b.id));
+      const next = this.chapters[ci] && this._nextUnreadInFlow(this.chapters[ci]);
       if (next) return next.id;
     }
     return null;
@@ -4148,7 +4243,7 @@ class PBook {
           `<button class="steer-chip ${d === dim ? 'dim-active' : ''}" onclick="app.setCovDim('${d}')">${l}</button>`).join('')}
         </div>
         <p style="font-size:.78rem;margin-bottom:.3em">Every article of the living book — <b>${totalArticles}</b> rows; per value:${values.map(v => ` ${icons[v] || v} <b>${coveringCount[v]}</b>`).join(' ·')}. ● marks the values an article's subspace covers — one article can serve several${myVal && myVal !== this._facetDefault(dim) ? `; your setting <b>${icons[myVal] || ''} ${myVal}</b> is highlighted` : ''}. Click a row to read; to request or generate a missing telling, use the 🎛 panel inside any section. Missing a whole <i>concept</i>? <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">🌱 propose it</a>.</p>
-        <p style="font-size:.68rem;color:var(--text-3)">● color = state: <span style="color:#7C3AED">■</span> core · <span style="color:#10B981">■</span> edited · <span style="color:#D97706">■</span> reader content (✨ yours / ⚡ shared)</p>
+        <p style="font-size:.7rem;color:var(--text-3)">● color = state: <span style="color:#7C3AED">■</span> core · <span style="color:#10B981">■</span> edited · <span style="color:#D97706">■</span> reader content (✨ yours / ⚡ shared)</p>
       </div>
       <div id="covInspector"></div>
       ${sections}`;
@@ -4186,7 +4281,7 @@ class PBook {
           ${this._facetChips(b.meta)}
           <button class="steer-chip" onclick="app.openTelling('${b.meta.id}')">Read</button>
         </div>`).join('');
-      h += `<div style="font-size:.66rem;color:var(--text-3);margin-top:.4em">Chips show each telling's full covered subspace — one telling can serve several cells of this map.</div>`;
+      h += `<div style="font-size:.7rem;color:var(--text-3);margin-top:.4em">Chips show each telling's full covered subspace — one telling can serve several cells of this map.</div>`;
     }
     h += '</div>';
     box.innerHTML = h;
@@ -4238,7 +4333,7 @@ class PBook {
         <div class="map-dot ${isRead ? 'done' : ''}"></div>
         <span class="map-block-title">${b.meta.title}</span>
         ${isCore ? '<span class="map-core-badge">CORE</span>' : ''}
-        <span style="font-size:.65rem;color:var(--text-3)">Ch${b.meta._chapterNum}</span>
+        <span style="font-size:.7rem;color:var(--text-3)">Ch${b.meta._chapterNum}</span>
         <button class="saved-remove-btn" onclick="event.stopPropagation();app.unsaveBlock('${b.meta.id}')" title="Remove from saved">&times;</button>
       </div>`;
     });
@@ -4296,7 +4391,7 @@ class PBook {
         <div style="display:flex;align-items:center;gap:.4em">
           <div class="map-dot ${this.user.readBlocks.has(n.blockId) ? 'done' : ''}"></div>
           <span class="map-block-title">${title}</span>
-          <span style="font-size:.65rem;color:var(--text-3)">Ch${ch}</span>
+          <span style="font-size:.7rem;color:var(--text-3)">Ch${ch}</span>
           <button class="saved-remove-btn" onclick="event.stopPropagation();app.deleteUserNote('${n.blockId}',${n.idx});app.renderMap()" title="Delete note">&times;</button>
         </div>
         ${quoteHtml}${textHtml}
@@ -4377,12 +4472,12 @@ class PBook {
     html += `</svg></div>`;
 
     // Legend
-    html += `<div style="display:flex;flex-wrap:wrap;gap:.3em .5em;padding:.4em .2em;font-size:.65rem;align-items:center">`;
+    html += `<div style="display:flex;flex-wrap:wrap;gap:.3em .5em;padding:.4em .2em;font-size:.7rem;align-items:center">`;
     mapData.chapters.forEach(ch => {
       html += `<span class="vmap-ch-pill" data-ch="${ch.id}" onclick="app._vmapHighlightCh('${ch.id}')" style="display:inline-flex;align-items:center;gap:.2em;cursor:pointer;padding:.1em .4em;border-radius:10px;white-space:nowrap;border:1.5px solid transparent"><span style="width:7px;height:7px;border-radius:50%;background:${ch.color};display:inline-block;flex-shrink:0"></span>${ch.title}</span>`;
     });
     html += `</div>`;
-    html += `<div style="font-size:.65rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
+    html += `<div style="font-size:.7rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
       <span>Progress: ${readCount}/${mapData.items.length} read · ${coreRead}/${coreCount} core</span>
       <span>◉ core · <span style="color:#10B981">◉</span> read · <span style="color:#f59e0b">◉</span> saved</span>
     </div></div>`;
@@ -4538,7 +4633,7 @@ class PBook {
     const target = u.getTargetFacets();
     const summary = u.getAffinitySummary();
     const FACET_WORDS = {
-      lens: { generic: 'examples from everywhere', ecommerce: 'shopping examples', media: 'music & video examples', 'social-feeds': 'social feed examples', education: 'learning examples' },
+      lens: CONFIG.facetWords.lens,   // the one vocabulary of reader-facing words (js/config.js), incl. jobs
       visuality: { 'text-first': 'text explanations', balanced: 'a mix of text and diagrams', 'visual-first': 'visual explanations' },
       depth: { intro: 'gentle introductions', standard: 'standard depth', technical: 'technical depth', research: 'research-level depth' },
       formalism: { none: 'no formulas', light: 'a few formulas', full: 'full math' },
@@ -4608,7 +4703,7 @@ class PBook {
       const sharedList = priv.filter(b => b.meta.state === 'community');
       const shareRows = sharedList.slice(0, 5).map(b =>
         `<div style="font-size:.72rem;padding:.1em 0">⚡ ${this.escHtml(b.meta.title || b.meta.id)}
-          <button class="steer-chip" style="font-size:.62rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
+          <button class="steer-chip" style="font-size:.7rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
       h += (shareRows ? `<div style="margin:.3em 0">${shareRows}</div>` : '');
       h += `<div class="dna-contrib">🌱 <b>Your living-book contributions:</b>
         ${generated ? `${generated} generated telling${generated > 1 ? 's' : ''} · ` : ''}${remixes ? `${remixes} remix${remixes > 1 ? 'es' : ''} · ` : ''}${shared ? `<b>${shared} shared with readers</b> · ` : ''}${!priv.length ? 'none yet — select any passage and hit ✨, or find a gap on the ' : 'see the '}<a href="#" onclick="app.switchView('map');app.setMapMode('coverage');return false">🌱 map</a></div>`;
@@ -4625,7 +4720,7 @@ class PBook {
       { facet: 'lens', label: '🌐 World', words: FACET_WORDS.lens },
       { facet: 'carriers', label: '🧩 Blocks', words: { prose: 'text', table: 'tables', diagram: 'diagrams', image: 'images', animation: 'animations', formula: 'formulas', code: 'code' } },
     ];
-    h += '<div style="margin-top:.6em;padding-top:.5em;border-top:1px solid var(--border)"><b style="font-size:.8rem">🎛 Format preferences</b><p style="font-size:.68rem;color:var(--text-3);margin:.15em 0 .4em">How should the book tell things to you? Explicit picks always beat the learned model.</p>';
+    h += '<div style="margin-top:.6em;padding-top:.5em;border-top:1px solid var(--border)"><b style="font-size:.8rem">🎛 Format preferences</b><p style="font-size:.7rem;color:var(--text-3);margin:.15em 0 .4em">How should the book tell things to you? Explicit picks always beat the learned model.</p>';
     PREF_DIMS.forEach(({ facet, label, words }) => {
       const vals = CONFIG.facets[facet].values.filter(v => facet !== 'lens' || v !== 'generic');
       const pinned = u.steerPrefs[facet] || '';
@@ -4634,6 +4729,11 @@ class PBook {
         ${vals.map(v => `<button class="steer-chip ${pinned === v ? 'dim-active' : ''}" onclick="app.correctFacetPref('${facet}','${v}')">${(words || {})[v] || v}</button>`).join('')}
       </div></div>`;
     });
+    // Essentials flow vs the full book (every telling of every idea, in book order)
+    h += `<label class="intro-toggle" style="display:flex;gap:.5em;align-items:flex-start;margin-top:.6em">
+        <input type="checkbox" class="full-book-toggle" ${this._fullBook() ? 'checked' : ''} onchange="app.setFullBook(this.checked)">
+        <div><b>Show every telling</b><br><span class="toggle-desc" style="font-size:.7rem">Off: each idea once, told the way your preferences above ask for, with links to the other tellings. On: the full book — every telling of every idea, one after another.</span></div>
+      </label>`;
     h += '</div>';
 
     // Reader mode: safe (verified only) vs open (community + generation)
@@ -4732,9 +4832,12 @@ class PBook {
       <div class="gami-stat"><span class="gs-num">${p.readingTimeMin}</span><span class="gs-label">Min read</span></div>
     </div>`;
 
+    // Reading DNA first: ideas you can explain, then your preference model (js/ux.js)
+    h += this._conceptBadgesHtml();
+    h += this._renderFacetProfile();
     // Recall section
     if (this._f('spaceRepetition')) {
-      const totalWithQ = this.allBlocks.filter(b => b.meta.recallQ).length;
+      const totalWithQ = this._recallConceptKeys().length;
       const hardC = Object.values(u.recall).filter(c => c.ease < 1.8).length;
       const medC = Object.values(u.recall).filter(c => c.ease >= 1.8 && c.ease < 2.5).length;
       const easyC = Object.values(u.recall).filter(c => c.ease >= 2.5).length;
@@ -4748,7 +4851,7 @@ class PBook {
           ${medC ? `<div style="width:${Math.round(medC/totalRecall*100)}%;background:var(--warn)"></div>` : ''}
           ${easyC ? `<div style="width:${Math.round(easyC/totalRecall*100)}%;background:var(--product)"></div>` : ''}
         </div>`;
-        h += `<div style="display:flex;gap:.6em;font-size:.68rem;color:var(--text-3);margin-bottom:.5em">`;
+        h += `<div style="display:flex;gap:.6em;font-size:.7rem;color:var(--text-3);margin-bottom:.5em">`;
         if (hardC) h += `<span style="color:#dc2626">${hardC} struggling</span>`;
         if (medC) h += `<span style="color:var(--warn)">${medC} learning</span>`;
         if (easyC) h += `<span style="color:var(--product)">${easyC} confident</span>`;
@@ -4760,7 +4863,7 @@ class PBook {
           .sort((a, b) => a[1].nextReview - b[1].nextReview)
           .slice(0, 3);
         if (upcoming.length) {
-          h += `<div style="font-size:.68rem;color:var(--text-3);margin-bottom:.5em">Next reviews: ${upcoming.map(([id, c]) => {
+          h += `<div style="font-size:.7rem;color:var(--text-3);margin-bottom:.5em">Next reviews: ${upcoming.map(([id, c]) => {
             const title = this.findBlock(id)?.meta?.title || id;
             return `<span style="color:var(--warn)">${this._timeUntil(c.nextReview)}</span> ${this.escHtml(title)}`;
           }).join(' · ')}</div>`;
@@ -4789,8 +4892,8 @@ class PBook {
       drafts.slice(0, 12).forEach(d => {
         const when = d.st.ts ? new Date(d.st.ts).toLocaleString('en-GB', { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) : '';
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.3em 0;border-bottom:1px dashed var(--border)">
-          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b>${d.st.sourceTitle && d.st.sourceTitle !== d.title ? ` <span style="color:var(--text-3);font-size:.68rem">(${this.escHtml(d.st.sourceTitle.slice(0, 34))})</span>` : ''} <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
-          <button class="steer-chip" style="font-size:.68rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
+          <span style="flex:1 1 auto;font-size:.82rem"><b>${this.escHtml(d.title)}</b>${d.st.sourceTitle && d.st.sourceTitle !== d.title ? ` <span style="color:var(--text-3);font-size:.7rem">(${this.escHtml(d.st.sourceTitle.slice(0, 34))})</span>` : ''} <span style="color:var(--text-3);font-size:.7rem">${when}${d.st.done ? ' · sent to the book ✓' : ''}</span></span>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app.startAuthoring('${d.slug}')">✍️ continue</button>
         </div>`;
       });
       h += '</div>';
@@ -4799,23 +4902,14 @@ class PBook {
     if (u.achievements.length) {
       h += '<div class="gami-badges">';
       u.achievements.forEach(a => {
-        h += `<div class="gami-badge earned" title="${a.desc}"><span class="badge-icon">${a.icon}</span><span class="badge-name">${a.name}</span></div>`;
+        const n = ACHIEVEMENT_NAMES[a.id] || a;   // stored names are the old ones; show the current wording
+        h += `<div class="gami-badge earned" title="${a.desc || ''}"><span class="badge-icon">${n.icon}</span><span class="badge-name">${n.name}</span></div>`;
       });
       h += '</div>';
     }
     // Show locked achievements
     const earnedIds = new Set(u.achievements.map(a => a.id));
-    const allBadges = [
-      { id: 'first_read', icon: '👣', name: 'First Steps' }, { id: 'reader_5', icon: '📚', name: 'Bookworm' },
-      { id: 'reader_15', icon: '⚡', name: 'Speed Reader' }, { id: 'reader_30', icon: '🤖', name: 'Knowledge Machine' },
-      { id: 'first_like', icon: '❤️', name: 'Thumbs Up' }, { id: 'like_10', icon: '🌟', name: 'Super Fan' },
-      { id: 'first_note', icon: '📝', name: 'Note Taker' }, { id: 'voice_all', icon: '🎭', name: 'Triple Threat' },
-      { id: 'curious_cat', icon: '🐱', name: 'Curious Cat' }, { id: 'quiz_master', icon: '🧩', name: 'Quiz Master' },
-      { id: 'level_5', icon: '🏆', name: 'Level 5!' }, { id: 'save_5', icon: '🔖', name: 'Collector' },
-      { id: 'xp_200', icon: '💎', name: 'XP Hunter' }, { id: 'deep_diver', icon: '🤿', name: 'Deep Diver' },
-      { id: 'recall_5', icon: '🧠', name: 'Memory Pro' },
-      { id: 'certified', icon: '🎓', name: 'Certified!' },
-    ];
+    const allBadges = Object.entries(ACHIEVEMENT_NAMES).map(([id, n]) => ({ id, ...n }));
     const locked = allBadges.filter(a => !earnedIds.has(a.id));
     if (locked.length) {
       h += '<div class="gami-badges">';
@@ -4851,8 +4945,7 @@ class PBook {
 
 
     // Voice preference — computed from actually read non-core blocks by voice
-    // Transparent facet profile — the book shows you your own preference model (and lets you fix it)
-    h += this._renderFacetProfile();
+    // Transparent facet profile — the book shows you your own preference model (and lets you fix it) — rendered above, after the concept badges
 
     // Activity heatmap (last 8 weeks, GitHub-style, inline SVG)
     h += this._renderActivityHeatmap();
@@ -4934,7 +5027,7 @@ class PBook {
       ${etBar('🚩 issues reported', et.flags, 5)}
       ${etBar('⚡ tellings shared', et.shared, 5)}
       ${etBar('📖 adopted into book', et.adopted, 1)}
-      <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
+      <p style="font-size:.7rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
       ${et.adopted >= 1 ? `<button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('My telling made it into the book', 'My explanation was adopted into the living book “How Recommendations Work” 📖', location.origin + '/#' + (Object.values(app.privateBlocks).find(b => (b.meta.sharedAt || b.meta.state === 'community') && app.findBlock(b.meta.id))?.meta.id || ''))">📣 Brag about your adoption</button>` : ''}
     </div>
 
@@ -4978,8 +5071,9 @@ class PBook {
     h += '<button class="btn-ghost" style="border:1px solid var(--border);border-radius:6px;padding:.4em 1em;font-size:.78rem;color:var(--text-2)" onclick="app.toggleSettings()">&#9881; Settings &amp; data</button>';
     h += '</div>';
 
-    h += `<div style=\"text-align:center;font-size:.62rem;color:var(--text-3);margin:.8em 0\">p-book ${APP_VERSION}</div>`;
+    h += `<div style=\"text-align:center;font-size:.7rem;color:var(--text-3);margin:.8em 0\">p-book ${this._appVersion()}</div>`;
     el.innerHTML = h;
+    this._foldProfile(el);   // wallet, XP rules, editor track, invites: one tap away, not in the way
   }
 
   // ===== ACCOUNT & SYNC =====
@@ -5228,13 +5322,13 @@ class PBook {
     const typing = document.getElementById('tutorTyping');
     if (typing) typing.style.display = 'flex';
     messages.scrollTop = messages.scrollHeight;
-    // Simulate thinking delay
+    // Local retrieval is instant; a short beat keeps the exchange readable
     setTimeout(() => {
       if (typing) typing.style.display = 'none';
       const response = this.generateChatResponse(msg);
       messages.innerHTML += `<div class="chat-msg bot">${response}</div>`;
       messages.scrollTop = messages.scrollHeight;
-    }, 600 + Math.random() * 400);
+    }, 250);
   }
 
   // ===== GLOSSARY / TOPICS =====
@@ -5344,7 +5438,7 @@ class PBook {
         intros: [
           "Something seems off. Your feed converges to a narrow content type. A colleague sees entirely different things. Why?",
           "Bubbles are one concern. But is the system fair to all content creators and users?",
-          "The long tail: 80% of items never get recommended. Is popularity-based selection inevitable?",
+          "The long tail: most of a catalog rarely or never gets recommended, while a few hits take most of the slots. Is that popularity pull inevitable?",
           "Engagement and satisfaction are not the same thing. What should we actually optimize for?",
           "How do organizations evaluate whether their recommendations are working? Rigorous experimentation."
         ],
@@ -5405,7 +5499,7 @@ class PBook {
         reward: { title: 'Production Engineer', xp: 35 },
         core: ['ch5-tech-stack', 'ch5-model-selection', 'ch5-monitoring', 'ch5-caching', 'ch5-scale'],
         intros: [
-          "A production RecSys is 10% algorithm, 90% infrastructure. Let's examine the full stack.",
+          "In a production RecSys the model is a small part of the code; data pipelines, serving and monitoring are most of it. Let's examine the full stack.",
           "With so many algorithms available, choosing the right one for your problem is the first critical decision.",
           "Your system is live. How do you know it's working? Monitoring and observability are your lifeline.",
           "Latency is tight. Caching helps — but introduces freshness trade-offs.",
@@ -5449,7 +5543,7 @@ class PBook {
         core: ['ch7-why-research', 'ch7-simple-to-scalable', 'ch7-vasp-combining', 'ch7-bandits', 'ch7-cold-start-language', 'ch7-evaluation', 'ch7-production-scale', 'ch7-roadmap'],
         intros: [
           "Every recommendation you see is the product of mathematical research. Let's trace how theory becomes practice.",
-          "EASE: a single matrix inverse that outperforms deep learning. Elegant but unscalable. Enter ELSA.",
+          "EASE: a single matrix inverse that holds its own against deep models on standard benchmarks. Elegant but hard to scale. Enter ELSA.",
           "Linear models find smooth patterns. Deep models find complex ones. VASP combines them with a clever trick.",
           "Should you exploit what you know or explore the unknown? Bandit algorithms formalize this dilemma.",
           "New items have zero interactions. beeFormer bridges the gap by teaching algorithms to read.",
@@ -5479,7 +5573,7 @@ class PBook {
           "Thompson Sampling is Bayesian-optimal. Here's the proof, the regret bound, and the Lai-Robbins connection.",
           "The offline evaluation bias formalizes why good models can look bad. MNAR, IPS, and the LLOO+β correction."
         ],
-        boss: { q: 'Derive the ALS update step from the matrix factorization objective. Then explain why EASE outperforms deep models despite being linear, using the bias-variance trade-off framework.', hints: ['ridge regression', 'closed-form', 'sparse data', 'variance', 'spectral shrinkage', 'nuclear norm'] },
+        boss: { q: 'Derive the ALS update step from the matrix factorization objective. Then explain why EASE can match or beat deep models on standard benchmarks despite being linear, using the bias-variance trade-off framework.', hints: ['ridge regression', 'closed-form', 'sparse data', 'variance', 'spectral shrinkage', 'nuclear norm'] },
         branches: {
           thinker: { label: 'More theory', blocks: ['ch7-causal-bandits', 'ch7-regularization', 'ch3-two-tower-math'] },
           explorer: { label: 'See in practice', blocks: ['ch7-vasp-ablation', 'ch7-distillation', 'ch7-transfer-learning'] },
@@ -5520,7 +5614,7 @@ class PBook {
   }
 
   _getMissionProgress(mission) {
-    const read = mission.core.filter(id => this.user.readBlocks.has(id)).length;
+    const read = mission.core.filter(id => this._stepRead(id)).length;
     return { read, total: mission.core.length, pct: Math.round((read / Math.max(mission.core.length, 1)) * 100) };
   }
 
@@ -5615,7 +5709,7 @@ class PBook {
     const completed = new Set(this.user.completedMissions || []);
 
     let html = '<div class="missions-inner">';
-    html += '<div class="missions-head"><h2>Missions</h2><p>Choose your adventure. Each mission tells a story and teaches you something new.</p></div>';
+    html += '<div class="missions-head"><h2>Missions</h2><p>Guided paths through the book: each one follows a single question across chapters, in reading order.</p></div>';
     html += this._personalMissionCard() || `<div style="font-size:.75rem;color:var(--text-3);margin:.2em 0 .6em">🎯 <a href="#" onclick="event.preventDefault();app.editPersonalMission()" style="color:var(--accent)">Tell the book what you want to learn</a> — it will compose a personal mission from matching concepts.</div>`;
 
     missions.forEach(m => {
@@ -5662,7 +5756,7 @@ class PBook {
     const isComplete = (this.user.completedMissions || []).includes(m.id);
     const branch = this.user.missionBranches?.[m.id];
     const allBlocks = this._getMissionBlocks(m);
-    const coreComplete = m.core.every(id => this.user.readBlocks.has(id));
+    const coreComplete = m.core.every(id => this._stepRead(id));
 
     let html = '<div class="missions-inner">';
     html += `<button class="btn-ghost" onclick="app.renderMissions()" style="margin-bottom:.5em">&larr; All missions</button>`;
@@ -5683,7 +5777,7 @@ class PBook {
     }
 
     // Progress overview — show core dots + optional branch dots
-    const coreRead = m.core.filter(id => this.user.readBlocks.has(id)).length;
+    const coreRead = m.core.filter(id => this._stepRead(id)).length;
     html += `<div class="mission-detail-progress">
       <div class="mission-progress-dots" style="justify-content:center">
         ${m.core.map((id, i) => {
@@ -5695,7 +5789,7 @@ class PBook {
           return `<span class="mission-dot branch-dot ${read ? 'done' : ''}" title="${this.findBlock(id)?.meta?.title || id}"></span>`;
         }).join('') : ''}
       </div>
-      <div style="text-align:center;font-size:.75rem;color:var(--text-3);margin-top:.3em">${coreRead}/${m.core.length} core steps${branch ? ` + bonus ${m.branches[branch].blocks.filter(id => this.user.readBlocks.has(id)).length}/${m.branches[branch].blocks.length}` : ''}</div>
+      <div style="text-align:center;font-size:.75rem;color:var(--text-3);margin-top:.3em">${coreRead}/${m.core.length} core steps${branch ? ` + bonus ${m.branches[branch].blocks.filter(id => this._stepRead(id)).length}/${m.branches[branch].blocks.length}` : ''}</div>
     </div>`;
 
     // Step list — core blocks
@@ -5718,11 +5812,11 @@ class PBook {
     // Branch point
     if (!branch) {
       html += `<div class="mission-branch-point">
-        <div class="branch-label">Choose your path</div>
-        <div class="branch-desc">The story branches here. Pick your style — the book adapts to you!</div>
+        <div class="branch-label">How do you want to continue?</div>
+        <div class="branch-desc">Same mission, three ways to finish it. You can switch later.</div>
         <div class="branch-options">`;
       Object.entries(m.branches).forEach(([voice, b]) => {
-        const vc = CONFIG.voices[voice] || {};
+        const vc = BRANCH_WORDS[voice] || CONFIG.voices[voice] || {};
         html += `<button class="branch-option ${voice}" onclick="app.pickBranch('${m.id}','${voice}')">
           <span class="branch-icon">${vc.icon || ''}</span>
           <span class="branch-name">${vc.label || voice}</span>
@@ -5734,7 +5828,7 @@ class PBook {
     } else {
       // Show chosen branch blocks
       const b = m.branches[branch];
-      const vc = CONFIG.voices[branch] || {};
+      const vc = BRANCH_WORDS[branch] || CONFIG.voices[branch] || {};
       html += `<div class="mission-branch-chosen">
         <div class="branch-label">${vc.icon || ''} ${vc.label || branch} path <button class="btn-ghost" style="font-size:.7rem" onclick="app.pickBranch('${m.id}',null)">change</button></div>
       </div>`;
@@ -6033,8 +6127,8 @@ class PBook {
       <div style="max-width:780px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">✍️ Author studio</div>
-          <span id="stEarn" style="font-size:.64rem;color:#15803D;margin-left:auto;text-align:right"></span>
-          <span id="stSaved" style="font-size:.66rem;color:var(--text-3,#999)"></span>
+          <span id="stEarn" style="font-size:.7rem;color:#15803D;margin-left:auto;text-align:right"></span>
+          <span id="stSaved" style="font-size:.7rem;color:var(--text-3,#999)"></span>
           <button onclick="app._studioClose()" title="Close — everything autosaves" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
         <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">Write straight into the page: click a paragraph to edit it, select and drag images. Everything saves continuously.</div>
@@ -6062,7 +6156,7 @@ class PBook {
               <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
-        <div style="font-size:.68rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
+        <div style="font-size:.7rem;color:var(--text-2,#666);margin-top:.5em">✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.</div>
         <textarea id="stDraft" style="display:none">${this.escHtml(cleanText)}</textarea>
       </div>
     </div>`;
@@ -6102,8 +6196,8 @@ class PBook {
       this._stBackupOffer = false;
       const rb = document.createElement('div');
       rb.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;font-size:.75rem;border:1.5px dashed #7C3AED;border-radius:9px;padding:.4em .6em;margin:.4em 0;color:var(--text-2,#666);background:color-mix(in srgb, #7C3AED 5%, transparent)';
-      rb.innerHTML = `Your previous work-in-progress for this concept is safe. <button class="steer-chip" style="font-size:.68rem;border-color:#7C3AED;color:#7C3AED" onclick="this.closest('div').remove();app._studioRestoreBackup()">↩ Go back to it</button>
-        <button class="steer-chip" style="font-size:.68rem" onclick="this.closest('div').remove()">✕</button>`;
+      rb.innerHTML = `Your previous work-in-progress for this concept is safe. <button class="steer-chip" style="font-size:.7rem;border-color:#7C3AED;color:#7C3AED" onclick="this.closest('div').remove();app._studioRestoreBackup()">↩ Go back to it</button>
+        <button class="steer-chip" style="font-size:.7rem" onclick="this.closest('div').remove()">✕</button>`;
       document.getElementById('stCanvas')?.before(rb);
     }
     this.rc.logEvent('author_open', { slug });
@@ -6139,7 +6233,7 @@ class PBook {
       h = h.replace(this._studioMarkerRx(), (_, k, w) => {
         const mi = mkIdx++;
         return `<span style="display:inline-block;max-width:100%;border:1.5px dashed #7C3AED;border-radius:10px;padding:.35em .6em;margin:.15em .1em;color:#7C3AED;font-size:.78rem;vertical-align:middle">🎨 ${/anim/i.test(k) ? 'ANIMATION' : 'DIAGRAM'}: ${this.escHtml(w.trim())}
-          <button class="steer-chip" style="font-size:.64rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">🎨 Draw this one · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button></span>`;
+          <button class="steer-chip" style="font-size:.7rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">🎨 Draw this one · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button></span>`;
       });
       inner += `<div class="st-block" data-bi="${i}" title="click to edit this paragraph" style="border-radius:8px;padding:.15em .35em;margin:0 -.35em;cursor:text">${h}</div>`;
     });
@@ -6154,9 +6248,9 @@ class PBook {
       fig.style.touchAction = 'none';
       const bar = document.createElement('div');
       bar.style.cssText = 'display:flex;gap:.4em;align-items:center;margin:.25em 0 .1em;flex-wrap:wrap';
-      bar.innerHTML = `<button class="steer-chip" style="font-size:.66rem" onclick="app.studioEditImage('${aid}')">✨ Edit (AI) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
-        <button class="steer-chip" style="font-size:.66rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
-        <span style="font-size:.62rem;color:var(--text-3,#999)">✏️ click an element = select & drag · double-click a label = rewrite</span>`;
+      bar.innerHTML = `<button class="steer-chip" style="font-size:.7rem" onclick="app.studioEditImage('${aid}')">✨ Edit (AI) · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
+        <button class="steer-chip" style="font-size:.7rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
+        <span style="font-size:.7rem;color:var(--text-3,#999)">✏️ click an element = select & drag · double-click a label = rewrite</span>`;
       fig.appendChild(bar);
     });
     if (!pane._svgEditBound) {
@@ -6488,8 +6582,8 @@ class PBook {
       out.innerHTML = items.length ? `<div style="border:1.5px solid var(--border,#ddd);border-radius:8px;padding:.4em .6em;font-size:.78rem;background:var(--card,#fff)">
         ${items.map(it => `<div style="display:flex;gap:.5em;align-items:center;padding:.25em 0;border-bottom:1px dashed var(--border,#eee)">
           <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">${this.escHtml(it.author || '')} · ${it.n} slides · rev ${it.rev}</span></span>
-          <a class="steer-chip" style="font-size:.68rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}">▶ SlAIdy</a>
-          <button class="steer-chip" style="font-size:.68rem" onclick="app.slaidyCloudLoad('${this.escHtml(it.id)}')">📥 to studio</button>
+          <a class="steer-chip" style="font-size:.7rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}">▶ SlAIdy</a>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app.slaidyCloudLoad('${this.escHtml(it.id)}')">📥 to studio</button>
         </div>`).join('')}</div>`
         : `<div style="font-size:.76rem;color:var(--text-3);padding:.3em 0">No deck under <code>${this.escHtml(group)}</code> yet.</div>`;
     } catch (e) {
@@ -6613,7 +6707,7 @@ class PBook {
         <button class="steer-chip" style="font-size:.72rem" onclick="document.getElementById('stSlaidy').remove()">✕</button>
       </div>
       <div id="stSlaidyOut"></div>
-      <span style="color:var(--text-2,#666);font-size:.72rem">Layout is chosen adaptively (figure+text → two columns, short → centered); fine-tune with <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code>, <code>&lt;!-- gap --&gt;</code> — invisible in the book. 🎬 reveal steps play on their own on a slide. Manual file: <button class="steer-chip" style="font-size:.66rem" onclick="app.slaidyExportDraft()">⬇</button> <label class="steer-chip" style="font-size:.66rem;cursor:pointer">⬆<input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label></span>
+      <span style="color:var(--text-2,#666);font-size:.72rem">Layout is chosen adaptively (figure+text → two columns, short → centered); fine-tune with <code>&lt;!-- slide: Title | layout=two | center --&gt;</code>, <code>&lt;!-- col --&gt;</code>, <code>&lt;!-- gap --&gt;</code> — invisible in the book. 🎬 reveal steps play on their own on a slide. Manual file: <button class="steer-chip" style="font-size:.7rem" onclick="app.slaidyExportDraft()">⬇</button> <label class="steer-chip" style="font-size:.7rem;cursor:pointer">⬆<input type="file" accept=".json,application/json" style="display:none" onchange="app.slaidyImportFile(this)"></label></span>
     </div>`;
   }
 
@@ -6666,11 +6760,11 @@ class PBook {
         </div>
         <div id="wsBriefBox" style="margin-top:.6em">${ws.brief ? `<div style="border:1.5px solid #10B981;border-radius:12px;padding:.6em .8em;background:var(--card,#fff)">
           <b>🤝 Agreed:</b> <span id="wsBriefTxt" style="font-size:.85rem">${this.escHtml(ws.brief)}</span>
-          <button class="steer-chip" style="font-size:.66rem" onclick="app._wsBriefEdit()">✏️ edit</button>
+          <button class="steer-chip" style="font-size:.7rem" onclick="app._wsBriefEdit()">✏️ edit</button>
           <div style="margin-top:.5em"><button class="note-save" style="background:#10B981" onclick="app._wsToStudio()">Let’s create →</button></div>
         </div>` : `<div style="font-size:.72rem;color:var(--text-3)">Keep aligning — the brief appears once you genuinely contribute.
           <div style="margin-top:.4em"><button class="steer-chip" style="font-size:.7rem" onclick="app._wsToStudio()">✍️ Not waiting — I will create on my own (free) →</button>
-          <span style="color:var(--text-3);font-size:.66rem">writing earns ⚡, the coach can join later</span></div></div>`}</div>`;
+          <span style="color:var(--text-3);font-size:.7rem">writing earns ⚡, the coach can join later</span></div></div>`}</div>`;
     } else if (ws.step === 'reflect') {
       const st = this._authorState()[ws.slug] || {};
       const stats = st.stats || { manual: 0, ai: 0, coach: 0 };
@@ -6859,13 +6953,13 @@ class PBook {
     const KIND = { works: '👍', question: '❓', idea: '💡' };
     out.innerHTML = `<div style="border:1.5px solid var(--accent);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
       <b>💬 Feedback (${comments.length})</b>
-      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbStatus('${shareId}')">↻ refresh</button>
-      <button class="steer-chip" style="font-size:.66rem" onclick="app._studioFbUnshare('${shareId}')">🗑 unshare</button>
-      <button class="steer-chip" style="font-size:.66rem" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioFbStatus('${shareId}')">↻ refresh</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioFbUnshare('${shareId}')">🗑 unshare</button>
+      <button class="steer-chip" style="font-size:.7rem" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
       <div style="font-size:.7rem;margin:.35em 0;display:flex;gap:.4em;align-items:center;flex-wrap:wrap"><span style="color:var(--text-2)">Link created — send it to whoever you like:</span>
-        <code style="font-size:.66rem;background:var(--bg,#f6f6f2);padding:.1em .4em;border-radius:6px;word-break:break-all">${link}</code>
-        <button class="steer-chip" style="font-size:.64rem" onclick="navigator.clipboard&&navigator.clipboard.writeText('${link}')">Copy</button></div>
-      ${comments.length ? comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0;font-size:.78rem">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')
+        <code style="font-size:.7rem;background:var(--bg,#f6f6f2);padding:.1em .4em;border-radius:6px;word-break:break-all">${link}</code>
+        <button class="steer-chip" style="font-size:.7rem" onclick="navigator.clipboard&&navigator.clipboard.writeText('${link}')">Copy</button></div>
+      ${comments.length ? comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0;font-size:.78rem">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.7rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')
         : `<div style="color:var(--text-3);font-size:.72rem">No comments yet — the link is active.</div>`}
     </div>`;
   }
@@ -6920,7 +7014,7 @@ class PBook {
       if (!box || !tells.length) return;
       const g = this._galState;
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">✍️ Book submissions</div>
-        <div style="font-size:.68rem;color:var(--text-3);margin:0 0 .3em">Visible to this class only. Hearts vote; ⭐ = the teacher recommends it to the editors for the shared book.</div>`
+        <div style="font-size:.7rem;color:var(--text-3);margin:0 0 .3em">Visible to this class only. Hearts vote; ⭐ = the teacher recommends it to the editors for the shared book.</div>`
         + tells.map(t => `<div style="display:flex;gap:.6em;align-items:center;padding:.45em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.3em 0;cursor:pointer"
             onclick="app._showTellingPreview('${this.escHtml(t.meta.id)}','${this.escHtml(code)}')">
             <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(t.meta.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">— ${this.escHtml(t.meta.sharedAs || 'anonymous')}${t.meta.nominated ? ' · ⭐ recommended' : ''}</span></span>
@@ -7122,7 +7216,7 @@ class PBook {
       }).sort((a, b2) => b2.score - a.score);
       if (!rows.length) { box.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.4em 0">Nothing to rank yet — submissions, works and reactions will appear here.</div>`; return; }
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">📊 Telling leaderboard</div>
-        <div style="font-size:.68rem;color:var(--text-3);margin:0 0 .3em">Score = ❤️ votes ×3 + presentation reactions (😕1/🙂2/🤩3) + 👍 reader likes ×3 + 👀 readers ÷2. Long-term signals keep growing after adoption into the book.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:0 0 .3em">Score = ❤️ votes ×3 + presentation reactions (😕1/🙂2/🤩3) + 👍 reader likes ×3 + 👀 readers ÷2. Long-term signals keep growing after adoption into the book.</div>
         ${rows.map((r, i) => `<div style="display:flex;gap:.55em;align-items:center;padding:.4em .55em;border:1.5px solid ${i === 0 ? '#F59E0B' : 'var(--border,#eee)'};border-radius:10px;margin:.28em 0">
           <span style="font-weight:800;color:${i < 3 ? '#B45309' : 'var(--text-3)'};min-width:1.4em">${i + 1}.</span>
           <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(r.title || '—')}</b> <span style="font-size:.7rem;color:var(--text-3)">— ${this.escHtml(r.who || 'anonymous')}${r.kind === '📖 in the book' ? ' · 📖 in the book' : ''}</span></span>
@@ -7220,7 +7314,7 @@ class PBook {
           <input id="fbNick" placeholder="Your nickname (optional)" style="flex:1 1 130px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
           <button class="note-save" style="background:var(--accent)" onclick="app._sendDraftComment('${this.escHtml(shareId)}')">Send the comment</button>
         </div>
-        ${data.comments.length ? `<div style="margin-top:.6em;font-size:.76rem">${data.comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.66rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')}</div>` : ''}`;
+        ${data.comments.length ? `<div style="margin-top:.6em;font-size:.76rem">${data.comments.map(c => `<div style="border-top:1px dashed var(--border,#eee);padding:.3em 0">${KIND[c.kind] || '💬'} ${this.escHtml(c.text)} <span style="color:var(--text-3);font-size:.7rem">— ${this.escHtml(c.nick || 'anonymous')}</span></div>`).join('')}</div>` : ''}`;
     el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:270;overflow-y:auto" onclick="if(event.target===this)document.getElementById('draftFb').remove()">
       <div style="max-width:680px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 1.4em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
@@ -7257,7 +7351,7 @@ class PBook {
       const vals = CONFIG.facets?.[dim]?.values || [];
       return `<div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin-top:.25em">${(L._dim || {})[dim] || dim}:
         <span>${vals.map(v => `<button class="steer-chip st-fac" data-dim="${dim}" data-v="${v}"
-          style="font-size:.66rem;margin:.1em${fac[dim] === v ? ';background:#EDE9FE;border-color:#7C3AED' : ''}"
+          style="font-size:.7rem;margin:.1em${fac[dim] === v ? ';background:#EDE9FE;border-color:#7C3AED' : ''}"
           onclick="app._studioFacetPick(this)">${this.escHtml((L[dim] || {})[v] || v)}</button>`).join('')}</span></div>`;
     }).join('');
   }
@@ -7807,8 +7901,10 @@ class PBook {
     this._wizardMission = m;
     this._wizardStep = 0;
     // Find first unread core block
-    const firstUnread = m.core.findIndex(id => !this.user.readBlocks.has(id));
+    const firstUnread = m.core.findIndex(id => !this._stepRead(id));
     if (firstUnread >= 0) this._wizardStep = firstUnread;
+    // every step read but the boss not beaten yet → straight to the boss
+    else if (!(this.user.completedMissions || []).includes(m.id)) this._wizardStep = m.core.length;
     this._renderWizardStep();
   }
 
@@ -7827,7 +7923,7 @@ class PBook {
     const blockId = blocks[step];
     const block = this.findBlock(blockId);
     const intro = m.intros?.[step] || '';
-    const isRead = this.user.readBlocks.has(blockId);
+    const isRead = this._stepRead(blockId);
 
     // Render wizard overlay in the glossary view
     const el = document.getElementById('glossaryContent');
@@ -7880,8 +7976,8 @@ class PBook {
       <div class="boss-icon">\u{1F409}</div>
       <h3 class="boss-title">Final Boss: Prove You've Learned!</h3>
       <div class="boss-question">${m.boss.q}</div>
-      <textarea class="boss-answer" id="bossAnswer" placeholder="Type your answer here..." rows="4"></textarea>
-      <div class="boss-hint" id="bossHint" style="display:none"></div>
+      <textarea class="boss-answer" id="bossAnswer" placeholder="Type your answer here..." rows="4">${this.escHtml(this._pendingBoss()[m.id]?.answer || '')}</textarea>
+      <div class="boss-hint" id="bossHint" style="${this._pendingBoss()[m.id] ? '' : 'display:none'}">${this._pendingBoss()[m.id] ? 'Your saved answer is back in the box. The examiner could not grade it last time; check it now.' : ''}</div>
       <div class="boss-actions">
         <button class="boss-submit" id="bossSubmit" onclick="app._checkBossAnswer('${m.id}')">Check my answer</button>
         <span class="boss-examiner-note" id="bossExaminerNote"></span>
@@ -7940,6 +8036,7 @@ class PBook {
         this.rc.logEvent('boss_graded', { missionId, score: g.score, verdict: g.verdict });
         const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:${g.verdict === 'pass' ? '#10B981' : g.verdict === 'almost' ? '#D97706' : '#EF4444'}"></div></div>
           <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
+        this._setPendingBoss(missionId, null);      // graded now — the saved copy is done
         if (g.verdict === 'pass') {
           hintEl.className = 'boss-hint boss-pass';
           hintEl.innerHTML = `${bar}<b>Passed!</b> ${this.escHtml(g.feedback)}`;
@@ -7961,7 +8058,7 @@ class PBook {
         /* examiner down → fall through to keyword check */
       }
     }
-    this._checkBossAnswerLocal(missionId, rawAnswer.toLowerCase(), hintEl);
+    this._checkBossAnswerLocal(missionId, rawAnswer, hintEl);
   }
 
   // ===== POST-EXAM REFLECTION: what worked / what dragged / a suggestion =====
@@ -7971,7 +8068,7 @@ class PBook {
     const m = this._wizardMission;
     const blocks = (m?.core || []).map(id => this.findBlock(id)).filter(Boolean).slice(0, 6);
     const chip = (b, kind) => `<button class="steer-chip st-refl" data-kind="${kind}" data-id="${this.escHtml(b.meta.id)}"
-      style="font-size:.68rem;margin:.12em" onclick="app._bossReflToggle(this)">${this.escHtml((b.meta.title || b.meta.id).slice(0, 30))}</button>`;
+      style="font-size:.7rem;margin:.12em" onclick="app._bossReflToggle(this)">${this.escHtml((b.meta.title || b.meta.id).slice(0, 30))}</button>`;
     const box = document.createElement('div');
     box.id = 'bossRefl';
     box.style.cssText = 'margin-top:.7em;border-top:1px dashed var(--border,#ddd);padding-top:.55em;font-size:.8rem;text-align:left';
@@ -8008,24 +8105,29 @@ class PBook {
     this.completeMission(missionId);
   }
 
-  _checkBossAnswerLocal(missionId, answer, hintEl) {
-    const m = this._wizardMission;
-    const hints = m.boss.hints || [];
-    const found = hints.filter(h => answer.includes(h));
-    const score = found.length / Math.max(hints.length, 1);
+  // Answers written while the examiner was unreachable: { missionId: { answer, at } }
+  _pendingBoss() { try { return JSON.parse(localStorage.getItem('pbook-boss-pending') || '{}'); } catch (e) { return {}; } }
+  _setPendingBoss(missionId, answer) {
+    const p = this._pendingBoss();
+    if (answer) p[missionId] = { answer: answer.slice(0, 5000), at: Date.now() }; else delete p[missionId];
+    try { localStorage.setItem('pbook-boss-pending', JSON.stringify(p)); } catch (e) {}
+  }
 
-    if (score >= 0.5 || answer.length > 80) {
-      hintEl.style.display = 'block';
-      hintEl.className = 'boss-hint boss-pass';
-      hintEl.innerHTML = `<b>Awesome!</b> You mentioned ${found.length} key concepts. You clearly understand this topic!`;
-      this._bossReflection(missionId, hintEl);
-    } else {
-      const missing = hints.filter(h => !answer.includes(h)).slice(0, 2);
-      hintEl.style.display = 'block';
-      hintEl.className = 'boss-hint boss-retry';
-      hintEl.innerHTML = `Good start! But try to also mention: <b>${missing.join('</b> and <b>')}</b>. Go back and re-read if you need to!`;
-      hintEl.innerHTML += `<br><button class="wizard-nav-btn" style="margin-top:.4em" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button>`;
-    }
+  // Examiner unavailable: NEVER auto-pass (a mission feeds the certificate). The
+  // answer is saved for grading once the examiner is reachable; the keyword check
+  // only tells the reader which ideas the answer does not mention yet.
+  _checkBossAnswerLocal(missionId, rawAnswer, hintEl) {
+    const m = this._wizardMission;
+    const answer = rawAnswer.toLowerCase();
+    const hints = m.boss.hints || [];
+    const missing = hints.filter(h => !answer.includes(String(h).toLowerCase())).slice(0, 3);
+    this._setPendingBoss(missionId, rawAnswer);
+    this.rc.logEvent('boss_pending', { missionId });
+    hintEl.style.display = 'block';
+    hintEl.className = 'boss-hint';
+    hintEl.innerHTML = `<b>The examiner is not reachable right now, so this answer is not graded yet.</b> It is saved on this device; open this mission again later and check it then.`
+      + (missing.length ? `<div style="margin-top:.4em">Before then, consider whether your answer covers: <b>${missing.map(h => this.escHtml(h)).join('</b>, <b>')}</b>.</div>` : '')
+      + `<div style="margin-top:.5em"><button class="wizard-nav-btn" onclick="app._wizardStep=0;app._renderWizardStep()">Review the steps</button></div>`;
   }
 
   showTopic(topic) {
@@ -8130,6 +8232,7 @@ class PBook {
         <div class="contact-status" id="ctStatus" role="status"></div>
       </div>`;
     document.body.appendChild(overlay);
+    this._navOverlayOpen?.('contact');
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
     document.getElementById(contact ? 'ctMsg' : 'ctContact')?.focus();
     this.rc?.logEvent?.('contact_open', { topic });
@@ -8140,11 +8243,17 @@ class PBook {
     const name = $('ctName').value.trim(), contact = $('ctContact').value.trim();
     const message = $('ctMsg').value.trim(), topic = $('ctTopic').value;
     const status = $('ctStatus'), btn = $('ctSend');
-    $('ctContact').classList.toggle('cert-error', !contact);
+    // Something we can reply to: a well-formed email, or another handle/phone of 5+ characters
+    const contactOk = contact.includes('@') && !/^@/.test(contact)
+      ? /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact)
+      : contact.length >= 5;
+    $('ctContact').classList.toggle('cert-error', !contactOk);
     $('ctMsg').classList.toggle('cert-error', !message);
-    if (!contact || !message) {
+    if (!contactOk || !message) {
       status.className = 'contact-status err';
-      status.textContent = 'Please fill in a contact and a message.';
+      status.textContent = !contact || !message ? 'Please fill in a contact and a message.'
+        : 'Please check the contact — we need an email address (or a phone or handle) to reply to.';
+      (contactOk ? $('ctMsg') : $('ctContact')).focus();
       return;
     }
     btn.disabled = true; btn.textContent = 'Sending…'; status.textContent = '';
@@ -8180,11 +8289,11 @@ class PBook {
     const questions = this.tutor.getSuggestedQuestions(block);
     const chatEl = document.getElementById('chatMessagesFull');
     if (chatEl) {
-      chatEl.innerHTML = `<div class="chat-msg bot">Pavel wrote a lot about <b>${block.meta.title}</b>. What would you like to know? I can explain it, find related sections, or go deeper!</div>`;
+      chatEl.innerHTML = `<div class="chat-msg bot">Ask anything about <b>${this.escHtml(block.meta.title || '')}</b>. I answer from the book’s concept summaries and point you to the section that covers it — and say so when the book does not.</div>`;
       if (questions.length) {
         let sugHtml = '<div class="tutor-suggestions">';
         questions.forEach(q => {
-          sugHtml += `<button class="tutor-suggest-btn" onclick="app.askSuggested(this,'${this.escHtml(q)}')">${q}</button>`;
+          sugHtml += `<button class="tutor-suggest-btn" data-q="${this.escHtml(q)}" onclick="app.askSuggested(this,this.dataset.q)">${this.escHtml(q)}</button>`;
         });
         sugHtml += '</div>';
         chatEl.insertAdjacentHTML('beforeend', sugHtml);
@@ -8253,7 +8362,8 @@ class PBook {
       if (!results.length) { el.innerHTML = '<div class="search-empty">No results found.</div>'; return; }
       el.innerHTML = results.map(r => {
         const meta = r.meta || r;
-        const badge = meta.voice && meta.voice !== 'universal' ? `<span class="card-badge ${meta.voice}">${CONFIG.voices[meta.voice]?.label || meta.voice}</span>` : '';
+        const fl = this._cardFacetLine(meta);
+        const badge = fl ? `<span class="card-facets">${this.escHtml(fl)}</span>` : '';
         return `<div class="card" style="margin-bottom:.5em" onclick="app.openBlock('${meta.id}','search');app.closeSearch()"><div class="card-chapter">${meta._chapterTitle || ''}</div><div class="card-title">${meta.title || meta.id}</div><div class="card-meta">${badge}<span class="card-time">${meta.readingTime || 3} min</span></div></div>`;
       }).join('');
     };
@@ -8275,100 +8385,51 @@ class PBook {
 
   // ===== INTERACTIONS =====
 
-  answerQ(el, voice, qId) {
+  // Question blocks: the chosen option shows its own feedback from the block's flat
+  // frontmatter (feedbackA..feedbackD). A question changes the reader's format
+  // preferences only when it says so (hintA..hintD: "depth=technical,formalism=light").
+  answerQ(el, letter, qId) {
     el.closest('.q-opts').querySelectorAll('.q-opt').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
     this.rc.sendRating(qId, 1);
-    // voice answers now seed the FACET model (voice is a retired taxonomy; the
-    // question options still carry legacy voice tags in content)
-    if (voice && voice !== 'universal') {
-      const hint = voice === 'thinker' ? { depth: 'technical' }
-        : voice === 'creator' ? { genre: 'worked-example' }
-        : { genre: 'story' };
-      this.user.updateFacetAffinity(hint, 2);
+    this.rc.logEvent('question_answer', { blockId: qId, option: letter });
+    const meta = this.findBlock(qId)?.meta || {};
+    const clean = v => String(v || '').replace(/\\(["'])/g, '$1').trim();
+
+    // Format-picker questions: pins replace what an earlier answer to THIS question set
+    const hints = {};
+    for (const L of ['A', 'B', 'C', 'D']) hints[L] = this._parseHint(meta['hint' + L]);
+    const hinted = new Set(Object.values(hints).flatMap(h => Object.keys(h)));
+    let pinned = false;
+    if (hinted.size) {
+      for (const facet of hinted) this.user.setSteerPref(facet, hints[letter]?.[facet] || null);
+      for (const [facet, value] of Object.entries(hints[letter] || {})) this.user.updateFacetAffinity({ [facet]: value }, 3);
       this.user.save();
+      pinned = true;
     }
 
     const qBlock = el.closest('.q-block');
     let recsDiv = qBlock.querySelector('.q-recs');
     if (!recsDiv) { recsDiv = document.createElement('div'); recsDiv.className = 'q-recs fade-up'; qBlock.appendChild(recsDiv); }
-
-    // Generate personalized feedback based on the answer
-    const answerText = el.textContent.trim();
-    const letter = el.querySelector('.q-letter')?.textContent?.trim() || '';
-    const feedback = this._generateAnswerFeedback(qId, letter, voice, answerText);
-
-    // Find matching recommendations
-    const vc = CONFIG.voices[voice] || {};
-    const voiceFilter = voice !== 'universal' ? voice : null;
-    let recs = [];
-    if (voiceFilter) {
-      const voiceDepths = this.allBlocks.filter(b => b.meta.voice === voiceFilter && b.meta.type === 'depth' && !this.user.readBlocks.has(b.meta.id));
-      const unreadSpines = this.allBlocks.filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id));
-      recs = [...voiceDepths.slice(0, 3), ...unreadSpines.slice(0, 2)].slice(0, 4);
-    } else {
-      recs = this.allBlocks.filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id)).slice(0, 4);
-    }
-
-    let html = `<div class="q-feedback fade-up">${feedback}</div>`;
-    if (recs.length) {
-      html += `<div class="q-recs-title">Here's what to read next${vc.label ? ' (' + vc.label + ' path)' : ''}:</div>`;
-      html += recs.map(b => `<div class="q-rec-item">${this.cardHtml(b.meta)}</div>`).join('');
-    }
+    const feedback = clean(meta['feedback' + letter]);
+    let html = feedback ? `<div class="q-feedback fade-up">${this.escHtml(feedback)}</div>` : '';
+    const pinWord = Object.keys(hints[letter] || {}).length ? 'Saved as your format preference' : 'Back to the default tellings';
+    if (pinned) html += `<div class="q-feedback-note">${pinWord} &middot; <a href="#" onclick="event.preventDefault();app.switchView('profile')">change it in Profile</a></div>`;
     recsDiv.innerHTML = html;
-    recsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (html) recsDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  _generateAnswerFeedback(qId, letter, voice, text) {
-    // Question-specific feedback
-    const feedbacks = {
-      'ch1-q1': {
-        A: "Awesome choice! You're an Explorer! You'll love seeing how YouTube's algorithm actually decides what to show you — it's like peeking behind a magic curtain. Let's dig into the mechanics!",
-        B: "A Creator at heart! Building things is the BEST way to learn. By the end of this book, you'll have made your own recommendation system. How cool is that?",
-        C: "Great thinking! Understanding WHY things go wrong helps us make them better. You'll discover some surprising reasons why recommendations mess up — and what we can do about it.",
-        D: "You want it all — love it! You'll get to explore, build, AND think deeply. Every chapter has something for everyone."
-      },
-      'ch3-q1': {
-        A: "Collaborative filtering is fascinating! It's basically the idea that birds of a feather flock together. If you and someone else both love the same movies, you'll probably agree on new ones too!",
-        B: "Smart thinking! Content-based filtering is super logical — if you liked a video about building Minecraft castles, you'll probably like other building videos. Simple but powerful!",
-        C: "You're thinking like a real engineer! The best systems in the world (YouTube, Spotify, Netflix) all use hybrid approaches. Why pick one when you can use them all?",
-        D: "Sometimes the simplest solution is the best starting point! Showing what's popular is how most apps begin. Then they add smarter methods over time."
-      },
-      'ch4-q1': {
-        A: "Accuracy matters — nobody likes bad recommendations! But here's a fun twist: sometimes the MOST accurate system only shows you things you already know you like. Is that really the best?",
-        B: "You care about fairness — that's awesome! Imagine being a new YouTuber whose amazing videos never get recommended just because you're not famous yet. Fairness means giving everyone a chance.",
-        C: "Discovery is what makes recommendations MAGICAL! The best recommendation isn't something you already wanted — it's something you didn't know existed but absolutely love.",
-        D: "That's the right answer! The best recommendation systems balance all three. It's tricky, but that's what makes it such an interesting problem to solve."
-      },
-      'ch5-q1': {
-        A: "A Minecraft server recommender — YES! Imagine: it knows you like survival mode with friends, building medieval stuff, and servers with <50 players. It finds your perfect match. You could totally build this!",
-        B: "A music discovery engine! What if it could find genres you've never heard of based on the FEEL of music you like? Not just 'more pop' but 'here's this amazing Japanese city pop that has the same vibe.'",
-        C: "A smart book recommender! It could track not just what books you like, but how fast you read, whether you prefer short or long chapters, and even match your mood. Libraries would love this!",
-        D: "The best inventions are the ones nobody saw coming! Maybe a recommendation system for study buddies, hiking trails, science experiments, or even what to cook for dinner tonight. Dream big!"
-      },
-      'ch6-q1': {
-        A: "That's a valid choice — you value personalization. But think about this: if the algorithm ONLY shows you what you want, how will you ever discover something new? Sometimes the best experiences come from things you didn't know you'd like.",
-        B: "You want full control — respect! Some countries are actually making this a legal right. The EU's Digital Services Act lets people opt out of algorithmic recommendations entirely. You're thinking like a lawmaker!",
-        C: "That's a really mature perspective. Showing diverse viewpoints is important for understanding the world. The tricky part: who decides what counts as 'diverse'? It's harder than it sounds, but it's worth trying.",
-        D: "Honestly? This might be the wisest answer. These are genuinely hard questions with no perfect solutions. The fact that you recognize the complexity means you're thinking more deeply than most adults. Keep questioning!"
-      }
-    };
-
-    // Look up specific feedback
-    const qFeedbacks = feedbacks[qId];
-    if (qFeedbacks && qFeedbacks[letter]) {
-      return qFeedbacks[letter];
+  // "depth=intro..standard,formalism=light" → { depth: 'intro', formalism: 'light' }
+  // (a range pins its first value: pins are single points on the scale)
+  _parseHint(raw) {
+    const out = {};
+    for (const part of String(raw || '').split(',')) {
+      const [k, v] = part.split('=').map(x => (x || '').trim());
+      if (!k || !v || !CONFIG.facets[k]) continue;
+      const val = v.split('..')[0].split('|')[0];
+      if ((CONFIG.facets[k].values || []).includes(val)) out[k] = val;
     }
-
-    // Generic voice-based feedback
-    const voiceFeedback = {
-      explorer: "Great pick! As an Explorer, you'll love the hands-on demos and visual explanations coming up. Let's see how things work under the hood!",
-      creator: "Awesome — you chose the Creator path! Get ready for projects, experiments, and building real things. Learning by doing is the best!",
-      thinker: "Nice — you're a Thinker! You like understanding the WHY behind things. The deeper explanations coming up are perfect for you.",
-      universal: "Great choice! You'll get a mix of everything — exploring, creating, and thinking. Let's keep going!"
-    };
-
-    return voiceFeedback[voice] || voiceFeedback.universal;
+    return out;
   }
 
   toggleLike(blockId) {
@@ -8481,21 +8542,21 @@ class PBook {
       const scopeLabel = quote ? 'this passage' : 'this section';
       const whereHint = insert
         ? (opts.anchorText
-            ? `<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes here: right after “${this.escHtml(opts.anchorText.slice(0, 70))}${opts.anchorText.length > 70 ? '…' : ''}”</div>`
-            : '<div style="font-size:.68rem;color:var(--text-3);margin:.2em 0">Goes at the end of this section.</div>')
+            ? `<div style="font-size:.7rem;color:var(--text-3);margin:.2em 0">Goes here: right after “${this.escHtml(opts.anchorText.slice(0, 70))}${opts.anchorText.length > 70 ? '…' : ''}”</div>`
+            : '<div style="font-size:.7rem;color:var(--text-3);margin:.2em 0">Goes at the end of this section.</div>')
         : '';
       box.innerHTML = `
         <b>${insert ? '➕ Add here' : `✏️ Improve ${scopeLabel}`}</b>
         ${whereHint}
-        <div style="font-size:.68rem;color:var(--text-3);margin:.2em 0 .1em">${insert ? 'Write your own text…' : 'Edit the text directly…'}</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.2em 0 .1em">${insert ? 'Write your own text…' : 'Edit the text directly…'}</div>
         <textarea id="edit-src-${blockId}" rows="${insert ? 3 : Math.min(12, Math.max(3, slice.split('\n').length + 1))}"
           ${insert ? 'placeholder="The text that will appear at this spot…"' : ''}
           style="width:100%;padding:.45em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.76rem;font-family:ui-monospace,monospace;line-height:1.45">${this.escHtml(slice)}</textarea>
-        ${canGen ? `<div style="font-size:.68rem;color:var(--text-3);margin:.3em 0 .1em">…or describe ${insert ? 'what to add' : 'the change'} and let AI write it:</div>
+        ${canGen ? `<div style="font-size:.7rem;color:var(--text-3);margin:.3em 0 .1em">…or describe ${insert ? 'what to add' : 'the change'} and let AI write it:</div>
         <textarea id="remix-prompt-${blockId}" rows="2" placeholder="${insert ? `e.g. 'draw a diagram of the ranking pipeline and explain it', 'add a worked example'` : `e.g. 'explain with a running-shop example', 'simpler words', 'add one concrete number'`}"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem"></textarea>` : ''}
-        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
-        <div style="font-size:.66rem;color:var(--text-3);margin:.15em 0">${this.aiEconHint()}</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.25em 0">Either way the original stays untouched — you get your own version with the change highlighted, and you decide whether to keep or share it.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.15em 0">${this.aiEconHint()}</div>
         <div class="note-actions">
           <button class="note-save" onclick="app.submitManualEdit('${blockId}')">${insert ? '💾 Insert my text' : '💾 Save my edit'}</button>
           ${canGen ? `<button class="note-save" style="background:var(--accent)" onclick="app.submitRemix('${blockId}')">${insert ? '✨ Let AI write it' : '✨ AI rewrite'} · from ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>` : ''}
@@ -8853,7 +8914,7 @@ class PBook {
         <b>✨ Remix this diagram${el.querySelector('animate, animateTransform, animateMotion') ? ' / animation' : ''}</b>
         <textarea id="remix-prompt-${blockId}" rows="2" placeholder="What should change? e.g. 'make the products running shoes', 'slow the animation down', 'add a third user to the example'"
           style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.78rem;margin-top:.3em"></textarea>
-        <div style="font-size:.68rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
+        <div style="font-size:.7rem;color:var(--text-3);margin:.25em 0">The original stays untouched — you get your own version, marked as remixed. Works on animations too.</div>
         <div class="note-actions">
           <button class="note-save" onclick="app.submitDiagramRemix('${blockId}')">✨ Generate improved version · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
           <button class="note-cancel" onclick="document.getElementById('remix-form-${blockId}').remove()">Cancel</button>
@@ -8942,7 +9003,7 @@ class PBook {
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
       <input type="text" id="share-group-${blockId}" placeholder="Class code (optional — the telling then stays within your class)" maxlength="16" value="${this.escHtml(this._classCode())}"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
-      <div style="font-size:.66rem;color:var(--text-3)">With a code: classmates and the teacher see it in the class gallery, the class votes — and the teacher ⭐ recommends the best to the editors for the shared book. Without a code it joins the book's reader tellings right away.</div>
+      <div style="font-size:.7rem;color:var(--text-3)">With a code: classmates and the teacher see it in the class gallery, the class votes — and the teacher ⭐ recommends the best to the editors for the shared book. Without a code it joins the book's reader tellings right away.</div>
       <div class="note-actions">
         <button class="note-save" onclick="app.shareGeneratedBlock('${blockId}')">📣 Share into the book</button>
         <button class="note-cancel" onclick="document.getElementById('share-consent-${blockId}').remove()">Keep private</button>
@@ -9017,22 +9078,30 @@ class PBook {
     this.user.currentBlock = blockId;
     this.user.currentChapter = chIdx;
     this.user.save();
-    // Update URL hash for sharing
-    history.replaceState(null, '', '#' + blockId);
+    // URL hash for sharing + a history entry for the system back button (js/ux.js)
+    this._navPushBlock(blockId);
     // Set analytics context: where did user discover this block?
     const mode = source || (this._wizardMission ? 'mission' : this.currentView === 'home' ? 'netflix' : this.currentView === 'map' ? 'map' : this.currentView === 'read' ? 'read' : this.currentView);
     this.rc.setContext(mode, { blockId, chapter: chIdx });
     this.rc.logEvent('open_block', { mode, blockId });
 
-    // If already viewing this chapter, just scroll
-    if (this.currentView === 'read' && this._renderedChapter === chIdx) {
+    // The essentials flow shows one telling per concept: opening a specific
+    // telling (search, mission step, shared link…) serves THAT one in its
+    // concept's slot for the rest of this session.
+    if (!this._fullBook() && block.meta.type === 'spine') {
+      const cid = this._conceptIds(block.meta)[0];
+      if (cid) (this._requestedTellings = this._requestedTellings || {})[cid] = blockId;
+    }
+
+    // If already viewing this chapter (and that telling is on screen), just scroll
+    if (this.currentView === 'read' && this._renderedChapter === chIdx && document.getElementById(`b-${blockId}`)) {
       this._scrollToBlock(parentId, block.meta);
       this._updateMissionBar();
       return;
     }
 
-    this._pendingScroll = { parentId, meta: block.meta };
-    this.switchView('read', true); // auto — don't log as user-initiated mode switch
+    this._pendingScroll = { parentId, meta: block.meta, instant: true };
+    this.switchView('read', true, true); // auto — don't log as user-initiated mode switch; renderRead below
     this.renderRead(chIdx);
   }
 
@@ -9051,7 +9120,7 @@ class PBook {
       <div class="mission-bar-dots">${m.core.map((id, i) => {
         const b = this.findBlock(id);
         const title = b?.meta?.title || id;
-        const cls = this.user.readBlocks.has(id) ? 'done' : i === step ? 'current' : '';
+        const cls = this._stepRead(id) ? 'done' : i === step ? 'current' : '';
         return `<span class="mission-dot ${cls}" title="${this.escHtml(title)}" onclick="app._wizardStep=${i};app._pendingMissionIntro='${(m.intros?.[i]||'').replace(/'/g,"\\'")}';app.openBlock('${id}')" style="cursor:pointer"></span>`;
       }).join('')}</div>
     `;
@@ -9064,8 +9133,8 @@ class PBook {
     // Find next unread step
     let nextStep = this._wizardStep;
     const currentId = m.core[nextStep];
-    if (currentId && this.user.readBlocks.has(currentId)) nextStep++;
-    while (nextStep < m.core.length && this.user.readBlocks.has(m.core[nextStep])) nextStep++;
+    if (currentId && this._stepRead(currentId)) nextStep++;
+    while (nextStep < m.core.length && this._stepRead(m.core[nextStep])) nextStep++;
     this._wizardStep = nextStep;
 
     if (nextStep >= m.core.length) {
@@ -9099,9 +9168,11 @@ class PBook {
   }
 
   goBack() {
+    // Real browser history first (the same path the phone's back gesture takes);
+    // a visit that started on this section goes to Browse — never back to the door.
+    if (this._canGoBack()) { history.back(); return; }
     if (!this._navHistory || !this._navHistory.length) {
-      // No history — go to welcome/home
-      this.showWelcome();
+      this.switchView('home');
       return;
     }
     const prev = this._navHistory.pop();
@@ -9121,11 +9192,12 @@ class PBook {
   }
 
 
-  _scrollToBlock(parentId, meta) {
+  // instant: arriving from another view (no long animated scroll from the chapter top)
+  _scrollToBlock(parentId, meta, instant) {
     setTimeout(() => {
       const el = document.getElementById(`b-${meta.id}`) || document.getElementById(`b-${parentId}`);
-      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 300);
+      if (el) el.scrollIntoView({ behavior: instant || matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    }, instant ? 30 : 300);
   }
 
   goToMapChapter(idx) {
@@ -9164,9 +9236,9 @@ class PBook {
           <div class="auth-avatar" style="width:32px;height:32px;font-size:1.1rem">${this.getLevelIcon()}</div>
           <div class="auth-info">
             <div class="auth-name" style="font-size:.8rem">${this.escHtml(auth.displayName || 'Reader')}</div>
-            <div class="auth-email" style="font-size:.65rem"><span style="color:var(--product)">&#9679;</span> ${this.escHtml(auth.email)}</div>
+            <div class="auth-email" style="font-size:.7rem"><span style="color:var(--product)">&#9679;</span> ${this.escHtml(auth.email)}</div>
           </div>
-          <button class="auth-secondary-btn" style="font-size:.68rem;padding:.3em .5em" onclick="app._showEditAccount()">Edit</button>
+          <button class="auth-secondary-btn" style="font-size:.7rem;padding:.3em .5em" onclick="app._showEditAccount()">Edit</button>
           <button class="auth-logout-btn" onclick="app.logout();app._renderSettingsAccount();app.renderProfile()">Log out</button>
         </div>
         <div id="editAccountForm" style="display:none;margin-top:.4em">
@@ -9270,9 +9342,9 @@ class PBook {
     URL.revokeObjectURL(a.href);
   }
 
-  setTheme(theme) {
-    document.documentElement.setAttribute('data-theme', theme === 'light' ? '' : theme);
-    localStorage.setItem('pbook-theme', theme);
+  setTheme(theme) {   // 'light' | 'dark' | 'auto' (follows the device) — js/ux.js
+    try { localStorage.setItem('pbook-theme', theme); } catch (e) {}
+    this._applyThemeChoice();
     this.updateSettingsUI();
   }
 
@@ -9284,8 +9356,7 @@ class PBook {
   }
 
   applyTheme() {
-    const theme = localStorage.getItem('pbook-theme');
-    if (theme && theme !== 'light') document.documentElement.setAttribute('data-theme', theme);
+    this._applyThemeChoice();
     const fs = localStorage.getItem('pbook-fs');
     if (fs) { const map = { small: '0.95rem', medium: '1.1rem', large: '1.3rem' }; document.documentElement.style.setProperty('--fs', map[fs]); }
     this._applyLevelTheme();
@@ -9382,7 +9453,7 @@ class PBook {
 
     let h = '<div class="profile-section"><h3>Your Activity</h3>';
     h += `<div style="display:flex;gap:1em;margin-bottom:.6em;font-size:.78rem">`;
-    h += `<span style="color:var(--text-3)">${totalActive} active days</span>`;
+    h += `<span style="color:var(--text-3)">${totalActive} active day${totalActive === 1 ? '' : 's'}</span>`;
     h += `<span style="color:var(--text-3)">${totalInteractions} interactions</span>`;
     h += `</div>`;
     h += svg;
@@ -9496,7 +9567,7 @@ class PBook {
     if (kind === 'login' || (!this._getAuth() && this._trialUsedLocal())) {
       return `<div style="border:1.5px solid #0EA5E9;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
         <b>🔑 AI needs an account</b><br>The free try is used. Log in via <a href="#" onclick="event.preventDefault();app.switchView('profile')">Profile</a> — your ⚡ start counting server-side and existing XP migrates (up to 100).<br>
-        <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span></div>`;
+        <span style="color:#15803D;font-size:.7rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span></div>`;
     }
     const tierName = tier === 'advanced' ? 'Advanced AI (variants & diagrams)' : 'Basic AI (text)';
     return `<div style="border:1.5px solid #D97706;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
@@ -9504,7 +9575,7 @@ class PBook {
       ${'{tier} costs <b>{p} ⚡</b>, you have <b>⚡{b}</b>. Earn by working with the book:'.replace('{tier}', tierName).replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance())}<br>
       <span style="color:var(--text-2,#666)">${'read a section +10 · recall +2 · game +5 · note +3 · <b>manual edit +{me}</b> · <b>your own writing in the studio +{me} per ~{z} chars</b>'.replace(/\{me\}/g, c.earnManualEdit).replace('{z}', c.earnStudioChars || 250)}</span><br>
       <span style="color:var(--text-2,#666)">You can keep creating by hand right now — nothing stops you, and work earns your ⚡ back.</span><br>
-      <span style="color:#15803D;font-size:.68rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
+      <span style="color:#15803D;font-size:.7rem">We nudge toward frugal AI use — manual work and thinking earn more. 🌱</span>
     </div>`;
   }
   // 402/401 ze serveru → paywall místo obecné chyby
@@ -9525,19 +9596,22 @@ class PBook {
   updateXPBadge() {
     const el = document.getElementById('xpBadge');
     if (!el) return;
-    if (!this._f('gamification')) { el.style.display = 'none'; return; }
+    // Progress first: concepts read out of the book's concepts (XP and level live in Profile)
     el.style.display = '';
-    const reward = this.getLevelRewards().filter(r => r.level <= this.user.level).pop();
+    const { read, total } = this._conceptProgress();
     const editor = this.getEditorTrack?.().tier === 'editor' ? '🛠 ' : '';
-    el.textContent = editor + (reward?.icon || '') + ' Lv.' + this.user.level + ' · ' + this.user.xp + 'XP' + (CONFIG.aiEconomy?.enabled && this._srvBalance != null ? ' · ⚡' + this._srvBalance : '');
-    el.title = editor ? 'Editor — earned through accepted contributions' : '';
+    el.innerHTML = `<span class="xp-ring">${this._ringSvg(total ? read / total : 0, 18)}<span>${editor}${read}/${total}</span></span>`;
+    el.title = `${read} of ${total} concepts read` + (this._f('gamification') ? ` · level ${this.user.level} · ${this.user.xp} XP` : '') + (editor ? ' · editor' : '');
+    el.setAttribute('aria-label', `Your progress: ${read} of ${total} concepts read. Open your profile`);
     // Apply cosmetic theme
     this._applyLevelTheme();
     // Update quiz tab badge
     const quizTab = document.querySelector('.tab[data-view="quiz"] .tab-label');
     if (quizTab && this._f('spaceRepetition')) {
       const dueCount = this.user.getDueRecalls().length;
-      quizTab.textContent = dueCount > 0 ? `Quiz (${dueCount})` : 'Quiz';
+      // a dot on the icon, not a count in the label (the label width jumped)
+      quizTab.closest('.tab')?.classList.toggle('has-due', dueCount > 0);
+      quizTab.closest('.tab')?.setAttribute('aria-label', dueCount > 0 ? `Quiz, ${dueCount} cards due` : 'Quiz');
     }
   }
 
@@ -9570,11 +9644,11 @@ class PBook {
   checkGamificationEvents() {
     if (!this._f('gamification')) return;
     if (this.user._pendingLevelUp) {
-      this.showXPToast('Level ' + this.user._pendingLevelUp + '! You are now: ' + this.user.getLevelTitle(), 'levelup');
+      this.showXPToast('Level ' + this.user._pendingLevelUp + ' · ' + this.user.getLevelTitle(), 'levelup');
       this.user._pendingLevelUp = null;
     } else if (this.user._pendingAchievement) {
-      const a = this.user._pendingAchievement;
-      this.showXPToast(a.icon + ' ' + a.name + '!', 'achievement');
+      const a = this.user._pendingAchievement, n = ACHIEVEMENT_NAMES[a.id] || a;
+      this.showXPToast(n.icon + ' ' + n.name, 'achievement');
       this.user._pendingAchievement = null;
     }
     this.updateXPBadge();
@@ -9683,7 +9757,7 @@ class PBook {
       <div class="card-chapter" style="color:#0EA5E9;font-weight:700">🌱 PROPOSED · not written yet</div>
       <div class="card-title">${this.escHtml(p.title)}</div>
       <div class="card-teaser" style="font-size:.72rem">${this.escHtml(p.objective)}</div>
-      <div style="font-size:.64rem;color:var(--text-3);font-style:italic;margin:.3em 0">You'd be able to answer: ${this.escHtml(p.recallQ)}</div>
+      <div style="font-size:.7rem;color:var(--text-3);font-style:italic;margin:.3em 0">You'd be able to answer: ${this.escHtml(p.recallQ)}</div>
       <div id="ghost-${p.slug}-${ctx}" style="display:flex;gap:.4em;margin-top:.35em">
         <button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9" onclick="app.ghostVote('${p.slug}',1,'${ctx}')">👍 I'd read this</button>
         <button class="steer-chip" onclick="app.ghostVote('${p.slug}',-1,'${ctx}')">Not for me</button>
@@ -9745,9 +9819,15 @@ class PBook {
   getCertTiers() {
     const u = this.user;
     const core = this.allBlocks.filter(b => b.meta.core && b.meta.type === 'spine');
-    const byDepth = want => core.filter(b => want.includes(b.meta.depth || 'standard'));
-    const readCount = list => list.filter(b => u.readBlocks.has(b.meta.id)).length;
-    const readAll = list => list.length === 0 || list.every(b => u.readBlocks.has(b.meta.id));
+    // Depth tiers by declared COVERAGE (a standard..technical block belongs to both
+    // tiers), never string equality — a range tag must not drop a block from all tiers.
+    const byDepth = want => core.filter(b => want.some(d => this._covers(b.meta, 'depth', d)));
+    // A core block counts once the reader has met its idea in ANY verified (git)
+    // telling — the essentials flow may serve the tl;dr or a world telling instead.
+    const isRead = b => u.readBlocks.has(b.meta.id) || this._conceptIds(b.meta).slice(0, 1)
+      .some(cid => (this.conceptBlocks?.[cid] || []).some(t => t.meta.type === 'spine' && u.readBlocks.has(t.meta.id)));
+    const readCount = list => list.filter(isRead).length;
+    const readAll = list => list.length === 0 || list.every(isRead);
 
     const base = byDepth(['intro', 'standard']);
     const tech = byDepth(['technical']);
@@ -9806,6 +9886,7 @@ class PBook {
         <div id="certPreview" style="margin-top:1em"></div>
       </div>`;
     document.body.appendChild(overlay);
+    this._navOverlayOpen?.('certificate');
     overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
     document.getElementById('certName').focus();
   }
@@ -9917,7 +9998,7 @@ class PBook {
 
     // Award certificate achievement
     if (!u.achievements.find(a => a.id === 'certified')) {
-      u.achievements.push({ id: 'certified', name: 'Certified!', icon: '\u{1F393}', desc: 'Earned your certificate', earnedAt: Date.now() });
+      u.achievements.push({ id: 'certified', name: 'Certified', icon: '\u{1F393}', desc: 'Earned your certificate', earnedAt: Date.now() });
       u.addXP(50);
       u.save();
       this.showXPToast('+50 XP \u{1F393} Certificate earned!', 'achievement');
@@ -10040,8 +10121,10 @@ class PBook {
 }
 
 // ===== INIT =====
+installGames(PBook);
 const app = new PBook();
 window.app = app;
+installUx(PBook);   // js/ux.js: navigation, door/resume, explainable picks, progress moments
 app.init();
 
 // Text highlight on selection (desktop + mobile)
@@ -10077,8 +10160,13 @@ document.addEventListener('click', (e) => {
   const concept = app?.concepts?.[slug];
   if (concept?.anchor && app.findBlock(concept.anchor)) {
     app.rc.logEvent('concept_link', { slug });
-    app.openBlock(concept.anchor, 'crosslink');
+    app.openBlock(app._servedTellingId(slug) || concept.anchor, 'crosslink');   // the reader's telling of that idea
+    return;
   }
+  // anchor still a draft: any visible telling of the idea, else say so (the link used to do nothing)
+  const t = concept && app._tellingPool(slug).find(b => app.findBlock(b.meta?.id));
+  if (t) { app.rc.logEvent('concept_link', { slug }); app.openBlock(t.meta.id, 'crosslink'); }
+  else app.showXPToast?.('That idea is still being written — it is not in the book yet', 'info');
 });
 
 document.addEventListener('contextmenu', (e) => {

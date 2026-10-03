@@ -1,108 +1,184 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Your Feed Has Been Taking Notes</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 630" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb069-title pb069-desc">
+<title id="pb069-title">Your feed has been taking notes</title>
+<desc id="pb069-desc">Four-panel comic. 1: You scroll a video app late at night while your feed, a purple character with a notepad, notes that you watched the pasta video to the end and skipped the cat video. 2: The notes (watched pasta, skipped cats, watched ramen, skipped cats, liked pasta) add up to a profile, for example cooking plus 3 and cats minus 2. 3: Your feed now shows pasta, ramen and curry; you ask how it knew, and the feed, hiding its notepad behind its back, says lucky guess. 4: Your colleague opens the same app and gets football, running and cycling: different notes, different feeds. Takeaway: it is not mind reading; your clicks, watches and skips decide what you see.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<rect x=".5" y=".5" width="639" height="629" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Your feed has been taking notes</text>
 
-  <!-- Panel 1 -->
-  <text x="34" y="80" font-size="12" font-weight="700" fill="#6B7280">CAFÉ A</text>
-  <rect x="205" y="75" width="168" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="289" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="289" dy="0">I'll note what you</tspan>
-    <tspan x="289" dy="16">reach for.</tspan>
-  </text>
-  <g>
-    <circle cx="88" cy="154" r="10" fill="#7C3AED"/>
-    <path d="M88 164 L88 198 M88 174 L70 190" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="166" cy="154" r="10" fill="#10B981"/>
-    <path d="M166 164 L166 198 M166 174 L184 190" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="321" cy="154" r="10" fill="#0EA5E9"/>
-    <path d="M321 164 L321 202 M321 176 L299 187 M321 176 L340 187" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <rect x="58" y="199" width="156" height="9" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-  <circle cx="105" cy="194" r="13" fill="#EDE9FE" stroke="#7C3AED"/>
-  <circle cx="171" cy="194" r="13" fill="#D1FAE5" stroke="#10B981"/>
-  <rect x="289" y="184" width="27" height="34" rx="3" fill="#FFFFFF" stroke="#6B7280"/>
-  <path d="M295 192 L310 192 M295 199 L307 199 M295 206 L311 206" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The tasting menu begins by watching, not asking.</text>
+<!-- ===== Panel 1: you scroll, it takes notes ===== -->
+<g transform="translate(16,50)">
+<rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">You scroll, it takes notes</text>
+<path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
 
-  <!-- Panel 2 -->
-  <rect x="428" y="74" width="210" height="48" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="533" y="94" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="533" dy="0">Every tap, bite, and pass.</tspan>
-    <tspan x="533" dy="16">Noted.</tspan>
-  </text>
-  <g>
-    <circle cx="474" cy="164" r="10" fill="#7C3AED"/>
-    <path d="M474 174 L474 210 M474 184 L505 197" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="559" cy="164" r="10" fill="#10B981"/>
-    <path d="M559 174 L559 210 M559 184 L535 199" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="706" cy="163" r="10" fill="#0EA5E9"/>
-    <path d="M706 173 L706 213 M706 184 L680 197" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <rect x="455" y="209" width="132" height="9" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-  <circle cx="500" cy="204" r="13" fill="#EDE9FE" stroke="#7C3AED"/>
-  <circle cx="548" cy="204" r="13" fill="#D1FAE5" stroke="#10B981"/>
-  <rect x="660" y="190" width="36" height="47" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
-  <path d="M667 199 L688 199 M667 207 L684 207 M667 215 L689 215 M667 223 L682 223" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Even tiny interactions become part of the order.</text>
+<!-- you, with phone -->
+<path d="M35,222 V182 Q35,166 51,166 H65 Q81,166 81,182 V222 Z" fill="#10B981"/>
+<circle cx="58" cy="145" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="58" cy="144" r="2.2" fill="#1E1B4B"/>
+<circle cx="68" cy="144" r="2.2" fill="#1E1B4B"/>
+<path d="M58,152 Q62,155 66,152" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<rect x="90" y="128" width="30" height="50" rx="5" fill="#1E1B4B"/>
+<rect x="93" y="133" width="24" height="38" rx="2" fill="#FFFFFF"/>
+<text x="105" y="158" text-anchor="middle" font-size="16">🍝</text>
+<path d="M74,194 L92,176" stroke="#10B981" stroke-width="8" stroke-linecap="round"/>
 
-  <!-- Panel 3 -->
-  <rect x="29" y="354" width="172" height="45" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-  <text x="115" y="373" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="115" dy="0">We asked for the</tspan>
-    <tspan x="115" dy="16">same feed.</tspan>
-  </text>
-  <rect x="218" y="354" width="157" height="45" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="296.5" y="373" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="296.5" dy="0">You left different</tspan>
-    <tspan x="296.5" dy="16">crumbs.</tspan>
-  </text>
-  <g>
-    <circle cx="92" cy="454" r="10" fill="#7C3AED"/>
-    <path d="M92 464 L92 505 M92 476 L75 491" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="181" cy="454" r="10" fill="#10B981"/>
-    <path d="M181 464 L181 505 M181 476 L198 491" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="320" cy="454" r="10" fill="#0EA5E9"/>
-    <path d="M320 464 L320 507 M320 477 L294 493" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <rect x="50" y="510" width="86" height="25" rx="6" fill="#EDE9FE" stroke="#7C3AED"/>
-  <circle cx="73" cy="522" r="7" fill="#D97706"/>
-  <circle cx="96" cy="522" r="7" fill="#EF4444"/>
-  <rect x="145" y="510" width="86" height="25" rx="6" fill="#D1FAE5" stroke="#10B981"/>
-  <circle cx="169" cy="522" r="7" fill="#10B981"/>
-  <circle cx="204" cy="522" r="7" fill="#0EA5E9"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Same table, two histories, two completely different plates.</text>
+<!-- your feed, taking notes -->
+<rect x="160" y="152" width="32" height="42" rx="3" fill="#FFFFFF" stroke="#4C1D95" stroke-width="1.5"/>
+<rect x="169" y="148" width="14" height="7" rx="2" fill="#4C1D95"/>
+<path d="M166,166 H186 M166,175 H183 M166,184 H186" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M203,222 V182 Q203,166 219,166 H233 Q249,166 249,182 V222 Z" fill="#7C3AED"/>
+<rect x="231" y="175" width="14" height="10" rx="2" fill="#FFFFFF"/>
+<path d="M236,177 L242,180 L236,183 Z" fill="#7C3AED"/>
+<path d="M210,194 L192,186" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
+<circle cx="226" cy="145" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="219" cy="147" r="2.2" fill="#1E1B4B"/>
+<circle cx="229" cy="147" r="2.2" fill="#1E1B4B"/>
+<path d="M220,154 Q224,157 228,154" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-  <!-- Panel 4 -->
-  <text x="426" y="360" font-size="12" font-weight="700" fill="#6B7280">CAFÉ B</text>
-  <rect x="426" y="371" width="168" height="45" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-  <text x="510" y="390" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="510" dy="0">The other café</tspan>
-    <tspan x="510" dy="16">said cake.</tspan>
-  </text>
-  <rect x="606" y="371" width="160" height="45" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="686" y="390" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="686" dy="0">Our regulars pair</tspan>
-    <tspan x="686" dy="16">that with soup.</tspan>
-  </text>
-  <g>
-    <circle cx="478" cy="468" r="10" fill="#7C3AED"/>
-    <path d="M478 478 L478 520 M478 489 L498 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="553" cy="468" r="10" fill="#10B981"/>
-    <path d="M553 478 L553 520 M553 489 L532 502" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="704" cy="468" r="10" fill="#D97706"/>
-    <path d="M704 478 L704 521 M704 490 L677 505" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  </g>
-  <rect x="453" y="522" width="125" height="9" rx="4" fill="#FEF3C7" stroke="#D97706"/>
-  <path d="M479 520 Q515 492 551 520 Z" fill="#FEF3C7" stroke="#D97706"/>
-  <circle cx="515" cy="505" r="5" fill="#10B981"/>
-  <rect x="653" y="495" width="38" height="47" rx="4" fill="#FFFFFF" stroke="#6B7280"/>
-  <path d="M660 505 L684 505 M660 513 L680 513 M660 521 L684 521 M660 529 L678 529" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Same appetite; a different house pattern.</text>
+<!-- bubbles -->
+<path d="M24,44 H88 Q100,44 100,56 V84 Q100,96 88,96 H64 L57,122 L50,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="56" y="65" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="56">Just one</tspan><tspan x="56" dy="20">more…</tspan></text>
+<path d="M124,44 H276 Q288,44 288,56 V100 Q288,112 276,112 H232 L225,124 L218,112 H124 Q112,112 112,100 V56 Q112,44 124,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="200" y="65" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="200">Pasta: watched it all.</tspan><tspan x="200" dy="20">Cats: skipped.</tspan><tspan x="200" dy="20" font-weight="700" fill="#4C1D95">Noted.</tspan></text>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Platforms predict what to surface from recorded interactions and statistical patterns.</text>
+<text x="58" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+<text x="226" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Your feed</text>
+</g>
+
+<!-- ===== Panel 2: notes become a profile ===== -->
+<g transform="translate(326,50)">
+<rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Notes become a profile</text>
+
+<rect x="12" y="50" width="142" height="174" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="67" y="44" width="32" height="12" rx="3" fill="#4C1D95"/>
+<text x="24" y="80" font-size="14" font-weight="700" fill="#4C1D95">Notes on you</text>
+<text x="24" y="106" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">Watched</tspan> pasta</text>
+<text x="24" y="130" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#6B7280">Skipped</tspan> cats</text>
+<text x="24" y="154" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">Watched</tspan> ramen</text>
+<text x="24" y="178" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#6B7280">Skipped</tspan> cats</text>
+<text x="24" y="202" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">Liked</tspan> pasta</text>
+
+<path d="M160,127 L177,137 L160,147 Z" fill="#7C3AED"/>
+
+<rect x="183" y="66" width="105" height="142" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="235.5" y="90" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Your profile</text>
+<text x="195" y="118" font-size="15" fill="#1E1B4B">🍝 Cooking</text>
+<rect x="195" y="128" width="16" height="12" rx="2" fill="#10B981"/>
+<rect x="215" y="128" width="16" height="12" rx="2" fill="#10B981"/>
+<rect x="235" y="128" width="16" height="12" rx="2" fill="#10B981"/>
+<text x="257" y="139" font-size="15" font-weight="700" fill="#065F46">+3</text>
+<text x="195" y="168" font-size="15" fill="#1E1B4B">🐱 Cats</text>
+<rect x="195" y="178" width="16" height="12" rx="2" fill="#9CA3AF"/>
+<rect x="215" y="178" width="16" height="12" rx="2" fill="#9CA3AF"/>
+<text x="237" y="189" font-size="15" font-weight="700" fill="#4B5563">−2</text>
+
+<text x="149" y="246" text-anchor="middle" font-size="14" fill="#4B5563">e.g. watch +1 · like +1 · skip −1</text>
+</g>
+
+<!-- ===== Panel 3: it serves more of that ===== -->
+<g transform="translate(16,320)">
+<rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">It serves more of that</text>
+<path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+
+<!-- you, surprised -->
+<path d="M17,222 V182 Q17,166 33,166 H47 Q63,166 63,182 V222 Z" fill="#10B981"/>
+<circle cx="40" cy="145" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="35" cy="143" r="2.2" fill="#1E1B4B"/>
+<circle cx="45" cy="143" r="2.2" fill="#1E1B4B"/>
+<path d="M31,136 L37,134 M43,134 L49,136" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<circle cx="40" cy="153" r="3" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
+
+<!-- the feed on the phone -->
+<rect x="100" y="50" width="100" height="168" rx="14" fill="#1E1B4B"/>
+<rect x="106" y="58" width="88" height="152" rx="8" fill="#FFFFFF"/>
+<text x="150" y="80" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">For you</text>
+<rect x="112" y="92" width="76" height="32" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M119,102 L127,108 L119,114 Z" fill="#7C3AED"/>
+<text x="133" y="113" font-size="15" fill="#1E1B4B">Pasta</text>
+<rect x="112" y="132" width="76" height="32" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M119,142 L127,148 L119,154 Z" fill="#7C3AED"/>
+<text x="133" y="153" font-size="15" fill="#1E1B4B">Ramen</text>
+<rect x="112" y="172" width="76" height="32" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M119,182 L127,188 L119,194 Z" fill="#7C3AED"/>
+<text x="133" y="193" font-size="15" fill="#1E1B4B">Curry</text>
+
+<!-- your feed, notepad hidden behind its back -->
+<g transform="rotate(14 276 186)">
+<rect x="262" y="166" width="28" height="38" rx="3" fill="#FFFFFF" stroke="#4C1D95" stroke-width="1.5"/>
+<rect x="269" y="162" width="14" height="7" rx="2" fill="#4C1D95"/>
+<path d="M268,180 H284 M268,189 H282" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round"/>
+</g>
+<path d="M229,222 V182 Q229,166 245,166 H259 Q275,166 275,182 V222 Z" fill="#7C3AED"/>
+<rect x="257" y="175" width="14" height="10" rx="2" fill="#FFFFFF"/>
+<path d="M262,177 L268,180 L262,183 Z" fill="#7C3AED"/>
+<circle cx="252" cy="145" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<path d="M244,142 H252 M256,142 H264" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<circle cx="250" cy="144.5" r="2.2" fill="#1E1B4B"/>
+<circle cx="262" cy="144.5" r="2.2" fill="#1E1B4B"/>
+<path d="M245,153 Q248,150.5 251,153 Q254,155.5 257,153" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M238,121 Q232,131 238,135 Q244,131 238,121 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+
+<!-- bubbles -->
+<path d="M24,44 H80 Q92,44 92,56 V86 Q92,98 80,98 H50 L42,123 L36,98 H24 Q12,98 12,86 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="52" y="66" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="52">How did</tspan><tspan x="52" dy="20">it know?!</tspan></text>
+<path d="M220,44 H276 Q288,44 288,56 V86 Q288,98 276,98 H258 L252,123 L246,98 H220 Q208,98 208,86 V56 Q208,44 220,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="248" y="66" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan x="248">Lucky</tspan><tspan x="248" dy="20">guess.</tspan></text>
+
+<text x="40" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+<text x="252" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Your feed</text>
+</g>
+
+<!-- ===== Panel 4: same app, different feeds ===== -->
+<g transform="translate(326,320)">
+<rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+<text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Same app, different feeds</text>
+
+<!-- your phone -->
+<rect x="16" y="46" width="114" height="152" rx="14" fill="#1E1B4B"/>
+<rect x="22" y="54" width="102" height="136" rx="8" fill="#FFFFFF"/>
+<text x="73" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">For you</text>
+<rect x="28" y="82" width="90" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M36,91 L44,97 L36,103 Z" fill="#7C3AED"/>
+<text x="51" y="102" font-size="15" fill="#1E1B4B">Pasta</text>
+<rect x="28" y="117" width="90" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M36,126 L44,132 L36,138 Z" fill="#7C3AED"/>
+<text x="51" y="137" font-size="15" fill="#1E1B4B">Ramen</text>
+<rect x="28" y="152" width="90" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M36,161 L44,167 L36,173 Z" fill="#7C3AED"/>
+<text x="51" y="172" font-size="15" fill="#1E1B4B">Curry</text>
+
+<!-- not equal -->
+<path d="M140,122 H158 M140,132 H158 M154,115 L144,139" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
+
+<!-- colleague's phone -->
+<rect x="168" y="46" width="114" height="152" rx="14" fill="#1E1B4B"/>
+<rect x="174" y="54" width="102" height="136" rx="8" fill="#FFFFFF"/>
+<text x="225" y="73" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">For you</text>
+<rect x="180" y="82" width="90" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M188,91 L196,97 L188,103 Z" fill="#7C3AED"/>
+<text x="203" y="102" font-size="15" fill="#1E1B4B">Football</text>
+<rect x="180" y="117" width="90" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M188,126 L196,132 L188,138 Z" fill="#7C3AED"/>
+<text x="203" y="137" font-size="15" fill="#1E1B4B">Running</text>
+<rect x="180" y="152" width="90" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M188,161 L196,167 L188,173 Z" fill="#7C3AED"/>
+<text x="203" y="172" font-size="15" fill="#1E1B4B">Cycling</text>
+
+<text x="73" y="218" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+<text x="225" y="218" text-anchor="middle" font-size="14" font-weight="700" fill="#4B5563">Your colleague</text>
+<text x="149" y="243" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Different notes → different feeds</text>
+</g>
+
+<!-- takeaway -->
+<text x="320" y="608" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#7C3AED">Not mind reading:</tspan> your clicks, watches and skips decide what you see.</text>
 </svg>

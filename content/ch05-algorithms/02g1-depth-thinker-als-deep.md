@@ -2,7 +2,7 @@
 id: ch3-als-deep
 type: spine
 title: "ALS: The Complete Algorithm"
-readingTime: 6
+readingTime: 15
 standalone: false
 core: false
 voice: thinker
@@ -22,7 +22,7 @@ carriers: prose|table|image|formula|code
 
 Matrix factorization is the conceptual foundation. ALS is the workhorse algorithm that makes it practical at scale. This section derives the algorithm from first principles, extends it to implicit feedback, and analyzes the computational properties that made it the dominant approach in distributed recommender systems.
 
-![Matrix factorization: sparse X decomposes into dense U and V](/images/anim-matrix-factorization.svg)
+![One ALS user step on the toy example: with item vectors V frozen, user 1's two ratings (5 and 3) give u₁ = (4.55, 2.70) through a 2×2 ridge solve; every user is solved in parallel, then U is frozen and the items are solved](/images/anim-matrix-factorization.svg)
 
 ## The Optimization Problem
 
@@ -129,7 +129,7 @@ $$V_1^T \mathbf{x}_1 = \begin{pmatrix} 0.8 \cdot 5 + 0.1 \cdot 3 \\ 0.3 \cdot 5 
 
 Solving the $2 \times 2$ linear system $(V_1^T V_1 + \lambda I) \mathbf{u}_1 = V_1^T \mathbf{x}_1$:
 
-$$\mathbf{u}_1^* = \begin{pmatrix} 0.75 & 0.33 \\ 0.33 & 1.00 \end{pmatrix}^{-1} \begin{pmatrix} 4.3 \\ 4.2 \end{pmatrix} \approx \begin{pmatrix} 4.09 \\ 2.85 \end{pmatrix}$$
+$$\mathbf{u}_1^* = \begin{pmatrix} 0.75 & 0.33 \\ 0.33 & 1.00 \end{pmatrix}^{-1} \begin{pmatrix} 4.3 \\ 4.2 \end{pmatrix} \approx \begin{pmatrix} 4.55 \\ 2.70 \end{pmatrix}$$
 
 This single user update is a $k \times k$ linear solve -- fast and numerically stable.
 

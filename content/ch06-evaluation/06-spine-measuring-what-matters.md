@@ -19,12 +19,13 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: evaluation-metrics
 conceptTitle: "Evaluation metrics"
+parents: objectives
 state: core
 lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---
@@ -97,6 +98,6 @@ The field is increasingly exploring **beyond-accuracy metrics** (tools like [Rep
 
 These metrics are harder to define and measure, but they capture dimensions of quality that pure accuracy misses.
 
-> **Research publication:** Kasalický, Alves & Kordík, "[Bridging Offline-Online Evaluation with Popularity Debiasing](https://www.recombee.com/research-publications)," evalRS@KDD 2023. See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
+> **Research publication:** Kasalický, Alves & Kordík, "[Bridging Offline-Online Evaluation with a Time-dependent and Popularity Bias-free Offline Metric for Recommenders](https://arxiv.org/abs/2308.06885)," evalRS@KDD 2023. See the [full list of Recombee research publications](https://www.recombee.com/research-publications).
 
-**Consider this:** The offline evaluation bias is a specific instance of a broader problem: **Goodhart's Law** — "When a measure becomes a target, it ceases to be a good measure." The moment you optimize for an offline metric, the metric stops accurately reflecting what you care about. Research helps us recognize these traps and design better evaluation frameworks.
+The offline evaluation bias is a specific instance of a broader problem: **Goodhart's Law** — "When a measure becomes a target, it ceases to be a good measure." The moment you optimize for an offline metric, the metric stops accurately reflecting what you care about. Research helps us recognize these traps and design better evaluation frameworks.

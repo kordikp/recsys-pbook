@@ -13,20 +13,20 @@ recallQ: "How should recommendation strategy change across the user lifecycle?"
 recallA: "New users: popularity + onboarding (cold-start). Growing users: exploration + collaborative filtering. Mature users: deep personalization + diversity. Declining users: re-engagement + novelty."
 publishedAt: "2026-04-03"
 status: accepted
-concept: digital-footprints
+concept: user-cold-start
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
 
 A user who just created an account and a user who has been active for three years are in fundamentally different situations. The new user has no history — the system knows nothing. The veteran has thousands of interactions — the system knows them deeply. Treating both the same is a common mistake.
 
-![User recommendation journey from cold start to maturity](/images/anim-recommendation-journey.svg)
+![The user lifecycle in footprints: for each stage (cold start, growth, mature, declining), how many interactions there are, what the system knows, and the strategy it should use](/images/anim-recommendation-journey.svg)
 
 ## The Four Stages
 
@@ -98,4 +98,4 @@ A common anti-pattern: training the model on mature users (who have the most dat
 
 **Solution:** Segment-aware training. Train separate models (or model components) for each lifecycle stage, or include lifecycle features (interaction count, account age, session count) as model inputs so the algorithm can adapt its behavior.
 
-**Consider this:** The user lifecycle isn't just a technical consideration — it reflects the evolving relationship between a person and a platform. A new user is tentatively exploring; a mature user has integrated the platform into their routine; a declining user is losing interest. The recommendation system's job is to serve each relationship stage appropriately.
+The user lifecycle isn't just a technical consideration — it reflects the evolving relationship between a person and a platform. A new user is tentatively exploring; a mature user has integrated the platform into their routine; a declining user is losing interest. The recommendation system's job is to serve each relationship stage appropriately.

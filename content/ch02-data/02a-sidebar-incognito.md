@@ -2,7 +2,7 @@
 id: ch2-incognito-sidebar
 type: spine
 title: "The Cold Start Problem"
-readingTime: 1
+readingTime: 2
 standalone: false
 core: true
 teaser: "New account, zero data -- now what?"
@@ -22,14 +22,14 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 genre: explainer
 carriers: prose|diagram
 ---
 
-Have you ever created a brand new account on a platform? Remember what happened?
+Open a brand-new account on any platform and look at the first screen.
 
-The recommendations were generic, impersonal, and largely irrelevant. The system showed you the same popular content it shows everyone. That's because it had ZERO behavioral data about you. No interaction history. No preference signals. Nothing.
+The recommendations are generic, impersonal, and largely irrelevant. The system shows you the same popular content it shows everyone, because it has ZERO behavioral data about you. No interaction history. No preference signals. Nothing.
 
 This is called the **cold start problem**, and it's one of the most studied challenges in recommender systems research.
 
@@ -44,4 +44,4 @@ The cold start problem is also why many platforms ask you to select interests du
 
 In enterprise contexts, cold start is even more acute. When a company deploys an internal knowledge management system or a B2B recommendation engine, every user and every item starts cold simultaneously -- a scenario known as the **system cold start**, which is significantly harder than individual user cold start.
 
-**Consider this:** If you had to create a new account on your most-used platform tomorrow, how long would it take for the recommendations to reach acceptable quality? And what does that timeline tell you about how much behavioral data the system needs to function effectively?
+**Your turn:** If you had to create a new account on your most-used platform tomorrow, how long would it take for the recommendations to reach acceptable quality? And what does that timeline tell you about how much behavioral data the system needs to function effectively?

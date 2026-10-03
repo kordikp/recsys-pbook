@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
@@ -28,7 +28,7 @@ A recommendation system trained on millions of movie interactions has learned so
 
 But this knowledge is typically locked inside a movie-specific model. **Transfer learning** asks: can we extract this knowledge and apply it to a different domain — like books, podcasts, or products?
 
-![Knowledge transfer across domains via text bridge](/images/anim-transfer-learning.svg)
+![One text reader learns from movie descriptions and real viewers, then predicts who will like new books from their descriptions alone](/images/anim-transfer-learning.svg)
 
 ## Why Transfer Matters
 
@@ -92,4 +92,4 @@ Transfer learning can backfire. **Negative transfer** occurs when source-domain 
 - **Can transfer be asymmetric?** Maybe movies → books works but books → movies doesn't
 - **How to detect negative transfer early?** Before it corrupts the target model
 
-**Consider this:** Transfer learning in RecSys challenges the assumption that each recommendation system is an island. If preference patterns are truly universal — abstracted from specific items — then every interaction on every platform contributes to a shared understanding of human taste. beeFormer is an early step toward this vision.
+Transfer learning in RecSys challenges the assumption that each recommendation system is an island. If preference patterns are truly universal — abstracted from specific items — then every interaction on every platform contributes to a shared understanding of human taste. beeFormer is an early step toward this vision.

@@ -1,56 +1,153 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Best Book in the Store, Depending</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" role="img" aria-labelledby="pb040-title pb040-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb040-title">The Best Book in the Store, Depending</title>
+<desc id="pb040-desc">Four-panel comic. 1, quality: an author holds her cozy mystery Tea &amp; Alibis and says it is the best book in the store and will be #1. 2, discoverability: the recommender asks who it is for; she answers cozy-mystery fans, no dragons, and those words become the book's tags. 3, Mina and Tom type the same search, a good book: Mina's #1 is Tea &amp; Alibis and Dragonfire is her #50; Tom's #1 is Dragonfire and Tea &amp; Alibis is his #50. 4, asked whether she is #1, the recommender says yes for Mina, #50 for Tom; the author is fine, she wrote it for Mina. There is no single #1: success is quality times discoverability, being #1 for the readers you wrote for.</desc>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+<!-- ===== Panel 1: quality ===== -->
+<g transform="translate(16,16)">
+<rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Quality</text>
+<path d="M12,236 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- bookshelf: the store -->
+<rect x="168" y="110" width="114" height="126" rx="4" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M168,152 H282 M168,194 H282" stroke="#D1D5DB" stroke-width="1.5"/>
+<g fill="#E5E7EB">
+<rect x="174" y="120" width="10" height="32"/><rect x="186" y="124" width="12" height="28" fill="#D1D5DB"/><rect x="200" y="118" width="9" height="34"/><rect x="211" y="122" width="11" height="30" fill="#D1D5DB"/><rect x="224" y="120" width="10" height="32"/><rect x="236" y="125" width="13" height="27" fill="#D1D5DB"/><rect x="251" y="119" width="9" height="33"/><rect x="262" y="123" width="12" height="29" fill="#D1D5DB"/>
+<rect x="174" y="165" width="12" height="29" fill="#D1D5DB"/><rect x="188" y="161" width="10" height="33"/><rect x="200" y="166" width="11" height="28" fill="#D1D5DB"/><rect x="213" y="160" width="9" height="34"/><rect x="224" y="164" width="13" height="30" fill="#D1D5DB"/><rect x="239" y="162" width="10" height="32"/><rect x="251" y="167" width="11" height="27" fill="#D1D5DB"/><rect x="264" y="161" width="10" height="33"/>
+<rect x="174" y="204" width="9" height="32"/><rect x="185" y="208" width="12" height="28" fill="#D1D5DB"/><rect x="199" y="203" width="10" height="33"/><rect x="211" y="207" width="11" height="29" fill="#D1D5DB"/><rect x="224" y="204" width="10" height="32"/><rect x="236" y="209" width="12" height="27" fill="#D1D5DB"/><rect x="250" y="203" width="10" height="33"/><rect x="262" y="206" width="12" height="30" fill="#D1D5DB"/>
+</g>
+<!-- author -->
+<path d="M37,236 V196 Q37,180 53,180 H67 Q83,180 83,196 V236 Z" fill="#F59E0B"/>
+<circle cx="60" cy="159" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+<ellipse cx="56" cy="144" rx="17" ry="6" fill="#92400E"/><circle cx="56" cy="137" r="3" fill="#92400E"/>
+<circle cx="58" cy="158" r="2.2" fill="#1E1B4B"/><circle cx="68" cy="158" r="2.2" fill="#1E1B4B"/>
+<path d="M57,165 Q63,171 69,165" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M80,196 L100,190" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/>
+<!-- the book -->
+<rect x="98" y="150" width="56" height="72" rx="3" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2"/>
+<path d="M105,151 V221" stroke="#D1D5DB" stroke-width="2"/>
+<text x="130" y="177" text-anchor="middle" font-size="20">☕</text>
+<text x="130" y="197" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">Tea &amp;</text>
+<text x="130" y="213" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">Alibis</text>
+<!-- bubble -->
+<path d="M24,44 H224 Q236,44 236,56 V80 Q236,92 224,92 H68 L60,128 L52,92 H24 Q12,92 12,80 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="124" y="64" text-anchor="middle" font-size="16" fill="#1E1B4B">The best book in the store.</text>
+<text x="124" y="84" text-anchor="middle" font-size="16" fill="#1E1B4B">Surely it’ll be #1!</text>
+<text x="60" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Author</text>
+</g>
 
-  <!-- Panel 1 -->
-  <circle cx="105" cy="145" r="10" fill="#10B981"/>
-  <path d="M105 157 L105 208 M105 171 L79 188 M105 171 L139 181" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="278" cy="145" r="10" fill="#7C3AED"/>
-  <path d="M278 157 L278 208 M278 171 L248 182 M278 171 L304 188" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="174" y="166" width="48" height="64" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="198" y="202" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">BOOK</text>
-  <rect x="151" y="82" width="174" height="46" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-  <text x="238" y="110" font-size="12.5" fill="#1E1B4B" text-anchor="middle">This is actually excellent.</text>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">First, make something worth finding.</text>
+<!-- ===== Panel 2: discoverability ===== -->
+<g transform="translate(326,16)">
+<rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Discoverability</text>
+<path d="M12,236 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- author -->
+<path d="M23,236 V196 Q23,180 39,180 H53 Q69,180 69,196 V236 Z" fill="#F59E0B"/>
+<circle cx="46" cy="159" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+<ellipse cx="42" cy="144" rx="17" ry="6" fill="#92400E"/><circle cx="42" cy="137" r="3" fill="#92400E"/>
+<circle cx="44" cy="158" r="2.2" fill="#1E1B4B"/><circle cx="54" cy="158" r="2.2" fill="#1E1B4B"/>
+<path d="M43,165 Q49,169 55,165" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M66,200 L86,214" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/>
+<!-- listing with tags -->
+<rect x="78" y="144" width="126" height="92" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="89" y="168" font-size="15" font-weight="700" fill="#1E1B4B">☕ Tea &amp; Alibis</text>
+<rect x="89" y="178" width="106" height="22" rx="11" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="142" y="194" text-anchor="middle" font-size="14" fill="#4C1D95">cozy mystery</text>
+<rect x="89" y="206" width="94" height="22" rx="11" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="136" y="222" text-anchor="middle" font-size="14" fill="#4C1D95">no dragons</text>
+<!-- recommender -->
+<path d="M213,236 V196 Q213,180 229,180 H243 Q259,180 259,196 V236 Z" fill="#7C3AED"/>
+<rect x="241" y="189" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="236" cy="159" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="228" cy="158" r="2.2" fill="#1E1B4B"/><circle cx="238" cy="158" r="2.2" fill="#1E1B4B"/>
+<path d="M229,165 Q234,169 239,165" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- bubbles -->
+<path d="M122,44 H276 Q288,44 288,56 V64 Q288,76 276,76 H242 L236,134 L230,76 H122 Q110,76 110,64 V56 Q110,44 122,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="199" y="66" text-anchor="middle" font-size="16" fill="#1E1B4B">Lovely. Who is it for?</text>
+<path d="M24,82 H170 Q182,82 182,94 V116 Q182,128 170,128 H52 L46,136 L40,128 H24 Q12,128 12,116 V94 Q12,82 24,82 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="97" y="101" text-anchor="middle" font-size="16" fill="#1E1B4B">Cozy-mystery fans.</text>
+<text x="97" y="121" text-anchor="middle" font-size="16" fill="#1E1B4B">No dragons, please.</text>
+<text x="236" y="258" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
+</g>
 
-  <!-- Panel 2 -->
-  <line x1="438" y1="116" x2="754" y2="116" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="686" y="76" width="42" height="39" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
-  <circle cx="520" cy="192" r="10" fill="#10B981"/>
-  <path d="M520 204 L520 255 M520 218 L492 204 M520 218 L545 204" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="640" cy="192" r="10" fill="#7C3AED"/>
-  <path d="M640 204 L640 255 M640 218 L616 205 M640 218 L664 205" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="443" y="128" width="125" height="42" rx="9" fill="#FFFFFF" stroke="#10B981"/>
-  <text x="505.5" y="154" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Now we wait.</text>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Quality × nobody finding it = a very private triumph.</text>
+<!-- ===== Panel 3: same search, two lists ===== -->
+<g transform="translate(16,296)">
+<rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Same search, two lists</text>
+<!-- Mina -->
+<path d="M14,92 V88 Q14,80,24,80 H40 Q50,80,50,88 V92 Z" fill="#10B981"/>
+<circle cx="32" cy="62" r="14" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<circle cx="32" cy="46" r="6" fill="#1E1B4B"/>
+<circle cx="27" cy="61" r="2" fill="#1E1B4B"/><circle cx="37" cy="61" r="2" fill="#1E1B4B"/>
+<path d="M28,67 Q32,71,36,67" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<text x="58" y="72" font-size="16" font-weight="700" fill="#065F46">Mina</text>
+<rect x="12" y="98" width="133" height="162" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<rect x="19" y="105" width="119" height="26" rx="13" fill="#F3F4F6"/>
+<circle cx="32" cy="117" r="5" fill="none" stroke="#6B7280" stroke-width="2"/><path d="M36,121 L40,125" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+<text x="46" y="123" font-size="14" fill="#4B5563">a good book</text>
+<rect x="19" y="139" width="119" height="62" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="29" y="163" font-size="18" font-weight="700" fill="#4C1D95">#1</text>
+<text x="128" y="164" text-anchor="end" font-size="18">☕</text>
+<text x="29" y="189" font-size="15" font-weight="700" fill="#1E1B4B">Tea &amp; Alibis</text>
+<g fill="#9CA3AF"><circle cx="78" cy="211" r="2"/><circle cx="78" cy="218" r="2"/><circle cx="78" cy="225" r="2"/></g>
+<rect x="19" y="232" width="119" height="22" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="27" y="248" font-size="14" font-weight="700" fill="#6B7280">#50</text>
+<text x="58" y="248" font-size="14" fill="#6B7280">Dragonfire</text>
+<!-- Tom -->
+<path d="M155,92 V88 Q155,80,165,80 H181 Q191,80,191,88 V92 Z" fill="#10B981"/>
+<circle cx="173" cy="62" r="14" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+<path d="M159,59 Q160,46,173,46 Q186,46,187,59 Q180,53,173,54 Q166,53,159,59 Z" fill="#1E1B4B"/>
+<circle cx="168" cy="62" r="2" fill="#1E1B4B"/><circle cx="178" cy="62" r="2" fill="#1E1B4B"/>
+<path d="M169,68 Q173,72,177,68" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<text x="199" y="72" font-size="16" font-weight="700" fill="#065F46">Tom</text>
+<rect x="153" y="98" width="133" height="162" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<rect x="160" y="105" width="119" height="26" rx="13" fill="#F3F4F6"/>
+<circle cx="173" cy="117" r="5" fill="none" stroke="#6B7280" stroke-width="2"/><path d="M177,121 L181,125" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
+<text x="187" y="123" font-size="14" fill="#4B5563">a good book</text>
+<rect x="160" y="139" width="119" height="62" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="170" y="163" font-size="18" font-weight="700" fill="#4C1D95">#1</text>
+<text x="269" y="164" text-anchor="end" font-size="18">🐉</text>
+<text x="170" y="189" font-size="15" font-weight="700" fill="#1E1B4B">Dragonfire</text>
+<g fill="#9CA3AF"><circle cx="219" cy="211" r="2"/><circle cx="219" cy="218" r="2"/><circle cx="219" cy="225" r="2"/></g>
+<rect x="160" y="232" width="119" height="22" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="168" y="248" font-size="14" font-weight="700" fill="#6B7280">#50</text>
+<text x="199" y="248" font-size="14" fill="#6B7280">Tea &amp; Alibis</text>
+</g>
 
-  <!-- Panel 3 -->
-  <circle cx="100" cy="455" r="10" fill="#0EA5E9"/>
-  <path d="M100 467 L100 521 M100 481 L126 493 M100 481 L76 497" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="300" cy="455" r="10" fill="#7C3AED"/>
-  <path d="M300 467 L300 521 M300 481 L268 493 M300 481 L326 496" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="218" y="470" width="40" height="54" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
-  <rect x="38" y="355" width="200" height="46" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="138" y="383" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Quiet, clever, no dragons.</text>
-  <line x1="211" y1="497" x2="170" y2="497" stroke="#10B981" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A search query walks in; a recommendation walks out.</text>
+<!-- ===== Panel 4: who's #1? ===== -->
+<g transform="translate(326,296)">
+<rect x="0" y="0" width="298" height="268" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Who’s #1?</text>
+<path d="M12,250 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- author -->
+<path d="M33,250 V210 Q33,194 49,194 H63 Q79,194 79,210 V250 Z" fill="#F59E0B"/>
+<circle cx="56" cy="173" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+<ellipse cx="52" cy="158" rx="17" ry="6" fill="#92400E"/><circle cx="52" cy="151" r="3" fill="#92400E"/>
+<circle cx="54" cy="172" r="2.2" fill="#1E1B4B"/><circle cx="64" cy="172" r="2.2" fill="#1E1B4B"/>
+<path d="M53,179 Q59,184 65,179" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- recommender -->
+<path d="M223,250 V210 Q223,194 239,194 H253 Q269,194 269,210 V250 Z" fill="#7C3AED"/>
+<rect x="251" y="203" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="246" cy="173" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+<circle cx="238" cy="172" r="2.2" fill="#1E1B4B"/><circle cx="248" cy="172" r="2.2" fill="#1E1B4B"/>
+<path d="M239,179 Q244,183 249,179" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- bubbles -->
+<path d="M24,44 H124 Q136,44 136,56 V64 Q136,76 124,76 H62 L54,144 L46,76 H24 Q12,76 12,64 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="74" y="66" text-anchor="middle" font-size="16" fill="#1E1B4B">So… am I #1?</text>
+<path d="M162,44 H276 Q288,44 288,56 V106 Q288,118 276,118 H252 L246,150 L240,118 H162 Q150,118 150,106 V56 Q150,44 162,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="219" y="66" text-anchor="middle" font-size="16" fill="#1E1B4B">Yes, for Mina.</text>
+<text x="219" y="86" text-anchor="middle" font-size="16" fill="#1E1B4B">For Tom: #50.</text>
+<text x="219" y="106" text-anchor="middle" font-size="16" fill="#1E1B4B">Dragons won.</text>
+<path d="M104,150 H194 Q206,150 206,162 V184 Q206,196 194,196 H104 Q92,196 92,184 V180 L78,174 L92,168 V162 Q92,150 104,150 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="149" y="169" text-anchor="middle" font-size="16" fill="#1E1B4B">Fine. I wrote</text>
+<text x="149" y="189" text-anchor="middle" font-size="16" fill="#1E1B4B">it for Mina.</text>
+</g>
 
-  <!-- Panel 4 -->
-  <circle cx="600" cy="467" r="10" fill="#7C3AED"/>
-  <path d="M600 479 L600 530 M600 493 L572 508 M600 493 L628 508" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="475" y="482" width="52" height="55" rx="3" fill="#EDE9FE" stroke="#7C3AED"/>
-  <rect x="680" y="482" width="52" height="55" rx="3" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text y="516" font-size="14" font-weight="700" fill="#1E1B4B" text-anchor="middle"><tspan x="501">#1</tspan><tspan x="706">#1</tspan></text>
-  <rect x="422" y="358" width="150" height="44" rx="9" fill="#FFFFFF" stroke="#10B981"/>
-  <text x="497" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">So I rank #1?</text>
-  <rect x="616" y="358" width="146" height="44" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-  <text x="689" y="385" font-size="12.5" fill="#1E1B4B" text-anchor="middle">For Mina.</text>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The top result changes when the person does.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">As search becomes personalized recommendation, success is quality × algorithmic discoverability.</text>
+<!-- takeaway -->
+<text x="320" y="596" text-anchor="middle" font-size="17" fill="#1E1B4B"><tspan font-weight="700" fill="#7C3AED">No single #1:</tspan> every reader gets their own ranking.</text>
+<text x="320" y="622" text-anchor="middle" font-size="17" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Quality × discoverability:</tspan> be #1 for the readers you wrote for.</text>
 </svg>

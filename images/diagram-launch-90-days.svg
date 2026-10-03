@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pn13-title pn13-desc">
+<title id="pn13-title">Klara's first 90 days: pass each gate before moving on</title>
+<desc id="pn13-desc">Launching recommendations in three phases of about a month each. Days 1 to 30, measure: one surface, a tracking plan that logs impressions with position, and a bestseller baseline. Gate 1: events flowing and the baseline live. Days 31 to 60, experiment: the model appears only now, as an A/B test against the baseline with a small holdout that sees no recommendations, with metrics and guardrails written down first. Gate 2: lift measured against the holdout. Days 61 to 90, rhythm: weekly ship or kill review, a monthly one-pager with the lift in money, then the next surface. Tracking, a baseline and a holdout come before the model.</desc>
+<defs><marker id="pn13-ah" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto" markerUnits="userSpaceOnUse"><path d="M0 0 L8 4 L0 8 Z" fill="#9CA3AF"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="499" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="32" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Klara's first 90 days: pass each gate first</text>
+<line x1="24" y1="76" x2="606" y2="76" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pn13-ah)"/>
+<text x="24" y="62" font-size="14" fill="#6B7280">day 1</text>
+<text x="214" y="58" text-anchor="middle" font-size="14" fill="#6B7280">day 30</text>
+<text x="426" y="58" text-anchor="middle" font-size="14" fill="#6B7280">day 60</text>
+<text x="616" y="62" text-anchor="end" font-size="14" fill="#6B7280">day 90</text>
+<line x1="214" y1="90" x2="214" y2="392" stroke="#F59E0B" stroke-width="2" stroke-dasharray="5 5" stroke-linecap="round"/>
+<path d="M214 63 L227 76 L214 89 L201 76 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="214" y="81" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">1</text>
+<line x1="426" y1="90" x2="426" y2="392" stroke="#F59E0B" stroke-width="2" stroke-dasharray="5 5" stroke-linecap="round"/>
+<path d="M426 63 L439 76 L426 89 L413 76 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="426" y="81" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">2</text>
+<rect x="16" y="94" width="186" height="286" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="30" y="118" font-size="14" fill="#6B7280">Days 1–30</text>
+<text x="30" y="141" font-size="18" font-weight="700" fill="#1E1B4B">Measure</text>
+<line x1="28" y1="154" x2="190" y2="154" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="34" cy="176" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M30 176 L33 179 L38.5 172.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="49" y="181" font-size="15" font-weight="700" fill="#1E1B4B">One surface</text><text x="49" y="202" font-size="14" fill="#4B5563">product-page strip</text>
+<circle cx="34" cy="248" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M30 248 L33 251 L38.5 244.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="49" y="253" font-size="15" font-weight="700" fill="#1E1B4B">Tracking plan</text><text x="49" y="274" font-size="14" fill="#4B5563">impression + position</text>
+<circle cx="34" cy="324" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M30 324 L33 327 L38.5 320.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="49" y="329" font-size="15" font-weight="700" fill="#1E1B4B">Bestsellers</text><text x="49" y="350" font-size="14" fill="#4B5563">the baseline to beat</text>
+<rect x="227" y="94" width="186" height="286" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+<text x="241" y="118" font-size="14" fill="#6B7280">Days 31–60</text>
+<text x="241" y="141" font-size="18" font-weight="700" fill="#1E1B4B">Experiment</text>
+<line x1="239" y1="154" x2="401" y2="154" stroke="#E5E7EB" stroke-width="1.5"/>
+<line x1="245" y1="166" x2="245" y2="171" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/><circle cx="245" cy="164.5" r="2.5" fill="#7C3AED"/><rect x="235" y="171" width="20" height="17" rx="5" fill="#7C3AED"/><circle cx="241.5" cy="179" r="2.2" fill="#FFFFFF"/><circle cx="248.5" cy="179" r="2.2" fill="#FFFFFF"/><line x1="242" y1="184" x2="248" y2="184" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round"/><text x="260" y="181" font-size="15" font-weight="700" fill="#1E1B4B">Model vs baseline</text><text x="260" y="202" font-size="14" fill="#4B5563">ships as a test</text>
+<circle cx="245" cy="240" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M241 240 L244 243 L249.5 236.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="260" y="245" font-size="15" font-weight="700" fill="#1E1B4B">Random split</text>
+<circle cx="245" cy="324" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M241 324 L244 327 L249.5 320.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="260" y="329" font-size="15" font-weight="700" fill="#1E1B4B">Goal + guardrails</text><text x="260" y="350" font-size="14" fill="#4B5563">agreed before start</text>
+<rect x="438" y="94" width="186" height="286" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="452" y="118" font-size="14" fill="#6B7280">Days 61–90</text>
+<text x="452" y="141" font-size="18" font-weight="700" fill="#1E1B4B">Rhythm</text>
+<line x1="450" y1="154" x2="612" y2="154" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="456" cy="176" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M452 176 L455 179 L460.5 172.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="471" y="181" font-size="15" font-weight="700" fill="#1E1B4B">Weekly review</text><text x="471" y="202" font-size="14" fill="#4B5563">ship · kill · keep</text>
+<circle cx="456" cy="248" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M452 248 L455 251 L460.5 244.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="471" y="253" font-size="15" font-weight="700" fill="#1E1B4B">Monthly one-pager</text><text x="471" y="274" font-size="14" fill="#4B5563">lift in money</text>
+<circle cx="456" cy="324" r="8.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/><path d="M452 324 L455 327 L460.5 320.5" fill="none" stroke="#065F46" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="471" y="329" font-size="15" font-weight="700" fill="#1E1B4B">Next surface</text><text x="471" y="350" font-size="14" fill="#4B5563">only after a lift</text>
+<rect x="260" y="262" width="66" height="22" rx="4" fill="#7C3AED"/><text x="293" y="278" text-anchor="middle" font-size="14" font-weight="600" fill="#FFFFFF">model</text>
+<rect x="328" y="262" width="62" height="22" rx="4" fill="#E5E7EB"/><text x="359" y="278" text-anchor="middle" font-size="14" fill="#1E1B4B">baseline</text>
+<rect x="392" y="262" width="9" height="22" rx="2" fill="#6B7280"/>
+<path d="M396.5 287 L396.5 294" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+<text x="401" y="309" text-anchor="end" font-size="14" fill="#4B5563">holdout: no recs</text>
+<rect x="118" y="392" width="192" height="66" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="214" y="411" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">GATE 1</text>
+<text x="214" y="430" text-anchor="middle" font-size="15" fill="#92400E">events flowing,</text>
+<text x="214" y="449" text-anchor="middle" font-size="15" fill="#92400E">baseline live</text>
+<rect x="330" y="392" width="192" height="66" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="426" y="411" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">GATE 2</text>
+<text x="426" y="430" text-anchor="middle" font-size="15" fill="#92400E">lift measured</text>
+<text x="426" y="449" text-anchor="middle" font-size="15" fill="#92400E">vs holdout</text>
+<text x="320" y="484" text-anchor="middle" font-size="15" fill="#1E1B4B">Tracking, a baseline and a holdout come <tspan font-weight="700" fill="#7C3AED">before the model</tspan>.</text>
+</svg>

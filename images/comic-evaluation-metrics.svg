@@ -1,122 +1,84 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Clean-Plate Test Has a Serving Problem</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <g>
-    <rect x="32" y="72" width="211" height="52" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="44" y="94" font-size="12.5" fill="#1E1B4B">Choose tomorrow's special</text>
-    <text x="44" y="113" font-size="12.5" fill="#1E1B4B">from old clean plates.</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="82" cy="165" r="10" fill="#7C3AED" stroke="none"/>
-    <path d="M82 176 L82 215 M82 187 L62 201 M82 188 L101 198 M82 215 L68 238 M82 215 L97 238"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="306" cy="165" r="10" fill="#D97706" stroke="none"/>
-    <path d="M306 176 L306 215 M306 187 L286 199 M306 187 L326 199 M306 215 L292 238 M306 215 L321 238"/>
-  </g>
-  <g>
-    <rect x="139" y="145" width="105" height="72" rx="6" fill="#FFFFFF" stroke="#6B7280"/>
-    <text x="191.5" y="164" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">OLD PLATE LOG</text>
-    <path d="M153 179 H229 M153 192 H229 M153 205 H211" stroke="#E5E7EB" stroke-width="3" stroke-linecap="round"/>
-    <circle cx="222" cy="205" r="4" fill="#7C3AED"/>
-  </g>
-  <g stroke="#6B7280" stroke-width="2" fill="none" stroke-linecap="round">
-    <path d="M40 245 H367"/>
-    <ellipse cx="190" cy="235" rx="34" ry="7"/>
-    <ellipse cx="270" cy="235" rx="34" ry="7"/>
-  </g>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Offline tests inherit what diners were previously shown.</text>
-
-  <!-- Panel 2 -->
-  <g>
-    <rect x="424" y="72" width="173" height="40" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="510.5" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">That bowl was better.</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="470" cy="166" r="10" fill="#10B981" stroke="none"/>
-    <path d="M470 177 L470 218 M470 188 L451 201 M470 188 L488 201 M470 218 L458 241 M470 218 L483 241"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="555" cy="166" r="10" fill="#7C3AED" stroke="none"/>
-    <path d="M555 177 L555 218 M555 188 L537 201 M555 188 L574 198 M555 218 L542 241 M555 218 L568 241"/>
-  </g>
-  <g>
-    <text x="688" y="92" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">CLEAN PLATES</text>
-    <path d="M620 238 H758" stroke="#6B7280" stroke-width="2"/>
-    <rect x="638" y="126" width="42" height="112" rx="4" fill="#EDE9FE" stroke="#7C3AED"/>
-    <rect x="704" y="220" width="42" height="18" rx="4" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="659" y="119" font-size="13" font-weight="700" fill="#7C3AED" text-anchor="middle">90</text>
-    <text x="725" y="213" font-size="13" font-weight="700" fill="#10B981" text-anchor="middle">4</text>
-    <text x="659" y="255" font-size="10.5" fill="#6B7280" text-anchor="middle">BURGER</text>
-    <text x="725" y="255" font-size="10.5" fill="#6B7280" text-anchor="middle">BOWL</text>
-  </g>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The better bowl looks worse after years of burger exposure.</text>
-
-  <!-- Panel 3 -->
-  <g>
-    <rect x="32" y="352" width="191" height="40" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="127.5" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Take 30% off its fame.</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="78" cy="447" r="10" fill="#7C3AED" stroke="none"/>
-    <path d="M78 458 L78 500 M78 469 L59 483 M78 469 L101 477 M78 500 L65 523 M78 500 L91 523"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="166" cy="447" r="10" fill="#D97706" stroke="none"/>
-    <path d="M166 458 L166 500 M166 469 L146 482 M166 469 L185 482 M166 500 L153 523 M166 500 L179 523"/>
-  </g>
-  <g>
-    <rect x="224" y="363" width="145" height="82" rx="8" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="296.5" y="386" font-size="11" font-weight="700" fill="#D97706" text-anchor="middle">POPULARITY PENALTY</text>
-    <text x="296.5" y="420" font-size="24" font-weight="700" fill="#1E1B4B" text-anchor="middle">β = 0.30</text>
-  </g>
-  <g>
-    <rect x="220" y="465" width="153" height="65" rx="8" fill="#D1FAE5" stroke="#10B981"/>
-    <circle cx="247" cy="497" r="13" fill="#10B981"/>
-    <path d="M241 497 L246 502 L254 491" stroke="#FFFFFF" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <text x="310" y="490" font-size="11" font-weight="700" fill="#6B7280" text-anchor="middle">RIGHT SPECIAL</text>
-    <text x="310" y="516" font-size="20" font-weight="700" fill="#10B981" text-anchor="middle">×3</text>
-  </g>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">A β=0.30 popularity penalty triples selection accuracy.</text>
-
-  <!-- Panel 4 -->
-  <g>
-    <rect x="423" y="352" width="161" height="40" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="503.5" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">100% clean plates.</text>
-  </g>
-  <g>
-    <rect x="610" y="352" width="158" height="40" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-    <text x="689" y="377" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Is lunch loading?</text>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="464" cy="440" r="10" fill="#D97706" stroke="none"/>
-    <path d="M464 451 L464 495 M464 462 L445 475 M464 462 L486 470 M464 495 L451 519 M464 495 L477 519"/>
-  </g>
-  <g stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round" fill="none">
-    <circle cx="677" cy="440" r="10" fill="#10B981" stroke="none"/>
-    <circle cx="673" cy="439" r="1.2" fill="#1E1B4B" stroke="none"/>
-    <circle cx="681" cy="439" r="1.2" fill="#1E1B4B" stroke="none"/>
-    <path d="M677 451 L677 495 M677 462 L655 476 M677 462 L697 476 M677 495 L664 519 M677 495 L690 519"/>
-  </g>
-  <g>
-    <path d="M500 510 H642" stroke="#6B7280" stroke-width="2" stroke-linecap="round"/>
-    <ellipse cx="563" cy="493" rx="42" ry="8" fill="#FFFFFF" stroke="#6B7280" stroke-width="2"/>
-    <circle cx="563" cy="488" r="4" fill="#10B981"/>
-  </g>
-  <g>
-    <ellipse cx="735" cy="508" rx="27" ry="6" fill="#FFFFFF" stroke="#6B7280"/>
-    <ellipse cx="735" cy="501" rx="27" ry="6" fill="#FFFFFF" stroke="#6B7280"/>
-    <ellipse cx="735" cy="494" rx="27" ry="6" fill="#FFFFFF" stroke="#6B7280"/>
-    <path d="M759 484 L764 489 L773 477" stroke="#10B981" stroke-width="3" fill="none" stroke-linecap="round"/>
-  </g>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Once clean plates became the goal, lunch shrank to the metric.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Offline logs favor popular items; a β=0.30 penalty reduces bias, unless the metric gets gamed.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb068-title pb068-desc">
+<title id="pb068-title">The clean-plate test has a serving problem</title>
+<desc id="pb068-desc">Four-panel comic. 1: The old recommender, a waiter, serves burgers to almost everyone, so the log shows the burger served 100 times with 90 clean plates and the bowl served only 4 times, with 4 clean plates. 2: A new recommender wants to serve the bowl more often, but the offline test only reads that log and says the burger wins, 90 to 4: barely served means barely counted. 3: The fix discounts popularity, so a clean plate of a rarely served dish counts more (popularity penalty beta about 0.30); the offline test then picks the recommender that wins with real diners 34.3% of the time instead of 12.9%, nearly three times as often but not always. 4: Make the score the goal and the waiter serves tiny portions for 100% clean plates, so the score stops measuring lunch.</desc>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">The clean-plate test has a serving problem</text>
+<g transform="translate(16,48)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text><text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">What got served</text>
+<path d="M12,160 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M19,160 V136 Q19,122 33,122 H47 Q61,122 61,136 V160 Z" fill="#7C3AED"/><path d="M34,125 L40,129 L34,133 Z M46,125 L40,129 L46,133 Z" fill="#FFFFFF"/><circle cx="40" cy="106" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="35" cy="104" r="2" fill="#1E1B4B"/><circle cx="45" cy="104" r="2" fill="#1E1B4B"/><path d="M40,109 Q35,107 30,111 Q35,114 40,112 Q45,114 50,111 Q45,107 40,109 Z" fill="#1E1B4B"/><path d="M36,116 Q40,118 44,116" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/>
+<path d="M147,160 V136 Q147,122 161,122 H175 Q189,122 189,136 V160 Z" fill="#10B981"/><circle cx="168" cy="106" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="163" cy="104" r="2" fill="#1E1B4B"/><circle cx="173" cy="104" r="2" fill="#1E1B4B"/><path d="M163,111 Q168,115 173,111" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M197,160 V136 Q197,122 211,122 H225 Q239,122 239,136 V160 Z" fill="#10B981"/><circle cx="218" cy="106" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="213" cy="104" r="2" fill="#1E1B4B"/><circle cx="223" cy="104" r="2" fill="#1E1B4B"/><path d="M213,111 Q218,115 223,111" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M247,160 V136 Q247,122 261,122 H275 Q289,122 289,136 V160 Z" fill="#10B981"/><circle cx="268" cy="106" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="263" cy="104" r="2" fill="#1E1B4B"/><circle cx="273" cy="104" r="2" fill="#1E1B4B"/><path d="M263,111 Q268,115 273,111" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<rect x="140" y="140" width="152" height="20" rx="3" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="168" y="146" font-size="18" text-anchor="middle">🍔</text>
+<text x="218" y="146" font-size="18" text-anchor="middle">🍔</text>
+<text x="268" y="146" font-size="18" text-anchor="middle">🍔</text>
+<path d="M24,44 H168 Q180,44 180,56 V66 Q180,78 168,78 H41 L40,90 L32,78 H24 Q12,78 12,66 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="96" y="66.25" font-size="15" fill="#1E1B4B" text-anchor="middle">Burger for everyone!</text>
+<text x="12" y="179" font-size="14" font-weight="700" fill="#4C1D95">Old recommender</text>
+<text x="218" y="179" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">Diners</text>
+<rect x="10" y="190" width="278" height="68" rx="10" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="22" y="208" font-size="14" font-weight="700" fill="#1E1B4B">The log</text>
+<text x="160" y="208" font-size="14" fill="#4B5563" text-anchor="middle">served</text>
+<text x="238" y="208" font-size="14" fill="#4B5563" text-anchor="middle">clean plates</text>
+<text x="22" y="230" font-size="15" fill="#1E1B4B">🍔 Burger</text>
+<text x="160" y="230" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">100</text>
+<text x="238" y="230" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">90</text>
+<text x="22" y="251" font-size="15" fill="#1E1B4B">🥗 Bowl</text>
+<rect x="146" y="237" width="28" height="19" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="160" y="251" font-size="15" font-weight="700" fill="#92400E" text-anchor="middle">4</text>
+<text x="238" y="251" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">4</text>
+</g>
+<g transform="translate(326,48)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">The offline test</text>
+<path d="M12,214 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M19,214 V190 Q19,176 33,176 H47 Q61,176 61,190 V214 Z" fill="#7C3AED"/><path d="M34,179 L40,183 L34,187 Z M46,179 L40,183 L46,187 Z" fill="#FFFFFF"/><circle cx="40" cy="160" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="35" cy="158" r="2" fill="#1E1B4B"/><circle cx="45" cy="158" r="2" fill="#1E1B4B"/><path d="M37,146 Q42,136 49,143" fill="none" stroke="#4C1D95" stroke-width="2.2" stroke-linecap="round"/><path d="M35,165 Q40,169 45,165" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M229,214 V190 Q229,176 243,176 H257 Q271,176 271,190 V214 Z" fill="#F59E0B"/><circle cx="250" cy="160" r="15" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><circle cx="245" cy="158" r="4.5" fill="none" stroke="#1E1B4B" stroke-width="1.6"/><circle cx="255" cy="158" r="4.5" fill="none" stroke="#1E1B4B" stroke-width="1.6"/><circle cx="245" cy="158" r="1.6" fill="#1E1B4B"/><circle cx="255" cy="158" r="1.6" fill="#1E1B4B"/><path d="M246,167 H254" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><rect x="258" y="182" width="20" height="26" rx="3" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5"/><path d="M262,190 H274 M262,196 H274 M262,202 H270" stroke="#6B7280" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M114,194 L106,214 M192,194 L200,214" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+<rect x="92" y="104" width="122" height="90" rx="8" fill="#FAFAF7" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="153" y="126" font-size="14" font-weight="700" fill="#1E1B4B" text-anchor="middle">Clean plates</text>
+<text x="100" y="156" font-size="17">🍔</text>
+<rect x="124" y="140" width="58" height="21" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="187" y="156" font-size="15" font-weight="700" fill="#4C1D95">90</text>
+<text x="100" y="184" font-size="17">🥗</text>
+<rect x="124" y="168" width="4" height="21" rx="1.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<text x="134" y="184" font-size="15" font-weight="700" fill="#065F46">4</text>
+<path d="M22,46 H138 Q150,46 150,58 V76 Q150,88 138,88 H42 L38,133 L28,88 H22 Q10,88 10,76 V58 Q10,46 22,46 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="80" y="62.75" font-size="15" fill="#1E1B4B" text-anchor="middle">I'd serve the</text><text x="80" y="81.75" font-size="15" fill="#1E1B4B" text-anchor="middle">bowl more often!</text>
+<path d="M176,46 H278 Q290,46 290,58 V76 Q290,88 278,88 H252 L249,144 L238,88 H176 Q164,88 164,76 V58 Q164,46 176,46 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/><text x="227" y="62.75" font-size="15" fill="#1E1B4B" text-anchor="middle">Burger wins.</text><text x="227" y="81.75" font-size="15" fill="#1E1B4B" text-anchor="middle">As always.</text>
+<text x="12" y="233" font-size="14" font-weight="700" fill="#4C1D95">New recommender</text>
+<text x="250" y="233" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle">Offline test</text>
+<text x="149" y="256" font-size="15" font-weight="700" fill="#92400E" text-anchor="middle">Barely served → barely counted.</text>
+</g>
+<g transform="translate(16,326)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text><text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">Fix: discount popularity</text>
+<text x="16" y="62" font-size="14" fill="#4B5563">Each clean plate now counts:</text>
+<text x="16" y="92" font-size="15" fill="#1E1B4B">Burger, served 100×</text>
+<circle cx="190" cy="87" r="6" fill="#7C3AED"/>
+<text x="210" y="92" font-size="15" fill="#1E1B4B">less</text>
+<text x="16" y="124" font-size="15" fill="#1E1B4B">Bowl, served 4×</text>
+<circle cx="190" cy="119" r="10" fill="#7C3AED"/>
+<text x="210" y="124" font-size="15" font-weight="700" fill="#4C1D95">more</text>
+<rect x="44" y="140" width="210" height="28" rx="14" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="149" y="159" font-size="15" fill="#92400E" text-anchor="middle">Popularity penalty <tspan font-weight="700">β ≈ 0.30</tspan></text>
+<rect x="12" y="178" width="274" height="78" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<text x="149" y="198" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">Offline test picks the live winner</text>
+<text x="149" y="228" font-size="26" font-weight="700" fill="#065F46" text-anchor="middle">12.9% → 34.3%</text>
+<text x="149" y="248" font-size="14" fill="#065F46" text-anchor="middle">of the time: nearly 3×, not always</text>
+</g>
+<g transform="translate(326,326)">
+<rect x="0" y="0" width="298" height="266" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="24" cy="25" r="11" fill="#1E1B4B"/><text x="24" y="30" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text><text x="43" y="31" font-size="16" font-weight="700" fill="#1E1B4B">Make the score the goal…</text>
+<path d="M12,214 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M25,214 V190 Q25,176 39,176 H53 Q67,176 67,190 V214 Z" fill="#7C3AED"/><path d="M40,179 L46,183 L40,187 Z M52,179 L46,183 L52,187 Z" fill="#FFFFFF"/><circle cx="46" cy="160" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="41" cy="158" r="2" fill="#1E1B4B"/><circle cx="51" cy="158" r="2" fill="#1E1B4B"/><path d="M43,146 Q48,136 55,143" fill="none" stroke="#4C1D95" stroke-width="2.2" stroke-linecap="round"/><path d="M41,165 Q46,169 51,165" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M229,214 V190 Q229,176 243,176 H257 Q271,176 271,190 V214 Z" fill="#10B981"/><circle cx="250" cy="160" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="245" cy="158" r="2" fill="#1E1B4B"/><circle cx="255" cy="158" r="2" fill="#1E1B4B"/><path d="M241,152 L247,150 M253,150 L259,152" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="250" cy="167" r="2.6" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
+<path d="M104,190 H196 M114,190 V214 M186,190 V214" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+<ellipse cx="150" cy="183" rx="34" ry="7" fill="#FFFFFF" stroke="#6B7280" stroke-width="1.5"/>
+<ellipse cx="150" cy="183" rx="22" ry="4" fill="none" stroke="#D1D5DB" stroke-width="1.2"/>
+<circle cx="150" cy="181" r="3" fill="#10B981"/>
+<path d="M22,46 H156 Q168,46 168,58 V76 Q168,88 156,88 H50 L46,133 L36,88 H22 Q10,88 10,76 V58 Q10,46 22,46 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="89" y="62.75" font-size="15" fill="#1E1B4B" text-anchor="middle">Tiny portions:</text><text x="89" y="81.75" font-size="15" fill="#1E1B4B" text-anchor="middle">100% clean plates!</text>
+<path d="M188,94 H278 Q290,94 290,106 V124 Q290,136 278,136 H247 L250,145 L235,136 H188 Q176,136 176,124 V106 Q176,94 188,94 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="233" y="110.75" font-size="15" fill="#1E1B4B" text-anchor="middle">Is lunch</text><text x="233" y="129.75" font-size="15" fill="#1E1B4B" text-anchor="middle">still loading?</text>
+<text x="149" y="252" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">…and it stops measuring lunch.</text>
+</g>
+<text x="320" y="622" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Logs only show what was served — so <tspan fill="#7C3AED">discount popular hits.</tspan></text>
 </svg>

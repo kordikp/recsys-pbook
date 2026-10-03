@@ -2,7 +2,7 @@
 id: ch7-why-explain
 type: spine
 title: "Why Explainability Matters"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: true
 teaser: "Users who understand why they received a recommendation get more value from it. Developers who can explain their system can debug it. Regulators who can audit it can protect the public. Explainability is where trust, engineering, and law converge."
@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -59,9 +59,9 @@ Production systems at companies like [Recombee](https://www.recombee.com/how-it-
 
 Explainability moved from "nice to have" to "legally required" with two major pieces of European legislation.
 
-**GDPR Article 22** establishes that individuals have the right not to be subject to decisions based solely on automated processing, and -- critically -- the right to obtain "meaningful information about the logic involved." What constitutes "meaningful" is still being defined through enforcement actions and case law, but the direction is clear: "the algorithm decided" is not an acceptable explanation.
+**GDPR Article 22** establishes that individuals have the right not to be subject to decisions based solely on automated processing that significantly affect them, and Article 15 -- critically -- gives them the right to obtain "meaningful information about the logic involved." What constitutes "meaningful" is still being defined through enforcement actions and case law, but the direction is clear: "the algorithm decided" is not an acceptable explanation.
 
-**The Digital Services Act (DSA)** goes further, specifically targeting recommendation systems. Very Large Online Platforms must inform users about the "main parameters" used in their recommender systems, must offer at least one option not based on profiling, and must provide transparency reports on their recommendation practices. The DSA does not require full algorithmic disclosure, but it requires enough transparency that an informed user or regulator can understand the broad mechanisms at work.
+**The Digital Services Act (DSA)** goes further, specifically targeting recommendation systems. Online platforms (marketplaces, social networks, video-sharing sites; micro and small enterprises are exempt) must explain the "main parameters" of their recommender systems in their terms and conditions, together with any options users have to change them. Very large online platforms, with 45 million or more monthly active users in the EU, must also offer at least one option not based on profiling and assess the systemic risks of their algorithms every year. A shop recommending only its own catalogue is usually not an online platform in the DSA sense, but the GDPR still applies to it. The DSA does not require full algorithmic disclosure, but it requires enough transparency that an informed user or regulator can understand the broad mechanisms at work.
 
 In the United States, sector-specific requirements are proliferating. The Equal Credit Opportunity Act already requires lenders to explain adverse decisions. The FTC has signaled increasing interest in algorithmic accountability. Healthcare and hiring platforms face their own explainability mandates.
 
@@ -76,3 +76,7 @@ A system that can explain its recommendations to users can also explain them to 
 This convergence means that investment in explainability pays dividends across all three dimensions simultaneously. The alternative -- building opaque systems and hoping no one asks why -- is a strategy with diminishing returns in an era of increasing scrutiny from users, engineers, and legislators alike.
 
 The remaining sections of this chapter explore how, technically and practically, recommendation systems can be made explainable without sacrificing the accuracy that makes them valuable.
+
+**Sources:**
+- [Regulation (EU) 2022/2065 (Digital Services Act)](https://eur-lex.europa.eu/eli/reg/2022/2065/oj), Official Journal of the EU, 2022: Art. 3(i) (definition of an online platform), Art. 19 (micro and small enterprises exempt), Art. 27 (recommender transparency), Art. 28 (minors), Art. 33 (45 million threshold), Art. 34 (risk assessment), Art. 38 (non-profiling option), Art. 93 (application from 17 February 2024).
+- [Regulation (EU) 2016/679 (GDPR)](https://eur-lex.europa.eu/eli/reg/2016/679/oj): Art. 15(1)(h) ("meaningful information about the logic involved"), Art. 21 (right to object), Art. 22 (automated decisions).

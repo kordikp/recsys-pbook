@@ -18,21 +18,20 @@ highlights:
 status: accepted
 concept: collaborative-filtering
 conceptTitle: "Collaborative filtering"
+parents: digital-footprints|data-pillars
 state: core
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|diagram
 ---
 
-Here's a fundamental question: how do you usually discover new content to consume?
+Most people discover new things through sources they trust. A colleague mentions a compelling documentary. A friend recommends a restaurant. And if that person's taste consistently aligns with yours, you weight their recommendations more heavily over time.
 
-If you're like most people, you rely on trusted sources. A colleague mentions a compelling documentary. A friend recommends a restaurant. And if that person's taste consistently aligns with yours, you weight their recommendations more heavily over time.
-
-![Collaborative Filtering Story](/images/comic-cf.svg)
+![Comic: you and Maya loved the same five shows; Maya recommends Silo; the app suggests Silo too without knowing Maya, because people who loved your five shows also loved Silo](/images/comic-cf.svg)
 
 Now imagine you could do that with a MILLION people. Not just your immediate social circle, but a million strangers who happen to share your exact preferences.
 
@@ -85,4 +84,4 @@ The more users on the platform, the better CF performs. That's why large-scale p
 
 > **Did you know?** The Netflix Prize (2009) offered $1 million to anyone who could improve their recommendation algorithm by 10%. Over 40,000 teams from 186 countries competed, and the winning solution was built on collaborative filtering techniques -- specifically matrix factorization.
 
-**Consider this:** Every time you recommend a product, article, or show to a colleague because you know their taste, you're performing collaborative filtering in your head. The algorithmic version simply scales this intuition to millions of users and items simultaneously.
+**Try this:** Every time you recommend a product, article, or show to a colleague because you know their taste, you're performing collaborative filtering in your head. The algorithmic version simply scales this intuition to millions of users and items simultaneously.

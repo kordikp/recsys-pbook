@@ -1,18 +1,65 @@
 {
   "type": "sort",
   "title": "Name That Method",
-  "instruction": "Which recommendation method is this describing?",
-  "buckets": ["Collaborative filtering", "Content-based"],
+  "minutes": 2,
+  "instruction": "Which signal is this recommendation built on?",
+  "buckets": [
+    "Collaborative filtering",
+    "Content-based",
+    "Popularity",
+    "Session / sequence"
+  ],
   "items": [
-    { "text": "People who liked X also liked Y", "answer": 0 },
-    { "text": "This movie has the same actors as one you liked", "answer": 1 },
-    { "text": "Users with similar ratings to yours enjoyed this", "answer": 0 },
-    { "text": "This song has a similar tempo and mood", "answer": 1 },
-    { "text": "Your taste twin just discovered something new", "answer": 0 },
-    { "text": "This book is in the same genre you always read", "answer": 1 },
-    { "text": "87% of people who bought A also bought B", "answer": 0 },
-    { "text": "The description matches your search keywords", "answer": 1 },
-    { "text": "Neighbors in the rating matrix rated this highly", "answer": 0 },
-    { "text": "Tags and categories match your preferences", "answer": 1 }
-  ]
+    {
+      "text": "Fans of this artist also listen to…",
+      "answer": 0,
+      "why": "Built from what other people co-consume, not from what the music sounds like."
+    },
+    {
+      "text": "Customers who bought this also bought…",
+      "answer": 0,
+      "why": "Item-to-item collaborative filtering: co-purchases by other customers."
+    },
+    {
+      "text": "People whose ratings track yours loved this film",
+      "answer": 0,
+      "why": "User-to-user collaborative filtering: find taste neighbours, borrow their opinions."
+    },
+    {
+      "text": "Same author, same genre, similar description",
+      "answer": 1,
+      "why": "Item features only: no other users needed."
+    },
+    {
+      "text": "A podcast published an hour ago, matched to you by its transcript topics",
+      "answer": 1,
+      "why": "Content works on day one, before anyone has listened: the answer to item cold start."
+    },
+    {
+      "text": "Laptops with the same screen size, processor and price range",
+      "answer": 1,
+      "why": "Matching on specifications is matching on item attributes."
+    },
+    {
+      "text": "Trending in your country today",
+      "answer": 2,
+      "why": "The same list for everyone in the country: no personal taste involved."
+    },
+    {
+      "text": "Top 10 most-downloaded apps this week",
+      "answer": 2,
+      "why": "A ranking by volume, identical for every user."
+    },
+    {
+      "text": "No account, no history: the suggestions change after every click in this visit, following what was just viewed",
+      "answer": 3,
+      "why": "Only the clicks of this visit are known, and the most recent ones count most: that is session-based recommendation."
+    },
+    {
+      "text": "The next song is chosen from the order of your last five plays",
+      "answer": 3,
+      "why": "A sequence model reads what you just did, in order."
+    }
+  ],
+  "debrief": "Production systems blend all four: popularity as a safe default, content for new items, collaborative signal once behaviour accumulates, and the current session for what you want right now."
 }

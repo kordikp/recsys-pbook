@@ -1,61 +1,159 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Usual, in Unusual Words</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 630" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb076-title pb076-desc">
+  <title id="pb076-title">The usual, in unusual words</title>
+  <desc id="pb076-desc">Four-panel comic. In a meeting a data scientist says: we run item-to-item CF on implicit feedback, cold start hurts. You nod: totally. You look the terms up in the glossary: item-to-item CF means people who liked this liked that; implicit feedback means clicks and views, not ratings; cold start means a new item or user with no data yet. In plain words: people who clicked this also clicked that, and new items have no clicks yet. The data scientist whispers: shh, don't tell anyone. At the next meeting you say the same jargon to a new hire, who nods totally, so you slide the glossary over. Jargon is the usual in unusual words; a glossary translates it back.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="0.5" y="0.5" width="639" height="629" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">The usual, in unusual words</text>
 
-  <!-- Panel 1 -->
-  <rect x="42" y="76" width="244" height="58" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="56" y="99" font-size="12.5" fill="#1E1B4B">
-    <tspan x="56" dy="0">Would you like an anaerobic</tspan>
-    <tspan x="56" dy="18">single-origin macchiato?</tspan>
-  </text>
-  <circle cx="101" cy="178" r="10" fill="#7C3AED"/>
-  <path d="M101 188 L101 218 M101 198 L82 211 M101 198 L120 211 M101 218 L88 239 M101 218 L114 239" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="318" cy="176" r="10" fill="#10B981"/>
-  <path d="M318 186 L318 218 M318 198 L300 209 M318 198 L336 209 M318 218 L306 239 M318 218 L330 239" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M224 225 L370 225" fill="none" stroke="#D97706" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The menu assumes everyone already speaks coffee.</text>
+  <!-- ===== Panel 1: the meeting ===== -->
+  <g transform="translate(16,52)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">The meeting</text>
 
-  <!-- Panel 2 -->
-  <circle cx="478" cy="137" r="10" fill="#7C3AED"/>
-  <path d="M478 147 L478 187 M478 157 L466 175 M478 157 L539 173 M478 187 L466 210 M478 187 L490 210" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="540" y="78" width="222" height="132" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="554" y="100" font-size="12" fill="#1E1B4B">
-    <tspan x="554" dy="0" font-weight="700">POCKET GLOSSARY</tspan>
-    <tspan x="554" dy="25">anaerobic — fermented without air</tspan>
-    <tspan x="554" dy="22">single-origin — from one place</tspan>
-    <tspan x="554" dy="22">macchiato — espresso with milk</tspan>
-  </text>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">She looks up each unfamiliar term instead of guessing.</text>
+    <!-- jargon bubble (data scientist) -->
+    <path d="M22,44 H188 Q200,44 200,56 V102 Q200,114 188,114 H74 L62,131 L60,114 H22 Q10,114 10,102 V56 Q10,44 22,44 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="105" y="65" text-anchor="middle" font-size="15" fill="#1E1B4B">We run <tspan font-weight="700" fill="#92400E">item-to-item CF</tspan></text>
+    <text x="105" y="84" text-anchor="middle" font-size="15" fill="#1E1B4B">on <tspan font-weight="700" fill="#92400E">implicit feedback</tspan>.</text>
+    <text x="105" y="103" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Cold start</tspan> hurts.</text>
 
-  <!-- Panel 3 -->
-  <rect x="34" y="356" width="192" height="64" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="48" y="380" font-size="12.5" fill="#1E1B4B">
-    <tspan x="48" dy="0">Is “medium” a specialist</tspan>
-    <tspan x="48" dy="18">term too?</tspan>
-  </text>
-  <rect x="246" y="356" width="124" height="46" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="308" y="384" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Only here.</text>
-  <circle cx="105" cy="458" r="10" fill="#7C3AED"/>
-  <path d="M105 468 L105 500 M105 478 L87 490 M105 478 L123 490 M105 500 L92 524 M105 500 L118 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="310" cy="458" r="10" fill="#10B981"/>
-  <path d="M310 468 L310 500 M310 478 L292 490 M310 478 L328 490 M310 500 L297 524 M310 500 L323 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Soon, even ordinary words seem suspicious.</text>
+    <!-- you bluff -->
+    <path d="M224,94 H276 Q288,94 288,106 V110 Q288,122 276,122 H246 L240,131 L236,122 H224 Q212,122 212,110 V106 Q212,94 224,94 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="250" y="113" text-anchor="middle" font-size="15" fill="#1E1B4B">Totally.</text>
 
-  <!-- Panel 4 -->
-  <rect x="430" y="356" width="188" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="524" y="384" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I’ll have the definition.</text>
-  <rect x="644" y="356" width="118" height="46" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="703" y="384" font-size="12.5" fill="#1E1B4B" text-anchor="middle">One coffee.</text>
-  <circle cx="500" cy="458" r="10" fill="#7C3AED"/>
-  <path d="M500 468 L500 500 M500 478 L482 490 M500 478 L518 490 M500 500 L487 524 M500 500 L513 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="702" cy="458" r="10" fill="#10B981"/>
-  <path d="M702 468 L702 500 M702 478 L684 490 M702 478 L720 490 M702 500 L689 524 M702 500 L715 524" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The jargon is finally translated into something drinkable.</text>
+    <!-- floor + table -->
+    <path d="M12,222.75 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="96" y="192" width="106" height="6" rx="3" fill="#D1D5DB"/>
+    <path d="M106,198 V222 M192,198 V222" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+    <rect x="108" y="166" width="40" height="26" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="180" y="189" text-anchor="middle" font-size="18">☕</text>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">A glossary maps specialized or unfamiliar terms to concise definitions for quick reference.</text>
+    <!-- data scientist -->
+    <path d="M35,222 V184 Q35,168 51,168 H65 Q81,168 81,184 V222 Z" fill="#F59E0B"/>
+    <circle cx="58" cy="150" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <circle cx="52" cy="149" r="5" fill="none" stroke="#1E1B4B" stroke-width="1.6"/>
+    <circle cx="64" cy="149" r="5" fill="none" stroke="#1E1B4B" stroke-width="1.6"/>
+    <path d="M57,149 H59" stroke="#1E1B4B" stroke-width="1.6"/>
+    <circle cx="52" cy="149" r="1.8" fill="#1E1B4B"/>
+    <circle cx="64" cy="149" r="1.8" fill="#1E1B4B"/>
+    <path d="M53,158 Q58,162 63,158" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- you -->
+    <path d="M217,222 V184 Q217,168 233,168 H247 Q263,168 263,184 V222 Z" fill="#10B981"/>
+    <circle cx="240" cy="150" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="235" cy="148" r="2.2" fill="#1E1B4B"/>
+    <circle cx="245" cy="148" r="2.2" fill="#1E1B4B"/>
+    <path d="M233,158 Q236.5,155 240,158 Q243.5,161 247,158" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M263,135 C259,141 259,145 263,145 C267,145 267,141 263,135 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.2"/>
+
+    <text x="58" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Data scientist</text>
+    <text x="240" y="246" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">You</text>
+  </g>
+
+  <!-- ===== Panel 2: look it up ===== -->
+  <g transform="translate(326,52)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Look it up</text>
+
+    <rect x="12" y="44" width="274" height="198" rx="10" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
+    <path d="M13,84 V55 Q13,45 23,45 H275 Q285,45 285,55 V84 Z" fill="#D1FAE5"/>
+    <path d="M13,84.5 H285" stroke="#10B981" stroke-width="1.5"/>
+    <text x="28" y="71" font-size="17">📖</text>
+    <text x="54" y="71" font-size="16" font-weight="700" fill="#065F46">Glossary</text>
+
+    <text x="28" y="110" font-size="15" font-weight="700" fill="#92400E">item-to-item CF</text>
+    <text x="28" y="130" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#10B981">= </tspan>people who liked this liked that</text>
+    <text x="28" y="158" font-size="15" font-weight="700" fill="#92400E">implicit feedback</text>
+    <text x="28" y="178" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#10B981">= </tspan>clicks and views, not ratings</text>
+    <text x="28" y="206" font-size="15" font-weight="700" fill="#92400E">cold start</text>
+    <text x="28" y="226" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#10B981">= </tspan>new item or user, no data yet</text>
+  </g>
+
+  <!-- ===== Panel 3: plain words ===== -->
+  <g transform="translate(16,322)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Plain words</text>
+
+    <!-- you translate -->
+    <path d="M52,42 H276 Q288,42 288,54 V98 Q288,110 276,110 H252 L243,149 L238,110 H52 Q40,110 40,98 V54 Q40,42 52,42 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="164" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">So: people who clicked this</text>
+    <text x="164" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">also clicked that, and new</text>
+    <text x="164" y="100" text-anchor="middle" font-size="15" fill="#1E1B4B">items have no clicks yet?</text>
+
+    <!-- data scientist whispers -->
+    <path d="M24,118 H210 Q222,118 222,130 V134 Q222,146 210,146 H82 L66,152 L70,146 H24 Q12,146 12,134 V130 Q12,118 24,118 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="117" y="137" text-anchor="middle" font-size="15" fill="#1E1B4B">Shh. Don’t tell anyone.</text>
+
+    <!-- floor + table -->
+    <path d="M12,240.75 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="96" y="210" width="106" height="6" rx="3" fill="#D1D5DB"/>
+    <path d="M106,216 V240 M192,216 V240" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+    <rect x="108" y="184" width="40" height="26" rx="3" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/>
+    <text x="180" y="207" text-anchor="middle" font-size="18">☕</text>
+
+    <!-- data scientist, caught -->
+    <path d="M35,240 V202 Q35,186 51,186 H65 Q81,186 81,202 V240 Z" fill="#F59E0B"/>
+    <circle cx="58" cy="168" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <circle cx="52" cy="167" r="5" fill="none" stroke="#1E1B4B" stroke-width="1.6"/>
+    <circle cx="64" cy="167" r="5" fill="none" stroke="#1E1B4B" stroke-width="1.6"/>
+    <path d="M57,167 H59" stroke="#1E1B4B" stroke-width="1.6"/>
+    <circle cx="54.5" cy="166" r="1.8" fill="#1E1B4B"/>
+    <circle cx="66.5" cy="166" r="1.8" fill="#1E1B4B"/>
+    <path d="M54,177 H62" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- you, confident -->
+    <path d="M217,240 V202 Q217,186 233,186 H247 Q263,186 263,202 V240 Z" fill="#10B981"/>
+    <circle cx="240" cy="168" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="235" cy="166" r="2.2" fill="#1E1B4B"/>
+    <circle cx="245" cy="166" r="2.2" fill="#1E1B4B"/>
+    <path d="M234,175 Q240,181 246,175" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+  </g>
+
+  <!-- ===== Panel 4: the new hire ===== -->
+  <g transform="translate(326,322)">
+    <rect x="0" y="0" width="298" height="258" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">The new hire</text>
+
+    <!-- now YOU speak jargon -->
+    <path d="M22,42 H188 Q200,42 200,54 V100 Q200,112 188,112 H74 L62,149 L60,112 H22 Q10,112 10,100 V54 Q10,42 22,42 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="105" y="63" text-anchor="middle" font-size="15" fill="#1E1B4B">We run <tspan font-weight="700" fill="#92400E">item-to-item CF</tspan></text>
+    <text x="105" y="82" text-anchor="middle" font-size="15" fill="#1E1B4B">on <tspan font-weight="700" fill="#92400E">implicit feedback</tspan>.</text>
+    <text x="105" y="101" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Cold start</tspan> hurts.</text>
+
+    <path d="M224,112 H276 Q288,112 288,124 V128 Q288,140 276,140 H246 L240,149 L236,140 H224 Q212,140 212,128 V124 Q212,112 224,112 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="250" y="131" text-anchor="middle" font-size="15" fill="#1E1B4B">Totally.</text>
+
+    <!-- floor + table + the glossary sliding over -->
+    <path d="M12,240.75 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+    <rect x="96" y="210" width="106" height="6" rx="3" fill="#D1D5DB"/>
+    <path d="M106,216 V240 M192,216 V240" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
+    <path d="M92,192 H106 M88,199 H106 M92,206 H106" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+    <rect x="114" y="186" width="80" height="24" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <text x="154" y="203" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Glossary</text>
+
+    <!-- you -->
+    <path d="M35,240 V202 Q35,186 51,186 H65 Q81,186 81,202 V240 Z" fill="#10B981"/>
+    <circle cx="58" cy="168" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="53" cy="166" r="2.2" fill="#1E1B4B"/>
+    <circle cx="63" cy="166" r="2.2" fill="#1E1B4B"/>
+    <path d="M52,175 Q58,181 64,175" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <!-- new hire -->
+    <path d="M217,240 V202 Q217,186 233,186 H247 Q263,186 263,202 V240 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.5"/>
+    <circle cx="240" cy="168" r="17" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="2"/>
+    <circle cx="235" cy="166" r="2.2" fill="#1E1B4B"/>
+    <circle cx="245" cy="166" r="2.2" fill="#1E1B4B"/>
+    <path d="M233,176 Q236.5,173 240,176 Q243.5,179 247,176" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M263,153 C259,159 259,163 263,163 C267,163 267,159 263,153 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="1.2"/>
+  </g>
+
+  <!-- takeaway -->
+  <text x="320" y="608" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Jargon</tspan> is the usual in unusual words. A <tspan font-weight="700" fill="#065F46">glossary</tspan> translates it back.</text>
 </svg>

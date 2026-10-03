@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![One Inverse to Rule the Video Aisles — a four-panel comic](images/comic-ease-elsa.svg)
+![One Inverse to Rule the Video Aisles — a four-panel comic: when the video shop gets 10× more videos, EASE's every-video-vs-every-video table needs 1,000× the work, while ELSA's few aisle scores per video need only 10×](images/comic-ease-elsa.svg)
 
-*ELSA replaces EASE's cubic inverse with low-rank embeddings, making huge catalogs tractable.*
+*ELSA replaces EASE's cubic inverse with low-rank embeddings — a few learned "aisle scores" per video — making huge catalogs tractable.*

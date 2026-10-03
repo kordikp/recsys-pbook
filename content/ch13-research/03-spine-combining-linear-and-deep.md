@@ -2,7 +2,7 @@
 id: ch7-vasp-combining
 type: spine
 title: "Combining Linear and Deep: The VASP Architecture"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Linear models find smooth patterns. Deep models find complex clusters. What happens when you combine them?"
@@ -19,12 +19,13 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: vasp
 conceptTitle: "VASP architecture"
+parents: ease-elsa
 state: core
 lens: generic
 visuality: text-first
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---
@@ -74,4 +75,4 @@ This finding challenges the prevailing narrative that deep learning is always su
 
 > **Research publication:** Vančura & Kordík, "Deep Variational Autoencoder with Shallow Parallel Path for Top-N Recommendation," RecSys 2021. VASP is part of the broader research program at the [Recombee research lab](https://www.recombee.com/research).
 
-**Consider this:** The VASP principle — combining a reliable, interpretable model with a flexible, expressive one — applies far beyond recommendation. It's a general strategy for any domain where data is sparse but patterns are both simple and complex.
+The VASP principle — combining a reliable, interpretable model with a flexible, expressive one — applies far beyond recommendation. It's a general strategy for any domain where data is sparse but patterns are both simple and complex.

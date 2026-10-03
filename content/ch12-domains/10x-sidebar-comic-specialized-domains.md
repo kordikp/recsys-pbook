@@ -21,9 +21,9 @@ depth: intro..standard
 formalism: none
 lengthBand: tldr
 genre: comic
-carriers: image
+carriers: prose|image
 ---
 
-![Your Next Stop Is Highly Recommended — a four-panel comic](images/comic-specialized-domains.svg)
+![Your Next Stop Is Highly Recommended — a four-panel comic: the recommender suggests a trip that fits your one week off, a job where both you and the employer say yes, and a fractions quiz before algebra; all three are rare, high-stakes decisions with hard limits (dates, licenses, prerequisites), judged by the real outcome, not clicks](images/comic-specialized-domains.svg)
 
 *All three match people to consequential opportunities, so success means real outcomes—not clicks.*

@@ -2,7 +2,7 @@
 id: ch5-start
 type: spine
 title: "You Can Actually Do This"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: true
 teaser: "You understand how recommender systems work. Now it's time to build one from scratch."

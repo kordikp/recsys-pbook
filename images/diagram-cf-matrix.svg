@@ -1,123 +1,78 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 420" width="680" height="420" font-family="system-ui, sans-serif">
-  <!-- Title -->
-  <text x="340" y="30" text-anchor="middle" font-size="18" font-weight="bold" fill="#1C1917">The Sparse Interaction Matrix</text>
-  <text x="340" y="50" text-anchor="middle" font-size="12" fill="#78716C">Collaborative filtering finds patterns in user-item interactions</text>
-
-  <!-- Matrix grid -->
-  <g transform="translate(120, 70)">
-    <!-- Column headers -->
-    <text x="60" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item A</text>
-    <text x="115" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item B</text>
-    <text x="170" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item C</text>
-    <text x="225" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item D</text>
-    <text x="280" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item E</text>
-    <text x="335" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item F</text>
-    <text x="390" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item G</text>
-    <text x="445" y="12" text-anchor="middle" font-size="11" fill="#78716C">Item H</text>
-
-    <!-- Row headers -->
-    <text x="-8" y="42" text-anchor="end" font-size="11" fill="#78716C">User 1</text>
-    <text x="-8" y="87" text-anchor="end" font-size="11" fill="#78716C">User 2</text>
-    <text x="-8" y="132" text-anchor="end" font-size="11" fill="#1C1917" font-weight="bold">User 3</text>
-    <text x="-8" y="177" text-anchor="end" font-size="11" fill="#78716C">User 4</text>
-    <text x="-8" y="222" text-anchor="end" font-size="11" fill="#78716C">User 5</text>
-    <text x="-8" y="267" text-anchor="end" font-size="11" fill="#78716C">User 6</text>
-
-    <!-- Grid lines -->
-    <g stroke="#E7E5E4" stroke-width="1">
-      <!-- Horizontal -->
-      <line x1="30" y1="20" x2="470" y2="20"/>
-      <line x1="30" y1="65" x2="470" y2="65"/>
-      <line x1="30" y1="110" x2="470" y2="110"/>
-      <line x1="30" y1="155" x2="470" y2="155"/>
-      <line x1="30" y1="200" x2="470" y2="200"/>
-      <line x1="30" y1="245" x2="470" y2="245"/>
-      <line x1="30" y1="290" x2="470" y2="290"/>
-      <!-- Vertical -->
-      <line x1="30" y1="20" x2="30" y2="290"/>
-      <line x1="85" y1="20" x2="85" y2="290"/>
-      <line x1="140" y1="20" x2="140" y2="290"/>
-      <line x1="195" y1="20" x2="195" y2="290"/>
-      <line x1="250" y1="20" x2="250" y2="290"/>
-      <line x1="305" y1="20" x2="305" y2="290"/>
-      <line x1="360" y1="20" x2="360" y2="290"/>
-      <line x1="415" y1="20" x2="415" y2="290"/>
-      <line x1="470" y1="20" x2="470" y2="290"/>
-    </g>
-
-    <!-- Highlight User 3 row -->
-    <rect x="31" y="111" width="438" height="44" fill="#2563EB" opacity="0.08" rx="2"/>
-
-    <!-- Highlight User 1 row (similar) -->
-    <rect x="31" y="21" width="438" height="44" fill="#7C3AED" opacity="0.06" rx="2"/>
-    <!-- Highlight User 5 row (similar) -->
-    <rect x="31" y="201" width="438" height="44" fill="#7C3AED" opacity="0.06" rx="2"/>
-
-    <!-- Interaction dots — Blue=view, Green=purchase, Amber=rating -->
-    <!-- User 1 -->
-    <circle cx="60" cy="42" r="8" fill="#2563EB" opacity="0.85"/>
-    <circle cx="170" cy="42" r="8" fill="#059669" opacity="0.85"/>
-    <circle cx="280" cy="42" r="8" fill="#D97706" opacity="0.85"/>
-    <circle cx="390" cy="42" r="8" fill="#2563EB" opacity="0.85"/>
-
-    <!-- User 2 -->
-    <circle cx="115" cy="87" r="8" fill="#059669" opacity="0.85"/>
-    <circle cx="335" cy="87" r="8" fill="#D97706" opacity="0.85"/>
-
-    <!-- User 3 (current user) -->
-    <circle cx="60" cy="132" r="8" fill="#2563EB" opacity="0.85"/>
-    <circle cx="170" cy="132" r="8" fill="#059669" opacity="0.85"/>
-    <circle cx="280" cy="132" r="8" fill="#D97706" opacity="0.85"/>
-
-    <!-- User 4 -->
-    <circle cx="225" cy="177" r="8" fill="#2563EB" opacity="0.85"/>
-    <circle cx="445" cy="177" r="8" fill="#059669" opacity="0.85"/>
-
-    <!-- User 5 -->
-    <circle cx="60" cy="222" r="8" fill="#2563EB" opacity="0.85"/>
-    <circle cx="170" cy="222" r="8" fill="#059669" opacity="0.85"/>
-    <circle cx="280" cy="222" r="8" fill="#D97706" opacity="0.85"/>
-    <circle cx="335" cy="222" r="8" fill="#2563EB" opacity="0.85"/>
-    <circle cx="390" cy="222" r="8" fill="#059669" opacity="0.85"/>
-
-    <!-- User 6 -->
-    <circle cx="115" cy="267" r="8" fill="#D97706" opacity="0.85"/>
-    <circle cx="225" cy="267" r="8" fill="#2563EB" opacity="0.85"/>
-    <circle cx="445" cy="267" r="8" fill="#059669" opacity="0.85"/>
-
-    <!-- Predicted cell for User 3, Item G -->
-    <rect x="366" y="115" width="48" height="36" fill="none" stroke="#D97706" stroke-width="2" stroke-dasharray="4,3" rx="4"/>
-    <text x="390" y="136" text-anchor="middle" font-size="10" fill="#D97706" font-weight="bold">?</text>
-  </g>
-
-  <!-- Arrow pointing to predicted cell -->
-  <path d="M545,195 C570,195 570,195 570,215 L570,238" fill="none" stroke="#D97706" stroke-width="2" marker-end="url(#arrowOrange)"/>
-  <text x="570" y="188" text-anchor="middle" font-size="11" fill="#D97706" font-weight="bold">predicted</text>
-
-  <!-- Similarity brackets -->
-  <path d="M100,94 C85,94 85,132 85,155" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <path d="M100,225 C85,225 85,200 85,182" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-dasharray="3,3"/>
-  <text x="72" y="172" text-anchor="middle" font-size="9" fill="#7C3AED" transform="rotate(-90, 72, 172)">similar users</text>
-
-  <!-- Arrow marker -->
-  <defs>
-    <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
-      <path d="M0,0 L8,3 L0,6" fill="#D97706"/>
-    </marker>
-  </defs>
-
-  <!-- Legend -->
-  <g transform="translate(140, 385)">
-    <circle cx="0" cy="0" r="6" fill="#2563EB" opacity="0.85"/>
-    <text x="12" y="4" font-size="11" fill="#78716C">View</text>
-    <circle cx="80" cy="0" r="6" fill="#059669" opacity="0.85"/>
-    <text x="92" y="4" font-size="11" fill="#78716C">Purchase</text>
-    <circle cx="180" cy="0" r="6" fill="#D97706" opacity="0.85"/>
-    <text x="192" y="4" font-size="11" fill="#78716C">Rating</text>
-    <rect x="270" y="-8" width="16" height="16" fill="none" stroke="#D97706" stroke-width="1.5" stroke-dasharray="3,2" rx="2"/>
-    <text x="292" y="4" font-size="11" fill="#78716C">Predicted</text>
-  </g>
-
-  <!-- Subtitle -->
-  <text x="340" y="410" text-anchor="middle" font-size="11" fill="#78716C">Most cells are empty — CF predicts missing values by finding users with similar patterns</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 536" role="img" aria-labelledby="pb116-title pb116-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb116-title">Ask your taste twins what to watch next</title>
+<desc id="pb116-desc">The example matrix from the text: Maya and Leo liked all four shows you liked, so they are your taste twins; both also liked Silo, which you have not seen, so collaborative filtering recommends Silo to you.</desc>
+<defs><marker id="pb116-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="535" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="40" font-size="20" font-weight="700" fill="#1E1B4B" text-anchor="middle">Ask your taste twins what to watch next</text>
+<rect x="140" y="50" width="22" height="16" rx="4" fill="#10B981"/>
+<path d="M147,58 L150,61 L155.5,54.5" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="168" y="63" font-size="15" fill="#4B5563">= liked it · others sorted by shows in common</text>
+<rect x="16" y="78" width="608" height="344" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="462" cy="100" r="11" fill="#7C3AED"/><text x="462" y="105" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<circle cx="556" cy="100" r="11" fill="#7C3AED"/><text x="556" y="105" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<g font-size="14" font-weight="600" fill="#1E1B4B" text-anchor="middle">
+<text x="138" y="129">Breaking</text><text x="138" y="146">Bad</text>
+<text x="216" y="146">Succession</text>
+<text x="294" y="146">Dark</text>
+<text x="372" y="146">Severance</text>
+<text x="462" y="146">In common</text>
+</g>
+<text x="556" y="129" font-size="14" fill="#6B7280" text-anchor="middle">new to you</text>
+<text x="556" y="146" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">Silo</text>
+<rect x="26" y="156" width="588" height="36" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<text x="42" y="179.5" font-size="16" font-weight="700" fill="#065F46">You</text>
+<rect x="121" y="162" width="34" height="24" rx="5" fill="#10B981"/><path d="M132,174.5 L136.5,179 L145,169" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="199" y="162" width="34" height="24" rx="5" fill="#10B981"/><path d="M210,174.5 L214.5,179 L223,169" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="277" y="162" width="34" height="24" rx="5" fill="#10B981"/><path d="M288,174.5 L292.5,179 L301,169" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="355" y="162" width="34" height="24" rx="5" fill="#10B981"/><path d="M366,174.5 L370.5,179 L379,169" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="524" y="161" width="64" height="26" rx="6" fill="#7C3AED"/>
+<text x="556" y="179" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">likely</text>
+<rect x="26" y="208" width="588" height="84" rx="8" fill="#EDE9FE" fill-opacity="0.55" stroke="#7C3AED" stroke-width="2"/>
+<rect x="34" y="197" width="100" height="22" rx="11" fill="#7C3AED"/>
+<text x="84" y="213" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">taste twins</text>
+<g stroke="#E5E7EB" stroke-width="1">
+<line x1="34" y1="342" x2="606" y2="342"/>
+<line x1="34" y1="378" x2="606" y2="378"/>
+</g>
+<text x="42" y="241.5" font-size="16" font-weight="600" fill="#4C1D95">Maya</text>
+<rect x="121" y="224" width="34" height="24" rx="5" fill="#10B981"/><path d="M132,236.5 L136.5,241 L145,231" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="199" y="224" width="34" height="24" rx="5" fill="#10B981"/><path d="M210,236.5 L214.5,241 L223,231" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="277" y="224" width="34" height="24" rx="5" fill="#10B981"/><path d="M288,236.5 L292.5,241 L301,231" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="355" y="224" width="34" height="24" rx="5" fill="#10B981"/><path d="M366,236.5 L370.5,241 L379,231" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="462" y="241.5" font-size="16" font-weight="700" fill="#4C1D95" text-anchor="middle">4 of 4</text>
+<rect x="539" y="224" width="34" height="24" rx="5" fill="#10B981"/><path d="M550,236.5 L554.5,241 L563,231" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="42" y="277.5" font-size="16" font-weight="600" fill="#4C1D95">Leo</text>
+<rect x="121" y="260" width="34" height="24" rx="5" fill="#10B981"/><path d="M132,272.5 L136.5,277 L145,267" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="199" y="260" width="34" height="24" rx="5" fill="#10B981"/><path d="M210,272.5 L214.5,277 L223,267" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="277" y="260" width="34" height="24" rx="5" fill="#10B981"/><path d="M288,272.5 L292.5,277 L301,267" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="355" y="260" width="34" height="24" rx="5" fill="#10B981"/><path d="M366,272.5 L370.5,277 L379,267" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="462" y="277.5" font-size="16" font-weight="700" fill="#4C1D95" text-anchor="middle">4 of 4</text>
+<rect x="539" y="260" width="34" height="24" rx="5" fill="#10B981"/><path d="M550,272.5 L554.5,277 L563,267" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="42" y="329.5" font-size="16" font-weight="600" fill="#1E1B4B">Jake</text>
+<rect x="121" y="312" width="34" height="24" rx="5" fill="#10B981"/><path d="M132,324.5 L136.5,329 L145,319" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="199.75" y="312.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="277" y="312" width="34" height="24" rx="5" fill="#10B981"/><path d="M288,324.5 L292.5,329 L301,319" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="355.75" y="312.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="462" y="329" font-size="15" fill="#4B5563" text-anchor="middle">2 of 4</text>
+<rect x="539" y="312" width="34" height="24" rx="5" fill="#10B981"/><path d="M550,324.5 L554.5,329 L563,319" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="42" y="365.5" font-size="16" font-weight="600" fill="#1E1B4B">Priya</text>
+<rect x="121.75" y="348.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="199" y="348" width="34" height="24" rx="5" fill="#10B981"/><path d="M210,360.5 L214.5,365 L223,355" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="277.75" y="348.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="355" y="348" width="34" height="24" rx="5" fill="#10B981"/><path d="M366,360.5 L370.5,365 L379,355" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<text x="462" y="365" font-size="15" fill="#4B5563" text-anchor="middle">2 of 4</text>
+<rect x="539.75" y="348.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="42" y="401.5" font-size="16" font-weight="600" fill="#1E1B4B">Sam</text>
+<rect x="121.75" y="384.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="199.75" y="384.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<rect x="277" y="384" width="34" height="24" rx="5" fill="#10B981"/><path d="M288,396.5 L292.5,401 L301,391" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="355.75" y="384.75" width="32.5" height="22.5" rx="4.5" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="3 3"/>
+<text x="462" y="401" font-size="15" fill="#4B5563" text-anchor="middle">1 of 4</text>
+<rect x="539" y="384" width="34" height="24" rx="5" fill="#10B981"/><path d="M550,396.5 L554.5,401 L563,391" fill="none" stroke="#FFFFFF" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="533" y="219" width="46" height="70" rx="8" fill="none" stroke="#7C3AED" stroke-width="2.5"/>
+<path d="M556,217 L556,191" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb116-arr)"/>
+<rect x="16" y="436" width="608" height="48" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<circle cx="72" cy="460" r="12" fill="#7C3AED"/><text x="72" y="465" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="94" y="466" font-size="16" fill="#1E1B4B">Recommended for you: <tspan font-size="19" font-weight="700" fill="#4C1D95">🎬 Silo</tspan><tspan fill="#4B5563"> — Maya and Leo both liked it</tspan></text>
+<text x="320" y="514" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Find <tspan fill="#065F46">people who like what you like</tspan>, then recommend <tspan fill="#4C1D95">what they liked next</tspan>.</text>
 </svg>

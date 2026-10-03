@@ -5,7 +5,7 @@ title: "Recommendations for E-commerce: Where Money Meets Algorithms"
 readingTime: 3
 standalone: true
 core: false
-teaser: "E-commerce recommendation is where RecSys has the most directly measurable business impact — Amazon attributes 35% of revenue to recommendations."
+teaser: "E-commerce recommendation is where RecSys has the most directly measurable business impact, and where it is easiest to mistake sales that passed through a recommendation for sales it caused."
 voice: universal
 parent: null
 diagram: null
@@ -13,18 +13,18 @@ recallQ: "What makes e-commerce recommendation different from media recommendati
 recallA: "Transactions are infrequent and high-stakes, the purchase funnel has distinct stages (browse → consider → purchase), product availability changes in real-time, and recommendations directly drive measurable revenue."
 publishedAt: "2026-04-03"
 status: accepted
-concept: specialized-domains
+concept: ecommerce-domain
 state: edited
 lens: generic
 visuality: text-first
 depth: technical
 formalism: light
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|formula
 ---
 
-E-commerce is where recommendation systems have the most directly measurable impact. Amazon famously attributes 35% of its revenue to recommendations. The reason is straightforward: in a catalog of millions of products, helping users find what they need translates directly into sales.
+E-commerce is where recommendation systems have the most directly measurable impact. A much-quoted 2013 McKinsey estimate puts 35% of Amazon purchases downstream of a recommendation (a share of sales that passed through recommendations, not sales they caused; Amazon itself never published the number). The reason is straightforward: in a catalog of millions of products, helping users find what they need translates directly into sales.
 
 ## What Makes E-commerce Different
 
@@ -101,4 +101,7 @@ Price creates unique challenges:
 
 For practical implementation guidance, see the [e-commerce recommendation recipes](https://docs.recombee.com/recipes/e-commerce) and an overview of [e-commerce domain solutions](https://www.recombee.com/domains/e-commerce).
 
-**Consider this:** E-commerce recommendation is the domain where the ROI of a better algorithm is most directly measurable. A 1% improvement in recommendation relevance can translate to millions in incremental revenue for a large retailer. This direct feedback loop makes e-commerce both the most rewarding and the most competitive domain for RecSys.
+E-commerce recommendation is the domain where the ROI of a better algorithm is most directly measurable. A 1% improvement in recommendation relevance can translate to millions in incremental revenue for a large retailer. This direct feedback loop makes e-commerce both the most rewarding and the most competitive domain for RecSys.
+
+**Sources:**
+- MacKenzie, Meyer & Noble, "[How retailers can keep up with consumers](https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers)," McKinsey & Company, October 2013 (source of the 35% figure; no underlying data published).

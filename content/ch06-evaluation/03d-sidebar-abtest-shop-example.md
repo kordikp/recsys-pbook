@@ -2,7 +2,7 @@
 id: abtest-shop-example
 type: spine
 title: "One Shelf, Two Shops: an A/B Test with Real Numbers"
-readingTime: 3
+readingTime: 1
 standalone: true
 core: false
 teaser: "The new ranker looked smarter. The test said: for wallets, yes — for the business, wait."
@@ -17,7 +17,7 @@ lens: ecommerce
 lang: en
 visuality: balanced
 depth: standard
-formalism: light
+formalism: none
 lengthBand: standard
 genre: worked-example
 carriers: prose|table

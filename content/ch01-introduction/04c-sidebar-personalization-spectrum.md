@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table
 ---
@@ -78,4 +78,4 @@ carriers: prose|table
 
 **The pragmatic rule:** Start at the lowest level that provides measurable improvement over random, and move up only when the next level demonstrably improves metrics. Over-personalization on insufficient data is worse than no personalization at all.
 
-**Consider this:** Users often don't want or need hyper-personalization. Sometimes "what's popular" or "editor's pick" is exactly the right answer — it provides social proof and reduces decision fatigue. The best systems know when to personalize and when to step back.
+**In your product:** Users often don't want or need hyper-personalization. Sometimes "what's popular" or "editor's pick" is exactly the right answer — it provides social proof and reduces decision fatigue. The best systems know when to personalize and when to step back.

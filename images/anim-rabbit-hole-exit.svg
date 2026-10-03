@@ -1,37 +1,163 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 488" role="img" aria-labelledby="pb024-title pb024-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb024-title">Spotting a rabbit hole and offering a gentle way out</title>
+  <desc id="pb024-desc">Because a steerable recommender exposes its learned concepts as knobs, it can see a rabbit hole forming: a user's active knobs narrow from 15 to 5, all around true crime. Instead of jumping to something random like cupcake decorating, which feels jarring, it turns up the neighboring knobs (investigative journalism, legal thrillers, psychology) and offers them to the user, who can say yes or not now.</desc>
   <style>
-    .spiral{animation:sp 6s ease-in-out infinite}
-    @keyframes sp{0%,25%{opacity:1}55%,85%{opacity:.4}100%{opacity:1}}
-    .exit{animation:ex 6s ease-in-out infinite}
-    @keyframes ex{0%,25%{opacity:.35}55%,85%{opacity:1}100%{opacity:.35}}
+    .pb024-d0{animation:pb024-d0 10s linear infinite}
+    .pb024-d1{animation:pb024-d1 10s linear infinite}
+    .pb024-d2{animation:pb024-d2 10s linear infinite}
+    .pb024-d3{animation:pb024-d3 10s linear infinite}
+    .pb024-d4{animation:pb024-d4 10s linear infinite}
+    .pb024-d5{animation:pb024-d5 10s linear infinite}
+    .pb024-d6{animation:pb024-d6 10s linear infinite}
+    .pb024-d7{animation:pb024-d7 10s linear infinite}
+    .pb024-d8{animation:pb024-d8 10s linear infinite}
+    .pb024-d9{animation:pb024-d9 10s linear infinite}
+    @keyframes pb024-d0{0%,4%{opacity:1}6%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d1{0%,6%{opacity:1}8%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d2{0%,8%{opacity:1}10%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d3{0%,10%{opacity:1}12%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d4{0%,12%{opacity:1}14%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d5{0%,14%{opacity:1}16%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d6{0%,16%{opacity:1}18%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d7{0%,18%{opacity:1}20%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d8{0%,20%{opacity:1}22%,90%{opacity:0}95%,100%{opacity:1}}
+    @keyframes pb024-d9{0%,22%{opacity:1}24%,90%{opacity:0}95%,100%{opacity:1}}
+    .pb024-fill{stroke-dasharray:100 100;animation:pb024-fill 10s ease-in-out infinite backwards}
+    @keyframes pb024-fill{0%,26%{stroke-dashoffset:73}36%,90%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:73}}
+    .pb024-slide{animation:pb024-slide 10s ease-in-out infinite backwards}
+    @keyframes pb024-slide{0%,26%{transform:translateX(-44px)}36%,90%{transform:translateX(0)}96%,100%{transform:translateX(-44px)}}
+    .pb024-h1{opacity:0;animation:pb024-h1 10s ease-out infinite}
+    @keyframes pb024-h1{0%,24%{opacity:0}27%{opacity:1}36%,100%{opacity:0}}
+    .pb024-h2{opacity:0;animation:pb024-h2 10s ease-out infinite}
+    @keyframes pb024-h2{0%,42%{opacity:0}45%{opacity:1}54%,100%{opacity:0}}
+    .pb024-h3{opacity:0;animation:pb024-h3 10s ease-out infinite}
+    @keyframes pb024-h3{0%,54%{opacity:0}57%{opacity:1}66%,100%{opacity:0}}
+    .pb024-off{opacity:0}
+    @media (prefers-reduced-motion: reduce){
+      .pb024-d0,.pb024-d1,.pb024-d2,.pb024-d3,.pb024-d4,.pb024-d5,.pb024-d6,.pb024-d7,.pb024-d8,.pb024-d9,
+      .pb024-fill,.pb024-slide,.pb024-h1,.pb024-h2,.pb024-h3{animation:none !important}
+    }
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">Rabbit Hole Detected — Exit via Neighbors, Not Whiplash</text>
-
-  <!-- spiral of same topic -->
-  <g class="spiral">
-    <path d="M200 230 m0 -95 a95 95 0 1 1 -1 0 M200 230 m0 -65 a65 65 0 1 1 -1 0 M200 230 m0 -38 a38 38 0 1 1 -1 0" fill="none" stroke="#EF4444" stroke-width="2.5" stroke-dasharray="5 5"/>
-    <g font-size="12" text-anchor="middle" fill="#B91C1C">
-      <text x="200" y="122">true crime</text><text x="290" y="215">true crime</text>
-      <text x="200" y="285">true crime</text><text x="122" y="215">true crime</text>
-      <text x="200" y="222" font-size="16">😵‍💫</text>
+  <defs>
+    <g id="pb024-kon">
+      <circle r="8.5" fill="#7C3AED"/>
+      <path d="M0,0 L4.6,-4.6" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
     </g>
-  </g>
-  <text x="200" y="360" text-anchor="middle" font-size="12.5" fill="#B91C1C">5 same-topic sessions in a row → diversity guard fires</text>
-
-  <!-- adjacent stepping stones -->
-  <g class="exit">
-    <path d="M310 230 C380 200 420 190 470 175 C540 155 600 140 660 120" fill="none" stroke="#10B981" stroke-width="3" stroke-dasharray="8 6"/>
-    <g text-anchor="middle" font-size="12">
-      <rect x="380" y="170" width="120" height="44" rx="9" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-      <text x="440" y="188" font-weight="700" fill="#92400E">investigative</text><text x="440" y="204" fill="#92400E">journalism</text>
-      <rect x="520" y="128" width="110" height="44" rx="9" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-      <text x="575" y="146" font-weight="700" fill="#075985">psychology</text><text x="575" y="162" fill="#075985">of memory</text>
-      <rect x="648" y="84" width="110" height="44" rx="9" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-      <text x="703" y="102" font-weight="700" fill="#065F46">history</text><text x="703" y="118" fill="#065F46">documentary</text>
+    <g id="pb024-koff">
+      <circle r="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+      <path d="M0,0 L-4.2,4.2" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
     </g>
-  </g>
-  <text x="560" y="252" text-anchor="middle" font-size="12.5" fill="#065F46">adjacent concepts keep the thread — the loop opens</text>
+  </defs>
 
-  <text x="400" y="398" text-anchor="middle" font-size="13" fill="#6B7280">Jumping to random content feels like an ad; stepping through neighboring interests feels like curiosity.</text>
+  <rect x=".5" y=".5" width="639" height="487" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="32" y="42" font-size="20" font-weight="700" fill="#1E1B4B">Spotting a rabbit hole — and a gentle way out</text>
+
+  <!-- ===== 1 · Detect ===== -->
+  <rect x="16" y="60" width="608" height="140" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="36" y="88" font-size="16" font-weight="700" fill="#1E1B4B">1 · Detect</text>
+  <text x="128" y="88" font-size="14" fill="#4B5563">each knob = one concept the model learned</text>
+
+  <text x="36" y="123" font-size="15" fill="#4B5563">Before</text>
+  <g>
+    <use href="#pb024-kon" x="116" y="118"/><use href="#pb024-kon" x="140" y="118"/><use href="#pb024-kon" x="164" y="118"/>
+    <use href="#pb024-kon" x="188" y="118"/><use href="#pb024-kon" x="212" y="118"/><use href="#pb024-kon" x="236" y="118"/>
+    <use href="#pb024-kon" x="260" y="118"/><use href="#pb024-kon" x="284" y="118"/><use href="#pb024-kon" x="308" y="118"/>
+    <use href="#pb024-kon" x="332" y="118"/><use href="#pb024-kon" x="356" y="118"/><use href="#pb024-kon" x="380" y="118"/>
+    <use href="#pb024-kon" x="404" y="118"/><use href="#pb024-kon" x="428" y="118"/><use href="#pb024-kon" x="452" y="118"/>
+  </g>
+
+  <text x="36" y="157" font-size="15" font-weight="700" fill="#1E1B4B">Now</text>
+  <g>
+    <use href="#pb024-kon" x="116" y="152"/><use href="#pb024-kon" x="140" y="152"/><use href="#pb024-kon" x="164" y="152"/>
+    <use href="#pb024-kon" x="188" y="152"/><use href="#pb024-kon" x="212" y="152"/>
+    <use href="#pb024-koff" x="236" y="152"/><use href="#pb024-koff" x="260" y="152"/><use href="#pb024-koff" x="284" y="152"/>
+    <use href="#pb024-koff" x="308" y="152"/><use href="#pb024-koff" x="332" y="152"/><use href="#pb024-koff" x="356" y="152"/>
+    <use href="#pb024-koff" x="380" y="152"/><use href="#pb024-koff" x="404" y="152"/><use href="#pb024-koff" x="428" y="152"/>
+    <use href="#pb024-koff" x="452" y="152"/>
+  </g>
+  <!-- the knobs going dark, one by one (hidden at rest) -->
+  <g>
+    <use class="pb024-off pb024-d0" href="#pb024-kon" x="452" y="152"/>
+    <use class="pb024-off pb024-d1" href="#pb024-kon" x="428" y="152"/>
+    <use class="pb024-off pb024-d2" href="#pb024-kon" x="404" y="152"/>
+    <use class="pb024-off pb024-d3" href="#pb024-kon" x="380" y="152"/>
+    <use class="pb024-off pb024-d4" href="#pb024-kon" x="356" y="152"/>
+    <use class="pb024-off pb024-d5" href="#pb024-kon" x="332" y="152"/>
+    <use class="pb024-off pb024-d6" href="#pb024-kon" x="308" y="152"/>
+    <use class="pb024-off pb024-d7" href="#pb024-kon" x="284" y="152"/>
+    <use class="pb024-off pb024-d8" href="#pb024-kon" x="260" y="152"/>
+    <use class="pb024-off pb024-d9" href="#pb024-kon" x="236" y="152"/>
+  </g>
+  <path d="M107,165 V170 H221 V165" fill="none" stroke="#7C3AED" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="164" y="188" text-anchor="middle" font-size="14" font-weight="600" fill="#4C1D95">all around true crime</text>
+
+  <rect class="pb024-h1" x="468" y="70" width="144" height="120" rx="14" fill="none" stroke="#F59E0B" stroke-width="5" stroke-opacity=".45"/>
+  <rect x="472" y="74" width="136" height="112" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="540" y="122" text-anchor="middle" font-size="28" font-weight="800" fill="#92400E">15 → 5</text>
+  <text x="540" y="147" text-anchor="middle" font-size="15" fill="#92400E">knobs on</text>
+  <text x="540" y="172" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">rabbit hole?</text>
+
+  <!-- ===== 2 · Turn up the neighbors ===== -->
+  <rect x="16" y="212" width="376" height="230" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="36" y="240" font-size="16" font-weight="700" fill="#1E1B4B">2 · Turn up true crime’s neighbors</text>
+
+  <!-- true crime: already high -->
+  <text x="36" y="281" font-size="15" font-weight="700" fill="#4C1D95">true crime</text>
+  <rect x="246" y="273" width="126" height="6" rx="3" fill="#E5E7EB"/>
+  <line x1="246" y1="276" x2="356" y2="276" stroke="#7C3AED" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="356" cy="276" r="8" fill="#7C3AED" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- neighbors: nudged up -->
+  <text x="36" y="317" font-size="15" fill="#065F46">investigative journalism</text>
+  <rect x="246" y="309" width="126" height="6" rx="3" fill="#E5E7EB"/>
+  <line class="pb024-fill" pathLength="100" x1="246" y1="312" x2="306" y2="312" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+  <circle class="pb024-slide" cx="306" cy="312" r="8" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
+
+  <text x="36" y="349" font-size="15" fill="#065F46">legal thrillers</text>
+  <rect x="246" y="341" width="126" height="6" rx="3" fill="#E5E7EB"/>
+  <line class="pb024-fill" style="animation-delay:.25s" pathLength="100" x1="246" y1="344" x2="306" y2="344" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+  <circle class="pb024-slide" style="animation-delay:.25s" cx="306" cy="344" r="8" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
+
+  <text x="36" y="381" font-size="15" fill="#065F46">psychology</text>
+  <rect x="246" y="373" width="126" height="6" rx="3" fill="#E5E7EB"/>
+  <line class="pb024-fill" style="animation-delay:.5s" pathLength="100" x1="246" y1="376" x2="306" y2="376" stroke="#10B981" stroke-width="6" stroke-linecap="round"/>
+  <circle class="pb024-slide" style="animation-delay:.5s" cx="306" cy="376" r="8" fill="#10B981" stroke="#FFFFFF" stroke-width="2"/>
+
+  <!-- far away: random -->
+  <line x1="36" y1="398" x2="372" y2="398" stroke="#E5E7EB" stroke-width="1.5" stroke-dasharray="4 4"/>
+  <text x="36" y="425" font-size="15" fill="#6B7280">🧁 cupcake decorating</text>
+  <text x="372" y="425" text-anchor="end" font-size="15" font-weight="700" fill="#92400E">✗ too random</text>
+
+  <!-- ===== 3 · Offer, don't force ===== -->
+  <rect x="404" y="212" width="220" height="230" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="420" y="240" font-size="16" font-weight="700" fill="#1E1B4B">3 · Offer, don’t force</text>
+
+  <!-- the recommender -->
+  <line x1="437" y1="259" x2="437" y2="266" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="437" cy="258" r="2.5" fill="#7C3AED"/>
+  <rect x="424" y="266" width="26" height="22" rx="7" fill="#7C3AED"/>
+  <circle cx="432" cy="275" r="2.6" fill="#FFFFFF"/>
+  <circle cx="442" cy="275" r="2.6" fill="#FFFFFF"/>
+  <line x1="433" y1="282.5" x2="441" y2="282.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+
+  <rect class="pb024-h2" x="416" y="296" width="196" height="68" rx="13" fill="none" stroke="#7C3AED" stroke-width="5" stroke-opacity=".35"/>
+  <rect x="420" y="300" width="188" height="60" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <path d="M430,300.75 L437,292 L444,300.75" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+  <rect x="431" y="299" width="12" height="3" fill="#FFFFFF"/>
+  <text x="514" y="325" text-anchor="middle" font-size="15" fill="#1E1B4B">Your feed is narrowing.</text>
+  <text x="514" y="347" text-anchor="middle" font-size="15" fill="#1E1B4B">Try some related areas?</text>
+
+  <rect class="pb024-h3" x="416" y="370" width="96" height="38" rx="18" fill="none" stroke="#10B981" stroke-width="5" stroke-opacity=".45"/>
+  <rect x="420" y="374" width="88" height="30" rx="15" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="464" y="394" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">Show me</text>
+  <rect x="520" y="374" width="88" height="30" rx="15" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="564" y="394" text-anchor="middle" font-size="15" fill="#4B5563">Not now</text>
+
+  <g fill="#10B981">
+    <circle cx="430" cy="417" r="5"/>
+    <path d="M422,432 Q422,424 430,424 Q438,424 438,432 Z"/>
+  </g>
+  <text x="446" y="429" font-size="15" font-weight="700" fill="#065F46">the user chooses</text>
+
+  <text x="320" y="472" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Readable knobs make a rabbit hole visible — and gently steerable.</text>
 </svg>

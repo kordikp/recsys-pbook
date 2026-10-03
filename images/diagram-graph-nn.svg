@@ -1,117 +1,102 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 550 430" width="550" height="430" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="arr" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#0EA5E9"/>
-    </marker>
-    <marker id="arrGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#10B981"/>
-    </marker>
-    <marker id="arrAmber" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5" fill="#D97706"/>
-    </marker>
-  </defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 468" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb127-title pb127-desc">
+<title id="pb127-title">LightGCN: every layer reaches one hop further</title>
+<desc id="pb127-desc">A toy user-item graph unrolled from user U2. Layer 1 brings in the items U2 used (I1, I2, I3), weighted by 1 over the square root of both nodes' degrees, so the popular item I3 counts less (1/3 versus 1/√6). Layer 2 brings in the users who share those items (U1, U3, U4), and layer 3 brings in their other items (I4, I5). After three layers U2's embedding reflects items it never touched: the multi-hop signal that matrix factorization compresses into a single latent space.</desc>
+<defs>
+<marker id="pb127-h1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#4C1D95"/></marker>
+<marker id="pb127-h2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="10" markerHeight="10" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/></marker>
+</defs>
+<rect x=".5" y=".5" width="639" height="467" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <!-- Background -->
-  <rect x="1" y="1" width="548" height="428" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+<text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">LightGCN: every layer reaches one hop further</text>
+<text x="320" y="62" text-anchor="middle" font-size="14" fill="#6B7280">Toy graph · circles = users, squares = items · arrows = messages to U2</text>
 
-  <!-- Title -->
-  <text x="275" y="26" text-anchor="middle" font-size="16" font-weight="bold" fill="#1E1B4B">Graph Neural Networks for Recommendation</text>
-  <text x="275" y="44" text-anchor="middle" font-size="11" fill="#6B7280">LightGCN: Aggregate neighbor information across hops</text>
+<!-- column bands -->
+<rect x="166" y="82" width="130" height="224" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="322" y="82" width="130" height="224" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="478" y="82" width="146" height="224" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="231" y="105" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">Layer 1</text>
+<text x="231" y="123" text-anchor="middle" font-size="14" fill="#4B5563">items U2 used</text>
+<text x="387" y="105" text-anchor="middle" font-size="15" font-weight="700" fill="#7C3AED">Layer 2</text>
+<text x="387" y="123" text-anchor="middle" font-size="14" fill="#4B5563">who share them</text>
+<text x="551" y="105" text-anchor="middle" font-size="15" font-weight="700" fill="#7C3AED">Layer 3</text>
+<text x="551" y="123" text-anchor="middle" font-size="14" fill="#4B5563">their other items</text>
 
-  <!-- Bipartite graph labels -->
-  <text x="100" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#0EA5E9">Users</text>
-  <text x="307" y="68" text-anchor="middle" font-size="11" font-weight="bold" fill="#10B981">Items</text>
+<!-- layer 3 messages: items -> users (dashed) -->
+<g stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 5" fill="none" marker-end="url(#pb127-h2)">
+<line x1="519" y1="210" x2="412" y2="210"/>
+<line x1="519" y1="219" x2="410" y2="261"/>
+<line x1="519" y1="270" x2="412" y2="270"/>
+</g>
+<!-- layer 2 messages: users -> items -->
+<g stroke="#7C3AED" stroke-width="2.25" stroke-linecap="round" fill="none" marker-end="url(#pb127-h2)">
+<line x1="363" y1="150" x2="256" y2="150"/>
+<line x1="365" y1="159" x2="256" y2="201"/>
+<line x1="365" y1="219" x2="256" y2="261"/>
+<line x1="363" y1="270" x2="256" y2="270"/>
+</g>
+<!-- layer 1 messages: items -> U2 -->
+<g stroke="#4C1D95" stroke-width="2.5" stroke-linecap="round" fill="none" marker-end="url(#pb127-h1)">
+<line x1="207" y1="152" x2="91" y2="199"/>
+<line x1="207" y1="210" x2="93" y2="210"/>
+<line x1="207" y1="268" x2="91" y2="221"/>
+</g>
+<!-- layer-1 weights -->
+<g font-size="14" font-weight="600" fill="#4C1D95" text-anchor="middle">
+<rect x="117" y="167" width="46" height="22" rx="11" fill="#EDE9FE"/>
+<text x="140" y="183">1/√6</text>
+<rect x="117" y="199" width="46" height="22" rx="11" fill="#EDE9FE"/>
+<text x="140" y="215">1/√6</text>
+<rect x="117" y="233" width="46" height="22" rx="11" fill="#EDE9FE"/>
+<text x="140" y="249">1/3</text>
+</g>
 
-  <!-- 2-hop highlight region -->
-  <rect x="55" y="75" width="300" height="210" rx="10" fill="#FEF3C7" fill-opacity="0.35" stroke="#D97706" stroke-width="1.5" stroke-dasharray="6,3"/>
+<!-- target user U2 -->
+<circle cx="64" cy="210" r="24" fill="#D1FAE5" stroke="#10B981" stroke-width="2.5"/>
+<text x="64" y="215" text-anchor="middle" font-size="15" font-weight="700" fill="#065F46">U2</text>
+<text x="64" y="256" text-anchor="middle" font-size="14" fill="#065F46">target</text>
+<text x="64" y="273" text-anchor="middle" font-size="14" fill="#065F46">user</text>
 
-  <!-- 1-hop highlight region -->
-  <rect x="70" y="92" width="270" height="100" rx="8" fill="#E0F2FE" fill-opacity="0.55" stroke="#0EA5E9" stroke-width="1.5" stroke-dasharray="4,3"/>
+<!-- layer 1 items -->
+<g fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5">
+<rect x="211" y="130" width="40" height="40" rx="8"/>
+<rect x="211" y="190" width="40" height="40" rx="8"/>
+<rect x="211" y="250" width="40" height="40" rx="8"/>
+</g>
+<g font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+<text x="231" y="155">I1</text>
+<text x="231" y="215">I2</text>
+<text x="231" y="275">I3</text>
+</g>
 
-  <!-- Separate hop labels -->
-  <line x1="355" y1="85" x2="365" y2="85" stroke="#D97706" stroke-width="1.5"/>
-  <rect x="368" y="75" width="174" height="20" rx="6" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="376" y="89" font-size="11" fill="#D97706" font-weight="bold">2-hop neighborhood</text>
+<!-- layer 2 users -->
+<g fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5">
+<circle cx="387" cy="150" r="20"/>
+<circle cx="387" cy="210" r="20"/>
+<circle cx="387" cy="270" r="20"/>
+</g>
+<g font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">
+<text x="387" y="155">U1</text>
+<text x="387" y="215">U3</text>
+<text x="387" y="275">U4</text>
+</g>
 
-  <line x1="340" y1="106" x2="365" y2="106" stroke="#0EA5E9" stroke-width="1.5"/>
-  <rect x="368" y="99" width="174" height="20" rx="6" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="376" y="113" font-size="11" fill="#0EA5E9" font-weight="bold">1-hop neighborhood</text>
+<!-- layer 3 items: new for U2 -->
+<rect x="503" y="139" width="80" height="24" rx="12" fill="#EDE9FE"/>
+<text x="543" y="156" text-anchor="middle" font-size="14" font-weight="600" fill="#4C1D95">new for U2</text>
+<g fill="#EDE9FE" stroke="#7C3AED" stroke-width="2">
+<rect x="523" y="190" width="40" height="40" rx="8"/>
+<rect x="523" y="250" width="40" height="40" rx="8"/>
+</g>
+<g font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">
+<text x="543" y="215">I4</text>
+<text x="543" y="275">I5</text>
+</g>
 
-  <!-- Interaction edges -->
-  <line x1="120" y1="120" x2="290" y2="110" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
-  <line x1="120" y1="120" x2="290" y2="155" stroke="#1E1B4B" stroke-width="1.5" stroke-opacity="0.4"/>
+<!-- the LightGCN step -->
+<rect x="16" y="322" width="608" height="90" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="36" y="347" font-size="16" font-weight="700" fill="#1E1B4B">Each layer: a plain weighted sum of neighbours</text>
+<text x="36" y="374" font-size="17" fill="#4C1D95">weight(u, i) = 1 / √( |N<tspan font-size="14" dy="4">u</tspan><tspan dy="-4">| · |N</tspan><tspan font-size="14" dy="4">i</tspan><tspan dy="-4">| )</tspan></text>
+<text x="36" y="399" font-size="16" fill="#4B5563">U2: 3 items · I1, I2: 2 users → 1/√6 ≈ 0.41 · I3: 3 users → 1/3</text>
 
-  <line x1="120" y1="165" x2="290" y2="110" stroke="#0EA5E9" stroke-width="2" stroke-opacity="0.72"/>
-  <line x1="120" y1="165" x2="290" y2="155" stroke="#0EA5E9" stroke-width="2" stroke-opacity="0.72"/>
-  <line x1="120" y1="165" x2="290" y2="200" stroke="#0EA5E9" stroke-width="2" stroke-opacity="0.72"/>
-
-  <line x1="120" y1="210" x2="290" y2="200" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
-  <line x1="120" y1="210" x2="290" y2="245" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
-
-  <line x1="120" y1="255" x2="290" y2="245" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
-  <line x1="120" y1="255" x2="290" y2="200" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
-  <line x1="120" y1="255" x2="290" y2="270" stroke="#1E1B4B" stroke-width="1" stroke-opacity="0.22"/>
-
-  <!-- User nodes -->
-  <circle cx="100" cy="120" r="16" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
-  <text x="100" y="124" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U1</text>
-
-  <circle cx="100" cy="165" r="18" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2.5"/>
-  <text x="100" y="169" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U2</text>
-
-  <circle cx="100" cy="210" r="16" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
-  <text x="100" y="214" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U3</text>
-
-  <circle cx="100" cy="255" r="16" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
-  <text x="100" y="259" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U4</text>
-
-  <!-- Item nodes -->
-  <rect x="293" y="96" width="28" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="307" y="114" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I1</text>
-
-  <rect x="293" y="141" width="28" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="307" y="159" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I2</text>
-
-  <rect x="293" y="186" width="28" height="28" rx="4" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-  <text x="307" y="204" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I3</text>
-
-  <rect x="293" y="231" width="28" height="28" rx="4" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
-  <text x="307" y="249" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I4</text>
-
-  <rect x="293" y="258" width="28" height="28" rx="4" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
-  <text x="307" y="276" text-anchor="middle" font-size="11" fill="#1E1B4B" font-weight="bold">I5</text>
-
-  <!-- Message passing illustration -->
-  <g transform="translate(368,132)">
-    <text x="0" y="0" font-size="12" font-weight="bold" fill="#1E1B4B">Message Passing</text>
-
-    <!-- Hop 1 -->
-    <rect x="0" y="12" width="174" height="64" rx="7" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="8" y="29" font-size="11" font-weight="bold" fill="#0EA5E9">Hop 1:</text>
-    <line x1="126" y1="26" x2="145" y2="26" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arr)"/>
-    <circle cx="158" cy="26" r="7" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="158" y="30" text-anchor="middle" font-size="11" fill="#0EA5E9" font-weight="bold">U2</text>
-    <text x="8" y="48" font-size="11" fill="#6B7280">Items I1, I2, I3 send</text>
-    <text x="8" y="63" font-size="11" fill="#6B7280">embeddings to U2</text>
-
-    <!-- Hop 2 -->
-    <rect x="0" y="84" width="174" height="80" rx="7" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-    <text x="8" y="102" font-size="11" font-weight="bold" fill="#D97706">Hop 2:</text>
-    <line x1="126" y1="99" x2="145" y2="99" stroke="#D97706" stroke-width="1.5" marker-end="url(#arrAmber)"/>
-    <rect x="153" y="92" width="14" height="14" rx="2" fill="#FFFFFF" stroke="#D97706" stroke-width="1.5"/>
-    <text x="8" y="121" font-size="11" fill="#6B7280">U1, U3, U4 (who also</text>
-    <text x="8" y="137" font-size="11" fill="#6B7280">liked I1/I2/I3) aggregate</text>
-
-    <!-- Formula -->
-    <rect x="0" y="174" width="174" height="62" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
-    <text x="8" y="192" font-size="11" fill="#1E1B4B" font-weight="bold">Aggregation:</text>
-    <text x="8" y="209" font-size="11" fill="#7C3AED" font-style="italic">e_u = SUM(e_i /</text>
-    <text x="8" y="225" font-size="11" fill="#7C3AED" font-style="italic">sqrt(|N_u| * |N_i|))</text>
-  </g>
-
-  <!-- Bottom note -->
-  <text x="275" y="374" text-anchor="middle" font-size="11" fill="#6B7280">Each layer propagates information one hop further.</text>
-  <text x="275" y="390" text-anchor="middle" font-size="11" fill="#6B7280">Stacking L layers captures L-hop collaborative signals.</text>
-  <text x="275" y="406" text-anchor="middle" font-size="11" fill="#6B7280">LightGCN uses simple weighted sum aggregation --</text>
-  <text x="275" y="422" text-anchor="middle" font-size="11" fill="#6B7280">no feature transformation or nonlinear activation.</text>
+<text x="320" y="446" text-anchor="middle" font-size="17" font-weight="700" fill="#1E1B4B">3 layers = 3 hops: <tspan fill="#7C3AED">I4 and I5</tspan> now shape U2's embedding</text>
 </svg>

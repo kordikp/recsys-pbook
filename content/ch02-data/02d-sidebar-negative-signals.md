@@ -2,7 +2,7 @@
 id: ch2-negative-signals
 type: spine
 title: "Negative Signals: What Skips and Exits Tell You"
-readingTime: 2
+readingTime: 4
 standalone: true
 core: false
 voice: universal
@@ -16,16 +16,16 @@ concept: feedback-signals
 state: edited
 lens: generic
 visuality: balanced
-depth: research
-formalism: full
-lengthBand: standard
+depth: standard..technical
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
 
 Recommendation systems are built primarily on positive signals -- clicks, watches, purchases. But some of the most informative data comes from what users **reject**.
 
-![Negative signal interpretation by watch duration](/images/anim-negative-signals.svg)
+![Not every “no” weighs the same: a deliberate “Not interested” counts most (e.g. 10), a 3-second bounce less (3), a scroll-past least (1), and an item never on screen is not counted at all](/images/anim-negative-signals.svg)
 
 ## Types of Negative Signals
 

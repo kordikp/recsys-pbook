@@ -2,7 +2,7 @@
 id: ch7-explain-tech
 type: spine
 title: "Technical Approaches to Explainability"
-readingTime: 4
+readingTime: 7
 standalone: true
 core: true
 teaser: "From transparent models you can read directly to post-hoc methods that approximate what a black box is doing -- every explainability approach trades off between fidelity and interpretability."
@@ -19,19 +19,20 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: explanation-methods
 conceptTitle: "Explanation methods"
+parents: explanations|embeddings
 state: core
 lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|table|image
 ---
 
 A recommendation system can be made explainable in two fundamentally different ways: build a model that is transparent by design, or build a powerful model and then construct explanations after the fact. Each approach involves real engineering tradeoffs, and understanding those tradeoffs is essential for choosing the right strategy.
 
-![Explainability spectrum from black box to glass box](/images/diagram-explainability-spectrum.svg)
+![Two ways to explain a recommendation: read the weights of a transparent model directly (intrinsic, faithful by construction) or probe a black-box model by tweaking inputs to estimate contributions (post-hoc, an approximation)](/images/diagram-explainability-spectrum.svg)
 
 ## Intrinsic Methods: Models You Can Read
 

@@ -2,7 +2,7 @@
 id: ch3-graph-methods
 type: spine
 title: "Graph-Based Methods: Recommendations as Network Science"
-readingTime: 4
+readingTime: 7
 standalone: true
 core: true
 teaser: "What if the best way to recommend isn't to decompose a matrix, but to traverse a network? Graph methods reveal structural patterns that linear algebra alone cannot see."
@@ -19,12 +19,13 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: graph-methods
 conceptTitle: "Graph-based methods"
+parents: collaborative-filtering|embeddings
 state: core
 lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -61,7 +62,7 @@ Before Graph Neural Networks, researchers adapted techniques from network scienc
 
 For recommendation, random walks on the user-item bipartite graph naturally alternate between user and item nodes. A walk like User A -> Item 1 -> User B -> Item 2 -> User C captures the collaborative filtering intuition: items consumed by similar users get embedded nearby.
 
-![Bipartite user-item graph with message passing](/images/diagram-graph-nn.svg)
+![A toy user-item graph unrolled from user U2: layer 1 brings in U2's items, layer 2 the users who share them, layer 3 their other items I4 and I5, so after three layers U2's embedding reflects items it never touched](/images/diagram-graph-nn.svg)
 
 ## Graph Neural Networks: Message Passing on the Interaction Graph
 
@@ -87,7 +88,7 @@ where $\alpha_l$ can be uniform ($\alpha_l = \frac{1}{L+1}$) or learned. This mu
 
 ### Connection to EASE
 
-An intriguing theoretical connection: LightGCN with $L=1$ (a single aggregation layer) approximates a form closely related to **EASE** (Steck, 2019). Both methods effectively compute predictions as a weighted combination of a user's interaction history, where the weights are derived from the item-item co-occurrence structure normalized by popularity. The key difference is that EASE solves for these weights in closed form via the precision matrix, while LightGCN learns them through gradient descent on the graph. Deeper LightGCN ($L > 1$) goes beyond what EASE can capture by incorporating multi-hop neighborhood information.
+An intriguing theoretical connection: LightGCN with $L=1$ (a single aggregation layer) approximates a form closely related to **[EASE](#c/ease-elsa)** (Steck, 2019). Both methods effectively compute predictions as a weighted combination of a user's interaction history, where the weights are derived from the item-item co-occurrence structure normalized by popularity. The key difference is that EASE solves for these weights in closed form via the precision matrix, while LightGCN learns them through gradient descent on the graph. Deeper LightGCN ($L > 1$) goes beyond what EASE can capture by incorporating multi-hop neighborhood information.
 
 ## PinSage: Graph Methods at Pinterest Scale
 

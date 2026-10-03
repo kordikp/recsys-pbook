@@ -19,7 +19,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -28,9 +28,7 @@ Standard recommendation evaluation asks: **"Did users interact with what we reco
 
 Counterfactual reasoning asks the harder question: **"Would users have interacted with these items even without our recommendation?"** This is a causal question — and answering it requires fundamentally different methods.
 
-![Counterfactual: what happened vs what would have happened](/images/anim-counterfactual.svg)
-
-![Correlation vs causation in recommendation evaluation](/images/anim-causal-vs-correlation.svg)
+![Watched after a recommendation, or because of it? A held-out group shows 400 of the blockbuster's 500 views would have happened anyway, so the rec caused 100; all 50 documentary views were caused](/images/anim-causal-vs-correlation.svg)
 
 ## Why Correlation Isn't Enough
 
@@ -40,9 +38,9 @@ Not necessarily. The movie was already trending — 400 of those users would hav
 
 Now consider recommending a niche documentary. Only 50 users watch it. Worse performance?
 
-Not necessarily. Zero of those users would have found it without your recommendation. The causal impact is 50 — half the absolute number, but a much higher **causal uplift** per recommendation.
+Not necessarily. Zero of those users would have found it without your recommendation. The causal impact is 50 — half the blockbuster's in absolute terms, but **every** one of those views is one the recommendation caused (versus 1 in 5 for the blockbuster). That share is the **causal uplift** a raw count hides.
 
-A system optimizing for correlational metrics would recommend the blockbuster. A system optimizing for causal impact would recommend the documentary. Which is actually more valuable to users?
+A correlational metric says the blockbuster is 10× better (500 vs 50 views). Measured causally, the gap shrinks to 2× (100 vs 50) — and every documentary view is credit the recommender actually earned. Optimize for raw counts and you keep promoting what users would have found anyway.
 
 ## The Potential Outcomes Framework
 
@@ -63,6 +61,8 @@ $$\hat{V}_{\text{IPS}}(\pi) = \frac{1}{N}\sum_{t=1}^{N} \frac{\pi(a_t | c_t)}{\p
 where $\pi_0$ is the logging policy (old system) and $\pi$ is the new policy.
 
 **Intuition:** If the old system rarely showed item A (low propensity), but users engaged when it was shown, the IPS upweights this observation — it's more informative precisely because it's rare.
+
+![Inverse propensity scoring on a toy log: the old ranker's 10 views reweighted by π/π₀ (blockbuster ×¼, documentary ×4) estimate the new ranker's CTR at 0.45 instead of the logged 0.30 — one upweighted click carries most of it](/images/anim-counterfactual.svg)
 
 **Problem:** When the new policy $\pi$ and old policy $\pi_0$ diverge significantly, the importance weights $\pi/\pi_0$ become very large, causing high variance. This is known as the **support problem** — you can't evaluate a policy on actions the logging policy never took.
 
@@ -97,4 +97,4 @@ The LLOO+β metric from the Recombee lab can be viewed as a lightweight counterf
 > - Schnabel, T. et al. (2016). [Recommendations as Treatments: Debiasing Learning and Evaluation](https://proceedings.mlr.press/v48/schnabel16.html). *ICML 2016*.
 > - Dudik, M., Langford, J., & Li, L. (2011). [Doubly Robust Policy Evaluation and Learning](https://proceedings.mlr.press/v15/dudik11a.html). *ICML 2011*.
 
-**Consider this:** Counterfactual reasoning forces a humbling question: how much of our recommendation system's "success" is actually causal, and how much is just correlation with what users would have done anyway? Answering honestly might reveal that some of our most "successful" recommendations add less value than we think.
+Counterfactual reasoning forces a humbling question: how much of our recommendation system's "success" is actually causal, and how much is just correlation with what users would have done anyway? Answering honestly might reveal that some of our most "successful" recommendations add less value than we think.

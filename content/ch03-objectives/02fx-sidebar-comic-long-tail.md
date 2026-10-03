@@ -26,4 +26,4 @@ carriers: image
 
 ![The Jukebox That Takes Its Own Requests — a four-panel comic](images/comic-long-tail.svg)
 
-*Tail data is sparse; rankers favor and amplify hits, while niche finds improve retention.*
+*Songs with no plays give the jukebox nothing to bet on, so it keeps playing the hit — until one wild card finds a listener who stays.*

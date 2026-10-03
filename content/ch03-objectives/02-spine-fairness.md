@@ -23,7 +23,7 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|diagram
 ---
@@ -55,11 +55,11 @@ In the fairness literature, researchers distinguish among several formal definit
 **What can be done?**
 
 Well-designed recommendation systems employ several strategies to [counteract popularity bias](https://www.recombee.com/blog/making-recommendations-fairer-a-new-way-to-guarantee-exposure-for-all):
-- **Exploration slots** -- Reserving a fraction of recommendations for new or under-exposed content, often using multi-armed bandit approaches
+- **Exploration slots** -- Reserving a fraction of recommendations for new or under-exposed content, often using [multi-armed bandit](#c/explore-exploit) approaches
 - **Freshness boosts** -- Applying time-decay functions that give new content elevated visibility during an initial exposure window
 - **Diversity constraints** -- Ensuring recommendations are not dominated by a small number of providers, using techniques like Maximal Marginal Relevance (MMR)
 - **Quality signals beyond clicks** -- Measuring deep engagement (dwell time, completion rate, saves, shares) rather than just clicks, to identify genuinely valuable content that lacks initial popularity signal
 
 The balance is genuinely difficult. You want to surface content users will find valuable (which correlates with popularity), but you also need to provide fair exposure for new entrants. There is no universally optimal solution, but the best systems continuously iterate on this tradeoff.
 
-**Consider this:** If you were designing a recommendation system for a professional marketplace, how would you balance the interests of established providers (who generate reliable revenue) against newcomers (who need initial visibility to demonstrate value)? What fairness definition would you prioritize, and what would you sacrifice?
+**Your turn:** If you were designing a recommendation system for a professional marketplace, how would you balance the interests of established providers (who generate reliable revenue) against newcomers (who need initial visibility to demonstrate value)? What fairness definition would you prioritize, and what would you sacrifice?

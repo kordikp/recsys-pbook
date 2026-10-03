@@ -1,109 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650 365" width="650" height="365" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="arrBlue" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5 Z" fill="#0EA5E9"/>
-    </marker>
-    <marker id="arrGreen" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
-      <path d="M0,0 L7,2.5 L0,5 Z" fill="#10B981"/>
-    </marker>
-  </defs>
-
-  <rect x="1" y="1" width="648" height="363" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
-
-  <text x="325" y="27" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">LLM Integration Architectures for Recommendation</text>
-
-  <!-- Architecture 1: LLM as Recommender -->
-  <g transform="translate(10,44)">
-    <rect x="0" y="0" width="195" height="250" rx="10" fill="#FFFFFF" stroke="#EF4444" stroke-width="2" stroke-dasharray="5 3"/>
-    <text x="97.5" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#EF4444">LLM as Recommender</text>
-
-    <circle cx="97.5" cy="50" r="15" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <circle cx="97.5" cy="45" r="4" fill="#0EA5E9"/>
-    <path d="M89.5 57 C90.5 50.5 104.5 50.5 105.5 57" fill="#0EA5E9"/>
-    <text x="97.5" y="76" text-anchor="middle" font-size="11" fill="#6B7280">query</text>
-
-    <line x1="97.5" y1="80" x2="97.5" y2="91" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
-
-    <rect x="52.5" y="95" width="90" height="32" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="97.5" y="115" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">LLM</text>
-
-    <line x1="97.5" y1="127" x2="97.5" y2="141" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
-
-    <rect x="57.5" y="145" width="80" height="28" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="97.5" y="163" text-anchor="middle" font-size="11" fill="#1E1B4B">Items</text>
-
-    <circle cx="157" cy="159" r="13" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-    <text x="157" y="164" text-anchor="middle" font-size="15" font-weight="700" fill="#EF4444">✗</text>
-
-    <text x="97.5" y="202" text-anchor="middle" font-size="11" font-weight="700" fill="#EF4444">Hallucination risk</text>
-    <text x="97.5" y="220" text-anchor="middle" font-size="11" fill="#6B7280">No grounding in catalog</text>
-  </g>
-
-  <!-- Architecture 2: LLM as Feature Extractor -->
-  <g transform="translate(220,44)">
-    <rect x="0" y="0" width="195" height="250" rx="10" fill="#FFFFFF" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="97.5" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">LLM as Feature Extractor</text>
-
-    <rect x="57.5" y="38" width="80" height="28" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="97.5" y="56" text-anchor="middle" font-size="11" fill="#1E1B4B">Items</text>
-
-    <line x1="97.5" y1="66" x2="97.5" y2="80" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
-
-    <rect x="52.5" y="84" width="90" height="30" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="97.5" y="103" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">LLM</text>
-
-    <line x1="97.5" y1="114" x2="97.5" y2="128" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
-
-    <rect x="47.5" y="132" width="100" height="28" rx="5" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-    <text x="97.5" y="150" text-anchor="middle" font-size="11" fill="#D97706">Embeddings</text>
-
-    <line x1="97.5" y1="160" x2="97.5" y2="174" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrGreen)"/>
-
-    <rect x="47.5" y="178" width="100" height="30" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="97.5" y="197" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">RecSys</text>
-
-    <text x="97.5" y="226" text-anchor="middle" font-size="11" fill="#6B7280">LLM enriches features,</text>
-    <text x="97.5" y="242" text-anchor="middle" font-size="11" fill="#6B7280">RecSys ranks items</text>
-  </g>
-
-  <!-- Architecture 3: Hybrid -->
-  <g transform="translate(430,44)">
-    <rect x="0" y="0" width="210" height="250" rx="10" fill="#FFFFFF" stroke="#10B981" stroke-width="2"/>
-    <text x="105" y="22" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">LLM + RecSys Hybrid</text>
-
-    <circle cx="105" cy="48" r="15" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <circle cx="105" cy="43" r="4" fill="#0EA5E9"/>
-    <path d="M97 55 C98 48.5 112 48.5 113 55" fill="#0EA5E9"/>
-    <text x="105" y="73" text-anchor="middle" font-size="11" fill="#6B7280">User</text>
-
-    <line x1="91" y1="62" x2="57" y2="81" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
-
-    <rect x="10" y="85" width="90" height="38" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="55" y="101" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">LLM</text>
-    <text x="55" y="116" text-anchor="middle" font-size="11" fill="#6B7280">intent parsing</text>
-
-    <line x1="100" y1="104" x2="110" y2="104" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
-
-    <rect x="114" y="85" width="86" height="38" rx="6" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="157" y="101" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">RecSys</text>
-    <text x="157" y="116" text-anchor="middle" font-size="11" fill="#6B7280">retrieval</text>
-
-    <line x1="157" y1="123" x2="157" y2="133" stroke="#10B981" stroke-width="1.5" marker-end="url(#arrGreen)"/>
-
-    <rect x="56" y="137" width="120" height="38" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-    <text x="116" y="153" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">LLM</text>
-    <text x="116" y="168" text-anchor="middle" font-size="11" fill="#6B7280">response generation</text>
-
-    <line x1="116" y1="175" x2="116" y2="185" stroke="#0EA5E9" stroke-width="1.5" marker-end="url(#arrBlue)"/>
-
-    <rect x="56" y="189" width="120" height="28" rx="5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="116" y="207" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">Grounded response</text>
-
-    <rect x="36" y="222" width="138" height="24" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
-    <text x="105" y="238" text-anchor="middle" font-size="11" font-weight="700" fill="#1E1B4B">✓ Production Standard</text>
-  </g>
-
-  <text x="325" y="319" text-anchor="middle" font-size="11" fill="#6B7280">Direct LLM recommendations lack catalog grounding.</text>
-  <text x="325" y="336" text-anchor="middle" font-size="11" fill="#6B7280">Hybrid architectures combine LLM understanding with RecSys precision.</text>
-  <text x="325" y="355" text-anchor="middle" font-size="11" font-style="italic" fill="#6B7280">The hybrid approach is the dominant pattern in production systems.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 476" role="img" aria-labelledby="pb131-title pb131-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb131-title">Three places to put an LLM in a recommender</title>
+<desc id="pb131-desc">An LLM can be the recommender itself (fluent, but it may invent titles and never saw your clicks), a feature extractor that turns item text into embeddings for a RecSys, or a chat interface that turns words into a query for a RecSys and explains its picks; the reliable designs leave the choosing to a recommender trained on behavior.</desc>
+<defs><marker id="pb131-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="475" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="34" font-size="19" font-weight="700" fill="#1E1B4B" text-anchor="middle">Three places to put an LLM in a recommender</text>
+<rect x="16" y="56" width="196" height="364" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="222" y="56" width="196" height="364" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<rect x="428" y="56" width="196" height="364" rx="12" fill="#F5F3FF" stroke="#7C3AED" stroke-width="2"/>
+<rect x="456" y="45" width="140" height="24" rx="12" fill="#7C3AED" stroke="#7C3AED" stroke-width="1"/>
+<text x="526" y="62" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">the pragmatic path</text>
+<text x="114" y="82" font-size="14" fill="#4B5563" text-anchor="middle">1 · LLM as</text>
+<text x="114" y="103" font-size="17" font-weight="700" fill="#1E1B4B" text-anchor="middle">recommender</text>
+<text x="320" y="82" font-size="14" fill="#4B5563" text-anchor="middle">2 · LLM as</text>
+<text x="320" y="103" font-size="17" font-weight="700" fill="#1E1B4B" text-anchor="middle">feature extractor</text>
+<text x="526" y="82" font-size="14" fill="#4B5563" text-anchor="middle">3 · LLM as</text>
+<text x="526" y="103" font-size="17" font-weight="700" fill="#1E1B4B" text-anchor="middle">chat interface</text>
+<rect x="28" y="114" width="172" height="46" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<path d="M46 159.5 L40 170 L58 159.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="47" y1="159.5" x2="57" y2="159.5" stroke="#D1FAE5" stroke-width="2.5"/>
+<text x="114" y="133" font-size="14" fill="#1E1B4B" text-anchor="middle">“Liked The Martian,</text>
+<text x="114" y="151" font-size="14" fill="#1E1B4B" text-anchor="middle">Arrival. Five more?”</text>
+<rect x="234" y="114" width="172" height="46" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="320" y="133" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">📄 Item text</text>
+<text x="320" y="151" font-size="14" fill="#4B5563" text-anchor="middle">plots, reviews</text>
+<rect x="440" y="114" width="172" height="46" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+<path d="M458 159.5 L452 170 L470 159.5" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<line x1="459" y1="159.5" x2="469" y2="159.5" stroke="#D1FAE5" stroke-width="2.5"/>
+<text x="526" y="133" font-size="14" fill="#1E1B4B" text-anchor="middle">“Weekend electronics</text>
+<text x="526" y="151" font-size="14" fill="#1E1B4B" text-anchor="middle">project, not too hard”</text>
+<line x1="114" y1="163" x2="114" y2="176" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<line x1="320" y1="163" x2="320" y2="176" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<line x1="526" y1="163" x2="526" y2="176" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<rect x="28" y="180" width="172" height="36" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5"/>
+<text x="114" y="203" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">💬 LLM writes a list</text>
+<rect x="234" y="180" width="172" height="36" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5"/>
+<text x="320" y="203" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">💬 LLM reads items</text>
+<rect x="440" y="180" width="172" height="36" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5"/>
+<text x="526" y="203" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">💬 LLM translates</text>
+<line x1="114" y1="219" x2="114" y2="232" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<line x1="320" y1="219" x2="320" y2="232" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<line x1="526" y1="219" x2="526" y2="232" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<rect x="28" y="236" width="172" height="102" rx="10" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="42" y="261" font-size="14" fill="#1E1B4B" text-anchor="start">Blindsight</text>
+<text x="182" y="261" font-size="15" font-weight="700" fill="#10B981" text-anchor="middle">✓</text>
+<text x="42" y="287" font-size="14" fill="#1E1B4B" text-anchor="start">Children of Time</text>
+<text x="182" y="287" font-size="15" font-weight="700" fill="#10B981" text-anchor="middle">✓</text>
+<rect x="34" y="298" width="160" height="32" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="114" y="319" font-size="14" fill="#92400E" text-anchor="middle">The Quantum Garden</text>
+<rect x="244" y="236" width="152" height="36" rx="18" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<rect x="260" y="249" width="5" height="14" rx="1.5" fill="#9CA3AF"/>
+<rect x="268" y="241" width="5" height="22" rx="1.5" fill="#9CA3AF"/>
+<rect x="276" y="253" width="5" height="10" rx="1.5" fill="#9CA3AF"/>
+<rect x="284" y="245" width="5" height="18" rx="1.5" fill="#9CA3AF"/>
+<text x="298" y="259" font-size="15" fill="#1E1B4B" text-anchor="start">embeddings</text>
+<rect x="440" y="236" width="172" height="36" rx="18" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="526" y="259" font-size="14" fill="#1E1B4B" text-anchor="middle">electronics · beginner</text>
+<line x1="320" y1="275" x2="320" y2="286" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<line x1="526" y1="275" x2="526" y2="286" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<rect x="234" y="290" width="172" height="48" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="320" y="310" font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">RecSys ranks</text>
+<text x="320" y="329" font-size="14" fill="#4C1D95" text-anchor="middle">+ your clicks</text>
+<rect x="440" y="290" width="172" height="48" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="526" y="310" font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">RecSys ranks</text>
+<text x="526" y="329" font-size="14" fill="#4C1D95" text-anchor="middle">+ your clicks</text>
+<line x1="114" y1="341" x2="114" y2="352" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<line x1="320" y1="341" x2="320" y2="352" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<line x1="526" y1="341" x2="526" y2="352" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb131-arr)"/>
+<rect x="28" y="356" width="172" height="48" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="114" y="375" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle">✗ Invents titles,</text>
+<text x="114" y="394" font-size="14" fill="#92400E" text-anchor="middle">never saw your clicks</text>
+<rect x="234" y="356" width="172" height="48" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<text x="320" y="375" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">✓ Real items,</text>
+<text x="320" y="394" font-size="14" fill="#065F46" text-anchor="middle">ranked for you</text>
+<rect x="440" y="356" width="172" height="48" rx="10" fill="#F3F4F6" stroke="#6B7280" stroke-width="1.5"/>
+<text x="526" y="375" font-size="14" font-weight="700" fill="#1E1B4B" text-anchor="middle">💬 LLM explains</text>
+<text x="526" y="394" font-size="14" fill="#4B5563" text-anchor="middle">each pick</text>
+<text x="320" y="452" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">Let the LLM talk and read; let a <tspan fill="#7C3AED">behavior-trained RecSys</tspan> choose.</text>
 </svg>

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 548" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pn18-title pn18-desc">
+  <title id="pn18-title">The supply-side loop: the ranking objective shapes tomorrow's catalog</title>
+  <desc id="pn18-desc">A clockwise loop: the ranking objective decides who gets exposure, plays and income; creators notice what wins and copy it, joined by mass AI uploads; tomorrow's catalog fills with look-alikes and fewer newcomers; and the recommender then learns from what is left. The levers platform teams pull sit on the loop's own arrows: an exposure budget for newcomers, filtering or labelling mass uploads, and rewarding saves and originality. Supply health is tracked with newcomer exposure, creator retention and the top 1 percent's share of plays.</desc>
+  <defs>
+    <marker id="pn18-head-sys" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="pn18-head-gray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/>
+    </marker>
+  </defs>
+
+  <rect x=".5" y=".5" width="639" height="547" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+
+  <!-- title + legend -->
+  <text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">The ranking objective shapes tomorrow's catalog</text>
+  <rect x="214" y="52" width="30" height="18" rx="9" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="252" y="66" font-size="14" fill="#4B5563">= a lever platform teams can pull</text>
+
+  <!-- ===== loop arrows (drawn first, chips sit on top) ===== -->
+  <!-- A: objective -> exposure (system) -->
+  <line x1="204" y1="132" x2="434" y2="132" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn18-head-sys)"/>
+  <!-- B: exposure -> creators (people) -->
+  <line x1="528" y1="184" x2="528" y2="294" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn18-head-gray)"/>
+  <!-- C: creators -> catalog (people) -->
+  <line x1="436" y1="348" x2="206" y2="348" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn18-head-gray)"/>
+  <!-- D: catalog -> objective (system learns) -->
+  <line x1="112" y1="296" x2="112" y2="186" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn18-head-sys)"/>
+
+  <!-- arrow captions -->
+  <text x="516" y="234" text-anchor="end" font-size="14" fill="#4B5563">creators see</text>
+  <text x="516" y="252" text-anchor="end" font-size="14" fill="#4B5563">what pays</text>
+  <text x="200" y="234" font-size="14" fill="#4C1D95">the recommender learns</text>
+  <text x="200" y="252" font-size="14" fill="#4C1D95">from what's left</text>
+
+  <!-- ===== nodes ===== -->
+  <!-- TL: ranking objective (system) -->
+  <rect x="24" y="84" width="176" height="96" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="112" y="117" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">🎯 Ranking objective</text>
+  <text x="112" y="142" text-anchor="middle" font-size="14" fill="#4C1D95">e.g. “no skip in</text>
+  <text x="112" y="160" text-anchor="middle" font-size="14" fill="#4C1D95">the first 30 s”</text>
+
+  <!-- TR: exposure -->
+  <rect x="440" y="84" width="176" height="96" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="528" y="117" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">📈 Exposure</text>
+  <text x="528" y="142" text-anchor="middle" font-size="14" fill="#4B5563">plays, followers,</text>
+  <text x="528" y="160" text-anchor="middle" font-size="14" fill="#4B5563">income</text>
+
+  <!-- BR: creators adapt -->
+  <rect x="440" y="300" width="176" height="96" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="528" y="329" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">🎤 Creators copy</text>
+  <text x="528" y="349" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">what wins</text>
+  <text x="528" y="376" text-anchor="middle" font-size="14" fill="#92400E">+ AI mass uploads</text>
+
+  <!-- BL: tomorrow's catalog (caution) -->
+  <rect x="24" y="300" width="176" height="96" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="112" y="329" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Tomorrow's catalog</text>
+  <text x="112" y="354" text-anchor="middle" font-size="14" fill="#92400E">more look-alikes,</text>
+  <text x="112" y="372" text-anchor="middle" font-size="14" fill="#92400E">fewer newcomers</text>
+
+  <!-- ===== lever chips (on the arrows) ===== -->
+  <!-- on A -->
+  <rect x="245" y="109" width="150" height="46" rx="23" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="320" y="128" text-anchor="middle" font-size="14" font-weight="600" fill="#065F46">exposure budget</text>
+  <text x="320" y="146" text-anchor="middle" font-size="14" font-weight="600" fill="#065F46">for newcomers</text>
+  <!-- on C -->
+  <rect x="245" y="325" width="150" height="46" rx="23" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="320" y="344" text-anchor="middle" font-size="14" font-weight="600" fill="#065F46">filter or label</text>
+  <text x="320" y="362" text-anchor="middle" font-size="14" font-weight="600" fill="#065F46">mass uploads</text>
+  <!-- on D -->
+  <rect x="37" y="218" width="150" height="46" rx="23" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="112" y="237" text-anchor="middle" font-size="14" font-weight="600" fill="#065F46">reward saves</text>
+  <text x="112" y="255" text-anchor="middle" font-size="14" font-weight="600" fill="#065F46">&amp; originality</text>
+
+  <!-- ===== supply health panel ===== -->
+  <rect x="24" y="418" width="592" height="76" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+  <text x="40" y="450" font-size="16" font-weight="700" fill="#1E1B4B">Supply health</text>
+  <text x="40" y="472" font-size="14" fill="#6B7280">watch next to clicks</text>
+  <g font-size="15" fill="#1E1B4B" text-anchor="middle">
+    <rect x="212" y="430" width="124" height="52" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="274" y="452">newcomer</text>
+    <text x="274" y="470">exposure</text>
+    <rect x="348" y="430" width="124" height="52" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="410" y="452">creator</text>
+    <text x="410" y="470">retention</text>
+    <rect x="484" y="430" width="124" height="52" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1"/>
+    <text x="546" y="452">top 1% share</text>
+    <text x="546" y="470">of plays</text>
+  </g>
+
+  <!-- takeaway -->
+  <text x="320" y="526" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Creators read your ranking rule <tspan fill="#7C3AED">and make more of what it rewards.</tspan></text>
+</svg>

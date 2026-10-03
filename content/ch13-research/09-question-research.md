@@ -4,52 +4,40 @@ type: question
 title: "Which Research Direction Interests You Most?"
 readingTime: 1
 standalone: true
-teaser: "Choose the research frontier that resonates with your perspective."
+teaser: "Choose the research frontier that matches your perspective, and see where to go next."
 voice: universal
 parent: null
 diagram: null
 publishedAt: "2026-04-03"
 status: accepted
+hintA: depth=research,formalism=full
+hintB: depth=technical
+feedbackA: "Go deep on the derivations: EASE's closed-form solution and the precision matrix, how ELSA makes it scale, and the Thompson Sampling analysis. They show why simple linear models stay competitive on sparse data."
+feedbackB: "Follow what makes research deployable: how ELSA scales, how CompresSAE compresses embeddings, and how bandits run in production. The recurring question is what a model costs to serve, not only how accurate it is."
+feedbackC: "Offline evaluation bias, fairness definitions and the gap between engagement and well-being decide whether measured progress is real. Start with evaluation metrics and fairness, then the research roadmap."
+feedbackD: "Read the chapter in order: each result addresses a limitation of the previous one, from EASE to ELSA, from linear models to VASP, and from beeFormer to steerable knobs."
 concept: research-roadmap
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 carriers: prose
 ---
 
-You've explored the research landscape behind modern recommender systems — from mathematical foundations to production systems. Which direction do you find most compelling?
+You have seen the research behind modern recommenders, from mathematical foundations to production systems. Which direction do you find most compelling?
 
----
+**A) "The mathematical elegance"**
+EASE's closed-form solution, the Eckart-Young theorem behind ELSA, the Bayesian logic of Thompson Sampling. Recommendation as applied mathematics waiting to be formalized. Derivations: [EASE to ELSA](#c/ease-elsa) and [bandits in practice](#c/bandits-in-practice).
 
-**A) "The mathematical elegance fascinates me."**
-You're drawn to the beauty of EASE's closed-form solution, the Eckart-Young theorem's role in ELSA, or the Bayesian optimality of Thompson Sampling. You see recommendation as a branch of applied mathematics waiting to be formalized.
+**B) "Building these systems"**
+Making ELSA scale to very large catalogs, compressing embeddings with CompresSAE, deploying bandits in production. Research counts when it runs. Start with [production at scale](#c/production-scale).
 
-*Follow the Thinker depth sections for full derivations and proofs.*
+**C) "The evaluation and fairness problems"**
+Offline evaluation bias, defining fairness mathematically, the gap between engagement and well-being. These questions decide whether the field is heading in the right direction. See [evaluation metrics](#c/evaluation-metrics), [fairness](#c/fairness) and [who decides what you see](#c/who-decides).
 
----
+**D) "The full picture"**
+From EASE to beeFormer, from Thompson Sampling to CompresSAE: the connections between results are as interesting as the results. Read this chapter in order.
 
-**B) "I want to build these systems."**
-You're excited about the engineering challenge: making ELSA scale to billions of items, compressing embeddings with CompresSAE, or deploying bandit algorithms in production. Research is only valuable if it runs in production.
-
-*The Creator depth sections have implementation guides and code.*
-
----
-
-**C) "The evaluation and fairness problems concern me."**
-You're troubled by the offline evaluation bias, the challenge of defining fairness mathematically, or the gap between engagement metrics and user well-being. These meta-questions determine whether the entire field is heading in the right direction.
-
-*Chapter 4 (Making Recommendations Better) and Chapter 6 (Ethics and You) explore these dimensions in depth.*
-
----
-
-**D) "I want to understand the full picture."**
-From EASE to beeFormer, from Thompson Sampling to CompresSAE — the interconnections between these research contributions are as interesting as the individual results. Each breakthrough solves a limitation of the previous generation.
-
-*Read all sections of this chapter, including the depth cards, for the complete research narrative.*
-
----
-
-The research frontier in recommender systems is unusually open — fundamental problems remain unsolved, and breakthrough contributions come from individuals and small teams, not just large corporate labs. Wherever your interest lies, there's important work to be done.
+The research frontier in recommender systems is unusually open. Fundamental problems remain unsolved, and important contributions still come from small teams as well as large corporate labs.

@@ -2,10 +2,10 @@
 id: ch13-ecommerce
 type: spine
 title: "E-Commerce: Where Recommendations Drive Revenue"
-readingTime: 4
+readingTime: 6
 standalone: true
 core: true
-teaser: "Amazon attributes 35% of revenue to recommendations. E-commerce is where RecSys has the most directly measurable business impact."
+teaser: "A much-quoted 2013 McKinsey estimate puts 35% of Amazon purchases downstream of recommendations. E-commerce is where RecSys has the most directly measurable business impact."
 voice: universal
 parent: null
 diagram: null
@@ -24,12 +24,12 @@ lens: generic
 visuality: balanced
 depth: technical
 formalism: none
-lengthBand: standard
-genre: code-walkthrough
+lengthBand: deep
+genre: explainer
 carriers: prose|table|image|code
 ---
 
-E-commerce is the domain where recommendation quality translates most directly into revenue. Amazon's famous "Customers who bought this also bought" is one of the oldest and most profitable recommendation features in existence — [driving roughly 35% of total revenue](https://www.recombee.com/blog/modern-recommender-systems-part-1-introduction).
+E-commerce is the domain where recommendation quality translates most directly into revenue. Amazon's famous "Customers who bought this also bought" is one of the oldest recommendation features in existence. A widely quoted 2013 McKinsey estimate says 35% of what customers purchase on Amazon comes from recommendations. Read it carefully: it counts sales that **passed through** a recommendation, not sales the recommendation **caused**, and it is a consultant's figure, not one Amazon published. To know what your own recommendations add, compare against a [holdout group](#c/ab-testing).
 
 ## What Makes E-Commerce Unique
 
@@ -164,4 +164,7 @@ For the full recipe catalog including upsell, next basket prediction, and person
 
 For implementation, see the [e-commerce recommendation recipes](https://docs.recombee.com/recipes/e-commerce) and the [e-commerce domain overview](https://www.recombee.com/domains/e-commerce).
 
-**Consider this:** The most sophisticated e-commerce recommenders don't just predict what users will buy — they understand *where in the purchase journey* the user is. Someone researching (browsing many alternatives) needs different recommendations than someone ready to buy (focused, comparing two options) or someone who just purchased (needs accessories, not competitors).
+The most sophisticated e-commerce recommenders don't just predict what users will buy — they understand *where in the purchase journey* the user is. Someone researching (browsing many alternatives) needs different recommendations than someone ready to buy (focused, comparing two options) or someone who just purchased (needs accessories, not competitors).
+
+**Sources:**
+- MacKenzie, Meyer & Noble, "[How retailers can keep up with consumers](https://www.mckinsey.com/industries/retail/our-insights/how-retailers-can-keep-up-with-consumers)," McKinsey & Company, October 2013 (source of the 35% figure; no underlying data published).

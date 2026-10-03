@@ -1,129 +1,189 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Movie Night Goes Into Production</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb046-title pb046-desc">
+  <title id="pb046-title">Movie night goes into production</title>
+  <desc id="pb046-desc">Four-panel comic. 1: Scored by clicks, the recommender puts the flashy "Shark Volcano!" on top; the viewer clicks and leaves after 42 seconds. 2: Scored by minutes watched instead, "The Quiet Heist" wins with 98 minutes. 3: Same movie, same algorithm, but each fan sees their own cover: a heart for the romance fan, an explosion for the action fan. 4: A rival copies the algorithm; the recommender points to the machine that narrows all titles to about 1,000 candidates and then to a top 10, live, for every viewer. The algorithms are known; the wins come from the right goal, the right cover and the machine.</desc>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  <rect x="0.5" y="0.5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="36" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Movie night goes into production</text>
 
-  <!-- Panel 1 -->
-  <g>
-    <rect x="32" y="76" width="132" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="98" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="98" dy="0">Most-picked trailer!</tspan>
-      <tspan x="98" dy="16">A proven winner.</tspan>
-    </text>
+  <!-- ================= Panel 1: score = clicks ================= -->
+  <g transform="translate(16,52)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Score: clicks</text>
 
-    <rect x="270" y="78" width="104" height="45" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="322" y="97" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="322" dy="0">I clicked.</tspan>
-      <tspan x="322" dy="16">I did not stay.</tspan>
-    </text>
+    <!-- recommender bubble -->
+    <path d="M20,42 H108 Q120,42 120,54 V78 Q120,90 108,90 H76 L68,121 L62,90 H20 Q8,90 8,78 V54 Q8,42 20,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="64" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">Most clicks!</text>
+    <text x="64" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">Put it on top!</text>
 
-    <circle cx="88" cy="158" r="10" fill="#7C3AED"/>
-    <path d="M88 168 L88 208 M88 178 L70 190 M88 178 L105 187 M88 208 L76 229 M88 208 L101 229" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- viewer bubble -->
+    <path d="M140,42 H276 Q288,42 288,54 V78 Q288,90 276,90 H254 L247,136 L240,90 H140 Q128,90 128,78 V54 Q128,42 140,42 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="208" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">Clicked. Bored.</text>
+    <text x="208" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">Gone in 42 seconds.</text>
 
-    <rect x="133" y="137" width="126" height="75" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-    <text x="196" y="165" font-size="14" font-weight="700" fill="#EF4444" text-anchor="middle">SHARK VOLCANO!</text>
-    <path d="M187 177 L207 188 L187 199 Z" fill="#EF4444"/>
-    <text x="196" y="207" font-size="12" fill="#6B7280" text-anchor="middle">0:42</text>
+    <!-- the clickbait on screen -->
+    <rect x="98" y="104" width="106" height="102" rx="8" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+    <text x="151" y="132" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">SHARK</text>
+    <text x="151" y="151" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">VOLCANO!</text>
+    <rect x="110" y="163" width="82" height="7" rx="3.5" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1"/>
+    <rect x="110" y="163" width="4" height="7" rx="2" fill="#92400E"/>
+    <text x="151" y="191" text-anchor="middle" font-size="14" fill="#92400E">watched 0:42</text>
+    <path d="M151,206 V221 M135,222 H167" fill="none" stroke="#D1D5DB" stroke-width="3" stroke-linecap="round"/>
 
-    <path d="M286 158 L286 202 M286 176 L274 188 M286 176 L301 184 M286 202 L276 225 M286 202 L302 221 M336 158 L336 202 M336 176 L324 187 M336 176 L352 183 M336 202 L326 224 M336 202 L353 220" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="286" cy="148" r="10" fill="#10B981"/>
-    <circle cx="336" cy="148" r="10" fill="#D97706"/>
+    <path d="M10,226.5 H288" stroke="#E5E7EB" stroke-width="1.5"/>
+    <!-- recommender -->
+    <path d="M40,226 V194 Q40,178 56,178 H68 Q84,178 84,194 V226 Z" fill="#7C3AED"/>
+    <path d="M62,144 V136" stroke="#4C1D95" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="62" cy="132" r="3.5" fill="#7C3AED"/>
+    <circle cx="62" cy="159" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="57" cy="157" r="2" fill="#1E1B4B"/><circle cx="67" cy="157" r="2" fill="#1E1B4B"/>
+    <path d="M56,163 Q62,169 68,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- viewer, unimpressed -->
+    <path d="M228,226 V194 Q228,178 244,178 H256 Q272,178 272,194 V226 Z" fill="#10B981"/>
+    <circle cx="250" cy="159" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <path d="M243,156 H248 M252,156 H257" fill="none" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/>
+    <path d="M245,167 Q250,163 255,167" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-    <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The flashy pick wins the vote—and empties the couch.</text>
+    <text x="62" y="248" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text>
+    <text x="250" y="248" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Viewer</text>
   </g>
 
-  <!-- Panel 2 -->
-  <g>
-    <rect x="484" y="76" width="164" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="566" y="95" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="566" dy="0">They stayed 98 minutes.</tspan>
-      <tspan x="566" dy="16">Now that’s a winner.</tspan>
-    </text>
+  <!-- ================= Panel 2: score = minutes watched ================= -->
+  <g transform="translate(326,52)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Score: minutes watched</text>
 
-    <rect x="430" y="137" width="112" height="72" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="486" y="161" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">THE QUIET HEIST</text>
-    <path d="M476 173 L496 184 L476 195 Z" fill="#0EA5E9"/>
-    <text x="486" y="205" font-size="12" fill="#6B7280" text-anchor="middle">98 MIN</text>
+    <path d="M20,42 H144 Q156,42 156,54 V78 Q156,90 144,90 H76 L68,121 L62,90 H20 Q8,90 8,78 V54 Q8,42 20,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="82" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">Oops. New score:</text>
+    <text x="82" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">minutes watched.</text>
 
-    <circle cx="578" cy="158" r="10" fill="#7C3AED"/>
-    <path d="M578 168 L578 207 M578 179 L562 190 M578 179 L594 189 M578 207 L568 228 M578 207 L588 228" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="604" cy="190" r="15" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-    <path d="M604 175 L604 169 M598 169 L610 169 M604 190 L612 183" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- scoreboard -->
+    <rect x="108" y="98" width="180" height="120" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+    <text x="122" y="122" font-size="15" font-weight="700" fill="#4C1D95">Minutes watched</text>
+    <text x="122" y="146" font-size="14" fill="#1E1B4B">Shark Volcano</text>
+    <rect x="122" y="153" width="4" height="10" rx="2" fill="#F59E0B"/>
+    <text x="132" y="163" font-size="14" font-weight="700" fill="#92400E">0:42</text>
+    <rect x="114" y="172" width="168" height="40" rx="8" fill="#D1FAE5"/>
+    <text x="122" y="188" font-size="14" font-weight="700" fill="#1E1B4B">The Quiet Heist</text>
+    <rect x="122" y="195" width="96" height="10" rx="3" fill="#10B981"/>
+    <text x="224" y="205" font-size="14" font-weight="700" fill="#065F46">98 min</text>
 
-    <rect x="645" y="185" width="112" height="39" rx="8" fill="#D1FAE5" stroke="#10B981"/>
-    <path d="M652 224 L652 235 M750 224 L750 235" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <circle cx="674" cy="170" r="10" fill="#10B981"/>
-    <circle cx="724" cy="170" r="10" fill="#D97706"/>
-    <path d="M674 180 L674 207 M674 190 L690 199 M724 180 L724 207 M724 190 L708 199" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M10,226.5 H288" stroke="#E5E7EB" stroke-width="1.5"/>
+    <path d="M40,226 V194 Q40,178 56,178 H68 Q84,178 84,194 V226 Z" fill="#7C3AED"/>
+    <path d="M62,144 V136" stroke="#4C1D95" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="62" cy="132" r="3.5" fill="#7C3AED"/>
+    <circle cx="62" cy="159" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="57" cy="157" r="2" fill="#1E1B4B"/><circle cx="67" cy="157" r="2" fill="#1E1B4B"/>
+    <path d="M56,163 Q62,169 68,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-    <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Minutes watched beat clicks that end after 42 seconds.</text>
+    <text x="149" y="249" text-anchor="middle" font-size="15" fill="#6B7280">Same movies, new score, new #1.</text>
   </g>
 
-  <!-- Panel 3 -->
-  <g>
-    <rect x="114" y="356" width="180" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="204" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="204" dy="0">Same movie.</tspan>
-      <tspan x="204" dy="16">Different invitations.</tspan>
-    </text>
+  <!-- ================= Panel 3: same movie, two covers ================= -->
+  <g transform="translate(16,326)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Same movie, two covers</text>
 
-    <circle cx="204" cy="439" r="10" fill="#7C3AED"/>
-    <path d="M204 449 L204 493 M204 460 L157 470 M204 460 L251 470 M204 493 L191 516 M204 493 L217 516" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M42,42 H256 Q268,42 268,54 V78 Q268,90 256,90 H156 L149,121 L142,90 H42 Q30,90 30,78 V54 Q30,42 42,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="149" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">Same movie, same algorithm.</text>
+    <text x="149" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">Each fan sees their own cover.</text>
 
-    <circle cx="72" cy="453" r="10" fill="#10B981"/>
-    <path d="M72 463 L72 505 M72 476 L88 484 M72 505 L61 526 M72 505 L83 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="96" y="431" width="63" height="91" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <circle cx="127" cy="458" r="12" fill="#0EA5E9"/>
-    <path d="M116 478 L127 466 L139 478" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round"/>
-    <text x="127" y="500" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">NIGHT</text>
-    <text x="127" y="514" font-size="12" fill="#1E1B4B" text-anchor="middle">TRAIN</text>
+    <!-- what each fan likes -->
+    <circle cx="31" cy="114" r="15" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <text x="31" y="120" text-anchor="middle" font-size="15">❤️</text>
+    <circle cx="33" cy="137" r="3" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <circle cx="267" cy="114" r="15" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+    <text x="267" y="120" text-anchor="middle" font-size="15">💥</text>
+    <circle cx="265" cy="137" r="3" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
 
-    <rect x="249" y="431" width="63" height="91" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="2"/>
-    <path d="M280 474 C260 459 267 444 280 454 C293 444 300 459 280 474 Z" fill="#EF4444"/>
-    <text x="280" y="500" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">NIGHT</text>
-    <text x="280" y="514" font-size="12" fill="#1E1B4B" text-anchor="middle">TRAIN</text>
-    <circle cx="336" cy="453" r="10" fill="#D97706"/>
-    <path d="M336 463 L336 505 M336 476 L320 484 M336 505 L325 526 M336 505 L347 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- covers -->
+    <rect x="58" y="140" width="62" height="80" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="89" y="172" text-anchor="middle" font-size="22">❤️</text>
+    <text x="89" y="196" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">NIGHT</text>
+    <text x="89" y="212" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">TRAIN</text>
+    <rect x="178" y="140" width="62" height="80" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="209" y="172" text-anchor="middle" font-size="22">💥</text>
+    <text x="209" y="196" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">NIGHT</text>
+    <text x="209" y="212" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">TRAIN</text>
 
-    <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Same movie, tailored art: more people press play.</text>
+    <path d="M10,226.5 H288" stroke="#E5E7EB" stroke-width="1.5"/>
+    <!-- fan A -->
+    <path d="M9,226 V194 Q9,178 25,178 H37 Q53,178 53,194 V226 Z" fill="#10B981"/>
+    <circle cx="31" cy="159" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="26" cy="157" r="2" fill="#1E1B4B"/><circle cx="36" cy="157" r="2" fill="#1E1B4B"/>
+    <path d="M25,163 Q31,169 37,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- recommender -->
+    <path d="M127,226 V194 Q127,178 143,178 H155 Q171,178 171,194 V226 Z" fill="#7C3AED"/>
+    <path d="M149,144 V136" stroke="#4C1D95" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="149" cy="132" r="3.5" fill="#7C3AED"/>
+    <circle cx="149" cy="159" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="144" cy="157" r="2" fill="#1E1B4B"/><circle cx="154" cy="157" r="2" fill="#1E1B4B"/>
+    <path d="M143,163 Q149,169 155,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- fan B -->
+    <path d="M245,226 V194 Q245,178 261,178 H273 Q289,178 289,194 V226 Z" fill="#10B981"/>
+    <circle cx="267" cy="159" r="15" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/>
+    <circle cx="262" cy="157" r="2" fill="#1E1B4B"/><circle cx="272" cy="157" r="2" fill="#1E1B4B"/>
+    <path d="M261,163 Q267,169 273,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+
+    <text x="149" y="249" text-anchor="middle" font-size="15" fill="#6B7280">Only the cover changed.</text>
   </g>
 
-  <!-- Panel 4 -->
-  <g>
-    <rect x="422" y="356" width="148" height="45" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-    <text x="496" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="496" dy="0">I copied your formula.</tspan>
-      <tspan x="496" dy="16">It fits on one card.</tspan>
-    </text>
+  <!-- ================= Panel 4: now for millions ================= -->
+  <g transform="translate(326,326)">
+    <rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+    <circle cx="24" cy="24" r="11" fill="#1E1B4B"/>
+    <text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Now for millions</text>
 
-    <rect x="604" y="356" width="158" height="45" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-    <text x="683" y="375" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-      <tspan x="683" dy="0">Perfect.</tspan>
-      <tspan x="683" dy="16">Now seat forty people.</tspan>
-    </text>
+    <!-- rival bubble -->
+    <path d="M20,42 H128 Q140,42 140,54 V78 Q140,90 128,90 H52 L41,132 L38,90 H20 Q8,90 8,78 V54 Q8,42 20,42 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="74" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">Copied your</text>
+    <text x="74" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">algorithm. Easy!</text>
 
-    <circle cx="474" cy="449" r="10" fill="#D97706"/>
-    <path d="M474 459 L474 503 M474 471 L491 478 M474 471 L458 481 M474 503 L462 526 M474 503 L486 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-    <rect x="489" y="447" width="70" height="45" rx="4" fill="#FFFFFF" stroke="#D97706"/>
-    <text x="524" y="466" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">FORMULA</text>
-    <text x="524" y="483" font-size="12" fill="#6B7280" text-anchor="middle">rank(score)</text>
+    <!-- recommender bubble -->
+    <path d="M172,42 H276 Q288,42 288,54 V78 Q288,90 276,90 H262 L258,121 L248,90 H172 Q160,90 160,78 V54 Q160,42 172,42 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+    <text x="224" y="62" text-anchor="middle" font-size="15" fill="#1E1B4B">Sure. Now copy</text>
+    <text x="224" y="81" text-anchor="middle" font-size="15" fill="#1E1B4B">the machine.</text>
 
-    <circle cx="594" cy="449" r="10" fill="#7C3AED"/>
-    <path d="M594 459 L594 503 M594 471 L579 481 M594 471 L610 480 M594 503 L583 526 M594 503 L605 526" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- the machine: stages narrowing the catalogue -->
+    <rect x="98" y="100" width="130" height="126" rx="10" fill="#FAFAF7" stroke="#D1D5DB" stroke-width="1.5"/>
+    <rect x="108" y="110" width="110" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="163" y="128" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">All titles</text>
+    <path d="M158,138 L163,142 L168,138" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="121" y="144" width="84" height="26" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="163" y="162" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">1,000</text>
+    <path d="M158,172 L163,176 L168,172" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <rect x="132" y="178" width="62" height="26" rx="6" fill="#7C3AED"/>
+    <text x="163" y="196" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">Top 10</text>
+    <text x="163" y="219" text-anchor="middle" font-size="14" fill="#4C1D95">for every viewer</text>
 
-    <rect x="632" y="430" width="91" height="96" rx="6" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <path d="M632 461 L723 461 M632 493 L723 493" fill="none" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="677" y="451" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">WI-FI</text>
-    <text x="677" y="483" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">QUEUE</text>
-    <text x="677" y="515" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">40 SEATS</text>
-    <path d="M735 450 L754 450 L754 466 L735 466 Z M735 478 L754 478 L754 494 L735 494 Z M735 506 L754 506 L754 522 L735 522 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+    <path d="M10,226.5 H288" stroke="#E5E7EB" stroke-width="1.5"/>
+    <!-- rival with a copied page -->
+    <path d="M18,226 V194 Q18,178 34,178 H46 Q62,178 62,194 V226 Z" fill="#F59E0B"/>
+    <path d="M58,198 L68,200" stroke="#F59E0B" stroke-width="7" stroke-linecap="round"/>
+    <rect x="68" y="184" width="26" height="34" rx="3" fill="#FFFFFF" stroke="#92400E" stroke-width="1.5"/>
+    <path d="M73,193 H89 M73,200 H89 M73,207 H84" stroke="#92400E" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="40" cy="159" r="15" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/>
+    <path d="M25,153 Q25,140 40,140 Q55,140 55,153 Z" fill="#92400E"/>
+    <rect x="40" y="149" width="22" height="5" rx="2.5" fill="#92400E"/>
+    <circle cx="35" cy="159" r="2" fill="#1E1B4B"/><circle cx="45" cy="159" r="2" fill="#1E1B4B"/>
+    <path d="M35,166 Q41,168 46,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+    <!-- recommender -->
+    <path d="M236,226 V194 Q236,178 252,178 H264 Q280,178 280,194 V226 Z" fill="#7C3AED"/>
+    <path d="M258,144 V136" stroke="#4C1D95" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="258" cy="132" r="3.5" fill="#7C3AED"/>
+    <circle cx="258" cy="159" r="15" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/>
+    <circle cx="253" cy="157" r="2" fill="#1E1B4B"/><circle cx="263" cy="157" r="2" fill="#1E1B4B"/>
+    <path d="M252,163 Q258,169 264,163" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
 
-    <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The recipe is public. The working movie night is not.</text>
+    <text x="40" y="248" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">Rival</text>
   </g>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">At scale, known algorithms win through the right objective, presentation, and infrastructure.</text>
+  <!-- takeaway -->
+  <text x="320" y="618" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Algorithms are known. The wins: the right <tspan fill="#7C3AED">goal</tspan>, <tspan fill="#7C3AED">cover</tspan> and <tspan fill="#7C3AED">machine</tspan>.</text>
 </svg>

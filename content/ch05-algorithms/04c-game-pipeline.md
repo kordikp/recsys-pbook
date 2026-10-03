@@ -2,19 +2,20 @@
 id: ch3-game-pipeline
 type: game
 game: pipeline-order
-title: "Assemble the Pipeline"
-readingTime: 1
+title: "Build the Pipeline"
+readingTime: 2
 standalone: true
-teaser: "Put the recommendation pipeline stages in the correct order. Can you reconstruct the architecture?"
+teaser: "Put the stages of a recommendation pipeline in order, and see what each one is for."
 voice: universal
 parent: null
 diagram: null
 status: accepted
 concept: pipeline
 state: edited
+lang: en
 lens: generic
 visuality: text-first
-depth: standard
+depth: intro..standard
 formalism: none
 lengthBand: tldr
 carriers: prose

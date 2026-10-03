@@ -1,0 +1,5 @@
+{
+  "version": 1,
+  "about": "Retired block id -> successor (a live block id, or a concept slug meaning 'that concept's anchor'). When a block is archived, merged or re-id'd, add its old id here in the same commit: a returning reader's read/saved/recall progress then moves to the successor instead of being dropped. Keys must not be live ids; validate-content.js checks both sides.",
+  "aliases": {}
+}

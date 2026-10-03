@@ -2,7 +2,7 @@
 id: ch4-bias-types
 type: spine
 title: "A Taxonomy of Bias in Recommender Systems"
-readingTime: 5
+readingTime: 15
 standalone: false
 core: false
 voice: thinker
@@ -20,9 +20,9 @@ genre: explainer
 carriers: prose|table|image|formula
 ---
 
-The parent section introduced filter bubbles as a visible symptom of algorithmic narrowing. But bubbles are only one manifestation of a deeper, more pervasive problem: **bias**. Recommender systems are bias-generating machines -- not because they are poorly engineered, but because they learn from data that is itself the product of biased processes. Understanding where bias enters, how it propagates, and how to mitigate it is arguably the most important unsolved problem in recommendation research.
+[Filter bubbles](#c/filter-bubbles) are the visible symptom of algorithmic narrowing. But bubbles are only one manifestation of a deeper, more pervasive problem: **bias**. Recommender systems are bias-generating machines -- not because they are poorly engineered, but because they learn from data that is itself the product of biased processes. Understanding where bias enters, how it propagates, and how to mitigate it is arguably the most important unsolved problem in recommendation research.
 
-![Taxonomy of bias types in recommender systems](/images/diagram-bias-taxonomy.svg)
+![Where six biases enter one recommender feedback loop: popularity and exposure bias at training, position and conformity bias on the ranked page, selection bias in user choices; algorithmic amplification is the loop itself, compounding them each lap](/images/diagram-bias-taxonomy.svg)
 
 This section provides a structured taxonomy. For each bias type: what it is, how to detect it, and what can be done about it.
 

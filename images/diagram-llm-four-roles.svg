@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 492" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pn09-title pn09-desc">
+  <title id="pn09-title">Four jobs for an LLM around Trailhead's recommender</title>
+  <desc id="pn09-desc">The behavioral recommender keeps the job of picking from the real catalog: catalog, retrieve, rank, top 20, shown. An LLM plugs in at four points, each running at a different frequency: a front-end that turns the customer's wish into filters on every message, a metadata writer that adds attributes once per product overnight, a re-ranker that reorders the top 20 by the customer's words on every request, and an explainer that writes the reason for every item shown.</desc>
+  <defs>
+    <marker id="pn09-ah-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#F59E0B"/>
+    </marker>
+    <marker id="pn09-ah-purple" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="pn09-ah-grey" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6B7280"/>
+    </marker>
+    <g id="pn09-clock">
+      <circle cx="0" cy="0" r="6.5" fill="none" stroke="#92400E" stroke-width="1.6"/>
+      <path d="M0,-3.5 V0 H3" fill="none" stroke="#92400E" stroke-width="1.6" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <rect x=".5" y=".5" width="639" height="491" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+
+  <!-- title + legend -->
+  <text x="320" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Where an LLM helps Trailhead's recommender</text>
+  <g font-size="14" fill="#4B5563">
+    <rect x="94" y="49" width="12" height="12" rx="3" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="112" y="60">recommender: picks from real stock</text>
+    <rect x="374" y="49" width="12" height="12" rx="3" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="392" y="60">LLM job</text>
+    <use href="#pn09-clock" x="460" y="55"/>
+    <text x="472" y="60">how often</text>
+  </g>
+
+  <!-- customer -->
+  <circle cx="33" cy="102" r="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <circle cx="29" cy="101" r="1.6" fill="#1E1B4B"/>
+  <circle cx="37" cy="101" r="1.6" fill="#1E1B4B"/>
+  <path d="M29,106 q4,3 8,0" fill="none" stroke="#1E1B4B" stroke-width="1.4" stroke-linecap="round"/>
+  <path d="M17,148 v-15 a16,16 0 0 1 32,0 v15 z" fill="#10B981"/>
+  <!-- wish bubble -->
+  <path d="M68,80 H214 a12,12 0 0 1 12,12 V144 a12,12 0 0 1 -12,12 H68 a12,12 0 0 1 -12,-12 V108 L47,101 L56,95 V92 a12,12 0 0 1 12,-12 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+  <g font-size="14" fill="#1E1B4B">
+    <text x="68" y="104">Tent for two,</text>
+    <text x="68" y="124">Scottish wind,</text>
+    <text x="68" y="144">fits a bike pannier</text>
+  </g>
+  <line x1="228" y1="118" x2="244" y2="118" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pn09-ah-grey)"/>
+
+  <!-- 1 front-end -->
+  <rect x="248" y="76" width="200" height="122" rx="12" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="270" cy="96" r="11" fill="#F59E0B"/>
+  <text x="270" y="101" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+  <text x="290" y="102" font-size="16" font-weight="700" fill="#1E1B4B">Front-end</text>
+  <text x="260" y="124" font-size="14" fill="#4B5563">wish → filters</text>
+  <g font-size="14" fill="#92400E">
+    <rect x="260" y="134" width="82" height="24" rx="12" fill="#FEF3C7"/>
+    <text x="301" y="151" text-anchor="middle">2 persons</text>
+    <rect x="348" y="134" width="90" height="24" rx="12" fill="#FEF3C7"/>
+    <text x="393" y="151" text-anchor="middle">wind-rated</text>
+    <rect x="260" y="164" width="90" height="24" rx="12" fill="#FEF3C7"/>
+    <text x="305" y="181" text-anchor="middle">short pack</text>
+  </g>
+
+  <!-- 4 explainer -->
+  <rect x="462" y="76" width="162" height="122" rx="12" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="484" cy="96" r="11" fill="#F59E0B"/>
+  <text x="484" y="101" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+  <text x="504" y="102" font-size="16" font-weight="700" fill="#1E1B4B">Explainer</text>
+  <g font-size="15" fill="#1E1B4B" font-style="italic">
+    <text x="476" y="128">“Packs to 38 cm,</text>
+    <text x="476" y="147">so it fits your</text>
+    <text x="476" y="166">pannier.”</text>
+  </g>
+  <text x="476" y="188" font-size="14" fill="#4B5563">from real attributes</text>
+
+  <!-- top connectors + frequencies -->
+  <line x1="276" y1="200" x2="214" y2="244" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn09-ah-amber)"/>
+  <use href="#pn09-clock" x="268" y="226"/>
+  <text x="280" y="231" font-size="14" font-weight="700" fill="#92400E">every message</text>
+  <line x1="565" y1="248" x2="565" y2="204" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn09-ah-amber)"/>
+  <use href="#pn09-clock" x="420" y="226"/>
+  <text x="432" y="231" font-size="14" font-weight="700" fill="#92400E">every item shown</text>
+
+  <!-- pipeline -->
+  <rect x="16" y="240" width="608" height="60" rx="12" fill="#F5F3FF"/>
+  <g font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">
+    <rect x="26" y="250" width="94" height="40" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="73" y="275">Catalog</text>
+    <rect x="149" y="250" width="94" height="40" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="196" y="275">Retrieve</text>
+    <rect x="272" y="250" width="94" height="40" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="319" y="275">Rank</text>
+    <rect x="395" y="250" width="94" height="40" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <text x="442" y="275">Top 20</text>
+    <rect x="518" y="250" width="94" height="40" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+    <text x="565" y="275">⛺ Shown</text>
+  </g>
+  <g stroke="#7C3AED" stroke-width="2" stroke-linecap="round">
+    <line x1="122" y1="270" x2="145" y2="270" marker-end="url(#pn09-ah-purple)"/>
+    <line x1="245" y1="270" x2="268" y2="270" marker-end="url(#pn09-ah-purple)"/>
+    <line x1="368" y1="270" x2="391" y2="270" marker-end="url(#pn09-ah-purple)"/>
+    <line x1="491" y1="270" x2="514" y2="270" marker-end="url(#pn09-ah-purple)"/>
+  </g>
+
+  <!-- bottom connectors + frequencies -->
+  <line x1="73" y1="342" x2="73" y2="296" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn09-ah-amber)"/>
+  <path d="M90,315 a7,7 0 1 0 8,9 a5.5,5.5 0 1 1 -8,-9 z" fill="#92400E"/>
+  <text x="104" y="327" font-size="14" font-weight="700" fill="#92400E">once per product, overnight</text>
+  <line x1="442" y1="342" x2="442" y2="296" stroke="#F59E0B" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn09-ah-amber)"/>
+  <use href="#pn09-clock" x="460" y="322"/>
+  <text x="472" y="327" font-size="14" font-weight="700" fill="#92400E">every request</text>
+
+  <!-- 2 metadata -->
+  <rect x="16" y="344" width="296" height="96" rx="12" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="38" cy="366" r="11" fill="#F59E0B"/>
+  <text x="38" y="371" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+  <text x="58" y="372" font-size="16" font-weight="700" fill="#1E1B4B">Metadata writer</text>
+  <text x="28" y="394" font-size="14" fill="#4B5563">reads descriptions, adds attributes</text>
+  <g font-size="14" fill="#92400E">
+    <rect x="28" y="404" width="64" height="24" rx="12" fill="#FEF3C7"/>
+    <text x="60" y="421" text-anchor="middle">season</text>
+    <rect x="98" y="404" width="168" height="24" rx="12" fill="#FEF3C7"/>
+    <text x="182" y="421" text-anchor="middle">bikepacking-friendly</text>
+  </g>
+
+  <!-- 3 re-ranker -->
+  <rect x="328" y="344" width="296" height="96" rx="12" fill="#FFFFFF" stroke="#F59E0B" stroke-width="2"/>
+  <circle cx="350" cy="366" r="11" fill="#F59E0B"/>
+  <text x="350" y="371" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+  <text x="370" y="372" font-size="16" font-weight="700" fill="#1E1B4B">Re-ranker</text>
+  <text x="340" y="394" font-size="14" fill="#4B5563">reorders the top 20 by their words</text>
+  <g font-size="14">
+    <rect x="340" y="404" width="144" height="24" rx="12" fill="#D1FAE5"/>
+    <text x="412" y="421" text-anchor="middle" fill="#065F46">partner is 1.95 m</text>
+    <line x1="490" y1="416" x2="508" y2="416" stroke="#6B7280" stroke-width="2" stroke-linecap="round" marker-end="url(#pn09-ah-grey)"/>
+    <rect x="514" y="404" width="98" height="24" rx="12" fill="#EDE9FE"/>
+    <text x="563" y="421" text-anchor="middle" fill="#4C1D95">long tent ↑</text>
+  </g>
+
+  <!-- takeaway -->
+  <text x="320" y="472" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B"><tspan fill="#4C1D95">The recommender picks</tspan>; the LLM <tspan fill="#92400E">listens, labels, reorders and talks</tspan>.</text>
+</svg>

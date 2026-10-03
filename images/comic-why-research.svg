@@ -1,70 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Shortest Recipe Took Decades</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-
-  <!-- Panel 1 -->
-  <rect x="34" y="78" width="170" height="50" rx="9" fill="#FFFFFF" stroke="#0EA5E9"/>
-  <text x="119" y="99" font-size="12.5" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="119">A recommendation?</tspan>
-    <tspan x="119" dy="17">Make it reliable.</tspan>
-  </text>
-  <circle cx="72" cy="170" r="10" fill="#0EA5E9"/>
-  <path d="M72 181 L72 222 M72 191 L52 207 M72 191 L91 203 M72 222 L59 244 M72 222 L86 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M218 153 H300 V174 H228 V195 H310 V216 H238 V237 H320" fill="none" stroke="#7C3AED" stroke-width="10" stroke-linejoin="round"/>
-  <text x="269" y="145" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">12 DEEP LAYERS</text>
-  <circle cx="346" cy="170" r="10" fill="#D97706"/>
-  <path d="M346 181 L346 222 M346 192 L324 204 M346 192 L365 185 M346 222 L334 244 M346 222 L359 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Today's recommendations rest on decades of mathematical research.</text>
-
-  <!-- Panel 2 -->
-  <rect x="430" y="78" width="184" height="46" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="522" y="106" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Try one matrix inverse.</text>
-  <circle cx="465" cy="174" r="10" fill="#D97706"/>
-  <path d="M465 185 L465 226 M465 195 L447 211 M465 195 L493 181 M465 226 L453 248 M465 226 L478 248" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="500" y="145" width="142" height="92" rx="8" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-  <text x="571" y="165" font-size="12" font-weight="700" fill="#7C3AED" text-anchor="middle">EASE · 2019</text>
-  <text x="571" y="194" font-size="18" fill="#1E1B4B" text-anchor="middle">[ orders ]⁻¹</text>
-  <text x="571" y="219" font-size="11" fill="#6B7280" text-anchor="middle">ONE STEP</text>
-  <circle cx="719" cy="174" r="10" fill="#0EA5E9"/>
-  <path d="M719 185 L719 226 M719 195 L696 203 M719 195 L738 207 M719 226 L707 248 M719 226 L732 248" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">EASE (2019) needs one matrix inverse, not a deep network.</text>
-
-  <!-- Panel 3 -->
-  <rect x="38" y="358" width="166" height="46" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="121" y="386" font-size="12.5" fill="#1E1B4B" text-anchor="middle">The simple one wins.</text>
-  <circle cx="62" cy="454" r="10" fill="#D97706"/>
-  <path d="M62 465 L62 506 M62 476 L84 490 M62 476 L43 489 M62 506 L50 528 M62 506 L75 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M112 506 H308" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <rect x="126" y="448" width="66" height="42" rx="7" fill="#FEE2E2" stroke="#EF4444"/>
-  <text x="159" y="466" font-size="10" font-weight="700" fill="#EF4444" text-anchor="middle">DEEP</text>
-  <text x="159" y="482" font-size="11" fill="#6B7280" text-anchor="middle">muffin</text>
-  <rect x="216" y="448" width="66" height="42" rx="7" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="249" y="466" font-size="10" font-weight="700" fill="#10B981" text-anchor="middle">EASE</text>
-  <text x="249" y="482" font-size="11" fill="#1E1B4B" text-anchor="middle">scone ✓</text>
-  <circle cx="338" cy="454" r="10" fill="#0EA5E9"/>
-  <path d="M338 465 L338 506 M338 476 L316 487 M338 476 L357 463 M338 506 L326 528 M338 506 L351 528" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">EASE's simple insight can outperform deep neural recommenders.</text>
-
-  <!-- Panel 4 -->
-  <rect x="430" y="358" width="182" height="46" rx="9" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="521" y="386" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Nothing stays in the test kitchen.</text>
-  <rect x="438" y="430" width="128" height="86" rx="8" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="502" y="451" font-size="11" font-weight="700" fill="#7C3AED" text-anchor="middle">RESEARCH MENU</text>
-  <text x="502" y="475" font-size="12" fill="#1E1B4B" text-anchor="middle">PAPERS</text>
-  <text x="502" y="495" font-size="12" font-weight="700" fill="#10B981" text-anchor="middle">ALL SERVED</text>
-  <circle cx="606" cy="458" r="10" fill="#D97706"/>
-  <path d="M606 469 L606 510 M606 480 L584 490 M606 480 L628 490 M606 510 L594 532 M606 510 L619 532" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M654 478 H758 M654 478 V530 M758 478 V530" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="679" cy="454" r="10" fill="#0EA5E9"/>
-  <circle cx="708" cy="454" r="10" fill="#10B981"/>
-  <circle cx="737" cy="454" r="10" fill="#7C3AED"/>
-  <text x="706" y="516" font-size="12" font-weight="700" fill="#1E1B4B" text-anchor="middle">500+ CUSTOMERS</text>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Every Recombee paper runs in production for 500+ customers.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Research finds mathematical shortcuts that improve recommendations beyond brute-force engineering.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb108-title pb108-desc">
+<title id="pb108-title">The shortest recipe took decades</title>
+<desc id="pb108-desc">Four-panel comic. An engineer tries to improve recommendations by stacking more layers onto a deep neural network. A researcher offers a shortcut instead: the EASE recipe card from 2019, prep time decades of math, cooking one step, a single matrix inverse. On the same benchmark test the small EASE card takes first place and the tall deep network second. The engineer ships the paper: every Recombee research paper runs in production for 500+ customers. Brute force adds layers; research finds a better idea and ships it.</desc>
+<defs><marker id="pb108-arrow" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#7C3AED"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="36" font-size="19" font-weight="700" fill="#1E1B4B" text-anchor="middle">The shortest recipe took decades</text>
+<g transform="translate(16,52)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M12,214 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text><text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">More power</text><g><rect x="174" y="192" width="92" height="22" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/><text x="220" y="208" font-size="14" fill="#6B7280" text-anchor="middle">layer</text></g><g><rect x="179" y="167" width="92" height="22" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/><text x="225" y="183" font-size="14" fill="#6B7280" text-anchor="middle">layer</text></g><g><rect x="174" y="142" width="92" height="22" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/><text x="220" y="158" font-size="14" fill="#6B7280" text-anchor="middle">layer</text></g><g><rect x="179" y="117" width="92" height="22" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/><text x="225" y="133" font-size="14" fill="#6B7280" text-anchor="middle">layer</text></g><g><rect x="174" y="92" width="92" height="22" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/><text x="220" y="108" font-size="14" fill="#6B7280" text-anchor="middle">layer</text></g><g transform="rotate(-6 225 78)"><rect x="179" y="67" width="92" height="22" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/><text x="225" y="83" font-size="14" fill="#6B7280" text-anchor="middle">layer</text></g><path d="M168,74 q-5,6 0,12 M282,66 q5,6 0,12" fill="none" stroke="#9CA3AF" stroke-width="1.8" stroke-linecap="round"/><path d="M29,214 V174 Q29,158 45,158 H59 Q75,158 75,174 V214 Z" fill="#9CA3AF"/><path d="M70,164 L100,150" stroke="#9CA3AF" stroke-width="8" stroke-linecap="round"/><circle cx="52" cy="137" r="17" fill="#FFFFFF" stroke="#4B5563" stroke-width="2"/><circle cx="49" cy="135" r="2.2" fill="#1E1B4B"/><circle cx="59" cy="135" r="2.2" fill="#1E1B4B"/><path d="M48,142 Q54,150 60,142 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.6" stroke-linejoin="round"/><path d="M35,129 Q35,111 52,111 Q69,111 69,129 Z" fill="#FFFFFF" stroke="#4B5563" stroke-width="2" stroke-linejoin="round"/><path d="M52,111 V128" stroke="#4B5563" stroke-width="2"/><rect x="29" y="127" width="46" height="5" rx="2.5" fill="#4B5563"/><path d="M24,44 H150 Q162,44 162,56 V86 Q162,98 150,98 H64 L58,114 L48,98 H24 Q12,98 12,86 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><text x="87" y="66.8" font-size="16" fill="#1E1B4B" text-anchor="middle">Not good enough?</text><text x="87" y="86.8" font-size="16" fill="#1E1B4B" text-anchor="middle">Add more layers!</text><text x="52" y="238" font-size="14" font-weight="700" fill="#4B5563" text-anchor="middle">Engineer</text><text x="222" y="238" font-size="14" font-weight="700" fill="#4B5563" text-anchor="middle">Deep network</text>
+</g>
+<g transform="translate(326,52)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M12,214 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text><text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">More thinking</text><path d="M27,214 V174 Q27,158 43,158 H57 Q73,158 73,174 V214 Z" fill="#F59E0B"/><path d="M72,166 L100,160" stroke="#F59E0B" stroke-width="8" stroke-linecap="round"/><circle cx="50" cy="137" r="17" fill="#FFFFFF" stroke="#92400E" stroke-width="2"/><circle cx="45.5" cy="135" r="5.5" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="1.6"/><circle cx="58.5" cy="135" r="5.5" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="1.6"/><path d="M51,135 H53" stroke="#1E1B4B" stroke-width="1.6"/><circle cx="47" cy="135" r="1.8" fill="#1E1B4B"/><circle cx="59.5" cy="135" r="1.8" fill="#1E1B4B"/><path d="M47,143 Q52,147 57,143" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M37,126 l-5,-6 M45,121 l-2,-8 M54,121 l2,-8 M62,126 l6,-5" fill="none" stroke="#92400E" stroke-width="2.2" stroke-linecap="round"/><rect x="98" y="96" width="188" height="112" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/><path d="M99,126 V106 Q99,97 108,97 H276 Q285,97 285,106 V126 Z" fill="#EDE9FE"/><path d="M98,126 H286" stroke="#7C3AED" stroke-width="1.5"/><text x="192" y="117" font-size="15" font-weight="700" fill="#4C1D95" text-anchor="middle">Recipe: EASE (2019)</text><text x="110" y="150" font-size="15" fill="#4B5563">Prep:</text><text x="154" y="150" font-size="15" font-weight="700" fill="#92400E">decades of math</text><text x="110" y="176" font-size="15" fill="#4B5563">Cook:</text><text x="154" y="176" font-size="15" font-weight="700" fill="#1E1B4B">one step</text><text x="154" y="197" font-size="14" fill="#4B5563">(a matrix inverse)</text><path d="M24,44 H150 Q162,44 162,56 V70 Q162,82 150,82 H62 L56,114 L46,82 H24 Q12,82 12,70 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/><text x="87" y="68.8" font-size="16" fill="#1E1B4B" text-anchor="middle">Or find a shortcut.</text><text x="50" y="238" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle">Researcher</text>
+</g>
+<g transform="translate(16,314)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M12,214 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text><text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Same test, same data</text><rect x="24" y="150" width="78" height="64" rx="3" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/><rect x="102" y="180" width="78" height="34" rx="3" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/><text x="63" y="192" font-size="22" font-weight="700" fill="#1E1B4B" text-anchor="middle">1</text><text x="141" y="204" font-size="18" font-weight="700" fill="#6B7280" text-anchor="middle">2</text><rect x="36" y="112" width="54" height="34" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><text x="63" y="134" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">EASE</text><text x="63" y="102" font-size="22" text-anchor="middle">🥇</text><g><rect x="108" y="164" width="62" height="16" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/></g><g><rect x="113" y="145" width="62" height="16" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/></g><g><rect x="108" y="126" width="62" height="16" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/></g><g transform="rotate(-6 144 115)"><rect x="113" y="107" width="62" height="16" rx="4" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5"/></g><path d="M146,44 H276 Q288,44 288,56 V70 Q288,82 276,82 H244 L240,114 L228,82 H146 Q134,82 134,70 V56 Q134,44 146,44 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><text x="211" y="68.8" font-size="16" fill="#1E1B4B" text-anchor="middle">The tiny one won?!</text><path d="M223,214 V174 Q223,158 239,158 H253 Q269,158 269,174 V214 Z" fill="#9CA3AF"/><circle cx="246" cy="137" r="17" fill="#FFFFFF" stroke="#4B5563" stroke-width="2"/><circle cx="239" cy="135" r="2.2" fill="#1E1B4B"/><circle cx="249" cy="135" r="2.2" fill="#1E1B4B"/><path d="M235,127 Q239,124 243,127 M245,127 Q249,124 253,127" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="244" cy="145" r="3" fill="none" stroke="#1E1B4B" stroke-width="1.8"/><path d="M229,129 Q229,111 246,111 Q263,111 263,129 Z" fill="#FFFFFF" stroke="#4B5563" stroke-width="2" stroke-linejoin="round"/><path d="M246,111 V128" stroke="#4B5563" stroke-width="2"/><rect x="223" y="127" width="46" height="5" rx="2.5" fill="#4B5563"/><text x="63" y="238" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">EASE</text><text x="141" y="238" font-size="14" font-weight="700" fill="#4B5563" text-anchor="middle">Deep network</text>
+</g>
+<g transform="translate(326,314)">
+<rect x="0" y="0" width="298" height="250" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<path d="M12,214 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text><text x="43" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Paper → production</text><path d="M27,214 V174 Q27,158 43,158 H57 Q73,158 73,174 V214 Z" fill="#9CA3AF"/><path d="M70,166 L88,160" stroke="#9CA3AF" stroke-width="8" stroke-linecap="round"/><circle cx="50" cy="137" r="17" fill="#FFFFFF" stroke="#4B5563" stroke-width="2"/><circle cx="47" cy="135" r="2.2" fill="#1E1B4B"/><circle cx="57" cy="135" r="2.2" fill="#1E1B4B"/><path d="M46,142 Q52,150 58,142 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.6" stroke-linejoin="round"/><path d="M33,129 Q33,111 50,111 Q67,111 67,129 Z" fill="#FFFFFF" stroke="#4B5563" stroke-width="2" stroke-linejoin="round"/><path d="M50,111 V128" stroke="#4B5563" stroke-width="2"/><rect x="27" y="127" width="46" height="5" rx="2.5" fill="#4B5563"/><rect x="86" y="126" width="42" height="54" rx="3" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><rect x="92" y="133" width="30" height="5" rx="2" fill="#7C3AED"/><path d="M92,147 H122 M92,155 H122 M92,163 H118 M92,171 H122" stroke="#D1D5DB" stroke-width="2"/><path d="M136,154 H160" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pb108-arrow)"/><rect x="182" y="110" width="104" height="72" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><path d="M182.75,128 H285.25" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="192" cy="119" r="3" fill="#D1D5DB"/><circle cx="202" cy="119" r="3" fill="#D1D5DB"/><circle cx="212" cy="119" r="3" fill="#D1D5DB"/><rect x="175" y="118" width="104" height="72" rx="8" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><path d="M175.75,136 H278.25" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="185" cy="127" r="3" fill="#D1D5DB"/><circle cx="195" cy="127" r="3" fill="#D1D5DB"/><circle cx="205" cy="127" r="3" fill="#D1D5DB"/><rect x="168" y="126" width="104" height="72" rx="8" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5"/><path d="M168.75,144 H271.25" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="178" cy="135" r="3" fill="#D1D5DB"/><circle cx="188" cy="135" r="3" fill="#D1D5DB"/><circle cx="198" cy="135" r="3" fill="#D1D5DB"/><rect x="180" y="156" width="22" height="28" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><rect x="209" y="156" width="22" height="28" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><rect x="238" y="156" width="22" height="28" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/><circle cx="268" cy="196" r="12" fill="#10B981"/><path d="M262,196 L266.5,200.5 L274,192" fill="none" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24,44 H184 Q196,44 196,56 V86 Q196,98 184,98 H64 L58,114 L48,98 H24 Q12,98 12,86 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-linejoin="round"/><text x="104" y="66.8" font-size="16" fill="#1E1B4B" text-anchor="middle">Every Recombee paper</text><text x="104" y="86.8" font-size="16" fill="#1E1B4B" text-anchor="middle">runs in production.</text><text x="220" y="238" font-size="16" font-weight="700" fill="#065F46" text-anchor="middle">500+ customers</text>
+</g>
+<text x="320" y="594" font-size="17" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#4B5563">Brute force:</tspan> more layers, more computers.</text>
+<text x="320" y="620" font-size="17" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#92400E">Research:</tspan> a better idea, then it runs in production.</text>
 </svg>

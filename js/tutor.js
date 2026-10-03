@@ -1,193 +1,135 @@
-// TutorEngine — Mock implementation with LLM-ready interface
-// Architecture: TutorEngine.generateResponse(message, context) → response
-// MockTutorEngine: keyword search + kid-friendly templates + author escalation
-// LLMTutorEngine: future drop-in replacement via Netlify function → Claude API
+// "Ask the book" — an honest, local question answerer.
+//
+// It answers ONLY from the concept contracts in content/concepts.json (title,
+// objective, mustCover, recallQ/recallA — the human-owned summaries every telling
+// is checked against). Retrieval is BM25-lite over those fields; the answer is the
+// matching concept's recallA plus a link to its anchor section and its other
+// tellings. No language model, no generated text: when nothing in the book
+// matches, it says so and offers "propose this concept" or "message the authors".
+// (The retrieval half of retrieval-augmented generation, without the generation —
+// see the llm-recommenders concept for what the other half adds and risks.)
 
-export class MockTutorEngine {
-  constructor() {
-    this._usedBlocks = new Set(); // avoid repeating same blocks in a conversation
+const STOP = new Set(('the a an and or but of to in on for with by from at as is are was were be been being do does did ' +
+  'what whats which who whom whose why how when where can could should would will shall may might must this that these ' +
+  'those it its they them their there here about into than then so such not no yes you your yours i me my we our us ' +
+  'has have had get gets got make makes made use used using work works explain tell mean means difference between ' +
+  'vs versus does doing thing things way ways one ones also just very really some any all more most').split(' '));
+
+const fold = s => String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const stem = w => w.length > 5 ? w.replace(/(ations?|ings?|ers?|ed|es|s)$/, '') : w.length > 3 ? w.replace(/s$/, '') : w;
+export const tokenize = s => fold(s).replace(/\\"/g, ' ').split(/[^a-z0-9]+/).filter(w => w.length >= 2 && !STOP.has(w)).map(stem);
+const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const clean = s => String(s || '').replace(/\\"/g, '"').replace(/ -- /g, ' – ');
+
+// field → weight
+const FIELDS = { title: 4, id: 3, recallQ: 2, objective: 1.5, mustCover: 1, recallA: 1, anchor: 1 };
+
+export class AskTheBook {
+  constructor(app) {
+    this.app = app;
+    this._index = null;
+    this._indexKey = '';
   }
 
-  resetConversation() {
-    this._usedBlocks.clear();
+  resetConversation() {}
+
+  _build() {
+    const concepts = Object.values(this.app.concepts || {});
+    const key = concepts.length + ':' + (concepts[0]?.id || '');
+    if (this._index && this._indexKey === key) return this._index;
+    const docs = concepts.map(c => {
+      const k = c.contract || {};
+      const f = {
+        title: tokenize(c.title), id: tokenize(c.id), recallQ: tokenize(k.recallQ), objective: tokenize(k.objective),
+        mustCover: tokenize((k.mustCover || []).map(p => p.point || p).join(' ')), recallA: tokenize(k.recallA),
+        anchor: (m => tokenize(m ? `${m.title || ''} ${m.teaser || ''}` : ''))(this.app.findBlock?.(c.anchor)?.meta),
+      };
+      const tf = {};
+      for (const [field, words] of Object.entries(f)) for (const w of words) tf[w] = (tf[w] || 0) + FIELDS[field];
+      return { c, tf, titleFold: fold(c.title) };
+    });
+    const df = {};
+    docs.forEach(d => Object.keys(d.tf).forEach(w => { df[w] = (df[w] || 0) + 1; }));
+    const N = docs.length || 1;
+    const idf = w => Math.log(1 + N / (df[w] || 0.5));
+    this._index = { docs, idf, df };
+    this._indexKey = key;
+    return this._index;
   }
 
-  generateResponse(message, context) {
-    const { allBlocks, topicIndex, currentBlockId, currentChapterId, userProfile } = context;
-    const q = message.toLowerCase().trim();
-
-    // Detect question type
-    const qType = this._detectQuestionType(q);
-
-    // Score blocks with context awareness
-    const scored = allBlocks.map(b => {
-      let score = 0;
-      const title = (b.meta.title || '').toLowerCase();
-      const body = (b.body || '').toLowerCase();
-      const words = q.split(/\s+/).filter(w => w.length >= 3);
-
-      for (const word of words) {
-        if (title.includes(word)) score += 5;
-        if (body.includes(word)) score += 1;
+  // → [{ concept, score, coverage }] best first
+  search(query, limit = 3) {
+    const { docs, idf, df } = this._build();
+    const q = [...new Set(tokenize(query))];
+    if (!q.length) return [];
+    const known = q.filter(w => df[w]);
+    const qMass = q.reduce((s, w) => s + idf(w), 0) || 1;
+    const qf = fold(query);
+    return docs.map(d => {
+      let score = 0, hit = 0;
+      for (const w of known) {
+        const tf = d.tf[w];
+        if (!tf) continue;
+        score += idf(w) * (tf * 2.2) / (tf + 1.2);
+        hit += idf(w);
       }
+      if (d.titleFold.length > 4 && qf.includes(d.titleFold)) score += 8;      // the concept named outright
+      return { concept: d.c, score, coverage: hit / qMass };
+    }).filter(r => r.score > 0).sort((a, b) => b.score - a.score).slice(0, limit);
+  }
 
-      // Boost current chapter content 3x
-      if (currentChapterId && b._chapter === currentChapterId) score *= 3;
-      // Boost current block's related content
-      if (currentBlockId && b.meta.parent === currentBlockId) score *= 2;
-      // Penalize already-shown blocks
-      if (this._usedBlocks.has(b.meta.id)) score *= 0.3;
-
-      return { block: b, score };
-    }).filter(s => s.score > 0).sort((a, b) => b.score - a.score).slice(0, 4);
-
-    // Find matching topics
-    const matchTopics = Object.keys(topicIndex || {}).filter(t =>
-      t.toLowerCase().includes(q) || q.includes(t.toLowerCase().split(' ')[0])
-    );
-
-    // Calculate confidence
-    const topScore = scored[0]?.score || 0;
-    const confidence = Math.min(1, topScore / 15); // normalize: 15+ = high confidence
-
-    // Track used blocks
-    scored.forEach(s => this._usedBlocks.add(s.block.meta.id));
-
-    // Build response
-    const blocks = scored.map(s => ({
-      id: s.block.meta.id,
-      title: s.block.meta.title,
-      chapter: s.block.meta._chapterNum,
-      score: s.score
-    }));
-
-    if (confidence < 0.1) {
+  // Interface kept from the old engine: generateResponse(message, context) → { text, confidence, canEscalate }
+  generateResponse(message) {
+    const app = this.app;
+    const res = this.search(message, 3);
+    const top = res[0];
+    const n = Object.keys(app.concepts || {}).length;
+    if (!top || top.coverage < 0.34 || top.score < 2) {
+      const seed = esc(String(message).slice(0, 160)).replace(/'/g, '&#39;');
       return {
-        text: this._noMatchResponse(),
-        blocks: [],
-        followUp: 'Try asking about recommendations, algorithms, filter bubbles, or how YouTube works!',
         confidence: 0,
-        canEscalate: true
+        canEscalate: false,
+        text: `I could not find that in the book. I only answer from its ${n} concept summaries, so I would rather say so than guess.
+          <div class="ask-actions">
+            <button class="tutor-suggest-btn" onclick="app.proposeConcept(this.dataset.q)" data-q="${seed}">🌱 Suggest it as a new topic</button>
+            <button class="tutor-suggest-btn" onclick="app.escalateToAuthor()">✉ Send the question to the authors</button>
+          </div>`,
       };
     }
-
-    const top = scored[0].block;
-    const teaser = top.meta.teaser || (top.body || '').substring(0, 180).replace(/[#*_\[\]]/g, '').trim();
-
-    let text = this._openingLine(qType, confidence);
-    text += `<b>${top.meta.title}</b> (Chapter ${top.meta._chapterNum}) is about exactly this! `;
-    text += `${teaser}... `;
-    text += `<br><br><a href="#" onclick="event.preventDefault();app.openBlock('${top.meta.id}')">Read this section &rarr;</a>`;
-
-    if (scored.length > 1) {
-      text += '<br><br>You might also like:';
-      scored.slice(1, 3).forEach(s => {
-        text += `<br>&bull; <a href="#" onclick="event.preventDefault();app.openBlock('${s.block.meta.id}')">${s.block.meta.title}</a> (Ch${s.block.meta._chapterNum})`;
-      });
-    }
-
-    if (matchTopics.length > 0) {
-      text += '<br><br>Related topics: ';
-      text += matchTopics.slice(0, 3).map(t =>
-        `<a href="#" onclick="event.preventDefault();app.showTopic('${t}')">${t}</a>`
-      ).join(' &middot; ');
-    }
-
-    const followUp = this._socraticFollowUp(qType, top);
-
-    return { text, blocks, followUp, confidence, canEscalate: confidence < 0.3 };
-  }
-
-  _detectQuestionType(q) {
-    if (/^(why|how come|what makes)/.test(q)) return 'why';
-    if (/^(how|how do|how does|how can)/.test(q)) return 'how';
-    if (/^(what if|what would|imagine)/.test(q)) return 'whatif';
-    if (/^(what is|what are|what's|define|explain)/.test(q)) return 'what';
-    if (/^(can you|could you|tell me|show me)/.test(q)) return 'request';
-    return 'general';
-  }
-
-  _openingLine(qType, confidence) {
-    const lines = {
-      why: ["Great question! Pavel talks about this in the book. ", "That's exactly what Pavel asked when designing Recombee! ", "You're thinking like a real engineer! "],
-      how: ["Let me show you — Pavel explains this really well. ", "Good question! Here's how it works: ", "Pavel would break this down like this: "],
-      whatif: ["Ooh, Pavel loves these thought experiments! ", "Interesting! At Recombee we think about this a lot. ", "Let's explore that idea! "],
-      what: ["Good question! Let me check what Pavel wrote about this. ", "Here's what that means: ", "Pavel explains this in the book: "],
-      request: ["Sure! Let me find the right section for you. ", "On it! ", "Happy to help — that's what I'm here for! "],
-      general: ["Let me look that up in the book! ", "Interesting question! ", "Here's what I found: "]
+    const card = (r, lead) => {
+      const c = r.concept, k = c.contract || {};
+      const tellings = (app.conceptBlocks?.[c.id] || []).filter(b => b.meta.type === 'spine').length;
+      // anchor still a draft (hidden from readers): point at a visible telling instead
+      const anchor = app.findBlock(c.anchor) || (app.conceptBlocks?.[c.id] || []).find(b => b.meta.type === 'spine') || null;
+      const ch = app._conceptChapterNum ? app._conceptChapterNum(c.id) : '';
+      return `<div class="ask-card${lead ? '' : ' ask-card-related'}">
+        <div class="ask-kicker">${lead ? 'From the book' : 'Related'} · Chapter ${esc(ch)}</div>
+        <div class="ask-title">${esc(c.title)}</div>
+        ${lead && k.recallQ ? `<div class="ask-q">${esc(clean(k.recallQ))}</div>` : ''}
+        <p class="ask-a">${esc(clean(k.recallA || k.objective || ''))}</p>
+        ${anchor ? `<button class="tutor-suggest-btn" onclick="app.openBlock('${esc(anchor.meta.id)}','ask')">Read: ${esc(anchor.meta.title || c.title)} →</button>` : ''}
+        ${lead && tellings > 1 ? `<span class="ask-note">${tellings} ways to read it in the book</span>` : ''}
+      </div>`;
     };
-    const options = lines[qType] || lines.general;
-    return options[Math.floor(Math.random() * options.length)];
-  }
-
-  _socraticFollowUp(qType, topBlock) {
-    const followUps = {
-      why: [
-        'Can you think of a real-life example where this matters?',
-        'What do you think would happen if we did the opposite?',
-        'Why do you think engineers designed it this way?'
-      ],
-      how: [
-        'Could you explain this process to a friend in simple words?',
-        'What part of this process do you think is hardest for a computer?',
-        'Can you think of a situation where this method would fail?'
-      ],
-      whatif: [
-        'What evidence would you need to test that idea?',
-        'How would you design an experiment to find out?',
-        'What are the possible downsides of that approach?'
-      ],
-      what: [
-        'Can you think of an everyday example of this?',
-        'How is this different from what you expected?',
-        'What surprised you most about this concept?'
-      ],
-      general: [
-        'What about this topic interests you the most?',
-        'Would you like to explore the hands-on activities related to this?',
-        'Try explaining what you learned to someone — it helps it stick!'
-      ]
+    const related = res.slice(1).filter(r => r.score >= top.score * 0.6 && r.coverage >= 0.34).slice(0, 1);
+    return {
+      confidence: Math.min(1, top.coverage),
+      canEscalate: true,
+      text: card(top, true) + related.map(r => card(r, false)).join('') +
+        '<div class="ask-source">Answered from the book’s concept summaries — no AI model involved.</div>',
     };
-    const options = followUps[qType] || followUps.general;
-    return options[Math.floor(Math.random() * options.length)];
   }
 
-  _noMatchResponse() {
-    const responses = [
-      "Hmm, Pavel didn't write about that in this book! I'm best at explaining recommendation systems. Try asking about <b>how YouTube picks videos</b>, <b>filter bubbles</b>, or <b>collaborative filtering</b>!",
-      "That's outside what Pavel covered here! But I'd love to help with <b>how apps learn your taste</b>, <b>A/B testing</b>, or <b>the cold start problem</b>. Or you can message the real Pavel!",
-      "I couldn't find that in the book. Pavel focused on <b>algorithms</b>, <b>privacy</b>, <b>digital footprints</b>, and <b>building your own recommendation system</b> — ask me about any of those!"
-    ];
-    return responses[Math.floor(Math.random() * responses.length)];
-  }
-
-  // Generate suggested questions based on current block content
+  // Questions the book can actually answer about this section: its concept's
+  // recall question, then the recall questions of neighbouring concepts.
   getSuggestedQuestions(block) {
+    const app = this.app;
     if (!block) return [];
-    const body = (block.body || '').toLowerCase();
-    const title = block.meta?.title || '';
-    const questions = [];
-
-    if (body.includes('collaborative')) questions.push('How does collaborative filtering actually find similar people?');
-    if (body.includes('content-based')) questions.push('What features does content-based filtering look at?');
-    if (body.includes('cold start')) questions.push('How do apps handle brand new users with no data?');
-    if (body.includes('filter bubble') || body.includes('echo chamber')) questions.push('How can I escape my filter bubble?');
-    if (body.includes('a/b test')) questions.push('How do companies decide which version is better?');
-    if (body.includes('privacy') || body.includes('data')) questions.push('What data do apps collect about me?');
-    if (body.includes('popular') || body.includes('trending')) questions.push('Why is "most popular" not always the best recommendation?');
-    if (body.includes('pipeline') || body.includes('candidate')) questions.push('What are the steps in a recommendation pipeline?');
-    if (body.includes('fair') || body.includes('bias')) questions.push('Can recommendation systems be unfair?');
-    if (body.includes('autoplay') || body.includes('addictive')) questions.push('Why is it so hard to stop scrolling?');
-    if (body.includes('dopamine')) questions.push('What does dopamine have to do with recommendations?');
-    if (body.includes('youtube') || body.includes('tiktok')) questions.push('How does the YouTube algorithm actually work?');
-
-    // Fallback
-    if (questions.length === 0) {
-      questions.push(`What is the main idea of "${title}"?`);
-      questions.push(`Why is this topic important?`);
-    }
-
-    return questions.slice(0, 3);
+    const cid = app._conceptIds ? app._conceptIds(block.meta)[0] : null;
+    const order = app._conceptOrder ? app._conceptOrder() : Object.keys(app.concepts || {});
+    const i = order.indexOf(cid);
+    const ids = [cid, order[i + 1], order[i - 1]].filter(id => id && app.concepts?.[id]?.contract?.recallQ);
+    return ids.slice(0, 3).map(id => clean(app.concepts[id].contract.recallQ));
   }
 }
 

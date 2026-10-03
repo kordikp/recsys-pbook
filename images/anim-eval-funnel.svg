@@ -1,38 +1,105 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 420" font-family="system-ui,sans-serif">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 500" role="img" aria-labelledby="pb013-title pb013-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb013-title">The evaluation funnel: cheap filters first, A/B test last</title>
+  <desc id="pb013-desc">Candidate models pass five evaluation stages. Offline, on logged data: offline metrics screen hundreds of candidates in hours, then counterfactual estimates check the top 10 to 20 in hours to days. Online, where real users see the results: interleaving compares the top 3 to 5 in days, an A/B test with a random split of users measures by how much the best 1 or 2 win over 1 to 4 weeks, and the winner is rolled out from 5% to 100% of users while guardrails are watched. Each stage costs more and is trusted more, so cheap filters remove most ideas and real users only meet the finalists.</desc>
   <style>
-    .dot{animation:travel 5s linear infinite}
-    @keyframes travel{0%{transform:translate(0,0);opacity:0}8%{opacity:1}30%{transform:translate(155px,0)}55%{transform:translate(310px,0)}80%{transform:translate(465px,0)}92%{opacity:1}100%{transform:translate(560px,0);opacity:0}}
+    .pb013-dot{opacity:0;animation-duration:10s;animation-iteration-count:infinite;animation-timing-function:ease-in-out}
+    .pb013-k1{animation-name:pb013-k1}
+    .pb013-k2{animation-name:pb013-k2}
+    .pb013-k3{animation-name:pb013-k3}
+    .pb013-k4{animation-name:pb013-k4}
+    .pb013-k5{animation-name:pb013-k5}
+    @keyframes pb013-k1{0%{opacity:0;fill:#7C3AED;transform:translate(0,0)}3%,8%{opacity:1;fill:#7C3AED;transform:translate(0,0)}10%{opacity:1;fill:#9CA3AF;transform:translate(0,0)}15%,100%{opacity:0;fill:#9CA3AF;transform:translate(0,10px)}}
+    @keyframes pb013-k2{0%{opacity:0;fill:#7C3AED;transform:translate(0,0)}3%,9%{opacity:1;fill:#7C3AED;transform:translate(0,0)}15%,19%{opacity:1;fill:#7C3AED;transform:translate(12px,62px)}21%{opacity:1;fill:#9CA3AF;transform:translate(12px,62px)}26%,100%{opacity:0;fill:#9CA3AF;transform:translate(12px,72px)}}
+    @keyframes pb013-k3{0%{opacity:0;fill:#7C3AED;transform:translate(0,0)}3%,9%{opacity:1;fill:#7C3AED;transform:translate(0,0)}15%,20%{opacity:1;fill:#7C3AED;transform:translate(-12px,62px)}27%,30%{opacity:1;fill:#7C3AED;transform:translate(-18px,174px)}32%{opacity:1;fill:#9CA3AF;transform:translate(-18px,174px)}37%,100%{opacity:0;fill:#9CA3AF;transform:translate(-18px,184px)}}
+    @keyframes pb013-k4{0%{opacity:0;fill:#7C3AED;transform:translate(0,0)}3%,9%{opacity:1;fill:#7C3AED;transform:translate(0,0)}15%,20%{opacity:1;fill:#7C3AED;transform:translate(0,62px)}27%,31%{opacity:1;fill:#7C3AED;transform:translate(-6px,174px)}37%,46%{opacity:1;fill:#7C3AED;transform:translate(-1px,241px)}48%{opacity:1;fill:#9CA3AF;transform:translate(-1px,241px)}53%,100%{opacity:0;fill:#9CA3AF;transform:translate(-1px,251px)}}
+    @keyframes pb013-k5{0%{opacity:0;fill:#7C3AED;transform:translate(0,0)}3%,9%{opacity:1;fill:#7C3AED;transform:translate(0,0)}15%,20%{opacity:1;fill:#7C3AED;transform:translate(0,62px)}27%,31%{opacity:1;fill:#7C3AED;transform:translate(-6px,174px)}37%,47%{opacity:1;fill:#7C3AED;transform:translate(1px,241px)}53%{opacity:1;fill:#7C3AED;transform:translate(-6px,308px)}55%,95%{opacity:1;fill:#10B981;transform:translate(-6px,308px)}100%{opacity:0;fill:#10B981;transform:translate(-6px,308px)}}
+    @media (prefers-reduced-motion: reduce){.pb013-dot{animation:none !important;opacity:0}.pb013-dot.pb013-k5{opacity:1;fill:#10B981;transform:translate(-6px,308px)}}
   </style>
-  <rect width="800" height="420" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="36" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">The Evaluation Funnel: Cheap Filters First</text>
 
-  <!-- funnel stages -->
-  <g font-size="13" text-anchor="middle">
-    <rect x="60" y="120" width="150" height="170" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    <text x="135" y="148" font-weight="700" fill="#4C1D95">Offline metrics</text>
-    <text x="135" y="170" fill="#6B7280">recall · nDCG</text>
-    <text x="135" y="272" font-weight="700" fill="#4C1D95">100 ideas</text>
+  <rect x=".5" y=".5" width="639" height="499" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="320" y="40" text-anchor="middle" font-size="20" font-weight="700" fill="#1E1B4B">The evaluation funnel: cheap filters first</text>
 
-    <rect x="215" y="140" width="150" height="150" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="290" y="168" font-weight="700" fill="#075985">Counterfactual</text>
-    <text x="290" y="190" fill="#6B7280">replay on logs</text>
-    <text x="290" y="272" font-weight="700" fill="#075985">20 survive</text>
-
-    <rect x="370" y="160" width="150" height="130" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="445" y="188" font-weight="700" fill="#92400E">Interleaving</text>
-    <text x="445" y="210" fill="#6B7280">mixed rankings</text>
-    <text x="445" y="272" font-weight="700" fill="#92400E">6 survive</text>
-
-    <rect x="525" y="180" width="150" height="110" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="600" y="208" font-weight="700" fill="#065F46">A/B test</text>
-    <text x="600" y="230" fill="#6B7280">real users, weeks</text>
-    <text x="600" y="272" font-weight="700" fill="#065F46">2 survive</text>
-
-    <rect x="700" y="200" width="60" height="90" rx="10" fill="#1E1B4B"/>
-    <text x="730" y="238" font-weight="800" fill="#FFFFFF">SHIP</text>
-    <text x="730" y="260" fill="#C7D2FE" font-size="12">1</text>
+  <!-- column headers -->
+  <g font-size="14" fill="#4B5563">
+    <text x="104" y="76" text-anchor="middle">candidates</text>
+    <text x="220" y="76">stage</text>
+    <text x="468" y="76">turnaround</text>
   </g>
-  <circle class="dot" cx="135" cy="330" r="7" fill="#7C3AED"/>
-  <line x1="60" y1="330" x2="740" y2="330" stroke="#E5E7EB" stroke-width="2"/>
-  <text x="400" y="398" text-anchor="middle" font-size="13" fill="#6B7280">Each stage is pricier and slower than the last — so each must earn the next. Most ideas die cheap.</text>
+
+  <!-- stage cards -->
+  <g stroke-width="1.5">
+    <rect x="204" y="88" width="412" height="54" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <rect x="204" y="150" width="412" height="54" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <rect x="204" y="262" width="412" height="54" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+    <rect x="204" y="324" width="412" height="64" rx="10" fill="#ECFDF5" stroke="#10B981" stroke-width="2"/>
+    <rect x="204" y="396" width="412" height="54" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
+  </g>
+
+  <!-- funnel: one band per stage, width ~ candidates left -->
+  <g fill="#EDE9FE" stroke="#7C3AED" stroke-width="2" stroke-linejoin="round">
+    <polygon points="76,88 188,88 176,142 88,142"/>
+    <polygon points="91,150 173,150 163,204 101,204"/>
+    <polygon points="107,262 157,262 151,316 113,316"/>
+    <polygon points="115,324 149,324 144,388 120,388"/>
+    <rect x="121" y="396" width="22" height="54" rx="3"/>
+  </g>
+
+  <!-- candidate counts -->
+  <g font-size="16" font-weight="700" fill="#4C1D95" text-anchor="end">
+    <text x="72" y="121">100s</text>
+    <text x="86" y="183">10–20</text>
+    <text x="100" y="295">3–5</text>
+    <text x="107" y="362">1–2</text>
+    <text x="111" y="429">1</text>
+  </g>
+
+  <!-- offline / online line -->
+  <line x1="24" y1="231" x2="616" y2="231" stroke="#10B981" stroke-width="2" stroke-dasharray="6 6" stroke-linecap="round"/>
+  <text x="220" y="221" font-size="15" fill="#4B5563"><tspan font-weight="700">▲ offline:</tspan> logged data — cheap, but biased</text>
+  <text x="220" y="251" font-size="15" fill="#065F46"><tspan font-weight="700">▼ online:</tspan> real users — trusted, but scarce</text>
+
+  <!-- stage names + methods -->
+  <g font-size="16" font-weight="700" fill="#1E1B4B">
+    <text x="220" y="111">Offline metrics</text>
+    <text x="220" y="173">Counterfactual</text>
+    <text x="220" y="285">Interleaving</text>
+    <text x="220" y="350">A/B test</text>
+    <text x="220" y="419">Gradual rollout</text>
+  </g>
+  <g font-size="15" fill="#4B5563">
+    <text x="220" y="131">nDCG, recall on held-out logs</text>
+    <text x="220" y="193">IPS / doubly robust on logs</text>
+    <text x="220" y="305">merged list: which is better?</text>
+    <text x="220" y="372">random user split: by how much?</text>
+    <text x="220" y="439">ramp 5% → 25% → 50% → 100%</text>
+  </g>
+
+  <!-- turnaround bars -->
+  <g fill="#F59E0B">
+    <rect x="468" y="103" width="20" height="10" rx="5"/>
+    <rect x="468" y="165" width="46" height="10" rx="5"/>
+    <rect x="468" y="277" width="80" height="10" rx="5"/>
+    <rect x="468" y="342" width="132" height="10" rx="5"/>
+  </g>
+  <g font-size="15" fill="#92400E">
+    <text x="468" y="131">hours</text>
+    <text x="468" y="193">hours–days</text>
+    <text x="468" y="305">days</text>
+    <text x="468" y="372" font-weight="700">1–4 weeks</text>
+  </g>
+  <text x="468" y="428" font-size="15" fill="#4B5563">watch guardrails</text>
+
+  <!-- animated candidates: most die cheap, one ships -->
+  <g>
+    <circle class="pb013-dot pb013-k1" cx="90" cy="115" r="5" fill="#7C3AED"/>
+    <circle class="pb013-dot pb013-k2" cx="102" cy="115" r="5" fill="#7C3AED"/>
+    <circle class="pb013-dot pb013-k1" cx="114" cy="115" r="5" fill="#7C3AED"/>
+    <circle class="pb013-dot pb013-k4" cx="126" cy="115" r="5" fill="#7C3AED"/>
+    <circle class="pb013-dot pb013-k5" cx="138" cy="115" r="5" fill="#7C3AED"/>
+    <circle class="pb013-dot pb013-k1" cx="150" cy="115" r="5" fill="#7C3AED"/>
+    <circle class="pb013-dot pb013-k3" cx="162" cy="115" r="5" fill="#7C3AED"/>
+    <circle class="pb013-dot pb013-k1" cx="174" cy="115" r="5" fill="#7C3AED"/>
+  </g>
+
+  <text x="320" y="480" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Most ideas should die cheap — <tspan fill="#065F46">real users</tspan> meet only the finalists.</text>
 </svg>

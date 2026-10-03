@@ -19,7 +19,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -64,4 +64,4 @@ Each revolution of the flywheel strengthens the system. After years of operation
 
 **Measure the flywheel.** Track whether recommendation quality improves as data volume grows. If it plateaus, you've hit data saturation and need to invest in better algorithms or features rather than more data.
 
-**Consider this:** The data flywheel explains why big tech companies with mature recommendation systems are so difficult to displace — and why startups in recommendation-driven markets face a chicken-and-egg problem. Breaking in requires either a fundamentally different approach (better algorithm, new modality) or a wedge market too niche for incumbents to serve well.
+The data flywheel explains why big tech companies with mature recommendation systems are so difficult to displace — and why startups in recommendation-driven markets face a chicken-and-egg problem. Breaking in requires either a fundamentally different approach (better algorithm, new modality) or a wedge market too niche for incumbents to serve well.

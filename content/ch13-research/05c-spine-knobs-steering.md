@@ -19,12 +19,13 @@ publishedAt: "2026-04-07"
 status: accepted
 concept: steering-knobs
 conceptTitle: "Steering knobs"
+parents: steerability|embeddings
 state: core
 lens: generic
 visuality: balanced
 depth: research
-formalism: full
-lengthBand: standard
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -101,4 +102,4 @@ For users, it means moving from "the algorithm decides" to "I guide the algorith
 
 > **Research publication:** Spišák, Peška, Škoda, Vančura & Alves, "From Knots to Knobs: Towards Steerable Collaborative Filtering Using Sparse Autoencoders." Joint work between [Recombee](https://www.recombee.com/research-publications) and Faculty of Mathematics and Physics, Charles University.
 
-**Consider this:** The knobs metaphor reframes the entire relationship between users and recommendation algorithms. Instead of a system that acts on you, it becomes a system you act through. The algorithm isn't replaced — it's augmented with a human-readable interface to its own internal knowledge. This is what responsible AI looks like in practice: not removing the algorithm, but making it transparent and controllable.
+The knobs metaphor reframes the entire relationship between users and recommendation algorithms. Instead of a system that acts on you, it becomes a system you act through. The algorithm isn't replaced — it's augmented with a human-readable interface to its own internal knowledge. This is what responsible AI looks like in practice: not removing the algorithm, but making it transparent and controllable.

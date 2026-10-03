@@ -1,0 +1,44 @@
+{
+  "type": "sort",
+  "title": "Which Job Is It?",
+  "minutes": 1,
+  "instruction": "Every recommender does three jobs. Which one is this mainly doing?",
+  "buckets": [
+    "Discover",
+    "Navigate",
+    "Engage"
+  ],
+  "items": [
+    {
+      "text": "'New this week from artists you've never heard of, but might like'",
+      "answer": 0,
+      "why": "It surfaces what you wouldn't have searched for."
+    },
+    {
+      "text": "A reading app suggests an author you didn't know, because of the ones you love",
+      "answer": 0,
+      "why": "Finding something new you couldn't have asked for is discovery."
+    },
+    {
+      "text": "Sorting 2,000 hotel results so that likely fits come first",
+      "answer": 1,
+      "why": "It cuts a large list down to the few options worth your time."
+    },
+    {
+      "text": "A personal 'Start here' row that picks 20 tracks for you out of 100 million",
+      "answer": 1,
+      "why": "It turns an overwhelming catalogue into a short place to begin: without it, the catalogue is an unindexed library."
+    },
+    {
+      "text": "The next episode starts automatically",
+      "answer": 2,
+      "why": "It sustains attention: good when it serves you, a problem when it doesn't."
+    },
+    {
+      "text": "'Don't break your 7-day streak!'",
+      "answer": 2,
+      "why": "Pure engagement: it brings you back, whatever you find there."
+    }
+  ],
+  "debrief": "Discover, navigate, engage. The same row can serve more than one, and which job matters most depends on the product: navigation in a shop, discovery in media, engagement in social feeds."
+}

@@ -2,7 +2,7 @@
 id: ch9-incidents
 type: spine
 title: "Incident Response: When Recommendations Go Wrong"
-readingTime: 2
+readingTime: 4
 standalone: true
 core: false
 teaser: "Every recommendation system will eventually fail. The difference between a minor hiccup and a headline-making disaster is whether you have a structured incident response plan before it happens."
@@ -23,14 +23,14 @@ lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
 
 A recommendation system will fail. Not might -- will. The model will serve degenerate results. A data pipeline will silently break. A deployment will ship the wrong artifact. The question is not whether an incident will occur but whether the team has a response plan that minimizes user impact and maximizes learning.
 
-![Incident response lifecycle: detect to post-mortem](/images/anim-incident-response.svg)
+![Incident response in six steps, detect to post-mortem: switch on a fallback tier first (roll back, popular items, disable), then find the cause](/images/anim-incident-response.svg)
 
 ## Step 1: Detection
 

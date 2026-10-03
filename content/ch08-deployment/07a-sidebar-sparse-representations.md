@@ -2,7 +2,7 @@
 id: ch7-sparse-reps
 type: spine
 title: "Why Sparsity Matters: From Dense to Sparse Representations"
-readingTime: 3
+readingTime: 4
 standalone: true
 core: false
 voice: universal
@@ -18,7 +18,7 @@ lens: generic
 visuality: balanced
 depth: research
 formalism: full
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -27,7 +27,7 @@ The standard approach in modern recommendation systems is to represent users and
 
 Sparse representations offer a compelling alternative.
 
-![Dense to sparse embedding compression](/images/anim-sparse-vs-dense.svg)
+![Dense vs. sparse: a dense embedding fills all 768 dimensions; a sparse code keeps only the 64 strongest of 4096, stored as (index, value) pairs](/images/anim-sparse-vs-dense.svg)
 
 ## Dense vs. Sparse: The Core Distinction
 

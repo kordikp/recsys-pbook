@@ -1,157 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 660 500" font-family="system-ui,sans-serif">
-  <!-- "Find the Tribe" — item cold start as audience discovery:
-       P1 we have NO idea who will like the new item →
-       P2 show it to a small varied sample (exploration) →
-       P3 the pattern appears: one tribe loves it →
-       P4 recommend it to everyone SIMILAR to that tribe.
-       Two visual tribes: TRIANGLE-badge users (teal) and CIRCLE-badge users (gray).
-       Clean vector, 2px strokes, no emoji. -->
-  <defs>
-    <!-- triangle-tribe user (teal shirt, triangle badge) -->
-    <g id="uA">
-      <circle cy="-14" r="8" fill="#FDE68A" stroke="#374151" stroke-width="2"/>
-      <circle cx="-3" cy="-16" r="1.2" fill="#374151"/><circle cx="3" cy="-16" r="1.2" fill="#374151"/>
-      <rect x="-9" y="-5" width="18" height="20" rx="4" fill="#99F6E4" stroke="#374151" stroke-width="2"/>
-      <path d="M0 0 L4 7 L-4 7 Z" fill="#0D9488"/>
-      <line x1="-9" y1="0" x2="-14" y2="10" stroke="#374151" stroke-width="2"/>
-      <line x1="9" y1="0" x2="14" y2="10" stroke="#374151" stroke-width="2"/>
-      <line x1="-4" y1="15" x2="-4" y2="26" stroke="#374151" stroke-width="2"/>
-      <line x1="4" y1="15" x2="4" y2="26" stroke="#374151" stroke-width="2"/>
-    </g>
-    <!-- circle-tribe user (gray shirt, ring badge) -->
-    <g id="uB">
-      <circle cy="-14" r="8" fill="#FDE68A" stroke="#374151" stroke-width="2"/>
-      <circle cx="-3" cy="-16" r="1.2" fill="#374151"/><circle cx="3" cy="-16" r="1.2" fill="#374151"/>
-      <rect x="-9" y="-5" width="18" height="20" rx="4" fill="#E5E7EB" stroke="#374151" stroke-width="2"/>
-      <circle cy="3.5" r="3.6" fill="none" stroke="#6B7280" stroke-width="2.2"/>
-      <line x1="-9" y1="0" x2="-14" y2="10" stroke="#374151" stroke-width="2"/>
-      <line x1="9" y1="0" x2="14" y2="10" stroke="#374151" stroke-width="2"/>
-      <line x1="-4" y1="15" x2="-4" y2="26" stroke="#374151" stroke-width="2"/>
-      <line x1="4" y1="15" x2="4" y2="26" stroke="#374151" stroke-width="2"/>
-    </g>
-    <!-- the recommender robot -->
-    <g id="bot">
-      <rect x="-15" y="-13" width="30" height="24" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-      <circle cx="-6" cy="-3" r="3" fill="#7C3AED"/><circle cx="6" cy="-3" r="3" fill="#7C3AED"/>
-      <line x1="0" y1="-13" x2="0" y2="-20" stroke="#7C3AED" stroke-width="2"/>
-      <circle cy="-22" r="2.6" fill="#7C3AED"/>
-      <rect x="-11" y="11" width="22" height="14" rx="4" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    </g>
-    <!-- the new item -->
-    <g id="item">
-      <rect x="-13" y="-13" width="26" height="26" rx="4" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-      <text y="6" text-anchor="middle" font-size="15" fill="#D97706" font-weight="800">?</text>
-    </g>
-    <path id="heart" d="M0 2 C0 -1.5 4.5 -1.5 4.5 1.5 C4.5 -1.5 9 -1.5 9 2 C9 5.5 4.5 8.5 4.5 8.5 C4.5 8.5 0 5.5 0 2 Z"/>
-  </defs>
-
-  <!-- ============ PANEL FRAMES ============ -->
-  <rect x="10" y="10" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
-  <rect x="335" y="10" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
-  <rect x="10" y="255" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
-  <rect x="335" y="255" width="315" height="235" rx="8" fill="#FAFAF9" stroke="#374151" stroke-width="2"/>
-  <text x="22" y="30" font-size="12" font-weight="800" fill="#9CA3AF">1</text>
-  <text x="347" y="30" font-size="12" font-weight="800" fill="#9CA3AF">2</text>
-  <text x="22" y="275" font-size="12" font-weight="800" fill="#9CA3AF">3</text>
-  <text x="347" y="275" font-size="12" font-weight="800" fill="#9CA3AF">4</text>
-
-  <!-- ============ P1: no idea who will like it ============ -->
-  <use href="#bot" x="70" y="165"/>
-  <use href="#item" x="112" y="172"/>
-  <!-- mixed crowd, tribes shuffled -->
-  <use href="#uA" x="185" y="185"/>
-  <use href="#uB" x="222" y="185"/>
-  <use href="#uA" x="259" y="185"/>
-  <use href="#uB" x="296" y="185"/>
-  <use href="#uB" x="203" y="130"/>
-  <use href="#uA" x="240" y="130"/>
-  <use href="#uB" x="277" y="130"/>
-  <!-- question marks hovering over the crowd -->
-  <text x="203" y="96" text-anchor="middle" font-size="14" font-weight="800" fill="#D97706">?</text>
-  <text x="240" y="90" text-anchor="middle" font-size="17" font-weight="800" fill="#D97706">?</text>
-  <text x="277" y="96" text-anchor="middle" font-size="14" font-weight="800" fill="#D97706">?</text>
-  <!-- robot speech -->
-  <rect x="26" y="42" width="176" height="52" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <path d="M70 94 l-4 16 l14 -12 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <line x1="74" y1="95" x2="81" y2="96" stroke="#fff" stroke-width="3"/>
-  <text x="114" y="63" text-anchor="middle" font-size="11" fill="#374151">Brand-new item. Zero history.</text>
-  <text x="114" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">I have NO idea who'll like it.</text>
-  <text x="167" y="230" text-anchor="middle" font-size="10" fill="#9CA3AF">two kinds of users are out there — the badges hint at taste</text>
-
-  <!-- ============ P2: try it on a small varied sample ============ -->
-  <use href="#bot" x="392" y="160"/>
-  <!-- sample row: two of each tribe -->
-  <use href="#uA" x="465" y="185"/>
-  <use href="#uA" x="510" y="185"/>
-  <use href="#uB" x="562" y="185"/>
-  <use href="#uB" x="607" y="185"/>
-  <!-- offers: arrows from robot to each -->
-  <line x1="415" y1="162" x2="452" y2="172" stroke="#9CA3AF" stroke-width="1.6"/>
-  <line x1="415" y1="158" x2="498" y2="170" stroke="#9CA3AF" stroke-width="1.6"/>
-  <line x1="415" y1="154" x2="550" y2="168" stroke="#9CA3AF" stroke-width="1.6"/>
-  <line x1="415" y1="150" x2="595" y2="166" stroke="#9CA3AF" stroke-width="1.6"/>
-  <!-- reactions: triangles love it, circles shrug -->
-  <use href="#heart" x="458" y="140" fill="#EF4444"/>
-  <use href="#heart" x="503" y="140" fill="#EF4444"/>
-  <text x="562" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#9CA3AF">meh</text>
-  <text x="607" y="150" text-anchor="middle" font-size="11" font-weight="700" fill="#9CA3AF">meh</text>
-  <!-- speech -->
-  <rect x="352" y="42" width="200" height="52" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <path d="M400 94 l-4 16 l14 -12 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <line x1="404" y1="95" x2="411" y2="96" stroke="#fff" stroke-width="3"/>
-  <text x="452" y="63" text-anchor="middle" font-size="11" fill="#374151">Experiment: offer it to a FEW</text>
-  <text x="452" y="79" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">people of each kind, and watch.</text>
-  <text x="492" y="230" text-anchor="middle" font-size="10" fill="#9CA3AF">a small exploration budget — every reaction is gold</text>
-
-  <!-- ============ P3: the pattern appears ============ -->
-  <use href="#bot" x="80" y="390"/>
-  <!-- results board -->
-  <rect x="150" y="300" width="150" height="110" rx="8" fill="#fff" stroke="#374151" stroke-width="2"/>
-  <text x="225" y="320" text-anchor="middle" font-size="11" font-weight="800" fill="#374151">WHO LOVED IT?</text>
-  <line x1="162" y1="328" x2="288" y2="328" stroke="#E5E7EB" stroke-width="2"/>
-  <!-- triangle tribe row: 2/2 hearts -->
-  <path d="M172 344 L179 356 L165 356 Z" fill="#0D9488"/>
-  <rect x="192" y="342" width="84" height="13" rx="6" fill="#D1FAE5"/>
-  <use href="#heart" x="196" y="344" fill="#EF4444" transform="scale(1)"/>
-  <use href="#heart" x="210" y="344" fill="#EF4444"/>
-  <text x="284" y="354" text-anchor="middle" font-size="10" font-weight="700" fill="#10B981">2/2</text>
-  <!-- circle tribe row: 0/2 -->
-  <circle cx="172" cy="378" r="6.5" fill="none" stroke="#6B7280" stroke-width="2.4"/>
-  <rect x="192" y="371" width="84" height="13" rx="6" fill="#F3F4F6"/>
-  <text x="234" y="381" text-anchor="middle" font-size="9" fill="#9CA3AF">— — </text>
-  <text x="284" y="382" text-anchor="middle" font-size="10" font-weight="700" fill="#9CA3AF">0/2</text>
-  <!-- speech -->
-  <rect x="26" y="424" width="284" height="40" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <path d="M92 424 l-2 -12 l12 10 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <line x1="96" y1="423" x2="102" y2="422" stroke="#fff" stroke-width="3"/>
-  <text x="168" y="448" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">A pattern! The triangle crowd LOVES it.</text>
-
-  <!-- ============ P4: serve everyone similar ============ -->
-  <use href="#item" x="392" y="360"/>
-  <!-- all triangle users get it -->
-  <use href="#uA" x="470" y="330"/>
-  <use href="#uA" x="520" y="330"/>
-  <use href="#uA" x="570" y="330"/>
-  <use href="#uA" x="495" y="395"/>
-  <use href="#uA" x="545" y="395"/>
-  <line x1="408" y1="352" x2="456" y2="322" stroke="#10B981" stroke-width="1.8"/>
-  <line x1="410" y1="356" x2="506" y2="320" stroke="#10B981" stroke-width="1.8"/>
-  <line x1="412" y1="358" x2="556" y2="320" stroke="#10B981" stroke-width="1.8"/>
-  <line x1="408" y1="366" x2="481" y2="388" stroke="#10B981" stroke-width="1.8"/>
-  <line x1="410" y1="370" x2="531" y2="390" stroke="#10B981" stroke-width="1.8"/>
-  <use href="#heart" x="463" y="288" fill="#EF4444"/>
-  <use href="#heart" x="513" y="288" fill="#EF4444"/>
-  <use href="#heart" x="563" y="288" fill="#EF4444"/>
-  <use href="#heart" x="488" y="428" fill="#EF4444"/>
-  <use href="#heart" x="538" y="428" fill="#EF4444"/>
-  <!-- circle users, politely left alone -->
-  <use href="#uB" x="622" y="395"/>
-  <text x="622" y="352" text-anchor="middle" font-size="9" fill="#9CA3AF">not bothered</text>
-  <!-- speech -->
-  <rect x="352" y="286" width="120" height="40" rx="12" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <path d="M398 326 l-4 14 l13 -11 z" fill="#fff" stroke="#374151" stroke-width="1.6"/>
-  <line x1="402" y1="327" x2="408" y2="328" stroke="#fff" stroke-width="3"/>
-  <text x="412" y="303" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">Now everyone</text>
-  <text x="412" y="317" text-anchor="middle" font-size="11" font-weight="700" fill="#374151">SIMILAR gets it.</text>
-  <text x="492" y="479" text-anchor="middle" font-size="10" font-style="italic" fill="#9CA3AF">Try a few → find the tribe → serve the whole tribe. That's the cold start ending.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 612" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb048-title pb048-desc">
+<title id="pb048-title">Find the tribe: a brand-new item’s first days</title>
+<desc id="pb048-desc">Four-panel comic. A recommender robot gets a brand-new item with zero clicks: its tags say what it is, not who will like it. It runs a small trial, showing the item to two triangle people and two circle people; both triangles love it, both circles shrug. The tally reads triangles 2 of 2, circles 0 of 2, so the robot has found the item's tribe. Now every triangle person gets the item, including one who was never asked, the circles are left alone, and the item is not cold anymore.</desc>
+<defs>
+<marker id="pb048-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/></marker>
+</defs>
+<rect x=".5" y=".5" width="639" height="611" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<g transform="translate(16,16)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="26" r="11" fill="#1E1B4B"/>
+<text x="24" y="31" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="43" y="31.5" font-size="16" font-weight="700" fill="#1E1B4B">No history</text>
+<path d="M24,44 H212 Q224,44 224,56 V88 Q224,100 212,100 H53 L41,136 L39,100 H24 Q12,100 12,88 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="118" y="67.5" text-anchor="middle" font-size="16" fill="#1E1B4B">Its tags say what it is.</text><text x="118" y="87.5" text-anchor="middle" font-size="16" fill="#1E1B4B">Not who’ll like it.</text><path d="M19,226 V202 Q19,190 31,190 H45 Q57,190 57,202 V226 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><line x1="38" y1="160" x2="38" y2="152" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="150" r="3" fill="#7C3AED"/><rect x="20" y="160" width="36" height="30" rx="9" fill="#7C3AED"/><circle cx="31" cy="172" r="3" fill="#FFFFFF"/><circle cx="45" cy="172" r="3" fill="#FFFFFF"/><path d="M32,181.5 q2,-2.5 4,0 t4,0 t4,0" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/><rect x="68" y="166" width="56" height="60" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/><text x="96" y="185" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">NEW</text><circle cx="89" cy="200" r="2.2" fill="#1E1B4B"/><circle cx="103" cy="200" r="2.2" fill="#1E1B4B"/><path d="M90,212 q1.5,-2.5 3,0 t3,0 t3,0 t3,0" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M63,188 l-5,3 l5,3 l-5,3 M129,188 l5,3 l-5,3 l5,3" fill="none" stroke="#F59E0B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><text x="121" y="171" text-anchor="middle" font-size="18">❄️</text><text x="96" y="248" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">0 clicks</text><path d="M184,137 L198,168.5 H170 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="184" cy="127" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="180.2" cy="125.5" r="1.8" fill="#1E1B4B"/><circle cx="187.8" cy="125.5" r="1.8" fill="#1E1B4B"/><path d="M181,131.5 H187" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="228" cy="154.5" r="15.5" fill="#10B981"/><circle cx="228" cy="127" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="224.2" cy="125.5" r="1.8" fill="#1E1B4B"/><circle cx="231.8" cy="125.5" r="1.8" fill="#1E1B4B"/><path d="M225,131.5 H231" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M272,137 L286,168.5 H258 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="272" cy="127" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="268.2" cy="125.5" r="1.8" fill="#1E1B4B"/><circle cx="275.8" cy="125.5" r="1.8" fill="#1E1B4B"/><path d="M269,131.5 H275" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="162" cy="212.5" r="15.5" fill="#10B981"/><circle cx="162" cy="185" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="158.2" cy="183.5" r="1.8" fill="#1E1B4B"/><circle cx="165.8" cy="183.5" r="1.8" fill="#1E1B4B"/><path d="M159,189.5 H165" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M206,195 L220,226.5 H192 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="206" cy="185" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="202.2" cy="183.5" r="1.8" fill="#1E1B4B"/><circle cx="209.8" cy="183.5" r="1.8" fill="#1E1B4B"/><path d="M203,189.5 H209" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="250" cy="212.5" r="15.5" fill="#10B981"/><circle cx="250" cy="185" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="246.2" cy="183.5" r="1.8" fill="#1E1B4B"/><circle cx="253.8" cy="183.5" r="1.8" fill="#1E1B4B"/><path d="M247,189.5 H253" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><text x="214" y="248" text-anchor="middle" font-size="14" fill="#4B5563">two kinds of taste</text>
+</g>
+<g transform="translate(326,16)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="26" r="11" fill="#1E1B4B"/>
+<text x="24" y="31" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="43" y="31.5" font-size="16" font-weight="700" fill="#1E1B4B">Try a few of everyone</text>
+<path d="M24,44 H212 Q224,44 224,56 V88 Q224,100 212,100 H53 L41,136 L39,100 H24 Q12,100 12,88 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="118" y="67.5" text-anchor="middle" font-size="16" fill="#1E1B4B">Let’s show it to a few</text><text x="118" y="87.5" text-anchor="middle" font-size="16" fill="#1E1B4B">of each kind.</text><path d="M19,226 V202 Q19,190 31,190 H45 Q57,190 57,202 V226 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><line x1="38" y1="160" x2="38" y2="152" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="150" r="3" fill="#7C3AED"/><rect x="20" y="160" width="36" height="30" rx="9" fill="#7C3AED"/><circle cx="31" cy="172" r="3" fill="#FFFFFF"/><circle cx="45" cy="172" r="3" fill="#FFFFFF"/><line x1="33" y1="181.5" x2="43" y2="181.5" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/><rect x="90" y="118" width="196" height="126" rx="12" fill="#FEF3C7" fill-opacity="0.35" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 5"/><rect x="146" y="107" width="84" height="23" rx="11.5" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/><text x="188" y="123" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">small trial</text><path d="M122,197 L136,228.5 H108 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="122" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="118.2" cy="185.5" r="1.8" fill="#1E1B4B"/><circle cx="125.8" cy="185.5" r="1.8" fill="#1E1B4B"/><path d="M117.5,190.5 Q122,196.5 126.5,190.5 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.2" stroke-linejoin="round"/><path d="M162,197 L176,228.5 H148 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="162" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="158.2" cy="185.5" r="1.8" fill="#1E1B4B"/><circle cx="165.8" cy="185.5" r="1.8" fill="#1E1B4B"/><path d="M157.5,190.5 Q162,196.5 166.5,190.5 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.2" stroke-linejoin="round"/><circle cx="216" cy="214.5" r="15.5" fill="#10B981"/><circle cx="216" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="212.2" cy="185.5" r="1.8" fill="#1E1B4B"/><circle cx="219.8" cy="185.5" r="1.8" fill="#1E1B4B"/><path d="M212.5,192 L219.5,190.7" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="256" cy="214.5" r="15.5" fill="#10B981"/><circle cx="256" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="252.2" cy="185.5" r="1.8" fill="#1E1B4B"/><circle cx="259.8" cy="185.5" r="1.8" fill="#1E1B4B"/><path d="M252.5,192 L259.5,190.7" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M122,170 C120,168 114,164 114,160 C114,155.5 120,154.5 122,159 C124,154.5 130,155.5 130,160 C130,164 124,168 122,170 Z" fill="#10B981"/><path d="M162,170 C160,168 154,164 154,160 C154,155.5 160,154.5 162,159 C164,154.5 170,155.5 170,160 C170,164 164,168 162,170 Z" fill="#10B981"/><text x="216" y="170" text-anchor="middle" font-size="14" font-weight="700" fill="#6B7280">meh</text><text x="256" y="170" text-anchor="middle" font-size="14" font-weight="700" fill="#6B7280">meh</text>
+</g>
+<g transform="translate(16,290)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="26" r="11" fill="#1E1B4B"/>
+<text x="24" y="31" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="43" y="31.5" font-size="16" font-weight="700" fill="#1E1B4B">Spot who lights up</text>
+<rect x="16" y="46" width="266" height="104" rx="10" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="1.5"/><text x="30" y="68" font-size="15" font-weight="700" fill="#1E1B4B">Who liked it?</text><rect x="26" y="78" width="246" height="30" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><path d="M46,85 L54.5,100.5 H37.5 Z" fill="#10B981" stroke="#10B981" stroke-width="2" stroke-linejoin="round"/><rect x="68" y="87" width="128" height="12" rx="6" fill="#FFFFFF"/><rect x="68" y="87" width="128" height="12" rx="6" fill="#10B981"/><text x="208" y="98.5" font-size="15" font-weight="700" fill="#065F46">2 of 2</text><rect x="26" y="114" width="246" height="30" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/><circle cx="46" cy="129" r="9" fill="#10B981"/><rect x="68" y="123" width="128" height="12" rx="6" fill="#F3F4F6" stroke="#E5E7EB"/><text x="208" y="134.5" font-size="15" font-weight="700" fill="#4B5563">0 of 2</text><path d="M19,240 V216 Q19,204 31,204 H45 Q57,204 57,216 V240 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/><line x1="38" y1="174" x2="38" y2="166" stroke="#7C3AED" stroke-width="2" stroke-linecap="round"/><circle cx="38" cy="164" r="3" fill="#7C3AED"/><rect x="20" y="174" width="36" height="30" rx="9" fill="#7C3AED"/><circle cx="31" cy="186" r="3" fill="#FFFFFF"/><circle cx="45" cy="186" r="3" fill="#FFFFFF"/><path d="M32.5,194 Q38,199 43.5,194" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/><path d="M84,172 H272 Q284,172 284,184 V216 Q284,228 272,228 H84 Q72,228 72,216 V201 L61,190 L72,187 V184 Q72,172 84,172 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="178" y="195.5" text-anchor="middle" font-size="16" fill="#1E1B4B">Found its tribe:</text><text x="178" y="215.5" text-anchor="middle" font-size="16" fill="#1E1B4B">the triangles!</text>
+</g>
+<g transform="translate(326,290)">
+<rect x="0" y="0" width="298" height="262" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="26" r="11" fill="#1E1B4B"/>
+<text x="24" y="31" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="43" y="31.5" font-size="16" font-weight="700" fill="#1E1B4B">Serve the whole tribe</text>
+<rect x="20" y="48" width="56" height="60" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/><text x="48" y="67" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">NEW</text><circle cx="41" cy="82" r="2.2" fill="#1E1B4B"/><circle cx="55" cy="82" r="2.2" fill="#1E1B4B"/><path d="M42,91 Q48,97 54,91" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><text x="88" y="74" font-size="15" font-weight="700" fill="#065F46">not cold</text><text x="88" y="93" font-size="15" font-weight="700" fill="#065F46">anymore</text><line x1="48" y1="112" x2="51.52" y2="146" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb048-arr)"/><line x1="48" y1="112" x2="90.24" y2="146" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb048-arr)"/><line x1="48" y1="112" x2="128.96" y2="146" stroke="#7C3AED" stroke-width="2.2" stroke-linecap="round" marker-end="url(#pb048-arr)"/><path d="M52,169 C50,167 44,163 44,159 C44,154.5 50,153.5 52,158 C54,153.5 60,154.5 60,159 C60,163 54,167 52,169 Z" fill="#10B981"/><path d="M52,197 L66,228.5 H38 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="52" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="48.2" cy="185.5" r="1.8" fill="#1E1B4B"/><circle cx="55.8" cy="185.5" r="1.8" fill="#1E1B4B"/><path d="M47.5,190.5 Q52,196.5 56.5,190.5 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.2" stroke-linejoin="round"/><path d="M96,169 C94,167 88,163 88,159 C88,154.5 94,153.5 96,158 C98,153.5 104,154.5 104,159 C104,163 98,167 96,169 Z" fill="#10B981"/><path d="M96,197 L110,228.5 H82 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="96" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="92.2" cy="185.5" r="1.8" fill="#1E1B4B"/><circle cx="99.8" cy="185.5" r="1.8" fill="#1E1B4B"/><path d="M91.5,190.5 Q96,196.5 100.5,190.5 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.2" stroke-linejoin="round"/><path d="M140,169 C138,167 132,163 132,159 C132,154.5 138,153.5 140,158 C142,153.5 148,154.5 148,159 C148,163 142,167 140,169 Z" fill="#10B981"/><path d="M140,197 L154,228.5 H126 Z" fill="#10B981" stroke="#10B981" stroke-width="3" stroke-linejoin="round"/><circle cx="140" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="136.2" cy="185.5" r="1.8" fill="#1E1B4B"/><circle cx="143.8" cy="185.5" r="1.8" fill="#1E1B4B"/><path d="M135.5,190.5 Q140,196.5 144.5,190.5 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.2" stroke-linejoin="round"/><circle cx="194" cy="214.5" r="15.5" fill="#10B981"/><circle cx="194" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><path d="M188,186 Q190,183.5 192,186 M196,186 Q198,183.5 200,186" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M190.5,191 Q194,194.5 197.5,191" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="232" cy="214.5" r="15.5" fill="#10B981"/><circle cx="232" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><path d="M226,186 Q228,183.5 230,186 M234,186 Q236,183.5 238,186" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M228.5,191 Q232,194.5 235.5,191" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="270" cy="214.5" r="15.5" fill="#10B981"/><circle cx="270" cy="187" r="10.5" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><path d="M264,186 Q266,183.5 268,186 M272,186 Q274,183.5 276,186" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><path d="M266.5,191 Q270,194.5 273.5,191" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><text x="96" y="250" text-anchor="middle" font-size="14" fill="#4B5563">incl. ones never asked</text><path d="M188,52 H276 Q288,52 288,64 V96 Q288,108 276,108 H239 L232,170 L225,108 H188 Q176,108 176,96 V64 Q176,52 188,52 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="232" y="75.5" text-anchor="middle" font-size="16" fill="#1E1B4B">Phew.</text><text x="232" y="95.5" text-anchor="middle" font-size="16" fill="#1E1B4B">No spam.</text>
+</g>
+<text x="320" y="589" text-anchor="middle" font-size="17" font-weight="700" fill="#1E1B4B">A <tspan fill="#92400E">small trial</tspan> finds the tribe. Then the <tspan fill="#065F46">whole tribe</tspan> gets it.</text>
 </svg>

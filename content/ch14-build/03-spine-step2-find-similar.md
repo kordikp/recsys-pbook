@@ -2,7 +2,7 @@
 id: ch5-similar
 type: spine
 title: "Step 2: Find Similar Users"
-readingTime: 3
+readingTime: 2
 standalone: true
 core: true
 teaser: "Who has correlated preferences? Identify your nearest neighbors."
@@ -17,6 +17,7 @@ highlights:
 status: accepted
 concept: diy-similar-users
 conceptTitle: "Build your own: similar users"
+parents: collaborative-filtering
 state: core
 lens: generic
 visuality: text-first
@@ -61,11 +62,12 @@ Alice vs Bob (co-rated items):
 Alice vs Carlos (co-rated items):
 - Shawshank: Alice 5, Carlos 2 (difference = 3)
 - Parasite: Alice 4, Carlos 2 (difference = 2)
+- Everything Everywhere: Alice 5, Carlos 1 (difference = 4)
 - Oppenheimer: Alice 3, Carlos 5 (difference = 2)
-- **MAD: 2.3** (dissimilar)
+- **MAD: 2.75** (dissimilar)
 
 Lower mean absolute difference = more similar preferences. This is the simplest form of a distance-based similarity measure.
 
 **Compute this for every user pair in your matrix.** The result is a ranked list of nearest neighbors for each user -- and these neighbors are the key to generating predictions.
 
-**Consider this:** In your own data, which user pair turned out to be the most similar? The results can be surprising -- demographics or surface-level attributes often fail to predict preference alignment. That's precisely why data-driven approaches outperform intuition.
+**Your turn:** In your own data, which user pair turned out to be the most similar? The results can be surprising -- demographics or surface-level attributes often fail to predict preference alignment. That's precisely why data-driven approaches outperform intuition.

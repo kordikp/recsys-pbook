@@ -1,7 +1,56 @@
 {
   "type": "match",
   "title": "Find Your Taste Twin",
-  "instruction": "Look at the ratings. Who has the most similar taste to YOU? Click their name!",
-  "items": ["Frozen", "Avengers", "Moana", "Spider-Man", "Coco"],
-  "users": ["Alex", "Sam", "Jordan", "Taylor"]
+  "minutes": 2,
+  "instruction": "Who rates most like you? Compare the films you both rated, then tap their name.",
+  "items": [
+    "Dune: Part Two",
+    "Parasite",
+    "Barbie",
+    "Oppenheimer",
+    "Anatomy of a Fall"
+  ],
+  "you": "You",
+  "matrix": {
+    "You": [
+      5,
+      4,
+      2,
+      5,
+      null
+    ],
+    "Alex": [
+      5,
+      4,
+      2,
+      4,
+      5
+    ],
+    "Sam": [
+      2,
+      3,
+      5,
+      1,
+      2
+    ],
+    "Jordan": [
+      4,
+      3,
+      3,
+      4,
+      4
+    ],
+    "Taylor": [
+      1,
+      2,
+      5,
+      2,
+      1
+    ]
+  },
+  "predict": {
+    "item": 4,
+    "k": 2
+  },
+  "debrief": "Collaborative filtering in two moves: find the people whose ratings track yours, then borrow their opinion of what you haven't seen."
 }

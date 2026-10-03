@@ -8,7 +8,7 @@
 <title>How Recommendations Work — by Recombee</title>
 <meta name="description" content="An interactive book about recommender systems. Understand the algorithms behind YouTube, Spotify, Netflix, and Amazon — from collaborative filtering to production deployment. By Recombee.">
 <meta name="author" content="Pavel Kordík, Eva Nečasová and the Recombee team">
-<meta name="keywords" content="recommendation systems, algorithms, kids, education, YouTube algorithm, TikTok, collaborative filtering, filter bubble, AI, machine learning, personalization, digital literacy">
+<meta name="keywords" content="recommender systems, recommendation systems, personalization, product management, product owners, collaborative filtering, embeddings, A/B testing, LLM recommenders, filter bubble, machine learning, YouTube algorithm, TikTok, digital literacy">
 <link rel="canonical" href="https://recsys-pbook.vercel.app/">
 <!-- Open Graph -->
 <meta property="og:type" content="book">
@@ -65,8 +65,10 @@
 </script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
-<link rel="stylesheet" href="css/style.css?v=3.15.0">
+<link rel="stylesheet" href="css/style.css?v=4.0.0">
 <script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script>/* theme before first paint: saved choice, else the system preference (no white flash in dark mode) */
+try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' || (t === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
 </head>
 <body>
 
@@ -77,85 +79,60 @@
     <!-- Step 0: Welcome screen -->
     <div class="step active" data-step="0">
       <h1 class="intro-title">How Recommendations Work</h1>
-      <img src="images/hero-cf-demo.svg" alt="Collaborative filtering demo" class="intro-hero" style="max-width:480px;border-radius:16px">
-      <p class="intro-tagline">From algorithms to production &mdash; the complete guide to recommender systems</p>
+      <p class="intro-tagline">How feeds, shops and playlists decide what you see &mdash; for product people, curious readers and engineers.</p>
+      <p class="intro-author-name">By <a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a>, Eva Ne&ccaron;asov&aacute; and the <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> team</p>
+      <img src="images/hero-cf-demo.svg" alt="" class="intro-hero door-hero">
 
-      <div class="intro-author-visible">
-        <p class="intro-author-name"><a href="https://kordikp.github.io/" target="_blank" rel="noopener">Pavel Kord&iacute;k</a>, Eva Ne&ccaron;asov&aacute; and the <a href="https://recombee.com" target="_blank" rel="noopener">Recombee</a> team</p>
-        <p class="intro-author-role">Built on research from <a href="https://recombee.com/research" target="_blank" rel="noopener">Recombee Labs</a> &amp; <a href="https://kam.fit.cvut.cz" target="_blank" rel="noopener">FIT CTU Prague</a>, with <a href="https://aidetem.cz" target="_blank" rel="noopener">AI d&#283;tem</a></p>
-        <p class="intro-author-text">Every day, recommendation algorithms select thousands of items for you &mdash; on streaming platforms, online stores, and social media. This book explains how they work, from mathematical foundations to production deployment.</p>
+      <div class="door-picks">
+        <div class="door-label" id="doorLensLabel">Examples from <span class="toggle-hint">optional</span></div>
+        <div class="intro-voices door-chips" id="introLens" role="group" aria-labelledby="doorLensLabel">
+          <button class="intro-voice selected" data-lens="generic" onclick="app.onboardPick('lens','generic',this)"><span aria-hidden="true">&#127760;</span> Everywhere</button>
+          <button class="intro-voice" data-lens="ecommerce" onclick="app.onboardPick('lens','ecommerce',this)"><span aria-hidden="true">&#128722;</span> Shopping</button>
+          <button class="intro-voice" data-lens="media" onclick="app.onboardPick('lens','media',this)"><span aria-hidden="true">&#127925;</span> Music &amp; video</button>
+          <button class="intro-voice" data-lens="social-feeds" onclick="app.onboardPick('lens','social-feeds',this)"><span aria-hidden="true">&#128241;</span> Social feeds</button>
+          <button class="intro-voice" data-lens="education" onclick="app.onboardPick('lens','education',this)"><span aria-hidden="true">&#127891;</span> Learning</button>
+          <button class="intro-voice" data-lens="jobs" onclick="app.onboardPick('lens','jobs',this)"><span aria-hidden="true">&#128188;</span> Jobs</button>
+        </div>
+        <div class="door-label" id="doorGoalLabel">I want to</div>
+        <div class="intro-voices door-chips" id="introGoal" role="group" aria-labelledby="doorGoalLabel">
+          <button class="intro-voice selected" data-goal="understand" onclick="app.onboardPick('goal','understand',this)"><span aria-hidden="true">&#128161;</span> Understand</button>
+          <button class="intro-voice" data-goal="build" onclick="app.onboardPick('goal','build',this)"><span aria-hidden="true">&#128295;</span> Build one</button>
+          <button class="intro-voice" data-goal="decide" onclick="app.onboardPick('goal','decide',this)"><span aria-hidden="true">&#9878;&#65039;</span> Make decisions</button>
+          <button class="intro-voice" data-goal="protect" onclick="app.onboardPick('goal','protect',this)"><span aria-hidden="true">&#128737;&#65039;</span> Protect myself</button>
+        </div>
+        <p class="intro-onboard-hint" id="onboardHint" aria-live="polite">Examples from many platforms &middot; clear explanations first.</p>
       </div>
 
-      <button class="btn-primary btn-large" onclick="app.startRandom()">Start reading &#128640;</button>
+      <button class="btn-primary btn-large door-start" onclick="app.doorStart()">Start with Chapter 1 &rarr;</button>
+      <p class="door-sub">Sections take 2&ndash;5 minutes. Your progress stays on this device.</p>
 
-      <h3 class="intro-section-title">Make it yours <span class="toggle-hint">(two taps — everything else adapts as you read)</span></h3>
-      <div class="intro-voices" id="introLens">
-        <button class="intro-voice selected" data-lens="generic" onclick="app.onboardPick('lens','generic',this)">
-          <span>&#127760;</span> Everywhere
-        </button>
-        <button class="intro-voice" data-lens="ecommerce" onclick="app.onboardPick('lens','ecommerce',this)">
-          <span>&#128722;</span> Shopping
-        </button>
-        <button class="intro-voice" data-lens="media" onclick="app.onboardPick('lens','media',this)">
-          <span>&#127925;</span> Music &amp; Video
-        </button>
-        <button class="intro-voice" data-lens="social-feeds" onclick="app.onboardPick('lens','social-feeds',this)">
-          <span>&#128241;</span> Social feeds
-        </button>
-        <button class="intro-voice" data-lens="education" onclick="app.onboardPick('lens','education',this)">
-          <span>&#127891;</span> Learning
-        </button>
-      </div>
-      <div class="intro-voices" id="introGoal">
-        <button class="intro-voice selected" data-goal="understand" onclick="app.onboardPick('goal','understand',this)">
-          <span>&#128161;</span> Understand
-        </button>
-        <button class="intro-voice" data-goal="build" onclick="app.onboardPick('goal','build',this)">
-          <span>&#128295;</span> Build one
-        </button>
-        <button class="intro-voice" data-goal="decide" onclick="app.onboardPick('goal','decide',this)">
-          <span>&#9878;&#65039;</span> Make decisions
-        </button>
-        <button class="intro-voice" data-goal="protect" onclick="app.onboardPick('goal','protect',this)">
-          <span>&#128737;&#65039;</span> Protect myself
-        </button>
-      </div>
-      <input type="text" id="introGoalText" maxlength="200" class="gen-wish" style="margin-top:.5em;width:100%"
-        placeholder="…or type what you want to learn — the book will build a personal mission (optional)">
-      <p class="intro-onboard-hint" id="onboardHint">Pick your world and your goal — the book will tell every concept your way.</p>
-
-      <label class="intro-toggle intro-livingbook" id="introLiving">
-        <input type="checkbox" id="optOpenMode" checked>
-        <div><b>&#127793; Living book</b> <span class="toggle-hint">(recommended)</span><br>
-        <span class="toggle-desc">See tellings shared by other readers, and generate or ✨ remix your own — text, diagrams, even animations. Clearly labelled; the verified core stays untouched.</span></div>
-      </label>
-
-      <h3 class="intro-section-title">Or choose how to read</h3>
-      <div class="home-modes" style="padding:0;margin-bottom:.6em">
-        <div class="home-mode" onclick="app.startWithVoiceAndGo('glossary')">
-          <span class="home-mode-icon">&#127919;</span>
-          <span class="home-mode-label">Missions</span>
-          <span class="home-mode-desc">Story-driven quests with a final boss</span>
+      <details class="intro-details door-more">
+        <summary>More ways in</summary>
+        <input type="text" id="introGoalText" maxlength="200" class="gen-wish" style="margin-top:.5em;width:100%"
+          placeholder="Type what you want to learn &mdash; the book builds a personal path (optional)" aria-label="What you want to learn">
+        <div class="home-modes" style="padding:0;margin:.8em 0 .6em">
+          <button class="home-mode" onclick="app.startWithVoiceAndGo('glossary')">
+            <span class="home-mode-icon" aria-hidden="true">&#127919;</span>
+            <span class="home-mode-label">Missions</span>
+            <span class="home-mode-desc">Guided paths for one goal</span>
+          </button>
+          <button class="home-mode" onclick="app.startWithVoiceAndGo('home')">
+            <span class="home-mode-icon" aria-hidden="true">&#127916;</span>
+            <span class="home-mode-label">Browse</span>
+            <span class="home-mode-desc">Shelves picked for you</span>
+          </button>
+          <button class="home-mode" onclick="app.startWithVoiceAndGo('map')">
+            <span class="home-mode-icon" aria-hidden="true">&#128506;</span>
+            <span class="home-mode-label">Map</span>
+            <span class="home-mode-desc">Every concept at a glance</span>
+          </button>
         </div>
-        <div class="home-mode" onclick="app.startWithVoiceAndGo('home')">
-          <span class="home-mode-icon">&#127916;</span>
-          <span class="home-mode-label">Browse</span>
-          <span class="home-mode-desc">Netflix-style, pick what interests you</span>
-        </div>
-        <div class="home-mode" onclick="app.startWithVoiceAndGo('read')">
-          <span class="home-mode-icon">&#128214;</span>
-          <span class="home-mode-label">Feed</span>
-          <span class="home-mode-desc">Infinite personalized feed</span>
-        </div>
-        <div class="home-mode" onclick="app.startWithVoiceAndGo('map')">
-          <span class="home-mode-icon">&#128506;</span>
-          <span class="home-mode-label">Map</span>
-          <span class="home-mode-desc">Manual select from overview</span>
-        </div>
-      </div>
-
-      <details class="intro-details" style="margin-top:2em">
-        <summary>Customize features <span class="toggle-hint">(gamification, personalization, recall, missions, games)</span></summary>
+        <label class="intro-toggle intro-livingbook" id="introLiving">
+          <input type="checkbox" id="optOpenMode" checked>
+          <div><b>&#127793; Living book</b> <span class="toggle-hint">(recommended)</span><br>
+          <span class="toggle-desc">See tellings shared by other readers, and generate or remix your own. Always labelled; the verified core stays untouched.</span></div>
+        </label>
+        <p class="door-feat-title">Features</p>
         <div class="intro-toggles">
           <label class="intro-toggle">
             <input type="checkbox" id="optGamification" checked>
@@ -175,14 +152,14 @@
           </label>
           <label class="intro-toggle">
             <input type="checkbox" id="optGames" checked>
-            <div><b>Mini-games</b><br><span class="toggle-desc">8 interactive games with a 60s timer. Without it, game blocks are hidden.</span></div>
+            <div><b>Mini-games</b><br><span class="toggle-desc">Short interactive games inside sections. Without them, game blocks are hidden.</span></div>
           </label>
           <label class="intro-toggle">
             <input type="checkbox" id="optHighlights" checked>
             <div><b>AI takeaways</b><br><span class="toggle-desc">Key points shown as side notes next to each section. Helps you remember the essentials.</span></div>
           </label>
         </div>
-        <p style="font-size:.68rem;color:var(--text-3);margin-top:.3em">More details in the <a href="https://github.com/kordikp/recsys-pbook#readme" target="_blank" rel="noopener">project README</a>.</p>
+        <p class="intro-author-role">Built on research from <a href="https://recombee.com/research" target="_blank" rel="noopener">Recombee Labs</a> &amp; <a href="https://kam.fit.cvut.cz" target="_blank" rel="noopener">FIT CTU Prague</a>, with <a href="https://aidetem.cz" target="_blank" rel="noopener">AI d&#283;tem</a>. More in the <a href="https://github.com/kordikp/recsys-pbook#readme" target="_blank" rel="noopener">project README</a>.</p>
       </details>
 
       <div class="intro-credits">
@@ -220,7 +197,7 @@
   </button>
   <div class="topbar-right">
     <button class="xp-badge" id="xpBadge" onclick="app.switchView('profile')"></button>
-    <button class="topbar-icon" id="settingsBtn" onclick="app.toggleSettings()">&#9881;</button>
+    <button class="topbar-icon" id="settingsBtn" onclick="app.toggleSettings()" aria-label="Settings" title="Settings">&#9881;</button>
   </div>
 </header>
 
@@ -269,20 +246,20 @@
   <div class="view" id="view-chat">
     <div class="chat-view-inner">
       <div class="tutor-header">
-        <span class="tutor-avatar">&#128104;&#8205;&#128187;</span>
+        <span class="tutor-avatar" aria-hidden="true">&#128214;</span>
         <div class="tutor-info">
-          <span class="tutor-name">Pavel's AI Assistant</span>
-          <span class="tutor-status" id="tutorStatus">I know the book inside out. Ask me anything!</span>
+          <span class="tutor-name">Ask the book</span>
+          <span class="tutor-status" id="tutorStatus">Answers come from the book&rsquo;s own concept summaries &mdash; no AI model, no guessing.</span>
         </div>
         <button class="tutor-author-btn" onclick="app.escalateToAuthor()" title="Send your question or a message to the authors">&#9993; Message the authors</button>
       </div>
       <div class="chat-messages" id="chatMessagesFull">
-        <div class="chat-msg bot">Hey! I'm Pavel's AI assistant. The Recombee team taught me everything about recommender systems. Ask me anything about the book &mdash; or hit "Message the authors" above to reach the real people behind it!</div>
+        <div class="chat-msg bot">Ask a question in your own words &mdash; for example <i>&ldquo;what is a filter bubble?&rdquo;</i>. I find the concept that answers it, give you the book&rsquo;s short answer and the section to read. If the book does not cover it, I say so, and you can send the question to Pavel and Eva with &ldquo;Message the authors&rdquo;.</div>
       </div>
       <div class="tutor-typing" id="tutorTyping" style="display:none"><span></span><span></span><span></span></div>
       <div class="chat-input-wrap">
-        <input type="text" id="chatInputFull" placeholder="Ask about recommendations..." onkeydown="if(event.key==='Enter')app.sendFullChat()">
-        <button onclick="app.sendFullChat()">&#10148;</button>
+        <input type="text" id="chatInputFull" placeholder="Ask the book a question…" onkeydown="if(event.key==='Enter')app.sendFullChat()">
+        <button onclick="app.sendFullChat()" aria-label="Send" title="Send">&#10148;</button>
       </div>
     </div>
   </div>
@@ -336,8 +313,16 @@
     </div>
     <!-- Account -->
     <div class="sg" id="settingsAccount"></div>
-    <!-- Theme (level-unlocked only) -->
-    <div class="sg"><label>Theme (unlock by leveling up)</label>
+    <!-- Appearance: never level-gated -->
+    <div class="sg"><label>Appearance</label>
+      <div class="sg-row theme-row" role="group" aria-label="Appearance">
+        <button class="sg-opt" data-theme-opt="light" onclick="app.setTheme('light')">Light</button>
+        <button class="sg-opt" data-theme-opt="dark" onclick="app.setTheme('dark')">Dark</button>
+        <button class="sg-opt" data-theme-opt="auto" onclick="app.setTheme('auto')">Like my device</button>
+      </div>
+    </div>
+    <!-- Accent colours (unlocked as you read) -->
+    <div class="sg"><label>Accent colour (more unlock as you read)</label>
       <div id="settingsThemes"></div>
     </div>
     <!-- Font size -->
@@ -380,7 +365,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
-<script type="module" src="js/app.js?v=5.52.0"></script>
+<script type="module" src="js/app.js?v=6.0.1"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 </body>
 </html>

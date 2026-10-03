@@ -2,8 +2,10 @@
 // Facet migration — p-book v2 personalization model (see _design-collective-pbook.md)
 //
 // Additive, idempotent migration:
-//   1. Groups blocks into CONCEPTS (each '-spine-' file anchors a concept,
-//      satellites attach to the nearest preceding spine in reading order).
+//   1. Groups blocks into CONCEPTS (each '-spine-' file anchors a concept;
+//      a satellite's explicit `concept:` decides its membership, and only a
+//      satellite WITHOUT one attaches to the nearest preceding spine in
+//      reading order — that value is then written into its frontmatter).
 //   2. Adds FLAT facet keys to frontmatter (the app's YAML parser does not
 //      support nested maps): concept, state, lens, visuality, depth,
 //      formalism, lengthBand, genre.
@@ -30,6 +32,13 @@ const FORBIDDEN_DEFAULT = [
 ];
 
 // --- Simple YAML parser (mirrors js/markdown.js parseYaml: flat keys + "- item" lists) ---
+// Quoted values are unescaped like js/markdown.js cleanVal (\" → ", \' → '), so
+// contracts in concepts.json never carry literal backslashes.
+function unquote(v) {
+  const quoted = (v.startsWith('"') && v.endsWith('"')) || (v.startsWith("'") && v.endsWith("'"));
+  const s = v.replace(/^["']|["']$/g, '');
+  return quoted ? s.replace(/\\"/g, '"').replace(/\\'/g, "'") : s;
+}
 function parseYaml(yaml) {
   const result = {};
   let ck = null, ca = null;
@@ -37,7 +46,7 @@ function parseYaml(yaml) {
     const am = line.match(/^\s+-\s+(.*)/);
     if (am && ck) {
       if (!ca) ca = [];
-      let v = am[1].trim().replace(/^["']|["']$/g, '');
+      let v = unquote(am[1].trim());
       ca.push(v);
       result[ck] = ca;
       continue;
@@ -49,7 +58,7 @@ function parseYaml(yaml) {
       if (v === '') { ca = []; result[ck] = ca; }
       else {
         ca = null;
-        let val = v.replace(/^["']|["']$/g, '');
+        let val = unquote(v);
         if (val === 'true') val = true;
         else if (val === 'false') val = false;
         else if (val === 'null' || val === '~') val = null;
@@ -72,7 +81,16 @@ function countFormulas(body) {
   const display = (body.match(/\$\$[\s\S]*?\$\$/g) || []).length;
   const inline = (body.match(/\\\((.*?)\\\)/g) || []).length + (body.match(/\$[^$\n]+\$/g) || []).length;
   const latexCmd = (body.match(/\\(frac|sum|prod|argmin|argmax|mathbf|hat|lambda|theta|cdot|nabla)/g) || []).length;
-  return display * 2 + inline + (latexCmd > 3 ? 2 : 0);
+  // AGENTS §2 counts formulas, not LaTeX tokens: each display or inline formula is one.
+  void latexCmd;
+  return display + inline;
+}
+
+// Body words without SVG/markup — the unit of the AGENTS §2 lengthBand budgets.
+function countWords(body) {
+  const prose = body.replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/<[^>]+>/g, ' ').replace(/\]\([^)]*\)/g, ']');
+  return (prose.match(/[A-Za-z0-9À-ž]+(?:['’-][A-Za-z0-9À-ž]+)*/g) || []).length;
 }
 
 // carriers = mechanical composition descriptor (set): what building blocks are present.
@@ -96,22 +114,22 @@ function deriveFacets(meta, body, filename) {
 
   let formalism = formulas === 0 ? 'none' : formulas <= 2 ? 'light' : 'full';
 
-  let depth;
-  if (formulas >= 4 || /math|-deep\b|deep-/.test(filename) && meta.voice === 'thinker') depth = 'research';
-  else if (meta.voice === 'thinker' || meta.voice === 'creator' || formulas >= 1 || hasCode) depth = 'technical';
-  else depth = 'standard';
-  // validity rule: formalism full ⇒ depth ≥ technical
-  if (formalism === 'full' && depth === 'standard') depth = 'technical';
+  // Seed only (existing tags are never overwritten). The retired voice key no
+  // longer drives depth, and research is never guessed: it needs a reading
+  // (notation, derivations or literature, AGENTS §2).
+  let depth = formalism === 'full' || hasCode ? 'technical' : 'standard';
 
   const visuality = hasVisual ? 'balanced' : 'text-first';
 
-  const rt = typeof meta.readingTime === 'number' ? meta.readingTime : 3;
-  const lengthBand = rt <= 1 ? 'tldr' : rt <= 4 ? 'standard' : 'deep';
+  const words = countWords(body);
+  const lengthBand = words <= 150 ? 'tldr' : words <= 450 ? 'standard' : 'deep';
 
   let genre = null;
   if (meta.type === 'spine') {
-    if (hasCode) genre = 'code-walkthrough';
-    else if (meta.voice === 'creator' || /worksheet|experiment/.test(filename)) genre = 'worked-example';
+    const lines = body.split('\n').length || 1;
+    const codeLines = (body.match(/```[\s\S]*?```/g) || []).reduce((s, b) => s + b.split('\n').length, 0);
+    if (codeLines / lines >= 0.25) genre = 'code-walkthrough';   // code is the spine, not a snippet
+    else if (/worksheet|experiment/.test(filename)) genre = 'worked-example';
     else genre = 'explainer';
   }
 
@@ -186,6 +204,25 @@ for (const [, v] of fileFacets) {
   }
 }
 
+// --- Pass 1b: a satellite's explicit `concept:` wins over reading order ---
+// Reading order only BOOTSTRAPS membership (it fills a missing `concept:` key).
+// Once the key exists it is the source of truth: re-assigning a telling means
+// editing `concept:` (validate-content.js then flags a chapter/order mismatch),
+// and moving a file in book.json never silently changes what it teaches.
+// For "concept: a|b" the first value is the primary membership.
+const conceptById = new Map(concepts.map(c => [c.id, c]));
+for (const [, v] of fileFacets) {
+  if (v.file.includes('-spine-')) continue;                 // anchors define concepts
+  const declared = typeof v.meta.concept === 'string' ? v.meta.concept.split('|')[0].trim() : '';
+  if (!declared || declared === v.facets.concept) continue;
+  const target = conceptById.get(declared);
+  if (!target) { console.warn(`WARN ${v.file}: concept "${declared}" has no anchor; kept under "${v.facets.concept}" (reading order)`); continue; }
+  const from = conceptById.get(v.facets.concept);
+  if (from) from.blocks = from.blocks.filter(b => b.id !== v.meta.id);
+  target.blocks.push({ id: v.meta.id, file: v.file });
+  v.facets.concept = declared;
+}
+
 // --- Pass 2: write facet keys into frontmatter (only missing keys, append before closing ---) ---
 const FACET_KEYS = ['concept', 'state', 'lens', 'visuality', 'depth', 'formalism', 'lengthBand', 'genre'];
 let filesTouched = 0;
@@ -222,14 +259,18 @@ const conceptsOut = concepts.map(c => {
     anchor: c.anchorId,
     anchorPath: c.anchorPath || null,  // content-relative path to the anchor block (generation exemplar)
     provenance: 'anchored',            // human-reviewed content (status: accepted)
+    // prerequisite concepts: flat `parents: a|b` on the anchor (same pipe syntax as subspaces)
+    parents: String(a.parents || '').split('|').map(s => s.trim()).filter(Boolean),
     blocks: c.blocks.map(b => b.id),
     contract: {
-      objective: a.teaser || c.title,
-      objectiveSource: a.teaser ? 'teaser-bootstrap' : 'title-bootstrap',
+      // `objective:` on the anchor is the human-reviewed learning objective; the teaser is only a fallback
+      objective: a.objective || a.teaser || c.title,
+      objectiveSource: a.objective ? 'anchor' : a.teaser ? 'teaser-bootstrap' : 'title-bootstrap',
       mustCover,
       recallQ: a.recallQ || null,
       recallA: a.recallA || null,
-      forbidden: FORBIDDEN_DEFAULT,
+      // concept-specific forbidden claims: flat `forbidden: claim | claim` on the anchor, on top of the defaults
+      forbidden: [...FORBIDDEN_DEFAULT, ...String(a.forbidden || '').split(' | ').map(x => x.trim()).filter(Boolean)],
     },
   };
 });
@@ -245,6 +286,13 @@ for (const [, v] of fileFacets) {
   }
 }
 
+// Front/back matter ("concept: null" on a satellite, e.g. About this book) is a
+// telling of NO concept: keep it out of every concept's block list, which reading
+// order would otherwise extend with it.
+const noConcept = new Set([...fileFacets.values()]
+  .filter(v => v.meta.concept === null && !v.file.includes('-spine-')).map(v => v.meta.id));
+for (const c of conceptsOut) c.blocks = c.blocks.filter(id => !noConcept.has(id));
+
 if (!DRY) {
   fs.writeFileSync(
     path.join(CONTENT_DIR, 'concepts.json'),
@@ -252,10 +300,31 @@ if (!DRY) {
   );
 }
 
+// concept-map.json is what the reader app reads for prerequisite nudges and
+// feed ordering (node.prereq). An anchor that declares `parents:` is the
+// source of truth for its node; undeclared nodes keep what admin exported.
+const CMAP_PATH = path.join(CONTENT_DIR, 'concept-map.json');
+let cmapChanged = 0;
+if (fs.existsSync(CMAP_PATH)) {
+  const cmap = JSON.parse(fs.readFileSync(CMAP_PATH, 'utf8'));
+  const declared = new Map(concepts
+    .filter(c => c._anchorMeta && c._anchorMeta.parents !== undefined)
+    .map(c => [c.id, byId.get(c.id).parents]));
+  for (const n of cmap.nodes || []) {
+    if (!declared.has(n.slug)) continue;
+    const want = declared.get(n.slug);
+    const have = Array.isArray(n.prereq) ? n.prereq : [];
+    if (want.join('|') === have.join('|')) continue;
+    if (want.length) n.prereq = want; else delete n.prereq;
+    cmapChanged++;
+  }
+  if (cmapChanged && !DRY) fs.writeFileSync(CMAP_PATH, JSON.stringify(cmap, null, 1));
+}
+
 // --- Report ---
-const stats = { research: 0, technical: 0, standard: 0 };
+const stats = {};   // declared depth tags as they stand in the files (not the seed heuristic)
 const gaps = { noRecall: 0, noMustCover: 0 };
-for (const [, v] of fileFacets) stats[v.facets.depth] = (stats[v.facets.depth] || 0) + 1;
+for (const [, v] of fileFacets) { const d = String(v.meta.depth || v.facets.depth); stats[d] = (stats[d] || 0) + 1; }
 for (const c of conceptsOut) {
   if (!c.contract.recallQ) gaps.noRecall++;
   if (!c.contract.mustCover.length) gaps.noMustCover++;
@@ -264,3 +333,4 @@ console.log(`${DRY ? '[DRY RUN] ' : ''}Concepts: ${conceptsOut.length}`);
 console.log(`Files with facets added: ${filesTouched}/${fileFacets.size}`);
 console.log(`Depth distribution:`, stats);
 console.log(`Contract gaps: ${gaps.noRecall} concepts without recallQ, ${gaps.noMustCover} without mustCover (listed in coverage matrix as editorial debt)`);
+console.log(`Prerequisites: ${conceptsOut.filter(c => c.parents.length).length} concepts declare parents; concept-map.json nodes updated: ${cmapChanged}`);

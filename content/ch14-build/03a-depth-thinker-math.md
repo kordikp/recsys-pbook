@@ -2,7 +2,7 @@
 id: ch5-math-d-think
 type: spine
 title: "The Math Behind Similarity"
-readingTime: 4
+readingTime: 3
 standalone: false
 teaser: "Cosine similarity, vector geometry, and why scale-invariant measures matter."
 voice: thinker
@@ -18,9 +18,9 @@ concept: diy-similar-users
 state: edited
 lens: generic
 visuality: balanced
-depth: research
-formalism: full
-lengthBand: standard
+depth: technical
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|image|formula
 ---
@@ -64,8 +64,8 @@ To address the scale-invariance limitation (where a user rating [1, 2] appears s
 
 **Computational complexity:** For *m* users and *n* items, computing pairwise cosine similarity for all user pairs is O(m² × n). In practice, sparse data structures and approximate nearest neighbor algorithms (e.g., LSH, FAISS) reduce this dramatically.
 
-![Matrix Factorization](/images/comic-mf.svg)
+![Matrix factorization: taste vectors pointing the same way get a high predicted rating](/images/comic-mf.svg)
 
-![Matrix Decomposition](/images/diagram-mf-decomposition.svg)
+![Matrix factorization R ≈ U × Vᵀ: a mostly empty ratings matrix becomes two thin taste-factor matrices; You's row times thriller A's column fills the gap with 0.74](/images/diagram-mf-decomposition.svg)
 
 **The key takeaway:** Similarity measures quantify how closely two users' preference vectors align in rating space. The choice of measure -- cosine, Pearson correlation, adjusted cosine, or Jaccard -- encodes different assumptions about what "similar" means. Production systems typically evaluate multiple measures via A/B testing to determine which yields the best downstream recommendation quality.

@@ -13,6 +13,10 @@ const BOOK_JSON = path.join(CONTENT_DIR, 'book.json');
 let errors = 0;
 let warnings = 0;
 const ids = new Map(); // id → file path
+const relToId = new Map(); // file path → id
+const bookIds = new Set();  // ids of blocks listed in book.json (= live in the reader app)
+const bookOrder = new Map(); // id → { chapter, pos } — reading order is book.json order;
+                             // filename prefixes (01a-, 05x-…) are labels only, never order
 const conceptRefs = new Map(); // block id → { concept, file }
 const conceptLinkRefs = [];    // [..](#c/<slug>) cross-links found in bodies
 const blockLinkRefs = [];      // [..](#<block-id>) links found in bodies
@@ -83,6 +87,7 @@ contentFiles.forEach(file => {
       error(rel, `Duplicate id "${meta.id}" (also in ${ids.get(meta.id)})`);
     } else {
       ids.set(meta.id, rel);
+      relToId.set(rel, meta.id);
     }
   }
 
@@ -146,6 +151,28 @@ contentFiles.forEach(file => {
     if (vis === 'balanced' && !hasVisual && !/\n\|[^\n]*\|\s*\n\|[\s:|-]+\|/.test(bodyText)) warn(rel, 'visuality: balanced without any diagram, image, or table');
   }
 
+  // Length honesty (AGENTS.md §2 lengthBand test): ≤150 tldr, ≤450 standard, above deep;
+  // readingTime ≈ words/200 (min 1). Warn on drift so bootstrap guesses stay visible.
+  if (meta.lengthBand || meta.readingTime !== undefined) {
+    const prose = text.replace(/^---\n[\s\S]*?\n---\n/, '')
+      .replace(/<svg[\s\S]*?<\/svg>/gi, '').replace(/<style[\s\S]*?<\/style>/gi, '')
+      .replace(/!\[[^\]]*\]\([^)]*\)/g, '').replace(/<[^>]+>/g, ' ').replace(/\]\([^)]*\)/g, ']');
+    const words = (prose.match(/[A-Za-z0-9À-ž]+(?:['’-][A-Za-z0-9À-ž]+)*/g) || []).length;
+    const BANDS = { tldr: [0, 150], standard: [151, 450], deep: [451, Infinity] };
+    if (meta.lengthBand) {
+      const raw = String(meta.lengthBand);
+      const [a, b] = raw.includes('..') ? raw.split('..').map(s => s.trim()) : [raw, raw];
+      if (BANDS[a] && BANDS[b]) {
+        const lo = BANDS[a][0] * 0.8, hi = BANDS[b][1] * 1.2;
+        if (words < lo || words > hi) warn(rel, `lengthBand: ${raw} but the body has ~${words} words (AGENTS §2 budgets: ≤150 tldr, ≤450 standard)`);
+      }
+    }
+    const rt = Number(meta.readingTime);
+    if (Number.isFinite(rt) && Math.abs(rt - Math.max(1, Math.round(words / 200))) >= 2) {
+      warn(rel, `readingTime: ${rt} but ~${words} words read in ~${Math.max(1, Math.round(words / 200))} min (use activityMinutes for hands-on time)`);
+    }
+  }
+
   // multi-concept membership allowed: "concept: a|b" (block is a telling of each)
   if (meta.concept) conceptRefs.set(meta.id, { concepts: String(meta.concept).split('|').map(s => s.trim()), file: rel });
 
@@ -180,11 +207,14 @@ if (!fs.existsSync(BOOK_JSON)) {
         return;
       }
 
-      ch.files.forEach(f => {
+      ch.files.forEach((f, fi) => {
         const filePath = path.join(chDir, f);
         if (!fs.existsSync(filePath)) {
           error(`book.json ch[${ci}]`, `File not found: content/${ch.directory}/${f}`);
+          return;
         }
+        const bid = relToId.get(path.relative(ROOT, filePath));
+        if (bid) { bookIds.add(bid); bookOrder.set(bid, { chapter: ch.id, chapterIdx: ci, pos: fi }); }
       });
     });
   }
@@ -218,6 +248,37 @@ if (fs.existsSync(CONCEPTS_JSON)) {
       if (c.anchor && !ids.has(c.anchor)) error('concepts.json', `Concept "${c.id}" anchor "${c.anchor}" is not a known block id`);
       if (!c.contract?.recallQ) warn('concepts.json', `Concept "${c.id}" has no recallQ (contract gap — shown in admin Coverage)`);
     }
+    // Membership has ONE source of truth: a block's `concept:` (first value = primary).
+    // migrate-facets.js builds blocks[] from it; a hand edit or a stale concepts.json
+    // would otherwise let the reader app (frontmatter) and admin/generator (index) disagree.
+    const byConcept = new Map((conceptsData.concepts || []).map(c => [c.id, c]));
+    for (const [blockId, ref] of conceptRefs) {
+      if (!bookIds.has(blockId)) continue;            // file on disk but not in the book
+      const primary = byConcept.get(ref.concepts[0]);
+      if (!primary) continue;                         // unknown concept: reported above
+      if (!(primary.blocks || []).includes(blockId)) {
+        error(ref.file, `Block "${blockId}" declares concept "${primary.id}" but concepts.json does not list it there (re-run scripts/migrate-facets.js)`);
+      }
+      // AGENTS §4: a telling lives in its concept's anchor chapter, after the anchor
+      const anc = bookOrder.get(primary.anchor);
+      const me = bookOrder.get(blockId);
+      if (anc && me && primary.anchor !== blockId) {
+        if (anc.chapter !== me.chapter) warn(ref.file, `telling of "${primary.id}" sits in ${me.chapter}, its anchor in ${anc.chapter} (blocks inherit their concept's chapter)`);
+        else if (me.pos < anc.pos) warn(ref.file, `telling of "${primary.id}" comes before its anchor in book.json (satellites follow their anchor)`);
+      }
+    }
+    // Prerequisites (`parents:` on anchors → concepts.json parents[]): parents must
+    // exist; a parent anchored LATER in the book fails the stop-test (AGENTS §4).
+    for (const c of conceptsData.concepts || []) {
+      for (const p of c.parents || []) {
+        const pc = byConcept.get(p);
+        if (!pc || p === c.id) { error('concepts.json', `Concept "${c.id}" lists ${pc ? 'itself' : `unknown concept "${p}"`} as a parent`); continue; }
+        const child = bookOrder.get(c.anchor), parent = bookOrder.get(pc.anchor);
+        if (child && parent && (parent.chapterIdx > child.chapterIdx || (parent.chapterIdx === child.chapterIdx && parent.pos > child.pos))) {
+          warn('concepts.json', `Concept "${c.id}" needs "${p}", which is anchored later in the book (stop-test: move one of them)`);
+        }
+      }
+    }
   } catch (e) {
     error('concepts.json', `Invalid JSON: ${e.message}`);
   }
@@ -225,32 +286,38 @@ if (fs.existsSync(CONCEPTS_JSON)) {
   warn('content/concepts.json', 'Missing — run scripts/migrate-facets.js to generate the concept index');
 }
 
-// 3. Validate game JSON files
+// 2c. id-aliases.json — retired block id → successor (block id or concept slug).
+// The reader app moves a returning reader's progress along these aliases.
+const ALIASES_JSON = path.join(CONTENT_DIR, 'id-aliases.json');
+if (fs.existsSync(ALIASES_JSON)) {
+  try {
+    const aliases = JSON.parse(fs.readFileSync(ALIASES_JSON, 'utf8')).aliases || {};
+    let conceptSlugs = new Set();
+    try { conceptSlugs = new Set((JSON.parse(fs.readFileSync(CONCEPTS_JSON, 'utf8')).concepts || []).map(c => c.id)); } catch (e) {}
+    for (const [oldId, target] of Object.entries(aliases)) {
+      if (bookIds.has(oldId)) error('content/id-aliases.json', `"${oldId}" is still listed in book.json — aliases are for retired ids only`);
+      const t = String(target || '').replace(/^#?c\//, '');
+      if (!bookIds.has(t) && !conceptSlugs.has(t)) error('content/id-aliases.json', `"${oldId}" → "${target}" is neither a live block id nor a concept slug`);
+    }
+  } catch (e) {
+    error('content/id-aliases.json', `Invalid JSON: ${e.message}`);
+  }
+}
+
+// 3. Validate game JSON files — per-type schema and semantic checks live in
+//    scripts/check-games.mjs (it uses the engine's own helpers from js/games.js)
 console.log('Validating game files...\n');
 
 if (fs.existsSync(GAMES_DIR)) {
-  fs.readdirSync(GAMES_DIR).filter(f => f.endsWith('.json')).forEach(file => {
-    const full = path.join(GAMES_DIR, file);
-    try {
-      const game = JSON.parse(fs.readFileSync(full, 'utf8'));
-      if (!game.type) error(`games/${file}`, 'Missing required field: type');
-      if (!game.title) error(`games/${file}`, 'Missing required field: title');
-      if (game.type === 'sort' && (!game.items || !game.buckets)) {
-        error(`games/${file}`, 'Sort game requires items[] and buckets[]');
-      }
-      if (game.type === 'order' && !game.steps) {
-        error(`games/${file}`, 'Order game requires steps[]');
-      }
-      if (game.type === 'match' && (!game.items || !game.users)) {
-        error(`games/${file}`, 'Match game requires items[] and users[]');
-      }
-      if (game.type === 'pop' && !game.categories) {
-        error(`games/${file}`, 'Pop game requires categories[]');
-      }
-    } catch (e) {
-      error(`games/${file}`, `Invalid JSON: ${e.message}`);
-    }
-  });
+  try {
+    const { execFileSync } = require('child_process');
+    const out = execFileSync(process.execPath, [path.join(ROOT, 'scripts/check-games.mjs'), '--json'], { encoding: 'utf8', env: { ...process.env, NODE_NO_WARNINGS: '1' } });
+    const res = JSON.parse(out);
+    res.errors.forEach(([f, m]) => error(f, m));
+    res.warnings.forEach(([f, m]) => warn(f, m));
+  } catch (e) {
+    error('games/', `check-games.mjs failed: ${String(e.message).slice(0, 300)}`);
+  }
 }
 
 // Summary

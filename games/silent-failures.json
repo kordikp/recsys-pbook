@@ -1,0 +1,53 @@
+{
+  "type": "sort",
+  "title": "Would Uptime Monitoring Catch It?",
+  "minutes": 2,
+  "instruction": "Your dashboards track errors, latency and uptime. Would they notice this?",
+  "buckets": [
+    "Classic monitoring catches it",
+    "Silent: needs recommender monitoring"
+  ],
+  "items": [
+    {
+      "text": "The recommendation API starts returning HTTP 500 errors",
+      "answer": 0,
+      "why": "Errors are exactly what uptime checks watch."
+    },
+    {
+      "text": "Response time jumps from 80 ms to 2 seconds",
+      "answer": 0,
+      "why": "Latency alerts fire."
+    },
+    {
+      "text": "The server runs out of memory and restarts",
+      "answer": 0,
+      "why": "Crashes and restarts show up in every health dashboard."
+    },
+    {
+      "text": "A feature pipeline stalls; the model keeps serving yesterday's features, with HTTP 200",
+      "answer": 1,
+      "why": "Everything is 'up'. The answers are just stale."
+    },
+    {
+      "text": "Over six weeks, everyone's top 10 converges on the same 50 items",
+      "answer": 1,
+      "why": "A feedback loop: the model trains on its own output. Track catalogue coverage and concentration."
+    },
+    {
+      "text": "A catalogue import sets every price to 0 and the deals row fills with broken items",
+      "answer": 1,
+      "why": "Valid responses, wrong content. It takes data-quality checks to catch this."
+    },
+    {
+      "text": "Clicks stay flat while returns and 'Not interested' taps climb",
+      "answer": 1,
+      "why": "The click dashboard looks healthy and no request fails. The damage shows only in outcome signals like returns and rejections, often weeks later."
+    },
+    {
+      "text": "Tastes shift after the holiday season; last month's model is slightly wrong every day",
+      "answer": 1,
+      "why": "Drift in a world that keeps changing: no error is ever thrown."
+    }
+  ],
+  "debrief": "A recommender can answer every request with HTTP 200 and still be broken. Monitor what it recommends, not only whether it answers."
+}

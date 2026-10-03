@@ -1,0 +1,154 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 488" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pn20-title pn20-desc">
+  <title id="pn20-title">Two stages decide whether an AI assistant names your product</title>
+  <desc id="pn20-desc">An assistant's answer is a two-stage recommender: searches across web pages, reviews and product feeds build a retrieved set that decides who is eligible, then a language model decides who gets named. Jana's shoe is stopped at gate one by a blocked crawler and at gate two because "wide" appears only in an image. A business can open the gates (crawlable pages, accurate feed, plain claims, independent reviews) but cannot control the dice (phrasing, user context, model version, randomness), so it measures share of mentions across many prompts and runs, not a rank.</desc>
+  <defs>
+    <marker id="pn20-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="pn20-arr-grey" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#9CA3AF"/>
+    </marker>
+  </defs>
+
+  <rect x=".5" y=".5" width="639" height="487" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+
+  <!-- title -->
+  <text x="24" y="36" font-size="19" font-weight="700" fill="#1E1B4B">Two stages decide whether an assistant names you</text>
+
+  <!-- stage headers -->
+  <text x="324" y="66" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">1 · Retrieval</text>
+  <text x="324" y="84" text-anchor="middle" font-size="14" fill="#4B5563">who is eligible</text>
+  <path d="M196,94 V98 H452 V94" fill="none" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="552" y="66" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">2 · Generation</text>
+  <text x="552" y="84" text-anchor="middle" font-size="14" fill="#4B5563">who gets named</text>
+  <path d="M480,94 V98 H624 V94" fill="none" stroke="#7C3AED" stroke-width="1.5"/>
+
+  <!-- customer question -->
+  <rect x="16" y="112" width="130" height="100" rx="12" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+  <path d="M34,211 L40,226 L50,211" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+  <rect x="33" y="209" width="18" height="3" fill="#FFFFFF"/>
+  <text font-size="15" fill="#1E1B4B">
+    <tspan x="28" y="138">Waterproof</tspan>
+    <tspan x="28" y="158">trail shoes for</tspan>
+    <tspan x="28" y="178">wide feet,</tspan>
+    <tspan x="28" y="198">under €150?</tspan>
+  </text>
+  <circle cx="40" cy="240" r="9" fill="#10B981"/>
+  <path d="M26,272 Q26,252 40,252 Q54,252 54,272 Z" fill="#10B981"/>
+
+  <!-- query fan-out -->
+  <g stroke="#7C3AED" stroke-width="2" stroke-linecap="round" fill="none" marker-end="url(#pn20-arr)">
+    <path d="M148,162 C168,162 172,130 191,130"/>
+    <path d="M148,162 C168,162 172,174 191,174"/>
+    <path d="M148,162 C168,162 172,218 191,218"/>
+  </g>
+  <text x="171" y="252" text-anchor="middle" font-size="14" fill="#4B5563">query fan-out</text>
+
+  <!-- sources -->
+  <g fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5">
+    <rect x="196" y="112" width="116" height="36" rx="10"/>
+    <rect x="196" y="156" width="116" height="36" rx="10"/>
+    <rect x="196" y="200" width="116" height="36" rx="10"/>
+  </g>
+  <g font-size="15" fill="#1E1B4B" text-anchor="middle">
+    <text x="254" y="135">web pages</text>
+    <text x="254" y="179">reviews</text>
+    <text x="254" y="223">product feeds</text>
+  </g>
+
+  <!-- converge into retrieved set -->
+  <g stroke="#7C3AED" stroke-width="2" stroke-linecap="round" fill="none" marker-end="url(#pn20-arr)">
+    <path d="M314,130 L335,158"/>
+    <path d="M314,174 L335,174"/>
+    <path d="M314,218 L335,190"/>
+  </g>
+
+  <!-- retrieved set -->
+  <rect x="340" y="112" width="112" height="124" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="396" y="131" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">retrieved set</text>
+  <g fill="#EDE9FE" stroke="#7C3AED" stroke-width="1">
+    <rect x="352" y="142" width="16" height="16" rx="3"/><rect x="376" y="142" width="16" height="16" rx="3"/><rect x="400" y="142" width="16" height="16" rx="3"/><rect x="424" y="142" width="16" height="16" rx="3"/>
+    <rect x="352" y="166" width="16" height="16" rx="3"/><rect x="376" y="166" width="16" height="16" rx="3"/><rect x="400" y="166" width="16" height="16" rx="3"/><rect x="424" y="166" width="16" height="16" rx="3"/>
+    <rect x="352" y="190" width="16" height="16" rx="3"/><rect x="376" y="190" width="16" height="16" rx="3"/><rect x="400" y="190" width="16" height="16" rx="3"/><rect x="424" y="190" width="16" height="16" rx="3"/>
+  </g>
+  <text x="396" y="226" text-anchor="middle" font-size="14" fill="#4B5563">a few dozen</text>
+
+  <!-- to model -->
+  <path d="M454,136 L475,136" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" fill="none" marker-end="url(#pn20-arr)"/>
+
+  <!-- language model -->
+  <rect x="480" y="112" width="144" height="48" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="552" y="132" text-anchor="middle" font-size="15" font-weight="700" fill="#4C1D95">language model</text>
+  <text x="552" y="150" text-anchor="middle" font-size="14" fill="#4C1D95">writes the answer</text>
+  <path d="M552,162 L552,171" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" fill="none" marker-end="url(#pn20-arr)"/>
+
+  <!-- answer -->
+  <rect x="480" y="176" width="144" height="60" rx="10" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+  <text x="552" y="196" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">answer: 4 shoes</text>
+  <g fill="#EDE9FE">
+    <rect x="487" y="205" width="28" height="24" rx="6"/><rect x="521" y="205" width="28" height="24" rx="6"/><rect x="555" y="205" width="28" height="24" rx="6"/><rect x="589" y="205" width="28" height="24" rx="6"/>
+  </g>
+  <g font-size="14" text-anchor="middle">
+    <text x="501" y="222">👟</text><text x="535" y="222">👟</text><text x="569" y="222">👟</text><text x="603" y="222">👟</text>
+  </g>
+
+  <!-- Jana's lane -->
+  <rect x="186" y="278" width="122" height="36" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="247" y="301" text-anchor="middle" font-size="15" font-weight="600" fill="#4B5563">👟 Jana's shoe</text>
+  <path d="M308,296 L314,296" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round"/>
+  <path d="M338,296 L454,296" stroke="#D1D5DB" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6"/>
+  <path d="M478,296 L494,296" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-dasharray="2 6" marker-end="url(#pn20-arr-grey)"/>
+  <rect x="498" y="280" width="108" height="32" rx="10" fill="#FFFFFF" stroke="#9CA3AF" stroke-width="1.5" stroke-dasharray="5 4"/>
+  <text x="552" y="301" text-anchor="middle" font-size="14" fill="#4B5563">not named</text>
+
+  <!-- gate 1 -->
+  <g>
+    <rect x="316" y="282" width="4" height="28" rx="1.5" fill="#92400E"/>
+    <rect x="332" y="282" width="4" height="28" rx="1.5" fill="#92400E"/>
+    <rect x="314" y="288" width="24" height="5" rx="2" fill="#F59E0B"/>
+    <rect x="314" y="299" width="24" height="5" rx="2" fill="#F59E0B"/>
+  </g>
+  <text x="326" y="334" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">gate 1</text>
+  <text x="326" y="351" text-anchor="middle" font-size="14" fill="#92400E">crawler blocked</text>
+
+  <!-- gate 2 -->
+  <g>
+    <rect x="456" y="282" width="4" height="28" rx="1.5" fill="#92400E"/>
+    <rect x="472" y="282" width="4" height="28" rx="1.5" fill="#92400E"/>
+    <rect x="454" y="288" width="24" height="5" rx="2" fill="#F59E0B"/>
+    <rect x="454" y="299" width="24" height="5" rx="2" fill="#F59E0B"/>
+  </g>
+  <text x="454" y="334" font-size="14" font-weight="700" fill="#92400E">gate 2</text>
+  <text x="454" y="351" font-size="14" fill="#92400E">“wide” only in an image</text>
+
+  <!-- you can influence -->
+  <rect x="16" y="368" width="300" height="74" rx="12" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="30" y="391" font-size="15" font-weight="700" fill="#92400E">You can open the gates</text>
+  <g fill="#F59E0B">
+    <circle cx="34" cy="410" r="3.5"/><circle cx="34" cy="430" r="3.5"/>
+    <circle cx="190" cy="410" r="3.5"/><circle cx="190" cy="430" r="3.5"/>
+  </g>
+  <g font-size="14" fill="#1E1B4B">
+    <text x="44" y="415">crawlable pages</text>
+    <text x="44" y="435">independent reviews</text>
+    <text x="200" y="415">accurate feed</text>
+    <text x="200" y="435">plain claims</text>
+  </g>
+
+  <!-- you cannot -->
+  <rect x="324" y="368" width="300" height="74" rx="12" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="338" y="391" font-size="15" font-weight="700" fill="#4B5563">You can't load the dice 🎲</text>
+  <g fill="#9CA3AF">
+    <circle cx="342" cy="410" r="3.5"/><circle cx="342" cy="430" r="3.5"/>
+    <circle cx="482" cy="410" r="3.5"/><circle cx="482" cy="430" r="3.5"/>
+  </g>
+  <g font-size="14" fill="#1E1B4B">
+    <text x="352" y="415">phrasing</text>
+    <text x="352" y="435">user context</text>
+    <text x="492" y="415">model version</text>
+    <text x="492" y="435">randomness</text>
+  </g>
+
+  <!-- takeaway -->
+  <text x="320" y="470" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">No stable rank: count your <tspan fill="#7C3AED">share of mentions</tspan> (e.g. 40 prompts × 5 runs)</text>
+</svg>

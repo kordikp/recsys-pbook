@@ -302,7 +302,12 @@ async function renderContacts(m){
     const k=prompt('Editor key (PBOOK_ADMIN_KEY) — needed to read contacts:');
     if(k){localStorage.setItem('pbook-admin-key',k.trim());r=await load();}
   }
-  if(!r.ok){m.innerHTML+=`<p style="color:#dc2626;font-size:.8rem">Could not load contacts: HTTP ${r.status}</p>`;return;}
+  if(!r.ok){
+    const why=r.status===403?'the editor key is missing or wrong':r.status===404?'the /api/log endpoint is not available here (local server?)':'HTTP '+r.status;
+    m.innerHTML=`<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.5em">🤝 Contacts</h2><p style="color:#dc2626;font-size:.8rem">Could not load contacts: ${why}.</p>`
+      +(r.status===403?`<button onclick="localStorage.removeItem('pbook-admin-key');renderContacts(document.getElementById('main'))" style="font-size:.75rem;padding:.3em .7em;border:1.5px solid var(--accent);border-radius:6px;color:var(--accent)">Enter the editor key</button>`:'');
+    return;
+  }
   const rows=await r.json();
   const contacts=rows.filter(x=>x.event==='contact_message'),questions=rows.filter(x=>x.event==='author_question');
   const when=x=>esc(new Date(x.created_at).toLocaleString());
@@ -1184,6 +1189,8 @@ window.genEditorInvite=function(){
     <div style="color:var(--text3);font-size:.66rem;margin-top:.2em">Acceptances appear above (editor_invite_accepted, code ${code}).</div>`;
 };
 
+// summary card (the helper went missing in an admin cleanup; Reach threw 'gc is not defined')
+function gc(t,n,s){return`<div class="cg-card"><h4>${t}</h4><div class="cg-num">${n}</div><div class="cg-sub">${s}</div></div>`}
 async function renderAnalytics(el){
   el.innerHTML = '<div style="text-align:center;padding:2em;color:var(--text3)">Loading server-side analytics...</div>';
 

@@ -2,7 +2,7 @@
 id: item-cold-start-cs-shop
 type: spine
 title: "Nováček v e-shopu: studený start česky a prakticky"
-readingTime: 2
+readingTime: 1
 standalone: true
 core: false
 teaser: "Malý český e-shop s outdoorovým vybavením nasadí novou botu. Co se děje prvních 72 hodin?"

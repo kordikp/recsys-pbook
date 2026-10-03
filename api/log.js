@@ -22,11 +22,14 @@ function isAdmin(req) {
 function pseudonym(v) {
   return 'u:' + crypto.createHash('sha256').update(String(v).toLowerCase()).digest('hex').slice(0, 12);
 }
+// Account ids are built from the e-mail ("acct-jane-doe-gmail-com"), so they identify a person too.
+const ACCT = /^acct-/;
+const personal = v => typeof v === 'string' && (EMAIL.test(v) || ACCT.test(v));
 function redact(r) {
-  if (typeof r.user_id === 'string' && EMAIL.test(r.user_id)) r.user_id = pseudonym(r.user_id);
+  if (personal(r.user_id)) r.user_id = pseudonym(r.user_id);
   const d = r.data;
   if (d && typeof d === 'object') {
-    if (typeof d.userId === 'string' && EMAIL.test(d.userId)) d.userId = pseudonym(d.userId);
+    if (personal(d.userId)) d.userId = pseudonym(d.userId);
     if (d.email) d.email = '(hidden)';
   }
   return r;

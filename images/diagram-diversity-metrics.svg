@@ -1,113 +1,94 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" width="600" height="300" font-family="system-ui, sans-serif">
-  <defs>
-    <marker id="arrowhead" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
-      <polygon points="0,0 7,3 0,6" fill="#1E1B4B"/>
-    </marker>
-    <marker id="arrowGreen" markerWidth="7" markerHeight="6" refX="6" refY="3" orient="auto">
-      <polygon points="0,0 7,3 0,6" fill="#10B981"/>
-    </marker>
-    <linearGradient id="noveltyGrad" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0%" stop-color="#D97706"/>
-      <stop offset="100%" stop-color="#10B981"/>
-    </linearGradient>
-  </defs>
-
-  <rect x="1" y="1" width="598" height="298" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
-
-  <!-- Intra-List Diversity -->
-  <text x="80" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Intra-List Diversity</text>
-
-  <text x="42" y="45" text-anchor="middle" fill="#6B7280" font-size="11">Low ILD</text>
-  <rect x="12" y="52" width="18" height="18" rx="3" fill="#10B981"/>
-  <rect x="33" y="52" width="18" height="18" rx="3" fill="#10B981"/>
-  <rect x="54" y="52" width="18" height="18" rx="3" fill="#10B981"/>
-  <rect x="12" y="73" width="18" height="18" rx="3" fill="#10B981"/>
-  <rect x="33" y="73" width="18" height="18" rx="3" fill="#10B981"/>
-  <rect x="54" y="73" width="18" height="18" rx="3" fill="#10B981"/>
-  <text x="42" y="106" text-anchor="middle" fill="#6B7280" font-size="11">All same genre</text>
-
-  <text x="125" y="45" text-anchor="middle" fill="#6B7280" font-size="11">High ILD</text>
-  <rect x="95" y="52" width="18" height="18" rx="3" fill="#7C3AED"/>
-  <rect x="116" y="52" width="18" height="18" rx="3" fill="#10B981"/>
-  <rect x="137" y="52" width="18" height="18" rx="3" fill="#D97706"/>
-  <rect x="95" y="73" width="18" height="18" rx="3" fill="#0EA5E9"/>
-  <rect x="116" y="73" width="18" height="18" rx="3" fill="#7C3AED"/>
-  <rect x="137" y="73" width="18" height="18" rx="3" fill="#10B981"/>
-  <text x="125" y="106" text-anchor="middle" fill="#6B7280" font-size="11">Mixed genres</text>
-
-  <line x1="75" y1="72" x2="91" y2="72" stroke="#1E1B4B" stroke-width="1.5" marker-end="url(#arrowhead)"/>
-
-  <!-- Coverage -->
-  <text x="235" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Coverage</text>
-
-  <circle cx="235" cy="71" r="32" fill="#E5E7EB"/>
-  <path d="M235,71 L235,39 A32,32 0 1,1 212.6,98.6 Z" fill="#10B981"/>
-  <text x="224" y="70" fill="#FFFFFF" font-size="11" font-weight="700">68%</text>
-  <text x="256" y="96" fill="#6B7280" font-size="11">32%</text>
-
-  <rect x="190" y="113" width="9" height="9" rx="2" fill="#10B981"/>
-  <text x="205" y="122" fill="#6B7280" font-size="11">Recommended</text>
-  <rect x="190" y="128" width="9" height="9" rx="2" fill="#E5E7EB"/>
-  <text x="205" y="137" fill="#6B7280" font-size="11">Never shown</text>
-
-  <!-- Novelty -->
-  <text x="400" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Novelty</text>
-
-  <line x1="330" y1="75" x2="470" y2="75" stroke="#E5E7EB" stroke-width="1.5"/>
-  <rect x="330" y="59" width="140" height="13" rx="4" fill="url(#noveltyGrad)"/>
-
-  <circle cx="340" cy="65.5" r="4" fill="#D97706"/>
-  <circle cx="351" cy="65.5" r="3.5" fill="#D97706"/>
-  <circle cx="360" cy="65.5" r="3" fill="#D97706"/>
-  <circle cx="382" cy="65.5" r="2.5" fill="#D97706"/>
-  <circle cx="410" cy="65.5" r="2.5" fill="#10B981"/>
-  <circle cx="436" cy="65.5" r="2.5" fill="#10B981"/>
-  <circle cx="455" cy="65.5" r="2" fill="#10B981"/>
-
-  <text x="330" y="95" fill="#6B7280" font-size="11">Most popular</text>
-  <text x="470" y="95" text-anchor="end" fill="#6B7280" font-size="11">Least popular</text>
-
-  <line x1="370" y1="108" x2="449" y2="108" stroke="#10B981" stroke-width="2" marker-end="url(#arrowGreen)"/>
-  <text x="410" y="124" text-anchor="middle" fill="#10B981" font-size="11" font-weight="600">More novel</text>
-
-  <!-- Serendipity -->
-  <text x="548" y="27" text-anchor="middle" fill="#1E1B4B" font-size="12" font-weight="700">Serendipity</text>
-
-  <circle cx="515" cy="78" r="26" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="1.5"/>
-  <circle cx="551" cy="78" r="26" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5"/>
-
-  <text x="503" y="69" text-anchor="middle" fill="#0EA5E9" font-size="11" font-weight="600">Relevant</text>
-  <text x="560" y="81" text-anchor="middle" fill="#D97706" font-size="11" font-weight="600">Unexpected</text>
-  <text x="533" y="96" text-anchor="middle" fill="#1E1B4B" font-size="11" font-weight="700">Serendipitous</text>
-
-  <!-- Beyond-Accuracy Metrics -->
-  <line x1="20" y1="148" x2="580" y2="148" stroke="#E5E7EB" stroke-width="1.5"/>
-  <text x="300" y="169" text-anchor="middle" fill="#1E1B4B" font-size="13" font-weight="700">Beyond-Accuracy Metrics</text>
-
-  <rect x="15" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
-  <text x="82.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">ILD</text>
-  <text x="82.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">Avg pairwise distance</text>
-  <text x="82.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">in a recommendation list</text>
-
-  <rect x="162" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
-  <text x="229.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">Coverage</text>
-  <text x="229.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">|Recommended items|</text>
-  <text x="229.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">/ |All catalog items|</text>
-
-  <rect x="309" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
-  <text x="376.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">Novelty</text>
-  <text x="376.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">-log2(popularity)</text>
-  <text x="376.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">Self-information score</text>
-
-  <rect x="456" y="180" width="135" height="64" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
-  <text x="523.5" y="198" text-anchor="middle" fill="#7C3AED" font-size="11" font-weight="700">Serendipity</text>
-  <text x="523.5" y="215" text-anchor="middle" fill="#1E1B4B" font-size="11">Relevant + Unexpected</text>
-  <text x="523.5" y="231" text-anchor="middle" fill="#6B7280" font-size="11">minus obvious picks</text>
-
-  <circle cx="156" cy="212" r="2.5" fill="#E5E7EB"/>
-  <circle cx="303" cy="212" r="2.5" fill="#E5E7EB"/>
-  <circle cx="450" cy="212" r="2.5" fill="#E5E7EB"/>
-
-  <text x="300" y="267" text-anchor="middle" fill="#6B7280" font-size="11">Optimizing only for accuracy creates filter bubbles.</text>
-  <text x="300" y="283" text-anchor="middle" fill="#6B7280" font-size="11">These metrics measure recommendation quality holistically.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 444" role="img" aria-labelledby="pb119-title pb119-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb119-title">A diverse list can still be a narrow system</title>
+<desc id="pb119-desc">Toy example: every user gets the same list of four different items from a 20-item catalog. Intra-list diversity is high because it looks at one list, but coverage is 4 of 20, novelty is low because all four are the most popular items, and serendipity is near zero because a popularity baseline would pick them too. ILD checks one list; coverage, novelty and serendipity check the whole system.</desc>
+<defs><marker id="pb119-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M1 1 L9 5 L1 9 z" fill="#9CA3AF"/></marker></defs>
+<rect x=".5" y=".5" width="639" height="443" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="42" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">A diverse list can still be a narrow system</text>
+<text x="320" y="66" text-anchor="middle" font-size="14" fill="#6B7280">Toy example: a 20-item catalog, every user gets the same list</text>
+<rect x="24" y="86" width="288" height="152" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="40" y="110" font-size="15" font-weight="700" fill="#1E1B4B">What each user sees</text>
+<circle cx="52" cy="131" r="6" fill="#10B981"/><path d="M43 151 v-4 a9 9 0 0 1 18 0 v4 z" fill="#10B981"/>
+<line x1="68" y1="139" x2="86" y2="139" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb119-arr)"/>
+<rect x="96" y="124" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="111" cy="139" r="8" fill="#4C1D95"/>
+<rect x="134" y="124" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="142.2" y="132.2" width="13.6" height="13.6" rx="1.5" fill="#4C1D95"/>
+<rect x="172" y="124" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M187 131 L195 145.4 L179 145.4 z" fill="#4C1D95"/>
+<rect x="210" y="124" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M225 131 L233 139 L225 147 L217 139 z" fill="#4C1D95"/>
+<circle cx="52" cy="167" r="6" fill="#10B981"/><path d="M43 187 v-4 a9 9 0 0 1 18 0 v4 z" fill="#10B981"/>
+<line x1="68" y1="175" x2="86" y2="175" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb119-arr)"/>
+<rect x="96" y="160" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="111" cy="175" r="8" fill="#4C1D95"/>
+<rect x="134" y="160" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="142.2" y="168.2" width="13.6" height="13.6" rx="1.5" fill="#4C1D95"/>
+<rect x="172" y="160" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M187 167 L195 181.4 L179 181.4 z" fill="#4C1D95"/>
+<rect x="210" y="160" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M225 167 L233 175 L225 183 L217 175 z" fill="#4C1D95"/>
+<circle cx="52" cy="203" r="6" fill="#10B981"/><path d="M43 223 v-4 a9 9 0 0 1 18 0 v4 z" fill="#10B981"/>
+<line x1="68" y1="211" x2="86" y2="211" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" marker-end="url(#pb119-arr)"/>
+<rect x="96" y="196" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<circle cx="111" cy="211" r="8" fill="#4C1D95"/>
+<rect x="134" y="196" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<rect x="142.2" y="204.2" width="13.6" height="13.6" rx="1.5" fill="#4C1D95"/>
+<rect x="172" y="196" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M187 203 L195 217.4 L179 217.4 z" fill="#4C1D95"/>
+<rect x="210" y="196" width="30" height="30" rx="6" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5"/>
+<path d="M225 203 L233 211 L225 219 L217 211 z" fill="#4C1D95"/>
+<path d="M250 124 h6 v102 h-6" fill="none" stroke="#D1D5DB" stroke-width="2" stroke-linecap="round"/>
+<text x="264" y="171" font-size="14" fill="#4B5563">same</text><text x="264" y="187" font-size="14" fill="#4B5563">list</text>
+<rect x="24" y="252" width="288" height="136" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="40" y="274" font-size="15" font-weight="700" fill="#1E1B4B">The catalog, by popularity</text>
+<rect x="44" y="298.0" width="10" height="58" rx="2" fill="#7C3AED"/>
+<circle cx="49" cy="289" r="4.5" fill="#4C1D95"/>
+<rect x="57" y="311.4" width="10" height="44.6" rx="2" fill="#7C3AED"/>
+<rect x="58.175" y="298.575" width="7.6499999999999995" height="7.6499999999999995" rx="1.5" fill="#4C1D95"/>
+<rect x="70" y="319.7" width="10" height="36.3" rx="2" fill="#7C3AED"/>
+<path d="M75 306.2 L79.5 314.3 L70.5 314.3 z" fill="#4C1D95"/>
+<rect x="83" y="325.5" width="10" height="30.5" rx="2" fill="#7C3AED"/>
+<path d="M88 312 L92.5 316.5 L88 321 L83.5 316.5 z" fill="#4C1D95"/>
+<rect x="96" y="329.6" width="10" height="26.4" rx="2" fill="#D1D5DB"/>
+<rect x="109" y="332.8" width="10" height="23.2" rx="2" fill="#D1D5DB"/>
+<rect x="122" y="335.3" width="10" height="20.7" rx="2" fill="#D1D5DB"/>
+<rect x="135" y="337.3" width="10" height="18.7" rx="2" fill="#D1D5DB"/>
+<rect x="148" y="338.9" width="10" height="17.1" rx="2" fill="#D1D5DB"/>
+<rect x="161" y="340.3" width="10" height="15.7" rx="2" fill="#D1D5DB"/>
+<rect x="174" y="341.5" width="10" height="14.5" rx="2" fill="#D1D5DB"/>
+<rect x="187" y="342.5" width="10" height="13.5" rx="2" fill="#D1D5DB"/>
+<rect x="200" y="343.4" width="10" height="12.6" rx="2" fill="#D1D5DB"/>
+<rect x="213" y="344.2" width="10" height="11.8" rx="2" fill="#D1D5DB"/>
+<rect x="226" y="344.8" width="10" height="11.2" rx="2" fill="#D1D5DB"/>
+<rect x="239" y="345.5" width="10" height="10.5" rx="2" fill="#D1D5DB"/>
+<rect x="252" y="346.0" width="10" height="10" rx="2" fill="#D1D5DB"/>
+<rect x="265" y="346.5" width="10" height="9.5" rx="2" fill="#D1D5DB"/>
+<rect x="278" y="346.9" width="10" height="9.1" rx="2" fill="#D1D5DB"/>
+<rect x="291" y="347.3" width="10" height="8.7" rx="2" fill="#D1D5DB"/>
+<line x1="40" y1="356.75" x2="304" y2="356.75" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="68.5" y="376" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">shown</text>
+<text x="198.5" y="376" text-anchor="middle" font-size="14" fill="#4B5563">long tail · never shown</text>
+<rect x="328" y="86" width="288" height="302" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="344" y="110" font-size="15" font-weight="700" fill="#1E1B4B">Scorecard for this system</text>
+<rect x="340" y="124" width="264" height="56" rx="8" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+<text x="354" y="147" fill="#1E1B4B"><tspan font-size="16" font-weight="700">ILD</tspan><tspan font-size="15" fill="#065F46"> · one list</tspan></text>
+<text x="354" y="168" font-size="14" fill="#4B5563">avg d(i, j) within it</text>
+<rect x="528" y="139" width="64" height="26" rx="13" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+<text x="560" y="157" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">high ✓</text>
+<rect x="340" y="188" width="264" height="56" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="354" y="211" fill="#1E1B4B"><tspan font-size="16" font-weight="700">Coverage</tspan><tspan font-size="15" fill="#4B5563"> · all users</tspan></text>
+<text x="354" y="232" font-size="14" fill="#4B5563">|ever shown| / |I|</text>
+<rect x="528" y="203" width="64" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="560" y="221" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">4/20</text>
+<rect x="340" y="252" width="264" height="56" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="354" y="275" fill="#1E1B4B"><tspan font-size="16" font-weight="700">Novelty</tspan><tspan font-size="15" fill="#4B5563"> · the tail</tspan></text>
+<text x="354" y="296" font-size="14" fill="#4B5563">mean −log₂ p(i)</text>
+<rect x="528" y="267" width="64" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="560" y="285" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">low</text>
+<rect x="340" y="316" width="264" height="56" rx="8" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<text x="354" y="339" fill="#1E1B4B"><tspan font-size="16" font-weight="700">Serendipity</tspan><tspan font-size="15" fill="#4B5563"> · surprise</tspan></text>
+<text x="354" y="360" font-size="14" fill="#4B5563">max(0, rel − expected)</text>
+<rect x="528" y="331" width="64" height="26" rx="13" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+<text x="560" y="349" text-anchor="middle" font-size="14" font-weight="700" fill="#92400E">≈ 0</text>
+<text x="320" y="420" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">ILD checks <tspan fill="#4C1D95">one list</tspan>; the other three check <tspan fill="#4C1D95">the whole system</tspan>.</text>
 </svg>

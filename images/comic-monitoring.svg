@@ -1,59 +1,43 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">Everything Is Fine, Served Promptly</text>
-
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="46" y="82" width="188" height="42" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="140" y="108" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Your usual muffin?</text>
-  <circle cx="120" cy="169" r="10" fill="#7C3AED"/>
-  <path d="M120 180 L120 225 M120 190 L145 200 M120 225 L107 243 M120 225 L133 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="285" cy="169" r="10" fill="#0EA5E9"/>
-  <path d="M285 180 L285 225 M285 192 L255 200 M285 225 L273 243 M285 225 L297 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M142 200 L207 200" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M167 189 L183 189 L181 199 L169 199 Z" fill="#FEF3C7" stroke="#D97706"/>
-  <path d="M168 189 C169 179 181 179 182 189 Z" fill="#D97706" stroke="#D97706"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">Yesterday's taste becomes today's confident guess.</text>
-
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="432" y="144" width="133" height="80" rx="8" fill="#FEF3C7" stroke="#D97706"/>
-  <text x="498.5" y="172" font-size="12" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="498.5" dy="0">TODAY'S CHOICES</tspan>
-    <tspan x="498.5" dy="25" font-weight="700">MUFFIN  IIII</tspan>
-  </text>
-  <rect x="590" y="84" width="168" height="42" rx="9" fill="#E0F2FE" stroke="#0EA5E9"/>
-  <text x="674" y="110" font-size="12.5" fill="#1E1B4B" text-anchor="middle">I guess... muffin.</text>
-  <circle cx="620" cy="165" r="10" fill="#7C3AED"/>
-  <path d="M620 176 L620 224 M620 190 L600 202 M620 224 L608 242 M620 224 L632 242" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="714" cy="173" r="10" fill="#0EA5E9"/>
-  <path d="M714 184 L714 226 M714 194 L686 203 M714 226 L702 243 M714 226 L726 243" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The offer creates the choice; the choice updates the offer.</text>
-
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="190" y="366" width="170" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="275" y="392" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Something green...</text>
-  <circle cx="120" cy="465" r="10" fill="#7C3AED"/>
-  <path d="M120 476 L120 521 M120 488 L145 493 M120 521 L107 539 M120 521 L133 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="285" cy="465" r="10" fill="#0EA5E9"/>
-  <path d="M285 476 L285 521 M285 488 L255 493 M285 521 L273 539 M285 521 L297 539" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M142 493 L207 493" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M167 482 L183 482 L181 492 L169 492 Z" fill="#FEF3C7" stroke="#D97706"/>
-  <path d="M168 482 C169 472 181 472 182 482 Z" fill="#D97706" stroke="#D97706"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">By Thursday, yesterday's appetite has quietly moved on.</text>
-
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="438" y="394" width="150" height="84" rx="8" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="513" y="421" font-size="12" fill="#1E1B4B" text-anchor="middle">
-    <tspan x="513" dy="0" font-weight="700">ALL GREEN</tspan>
-    <tspan x="513" dy="22">HTTP 200: 100%</tspan>
-    <tspan x="513" dy="20">LATENCY: 80 ms</tspan>
-  </text>
-  <rect x="600" y="368" width="158" height="42" rx="9" fill="#D1FAE5" stroke="#10B981"/>
-  <text x="679" y="394" font-size="12.5" fill="#1E1B4B" text-anchor="middle">Perfect service again.</text>
-  <circle cx="648" cy="468" r="10" fill="#7C3AED"/>
-  <path d="M648 479 L648 520 M648 491 L625 481 M648 520 L636 538 M648 520 L660 538" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <circle cx="742" cy="477" r="10" fill="#0EA5E9"/>
-  <path d="M742 488 L748 520 M745 498 L727 507 M748 520 L733 536 M748 520 L766 531" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Every order arrived. The customer did not.</text>
-
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Uptime and latency miss silent quality loss; monitor recommendation drift and feedback loops.</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pb082-title pb082-desc">
+<title id="pb082-title">Everything is fine, served promptly</title>
+<desc id="pb082-desc">Four-panel comic in a café where the barista is the recommender. 1: a regular orders a muffin and the barista notes: loves muffins. 2: the barista now shows only muffins and calls them the best seller; the regular replies that it is all the barista has — what is shown gets sold, then shown more. 3: the regular silently thinks a salad would be nicer lately, but the barista serves the usual muffin; nothing is said and no error is logged. 4: the health checks show uptime 100%, speed 80 ms, errors 0, the barista celebrates perfect service, but the regular is gone and no alert fired. Uptime and speed checks cannot see wrong suggestions, so also watch what people choose, how it shifts and who stops coming.</desc>
+<defs>
+<g id="pb082-muffin">
+<path d="M-8,0 L-10,-11 H10 L8,0 Z" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5" stroke-linejoin="round"/>
+<path d="M-4,-1 L-5,-10 M0,-1 V-10 M4,-1 L5,-10" stroke="#F59E0B" stroke-width="1.2"/>
+<path d="M-12,-11 Q-13,-24 0,-24 Q13,-24 12,-11 Z" fill="#92400E"/>
+</g>
+</defs>
+<rect x=".5" y=".5" width="639" height="639" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+<text x="320" y="34" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Everything is fine, served promptly</text>
+<g transform="translate(16,48)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">1</text>
+<text x="42" y="29" font-size="16" font-weight="700" fill="#1E1B4B">It learns from orders</text>
+<path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M35,222 V188 Q35,172 51,172 H65 Q81,172 81,188 V222 Z" fill="#7C3AED"/><rect x="63" y="180" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="58" cy="151" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="56" cy="149" r="2.2" fill="#1E1B4B"/><circle cx="66" cy="149" r="2.2" fill="#1E1B4B"/><path d="M56,157 Q61,161 66,157" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M43,142 Q43,127 58,127 Q73,127 73,142 Z" fill="#4C1D95"/><rect x="12" y="190" width="138" height="32" rx="3" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><use href="#pb082-muffin" x="118" y="190"/><path d="M213,222 V188 Q213,172 229,172 H243 Q259,172 259,188 V222 Z" fill="#10B981"/><circle cx="236" cy="151" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="228" cy="149" r="2.2" fill="#1E1B4B"/><circle cx="238" cy="149" r="2.2" fill="#1E1B4B"/><path d="M228,157 Q233,161 238,157" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M198,44 H274 Q286,44 286,56 V84 Q286,96 274,96 H243 L236,128 L229,96 H198 Q186,96 186,84 V56 Q186,44 198,44 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="236" y="65" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="236" >A muffin,</tspan><tspan x="236" dy="20">please!</tspan></text><path d="M24,82 H162 Q174,82 174,94 V104 Q174,116 162,116 H65 L58,128 L51,116 H24 Q12,116 12,104 V94 Q12,82 24,82 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="93" y="104" text-anchor="middle" font-size="15" fill="#1E1B4B">Noted: loves muffins.</text><text x="58" y="244" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Recommender</text><text x="236" y="244" text-anchor="middle" font-size="14" font-weight="700" fill="#065F46">Regular</text>
+</g>
+<g transform="translate(326,48)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">2</text>
+<text x="42" y="29" font-size="16" font-weight="700" fill="#1E1B4B">It sells what it shows</text>
+<path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M29,222 V188 Q29,172 45,172 H59 Q75,172 75,188 V222 Z" fill="#7C3AED"/><rect x="57" y="180" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="52" cy="151" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="50" cy="149" r="2.2" fill="#1E1B4B"/><circle cx="60" cy="149" r="2.2" fill="#1E1B4B"/><path d="M48,156 Q55,164 62,156 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/><path d="M37,142 Q37,127 52,127 Q67,127 67,142 Z" fill="#4C1D95"/><rect x="12" y="190" width="168" height="32" rx="3" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><rect x="94" y="146" width="80" height="44" rx="4" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="1.5"/><use href="#pb082-muffin" x="110" y="188"/><use href="#pb082-muffin" x="134" y="188"/><use href="#pb082-muffin" x="158" y="188"/><path d="M217,222 V188 Q217,172 233,172 H247 Q263,172 263,188 V222 Z" fill="#10B981"/><circle cx="240" cy="151" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="232" cy="149" r="2.2" fill="#1E1B4B"/><circle cx="242" cy="149" r="2.2" fill="#1E1B4B"/><path d="M233,159 H241" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M24,44 H140 Q152,44 152,56 V84 Q152,96 140,96 H59 L52,128 L45,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="82" y="65" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="82" >Best seller:</tspan><tspan x="82" dy="20">muffins again!</tspan></text><path d="M182,62 H274 Q286,62 286,74 V102 Q286,114 274,114 H247 L240,128 L233,114 H182 Q170,114 170,102 V74 Q170,62 182,62 Z" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/><text x="228" y="83" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="228" >It’s all</tspan><tspan x="228" dy="20">you have…</tspan></text><text x="149" y="244" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">shown → sold → shown more</text>
+</g>
+<g transform="translate(16,316)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">3</text>
+<text x="42" y="29" font-size="16" font-weight="700" fill="#1E1B4B">Tastes move on</text>
+<path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M35,222 V188 Q35,172 51,172 H65 Q81,172 81,188 V222 Z" fill="#7C3AED"/><rect x="63" y="180" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="58" cy="151" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="56" cy="149" r="2.2" fill="#1E1B4B"/><circle cx="66" cy="149" r="2.2" fill="#1E1B4B"/><path d="M56,157 Q61,161 66,157" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M43,142 Q43,127 58,127 Q73,127 73,142 Z" fill="#4C1D95"/><rect x="12" y="190" width="138" height="32" rx="3" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><use href="#pb082-muffin" x="118" y="190"/><path d="M217,222 V188 Q217,172 233,172 H247 Q263,172 263,188 V222 Z" fill="#10B981"/><circle cx="240" cy="151" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="232" cy="149" r="2.2" fill="#1E1B4B"/><circle cx="242" cy="149" r="2.2" fill="#1E1B4B"/><path d="M232,160 Q235,157 237,159 Q239,161 242,158" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M24,44 H124 Q136,44 136,56 V84 Q136,96 124,96 H65 L58,128 L51,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="74" y="65" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="74" >Your usual</tspan><tspan x="74" dy="20">muffin!</tspan></text><rect x="146" y="58" width="140" height="52" rx="26" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/><circle cx="230" cy="121" r="4.5" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/><circle cx="236" cy="130" r="3" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/><text x="216" y="79" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="216" >I’d rather have</tspan><tspan x="216" dy="20">a salad lately…</tspan></text><text x="149" y="244" text-anchor="middle" font-size="15" fill="#4B5563">Never said out loud. No error logged.</text>
+</g>
+<g transform="translate(326,316)">
+<rect x="0" y="0" width="298" height="256" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" text-anchor="middle" font-size="14" font-weight="700" fill="#FFFFFF">4</text>
+<text x="42" y="29" font-size="16" font-weight="700" fill="#1E1B4B">All checks green</text>
+<path d="M12,222 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<path d="M29,222 V188 Q29,172 45,172 H59 Q75,172 75,188 V222 Z" fill="#7C3AED"/><rect x="57" y="180" width="12" height="8" rx="2" fill="#FFFFFF"/><circle cx="52" cy="151" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="50" cy="149" r="2.2" fill="#1E1B4B"/><circle cx="60" cy="149" r="2.2" fill="#1E1B4B"/><path d="M48,156 Q55,164 62,156 Z" fill="#1E1B4B" stroke="#1E1B4B" stroke-width="1.5" stroke-linejoin="round"/><path d="M37,142 Q37,127 52,127 Q67,127 67,142 Z" fill="#4C1D95"/><rect x="12" y="190" width="86" height="32" rx="3" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/><use href="#pb082-muffin" x="80" y="190"/><path d="M170,196 V222" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/><path d="M156,222 H184" stroke="#9CA3AF" stroke-width="3" stroke-linecap="round"/><rect x="104" y="102" width="132" height="94" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/><text x="116" y="122" font-size="14" font-weight="700" fill="#065F46">Health checks</text><text x="116" y="143" font-size="14" fill="#1E1B4B">Uptime</text><text x="204" y="143" text-anchor="end" font-size="14" font-weight="700" fill="#1E1B4B">100%</text><circle cx="221" cy="138" r="7" fill="#10B981"/><path d="M217.5,138 L220,140.5 L224.5,135" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="116" y="162" font-size="14" fill="#1E1B4B">Speed</text><text x="204" y="162" text-anchor="end" font-size="14" font-weight="700" fill="#1E1B4B">80 ms</text><circle cx="221" cy="157" r="7" fill="#10B981"/><path d="M217.5,157 L220,159.5 L224.5,154" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><text x="116" y="181" font-size="14" fill="#1E1B4B">Errors</text><text x="204" y="181" text-anchor="end" font-size="14" font-weight="700" fill="#1E1B4B">0</text><circle cx="221" cy="176" r="7" fill="#10B981"/><path d="M217.5,176 L220,178.5 L224.5,173" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M239,222 V188 Q239,172 255,172 H269 Q285,172 285,188 V222" fill="#FEF3C7" fill-opacity="0.5" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 5" stroke-linecap="round"/><circle cx="262" cy="151" r="17" fill="#FEF3C7" fill-opacity="0.5" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 5"/><text x="262" y="157" text-anchor="middle" font-size="17" font-weight="700" fill="#92400E">?</text><path d="M24,44 H140 Q152,44 152,56 V84 Q152,96 140,96 H59 L52,128 L45,96 H24 Q12,96 12,84 V56 Q12,44 24,44 Z" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/><text x="82" y="65" text-anchor="middle" font-size="15" fill="#1E1B4B"><tspan x="82" >Perfect service</tspan><tspan x="82" dy="20">again!</tspan></text><text x="286" y="244" text-anchor="end" font-size="14" font-weight="700" fill="#92400E">Regular: gone. No alert.</text>
+</g>
+<text x="320" y="600" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#065F46">All checks green</tspan> — and still the wrong muffin.</text>
+<text x="320" y="622" text-anchor="middle" font-size="16" fill="#1E1B4B"><tspan font-weight="700" fill="#92400E">Also watch</tspan> what people choose, how it shifts, who stops coming.</text>
 </svg>

@@ -24,7 +24,7 @@ lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose
 ---
@@ -38,10 +38,10 @@ But why does research matter? Can't engineering teams just build what works?
 The history of recommender systems reveals a consistent pattern: **breakthroughs come from mathematical insight, not engineering brute force.**
 
 Consider this timeline:
-- **2003:** Amazon publishes item-based collaborative filtering — a simple idea grounded in set theory that drives 35% of their revenue to this day.
+- **2003:** Amazon publishes item-to-item collaborative filtering (Linden, Smith & York, *IEEE Internet Computing*) — a simple co-occurrence idea that still sits behind "Customers who bought this also bought".
 - **2006–2009:** The Netflix Prize ($1M competition) catalyzes a wave of matrix factorization research. The winning solution combines 800+ models but is too complex for production. The real prize? Singular Value Decomposition and Alternating Least Squares enter [mainstream RecSys engineering](https://www.recombee.com/blog/modern-recommender-systems-part-1-introduction).
 - **2019:** Harald Steck publishes EASE (Embarrassingly Shallow Autoencoders) — a single matrix inverse that outperforms deep neural networks on standard benchmarks. The paper demonstrates that [mathematical elegance can beat computational power](https://www.recombee.com/blog/linear-methods-and-autoencoders-in-recommender-systems).
-- **2022–2024:** ELSA, beeFormer, and CompresSAE emerge from the [Recombee research lab](https://www.recombee.com/research) at FIT CTU Prague, showing how to scale linear models to billions of items while adding language understanding and compression.
+- **2022–2025:** ELSA, beeFormer, and CompresSAE emerge from the [Recombee research lab](https://www.recombee.com/research) at FIT CTU Prague, showing how to scale linear models to billions of items while adding language understanding and compression.
 
 **The pattern is clear:** production systems don't improve through incremental engineering. They improve through research that changes the fundamental approach.
 
@@ -63,4 +63,7 @@ In the following sections, we'll trace that journey: from elegant mathematical f
 
 > **Did you know?** The Recombee research lab at FIT CTU Prague has published 25+ papers at top venues (RecSys, WWW, ICML, KDD) — and every one of those research contributions runs in a production system serving 500+ customers across 40+ countries.
 
-**Consider this:** Think about the last recommendation that genuinely surprised you — a book, article, or song you loved but would never have found on your own. That moment of serendipity is the product of mathematical research. The algorithm didn't just get lucky; it leveraged patterns across millions of users to find something specifically for you.
+**Try this:** Think about the last recommendation that genuinely surprised you — a book, article, or song you loved but would never have found on your own. That moment of serendipity is the product of mathematical research. The algorithm didn't just get lucky; it leveraged patterns across millions of users to find something specifically for you.
+
+**Sources:**
+- Linden, Smith & York, "Amazon.com Recommendations: Item-to-Item Collaborative Filtering," *IEEE Internet Computing* 7(1), 2003. [doi:10.1109/MIC.2003.1167344](https://doi.org/10.1109/MIC.2003.1167344)

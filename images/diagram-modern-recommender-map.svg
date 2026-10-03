@@ -1,0 +1,124 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" role="img" aria-labelledby="pn03-title pn03-desc">
+  <title id="pn03-title">A modern recommender on one page</title>
+  <desc id="pn03-desc">A recommendation is a relay: data on users, interactions and the catalog feeds four stations (retrieve, rank, re-rank with rules, present) that put a Picked for you row on Petra's phone; what she does with it becomes tomorrow's training data, and LLMs plug in beside the stations: enriching the catalog, reading typed requests, reordering the short list and writing the words.</desc>
+  <defs>
+    <marker id="pn03-ap" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7C3AED"/>
+    </marker>
+    <marker id="pn03-ag" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#10B981"/>
+    </marker>
+  </defs>
+
+  <rect x=".5" y=".5" width="639" height="511" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+
+  <text x="320" y="38" text-anchor="middle" font-size="19" font-weight="700" fill="#1E1B4B">Behind one “Picked for you” row</text>
+
+  <!-- ===== Data ===== -->
+  <rect x="38" y="66" width="138" height="144" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
+  <text x="107" y="90" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">Data</text>
+  <rect x="48" y="100" width="118" height="28" rx="7" fill="#F3F4F6"/>
+  <text x="107" y="119" text-anchor="middle" font-size="15" fill="#1E1B4B">Users</text>
+  <rect x="48" y="136" width="118" height="28" rx="7" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5"/>
+  <text x="107" y="155" text-anchor="middle" font-size="15" font-weight="600" fill="#065F46">Interactions</text>
+  <rect x="48" y="172" width="118" height="28" rx="7" fill="#F3F4F6"/>
+  <text x="107" y="191" text-anchor="middle" font-size="15" fill="#1E1B4B">Catalog</text>
+
+  <!-- data feeds station 1 -->
+  <line x1="177" y1="93" x2="197" y2="93" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn03-ap)"/>
+
+  <!-- ===== Stations ===== -->
+  <g font-size="14">
+    <rect x="200" y="66" width="232" height="54" rx="11" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <circle cx="224" cy="93" r="13" fill="#7C3AED"/>
+    <text x="224" y="98" text-anchor="middle" font-weight="700" fill="#FFFFFF">1</text>
+    <text x="246" y="89" font-size="16" font-weight="700" fill="#1E1B4B">Retrieve</text>
+    <text x="246" y="109" fill="#4B5563">50,000 → a few hundred</text>
+
+    <rect x="200" y="140" width="232" height="54" rx="11" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <circle cx="224" cy="167" r="13" fill="#7C3AED"/>
+    <text x="224" y="172" text-anchor="middle" font-weight="700" fill="#FFFFFF">2</text>
+    <text x="246" y="163" font-size="16" font-weight="700" fill="#1E1B4B">Rank</text>
+    <text x="246" y="183" fill="#4B5563">click? buy? return?</text>
+
+    <rect x="200" y="214" width="232" height="54" rx="11" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <circle cx="224" cy="241" r="13" fill="#7C3AED"/>
+    <text x="224" y="246" text-anchor="middle" font-weight="700" fill="#FFFFFF">3</text>
+    <text x="246" y="237" font-size="16" font-weight="700" fill="#1E1B4B">Re-rank &amp; rules</text>
+    <text x="246" y="257" fill="#4B5563">stock · promos · variety</text>
+
+    <rect x="200" y="288" width="232" height="54" rx="11" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+    <circle cx="224" cy="315" r="13" fill="#7C3AED"/>
+    <text x="224" y="320" text-anchor="middle" font-weight="700" fill="#FFFFFF">4</text>
+    <text x="246" y="311" font-size="16" font-weight="700" fill="#1E1B4B">Present</text>
+    <text x="246" y="331" fill="#4B5563">row · search · email · chat</text>
+  </g>
+
+  <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <line x1="316" y1="121" x2="316" y2="137" marker-end="url(#pn03-ap)"/>
+    <line x1="316" y1="195" x2="316" y2="211" marker-end="url(#pn03-ap)"/>
+    <line x1="316" y1="269" x2="316" y2="285" marker-end="url(#pn03-ap)"/>
+    <line x1="316" y1="343" x2="316" y2="359" marker-end="url(#pn03-ap)"/>
+  </g>
+
+  <!-- ===== LLM sockets (amber) ===== -->
+  <g font-size="14">
+    <!-- stockroom: beside the catalog -->
+    <line x1="107" y1="211" x2="107" y2="228" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="107" cy="210" r="3.5" fill="#F59E0B"/>
+    <rect x="38" y="228" width="138" height="50" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="107" y="248" text-anchor="middle" font-weight="700" fill="#92400E">LLM · Stockroom</text>
+    <text x="107" y="268" text-anchor="middle" fill="#1E1B4B">enriches items</text>
+
+    <!-- front door: beside retrieve -->
+    <line x1="433" y1="93" x2="452" y2="93" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="432" cy="93" r="3.5" fill="#F59E0B"/>
+    <rect x="452" y="68" width="172" height="50" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="464" y="88" font-weight="700" fill="#92400E">LLM · Front door</text>
+    <text x="464" y="108" fill="#1E1B4B">reads typed requests</text>
+
+    <!-- short list: beside re-rank -->
+    <line x1="433" y1="241" x2="452" y2="241" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="432" cy="241" r="3.5" fill="#F59E0B"/>
+    <rect x="452" y="216" width="172" height="50" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="464" y="236" font-weight="700" fill="#92400E">LLM · Short list</text>
+    <text x="464" y="256" fill="#1E1B4B">reorders the top few</text>
+
+    <!-- label: beside present -->
+    <line x1="433" y1="315" x2="452" y2="315" stroke="#F59E0B" stroke-width="2" stroke-dasharray="4 3"/>
+    <circle cx="432" cy="315" r="3.5" fill="#F59E0B"/>
+    <rect x="452" y="290" width="172" height="50" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+    <text x="464" y="310" font-weight="700" fill="#92400E">LLM · Label</text>
+    <text x="464" y="330" fill="#1E1B4B">writes the words</text>
+  </g>
+
+  <!-- ===== Petra's phone ===== -->
+  <rect x="220" y="362" width="192" height="80" rx="12" fill="#FFFFFF" stroke="#1E1B4B" stroke-width="2"/>
+  <text x="316" y="383" text-anchor="middle" font-size="14" font-weight="700" fill="#4C1D95">Picked for you</text>
+  <rect x="250" y="392" width="40" height="40" rx="8" fill="#EDE9FE"/>
+  <rect x="296" y="392" width="40" height="40" rx="8" fill="#EDE9FE"/>
+  <rect x="342" y="392" width="40" height="40" rx="8" fill="#EDE9FE"/>
+  <text x="270" y="420" text-anchor="middle" font-size="22">🥾</text>
+  <text x="316" y="420" text-anchor="middle" font-size="22">🧥</text>
+  <text x="362" y="420" text-anchor="middle" font-size="22">⛺</text>
+
+  <!-- Petra -->
+  <circle cx="460" cy="382" r="14" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <circle cx="455" cy="380" r="1.6" fill="#1E1B4B"/>
+  <circle cx="465" cy="380" r="1.6" fill="#1E1B4B"/>
+  <path d="M455,387 Q460,391 465,387" fill="none" stroke="#1E1B4B" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M440,442 V414 Q440,400 454,400 H466 Q480,400 480,414 V442 Z" fill="#10B981"/>
+  <line x1="440" y1="418" x2="414" y2="410" stroke="#10B981" stroke-width="5" stroke-linecap="round"/>
+  <text x="492" y="420" font-size="16" font-weight="700" fill="#065F46">Petra</text>
+
+  <!-- ===== Feedback loop ===== -->
+  <path d="M460,446 V456 Q460,464 452,464 H32 Q24,464 24,456 V158 Q24,150 32,150 H43" fill="none" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" marker-end="url(#pn03-ag)"/>
+  <g font-size="15" font-weight="600" fill="#065F46">
+    <text x="38" y="318">What she did</text>
+    <text x="38" y="338">with what she saw</text>
+    <text x="38" y="358">→ tomorrow’s</text>
+    <text x="38" y="378">training data</text>
+  </g>
+
+  <text x="320" y="494" text-anchor="middle" font-size="15" font-weight="700" fill="#1E1B4B">Wrong pick? Ask which station: each fix lives in a different place.</text>
+</svg>

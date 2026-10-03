@@ -8,8 +8,8 @@ core: false
 teaser: "Žádná magie: lidé s podobným vkusem už za tebe vybrali."
 voice: explorer
 parent: collaborative-filtering
-recallQ: "How does collaborative filtering work?"
-recallA: "Find people with similar taste → recommend what THEY liked that you haven't tried yet."
+recallQ: "Jak funguje kolaborativní filtrování?"
+recallA: "Najdi lidi s podobným vkusem a doporuč, co se líbilo jim a ty to ještě neznáš."
 status: accepted
 concept: collaborative-filtering
 state: edited

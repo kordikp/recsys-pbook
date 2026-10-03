@@ -2,7 +2,7 @@
 id: ch7-cold-start-language
 type: spine
 title: "Cold Start and Language: Teaching Algorithms to Read"
-readingTime: 4
+readingTime: 3
 standalone: true
 core: true
 teaser: "New items have zero interactions. How do you recommend something nobody has seen? The answer involves teaching computers to read."
@@ -19,19 +19,20 @@ publishedAt: "2026-04-03"
 status: accepted
 concept: beeformer
 conceptTitle: "beeFormer: text meets interactions"
+parents: item-cold-start|ease-elsa
 state: core
 lens: generic
 visuality: text-first
 depth: research
-formalism: full
-lengthBand: standard
+formalism: light
+lengthBand: deep
 genre: explainer
 carriers: prose|formula
 ---
 
 Every recommendation system faces a chicken-and-egg problem: **you can't recommend items nobody has interacted with, but nobody can interact with items that aren't recommended.**
 
-This is the **cold-start problem**, and it's one of the most practically important challenges in the field. A new product on Amazon, a fresh article on a news site, an emerging artist on Spotify — all start with zero interaction data.
+This is the **[cold-start problem](#c/item-cold-start)**, and it's one of the most practically important challenges in the field. A new product on Amazon, a fresh article on a news site, an emerging artist on Spotify — all start with zero interaction data.
 
 ## The Limitation of Collaborative Filtering
 
@@ -88,4 +89,4 @@ This graceful degradation ensures that every item gets a fair chance at discover
 
 > **Research publication:** Vančura, Kordík & Straka, "beeFormer: Bridging the Gap Between Semantic and Interaction Similarity," RecSys 2024. The framework is [open-source on GitHub](https://github.com/recombee/beeFormer).
 
-**Consider this:** The cold-start problem isn't just technical — it has economic and cultural implications. If new items can't get recommended, established content has an insurmountable advantage. beeFormer doesn't just solve a technical problem; it creates a more level playing field for new creators and content.
+The cold-start problem isn't just technical — it has economic and cultural implications. If new items can't get recommended, established content has an insurmountable advantage. beeFormer doesn't just solve a technical problem; it creates a more level playing field for new creators and content.

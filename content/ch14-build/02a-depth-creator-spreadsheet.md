@@ -2,7 +2,7 @@
 id: ch5-spread-d-create
 type: spine
 title: "Build It in a Spreadsheet"
-readingTime: 3
+readingTime: 2
 standalone: false
 teaser: "Google Sheets or Excel instructions to construct and visualize your rating matrix."
 voice: creator
@@ -15,7 +15,7 @@ concept: diy-collect-data
 state: edited
 lens: generic
 visuality: text-first
-depth: technical
+depth: standard
 formalism: none
 lengthBand: standard
 genre: worked-example

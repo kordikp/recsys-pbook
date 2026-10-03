@@ -1,62 +1,79 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 250" font-family="system-ui, sans-serif" role="img" aria-labelledby="title desc">
-  <title id="title">The Recommendation Pipeline</title>
-  <desc id="desc">A four-stage pipeline that retrieves one thousand candidates from one million items, scores them down to one hundred, re-ranks them to twenty, and serves the final response in under two hundred milliseconds.</desc>
-
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 484" role="img" aria-labelledby="pb139-title pb139-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+  <title id="pb139-title">One homepage row = one trip down the pipeline</title>
+  <desc id="pb139-desc">Each row on a streaming homepage is one recommendation call that narrows the whole catalog in four stages: retrieve candidates, score them, re-rank and filter, and serve one row of 10 to 20 titles. The video specifics plug into those stages: expired licences never enter, watch progress (10, 50, 90, 100 percent) feeds the scoring, a series is turned into its next unwatched episode, and no title appears twice across rows. A homepage fires 5 to 6 such calls in parallel, one per row.</desc>
   <defs>
-    <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
-      <path d="M0 0 L8 4 L0 8 Z" fill="#1E1B4B"/>
+    <marker id="pb139-head" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 Z" fill="#7C3AED"/>
     </marker>
   </defs>
+  <style>
+    .pb139-dot{opacity:0;animation:pb139-drop 9s ease-in-out infinite}
+    @keyframes pb139-drop{0%{opacity:0;transform:translateY(0)}2%{opacity:1}11%{opacity:1;transform:translateY(14px)}13%,100%{opacity:0;transform:translateY(14px)}}
+    .pb139-glow{opacity:0;animation:pb139-glow 9s ease-out infinite}
+    @keyframes pb139-glow{0%,36%{opacity:0}40%{opacity:1}56%,100%{opacity:0}}
+    @media (prefers-reduced-motion: reduce){.pb139-dot,.pb139-glow{animation:none !important}}
+  </style>
 
-  <rect x="1" y="1" width="698" height="248" rx="14" fill="#FAFAF7" stroke="#E5E7EB" stroke-width="2"/>
+  <rect x=".5" y=".5" width="639" height="483" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
+  <text x="24" y="42" font-size="20" font-weight="700" fill="#1E1B4B">One homepage row = one trip down the pipeline</text>
 
-  <text x="350" y="31" text-anchor="middle" font-size="16" font-weight="700" fill="#1E1B4B">The Recommendation Pipeline</text>
+  <text x="196" y="76" text-anchor="middle" font-size="14" fill="#6B7280">The pipeline (one call)</text>
+  <text x="498" y="76" text-anchor="middle" font-size="14" fill="#6B7280">Where video is special</text>
 
-  <!-- Retrieve -->
-  <g>
-    <rect x="20" y="60" width="150" height="122" rx="10" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
-    <text x="95" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">RETRIEVE</text>
-    <text x="95" y="111" text-anchor="middle" font-size="11" fill="#6B7280">Candidate Generation</text>
-    <text x="95" y="146" text-anchor="middle" font-size="23" font-weight="700" fill="#7C3AED">1M → 1K</text>
-    <text x="95" y="169" text-anchor="middle" font-size="11" font-weight="600" fill="#6B7280">~50ms</text>
+  <!-- connectors band -> twist -->
+  <g stroke="#D1D5DB" stroke-width="1.5" stroke-dasharray="4 4" fill="none">
+    <line x1="366" y1="120" x2="378" y2="120"/>
+    <line x1="342" y1="212" x2="378" y2="212"/>
+    <line x1="318" y1="304" x2="378" y2="304"/>
+    <line x1="294" y1="396" x2="378" y2="396"/>
   </g>
 
-  <path d="M177 121 H198" fill="none" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <!-- funnel bands -->
+  <rect x="28" y="88" width="336" height="64" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="196" y="114" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">1 · Retrieve</text>
+  <text x="196" y="138" text-anchor="middle" font-size="15" fill="#1E1B4B">Whole catalog → a shortlist</text>
 
-  <!-- Score -->
-  <g>
-    <rect x="205" y="60" width="150" height="122" rx="10" fill="#E0F2FE" stroke="#0EA5E9" stroke-width="2"/>
-    <text x="280" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">SCORE</text>
-    <text x="280" y="111" text-anchor="middle" font-size="11" fill="#6B7280">Precise Ranking</text>
-    <text x="280" y="146" text-anchor="middle" font-size="23" font-weight="700" fill="#0EA5E9">1K → 100</text>
-    <text x="280" y="169" text-anchor="middle" font-size="11" font-weight="600" fill="#6B7280">~100ms</text>
+  <rect x="52" y="180" width="288" height="64" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="196" y="206" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">2 · Score</text>
+  <text x="196" y="230" text-anchor="middle" font-size="15" fill="#1E1B4B">What will this viewer watch?</text>
+
+  <rect x="76" y="272" width="240" height="64" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+  <text x="196" y="298" text-anchor="middle" font-size="16" font-weight="700" fill="#4C1D95">3 · Re-rank &amp; filter</text>
+  <text x="196" y="322" text-anchor="middle" font-size="15" fill="#1E1B4B">Apply the video rules</text>
+
+  <rect class="pb139-glow" x="94" y="358" width="204" height="76" rx="16" fill="none" stroke="#10B981" stroke-width="3" stroke-opacity=".45"/>
+  <rect x="100" y="364" width="192" height="64" rx="12" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
+  <text x="196" y="390" text-anchor="middle" font-size="16" font-weight="700" fill="#065F46">4 · Serve</text>
+  <text x="196" y="414" text-anchor="middle" font-size="15" fill="#1E1B4B">One row of 10–20 titles</text>
+
+  <!-- arrows between bands -->
+  <g stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" fill="none">
+    <line x1="196" y1="155" x2="196" y2="175" marker-end="url(#pb139-head)"/>
+    <line x1="196" y1="247" x2="196" y2="267" marker-end="url(#pb139-head)"/>
+    <line x1="196" y1="339" x2="196" y2="359" marker-end="url(#pb139-head)"/>
+  </g>
+  <g fill="#7C3AED">
+    <circle class="pb139-dot" cx="214" cy="157" r="4.5"/>
+    <circle class="pb139-dot" style="animation-delay:1.1s" cx="214" cy="249" r="4.5"/>
+    <circle class="pb139-dot" style="animation-delay:2.2s" cx="214" cy="341" r="4.5"/>
   </g>
 
-  <path d="M362 121 H383" fill="none" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <!-- video twists -->
+  <rect x="380" y="88" width="236" height="64" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="396" y="114" font-size="15" font-weight="700" fill="#92400E">Licensing</text>
+  <text x="396" y="137" font-size="15" fill="#1E1B4B">expired titles never enter</text>
 
-  <!-- Re-rank -->
-  <g>
-    <rect x="390" y="60" width="150" height="122" rx="10" fill="#FEF3C7" stroke="#D97706" stroke-width="2"/>
-    <text x="465" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">RE-RANK</text>
-    <text x="465" y="111" text-anchor="middle" font-size="11" fill="#6B7280">Diversity + Rules</text>
-    <text x="465" y="146" text-anchor="middle" font-size="23" font-weight="700" fill="#D97706">100 → 20</text>
-    <text x="465" y="169" text-anchor="middle" font-size="11" font-weight="600" fill="#6B7280">~30ms</text>
-  </g>
+  <rect x="380" y="180" width="236" height="64" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="396" y="206" font-size="15" font-weight="700" fill="#92400E">Watch progress</text>
+  <text x="396" y="229" font-size="15" fill="#1E1B4B">10% · 50% · 90% · 100%</text>
 
-  <path d="M547 121 H568" fill="none" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round" marker-end="url(#arrowhead)"/>
+  <rect x="380" y="272" width="236" height="64" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="396" y="298" font-size="15" font-weight="700" fill="#92400E">Series → episode</text>
+  <text x="396" y="321" font-size="15" fill="#1E1B4B">pick the next unwatched one</text>
 
-  <!-- Serve -->
-  <g>
-    <rect x="575" y="60" width="105" height="122" rx="10" fill="#D1FAE5" stroke="#10B981" stroke-width="2"/>
-    <text x="627.5" y="88" text-anchor="middle" font-size="14" font-weight="700" fill="#1E1B4B">SERVE</text>
-    <text x="627.5" y="111" text-anchor="middle" font-size="11" fill="#6B7280">Final Response</text>
-    <text x="627.5" y="146" text-anchor="middle" font-size="18" font-weight="700" fill="#10B981">20 items</text>
-    <text x="627.5" y="169" text-anchor="middle" font-size="11" font-weight="600" fill="#6B7280">~20ms</text>
-  </g>
+  <rect x="380" y="364" width="236" height="64" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
+  <text x="396" y="390" font-size="15" font-weight="700" fill="#92400E">Across rows</text>
+  <text x="396" y="413" font-size="15" fill="#1E1B4B">no title shows up twice</text>
 
-  <!-- Total latency -->
-  <g>
-    <rect x="20" y="199" width="660" height="32" rx="7" fill="#FFFFFF" stroke="#7C3AED" stroke-width="2"/>
-    <text x="350" y="220" text-anchor="middle" font-size="13" font-weight="600" fill="#1E1B4B">Total: &lt; 200ms for millions of items → 20 personalized results</text>
-  </g>
+  <text x="320" y="464" text-anchor="middle" font-size="15" font-weight="600" fill="#1E1B4B">A homepage fires <tspan fill="#7C3AED" font-weight="700">5–6 of these calls in parallel</tspan> — one per row.</text>
 </svg>

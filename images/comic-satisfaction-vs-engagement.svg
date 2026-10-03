@@ -1,58 +1,124 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" font-family="system-ui,sans-serif">
-  <rect width="800" height="640" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
-  <text x="400" y="38" font-size="21" font-weight="700" fill="#1E1B4B" text-anchor="middle">The Longest Watch Isn’t the Favorite</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 650" role="img" aria-labelledby="pb094-title pb094-desc" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif">
+<title id="pb094-title">The longest watch isn’t the favorite</title>
+<desc id="pb094-desc">Four-panel comic. At 8 pm the recommender pitches a show with a dragon on the thumbnail and the viewer clicks: engagement logs a click. At 1 am autoplay is still counting down to the next episode and the viewer is still waiting for the dragon: engagement logs 5 hours watched. Next day the recommender asks "Would you watch it again?" and the viewer says "Never. Zero dragons." On renewal day the viewer presses No; the recommender protests "But you watched 5 hours!" and the viewer answers "Exactly." Engagement counts minutes; satisfaction decides who comes back. Ad-funded apps sell minutes, subscriptions need people to return.</desc>
+<rect x=".5" y=".5" width="639" height="649" rx="14" fill="#FAFAF7" stroke="#E5E7EB"/>
 
-  <rect x="14" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="38" y="91" width="164" height="112" rx="8" fill="#1E1B4B"/>
-  <rect x="47" y="100" width="146" height="94" rx="5" fill="#E0F2FE"/>
-  <text x="120" y="137" font-size="13" font-weight="700" fill="#1E1B4B" text-anchor="middle">TOASTER</text>
-  <text x="120" y="158" font-size="12" fill="#6B7280" text-anchor="middle">HOUR 6</text>
-  <rect x="216" y="82" width="160" height="56" rx="9" fill="#FEE2E2" stroke="#EF4444"/>
-  <text x="229" y="105" font-size="12.5" fill="#1E1B4B">
-    <tspan x="229" dy="0">The dragon was only</tspan>
-    <tspan x="229" dy="18">the thumbnail.</tspan>
-  </text>
-  <circle cx="300" cy="165" r="10" fill="#7C3AED"/>
-  <path d="M300 176 L300 220 M300 187 L278 200 M300 187 L321 199 M300 220 L284 244 M300 220 L318 244" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="306" font-size="12" fill="#6B7280" text-anchor="middle">CTR: excellent. The promised dragon remains unavailable.</text>
+<!-- ===== Panel 1: the pick ===== -->
+<g transform="translate(16,16)">
+<rect x="0" y="0" width="298" height="276" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">8 pm · the pick</text>
+<path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- recommender -->
+<path d="M37,212 V172 Q37,156 53,156 H67 Q83,156 83,172 V212 Z" fill="#7C3AED"/><rect x="65" y="165" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="60" cy="135" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="57" cy="133" r="2.2" fill="#1E1B4B"/><circle cx="69" cy="133" r="2.2" fill="#1E1B4B"/><path d="M59,141 Q64,145 69,141" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M80,170 L98,158" stroke="#7C3AED" stroke-width="7" stroke-linecap="round"/>
+<rect x="96" y="112" width="80" height="68" rx="8" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>
+<text x="136" y="148" font-size="30" text-anchor="middle">🐉</text>
+<text x="136" y="171" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">DRAGON!</text>
+<text x="60" y="230" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text>
+<!-- viewer -->
+<path d="M215,212 V172 Q215,156 231,156 H245 Q261,156 261,172 V212 Z" fill="#10B981"/>
+<circle cx="238" cy="135" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="229" cy="133" r="2.2" fill="#1E1B4B"/><circle cx="241" cy="133" r="2.2" fill="#1E1B4B"/><path d="M229,140 Q234,148 239,140 Z" fill="#1E1B4B"/>
+<text x="238" y="230" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+<!-- bubbles -->
+<path d="M22,44 H166 Q178,44 178,56 V86 Q178,98 166,98 H68 L58,114 L52,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="94" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="94">Tonight’s pick:</tspan><tspan x="94" dy="20">it has a dragon!</tspan></text>
+<path d="M204,44 H276 Q288,44 288,56 V86 Q288,98 276,98 H246 L238,114 L230,98 H204 Q192,98 192,86 V56 Q192,44 204,44 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="240" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="240">Ooh!</tspan><tspan x="240" dy="20">Play it!</tspan></text>
+<!-- metric chip -->
+<rect x="12" y="244" width="274" height="24" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="149" y="261" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#4C1D95">Engagement</tspan>: clicked <tspan font-weight="700" fill="#7C3AED">✓</tspan></text>
+</g>
 
-  <rect x="406" y="56" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="432" y="94" width="176" height="112" rx="8" fill="#1E1B4B"/>
-  <rect x="441" y="103" width="158" height="94" rx="5" fill="#FEF3C7"/>
-  <text x="520" y="130" font-size="12" font-weight="700" fill="#D97706" text-anchor="middle">AD-SUPPORTED</text>
-  <text x="520" y="153" font-size="11.5" fill="#6B7280" text-anchor="middle">TIME SPENT</text>
-  <text x="520" y="177" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">3:47:12</text>
-  <rect x="627" y="82" width="137" height="46" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-  <text x="640" y="110" font-size="12.5" fill="#1E1B4B">I should go.</text>
-  <circle cx="684" cy="166" r="10" fill="#7C3AED"/>
-  <path d="M684 177 L684 221 M684 188 L663 201 M684 188 L706 197 M684 221 L668 245 M684 221 L702 245" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="306" font-size="12" fill="#6B7280" text-anchor="middle">The ad-supported host celebrates every captive minute.</text>
+<!-- ===== Panel 2: still watching ===== -->
+<g transform="translate(326,16)">
+<rect x="0" y="0" width="298" height="276" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">1 am · still watching</text>
+<path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- couch + slumped viewer -->
+<rect x="16" y="150" width="108" height="44" rx="12" fill="#E5E7EB" stroke="#D1D5DB" stroke-width="1.5"/>
+<path d="M47,196 V176 Q47,162 61,162 H79 Q93,162 93,176 V196 Z" fill="#10B981"/>
+<circle cx="70" cy="142" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><path d="M63,141 H69 M75,141 H81" stroke="#1E1B4B" stroke-width="2" stroke-linecap="round"/><path d="M68,151 Q73,148 78,151" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<rect x="16" y="188" width="108" height="24" rx="6" fill="#E5E7EB" stroke="#D1D5DB" stroke-width="1.5"/>
+<rect x="12" y="170" width="18" height="42" rx="7" fill="#D1D5DB"/><rect x="110" y="170" width="18" height="42" rx="7" fill="#D1D5DB"/>
+<text x="70" y="230" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+<!-- TV with autoplay countdown -->
+<rect x="164" y="112" width="122" height="72" rx="8" fill="#1E1B4B"/>
+<rect x="170" y="118" width="110" height="60" rx="4" fill="#EDE9FE"/>
+<text x="225" y="142" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Next episode</text>
+<text x="225" y="164" font-size="15" font-weight="700" fill="#7C3AED" text-anchor="middle">in 5… 4… 3…</text>
+<rect x="220" y="184" width="10" height="20" fill="#9CA3AF"/><rect x="204" y="204" width="42" height="8" rx="3" fill="#9CA3AF"/>
+<!-- bubble -->
+<path d="M22,44 H174 Q186,44 186,56 V86 Q186,98 174,98 H78 L70,118 L62,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="98" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="98">Where’s the dragon?</tspan><tspan x="98" dy="20">…one more.</tspan></text>
+<!-- metric chip -->
+<rect x="12" y="244" width="274" height="24" rx="12" fill="#FFFFFF" stroke="#7C3AED" stroke-width="1.5"/>
+<text x="149" y="261" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#4C1D95">Engagement</tspan>: 5 h watched <tspan font-weight="700" fill="#7C3AED">✓</tspan></text>
+</g>
 
-  <rect x="14" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="39" y="367" width="230" height="50" rx="9" fill="#EDE9FE" stroke="#7C3AED"/>
-  <text x="53" y="398" font-size="12.5" fill="#1E1B4B">Would you watch this again?</text>
-  <rect x="61" y="446" width="180" height="82" rx="8" fill="#1E1B4B"/>
-  <rect x="70" y="455" width="162" height="64" rx="5" fill="#EDE9FE"/>
-  <text x="151" y="483" font-size="13" font-weight="700" fill="#7C3AED" text-anchor="middle">NETFLIX</text>
-  <text x="151" y="504" font-size="11.5" fill="#6B7280" text-anchor="middle">SATISFACTION CHECK</text>
-  <circle cx="312" cy="453" r="10" fill="#7C3AED"/>
-  <path d="M312 464 L312 508 M312 476 L291 486 M312 476 L332 486 M312 508 L297 534 M312 508 L328 534" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="204" y="586" font-size="12" fill="#6B7280" text-anchor="middle">Netflix asks the question the clock avoids.</text>
+<!-- ===== Panel 3: one question ===== -->
+<g transform="translate(16,304)">
+<rect x="0" y="0" width="298" height="276" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Next day · one question</text>
+<path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- recommender -->
+<path d="M37,212 V172 Q37,156 53,156 H67 Q83,156 83,172 V212 Z" fill="#7C3AED"/><rect x="65" y="165" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="60" cy="135" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="57" cy="133" r="2.2" fill="#1E1B4B"/><circle cx="69" cy="133" r="2.2" fill="#1E1B4B"/><path d="M59,141 Q64,145 69,141" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<!-- viewer, annoyed -->
+<path d="M213,212 V172 Q213,156 229,156 H243 Q259,156 259,172 V212 Z" fill="#10B981"/>
+<circle cx="236" cy="135" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="227" cy="133" r="2.2" fill="#1E1B4B"/><circle cx="239" cy="133" r="2.2" fill="#1E1B4B"/>
+<path d="M222,125 L231,128 M235,128 L244,125" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/><path d="M228,143 H238" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<text x="60" y="230" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text>
+<text x="236" y="230" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+<!-- bubbles -->
+<path d="M22,44 H140 Q152,44 152,56 V86 Q152,98 140,98 H68 L60,114 L52,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="81" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="81">Would you watch</tspan><tspan x="81" dy="20">it again?</tspan></text>
+<path d="M176,44 H276 Q288,44 288,56 V86 Q288,98 276,98 H244 L236,114 L228,98 H176 Q164,98 164,86 V56 Q164,44 176,44 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="226" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="226">Never.</tspan><tspan x="226" dy="20">Zero dragons.</tspan></text>
+<!-- metric chip -->
+<rect x="12" y="244" width="274" height="24" rx="12" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+<text x="149" y="261" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#065F46">Satisfaction</tspan>: watch again? <tspan font-weight="700" fill="#92400E">✗ no</tspan></text>
+</g>
 
-  <rect x="406" y="336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>
-  <rect x="432" y="438" width="134" height="90" rx="8" fill="#1E1B4B"/>
-  <rect x="441" y="447" width="116" height="72" rx="5" fill="#D1FAE5"/>
-  <text x="499" y="474" font-size="11.5" font-weight="700" fill="#10B981" text-anchor="middle">SUBSCRIPTION</text>
-  <text x="499" y="500" font-size="15" font-weight="700" fill="#1E1B4B" text-anchor="middle">RENEW?</text>
-  <rect x="566" y="360" width="194" height="68" rx="9" fill="#FFFFFF" stroke="#7C3AED"/>
-  <text x="578" y="386" font-size="12.5" fill="#1E1B4B">
-    <tspan x="578" dy="0">I couldn’t stop watching.</tspan>
-    <tspan x="578" dy="19">I can stop renewing.</tspan>
-  </text>
-  <circle cx="675" cy="461" r="10" fill="#7C3AED"/>
-  <path d="M675 472 L675 510 M675 482 L653 490 M675 482 L695 475 M675 510 L655 533 M675 510 L698 525" fill="none" stroke="#1E1B4B" stroke-width="2.5" stroke-linecap="round"/>
-  <path d="M718 449 L754 449 L754 535 L718 535 Z M738 492 L746 492" fill="none" stroke="#6B7280" stroke-width="2.5" stroke-linecap="round"/>
-  <text x="596" y="586" font-size="12" fill="#6B7280" text-anchor="middle">The binge was long. The relationship was not.</text>
+<!-- ===== Panel 4: renewal day ===== -->
+<g transform="translate(326,304)">
+<rect x="0" y="0" width="298" height="276" rx="12" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="1.5"/>
+<circle cx="24" cy="24" r="11" fill="#1E1B4B"/><text x="24" y="29" font-size="14" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+<text x="43" y="30" font-size="16" font-weight="700" fill="#1E1B4B">Renewal day</text>
+<path d="M12,212 H286" stroke="#E5E7EB" stroke-width="1.5" stroke-linecap="round"/>
+<!-- recommender, shocked -->
+<path d="M35,212 V172 Q35,156 51,156 H65 Q81,156 81,172 V212 Z" fill="#7C3AED"/><rect x="63" y="165" width="12" height="8" rx="2" fill="#FFFFFF"/>
+<circle cx="58" cy="135" r="17" fill="#FFFFFF" stroke="#4C1D95" stroke-width="2"/><circle cx="55" cy="133" r="2.2" fill="#1E1B4B"/><circle cx="67" cy="133" r="2.2" fill="#1E1B4B"/>
+<path d="M51,125 Q55,122 59,125 M63,125 Q67,122 71,125" fill="none" stroke="#1E1B4B" stroke-width="1.6" stroke-linecap="round"/><circle cx="62" cy="143" r="3.2" fill="none" stroke="#1E1B4B" stroke-width="1.8"/>
+<!-- TV with renewal prompt -->
+<rect x="98" y="112" width="120" height="72" rx="8" fill="#1E1B4B"/>
+<rect x="104" y="118" width="108" height="60" rx="4" fill="#EDE9FE"/>
+<text x="158" y="138" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Renew plan?</text>
+<rect x="112" y="147" width="42" height="24" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+<text x="133" y="164" font-size="14" fill="#1E1B4B" text-anchor="middle">Yes</text>
+<rect x="162" y="147" width="42" height="24" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+<text x="183" y="164" font-size="14" font-weight="700" fill="#92400E" text-anchor="middle">No</text>
+<rect x="153" y="184" width="10" height="20" fill="#9CA3AF"/><rect x="137" y="204" width="42" height="8" rx="3" fill="#9CA3AF"/>
+<!-- viewer pressing No -->
+<path d="M231,212 V172 Q231,156 247,156 H261 Q277,156 277,172 V212 Z" fill="#10B981"/>
+<circle cx="254" cy="135" r="17" fill="#FFFFFF" stroke="#065F46" stroke-width="2"/><circle cx="245" cy="133" r="2.2" fill="#1E1B4B"/><circle cx="257" cy="133" r="2.2" fill="#1E1B4B"/><path d="M247,142 Q252,144 257,140" fill="none" stroke="#1E1B4B" stroke-width="1.8" stroke-linecap="round"/>
+<path d="M233,174 L202,162" stroke="#10B981" stroke-width="7" stroke-linecap="round"/>
+<text x="58" y="230" font-size="14" font-weight="700" fill="#4C1D95" text-anchor="middle">Recommender</text>
+<text x="254" y="230" font-size="14" font-weight="700" fill="#065F46" text-anchor="middle">You</text>
+<!-- bubbles -->
+<path d="M22,44 H160 Q172,44 172,56 V86 Q172,98 160,98 H66 L58,114 L50,98 H22 Q10,98 10,86 V56 Q10,44 22,44 Z" fill="#EDE9FE" stroke="#7C3AED" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="91" y="66" font-size="16" fill="#1E1B4B" text-anchor="middle"><tspan x="91">But you watched</tspan><tspan x="91" dy="20">5 hours!</tspan></text>
+<path d="M208,44 H276 Q288,44 288,56 V68 Q288,80 276,80 H262 L254,114 L246,80 H208 Q196,80 196,68 V56 Q196,44 208,44 Z" fill="#D1FAE5" stroke="#10B981" stroke-width="1.5" stroke-linejoin="round"/>
+<text x="242" y="67" font-size="16" font-weight="700" fill="#1E1B4B" text-anchor="middle">Exactly.</text>
+<!-- metric chip -->
+<rect x="12" y="244" width="274" height="24" rx="12" fill="#FFFFFF" stroke="#10B981" stroke-width="1.5"/>
+<text x="149" y="261" font-size="15" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#065F46">Satisfaction</tspan>: renewed? <tspan font-weight="700" fill="#92400E">✗ no</tspan></text>
+</g>
 
-  <text x="400" y="626" font-size="13" fill="#6B7280" text-anchor="middle">Engagement measures attention, but satisfaction predicts rewatching and long-term retention.</text>
+<!-- takeaway -->
+<text x="320" y="608" font-size="17" fill="#1E1B4B" text-anchor="middle"><tspan font-weight="700" fill="#7C3AED">Engagement</tspan> counts minutes. <tspan font-weight="700" fill="#065F46">Satisfaction</tspan> decides who comes back.</text>
+<text x="320" y="632" font-size="15" fill="#4B5563" text-anchor="middle">Ad-funded apps sell your minutes; subscriptions live on renewals.</text>
 </svg>

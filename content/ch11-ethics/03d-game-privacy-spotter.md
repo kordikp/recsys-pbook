@@ -3,18 +3,19 @@ id: ch6-game-privacy
 type: game
 game: privacy-spotter
 title: "Privacy Spotter"
-readingTime: 1
+readingTime: 2
 standalone: true
-teaser: "Some data practices are standard and transparent. Others are privacy risks with regulatory implications. Can you distinguish between them?"
+teaser: "Ten things apps do with your data. Which are routine, and which are a privacy risk?"
 voice: universal
 parent: null
 diagram: null
 status: accepted
 concept: privacy-reality
 state: edited
+lang: en
 lens: generic
 visuality: text-first
-depth: standard
+depth: intro..standard
 formalism: none
 lengthBand: tldr
 carriers: prose

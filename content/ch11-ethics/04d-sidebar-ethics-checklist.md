@@ -2,7 +2,7 @@
 id: ch6-ethics-checklist
 type: spine
 title: "The RecSys Ethics Checklist: Questions to Ask Before Launch"
-readingTime: 3
+readingTime: 7
 standalone: true
 core: false
 teaser: "A practical checklist for evaluating recommender systems across six dimensions -- user impact, fairness, privacy, safety, transparency, and accountability. The questions that separate responsible systems from negligent ones."
@@ -13,13 +13,13 @@ recallQ: "What are the six categories in a recommender system ethics checklist?"
 recallA: "User impact, fairness, privacy, safety, transparency, and accountability. Each category contains specific questions that teams should answer before launching or updating a recommendation system."
 publishedAt: "2026-04-03"
 status: accepted
-concept: conversational-recs
+concept: ai-future
 state: edited
 lens: generic
 visuality: balanced
 depth: standard
 formalism: none
-lengthBand: standard
+lengthBand: deep
 genre: explainer
 carriers: prose|image
 ---
@@ -28,7 +28,7 @@ Building a recommendation system that works is an engineering problem. Building 
 
 This is not a compliance form. It is a thinking tool. The value is not in checking boxes -- it is in the conversations each question forces your team to have.
 
-![Ethics checklist with animated checkmarks](/images/anim-ethics-checklist.svg)
+![Two pre-launch checklists: a sticky note with one ticked box (engagement up, ship it) next to the ethics checklist's six areas (user impact, fairness, privacy, safety, transparency, accountability), each answered honestly, with one gap documented](/images/anim-ethics-checklist.svg)
 
 ## User Impact
 

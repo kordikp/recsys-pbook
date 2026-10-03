@@ -45,4 +45,4 @@ When you see a banner for headphones, that's **advertising technology (AdTech)**
 
 **The key distinction:** a recommender system optimizes for **user satisfaction** (engagement, retention) using first-party data. An ad system optimizes for **advertiser ROI**, using cross-platform tracking data. Both use algorithms. Both use personal data. But they serve different stakeholders — and understanding this difference is essential for digital literacy.
 
-**Consider this:** Next time you see content surfaced to you, ask: is this a recommendation (optimized for my engagement) or an ad (optimized for someone else's revenue)? The boundary between the two is increasingly blurred — and that's worth thinking about.
+**Try this:** Next time you see content surfaced to you, ask: is this a recommendation (optimized for my engagement) or an ad (optimized for someone else's revenue)? The boundary between the two is increasingly blurred — and that's worth thinking about.

@@ -1,56 +1,43 @@
 ---
 id: ch1-q1
 type: question
-title: "What's Your Learning Priority?"
+title: "How Should This Book Talk to You?"
 readingTime: 1
 standalone: true
-teaser: "Choose your reading path through the book."
+teaser: "Pick a default style. Every idea in the book has several tellings; your answer decides which one is suggested first."
 voice: universal
 parent: null
 diagram: null
 status: accepted
+hintA: depth=intro..standard
+hintB: genre=worked-example
+hintC: depth=technical,formalism=light
+feedbackA: "Noted: plain-language tellings first. Every telling of an idea teaches the same core point, so you lose nothing essential; terms are explained where they appear."
+feedbackB: "Noted: worked cases first. Where an idea has a worked example (a shop, a playlist, a job board stepped through end to end), it is suggested ahead of the general explainer."
+feedbackC: "Noted: technical tellings first. Expect practitioner vocabulary without re-explanation and formulas in the deeper versions. The plain versions stay one tap away."
+feedbackD: "Noted: no preference. You start with each idea's default telling, and the book adjusts to what you open and finish."
 concept: three-jobs
 state: edited
 lens: generic
 visuality: text-first
 depth: standard
 formalism: none
-lengthBand: tldr
+lengthBand: standard
 carriers: prose
 ---
 
-You've covered the fundamentals of what recommender systems are. Now choose the reading path that best matches your interests and goals.
+The rest of the book explains each idea in several tellings: short summaries, worked cases, stories, and versions with the mechanics and the math. All tellings of an idea teach the same core point; they differ in how they get there. Pick the style you want to see first.
 
-**Select the option that resonates most:**
+**A) "Plain language and real examples"**
+Short explanations built on everyday products. No formulas, and every term is explained where it appears. A good fit if you decide about products rather than build models.
 
----
+**B) "Show me a worked case"**
+One concrete situation stepped through from start to finish. A good fit if you learn best by watching a decision play out.
 
-**A) "Show me how production systems actually work."**
-You want to understand the internals. How does TikTok's algorithm rank videos? What signals does Spotify use when you skip a track? You want architecture diagrams, system design breakdowns, and real-world case studies.
+**C) "Give me the mechanics and the math"**
+Practitioner vocabulary, architecture details, and formulas where they help. A good fit if you build or evaluate recommenders.
 
-*You're an **Explorer**. The Explorer depth sections throughout this book will take you inside production systems.*
+**D) "Mix it up"**
+No preference. You see the default telling of each idea, and the book learns from what you actually read.
 
----
-
-**B) "I want to build a recommendation system."**
-Theory is fine, but you learn by doing. Data collection, similarity computation, evaluation metrics — you want hands-on implementation, from spreadsheets to Python code.
-
-*You're a **Creator**. The Creator depth sections are full of practical exercises and implementation guides.*
-
----
-
-**C) "I want to understand the deeper implications."**
-You're drawn to the harder questions. Why do recommendation systems amplify certain content? What are the fairness implications? How do we evaluate whether a system is actually serving users well? You want analytical depth and critical thinking.
-
-*You're a **Thinker**. The Thinker depth sections explore the "why" behind every design decision.*
-
----
-
-**D) "I want the comprehensive picture."**
-You want it all — technical depth, practical implementation, and critical analysis. Read the main narrative plus all depth sections for the complete experience.
-
-*You're a **Universal** reader. Every section is relevant to you.*
-
----
-
-**Note:** You can switch paths at any time. The book is designed to work regardless of which reading path you choose.
+You can change this at any time under **Profile → Format preferences**. That is the book practising what it teaches: a recommender should let you steer it.
