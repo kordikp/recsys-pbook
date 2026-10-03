@@ -4,7 +4,7 @@
 // any more — install derives it from /content/book.json (every content file),
 // the games, diagrams and images those files reference, and app.js's imports.
 // (A hand-kept list once missed 97 of 307 content files, all comics included.)
-const CACHE_NAME = 'pbook-v80';
+const CACHE_NAME = 'pbook-v81';
 
 // App shell: the few files content cannot point at
 const SHELL = [
@@ -66,13 +66,9 @@ async function precacheBook(cache) {
     const md = await text(await precacheOne(cache, u));
     const game = md.match(/^game:\s*([\w.-]+)\s*$/m);
     if (game) add(`/games/${game[1]}.json`, assets);
-    const diagram = md.match(/^diagram:\s*([^\s#]+)\s*$/m);
-    if (diagram && diagram[1] !== 'null') {
-      const d = diagram[1];
-      add(diagramFiles[d] || (/\.(svg|png|jpe?g|webp|gif)$/i.test(d) ? '/' + d.replace(/^\//, '') : null), assets);
-    }
-    for (const m of md.matchAll(/!\[lottie:([\w-]+)\]/g)) add(`/images/domains/animations/${m[1]}/${m[1]}.json`, assets);
-    for (const m of md.matchAll(/\]\((\/?images\/[^)\s]+)\)/g)) add('/' + m[1].replace(/^\//, ''), assets);
+    // Figures, photos and animations (several MB) are NOT fetched here: on a first visit
+    // that doubled the download while the page was loading the same files. The fetch
+    // handler caches every image the reader actually sees, so viewed sections work offline.
   });
   await inBatches(assets, u => precacheOne(cache, u));
 }

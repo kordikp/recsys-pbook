@@ -247,6 +247,8 @@ async function init(){
   const jobs=book.chapters.flatMap(ch=>ch.files.map(f=>fetch(`content/${ch.directory}/${f}`).then(r=>r.text()).then(t=>{const{meta,body}=parseFM(t);return{...meta,body,_ch:ch.id,_cn:ch.number,_ct:ch.title,_f:f}}).catch(()=>null)));
   allBlocks=(await Promise.all(jobs)).filter(Boolean);
   document.getElementById('hstat').textContent=`${allBlocks.length} blocks · ${book.chapters.length} chapters`;
+  // Reader counts over the whole log (server-side, cached 10 min) — the tabs below only see the latest ~1,000 events
+  getReaderStats().then(st=>{ if(st&&st.readers) document.getElementById('hstat').textContent+=` · 👥 ${st.readers.allTime} readers · ${st.readers.last7d} this week`; });
   document.getElementById('mainNav').innerHTML=TABS.map(t=>`<button class="${t===currentTab?'active':''}" onclick="ST('${t}')">${t}</button>`).join('');
   renderSidebar();showMain();
 }
@@ -1140,8 +1142,22 @@ function filtered(){
 
 // ---- Analytics: real Recombee data ----
 // ---- Analytics: from server-side log ----
+let _readerStatsP=null;
+function getReaderStats(){ if(!_readerStatsP) _readerStatsP=fetch('/api/log?stats=1').then(r=>r.ok?r.json():null).catch(()=>null); return _readerStatsP; }
+async function renderReaderStats(el){
+  const st=await getReaderStats();
+  if(!st||!st.readers){ el.innerHTML='<p style="font-size:.8rem;color:var(--text3)">Reader counts unavailable (the log endpoint did not answer).</p>'; return; }
+  const r=st.readers, wk=st.weeks||[], max=Math.max(1,...wk.map(w=>w.activeReaders));
+  const tile=(n,l)=>`<div style="border:1px solid var(--border);border-radius:10px;padding:.6em .9em;min-width:110px"><div style="font-size:1.5rem;font-weight:800">${n}</div><div style="font-size:.72rem;color:var(--text2)">${l}</div></div>`;
+  el.innerHTML=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.4em">👥 Readers</h2>
+    <div style="display:flex;gap:.6em;flex-wrap:wrap;margin-bottom:.7em">${tile(r.allTime,'readers since the start')}${tile(r.last30d,'active in 30 days')}${tile(r.last7d,'active in 7 days')}${tile(r.last24h,'active in 24 hours')}${tile(st.accounts??'–','accounts')}</div>
+    <table style="border-collapse:collapse;font-size:.75rem;font-variant-numeric:tabular-nums"><tr><th style="text-align:left;padding:.2em .6em">week from</th><th style="padding:.2em .6em">new</th><th style="padding:.2em .6em">active</th><th></th></tr>
+    ${wk.map(w=>`<tr><td style="padding:.15em .6em">${w.weekStart}</td><td style="padding:.15em .6em;text-align:right">${w.newReaders}</td><td style="padding:.15em .6em;text-align:right">${w.activeReaders}</td><td style="padding:.15em .6em"><div style="height:8px;width:${Math.round(160*w.activeReaders/max)}px;background:var(--accent);border-radius:4px"></div></td></tr>`).join('')}</table>
+    <p style="font-size:.7rem;color:var(--text3);margin-top:.4em">${st.events} logged events since ${String(st.firstEvent||'').slice(0,10)} · ${st.note} · computed ${String(st.computedAt).slice(11,16)} UTC (refreshes every 10 min)</p>`;
+}
 async function renderReach(m){
-  m.innerHTML='<div id="reachGrowth" style="margin-bottom:1.2em"></div><div id="reachAnalytics"></div>';
+  m.innerHTML='<div id="reachReaders" style="margin-bottom:1.4em"></div><div id="reachGrowth" style="margin-bottom:1.2em"></div><div id="reachAnalytics"></div>';
+  renderReaderStats(document.getElementById('reachReaders'));
   await _loadCoverageData();
   const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   const g=document.getElementById('reachGrowth');
