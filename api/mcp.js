@@ -5,8 +5,8 @@
 //   POST /api/mcp   JSON-RPC 2.0 (single message or batch)
 //   GET  /api/mcp   405 + a short description (there is no server-initiated stream)
 //
-// It reads only static files of the SAME deployment (never the reader log, never
-// any store): /pbook.json, /content/book.json, /content/concepts.json,
+// It reads only static files of the SAME deployment — from the function bundle when
+// they are included, else over HTTP (never the reader log, never any store): /pbook.json, /content/book.json, /content/concepts.json,
 // /kb/index.json (built by scripts/build-kb.js) and the datasets the book declares
 // in pbook.json → "datasets": [{ name, url, description }]. Zero dependencies.
 
@@ -21,10 +21,26 @@ function origin(req) {
   return `${proto}://${host}`;
 }
 
+// Files bundled with the function (vercel.json → functions → includeFiles) are read
+// from disk: no self-request, so it also works behind deployment protection.
+const fs = require('fs');
+const nodePath = require('path');
+function readLocal(path, as) {
+  const rel = String(path).split('?')[0].replace(/^\/+/, '');
+  if (!rel || rel.includes('..')) return undefined;
+  for (const base of [process.cwd(), nodePath.join(__dirname, '..')]) {
+    const f = nodePath.join(base, rel);
+    try { if (fs.statSync(f).isFile()) { const t = fs.readFileSync(f, 'utf8'); return as === 'json' ? JSON.parse(t) : t; } } catch (e) {}
+  }
+  return undefined;
+}
+
 async function getFile(req, path, as = 'json') {
   const url = origin(req) + path;
   const hit = cache.get(url);
   if (hit && Date.now() - hit.at < TTL) return hit.data;
+  const local = readLocal(path, as);
+  if (local !== undefined) { cache.set(url, { at: Date.now(), data: local }); return local; }
   const ctl = new AbortController();
   const t = setTimeout(() => ctl.abort(), 8000);
   try {
