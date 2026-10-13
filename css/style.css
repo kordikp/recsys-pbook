@@ -1491,3 +1491,7 @@ details.profile-fold[open] > summary { margin-bottom: .6em; }
 details.profile-fold[open] > summary::after { transform: rotate(180deg); }
 .profile-hint { font-size: .82rem; color: var(--text-2); margin: 0; }
 .moment-checks { margin: .8em 0; }
+
+/* Long links (raw URLs, file names) wrap instead of pushing the column wider */
+.block-article a, .block-article td, .block-article li { overflow-wrap: anywhere; }
+.block-article table { max-width: 100%; }

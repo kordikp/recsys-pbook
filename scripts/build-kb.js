@@ -118,7 +118,7 @@ function sourcesOf(body) {
 
   const pageCss = `
 :root{--a:${ACCENT};--t:#262626;--t2:#5b5b5b;--b:#e6e6e1;--bg:#fbfbf8}
-*{box-sizing:border-box}body{margin:0;font:17px/1.62 system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--t);background:var(--bg)}
+*{box-sizing:border-box}a,li,td{overflow-wrap:anywhere}body{margin:0;font:17px/1.62 system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--t);background:var(--bg)}
 header,main,footer{max-width:820px;margin:0 auto;padding:0 20px}
 header{padding-top:18px;font-size:.9rem;color:var(--t2);display:flex;gap:1em;flex-wrap:wrap;justify-content:space-between}
 header a{color:var(--t2)}a{color:var(--a)}
