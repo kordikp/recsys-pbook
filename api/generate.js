@@ -98,13 +98,13 @@ const SVG_BLOCK_SCHEMA = {
 const DESIGN_SYSTEM = `PALETTE (only these): bg card #FAFAF7 + border #E5E7EB (rx 14); ink #1E1B4B titles; #6B7280 captions; purple #7C3AED (+#EDE9FE), green #10B981 (+#D1FAE5), amber #D97706 (+#FEF3C7), blue #0EA5E9 (+#E0F2FE), red #EF4444 sparingly; white cards #FFFFFF. Minimal geometric figures (circle head r9-11 + stroke body, stroke-width 2.5). Min font-size 11, every text inside its container with padding, text never overlaps lines/shapes/text. No gradients, no filters, no <script>, no <image>, no external refs. Valid XML (escape & as &amp;).
 CLICK-REVEAL (only when the request asks for step-by-step / click-through / "klikací" reveal): tag logical groups with data-krok="1"…"N" (max 6) on <g> elements, in the order they should appear; base scene (frame, title, footer) carries NO data-krok. The book reveals krok groups one per click; with no JS everything is visible, so the complete drawing must read well as-is.`;
 
-function buildVisualPrompt(concept, contract, facets, wish) {
+function buildVisualPrompt(concept, contract, facets, wish, P = DEFAULT_PROFILE) {
   const mustCoverList = (contract.mustCover || []).map((m, i) => `  ${i}. ${m.point}`).join('\n');
   const isComic = facets.genre === 'comic';
   const spec = isComic
     ? `A FOUR-PANEL COMIC, viewBox "0 0 800 640": title centered y=38 (21px bold, witty double meaning); four EXACT panel frames <rect x="14|406" y="56|336" width="380" height="264" rx="10" fill="#FFFFFF" stroke="#E5E7EB"/>; per panel: visuals in top ~200px, one caption line at y=panel_y+250 (12px #6B7280, ≤66 chars); footer take-away sentence centered y=626 (13px #6B7280, ≤95 chars). Speech bubbles: rounded rects, ≤34 chars/line, ≤2 lines, ≤2 bubbles/panel. One everyday scenario that IS the mechanism (double meaning); P4 lands the punchline; the footer teaches.`
     : `AN ANIMATED EXPLAINER, viewBox "0 0 800 420": title centered y=36 (20px bold #1E1B4B); footer one-line takeaway ~y=395 (13px #6B7280); EVERYTHING VISIBLE AT REST (no opacity:0 resting states); at most ONE subtle CSS loop (stroke-dashoffset flow, gentle pulse between opacity 1 and 0.55, or a small offset-path travel); labels on every element.`;
-  const system = `You create a ${isComic ? 'comic' : 'animated SVG'} telling for the living book "How Recommendations Work". ${DESIGN_SYSTEM}
+  const system = `You create a ${isComic ? 'comic' : 'animated SVG'} telling for the living book "${P.title}" (about ${P.subject}). ${DESIGN_SYSTEM}
 FORM: ${spec}
 - SEGMENT-SCOPED: made for every reader who chose these settings, never one person.
 - The visual must let a reader answer the recall question afterwards. Never invent statistics or papers.
@@ -233,7 +233,8 @@ function parseFrontmatterBody(text) {
 // lookups (concepts.json, anchor, correction rules) read THEIR content instead
 // of this book's. Only allowlisted hosts are honored — anything else falls back
 // to this deployment's own host.
-const ALLOWED_SOURCE_HOSTS = ['pbook-internet.vercel.app'];
+const ALLOWED_SOURCE_HOSTS = ['pbook-internet.vercel.app', 'polirural-pbook.vercel.app', 'mvi-pbook.vercel.app']
+  .concat((process.env.PBOOK_SOURCE_HOSTS || '').split(',').map(h => h.trim()).filter(Boolean));
 function contentHost(req) {
   const h = req.body && req.body.sourceHost;
   return (h && ALLOWED_SOURCE_HOSTS.includes(h)) ? h : req.headers.host;
@@ -246,19 +247,41 @@ function contentHost(req) {
 // own /pbook.json (title, audience, language); the defaults describe this book.
 const DEFAULT_PROFILE = {
   title: 'How Recommendations Work',
+  subject: 'recommender systems',
+  byline: 'Pavel Kordík, Eva Nečasová and the Recombee team',
+  lens: FACETS.lens,
+  lensWorlds: LENS_WORLDS,
   audience: 'product owners and managers, engineers, students and curious adults; some tellings go deep for practitioners',
   language: 'en',
 };
 const LANG_NAMES = { en: 'English', cs: 'Czech' };
 const langName = code => LANG_NAMES[code] || LANG_NAMES[DEFAULT_PROFILE.language];
 
+const _profileCache = new Map();   // host → { at, profile }: one /pbook.json fetch per minute, not per prompt
 async function bookProfile(req) {
+  const key = contentHost(req);
+  const hit = _profileCache.get(key);
+  if (hit && Date.now() - hit.at < 60000) return hit.profile;
+  const profile = await _fetchBookProfile(req);
+  _profileCache.set(key, { at: Date.now(), profile });
+  return profile;
+}
+async function _fetchBookProfile(req) {
   try {
     const m = await (await selfFetch(contentHost(req), '/pbook.json')).json();
+    // A book may declare its own example worlds (facets.lens + lensWorlds); the
+    // vocabulary stays a whitelist — only slugs, and only ones the book describes.
+    const ownLens = Array.isArray(m.facets?.lens) && m.lensWorlds
+      ? m.facets.lens.filter(v => typeof v === 'string' && /^[a-z0-9-]{2,30}$/.test(v) && typeof m.lensWorlds[v] === 'string').slice(0, 20)
+      : null;
     return {
       title: String(m.title || DEFAULT_PROFILE.title).slice(0, 120),
+      subject: String(m.subject || (m.title ? m.title : DEFAULT_PROFILE.subject)).slice(0, 160),
+      byline: String(m.author || (m.title ? '' : DEFAULT_PROFILE.byline)).slice(0, 160),
       audience: String(m.audience || DEFAULT_PROFILE.audience).slice(0, 240),
       language: LANG_NAMES[m.language] ? m.language : DEFAULT_PROFILE.language,
+      lens: ownLens && ownLens.length ? ownLens : DEFAULT_PROFILE.lens,
+      lensWorlds: ownLens && ownLens.length ? Object.fromEntries(ownLens.map(v => [v, String(m.lensWorlds[v]).slice(0, 240)])) : DEFAULT_PROFILE.lensWorlds,
     };
   } catch (e) { return DEFAULT_PROFILE; }
 }
@@ -393,8 +416,8 @@ function validate(block, facets, contract) {
 }
 
 // Remix: rewrite ONLY a selected passage per the reader's instruction, seamlessly.
-function buildRemixPrompt(contract, facets, selection, instruction, context) {
-  const system = `You are a co-author of "How Recommendations Work", an interactive book about recommender systems. A reader selected one passage and asked for it to be changed. Rewrite ONLY that passage.
+function buildRemixPrompt(contract, facets, selection, instruction, context, P = DEFAULT_PROFILE) {
+  const system = `You are a co-author of "${P.title}", an interactive book about ${P.subject}. A reader selected one passage and asked for it to be changed. Rewrite ONLY that passage.
 - NEVER draw ASCII diagrams or arrow art in the text. If the reader asks for a diagram/schema, write clean prose — a real SVG diagram is generated separately and attached above the text.
 
 Hard constraints:
@@ -428,8 +451,8 @@ Write the replacement passage now. Aim for roughly the same length as the origin
 // marked ("draw a diagram of a router here and explain it"). Rewriting would
 // destroy the surrounding text, so insertion is its own mode: nothing existing
 // changes, one new passage is produced for that exact place.
-function buildInsertPrompt(contract, facets, anchor, instruction, context) {
-  const system = `You are a co-author of "How Recommendations Work", an interactive book about recommender systems. A reader marked a spot in a section and asked for something to be ADDED there. Write ONLY the new passage that will be inserted at that spot.
+function buildInsertPrompt(contract, facets, anchor, instruction, context, P = DEFAULT_PROFILE) {
+  const system = `You are a co-author of "${P.title}", an interactive book about ${P.subject}. A reader marked a spot in a section and asked for something to be ADDED there. Write ONLY the new passage that will be inserted at that spot.
 - NEVER draw ASCII diagrams or arrow art in the text. If the reader asks for a diagram/schema, write clean prose — a real SVG diagram is generated separately and attached above the text.
 
 Hard constraints:
@@ -461,7 +484,7 @@ Write the new passage now.`;
   return { system, user };
 }
 
-function buildPrompt(concept, contract, facets, exemplar, rules, existingVariants, instructions) {
+function buildPrompt(concept, contract, facets, exemplar, rules, existingVariants, instructions, P = DEFAULT_PROFILE) {
   const mustCoverList = (contract.mustCover || [])
     .map((m, i) => `  ${i}. ${m.point}${m.modality && m.modality !== 'prose' ? ` (naturally expressed as: ${m.modality})` : ''}`)
     .join('\n');
@@ -472,7 +495,7 @@ function buildPrompt(concept, contract, facets, exemplar, rules, existingVariant
       ? 'Mix prose with one structured element (a small markdown table or step list) where it carries the point better than sentences.'
       : 'Prose only — no tables or diagrams.';
 
-  const system = `You are a co-author of "How Recommendations Work", an interactive book about recommender systems by Pavel Kordík, Eva Nečasová and the Recombee team. You write VARIANTS of existing concepts for specific reader segments — the same idea, told differently. Your text will be labelled as machine-generated until a human editor promotes it.
+  const system = `You are a co-author of "${P.title}", an interactive book about ${P.subject}${P.byline ? ` by ${P.byline}` : ''}. You write VARIANTS of existing concepts for specific reader segments — the same idea, told differently. Your text will be labelled as machine-generated until a human editor promotes it.
 
 House style rules (distilled from what editors most often correct):
 ${rules.map(r => `- ${r}`).join('\n')}
@@ -494,7 +517,7 @@ ${mustCoverList || '  (no explicit points — stay faithful to the objective)'}
 Canonical recall answer (your telling must be consistent with it): ${contract.recallA || 'n/a'}
 
 ## Segment settings (the "how")
-- Example world: ${LENS_WORLDS[facets.lens]}. ALL examples, scenarios and metaphors live in this world.
+- Example world: ${P.lensWorlds[facets.lens] || P.lensWorlds.generic || facets.lens}. ALL examples, scenarios and metaphors live in this world.
 - Language: ${facets.lang === 'cs' ? 'Write the ENTIRE variant in natural, idiomatic Czech (including title, recallQ and recallA). Situate examples in a Czech setting where natural.' : 'Write in English.'}
 - Depth: ${DEPTH_RULES[facets.depth]}
 - Formalism: ${facets.formalism === 'none' ? 'No formulas, no LaTeX.' : facets.formalism === 'light' ? 'At most 2 short inline formulas, each explained in words.' : 'Formulas may lead; explain notation once.'}
@@ -639,7 +662,9 @@ module.exports = async function handler(req, res) {
     const { concept, facets: rawFacets, existingVariants, mode, selection, instruction, context } = req.body || {};
     // Whitelist facet values — nothing free-text from the client reaches the prompt as facets
     const facets = {};
-    for (const [k, vals] of Object.entries(FACETS)) {
+    const bookLens = (await bookProfile(req)).lens;
+    for (const [k, vals0] of Object.entries(FACETS)) {
+      const vals = k === 'lens' ? bookLens : vals0;
       const v = rawFacets && rawFacets[k];
       facets[k] = vals.includes(v) ? v : (k === 'genre' ? 'explainer' : vals.includes('standard') ? 'standard' : vals[0]);
     }
@@ -660,7 +685,8 @@ module.exports = async function handler(req, res) {
       if (!signals.trim()) return res.status(400).json({ ok: false, error: 'signals digest required' });
       const count = Math.min(5, Math.max(1, parseInt(req.body.count, 10) || 0)) || null;
 
-      const system = `You help maintain "How Recommendations Work", a living book about recommender systems. Editors keep a closed inventory of CONCEPTS (units of understanding, each with a human-approved contract). Your job: from reader-demand evidence, draft proposals for concepts the book is MISSING. Rules:
+      const P = await bookProfile(req);
+      const system = `You help maintain "${P.title}", a living book about ${P.subject}. Editors keep a closed inventory of CONCEPTS (units of understanding, each with a human-approved contract). Your job: from reader-demand evidence, draft proposals for concepts the book is MISSING. Rules:
 - Propose ${count ? `exactly ${count}` : "3-5"} genuinely new concept(s). NEVER propose anything already covered by the existing list (including near-synonyms).
 - slug: short kebab-case noun phrase naming the IDEA (like "item-cold-start", "filter-bubbles") — no chapter prefixes.
 - Each proposal is a draft CONTRACT: objective (one sentence), 2-4 mustCover points, one canonical recallQ with recallA, plus a one-sentence rationale citing the evidence.
@@ -992,7 +1018,7 @@ Coach now.`;
         } catch (e) {}
       }
       const anchorText = typeof req.body.anchor === 'string' ? req.body.anchor.slice(0, 1200) : '';
-      const { system, user } = buildInsertPrompt(contract, facets, anchorText, instruction.slice(0, 500), (context || '').slice(0, 6000));
+      const { system, user } = buildInsertPrompt(contract, facets, anchorText, instruction.slice(0, 500), (context || '').slice(0, 6000), await bookProfile(req));
       const gate = r => {
         const p = [];
         const add = (r.addition || '').trim();
@@ -1049,7 +1075,7 @@ Draw the supporting ${wantAnim ? 'animated ' : ''}diagram now.`;
         } catch (e) {}
       }
       const sel = selection.slice(0, 2000);
-      const { system, user } = buildRemixPrompt(contract, facets, sel, instruction.slice(0, 500), (context || '').slice(0, 6000));
+      const { system, user } = buildRemixPrompt(contract, facets, sel, instruction.slice(0, 500), (context || '').slice(0, 6000), await bookProfile(req));
       const gate = r => {
         const p = [];
         if (!r.replacement || r.replacement.trim().length < 5) p.push('empty replacement');
@@ -1099,7 +1125,8 @@ Draw the supporting ${wantAnim ? 'animated ' : ''}diagram now.`;
       if (!instruction || typeof instruction !== 'string' || instruction.trim().length < 3) {
         return res.status(400).json({ ok: false, error: 'instruction required' });
       }
-      const system = `You are a co-author of "How Recommendations Work", an interactive book about recommender systems. A reader asked for a change to one of the book's inline SVG diagrams/animations. Rewrite the SVG.
+      const P = await bookProfile(req);
+      const system = `You are a co-author of "${P.title}", an interactive book about ${P.subject}. A reader asked for a change to one of the book's inline SVG diagrams/animations. Rewrite the SVG.
 
 Hard constraints:
 - Return the COMPLETE modified SVG (same viewBox unless the change requires otherwise). Keep the visual style, palette and any SMIL/CSS animations intact except where the instruction asks for changes.
@@ -1161,9 +1188,10 @@ Return the complete modified SVG now.`;
       : [];
 
     const visualGenre = facets.genre === 'comic' || facets.genre === 'animation';
+    const P = await bookProfile(req);
     const { system, user } = visualGenre
-      ? buildVisualPrompt(concept, record.contract, facets, wish)
-      : buildPrompt(concept, record.contract, facets, exemplar, rules, safeVariants, wish);
+      ? buildVisualPrompt(concept, record.contract, facets, wish, P)
+      : buildPrompt(concept, record.contract, facets, exemplar, rules, safeVariants, wish, P);
 
     // Generate → validate → one corrective retry → fail honestly
     const runValidate = (blk) => visualGenre ? validateVisual(blk, record.contract) : validate(blk, facets, record.contract);

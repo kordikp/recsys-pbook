@@ -45,7 +45,7 @@ class PBook {
         signals: {}, totalInteractions: 40, currentChapter: 1, xp: 175, level: 4,
         achievements: [{ id: 'first_read' }, { id: 'reader_5' }], recall,
         completedMissions: ['m1'], missionTitles: { m1: 'The Curious Beginning' },
-        facetAffinity: { lens: { ecommerce: 4 }, depth: { standard: 3 } }, steerPrefs: {}, goal: 'understand', readerMode: 'open',
+        facetAffinity: CONFIG.defaultAffinity ? JSON.parse(JSON.stringify(CONFIG.defaultAffinity)) : { lens: { ecommerce: 4 }, depth: { standard: 3 } }, steerPrefs: {}, goal: 'understand', readerMode: 'open',
       }));
       this.user.load();   // UserModel was constructed before init — re-read the seeded state
     }
@@ -84,6 +84,7 @@ class PBook {
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
     this.rc.setBookScope((this.book?.chapters || []).map(c => c.id), Object.keys(this.concepts || {}));
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
+    await this._loadBookMissions();   // per-book missions (content/missions.json; built-ins only as fallback)
     console.info('[pbook] app', this._appVersion());
     this._loadPrivateBlocks();   // reader's own generated variants (private until shared)
     this._loadOverrides();       // accepted remixes: originalId → your version (persistent)
@@ -1306,9 +1307,9 @@ class PBook {
     const lens = document.querySelector('#introLens .intro-voice.selected')?.dataset.lens || 'generic';
     const goal = document.querySelector('#introGoal .intro-voice.selected')?.dataset.goal || 'understand';
     // Honest promise: say how many sections really are told in that world today
-    const GOAL = { understand: 'clear explanations first', build: 'more technical depth, and a guided path for builders', decide: 'a guided path through trade-offs, evaluation and build-vs-buy', protect: 'a guided path through your data, your controls and your rights' };
+    const GOAL = CONFIG.goals ? Object.fromEntries(Object.entries(CONFIG.goals).map(([k, g]) => [k, g.hint || g.label])) : { understand: 'clear explanations first', build: 'more technical depth, and a guided path for builders', decide: 'a guided path through trade-offs, evaluation and build-vs-buy', protect: 'a guided path through your data, your controls and your rights' };
     const n = lens === 'generic' ? 0 : this._lensCoverage(lens);
-    const world = lens === 'generic' ? 'Examples from many platforms'
+    const world = lens === 'generic' ? (CONFIG.facets?.lens?.genericHint || 'Examples from many platforms')
       : `<b>${this._fw('lens', lens)}</b> where the book has them (${n} section${n === 1 ? '' : 's'} today — any other section can be retold for you)`;
     const hint = document.getElementById('onboardHint');
     if (hint) hint.innerHTML = `${world} · ${GOAL[goal]}.`;
@@ -2011,7 +2012,7 @@ class PBook {
     const lang = this._facetValues(b, 'lang');
     if (!lang.includes(this._readerLang())) return lang.includes('cs') ? 'česky' : lang[0];
     const lens = this._facetValues(b, 'lens');
-    const WORLD = { ecommerce: 'shop example', media: 'media example', 'social-feeds': 'feed example', education: 'classroom example', jobs: 'jobs example' };
+    const WORLD = CONFIG.facets?.lens?.worldLabels || { ecommerce: 'shop example', media: 'media example', 'social-feeds': 'feed example', education: 'classroom example', jobs: 'jobs example' };
     if (!lens.includes('generic') && WORLD[lens[0]]) return WORLD[lens[0]];
     const len = this._facetValues(b, 'lengthBand');
     if (len.length === 1 && len[0] === 'tldr') return 'tl;dr';
@@ -2652,6 +2653,12 @@ class PBook {
   }
 
   escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  // Book identity comes from the book's own js/config.js (CONFIG.book), never from
+  // the engine: one engine serves many books (scripts/core-sync.sh).
+  _bookTitle() { return CONFIG.book?.title || 'How Recommendations Work'; }
+  _bookAuthors() { return CONFIG.book?.author || 'Pavel Kordík & Eva Nečasová'; }
+  // a string that sits inside a single-quoted JS argument inside an HTML attribute
+  _jsAttr(s) { return this.escHtml(String(s ?? '').replace(/\\/g, '\\\\').replace(/'/g, "\\'")); }
 
   // Initialize Lottie animations in rendered content
   _initLottieAnimations() {
@@ -4703,7 +4710,7 @@ class PBook {
       const sharedList = priv.filter(b => b.meta.state === 'community');
       const shareRows = sharedList.slice(0, 5).map(b =>
         `<div style="font-size:.72rem;padding:.1em 0">⚡ ${this.escHtml(b.meta.title || b.meta.id)}
-          <button class="steer-chip" style="font-size:.7rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “How Recommendations Work”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
+          <button class="steer-chip" style="font-size:.7rem;padding:.05em .4em" onclick="app.shareThing('${this.escHtml(b.meta.title || 'My telling')}', 'I wrote this telling in the living book “${this._jsAttr(this._bookTitle())}”:', location.origin + '/#${b.meta.id}')">🔗 share</button></div>`).join('');
       h += (shareRows ? `<div style="margin:.3em 0">${shareRows}</div>` : '');
       h += `<div class="dna-contrib">🌱 <b>Your living-book contributions:</b>
         ${generated ? `${generated} generated telling${generated > 1 ? 's' : ''} · ` : ''}${remixes ? `${remixes} remix${remixes > 1 ? 'es' : ''} · ` : ''}${shared ? `<b>${shared} shared with readers</b> · ` : ''}${!priv.length ? 'none yet — select any passage and hit ✨, or find a gap on the ' : 'see the '}<a href="#" onclick="app.switchView('map');app.setMapMode('coverage');return false">🌱 map</a></div>`;
@@ -4952,7 +4959,7 @@ class PBook {
 
     // Knowledge cloud — extract terms from read blocks
     const termCounts = {};
-    const CLOUD_TERMS = {
+    const CLOUD_TERMS = CONFIG.topics || {
       'Collaborative Filtering': ['collaborative filter'],
       'Content-Based': ['content-based', 'content based'],
       'Cold Start': ['cold start', 'cold-start'],
@@ -5028,7 +5035,7 @@ class PBook {
       ${etBar('⚡ tellings shared', et.shared, 5)}
       ${etBar('📖 adopted into book', et.adopted, 1)}
       <p style="font-size:.7rem;color:var(--text-3);margin-top:.3em">${et.invited ? 'You were invited as an editor — the bars show your own contributions on top.' : 'Promotion: <b>1 telling adopted</b> into the book (editors reviewed and merged it) — or <b>5 shared + 5 reported</b>. Adoption is detected automatically when your shared telling appears in the book.'}</p>
-      ${et.adopted >= 1 ? `<button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('My telling made it into the book', 'My explanation was adopted into the living book “How Recommendations Work” 📖', location.origin + '/#' + (Object.values(app.privateBlocks).find(b => (b.meta.sharedAt || b.meta.state === 'community') && app.findBlock(b.meta.id))?.meta.id || ''))">📣 Brag about your adoption</button>` : ''}
+      ${et.adopted >= 1 ? `<button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('My telling made it into the book', 'My explanation was adopted into the living book “${app._jsAttr(app._bookTitle())}” 📖', location.origin + '/#' + (Object.values(app.privateBlocks).find(b => (b.meta.sharedAt || b.meta.state === 'community') && app.findBlock(b.meta.id))?.meta.id || ''))">📣 Brag about your adoption</button>` : ''}
     </div>
 
     <div class="profile-section"><h3>📣 Invite friends</h3>
@@ -5036,7 +5043,7 @@ class PBook {
       <div style="display:flex;gap:.4em;flex-wrap:wrap;align-items:center">
         <code style="font-size:.7rem;user-select:all;padding:.25em .5em;border:1px solid var(--border);border-radius:6px" id="inviteLink">${location.origin + '/?invite=R-' + (this.rc.userId || 'me').replace(/[^\w-]/g, '').slice(0, 8)}</code>
         <button class="steer-chip" onclick="navigator.clipboard.writeText(document.getElementById('inviteLink').textContent).then(()=>app.showXPToast('🔗 Invite link copied','achievement'))">copy</button>
-        <button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('How Recommendations Work','I\'m reading a living book that explains how recommender systems work — and adapts to you. Join me:', document.getElementById('inviteLink').textContent)">share</button>
+        <button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('${this._jsAttr(this._bookTitle())}','${this._jsAttr(CONFIG.book?.inviteText || 'I\'m reading a living book that explains how recommender systems work — and adapts to you. Join me:')}', document.getElementById('inviteLink').textContent)">share</button>
       </div>
     </div>`;
 
@@ -5334,9 +5341,23 @@ class PBook {
   // ===== GLOSSARY / TOPICS =====
   // ===== MISSIONS =====
   getMissions() {
-    const list = this._staticMissions();
+    // Missions are CONTENT, not engine: a book ships content/missions.json and the
+    // built-ins below are only the fallback (an engine sync used to hand a book
+    // missions that pointed at blocks it does not have).
+    const list = (Array.isArray(this._bookMissions) && this._bookMissions.length)
+      ? this._bookMissions.map(m => ({ ...m }))
+      : this._staticMissions();
     if (this._customMission) list.push(this._customMission);
     return list;
+  }
+  async _loadBookMissions() {
+    if (this._bookMissions !== undefined) return this._bookMissions;
+    this._bookMissions = null;
+    try {
+      const r = await fetch(`${CONFIG.book.contentDir}/missions.json`);   // optional file
+      if (r.ok) { const j = await r.json(); this._bookMissions = Array.isArray(j) ? j : (j.missions || null); }
+    } catch (e) {}
+    return this._bookMissions;
   }
   _staticMissions() {
     return [
@@ -5688,7 +5709,7 @@ class PBook {
         <div style="font-size:.72rem;color:var(--text-3);margin:.2em 0">Composed from ${pm.ids.length} concepts matching your goal — read them all to complete. <a href="#" onclick="event.preventDefault();app.editPersonalMission()" style="color:var(--accent)">change goal</a></div>
         ${steps}
         <div style="font-size:.72rem;color:var(--text-2);margin-top:.3em">${read}/${pm.ids.length} read${done ? ' · complete 🎉' : ''}
-          ${done ? `<button class="steer-chip" style="margin-left:.5em;border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('Mission complete', 'I just finished my personal mission “${this.escHtml(pm.goal)}” in the living book How Recommendations Work 🎯', location.origin)">📣 share</button>` : ''}</div>
+          ${done ? `<button class="steer-chip" style="margin-left:.5em;border-color:var(--accent);color:var(--accent)" onclick="app.shareThing('Mission complete', 'I just finished my personal mission “${this.escHtml(pm.goal)}” in the living book ${this._jsAttr(this._bookTitle())} 🎯', location.origin)">📣 share</button>` : ''}</div>
       </div>
     </div>`;
   }
@@ -6397,13 +6418,12 @@ class PBook {
     return String(s || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '')
       .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 40) || 'deck';
   }
-  // data-krok (click reveal in the book) → timed CSS reveal on the slide
+  // data-krok (click reveal in the book) → SlAIdy's click steps. SlAIdy reveals
+  // a figure click by click itself, so "after the n-th click" becomes the step it
+  // arrives at, data-step="n+1". A timed reveal left by an older export goes.
   _slaidyKrokCss(svg) {
-    if (!/data-(?:krok|step)=/.test(svg) || svg.includes('@keyframes pbk')) return svg;
-    const css = `[data-krok],[data-step]{opacity:0;animation:pbk .6s ease forwards}\n`
-      + [1, 2, 3, 4, 5, 6].map(n => `[data-krok="${n}"],[data-step="${n}"]{animation-delay:${(n * 1.4).toFixed(1)}s}`).join('\n')
-      + `\n@keyframes pbk{to{opacity:1}}\n@media (prefers-reduced-motion: reduce){[data-krok],[data-step]{opacity:1;animation:none}}`;
-    return svg.replace(/<\/svg>\s*$/, `<style>${css}</style></svg>`);
+    return svg.replace(/<style>[^<]*@keyframes pbk[\s\S]*?<\/style>/, '')
+      .replace(/\sdata-krok=(["'])(\d+)\1/g, (_, q, n) => ` data-step=${q}${+n + 1}${q}`);
   }
   _slaidySlides({ title, group, md, figPrefix, figs, summary, notes, startN }) {
     let n = 0;
@@ -6673,6 +6693,13 @@ class PBook {
           let body = String(s.body || '').replace(/!\[\[([^\]|]+)(?:\|[^\]]*)?\]\]/g, (_, id) => {
             let svg = figs[id] || '';
             svg = svg.replace(/<style>[^<]*@keyframes pbk[\s\S]*?<\/style>/, '');
+            // SlAIdy keeps a picture once, in d.assets, and a figure names it (asset:img-…).
+            // The book has no store beside the text, so the picture goes into the figure.
+            svg = svg.replace(/href="asset:(img-[0-9a-f]{12,40})"/g, (m, pid) => {
+              const a = (d.assets || {})[pid];
+              return a && /^image\/(png|jpeg|webp|gif)$/.test(a.type) && /^[A-Za-z0-9+/]+=*$/.test(a.data || '')
+                ? `href="data:${a.type};base64,${a.data}"` : m;
+            });
             return svg ? `⟦svg⟧\n${svg.trim()}\n⟦/svg⟧` : '';
           });
           if (s.notes) body += `\n\n<!-- notes: ${String(s.notes).replace(/-->/g, '—>')} -->`;
@@ -7591,7 +7618,7 @@ class PBook {
   studioSelStep() {
     const sel = this._studioSel; if (!sel) return;
     this._studioUndoPush(sel.aid);
-    const cur = parseInt(sel.el.dataset.krok || sel.el.dataset.step || '0', 10) || 0;
+    const d = sel.el.dataset, cur = d.krok ? parseInt(d.krok, 10) || 0 : d.step ? Math.max(0, (parseInt(d.step, 10) || 1) - 1) : 0;
     const next = cur >= 6 ? 0 : cur + 1;
     if (next === 0) { delete sel.el.dataset.krok; delete sel.el.dataset.step; }
     else { sel.el.dataset.krok = String(next); delete sel.el.dataset.step; }
@@ -8274,7 +8301,7 @@ class PBook {
     } catch (e) {
       btn.disabled = false; btn.textContent = 'Send message';
       status.className = 'contact-status err';
-      status.innerHTML = `Sorry — the message did not go through (${this.escHtml(e.message)}). Please try again, or <a href="https://github.com/kordikp/recsys-pbook/issues/new" target="_blank" rel="noopener">open an issue on GitHub</a>.`;
+      status.innerHTML = `Sorry — the message did not go through (${this.escHtml(e.message)}). Please try again, or <a href="${this.escHtml(CONFIG.book?.issuesUrl || 'https://github.com/kordikp/recsys-pbook/issues/new')}" target="_blank" rel="noopener">open an issue</a>.`;
     }
   }
 
@@ -8640,42 +8667,51 @@ class PBook {
   // one", the gap under it offers "add something here". Selecting text still
   // works — this just removes the need to aim with a selection.
   // ===== CLICK-THROUGH REVEAL =====
-  // One image that uncovers itself step by step: SVG elements carry data-krok="1..N"
-  // (data-step also works). Click/tap reveals the next step; after the last one you
-  // can start over. With no JS (print, export) EVERYTHING is visible — the finished
-  // state is what the markup draws. The studio never activates reveal (authors see all).
+  // One image that uncovers itself step by step. The convention is SlAIdy's, so a
+  // figure clicks through the same in the book and on the projector: the figure is
+  // at step k = 1, 2, …; data-step="n" is there from step n, data-until="m" is gone
+  // from step m (that is how one drawing holds a series in which something is
+  // replaced, not only added). The book's own data-krok="n" — "after the n-th
+  // click" — is data-step="n+1". Click/tap reveals the next step; after the last
+  // one you can start over. The studio never activates reveal (authors see all).
+  _revealRange(el) {
+    const d = el.dataset;
+    const from = d.step ? parseInt(d.step, 10) || 1 : d.krok ? (parseInt(d.krok, 10) || 0) + 1 : 1;
+    return [from, d.until ? parseInt(d.until, 10) || Infinity : Infinity];
+  }
   _attachReveals(root) {
     const scope = root || document.getElementById('readPane') || document;
-    scope.querySelectorAll('figure svg').forEach(svg => {
+    // inline figures in the body AND the block's own diagram (frontmatter diagram:)
+    scope.querySelectorAll('figure svg, .diagram-wrap > svg').forEach(svg => {
       if (svg._revealInit || svg.closest('#stCanvas')) return;
-      const els = [...svg.querySelectorAll('[data-krok],[data-step]')];
-      const nums = els.map(el => parseInt(el.dataset.krok || el.dataset.step, 10) || 0);
-      const max = Math.max(0, ...nums);
-      if (!els.length || max < 1) return;
+      const els = [...svg.querySelectorAll('[data-krok],[data-step],[data-until]')];
+      const ranges = els.map(el => this._revealRange(el));
+      const max = Math.max(1, ...ranges.map(([a, b]) => Math.max(a, Number.isFinite(b) ? b : 1)));
+      if (!els.length || max < 2) return;
       svg._revealInit = true;
-      const fig = svg.closest('figure');
+      const fig = svg.closest('figure, .diagram-wrap');
       fig.style.position = 'relative';
       svg.style.cursor = 'pointer';
       const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      let cur = 0;
+      let cur = 1;
       const badge = document.createElement('button');
       badge.className = 'reveal-badge';
-      badge.style.cssText = 'position:absolute;right:8px;bottom:8px;z-index:3;border:1.5px solid #6366F1;background:var(--card,#fff);color:#4F46E5;border-radius:999px;padding:.2em .7em;font-size:.72rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)';
+      badge.style.cssText = 'position:absolute;right:8px;bottom:8px;z-index:3;border:1.5px solid var(--accent,#6366F1);background:var(--card,#fff);color:var(--accent,#4F46E5);border-radius:999px;padding:.2em .7em;font-size:.72rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)';
       const apply = () => {
         els.forEach((el, j) => {
-          const on = nums[j] <= cur;
+          const on = ranges[j][0] <= cur && cur < ranges[j][1];
           if (!still) el.style.transition = 'opacity .45s';
           el.style.opacity = on ? '' : '0';
           el.style.pointerEvents = on ? '' : 'none';
         });
-        badge.textContent = cur === 0 ? `▶ click through · ${max} steps` : cur < max ? `step ${cur}/${max} · next ▶` : '↺ again';
+        badge.textContent = cur === 1 ? `▶ click through · ${max - 1} steps` : cur < max ? `step ${cur - 1}/${max - 1} · next ▶` : '↺ again';
       };
-      const advance = () => { cur = cur >= max ? 0 : cur + 1; apply(); };
+      const advance = () => { cur = cur >= max ? 1 : cur + 1; apply(); };
       svg.addEventListener('click', e => { e.stopPropagation(); advance(); });
       badge.addEventListener('click', e => { e.stopPropagation(); advance(); });
       fig.appendChild(badge);
       apply();
-      this.rc?.logEvent?.('reveal_init', { steps: max });
+      this.rc?.logEvent?.('reveal_init', { steps: max - 1 });
     });
   }
 
@@ -8892,8 +8928,8 @@ class PBook {
             .replace(/\son\w+\s*=\s*"[^"]*"/gi, '')
             .replace(/\son\w+\s*=\s*'[^']*'/gi, '')
             .replace(/javascript:/gi, '')
-            .replace(/(xlink:href|href)\s*=\s*"(?!#)[^"]*"/gi, '')
-            .replace(/(xlink:href|href)\s*=\s*'(?!#)[^']*'/gi, '');
+            .replace(/(xlink:href|href)\s*=\s*"(?!#|data:image\/(?:png|jpeg|webp|gif);base64,)[^"]*"/gi, '')
+            .replace(/(xlink:href|href)\s*=\s*'(?!#|data:image\/(?:png|jpeg|webp|gif);base64,)[^']*'/gi, '');
   }
 
   async remixDiagram(blockId) {
@@ -9938,7 +9974,7 @@ class PBook {
   <line x1="200" y1="95" x2="600" y2="95" stroke="#C4B5FD" stroke-width="1"/>
 
   <!-- Title -->
-  <text x="400" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#4C1D95" font-weight="bold">How Recommendations Work</text>
+  <text x="400" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#4C1D95" font-weight="bold">${this.escHtml(this._bookTitle())}</text>
   <text x="400" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#7C3AED">A p-book by Pavel Kordík &amp; Eva Nečasová</text>
 
   <!-- This certifies -->
@@ -10071,8 +10107,8 @@ class PBook {
       // Try Web Share API (mobile-friendly)
       if (navigator.share && navigator.canShare?.({ files: [new File([pngBlob], 'certificate.png', { type: 'image/png' })] })) {
         await navigator.share({
-          title: 'I completed "How Recommendations Work"!',
-          text: `I just finished the p-book "How Recommendations Work" by Pavel Kordík & Eva Nečasová and earned my certificate!`,
+          title: `I completed "${this._bookTitle()}"!`,
+          text: `I just finished the p-book "${this._bookTitle()}" by ${this._bookAuthors()} and earned my certificate!`,
           files: [new File([pngBlob], 'recsys-certificate.png', { type: 'image/png' })]
         });
       } else {

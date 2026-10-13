@@ -199,13 +199,14 @@ function sanitizeSvgBlock(svg) {
   const end = t.lastIndexOf('</svg>');
   if (end === -1) return null;
   t = t.slice(0, end + 6);
-  if (t.length > 80000) return null;
+  // a figure from SlAIdy may carry a picture inside it; a drawing alone is far smaller
+  if (t.length > (/data:image\//.test(t) ? 3000000 : 80000)) return null;
   return t.replace(/<script[\s\S]*?<\/script>/gi, '')
           .replace(/<foreignObject[\s\S]*?<\/foreignObject>/gi, '')
           .replace(/\son\w+\s*=\s*"[^"]*"/gi, '')
           .replace(/\son\w+\s*=\s*'[^']*'/gi, '')
           .replace(/javascript:/gi, '')
-          .replace(/(xlink:href|href)\s*=\s*"(?!#)[^"]*"/gi, '');
+          .replace(/(xlink:href|href)\s*=\s*"(?!#|data:image\/(?:png|jpeg|webp|gif);base64,)[^"]*"/gi, '');
 }
 
 function escapeHtml(s) {

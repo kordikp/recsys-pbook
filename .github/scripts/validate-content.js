@@ -108,7 +108,8 @@ contentFiles.forEach(file => {
   // Subspace syntax is allowed: "a|b" (set) and "a..b" (range on ordered scales).
   const FACET_ENUMS = {
     state: ['core', 'edited', 'community', 'private', 'archived'],
-    lens: ['generic', 'ecommerce', 'media', 'social-feeds', 'education', 'jobs'],
+    // the example worlds are the book's own (pbook.json → facets.lens); the recsys set is the fallback
+    lens: (() => { try { const m = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', '..', 'pbook.json'), 'utf8')); return Array.isArray(m.facets?.lens) && m.facets.lens.length ? m.facets.lens : null; } catch (e) { return null; } })() || ['generic', 'ecommerce', 'media', 'social-feeds', 'education', 'jobs'],
     visuality: ['text-first', 'balanced', 'visual-first'],
     depth: ['intro', 'standard', 'technical', 'research'],
     formalism: ['none', 'light', 'full'],

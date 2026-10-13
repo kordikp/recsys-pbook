@@ -27,7 +27,8 @@ const REGION = process.env.RECOMBEE_REGION || 'rapi-eu-west';
 const MIME = {
   '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css',
   '.json': 'application/json', '.md': 'text/plain', '.svg': 'image/svg+xml',
-  '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon',
+  '.png': 'image/png', '.jpg': 'image/jpeg', '.ico': 'image/x-icon', '.webp': 'image/webp',
+  '.txt': 'text/plain; charset=utf-8', '.geojson': 'application/geo+json', '.xml': 'application/xml', '.csv': 'text/csv; charset=utf-8',
 };
 
 function signUrl(urlPath) {
@@ -141,7 +142,8 @@ async function handleVercelFn(req, res, modulePath) {
   // Simulate Vercel req/res
   let parsedBody = {};
   try { parsedBody = JSON.parse(body || '{}'); } catch (e) {}
-  const fakeReq = { method: req.method, body: parsedBody, headers: req.headers };
+  const u = new URL(req.url, 'http://localhost');
+  const fakeReq = { method: req.method, body: parsedBody, headers: req.headers, url: req.url, query: Object.fromEntries(u.searchParams) };
   const fakeRes = {
     _status: 200, _headers: {}, _body: '',
     setHeader(k, v) { this._headers[k] = v; },
@@ -149,7 +151,7 @@ async function handleVercelFn(req, res, modulePath) {
     json(d) { this._body = JSON.stringify(d); this._done(); },
     end() { this._done(); },
     _done() {
-      res.writeHead(this._status, { ...CORS, 'Content-Type': 'application/json' });
+      res.writeHead(this._status, { ...CORS, 'Content-Type': 'application/json', ...this._headers });
       res.end(this._body);
     }
   };
@@ -202,13 +204,20 @@ const server = http.createServer(async (req, res) => {
     if (req.method === 'POST') { await handleProxy(req, res); return; }
   }
 
+  // Any other Vercel function: /api/<name> → ./api/<name>.js (dev parity with Vercel routing)
+  const apiMatch = req.url.match(/^\/api\/([a-z0-9-]+)(?:[?#]|$)/);
+  if (apiMatch && fs.existsSync(path.join(ROOT, 'api', apiMatch[1] + '.js'))) {
+    await handleVercelFn(req, res, './api/' + apiMatch[1] + '.js'); return;
+  }
+
   // Static files
   let urlPath = decodeURIComponent(req.url.split('?')[0]);
   if (urlPath === '/') urlPath = '/index.html';
   if (urlPath === '/admin') urlPath = '/admin.html';
   if (urlPath === '/book') urlPath = '/index.html';
 
-  const filePath = path.join(ROOT, urlPath);
+  let filePath = path.join(ROOT, urlPath);
+  if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) filePath = path.join(filePath, 'index.html');   // /kb/<slug>/ pages
   if (!fs.existsSync(filePath) || fs.statSync(filePath).isDirectory()) {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
     res.end('Not found');

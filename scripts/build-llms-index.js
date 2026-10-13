@@ -12,7 +12,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const SITE = 'https://recsys-pbook.vercel.app';
+const SITE = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'pbook.json'), 'utf8')).url.replace(/\/+$/, ''); } catch (e) { return 'https://recsys-pbook.vercel.app'; } })();
 const LLMS = path.join(ROOT, 'llms.txt');
 const START = '<!-- concept-index:start';
 const END = '<!-- concept-index:end -->';

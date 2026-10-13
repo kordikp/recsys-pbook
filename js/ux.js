@@ -19,7 +19,8 @@ const reduceMotion = () => typeof matchMedia === 'function' && matchMedia('(pref
 const DEPTH_SHORT = { intro: 'gentle', standard: 'standard', technical: 'technical', research: 'research' };
 
 // Goal picked at the door → the first guided path we suggest (missions in app.js).
-const GOAL_PATHS = {
+// A book may define its own door goals in js/config.js (CONFIG.goals: key → {mission, label, depth?, hint}).
+const GOAL_PATHS = CONFIG.goals || {
   understand: { mission: 'youtube', label: 'Understand' },
   build: { mission: 'builder', label: 'Build one', depth: 'technical' },
   decide: { mission: 'production', label: 'Make decisions' },
@@ -428,7 +429,7 @@ export const uxMethods = {
     const items = why.reasons.map(r => `<li>${esc(r)}</li>`).join('');
     return `<details class="why" onclick="event.stopPropagation()"><summary>Why this?</summary>
       <div class="why-body"><ul>${items}</ul>${why.math ? `<div class="why-math">${esc(why.math)}</div>` : ''}
-      <button class="why-link" onclick="event.stopPropagation();app.openConcept('explanations')">How recommenders explain themselves →</button></div></details>`;
+      ${app.concepts?.explanations ? `<button class="why-link" onclick="event.stopPropagation();app.openConcept('explanations')">How recommenders explain themselves →</button>` : ''}</div></details>`;
   },
   openConcept(slug) {
     const a = this.concepts?.[slug]?.anchor;

@@ -29,8 +29,20 @@ const GRADE_SCHEMA = {
   additionalProperties: false,
 };
 
-function buildPrompt(question, hints, answer, missionTitle) {
-  const system = `You are the final-boss examiner in "How Recommendations Work", an interactive book about recommender systems. A reader finished the mission "${missionTitle || 'a mission'}" and answers its final challenge. Grade the ANSWER on substance:
+// The book's identity comes from its own /pbook.json (one engine, many books).
+async function bookIdentity(req) {
+  try {
+    const host = req.headers.host;
+    const proto = /^(localhost|127\.)/.test(host || '') ? 'http' : 'https';
+    const ctl = new AbortController(); const t = setTimeout(() => ctl.abort(), 2500);
+    const m = await (await fetch(`${proto}://${host}/pbook.json`, { signal: ctl.signal })).json();
+    clearTimeout(t);
+    return { title: String(m.title || 'How Recommendations Work').slice(0, 120), subject: String(m.subject || m.title || 'recommender systems').slice(0, 160) };
+  } catch (e) { return { title: 'How Recommendations Work', subject: 'recommender systems' }; }
+}
+
+function buildPrompt(question, hints, answer, missionTitle, B = { title: 'How Recommendations Work', subject: 'recommender systems' }) {
+  const system = `You are the final-boss examiner in "${B.title}", an interactive book about ${B.subject}. A reader finished the mission "${missionTitle || 'a mission'}" and answers its final challenge. Grade the ANSWER on substance:
 
 - pass (score >= 60): the CORE mechanism is right in the reader's own words. Synonyms, paraphrases, slang and telegraphic style all count — do NOT keyword-match. A pass does NOT require covering everything.
 - almost (40-59): right direction, but the single most important idea is missing or muddled. Name it kindly and ask ONE short follow-up question.
@@ -129,7 +141,7 @@ module.exports = async function handler(req, res) {
       return res.status(400).json({ ok: false, error: 'answer too short' });
     }
     const safeHints = (Array.isArray(hints) ? hints : []).filter(h => typeof h === 'string').map(h => h.slice(0, 60)).slice(0, 12);
-    const { system, user } = buildPrompt(question.slice(0, 1500), safeHints, answer.slice(0, 4000), (missionTitle || '').slice(0, 120));
+    const { system, user } = buildPrompt(question.slice(0, 1500), safeHints, answer.slice(0, 4000), (missionTitle || '').slice(0, 120), await bookIdentity(req));
 
     let grade = PROVIDER === 'anthropic' ? await callClaude(system, user) : await callOpenAI(system, user);
     // Normalize: keep score and verdict consistent
