@@ -8244,7 +8244,7 @@ class PBook {
       <div class="cert-modal" role="dialog" aria-modal="true" aria-labelledby="ctTitle">
         <button class="cert-close" aria-label="Close" onclick="this.closest('.cert-overlay').remove()">&times;</button>
         <h2 id="ctTitle">🤝 Let's work together</h2>
-        <p style="font-size:.82rem;color:var(--text-2);margin-bottom:.4em">Leave a contact and a short note — Pavel Kordík and Eva Nečasová will get back to you.</p>
+        <p style="font-size:.82rem;color:var(--text-2);margin-bottom:.4em">Leave a contact and a short note — ${this.escHtml(CONFIG.book?.contactName || 'Pavel Kordík and Eva Nečasová')} will get back to you.</p>
         <label class="cert-label" for="ctName">Your name</label>
         <input type="text" id="ctName" class="cert-input" maxlength="80" autocomplete="name" value="${this.escHtml(name)}">
         <label class="cert-label" for="ctContact">Email or other contact <span style="color:var(--accent)">*</span></label>
@@ -9975,7 +9975,7 @@ class PBook {
 
   <!-- Title -->
   <text x="400" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#4C1D95" font-weight="bold">${this.escHtml(this._bookTitle())}</text>
-  <text x="400" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#7C3AED">A p-book by Pavel Kordík &amp; Eva Nečasová</text>
+  <text x="400" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#7C3AED">A p-book by ${this.escHtml(this._bookAuthors())}</text>
 
   <!-- This certifies -->
   <text x="400" y="210" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#6B7280">This certifies that</text>
@@ -10002,7 +10002,7 @@ class PBook {
 
   <!-- Footer -->
   <line x1="150" y1="470" x2="350" y2="470" stroke="#D4B5FD" stroke-width="1"/>
-  <text x="250" y="488" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#4C1D95">Pavel Kordik</text>
+  <text x="250" y="488" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#4C1D95">${this.escHtml(CONFIG.book?.signature || 'Pavel Kordik')}</text>
   <text x="250" y="502" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#9CA3AF">Author &amp; Recombee Co-founder</text>
 
   <line x1="450" y1="470" x2="650" y2="470" stroke="#D4B5FD" stroke-width="1"/>
