@@ -112,6 +112,7 @@ function sourcesOf(body) {
 
   // links inside markdown: #c/slug → concept page, #block-id → its concept page
   const relink = html => html
+    .replace(/(src|href)="(?!https?:|\/|#|data:|mailto:)([^"]+)"/g, '$1="/$2"')   // book-relative paths from /kb/<slug>
     .replace(/href="#c\/([\w-]+)"/g, (m, s) => groups.has(s) ? `href="${kbUrl(s)}"` : `href="${SITE}/#c/${s}"`)
     .replace(/href="#([\w-]+)"/g, (m, id) => byId[id] && primary(byId[id]) ? `href="${kbUrl(primary(byId[id]))}#${id}"` : m);
 
