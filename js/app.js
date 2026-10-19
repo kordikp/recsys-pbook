@@ -6953,7 +6953,7 @@ class PBook {
       <div style="font-size:.74rem;color:var(--text-2);margin:.3em 0">Creates a link to a snapshot of the draft. Anyone with it can read and comment (👍 works · ❓ question · 💡 idea) — not edit. Useful before sending to the book.</div>
       <div style="display:flex;gap:.4em;flex-wrap:wrap">
         <input id="stFbNick" placeholder="Your nickname (optional)" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
-        <input id="stFbGroup" placeholder="${this.escHtml(this._groupWords().code + ' from ' + this._groupWords().lead + ' (optional)')}" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
+        <input id="stFbGroup" value="${this.escHtml(this._classCode() || CONFIG.community?.defaultGroup || '')}" placeholder="${this.escHtml(this._groupWords().code + ' from ' + this._groupWords().lead + ' (optional)')}" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
         <button class="note-save" style="background:var(--accent);font-size:.75rem" onclick="app._studioFbShare()">Create the link</button>
         <button class="steer-chip" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
       </div></div>`;
