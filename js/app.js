@@ -711,6 +711,12 @@ class PBook {
 
   // Lazily fetch community variants for a concept (open mode only; graceful empty)
   // The reader's class code — one source of truth for drafts, decks, submissions
+  // Who shares under a code: a class by default; a book can name it a consortium or a
+  // team through CONFIG.community.words in its own js/config.js
+  _groupWords() {
+    return Object.assign({ gallery: 'Class gallery', group: 'class', members: 'pupils', mates: 'classmates',
+      lead: 'the teacher', code: 'Class code' }, CONFIG.community?.words || {});
+  }
   _classCode() {
     const c = (localStorage.getItem('pbook-deck-group') || localStorage.getItem('sk-class-code') || '').toLowerCase();
     return /^[a-z0-9-]{4,16}$/.test(c) ? c : '';
@@ -6947,7 +6953,7 @@ class PBook {
       <div style="font-size:.74rem;color:var(--text-2);margin:.3em 0">Creates a link to a snapshot of the draft. Anyone with it can read and comment (👍 works · ❓ question · 💡 idea) — not edit. Useful before sending to the book.</div>
       <div style="display:flex;gap:.4em;flex-wrap:wrap">
         <input id="stFbNick" placeholder="Your nickname (optional)" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
-        <input id="stFbGroup" placeholder="Class code from the teacher (optional)" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
+        <input id="stFbGroup" placeholder="${this.escHtml(this._groupWords().code + ' from ' + this._groupWords().lead + ' (optional)')}" style="flex:1 1 140px;min-width:0;font:inherit;font-size:.8rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
         <button class="note-save" style="background:var(--accent);font-size:.75rem" onclick="app._studioFbShare()">Create the link</button>
         <button class="steer-chip" onclick="document.getElementById('stOut').innerHTML=''">✕</button>
       </div></div>`;
@@ -7013,13 +7019,13 @@ class PBook {
     el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:265;overflow-y:auto" onclick="if(event.target===this)document.getElementById('classGal').remove()">
       <div style="max-width:640px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 1.4em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em;flex-wrap:wrap">
-          <div style="font-weight:800;font-size:1.05rem">🖼 Class gallery · <code style="font-size:.8rem">${this.escHtml(code)}</code></div>
+          <div style="font-weight:800;font-size:1.05rem">🖼 ${this.escHtml(this._groupWords().gallery)} · <code style="font-size:.8rem">${this.escHtml(code)}</code></div>
           ${items.length ? `<button class="note-save" style="background:var(--accent);font-size:.74rem" onclick="app.classPresent(0)">▶ Present</button>` : ''}
           <button class="steer-chip" style="font-size:.72rem" onclick="app.classLeaderboard('${this.escHtml(code)}')">📊 Leaderboard</button>
           <button class="steer-chip" style="font-size:.7rem" onclick="app.openClassGallery('${this.escHtml(code)}')">↻ refresh</button>
           <button onclick="document.getElementById('classGal').remove()" title="Close" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
-        <div style="font-size:.74rem;color:var(--text-2);margin:.2em 0 .6em">Click to open — comment with 👍/❓/💡. The heart votes for the best work (1 vote per work, click again to take it back). ▶ Present = full screen for the class.</div>
+        <div style="font-size:.74rem;color:var(--text-2);margin:.2em 0 .6em">Click to open — comment with 👍/❓/💡. The heart votes for the best work (1 vote per work, click again to take it back). ▶ Present = full screen for the ${this.escHtml(this._groupWords().group)}.</div>
         ${items.length ? items.map((it, i) => `<div onclick="document.getElementById('classGal').remove();app.openDraftFeedback('${this.escHtml(it.id)}')"
             style="display:flex;gap:.6em;align-items:center;padding:.5em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.35em 0;cursor:pointer">
             <span style="font-weight:800;color:var(--accent)">${i + 1}.</span>
@@ -7028,7 +7034,7 @@ class PBook {
               style="font-size:.82rem;min-width:56px;${this._galState.myVotes.has(it.id) ? 'background:#FEE2E2;border-color:#EF4444' : ''}">${this._galState.myVotes.has(it.id) ? '❤️' : '🤍'} <b class="gv-n">${it.votes || 0}</b></button>
             <span style="color:var(--text-3)">›</span>
           </div>`).join('')
-        : `<div style="color:var(--text-3);font-size:.8rem">Nothing here yet — works appear once pupils share with the code.</div>`}
+        : `<div style="color:var(--text-3);font-size:.8rem">Nothing here yet — works appear once ${this.escHtml(this._groupWords().members)} share with the code.</div>`}
         <div id="galBoard"></div>
         <div id="galTellings"></div>
         <div id="galDecks"></div>
@@ -9037,9 +9043,9 @@ class PBook {
       <div style="font-size:.7rem;color:var(--text-3);margin:.3em 0">Shared anonymously by default. It stays labelled as reader-generated until an editor reviews it. You can keep it private — it stays yours either way.</div>
       <input type="text" id="share-nick-${blockId}" placeholder="Optional nickname for credit (leave empty = anonymous)" maxlength="40"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
-      <input type="text" id="share-group-${blockId}" placeholder="Class code (optional — the telling then stays within your class)" maxlength="16" value="${this.escHtml(this._classCode())}"
+      <input type="text" id="share-group-${blockId}" placeholder="${this.escHtml(this._groupWords().code)} (optional — the telling then stays within your ${this.escHtml(this._groupWords().group)})" maxlength="16" value="${this.escHtml(this._classCode())}"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
-      <div style="font-size:.7rem;color:var(--text-3)">With a code: classmates and the teacher see it in the class gallery, the class votes — and the teacher ⭐ recommends the best to the editors for the shared book. Without a code it joins the book's reader tellings right away.</div>
+      <div style="font-size:.7rem;color:var(--text-3)">${(W => `With a code: ${W.mates} and ${W.lead} see it in the ${W.gallery.toLowerCase()}, the ${W.group} votes — and ${W.lead} ⭐ recommends the best to the editors for the shared book.`)(this._groupWords())} Without a code it joins the book's reader tellings right away.</div>
       <div class="note-actions">
         <button class="note-save" onclick="app.shareGeneratedBlock('${blockId}')">📣 Share into the book</button>
         <button class="note-cancel" onclick="document.getElementById('share-consent-${blockId}').remove()">Keep private</button>
