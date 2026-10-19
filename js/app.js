@@ -9043,7 +9043,7 @@ class PBook {
       <div style="font-size:.7rem;color:var(--text-3);margin:.3em 0">Shared anonymously by default. It stays labelled as reader-generated until an editor reviews it. You can keep it private — it stays yours either way.</div>
       <input type="text" id="share-nick-${blockId}" placeholder="Optional nickname for credit (leave empty = anonymous)" maxlength="40"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
-      <input type="text" id="share-group-${blockId}" placeholder="${this.escHtml(this._groupWords().code)} (optional — the telling then stays within your ${this.escHtml(this._groupWords().group)})" maxlength="16" value="${this.escHtml(this._classCode())}"
+      <input type="text" id="share-group-${blockId}" placeholder="${this.escHtml(this._groupWords().code)} (optional — the telling then stays within your ${this.escHtml(this._groupWords().group)})" maxlength="16" value="${this.escHtml(this._classCode() || CONFIG.community?.defaultGroup || '')}"
         style="width:100%;padding:.4em;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:.75rem;margin:.2em 0">
       <div style="font-size:.7rem;color:var(--text-3)">${(W => `With a code: ${W.mates} and ${W.lead} see it in the ${W.gallery.toLowerCase()}, the ${W.group} votes — and ${W.lead} ⭐ recommends the best to the editors for the shared book.`)(this._groupWords())} Without a code it joins the book's reader tellings right away.</div>
       <div class="note-actions">
@@ -9058,9 +9058,21 @@ class PBook {
     if (!block) return;
     const nick = document.getElementById(`share-nick-${blockId}`)?.value?.trim() || '';
     const meta = block.meta;
+    const groupIn = (document.getElementById(`share-group-${blockId}`)?.value || '').trim().toLowerCase();
     // Community store = the Recombee catalog (state == "community") — immediately recommendable,
-    // no extra infrastructure. Body rides as an item property.
-    const ok = await this.rc.shareCommunityBlock({
+    // no extra infrastructure. Body rides as an item property. A book without a catalog
+    // shares into the drafts store instead: the group gallery (#trida-<code>) lists it
+    // for comments and votes, and the editors lift the best into the book.
+    const ok = !this.rc.enabled ? await (async () => {
+      try {
+        const r = await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'share', nick, group: groupIn || CONFIG.community?.defaultGroup || '',
+            draft: { slug: meta.concept || meta.proposalSlug || meta.id, title: meta.title, text: block.body } }) });
+        const d = await r.json();
+        if (d.ok) block.meta.shareId = d.id;
+        return !!d.ok;
+      } catch (e) { return false; }
+    })() : await this.rc.shareCommunityBlock({
       itemId: meta.id,
       title: meta.title,
       body: block.body,
@@ -9087,7 +9099,8 @@ class PBook {
       block.meta.state = 'community';
       this._savePrivateBlock(block, 'shared');
       if (this._communityCache?.[meta.concept]) delete this._communityCache[meta.concept];
-      this.showXPToast('+10 XP 📖 You enriched the book!', 'achievement');
+      this.showXPToast(this.rc.enabled ? '+10 XP 📖 You enriched the book!'
+        : `+10 XP 📖 Shared — it is in the ${this._groupWords().gallery.toLowerCase()} for comments and votes`, 'achievement');
       if (this._f('gamification')) { this.user.addXP(10); this.user.save(); this.updateXPBadge(); }
     } else {
       this.showXPToast('Sharing failed — kept private, request logged', 'xp');

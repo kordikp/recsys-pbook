@@ -118,6 +118,7 @@ export const CONFIG = {
     explorationBudget: 50,    // impressions of fair exposure for a new community block
     maxPerConceptLens: 2,     // live community variants per (concept × lens)
     attribution: 'anonymous', // anonymous by default; reader may opt into a nick at share time
+    // defaultGroup: 'polirural',  // pre-fills the share code; without Recombee, shares land in this gallery
     // words: { gallery: 'Consortium gallery', group: 'consortium', members: 'partners',
     //          mates: 'other partners', lead: 'the coordinator', code: 'Group code' },  // default: a school class
   }
