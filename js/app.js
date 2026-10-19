@@ -6175,9 +6175,9 @@ class PBook {
         </div>
         <style>#stCanvas .st-block{transition:background .15s}#stCanvas .st-block:not([data-img]):hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}#stCanvas #stTitleH:hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}</style><div id="stCanvas" style="border:1.5px solid var(--border,#eee);border-radius:12px;padding:1em 1.1em;background:var(--bg,#fafaf7);margin:.7em 0 .5em;min-height:30vh"></div>
         <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
-          <button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">✨ Suggest a skeleton · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
+          ${this._f('generation') ? `<button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">✨ Suggest a skeleton · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
           <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">🧭 Coach · ${CONFIG.aiEconomy?.prices.basic || 0} ⚡</button>
-          <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid #D97706;background:transparent;color:#B45309">🎨 Generate a graphic · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
+          <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid #D97706;background:transparent;color:#B45309">🎨 Generate a graphic · ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>` : ''}
           <button class="steer-chip" id="stFbBtn" title="Ask for a second pair of eyes: you share a read-only snapshot, others comment — you remain the only writer." onclick="app.studioFeedbackPanel()" style="font-size:.72rem">👀 Feedback</button>
           <button class="steer-chip" title="Slides: export the draft as a SlAIdy deck and import it back" onclick="app.slaidyPanel()" style="font-size:.72rem">🎞 SlAIdy</button>
               <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">📤 Send to the book</button>
