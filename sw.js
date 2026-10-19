@@ -4,7 +4,7 @@
 // any more — install derives it from /content/book.json (every content file),
 // the games, diagrams and images those files reference, and app.js's imports.
 // (A hand-kept list once missed 97 of 307 content files, all comics included.)
-const CACHE_NAME = 'pbook-v81';
+const CACHE_NAME = 'pbook-v82';
 
 // App shell: the few files content cannot point at
 const SHELL = [
@@ -107,12 +107,15 @@ self.addEventListener('fetch', event => {
   if (event.request.method !== 'GET' || !event.request.url.startsWith('http')) {
     return;
   }
-  // Book content changes with every deploy — network-first with forced
-  // revalidation (bypasses stale HTTP caches); the cache is only the
-  // offline fallback. Cache-first here once served an hour-old book.json
-  // and "the comics are nowhere" (2026-07-08).
+  // Book content AND the app shell change with every deploy — network-first with
+  // forced revalidation (bypasses stale HTTP caches); the cache is only the offline
+  // fallback. Cache-first here once served an hour-old book.json and "the comics are
+  // nowhere" (2026-07-08); a cached shell with fresh content showed new diagrams as
+  // "Diagram: <id>" because the old js/diagrams.js did not know them (2026-10-19).
   const _u = new URL(event.request.url);
-  if (_u.origin === location.origin && _u.pathname.startsWith('/content/')) {
+  const _shell = event.request.mode === 'navigate' || /^\/(content|js|css|games)\//.test(_u.pathname)
+    || /\.(html|json|js|css)$/.test(_u.pathname) || _u.pathname === '/';
+  if (_u.origin === location.origin && _shell) {
     event.respondWith(
       fetch(event.request, { cache: 'no-cache' }).then(r => {
         if (r.ok) { const c = r.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, c)); }

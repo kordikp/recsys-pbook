@@ -3,7 +3,7 @@
 import { CONFIG } from './config.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=2';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
-import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=5';
+import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=6';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
