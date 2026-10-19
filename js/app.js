@@ -9642,7 +9642,7 @@ class PBook {
   }
   aiEconHint() {
     const c = CONFIG.aiEconomy;
-    if (!c || !c.enabled || !this._f('gamification')) return '';
+    if (!c || !c.enabled || !this._f('gamification') || !this._f('generation')) return '';
     if (this._getAuth()) return 'AI costs server-side XP: text {b} ⚡ · with a diagram {a} ⚡ — you have <b>⚡{bal}</b>. Manual editing is free and earns +{me} XP.'.replace('{b}', c.prices.basic).replace('{a}', c.prices.advanced).replace('{bal}', this.aiBalance()).replace('{me}', c.earnManualEdit);
     if (!this._trialUsedLocal()) return 'First AI try is free 🌱 — then log in and pay from earned XP (text {b} ⚡, diagram {a} ⚡).'.replace('{b}', c.prices.basic).replace('{a}', c.prices.advanced);
     return 'AI unlocks after login (Profile) — paid from XP earned by reading and working with the book. Manual editing is free.';
