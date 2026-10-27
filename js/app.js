@@ -2,8 +2,8 @@
 
 import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
-import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=2';
-import { RecombeeClient, UserModel } from './recombee.js?v=12';
+import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=3';
+import { RecombeeClient, UserModel } from './recombee.js?v=13';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=7';
 
 const APP_VERSION = '5.12.4';
@@ -354,7 +354,9 @@ class PBook {
         } catch (e) { this._contentFetchFailed = true; return null; }
       }));
       const isAdmin = localStorage.getItem('pbook-admin') === '1';
-      const valid = blocks.filter(b => b && (!b.status || b.status === 'accepted' || isAdmin)).sort((a, b) => a.sequence - b.sequence);
+      // An explicit review link (?preview=<id>) opens one draft without promoting it or enabling admin mode.
+      const previewId = new URLSearchParams(location.search).get('preview');
+      const valid = blocks.filter(b => b && (!b.status || b.status === 'accepted' || isAdmin || (b.status === 'draft' && b.id === previewId))).sort((a, b) => a.sequence - b.sequence);
       this.chapters[i] = { ...ch, blocks: valid };
       valid.forEach(b => { b._chapterIdx = i; this.allBlocks.push({ meta: b, body: b.body, _chapter: ch.id }); });
     }
@@ -383,19 +385,45 @@ class PBook {
     // CONFIG.book.untranslatedTellings: 'hide' — a concept that speaks the reader's language leaves
     // out its other tellings nobody translated (a story in the book's language would break the
     // switch); links to them land on the concept's translated anchor. Untranslated concepts stay whole.
-    if (CONFIG.book.untranslatedTellings === 'hide' && LANG !== (CONFIG.book.lang || 'en')) {
-      const spoken = new Map();   // concept → its translated anchor (or any translated telling)
-      for (const t of mine.values()) if (t.concept && (t.core || !spoken.has(t.concept))) spoken.set(t.concept, t.id);
+    const other = LANG !== (CONFIG.book.lang || 'en');
+    const spoken = new Map();   // concept → its translated anchor (or any translated telling)
+    for (const t of mine.values()) if (t.concept && (t.core || !spoken.has(t.concept))) spoken.set(t.concept, t.id);
+    if (CONFIG.book.untranslatedTellings === 'hide' && other) {
       for (const b of all) {
         if (b.translationOf || drop.has(b.id) || !spoken.has(b.concept)) continue;
         drop.add(b.id); this._langAlias[b.id] = spoken.get(b.concept);
       }
     }
+    // CONFIG.book.languageFilter: 'strict' — the reader's language only: a block nobody translated
+    // leaves the other editions as well (a Hungarian reader met whole Czech chapters). Its links land
+    // on the concept's translated telling where there is one; a chapter left empty leaves the contents,
+    // a concept left without a telling leaves the map (loadConcepts), a mission keeps the steps it has.
+    const strict = CONFIG.book.languageFilter === 'strict' && other;
+    if (strict) {
+      for (const b of all) {
+        if (drop.has(b.id) || this._covers(b, 'lang', LANG)) continue;
+        drop.add(b.id);
+        if (spoken.has(b.concept)) this._langAlias[b.id] = spoken.get(b.concept);
+      }
+    }
     if (!drop.size) return;
     for (const ch of Object.values(this.chapters)) ch.blocks = ch.blocks.filter(b => !drop.has(b.id));
     this.allBlocks = this.allBlocks.filter(b => !drop.has(b.meta.id));
+    if (strict) this._dropEmptyChapters();
     const read = this.user.readBlocks;   // a telling read in another language counts here too
     for (const [from, to] of Object.entries(this._langAlias)) if (read.has(from) && !read.has(to)) read.add(to);
+  }
+  // A chapter is a position (this.chapters[i] ↔ this.book.chapters[i], block._chapterIdx): an empty
+  // one leaves both and the chapters after it close ranks; the reader's place moves along.
+  _dropEmptyChapters() {
+    const keep = this.book.chapters.map((c, i) => i).filter(i => this.chapters[i]?.blocks.length);
+    if (!keep.length || keep.length === this.book.chapters.length) return;
+    const chapters = {};
+    keep.forEach((i, j) => { chapters[j] = this.chapters[i]; this.chapters[i].blocks.forEach(b => { b._chapterIdx = j; }); });
+    this.book.chapters = keep.map(i => this.book.chapters[i]);
+    this.chapters = chapters;
+    const cc = this.user.currentChapter;
+    if (cc != null) { const j = keep.findIndex(i => i >= cc); this.user.currentChapter = j < 0 ? keep.length - 1 : j; }
   }
   // Book JSON (missions, concept map, proposals, concepts): {cs, en, …} fields resolved to the
   // reader's language, block ids of dropped originals pointed at their translations.
@@ -485,8 +513,9 @@ class PBook {
     // not an admin view) does not exist for this reader: otherwise the topbar
     // said 0/89 where only 71 can be read, and a chapter holding a draft
     // concept could never count as complete.
+    this._unservedConcepts = new Set();   // …and it leaves the map as well
     if (this.allBlocks.length) {
-      for (const cid of Object.keys(this.concepts)) if (!this.conceptBlocks[cid]) delete this.concepts[cid];
+      for (const cid of Object.keys(this.concepts)) if (!this.conceptBlocks[cid]) { delete this.concepts[cid]; this._unservedConcepts.add(cid); }
     }
     // Recall is per CONCEPT: reading any telling schedules one card, keyed by
     // the concept's anchor id (resolves like any block id everywhere else).
@@ -2587,6 +2616,7 @@ class PBook {
       </div>
       <div class="block-header">
         <h3>${block.title}</h3>
+        ${block.status === 'draft' ? `<p role="status" class="block-meta">${tr('Draft preview · awaiting editorial review')}</p>` : ''}
         <div class="block-meta">
           <span>${tr(`{0} min read`, block.readingTime || 3)}</span>
         </div>
@@ -3797,6 +3827,14 @@ class PBook {
         const ti = new Map(this._cmapData.temata.map((t, i) => [t.id, i]));
         this._cmapData.nodes = [...this._cmapData.nodes, ...added].sort((a, b) => (ti.get(a.tema) ?? 99) - (ti.get(b.tema) ?? 99));
       }
+      // A course book names its required concepts (CONFIG.book.curriculum → { coreConcepts: [...] });
+      // the map then marks every concept Core or Optional.
+      if (CONFIG.book?.curriculum && !this._curriculum) {
+        try { const r = await this._get(CONFIG.book.curriculum); this._curriculum = r && r.ok ? await r.json() : {}; } catch (e) { this._curriculum = {}; }
+      }
+      const required = Array.isArray(this._curriculum?.coreConcepts) ? new Set(this._curriculum.coreConcepts) : null;
+      if (required) this._cmapData.nodes.forEach(n => { n.required = required.has(n.slug); });
+      if (this._unservedConcepts?.size) this._cmapData.nodes = this._cmapData.nodes.filter(n => !this._unservedConcepts.has(n.slug));
       this._cmapNodes = {};
       this._cmapByPool = {};
       this._cmapData.nodes.forEach(n => {
@@ -4049,6 +4087,7 @@ class PBook {
         h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em ${isFocus ? '.35em' : '0'};border-bottom:1px dashed var(--border)${isFocus ? ';background:color-mix(in srgb, #6366F1 7%, transparent);border-radius:8px' : ''}${world && !wt ? ';opacity:.45' : ''}">
           <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
           <a href="#" onclick="event.preventDefault();app.openBlock('${wt ? (wt.meta || wt).id : anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(wt ? (wt.meta || wt).title : n.teaser || n.def || '')}">${this.escHtml(n.title)}${wt ? ` <span style="font-weight:400;color:var(--text-2)">· ${lensConf.icons?.[world] || ''} ${this.escHtml((wt.meta || wt).title)}</span>` : ''}</a>
+          ${n.required === undefined ? '' : `<span class="concept-requirement" style="font-size:.65rem;border:1px solid var(--border);border-radius:5px;padding:.1em .4em">${n.required ? tr('Core') : tr('Optional')}</span>`}
           ${hasSpine ? '' : ('<span style="font-size:.7rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">' + tr(`🌱 no articles yet`) + '</span>')}
           ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:#EC4899;color:#EC4899" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">${tr(`✍️ draft in progress`)}</button>` : ''}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="${tr(`Write your own telling of this concept (author studio with an AI coach)`)}" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
@@ -5541,6 +5580,23 @@ class PBook {
       const r = await this._get(`${CONFIG.book.contentDir}/missions.json`);   // optional file
       if (r && r.ok) { const j = this._bookData(await r.json()); this._bookMissions = Array.isArray(j) ? j : (j.missions || null); }
     } catch (e) {}
+    // A step whose block this edition does not carry (a draft, another language) leaves the mission
+    // with its intro; a branch left empty goes, and so does a mission left without steps.
+    if (Array.isArray(this._bookMissions)) {
+      const has = id => !!this.findBlock(id);
+      this._bookMissions = this._bookMissions.filter(m => {
+        if (!Array.isArray(m.core)) return true;
+        const keep = m.core.map(has);
+        if (Array.isArray(m.intros)) m.intros = m.intros.filter((x, i) => keep[i] !== false);
+        m.core = m.core.filter((id, i) => keep[i]);
+        for (const [k, br] of Object.entries(m.branches || {})) {
+          if (!Array.isArray(br?.blocks)) continue;
+          br.blocks = br.blocks.filter(has);
+          if (!br.blocks.length) delete m.branches[k];
+        }
+        return m.core.length > 0;
+      });
+    }
     return this._bookMissions;
   }
   _staticMissions() {
@@ -5958,7 +6014,8 @@ class PBook {
     const el = document.getElementById('glossaryContent');
     const prog = this._getMissionProgress(m);
     const isComplete = (this.user.completedMissions || []).includes(m.id);
-    const branch = this.user.missionBranches?.[m.id];
+    // a branch picked in another edition may not exist in this one
+    const branch = m.branches?.[this.user.missionBranches?.[m.id]] ? this.user.missionBranches[m.id] : null;
     const allBlocks = this._getMissionBlocks(m);
     const coreComplete = m.core.every(id => this._stepRead(id));
 
@@ -6014,7 +6071,7 @@ class PBook {
     });
 
     // Branch point
-    if (!branch) {
+    if (!branch && Object.keys(m.branches || {}).length) {
       html += `<div class="mission-branch-point">
         <div class="branch-label">${tr(`How do you want to continue?`)}</div>
         <div class="branch-desc">${tr(`Same mission, three ways to finish it. You can switch later.`)}</div>
@@ -6029,7 +6086,7 @@ class PBook {
         </button>`;
       });
       html += '</div></div>';
-    } else {
+    } else if (branch) {
       // Show chosen branch blocks
       const b = m.branches[branch];
       const vc = BRANCH_WORDS[branch] || CONFIG.voices[branch] || {};

@@ -8,9 +8,12 @@ export function renderMarkdown(text) {
   const mathStore = [];
   // Display math $$...$$ (can be multiline)
   text = text.replace(/\$\$([\s\S]+?)\$\$/g, (m) => { mathStore.push(m); return `%%MATH${mathStore.length - 1}%%`; });
-  // Inline math $...$ — only match if content has LaTeX chars (\, ^, _, {, })
-  // This prevents matching currency like "$15 billion"
-  text = text.replace(/\$([^\$\n]*?[\\^_{}][^\$\n]*?)\$/g, (m) => { mathStore.push(m); return `%%MATH${mathStore.length - 1}%%`; });
+  // Inline math includes bare variables such as $j$ and $L$. Boundary spaces
+  // and bare prices still stay prose ("$5 and $9" is not an equation).
+  text = text.replace(/\$([^$\n]+?)\$/g, (m, tex) => {
+    if (/^\s|\s$/.test(tex) || /^\d+(\.\d+)?$/.test(tex)) return m;
+    mathStore.push(m); return `%%MATH${mathStore.length - 1}%%`;
+  });
   // Reader-added diagrams live INSIDE the body (⟦svg⟧…⟦/svg⟧) so they sit exactly
   // where the reader put them, travel with sharing, and never overwrite the
   // section's own diagram. Sanitized here — bodies can come from other readers.
@@ -59,8 +62,8 @@ export function renderMarkdown(text) {
     if (mathMatch) {
       if (inList) { result.push(closeList(listType)); inList = false; }
       const m = mathStore[parseInt(mathMatch[1])];
-      if (m.startsWith('$$')) result.push('<span class="math-display">' + m + '</span>');
-      else result.push('<span class="math-inline">' + m + '</span>');
+      if (m.startsWith('$$')) result.push('<span class="math-display">' + escapeHtml(m) + '</span>');
+      else result.push('<span class="math-inline">' + escapeHtml(m) + '</span>');
       continue;
     }
 
@@ -171,8 +174,8 @@ export function renderMarkdown(text) {
   // Restore math — wrap in spans for targeted KaTeX rendering
   html = html.replace(/%%MATH(\d+)%%/g, (_, idx) => {
     const m = mathStore[parseInt(idx)];
-    if (m.startsWith('$$')) return '<span class="math-display">' + m + '</span>';
-    return '<span class="math-inline">' + m + '</span>';
+    if (m.startsWith('$$')) return '<span class="math-display">' + escapeHtml(m) + '</span>';
+    return '<span class="math-inline">' + escapeHtml(m) + '</span>';
   });
 
   return html;

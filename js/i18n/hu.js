@@ -1494,4 +1494,7 @@ export default {
   "Worlds": "Világok",
   "All worlds": "Minden világ",
   "🎯 The world’s mission": "🎯 A világ küldetése",
+  "Draft preview · awaiting editorial review": "Vázlat előnézete · szerkesztői ellenőrzésre vár",
+  "Core": "Kötelező",
+  "Optional": "Választható",
 };

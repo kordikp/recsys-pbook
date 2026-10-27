@@ -138,7 +138,7 @@ function checkLoop(f, g) {
 
 const CHECK = { sort: checkSort, pairs: checkPairs, order: checkOrder, match: checkMatch, pop: checkPop, bandit: checkBandit, mixer: checkMixer, abstop: checkAbstop, loop: checkLoop };
 
-for (const file of fs.readdirSync(DIR).filter(x => x.endsWith('.json')).sort()) {
+for (const file of (fs.existsSync(DIR) ? fs.readdirSync(DIR) : []).filter(x => x.endsWith('.json')).sort()) {   // a book may have no games
   const f = `games/${file}`;
   let g;
   try { g = JSON.parse(fs.readFileSync(path.join(DIR, file), 'utf8')); } catch (e) { err(f, `invalid JSON: ${e.message}`); continue; }

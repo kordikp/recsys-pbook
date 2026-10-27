@@ -61,6 +61,17 @@ export class RecombeeClient {
       clearTimeout(timeout);
       if (res.ok) return await res.json();
       if (res.status === 401) this.enabled = false;
+      // A book deployed without RECOMBEE_* env answers 500 to every call. Retrying
+      // it for the whole session floods the console and burns requests — read the
+      // server's own words and stand down for this session.
+      if (res.status === 500) {
+        let t = ''; try { t = await res.clone().text(); } catch (e) {}
+        if (/not (configured|set)|no token|missing.*(token|database)/i.test(t)) {
+          this.enabled = false;
+          console.warn('[pbook] recommendations disabled for this session — server says:', t.slice(0, 120));
+          return null;
+        }
+      }
       // DIAGNOSTIC: x-vercel-id tells whether the response even came from Vercel
       // (a 404 WITHOUT it = something between this browser and Vercel is answering)
       let _msg = ''; try { _msg = (await res.clone().text()).slice(0, 140); } catch (e) {}

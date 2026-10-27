@@ -1494,4 +1494,7 @@ export default {
   "Worlds": "Svety",
   "All worlds": "Všetky svety",
   "🎯 The world’s mission": "🎯 Misia sveta",
+  "Draft preview · awaiting editorial review": "Náhľad konceptu · čaká na redakčnú kontrolu",
+  "Core": "Povinné",
+  "Optional": "Voliteľné",
 };

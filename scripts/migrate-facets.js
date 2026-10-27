@@ -14,7 +14,9 @@
 //      recallQ/recallA → recall contract).
 //
 // Existing keys are NEVER modified; `voice` stays for back-compat.
-// Run: node scripts/migrate-facets.js [--dry]
+// Run: node scripts/migrate-facets.js [--dry] [--concept <existing-id>]
+// --concept refreshes only that concept's membership and non-core facets;
+// existing human-owned contracts and all other records are preserved.
 
 const fs = require('fs');
 const path = require('path');
@@ -23,6 +25,13 @@ const ROOT = path.resolve(__dirname, '..');
 const CONTENT_DIR = path.join(ROOT, 'content');
 const BOOK = JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, 'book.json'), 'utf8'));
 const DRY = process.argv.includes('--dry');
+const conceptArg = process.argv.indexOf('--concept');
+const ONLY_CONCEPT = conceptArg < 0 ? null : process.argv[conceptArg + 1];
+const EXISTING = conceptArg < 0 ? null : JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, 'concepts.json'), 'utf8'));
+if (conceptArg >= 0 && (!ONLY_CONCEPT || !EXISTING.concepts.some(c => c.id === ONLY_CONCEPT))) {
+  console.error('--concept requires an existing concept id');
+  process.exit(1);
+}
 
 // --- Facet vocabularies (Tier 1 — keep in sync with js/config.js FACETS) ---
 const FORBIDDEN_DEFAULT = [
@@ -224,10 +233,15 @@ for (const [, v] of fileFacets) {
 }
 
 // --- Pass 2: write facet keys into frontmatter (only missing keys, append before closing ---) ---
+if (ONLY_CONCEPT && !concepts.some(c => c.id === ONLY_CONCEPT)) {
+  console.error(`Concept ${ONLY_CONCEPT} has no anchor in book.json`);
+  process.exit(1);
+}
 const FACET_KEYS = ['concept', 'state', 'lens', 'visuality', 'depth', 'formalism', 'lengthBand', 'genre'];
 let filesTouched = 0;
 for (const [full, v] of fileFacets) {
   const { facets, meta, parts } = v;
+  if (ONLY_CONCEPT && (meta.core === true || !String(meta.concept || facets.concept).split('|').includes(ONLY_CONCEPT))) continue;
   const newLines = [];
   for (const k of FACET_KEYS) {
     if (meta[k] !== undefined) continue;           // never overwrite existing keys
@@ -293,10 +307,14 @@ const noConcept = new Set([...fileFacets.values()]
   .filter(v => v.meta.concept === null && !v.file.includes('-spine-')).map(v => v.meta.id));
 for (const c of conceptsOut) c.blocks = c.blocks.filter(id => !noConcept.has(id));
 
+// A targeted satellite addition must not re-bootstrap unrelated contracts.
+const output = ONLY_CONCEPT
+  ? EXISTING.concepts.map(c => c.id === ONLY_CONCEPT ? { ...c, blocks: byId.get(c.id).blocks } : c)
+  : conceptsOut;
 if (!DRY) {
   fs.writeFileSync(
     path.join(CONTENT_DIR, 'concepts.json'),
-    JSON.stringify({ version: 1, generatedBy: 'scripts/migrate-facets.js', concepts: conceptsOut }, null, 2)
+    JSON.stringify({ version: 1, generatedBy: 'scripts/migrate-facets.js', concepts: output }, null, 2)
   );
 }
 
