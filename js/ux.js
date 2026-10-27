@@ -505,8 +505,8 @@ export const uxMethods = {
     const blocksOf = res => (res?.recomms || []).map(r => this.findBlock(r.id)?.meta).filter(Boolean);
     const personal = this.rc.getRecsForUser('homepage-personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user))
       .then(res => this._settleShelf('rcPersonal', token, tr('Picked for you'),
-        take(blocksOf(res), 8).map(m => this.cardHtml(m, false, { reasons: ['Picked by Recombee’s “homepage-personal” scenario from what you read, liked and steered'] })),
-        tr('Collaborative filtering at work: readers with a history like yours read these.')))
+        take(blocksOf(res), 8).map(m => this.cardHtml(m, false, { reasons: [CONFIG.recombee?.enabled ? tr('Picked by Recombee’s “homepage-personal” scenario from what you read, liked and steered') : tr('Picked from what you read, liked and steered')] })),
+        CONFIG.recombee?.enabled ? tr('Collaborative filtering at work: readers with a history like yours read these.') : tr('Picked for you from what you read and liked on this device.')))
       .catch(() => this._settleShelf('rcPersonal', token, '', []));
     if (lastReadBlock) {
       const t = lastReadBlock.meta.title || '';

@@ -885,7 +885,7 @@ class PBook {
     const canSimpler = !depths.includes('intro');
     const canDeeper = !depths.includes('research');
     return `<div class="steer-bar telling-feedback fb-waiting" id="steer-${block.id}" onpointerdown="app._pinFeedbackBar('${block.id}')">
-      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="Dismiss" aria-label="Dismiss">&times;</button>
+      <button class="fb-close" onclick="app._dismissFeedbackBar('${block.id}')" title="${tr(`Dismiss`)}" aria-label="${tr(`Dismiss`)}">&times;</button>
       <span class="steer-label">${tr(`How did this land?`)}</span>
       <button class="steer-chip" onclick="app.steerBlock('${block.id}','praise')" title="${tr(`This telling worked for me`)}">${tr(`&#128077; Worked for me`)}</button>
       ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="${tr(`Same idea, gentler telling`)}">${tr(`Simpler`)}</button>` : ''}
@@ -1832,7 +1832,7 @@ class PBook {
       && !this.user.readBlocks.has(b.meta.id)
       && !/opakov/i.test(String(b._chapter || b.meta.chapter || ''))
       && !/^\s*(opakování|review)\b/i.test(String(b.meta.title || ''))), 10);
-    if (unreadCore.length >= 2) html += this.shelf(tr('Essential reading'), unreadCore.map(m => this.cardHtml(m, false, { reasons: ['Verified by the authors as essential for the certificate path'] })));
+    if (unreadCore.length >= 2) html += this.shelf(tr('Essential reading'), unreadCore.map(m => this.cardHtml(m, false, { reasons: [tr('Verified by the authors as essential for the certificate path')] })));
 
     html += this._gamesShelfHtml(); // 🎮 Play with the ideas → Playground
 
@@ -2570,7 +2570,7 @@ class PBook {
       ${this._prereqBanner(block)}
       ${overrideBar}
       <div class="block-nav">
-        <button class="bnav-back" onclick="app.goBack()" title="Back" aria-label="Back">&larr;</button>
+        <button class="bnav-back" onclick="app.goBack()" title="${tr(`Back`)}" aria-label="${tr(`Back`)}">&larr;</button>
         <span class="bnav-sep" aria-hidden="true">|</span>
         <button class="bnav-ch" onclick="app.goToMapChapter(${block._chapterIdx})" title="${tr(`Chapter {0} on the map`, chNum)}">${tr(`Chapter {0}`, chNum)}</button>
         <span class="bnav-sep">&middot;</span>
@@ -2606,7 +2606,7 @@ class PBook {
         </div>
         <div class="block-actions">
           ${this.user.recall[this._recallKey(block.id)] ? `<button class="block-more-btn" onclick="app.showBlockRecall('${block.id}')" title="${tr(`Test your memory`)}">${tr(`&#10003; Check yourself`)}</button>` : ''}
-          <button class="block-more-btn act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" title="Save" aria-label="${tr(`Save for later`)}">${tr(`&#128278; Save`)}</button>
+          <button class="block-more-btn act-btn ${this.user.savedBlocks.has(block.id)?'active':''}" onclick="app.saveBlock('${block.id}')" data-act="save" title="${tr(`Save for later`)}" aria-label="${tr(`Save for later`)}">${tr(`&#128278; Save`)}</button>
           <button class="block-more-btn" onclick="app.openBlockMenu('${block.id}')" aria-haspopup="dialog" title="${tr(`More actions`)}">${tr(`&#8943; More`)}</button>
         </div>
       </div>
@@ -4341,6 +4341,7 @@ class PBook {
     const values = conf.values;
     const icons = conf.icons || {};
     const myVal = this.user.getTargetFacets()[dim] || this._facetDefault(dim);
+    const word = v => this.escHtml(this._fw(dim === 'lens' ? 'lensShort' : dim, v) || v);   // "Everywhere", not "generic"
     const DIM_LABELS = { lens: tr('🌐 World'), depth: tr('📏 Depth'), visuality: tr('🖼 Form'), carriers: tr('🧩 Blocks'), genre: tr('✒️ Genre'), lang: tr('🌍 Language'), lengthBand: tr('⏱ Length') };
 
     // non-git articles land in the chapter of their (primary) concept's anchor
@@ -4368,10 +4369,10 @@ class PBook {
       const cells = values.map(v => {
         const my = v === myVal ? ' covmap-mylens' : '';
         return set.includes(v)
-          ? `<td class="covmap-cell${my}" onclick="app.openTelling('${meta.id}')" title="${tr(`covers {0} — read`, v)}"><span style="color:${color};font-size:.85rem">●</span></td>`
+          ? `<td class="covmap-cell${my}" onclick="app.openTelling('${meta.id}')" title="${tr(`covers {0} — read`, word(v))}"><span style="color:${color};font-size:.85rem">●</span></td>`
           : `<td class="covmap-cell${my}" style="cursor:default"><span style="color:var(--border)">·</span></td>`;
       }).join('');
-      return `<tr><td class="covmap-concept" onclick="app.openTelling('${meta.id}')" title="Read">
+      return `<tr><td class="covmap-concept" onclick="app.openTelling('${meta.id}')" title="${tr(`Open to read`)}">
         ${extraBadge || ''}${this.escHtml(meta.title || meta.id)}</td>${cells}</tr>`;
     };
 
@@ -4392,13 +4393,13 @@ class PBook {
         const n = chMetas.filter(m => this._facetValues(m, dim).includes(v)).length;
         const pct = chMetas.length ? n / chMetas.length : 0;
         const bg = pct === 0 ? 'var(--border)' : pct < 0.34 ? '#FDE68A' : pct < 0.85 ? '#A7F3D0' : '#6EE7B7';
-        return `<span class="cov-heat" style="background:${bg}" title="${tr(`{0}: {1}/{2} articles`, v, n, chMetas.length)}">${icons[v] || v[0]}</span>`;
+        return `<span class="cov-heat" style="background:${bg}" title="${tr(`{0}: {1}/{2} articles`, word(v), n, chMetas.length)}">${icons[v] || v[0]}</span>`;
       }).join('');
       sections += `<details class="covmap-chapter-sec"><summary>${tr(`Ch{0} · {1}`, ch.number, this.escHtml(ch.title))}
           <span class="covmap-mini">${tr(`{0} articles`, chMetas.length)}</span>
           <span class="cov-heatrow">${heat}</span></summary>
         <div style="overflow-x:auto"><table class="covmap">
-          <tr><th></th>${values.map(v => `<th class="${v === myVal ? 'covmap-mylens' : ''}">${icons[v] || ''}<div>${v}</div></th>`).join('')}</tr>
+          <tr><th></th>${values.map(v => `<th class="${v === myVal ? 'covmap-mylens' : ''}">${icons[v] || ''}<div>${word(v)}</div></th>`).join('')}</tr>
           ${rows}
         </table></div></details>`;
     }
@@ -4407,7 +4408,7 @@ class PBook {
         <div class="tellings-dims" style="margin-bottom:.4em">${Object.entries(DIM_LABELS).map(([d, l]) =>
           `<button class="steer-chip ${d === dim ? 'dim-active' : ''}" onclick="app.setCovDim('${d}')">${l}</button>`).join('')}
         </div>
-        <p style="font-size:.78rem;margin-bottom:.3em">${tr(`Every article of the living book — <b>{0}</b> rows; per value:{1}. ● marks the values an article's subspace covers — one article can serve several{2}. Click a row to read; to request or generate a missing telling, use the 🎛 panel inside any section. Missing a whole <i>concept</i>?`, totalArticles, values.map(v => ` ${icons[v] || v} <b>${coveringCount[v]}</b>`).join(' ·'), myVal && myVal !== this._facetDefault(dim) ? `${tr(`; your setting <b>{0} {1}</b> is highlighted`, icons[myVal] || '', myVal)}` : '')} <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">${tr(`🌱 propose it`)}</a>.</p>
+        <p style="font-size:.78rem;margin-bottom:.3em">${tr(`Every article of the living book — <b>{0}</b> rows; per value:{1}. ● marks the values an article's subspace covers — one article can serve several{2}. Click a row to read; to request or generate a missing telling, use the 🎛 panel inside any section. Missing a whole <i>concept</i>?`, totalArticles, values.map(v => ` ${icons[v] || word(v)} <b>${coveringCount[v]}</b>`).join(' ·'), myVal && myVal !== this._facetDefault(dim) ? `${tr(`; your setting <b>{0} {1}</b> is highlighted`, icons[myVal] || '', word(myVal))}` : '')} <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">${tr(`🌱 propose it`)}</a>.</p>
         <p style="font-size:.7rem;color:var(--text-3)">${tr(`● color = state:`)} <span style="color:#7C3AED">■</span> ${tr(`core ·`)} <span style="color:#10B981">■</span> ${tr(`edited ·`)} <span style="color:#D97706">■</span> ${tr(`reader content (✨ yours / ⚡ shared)`)}</p>
       </div>
       <div id="covInspector"></div>
@@ -9261,7 +9262,7 @@ class PBook {
     this.user.trackSave(blockId);
     this.rc.sendBookmark(blockId);
     if (!this.user.seenBlocks.has(blockId)) this.user.trackSeen(blockId);
-    const btn = document.querySelector(`#b-${blockId} .act-btn[title="Save"]`);
+    const btn = document.querySelector(`#b-${blockId} .act-btn[data-act="save"]`);
     if (btn) btn.classList.add('active');
   }
 
@@ -9459,7 +9460,7 @@ class PBook {
       el.innerHTML = `<label>${tr(`Account`)}</label>
         <div style="margin-top:.3em">
           <input type="text" id="authName" class="auth-input" placeholder="${tr(`Your name`)}" value="${this.escHtml(savedName)}" maxlength="60" style="font-size:.78rem;padding:.4em .6em">
-          <input type="email" id="authEmail" class="auth-input" placeholder="Email" maxlength="120" style="font-size:.78rem;padding:.4em .6em">
+          <input type="email" id="authEmail" class="auth-input" placeholder="${tr(`Email`)}" maxlength="120" style="font-size:.78rem;padding:.4em .6em">
           <input type="password" id="authPassword" class="auth-input" placeholder="${tr(`Password (4+ chars)`)}" maxlength="100" style="font-size:.78rem;padding:.4em .6em">
           <div class="auth-btns">
             <button class="auth-primary-btn" style="font-size:.75rem;padding:.4em" onclick="app.register()">${tr(`Create account`)}</button>
@@ -9518,7 +9519,7 @@ class PBook {
       h += `<button class="cosmetic-item ${unlocked ? '' : 'cosmetic-locked'} ${active ? 'cosmetic-active' : ''}" ${unlocked ? `onclick="${onclick}"` : ''}>
         <span class="cosmetic-icon">${unlocked ? r.icon : '\u{1F512}'}</span>
         <span class="cosmetic-name">${r.name}</span>
-        <span class="cosmetic-level">${unlocked ? (active ? '\u2713' : '') : 'Lv.' + r.level}</span>
+        <span class="cosmetic-level">${unlocked ? (active ? '\u2713' : '') : tr(`Lv.{0}`, r.level)}</span>
       </button>`;
     });
     h += '</div>';
@@ -9698,13 +9699,13 @@ class PBook {
 
   getLevelRewards() {
     return [
-      { level: 1, name: 'Default', theme: null, icon: '\u{1F331}' },
-      { level: 2, name: 'Ocean', theme: 'ocean', icon: '\u{1F30A}' },
-      { level: 3, name: 'Sunset', theme: 'sunset', icon: '\u{1F305}' },
-      { level: 4, name: 'Forest', theme: 'forest', icon: '\u{1F332}' },
-      { level: 5, name: 'Galaxy', theme: 'galaxy', icon: '\u{1F30C}' },
-      { level: 7, name: 'Neon', theme: 'neon', icon: '\u{1F4A1}' },
-      { level: 10, name: 'Gold', theme: 'gold', icon: '\u{1F451}' },
+      { level: 1, name: tr(`Default`), theme: null, icon: '\u{1F331}' },
+      { level: 2, name: tr(`Ocean`), theme: 'ocean', icon: '\u{1F30A}' },
+      { level: 3, name: tr(`Sunset`), theme: 'sunset', icon: '\u{1F305}' },
+      { level: 4, name: tr(`Forest`), theme: 'forest', icon: '\u{1F332}' },
+      { level: 5, name: tr(`Galaxy`), theme: 'galaxy', icon: '\u{1F30C}' },
+      { level: 7, name: tr(`Neon`), theme: 'neon', icon: '\u{1F4A1}' },
+      { level: 10, name: tr(`Gold`), theme: 'gold', icon: '\u{1F451}' },
     ];
   }
 

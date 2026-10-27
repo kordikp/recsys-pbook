@@ -80,8 +80,16 @@ export function locDeep(v) {
 // An element marked data-i18n is translated as a whole (key = its inner HTML), for sentences
 // with inline markup; data-i18n="key" names the key, for a word whose English is ambiguous
 // ("Learning" the domain, not the recall state); data-i18n-skip leaves a subtree alone.
+// A picture with words in it, <img src="images/x.svg" data-i18n-src>, shows images/x.<lang>.svg
+// in a language other than the book's own (the original stays when that file is missing).
 export function translateStatic(root = document.body) {
   document.documentElement.lang = LANG === 'qps' ? 'en' : LANG;
+  if (LANG !== (CONFIG.book.lang || 'en') && LANG !== 'qps') root.querySelectorAll('img[data-i18n-src]').forEach(img => {
+    const src = img.getAttribute('src'), alt = src.replace(/\.(svg|png|webp|jpe?g)$/, `.${LANG}.$1`);
+    if (alt === src) return;
+    img.addEventListener('error', () => { if (img.getAttribute('src') === alt) img.setAttribute('src', src); }, { once: true });
+    img.setAttribute('src', alt);
+  });
   if (LANG === 'en' && !Object.keys(own).length) return;   // a Czech-first book keys its own text in Czech
   const norm = s => s.trim().replace(/\s+/g, ' ');
   root.querySelectorAll('[data-i18n]').forEach(el => {
