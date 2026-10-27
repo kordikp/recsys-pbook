@@ -1,25 +1,12 @@
 // Service Worker for p-book — offline support
 // Bump CACHE_NAME on every release that changes the app shell: the activate
-// step then drops the previous cache. The precache list is NOT kept by hand
-// any more — install derives it from /content/book.json (every content file),
-// the games, diagrams and images those files reference, and app.js's imports.
-// (A hand-kept list once missed 97 of 307 content files, all comics included.)
-const CACHE_NAME = 'pbook-v82';
-
-// App shell: the few files content cannot point at
-const SHELL = [
-  '/',
-  '/index.html',
-  '/favicon.svg',
-  '/css/style.css',
-  '/js/app.js',
-  '/js/diagrams.js',
-  '/content/book.json',
-  '/content/concepts.json',
-  '/content/concept-map.json',
-  '/content/concept-proposals.json',
-  '/content/id-aliases.json',
-];
+// step then drops the previous cache.
+// Install keeps only the app shell (and the ES modules app.js imports). The book itself
+// arrives from the page: once a visit has loaded, the engine posts the files it read
+// (content/bundle.<lang>.json or every content file, games, the interface pack — app.js
+// _offlineCopy) and they are stored here. Install used to download every content file
+// a second time while the first visit was still loading them.
+const CACHE_NAME = 'pbook-v83';
 
 // Fetch + store one URL; returns the live Response (body still readable) or null
 async function precacheOne(cache, url) {
@@ -35,62 +22,57 @@ async function inBatches(list, fn, size = 12) {
   for (let i = 0; i < list.length; i += size) await Promise.all(list.slice(i, i + size).map(fn));
 }
 
-// Everything a reader needs offline, discovered from the content itself
-async function precacheBook(cache) {
-  const seen = new Set();
-  const add = (url, out) => { if (url && !seen.has(url)) { seen.add(url); out.push(url); } };
-  const text = async r => { try { return r ? await r.text() : ''; } catch (e) { return ''; } };
-
-  // 1) shell, then the ES modules app.js imports (with their ?v= cache-busters)
-  const shell = [];
-  SHELL.forEach(u => add(u, shell));
+// The app shell: index.html and what it loads by itself (stylesheet, scripts, images — with their
+// ?v= cache-busters, which a hand-kept list missed: offline the page asked for app.js?v=7.2.0 and
+// the cache held /js/app.js), then the ES modules app.js imports.
+async function precacheShell(cache) {
+  const page = await precacheOne(cache, '/');
+  let html = '';
+  try { html = page ? await page.text() : ''; } catch (e) {}
+  const own = new Set(['/index.html', '/favicon.svg']);
+  for (const m of html.matchAll(/(?:href|src)="\/?(?!https?:|\/|data:|#)([^"]+\.(?:css|js|svg|png|webp)(?:\?[^"]*)?)"/g)) own.add('/' + m[1]);
   const res = {};
-  await inBatches(shell, async u => { res[u] = await precacheOne(cache, u); });
-  const mods = [];
-  const appSrc = await text(res['/js/app.js']);
-  for (const m of appSrc.matchAll(/from\s+['"]\.\/([\w.-]+\.js(?:\?[\w=.&-]*)?)['"]/g)) add('/js/' + m[1], mods);
-  await inBatches(mods, u => precacheOne(cache, u));
-
-  // 2) diagram names → files (js/diagrams.js DIAGRAM_FILES)
-  const diagramFiles = {};
-  const dsrc = await text(res['/js/diagrams.js']);
-  for (const m of dsrc.matchAll(/['"]?([\w-]+)['"]?\s*:\s*['"](images\/[^'"]+)['"]/g)) diagramFiles[m[1]] = '/' + m[2];
-
-  // 3) every content file listed in book.json, then what those files reference
-  let book = null;
-  try { book = JSON.parse(await text(res['/content/book.json'])); } catch (e) {}
-  const files = [];
-  (book?.chapters || []).forEach(ch => (ch.files || []).forEach(f => add(`/content/${ch.directory}/${f}`, files)));
-  const assets = [];
-  await inBatches(files, async u => {
-    const md = await text(await precacheOne(cache, u));
-    const game = md.match(/^game:\s*([\w.-]+)\s*$/m);
-    if (game) add(`/games/${game[1]}.json`, assets);
-    // Figures, photos and animations (several MB) are NOT fetched here: on a first visit
-    // that doubled the download while the page was loading the same files. The fetch
-    // handler caches every image the reader actually sees, so viewed sections work offline.
-  });
-  await inBatches(assets, u => precacheOne(cache, u));
+  await inBatches([...own], async u => { res[u] = await precacheOne(cache, u); });
+  const app = Object.keys(res).find(u => u.startsWith('/js/app.js'));
+  let appSrc = '';
+  try { appSrc = app && res[app] ? await res[app].text() : ''; } catch (e) {}
+  const mods = new Set();
+  for (const m of appSrc.matchAll(/from\s+['"]\.\/([\w.-]+\.js(?:\?[\w=.&-]*)?)['"]/g)) mods.add('/js/' + m[1]);
+  await inBatches([...mods], u => precacheOne(cache, u));
 }
 
-// Install: build the precache from the book itself (individual failures are skipped)
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(precacheBook)
+      .then(precacheShell)
       .catch(e => console.warn('SW: precache incomplete', e))
   );
   self.skipWaiting();
 });
 
-// Activate: clean old caches
+// The page's offline list: same-origin files this cache does not hold yet (a controlled
+// visit has already stored what it fetched; the first visit's files come from the HTTP cache)
+self.addEventListener('message', event => {
+  if (event.data?.type !== 'precache' || !Array.isArray(event.data.urls)) return;
+  event.waitUntil((async () => {
+    const cache = await caches.open(CACHE_NAME);
+    const urls = event.data.urls.map(u => { try { return new URL(u, self.location.origin); } catch (e) { return null; } })
+      .filter(u => u && u.origin === self.location.origin).map(u => u.pathname + u.search);
+    await inBatches(urls, async u => { if (!(await cache.match(u))) await precacheOne(cache, u); }, 6);
+  })());
+});
+
+// Activate: clean old caches. Replacing an older version also reloads the open pages:
+// they still run the old app shell (served cache-first by the old worker) against the
+// new content, which broke the 2026-10-27 release (old engine, new {cs, en, …} titles).
 self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(
-      keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
-    ))
-  );
-  self.clients.claim();
+  event.waitUntil((async () => {
+    const old = (await caches.keys()).filter(k => k !== CACHE_NAME);
+    await Promise.all(old.map(k => caches.delete(k)));
+    await self.clients.claim();
+    if (!old.length) return;   // first install: nothing stale is running
+    for (const c of await self.clients.matchAll({ type: 'window' })) c.navigate(c.url).catch(() => {});
+  })());
 });
 
 // Fetch: API = network only; everything else = cache first, update in background
@@ -120,7 +102,9 @@ self.addEventListener('fetch', event => {
       fetch(event.request, { cache: 'no-cache' }).then(r => {
         if (r.ok) { const c = r.clone(); caches.open(CACHE_NAME).then(cache => cache.put(event.request, c)); }
         return r;
-      }).catch(() => caches.match(event.request))
+      }).catch(async () => (await caches.match(event.request))
+        // offline on /?lang=sk or #… links: any page of the book is the same index.html
+        || (event.request.mode === 'navigate' ? caches.match('/') : undefined))
     );
     return;
   }

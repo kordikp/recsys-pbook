@@ -3,6 +3,7 @@
 // Falls back to local simulation when API unavailable
 
 import { CONFIG } from './config.js';
+import { tr } from './i18n.js';
 
 export class RecombeeClient {
   constructor() {
@@ -786,7 +787,7 @@ export class UserModel {
   getLevelTitle() {
     // Fewer, meaningful steps (level numbers still come from XP)
     const l = this.level;
-    return l >= 9 ? 'Recommender architect' : l >= 6 ? 'Expert' : l >= 3 ? 'Practitioner' : 'Reader';
+    return tr(l >= 9 ? (CONFIG.levelTitles?.[3] || 'Recommender architect') : l >= 6 ? 'Expert' : l >= 3 ? 'Practitioner' : 'Reader');
   }
 
   getXPForNextLevel() { return this.level * 50; }

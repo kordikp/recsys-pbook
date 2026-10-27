@@ -15,6 +15,8 @@
 // - simulations use seeded, common random numbers so comparisons are fair, and every
 //   number shown on an end screen is computed live, never typed in.
 
+import { tr, trn, locale } from './i18n.js';
+
 // ===== Pure helpers (no DOM; exported for scripts/check-games.mjs) =====
 
 export function makeRng(seed) {
@@ -95,10 +97,10 @@ export function banditOutcomes(arms, pulls, rand) {
 }
 
 export const BANDIT_POLICIES = {
-  thompson: 'Thompson sampling',
-  greedy: 'Greedy (try each once, then stick with the best so far)',
-  epsilon: 'ε-greedy (like greedy, but explores 10 % of the time)',
-  uniform: 'Uniform (pick at random every time)',
+  thompson: tr('Thompson sampling'),
+  greedy: tr('Greedy (try each once, then stick with the best so far)'),
+  epsilon: tr('ε-greedy (like greedy, but explores 10 % of the time)'),
+  uniform: tr('Uniform (pick at random every time)'),
 };
 
 export function banditRun(policy, outcomes, pulls, rand, eps = 0.1) {
@@ -359,15 +361,15 @@ const chOf = m => m._chapter || m.chapter || '';
 
 function gameSize(g) {
   switch (g.type) {
-    case 'sort': return `${(g.items || []).length} cards`;
-    case 'pairs': return `${(g.pairs || []).length} rounds`;
-    case 'order': return `${(g.steps || []).length} steps`;
-    case 'match': return g.predict ? '2 rounds' : '1 round';
-    case 'pop': return `${(g.items || []).length} items`;
-    case 'bandit': return `${g.pulls || 40} impressions`;
-    case 'mixer': return `${(g.goals || []).length} goals`;
-    case 'abstop': return `${(g.rounds || []).length} experiments`;
-    case 'loop': return g.mode === 'user' ? `${(g.phase1Days || 8) + (g.phase2Days || 5)} simulated days` : `${g.days || 30} simulated days, twice`;
+    case 'sort': return trn('{0} card', '{0} cards', (g.items || []).length);
+    case 'pairs': return trn('{0} round', '{0} rounds', (g.pairs || []).length);
+    case 'order': return trn('{0} step', '{0} steps', (g.steps || []).length);
+    case 'match': return g.predict ? tr('2 rounds') : tr('1 round');
+    case 'pop': return trn('{0} item', '{0} items', (g.items || []).length);
+    case 'bandit': return trn('{0} impression', '{0} impressions', g.pulls || 40);
+    case 'mixer': return trn('{0} goal', '{0} goals', (g.goals || []).length);
+    case 'abstop': return trn('{0} experiment', '{0} experiments', (g.rounds || []).length);
+    case 'loop': return g.mode === 'user' ? `${tr(`{0} simulated days`, (g.phase1Days || 8) + (g.phase2Days || 5))}` : `${tr(`{0} simulated days, twice`, g.days || 30)}`;
     default: return '';
   }
 }
@@ -407,15 +409,15 @@ const GamesMixin = {
     return `<div class="game-block g-block fade-up" id="b-${esc(dom)}" data-block="${esc(id)}" data-game-file="${esc(file)}">
       <div class="game-header g-header">
         <span class="game-icon" aria-hidden="true">🎮</span>
-        <h4 id="gh-${esc(dom)}">${esc(block.title || 'Mini-game')}</h4>
+        <h4 id="gh-${esc(dom)}">${esc(block.title || tr('Mini-game'))}</h4>
         <span class="g-best"${best ? '' : ' hidden'}>${best}</span>
       </div>
-      <div class="g-meta"><span class="g-kind">Hands-on</span><span class="g-meta-detail"></span></div>
+      <div class="g-meta"><span class="g-kind">${tr(`Hands-on`)}</span><span class="g-meta-detail"></span></div>
       ${block.teaser ? `<p class="g-teaser">${esc(block.teaser)}</p>` : ''}
       <div class="game-area g-area" role="group" aria-labelledby="gh-${esc(dom)}"></div>
       <div class="g-launch">
-        <button class="game-start-btn g-btn g-btn-primary" onclick="app.startGame('${esc(id)}','${esc(file)}',this)">▶ Play</button>
-        ${opts.inPlayground ? '' : '<button class="g-btn g-btn-quiet" onclick="app.openPlayground()">All games</button>'}
+        <button class="game-start-btn g-btn g-btn-primary" onclick="app.startGame('${esc(id)}','${esc(file)}',this)">${tr(`▶ Play`)}</button>
+        ${opts.inPlayground ? '' : ('<button class="g-btn g-btn-quiet" onclick="app.openPlayground()">' + tr(`All games`) + '</button>')}
       </div>
     </div>`;
   },
@@ -427,7 +429,7 @@ const GamesMixin = {
     try {
       const g = await this._loadGame(file);
       const timed = typeof g.timer === 'number' && g.timer > 0;
-      const parts = [gameSize(g), timed ? `${g.timer} s timer` : 'untimed', `~${g.minutes || 2} min`].filter(Boolean);
+      const parts = [gameSize(g), timed ? `${tr(`{0} s timer`, g.timer)}` : tr('untimed'), `${tr(`~{0} min`, g.minutes || 2)}`].filter(Boolean);
       const slot = el.querySelector('.g-meta-detail');
       if (slot) slot.textContent = ' · ' + parts.join(' · ');
     } catch (e) { /* offline: the Play button reports it */ }
@@ -439,7 +441,7 @@ const GamesMixin = {
     const area = root.querySelector('.g-area');
     let game;
     try { game = await this._loadGame(file); } catch (e) {
-      area.innerHTML = '<p class="g-msg">Could not load this game. Check your connection and try again.</p>';
+      area.innerHTML = ('<p class="g-msg">' + tr(`Could not load this game. Check your connection and try again.`) + '</p>');
       return;
     }
     const launch = root.querySelector('.g-launch');
@@ -454,7 +456,7 @@ const GamesMixin = {
     if (typeof game.timer === 'number' && game.timer > 0) this._gameStartTimer(S, game.timer);
     const type = game.type === 'match' && game.pairs ? 'pairs' : game.type;
     const run = { sort: '_gameSort', pairs: '_gamePairs', order: '_gameOrder', match: '_gameMatch', pop: '_gamePop', bandit: '_gameBandit', mixer: '_gameMixer', abstop: '_gameAbstop', loop: '_gameLoop' }[type];
-    if (!run) { area.innerHTML = `<p class="g-msg">This game type ("${esc(game.type)}") is not supported by this version of the book.</p>`; return; }
+    if (!run) { area.innerHTML = `<p class="g-msg">${tr(`This game type ("{0}") is not supported by this version of the book.`, esc(game.type))}</p>`; return; }
     this[run](S);
   },
 
@@ -474,7 +476,7 @@ const GamesMixin = {
     if (!el) {
       el = document.createElement('span');
       el.className = 'g-timer';
-      el.setAttribute('aria-label', 'time left');
+      el.setAttribute('aria-label', tr('time left'));
       S.root.querySelector('.g-header')?.appendChild(el);
     }
     const show = () => { el.textContent = `${Math.floor(left / 60)}:${String(left % 60).padStart(2, '0')}`; };
@@ -493,7 +495,7 @@ const GamesMixin = {
   },
 
   _gameProgress(label, i, n, right) {
-    return `<div class="g-progress"><span>${label} ${Math.min(i + 1, n)} of ${n}</span><span>${right || ''}</span></div>
+    return `<div class="g-progress"><span>${tr(`{0} {1} of {2}`, label, Math.min(i + 1, n), n)}</span><span>${right || ''}</span></div>
       <div class="g-bar" aria-hidden="true"><i style="width:${Math.round(100 * i / Math.max(1, n))}%"></i></div>`;
   },
 
@@ -515,7 +517,7 @@ const GamesMixin = {
     slot.innerHTML = `<div class="g-feedback ${ok === true ? 'is-ok' : ok === false ? 'is-no' : ''}" role="status">
       <div class="g-fb-head">${head}</div>
       ${why ? `<div class="g-fb-why">${esc(why)}</div>` : ''}
-      ${onNext ? `<button class="g-btn g-btn-primary g-next">${nextText || 'Next ›'}</button>` : ''}
+      ${onNext ? `<button class="g-btn g-btn-primary g-next">${nextText || tr('Next ›')}</button>` : ''}
     </div>`;
     const nb = slot.querySelector('.g-next');
     if (nb) { nb.onclick = onNext; this._gameFocus(nb); }
@@ -548,7 +550,7 @@ const GamesMixin = {
       if (xp > 0) {
         rec.xpDay = today();
         this.user.addXP(xp); this.user.save();
-        this.showXPToast(`+${xp} XP 🎮`, 'xp');
+        this.showXPToast(`${tr(`+{0} XP 🎮`, xp)}`, 'xp');
       }
     }
     store[S.blockId] = rec;
@@ -558,7 +560,7 @@ const GamesMixin = {
 
     const bestEl = S.root.querySelector('.g-best');
     if (bestEl) { bestEl.hidden = false; bestEl.textContent = `Best ${rec.bestLabel}`; }
-    const note = res.note || (frac >= 1 ? 'Perfect run.' : isBest && hadBest ? 'New personal best.' : !isBest ? `Your best: ${esc(rec.bestLabel)}` : '');
+    const note = res.note || (frac >= 1 ? tr('Perfect run.') : isBest && hadBest ? tr('New personal best.') : !isBest ? `${tr(`Your best: {0}`, esc(rec.bestLabel))}` : '');
     const concept = this._gameConcept(S.meta);
     const misses = res.misses || [];
     const inPg = !!S.root.closest('.g-pg');
@@ -566,16 +568,16 @@ const GamesMixin = {
       <div class="g-end-top" role="status">
         <div class="g-end-score">${esc(label)}</div>
         ${note ? `<div class="g-end-note">${note}</div>` : ''}
-        ${xp ? `<div class="g-end-xp">+${xp} XP</div>` : ''}
+        ${xp ? `<div class="g-end-xp">${tr(`+{0} XP`, xp)}</div>` : ''}
       </div>
       ${res.html || ''}
-      ${misses.length ? `<details class="g-misses"${misses.length <= 3 ? ' open' : ''}><summary>Review ${misses.length === 1 ? 'your miss' : `your ${misses.length} misses`}</summary>
+      ${misses.length ? `<details class="g-misses"${misses.length <= 3 ? ' open' : ''}><summary>${tr(`Review {0}`, misses.length === 1 ? tr('your miss') : `${tr(`your {0} misses`, misses.length)}`)}</summary>
         <ul>${misses.map(m => `<li><b>${esc(m.q)}</b><br><span class="g-miss-a">→ ${esc(m.a)}</span>${m.why ? `<span class="g-miss-why"> ${esc(m.why)}</span>` : ''}</li>`).join('')}</ul></details>` : ''}
-      ${S.game.debrief ? `<div class="g-debrief"><b>Takeaway.</b> ${esc(S.game.debrief)}</div>` : ''}
+      ${S.game.debrief ? `<div class="g-debrief">${tr(`<b>Takeaway.</b> {0}`, esc(S.game.debrief))}</div>` : ''}
       <div class="g-end-actions">
-        <button class="g-btn g-btn-primary g-again">↻ Play again</button>
-        ${concept ? `<a class="g-btn" href="#c/${esc(concept.slug)}">Read: ${esc(concept.title)} →</a>` : ''}
-        <button class="g-btn g-btn-quiet g-more">${inPg ? '← All games' : 'More games'}</button>
+        <button class="g-btn g-btn-primary g-again">${tr(`↻ Play again`)}</button>
+        ${concept ? `<a class="g-btn" href="#c/${esc(concept.slug)}">${tr(`Read: {0} →`, esc(concept.title))}</a>` : ''}
+        <button class="g-btn g-btn-quiet g-more">${inPg ? tr('← All games') : tr('More games')}</button>
       </div>
     </div>`;
     S.area.querySelector('.g-again').onclick = e => this.startGame(S.blockId, S.file, e.currentTarget);
@@ -590,11 +592,11 @@ const GamesMixin = {
     const items = shuffled(g.items.map((it, k) => ({ ...it, k })));
     let i = 0, score = 0;
     const misses = [];
-    S.onTimeout = () => this._gameFinish(S, { score, total: items.length, misses, note: 'Time is up.' });
+    S.onTimeout = () => this._gameFinish(S, { score, total: items.length, misses, note: tr('Time is up.') });
     const show = () => {
       if (i >= items.length) return this._gameFinish(S, { score, total: items.length, misses });
       const it = items[i];
-      S.area.innerHTML = `${this._gameProgress('Card', i, items.length, `${score} correct`)}
+      S.area.innerHTML = `${this._gameProgress(tr('Card'), i, items.length, `${tr(`{0} correct`, score)}`)}
         ${g.instruction ? `<p class="g-instruction">${esc(g.instruction)}</p>` : ''}
         <div class="g-card">${esc(it.text)}</div>
         <div class="g-options${g.buckets.length > 2 ? ' g-options-many' : ''}">${g.buckets.map((b, bi) =>
@@ -612,8 +614,8 @@ const GamesMixin = {
           this._gameAnswer(S, it.k, ok);
           this._gameFeedback(S, {
             ok, why: it.why,
-            head: ok ? '✓ Correct.' : `✗ Not quite. It's <b>${esc(g.buckets[it.answer])}</b>.`,
-            nextText: i === items.length - 1 ? 'See your score ›' : 'Next ›',
+            head: ok ? tr('✓ Correct.') : `${tr(`✗ Not quite. It's <b>{0}</b>.`, esc(g.buckets[it.answer]))}`,
+            nextText: i === items.length - 1 ? tr('See your score ›') : tr('Next ›'),
             onNext: () => { i++; show(); },
           });
         };
@@ -630,14 +632,14 @@ const GamesMixin = {
     const allA = [...new Set(g.pairs.map(p => p.a))];
     let i = 0, score = 0;
     const misses = [];
-    S.onTimeout = () => this._gameFinish(S, { score, total: pairs.length, misses, note: 'Time is up.' });
+    S.onTimeout = () => this._gameFinish(S, { score, total: pairs.length, misses, note: tr('Time is up.') });
     const show = () => {
       if (i >= pairs.length) return this._gameFinish(S, { score, total: pairs.length, misses });
       const cur = pairs[i];
       const pool = (cur.options && cur.options.length ? cur.options : allA).filter(a => a !== cur.a);
       const opts = shuffled([cur.a, ...shuffled([...new Set(pool)]).slice(0, (g.choices || 4) - 1)]);
-      S.area.innerHTML = `${this._gameProgress('Round', i, pairs.length, `${score} correct`)}
-        <p class="g-instruction">${esc(g.instruction || 'Which term is it?')}</p>
+      S.area.innerHTML = `${this._gameProgress(tr('Round'), i, pairs.length, `${tr(`{0} correct`, score)}`)}
+        <p class="g-instruction">${esc(g.instruction || tr('Which term is it?'))}</p>
         <div class="g-card">${esc(cur.b)}</div>
         <div class="g-options g-options-many">${opts.map((o, oi) =>
           `<button class="g-opt" data-v="${esc(o)}"><span class="g-key" aria-hidden="true">${oi + 1}</span><span class="g-opt-text">${esc(o)}</span></button>`).join('')}</div>
@@ -654,8 +656,8 @@ const GamesMixin = {
           this._gameAnswer(S, cur.k, ok);
           this._gameFeedback(S, {
             ok, why: cur.why,
-            head: ok ? '✓ Correct.' : `✗ Not quite. It's <b>${esc(cur.a)}</b>.`,
-            nextText: i === pairs.length - 1 ? 'See your score ›' : 'Next ›',
+            head: ok ? tr('✓ Correct.') : `${tr(`✗ Not quite. It's <b>{0}</b>.`, esc(cur.a))}`,
+            nextText: i === pairs.length - 1 ? tr('See your score ›') : tr('Next ›'),
             onNext: () => { i++; show(); },
           });
         };
@@ -676,10 +678,10 @@ const GamesMixin = {
     const decisions = Math.max(1, steps.length - 1); // the last step is forced
     const render = (fb) => {
       const remaining = pool.filter(s => !placed.includes(s));
-      S.area.innerHTML = `${this._gameProgress('Step', pos, steps.length, `${firstTry} first try`)}
-        <p class="g-instruction">${esc(g.instruction || 'Put the steps in order.')}</p>
+      S.area.innerHTML = `${this._gameProgress(tr('Step'), pos, steps.length, `${tr(`{0} first try`, firstTry)}`)}
+        <p class="g-instruction">${esc(g.instruction || tr('Put the steps in order.'))}</p>
         <ol class="g-seq">${placed.map(s => `<li class="${s._shown ? 'is-shown' : 'is-done'}"><span class="g-mark">${s._shown ? '→' : '✓'}</span> <span>${esc(s.text)}</span>${s.why ? `<div class="g-seq-why">${esc(s.why)}</div>` : ''}</li>`).join('')}
-          ${remaining.length ? `<li class="g-seq-next" aria-hidden="true">Step ${pos + 1}?</li>` : ''}</ol>
+          ${remaining.length ? `<li class="g-seq-next" aria-hidden="true">${tr(`Step {0}?`, pos + 1)}</li>` : ''}</ol>
         <div class="g-options g-options-col">${remaining.map(s =>
           `<button class="g-opt" data-k="${s.k}"><span class="g-opt-text">${esc(s.text)}</span></button>`).join('')}</div>
         <div class="g-fb"></div>`;
@@ -694,14 +696,14 @@ const GamesMixin = {
             placed.push(step); pos++; tries = 0;
             const left = pool.filter(s => !placed.includes(s));
             if (left.length === 1) { placed.push(left[0]); pos++; }
-            if (pos >= steps.length) return this._gameFinish(S, { score: firstTry, total: decisions, misses, scoreLabel: `${firstTry}/${decisions} first try` });
-            render({ ok: true, head: `✓ Step ${pos} placed.`, why: '' });
+            if (pos >= steps.length) return this._gameFinish(S, { score: firstTry, total: decisions, misses, scoreLabel: `${tr(`{0}/{1} first try`, firstTry, decisions)}` });
+            render({ ok: true, head: `${tr(`✓ Step {0} placed.`, pos)}`, why: '' });
             this._gameFocus(S.area.querySelector('.g-opt'));
           } else {
             tries++;
             btn.disabled = true;
             btn.classList.add('is-wrong');
-            btn.insertAdjacentHTML('beforeend', '<span class="g-mark">✗ later</span>');
+            btn.insertAdjacentHTML('beforeend', ('<span class="g-mark">' + tr(`✗ later`) + '</span>'));
             if (tries >= 2) {
               const right = steps[pos];
               right._shown = true;
@@ -710,11 +712,11 @@ const GamesMixin = {
               placed.push(right); pos++; tries = 0;
               const left = pool.filter(s => !placed.includes(s));
               if (left.length === 1) { placed.push(left[0]); pos++; }
-              if (pos >= steps.length) return this._gameFinish(S, { score: firstTry, total: decisions, misses, scoreLabel: `${firstTry}/${decisions} first try` });
-              render({ ok: false, head: `✗ Step ${pos} was <b>${esc(right.text)}</b>.`, why: right.why });
+              if (pos >= steps.length) return this._gameFinish(S, { score: firstTry, total: decisions, misses, scoreLabel: `${tr(`{0}/{1} first try`, firstTry, decisions)}` });
+              render({ ok: false, head: `${tr(`✗ Step {0} was <b>{1}</b>.`, pos, esc(right.text))}`, why: right.why });
               this._gameFocus(S.area.querySelector('.g-opt'));
             } else {
-              this._gameFeedback(S, { ok: false, head: `✗ Not step ${pos + 1}: that one comes later. One more try.`, why: '' });
+              this._gameFeedback(S, { ok: false, head: `${tr(`✗ Not step {0}: that one comes later. One more try.`, pos + 1)}`, why: '' });
               this._gameFocus(S.area.querySelector('.g-opt:not([disabled])'));
             }
           }
@@ -733,7 +735,7 @@ const GamesMixin = {
       for (let tries = 0; tries < 200; tries++) {
         const m = { You: g.items.map(() => 1 + Math.floor(Math.random() * 5)) };
         (g.users || ['Alex', 'Sam', 'Jordan', 'Taylor']).forEach(u => { m[u] = g.items.map(() => 1 + Math.floor(Math.random() * 5)); });
-        game = { ...g, matrix: m, you: 'You' };
+        game = { ...g, matrix: m, you: tr('You') };
         if (matchStats(game).margin >= 0.6) break;
       }
     }
@@ -744,7 +746,7 @@ const GamesMixin = {
     const misses = [];
     const total = st.predict ? 2 : 1;
     const table = (hlRow, qCol) => `<div class="g-table-wrap"><table class="g-matrix">
-      <thead><tr><th scope="col"><span class="g-sr">Person</span></th>${items.map((m, j) => `<th scope="col"${j === qCol ? ' class="is-q"' : ''}>${esc(m)}</th>`).join('')}</tr></thead>
+      <thead><tr><th scope="col"><span class="g-sr">${tr(`Person`)}</span></th>${items.map((m, j) => `<th scope="col"${j === qCol ? ' class="is-q"' : ''}>${esc(m)}</th>`).join('')}</tr></thead>
       <tbody>${users.map(name => {
         const r = game.matrix[name];
         const isYou = name === st.youName;
@@ -753,27 +755,27 @@ const GamesMixin = {
         return `<tr class="${isYou ? 'g-you-row' : ''}">${head}${r.map((v, j) => `<td class="${j === qCol && isYou ? 'is-q' : ''}">${v == null ? (isYou && j === qCol ? '?' : '–') : `<span class="g-rate g-r${v}">${v}</span>`}</td>`).join('')}</tr>`;
       }).join('')}</tbody></table></div>`;
     const madList = () => `<ul class="g-bars">${st.others.map(o => `<li${o === st.twin ? ' class="is-best"' : ''}><span class="g-bars-l">${esc(o.name)}</span><span class="g-bars-t"><i style="width:${Math.min(100, (o.mad / 4) * 100)}%"></i></span><span class="g-bars-v">${num(o.mad)}</span></li>`).join('')}</ul>
-      <p class="g-small">Average gap in stars on the films you both rated. Smaller = more alike.</p>`;
+      <p class="g-small">${tr(`Average gap in stars on the films you both rated. Smaller = more alike.`)}</p>`;
     const step1 = () => {
-      S.area.innerHTML = `${this._gameProgress('Round', 0, total, '')}
-        <p class="g-instruction">${esc(game.instruction || 'Who rates most like you? Tap their name.')}</p>
+      S.area.innerHTML = `${this._gameProgress(tr('Round'), 0, total, '')}
+        <p class="g-instruction">${esc(game.instruction || tr('Who rates most like you? Tap their name.'))}</p>
         ${table(null, st.predict ? st.predict.j : -1)}
-        <p class="g-small">Ratings from 1 (didn't like it) to 5 (loved it). – = not seen.</p>
+        <p class="g-small">${tr(`Ratings from 1 (didn't like it) to 5 (loved it). – = not seen.`)}</p>
         <div class="g-fb"></div>`;
       const btns = [...S.area.querySelectorAll('.g-pick')];
       btns.forEach(btn => {
         btn.onclick = () => {
           btns.forEach(b => { b.disabled = true; });
           const ok = btn.dataset.n === st.twin.name;
-          if (ok) score++; else misses.push({ q: 'Who rates most like you?', a: st.twin.name, why: `${st.twin.name}'s ratings differ from yours by ${num(st.twin.mad)} stars on average; ${btn.dataset.n}'s by ${num(st.others.find(o => o.name === btn.dataset.n).mad)}.` });
+          if (ok) score++; else misses.push({ q: tr('Who rates most like you?'), a: st.twin.name, why: `${tr(`{0}'s ratings differ from yours by {1} stars on average; {2}'s by {3}.`, st.twin.name, num(st.twin.mad), btn.dataset.n, num(st.others.find(o => o.name === btn.dataset.n).mad))}` });
           btn.classList.add(ok ? 'is-right' : 'is-wrong');
           btn.insertAdjacentHTML('beforeend', `<span class="g-mark">${ok ? '✓' : '✗'}</span>`);
           if (!ok) btns.forEach(b => { if (b.dataset.n === st.twin.name) { b.classList.add('is-answer'); b.insertAdjacentHTML('beforeend', '<span class="g-mark">✓</span>'); } });
           this._gameAnswer(S, 0, ok);
           this._gameFeedback(S, {
             ok, why: '',
-            head: (ok ? `✓ Yes, <b>${esc(st.twin.name)}</b> is your taste twin.` : `✗ Your taste twin is <b>${esc(st.twin.name)}</b>.`) + madList(),
-            nextText: st.predict ? 'Now predict ›' : 'See your score ›',
+            head: (ok ? `${tr(`✓ Yes, <b>{0}</b> is your taste twin.`, esc(st.twin.name))}` : `${tr(`✗ Your taste twin is <b>{0}</b>.`, esc(st.twin.name))}`) + madList(),
+            nextText: st.predict ? tr('Now predict ›') : tr('See your score ›'),
             onNext: () => (st.predict ? step2() : this._gameFinish(S, { score, total, misses })),
           });
         };
@@ -784,37 +786,37 @@ const GamesMixin = {
       const P = st.predict;
       const title = items[P.j];
       const fmt = v => (Math.round(v * 2) / 2).toFixed(1);
-      const nnNames = P.nn.map(o => o.name).join(' and ');
+      const nnNames = P.nn.map(o => o.name).join(tr(' and '));
       const raw = [
         { v: P.pred, why: '' },
-        { v: P.everyone, why: 'everyone\'s average: that is popularity, not personalization' },
-        { v: P.nn[0].r[P.j], why: `${P.nn[0].name} alone: one neighbour is a noisy guide` },
-        { v: P.farthest.r[P.j], why: `${P.farthest.name}'s rating: the person least like you` },
+        { v: P.everyone, why: tr('everyone\'s average: that is popularity, not personalization') },
+        { v: P.nn[0].r[P.j], why: `${tr(`{0} alone: one neighbour is a noisy guide`, P.nn[0].name)}` },
+        { v: P.farthest.r[P.j], why: `${tr(`{0}'s rating: the person least like you`, P.farthest.name)}` },
       ];
       const seen = new Set();
       const opts = shuffled(raw.filter(o => { const k = fmt(o.v); if (seen.has(k)) return false; seen.add(k); return true; }));
-      S.area.innerHTML = `${this._gameProgress('Round', 1, total, `${score} correct`)}
-        <p class="g-instruction">You haven't seen <b>${esc(title)}</b>. Predict your rating from your ${P.k} nearest neighbours.</p>
+      S.area.innerHTML = `${this._gameProgress(tr('Round'), 1, total, `${tr(`{0} correct`, score)}`)}
+        <p class="g-instruction">${tr(`You haven't seen <b>{0}</b>. Predict your rating from your {1} nearest neighbours.`, esc(title), P.k)}</p>
         ${table(null, P.j)}
-        <div class="g-options">${opts.map((o, oi) => `<button class="g-opt" data-v="${fmt(o.v)}"><span class="g-key" aria-hidden="true">${oi + 1}</span><span class="g-opt-text">${fmt(o.v)} stars</span></button>`).join('')}</div>
+        <div class="g-options">${opts.map((o, oi) => `<button class="g-opt" data-v="${fmt(o.v)}"><span class="g-key" aria-hidden="true">${oi + 1}</span><span class="g-opt-text">${tr(`{0} stars`, fmt(o.v))}</span></button>`).join('')}</div>
         <div class="g-fb"></div>`;
       const btns = [...S.area.querySelectorAll('.g-opt')];
       btns.forEach(btn => {
         btn.onclick = () => {
           btns.forEach(b => { b.disabled = true; });
           const ok = btn.dataset.v === fmt(P.pred);
-          const how = `Your ${P.k} nearest neighbours, ${nnNames}, rated it ${P.nn.map(o => o.r[P.j]).join(' and ')}: (${P.nn.map(o => o.r[P.j]).join(' + ')}) / ${P.nn.length} = ${fmt(P.pred)}.`;
+          const how = `${tr(`Your {0} nearest neighbours, {1}, rated it {2}: ({3}) / {4} = {5}.`, P.k, nnNames, P.nn.map(o => o.r[P.j]).join(tr(' and ')), P.nn.map(o => o.r[P.j]).join(' + '), P.nn.length, fmt(P.pred))}`;
           const wrongWhy = raw.find(o => fmt(o.v) === btn.dataset.v && o.why)?.why;
-          if (ok) score++; else misses.push({ q: `Predict your rating for ${title}`, a: `${fmt(P.pred)} stars`, why: how });
+          if (ok) score++; else misses.push({ q: `${tr(`Predict your rating for {0}`, title)}`, a: `${fmt(P.pred)} stars`, why: how });
           btn.classList.add(ok ? 'is-right' : 'is-wrong');
           btn.insertAdjacentHTML('beforeend', `<span class="g-mark">${ok ? '✓' : '✗'}</span>`);
           if (!ok) btns.forEach(b => { if (b.dataset.v === fmt(P.pred)) { b.classList.add('is-answer'); b.insertAdjacentHTML('beforeend', '<span class="g-mark">✓</span>'); } });
           this._gameAnswer(S, 1, ok);
           this._gameFeedback(S, {
             ok,
-            head: ok ? `✓ Correct: about ${fmt(P.pred)} stars.` : `✗ Not quite: about <b>${fmt(P.pred)} stars</b>${wrongWhy ? ` (${esc(btn.dataset.v)} is ${esc(wrongWhy)})` : ''}.`,
-            why: how + (P.pred >= 4 ? ' That clears a 4-star bar, so it gets recommended.' : ' Below a 4-star bar, so it would not be recommended.'),
-            nextText: 'See your score ›',
+            head: ok ? `${tr(`✓ Correct: about {0} stars.`, fmt(P.pred))}` : `${tr(`✗ Not quite: about <b>{0} stars</b>{1}.`, fmt(P.pred), wrongWhy ? ` ${tr(`({0} is {1})`, esc(btn.dataset.v), esc(wrongWhy))}` : '')}`,
+            why: how + (P.pred >= 4 ? tr(' That clears a 4-star bar, so it gets recommended.') : tr(' Below a 4-star bar, so it would not be recommended.')),
+            nextText: tr('See your score ›'),
             onNext: () => this._gameFinish(S, { score, total, misses }),
           });
         };
@@ -827,13 +829,13 @@ const GamesMixin = {
   // ---------- pop (spot): mark every item that matches the instruction, then check ----------
   _gamePop(S) {
     const g = S.game;
-    if (!Array.isArray(g.items)) { S.area.innerHTML = '<p class="g-msg">This game has been retired.</p>'; return; }
+    if (!Array.isArray(g.items)) { S.area.innerHTML = ('<p class="g-msg">' + tr(`This game has been retired.`) + '</p>'); return; }
     const items = shuffled(g.items.map((it, k) => ({ ...it, k })));
     const marked = new Set();
-    const hitLabel = g.hitLabel || 'Yes', missLabel = g.missLabel || 'No';
-    S.area.innerHTML = `<p class="g-instruction">${esc(g.instruction || 'Tap every item that applies, then check.')}</p>
+    const hitLabel = g.hitLabel || tr('Yes'), missLabel = g.missLabel || tr('No');
+    S.area.innerHTML = `<p class="g-instruction">${esc(g.instruction || tr('Tap every item that applies, then check.'))}</p>
       <div class="g-spot">${items.map(it => `<button class="g-spot-item" aria-pressed="false" data-k="${it.k}"><span class="g-spot-box" aria-hidden="true"></span><span>${esc(it.text)}</span></button>`).join('')}</div>
-      <div class="g-spot-actions"><span class="g-small g-spot-count" role="status">0 marked</span><button class="g-btn g-btn-primary g-check">${esc(g.doneLabel || 'Check my answers')}</button></div>
+      <div class="g-spot-actions"><span class="g-small g-spot-count" role="status">${tr(`0 marked`)}</span><button class="g-btn g-btn-primary g-check">${esc(g.doneLabel || tr('Check my answers'))}</button></div>
       <div class="g-fb"></div>`;
     const count = S.area.querySelector('.g-spot-count');
     S.area.querySelectorAll('.g-spot-item').forEach(btn => {
@@ -850,7 +852,7 @@ const GamesMixin = {
         const ok = marked.has(it.k) === !!it.hit;
         if (ok) score++;
         this._gameAnswer(S, it.k, ok);
-        return `<li class="${ok ? 'is-ok' : 'is-no'}"><span class="g-mark">${ok ? '✓' : '✗'}</span> <b>${esc(it.text)}</b> <span class="g-tag">${esc(it.hit ? hitLabel : missLabel)}</span>${ok ? '' : `<span class="g-small"> ${marked.has(it.k) ? '(you marked it)' : '(you left it)'}</span>`}${it.why ? `<div class="g-small">${esc(it.why)}</div>` : ''}</li>`;
+        return `<li class="${ok ? 'is-ok' : 'is-no'}"><span class="g-mark">${ok ? '✓' : '✗'}</span> <b>${esc(it.text)}</b> <span class="g-tag">${esc(it.hit ? hitLabel : missLabel)}</span>${ok ? '' : `<span class="g-small"> ${marked.has(it.k) ? tr('(you marked it)') : tr('(you left it)')}</span>`}${it.why ? `<div class="g-small">${esc(it.why)}</div>` : ''}</li>`;
       });
       this._gameFinish(S, { score, total: items.length, html: `<ul class="g-review">${rows.join('')}</ul>` });
     };
@@ -873,19 +875,19 @@ const GamesMixin = {
       <div class="g-progress"><span class="g-bandit-left"></span><span class="g-bandit-clicks"></span></div>
       <div class="g-arms"></div>
       <div class="g-live g-small" role="status" aria-live="polite"></div>
-      <p class="g-small">The band shows the click rates that are still plausible after what you've seen; it narrows as a ${esc(armWord)} gets shown more. The dot is the rate so far.</p>
+      <p class="g-small">${tr(`The band shows the click rates that are still plausible after what you've seen; it narrows as a {0} gets shown more. The dot is the rate so far.`, esc(armWord))}</p>
       ${g.toyNote ? `<p class="g-note">${esc(g.toyNote)}</p>` : ''}
       <div class="g-fb"></div>`;
     const armsEl = S.area.querySelector('.g-arms');
     const draw = () => {
-      S.area.querySelector('.g-bandit-left').textContent = `Impressions left: ${pulls - t}`;
-      S.area.querySelector('.g-bandit-clicks').textContent = `Clicks: ${clicks}`;
+      S.area.querySelector('.g-bandit-left').textContent = `${tr(`Impressions left: {0}`, pulls - t)}`;
+      S.area.querySelector('.g-bandit-clicks').textContent = `${tr(`Clicks: {0}`, clicks)}`;
       armsEl.innerHTML = arms.map((a, i) => {
         const ci = betaInterval(s[i], n[i]);
         const rate = n[i] ? s[i] / n[i] : null;
-        return `<button class="g-opt g-arm" data-a="${i}" aria-label="${esc(a.label)}${a.text ? ': ' + esc(a.text) : ''}. Shown ${n[i]} times, ${s[i]} clicks.">
+        return `<button class="g-opt g-arm" data-a="${i}" aria-label="${tr(`{0}{1}. Shown {2} times, {3} clicks.`, esc(a.label), a.text ? ': ' + esc(a.text) : '', n[i], s[i])}">
           <span class="g-arm-head"><span class="g-key" aria-hidden="true">${i + 1}</span><b>${esc(a.label)}</b>${a.text ? `<span class="g-arm-text">${esc(a.text)}</span>` : ''}</span>
-          <span class="g-arm-stats">${n[i] ? `${s[i]} of ${n[i]} clicked · ${pct(rate)}` : 'not shown yet'}</span>
+          <span class="g-arm-stats">${n[i] ? `${tr(`{0} of {1} clicked · {2}`, s[i], n[i], pct(rate))}` : tr('not shown yet')}</span>
           <span class="g-meter" aria-hidden="true"><i class="g-meter-ci" style="left:${(ci.lo * 100).toFixed(1)}%;width:${((ci.hi - ci.lo) * 100).toFixed(1)}%"></i>${rate != null ? `<i class="g-meter-dot" style="left:${(rate * 100).toFixed(1)}%"></i>` : ''}</span>
         </button>`;
       }).join('');
@@ -898,7 +900,7 @@ const GamesMixin = {
       if (hit) { s[a]++; clicks++; }
       this._gameAnswer(S, a, hit);
       const live = S.area.querySelector('.g-live');
-      live.textContent = `${arms[a].label}: ${hit ? 'click ✓' : 'no click'}`;
+      live.textContent = `${arms[a].label}: ${hit ? tr('click ✓') : tr('no click')}`;
       draw();
       this._gameFocus(armsEl.querySelector(`[data-a="${a}"]`));
       if (t >= pulls) finish();
@@ -909,19 +911,19 @@ const GamesMixin = {
       const policies = (g.compare || ['thompson', 'greedy', 'uniform']).filter(p => BANDIT_POLICIES[p]);
       const runs = policies.map((p, k) => ({ p, ...banditRun(p, outcomes, pulls, makeRng(seed + 17 * (k + 1))) }));
       const avg = banditReplays(arms, pulls, policies, g.replays || 200, seed + 99991);
-      const rows = [{ l: 'You', v: clicks, you: true }, ...runs.map(r => ({ l: BANDIT_POLICIES[r.p], v: r.clicks })), { l: `Always the best ${armWord} (hindsight)`, v: oracle, ref: true }];
+      const rows = [{ l: tr('You'), v: clicks, you: true }, ...runs.map(r => ({ l: BANDIT_POLICIES[r.p], v: r.clicks })), { l: `${tr(`Always the best {0} (hindsight)`, armWord)}`, v: oracle, ref: true }];
       const max = Math.max(1, ...rows.map(r => r.v));
       const ts = runs.find(r => r.p === 'thompson');
       const rateLine = arms.map(a => `${esc(a.label)} ${pct(a.p)}`).join(' · ');
       const html = `<div class="g-panel">
-        <h5>Same luck, different decisions</h5>
+        <h5>${tr(`Same luck, different decisions`)}</h5>
         <ul class="g-bars g-bars-wide">${rows.map(r => `<li class="${r.you ? 'is-you' : r.ref ? 'is-ref' : ''}"><span class="g-bars-l">${esc(r.l)}</span><span class="g-bars-t"><i style="width:${(100 * r.v / max).toFixed(1)}%"></i></span><span class="g-bars-v">${r.v}</span></li>`).join('')}</ul>
-        <p class="g-small">Every strategy faced the same luck: the n-th showing of a ${esc(armWord)} got the same click or no-click for everyone.</p>
-        <p>True click rates: <b>${rateLine}</b>.</p>
-        <p>You showed the best ${esc(armWord)} (${esc(arms[best].label)}) <b>${n[best]}</b> of ${pulls} times${ts ? `; Thompson sampling showed it <b>${ts.n[best]}</b> times` : ''}.</p>
-        <p>Over ${g.replays || 200} replays with fresh luck, average clicks: ${policies.map(p => `${esc(BANDIT_POLICIES[p].split(' (')[0])} <b>${avg[p].toFixed(1)}</b>`).join(' · ')}; always the best ${esc(armWord)} would average <b>${(pulls * arms[best].p).toFixed(1)}</b>.</p>
+        <p class="g-small">${tr(`Every strategy faced the same luck: the n-th showing of a {0} got the same click or no-click for everyone.`, esc(armWord))}</p>
+        <p>${tr(`True click rates: <b>{0}</b>.`, rateLine)}</p>
+        <p>${tr(`You showed the best {0} ({1}) <b>{2}</b> of {3} times{4}.`, esc(armWord), esc(arms[best].label), n[best], pulls, ts ? `${tr(`; Thompson sampling showed it <b>{0}</b> times`, ts.n[best])}` : '')}</p>
+        <p>${tr(`Over {0} replays with fresh luck, average clicks: {1}; always the best {2} would average <b>{3}</b>.`, g.replays || 200, policies.map(p => `${esc(BANDIT_POLICIES[p].split(' (')[0])} <b>${avg[p].toFixed(1)}</b>`).join(' · '), esc(armWord), (pulls * arms[best].p).toFixed(1))}</p>
       </div>`;
-      this._gameFinish(S, { score: Math.min(clicks, oracle), total: Math.max(1, oracle), scoreLabel: `${clicks} clicks`, note: `Best possible with this luck: ${oracle}`, html });
+      this._gameFinish(S, { score: Math.min(clicks, oracle), total: Math.max(1, oracle), scoreLabel: `${clicks} clicks`, note: `${tr(`Best possible with this luck: {0}`, oracle)}`, html });
     };
     draw();
     this._gameFocus(armsEl.querySelector('.g-arm'));
@@ -939,7 +941,7 @@ const GamesMixin = {
     const kpiLabel = key => {
       const base = key.replace(/_rel$/, '');
       const d = kpiDefs.find(k => (k.as || k.key) === base);
-      return (d ? d.label : base) + (key.endsWith('_rel') ? ' vs. the best possible' : '');
+      return (d ? d.label : base) + (key.endsWith('_rel') ? tr(' vs. the best possible') : '');
     };
     const fmtK = (key, v) => {
       if (key.endsWith('_rel')) return pct(v);
@@ -1006,13 +1008,13 @@ const GamesMixin = {
       const key = level + '|' + conds.map(([c, v]) => checkCond(k[c], v)).join(',') + '|' + conds.map(([c]) => fmtK(c, k[c])).join(',');
       if (key === statusKey) return;
       statusKey = key;
-      goalEl.innerHTML = `<div class="g-goal-head">Goal ${level + 1} of ${goals.length}</div>
+      goalEl.innerHTML = `<div class="g-goal-head">${tr(`Goal {0} of {1}`, level + 1, goals.length)}</div>
         <div class="g-goal-text">${esc(goal.text)}</div>
-        ${conds.length ? `<ul class="g-checks">${conds.map(([c, v]) => { const ok = checkCond(k[c], v); return `<li class="${ok ? 'is-ok' : ''}"><span class="g-mark">${ok ? '✓' : '○'}</span> ${esc(kpiLabel(c))} ${esc(fmtCond(c, v))} <span class="g-small">(now ${fmtK(c, k[c])})</span></li>`; }).join('')}</ul>` : ''}
+        ${conds.length ? `<ul class="g-checks">${conds.map(([c, v]) => { const ok = checkCond(k[c], v); return `<li class="${ok ? 'is-ok' : ''}"><span class="g-mark">${ok ? '✓' : '○'}</span> ${esc(kpiLabel(c))} ${esc(fmtCond(c, v))} <span class="g-small">${tr(`(now {0})`, fmtK(c, k[c]))}</span></li>`; }).join('')}</ul>` : ''}
         <div class="g-goal-actions">${!conds.length
-          ? '<button class="g-btn g-btn-primary g-goal-next">I see it ›</button>'
-          : okAll ? '<button class="g-btn g-btn-primary g-goal-next">✓ Goal met — next ›</button>'
-            : '<button class="g-btn g-btn-quiet g-goal-skip">Skip this goal</button>'}</div>`;
+          ? ('<button class="g-btn g-btn-primary g-goal-next">' + tr(`I see it ›`) + '</button>')
+          : okAll ? ('<button class="g-btn g-btn-primary g-goal-next">' + tr(`✓ Goal met — next ›`) + '</button>')
+            : ('<button class="g-btn g-btn-quiet g-goal-skip">' + tr(`Skip this goal`) + '</button>')}</div>`;
       const nx = goalEl.querySelector('.g-goal-next');
       if (nx) nx.onclick = () => advance(conds.length ? true : null);
       const sk = goalEl.querySelector('.g-goal-skip');
@@ -1027,7 +1029,7 @@ const GamesMixin = {
         const { sols } = mixerSolutions(g, goal);
         if (sols.length) {
           const sol = sols[Math.floor(sols.length / 2)];
-          hint = ' One setting that works: ' + g.weights.map(w => `${w.label} ${sol.w[w.key]}`).join(', ') + ((g.toggles || []).filter(t => sol.t[t.key]).map(t => '; ' + t.label).join('')) + '.';
+          hint = tr(' One setting that works: ') + g.weights.map(w => `${w.label} ${sol.w[w.key]}`).join(', ') + ((g.toggles || []).filter(t => sol.t[t.key]).map(t => '; ' + t.label).join('')) + '.';
         }
       }
       level++;
@@ -1035,12 +1037,12 @@ const GamesMixin = {
       const last = level >= goals.length;
       this._gameFeedback(S, {
         ok: ok === null ? null : ok,
-        head: ok === true ? '✓ Goal met.' : ok === false ? '✗ Skipped.' : 'What you just saw:',
+        head: ok === true ? tr('✓ Goal met.') : ok === false ? tr('✗ Skipped.') : tr('What you just saw:'),
         why: (goal.why || '') + hint,
-        nextText: last ? 'See your score ›' : 'Next goal ›',
+        nextText: last ? tr('See your score ›') : tr('Next goal ›'),
         onNext: () => {
           fbEl.innerHTML = '';
-          if (last) return this._gameFinish(S, { score: met, total: Math.max(1, checkable), scoreLabel: `${met}/${checkable} goals` });
+          if (last) return this._gameFinish(S, { score: met, total: Math.max(1, checkable), scoreLabel: `${tr(`{0}/{1} goals`, met, checkable)}` });
           draw();
           this._gameFocus(S.area.querySelector('.g-mix-ctl input'));
         },
@@ -1076,7 +1078,7 @@ const GamesMixin = {
     });
     let ri = 0, day = 1, points = 0, maxPoints = 0;
     const log = [];
-    const fmtN = x => x.toLocaleString('en-US');
+    const fmtN = x => x.toLocaleString(locale('en-US'));
     const spark = (days, upto, kind) => {
       const W = cfg.maxDays * 10, H = 60;
       const xs = d => (d - 0.5) * 10;
@@ -1084,7 +1086,7 @@ const GamesMixin = {
         const y = p => { const l = Math.max(-3, Math.log10(Math.max(p, 1e-3))); return (-l / 3) * (H - 6) + 3; };
         const pts = days.slice(0, upto).map(x => `${xs(x.d).toFixed(1)},${y(x.p).toFixed(1)}`).join(' ');
         const dots = days.slice(0, upto).filter(x => x.p < cfg.alpha).map(x => `<circle cx="${xs(x.d)}" cy="${y(x.p).toFixed(1)}" r="3.5" class="g-sp-dip"/>`).join('');
-        return `<svg class="g-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="p-value by day">
+        return `<svg class="g-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${tr(`p-value by day`)}">
           <line x1="0" x2="${W}" y1="${y(cfg.alpha).toFixed(1)}" y2="${y(cfg.alpha).toFixed(1)}" class="g-sp-ref"/>
           <line x1="${cfg.plannedDays * 10}" x2="${cfg.plannedDays * 10}" y1="0" y2="${H}" class="g-sp-plan"/>
           <polyline points="${pts}" class="g-sp-line"/>${dots}</svg>`;
@@ -1092,28 +1094,28 @@ const GamesMixin = {
       const lim = 0.06;
       const y = v => H / 2 - (Math.max(-lim, Math.min(lim, v)) / lim) * (H / 2 - 4);
       const bars = days.slice(0, upto).map(x => `<rect x="${xs(x.d) - 3.5}" width="7" y="${Math.min(y(x.dailyDiff), H / 2).toFixed(1)}" height="${Math.abs(y(x.dailyDiff) - H / 2).toFixed(1)}" class="${x.dailyDiff >= 0 ? 'g-sp-up' : 'g-sp-down'}"/>`).join('');
-      return `<svg class="g-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="daily difference B minus A">
+      return `<svg class="g-spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="${tr(`daily difference B minus A`)}">
         <line x1="0" x2="${W}" y1="${H / 2}" y2="${H / 2}" class="g-sp-ref"/>
         <line x1="${cfg.plannedDays * 10}" x2="${cfg.plannedDays * 10}" y1="0" y2="${H}" class="g-sp-plan"/>${bars}</svg>`;
     };
     const render = () => {
       const r = g.rounds[ri], days = sims[ri], cur = days[day - 1];
-      S.area.innerHTML = `${this._gameProgress('Experiment', ri, g.rounds.length, `${points} points`)}
+      S.area.innerHTML = `${this._gameProgress(tr('Experiment'), ri, g.rounds.length, `${tr(`{0} points`, points)}`)}
         <p class="g-instruction">${esc(g.instruction)}</p>
-        <div class="g-ab-head"><b>${esc(r.label)}</b><span>Day <b>${day}</b> · plan: ${cfg.plannedDays} days</span></div>
-        <div class="g-table-wrap"><table class="g-abt"><thead><tr><th scope="col">Variant</th><th scope="col">Users</th><th scope="col">Converted</th><th scope="col">Rate</th></tr></thead>
-          <tbody><tr><th scope="row">A (current)</th><td>${fmtN(cur.nA)}</td><td>${fmtN(cur.cA)}</td><td>${pct(cur.cA / cur.nA, 2)}</td></tr>
-          <tr><th scope="row">B (new)</th><td>${fmtN(cur.nB)}</td><td>${fmtN(cur.cB)}</td><td>${pct(cur.cB / cur.nB, 2)}</td></tr></tbody></table></div>
-        <div class="g-ab-stats"><span>B vs A: <b>${cur.lift >= 0 ? '+' : ''}${(cur.lift * 100).toFixed(1)} %</b></span><span>p-value: <b class="${cur.p < cfg.alpha ? 'g-dip' : ''}">${cur.p < 0.001 ? '< 0.001' : cur.p.toFixed(3)}</b>${cur.p < cfg.alpha ? ' (under 0.05)' : ''}</span></div>
+        <div class="g-ab-head"><b>${esc(r.label)}</b><span>${tr(`Day <b>{0}</b> · plan: {1} days`, day, cfg.plannedDays)}</span></div>
+        <div class="g-table-wrap"><table class="g-abt"><thead><tr><th scope="col">${tr(`Variant`)}</th><th scope="col">${tr(`Users`)}</th><th scope="col">${tr(`Converted`)}</th><th scope="col">${tr(`Rate`)}</th></tr></thead>
+          <tbody><tr><th scope="row">${tr(`A (current)`)}</th><td>${fmtN(cur.nA)}</td><td>${fmtN(cur.cA)}</td><td>${pct(cur.cA / cur.nA, 2)}</td></tr>
+          <tr><th scope="row">${tr(`B (new)`)}</th><td>${fmtN(cur.nB)}</td><td>${fmtN(cur.cB)}</td><td>${pct(cur.cB / cur.nB, 2)}</td></tr></tbody></table></div>
+        <div class="g-ab-stats"><span>${tr(`B vs A: <b>{0}{1} %</b>`, cur.lift >= 0 ? '+' : '', (cur.lift * 100).toFixed(1))}</span><span>${tr(`p-value:`)} <b class="${cur.p < cfg.alpha ? 'g-dip' : ''}">${cur.p < 0.001 ? '< 0.001' : cur.p.toFixed(3)}</b>${cur.p < cfg.alpha ? tr(' (under 0.05)') : ''}</span></div>
         <div class="g-ab-charts">
-          <figure><figcaption>p-value by day (log scale; line = 0.05, dots = under it)</figcaption>${spark(days, day, 'p')}</figure>
-          <figure><figcaption>Daily difference B − A (bars above the line = B better that day)</figcaption>${spark(days, day, 'lift')}</figure>
+          <figure><figcaption>${tr(`p-value by day (log scale; line = 0.05, dots = under it)`)}</figcaption>${spark(days, day, 'p')}</figure>
+          <figure><figcaption>${tr(`Daily difference B − A (bars above the line = B better that day)`)}</figcaption>${spark(days, day, 'lift')}</figure>
         </div>
         <div class="g-ab-actions">
-          ${day < cfg.maxDays ? '<button class="g-btn g-btn-primary g-ab-next">Next day ›</button>' : ''}
-          ${day < cfg.plannedDays ? `<button class="g-btn g-btn-quiet g-ab-plan">Jump to day ${cfg.plannedDays}</button>` : ''}
-          <button class="g-btn g-ab-ship">Ship B</button>
-          <button class="g-btn g-ab-keep">Keep A</button>
+          ${day < cfg.maxDays ? ('<button class="g-btn g-btn-primary g-ab-next">' + tr(`Next day ›`) + '</button>') : ''}
+          ${day < cfg.plannedDays ? `<button class="g-btn g-btn-quiet g-ab-plan">${tr(`Jump to day {0}`, cfg.plannedDays)}</button>` : ''}
+          <button class="g-btn g-ab-ship">${tr(`Ship B`)}</button>
+          <button class="g-btn g-ab-keep">${tr(`Keep A`)}</button>
         </div>
         <div class="g-fb"></div>`;
       const q = sel => S.area.querySelector(sel);
@@ -1126,8 +1128,8 @@ const GamesMixin = {
       const r = g.rounds[ri], days = sims[ri], cur = days[day - 1];
       const better = r.pB > r.pA;
       let pts = 0, verdict;
-      if (choice === 'ship') { pts = better ? sc.correctShip : sc.falseShip; verdict = better ? 'Right call: B really is better.' : r.pB < r.pA ? 'Ouch: B is actually worse.' : 'False win: B is no better than A.'; }
-      else { pts = better ? sc.missedWin : sc.correctKeep; verdict = better ? 'Missed win: B really was better.' : 'Right call: B is not better.'; }
+      if (choice === 'ship') { pts = better ? sc.correctShip : sc.falseShip; verdict = better ? tr('Right call: B really is better.') : r.pB < r.pA ? tr('Ouch: B is actually worse.') : tr('False win: B is no better than A.'); }
+      else { pts = better ? sc.missedWin : sc.correctKeep; verdict = better ? tr('Missed win: B really was better.') : tr('Right call: B is not better.'); }
       const waited = day >= cfg.plannedDays;
       if (waited) pts += sc.waitedToPlan;
       points += pts;
@@ -1135,24 +1137,24 @@ const GamesMixin = {
       const atPlan = days[cfg.plannedDays - 1];
       const dipDays = days.slice(0, cfg.plannedDays).filter(x => x.p < cfg.alpha).map(x => x.d);
       let truth;
-      if (r.novelty) truth = `Truth: B's long-run rate equals A's (${pct(r.pA, 1)}). Its early lift was <b>novelty</b> that faded with a ${r.novelty.halfLifeDays}-day half-life — look at the daily bars shrinking.`;
-      else if (r.pB === r.pA) truth = `Truth: no difference at all (an A/A test, both ${pct(r.pA, 1)}).${dipDays.length ? ` Yet the p-value was under 0.05 on day${dipDays.length > 1 ? 's' : ''} ${dipDays.join(', ')}: stopping there ships noise.` : ''}`;
-      else truth = `Truth: A ${pct(r.pA, 1)}, B ${pct(r.pB, 1)}. With ${fmtN(atPlan.nA)} users per variant at day ${cfg.plannedDays}, this test catches a difference this size about ${pct(twoPropPower(r.pA, r.pB, atPlan.nA))} of the time.`;
-      const planLine = `At day ${cfg.plannedDays} the planned test read p = ${atPlan.p < 0.001 ? '< 0.001' : atPlan.p.toFixed(3)}.`;
+      if (r.novelty) truth = `${tr(`Truth: B's long-run rate equals A's ({0}). Its early lift was <b>novelty</b> that faded with a {1}-day half-life — look at the daily bars shrinking.`, pct(r.pA, 1), r.novelty.halfLifeDays)}`;
+      else if (r.pB === r.pA) truth = `${tr(`Truth: no difference at all (an A/A test, both {0}).{1}`, pct(r.pA, 1), dipDays.length ? ` ${tr(`Yet the p-value was under 0.05 on day{0} {1}: stopping there ships noise.`, dipDays.length > 1 ? 's' : '', dipDays.join(', '))}` : '')}`;
+      else truth = `${tr(`Truth: A {0}, B {1}. With {2} users per variant at day {3}, this test catches a difference this size about {4} of the time.`, pct(r.pA, 1), pct(r.pB, 1), fmtN(atPlan.nA), cfg.plannedDays, pct(twoPropPower(r.pA, r.pB, atPlan.nA)))}`;
+      const planLine = `${tr(`At day {0} the planned test read p = {1}.`, cfg.plannedDays, atPlan.p < 0.001 ? '< 0.001' : atPlan.p.toFixed(3))}`;
       log.push({ label: r.label, choice, day, pts });
       this._gameAnswer(S, ri, pts > 0, { day, choice });
       S.area.querySelectorAll('.g-ab-actions button').forEach(b => { b.disabled = true; });
       const last = ri >= g.rounds.length - 1;
       this._gameFeedback(S, {
         ok: pts > 0,
-        head: `${pts > 0 ? '✓' : '✗'} You chose <b>${choice === 'ship' ? 'Ship B' : 'Keep A'}</b> on day ${day}. ${verdict} <b>${pts >= 0 ? '+' : ''}${pts}</b> point${Math.abs(pts) === 1 ? '' : 's'}${waited ? ` (incl. +${sc.waitedToPlan} for waiting for the plan)` : ''}.`,
+        head: `${tr(`{0} You chose <b>{1}</b> on day {2}. {3} <b>{4}{5}</b> point{6}{7}.`, pts > 0 ? '✓' : '✗', choice === 'ship' ? tr('Ship B') : tr('Keep A'), day, verdict, pts >= 0 ? '+' : '', pts, Math.abs(pts) === 1 ? '' : 's', waited ? ` ${tr(`(incl. +{0} for waiting for the plan)`, sc.waitedToPlan)}` : '')}`,
         why: '',
-        nextText: last ? 'See your score ›' : 'Next experiment ›',
+        nextText: last ? tr('See your score ›') : tr('Next experiment ›'),
         onNext: () => { if (last) return finish(); ri++; day = 1; render(); this._gameFocus(S.area.querySelector('.g-ab-next')); },
       });
       const fb = S.area.querySelector('.g-feedback');
       if (fb) fb.insertAdjacentHTML('beforeend', `<div class="g-fb-why">${truth} ${planLine}</div>
-        <figure class="g-ab-full"><figcaption>The whole run (day ${cfg.maxDays}):</figcaption>${spark(days, cfg.maxDays, 'p')}${spark(days, cfg.maxDays, 'lift')}</figure>`);
+        <figure class="g-ab-full"><figcaption>${tr(`The whole run (day {0}):`, cfg.maxDays)}</figcaption>${spark(days, cfg.maxDays, 'p')}${spark(days, cfg.maxDays, 'lift')}</figure>`);
       // the Next button must stay last in the box
       const nb = fb?.querySelector('.g-next');
       if (nb) { fb.appendChild(nb); this._gameFocus(nb); }
@@ -1160,16 +1162,16 @@ const GamesMixin = {
     const finish = () => {
       const pk = abstopPeekingRate(cfg, g.peekSims || 200, seed + 4242, g.peekRate || 0.1);
       const html = `<div class="g-panel">
-        <h5>Your decisions</h5>
-        <div class="g-table-wrap"><table class="g-abt"><thead><tr><th scope="col">Experiment</th><th scope="col">Decision</th><th scope="col">Day</th><th scope="col">Points</th></tr></thead>
-        <tbody>${log.map(x => `<tr><th scope="row">${esc(x.label)}</th><td>${x.choice === 'ship' ? 'Ship B' : 'Keep A'}</td><td>${x.day}</td><td>${x.pts >= 0 ? '+' : ''}${x.pts}</td></tr>`).join('')}</tbody></table></div>
-        <h5>Why peeking is a trap</h5>
-        <p>We just ran ${g.peekSims || 200} fresh A/A tests (no real difference, ${pct(g.peekRate || 0.1)} for both, ${fmtN(cfg.usersPerDay)} users per variant per day) and checked the p-value every day for ${cfg.plannedDays} days.</p>
-        <ul class="g-bars g-bars-wide"><li class="is-ref"><span class="g-bars-l">Under 0.05 on at least one day</span><span class="g-bars-t"><i style="width:${(pk.ever * 100).toFixed(1)}%"></i></span><span class="g-bars-v">${pct(pk.ever)}</span></li>
-          <li><span class="g-bars-l">Under 0.05 on day ${cfg.plannedDays}, as planned</span><span class="g-bars-t"><i style="width:${(pk.atPlan * 100).toFixed(1)}%"></i></span><span class="g-bars-v">${pct(pk.atPlan)}</span></li></ul>
-        <p class="g-small">Stopping at the first dip turns a 5 % false-alarm rate into the first number. Fix the sample size in advance, or use a sequential test designed for peeking.</p>
+        <h5>${tr(`Your decisions`)}</h5>
+        <div class="g-table-wrap"><table class="g-abt"><thead><tr><th scope="col">${tr(`Experiment`)}</th><th scope="col">${tr(`Decision`)}</th><th scope="col">${tr(`Day`)}</th><th scope="col">${tr(`Points`)}</th></tr></thead>
+        <tbody>${log.map(x => `<tr><th scope="row">${esc(x.label)}</th><td>${x.choice === 'ship' ? tr('Ship B') : tr('Keep A')}</td><td>${x.day}</td><td>${x.pts >= 0 ? '+' : ''}${x.pts}</td></tr>`).join('')}</tbody></table></div>
+        <h5>${tr(`Why peeking is a trap`)}</h5>
+        <p>${tr(`We just ran {0} fresh A/A tests (no real difference, {1} for both, {2} users per variant per day) and checked the p-value every day for {3} days.`, g.peekSims || 200, pct(g.peekRate || 0.1), fmtN(cfg.usersPerDay), cfg.plannedDays)}</p>
+        <ul class="g-bars g-bars-wide"><li class="is-ref"><span class="g-bars-l">${tr(`Under 0.05 on at least one day`)}</span><span class="g-bars-t"><i style="width:${(pk.ever * 100).toFixed(1)}%"></i></span><span class="g-bars-v">${pct(pk.ever)}</span></li>
+          <li><span class="g-bars-l">${tr(`Under 0.05 on day {0}, as planned`, cfg.plannedDays)}</span><span class="g-bars-t"><i style="width:${(pk.atPlan * 100).toFixed(1)}%"></i></span><span class="g-bars-v">${pct(pk.atPlan)}</span></li></ul>
+        <p class="g-small">${tr(`Stopping at the first dip turns a 5 % false-alarm rate into the first number. Fix the sample size in advance, or use a sequential test designed for peeking.`)}</p>
       </div>`;
-      this._gameFinish(S, { score: Math.max(0, points), total: maxPoints, scoreLabel: `${points} of ${maxPoints} points`, html });
+      this._gameFinish(S, { score: Math.max(0, points), total: maxPoints, scoreLabel: `${tr(`{0} of {1} points`, points, maxPoints)}`, html });
     };
     render();
     this._gameFocus(S.area.querySelector('.g-ab-next'));
@@ -1202,7 +1204,7 @@ const GamesMixin = {
       const maxC = Math.max(1, ...r.history[r.history.length - 1].clicks);
       return `<ul class="g-creators">${g.items.map((it, i) => {
         const inFeed = h.shown.includes(i);
-        return `<li class="${inFeed ? 'is-shown' : ''}${it.gem && day === days && r === run2 ? ' is-gem' : ''}"><span class="g-cr-name">${esc(it.name)}${inFeed ? ' <span class="g-chip g-chip-sys">in feed</span>' : ''}</span><span class="g-bars-t"><i style="width:${(100 * h.clicks[i] / maxC).toFixed(1)}%"></i></span><span class="g-bars-v">${h.clicks[i]}</span></li>`;
+        return `<li class="${inFeed ? 'is-shown' : ''}${it.gem && day === days && r === run2 ? ' is-gem' : ''}"><span class="g-cr-name">${esc(it.name)}${inFeed ? (' <span class="g-chip g-chip-sys">' + tr(`in feed`) + '</span>') : ''}</span><span class="g-bars-t"><i style="width:${(100 * h.clicks[i] / maxC).toFixed(1)}%"></i></span><span class="g-bars-v">${h.clicks[i]}</span></li>`;
       }).join('')}</ul>`;
     };
     const stepper = (r, label, onDone) => {
@@ -1211,11 +1213,11 @@ const GamesMixin = {
         const h = r.history[d - 1];
         const sumToday = r.history.slice(0, d).reduce((a, x) => a + x.today, 0);
         S.area.innerHTML = `<p class="g-instruction">${esc(g.instruction)}</p>
-          <div class="g-progress"><span>${esc(label)} · day <b>${d}</b> of ${days}</span><span>${sumToday} clicks so far</span></div>
+          <div class="g-progress"><span>${tr(`{0} · day <b>{1}</b> of {2}`, esc(label), d, days)}</span><span>${tr(`{0} clicks so far`, sumToday)}</span></div>
           <div class="g-bar" aria-hidden="true"><i style="width:${(100 * d / days).toFixed(1)}%"></i></div>
-          <p class="g-small">Bars = each creator's total clicks (the ranking signal). Today's feed: ${h.shown.map(i => esc(g.items[i].name)).join(', ')}.</p>
+          <p class="g-small">${tr(`Bars = each creator's total clicks (the ranking signal). Today's feed: {0}.`, h.shown.map(i => esc(g.items[i].name)).join(', '))}</p>
           ${rows(r, d)}
-          <div class="g-ab-actions">${d < days ? `<button class="g-btn g-btn-primary g-lp-next">Next day ›</button><button class="g-btn g-btn-quiet g-lp-end">Run to day ${days}</button>` : '<button class="g-btn g-btn-primary g-lp-done">See what happened ›</button>'}</div>
+          <div class="g-ab-actions">${d < days ? `<button class="g-btn g-btn-primary g-lp-next">${tr(`Next day ›`)}</button><button class="g-btn g-btn-quiet g-lp-end">${tr(`Run to day {0}`, days)}</button>` : ('<button class="g-btn g-btn-primary g-lp-done">' + tr(`See what happened ›`) + '</button>')}</div>
           <div class="g-fb"></div>`;
         const q = s => S.area.querySelector(s);
         if (q('.g-lp-next')) q('.g-lp-next').onclick = () => { d++; draw(); this._gameFocus(q('.g-lp-next') || q('.g-lp-done')); };
@@ -1227,22 +1229,22 @@ const GamesMixin = {
     };
     const summary = (r) => {
       const gem = r.items.find(x => x.gem);
-      return `${esc(gemName)} was in the feed on <b>${gem ? gem.shownDays : 0}</b> of ${days} days · the most-shown creator got <b>${pct(r.topShare)}</b> of all impressions · total clicks <b>${r.total}</b>.`;
+      return `${tr(`{0} was in the feed on <b>{1}</b> of {2} days · the most-shown creator got <b>{3}</b> of all impressions · total clicks <b>{4}</b>.`, esc(gemName), gem ? gem.shownDays : 0, days, pct(r.topShare), r.total)}`;
     };
     const setup = () => {
-      S.area.innerHTML = `<p class="g-instruction">Run 1 is done. ${summary(run1)}</p>
-        <div class="g-panel"><h5>Try a fix, then replay the same 30 days</h5>
-          <p class="g-small">Same audience, same luck: only the ranking changes.</p>
+      S.area.innerHTML = `<p class="g-instruction">${tr(`Run 1 is done. {0}`, summary(run1))}</p>
+        <div class="g-panel"><h5>${tr(`Try a fix, then replay the same 30 days`)}</h5>
+          <p class="g-small">${tr(`Same audience, same luck: only the ranking changes.`)}</p>
           ${fixesDef.map(f => `<label class="g-toggle"><input type="checkbox" data-f="${esc(f.key)}"${chosen[f.key] ? ' checked' : ''}><span>${esc(f.label)}</span></label>`).join('')}
           <ul class="g-checks">${goals.map(x => `<li><span class="g-mark">○</span> ${esc(x.text)}</li>`).join('')}</ul>
-          <button class="g-btn g-btn-primary g-lp-run">Run 30 days with these fixes ›</button></div>
+          <button class="g-btn g-btn-primary g-lp-run">${tr(`Run 30 days with these fixes ›`)}</button></div>
         <div class="g-fb"></div>`;
       S.area.querySelectorAll('[data-f]').forEach(inp => { inp.onchange = () => { chosen[inp.dataset.f] = inp.checked; }; });
       S.area.querySelector('.g-lp-run').onclick = () => {
         attempts++;
         run2 = loopCreatorRun(g, chosen, seed);
-        const used = fixesDef.filter(f => chosen[f.key]).map(f => f.short || f.label).join(' + ') || 'no fix';
-        stepper(run2, `Run 2 (${used})`, compare);
+        const used = fixesDef.filter(f => chosen[f.key]).map(f => f.short || f.label).join(' + ') || tr('no fix');
+        stepper(run2, `${tr(`Run 2 ({0})`, used)}`, compare);
       };
       this._gameFocus(S.area.querySelector('[data-f]'));
     };
@@ -1252,26 +1254,26 @@ const GamesMixin = {
       bestGoals = Math.max(bestGoals, nMet);
       this._gameAnswer(S, attempts, nMet === goals.length, { fixes: Object.keys(chosen).filter(k => chosen[k]).join('+') });
       const gem1 = run1.items.find(x => x.gem), gem2 = run2.items.find(x => x.gem);
-      S.area.innerHTML = `<div class="g-panel"><h5>Run 1 vs. run 2</h5>
-        <div class="g-table-wrap"><table class="g-abt"><thead><tr><th scope="col"></th><th scope="col">Run 1: by total clicks</th><th scope="col">Run 2: with your fixes</th></tr></thead><tbody>
-          <tr><th scope="row">Total clicks</th><td>${run1.total}</td><td>${run2.total} (${pct(run2.total / Math.max(1, run1.total))})</td></tr>
-          <tr><th scope="row">${esc(gemName)}: days in feed</th><td>${gem1.shownDays}</td><td>${gem2.shownDays}</td></tr>
-          <tr><th scope="row">Top creator's share of impressions</th><td>${pct(run1.topShare)}</td><td>${pct(run2.topShare)}</td></tr>
+      S.area.innerHTML = `<div class="g-panel"><h5>${tr(`Run 1 vs. run 2`)}</h5>
+        <div class="g-table-wrap"><table class="g-abt"><thead><tr><th scope="col"></th><th scope="col">${tr(`Run 1: by total clicks`)}</th><th scope="col">${tr(`Run 2: with your fixes`)}</th></tr></thead><tbody>
+          <tr><th scope="row">${tr(`Total clicks`)}</th><td>${run1.total}</td><td>${run2.total} (${pct(run2.total / Math.max(1, run1.total))})</td></tr>
+          <tr><th scope="row">${tr(`{0}: days in feed`, esc(gemName))}</th><td>${gem1.shownDays}</td><td>${gem2.shownDays}</td></tr>
+          <tr><th scope="row">${tr(`Top creator's share of impressions`)}</th><td>${pct(run1.topShare)}</td><td>${pct(run2.topShare)}</td></tr>
         </tbody></table></div>
         <ul class="g-checks">${goals.map((x, k) => `<li class="${res[k] ? 'is-ok' : ''}"><span class="g-mark">${res[k] ? '✓' : '✗'}</span> ${esc(x.text)}</li>`).join('')}</ul>
-        <h5>The hidden truth</h5>
-        <p class="g-small">How likely each creator's video is to be clicked when shown (toy numbers):</p>
+        <h5>${tr(`The hidden truth`)}</h5>
+        <p class="g-small">${tr(`How likely each creator's video is to be clicked when shown (toy numbers):`)}</p>
         <ul class="g-bars">${run2.items.map(it => `<li class="${it.gem ? 'is-best' : ''}"><span class="g-bars-l">${esc(it.name)}</span><span class="g-bars-t"><i style="width:${(it.appeal * 100 / 0.6).toFixed(1)}%"></i></span><span class="g-bars-v">${pct(it.appeal)}</span></li>`).join('')}</ul>
         </div>
-        <div class="g-ab-actions"><button class="g-btn g-lp-again">Try other fixes</button><button class="g-btn g-btn-primary g-lp-fin">Finish ›</button></div>`;
+        <div class="g-ab-actions"><button class="g-btn g-lp-again">${tr(`Try other fixes`)}</button><button class="g-btn g-btn-primary g-lp-fin">${tr(`Finish ›`)}</button></div>`;
       S.area.querySelector('.g-lp-again').onclick = setup;
       S.area.querySelector('.g-lp-fin').onclick = () => this._gameFinish(S, {
-        score: bestGoals, total: Math.max(1, goals.length), scoreLabel: `${bestGoals}/${goals.length} goals`,
-        html: `<div class="g-panel"><p>${summary(run1)} (run 1)</p><p>${summary(run2)} (your last run 2)</p></div>`,
+        score: bestGoals, total: Math.max(1, goals.length), scoreLabel: `${tr(`{0}/{1} goals`, bestGoals, goals.length)}`,
+        html: `<div class="g-panel"><p>${tr(`{0} (run 1)`, summary(run1))}</p><p>${tr(`{0} (your last run 2)`, summary(run2))}</p></div>`,
       });
       this._gameFocus(S.area.querySelector('.g-lp-fin'));
     };
-    stepper(run1, 'Run 1: rank by total clicks', setup);
+    stepper(run1, tr('Run 1: rank by total clicks'), setup);
   },
 
   _gameLoopUser(S) {
@@ -1299,18 +1301,18 @@ const GamesMixin = {
       const n = distinctNow();
       const isP2 = phase === 2;
       S.area.innerHTML = `<p class="g-instruction">${esc(isP2 ? g.instruction2 : g.instruction)}</p>
-        <div class="g-progress"><span>${isP2 ? 'Burst it' : 'Your feed'} · day <b>${day}</b> of ${isP2 ? p2 : p1}</span><span>Topics in today's feed: <b>${n}</b>${isP2 ? ` (goal ${goalTopics})` : ''}</span></div>
-        <div class="g-bubble-feed">${feed.map((f, k) => `<div class="g-bf-card"><button class="g-opt g-bf-pick" data-k="${k}"><span class="g-key" aria-hidden="true">${k + 1}</span><span class="g-opt-text">${esc(f.title)}</span><span class="g-chip g-t${f.t % 8}">${esc(topics[f.t].name)}</span></button>${isP2 ? `<button class="g-bf-hide" data-k="${k}" aria-label="Not interested in ${esc(topics[f.t].name)}">Not interested</button>` : ''}</div>`).join('')}</div>
-        ${isP2 ? `<div class="g-bf-tools"><div class="g-small">Search for a topic:</div><div class="g-bf-search">${topics.map((tp, t) => `<button class="g-chip-btn" data-s="${t}">${esc(tp.name)}</button>`).join('')}</div>
-          <label class="g-toggle"><input type="checkbox" class="g-bf-explore"${explore ? ' checked' : ''}><span>Platform setting: fill ${exploreSlots} of ${size} slots with topics outside your profile</span></label></div>`
-          : `<div class="g-ab-actions"><button class="g-btn g-btn-quiet g-bf-auto">Let habit click for me (${p1 - day + 1} days)</button></div>`}
+        <div class="g-progress"><span>${tr(`{0} · day <b>{1}</b> of {2}`, isP2 ? tr('Burst it') : tr('Your feed'), day, isP2 ? p2 : p1)}</span><span>${tr(`Topics in today's feed: <b>{0}</b>{1}`, n, isP2 ? ` ${tr(`(goal {0})`, goalTopics)}` : '')}</span></div>
+        <div class="g-bubble-feed">${feed.map((f, k) => `<div class="g-bf-card"><button class="g-opt g-bf-pick" data-k="${k}"><span class="g-key" aria-hidden="true">${k + 1}</span><span class="g-opt-text">${esc(f.title)}</span><span class="g-chip g-t${f.t % 8}">${esc(topics[f.t].name)}</span></button>${isP2 ? `<button class="g-bf-hide" data-k="${k}" aria-label="${tr(`Not interested in {0}`, esc(topics[f.t].name))}">${tr(`Not interested`)}</button>` : ''}</div>`).join('')}</div>
+        ${isP2 ? `<div class="g-bf-tools"><div class="g-small">${tr(`Search for a topic:`)}</div><div class="g-bf-search">${topics.map((tp, t) => `<button class="g-chip-btn" data-s="${t}">${esc(tp.name)}</button>`).join('')}</div>
+          <label class="g-toggle"><input type="checkbox" class="g-bf-explore"${explore ? ' checked' : ''}><span>${tr(`Platform setting: fill {0} of {1} slots with topics outside your profile`, exploreSlots, size)}</span></label></div>`
+          : `<div class="g-ab-actions"><button class="g-btn g-btn-quiet g-bf-auto">${tr(`Let habit click for me ({0} days)`, p1 - day + 1)}</button></div>`}
         <div class="g-live g-small" role="status">${msg || ''}</div>
         <div class="g-fb"></div>`;
       const q = s => S.area.querySelector(s);
       S.area.querySelectorAll('.g-bf-pick').forEach(b => { b.onclick = () => act('click', feed[+b.dataset.k].t); });
       S.area.querySelectorAll('.g-bf-hide').forEach(b => { b.onclick = () => act('hide', feed[+b.dataset.k].t); });
       S.area.querySelectorAll('[data-s]').forEach(b => { b.onclick = () => act('search', +b.dataset.s); });
-      if (q('.g-bf-explore')) q('.g-bf-explore').onchange = (e) => { explore = e.target.checked; hist.pop(); makeFeed(); draw(explore ? 'Exploration on: today\'s feed was rebuilt.' : 'Exploration off.'); if (reached) return endP2(); };
+      if (q('.g-bf-explore')) q('.g-bf-explore').onchange = (e) => { explore = e.target.checked; hist.pop(); makeFeed(); draw(explore ? tr('Exploration on: today\'s feed was rebuilt.') : tr('Exploration off.')); if (reached) return endP2(); };
       if (q('.g-bf-auto')) q('.g-bf-auto').onclick = () => {
         // habit = open the item from your current favourite topic whenever the feed has one
         while (phase === 1 && day <= p1) { const fav = profile.indexOf(Math.max(...profile)); const pick = feed.find(f => f.t === fav) || feed[0]; act('click', pick.t, true); }
@@ -1319,7 +1321,7 @@ const GamesMixin = {
     const act = (kind, t, silent) => {
       profile = bubbleUpdate(profile, t, kind === 'hide' ? 'hide' : 'click', g.rate || 0.2);
       this._gameAnswer(S, day, true, { phase, kind, topic: topics[t].name });
-      const msg = kind === 'hide' ? `You hid ${topics[t].name}.` : kind === 'search' ? `You searched for ${topics[t].name}.` : `You opened a ${topics[t].name} item.`;
+      const msg = kind === 'hide' ? `${tr(`You hid {0}.`, topics[t].name)}` : kind === 'search' ? `${tr(`You searched for {0}.`, topics[t].name)}` : `${tr(`You opened a {0} item.`, topics[t].name)}`;
       day++;
       if (phase === 1 && day > p1) return revealP1();
       if (phase === 2 && day > p2) { makeFeed(); return endP2(); }
@@ -1331,12 +1333,12 @@ const GamesMixin = {
       makeFeed();
       const p1h = hist.filter(h => h.phase === 1);
       const first = p1h[0], lastH = p1h[p1h.length - 1];
-      S.area.innerHTML = `<div class="g-panel"><h5>What happened to your feed</h5>
-        <p>Day 1: <b>${first.distinct}</b> topics in your feed. Day ${p1h.length}: <b>${lastH.distinct}</b>.</p>
-        <ul class="g-days">${p1h.map(h => `<li><span class="g-days-l">Day ${h.day}</span>${profBar(h.profile)}<span class="g-bars-v">${h.distinct}</span></li>`).join('')}</ul>
-        <p class="g-small">Coloured bar = your profile (the system's estimate of your taste); number = topics in that day's feed.</p>
+      S.area.innerHTML = `<div class="g-panel"><h5>${tr(`What happened to your feed`)}</h5>
+        <p>${tr(`Day 1: <b>{0}</b> topics in your feed. Day {1}: <b>{2}</b>.`, first.distinct, p1h.length, lastH.distinct)}</p>
+        <ul class="g-days">${p1h.map(h => `<li><span class="g-days-l">${tr(`Day {0}`, h.day)}</span>${profBar(h.profile)}<span class="g-bars-v">${h.distinct}</span></li>`).join('')}</ul>
+        <p class="g-small">${tr(`Coloured bar = your profile (the system's estimate of your taste); number = topics in that day's feed.`)}</p>
         <p>${esc(g.reveal || '')}</p></div>
-        <div class="g-ab-actions"><button class="g-btn g-btn-primary g-bf-p2">Now burst the bubble ›</button></div>`;
+        <div class="g-ab-actions"><button class="g-btn g-btn-primary g-bf-p2">${tr(`Now burst the bubble ›`)}</button></div>`;
       S.area.querySelector('.g-bf-p2').onclick = () => { phase = 2; day = 1; makeFeed(); if (reached) return endP2(); draw(); this._gameFocus(S.area.querySelector('.g-bf-pick')); };
       this._gameFocus(S.area.querySelector('.g-bf-p2'));
     };
@@ -1345,9 +1347,9 @@ const GamesMixin = {
       const best = Math.max(...p2h.map(h => h.distinct));
       this._gameFinish(S, {
         score: reached ? 1 : 0, total: 1,
-        scoreLabel: reached ? 'Bubble burst' : 'Still in the bubble',
-        note: reached ? `Your feed reached ${best} topics.` : `Best day: ${best} topics (goal ${goalTopics}).`,
-        html: `<div class="g-panel"><ul class="g-days">${hist.map(h => `<li class="${h.phase === 2 ? 'is-p2' : ''}"><span class="g-days-l">${h.phase === 2 ? 'Fix' : 'Day'} ${h.day}</span>${profBar(h.profile)}<span class="g-bars-v">${h.distinct}</span></li>`).join('')}</ul>
+        scoreLabel: reached ? tr('Bubble burst') : tr('Still in the bubble'),
+        note: reached ? `${tr(`Your feed reached {0} topics.`, best)}` : `${tr(`Best day: {0} topics (goal {1}).`, best, goalTopics)}`,
+        html: `<div class="g-panel"><ul class="g-days">${hist.map(h => `<li class="${h.phase === 2 ? 'is-p2' : ''}"><span class="g-days-l">${h.phase === 2 ? tr('Fix') : tr('Day')} ${h.day}</span>${profBar(h.profile)}<span class="g-bars-v">${h.distinct}</span></li>`).join('')}</ul>
           <p class="g-small">${esc(g.reveal2 || '')}</p></div>`,
       });
     };
@@ -1358,7 +1360,7 @@ const GamesMixin = {
 
   // ===== Playground: every game in one place =====
   openPlayground(focusId) {
-    if (!this._f('games')) { this.showXPToast('Mini-games are switched off in Settings', 'info'); return; }
+    if (!this._f('games')) { this.showXPToast(tr('Mini-games are switched off in Settings'), 'info'); return; }
     let ov = document.getElementById('gPlayground');
     if (!ov) {
       ov = document.createElement('div');
@@ -1405,14 +1407,14 @@ const GamesMixin = {
     const played = games.filter(m => store[m.id]).length;
     const byCh = new Map();
     games.forEach(m => { const ch = chOf(m); if (!byCh.has(ch)) byCh.set(ch, []); byCh.get(ch).push(m); });
-    const chTitle = id => { const c = (this.book?.chapters || []).find(x => x.id === id); return c ? `Chapter ${c.number} · ${c.title}` : id; };
+    const chTitle = id => { const c = (this.book?.chapters || []).find(x => x.id === id); return c ? `${tr(`Chapter {0} · {1}`, c.number, c.title)}` : id; };
     ov.innerHTML = `<div class="g-pg-inner">
-      <div class="g-pg-head"><h2 id="gPgTitle">🎮 Playground</h2><button class="g-btn g-btn-quiet g-pg-close" aria-label="Close the playground">✕ Close</button></div>
-      <p class="g-pg-intro">${games.length} hands-on games, each 1–4 minutes. No timer, and every answer comes with the reason. You've played ${played} of them.</p>
+      <div class="g-pg-head"><h2 id="gPgTitle">${tr(`🎮 Playground`)}</h2><button class="g-btn g-btn-quiet g-pg-close" aria-label="${tr(`Close the playground`)}">${tr(`✕ Close`)}</button></div>
+      <p class="g-pg-intro">${tr(`{0} hands-on games, each 1–4 minutes. No timer, and every answer comes with the reason. You've played {1} of them.`, games.length, played)}</p>
       ${[...byCh.entries()].map(([ch, list]) => `<section class="g-pg-sec"><h3>${esc(chTitle(ch))}</h3><div class="g-pg-grid">${list.map(m => {
         const rec = store[m.id];
         const c = this._gameConcept(m);
-        return `<button class="g-pg-card" data-id="${esc(m.id)}"><span class="g-pg-t">${esc(m.title)}</span><span class="g-pg-d">${esc(m.teaser || '')}</span><span class="g-pg-m">${c ? esc(c.title) + ' · ' : ''}${rec && rec.best != null ? `Best ${esc(rec.bestLabel || pct(rec.best))}` : '<b>New</b>'}</span></button>`;
+        return `<button class="g-pg-card" data-id="${esc(m.id)}"><span class="g-pg-t">${esc(m.title)}</span><span class="g-pg-d">${esc(m.teaser || '')}</span><span class="g-pg-m">${c ? esc(c.title) + ' · ' : ''}${rec && rec.best != null ? `Best ${esc(rec.bestLabel || pct(rec.best))}` : ('<b>' + tr(`New`) + '</b>')}</span></button>`;
       }).join('')}</div></section>`).join('')}
     </div>`;
     ov.querySelector('.g-pg-close').onclick = () => this.closePlayground();
@@ -1426,7 +1428,7 @@ const GamesMixin = {
     const meta = this.findBlock(id)?.meta;
     if (!ov || !meta) return this._renderPlayground();
     ov.innerHTML = `<div class="g-pg-inner">
-      <div class="g-pg-head"><button class="g-btn g-btn-quiet g-pg-back">← All games</button><button class="g-btn g-btn-quiet g-pg-close" aria-label="Close the playground">✕ Close</button></div>
+      <div class="g-pg-head"><button class="g-btn g-btn-quiet g-pg-back">${tr(`← All games`)}</button><button class="g-btn g-btn-quiet g-pg-close" aria-label="${tr(`Close the playground`)}">${tr(`✕ Close`)}</button></div>
       ${this.renderGame(meta, { prefix: 'pg-', inPlayground: true })}
     </div>`;
     ov.querySelector('.g-pg-back').onclick = () => this._renderPlayground();
@@ -1447,7 +1449,7 @@ const GamesMixin = {
     const g = this.allBlocks.find(b => b.meta.type === 'game' && String(b.meta.concept || '').split('|')[0].trim() === slug);
     if (!g) return '';
     const m = g.meta;
-    return `<button class="steer-chip g-handson-chip" onclick="app.openPlayground('${esc(m.id)}')" title="${esc(m.teaser || 'Try this concept hands-on')}">▶ Hands-on: ${esc(m.title)} <span class="g-small">(~${esc(String(m.readingTime || 2))} min)</span></button>`;
+    return `<button class="steer-chip g-handson-chip" onclick="app.openPlayground('${esc(m.id)}')" title="${esc(m.teaser || tr('Try this concept hands-on'))}">${tr(`▶ Hands-on: {0}`, esc(m.title))} <span class="g-small">${tr(`(~{0} min)`, esc(String(m.readingTime || 2)))}</span></button>`;
   },
 
   // Browse shelf: the games as cards (unplayed first). Returns '' when games are off.
@@ -1461,15 +1463,15 @@ const GamesMixin = {
       const rec = store[m.id];
       const c = this._gameConcept(m);
       return `<div class="card g-shelf-card" role="button" tabindex="0" style="flex:0 0 220px;cursor:pointer" onclick="app.openPlayground('${esc(m.id)}')" onkeydown="if(event.key==='Enter')app.openPlayground('${esc(m.id)}')">
-        <div class="card-chapter">🎮 ${esc(c ? c.title : 'Mini-game')}</div>
+        <div class="card-chapter">🎮 ${esc(c ? c.title : tr('Mini-game'))}</div>
         <div class="card-title">${esc(m.title)}</div>
         <div class="card-teaser">${esc(m.teaser || '')}</div>
-        <div class="card-meta"><span class="card-time">${rec && rec.best != null ? `Best ${esc(rec.bestLabel || pct(rec.best))}` : 'New · untimed'}</span></div>
+        <div class="card-meta"><span class="card-time">${rec && rec.best != null ? `Best ${esc(rec.bestLabel || pct(rec.best))}` : tr('New · untimed')}</span></div>
       </div>`;
     };
     const all = `<div class="card g-shelf-card g-shelf-all" role="button" tabindex="0" style="flex:0 0 180px;cursor:pointer" onclick="app.openPlayground()" onkeydown="if(event.key==='Enter')app.openPlayground()">
-      <div class="card-chapter">🎮 Playground</div><div class="card-title">All ${games.length} games ›</div><div class="card-teaser">Grouped by chapter, with your best scores.</div></div>`;
-    return this.shelf('🎮 Play with the ideas', [all, ...sorted.map(card)]);
+      <div class="card-chapter">${tr(`🎮 Playground`)}</div><div class="card-title">${tr(`All {0} games ›`, games.length)}</div><div class="card-teaser">${tr(`Grouped by chapter, with your best scores.`)}</div></div>`;
+    return this.shelf(tr('🎮 Play with the ideas'), [all, ...sorted.map(card)]);
   },
 };
 

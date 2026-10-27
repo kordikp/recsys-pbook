@@ -25,6 +25,9 @@ const manifest = JSON.parse(read('pbook.json'));
 const SITE = String(manifest.url || '').replace(/\/+$/, '');
 if (!SITE) { console.error('pbook.json needs "url" (the public base URL)'); process.exit(1); }
 const book = JSON.parse(read('content/book.json'));
+// a book in several languages names its chapters {cs, en, …}: the static layer speaks the book's own language
+const inLang = v => (v && typeof v === 'object' ? v[manifest.language] ?? Object.values(v)[0] : v);
+for (const ch of book.chapters) { ch.title = inLang(ch.title); ch.subtitle = inLang(ch.subtitle); }
 const conceptsDoc = fs.existsSync(path.join(ROOT, 'content/concepts.json')) ? JSON.parse(read('content/concepts.json')) : { concepts: [] };
 const TODAY = new Date().toISOString().slice(0, 10);
 const ACCENT = manifest.theme?.accent || '#24973F';
@@ -226,7 +229,7 @@ ${highlights.length ? `<ul>${highlights.map(h => `<li>${esc(h)}</li>`).join('')}
 ${fig ? `<figure>${fig.svg}${fig.desc ? `<figcaption>${esc(fig.desc)}</figcaption>` : ''}</figure>` : ''}
 ${prose.map((b, i) => `<section class="telling" id="${attr(b.meta.id)}" lang="${attr(b.meta.lang || manifest.language || 'en')}">
 <h2>${esc(b.meta.title)}</h2>
-<p class="chips">${[i === 0 ? 'main telling' : 'another telling', b.meta.lang && b.meta.lang !== 'en' ? `language: ${b.meta.lang}` : '', b.meta.lens && b.meta.lens !== 'generic' ? `example world: ${b.meta.lens}` : '', b.meta.depth ? `depth: ${b.meta.depth}` : '', b.meta.readingTime ? `${b.meta.readingTime} min` : ''].filter(Boolean).map(t => `<span>${esc(t)}</span>`).join('')} <a class="meta" href="/${attr(b.rel)}">markdown</a></p>
+<p class="chips">${[i === 0 ? 'main telling' : 'another telling', b.meta.lang && b.meta.lang !== (manifest.language || 'en') ? `language: ${b.meta.lang}` : '', b.meta.lens && b.meta.lens !== 'generic' ? `example world: ${b.meta.lens}` : '', b.meta.depth ? `depth: ${b.meta.depth}` : '', b.meta.readingTime ? `${b.meta.readingTime} min` : ''].filter(Boolean).map(t => `<span>${esc(t)}</span>`).join('')} <a class="meta" href="/${attr(b.rel)}">markdown</a></p>
 ${renderBlock(b)}
 </section>`).join('\n')}
 ${checks.map(questionHtml).join('\n')}

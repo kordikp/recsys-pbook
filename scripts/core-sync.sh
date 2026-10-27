@@ -7,10 +7,13 @@
 #
 # ENGINE (overwritten in the target — never edit these in a satellite):
 #   js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/ux.js
+#   js/i18n.js js/i18n/*.js (interface language packs)
 #   css/games.css
 #   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js
 #   api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js
 #   scripts/migrate-facets.js scripts/check-games.mjs scripts/build-llms-index.js scripts/build-kb.js
+#   scripts/check-i18n.mjs scripts/build-bundle.mjs (content/bundle.<lang>.json: the target's vercel.json
+#   runs it as buildCommand; git-ignore content/bundle.*.json)
 #   admin.html
 #
 # BOOK IDENTITY lives in the book, never in the engine: js/config.js (CONFIG.book
@@ -23,9 +26,11 @@
 #   content/ images/ games/ js/config.js js/diagrams.js index.html sw.js css/
 #   robots.txt README EXAM.md missions … and the Vercel project itself.
 #
+# LANGUAGE: the interface speaks CONFIG.book.lang (or the reader's ?lang= choice among
+# CONFIG.book.languages) through js/i18n/<lang>.js; a book overrides single strings in
+# CONFIG.strings[lang]. A Czech book no longer needs a translated fork of the engine.
+#
 # After syncing: bump app.js?v= in the target's index.html, smoke-test, deploy.
-# (The Czech school book pbook-internet-skolni is still a translated fork — it
-# mirrors engine changes by hand until the core grows an i18n string layer.)
 
 set -euo pipefail
 CORE="$(cd "$(dirname "$0")/.." && pwd)"
@@ -34,10 +39,12 @@ TARGET="${1:?usage: core-sync.sh /path/to/book-repo}"
 
 ENGINE=(
   js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/ux.js
+  js/i18n.js $(cd "$CORE" && ls js/i18n/*.js 2>/dev/null)
   css/games.css
   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js
   api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js
   scripts/migrate-facets.js scripts/check-games.mjs scripts/build-llms-index.js scripts/build-kb.js
+  scripts/check-i18n.mjs scripts/build-bundle.mjs
   admin.html
 )
 for f in "${ENGINE[@]}"; do

@@ -9,6 +9,8 @@
 // (The retrieval half of retrieval-augmented generation, without the generation —
 // see the llm-recommenders concept for what the other half adds and risks.)
 
+import { tr } from './i18n.js';
+
 const STOP = new Set(('the a an and or but of to in on for with by from at as is are was were be been being do does did ' +
   'what whats which who whom whose why how when where can could should would will shall may might must this that these ' +
   'those it its they them their there here about into than then so such not no yes you your yours i me my we our us ' +
@@ -89,10 +91,10 @@ export class AskTheBook {
       return {
         confidence: 0,
         canEscalate: false,
-        text: `I could not find that in the book. I only answer from its ${n} concept summaries, so I would rather say so than guess.
+        text: `${tr(`I could not find that in the book. I only answer from its {0} concept summaries, so I would rather say so than guess.`, n)}
           <div class="ask-actions">
-            <button class="tutor-suggest-btn" onclick="app.proposeConcept(this.dataset.q)" data-q="${seed}">🌱 Suggest it as a new topic</button>
-            <button class="tutor-suggest-btn" onclick="app.escalateToAuthor()">✉ Send the question to the authors</button>
+            <button class="tutor-suggest-btn" onclick="app.proposeConcept(this.dataset.q)" data-q="${seed}">${tr(`🌱 Suggest it as a new topic`)}</button>
+            <button class="tutor-suggest-btn" onclick="app.escalateToAuthor()">${tr(`✉ Send the question to the authors`)}</button>
           </div>`,
       };
     }
@@ -103,12 +105,12 @@ export class AskTheBook {
       const anchor = app.findBlock(c.anchor) || (app.conceptBlocks?.[c.id] || []).find(b => b.meta.type === 'spine') || null;
       const ch = app._conceptChapterNum ? app._conceptChapterNum(c.id) : '';
       return `<div class="ask-card${lead ? '' : ' ask-card-related'}">
-        <div class="ask-kicker">${lead ? 'From the book' : 'Related'} · Chapter ${esc(ch)}</div>
+        <div class="ask-kicker">${tr(`{0} · Chapter {1}`, lead ? tr('From the book') : tr('Related'), esc(ch))}</div>
         <div class="ask-title">${esc(c.title)}</div>
         ${lead && k.recallQ ? `<div class="ask-q">${esc(clean(k.recallQ))}</div>` : ''}
         <p class="ask-a">${esc(clean(k.recallA || k.objective || ''))}</p>
-        ${anchor ? `<button class="tutor-suggest-btn" onclick="app.openBlock('${esc(anchor.meta.id)}','ask')">Read: ${esc(anchor.meta.title || c.title)} →</button>` : ''}
-        ${lead && tellings > 1 ? `<span class="ask-note">${tellings} ways to read it in the book</span>` : ''}
+        ${anchor ? `<button class="tutor-suggest-btn" onclick="app.openBlock('${esc(anchor.meta.id)}','ask')">${tr(`Read: {0} →`, esc(anchor.meta.title || c.title))}</button>` : ''}
+        ${lead && tellings > 1 ? `<span class="ask-note">${tr(`{0} ways to read it in the book`, tellings)}</span>` : ''}
       </div>`;
     };
     const related = res.slice(1).filter(r => r.score >= top.score * 0.6 && r.coverage >= 0.34).slice(0, 1);
@@ -116,7 +118,7 @@ export class AskTheBook {
       confidence: Math.min(1, top.coverage),
       canEscalate: true,
       text: card(top, true) + related.map(r => card(r, false)).join('') +
-        '<div class="ask-source">Answered from the book’s concept summaries — no AI model involved.</div>',
+        ('<div class="ask-source">' + tr(`Answered from the book’s concept summaries — no AI model involved.`) + '</div>'),
     };
   }
 

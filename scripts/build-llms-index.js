@@ -18,6 +18,10 @@ const START = '<!-- concept-index:start';
 const END = '<!-- concept-index:end -->';
 
 const book = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/book.json'), 'utf8'));
+// a book in several languages names its chapters {cs, en, …}: llms.txt speaks the book's own language
+const LANG = (() => { try { return JSON.parse(fs.readFileSync(path.join(ROOT, 'pbook.json'), 'utf8')).language; } catch (e) { return 'en'; } })();
+const inLang = v => (v && typeof v === 'object' ? v[LANG] ?? Object.values(v)[0] : v);
+for (const ch of book.chapters) { ch.title = inLang(ch.title); ch.subtitle = inLang(ch.subtitle); }
 const concepts = JSON.parse(fs.readFileSync(path.join(ROOT, 'content/concepts.json'), 'utf8')).concepts || [];
 
 function frontmatterKey(file, key) {

@@ -1,5 +1,5 @@
 {
-  "buildCommand": null,
+  "buildCommand": "node scripts/build-bundle.mjs",
   "outputDirectory": ".",
   "cleanUrls": true,
   "trailingSlash": false,

@@ -52,7 +52,7 @@ const FACETS = {
   formalism: ['none', 'light', 'full'],
   lengthBand: ['tldr', 'standard', 'deep'],
   genre: ['explainer', 'story', 'worked-example', 'code-walkthrough', 'comic', 'animation'],
-  lang: ['en', 'cs'],
+  lang: ['en', 'cs', 'sk', 'hu', 'de', 'pl'],
 };
 
 const LENS_WORLDS = {
@@ -114,7 +114,7 @@ Objective: ${contract.objective}
 Must cover (visually or in captions):
 ${mustCoverList || '  (stay faithful to the objective)'}
 Canonical recall answer (stay consistent): ${contract.recallA || 'n/a'}
-Example world: ${facets.lens} — all scenarios live there. Language of ALL text: ${facets.lang === 'cs' ? 'Czech' : 'English'}. Depth: ${facets.depth}.
+Example world: ${facets.lens} — all scenarios live there. Language of ALL text: ${LANG_NAMES[facets.lang] || 'English'}. Depth: ${facets.depth}.
 ${wish ? `Reader's wish (style/examples/focus only): "${wish}"` : ''}
 Return JSON: title, svg (the complete <svg>), body (2-4 markdown sentences introducing the visual, no image links), recallQ, recallA, coveredPoints.`;
   return { system, user };
@@ -233,7 +233,7 @@ function parseFrontmatterBody(text) {
 // lookups (concepts.json, anchor, correction rules) read THEIR content instead
 // of this book's. Only allowlisted hosts are honored — anything else falls back
 // to this deployment's own host.
-const ALLOWED_SOURCE_HOSTS = ['pbook-internet.vercel.app', 'polirural-pbook.vercel.app', 'mvi-pbook.vercel.app']
+const ALLOWED_SOURCE_HOSTS = ['pbook-internet.vercel.app', 'polirural-pbook.vercel.app', 'mvi-pbook.vercel.app', 'informatika-pbook.vercel.app']
   .concat((process.env.PBOOK_SOURCE_HOSTS || '').split(',').map(h => h.trim()).filter(Boolean));
 function contentHost(req) {
   const h = req.body && req.body.sourceHost;
@@ -254,7 +254,7 @@ const DEFAULT_PROFILE = {
   audience: 'product owners and managers, engineers, students and curious adults; some tellings go deep for practitioners',
   language: 'en',
 };
-const LANG_NAMES = { en: 'English', cs: 'Czech' };
+const LANG_NAMES = { en: 'English', cs: 'Czech', sk: 'Slovak', hu: 'Hungarian', de: 'German', pl: 'Polish' };
 const langName = code => LANG_NAMES[code] || LANG_NAMES[DEFAULT_PROFILE.language];
 
 const _profileCache = new Map();   // host → { at, profile }: one /pbook.json fetch per minute, not per prompt
@@ -518,7 +518,7 @@ Canonical recall answer (your telling must be consistent with it): ${contract.re
 
 ## Segment settings (the "how")
 - Example world: ${P.lensWorlds[facets.lens] || P.lensWorlds.generic || facets.lens}. ALL examples, scenarios and metaphors live in this world.
-- Language: ${facets.lang === 'cs' ? 'Write the ENTIRE variant in natural, idiomatic Czech (including title, recallQ and recallA). Situate examples in a Czech setting where natural.' : 'Write in English.'}
+- Language: ${facets.lang && facets.lang !== 'en' && LANG_NAMES[facets.lang] ? `Write the ENTIRE variant in natural, idiomatic ${LANG_NAMES[facets.lang]} (including title, recallQ and recallA). Situate examples in a ${LANG_NAMES[facets.lang]}-speaking setting where natural.` : 'Write in English.'}
 - Depth: ${DEPTH_RULES[facets.depth]}
 - Formalism: ${facets.formalism === 'none' ? 'No formulas, no LaTeX.' : facets.formalism === 'light' ? 'At most 2 short inline formulas, each explained in words.' : 'Formulas may lead; explain notation once.'}
 - Visual style: ${visualityRule}

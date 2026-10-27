@@ -64,9 +64,22 @@
 }
 </script>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script>/* (before the stylesheet: an inline script after one waits for it to load)
+   start what the book needs at once: app.js asks for its modules, they for the language pack, and only then
+   does the book fetch its content — one round trip after another on a phone. Mirrors js/i18n.js pickLang,
+   js/app.js _prefetch (book.json + content/bundle.<lang>.json) and the imports of js/app.js
+   (scripts/build-bundle.mjs warns when this list drifts; a mismatch only downloads a module twice). */
+(function () {
+  var L = ['en'], q = null, s = null;
+  try { q = new URLSearchParams(location.search).get('lang'); } catch (e) {}
+  try { s = localStorage.getItem('pbook-lang'); } catch (e) {}
+  var lang = L.indexOf(q) >= 0 ? q : L.indexOf(s) >= 0 ? s : L[0];
+  function add(rel, href, as) { var l = document.createElement('link'); l.rel = rel; l.href = href; if (as) { l.as = as; l.crossOrigin = 'anonymous'; } document.head.appendChild(l); }
+  var M = ['config.js', 'i18n.js', 'markdown.js?v=2', 'recombee.js?v=12', 'diagrams.js?v=6', 'tutor.js?v=2', 'games.js?v=1', 'ux.js?v=1'];
+  M.concat(lang === 'en' ? [] : ['i18n/' + lang + '.js']).forEach(function (m) { add('modulepreload', 'js/' + m); });
+  ['book.json', 'bundle.' + lang + '.json'].forEach(function (f) { add('preload', 'content/' + f, 'fetch'); });
+})();</script>
 <link rel="stylesheet" href="css/style.css?v=4.0.0">
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script>/* theme before first paint: saved choice, else the system preference (no white flash in dark mode) */
 try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' || (t === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
 </head>
@@ -90,7 +103,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
           <button class="intro-voice" data-lens="ecommerce" onclick="app.onboardPick('lens','ecommerce',this)"><span aria-hidden="true">&#128722;</span> Shopping</button>
           <button class="intro-voice" data-lens="media" onclick="app.onboardPick('lens','media',this)"><span aria-hidden="true">&#127925;</span> Music &amp; video</button>
           <button class="intro-voice" data-lens="social-feeds" onclick="app.onboardPick('lens','social-feeds',this)"><span aria-hidden="true">&#128241;</span> Social feeds</button>
-          <button class="intro-voice" data-lens="education" onclick="app.onboardPick('lens','education',this)"><span aria-hidden="true">&#127891;</span> Learning</button>
+          <button class="intro-voice" data-lens="education" onclick="app.onboardPick('lens','education',this)"><span aria-hidden="true">&#127891;</span> <span data-i18n="Learning (domain)">Learning</span></button>
           <button class="intro-voice" data-lens="jobs" onclick="app.onboardPick('lens','jobs',this)"><span aria-hidden="true">&#128188;</span> Jobs</button>
         </div>
         <div class="door-label" id="doorGoalLabel">I want to</div>
@@ -364,8 +377,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
-<script type="module" src="js/app.js?v=6.0.1"></script>
+<script type="module" src="js/app.js?v=7.3.0"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 <!-- Vercel Web Analytics: visitors and page views, no cookies (project setting enabled 2026-10-05) -->
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>

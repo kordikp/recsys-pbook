@@ -115,7 +115,8 @@ contentFiles.forEach(file => {
     formalism: ['none', 'light', 'full'],
     lengthBand: ['tldr', 'standard', 'deep'],
     genre: ['explainer', 'story', 'worked-example', 'code-walkthrough', 'comic', 'animation'],
-    lang: ['en', 'cs'],
+    // the book's languages (pbook.json → languages); en + cs is the fallback
+    lang: (() => { try { const m = JSON.parse(require('fs').readFileSync(require('path').join(__dirname, '..', '..', 'pbook.json'), 'utf8')); return Array.isArray(m.languages) && m.languages.length ? [...new Set(['en', ...m.languages])] : null; } catch (e) { return null; } })() || ['en', 'cs'],
     carriers: ['prose', 'table', 'diagram', 'image', 'animation', 'formula', 'code'],
   };
   const ORDERED = new Set(['visuality', 'depth', 'formalism', 'lengthBand']);

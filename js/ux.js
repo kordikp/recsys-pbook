@@ -11,59 +11,80 @@
 // is one 10k-line class that several people edit at the same time.
 
 import { CONFIG } from './config.js';
+import { tr, trn, loc, langLabel, LANG, LANGS, LANG_NAMES, setLang } from './i18n.js';
 
 const words = () => CONFIG.facetWords || {};
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-const plural = (n, one, many) => `${n} ${n === 1 ? one : (many || one + 's')}`;
 const reduceMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 const DEPTH_SHORT = { intro: 'gentle', standard: 'standard', technical: 'technical', research: 'research' };
 
 // Goal picked at the door → the first guided path we suggest (missions in app.js).
 // A book may define its own door goals in js/config.js (CONFIG.goals: key → {mission, label, depth?, hint}).
 const GOAL_PATHS = CONFIG.goals || {
-  understand: { mission: 'youtube', label: 'Understand' },
-  build: { mission: 'builder', label: 'Build one', depth: 'technical' },
-  decide: { mission: 'production', label: 'Make decisions' },
-  protect: { mission: 'control', label: 'Protect myself' },
+  understand: { mission: 'youtube', label: tr('Understand') },
+  build: { mission: 'builder', label: tr('Build one'), depth: 'technical' },
+  decide: { mission: 'production', label: tr('Make decisions') },
+  protect: { mission: 'control', label: tr('Protect myself') },
 };
 
 // Mission branch keys are the retired voice taxonomy; readers see what each path holds.
 export const BRANCH_WORDS = {
-  explorer: { icon: '👀', label: 'See it in action' },
-  creator: { icon: '🛠️', label: 'Try it yourself' },
-  thinker: { icon: '🔬', label: 'Go deeper' },
+  explorer: { icon: '👀', label: tr('See it in action') },
+  creator: { icon: '🛠️', label: tr('Try it yourself') },
+  thinker: { icon: '🔬', label: tr('Go deeper') },
 };
 
 // Achievement ids are stored in reader profiles; names are display only.
 export const ACHIEVEMENT_NAMES = {
-  first_read: { icon: '👣', name: 'First section' },
-  reader_5: { icon: '📚', name: 'Five sections' },
-  reader_15: { icon: '📖', name: 'Fifteen sections' },
-  reader_30: { icon: '🗂️', name: 'Thirty sections' },
-  first_like: { icon: '❤️', name: 'First favourite' },
-  like_10: { icon: '🌟', name: 'Ten favourites' },
-  first_note: { icon: '📝', name: 'Note taker' },
-  voice_all: { icon: '🎭', name: 'Every kind of section' },
-  curious_cat: { icon: '🧭', name: 'Wide reader' },
-  quiz_master: { icon: '🧩', name: 'Active reader' },
-  level_5: { icon: '🏆', name: 'Level 5' },
-  save_5: { icon: '🔖', name: 'Collector' },
-  xp_200: { icon: '💎', name: '200 XP' },
-  deep_diver: { icon: '🤿', name: 'Deep diver' },
-  recall_5: { icon: '🧠', name: 'Five reviews' },
-  certified: { icon: '🎓', name: 'Certified' },
+  first_read: { icon: '👣', name: tr('First section') },
+  reader_5: { icon: '📚', name: tr('Five sections') },
+  reader_15: { icon: '📖', name: tr('Fifteen sections') },
+  reader_30: { icon: '🗂️', name: tr('Thirty sections') },
+  first_like: { icon: '❤️', name: tr('First favourite') },
+  like_10: { icon: '🌟', name: tr('Ten favourites') },
+  first_note: { icon: '📝', name: tr('Note taker') },
+  voice_all: { icon: '🎭', name: tr('Every kind of section') },
+  curious_cat: { icon: '🧭', name: tr('Wide reader') },
+  quiz_master: { icon: '🧩', name: tr('Active reader') },
+  level_5: { icon: '🏆', name: tr('Level 5') },
+  save_5: { icon: '🔖', name: tr('Collector') },
+  xp_200: { icon: '💎', name: tr('200 XP') },
+  deep_diver: { icon: '🤿', name: tr('Deep diver') },
+  recall_5: { icon: '🧠', name: tr('Five reviews') },
+  certified: { icon: '🎓', name: tr('Certified') },
 };
 
 export const uxMethods = {
+  // ---------------------------------------------------------------- language
+  // A book in several languages (CONFIG.book.languages) gets a switcher on the welcome
+  // screen and in Settings; ?lang=cs opens it straight in that language.
+  _mountLangSwitch() {
+    if (LANGS.length < 2) return;
+    const btn = (l, cls, style, label) => `<button class="${cls}${l === LANG ? ' active' : ''}" lang="${l}" aria-pressed="${l === LANG}" style="${style}" onclick="app.setLang('${l}')">${label}</button>`;
+    const chip = 'font:inherit;font-size:.72rem;font-weight:600;padding:.2em .55em;border-radius:999px;cursor:pointer;border:1px solid var(--border,#ddd);background:transparent;color:inherit';
+    document.querySelector('#onboarding .onboarding-card')?.insertAdjacentHTML('afterbegin',
+      `<div class="lang-switch" role="group" aria-label="${tr('Language')}" style="display:flex;gap:.3em;justify-content:flex-end;margin:-.2em 0 .4em">${
+        LANGS.map(l => btn(l, 'lang-opt', chip + (l === LANG ? ';background:var(--accent,#7C3AED);color:#fff;border-color:transparent' : ''), l.toUpperCase())).join('')}</div>`);
+    document.getElementById('settingsAccount')?.insertAdjacentHTML('beforebegin',
+      `<div class="sg"><label>${tr('Language')}</label><div class="sg-row" role="group" aria-label="${tr('Language')}">${
+        LANGS.map(l => btn(l, 'sg-opt', '', LANG_NAMES[l] || l)).join('')}</div></div>`);
+  },
+  setLang(l) {
+    if (l === LANG) return;
+    this.rc?.logEvent?.('lang_switch', { from: LANG, to: l });
+    setLang(l);
+  },
+
   // ---------------------------------------------------------------- words
   _fw(dim, v) {
+    if (dim === 'lang') return langLabel(v);
     const w = words()[dim] || {};
-    return w[v] || String(v ?? '').replace(/[-_]/g, ' ');
+    return w[v] ? tr(loc(w[v])) : String(v ?? '').replace(/[-_]/g, ' ');   // a book may give {cs, en, …}
   },
   _depthPhrase(set) {
     if (!set || !set.length) return '';
     if (set.length === 1) return this._fw('depth', set[0]);
-    return `${DEPTH_SHORT[set[0]] || set[0]} to ${DEPTH_SHORT[set[set.length - 1]] || set[set.length - 1]} depth`;
+    return `${tr(`{0} to {1} depth`, DEPTH_SHORT[set[0]] || set[0], DEPTH_SHORT[set[set.length - 1]] || set[set.length - 1])}`;
   },
   // One telling in plain words, e.g. "job-board examples · standard to technical depth".
   // Without `dims`: only what differs from the defaults (the interesting part).
@@ -77,8 +98,8 @@ export const uxMethods = {
         if (dim === 'lens' && set.includes('generic')) continue;
       }
       if (dim === 'depth') parts.push(this._depthPhrase(set));
-      else if (CONFIG.facets[dim]?.ordered && set.length > 1) parts.push(`${this._fw(dim, set[0])} to ${this._fw(dim, set[set.length - 1])}`);
-      else parts.push(set.map(v => this._fw(dim, v)).join(' or '));
+      else if (CONFIG.facets[dim]?.ordered && set.length > 1) parts.push(tr('{0} to {1}', this._fw(dim, set[0]), this._fw(dim, set[set.length - 1])));
+      else parts.push(set.map(v => this._fw(dim, v)).join(tr(' or ')));
     }
     return parts.filter(Boolean).join(' · ');
   },
@@ -91,7 +112,8 @@ export const uxMethods = {
     if (d.length && !(d.length === 1 && d[0] === 'standard')) bits.push(this._depthPhrase(d));
     const l = this._facetValues(meta, 'lens');
     if (l.length && !l.includes('generic')) bits.push(l.map(v => this._fw('lensShort', v)).join(' & '));
-    if (this._facetValues(meta, 'lang').includes('cs')) bits.push('Czech');
+    const ls = this._facetValues(meta, 'lang');
+    if (ls.length && !ls.includes(this._readerLang())) bits.push(langLabel(ls[0]));
     return bits.join(' · ');
   },
 
@@ -221,14 +243,14 @@ export const uxMethods = {
     let last = null;
     try { last = JSON.parse(localStorage.getItem('pbook-last-session') || 'null'); } catch (e) {}
     const bits = [];
-    if (last && last.sections && Date.now() - (last.ts || 0) < 30 * 864e5) bits.push(`last time: ${plural(last.sections, 'section')}`);
-    if (due) bits.push(`${plural(due, 'recall card')} due`);
-    setTimeout(() => this.showXPToast('Welcome back' + (bits.length ? ' · ' + bits.join(' · ') : ''), 'info'), 900);
+    if (last && last.sections && Date.now() - (last.ts || 0) < 30 * 864e5) bits.push(`${tr(`last time: {0}`, trn('{0} section', '{0} sections', last.sections))}`);
+    if (due) bits.push(`${trn('{0} recall card due', '{0} recall cards due', due)}`);
+    setTimeout(() => this.showXPToast(tr('Welcome back') + (bits.length ? ' · ' + bits.join(' · ') : ''), 'info'), 900);
   },
   _onboardingInit() {
     if (/[?&]ab=1\b/.test(location.search)) {   // the old random-start experiment, opt-in only
       const cta = document.querySelector('.step[data-step="0"] .btn-primary.btn-large');
-      if (cta) { cta.textContent = "Start (we'll pick a reading mode — you can switch)"; cta.setAttribute('onclick', 'app.startRandom()'); }
+      if (cta) { cta.textContent = tr("Start (we'll pick a reading mode — you can switch)"); cta.setAttribute('onclick', 'app.startRandom()'); }
     }
     const sel = document.querySelector('#introLens .intro-voice.selected');
     if (sel) this.onboardPick('lens', sel.dataset.lens, sel);
@@ -279,8 +301,8 @@ export const uxMethods = {
     if (!pane || pane.querySelector('.goal-banner')) return;
     const div = document.createElement('div');
     div.className = 'goal-banner fade-up';
-    div.innerHTML = `<span>🎯 For your goal <b>“${esc(g.label)}”</b>: the guided path <b>${esc(m.title)}</b> takes you through the right sections in order.</span>
-      <span class="goal-banner-actions"><button class="steer-chip" onclick="app.showMission('${m.id}')">Open the path</button>
+    div.innerHTML = `<span>${tr(`🎯 For your goal <b>“{0}”</b>: the guided path <b>{1}</b> takes you through the right sections in order.`, esc(loc(g.label)), esc(m.title))}</span>
+      <span class="goal-banner-actions"><button class="steer-chip" onclick="app.showMission('${m.id}')">${tr(`Open the path`)}</button>
       <button class="goal-banner-close" aria-label="Dismiss" onclick="this.closest('.goal-banner').remove()">&times;</button></span>`;
     pane.prepend(div);
   },
@@ -315,8 +337,8 @@ export const uxMethods = {
     const s = this._sessionStats();
     if (!s.sections) return '';
     const due = this._f('spaceRepetition') ? Object.values(this.user.recall || {}).filter(c => c.nextReview > Date.now()).sort((a, b) => a.nextReview - b.nextReview)[0] : null;
-    const next = due ? ` · next recall ${new Date(due.nextReview).toLocaleDateString(undefined, { weekday: 'long' })}` : '';
-    return `Today: ${plural(s.sections, 'section')} · ${plural(s.concepts, 'concept')}${next}`;
+    const next = due ? ` ${tr(`· next recall {0}`, new Date(due.nextReview).toLocaleDateString(undefined, { weekday: 'long' }))}` : '';
+    return `${tr(`Today: {0} · {1}{2}`, trn('{0} section', '{0} sections', s.sections), trn('{0} concept', '{0} concepts', s.concepts), next)}`;
   },
 
   // ---------------------------------------------------------------- concepts & picks
@@ -375,12 +397,12 @@ export const uxMethods = {
   _fitReason(meta, target) {
     const prefs = this.user.steerPrefs || {};
     const bits = [];
-    if (target.lens && target.lens !== 'generic' && this._facetValues(meta, 'lens').includes(target.lens)) bits.push(`examples from your ${this._fw('lensShort', target.lens).toLowerCase()} world`);
+    if (target.lens && target.lens !== 'generic' && this._facetValues(meta, 'lens').includes(target.lens)) bits.push(`${tr(`examples from your {0} world`, this._fw('lensShort', target.lens).toLowerCase())}`);
     for (const dim of ['depth', 'lengthBand', 'visuality', 'genre']) {
       if (prefs[dim] && this._covers(meta, dim, prefs[dim])) bits.push(this._fw(dim, prefs[dim]));
     }
     if (prefs.lang && prefs.lang !== 'en' && this._covers(meta, 'lang', prefs.lang)) bits.push(this._fw('lang', prefs.lang));
-    return bits.length ? `Told your way: ${bits.join(', ')}` : '';
+    return bits.length ? `${tr(`Told your way: {0}`, bits.join(', '))}` : '';
   },
   // THE local recommender behind "Next for you", the read-next "Recommended"
   // link and the feed fallback. Candidates are unread concepts whose prerequisites
@@ -406,20 +428,20 @@ export const uxMethods = {
       const m = missions.get(cid);
       const score = 0.5 * best.fit + 0.3 * ready + 0.2 * (m ? 1 : 0);
       const reasons = [];
-      if (m) reasons.push(`Step ${m.step} of your mission “${m.title}”`);
-      if (lastIdx >= 0 && dist === 1) reasons.push(`The next idea after “${this.concepts[lastCid]?.title || lastCid}”, which you just read`);
-      else if (lastIdx >= 0 && dist > 1 && dist <= 3) reasons.push(`Comes up shortly after what you've read (Chapter ${this._conceptChapterNum(cid)})`);
-      else if (lastIdx >= 0 && dist < 0) reasons.push(`You skipped it earlier (Chapter ${this._conceptChapterNum(cid)})`);
-      else if (lastIdx < 0 && idx === 0) reasons.push('Where the book starts');
-      else if (lastIdx < 0 && idx < 3) reasons.push('Part of the opening chapter');
+      if (m) reasons.push(`${tr(`Step {0} of your mission “{1}”`, m.step, m.title)}`);
+      if (lastIdx >= 0 && dist === 1) reasons.push(`${tr(`The next idea after “{0}”, which you just read`, this.concepts[lastCid]?.title || lastCid)}`);
+      else if (lastIdx >= 0 && dist > 1 && dist <= 3) reasons.push(`${tr(`Comes up shortly after what you've read (Chapter {0})`, this._conceptChapterNum(cid))}`);
+      else if (lastIdx >= 0 && dist < 0) reasons.push(`${tr(`You skipped it earlier (Chapter {0})`, this._conceptChapterNum(cid))}`);
+      else if (lastIdx < 0 && idx === 0) reasons.push(tr('Where the book starts'));
+      else if (lastIdx < 0 && idx < 3) reasons.push(tr('Part of the opening chapter'));
       const node = this._cmapNode?.(cid);
       const pre = (node?.prereq || []).find(p => this._cRead(p));
-      if (pre) reasons.push(`Builds on “${this.concepts[pre]?.title || pre}”, which you've read`);
+      if (pre) reasons.push(`${tr(`Builds on “{0}”, which you've read`, this.concepts[pre]?.title || pre)}`);
       const fit = this._fitReason(best.block.meta, target);
       if (fit) reasons.push(fit);
-      if (!reasons.length) reasons.push(`Not read yet · Chapter ${this._conceptChapterNum(cid)}`);
+      if (!reasons.length) reasons.push(`${tr(`Not read yet · Chapter {0}`, this._conceptChapterNum(cid))}`);
       out.push({ meta: best.block.meta, cid, score, reasons,
-        math: `score ${score.toFixed(2)} = 0.5 × ${best.fit.toFixed(2)} fit + 0.3 × ${ready.toFixed(1)} ready + 0.2 × ${m ? 1 : 0} mission` });
+        math: `${tr(`score {0} = 0.5 × {1} fit + 0.3 × {2} ready + 0.2 × {3} mission`, score.toFixed(2), best.fit.toFixed(2), ready.toFixed(1), m ? 1 : 0)}` });
     });
     return out.sort((a, b) => b.score - a.score).slice(0, limit);
   },
@@ -427,9 +449,9 @@ export const uxMethods = {
   _whyHtml(why) {
     if (!why || !why.reasons || !why.reasons.length) return '';
     const items = why.reasons.map(r => `<li>${esc(r)}</li>`).join('');
-    return `<details class="why" onclick="event.stopPropagation()"><summary>Why this?</summary>
+    return `<details class="why" onclick="event.stopPropagation()"><summary>${tr(`Why this?`)}</summary>
       <div class="why-body"><ul>${items}</ul>${why.math ? `<div class="why-math">${esc(why.math)}</div>` : ''}
-      ${app.concepts?.explanations ? `<button class="why-link" onclick="event.stopPropagation();app.openConcept('explanations')">How recommenders explain themselves →</button>` : ''}</div></details>`;
+      ${app.concepts?.explanations ? `<button class="why-link" onclick="event.stopPropagation();app.openConcept('explanations')">${tr(`How recommenders explain themselves →`)}</button>` : ''}</div></details>`;
   },
   openConcept(slug) {
     const a = this.concepts?.[slug]?.anchor;
@@ -448,16 +470,16 @@ export const uxMethods = {
       const firsts = take(metas, 3);
       if (!firsts.length) return '';
       const mins = firsts.reduce((s, m) => s + (m.readingTime || 3), 0);
-      return this.shelf('Start here', firsts.map((m, i) => this.cardHtml(m, i === 0,
-        { reasons: [i === 0 ? 'Where the book starts' : `Step ${i + 1} of the opening path through Chapter 1`] })),
-        `Three short sections, about ${mins} minutes — then the book suggests what fits you.`);
+      return this.shelf(tr('Start here'), firsts.map((m, i) => this.cardHtml(m, i === 0,
+        { reasons: [i === 0 ? tr('Where the book starts') : `${tr(`Step {0} of the opening path through Chapter 1`, i + 1)}`] })),
+        `${tr(`Three short sections, about {0} minutes — then the book suggests what fits you.`, mins)}`);
     }
     const id = this.user.currentBlock && !this.user.readBlocks.has(this.user.currentBlock) ? this.user.currentBlock : this.getContinueBlock()?.id;
     const b = id && this.findBlock(id);
     if (!b) return '';
     const [m] = take([b.meta], 1);
     if (!m) return '';
-    return this.shelf('Continue reading', [this.cardHtml(m, true, { reasons: ['Where you left off'] })], this._todayLine());
+    return this.shelf(tr('Continue reading'), [this.cardHtml(m, true, { reasons: ['Where you left off'] })], this._todayLine());
   },
   _pendingShelf(key, title) {
     const sk = '<div class="card card-skeleton" aria-hidden="true"><div></div><div></div><div></div></div>';
@@ -482,9 +504,9 @@ export const uxMethods = {
     };
     const blocksOf = res => (res?.recomms || []).map(r => this.findBlock(r.id)?.meta).filter(Boolean);
     const personal = this.rc.getRecsForUser('homepage-personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user))
-      .then(res => this._settleShelf('rcPersonal', token, 'Picked for you',
+      .then(res => this._settleShelf('rcPersonal', token, tr('Picked for you'),
         take(blocksOf(res), 8).map(m => this.cardHtml(m, false, { reasons: ['Picked by Recombee’s “homepage-personal” scenario from what you read, liked and steered'] })),
-        'Collaborative filtering at work: readers with a history like yours read these.'))
+        tr('Collaborative filtering at work: readers with a history like yours read these.')))
       .catch(() => this._settleShelf('rcPersonal', token, '', []));
     if (lastReadBlock) {
       const t = lastReadBlock.meta.title || '';
@@ -492,8 +514,8 @@ export const uxMethods = {
         .then(res => {
           const list = blocksOf(res).filter(m => m.id !== lastReadBlock.meta.id && !this.user.readBlocks.has(m.id));
           const cards = take(list, 8);
-          this._settleShelf('rcRelated', token, 'Because you read: ' + esc(t),
-            cards.length >= 3 ? cards.map(m => this.cardHtml(m, false, { reasons: [`Readers of “${t}” also read this (item-to-item recommendation)`] })) : []);
+          this._settleShelf('rcRelated', token, tr('Because you read: ') + esc(t),
+            cards.length >= 3 ? cards.map(m => this.cardHtml(m, false, { reasons: [`${tr(`Readers of “{0}” also read this (item-to-item recommendation)`, t)}`] })) : []);
         })
         .catch(() => this._settleShelf('rcRelated', token, '', []));
     }
@@ -503,12 +525,12 @@ export const uxMethods = {
           const m = b.meta;
           const line = this._tellingWords(m);
           return `<div class="card card-community" onclick="app.openCommunityBlock('${esc(m.id)}')">
-            <div class="card-chapter card-kicker-warn">⚡ Written with a reader · not yet editor-verified</div>
+            <div class="card-chapter card-kicker-warn">${tr(`⚡ Written with a reader · not yet editor-verified`)}</div>
             <div class="card-title">${esc(m.title || m.id)}</div>
-            <div class="card-teaser">${line ? esc(line) + ' · ' : ''}shared by ${esc(m.sharedAs || 'a reader')}</div>
+            <div class="card-teaser">${tr(`{0}shared by {1}`, line ? esc(line) + ' · ' : '', esc(m.sharedAs || tr('a reader')))}</div>
           </div>`;
         });
-        this._settleShelf('community', token, 'From fellow readers 🌱', cards);
+        this._settleShelf('community', token, tr('From fellow readers 🌱'), cards);
       }).catch(() => this._settleShelf('community', token, '', []));
     }
     return personal;
@@ -527,9 +549,9 @@ export const uxMethods = {
       if (pool.length < 3) continue;
       const metas = take(pool, 8);
       if (metas.length < 2) continue;
-      html += this.shelf(`One idea, ${pool.length} ways: ${esc(c.title)}`, metas.map(m => this.cardHtml(m, false,
-        { reasons: [`One of ${pool.length} tellings of “${c.title}”`, this._tellingWords(m) || 'the main telling'] })),
-        'Same idea, told differently — pick the one that suits you.');
+      html += this.shelf(`${tr(`One idea, {0} ways: {1}`, pool.length, esc(c.title))}`, metas.map(m => this.cardHtml(m, false,
+        { reasons: [`${tr(`One of {0} tellings of “{1}”`, pool.length, c.title)}`, this._tellingWords(m) || tr('the main telling')] })),
+        tr('Same idea, told differently — pick the one that suits you.'));
       n++;
     }
     return html;
@@ -560,26 +582,26 @@ export const uxMethods = {
     const b = this._findAnyBlock(blockId);
     if (!b) return;
     const item = (icon, label, sub, js) => `<button class="sheet-item" onclick="app._closeSheet();${js}">
-      <span class="sheet-icon" aria-hidden="true">${icon}</span><span class="sheet-text"><b>${label}</b><small>${sub}</small></span></button>`;
+      <span class="sheet-icon" aria-hidden="true">${icon}</span><span class="sheet-text">${tr(`<b>{0}</b><small>{1}</small>`, label, sub)}</span></button>`;
     const h = `<div class="sheet-title">${esc(b.meta.title || '')}</div>
-      ${item('💬', 'Ask the book', 'Your question, answered from the book’s own concept summaries', `app.askAboutBlock('${blockId}')`)}
-      ${item('📝', 'Add a note', 'Private, kept on this device', `app.toggleNote('${blockId}');app._reveal('note-${blockId}')`)}
-      ${item('🔗', 'Copy link', 'Share this section', `app.shareBlock('${blockId}')`)}
-      ${item('✏️', 'Improve this section', 'Edit a passage yourself, or let AI suggest a rewrite', `app.improveBlock('${blockId}')`)}
-      ${item('✍️', 'Write your own telling', 'Open the author studio for this idea', `app.startAuthoringFromBlock('${blockId}')`)}
-      ${item('⚑', 'Report an issue', 'Typo, unclear passage or wrong fact — goes to the authors', `app.flagBlock('${blockId}');app._reveal('flag-${blockId}')`)}
-      <button class="sheet-cancel" onclick="app._closeSheet()">Close</button>`;
-    this._openSheet(h, 'Section actions');
+      ${item('💬', tr('Ask the book'), tr('Your question, answered from the book’s own concept summaries'), `app.askAboutBlock('${blockId}')`)}
+      ${item('📝', tr('Add a note'), tr('Private, kept on this device'), `app.toggleNote('${blockId}');app._reveal('note-${blockId}')`)}
+      ${item('🔗', tr('Copy link'), tr('Share this section'), `app.shareBlock('${blockId}')`)}
+      ${item('✏️', tr('Improve this section'), tr('Edit a passage yourself, or let AI suggest a rewrite'), `app.improveBlock('${blockId}')`)}
+      ${item('✍️', tr('Write your own telling'), tr('Open the author studio for this idea'), `app.startAuthoringFromBlock('${blockId}')`)}
+      ${item('⚑', tr('Report an issue'), tr('Typo, unclear passage or wrong fact — goes to the authors'), `app.flagBlock('${blockId}');app._reveal('flag-${blockId}')`)}
+      <button class="sheet-cancel" onclick="app._closeSheet()">${tr(`Close`)}</button>`;
+    this._openSheet(h, tr('Section actions'));
   },
   // Mini-board on phones: a pill that opens the board in a sheet
   openMiniSheet() {
     const board = document.querySelector('#miniBoard .mb-board')?.innerHTML || '';
     const { read, total } = this._conceptProgress();
-    this._openSheet(`<div class="sheet-title">Your journey · ${read} of ${total} concepts read</div>
+    this._openSheet(`<div class="sheet-title">${tr(`Your journey · {0} of {1} concepts read`, read, total)}</div>
       <div class="mb-sheet-board">${board}</div>
-      <p class="sheet-note">Filled fields are concepts you have read; the ringed one is where the book suggests you continue.</p>
-      <button class="btn-primary sheet-primary" onclick="app._closeSheet();app._mapReturnToRead=true;app.switchView('map');app.setMapMode('cesta')">Open the journey map</button>
-      <button class="sheet-cancel" onclick="app._closeSheet()">Close</button>`, 'Your journey');
+      <p class="sheet-note">${tr(`Filled fields are concepts you have read; the ringed one is where the book suggests you continue.`)}</p>
+      <button class="btn-primary sheet-primary" onclick="app._closeSheet();app._mapReturnToRead=true;app.switchView('map');app.setMapMode('cesta')">${tr(`Open the journey map`)}</button>
+      <button class="sheet-cancel" onclick="app._closeSheet()">${tr(`Close`)}</button>`, tr('Your journey'));
   },
 
   // ---------------------------------------------------------------- reading progress strip
@@ -662,29 +684,29 @@ export const uxMethods = {
     const checks = cs.filter(c => c.contract?.recallQ && c.contract?.recallA).slice(-3);
     const clean = s => String(s || '').replace(/\\"/g, '"');
     const html = `<div class="moment-card fade-up" role="status">
-      <div class="moment-kicker">Chapter ${ch.number} complete ✓</div>
+      <div class="moment-kicker">${tr(`Chapter {0} complete ✓`, ch.number)}</div>
       <h3 class="moment-title">${esc(ch.title)}</h3>
       <div class="moment-concepts">${cs.map(c => `<span class="moment-chip">✓ ${esc(c.title)}</span>`).join('')}</div>
-      ${checks.length ? `<div class="moment-checks"><div class="moment-label">Three quick checks — answer in your head, then peek</div>
+      ${checks.length ? `<div class="moment-checks"><div class="moment-label">${tr(`Three quick checks — answer in your head, then peek`)}</div>
         ${checks.map(c => `<details class="moment-check"><summary>${esc(clean(c.contract.recallQ))}</summary><p>${esc(clean(c.contract.recallA))}</p></details>`).join('')}</div>` : ''}
       <div class="moment-actions">
-        ${next ? `<button class="btn-primary" onclick="this.closest('.moment-card').remove();app.goChapter(${ci + 1})">Next: Chapter ${next.number} · ${esc(next.title)} →</button>
-          <span class="moment-next-sub">${esc(next.subtitle || '')}</span>` : '<b>That was the last chapter. 🎉</b>'}
-        <button class="steer-chip" onclick="this.closest('.moment-card').remove()">Keep reading here</button>
+        ${next ? `<button class="btn-primary" onclick="this.closest('.moment-card').remove();app.goChapter(${ci + 1})">${tr(`Next: Chapter {0} · {1} →`, next.number, esc(next.title))}</button>
+          <span class="moment-next-sub">${esc(next.subtitle || '')}</span>` : ('<b>' + tr(`That was the last chapter. 🎉`) + '</b>')}
+        <button class="steer-chip" onclick="this.closest('.moment-card').remove()">${tr(`Keep reading here`)}</button>
       </div></div>`;
     const lastId = [...this.user.readBlocks].pop();
     const anchor = (lastId && (document.getElementById('rn-' + lastId) || document.getElementById('b-' + lastId))) || null;
     if (anchor && this.currentView === 'read') anchor.insertAdjacentHTML('afterend', html);
-    this.showXPToast(`Chapter ${ch.number} complete ✓`, 'info');
+    this.showXPToast(`${tr(`Chapter {0} complete ✓`, ch.number)}`, 'info');
     this.rc.logEvent('chapter_complete', { chapter: ch.id });
   },
   // Profile: ideas the reader can demonstrably explain (recall answered well, not due)
   _conceptBadgesHtml() {
     if (!this.concepts) return '';
     const can = Object.values(this.concepts).filter(c => this._conceptRemembered(c.id));
-    return `<div class="profile-section"><h3>🧠 Ideas you can explain</h3>${can.length
+    return `<div class="profile-section"><h3>${tr(`🧠 Ideas you can explain`)}</h3>${can.length
       ? `<div class="gami-badges">${can.map(c => `<button class="gami-badge earned" onclick="app.openConcept('${c.id}')">✓ ${esc(c.title)}</button>`).join('')}</div>`
-      : '<p class="profile-hint">Answer a concept’s recall card well twice and it lands here — proof you can explain it, not just that you scrolled past it.</p>'}</div>`;
+      : ('<p class="profile-hint">' + tr(`Answer a concept’s recall card well twice and it lands here — proof you can explain it, not just that you scrolled past it.`) + '</p>')}</div>`;
   },
 
   // Profile: the secondary sections (wallet, XP rules, editor track, invites) fold
@@ -742,7 +764,7 @@ export const uxMethods = {
       root.querySelectorAll?.('button:not([aria-label])').forEach(b => {
         const t = (b.textContent || '').trim();
         if (/[A-Za-zÀ-ž0-9]{2,}/.test(t)) return;
-        const name = b.getAttribute('title') || (t === '×' || t === '✕' ? 'Close' : t === '‹' ? 'Scroll left' : t === '›' ? 'Scroll right' : '');
+        const name = b.getAttribute('title') || (t === '×' || t === '✕' ? tr('Close') : t === '‹' ? tr('Scroll left') : t === '›' ? tr('Scroll right') : '');
         if (name) b.setAttribute('aria-label', name);
       });
     };

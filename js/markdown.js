@@ -1,4 +1,5 @@
 // Markdown to HTML converter with table, math, and diagram support
+import { LANG } from './i18n.js';
 
 export function renderMarkdown(text) {
   if (!text || !text.trim()) return '';
@@ -264,6 +265,9 @@ function parseCells(line) {
 // --- Inline formatting ---
 // Smart punctuation for text outside HTML tags: ' -- ' → ' – ', '...' → '…',
 // straight quotes → curly. Attribute values (hrefs, classes) are never touched.
+// Quotation marks of the reader's language: “English”, „české“, „magyar”.
+const QUOTES = { cs: '„“‚‘', sk: '„“‚‘', de: '„“‚‘', hu: '„”»«', pl: '„”‚’' };
+const Q = QUOTES[LANG] || '“”‘’';
 export function smartPunct(html) {
   return String(html ?? '').split(/(<[^>]*>)/).map((seg, i) => {
     if (i % 2) return seg;                       // a tag
@@ -271,9 +275,9 @@ export function smartPunct(html) {
       .replace(/(^|\s)--(?=\s|$)/g, '$1–')
       .replace(/(\w)--(\w)/g, '$1–$2')
       .replace(/\.\.\./g, '…')
-      .replace(/(^|[\s(\[{\u2013\u2014/])"(?=\S)/g, '$1“')
-      .replace(/"/g, '”')
-      .replace(/(^|[\s(\[{\u2013\u2014/])'(?=\S)/g, '$1‘')
+      .replace(/(^|[\s(\[{\u2013\u2014/])"(?=\S)/g, '$1' + Q[0])
+      .replace(/"/g, Q[1])
+      .replace(/(^|[\s(\[{\u2013\u2014/])'(?=\S)/g, '$1' + Q[2])
       .replace(/'/g, '’');
   }).join('');
 }
