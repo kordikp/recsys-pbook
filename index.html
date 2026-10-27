@@ -75,7 +75,7 @@
   try { s = localStorage.getItem('pbook-lang'); } catch (e) {}
   var lang = L.indexOf(q) >= 0 ? q : L.indexOf(s) >= 0 ? s : L[0];
   function add(rel, href, as) { var l = document.createElement('link'); l.rel = rel; l.href = href; if (as) { l.as = as; l.crossOrigin = 'anonymous'; } document.head.appendChild(l); }
-  var M = ['config.js', 'i18n.js', 'markdown.js?v=2', 'recombee.js?v=12', 'diagrams.js?v=6', 'tutor.js?v=2', 'games.js?v=1', 'ux.js?v=1'];
+  var M = ['config.js', 'i18n.js', 'markdown.js?v=2', 'recombee.js?v=12', 'diagrams.js?v=7', 'tutor.js?v=2', 'games.js?v=2', 'ux.js?v=2'];
   M.concat(lang === 'en' ? [] : ['i18n/' + lang + '.js']).forEach(function (m) { add('modulepreload', 'js/' + m); });
   ['book.json', 'bundle.' + lang + '.json'].forEach(function (f) { add('preload', 'content/' + f, 'fetch'); });
 })();</script>
@@ -377,7 +377,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=7.3.0"></script>
+<script type="module" src="js/app.js?v=7.4.0"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 <!-- Vercel Web Analytics: visitors and page views, no cookies (project setting enabled 2026-10-05) -->
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>

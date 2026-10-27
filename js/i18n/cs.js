@@ -1489,4 +1489,9 @@ export default {
   "Galaxy": "Galaxie",
   "Neon": "Neon",
   "Gold": "Zlato",
+  "{0} marked": {"one": "{0} označena", "few": "{0} označeny", "other": "{0} označeno"},
+  "Step {0}": "Krok {0}",
+  "Worlds": "Světy",
+  "All worlds": "Všechny světy",
+  "🎯 The world’s mission": "🎯 Mise světa",
 };

@@ -242,7 +242,11 @@ if (fs.existsSync(CONCEPTS_JSON)) {
     for (const l of conceptLinkRefs) {
       if (!conceptIds.has(l.slug)) error(l.file, `Concept link "#c/${l.slug}" points at an unknown concept`);
     }
+    // [..](#mission-<id>) opens a mission (app.js link handler)
+    let missionIds = new Set();
+    try { missionIds = new Set((JSON.parse(fs.readFileSync(path.join(CONTENT_DIR, 'missions.json'), 'utf8')).missions || []).map(m => m.id)); } catch (e) { /* book without missions */ }
     for (const l of blockLinkRefs) {
+      if (l.id.startsWith('mission-')) { if (!missionIds.has(l.id.slice(8))) error(l.file, `Mission link "#${l.id}" points at an unknown mission`); continue; }
       if (!ids.has(l.id)) warn(l.file, `Block link "#${l.id}" points at an unknown block id (prefer concept links #c/<slug>)`);
     }
     // every concept's anchor must be a real block; contract gaps are warnings (editorial debt)

@@ -1489,4 +1489,9 @@ export default {
   "Galaxy": "Galaxis",
   "Neon": "Neon",
   "Gold": "Arany",
+  "{0} marked": "{0} megjelölve",
+  "Step {0}": "{0}. lépés",
+  "Worlds": "Világok",
+  "All worlds": "Minden világ",
+  "🎯 The world’s mission": "🎯 A világ küldetése",
 };

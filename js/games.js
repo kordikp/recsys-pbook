@@ -707,7 +707,7 @@ const GamesMixin = {
             if (tries >= 2) {
               const right = steps[pos];
               right._shown = true;
-              misses.push({ q: `Step ${pos + 1}`, a: right.text, why: right.why });
+              misses.push({ q: tr('Step {0}', pos + 1), a: right.text, why: right.why });
               this._gameAnswer(S, right.k, false);
               placed.push(right); pos++; tries = 0;
               const left = pool.filter(s => !placed.includes(s));
@@ -843,7 +843,7 @@ const GamesMixin = {
         const k = +btn.dataset.k;
         if (marked.has(k)) marked.delete(k); else marked.add(k);
         btn.setAttribute('aria-pressed', marked.has(k) ? 'true' : 'false');
-        count.textContent = `${marked.size} marked`;
+        count.textContent = tr('{0} marked', marked.size);
       };
     });
     S.area.querySelector('.g-check').onclick = () => {

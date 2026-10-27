@@ -23,6 +23,8 @@ const DISPLAY_VALUES = [
   'Recommender architect', 'Expert', 'Practitioner', 'Reader',              // level titles
 ];
 
+const FW_LANGS = new Set(['cs', 'en', 'sk', 'hu', 'de', 'pl', 'fr', 'es', 'it', 'pt', 'uk']);
+
 const cook = (body, q) => body.replace(/\\(u\{[0-9a-fA-F]+\}|u[0-9a-fA-F]{4}|.)/g, (m, e) =>
   e[0] === 'u' && e.length > 1 ? String.fromCodePoint(parseInt(e.replace(/[u{}]/g, ''), 16))
     : ({ n: '\n', t: '\t', r: '\r' })[e] ?? e);
@@ -47,7 +49,8 @@ function engineKeys() {
   const fw = fs.readFileSync(path.join(ROOT, 'js/config.js'), 'utf8').match(/\n  facetWords: \{([\s\S]*?)\n  \},/);
   if (fw) for (const line of fw[1].split('\n')) {
     if (/^\s*lang:/.test(line)) continue;
-    for (const m of line.matchAll(/:\s*'([^']+)'/g)) if (!keys.has(m[1])) keys.set(m[1], 'js/config.js facetWords');
+    // a { cs: '…', en: '…' } value is per-language already (loc), not a pack key
+    for (const m of line.matchAll(/(\w+):\s*'([^']+)'/g)) if (!FW_LANGS.has(m[1]) && !keys.has(m[2])) keys.set(m[2], 'js/config.js facetWords');
   }
   return keys;
 }

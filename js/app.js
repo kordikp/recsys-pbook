@@ -4,12 +4,12 @@ import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=2';
 import { RecombeeClient, UserModel } from './recombee.js?v=12';
-import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=6';
+import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=7';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
-import { installGames } from './games.js?v=1';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=1';
+import { installGames } from './games.js?v=2';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=2';
 
 class PBook {
   constructor() {
@@ -2151,7 +2151,7 @@ class PBook {
     if (lang.length && !lang.includes(this._readerLang())) return langLabel(lang[0]);
     const lens = this._facetValues(b, 'lens');
     const WORLD = CONFIG.facets?.lens?.worldLabels || { ecommerce: tr('shop example'), media: tr('media example'), 'social-feeds': tr('feed example'), education: tr('classroom example'), jobs: tr('jobs example') };
-    if (!lens.includes('generic') && WORLD[lens[0]]) return WORLD[lens[0]];
+    if (!lens.includes('generic') && WORLD[lens[0]]) return loc(WORLD[lens[0]]);   // a book may give {cs, en, …}
     const len = this._facetValues(b, 'lengthBand');
     if (len.length === 1 && len[0] === 'tldr') return 'tl;dr';
     const depth = this._facetValues(b, 'depth');
@@ -2265,10 +2265,16 @@ class PBook {
         html += this._moreWaysStrip(s, g.tellings);
         if (++spineCount === 4) html += this._ghostInterstitial(idx);
       }
-      for (const block of g.extras) html += renderExtra(block);
+      for (const block of g.extras) if (this._extraFollows(block, s, g.tellings)) html += renderExtra(block);
       closeIdea(g.cid);
     }
     return html;
+  }
+  // A game or question whose `parent` is one of the idea's tellings (a world's game) comes with
+  // that telling only; the rest come with whichever telling the reader is served.
+  _extraFollows(block, served, tellings) {
+    const p = block.parent && this.findBlock(block.parent)?.meta.id;
+    return !p || !tellings.some(t => t.id === p) || served?.id === p;
   }
 
   // Interest-testing interstitial: one proposed-concept card per chapter
@@ -3810,7 +3816,8 @@ class PBook {
     const ids = node.pool?.length ? node.pool : [node.slug];
     const out = []; const seen = new Set();
     ids.forEach(id => {
-      const direct = (this.allBlocks || []).find(b => (b.meta?.id || b.id) === id);
+      // a concept id brings all its tellings, even when its anchor block shares the id
+      const direct = !this.conceptBlocks?.[id]?.length && (this.allBlocks || []).find(b => (b.meta?.id || b.id) === id);
       const blocks = direct ? [direct] : (this._conceptPool(id) || []);
       blocks.forEach(b => { const bid = b.meta?.id || b.id; if (!seen.has(bid)) { seen.add(bid); out.push(b); } });
     });
@@ -3997,6 +4004,22 @@ class PBook {
 
     let h = `<div class="fade-up" style="max-width:760px;margin:0 auto">
       <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .8em">${tr(`The book by <b>concepts</b>, not chapters: each concept has its tellings (article, game, comic…) — click an icon to read. The ✍️ pencil opens the author studio with an AI coach. Dashed 🌱 concepts are not written yet — vote where to go deeper. Read <b>{r}/{n}</b> concepts.`).replace('{r}', readN).replace('{n}', cm.nodes.length)}</p>`;
+    // World layer: the reader's world (or one picked here) lights up the concepts told in it,
+    // and a concept's name opens that world's telling (CONFIG.facets.lens.missions: the world's mission)
+    const lensConf = CONFIG.facets?.lens || {};
+    const worlds = (lensConf.values || []).filter(v => v !== 'generic' && this._lensCoverage(v) > 0);
+    const world = worlds.includes(this._cmapWorld) ? this._cmapWorld
+      : this._cmapWorld === undefined && worlds.includes(this.user.steerPrefs?.lens) ? this.user.steerPrefs.lens : null;
+    const inWorld = pool => world && pool.find(b => { const m = b.meta || b; return m.type === 'spine' && this._covers(m, 'lens', world); });
+    if (worlds.length) {
+      const mission = world && lensConf.missions?.[world];
+      const hasMission = mission && this._f('missions') && this.getMissions().some(m => m.id === mission);
+      h += `<div class="tellings-dims" style="margin:0 0 .7em" role="group" aria-label="${tr('Worlds')}">
+        <button class="steer-chip ${world ? '' : 'dim-active'}" onclick="app.setCmapWorld('')">${lensConf.icons?.generic || '🌐'} ${tr('All worlds')}</button>
+        ${worlds.map(v => `<button class="steer-chip ${v === world ? 'dim-active' : ''}" onclick="app.setCmapWorld('${v}')">${lensConf.icons?.[v] || ''} ${this.escHtml(this._fw('lensShort', v))} <span style="opacity:.65">${this._lensCoverage(v)}</span></button>`).join('')}
+        ${hasMission ? `<button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.switchView('glossary');app.showMission('${mission}')">${tr('🎯 The world’s mission')}</button>` : ''}
+      </div>`;
+    }
     cm.temata.forEach(t => {
       const nodes = cm.nodes.filter(n => n.tema === t.id);
       const ghosts = ghostsByTema[t.id] || [];
@@ -4012,18 +4035,20 @@ class PBook {
         const anyRead = conceptRead(n.slug);
         const anchorId = this._nodeAnchor(n);
         const hasSpine = pool.some(b => ((b.meta || b).type) === 'spine');
+        const wt = inWorld(pool);
         const chips = pool.map(b => {
           const m = b.meta || b;
           const state = m.core ? 'core' : (m.state || 'edited');
-          const icon = TYPE_ICONS[m.type] || GENRE_ICONS[this._facetValues(m, 'genre')[0] || 'explainer'] || '📄';
+          const wl = m.type === 'spine' && this._facetValues(m, 'lens').find(v => v !== 'generic' && lensConf.icons?.[v]);
+          const icon = TYPE_ICONS[m.type] || (wl && lensConf.icons[wl]) || GENRE_ICONS[this._facetValues(m, 'genre')[0] || 'explainer'] || '📄';
           const read = this.user.readBlocks.has(m.id);
           return `<button class="tstrip-chip" style="--sc:${STATE_COLORS[state] || '#10B981'};${read ? 'box-shadow:0 0 0 1.5px #10B981' : ''}"
             title="${this.escHtml((m.title || m.id) + (read ? tr(' · read') : ''))}" onclick="app.openTelling('${m.id}')">${icon}</button>`;
         }).join('');
         const isFocus = this._feedFocusSlug === n.slug;
-        h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em ${isFocus ? '.35em' : '0'};border-bottom:1px dashed var(--border)${isFocus ? ';background:color-mix(in srgb, #6366F1 7%, transparent);border-radius:8px' : ''}">
+        h += `<div style="display:flex;align-items:center;gap:.5em;padding:.24em ${isFocus ? '.35em' : '0'};border-bottom:1px dashed var(--border)${isFocus ? ';background:color-mix(in srgb, #6366F1 7%, transparent);border-radius:8px' : ''}${world && !wt ? ';opacity:.45' : ''}">
           <span style="font-size:.75rem;width:1.1em;text-align:center">${anyRead ? '✅' : '○'}</span>
-          <a href="#" onclick="event.preventDefault();app.openBlock('${anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(n.teaser || n.def || '')}">${this.escHtml(n.title)}</a>
+          <a href="#" onclick="event.preventDefault();app.openBlock('${wt ? (wt.meta || wt).id : anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(wt ? (wt.meta || wt).title : n.teaser || n.def || '')}">${this.escHtml(n.title)}${wt ? ` <span style="font-weight:400;color:var(--text-2)">· ${lensConf.icons?.[world] || ''} ${this.escHtml((wt.meta || wt).title)}</span>` : ''}</a>
           ${hasSpine ? '' : ('<span style="font-size:.7rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">' + tr(`🌱 no articles yet`) + '</span>')}
           ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:#EC4899;color:#EC4899" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">${tr(`✍️ draft in progress`)}</button>` : ''}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="${tr(`Write your own telling of this concept (author studio with an AI coach)`)}" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
@@ -4323,6 +4348,7 @@ class PBook {
   }
 
   setMapMode(mode) { this._mapMode = mode; this.renderMap(); }
+  setCmapWorld(v) { this._cmapWorld = v; this.rc.logEvent('map_world', { lens: v || 'all' }); this.renderMap(); }
 
   // ===== LIVING BOOK COVERAGE MAP (reader-facing) =====
   // Rows are ARTICLES — every telling in the book plus your private and reader-shared
@@ -10373,6 +10399,20 @@ document.addEventListener('click', (e) => {
   const t = concept && app._tellingPool(slug).find(b => app.findBlock(b.meta?.id));
   if (t) { app.rc.logEvent('concept_link', { slug }); app.openBlock(t.meta.id, 'crosslink'); }
   else app.showXPToast?.(tr('That idea is still being written — it is not in the book yet'), 'info');
+});
+// Inside a section, [text](#<block id>) opens that very telling (a world's next step, say) and
+// [text](#mission-<id>) opens a mission; other # links are left alone.
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('.spine-body a[href^="#"]:not([href^="#c/"])');
+  if (!a || !app) return;
+  const h = decodeURIComponent(a.getAttribute('href').slice(1));
+  const m = h.startsWith('mission-') && app._f('missions') && app.getMissions().find(x => x.id === h.slice(8));
+  const b = !m && h && app.findBlock(h);
+  if (!m && !b) return;
+  e.preventDefault();
+  app.rc.logEvent('block_link', { to: h });
+  if (m) { app.switchView('glossary'); app.showMission(m.id); }
+  else app.openBlock(b.meta.id, 'crosslink');
 });
 
 document.addEventListener('contextmenu', (e) => {

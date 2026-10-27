@@ -275,8 +275,10 @@ export const uxMethods = {
     tick();
   },
   // How many sections really have examples from a world (honest door copy)
+  // (ideas, not files: a telling and its translations count once)
   _lensCoverage(lens) {
-    return (this.allBlocks || []).filter(b => b.meta.type === 'spine' && this._facetValues(b.meta, 'lens').includes(lens)).length;
+    return new Set((this.allBlocks || []).filter(b => b.meta.type === 'spine' && this._facetValues(b.meta, 'lens').includes(lens))
+      .map(b => this._conceptIds(b.meta)[0] || b.meta.id)).size;
   },
   _firstBlockId() {
     const first = this._conceptOrder()[0];
@@ -290,12 +292,17 @@ export const uxMethods = {
     const g = GOAL_PATHS[this.user.goal];
     if (!g) return;
     if (g.depth) this.user.updateFacetAffinity({ depth: g.depth }, 3);
-    this.rc.logEvent('goal_path', { goal: this.user.goal, mission: g.mission });
+    this.rc.logEvent('goal_path', { goal: this.user.goal, mission: this._goalMission() });
+  },
+  // The goal's guided path; the world picked at the door may have its own (CONFIG.goals.<goal>.missions.<lens>)
+  _goalMission() {
+    const g = GOAL_PATHS[this.user.goal], lens = this.user.steerPrefs?.lens;
+    return (g && (lens && g.missions?.[lens] || g.mission)) || null;
   },
   _goalBanner() {
     const g = GOAL_PATHS[this.user.goal];
     if (!g || !this._f('missions') || this.user.goal === 'understand') return;
-    const m = this.getMissions().find(x => x.id === g.mission);
+    const m = this.getMissions().find(x => x.id === this._goalMission());
     if (!m) return;
     const pane = document.getElementById('readPane');
     if (!pane || pane.querySelector('.goal-banner')) return;
