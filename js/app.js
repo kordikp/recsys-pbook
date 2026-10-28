@@ -4,7 +4,7 @@ import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=3';
 import { RecombeeClient, UserModel } from './recombee.js?v=13';
-import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=7';
+import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=8';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
@@ -438,7 +438,8 @@ class PBook {
   // A concept whose anchor was translated is anchored by the translation; its recall card
   // keeps the original id (anchorKey), so the card is the same in every language. The
   // contract speaks the book's language; the translation brings the reader's wording
-  // (conceptTitle, objective, recallQ, recallA in its frontmatter).
+  // (conceptTitle, objective, recallQ, recallA in its frontmatter, and mustCover when it
+  // lists every point of the contract, so the studio never shows the original's points).
   _localizeConcepts() {
     for (const c of Object.values(this.concepts || {})) {
       const to = c.anchor && this._langAlias?.[c.anchor];
@@ -449,6 +450,9 @@ class PBook {
       if (t.conceptTitle) c.title = t.conceptTitle;
       c.contract = { ...(c.contract || {}) };
       for (const k of ['objective', 'recallQ', 'recallA']) if (t[k]) c.contract[k] = t[k];
+      const mc = c.contract.mustCover || [];
+      if (Array.isArray(t.mustCover) && mc.length && t.mustCover.length === mc.length)
+        c.contract.mustCover = mc.map((m, i) => ({ ...(m && typeof m === 'object' ? m : {}), point: String(t.mustCover[i]) }));
     }
   }
 
