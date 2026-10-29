@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 // Checks the mini-game data in games/*.json with the engine's own pure helpers (js/games.js):
 // answer keys in range, a single clear taste twin, reachable mixer and loop goals, a unique
-// best bandit arm, a solvable robot map, and a "why" for every item. Run directly, or via validate-content.js.
+// best bandit arm, a solvable robot map, solvable lab levels (js/games-lab.js) with a reachable ⭐,
+// translated lab games that keep the puzzle, and a "why" for every item. Run directly, or via validate-content.js.
 //   node scripts/check-games.mjs          → human-readable report, exit 1 on errors
 //   node scripts/check-games.mjs --json   → {"errors":[[file,msg]],"warnings":[[file,msg]]}
 import fs from 'fs';
@@ -10,11 +11,13 @@ import { fileURLToPath, pathToFileURL } from 'url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const G = await import(pathToFileURL(path.join(ROOT, 'js/games.js')).href);
+const LAB = await import(pathToFileURL(path.join(ROOT, 'js/games-lab.js')).href);
 const DIR = path.join(ROOT, 'games');
 const errors = [], warnings = [];
 const err = (f, m) => errors.push([f, m]);
 const warn = (f, m) => warnings.push([f, m]);
-const TYPES = ['sort', 'pairs', 'order', 'match', 'pop', 'bandit', 'mixer', 'abstop', 'loop', 'trace', 'cloze', 'hotspot', 'estimate', 'grid'];
+const TYPES = ['sort', 'pairs', 'order', 'match', 'pop', 'bandit', 'mixer', 'abstop', 'loop', 'trace', 'cloze', 'hotspot', 'estimate', 'grid',
+  'turtle', 'gates', 'cipher', 'route', 'neuron'];
 const uniq = a => new Set(a).size === a.length;
 
 function whyCoverage(f, list, label) {
@@ -223,8 +226,112 @@ function checkGrid(f, g) {
   whyCoverage(f, g.levels, 'levels');
 }
 
+// ----- lab games (js/games-lab.js): open-ended levels, so check that each is solvable and its ⭐ reachable -----
+function levels(f, g) {
+  if (!Array.isArray(g.levels) || !g.levels.length) { err(f, `${g.type} needs levels[]`); return []; }
+  whyCoverage(f, g.levels, 'levels');
+  return g.levels;
+}
+
+function checkTurtle(f, g) {
+  levels(f, g).forEach((L, i) => {
+    const p = LAB.turtleParse(L.target);
+    if (!p.ok) return err(f, `level ${i}: target does not parse (${p.error.code} ${(p.error.args || []).join(' ')})`);
+    const run = LAB.turtleRun(p.ast);
+    if (!run.ok) return err(f, `level ${i}: target stops with ${run.error?.code}`);
+    if (!run.segs.length) err(f, `level ${i}: target draws nothing`);
+    if (L.max != null && p.count > L.max) err(f, `level ${i}: the target needs ${p.count} commands, more than the ⭐ limit ${L.max}`);
+  });
+}
+
+function checkGates(f, g) {
+  levels(f, g).forEach((L, i) => {
+    const ins = L.inputs || [];
+    if (!ins.length || !uniq(ins)) return err(f, `level ${i}: needs unique inputs[]`);
+    if (!L.outputs || !Object.keys(L.outputs).length) return err(f, `level ${i}: needs outputs {name: expression}`);
+    try { LAB.gatesTable(L); } catch (e) { return err(f, `level ${i}: expression does not parse (${e.code} ${(e.args || []).join(' ')})`); }
+    (L.allow || []).forEach(op => { if (!LAB.GATE_OPS[op]) err(f, `level ${i}: unknown gate "${op}" in allow`); });
+    if (!L.solution) return err(f, `level ${i}: no solution (the engine shows it after three checks)`);
+    const sol = LAB.gatesCircuit(L.solution);
+    sol.gates.forEach((x, k) => {
+      if (!LAB.GATE_OPS[x.op]) err(f, `level ${i}: solution gate ${k} has unknown op "${x.op}"`);
+      if (L.allow && !L.allow.includes(x.op)) err(f, `level ${i}: solution uses ${x.op}, which allow[] does not offer`);
+      const srcs = LAB.GATE_OPS[x.op]?.length === 1 ? [x.a] : [x.a, x.b];
+      srcs.forEach(s => { if (!ins.includes(s) && !(/^g\d+$/.test(s) && +s.slice(1) < k)) err(f, `level ${i}: solution gate ${k} reads "${s}", not an input or an earlier gate`); });
+    });
+    if (!LAB.gatesCheck(L, sol).ok) err(f, `level ${i}: the solution does not give the truth table`);
+    if (L.max != null && sol.gates.length > L.max) err(f, `level ${i}: the solution has ${sol.gates.length} gates, more than the ⭐ limit ${L.max}`);
+  });
+}
+
+function checkCipher(f, g) {
+  levels(f, g).forEach((L, i) => {
+    const p = LAB.cipherKeyProblem(L.kind, L.key);
+    if (p) err(f, `level ${i}: ${p}`);
+    const n = LAB.cipherNorm(L.plain).replace(/[^A-Z]/g, '').length;
+    if (n < 12) err(f, `level ${i}: the plain text has only ${n} letters`);
+    else if (L.kind !== 'caesar' && n < 60) warn(f, `level ${i}: ${n} letters is little for counting letter frequencies`);
+  });
+}
+
+function checkRoute(f, g) {
+  levels(f, g).forEach((L, i) => {
+    const ids = (L.nodes || []).map(n => n.id);
+    if (ids.length < 3 || !uniq(ids)) return err(f, `level ${i}: needs ≥ 3 nodes with unique ids`);
+    (L.nodes || []).forEach(n => { if (!(n.x >= 0 && n.x <= 100 && n.y >= 0 && n.y <= 100)) err(f, `level ${i}: node ${n.id} is off the 0–100 grid`); });
+    (L.edges || []).forEach(([a, b, w]) => {
+      if (!ids.includes(a) || !ids.includes(b)) err(f, `level ${i}: edge ${a}-${b} has an unknown end`);
+      if (!(+w > 0)) err(f, `level ${i}: edge ${a}-${b} needs a positive weight`);
+    });
+    if (!ids.includes(L.from) || !ids.includes(L.to)) return err(f, `level ${i}: from/to must be node ids`);
+    const best = LAB.routeBest(L);
+    if (!best) return err(f, `level ${i}: ${L.to} cannot be reached from ${L.from}`);
+    if (best.count > 1) warn(f, `level ${i}: ${best.count} routes tie for the fastest (${best.cost}); the "why" should not name just one`);
+    const clash = LAB.routeClashes(L);
+    if (clash.length) warn(f, `level ${i}: crowded on a phone (move nodes apart): ${clash.join(', ')}`);
+  });
+}
+
+function checkNeuron(f, g) {
+  levels(f, g).forEach((L, i) => {
+    const P = L.points || [];
+    if (P.length < 6) return err(f, `level ${i}: needs ≥ 6 points [x, y, 0|1]`);
+    if (!P.some(p => p[2]) || !P.some(p => !p[2])) return err(f, `level ${i}: needs points of both kinds`);
+    if ((L.axes || []).length !== 2 || (L.labels || []).length !== 2) err(f, `level ${i}: needs axes [x, y] and labels [kind 0, kind 1]`);
+    if (!(L.goal > 0 && L.goal <= 1)) return err(f, `level ${i}: goal must be an accuracy in (0, 1]`);
+    const best = LAB.neuronBest(L);
+    if (best.acc + 1e-9 < L.goal) err(f, `level ${i}: the sliders reach at most ${(100 * best.acc).toFixed(1)} %, the goal is ${100 * L.goal} %`);
+  });
+}
+
+// A translated game (name.<lang>.json) may change words, never the puzzle
+function checkEdition(f, g, base) {
+  if (g.type !== base.type) return err(f, `type ${g.type} differs from the original ${base.type}`);
+  if (!g.levels || !base.levels) return;
+  if (g.levels.length !== base.levels.length) return err(f, `${g.levels.length} levels, the original has ${base.levels.length}`);
+  const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+  g.levels.forEach((L, i) => {
+    const B = base.levels[i];
+    const bad = k => err(f, `level ${i}: ${k} differs from the original`);
+    if (g.type === 'turtle') {
+      const a = LAB.turtleParse(L.target), b = LAB.turtleParse(B.target);
+      if (a.ok && b.ok && !LAB.turtleSame(LAB.turtleRun(a.ast).segs, LAB.turtleRun(b.ast).segs)) bad('the target picture');
+      if (L.max !== B.max) bad('max');
+    }
+    if (g.type === 'gates') ['inputs', 'outputs', 'allow', 'max', 'solution'].forEach(k => { if (!same(L[k], B[k])) bad(k); });
+    if (g.type === 'cipher') ['kind', 'key'].forEach(k => { if (!same(L[k], B[k])) bad(k); });
+    if (g.type === 'route') {
+      ['edges', 'from', 'to'].forEach(k => { if (!same(L[k], B[k])) bad(k); });
+      if (!same((L.nodes || []).map(n => [n.id, n.x, n.y]), (B.nodes || []).map(n => [n.id, n.x, n.y]))) bad('nodes');
+    }
+    if (g.type === 'neuron') ['points', 'goal'].forEach(k => { if (!same(L[k], B[k])) bad(k); });
+  });
+}
+
 const CHECK = { sort: checkSort, pairs: checkPairs, order: checkOrder, match: checkMatch, pop: checkPop, bandit: checkBandit, mixer: checkMixer, abstop: checkAbstop, loop: checkLoop,
-  trace: checkTrace, cloze: checkCloze, hotspot: checkHotspot, estimate: checkEstimate, grid: checkGrid };
+  trace: checkTrace, cloze: checkCloze, hotspot: checkHotspot, estimate: checkEstimate, grid: checkGrid,
+  turtle: checkTurtle, gates: checkGates, cipher: checkCipher, route: checkRoute, neuron: checkNeuron };
+const LAB_EDITION = new Set(['turtle', 'gates', 'cipher', 'route', 'neuron']);
 
 for (const file of (fs.existsSync(DIR) ? fs.readdirSync(DIR) : []).filter(x => x.endsWith('.json')).sort()) {   // a book may have no games
   const f = `games/${file}`;
@@ -236,6 +343,10 @@ for (const file of (fs.existsSync(DIR) ? fs.readdirSync(DIR) : []).filter(x => x
   if (!g.debrief) warn(f, 'missing debrief (the takeaway on the end screen)');
   if (g.timer != null && !(g.timer >= 30)) warn(f, 'timer under 30 s: reasoning games should be untimed');
   try { CHECK[g.type](f, g); } catch (e) { err(f, `check crashed: ${e.message}`); }
+  const base = file.match(/^(.+)\.[a-z]{2}\.json$/);
+  if (base && LAB_EDITION.has(g.type) && fs.existsSync(path.join(DIR, `${base[1]}.json`))) {
+    try { checkEdition(f, g, JSON.parse(fs.readFileSync(path.join(DIR, `${base[1]}.json`), 'utf8'))); } catch (e) { err(f, `edition check crashed: ${e.message}`); }
+  }
 }
 
 if (process.argv.includes('--json')) {

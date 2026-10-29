@@ -47,7 +47,7 @@ function parseFrontmatter(text) {
 // 1. Validate all content .md files
 console.log('Validating content files...\n');
 
-const VALID_TYPES = ['spine', 'question', 'game'];
+const VALID_TYPES = ['spine', 'question', 'game', 'challenge'];
 const contentFiles = [];
 
 function scanDir(dir) {
@@ -97,6 +97,13 @@ contentFiles.forEach(file => {
     if (!fs.existsSync(gameFile)) {
       error(rel, `Game file not found: games/${meta.game}.json`);
     }
+  }
+
+  // Extra challenge: a task part, and a level the card can show (js/challenge.js)
+  if (meta.type === 'challenge') {
+    if (!/^[ \t]*<!--\s*task\s*-->/m.test(text)) error(rel, 'Challenge has no <!-- task --> part');
+    if (meta.level !== undefined && !['1', '2', '3'].includes(String(meta.level))) error(rel, `Challenge level must be 1–3, not "${meta.level}"`);
+    if (meta.core === true || meta.core === 'true') error(rel, 'A challenge is optional: core must be false');
   }
 
   // Core + status check

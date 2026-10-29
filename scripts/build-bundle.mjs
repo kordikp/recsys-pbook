@@ -7,8 +7,11 @@
 // else CONFIG.book.lang): { files: { "<chapter dir>/<file>": "<markdown>" }, json: { "<url>": … } }
 // with every file of book.json and the start-up JSON files the book has (concepts, proposals,
 // missions, aliases, concept map — keyed by the URL the engine asks for; a missing one is absent).
-// Other languages' translations are cut down to the frontmatter the language filter reads
-// (id, translationOf, lang, status), so a Czech reader does not download the English book.
+// What a reader of the language never sees (js/app.js _filterLanguage) is cut down to the frontmatter
+// the language filter reads (id, translationOf, lang, status, concept) and marked bundleStub: other
+// languages' translations, so a Czech reader does not download the English book, and outside the book's
+// own language also an original translated into it, or with languageFilter 'strict' one that does not
+// speak it. A cut block that stays in the book after all is fetched whole by the engine.
 // The engine (_prefetch, loadAllContent) fetches book.json and content/bundle.<LANG>.json and
 // falls back to single files for anything the bundle lacks — no bundle (local serve) means the old way.
 //
@@ -23,7 +26,13 @@ const { CONFIG } = await import(pathToFileURL(path.join(ROOT, 'js/config.js')).h
 const contentDir = path.join(ROOT, CONFIG.book.contentDir || 'content');
 const book = JSON.parse(fs.readFileSync(path.join(ROOT, CONFIG.book.bookIndex || 'content/book.json'), 'utf8'));
 const langs = CONFIG.book.languages || [CONFIG.book.lang || 'en'];
-const KEEP = new Set(['id', 'translationOf', 'lang', 'status']);
+const KEEP = new Set(['id', 'translationOf', 'lang', 'status', 'concept']);
+const bookLang = CONFIG.book.lang || 'en';
+const strict = CONFIG.book.languageFilter === 'strict';
+const fmKey = (fm, k) => ((fm || '').match(new RegExp(`^${k}:\\s*['"]?([^'"\\n]*)`, 'm')) || [])[1]?.trim() || '';
+// the languages a block speaks, as js/app.js _facetValues reads its lang (book language by default)
+const LANGS = CONFIG.facets?.lang?.values || langs;
+const speaks = fm => { const v = fmKey(fm, 'lang').split('|').map(x => x.trim()).filter(x => LANGS.includes(x)); return v.length ? v : [bookLang]; };
 const d = CONFIG.book.contentDir || 'content';
 // the URLs app.js _prefetch asks for (keep in step)
 const json = {};
@@ -41,14 +50,26 @@ for (const ch of book.chapters || []) for (const f of ch.files || []) {
   files.push([rel, text, tr, fm && fm[1]]);
 }
 
+// {cs, en, …} texts of the start-up JSON resolved to the bundle's language, as js/i18n.js locDeep and loc
+// do (an object whose keys are all languages of the book): the reader downloads one language of the missions
+const LANGSET = new Set([...langs, 'en']);
+const resolve = (v, lang) => Array.isArray(v) ? v.map(x => resolve(x, lang))
+  : !v || typeof v !== 'object' ? v
+  : Object.keys(v).length && Object.keys(v).every(k => LANGSET.has(k)) ? (v[lang] ?? v[langs[0]] ?? v.en ?? Object.values(v)[0])
+  : Object.fromEntries(Object.entries(v).map(([k, x]) => [k, resolve(x, lang)]));
+
 for (const lang of langs) {
   const out = {};
+  // originals with an accepted translation into this language (the reader gets the translation)
+  const translated = new Set(files.filter(([, , tr, fm]) => tr === lang && ['', 'accepted'].includes(fmKey(fm, 'status'))).map(([, , , fm]) => fmKey(fm, 'translationOf')));
   for (const [rel, text, tr, fm] of files) {
-    out[rel] = !tr || tr === lang ? text
-      : `---\n${fm.split(/\r?\n/).filter(l => KEEP.has((l.match(/^(\w+):/) || [])[1])).join('\n')}\n---\n`;
+    const seen = !fm || (tr ? tr === lang
+      : lang === bookLang || !(translated.has(fmKey(fm, 'id')) || (strict && !speaks(fm).includes(lang))));
+    out[rel] = seen ? text
+      : `---\n${fm.split(/\r?\n/).filter(l => KEEP.has((l.match(/^(\w+):/) || [])[1])).join('\n')}\nbundleStub: true\n---\n`;
   }
   const dest = path.join(contentDir, `bundle.${lang}.json`);
-  fs.writeFileSync(dest, JSON.stringify({ files: out, json }));
+  fs.writeFileSync(dest, JSON.stringify({ files: out, json: resolve(json, lang) }));
   console.log(`→ ${path.relative(ROOT, dest)}  ${Object.keys(out).length} files + ${Object.keys(json).length} JSON, ${(fs.statSync(dest).size / 1024).toFixed(0)} kB`);
 }
 

@@ -16,6 +16,17 @@
 .fig-viewer-hint { display: none; margin: .6em 0 0; text-align: center; color: rgba(255,255,255,.7); font-size: .8rem; }
 @media (orientation: portrait) and (max-width: 600px) { .fig-viewer-hint { display: block; } }
 
+/* Reveal blocks (:::reveal in markdown, js/markdown.js): a solution or a hint the reader opens when ready */
+.md-reveal { margin: 1em 0; border: 1.5px dashed var(--border); border-radius: 10px; }
+.md-reveal[open] { border-style: solid; }
+.md-reveal > summary { cursor: pointer; padding: .55em .9em; font-weight: 600; color: var(--accent); list-style: none; border-radius: 9px; }
+.md-reveal > summary::-webkit-details-marker { display: none; }
+.md-reveal > summary::before { content: '▸'; display: inline-block; width: 1em; transition: transform .15s; }
+.md-reveal[open] > summary::before { transform: rotate(90deg); }
+.md-reveal > summary:hover { background: var(--accent-bg, transparent); }
+.md-reveal > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.md-reveal-body { padding: 0 .9em .1em; }
+
 /* Phones: a figure runs to the card's edges (the drawing has its own frame); the
    card's side padding shrinks a little, so the text column gains width too. */
 @media (max-width: 600px) {

@@ -12,7 +12,7 @@ import path from 'path';
 import { pathToFileURL } from 'url';
 
 const ROOT = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
-const ENGINE = ['js/app.js', 'js/ux.js', 'js/games.js', 'js/tutor.js', 'js/recombee.js', 'js/i18n.js', 'js/markdown.js'];
+const ENGINE = ['js/app.js', 'js/ux.js', 'js/games.js', 'js/games-lab.js', 'js/challenge.js', 'js/completion.js', 'js/tutor.js', 'js/recombee.js', 'js/i18n.js', 'js/markdown.js'];
 
 // Values stored as logic and translated where they are shown (tr(label), tr(m.difficulty) …)
 const DISPLAY_VALUES = [

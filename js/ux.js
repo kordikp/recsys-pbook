@@ -349,11 +349,19 @@ export const uxMethods = {
   },
 
   // ---------------------------------------------------------------- concepts & picks
+  // A chapter with "extra": true in book.json (side content for readers who want more, say a row of
+  // expeditions) stays in the book, its missions, links and search, but out of reading progress,
+  // the picks on Home and the concept map.
+  _extraChapter(chId) {
+    if (this._extraOf !== this.book) { this._extraOf = this.book; this._extraIds = new Set((this.book?.chapters || []).filter(c => c.extra).map(c => c.id)); }
+    return this._extraIds.has(chId);
+  },
   _conceptOrder() {
     const key = (this.allBlocks || []).length + ':' + Object.keys(this.concepts || {}).length;
     if (this._cOrderKey === key && this._cOrder) return this._cOrder;
     const out = [], seen = new Set();
     (this.book?.chapters || []).forEach((ch, i) => {
+      if (ch.extra) return;
       (this.chapters[i]?.blocks || []).forEach(b => {
         const cid = this._conceptIds(b)[0];
         if (cid && this.concepts?.[cid] && !seen.has(cid)) { seen.add(cid); out.push(cid); }
@@ -509,7 +517,7 @@ export const uxMethods = {
       for (const m of list) { if (!m?.id || shown.has(m.id)) continue; shown.add(m.id); out.push(m); if (out.length >= max) break; }
       return out;
     };
-    const blocksOf = res => (res?.recomms || []).map(r => this.findBlock(r.id)?.meta).filter(Boolean);
+    const blocksOf = res => (res?.recomms || []).map(r => this.findBlock(r.id)?.meta).filter(m => m && !this._extraChapter(m._chapter));
     const personal = this.rc.getRecsForUser('homepage-personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user))
       .then(res => this._settleShelf('rcPersonal', token, tr('Picked for you'),
         take(blocksOf(res), 8).map(m => this.cardHtml(m, false, { reasons: [CONFIG.recombee?.enabled ? tr('Picked by Recombee’s “homepage-personal” scenario from what you read, liked and steered') : tr('Picked from what you read, liked and steered')] })),
@@ -649,7 +657,7 @@ export const uxMethods = {
 
   // ---------------------------------------------------------------- progress
   _conceptProgress() {
-    const ids = Object.keys(this.concepts || {});
+    const ids = Object.keys(this.concepts || {}).filter(c => !this._extraChapter(this.concepts[c].chapter));
     if (!ids.length) { const p = this.user.getProgress(this.allBlocks || []); return { read: p.read, total: p.total, unit: 'sections' }; }
     const key = this.user.readBlocks.size + ':' + ids.length;
     if (this._cpKey !== key) { this._cpKey = key; this._cpRead = ids.filter(c => this._cRead(c)).length; }

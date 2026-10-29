@@ -14,8 +14,10 @@
 // - the end screen links the concept (#c/<slug>);
 // - simulations use seeded, common random numbers so comparisons are fair, and every
 //   number shown on an end screen is computed live, never typed in.
+// The build-and-test games (turtle, gates, cipher, route, neuron) live in js/games-lab.js.
 
 import { tr, trn, locale } from './i18n.js';
+import { LAB_TYPES, installLabGames } from './games-lab.js?v=1';
 
 // ===== Pure helpers (no DOM; exported for scripts/check-games.mjs) =====
 
@@ -454,7 +456,7 @@ function gameSize(g) {
     case 'cloze': return trn('{0} gap', '{0} gaps', (g.items || []).reduce((n, it) => n + (it.gaps || []).length, 0));
     case 'hotspot': return trn('{0} round', '{0} rounds', (g.items || []).length);
     case 'estimate': return trn('{0} question', '{0} questions', (g.items || []).length);
-    case 'grid': return trn('{0} level', '{0} levels', (g.levels || []).length);
+    case 'grid': case 'turtle': case 'gates': case 'cipher': case 'route': case 'neuron': return trn('{0} level', '{0} levels', (g.levels || []).length);
     case 'loop': return g.mode === 'user' ? `${tr(`{0} simulated days`, (g.phase1Days || 8) + (g.phase2Days || 5))}` : `${tr(`{0} simulated days, twice`, g.days || 30)}`;
     default: return '';
   }
@@ -545,7 +547,7 @@ const GamesMixin = {
     if (typeof game.timer === 'number' && game.timer > 0) this._gameStartTimer(S, game.timer);
     const type = game.type === 'match' && game.pairs ? 'pairs' : game.type;
     const run = { sort: '_gameSort', pairs: '_gamePairs', order: '_gameOrder', match: '_gameMatch', pop: '_gamePop', bandit: '_gameBandit', mixer: '_gameMixer', abstop: '_gameAbstop', loop: '_gameLoop',
-      trace: '_gameTrace', cloze: '_gameCloze', hotspot: '_gameHotspot', estimate: '_gameEstimate', grid: '_gameGrid' }[type];
+      trace: '_gameTrace', cloze: '_gameCloze', hotspot: '_gameHotspot', estimate: '_gameEstimate', grid: '_gameGrid', ...LAB_TYPES }[type];
     if (!run) { area.innerHTML = `<p class="g-msg">${tr(`This game type ("{0}") is not supported by this version of the book.`, esc(game.type))}</p>`; return; }
     this[run](S);
   },
@@ -1892,10 +1894,11 @@ const GamesMixin = {
 
 export function installGames(Cls) {
   Object.assign(Cls.prototype, GamesMixin);
+  installLabGames(Cls);
   if (typeof document !== 'undefined' && !document.querySelector('link[data-games-css]')) {
     const l = document.createElement('link');
     l.rel = 'stylesheet';
-    l.href = 'css/games.css?v=2';
+    l.href = 'css/games.css?v=3';
     l.setAttribute('data-games-css', '');
     document.head.appendChild(l);
   }

@@ -2,15 +2,16 @@
 
 import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
-import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=3';
+import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=4';
 import { RecombeeClient, UserModel } from './recombee.js?v=14';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=9';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
-import { installGames } from './games.js?v=3';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=3';
+import { installGames } from './games.js?v=4';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=4';
 import { installCompletion } from './completion.js?v=1';
+import { installChallenges } from './challenge.js?v=1';
 
 class PBook {
   constructor() {
@@ -306,15 +307,20 @@ class PBook {
   }
 
   // The service worker keeps an offline copy of what this reader's book is made of: the files the
-  // start-up loaded (the bundle, or every content file without one), the games and the interface
-  // pack. Its install no longer downloads the book a second time while the first visit is loading.
+  // start-up loaded (the bundle, or every content file without one), the games, the interface
+  // pack, and the modules, stylesheets and pictures the page loaded. Its install no longer downloads
+  // the book a second time while the first visit is loading, and it finds only what index.html and
+  // app.js name: js/games-lab.js, imported by games.js, was missing offline (2026-10-29), and so was
+  // a picture swapped for the reader's language (images/x.<lang>.svg).
   _offlineCopy() {
     if (!navigator.serviceWorker) return;
     const games = new Set(this.allBlocks.map(b => b.meta.game).filter(g => typeof g === 'string'));
     const urls = [...(this._startupUrls || []), ...(this._contentUrls || []),
       ...[...games].map(g => `games/${g}.json`), ...(LANG === 'en' || LANG === 'qps' ? [] : [`js/i18n/${LANG}.js`])];
+    const engine = () => (performance.getEntriesByType?.('resource') || []).map(e => new URL(e.name))
+      .filter(u => u.origin === location.origin && /^\/(js|css|images)\//.test(u.pathname)).map(u => u.pathname.slice(1) + u.search);
     const send = () => navigator.serviceWorker.ready
-      .then(reg => reg.active?.postMessage({ type: 'precache', urls: [...new Set(urls)] }))
+      .then(reg => reg.active?.postMessage({ type: 'precache', urls: [...new Set([...urls, ...engine()])] }))
       .catch(() => {});
     if (document.readyState === 'complete') setTimeout(send, 2000); else window.addEventListener('load', () => setTimeout(send, 2000), { once: true });
   }
@@ -364,6 +370,22 @@ class PBook {
       valid.forEach(b => { b._chapterIdx = i; this.allBlocks.push({ meta: b, body: b.body, _chapter: ch.id }); });
     }
     this._filterLanguage();
+    // The bundle cuts what this reader never sees down to its frontmatter (bundleStub, scripts/build-bundle.mjs);
+    // a cut block that stays in the book after all (say an admin's draft) comes whole on its own.
+    const stubs = Object.values(this.chapters).flatMap(ch => ch.blocks.filter(b => b.bundleStub).map(b => [ch, b]));
+    await Promise.all(stubs.map(async ([ch, b]) => {
+      const url = `${CONFIG.book.contentDir}/${ch.directory}/${ch.files[b.sequence]}`;
+      try {
+        const res = await window.fetch(url);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const { meta, body } = parseFrontmatter(await res.text());
+        delete b.bundleStub;
+        Object.assign(b, meta, { body, meta: { ...meta, chapter: ch.id } });
+        const ab = this.allBlocks.find(x => x.meta === b);
+        if (ab) ab.body = body;
+        this._contentUrls.push(url);
+      } catch (e) { this._contentFetchFailed = true; }
+    }));
   }
 
   // ===== LANGUAGES (js/i18n.js) =====
@@ -1881,7 +1903,7 @@ class PBook {
     const isDefaultTarget = Object.values(this.user.steerPrefs || {}).every(v => !v) && this.user.getAffinitySummary().total < 3;
     if (!isDefaultTarget) {
       const scored = this.allBlocks
-        .filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id))
+        .filter(b => b.meta.type === 'spine' && !this.user.readBlocks.has(b.meta.id) && !this._extraChapter(b._chapter))
         .map(b => ({ b, s: this._facetMatch(b.meta, target) }))
         .filter(x => x.s >= 0.7)
         .sort((x, y) => y.s - x.s);
@@ -1900,7 +1922,7 @@ class PBook {
     html += this._gamesShelfHtml(); // 🎮 Play with the ideas → Playground
 
     // Quick reads
-    const quick = take(this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id)), 10);
+    const quick = take(this.allBlocks.filter(b => b.meta.type === 'spine' && b.meta.standalone && !this.user.readBlocks.has(b.meta.id) && !this._extraChapter(b._chapter)), 10);
     if (quick.length >= 2) html += this.shelf(tr('Quick reads'), quick.map(m => this.cardHtml(m)), tr('Stand-alone sections — no earlier reading needed.'));
 
     // Community + interest testing
@@ -1918,7 +1940,10 @@ class PBook {
     if (saved.length) html += this.shelf(tr('&#128278; Saved for later'), saved.reverse().map(b => this.cardHtml(b.meta)));
 
     // By chapter — the book's own order, minus what is already on the page
+    // (a chapter with "shelf": false in book.json, say one of a row of side quests, gets none;
+    // "extra": true keeps a chapter out of progress and the picks above, see js/ux.js _extraChapter)
     this.book.chapters.forEach((ch, i) => {
+      if (ch.shelf === false) return;
       const allSpines = (this.chapters[i]?.blocks || []).filter(b => b.type === 'spine');
       const unread = allSpines.filter(b => !this.user.readBlocks.has(b.id));
       const read = allSpines.filter(b => this.user.readBlocks.has(b.id));
@@ -2293,6 +2318,7 @@ class PBook {
     const renderExtra = block => {
       if (block.type === 'question') return this.renderQuestion(block);
       if (block.type === 'game' && this._f('games')) return this.renderGame(block);
+      if (block.type === 'challenge' && this._f('challenges')) return this.renderChallenge(block);
       return '';
     };
     // Spaced retrieval: after every second idea, a "Check yourself" on the one before it
@@ -4503,6 +4529,14 @@ class PBook {
           <span class="map-block-time">${item.readingTime || 3}m</span>
         </div>`;
       });
+      // Extra challenges (optional: not part of the read count)
+      if (this._f('challenges')) blocks.filter(b => b.type === 'challenge').forEach(c => {
+        html += `<div class="map-block" onclick="app.openBlock('${c.id}')">
+          <div class="map-dot" style="background:var(--business,#D97706)"></div>
+          <span class="map-block-title">${this.escHtml(c.title)}</span>
+          <span class="map-game-tag">\u{2B50}</span>
+        </div>`;
+      });
       // Questions
       blocks.filter(b => b.type === 'question').forEach(q => {
         html += `<div class="map-block" onclick="app.openBlock('${q.id}')">
@@ -6111,7 +6145,16 @@ class PBook {
     html += ('<div class="missions-head"><h2>' + tr(`Missions`) + '</h2><p>' + tr(`Guided paths through the book: each one follows a single question across chapters, in reading order.`) + '</p></div>');
     html += this._personalMissionCard() || `<div style="font-size:.75rem;color:var(--text-3);margin:.2em 0 .6em">🎯 <a href="#" onclick="event.preventDefault();app.editPersonalMission()" style="color:var(--accent)">${tr(`Tell the book what you want to learn`)}</a> ${tr(`— it will compose a personal mission from matching concepts.`)}</div>`;
 
+    // A book may head its mission groups (CONFIG.missionGroups.<group>: {title, note}, texts as {cs, en, …});
+    // missions.json keeps each group together, so a heading goes before its first mission
+    const groups = CONFIG.missionGroups || null;
+    let lastGroup;
     missions.forEach(m => {
+      if (groups && m.group !== lastGroup && groups[m.group]) {
+        const G = groups[m.group];
+        html += `<div class="mission-group-head" id="missions-${this.escHtml(m.group)}" style="margin:1.6em 0 .5em"><h3 style="font-family:var(--font-ui);font-size:1.05rem;font-weight:800;margin:0">${this.escHtml(loc(G.title))}</h3>${G.note ? `<p style="font-size:.85rem;color:var(--text-2);margin:.2em 0 0">${this.escHtml(loc(G.note))}</p>` : ''}</div>`;
+      }
+      lastGroup = m.group;
       const prog = this._getMissionProgress(m);
       const isComplete = completed.has(m.id);
       const isLocked = this._isMissionLocked(m);
@@ -9622,6 +9665,13 @@ class PBook {
       const cid = this._conceptIds(block.meta)[0];
       if (cid) (this._requestedTellings = this._requestedTellings || {})[cid] = blockId;
     }
+    // A world's game or challenge comes with its own telling only (`parent`, _extraFollows):
+    // opening it serves that telling, or it would not be on the page to scroll to.
+    if (!this._fullBook() && block.meta.type !== 'spine' && block.meta.parent) {
+      const p = this.findBlock(block.meta.parent);
+      const cid = this._conceptIds(block.meta)[0];
+      if (p?.meta.type === 'spine' && cid && this._conceptIds(p.meta)[0] === cid) (this._requestedTellings = this._requestedTellings || {})[cid] = p.meta.id;
+    }
 
     // If already viewing this chapter (and that telling is on screen), just scroll
     if (this.currentView === 'read' && this._renderedChapter === chIdx && document.getElementById(`b-${blockId}`)) {
@@ -10728,11 +10778,12 @@ class PBook {
 if (!document.querySelector('link[data-figures-css]')) {
   const l = document.createElement('link');
   l.rel = 'stylesheet';
-  l.href = 'css/figures.css?v=1';
+  l.href = 'css/figures.css?v=2';
   l.setAttribute('data-figures-css', '');
   document.head.appendChild(l);
 }
 installGames(PBook);
+installChallenges(PBook);   // js/challenge.js: ⭐ extra challenges (type: challenge)
 const app = new PBook();
 window.app = app;
 installUx(PBook);   // js/ux.js: navigation, door/resume, explainable picks, progress moments

@@ -1,0 +1,26 @@
+/* p-book ⭐ extra challenges (js/challenge.js): an optional card after a concept. Book tokens only. */
+.chl-block { margin: 1.6em 0; padding: 1em 1.1em 1.1em; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--business, #D97706);
+  border-radius: var(--radius, 12px); scroll-margin-top: calc(var(--topbar-h, 52px) + 10px); }
+.chl-block.is-done { border-left-color: var(--product, #059669); }
+.chl-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: .35em .7em; font-family: var(--font-ui); font-size: .72rem; font-weight: 700; line-height: 1.6; }
+.chl-kind { padding: .1em .6em; border-radius: 999px; letter-spacing: .04em; text-transform: uppercase; color: var(--warn-text, #92400E); background: var(--business-bg, #FFFBEB); }
+.chl-meta { display: inline-flex; align-items: center; gap: .45em; color: var(--text-2); font-weight: 600; }
+.chl-level { color: var(--business, #D97706); letter-spacing: .12em; }
+.chl-off { opacity: .28; }
+.chl-sep { opacity: .6; }
+.chl-done-badge { margin-left: auto; color: var(--product, #059669); }
+.chl-title { margin: .45em 0 .3em; font-family: var(--font-ui); font-size: 1.12rem; font-weight: 800; line-height: 1.3; color: var(--text); }
+.chl-hook { margin-bottom: .85em; }
+.chl-hook > :last-child, .chl-hint .spine-body > :last-child, .chl-solution .spine-body > :last-child, .chl-more .spine-body > :last-child { margin-bottom: 0; }
+.chl-body { margin-top: 1em; padding-top: 1em; border-top: 1px dashed var(--border); }
+.chl-task:focus { outline: none; }
+.chl-hints { display: grid; gap: .5em; margin: 1em 0 .6em; padding: 0; list-style: none; }
+.chl-hint { padding: .6em .85em; border-radius: var(--radius-sm, 8px); background: var(--business-bg, #FFFBEB); }
+.chl-hint-n { display: block; margin-bottom: .15em; font-family: var(--font-ui); font-size: .72rem; font-weight: 700; color: var(--warn-text, #92400E); }
+.chl-hint .spine-body, .chl-solution .spine-body, .chl-more .spine-body { font-size: .98rem; line-height: 1.7; }
+.chl-actions { display: flex; flex-wrap: wrap; gap: .5em; margin: .9em 0 .2em; }
+.chl-actions .g-btn[hidden] { display: none; }   /* .g-btn sets display, which would beat [hidden] */
+.chl-solution, .chl-more { margin-top: 1em; padding: .8em 1em; border: 1px solid var(--border); border-radius: var(--radius-sm, 8px); background: var(--surface-raised, var(--surface)); }
+.chl-sub { margin-bottom: .3em; font-family: var(--font-ui); font-size: .82rem; font-weight: 800; color: var(--text); }
+@media (max-width: 560px) { .chl-block { padding: .9em .9em 1em; } }
+@media print { .chl-body[hidden] { display: block !important; } .chl-actions, .chl-open { display: none; } }

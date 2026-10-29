@@ -13,6 +13,7 @@ Thanks for helping make this book better! This guide explains how to contribute 
 | Section | Educational content (the book's main text) — one *telling* of a concept | `spine` |
 | Question | Interactive question with choices | `question` |
 | Game | Click-based mini-game | `game` |
+| Extra challenge | An optional, harder task after a concept (⭐, hints, a solution on request) | `challenge` |
 
 ## How to contribute
 
@@ -75,6 +76,8 @@ node .github/scripts/validate-content.js  # must pass
 node scripts/build-llms-index.js          # refreshes the concept index in llms.txt
 ```
 
+A chapter in `book.json` may carry two flags. `"shelf": false` leaves it off the by-chapter shelves on Home (say, one of a row of small side chapters reached from a hub page). `"extra": true` marks side content for readers who want more: it stays in search, missions and links, but it does not count toward reading progress, Home never picks it for the reader, and it stays off the concept map.
+
 ### 5. Open a Pull Request
 CI will automatically validate your content (frontmatter, facets, unique IDs, references). Fix any errors before requesting review.
 
@@ -102,8 +105,15 @@ Common fields: `type`, `title`, `instruction`, `debrief` (the takeaway on the en
 | `estimate` | Guesses a number with a slider, or a step on a labelled scale | `items[]` of `{q, min, max, step, answer, tolerance?, unit?, why}` or `{q, scale[], answer (index), tolerance?, why}`; a game-level `scale[]` serves every item without `min` |
 | `grid` | Programs a robot with steps and turns (and `repeat` 2×–4×) to reach the goal | `levels[]` of `{map[] ("S" start, "G" goal, "#" wall, "." floor), dir (N/E/S/W), max, repeat?, instruction?, solution?, why}`, `goalIcon`; the checker proves every level solvable within `max` |
 | `loop` | `mode: "creator"`: replays 30 days of a rich-get-richer ranking with fixes. `mode: "user"`: watches a feed narrow, then bursts the bubble | creator: `items[]` of `{name, appeal, seedClicks, gem?}`, `interventions[]`, `goals[]` (a goal with `andPrev: true` only counts when the one before it is met); user: `topics[]` of `{name, items[]}`, `goalTopics`, `exploreSlots` |
+| `turtle` | Writes a tiny Logo program that draws the dashed goal picture; ⭐ for a short program | `levels[]` of `{target (a program that draws the goal), max (⭐ limit, in commands), goal?, hint?, why}`; commands in any edition's language (`dopředu 50`, `forward 50`, `előre 50`), `opakuj 4 [ … ]`, `nauč čtverec :a [ … ]`; the picture counts, not the program (any rotation, mirror or start point) |
+| `gates` | Wires AND/OR/NOT/XOR gates until the circuit gives the truth table; ⭐ for few gates | `levels[]` of `{inputs[], outputs{name: "expression"} ("A xor B", "(A and not S) or (B and S)"), allow[] (gate types offered), max (⭐ limit), solution{gates[[op, a, b]], outputs{name: "g<k>" or input}}, story?, why}` |
+| `cipher` | Breaks a Caesar, substitution or Vigenère cipher with letter counts and a key editor | `levels[]` of `{kind: "caesar"/"subst"/"vigenere", plain (the message), key (shift 1–25, 26 letters, or a word), hint?, story?, why}`; only A–Z change (diacritics dropped), the engine encrypts `plain` itself |
+| `route` | Taps a path through a weighted graph; the engine compares it with the optimum (Dijkstra) | `levels[]` of `{nodes[] of {id, label, x, y (0–100)}, edges[] of [a, b, weight], from, to, metric? (unit), story?, why}`; the map stretches the drawing to its box; the checker warns about nodes that crowd on a phone and about tied optima |
+| `neuron` | Sets two weights and a threshold so one neuron separates two kinds of points | `levels[]` of `{points[] of [x, y, 0/1], axes[x name, y name], labels[name of 0, name of 1], goal (accuracy 0–1), story?, why}`; both axes are scaled to 0–10; the checker proves the goal reachable with the sliders |
 
 Every number on a simulation's end screen is computed live by the engine; never type a result into the data.
+
+The five build-and-test types (`turtle`, `gates`, `cipher`, `route`, `neuron`, in `js/games-lab.js`) score each level as solved, plus a ⭐ where the type has a limit. A translated copy (`games/<name>.<lang>.json`) may change every text but never the puzzle: the checker compares targets, truth tables, keys, graphs and points with the original. Keep ids, input and output names, `kind`, `key`, `edges`, `from` and `to` untranslated.
 
 Check the data before committing (CI runs it too, through `validate-content.js`):
 
@@ -137,6 +147,44 @@ lengthBand: tldr
 ```
 
 Games show up in the chapter flow, on the Browse and Quiz shelves and in the Playground (`#play`, or `#play/<block id>`). The engine logs `game_start`, `game_answer` (with the item index and whether it was right) and `game_end` events, so an item that most players get wrong can be found and fixed.
+
+## Adding an extra challenge
+
+A `challenge` block is an optional task for readers who want more: a puzzle, a build or an investigation of 15–60 minutes, after the concept it stretches. It never counts toward reading progress or a certificate. The engine (`js/challenge.js`) shows a closed card with the hook; the reader opens it, takes hints one at a time, asks for the solution, and marks it done (XP once).
+
+```markdown
+---
+id: vyzva-weby-kodovani
+type: challenge
+title: "Rozsypaný čaj naruby"
+concept: kodovani
+level: 3            # difficulty 1–3
+minutes: 30
+teaser: "One line: what the reader will crack or build."
+lens: generic       # a world's challenge: its lens, and parent: the world's telling
+standalone: true
+core: false
+---
+
+The hook: a situation in two or three sentences.
+
+<!-- task -->
+What to do, step by step. Tables, code and formulas are fine.
+
+<!-- hint -->
+A first nudge, not the answer.
+
+<!-- hint -->
+A bigger nudge.
+
+<!-- solution -->
+The solution, with the reasoning.
+
+<!-- more -->
+Where to go next: a real tool, a project, a community.
+```
+
+Register it in `content/book.json` after the concept's tellings and games (a world's challenge after the world's telling, with `parent` set to it).
 
 ## Adding an image
 

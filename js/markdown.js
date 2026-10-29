@@ -4,6 +4,17 @@ import { LANG } from './i18n.js';
 export function renderMarkdown(text) {
   if (!text || !text.trim()) return '';
 
+  // Reveal blocks: a solution or a hint stays closed until the reader opens it
+  //   :::reveal 🔑 Solution
+  //   …markdown…
+  //   :::
+  // Taken out first, so the inside keeps its own math and code (rendered on its own below).
+  const revealStore = [];
+  text = text.replace(/^:::reveal[ \t]*(.*)\n([\s\S]*?)\n:::[ \t]*$/gm, (_, summary, inner) => {
+    revealStore.push({ summary: summary.trim(), inner });
+    return `%%REVEAL${revealStore.length - 1}%%`;
+  });
+
   // Pre-process: protect math blocks from all formatting
   const mathStore = [];
   // Display math $$...$$ (can be multiline)
@@ -46,6 +57,15 @@ export function renderMarkdown(text) {
       if (inList) { result.push(closeList(listType)); inList = false; }
       const { lang, code } = codeStore[parseInt(codeMatch[1])];
       result.push(`<pre><code class="language-${lang || 'text'}">${escapeHtml(code)}</code></pre>`);
+      continue;
+    }
+
+    // Reveal block placeholder (a native <details>: works without script, keyboard and screen readers included)
+    const revealMatch = line.match(/^%%REVEAL(\d+)%%$/);
+    if (revealMatch) {
+      if (inList) { result.push(closeList(listType)); inList = false; }
+      const { summary, inner } = revealStore[parseInt(revealMatch[1])];
+      result.push(`<details class="md-reveal"><summary>${inlineFmt(summary || '…')}</summary><div class="md-reveal-body">${renderMarkdown(inner)}</div></details>`);
       continue;
     }
 
