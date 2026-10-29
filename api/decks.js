@@ -104,8 +104,10 @@ module.exports = async function handler(req, res) {
           if (r.event === 'deck_saved') items[r.id] = { id: r.id, title: r.title, author: r.author || '', rev: +r.rev || 1, n: +r.n || 0, at: r.created_at };
           if (r.event === 'deck_deleted') delete items[r.id];
         }
-        // smazání eventy bez group (delete zná jen id) — dočisti druhým dotazem
-        const dels = await sb('GET', `interactions?event=eq.deck_deleted&order=created_at.asc&limit=1000&select=created_at,id:data->>id`);
+        // smazání eventy bez group (delete zná jen id) — dočisti druhým dotazem jen na id ze seznamu
+        // (dřív bral nejstarších 1000 smazání všech knih a novější smazání přehlédl)
+        const ids = Object.keys(items).filter(x => ID_RX.test(x));
+        const dels = ids.length ? await sb('GET', `interactions?event=eq.deck_deleted&data->>id=in.(${ids.join(',')})&limit=1000&select=created_at,id:data->>id`) : [];
         for (const d of Array.isArray(dels) ? dels : []) if (items[d.id] && d.created_at > items[d.id].at) delete items[d.id];
         return res.status(200).json({ ok: true, group, items: Object.values(items) });
       }

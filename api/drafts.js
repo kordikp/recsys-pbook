@@ -15,7 +15,9 @@
 // GET  ?group=<kód>[&voter=<uid>]                       → {ok, items:[…], myVotes, votes:{id:n},
 //                                                          reacts:{id:{n,sum,c1,c2,c3,tags:{},notes:[…]}}, myReacts:[id…]}
 // Bez PII: nick je volitelná přezdívka, id je náhodné — odkaz zná jen ten,
-// komu ho autor pošle. Délkové limity proti zneužití.
+// komu ho autor pošle. Délkové limity proti zneužití: text 60 000 znaků, s obrázky
+// (data URL v SVG ze studia) až 1,5 MB — delší se odmítne (413), nikdy neusekne v půlce obrázku.
+// Dotazy filtrují v databázi (id, skupina) — dřív braly nejstarších 500/2000 řádků všech knih.
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
@@ -51,19 +53,24 @@ module.exports = async function handler(req, res) {
     if (group) {
       if (!/^[a-z0-9-]{4,16}$/.test(group)) return res.status(400).json({ ok: false, error: 'bad group' });
       const voter = String(req.query?.voter || '').slice(0, 64);
+      // jen řádky této skupiny a z draftu jen to, co seznam ukazuje (nikdy text a obrázky)
       const rows = await sb('GET',
-        `interactions?event=in.(draft_shared,draft_unshared,draft_vote,draft_react)&order=created_at.asc&limit=2000&select=event,created_at,data`);
+        `interactions?event=in.(draft_shared,draft_vote,draft_react)&data->>group=eq.${encodeURIComponent(group)}`
+        + `&order=created_at.asc&limit=2000`
+        + `&select=event,created_at,id:data->>id,title:data->>title,nick:data->>nick,b:data->>book,voter:data->>voter,vote:data->on,score:data->score,tags:data->tags,note:data->>note`);
       const items = {};
       const lastVote = {};   // `${id}|${voter}` → on (poslední hlas vyhrává; toggle)
       const lastReact = {};  // `${id}|${voter}` → {score,tags,note} (poslední ohlas platí)
       for (const r of Array.isArray(rows) ? rows : []) {
-        const d = r.data || {};
-        if ((d.book && d.book !== book)) continue;
-        if (r.event === 'draft_shared' && d.group === group) items[d.id] = { id: d.id, title: d.title, nick: d.nick || '', at: r.created_at };
-        if (r.event === 'draft_unshared' && items[d.id]) delete items[d.id];
-        if (r.event === 'draft_vote' && d.group === group && d.voter) lastVote[d.id + '|' + d.voter] = !!d.on;
-        if (r.event === 'draft_react' && d.group === group && d.voter) lastReact[d.id + '|' + d.voter] = { score: d.score, tags: d.tags || [], note: d.note || '' };
+        if (r.b && r.b !== book) continue;
+        if (r.event === 'draft_shared') items[r.id] = { id: r.id, title: r.title, nick: r.nick || '', at: r.created_at };
+        if (r.event === 'draft_vote' && r.voter) lastVote[r.id + '|' + r.voter] = !!r.vote;
+        if (r.event === 'draft_react' && r.voter) lastReact[r.id + '|' + r.voter] = { score: r.score, tags: r.tags || [], note: r.note || '' };
       }
+      // stažení sdílení (draft_unshared) skupinu nezná — dočisti druhým, malým dotazem jen na id ze seznamu
+      const ids = Object.keys(items).filter(x => /^\w{6,24}$/.test(x));
+      const gone = ids.length ? await sb('GET', `interactions?event=eq.draft_unshared&data->>id=in.(${ids.join(',')})&limit=2000&select=created_at,id:data->>id`) : [];
+      for (const d of Array.isArray(gone) ? gone : []) if (items[d.id] && d.created_at > items[d.id].at) delete items[d.id];
       const reacts = {}; const myReacts = [];
       for (const [key, re] of Object.entries(lastReact)) {
         const i2 = key.indexOf('|');
@@ -91,7 +98,7 @@ module.exports = async function handler(req, res) {
     if (!/^[\w]{6,24}$/.test(id)) return res.status(400).json({ ok: false, error: 'id required' });
     try {
       const rows = await sb('GET',
-        `interactions?event=in.(draft_shared,draft_comment,draft_unshared)&order=created_at.asc&limit=500&select=event,created_at,data`);
+        `interactions?event=in.(draft_shared,draft_comment,draft_unshared)&data->>id=eq.${encodeURIComponent(id)}&order=created_at.asc&limit=500&select=event,created_at,data`);
       let draft = null; const comments = []; let gone = false;
       for (const r of Array.isArray(rows) ? rows : []) {
         const d = r.data || {};
@@ -111,12 +118,15 @@ module.exports = async function handler(req, res) {
       if (b.action === 'share') {
         const dr = b.draft || {};
         if (!dr.text || String(dr.text).trim().length < 40) return res.status(400).json({ ok: false, error: 'draft too short' });
+        const text = String(dr.text);
+        const pictures = /data:image\//.test(text);
+        if (pictures && text.length > 1500000) return res.status(413).json({ ok: false, error: 'too large' });
         const id = rid();
         const clean = {
           book, id,
           slug: String(dr.slug || '').slice(0, 60),
           title: String(dr.title || '').slice(0, 120),
-          text: String(dr.text).slice(0, 60000),
+          text: pictures ? text : text.slice(0, 60000),
           nick: String(b.nick || '').slice(0, 30),
           group: /^[a-z0-9-]{4,16}$/.test(String(b.group || '').toLowerCase()) ? String(b.group).toLowerCase() : undefined,
         };

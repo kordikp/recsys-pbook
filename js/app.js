@@ -145,7 +145,7 @@ class PBook {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
         if (this.loadCustomMission(hash.slice(5))) { this.switchView('glossary'); this.showMission(this._customMission.id); }
-      } else if (hash.startsWith('autor-')) {
+      } else if (hash.startsWith('autor-') && !hash.startsWith('autor--')) {   // autor--… is a reader's own section id
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
         // #autor-<slug>~<form>: the teacher can send a suggested telling form
@@ -853,7 +853,7 @@ class PBook {
           title: (m.title || '').slice(0, 200), state: m.state || 'private',
           facets: { lens: m.lens, lang: m.lang, genre: m.genre, depth: m.depth, visuality: m.visuality, lengthBand: m.lengthBand, carriers: m.carriers },
           remixLog: (m.remixLog || []).slice(-5),
-          body: (block.body || '').slice(0, 20000),
+          body: this._stripDataUrls(block.body).slice(0, 20000),
           svg: (m.diagramSvg || '').slice(0, 40000),
         }),
       }).catch(() => {});
@@ -863,7 +863,10 @@ class PBook {
   _savePrivateBlock(block, action) {
     if (!this.privateBlocks) this.privateBlocks = {};
     this.privateBlocks[block.meta.id] = block;
-    try { localStorage.setItem('pbook-private-blocks', JSON.stringify(this.privateBlocks)); } catch (e) {}
+    try { localStorage.setItem('pbook-private-blocks', JSON.stringify(this.privateBlocks)); } catch (e) {
+      // the block lives until the page closes — say so instead of losing it quietly
+      this.showXPToast(tr('This browser’s storage is full — your section is open now but will not survive closing the page. Remove a picture from it.'), 'xp');
+    }
     this._archiveBlock(block, action || (block.meta.remixLog?.length ? 'remixed' : 'generated'));
   }
 
@@ -1323,6 +1326,8 @@ class PBook {
     const noticeBits = [this._tellingWords(vMeta, ['lens', 'depth', 'genre']).replace(/^examples from everywhere · /, '')].filter(Boolean);
     const provenance = vMeta.state === 'community'
       ? `<span class="gen-badge">${tr(`shared by a reader &middot; not yet editor-verified`)}</span>`
+      : vMeta.state === 'private' && vMeta.authored
+        ? `<span class="gen-badge">${tr(`✍️ your own telling &middot; not yet editor-verified`)}</span>`
       : vMeta.state === 'private'
         ? `<span class="gen-badge">${tr(`&#9889; generated for your settings &middot; not yet editor-verified`)}</span>`
         : '';
@@ -6395,7 +6400,13 @@ class PBook {
   _authorState() {
     try { return JSON.parse(localStorage.getItem('pbook-author-drafts')) || {}; } catch (e) { return {}; }
   }
-  _authorSave(st) { localStorage.setItem('pbook-author-drafts', JSON.stringify(st)); }
+  // false = the browser's storage is full (pictures in drafts can get it there): said out loud, once in a while
+  _authorSave(st) {
+    try { localStorage.setItem('pbook-author-drafts', JSON.stringify(st)); return true; } catch (e) {
+      if (Date.now() - (this._stFullAt || 0) > 20000) { this._stFullAt = Date.now(); this.showXPToast(tr('The draft no longer fits in this browser’s storage — remove a picture so it can save again.'), 'xp'); }
+      return false;
+    }
+  }
   // ===== Studio images: the text holds only a ⟦image N⟧ token, SVG source lives aside =====
   // Humans never edit SVG as text — they see it in the preview and edit it THERE
   // (double-click a label, ✨ AI instruction, 🗑). On send, tokens expand back to ⟦svg⟧.
@@ -6479,9 +6490,10 @@ class PBook {
     const all = this._authorState(); const st = (all[stdo.slug] = all[stdo.slug] || {});
     st.text = document.getElementById('stDraft')?.value ?? st.text;
     st.assets = stdo.assets; st.assetSeq = stdo.assetSeq; st.ts = Date.now();
-    this._authorSave(all);
+    const ok = this._authorSave(all);
     const si = document.getElementById('stSaved');
-    if (si) si.textContent = tr('Saved ') + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ✓';
+    if (si) si.textContent = ok ? tr('Saved ') + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' ✓' : tr('Not saved ✗');
+    return ok;
   }
 
   // Enter the studio straight from reading: the section opens as a draft of your own telling
@@ -6605,11 +6617,28 @@ class PBook {
               <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">${tr(`📤 Send to the book`)}</button>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
-        <div style="font-size:.7rem;color:var(--text-2,#666);margin-top:.5em">${tr(`✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.`)}</div>
+        <div style="font-size:.7rem;color:var(--text-2,#666);margin-top:.5em">${tr(`✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.`)}
+          ${tr(`Your own picture, free and without AI: 🖼 picture (a file, Ctrl+V or drag it in) or ✏️ diagram drawn by hand.`)}</div>
         <textarea id="stDraft" style="display:none">${this.escHtml(cleanText)}</textarea>
       </div>
     </div>`;
     document.body.appendChild(el);
+    // A picture pasted (Ctrl+V) or dragged in lands in the draft — never as a page the browser opens instead
+    el.addEventListener('paste', e => {
+      const files = [...(e.clipboardData?.files || [])].filter(f => /^image\//.test(f.type));
+      const svg = files.length ? '' : (e.clipboardData?.getData('text/plain') || '').trim();
+      if (!files.length && !/^<svg[\s\S]*<\/svg>$/i.test(svg)) return;   // ordinary text pastes as usual
+      e.preventDefault();
+      this._studioInsertFiles(files.length ? files : [new File([svg], 'paste.svg', { type: 'image/svg+xml' })]);
+    });
+    el.addEventListener('dragover', e => { if ([...(e.dataTransfer?.types || [])].includes('Files')) { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; } });
+    el.addEventListener('drop', e => {
+      const files = [...(e.dataTransfer?.files || [])];
+      if (!files.length) return;
+      e.preventDefault();
+      const blk = e.target.closest?.('#stCanvas .st-block');
+      this._studioInsertFiles(files, blk ? +blk.dataset.bi + 1 : null);
+    });
     const ta = document.getElementById('stDraft');
     ta.addEventListener('input', () => {
       this._studioSave();
@@ -6682,13 +6711,16 @@ class PBook {
       h = h.replace(this._studioMarkerRx(), (_, k, w) => {
         const mi = mkIdx++;
         return `<span style="display:inline-block;max-width:100%;border:1.5px dashed #7C3AED;border-radius:10px;padding:.35em .6em;margin:.15em .1em;color:#7C3AED;font-size:.78rem;vertical-align:middle">🎨 ${/anim/i.test(k) ? 'ANIMATION' : 'DIAGRAM'}: ${this.escHtml(w.trim())}
-          <button class="steer-chip" style="font-size:.7rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">${tr(`🎨 Draw this one · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button></span>`;
+          <button class="steer-chip" style="font-size:.7rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">${tr(`🎨 Draw this one · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button>
+          <button class="steer-chip" style="font-size:.7rem;border-color:#7C3AED;color:#7C3AED" onclick="app.studioDrawSchema(${mi})">${tr(`✏️ by hand`)}</button></span>`;
       });
       inner += `<div class="st-block" data-bi="${i}" title="${tr(`click to edit this paragraph`)}" style="border-radius:8px;padding:.15em .35em;margin:0 -.35em;cursor:text">${h}</div>`;
     });
     if (!blocks.length) inner = `<div style="color:var(--text-3,#999);font-size:.8rem;margin-bottom:.6em">${tr(`Nothing yet — click ＋ and write the first paragraph, or let ✨ suggest a skeleton.`)}</div>`;
     pane.innerHTML = `<article class="block-article" style="margin:0;padding:0;border:none;box-shadow:none"><h2 id="stTitleH" title="${tr(`click to rename`)}" style="margin:.1em 0 .5em;font-size:1.15rem;cursor:text;border-radius:6px" onclick="app._studioEditTitle()">${this.escHtml(stdo.title)} <span style="font-size:.7rem;opacity:.45">✏️</span></h2><div class="block-content spine-body">${inner}</div>
-      <button class="steer-chip" style="font-size:.72rem;margin-top:.3em" onclick="app._studioAddBlock()">${tr(`＋ paragraph`)}</button></article>`;
+      <button class="steer-chip" style="font-size:.72rem;margin-top:.3em" onclick="app._studioAddBlock()">${tr(`＋ paragraph`)}</button>
+      <button class="steer-chip" style="font-size:.72rem;margin-top:.3em" title="${tr(`a file from this device — or paste a picture (Ctrl+V) or drag it here`)}" onclick="app.studioPickImage()">${tr(`🖼 picture`)}</button>
+      <button class="steer-chip" style="font-size:.72rem;margin-top:.3em" title="${tr(`boxes and arrows you rewrite and move by hand`)}" onclick="app.studioDrawSchema()">${tr(`✏️ diagram`)}</button></article>`;
     pane.querySelectorAll('.st-block[data-img]').forEach(div => {
       const fig = div.querySelector('figure.diagram-inline'); if (!fig) return;
       const aid = div.dataset.img;
@@ -6697,7 +6729,8 @@ class PBook {
       fig.style.touchAction = 'none';
       const bar = document.createElement('div');
       bar.style.cssText = 'display:flex;gap:.4em;align-items:center;margin:.25em 0 .1em;flex-wrap:wrap';
-      bar.innerHTML = `<button class="steer-chip" style="font-size:.7rem" onclick="app.studioEditImage('${aid}')">${tr(`✨ Edit (AI) · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button>
+      // a photo is pixels, not a drawing: no AI rewrite of its SVG (it would only see a wall of base64)
+      bar.innerHTML = `${this._studioIsPhoto(aid) ? '' : `<button class="steer-chip" style="font-size:.7rem" onclick="app.studioEditImage('${aid}')">${tr(`✨ Edit (AI) · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button>`}
         <button class="steer-chip" style="font-size:.7rem" onclick="app.studioDeleteImage('${aid}')">🗑</button>
         <span style="font-size:.7rem;color:var(--text-3,#999)">${tr(`✏️ click an element = select & drag · double-click a label = rewrite`)}</span>`;
       fig.appendChild(bar);
@@ -7387,6 +7420,7 @@ class PBook {
     const text = this._studioExpand(raw).replace(/\n{3,}/g, '\n\n').trim();
     const nick = (document.getElementById('stFbNick')?.value || '').trim();
     try {
+      if (text.length > 1500000) throw new Error('too large');
       const res = await fetch('/api/drafts', { method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'share', draft: { slug: stdo.slug, title: stdo.title, text }, nick,
           group: (document.getElementById('stFbGroup')?.value || '').trim().toLowerCase() }) });
@@ -7396,7 +7430,8 @@ class PBook {
       this.rc.logEvent('draft_shared', { slug: stdo.slug });
       this._studioFbStatus(data.id);
     } catch (e) {
-      out.innerHTML = `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.8rem">${this.escHtml(e.message)}</div>`;
+      const msg = /too large/.test(e.message) ? tr('The pictures are too big to share — remove one or use a smaller picture.') : e.message;
+      out.innerHTML = `<div style="background:#FEE2E2;border-radius:8px;padding:.5em .7em;font-size:.8rem">${this.escHtml(msg)}</div>`;
     }
   }
   async _studioFbStatus(shareId) {
@@ -7959,6 +7994,9 @@ class PBook {
     if (!svg || !svg.contains(e.target) || e.target === svg) { this._studioDeselect(); return; }
     const aid = fig.dataset.asset; if (!aid || !this._studio?.assets?.[aid]) return;
     let el = e.target;
+    // a diagram drawn by hand is made of pieces (a box with its label, an arrow): each moves as a whole
+    const unit = el.closest('[data-unit]');
+    if (unit && svg.contains(unit)) el = unit;
     const prev = this._studioSel;
     if (prev && prev.aid === aid && prev.el.contains(el) && prev.el !== svg) el = prev.el;
     this._studioSel = { aid, el, fig, svg };
@@ -8007,7 +8045,7 @@ class PBook {
       + pal.map(([d, l]) => `<button title="${tr(`recolor (book palette)`)}" onclick="app.studioSelColor('${d}','${l}')" style="width:15px;height:15px;border-radius:50%;border:1.5px solid #fff;outline:1px solid var(--border,#ccc);background:${d};cursor:pointer;padding:0"></button>`).join('')
       + b('🗑', tr('delete the element'), 'studioSelDel()')
       + b(sel.el.dataset?.krok ? `🎬${sel.el.dataset.krok}` : '🎬', tr('reveal step: the element appears after the Nth click (keep clicking to set 1…6, then clear)'), 'studioSelStep()')
-      + b('✨', tr('AI edits only the selection'), `studioEditImage('${sel.aid}', true)`)
+      + (this._studioIsPhoto(sel.aid) ? '' : b('✨', tr('AI edits only the selection'), `studioEditImage('${sel.aid}', true)`))
       + b('↩', tr('undo (reverts the last manual image edit)'), `studioSelUndo('${sel.aid}')`)
       + b('✕', tr('clear selection'), '_studioDeselect()');
     sel.fig.appendChild(bar);
@@ -8086,7 +8124,7 @@ class PBook {
     const out = document.getElementById('stOut'); if (!out) return;
     const sel = !!(selectionOnly && this._studioSel?.aid === aid);
     out.innerHTML = `<div style="display:flex;gap:.4em;align-items:center;border:1.5px solid #D97706;border-radius:10px;padding:.4em .5em;background:var(--card,#fff)">
-      <input id="stImgWish" placeholder="${sel ? '__SEL_PH__' : '__IMG_PH__'}" style="flex:1 1 auto;min-width:0;font:inherit;font-size:.82rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
+      <input id="stImgWish" placeholder="${sel ? tr('What should change in the selected part? e.g. make it red') : tr('What should change in the picture? e.g. add an arrow from A to B')}" style="flex:1 1 auto;min-width:0;font:inherit;font-size:.82rem;padding:.3em .5em;border:1px solid var(--border,#ddd);border-radius:8px">
       <button class="steer-chip" style="border-color:#D97706;color:#B45309" onclick="app._studioEditImageGo('${aid}', ${sel})">✨ ${CONFIG.aiEconomy?.prices.advanced || 0} ⚡</button>
       <button class="steer-chip" onclick="document.getElementById('stOut').innerHTML=''">✕</button></div>`;
     const inp = document.getElementById('stImgWish');
@@ -8137,8 +8175,8 @@ class PBook {
     this._studioSave();
     this._studioPreview();
     const out = document.getElementById('stOut');
-    if (out) out.innerHTML = `<div style="font-size:.8rem;display:flex;gap:.5em;align-items:center">__DELETED__
-      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioUndelete()">__UNDO_DEL__</button></div>`;
+    if (out) out.innerHTML = `<div style="font-size:.8rem;display:flex;gap:.5em;align-items:center">${tr('🗑 Picture removed.')}
+      <button class="steer-chip" style="font-size:.7rem" onclick="app._studioUndelete()">${tr('↩ Undo')}</button></div>`;
   }
   _studioUndelete() {
     const stdo = this._studio; const d = stdo?.lastDelete; if (!d) return;
@@ -8149,6 +8187,137 @@ class PBook {
     this._studioPreview();
     const out = document.getElementById('stOut'); if (out) out.innerHTML = '';
   }
+
+  // ===== Your own picture, free and without AI: a file (🖼, Ctrl+V or dragged in) or a diagram by hand.
+  // An SVG file stays a drawing, editable like any studio image. A photo or a screenshot is scaled down in
+  // the browser and kept inside an SVG (<image href="data:…">), so the text carries it like the rest.
+  _studioIsPhoto(aid) { return /<image[^>]*href="data:image\//.test(this._studio?.assets?.[aid] || ''); }
+  studioPickImage() {
+    let inp = document.getElementById('stPick');
+    if (!inp) {
+      inp = document.createElement('input');
+      inp.id = 'stPick'; inp.type = 'file'; inp.accept = 'image/*,.svg'; inp.multiple = true; inp.style.display = 'none';
+      inp.addEventListener('change', () => this._studioInsertFiles([...(inp.files || [])]));
+      (document.getElementById('authorStudio') || document.body).appendChild(inp);
+    }
+    inp.value = '';   // the same file picked again still counts as a change
+    inp.click();
+  }
+  async _studioInsertFiles(files, at) {
+    const stdo = this._studio; if (!stdo || !files.length) return;
+    const pics = files.filter(f => /^image\//.test(f.type) || /\.svg$/i.test(f.name || ''));
+    if (!pics.length) { this.showXPToast(tr('Only pictures go in here: PNG, JPG, WebP, GIF or SVG.'), 'xp'); return; }
+    const out = document.getElementById('stOut');
+    if (out) out.innerHTML = `<span class="gen-spinner">${tr('🖼 Preparing the picture…')}</span>`;
+    const ids = [];
+    for (const f of pics.slice(0, 6)) {
+      try {
+        const svg = await this._studioPictureSvg(f);
+        const id = String(++stdo.assetSeq);
+        stdo.assets[id] = svg;
+        ids.push(id);
+      } catch (e) { this.showXPToast(tr('This picture could not be used: {0}', f.name || '?'), 'xp'); }
+    }
+    if (out) out.innerHTML = '';
+    if (!ids.length) return;
+    if (!this._studioPlace(ids.map(id => `⟦image ${id}⟧`), at)) { ids.forEach(id => delete stdo.assets[id]); this._studioSave(); return; }
+    if (out) out.innerHTML = `<div style="border:1.5px solid #10B981;border-radius:8px;padding:.5em .7em;font-size:.8rem;background:var(--card,#fff)">${tr('🖼 Picture inserted. Write a sentence under it saying what it shows — it helps every reader, including those with a screen reader.')}</div>`;
+    this.rc.logEvent('author_picture', { slug: stdo.slug, n: ids.length, kb: Math.round(ids.reduce((s, id) => s + stdo.assets[id].length, 0) / 1024) });
+    setTimeout(() => document.querySelector(`#stCanvas figure[data-asset="${ids[0]}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+  }
+  // A file → the SVG a studio asset holds. Pixels are scaled down until the data fits ~200 kB.
+  async _studioPictureSvg(f) {
+    if (f.type === 'image/svg+xml' || /\.svg$/i.test(f.name || '')) {
+      let svg = this._sanitizeSvgClient(await f.text());
+      if (!svg) throw new Error('not an svg');
+      svg = svg.replace(/@import[^;]*;?/gi, '').replace(/url\(\s*['"]?(?!#|data:image\/)[^)]*\)/gi, 'none');   // no fetches from styles either
+      if (!/<svg[^>]*\sviewBox=/i.test(svg)) {
+        const w = parseFloat((svg.match(/<svg[^>]*\swidth="([\d.]+)/i) || [])[1]), h = parseFloat((svg.match(/<svg[^>]*\sheight="([\d.]+)/i) || [])[1]);
+        if (w && h) svg = svg.replace(/<svg/i, `<svg viewBox="0 0 ${w} ${h}"`);
+      }
+      if (svg.length > (/data:image\//.test(svg) ? 1500000 : 80000)) throw new Error('too big');
+      return svg;
+    }
+    const MAX = 1400, BUDGET = 280000;   // longest side in px · data URL in characters
+    const src = URL.createObjectURL(f);
+    try {
+      const img = await new Promise((ok, no) => { const im = new Image(); im.onload = () => ok(im); im.onerror = () => no(new Error('cannot decode')); im.src = src; });
+      let w = img.naturalWidth, h = img.naturalHeight, url = '';
+      if (!w || !h) throw new Error('no size');
+      // a small PNG/JPEG/WebP/GIF stays as it is: a screenshot keeps its sharp edges, a GIF its motion
+      if (/^image\/(png|jpeg|webp|gif)$/.test(f.type) && f.size * 1.37 + 64 <= BUDGET && Math.max(w, h) <= MAX) {
+        url = await new Promise((ok, no) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = no; r.readAsDataURL(f); });
+      }
+      for (let k = Math.min(1, MAX / Math.max(w, h)), q = .85; !url && k > .05;) {
+        const c = document.createElement('canvas');
+        c.width = Math.max(1, Math.round(w * k)); c.height = Math.max(1, Math.round(h * k));
+        const x = c.getContext('2d');
+        x.drawImage(img, 0, 0, c.width, c.height);
+        let u = c.toDataURL('image/webp', q);
+        if (!u.startsWith('data:image/webp')) {   // no WebP encoder (Safari): JPEG on white, or transparency turns black
+          x.globalCompositeOperation = 'destination-over'; x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+          u = c.toDataURL('image/jpeg', q);
+        }
+        if (u.length <= BUDGET) { url = u; w = c.width; h = c.height; } else if (q > .7) q -= .1; else k *= .8;
+      }
+      if (!url) throw new Error('too big');
+      return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}"${w < 640 ? ` style="max-width:${w}px"` : ''}><image href="${url}" width="${w}" height="${h}"/></svg>`;
+    } finally { URL.revokeObjectURL(src); }
+  }
+  // New blocks after the paragraph being edited, at `at`, or at the end. false = the draft did not save.
+  _studioPlace(add, at) {
+    const ta = document.getElementById('stDraft'); if (!ta) return false;
+    if (at == null && this._stEditing) at = this._stEditing.i + 1;
+    if (this._stEditing) this._studioCommitBlock();
+    const before = ta.value;
+    const blocks = this._studioSplitBlocks(ta.value);
+    blocks.splice(Math.min(at ?? blocks.length, blocks.length), 0, ...add);
+    ta.value = blocks.join('\n\n');
+    if (!this._studioSave()) { ta.value = before; return false; }
+    this._studioStat('manual');
+    this._studioPreview();
+    return true;
+  }
+  // ✏️ A diagram by hand: three steps and a result to rewrite (double-click), move, duplicate (⧉),
+  // recolour or delete. Called from a [diagram: …] mark, it takes the mark's place and its words as the title.
+  studioDrawSchema(mi) {
+    const stdo = this._studio; if (!stdo) return;
+    const ta = document.getElementById('stDraft'); if (!ta) return;
+    const mark = typeof mi === 'number' ? [...ta.value.matchAll(this._studioMarkerRx())][mi] : null;
+    const id = String(++stdo.assetSeq);
+    stdo.assets[id] = this._studioSchemaSvg(mark ? mark[2].trim() : tr('My diagram'));
+    const token = `⟦image ${id}⟧`;
+    let ok;
+    if (mark) {
+      const before = ta.value;
+      ta.value = ta.value.replace(mark[0], `\n\n${token}\n\n`).replace(/\n{3,}/g, '\n\n');
+      ok = this._studioSave();
+      if (ok) { this._studioStat('manual'); this._studioPreview(); } else ta.value = before;
+    } else ok = this._studioPlace([token]);
+    if (!ok) { delete stdo.assets[id]; this._studioSave(); return; }
+    const out = document.getElementById('stOut');
+    if (out) out.innerHTML = `<div style="border:1.5px solid #7C3AED;border-radius:8px;padding:.5em .7em;font-size:.8rem;background:var(--card,#fff)">${tr('✏️ Your diagram: double-click a text to rewrite it, drag a box to move it, ⧉ adds another, the colour dots recolour, 🗑 removes, ↩ undoes.')}</div>`;
+    this.rc.logEvent('author_schema', { slug: stdo.slug, fromMark: !!mark });
+    setTimeout(() => document.querySelector(`#stCanvas figure[data-asset="${id}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
+  }
+  _studioSchemaSvg(title) {
+    const e = s => this.escHtml(String(s)).replace(/"/g, '&quot;');
+    const t = title.length > 80 ? title.slice(0, 79) + '…' : title;
+    const box = (x, y, label) => `<g data-unit="1"><rect x="${x}" y="${y}" width="170" height="64" rx="12" fill="#EDE9FE" stroke="#7C3AED" stroke-width="2"/>`
+      + `<text x="${x + 85}" y="${y + 38}" text-anchor="middle" font-size="16" fill="#1E1B4B">${e(label)}</text></g>`;
+    // an arrow is a line and an open tip, so recolouring paints both
+    const arrow = (x1, y1, x2, y2) => {
+      const L = Math.hypot(x2 - x1, y2 - y1) || 1, ux = (x2 - x1) / L, uy = (y2 - y1) / L;
+      const side = s => `${Math.round(x2 - 10 * ux - s * 7 * uy)},${Math.round(y2 - 10 * uy + s * 7 * ux)}`;
+      return `<g data-unit="1" fill="none" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/><polyline points="${side(1)} ${x2},${y2} ${side(-1)}"/></g>`;
+    };
+    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 280" font-family="system-ui, sans-serif">`
+      + `<text data-unit="1" x="340" y="38" text-anchor="middle" font-size="${t.length > 60 ? 13 : t.length > 44 ? 16 : 20}" font-weight="700" fill="#1E1B4B">${e(t)}</text>`
+      + box(20, 70, tr('Step {0}', 1)) + arrow(196, 102, 249, 102) + box(255, 70, tr('Step {0}', 2)) + arrow(431, 102, 484, 102)
+      + box(490, 70, tr('Step {0}', 3)) + arrow(575, 140, 575, 192) + box(490, 198, tr('Result')) + `</svg>`;
+  }
+  // AI prompts and the server archive get a picture's size, never its base64 (it would fill them)
+  _stripDataUrls(s) { return String(s || '').replace(/data:image\/[\w.+-]+;base64,[A-Za-z0-9+/=]+/g, m => `data:image…(${Math.round(m.length / 1365)} kB)`); }
 
 
   // 🎨 Draw a graphic for the draft (advanced): a [DIAGRAM/ANIMATION: …] mark says what and where
@@ -8198,7 +8367,7 @@ class PBook {
         const res = await fetch(CONFIG.steering.generateEndpoint, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ mode: 'insert', concept: stdo.isProposal ? undefined : stdo.slug,
-            instruction, context: this._studioExpand(ta.value).slice(0, 6000), wantSvg: true, auth: this._walletAuth() }),
+            instruction, context: this._stripDataUrls(this._studioExpand(ta.value)).slice(0, 6000), wantSvg: true, auth: this._walletAuth() }),
         });
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.error || tr('generate failed'));
@@ -8208,7 +8377,8 @@ class PBook {
         const id = String(++stdo.assetSeq);
         stdo.assets[id] = data.svg;
         const token = `⟦image ${id}⟧`;
-        ta.value = job.m ? ta.value.replace(job.m[0], token) : ta.value + `\n\n${token}\n`;
+        // the picture gets a block of its own, even for a mark written inside a sentence
+        ta.value = job.m ? ta.value.replace(job.m[0], `\n\n${token}\n\n`).replace(/\n{3,}/g, '\n\n') : ta.value + `\n\n${token}\n`;
         this._studioSave();
         this._studioPreview();
         ok++;
@@ -8324,8 +8494,20 @@ class PBook {
     document.getElementById('authorStudio')?.remove();
     if (this._studio?.wizard) { this._wsAfterSave(id); return; }
     this.showXPToast(tr('Saved into the book ✍️'), 'achievement');
+    // openBlock() knows only the book's own blocks: the new telling takes its concept's
+    // slot as the reader's pick (“↩ Original” undoes it), then we land on it once swapped in
+    const cid = block.meta.concept, anchor = cid && this.concepts?.[cid]?.anchor;
+    if (anchor) this._setTellingChoice(cid, id);
     this.switchView('read');
-    setTimeout(() => this.openBlock(id), 60);
+    if (!anchor) return;
+    setTimeout(() => this.openBlock(anchor), 60);
+    let tries = 0;
+    const land = () => {
+      const el = document.getElementById(`b-${id}`);
+      if (el) el.scrollIntoView({ block: 'start' });
+      else if (++tries < 25) setTimeout(land, 160);
+    };
+    setTimeout(land, 220);
   }
   completeMission(missionId) {
     const missions = this.getMissions();
@@ -8434,10 +8616,15 @@ class PBook {
     <div class="wizard-progress-label">${tr(`{0} {1} &middot; Final Challenge!`, m.icon, m.title)}</div>`;
     if (m.epilog) { this._missionCss(); html += `<div class="wizard-intro mission-epilog">${m.epilog}</div>`; }
 
+    // the examiner grades ideas, not wording, and a plan-sized question does not need every
+    // part answered — say so up front (a long question is a wall otherwise)
+    const qText = String(m.boss.q).replace(/<[^>]+>/g, ' ');
+    const multi = qText.length > 200 || (qText.match(/\?/g) || []).length >= 3;
     html += `<div class="boss-card">
       <div class="boss-icon">\u{1F409}</div>
       <h3 class="boss-title">${tr(`Final Boss: Prove You've Learned!`)}</h3>
       <div class="boss-question">${m.boss.q}</div>
+      <div class="boss-howto" style="font-size:.8rem;color:var(--text-2);margin:-.2em 0 .6em">${tr(`✍️ Your own words are enough: spelling and exact terms don't matter.`)}${multi ? ' ' + tr(`You don't have to answer every part: show the main ideas.`) : ''}</div>
       <textarea class="boss-answer" id="bossAnswer" placeholder="${tr(`Type your answer here...`)}" rows="4">${this.escHtml(this._pendingBoss()[m.id]?.answer || '')}</textarea>
       <div class="boss-hint" id="bossHint" style="${this._pendingBoss()[m.id] ? '' : 'display:none'}">${this._pendingBoss()[m.id] ? tr('Your saved answer is back in the box. The examiner could not grade it last time; check it now.') : ''}</div>
       <div class="boss-actions">
@@ -8569,6 +8756,15 @@ class PBook {
     this.completeMission(missionId);
   }
 
+  // Offline hint check without word-policing: case, diacritics and word endings do not
+  // matter (5-letter stems), and a hint counts as covered when a third of its words show up
+  _bossCovers(answer, hint) {
+    const stems = s => (String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').match(/[a-z0-9]{4,}/g) || []).map(w => w.slice(0, 5));
+    const have = new Set(stems(answer));
+    const want = [...new Set(stems(hint))];
+    return want.filter(w => have.has(w)).length * 3 >= want.length;
+  }
+
   // Answers written while the examiner was unreachable: { missionId: { answer, at } }
   _pendingBoss() { try { return JSON.parse(localStorage.getItem('pbook-boss-pending') || '{}'); } catch (e) { return {}; } }
   _setPendingBoss(missionId, answer) {
@@ -8582,9 +8778,8 @@ class PBook {
   // only tells the reader which ideas the answer does not mention yet.
   _checkBossAnswerLocal(missionId, rawAnswer, hintEl) {
     const m = this._wizardMission;
-    const answer = rawAnswer.toLowerCase();
     const hints = m.boss.hints || [];
-    const missing = hints.filter(h => !answer.includes(String(h).toLowerCase())).slice(0, 3);
+    const missing = hints.filter(h => !this._bossCovers(rawAnswer, h)).slice(0, 2);
     this._setPendingBoss(missionId, rawAnswer);
     this.rc.logEvent('boss_pending', { missionId });
     hintEl.style.display = 'block';
@@ -9577,6 +9772,12 @@ class PBook {
     const nick = document.getElementById(`share-nick-${blockId}`)?.value?.trim() || '';
     const meta = block.meta;
     const groupIn = (document.getElementById(`share-group-${blockId}`)?.value || '').trim().toLowerCase();
+    // Pictures make a section heavy: the catalog takes ~140 kB, the drafts store 1.5 MB (api/drafts.js)
+    if ((block.body || '').length > (this.rc.enabled ? 140000 : 1500000)) {
+      document.getElementById(`share-consent-${blockId}`)?.remove();
+      this.showXPToast(tr('The pictures are too big to share — remove one or use a smaller picture.'), 'xp');
+      return;
+    }
     // Community store = the Recombee catalog (state == "community") — immediately recommendable,
     // no extra infrastructure. Body rides as an item property. A book without a catalog
     // shares into the drafts store instead: the group gallery (#trida-<code>) lists it
@@ -10186,17 +10387,23 @@ class PBook {
   }
   aiPaywallHtml(tier, kind) {
     const c = CONFIG.aiEconomy;
-    if (kind === 'login' || (!this._getAuth() && this._trialUsedLocal())) {
+    // In the studio a picture never waits for ⚡: your own file or a diagram drawn by hand is free
+    const hand = tier === 'advanced' && document.getElementById('authorStudio')
+      ? `<div style="margin-top:.45em;display:flex;gap:.4em;flex-wrap:wrap;align-items:center"><b>${tr(`A picture without AI, free:`)}</b>
+        <button class="steer-chip" style="font-size:.72rem" onclick="app.studioPickImage()">${tr(`🖼 Insert a picture`)}</button>
+        <button class="steer-chip" style="font-size:.72rem" onclick="app.studioDrawSchema()">${tr(`✏️ Draw a diagram`)}</button></div>` : '';
+    // Logged out, ⚡ cannot be earned (they live on the server) and the free try covers text only
+    if (kind === 'login' || (!this._getAuth() && (tier !== 'basic' || this._trialUsedLocal()))) {
       return `<div style="border:1.5px solid #0EA5E9;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
-        ${tr(`<b>🔑 AI needs an account</b><br>The free try is used. Log in via`)} <a href="#" onclick="event.preventDefault();app.switchView('profile')">${tr(`Profile`)}</a> ${tr(`— your ⚡ start counting server-side and existing XP migrates (up to 100).`)}<br>
-        <span style="color:#15803D;font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span></div>`;
+        ${tier === 'basic' || this._trialUsedLocal() ? tr(`<b>🔑 AI needs an account</b><br>The free try is used. Log in in your`) : tr(`<b>🔑 This AI needs an account</b><br>The free try is for text only. Log in in your`)} <a href="#" onclick="event.preventDefault();app.switchView('profile')">${tr(`Profile`)}</a> ${tr(`— your ⚡ start counting server-side and existing XP migrates (up to 100).`)}<br>
+        <span style="color:#15803D;font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span>${hand}</div>`;
     }
     const tierName = tier === 'advanced' ? tr('Advanced AI (variants & diagrams)') : tr('Basic AI (text)');
     return `<div style="border:1.5px solid #D97706;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
       ${tr(`<b>⚡ Not enough ⚡ for this yet</b><br> {0}`, tr(`{tier} costs <b>{p} ⚡</b>, you have <b>⚡{b}</b>. Earn by working with the book:`).replace('{tier}', tierName).replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance()))}<br>
       <span style="color:var(--text-2,#666)">${tr(`read a section +10 · recall +2 · game +5 · note +3 · <b>manual edit +{me}</b> · <b>your own writing in the studio +{me} per ~{z} chars</b>`).replace(/\{me\}/g, c.earnManualEdit).replace('{z}', c.earnStudioChars || 250)}</span><br>
       <span style="color:var(--text-2,#666)">${tr(`You can keep creating by hand right now — nothing stops you, and work earns your ⚡ back.`)}</span><br>
-      <span style="color:#15803D;font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span>
+      <span style="color:#15803D;font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span>${hand}
     </div>`;
   }
   // 402/401 ze serveru → paywall místo obecné chyby

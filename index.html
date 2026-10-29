@@ -79,7 +79,7 @@
   M.concat(lang === 'en' ? [] : ['i18n/' + lang + '.js']).forEach(function (m) { add('modulepreload', 'js/' + m); });
   ['book.json', 'bundle.' + lang + '.json'].forEach(function (f) { add('preload', 'content/' + f, 'fetch'); });
 })();</script>
-<link rel="stylesheet" href="css/style.css?v=7.7.0">
+<link rel="stylesheet" href="css/style.css?v=7.7.1">
 <script>/* theme before first paint: saved choice, else the system preference (no white flash in dark mode) */
 try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' || (t === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.setAttribute('data-theme', 'dark'); } catch (e) {}</script>
 </head>
@@ -377,7 +377,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=7.7.0"></script>
+<script type="module" src="js/app.js?v=7.7.1"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 <!-- Vercel Web Analytics: visitors and page views, no cookies (project setting enabled 2026-10-05) -->
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
