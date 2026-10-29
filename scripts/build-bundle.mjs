@@ -73,13 +73,15 @@ for (const lang of langs) {
   console.log(`→ ${path.relative(ROOT, dest)}  ${Object.keys(out).length} files + ${Object.keys(json).length} JSON, ${(fs.statSync(dest).size / 1024).toFixed(0)} kB`);
 }
 
-// index.html starts the modules app.js imports before app.js asks for them (var M = […]): say when that list drifts
+// index.html starts the modules app.js imports, and the ones they import (games.js → games-lab.js), before
+// app.js asks for them (var M = […]): say when that list drifts
 try {
   const m = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8').match(/var M = \[([^\]]*)\]/);
   if (m) {
-    const app = fs.readFileSync(path.join(ROOT, 'js/app.js'), 'utf8');
+    const imports = f => { try { return [...fs.readFileSync(path.join(ROOT, 'js', f.replace(/\?.*/, '')), 'utf8').matchAll(/^import .* from '\.\/([\w.?=-]+)';/gm)].map(x => x[1]); } catch (e) { return []; } };
+    const app = imports('app.js');
     const listed = [...m[1].matchAll(/'([^']+)'/g)].map(x => x[1]).sort().join(' ');
-    const want = [...new Set(['config.js', 'i18n.js', ...[...app.matchAll(/^import .* from '\.\/([\w.?=-]+)';/gm)].map(x => x[1])])].sort().join(' ');
-    if (listed !== want) console.warn(`!! index.html preloads ${listed}\n   but js/app.js imports ${want}`);
+    const want = [...new Set(['config.js', 'i18n.js', ...app, ...app.flatMap(imports)])].sort().join(' ');
+    if (listed !== want) console.warn(`!! index.html preloads ${listed}\n   but js/app.js and its modules import ${want}`);
   }
 } catch (e) { /* no index.html */ }
