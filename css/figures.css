@@ -1,0 +1,26 @@
+/* Figures in the book (engine file, loaded by app.js: every book gets it, whatever its style.css) */
+
+/* Figure zoom: ⤢ in the corner opens the picture over the whole screen */
+.fig-zoomable { position: relative; }
+.fig-zoom-btn { position: absolute; top: .4em; right: .4em; z-index: 2; width: 2em; height: 2em; border-radius: 999px; border: 1.5px solid var(--border); background: var(--card, #fff); color: var(--text-2); font-size: .85rem; line-height: 1; cursor: zoom-in; opacity: 0; transition: opacity .15s; }
+.fig-zoomable:hover .fig-zoom-btn, .fig-zoom-btn:focus-visible { opacity: 1; }
+.fig-zoom-btn:hover { border-color: var(--accent); color: var(--accent); }
+.fig-zoomable .diagram-remix-btn { right: 2.8em; }
+@media (hover: none) { .fig-zoom-btn { opacity: .85; } }
+.fig-viewer { position: fixed; inset: 0; z-index: 10000; display: flex; flex-direction: column; background: rgba(17, 16, 34, .97); padding: max(.6em, env(safe-area-inset-top)) max(.6em, env(safe-area-inset-right)) max(.6em, env(safe-area-inset-bottom)) max(.6em, env(safe-area-inset-left)); }
+.fig-viewer-stage { flex: 1; min-height: 0; margin: 0; display: flex; align-items: center; justify-content: center; position: relative; }
+.fig-viewer-pic { margin: 0; position: relative; flex: none; }
+.fig-viewer-pic > svg, .fig-viewer-pic > img { display: block; width: 100%; height: 100%; max-width: none; margin: 0; background: #fff; border-radius: 10px; }
+.fig-viewer-close { align-self: flex-end; width: 2.4em; height: 2.4em; border-radius: 999px; border: 0; background: rgba(255,255,255,.14); color: #fff; font-size: 1rem; cursor: pointer; margin-bottom: .4em; }
+.fig-viewer-close:hover, .fig-viewer-close:focus-visible { background: rgba(255,255,255,.28); }
+.fig-viewer-hint { display: none; margin: .6em 0 0; text-align: center; color: rgba(255,255,255,.7); font-size: .8rem; }
+@media (orientation: portrait) and (max-width: 600px) { .fig-viewer-hint { display: block; } }
+
+/* Phones: a figure runs to the card's edges (the drawing has its own frame); the
+   card's side padding shrinks a little, so the text column gains width too. */
+@media (max-width: 600px) {
+  .block-article { padding-left: 14px; padding-right: 14px; }
+  .block-article .diagram-wrap { padding: 0; border: 0; background: none; margin-left: -10px; margin-right: -10px; }
+  .block-article .md-figure { margin-left: -10px; margin-right: -10px; }
+  .block-article .md-figure > img { margin-left: auto !important; margin-right: auto !important; }
+}

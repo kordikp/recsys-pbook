@@ -1202,7 +1202,8 @@ pre code { font-family: var(--font-mono); font-size: .82rem; line-height: 1.5; b
 /* Reader edits: a changed/added REGION (markers on their own lines, so lists and
    tables inside it render normally) and diagrams inserted right where asked. */
 .rx-region { position: relative; background: rgba(217, 119, 6, .10); border-left: 3px solid #D97706; border-radius: 0 6px 6px 0; padding: .35em .7em .35em .8em; margin: .8em 0; }
-.rx-region::before { content: "your edit"; position: absolute; top: -.62em; left: .7em; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: #B45309; background: var(--card, #fff); padding: 0 .35em; border-radius: 4px; }
+.rx-region::before { content: attr(data-label); position: absolute; top: -.62em; left: .7em; font-size: .7rem; letter-spacing: .08em; text-transform: uppercase; color: #B45309; background: var(--card, #fff); padding: 0 .35em; border-radius: 4px; }
+.rx-region:not([data-label])::before { display: none; }
 .rx-region > :first-child { margin-top: 0; }
 .rx-region > :last-child { margin-bottom: 0; }
 .md-figure.diagram-inline { margin: .9em 0; }
@@ -1232,7 +1233,6 @@ mark.remix-mark { background: rgba(217, 119, 6, .16); border-bottom: 2px solid #
 .diagram-wrap:hover .diagram-remix-btn { opacity: 1; }
 .diagram-remix-btn:hover { border-color: #D97706; }
 .diagram-remixed { outline: 2px dashed rgba(217,119,6,.45); outline-offset: 4px; border-radius: 8px; }
-
 /* Onboarding: living-book opt-in + pick hint */
 .intro-onboard-hint { font-size: .72rem; color: var(--text-2); margin: .3em auto .8em; max-width: 480px; min-height: 2em; }
 .intro-livingbook { display: flex; gap: .5em; align-items: flex-start; max-width: 480px; margin: .4em auto 1em; text-align: left; border: 1.5px dashed #10B981; border-radius: 12px; padding: .55em .7em; }

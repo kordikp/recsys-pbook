@@ -96,6 +96,11 @@ Common fields: `type`, `title`, `instruction`, `debrief` (the takeaway on the en
 | `bandit` | Spends impressions on options with hidden click rates, then races Thompson sampling, greedy and uniform | `arms[]` of `{label, text?, p}`, `pulls`, `shuffleArms`, `compare[]`, `armWord`, `toyNote` |
 | `mixer` | Moves ranking-weight sliders and rule toggles to meet goals | `weights[]`, `toggles[]` (`kind`: `maxPer`, `reserve`, `hide`, `pin`), `kpis[]`, `items[]`, `goals[]` of `{text, check{kpi: ">=0.6"}, why}` |
 | `abstop` | Runs A/B tests day by day and decides when to ship | `usersPerDay`, `plannedDays`, `rounds[]` of `{label, pA, pB, trap?, novelty?{boost, halfLifeDays}}`, `scoring{}` |
+| `trace` | Steps through a short program and says what happens on the marked line | `code[]` (lines) and `steps[]` of `{line, input?, q, options[], answer, why, state?}`, or `rounds[]` of `{title?, code[], steps[]}`; options keep their order |
+| `cloze` | Fills the gaps of a sentence one by one | `items[]` of `{text with {0}, {1}…, gaps[] of {options[], answer, why?}, why}`; options are shuffled |
+| `hotspot` | Taps every part of a message (or every line of a listing) that the instruction asks for | `items[]` of `{label?, form?: "lines", segments[] of {text, hit?, why}, why?}`; score = hits found minus wrong taps |
+| `estimate` | Guesses a number with a slider, or a step on a labelled scale | `items[]` of `{q, min, max, step, answer, tolerance?, unit?, why}` or `{q, scale[], answer (index), tolerance?, why}`; a game-level `scale[]` serves every item without `min` |
+| `grid` | Programs a robot with steps and turns (and `repeat` 2×–4×) to reach the goal | `levels[]` of `{map[] ("S" start, "G" goal, "#" wall, "." floor), dir (N/E/S/W), max, repeat?, instruction?, solution?, why}`, `goalIcon`; the checker proves every level solvable within `max` |
 | `loop` | `mode: "creator"`: replays 30 days of a rich-get-richer ranking with fixes. `mode: "user"`: watches a feed narrow, then bursts the bubble | creator: `items[]` of `{name, appeal, seedClicks, gem?}`, `interventions[]`, `goals[]` (a goal with `andPrev: true` only counts when the one before it is met); user: `topics[]` of `{name, items[]}`, `goalTopics`, `exploreSlots` |
 
 Every number on a simulation's end screen is computed live by the engine; never type a result into the data.
@@ -136,6 +141,10 @@ Games show up in the chapter flow, on the Browse and Quiz shelves and in the Pla
 ## Adding an image
 
 Place SVG files in `images/`. Reference from content via `diagram: my-diagram` in frontmatter, or with a markdown image in the body.
+
+- **Click-through figures.** In a `diagram:` figure (it is inlined, a markdown image is not), an element with `data-krok="n"` appears after the n-th click; `data-until="m"` hides it again from step m. The reader gets a "click through" badge. A markdown image shows every step at once, so the figure must also read as a whole.
+- **Zoom.** Every figure gets ⤢ in its corner (`css/figures.css`, loaded by the engine). It opens the figure over the whole screen, where a phone can be turned sideways or pinched. A tap on the figure does the same, except in a click-through figure.
+- **Phones.** A figure there runs to the card's edges, about 350 px wide, so a 520-wide drawing shows text at about two thirds of its size. Keep the smallest text at 10 units or more, and arrowheads small (`markerWidth="4.5"` with a `viewBox="0 0 10 10"` marker).
 
 ## Style guide
 

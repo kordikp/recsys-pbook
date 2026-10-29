@@ -3,7 +3,7 @@
 // Falls back to local simulation when API unavailable
 
 import { CONFIG } from './config.js';
-import { tr } from './i18n.js';
+import { tr, LANG } from './i18n.js';
 
 export class RecombeeClient {
   constructor() {
@@ -226,6 +226,8 @@ export class RecombeeClient {
 
   // --- Server-side log (fire & forget, queues when offline) ---
   _sendToLog(entry) {
+    // Books share one interactions table: every row says which book and edition it came from.
+    entry = { book: CONFIG.book?.slug || location.host, lang: LANG, ...entry };
     if (!navigator.onLine) {
       this._queueOffline({ type: 'log', data: entry });
       return;
@@ -709,6 +711,9 @@ export class UserModel {
     const card = this.recall[blockId];
     if (!card) return;
 
+    // "Kept": recalled (Hard or better) two or more days after the previous look at it —
+    // a same-sitting repeat proves nothing about memory (js/completion.js reads this).
+    if (quality >= 1 && Date.now() - (card.lastReview || 0) >= 2 * 864e5) card.kept = Date.now();
     card.reps++;
     card.lastReview = Date.now();
 

@@ -3,13 +3,14 @@
 import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=3';
-import { RecombeeClient, UserModel } from './recombee.js?v=13';
-import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=8';
+import { RecombeeClient, UserModel } from './recombee.js?v=14';
+import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=9';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
-import { installGames } from './games.js?v=2';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=2';
+import { installGames } from './games.js?v=3';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=3';
+import { installCompletion } from './completion.js?v=1';
 
 class PBook {
   constructor() {
@@ -244,6 +245,8 @@ class PBook {
     this._customizeWelcome();
     this._resumeOrWelcome();   // first visit → the door; returning → where you left off (js/ux.js)
     performance.mark?.('pbook-ready');   // book loaded and on screen (load-time tests read this)
+    this._logVisit();
+    this._cpStyle();
     this._offlineCopy();
 
     if (this._getAuth()) this.refreshAiBalance(true);
@@ -620,7 +623,7 @@ class PBook {
     // view — deciding about an edit you cannot see is a coin flip.
     setTimeout(() => {
       const blockEl = document.getElementById('b-' + remixId) || document.getElementById('b-' + originalId);
-      const target = (blockEl && (blockEl.querySelector('.remix-mark') || (isDiagram && blockEl.querySelector('.diagram-wrap, svg')))) || blockEl;
+      const target = (blockEl && (blockEl.querySelector('.rx-region, .remix-mark') || (isDiagram && blockEl.querySelector('.diagram-wrap, svg')))) || blockEl;
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 180);
   }
@@ -807,7 +810,7 @@ class PBook {
   _honestVisuality(meta, body) {
     const words = (body || '').split(/\s+/).filter(Boolean).length;
     const hasSvg = !!meta.diagramSvg || /<svg/i.test(body || '');
-    const hasImg = /!\[/.test(body || '') || !!meta.diagram;
+    const hasImg = /!\[|⟦(?:obr|img|media)\s*:/.test(body || '') || !!meta.diagram;
     const hasTable = /\n\|[^\n]*\|\s*\n\|[\s:|-]+\|/.test(body || '');
     if (hasSvg || hasImg) return words < 130 ? 'visual-first' : 'balanced';
     if (hasTable) return meta.visuality === 'text-first' ? 'text-first' : 'balanced';
@@ -1332,6 +1335,7 @@ class PBook {
     // Register the variant for dwell tracking (falls back to default reading time)
     const newEl = document.getElementById(`b-${vMeta.id}`);
     if (newEl && this._observer) { newEl.dataset.observed = '1'; this._observer.observe(newEl); }
+    this._hydrateBlock(newEl);
     if (isGenerated) this.rc.setContext('steer', { variant: vMeta.id });
     // store the target so a follow-up generate uses exactly what the reader asked for
     if (!this._steerTargets) this._steerTargets = {};
@@ -1360,6 +1364,7 @@ class PBook {
     });
     const newEl = document.getElementById(`b-${originalId}`);
     if (newEl && this._observer) { newEl.dataset.observed = '1'; this._observer.observe(newEl); }
+    this._hydrateBlock(newEl);
     this.rc.logEvent('steer_undo', { variantId, originalId });
   }
 
@@ -1524,6 +1529,29 @@ class PBook {
     overlay.classList.remove('hidden');
     this.showStep(0);
     this._customizeWelcome();
+  }
+
+  // Access log: one 'session_start' per tab session. How the reader came in (a teacher's
+  // mission link, the class gallery, a plain visit), in which language, on what screen and
+  // whether they are back. Only the referrer's host is kept, never a path or a query.
+  _logVisit() {
+    try { if (sessionStorage.getItem('pbook-visit')) return; sessionStorage.setItem('pbook-visit', '1'); } catch (e) { /* storage blocked: log anyway */ }
+    const h = decodeURIComponent(location.hash.replace(/^#/, ''));
+    const entry = !h ? 'home' : (h.match(/^(mission|mise|autor|dilna|trida|ohlas|zpetna-vazba|view)-/)?.[1] || (/^(cesta|quiz)$/.test(h) ? h : 'link'));
+    let ref = '';
+    try { ref = document.referrer ? new URL(document.referrer).host : ''; } catch (e) {}
+    if (ref === location.host) ref = '';
+    const u = this.user;
+    let classCode = false;
+    try { classCode = !!localStorage.getItem('pbook-deck-group'); } catch (e) {}
+    this.rc.logEvent('session_start', {
+      entry, ref, lang: LANG,
+      returning: !!(u.readBlocks?.size || u.completedMissions?.length),
+      read: u.readBlocks?.size || 0,
+      device: innerWidth < 640 ? 'phone' : innerWidth < 1024 ? 'tablet' : 'desktop',
+      installed: !!window.matchMedia?.('(display-mode: standalone)').matches,
+      classCode,
+    });
   }
 
   _customizeWelcome() {
@@ -1783,6 +1811,8 @@ class PBook {
 
     // 1. Start here (new reader) / Continue reading (returning)
     html += this._homeHero(take);
+    const goal = this._goalLineHtml();
+    if (goal) html += `<div class="cp-home">${goal}</div>`;
 
     // Recall cards — show due + almost due (within 30 min)
     if (this._f('spaceRepetition')) {
@@ -2105,9 +2135,11 @@ class PBook {
     this._observeBlocks(ch);
     this._attachParaTools();       // point-and-edit affordances on every paragraph
     this._attachReveals();         // click-through reveal of data-krok SVGs
+    this._applyUserHighlights();   // the reader's own highlights, saved per block
     this._applyTellingChoices();   // re-apply saved per-concept telling choices
     this._updateMissionBar();
     this._showMissionIntro();
+    this._attachMissionStory();
   }
 
   // ===== ESSENTIALS FLOW: one served telling per concept =====
@@ -2355,6 +2387,7 @@ class PBook {
         this._initLottieAnimations();
         this._attachParaTools();
         this._attachReveals();
+        this._applyUserHighlights();
       }
       this._isLoadingMore = false;
     };
@@ -2451,7 +2484,9 @@ class PBook {
     this.showXPToast(tr('+10 XP'), 'xp');
     this.checkGamificationEvents();
     this._updateMissionBar();
+    if (this._wizardMission?.core?.[this._wizardStep] === id) this._attachMissionStory();
     this._refreshMiniBoard();
+    this._afterReadCompletion(id);
   }
 
   // Explicit "Mark as read" at the end of a block (counts like a full dwell)
@@ -2572,6 +2607,7 @@ class PBook {
                          .replace(/⟦\/rx⟧/g, '</mark>');
     }
     bodyHtml = bodyHtml.replace(/⟦\/?(rx|svg)⟧/g, '');   // never leak a marker into the page
+    bodyHtml = bodyHtml.replace(/<div class="rx-region">/g, `<div class="rx-region" data-label="${this.escHtml(tr('your edit'))}">`);
     let diagramHtml = '';
     if (block.diagramSvg) {
       // reader-remixed diagram (private/community copy) — sanitized inline SVG override
@@ -2625,6 +2661,7 @@ class PBook {
           <span>${tr(`{0} min read`, block.readingTime || 3)}</span>
         </div>
       </div>
+      ${this._knowItHtml(block)}
       ${this._renderTellingsIndicator(block)}
       <div class="block-with-side">
         <div class="block-main">
@@ -2635,6 +2672,7 @@ class PBook {
       </div>
       ${block.keyTakeaway ? `<div class="key-takeaway"><div class="key-takeaway-label">${tr(`Key Takeaway`)}</div><div class="key-takeaway-text">${block.keyTakeaway}</div></div>` : ''}
       ${this._renderConceptLinks(block)}
+      ${this._completionHtml(block)}
       ${this._renderFeedbackBar(block)}
       <div class="block-footer">
         <div class="block-reactions" data-block="${block.id}">
@@ -2874,32 +2912,127 @@ class PBook {
   }
 
   // ===== TEXT HIGHLIGHT & NOTE =====
+  // A highlight is stored as text per block (pbook-highlights: {blockId: [{id, text, ts}]})
+  // and drawn as <mark>s over every text node it covers, so a selection across **bold**
+  // or a link shows at once, and the marks come back whenever the block renders again.
   highlightSelection() {
     const sel = window.getSelection();
     if (!sel || sel.isCollapsed) return;
     // Determine blockId from selection anchor before modifying DOM
     const article = sel.anchorNode?.parentElement?.closest('.block-article');
     const blockId = article?.id?.replace('b-', '');
-    const text = sel.toString();
-    try {
-      const range = sel.getRangeAt(0);
-      // Only wrap if selection is within a single parent (safe)
-      // Cross-element highlighting breaks DOM structure
-      if (range.startContainer.parentElement === range.endContainer.parentElement ||
-          range.startContainer === range.endContainer) {
-        const mark = document.createElement('mark');
-        mark.className = 'user-highlight';
-        range.surroundContents(mark);
-      }
-      // If cross-element: save the highlight data but skip visual markup
-    } catch (e) { /* surroundContents failed — skip visual markup */ }
-    if (blockId) {
-      this._saveHighlight(blockId, text);
+    const range = sel.getRangeAt(0);
+    const frag = range.cloneContents();
+    frag.querySelectorAll?.('.para-tools, button').forEach(n => n.remove());   // never store the ✏️ tool
+    const text = (frag.textContent || sel.toString()).replace(/\s+/g, ' ').trim();
+    const id = Date.now().toString(36);
+    try { this._wrapRange(range, id); } catch (e) { /* the stored copy still draws on the next render */ }
+    if (blockId && text) {
+      this._saveHighlight(blockId, text, id);
       this.rc.sendRating(blockId, 0.8);
       if (this._f('gamification')) { this.user.addXP(1); this.user.save(); this.showXPToast(tr('+1 XP highlighted')); this.updateXPBadge(); }
     }
     sel.removeAllRanges();
     document.getElementById('highlightPopup').style.display = 'none';
+  }
+
+  // Wrap each text node the range touches in its own <mark> (one mark across element
+  // boundaries would break the markup); all pieces share data-hl so they act as one.
+  _wrapRange(range, id) {
+    const c = range.commonAncestorContainer;
+    const root = c.nodeType === 1 ? c : c.parentNode;
+    const skip = n => n.parentElement?.closest('.para-tools, button, .katex, .g-root');
+    const nodes = [];
+    if (c.nodeType === 3) nodes.push(c);
+    else {
+      const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => (range.intersectsNode(n) && n.textContent.trim() && !skip(n)) ? 1 : 2 });
+      while (w.nextNode()) nodes.push(w.currentNode);
+    }
+    let wrapped = 0;
+    for (const n of nodes) {
+      const start = n === range.startContainer ? range.startOffset : 0;
+      const end = n === range.endContainer ? range.endOffset : n.length;
+      if (end <= start) continue;
+      let t = n;
+      if (start > 0) t = t.splitText(start);
+      if (end - start < t.length) t.splitText(end - start);
+      const m = document.createElement('mark');
+      m.className = 'user-highlight';
+      m.dataset.hl = id;
+      t.parentNode.insertBefore(m, t);
+      m.appendChild(t);
+      wrapped++;
+    }
+    return wrapped;
+  }
+
+  // Find a stored highlight's text in a rendered body (whitespace-insensitive) and mark it.
+  _markText(root, text, id) {
+    const want = String(text || '').replace(/\s+/g, ' ').trim();
+    if (want.length < 2) return false;
+    const nodes = [], pos = [];
+    let flat = '';
+    const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => n.parentElement?.closest('.para-tools, button, .katex, .g-root') ? 2 : 1 });
+    while (w.nextNode()) { nodes.push(w.currentNode); pos.push(flat.length); flat += w.currentNode.textContent; }
+    let norm = '';
+    const map = [];
+    for (let i = 0; i < flat.length; i++) {
+      const sp = /\s/.test(flat[i]);
+      if (sp && (!norm || norm[norm.length - 1] === ' ')) continue;
+      norm += sp ? ' ' : flat[i];
+      map.push(i);
+    }
+    const at = norm.indexOf(want);
+    if (at < 0) return false;
+    const a = map[at], b = map[at + want.length - 1];
+    const where = off => { for (let k = nodes.length - 1; k >= 0; k--) if (pos[k] <= off) return [nodes[k], off - pos[k]]; return null; };
+    const s0 = where(a), e0 = where(b);
+    if (!s0 || !e0) return false;
+    const range = document.createRange();
+    range.setStart(s0[0], s0[1]);
+    range.setEnd(e0[0], e0[1] + 1);
+    return this._wrapRange(range, id) > 0;
+  }
+
+  // Re-draw saved highlights on rendered blocks (chapter render, infinite scroll, swaps).
+  _applyUserHighlights(scope) {
+    let hl;
+    try { hl = JSON.parse(localStorage.getItem('pbook-highlights') || '{}'); } catch (e) { return; }
+    const root = scope || document.getElementById('readPane');
+    if (!root || !hl || typeof hl !== 'object') return;
+    root.querySelectorAll('.block-article').forEach(article => {
+      const body = article.querySelector('.spine-body');
+      const list = hl[article.id.replace(/^b-/, '')];
+      if (!body || !Array.isArray(list) || !list.length || body.dataset.hlDrawn) return;
+      body.dataset.hlDrawn = '1';
+      for (const h of list) {
+        const id = String(h.id || h.ts || '');
+        if (id && body.querySelector(`mark[data-hl="${CSS.escape(id)}"]`)) continue;
+        this._markText(body, h.text, id);
+      }
+    });
+  }
+
+  // Tap on a highlight removes it: every piece on the page and the stored entry.
+  removeHighlight(mark) {
+    const id = mark.dataset.hl;
+    const article = mark.closest('.block-article');
+    const pieces = id ? [...(article || document).querySelectorAll(`mark.user-highlight[data-hl="${CSS.escape(id)}"]`)] : [mark];
+    const text = pieces.map(m => m.textContent).join('').replace(/\s+/g, ' ').trim();
+    for (const m of pieces) {
+      const parent = m.parentNode;
+      while (m.firstChild) parent.insertBefore(m.firstChild, m);
+      parent.removeChild(m);
+      parent.normalize();
+    }
+    const blockId = article?.id?.replace(/^b-/, '');
+    if (!blockId) return;
+    try {
+      const hl = JSON.parse(localStorage.getItem('pbook-highlights') || '{}');
+      const list = hl[blockId] || [];
+      const i = list.findIndex(h => (id && String(h.id || h.ts) === id) || (h.text || '').replace(/\s+/g, ' ').trim() === text);
+      if (i >= 0) { list.splice(i, 1); if (list.length) hl[blockId] = list; else delete hl[blockId]; localStorage.setItem('pbook-highlights', JSON.stringify(hl)); }
+    } catch (e) {}
   }
 
   highlightAndNote() {
@@ -2924,11 +3057,11 @@ class PBook {
     }
   }
 
-  _saveHighlight(blockId, text) {
+  _saveHighlight(blockId, text, id) {
     try {
       const hl = JSON.parse(localStorage.getItem('pbook-highlights') || '{}');
       if (!hl[blockId]) hl[blockId] = [];
-      hl[blockId].push({ text: text.substring(0, 200), ts: Date.now() });
+      hl[blockId].push({ id: id || Date.now().toString(36), text: text.substring(0, 600), ts: Date.now() });
       localStorage.setItem('pbook-highlights', JSON.stringify(hl));
     } catch (e) {}
   }
@@ -3762,6 +3895,8 @@ class PBook {
     // a "Check yourself" card can be answered before its concept was ever scheduled
     if (!this.user.recall[blockId]) this.user.scheduleRecall(blockId);
     const xpEarned = this.user.processRecall(blockId, quality);
+    this.rc.logEvent('recall_score', { blockId, quality, via: this.currentView === 'quiz' ? 'review' : 'inline' });
+    this._cpRefreshGoal();
     const labels = [tr('Forgot — reviewing soon!'), tr('Hard — keep at it!'), tr('Good — nice!'), tr('Easy — nailed it!')];
     this.showXPToast(`${tr(`+{0} XP {1}`, xpEarned, labels[quality])}`, quality >= 2 ? 'xp' : 'info');
     this.checkGamificationEvents();
@@ -5277,7 +5412,7 @@ class PBook {
     // Tiered certificate (spec: Foundations / Practitioner / Guru) — certifies demonstrated
     // understanding by depth level, missions and recall — computed from verified core only
     const { tiers, achievedIdx } = this.getCertTiers();
-    h += ('<div class="profile-section"><h3>' + tr(`Certificate`) + '</h3>');
+    h += ('<div class="profile-section" id="certSection"><h3>' + tr(`Certificate`) + '</h3>');
     if (achievedIdx >= 0) {
       const t = tiers[achievedIdx];
       const savedName = localStorage.getItem('pbook-cert-name') || '';
@@ -5585,13 +5720,13 @@ class PBook {
       if (r && r.ok) { const j = this._bookData(await r.json()); this._bookMissions = Array.isArray(j) ? j : (j.missions || null); }
     } catch (e) {}
     // A step whose block this edition does not carry (a draft, another language) leaves the mission
-    // with its intro; a branch left empty goes, and so does a mission left without steps.
+    // with its intro and its story beats; a branch left empty goes, and so does a mission left without steps.
     if (Array.isArray(this._bookMissions)) {
       const has = id => !!this.findBlock(id);
       this._bookMissions = this._bookMissions.filter(m => {
         if (!Array.isArray(m.core)) return true;
         const keep = m.core.map(has);
-        if (Array.isArray(m.intros)) m.intros = m.intros.filter((x, i) => keep[i] !== false);
+        for (const f of ['intros', 'stepTitles', 'outros']) if (Array.isArray(m[f])) m[f] = m[f].filter((x, i) => keep[i] !== false);
         m.core = m.core.filter((id, i) => keep[i]);
         for (const [k, br] of Object.entries(m.branches || {})) {
           if (!Array.isArray(br?.blocks)) continue;
@@ -6058,6 +6193,7 @@ class PBook {
     </div>`;
 
     // Step list — core blocks
+    this._missionCss();
     html += '<div class="mission-steps">';
     html += ('<div class="mission-steps-label">' + tr(`Your journey`) + '</div>');
     m.core.forEach((id, i) => {
@@ -6065,11 +6201,14 @@ class PBook {
       const isRead = this.user.readBlocks.has(id);
       const title = block?.meta?.title || id;
       const ch = block?.meta?._chapterNum || '?';
+      // a story mission names the step by its story chapter; the section's title goes below
+      const story = m.stepTitles?.[i], outro = m.outros?.[i];
       html += `<div class="mission-step ${isRead ? 'step-done' : ''}" onclick="app.openBlock('${id}')">
         <div class="step-marker">${isRead ? '\u2713' : i + 1}</div>
         <div class="step-content">
-          <div class="step-title">${title}</div>
-          <div class="step-meta">${tr(`Chapter {0} &middot; {1} min`, ch, block?.meta?.readingTime || 3)}</div>
+          <div class="step-title">${story || title}</div>
+          <div class="step-meta">${story ? `${title} &middot; ` : ''}${tr(`Chapter {0} &middot; {1} min`, ch, block?.meta?.readingTime || 3)}</div>
+          ${isRead && outro ? `<div class="step-outro">${outro}</div>` : ''}
         </div>
       </div>`;
     });
@@ -6112,6 +6251,8 @@ class PBook {
     }
 
     html += '</div>';
+
+    if (m.epilog && (coreComplete || isComplete)) html += `<div class="mission-detail-story mission-epilog">${m.epilog}</div>`;
 
     // Complete button or reward
     if (isComplete) {
@@ -8151,6 +8292,7 @@ class PBook {
     if (this.user.completedMissions.includes(missionId)) return;
 
     this.user.completedMissions.push(missionId);
+    this.rc.logEvent('mission_complete', { missionId, group: m.group || null });
     if (!this.user.missionTitles) this.user.missionTitles = [];
     this.user.missionTitles.push(m.reward.title);
     this.user.addXP(m.reward.xp);
@@ -8168,6 +8310,7 @@ class PBook {
     const missions = this.getMissions();
     const m = missions.find(x => x.id === missionId);
     if (!m) return;
+    this.rc.logEvent('mission_start', { missionId, group: m.group || null });
     this._wizardMission = m;
     this._wizardStep = 0;
     // Find first unread core block
@@ -8193,7 +8336,9 @@ class PBook {
     const blockId = blocks[step];
     const block = this.findBlock(blockId);
     const intro = m.intros?.[step] || '';
+    const storyTitle = m.stepTitles?.[step] || '', outro = m.outros?.[step] || '';
     const isRead = this._stepRead(blockId);
+    this._missionCss();
 
     // Render wizard overlay in the glossary view
     const el = document.getElementById('glossaryContent');
@@ -8206,6 +8351,7 @@ class PBook {
     <div class="wizard-progress-label">${tr(`{0} {1} &middot; Step {2} of {3}`, m.icon, m.title, step + 1, blocks.length)}</div>`;
 
     // Story intro
+    if (storyTitle) html += `<div class="wizard-story-title">${storyTitle}</div>`;
     if (intro) {
       html += `<div class="wizard-intro">${intro}</div>`;
     }
@@ -8217,6 +8363,7 @@ class PBook {
       <div class="wizard-block-meta">${tr(`Chapter {0} &middot; {1} min read`, block?.meta?._chapterNum || '?', block?.meta?.readingTime || 3)}</div>
       <button class="wizard-read-btn">${isRead ? tr('\u2713 Read again') : tr('Read this section')} &rarr;</button>
     </div>`;
+    if (isRead && outro) html += `<div class="wizard-outro"><div class="wizard-outro-label">${tr(`Back to the story`)}</div>${outro}</div>`;
 
     // Navigation
     html += `<div class="wizard-nav">
@@ -8225,8 +8372,9 @@ class PBook {
     </div>`;
 
     html += '</div>';
-    el.innerHTML = html;
+    // switching to the view draws the mission list, so switch first and draw the step over it
     if (this.currentView !== 'glossary') this.switchView('glossary');
+    el.innerHTML = html;
     window.scrollTo(0, 0);
   }
 
@@ -8241,6 +8389,7 @@ class PBook {
       <div class="wizard-progress-fill" style="width:100%"></div>
     </div>
     <div class="wizard-progress-label">${tr(`{0} {1} &middot; Final Challenge!`, m.icon, m.title)}</div>`;
+    if (m.epilog) { this._missionCss(); html += `<div class="wizard-intro mission-epilog">${m.epilog}</div>`; }
 
     html += `<div class="boss-card">
       <div class="boss-icon">\u{1F409}</div>
@@ -8255,6 +8404,8 @@ class PBook {
     </div>`;
 
     html += '</div>';
+    // reached from the book too (the last step's "Face the Final Boss", the mission bar)
+    if (this.currentView !== 'glossary') this.switchView('glossary');
     el.innerHTML = html;
     window.scrollTo(0, 0);
     // Show whether the AI examiner is on duty (async probe, non-blocking)
@@ -8756,10 +8907,12 @@ class PBook {
     if (!sel) return;
     const quote = sel.toString().trim();
     const node = sel.anchorNode;
-    const anchor = node?.parentElement?.closest('.block-article');
+    const at = node?.nodeType === 1 ? node : node?.parentElement;   // a triple-click anchors on the element
+    const anchor = at?.closest('.block-article');
     const blockId = anchor?.id?.replace('b-', '');
     // The paragraph the cursor sits in — where a new passage would go.
-    const para = node?.parentElement?.closest('p, li, blockquote, h3, h4');
+    const para = at?.closest('p, li, blockquote, h3, h4');
+    const host = para?.closest('.spine-body > *') || para;
     const anchorText = (para?.textContent || '').trim();
     sel.removeAllRanges();
     const popup = document.getElementById('highlightPopup');
@@ -8767,8 +8920,8 @@ class PBook {
     if (!blockId) return;
     // Marking a gap (or almost nothing) means "add something HERE" — a rewrite
     // would have nothing to rewrite, so open the form in insert mode instead.
-    if (quote.length < 10) { this._openRemixForm(blockId, null, { insert: true, anchorText }); return; }
-    this._openRemixForm(blockId, quote);
+    if (quote.length < 10) { this._openRemixForm(blockId, null, { insert: true, anchorText, near: host }); return; }
+    this._openRemixForm(blockId, quote, { near: host });
   }
 
   // One-tap entry from the block footer — no text selection needed (mobile!).
@@ -8834,8 +8987,11 @@ class PBook {
         </div>
         <div id="remix-status-${blockId}"></div>`;
     }
-    el.querySelector('.block-footer')?.after(box);
-    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Under the paragraph the reader pointed at (a long section used to send the form
+    // to its far end, out of sight of the text being edited); the footer is the fallback.
+    const near = opts.near && el.contains(opts.near) ? opts.near : null;
+    if (near) near.after(box); else el.querySelector('.block-footer')?.after(box);
+    box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
   // Longest-common prefix/suffix diff: mark ONLY the changed middle, so a
@@ -8934,12 +9090,15 @@ class PBook {
       svg._revealInit = true;
       const fig = svg.closest('figure, .diagram-wrap');
       fig.style.position = 'relative';
+      // the badge sits under the picture, never over a caption drawn at its bottom
+      fig.classList.add('has-reveal');
+      fig.style.paddingBottom = fig.classList.contains('fig-viewer-pic') ? '44px' : '2.2em';
       svg.style.cursor = 'pointer';
       const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
       let cur = 1;
       const badge = document.createElement('button');
       badge.className = 'reveal-badge';
-      badge.style.cssText = 'position:absolute;right:8px;bottom:8px;z-index:3;border:1.5px solid var(--accent,#6366F1);background:var(--card,#fff);color:var(--accent,#4F46E5);border-radius:999px;padding:.2em .7em;font-size:.72rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)';
+      badge.style.cssText = 'position:absolute;right:8px;bottom:4px;z-index:3;border:1.5px solid var(--accent,#6366F1);background:var(--card,#fff);color:var(--accent,#4F46E5);border-radius:999px;padding:.2em .7em;font-size:.72rem;font-weight:700;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)';
       const apply = () => {
         els.forEach((el, j) => {
           const on = ranges[j][0] <= cur && cur < ranges[j][1];
@@ -8956,6 +9115,85 @@ class PBook {
       apply();
       this.rc?.logEvent?.('reveal_init', { steps: max - 1 });
     });
+    this._attachZoom(scope);
+  }
+
+  // A picture on a phone is ~350 px wide, so text drawn in it comes out at 6–7 px.
+  // Every figure gets ⤢, which opens it over the whole screen, where the phone can be
+  // turned sideways or pinched. A tap on the picture does the same, except in a
+  // click-through figure, where a tap is the next step.
+  _attachZoom(scope) {
+    scope.querySelectorAll('.diagram-wrap > svg, figure.md-figure > img, figure.md-figure > svg').forEach(pic => {
+      if (pic._zoomInit || pic.closest('#stCanvas, .st-block, .fig-viewer')) return;
+      pic._zoomInit = true;
+      const fig = pic.closest('figure, .diagram-wrap');
+      fig.classList.add('fig-zoomable');
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'fig-zoom-btn';
+      btn.textContent = '⤢';
+      btn.title = tr('Enlarge picture');
+      btn.setAttribute('aria-label', btn.title);
+      btn.addEventListener('click', e => { e.stopPropagation(); this._openFigure(pic); });
+      fig.appendChild(btn);
+      if (!pic._revealInit) {
+        pic.style.cursor = 'zoom-in';
+        pic.addEventListener('click', e => { if (!e.target.closest('a')) this._openFigure(pic); });
+      }
+    });
+  }
+
+  _openFigure(pic) {
+    document.getElementById('figViewer')?.remove();
+    const v = document.createElement('div');
+    v.id = 'figViewer';
+    v.className = 'fig-viewer';
+    v.setAttribute('role', 'dialog');
+    v.setAttribute('aria-modal', 'true');
+    v.setAttribute('aria-label', pic.getAttribute('aria-label') || pic.getAttribute('alt') || tr('Enlarge picture'));
+    v.innerHTML = `<button type="button" class="fig-viewer-close" aria-label="${this.escHtml(tr('Close'))}">✕</button><div class="fig-viewer-stage"><figure class="fig-viewer-pic"></figure></div><p class="fig-viewer-hint"></p>`;
+    const copy = pic.cloneNode(true);
+    copy.removeAttribute('style');
+    const stage = v.querySelector('.fig-viewer-stage'), box = stage.firstChild;
+    box.appendChild(copy);
+    // the picture as large as the screen allows, at its own proportions (no letterbox)
+    const vb = copy.viewBox?.baseVal;
+    const ratio = vb && vb.width ? vb.height / vb.width : (pic.naturalHeight / pic.naturalWidth) || (pic.clientHeight / pic.clientWidth) || 0.6;
+    // turning the phone helps only a wide picture; a tall one (a comic) gets bigger by pinching
+    v.querySelector('.fig-viewer-hint').textContent = ratio < 0.7 ? tr('Turn the phone sideways for a bigger picture, or pinch to zoom.') : tr('Pinch to zoom in.');
+    // a click-through picture keeps room under it for its step badge (padding set by _attachReveals)
+    const fit = () => {
+      const r = stage.getBoundingClientRect(), pad = parseFloat(box.style.paddingBottom) || 0;
+      const w = Math.min(r.width, (r.height - pad) / ratio);
+      box.style.boxSizing = 'content-box';
+      box.style.width = `${w}px`; box.style.height = `${w * ratio}px`;
+    };
+    const back = document.activeElement;
+    const onKey = e => { if (e.key === 'Escape') close(); };
+    const close = () => { v.remove(); document.removeEventListener('keydown', onKey); removeEventListener('resize', fit); back?.focus?.(); };
+    addEventListener('resize', fit);
+    // the backdrop and ✕ close it; the picture itself stays clickable (click-through steps)
+    v.addEventListener('click', e => { if (e.target === v || e.target.classList.contains('fig-viewer-stage') || e.target.closest('.fig-viewer-close')) close(); });
+    document.addEventListener('keydown', onKey);
+    document.body.appendChild(v);
+    if (copy.tagName.toLowerCase() === 'svg') this._attachReveals(v);
+    fit();
+    v.querySelector('.fig-viewer-close').focus();
+    this.rc?.logEvent?.('figure_zoom', { src: pic.getAttribute('src') || pic.closest('[id]')?.id || '' });
+  }
+
+  // A block re-rendered in place (another telling, an edit, a remix preview) gets what
+  // a chapter render gives every block: math, animations, paragraph tools, reveals and
+  // the reader's own highlights. Without this they came back only after the block
+  // scrolled out and was rendered again.
+  _hydrateBlock(el) {
+    if (!el) return;
+    const scope = el.parentElement || el;
+    this.renderMath(el);
+    this._initLottieAnimations();
+    this._attachParaTools(scope);
+    this._attachReveals?.();
+    this._applyUserHighlights(scope);
   }
 
   _attachParaTools(root) {
@@ -8977,7 +9215,7 @@ class PBook {
         tools.innerHTML = `<button title="${tr(`rewrite this paragraph`)}" data-pt="edit">✏️</button>`;
         tools.querySelector('[data-pt="edit"]').onclick = e => {
           e.stopPropagation();
-          this._openRemixForm(blockId, text.length >= 10 ? text : null, text.length >= 10 ? {} : { insert: true, anchorText: text });
+          this._openRemixForm(blockId, text.length >= 10 ? text : null, text.length >= 10 ? { near: el } : { insert: true, anchorText: text, near: el });
         };
         el.appendChild(tools);
         const gap = document.createElement('button');
@@ -8986,7 +9224,7 @@ class PBook {
         gap.innerHTML = '<span></span>';
         gap.onclick = e => {
           e.stopPropagation();
-          this._openRemixForm(blockId, null, { insert: true, anchorText: text });
+          this._openRemixForm(blockId, null, { insert: true, anchorText: text, near: el });
         };
         el.after(gap);
       });
@@ -9389,6 +9627,8 @@ class PBook {
     if (this.currentView === 'read' && this._renderedChapter === chIdx && document.getElementById(`b-${blockId}`)) {
       this._scrollToBlock(parentId, block.meta);
       this._updateMissionBar();
+      this._showMissionIntro();
+      this._attachMissionStory();
       return;
     }
 
@@ -9453,10 +9693,50 @@ class PBook {
     if (!pane) return;
     // Remove old banner if exists
     pane.querySelector('.mission-intro-banner')?.remove();
+    const m = this._wizardMission;
+    const title = m?.stepTitles?.[this._wizardStep] || '';
     const banner = document.createElement('div');
     banner.className = 'mission-intro-banner fade-up';
-    banner.innerHTML = `<span class="mission-intro-text">${this._wizardMission?.icon || ''} ${intro}</span><button class="mission-intro-close" onclick="this.parentElement.remove()">&times;</button>`;
-    pane.prepend(banner);
+    banner.innerHTML = `<span class="mission-intro-text">${m?.icon || ''} ${title ? `<b>${title}</b>` : ''}${intro}</span><button class="mission-intro-close" onclick="this.parentElement.remove()">&times;</button>`;
+    // the chapter opens scrolled to the step, so the banner goes atop the step's own section
+    const art = m?.core && document.getElementById(`b-${m.core[this._wizardStep]}`);
+    if (art) { this._missionCss(); art.prepend(banner); } else pane.prepend(banner);
+  }
+
+  // Once the current mission step is read, its section ends with what happens next in the story
+  // and the way on (the next step, or the boss).
+  _attachMissionStory() {
+    document.querySelectorAll('.mission-story-card').forEach(e => e.remove());
+    const m = this._wizardMission;
+    if (!m || !Array.isArray(m.core) || !this._f('missions')) return;
+    const step = this._wizardStep, id = m.core[step];
+    const art = id && document.getElementById(`b-${id}`);
+    if (!art || !this._stepRead(id)) return;
+    this._missionCss();
+    const last = m.core.every(x => this._stepRead(x));
+    const card = document.createElement('div');
+    card.className = 'mission-story-card fade-up';
+    card.innerHTML = `<div class="msc-label">${m.icon || '🎯'} ${m.stepTitles?.[step] || m.title}</div>`
+      + (m.outros?.[step] ? `<div class="msc-text">${m.outros[step]}</div>` : '')
+      + `<button class="wizard-nav-btn wizard-nav-next msc-next" onclick="app._returnToWizard()">${last ? (m.boss ? tr(`Face the Final Boss &rarr;`) : tr(`Next &rarr;`)) : `${tr(`Next step`)} &rarr;`}</button>`;
+    const foot = art.querySelector('.block-footer');
+    if (foot) foot.before(card); else art.append(card);
+  }
+
+  // Styles of the mission story (the book's style.css is its own, so the engine brings these)
+  _missionCss() {
+    if (document.getElementById('missionStoryCss')) return;
+    const st = document.createElement('style');
+    st.id = 'missionStoryCss';
+    st.textContent = `
+.step-outro{font-size:.78rem;color:var(--text-2);margin-top:.35em;line-height:1.45;font-style:italic}
+.mission-epilog{border-left:3px solid var(--accent);padding-left:.8em}
+.wizard-story-title{font-weight:700;font-size:1.05rem;line-height:1.3;margin:.3em 0 .4em;color:var(--text)}
+.wizard-outro,.mission-story-card{margin:1em 0;padding:.8em 1em;border:1px solid var(--accent);border-radius:var(--radius-sm,10px);background:var(--accent-bg);font-size:.88rem;line-height:1.5;color:var(--text)}
+.wizard-outro-label,.msc-label{font-size:.72rem;font-weight:700;letter-spacing:.03em;color:var(--accent);margin-bottom:.3em}
+.msc-next{margin-top:.7em}
+.mission-intro-banner b{display:block;margin-bottom:.15em}`;
+    document.head.appendChild(st);
   }
 
   goBack() {
@@ -10126,19 +10406,48 @@ class PBook {
 
     const tiers = [
       { id: 'foundations', icon: '\u{1F949}', title: tr('Foundations'), subtitle: tr('Understands Recommendations'), color: '#B45309',
-        reqs: [{ label: `${tr(`core essentials read ({0}/{1})`, readCount(base), base.length)}`, done: readAll(base) }] },
+        reqs: [{ label: `${tr(`core essentials read ({0}/{1})`, readCount(base), base.length)}`, done: readAll(base), have: readCount(base), need: base.length }] },
       { id: 'practitioner', icon: '\u{1F948}', title: tr('Practitioner'), subtitle: tr('Can Build Recommenders'), color: '#64748B',
         reqs: [
-          { label: `${tr(`technical core read ({0}/{1})`, readCount(tech), tech.length)}`, done: readAll(tech) },
-          { label: `${tr(`missions completed ({0}/2)`, Math.min(done.length, 2))}`, done: done.length >= 2 },
+          { label: `${tr(`technical core read ({0}/{1})`, readCount(tech), tech.length)}`, done: readAll(tech), have: readCount(tech), need: tech.length },
+          { label: `${tr(`missions completed ({0}/2)`, Math.min(done.length, 2))}`, done: done.length >= 2, have: Math.min(done.length, 2), need: 2 },
         ] },
       { id: 'guru', icon: '\u{1F947}', title: tr('Recommendation Guru'), subtitle: tr('Masters the Algorithms'), color: '#CA8A04',
         reqs: [
-          { label: `${tr(`research-level core read ({0}/{1})`, readCount(research), research.length)}`, done: readAll(research) },
-          { label: `${tr(`advanced mission boss beaten ({0}/1)`, Math.min(advancedDone, 1))}`, done: advancedDone >= 1 },
-          { label: `${tr(`recall reviews ({0}/10)`, Math.min(recallReps, 10))}`, done: recallReps >= 10 },
+          { label: `${tr(`research-level core read ({0}/{1})`, readCount(research), research.length)}`, done: readAll(research), have: readCount(research), need: research.length },
+          { label: `${tr(`advanced mission boss beaten ({0}/1)`, Math.min(advancedDone, 1))}`, done: advancedDone >= 1, have: Math.min(advancedDone, 1), need: 1 },
+          { label: `${tr(`recall reviews ({0}/10)`, Math.min(recallReps, 10))}`, done: recallReps >= 10, have: Math.min(recallReps, 10), need: 10 },
         ] },
     ];
+    // A book can say what each tier takes (CONFIG.certificate.requirements.<tier>: [spec, …]):
+    //   { cores: 'read' | 'understood' | 'kept' }               every core concept, in that state
+    //   { missions: { group?, ids?, difficulty?, count? } }      missions passed (boss beaten); count defaults to all
+    //   { recall: n }                                            recall answers in total
+    // Each spec may carry its own label ({cs, en, …} or plain, with {0}/{1} for have/need).
+    const R = CONFIG.certificate?.requirements;
+    if (R && typeof R === 'object') {
+      const coreIds = this._cpCoreConcepts ? this._cpCoreConcepts() : [];
+      const conceptRead = cid => (this.conceptBlocks?.[cid] || []).some(t => t.meta.type === 'spine' && u.readBlocks.has(t.meta.id));
+      const req = spec => {
+        let have, need, def;
+        if (spec.cores) {
+          const test = spec.cores === 'kept' ? (c => this.conceptKept(c)) : spec.cores === 'understood' ? (c => this.conceptUnderstood(c)) : conceptRead;
+          need = coreIds.length; have = coreIds.filter(test).length;
+          def = spec.cores === 'kept' ? 'core concepts kept by recall ({0}/{1})' : spec.cores === 'understood' ? 'core concepts checked ({0}/{1})' : 'core concepts read ({0}/{1})';
+        } else if (spec.missions) {
+          const q = spec.missions;
+          const pool = missions.filter(m => (!q.group || m.group === q.group) && (!q.ids || q.ids.includes(m.id)) && (!q.difficulty || m.difficulty === q.difficulty));
+          need = Math.min(q.count || pool.length, pool.length); have = Math.min(pool.filter(m => done.includes(m.id)).length, need);
+          def = 'missions passed ({0}/{1})';
+        } else if (spec.recall) {
+          need = +spec.recall; have = Math.min(recallReps, need);
+          def = 'recall reviews ({0}/{1})';
+        } else return null;
+        const label = spec.label ? loc(spec.label).replace('{0}', have).replace('{1}', need) : tr(def, have, need);
+        return { label, done: have >= need, have, need };
+      };
+      for (const t of tiers) if (Array.isArray(R[t.id])) t.reqs = R[t.id].map(req).filter(Boolean);
+    }
     // A book renames the tiers in CONFIG.certificate.tiers: { foundations: { title, subtitle }, … } (plain or {cs, en, …})
     for (const t of tiers) {
       const o = CONFIG.certificate?.tiers?.[t.id];
@@ -10309,6 +10618,7 @@ class PBook {
         stars,
         level: u.level,
         xp: u.xp,
+        tier: (() => { const { tiers, achievedIdx } = this.getCertTiers(); return tiers[achievedIdx]?.id || null; })(),
         sectionsRead: p.progress.read,
         totalSections: p.progress.total,
         pct: p.progress.pct,
@@ -10414,10 +10724,19 @@ class PBook {
 }
 
 // ===== INIT =====
+// figure zoom and the phone layout of figures: an engine stylesheet, so no book's own style.css misses them
+if (!document.querySelector('link[data-figures-css]')) {
+  const l = document.createElement('link');
+  l.rel = 'stylesheet';
+  l.href = 'css/figures.css?v=1';
+  l.setAttribute('data-figures-css', '');
+  document.head.appendChild(l);
+}
 installGames(PBook);
 const app = new PBook();
 window.app = app;
 installUx(PBook);   // js/ux.js: navigation, door/resume, explainable picks, progress moments
+installCompletion(PBook);   // js/completion.js: goal line, I-know-this checks, bridges, done-for-today (CONFIG.completion)
 app.init();
 
 // Text highlight on selection (desktop + mobile)
@@ -10502,11 +10821,7 @@ document.addEventListener('click', (e) => {
   if (sel && !sel.isCollapsed) return;
   // Don't remove during flash animation
   if (mark.classList.contains('highlight-flash')) return;
-  // Unwrap: replace <mark> with its text content
-  const parent = mark.parentNode;
-  while (mark.firstChild) parent.insertBefore(mark.firstChild, mark);
-  parent.removeChild(mark);
-  parent.normalize();
+  app.removeHighlight(mark);   // every piece of it, and the saved copy (it would come back on the next render)
 });
 
 // Keyboard: arrows for chapter nav in read view

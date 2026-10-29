@@ -177,6 +177,10 @@ module.exports = async function handler(req, res) {
           question, blockId: clip(d.blockId, 120) || null };
       }
 
+      // The host that served the book: rows of every book land in one shared table, and an
+      // older cached client does not say which book it is.
+      if (data && typeof data === 'object' && !data.site) data.site = clip(req.headers['x-forwarded-host'] || req.headers.host, 80) || undefined;
+
       const row = {
         user_id: data.userId || 'unknown',
         type: data.type,

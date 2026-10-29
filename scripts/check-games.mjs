@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Checks the mini-game data in games/*.json with the engine's own pure helpers (js/games.js):
 // answer keys in range, a single clear taste twin, reachable mixer and loop goals, a unique
-// best bandit arm, and a "why" for every item. Run directly, or via validate-content.js.
+// best bandit arm, a solvable robot map, and a "why" for every item. Run directly, or via validate-content.js.
 //   node scripts/check-games.mjs          → human-readable report, exit 1 on errors
 //   node scripts/check-games.mjs --json   → {"errors":[[file,msg]],"warnings":[[file,msg]]}
 import fs from 'fs';
@@ -14,7 +14,7 @@ const DIR = path.join(ROOT, 'games');
 const errors = [], warnings = [];
 const err = (f, m) => errors.push([f, m]);
 const warn = (f, m) => warnings.push([f, m]);
-const TYPES = ['sort', 'pairs', 'order', 'match', 'pop', 'bandit', 'mixer', 'abstop', 'loop'];
+const TYPES = ['sort', 'pairs', 'order', 'match', 'pop', 'bandit', 'mixer', 'abstop', 'loop', 'trace', 'cloze', 'hotspot', 'estimate', 'grid'];
 const uniq = a => new Set(a).size === a.length;
 
 function whyCoverage(f, list, label) {
@@ -136,7 +136,95 @@ function checkLoop(f, g) {
   if (best < seeds.length * 0.75) err(f, `best fix combination (${bestCombo || 'none'}) meets all goals in only ${best}/${seeds.length} seeds`);
 }
 
-const CHECK = { sort: checkSort, pairs: checkPairs, order: checkOrder, match: checkMatch, pop: checkPop, bandit: checkBandit, mixer: checkMixer, abstop: checkAbstop, loop: checkLoop };
+function checkChoice(f, where, q) {
+  if (!Array.isArray(q.options) || q.options.length < 2 || !uniq(q.options)) return err(f, `${where}: needs ≥ 2 unique options`);
+  if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) err(f, `${where}: answer ${q.answer} outside 0..${q.options.length - 1}`);
+}
+
+function checkTrace(f, g) {
+  const rounds = g.rounds || [{ code: g.code, steps: g.steps }];
+  if (!rounds.length) return err(f, 'trace needs code[] + steps[] or rounds[]');
+  const answers = [];
+  rounds.forEach((r, ri) => {
+    if (!Array.isArray(r.code) || !r.code.length) return err(f, `round ${ri}: no code[]`);
+    if (!Array.isArray(r.steps) || !r.steps.length) return err(f, `round ${ri}: no steps[]`);
+    r.steps.forEach((st, si) => {
+      const where = `round ${ri} step ${si}`;
+      if (!st.q) err(f, `${where}: no q`);
+      checkChoice(f, where, st);
+      answers.push(st.answer);
+      [].concat(st.line ?? []).forEach(n => { if (!Number.isInteger(n) || n < 0 || n >= r.code.length) err(f, `${where}: line ${n} is not a line of the code`); });
+    });
+    whyCoverage(f, r.steps, `steps of round ${ri}`);
+  });
+  if (answers.length >= 4 && new Set(answers).size === 1) warn(f, `every answer is option ${answers[0]}: vary the position`);
+}
+
+function checkCloze(f, g) {
+  if (!Array.isArray(g.items) || !g.items.length) return err(f, 'cloze needs items[]');
+  g.items.forEach((it, i) => {
+    const marks = [...String(it.text || '').matchAll(/\{(\d+)\}/g)].map(m => +m[1]);
+    if (!marks.length) err(f, `item ${i}: text has no {0} gap`);
+    if (!Array.isArray(it.gaps) || marks.length !== it.gaps.length || marks.some((n, k) => n !== k)) err(f, `item ${i}: gaps {0}…{n} must appear once each, in order, one per gaps[] entry`);
+    // options are shuffled per gap at play time, so the authored answer position does not matter
+    (it.gaps || []).forEach((gp, k) => checkChoice(f, `item ${i} gap ${k}`, gp));
+  });
+  whyCoverage(f, g.items, 'items');
+}
+
+function checkHotspot(f, g) {
+  if (!Array.isArray(g.items) || !g.items.length) return err(f, 'hotspot needs items[]');
+  if (!g.items.some(it => (it.segments || []).some(x => x.hit))) err(f, 'hotspot needs at least one hit segment');
+  g.items.forEach((it, i) => {
+    const segs = it.segments || [];
+    if (segs.length < 3) err(f, `item ${i}: needs ≥ 3 segments`);
+    if (!segs.some(x => !x.hit)) err(f, `item ${i}: needs at least one segment that is not a hit`);
+    if (!segs.some(x => x.hit) && !it.why) warn(f, `item ${i}: a round with nothing to mark needs a "why" (it says why the message is fine)`);
+    segs.forEach((x, k) => { if (!x.text || !x.text.trim()) err(f, `item ${i} segment ${k}: empty text`); });
+    const noWhy = segs.filter(x => x.hit && !x.why).length;
+    if (noWhy) warn(f, `item ${i}: ${noWhy} hit segment(s) without "why"`);
+  });
+}
+
+function checkEstimate(f, g) {
+  if (!Array.isArray(g.items) || !g.items.length) return err(f, 'estimate needs items[]');
+  g.items.forEach((it, i) => {
+    if (!it.q) err(f, `item ${i}: no q`);
+    const sc = it.scale || (it.min == null ? g.scale : null);
+    if (sc) {
+      if (!Array.isArray(sc) || sc.length < 3 || !uniq(sc)) return err(f, `item ${i}: scale needs ≥ 3 unique labels`);
+      if (!Number.isInteger(it.answer) || it.answer < 0 || it.answer >= sc.length) err(f, `item ${i}: answer ${it.answer} is not a step of the scale`);
+      return;
+    }
+    const step = it.step || 1;
+    if (!(typeof it.min === 'number' && typeof it.max === 'number' && it.min < it.max)) return err(f, `item ${i}: needs min < max (or a scale)`);
+    if (!(it.answer >= it.min && it.answer <= it.max)) err(f, `item ${i}: answer ${it.answer} outside ${it.min}..${it.max}`);
+    if (Math.abs(((it.answer - it.min) / step) - Math.round((it.answer - it.min) / step)) > 1e-9) err(f, `item ${i}: answer ${it.answer} is not reachable with step ${step}`);
+    const tol = it.tolerance != null ? it.tolerance : step;
+    if ((tol * 2) / (it.max - it.min) > 0.4) warn(f, `item ${i}: tolerance ±${tol} covers ${Math.round(100 * tol * 2 / (it.max - it.min))}% of the range: too easy?`);
+  });
+  whyCoverage(f, g.items, 'items');
+}
+
+function checkGrid(f, g) {
+  if (!Array.isArray(g.levels) || !g.levels.length) return err(f, 'grid needs levels[]');
+  g.levels.forEach((L, i) => {
+    const P = G.gridParse(L);
+    if (!P.start || !P.goal) return err(f, `level ${i}: the map needs one S and one G`);
+    const bad = L.map.join('').replace(/[SG#.]/g, '');
+    if (bad) err(f, `level ${i}: unknown map characters "${bad}"`);
+    const sol = G.gridSolve(L);
+    if (!sol) return err(f, `level ${i}: the goal cannot be reached`);
+    const max = L.max || 12;
+    if (sol.length > max) err(f, `level ${i}: the shortest program has ${sol.length} commands, more than max ${max}`);
+    else if (sol.length === max) warn(f, `level ${i}: only the shortest program fits (max ${max}): no room for a detour`);
+    if (L.solution && !G.gridRun(L, L.solution.split(/\s+/).map(t => (/^\d$/.test(t) ? +t : t))).ok) err(f, `level ${i}: the given solution does not reach the goal`);
+  });
+  whyCoverage(f, g.levels, 'levels');
+}
+
+const CHECK = { sort: checkSort, pairs: checkPairs, order: checkOrder, match: checkMatch, pop: checkPop, bandit: checkBandit, mixer: checkMixer, abstop: checkAbstop, loop: checkLoop,
+  trace: checkTrace, cloze: checkCloze, hotspot: checkHotspot, estimate: checkEstimate, grid: checkGrid };
 
 for (const file of (fs.existsSync(DIR) ? fs.readdirSync(DIR) : []).filter(x => x.endsWith('.json')).sort()) {   // a book may have no games
   const f = `games/${file}`;

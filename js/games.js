@@ -352,6 +352,87 @@ export function matchStats(game) {
 
 // ===== DOM helpers =====
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// Grid: a robot on a small map ("S" start, "G" goal, "#" wall, "." floor). A program is a list of
+// tokens: 'F' (one step forward), 'L' / 'R' (turn on the spot), or a number 2–4 that repeats the
+// next command. Shared by the game and scripts/check-games.mjs (solvable within "max" tokens).
+const GRID_STEP = { N: [0, -1], E: [1, 0], S: [0, 1], W: [-1, 0] };
+const GRID_TURN = { L: { N: 'W', W: 'S', S: 'E', E: 'N' }, R: { N: 'E', E: 'S', S: 'W', W: 'N' } };
+
+export function gridParse(level) {
+  const rows = (level.map || []).map(r => [...r]);
+  let start = null, goal = null;
+  rows.forEach((r, y) => r.forEach((c, x) => {
+    if (c === 'S') start = { x, y };
+    if (c === 'G') goal = { x, y };
+  }));
+  return { rows, w: Math.max(0, ...rows.map(r => r.length)), h: rows.length, start, goal, dir: GRID_STEP[level.dir] ? level.dir : 'E' };
+}
+
+export function gridExpand(tokens) {
+  const out = [];
+  let n = 1;
+  for (const t of tokens) {
+    if (typeof t === 'number') { n = t; continue; }
+    for (let i = 0; i < n; i++) out.push(t);
+    n = 1;
+  }
+  return out;
+}
+
+// → { ok, crash, trail: [{x, y, dir, bump?}] }; the robot must end on the goal
+export function gridRun(level, tokens) {
+  const P = gridParse(level);
+  let { x, y } = P.start, dir = P.dir;
+  const trail = [{ x, y, dir }];
+  for (const c of gridExpand(tokens)) {
+    if (c === 'L' || c === 'R') dir = GRID_TURN[c][dir];
+    else {
+      const [dx, dy] = GRID_STEP[dir];
+      const cell = P.rows[y + dy]?.[x + dx];
+      if (cell == null || cell === '#') { trail.push({ x, y, dir, bump: true }); return { ok: false, crash: true, trail }; }
+      x += dx; y += dy;
+    }
+    trail.push({ x, y, dir });
+  }
+  return { ok: x === P.goal.x && y === P.goal.y, crash: false, trail };
+}
+
+// Shortest program (fewest tokens) from start to goal, or null
+export function gridSolve(level) {
+  const P = gridParse(level);
+  if (!P.start || !P.goal) return null;
+  const reps = level.repeat ? [2, 3, 4] : [];
+  const free = (x, y) => { const c = P.rows[y]?.[x]; return c != null && c !== '#'; };
+  const k = (x, y, d) => `${x},${y},${d}`;
+  const best = new Map([[k(P.start.x, P.start.y, P.dir), 0]]);
+  let layer = [{ x: P.start.x, y: P.start.y, d: P.dir, prog: [] }];
+  const pending = [];          // moves that cost 2 tokens land one layer later
+  for (let cost = 0; cost <= 40 && (layer.length || pending.length); cost++) {
+    for (const s of layer) if (s.x === P.goal.x && s.y === P.goal.y) return s.prog;
+    const next = pending.filter(p => p.cost === cost + 1).map(p => p.s);
+    for (let i = pending.length - 1; i >= 0; i--) if (pending[i].cost === cost + 1) pending.splice(i, 1);
+    const push = (s, c) => {
+      const key = k(s.x, s.y, s.d);
+      if (best.has(key) && best.get(key) <= c) return;
+      best.set(key, c);
+      if (c === cost + 1) next.push(s); else pending.push({ cost: c, s });
+    };
+    for (const s of layer) {
+      push({ ...s, d: GRID_TURN.L[s.d], prog: [...s.prog, 'L'] }, cost + 1);
+      push({ ...s, d: GRID_TURN.R[s.d], prog: [...s.prog, 'R'] }, cost + 1);
+      const [dx, dy] = GRID_STEP[s.d];
+      if (free(s.x + dx, s.y + dy)) push({ ...s, x: s.x + dx, y: s.y + dy, prog: [...s.prog, 'F'] }, cost + 1);
+      for (const r of reps) {
+        let ok = true;
+        for (let j = 1; j <= r; j++) if (!free(s.x + dx * j, s.y + dy * j)) { ok = false; break; }
+        if (ok) push({ ...s, x: s.x + dx * r, y: s.y + dy * r, prog: [...s.prog, r, 'F'] }, cost + 2);
+      }
+    }
+    layer = next;
+  }
+  return null;
+}
+
 const pct = (x, d = 0) => (x * 100).toFixed(d) + '%';
 const num = (x, d = 2) => (Math.round(x * 10 ** d) / 10 ** d).toFixed(d);
 const reducedMotion = () => typeof matchMedia !== 'undefined' && matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -369,6 +450,11 @@ function gameSize(g) {
     case 'bandit': return trn('{0} impression', '{0} impressions', g.pulls || 40);
     case 'mixer': return trn('{0} goal', '{0} goals', (g.goals || []).length);
     case 'abstop': return trn('{0} experiment', '{0} experiments', (g.rounds || []).length);
+    case 'trace': return trn('{0} step', '{0} steps', (g.rounds || [g]).reduce((n, r) => n + (r.steps || []).length, 0));
+    case 'cloze': return trn('{0} gap', '{0} gaps', (g.items || []).reduce((n, it) => n + (it.gaps || []).length, 0));
+    case 'hotspot': return trn('{0} round', '{0} rounds', (g.items || []).length);
+    case 'estimate': return trn('{0} question', '{0} questions', (g.items || []).length);
+    case 'grid': return trn('{0} level', '{0} levels', (g.levels || []).length);
     case 'loop': return g.mode === 'user' ? `${tr(`{0} simulated days`, (g.phase1Days || 8) + (g.phase2Days || 5))}` : `${tr(`{0} simulated days, twice`, g.days || 30)}`;
     default: return '';
   }
@@ -404,7 +490,7 @@ const GamesMixin = {
     const file = block.game || block.gameType || id;
     const dom = (opts.prefix || '') + id;
     const rec = this._gameRec(id);
-    const best = rec && rec.best != null ? `Best ${esc(rec.bestLabel || pct(rec.best))}` : '';
+    const best = rec && rec.best != null ? tr('Best: {0}', esc(rec.bestLabel || pct(rec.best))) : '';
     setTimeout(() => this._gameFillMeta(dom, file, 0), 0);
     return `<div class="game-block g-block fade-up" id="b-${esc(dom)}" data-block="${esc(id)}" data-game-file="${esc(file)}">
       <div class="game-header g-header">
@@ -446,6 +532,9 @@ const GamesMixin = {
     }
     const launch = root.querySelector('.g-launch');
     if (launch) launch.hidden = true;
+    // the game shows its own instruction; the teaser above it would say the same twice
+    const teaser = root.querySelector('.g-teaser');
+    if (teaser) teaser.hidden = true;
     this._gameStopTimer(root);
     const meta = this.findBlock(blockId)?.meta || {};
     const rec = this._gameRec(blockId);
@@ -455,7 +544,8 @@ const GamesMixin = {
     if (!root._gKeys) { root.addEventListener('keydown', e => this._gameKey(e, root)); root._gKeys = true; }
     if (typeof game.timer === 'number' && game.timer > 0) this._gameStartTimer(S, game.timer);
     const type = game.type === 'match' && game.pairs ? 'pairs' : game.type;
-    const run = { sort: '_gameSort', pairs: '_gamePairs', order: '_gameOrder', match: '_gameMatch', pop: '_gamePop', bandit: '_gameBandit', mixer: '_gameMixer', abstop: '_gameAbstop', loop: '_gameLoop' }[type];
+    const run = { sort: '_gameSort', pairs: '_gamePairs', order: '_gameOrder', match: '_gameMatch', pop: '_gamePop', bandit: '_gameBandit', mixer: '_gameMixer', abstop: '_gameAbstop', loop: '_gameLoop',
+      trace: '_gameTrace', cloze: '_gameCloze', hotspot: '_gameHotspot', estimate: '_gameEstimate', grid: '_gameGrid' }[type];
     if (!run) { area.innerHTML = `<p class="g-msg">${tr(`This game type ("{0}") is not supported by this version of the book.`, esc(game.type))}</p>`; return; }
     this[run](S);
   },
@@ -511,12 +601,13 @@ const GamesMixin = {
   },
 
   // ✓/✗ + the right answer + why, then a Next button that takes focus
-  _gameFeedback(S, { ok, head, why, onNext, nextText }) {
+  _gameFeedback(S, { ok, head, why, onNext, nextText, extra }) {
     const slot = S.area.querySelector('.g-fb');
     if (!slot) return;
     slot.innerHTML = `<div class="g-feedback ${ok === true ? 'is-ok' : ok === false ? 'is-no' : ''}" role="status">
       <div class="g-fb-head">${head}</div>
       ${why ? `<div class="g-fb-why">${esc(why)}</div>` : ''}
+      ${extra || ''}
       ${onNext ? `<button class="g-btn g-btn-primary g-next">${nextText || tr('Next ›')}</button>` : ''}
     </div>`;
     const nb = slot.querySelector('.g-next');
@@ -559,7 +650,7 @@ const GamesMixin = {
     try { this._updateMissionBar?.(); } catch (e) { /* mission bar is optional */ }
 
     const bestEl = S.root.querySelector('.g-best');
-    if (bestEl) { bestEl.hidden = false; bestEl.textContent = `Best ${rec.bestLabel}`; }
+    if (bestEl) { bestEl.hidden = false; bestEl.textContent = tr('Best: {0}', rec.bestLabel); }
     const note = res.note || (frac >= 1 ? tr('Perfect run.') : isBest && hadBest ? tr('New personal best.') : !isBest ? `${tr(`Your best: {0}`, esc(rec.bestLabel))}` : '');
     const concept = this._gameConcept(S.meta);
     const misses = res.misses || [];
@@ -859,6 +950,330 @@ const GamesMixin = {
     this._gameFocus(S.area.querySelector('.g-spot-item'));
   },
 
+  // ---------- trace: step through a short program, answer what happens on the marked line ----------
+  _gameTrace(S) {
+    const g = S.game;
+    const rounds = g.rounds || [{ code: g.code, steps: g.steps }];
+    const flat = rounds.flatMap((r, ri) => (r.steps || []).map((st, si) => ({ ...st, ri, k: `${ri}.${si}` })));
+    let i = 0, score = 0;
+    const misses = [];
+    S.onTimeout = () => this._gameFinish(S, { score, total: flat.length, misses, note: tr('Time is up.') });
+    const show = () => {
+      if (i >= flat.length) return this._gameFinish(S, { score, total: flat.length, misses });
+      const st = flat[i], R = rounds[st.ri];
+      const at = Array.isArray(st.line) ? st.line : st.line != null ? [st.line] : [];
+      S.area.innerHTML = `${this._gameProgress(tr('Step'), i, flat.length, `${tr(`{0} correct`, score)}`)}
+        ${g.instruction ? `<p class="g-instruction">${esc(g.instruction)}</p>` : ''}
+        ${R.title ? `<p class="g-small g-round-title">${esc(R.title)}</p>` : ''}
+        <pre class="g-code" aria-label="${esc(tr('Program'))}">${(R.code || []).map((ln, n) =>
+          `<span class="g-ln${at.includes(n) ? ' is-at' : ''}"${at.includes(n) ? ' aria-current="step"' : ''}><span class="g-ln-n" aria-hidden="true">${n + 1}</span>${esc(ln)}</span>`).join('')}</pre>
+        ${st.input ? `<div class="g-input">${esc(st.input)}</div>` : ''}
+        <p class="g-q">${esc(st.q)}</p>
+        <div class="g-options${st.options.length > 2 ? ' g-options-many' : ''}">${st.options.map((o, oi) =>
+          `<button class="g-opt" data-i="${oi}"><span class="g-key" aria-hidden="true">${oi + 1}</span><span class="g-opt-text">${esc(o)}</span></button>`).join('')}</div>
+        <div class="g-fb"></div>`;
+      const btns = [...S.area.querySelectorAll('.g-opt')];
+      btns.forEach(btn => {
+        btn.onclick = () => {
+          btns.forEach(b => { b.disabled = true; });
+          const ok = +btn.dataset.i === st.answer;
+          if (ok) score++; else misses.push({ q: st.input ? `${st.input} · ${st.q}` : st.q, a: st.options[st.answer], why: st.why });
+          btn.classList.add(ok ? 'is-right' : 'is-wrong');
+          btn.insertAdjacentHTML('beforeend', `<span class="g-mark">${ok ? '✓' : '✗'}</span>`);
+          if (!ok) { const r = btns[st.answer]; r.classList.add('is-answer'); r.insertAdjacentHTML('beforeend', '<span class="g-mark">✓</span>'); }
+          this._gameAnswer(S, st.k, ok);
+          this._gameFeedback(S, {
+            ok, why: st.why,
+            head: ok ? tr('✓ Correct.') : `${tr(`✗ Not quite. It's <b>{0}</b>.`, esc(st.options[st.answer]))}`,
+            extra: st.state ? `<div class="g-state">${tr('Now: {0}', `<code>${esc(st.state)}</code>`)}</div>` : '',
+            nextText: i === flat.length - 1 ? tr('See your score ›') : tr('Next ›'),
+            onNext: () => { i++; show(); },
+          });
+        };
+      });
+      this._gameFocus(btns[0]);
+    };
+    show();
+  },
+
+  // ---------- cloze: fill the gaps of a sentence one by one ----------
+  _gameCloze(S) {
+    const g = S.game;
+    const items = g.items;
+    const total = items.reduce((s, it) => s + it.gaps.length, 0);
+    let i = 0, gi = 0, score = 0;
+    let filled = [];
+    const misses = [];
+    S.onTimeout = () => this._gameFinish(S, { score, total, misses, note: tr('Time is up.') });
+    const sentence = it => it.text.split(/(\{\d+\})/).map(part => {
+      const m = part.match(/^\{(\d+)\}$/);
+      if (!m) return esc(part);
+      const n = +m[1], f = filled[n], gap = it.gaps[n];
+      if (f) return f.ok ? `<span class="g-gap is-ok">${esc(gap.options[gap.answer])} <span class="g-mark">✓</span></span>`
+        : `<span class="g-gap is-no"><s>${esc(gap.options[f.pick])}</s> ${esc(gap.options[gap.answer])} <span class="g-mark">✗</span></span>`;
+      return `<span class="g-gap${n === gi ? ' is-cur' : ''}">${n === gi ? '?' : '…'}<span class="g-sr"> ${tr('gap {0}', n + 1)}</span></span>`;
+    }).join('');
+    const show = fb => {
+      if (i >= items.length) return this._gameFinish(S, { score, total, misses });
+      const it = items[i], gap = it.gaps[gi];
+      const done = gi >= it.gaps.length;
+      S.area.innerHTML = `${this._gameProgress(tr('Sentence'), i, items.length, `${tr(`{0} correct`, score)}`)}
+        <p class="g-instruction">${esc(g.instruction || tr('Fill in the gaps.'))}</p>
+        <div class="g-card g-cloze">${sentence(it)}</div>
+        ${done ? '' : `<div class="g-options${gap.options.length > 2 ? ' g-options-many' : ''}">${gap.order.map((oi, n) =>
+          `<button class="g-opt" data-i="${oi}"><span class="g-key" aria-hidden="true">${n + 1}</span><span class="g-opt-text">${esc(gap.options[oi])}</span></button>`).join('')}</div>`}
+        <div class="g-fb"></div>`;
+      if (fb) this._gameFeedback(S, fb);
+      const btns = [...S.area.querySelectorAll('.g-opt')];
+      btns.forEach(btn => {
+        btn.onclick = () => {
+          const pick = +btn.dataset.i, ok = pick === gap.answer;
+          if (ok) score++; else misses.push({ q: it.text.replace(/\{(\d+)\}/g, (_, n) => (+n === gi ? '___' : it.gaps[+n].options[it.gaps[+n].answer])), a: gap.options[gap.answer], why: gap.why || it.why });
+          filled[gi] = { pick, ok };
+          this._gameAnswer(S, `${i}.${gi}`, ok);
+          gi++;
+          if (gi < it.gaps.length) return show();
+          const allOk = filled.every(f => f.ok);
+          show({
+            ok: allOk, why: it.why,
+            head: allOk ? tr('✓ Correct.') : tr('✗ Not all of it. The right words are in the sentence.'),
+            nextText: i === items.length - 1 ? tr('See your score ›') : tr('Next ›'),
+            onNext: () => { i++; gi = 0; filled = []; prep(); show(); },
+          });
+        };
+      });
+      this._gameFocus(btns[0]);
+    };
+    const prep = () => { const it = items[i]; if (it) it.gaps.forEach(gp => { gp.order = shuffled(gp.options.map((_, k) => k)); }); };
+    prep();
+    show();
+  },
+
+  // ---------- hotspot: tap every part of a message (or every line) that the instruction asks for ----------
+  _gameHotspot(S) {
+    const g = S.game;
+    const items = g.items;
+    const total = items.reduce((s, it) => s + it.segments.filter(x => x.hit).length, 0);
+    let i = 0, score = 0;
+    const misses = [];
+    S.onTimeout = () => this._gameFinish(S, { score, total, misses, note: tr('Time is up.') });
+    const show = () => {
+      if (i >= items.length) return this._gameFinish(S, { score, total, misses });
+      const it = items[i];
+      const lines = it.form === 'lines';
+      const marked = new Set();
+      S.area.innerHTML = `${this._gameProgress(tr('Round'), i, items.length, `${tr(`{0} found`, score)}`)}
+        <p class="g-instruction">${esc(g.instruction || tr('Tap every part that applies, then check.'))}</p>
+        <div class="g-hs-box${lines ? ' is-lines' : ''}">
+          ${it.label ? `<div class="g-hs-label">${esc(it.label)}</div>` : ''}
+          <div class="g-hs-body">${it.segments.map((sg, k) =>
+            `<button class="g-hs" aria-pressed="false" data-k="${k}">${lines ? `<span class="g-ln-n" aria-hidden="true">${k + 1}</span>` : ''}${esc(sg.text)}</button>`).join(lines ? '' : ' ')}</div>
+        </div>
+        <div class="g-spot-actions"><span class="g-small g-spot-count" role="status">${tr('{0} marked', 0)}</span><button class="g-btn g-btn-primary g-check">${esc(g.doneLabel || tr('Check my answers'))}</button></div>
+        <div class="g-fb"></div>`;
+      const count = S.area.querySelector('.g-spot-count');
+      const segs = [...S.area.querySelectorAll('.g-hs')];
+      segs.forEach(btn => {
+        btn.onclick = () => {
+          const k = +btn.dataset.k;
+          if (marked.has(k)) marked.delete(k); else marked.add(k);
+          btn.setAttribute('aria-pressed', marked.has(k) ? 'true' : 'false');
+          count.textContent = tr('{0} marked', marked.size);
+        };
+      });
+      S.area.querySelector('.g-check').onclick = () => {
+        let found = 0, wrong = 0;
+        const rows = [];
+        it.segments.forEach((sg, k) => {
+          const btn = segs[k];
+          btn.disabled = true;
+          const m = marked.has(k);
+          if (sg.hit && m) { found++; btn.classList.add('is-right'); }
+          else if (sg.hit) { btn.classList.add('is-answer'); misses.push({ q: it.label || g.title, a: sg.text, why: sg.why }); }
+          else if (m) { wrong++; btn.classList.add('is-wrong'); }
+          if (sg.hit) rows.push(`<li class="${m ? 'is-ok' : 'is-no'}"><span class="g-mark">${m ? '✓' : '✗'}</span> <b>${esc(sg.text)}</b>${m ? '' : `<span class="g-small"> ${tr('(you left it)')}</span>`}${sg.why ? `<div class="g-small">${esc(sg.why)}</div>` : ''}</li>`);
+          else if (m) rows.push(`<li class="is-no"><span class="g-mark">✗</span> <b>${esc(sg.text)}</b><span class="g-small"> ${tr('(you marked it)')}</span>${sg.why ? `<div class="g-small">${esc(sg.why)}</div>` : ''}</li>`);
+        });
+        S.area.querySelector('.g-spot-actions').remove();
+        const got = Math.max(0, found - wrong);
+        score += got;
+        this._gameAnswer(S, i, got === it.segments.filter(x => x.hit).length && !wrong, { found, wrong });
+        const hits = it.segments.filter(x => x.hit).length;
+        this._gameFeedback(S, {
+          ok: found === hits && !wrong,
+          head: !hits && !wrong ? tr('✓ Right: there is nothing to mark here.') : found === hits && !wrong ? tr('✓ You found all of them.') : `${tr('{0} of {1} found', found, hits)}${wrong ? ` · ${trn('{0} marked by mistake', '{0} marked by mistake', wrong)}` : ''}`,
+          why: it.why,
+          extra: rows.length ? `<ul class="g-review">${rows.join('')}</ul>` : '',
+          nextText: i === items.length - 1 ? tr('See your score ›') : tr('Next ›'),
+          onNext: () => { i++; show(); },
+        });
+      };
+      this._gameFocus(segs[0]);
+    };
+    show();
+  },
+
+  // ---------- estimate: guess a number (or a step on a labelled scale) with a slider ----------
+  _gameEstimate(S) {
+    const g = S.game;
+    const items = g.items;
+    let i = 0, score = 0;
+    const misses = [];
+    const fmtN = x => (+x).toLocaleString(locale('en-US'), { maximumFractionDigits: 2 });
+    const scaleOf = it => it.scale || (it.min == null ? g.scale : null);
+    const label = (it, v) => scaleOf(it) ? scaleOf(it)[v] : `${fmtN(v)}${it.unit ? ' ' + it.unit : ''}`;
+    S.onTimeout = () => this._gameFinish(S, { score, total: items.length, misses, note: tr('Time is up.') });
+    const show = () => {
+      if (i >= items.length) return this._gameFinish(S, { score, total: items.length, misses });
+      const it = items[i];
+      const sc = scaleOf(it);
+      const min = sc ? 0 : it.min, max = sc ? sc.length - 1 : it.max, step = sc ? 1 : (it.step || 1);
+      const start = it.start != null ? it.start : sc ? Math.floor(max / 2) : min + Math.round((max - min) / 2 / step) * step;
+      S.area.innerHTML = `${this._gameProgress(tr('Question'), i, items.length, `${tr(`{0} correct`, score)}`)}
+        ${g.instruction ? `<p class="g-instruction">${esc(g.instruction)}</p>` : ''}
+        <div class="g-card">${esc(it.q)}</div>
+        <div class="g-est">
+          <output class="g-est-val" aria-live="polite">${esc(label(it, start))}</output>
+          <input class="g-range" type="range" min="${min}" max="${max}" step="${step}" value="${start}" aria-label="${esc(tr('Your estimate'))}">
+          <div class="g-est-ends"><span>${esc(label(it, min))}</span><span>${esc(label(it, max))}</span></div>
+          <div class="g-est-marks" hidden></div>
+        </div>
+        <div class="g-spot-actions"><button class="g-btn g-btn-primary g-check">${tr('That is my guess')}</button></div>
+        <div class="g-fb"></div>`;
+      const range = S.area.querySelector('.g-range'), out = S.area.querySelector('.g-est-val');
+      range.oninput = () => { out.textContent = label(it, +range.value); };
+      S.area.querySelector('.g-check').onclick = () => {
+        const v = +range.value;
+        range.disabled = true;
+        S.area.querySelector('.g-spot-actions').remove();
+        const tol = it.tolerance != null ? it.tolerance : sc ? 0 : step;
+        const ok = Math.abs(v - it.answer) <= tol + 1e-9;
+        const near = !ok && Math.abs(v - it.answer) <= 3 * tol + (sc ? 1 : 0);
+        if (ok) score++; else misses.push({ q: it.q, a: label(it, it.answer), why: it.why });
+        const pos = x => `${Math.round(100 * (x - min) / Math.max(1e-9, max - min))}%`;
+        const marks = S.area.querySelector('.g-est-marks');
+        marks.hidden = false;
+        marks.innerHTML = `<i class="g-est-you" style="left:${pos(v)}" title="${esc(tr('your guess'))}"></i><i class="g-est-ans" style="left:${pos(it.answer)}" title="${esc(tr('the answer'))}"></i>`;
+        this._gameAnswer(S, i, ok, { guess: v, answer: it.answer });
+        this._gameFeedback(S, {
+          ok, why: it.why,
+          head: ok ? `${tr('✓ Yes: {0}.', `<b>${esc(label(it, it.answer))}</b>`)}`
+            : `${near ? tr('Close.') : '✗'} ${tr('The answer is <b>{0}</b>; your guess: {1}.', esc(label(it, it.answer)), esc(label(it, v)))}`,
+          nextText: i === items.length - 1 ? tr('See your score ›') : tr('Next ›'),
+          onNext: () => { i++; show(); },
+        });
+      };
+      this._gameFocus(range);
+    };
+    show();
+  },
+
+  // ---------- grid: program a robot with steps and turns to reach the goal ----------
+  _gameGrid(S) {
+    const g = S.game;
+    const levels = g.levels;
+    let li = 0, score = 0;
+    const misses = [];
+    const ARROW = { F: '↑', L: '↶', R: '↷' };
+    const NAME = { F: tr('step forward'), L: tr('turn left'), R: tr('turn right') };
+    const progText = prog => {
+      const out = [];
+      for (let k = 0; k < prog.length; k++) {
+        const t = prog[k];
+        if (typeof t === 'number') { const c = prog[k + 1]; out.push(c && typeof c !== 'number' ? `${t}× ${ARROW[c]}` : `${t}× …`); if (c && typeof c !== 'number') k++; }
+        else out.push(ARROW[t]);
+      }
+      return out;
+    };
+    S.onTimeout = () => this._gameFinish(S, { score, total: levels.length, misses, note: tr('Time is up.') });
+    const showLevel = () => {
+      if (li >= levels.length) return this._gameFinish(S, { score, total: levels.length, misses, scoreLabel: `${tr(`{0}/{1} first try`, score, levels.length)}` });
+      const L = levels[li], P = gridParse(L);
+      const max = L.max || 12;
+      let prog = [], runs = 0, busy = false;
+      const board = pos => `<div class="g-grid" style="grid-template-columns:repeat(${P.w}, 1fr)" role="img" aria-label="${esc(tr('Map with the robot and the goal'))}">${
+        P.rows.map((r, y) => Array.from({ length: P.w }, (_, x) => {
+          const c = r[x] || '#';
+          const here = pos.x === x && pos.y === y;
+          return `<span class="g-cell${c === '#' ? ' is-wall' : ''}${c === 'G' ? ' is-goal' : ''}${pos.bump && here ? ' is-bump' : ''}">${here ? `<span class="g-bot g-dir-${pos.dir}" aria-hidden="true">➤</span>` : c === 'G' ? `<span aria-hidden="true">${esc(g.goalIcon || '⭐')}</span>` : ''}</span>`;
+        }).join('')).join('')}</div>`;
+      const render = (pos, fb) => {
+        const chips = progText(prog);
+        S.area.innerHTML = `${this._gameProgress(tr('Level'), li, levels.length, `${tr(`{0} first try`, score)}`)}
+          <p class="g-instruction">${esc(L.instruction || g.instruction || tr('Program the robot to reach the goal.'))}</p>
+          ${board(pos)}
+          <div class="g-prog-row"><span class="g-small">${tr('Program ({0}/{1}):', prog.length, max)}</span>
+            <ol class="g-prog" aria-label="${esc(tr('Program'))}">${chips.length ? chips.map(c => `<li>${esc(c)}</li>`).join('') : `<li class="is-empty">${tr('empty')}</li>`}</ol></div>
+          <div class="g-cmds">
+            ${['F', 'L', 'R'].map((c, n) => `<button class="g-opt g-cmd" data-c="${c}" title="${esc(NAME[c])}"><span class="g-key" aria-hidden="true">${n + 1}</span><span class="g-opt-text">${ARROW[c]} ${esc(NAME[c])}</span></button>`).join('')}
+            ${L.repeat ? [2, 3, 4].map(r => `<button class="g-btn g-rep" data-r="${r}" title="${esc(tr('repeat the next command {0}×', r))}">${r}×</button>`).join('') : ''}
+          </div>
+          <div class="g-spot-actions">
+            <button class="g-btn g-undo">${tr('⌫ Remove last')}</button>
+            <button class="g-btn g-btn-primary g-run">${tr('▶ Run')}</button>
+          </div>
+          <div class="g-fb"></div>`;
+        if (fb) this._gameFeedback(S, fb);
+        const full = prog.length >= max;
+        S.area.querySelectorAll('.g-cmd').forEach(b => { b.disabled = busy || full; b.onclick = () => { prog.push(b.dataset.c); render(P0); this._gameFocus(S.area.querySelector(`.g-cmd[data-c="${b.dataset.c}"]`)); }; });
+        S.area.querySelectorAll('.g-rep').forEach(b => { b.disabled = busy || full || typeof prog[prog.length - 1] === 'number'; b.onclick = () => { prog.push(+b.dataset.r); render(P0); this._gameFocus(S.area.querySelector('.g-cmd')); }; });
+        const undo = S.area.querySelector('.g-undo'), run = S.area.querySelector('.g-run');
+        undo.disabled = busy || !prog.length;
+        run.disabled = busy || !prog.some(t => typeof t !== 'number');
+        undo.onclick = () => { prog.pop(); render(P0); this._gameFocus(S.area.querySelector('.g-undo:not([disabled])') || S.area.querySelector('.g-cmd')); };
+        run.onclick = () => go();
+      };
+      const P0 = { x: P.start.x, y: P.start.y, dir: P.dir };
+      const go = () => {
+        runs++;
+        busy = true;
+        const res = gridRun(L, prog);
+        const finish = () => {
+          busy = false;
+          const last = res.trail[res.trail.length - 1];
+          this._gameAnswer(S, li, res.ok && runs === 1, { runs, tokens: prog.length });
+          if (res.ok) {
+            if (runs === 1) score++;
+            else misses.push({ q: `${tr('Level {0}', li + 1)}`, a: progText(prog).join(' '), why: L.why });
+            render(last, {
+              ok: true, why: L.why,
+              head: runs === 1 ? tr('✓ The robot reached the goal on the first run.') : `${tr('✓ The robot reached the goal (run {0}).', runs)}`,
+              nextText: li === levels.length - 1 ? tr('See your score ›') : tr('Next level ›'),
+              onNext: () => { li++; showLevel(); },
+            });
+            S.area.querySelectorAll('.g-cmd, .g-rep, .g-undo, .g-run').forEach(b => { b.disabled = true; });
+            return;
+          }
+          const sol = gridSolve(L);
+          const head = res.crash ? `${tr('✗ The robot bumped into a wall at step {0}.', res.trail.length - 1)}` : tr('✗ The program ended away from the goal.');
+          const giveUp = runs >= 3 && sol;
+          render(last, {
+            ok: false, head, why: giveUp ? `${tr('One way to do it: {0}', progText(sol).join(' '))}` : tr('Change the program and run it again.'),
+            nextText: giveUp ? (li === levels.length - 1 ? tr('See your score ›') : tr('Next level ›')) : tr('Back to the start'),
+            onNext: giveUp ? () => { misses.push({ q: `${tr('Level {0}', li + 1)}`, a: progText(sol).join(' '), why: L.why }); li++; showLevel(); }
+              : () => render(P0),
+          });
+        };
+        if (reducedMotion()) return finish();
+        let n = 0;
+        const tick = () => {
+          if (!S.root.isConnected) return;
+          const p = res.trail[n];
+          const boardEl = S.area.querySelector('.g-grid');
+          if (boardEl) boardEl.outerHTML = board(p);
+          n++;
+          if (n < res.trail.length) setTimeout(tick, 320); else setTimeout(finish, 250);
+        };
+        render(P0);
+        S.area.querySelectorAll('.g-cmd, .g-rep, .g-undo, .g-run').forEach(b => { b.disabled = true; });
+        tick();
+      };
+      render(P0);
+      this._gameFocus(S.area.querySelector('.g-cmd'));
+    };
+    showLevel();
+  },
+
   // ---------- bandit: spend impressions yourself, then race the textbook policies ----------
   _gameBandit(S) {
     const g = S.game;
@@ -923,7 +1338,7 @@ const GamesMixin = {
         <p>${tr(`You showed the best {0} ({1}) <b>{2}</b> of {3} times{4}.`, esc(armWord), esc(arms[best].label), n[best], pulls, ts ? `${tr(`; Thompson sampling showed it <b>{0}</b> times`, ts.n[best])}` : '')}</p>
         <p>${tr(`Over {0} replays with fresh luck, average clicks: {1}; always the best {2} would average <b>{3}</b>.`, g.replays || 200, policies.map(p => `${esc(BANDIT_POLICIES[p].split(' (')[0])} <b>${avg[p].toFixed(1)}</b>`).join(' · '), esc(armWord), (pulls * arms[best].p).toFixed(1))}</p>
       </div>`;
-      this._gameFinish(S, { score: Math.min(clicks, oracle), total: Math.max(1, oracle), scoreLabel: `${clicks} clicks`, note: `${tr(`Best possible with this luck: {0}`, oracle)}`, html });
+      this._gameFinish(S, { score: Math.min(clicks, oracle), total: Math.max(1, oracle), scoreLabel: trn('{0} click', '{0} clicks', clicks), note: `${tr(`Best possible with this luck: {0}`, oracle)}`, html });
     };
     draw();
     this._gameFocus(armsEl.querySelector('.g-arm'));
@@ -1414,7 +1829,7 @@ const GamesMixin = {
       ${[...byCh.entries()].map(([ch, list]) => `<section class="g-pg-sec"><h3>${esc(chTitle(ch))}</h3><div class="g-pg-grid">${list.map(m => {
         const rec = store[m.id];
         const c = this._gameConcept(m);
-        return `<button class="g-pg-card" data-id="${esc(m.id)}"><span class="g-pg-t">${esc(m.title)}</span><span class="g-pg-d">${esc(m.teaser || '')}</span><span class="g-pg-m">${c ? esc(c.title) + ' · ' : ''}${rec && rec.best != null ? `Best ${esc(rec.bestLabel || pct(rec.best))}` : ('<b>' + tr(`New`) + '</b>')}</span></button>`;
+        return `<button class="g-pg-card" data-id="${esc(m.id)}"><span class="g-pg-t">${esc(m.title)}</span><span class="g-pg-d">${esc(m.teaser || '')}</span><span class="g-pg-m">${c ? esc(c.title) + ' · ' : ''}${rec && rec.best != null ? tr('Best: {0}', esc(rec.bestLabel || pct(rec.best))) : ('<b>' + tr(`New`) + '</b>')}</span></button>`;
       }).join('')}</div></section>`).join('')}
     </div>`;
     ov.querySelector('.g-pg-close').onclick = () => this.closePlayground();
@@ -1466,7 +1881,7 @@ const GamesMixin = {
         <div class="card-chapter">🎮 ${esc(c ? c.title : tr('Mini-game'))}</div>
         <div class="card-title">${esc(m.title)}</div>
         <div class="card-teaser">${esc(m.teaser || '')}</div>
-        <div class="card-meta"><span class="card-time">${rec && rec.best != null ? `Best ${esc(rec.bestLabel || pct(rec.best))}` : tr('New · untimed')}</span></div>
+        <div class="card-meta"><span class="card-time">${rec && rec.best != null ? tr('Best: {0}', esc(rec.bestLabel || pct(rec.best))) : tr('New · untimed')}</span></div>
       </div>`;
     };
     const all = `<div class="card g-shelf-card g-shelf-all" role="button" tabindex="0" style="flex:0 0 180px;cursor:pointer" onclick="app.openPlayground()" onkeydown="if(event.key==='Enter')app.openPlayground()">
@@ -1480,7 +1895,7 @@ export function installGames(Cls) {
   if (typeof document !== 'undefined' && !document.querySelector('link[data-games-css]')) {
     const l = document.createElement('link');
     l.rel = 'stylesheet';
-    l.href = 'css/games.css?v=1';
+    l.href = 'css/games.css?v=2';
     l.setAttribute('data-games-css', '');
     document.head.appendChild(l);
   }

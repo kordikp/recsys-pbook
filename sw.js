@@ -75,8 +75,14 @@ self.addEventListener('activate', event => {
   })());
 });
 
+// The worker this one replaced may still be storing a response it fetched just before the
+// switch, which re-creates its cache after activate dropped it: sweep once more a little later.
+let _swept = false;
+const sweepOld = () => caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))));
+
 // Fetch: API = network only; everything else = cache first, update in background
 self.addEventListener('fetch', event => {
+  if (!_swept) { _swept = true; event.waitUntil(new Promise(r => setTimeout(r, 10000)).then(sweepOld)); }
   const url = new URL(event.request.url);
   if (url.pathname.startsWith('/.netlify/') || url.pathname.startsWith('/api/')) {
     event.respondWith(fetch(event.request).catch(() =>

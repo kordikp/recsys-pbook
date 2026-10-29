@@ -58,7 +58,7 @@ function svgFor(id) {
 
 function plain(md) {
   return String(md || '')
-    .replace(/⟦svg⟧[\s\S]*?⟦\/svg⟧/g, ' ')
+    .replace(/⟦svg⟧[\s\S]*?⟦\/svg⟧/g, ' ').replace(/⟦(?:obr|img|media)\s*:[^⟧]*⟧/g, ' ')
     .replace(/```[\s\S]*?```/g, ' ')
     .replace(/<!--[\s\S]*?-->/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
@@ -269,7 +269,7 @@ ${sources.length ? `<h2>Sources</h2><ul>${sources.map(s => `<li>${s.url ? `<a hr
           sources: b === a ? sources : undefined, text: plain(b.body).slice(0, 12000), path: b.rel, kb: `${kbUrl(slug)}${b === a ? '' : '#' + b.meta.id}`,
         });
         if (!['game'].includes(b.meta.type)) {
-          full.push(`\n### ${b.meta.title}${b === a ? '' : ` (another telling of “${title}”${b.meta.lang && b.meta.lang !== 'en' ? `, ${b.meta.lang}` : ''})`}\nPage: ${url}${b === a ? '' : '#' + b.meta.id} · In the app: ${SITE}/#c/${slug}\n${b === a && recallQ ? `Q: ${recallQ}\nA: ${recallA}\n` : ''}\n${String(b.body || '').replace(/⟦svg⟧[\s\S]*?⟦\/svg⟧/g, '').trim()}\n`);
+          full.push(`\n### ${b.meta.title}${b === a ? '' : ` (another telling of “${title}”${b.meta.lang && b.meta.lang !== 'en' ? `, ${b.meta.lang}` : ''})`}\nPage: ${url}${b === a ? '' : '#' + b.meta.id} · In the app: ${SITE}/#c/${slug}\n${b === a && recallQ ? `Q: ${recallQ}\nA: ${recallA}\n` : ''}\n${String(b.body || '').replace(/⟦svg⟧[\s\S]*?⟦\/svg⟧/g, '').replace(/⟦(?:obr|img|media)\s*:[^⟧]*⟧/g, '').trim()}\n`);
         }
       }
     }
