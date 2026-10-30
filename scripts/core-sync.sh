@@ -6,7 +6,7 @@
 #   ./scripts/core-sync.sh /path/to/mvi-pbook
 #
 # ENGINE (overwritten in the target — never edit these in a satellite):
-#   js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/games-lab.js js/challenge.js js/ux.js js/completion.js
+#   js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/games-lab.js js/challenge.js js/ux.js js/completion.js js/teams.js
 #   js/i18n.js js/i18n/*.js (interface language packs)
 #   css/games.css css/figures.css css/challenge.css
 #   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js
@@ -38,7 +38,7 @@ TARGET="${1:?usage: core-sync.sh /path/to/book-repo}"
 [ -d "$TARGET/content" ] || { echo "!! $TARGET does not look like a p-book (no content/)"; exit 1; }
 
 ENGINE=(
-  js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/games-lab.js js/challenge.js js/ux.js js/completion.js
+  js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/games-lab.js js/challenge.js js/ux.js js/completion.js js/teams.js
   js/i18n.js $(cd "$CORE" && ls js/i18n/*.js 2>/dev/null)
   css/games.css css/figures.css css/challenge.css
   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js

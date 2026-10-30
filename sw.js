@@ -6,7 +6,7 @@
 // (content/bundle.<lang>.json or every content file, games, the interface pack — app.js
 // _offlineCopy) and they are stored here. Install used to download every content file
 // a second time while the first visit was still loading them.
-const CACHE_NAME = 'pbook-v87';
+const CACHE_NAME = 'pbook-v88';
 
 // Fetch + store one URL; returns the live Response (body still readable) or null
 async function precacheOne(cache, url) {

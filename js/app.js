@@ -10,7 +10,8 @@ const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
 import { installGames } from './games.js?v=4';
 import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=5';
-import { installCompletion } from './completion.js?v=1';
+import { installCompletion } from './completion.js?v=2';
+import { installTeams } from './teams.js?v=1';
 import { installChallenges } from './challenge.js?v=1';
 
 class PBook {
@@ -131,6 +132,7 @@ class PBook {
     // gone for good are pruned. Never a wipe, and never while any fetch failed.
     await this._reconcileProgress();
 
+    this._teamWatchHash();   // a group-task QR scanned while the book is open changes only the hash
     // Check for deep link: #blockId or #mission-missionId
     const hash = window.location.hash?.substring(1);
     if (hash) {
@@ -141,6 +143,9 @@ class PBook {
         this.updateXPBadge();
         this.switchView('glossary');
         this.showMission(missionId);
+      } else if (hash.startsWith('tym-')) {
+        // group task: #tym-<id>~<children>~<AI assistants> (js/teams.js)
+        this.openTeamLink(hash.slice(4));
       } else if (hash.startsWith('mise-')) {
         document.getElementById('onboarding').classList.add('hidden');
         this.updateXPBadge();
@@ -5242,7 +5247,7 @@ class PBook {
     </div>`;
 
     // Reading DNA first: ideas you can explain, then your preference model (js/ux.js)
-    h += this._conceptBadgesHtml();
+    h += this._profileMapHtml() || this._conceptBadgesHtml();   // the map shows kept ideas too
     h += this._renderFacetProfile();
     // Recall section
     if (this._f('spaceRepetition')) {
@@ -5757,7 +5762,7 @@ class PBook {
     this._bookMissions = null;
     try {
       const r = await this._get(`${CONFIG.book.contentDir}/missions.json`);   // optional file
-      if (r && r.ok) { const j = this._bookData(await r.json()); this._bookMissions = Array.isArray(j) ? j : (j.missions || null); }
+      if (r && r.ok) { const j = this._bookData(await r.json()); this._bookMissions = Array.isArray(j) ? j : (j.missions || null); this._bookTeams = Array.isArray(j?.teams) ? j.teams : null; }
     } catch (e) {}
     // A step whose block this edition does not carry (a draft, another language) leaves the mission
     // with its intro and its story beats; a branch left empty goes, and so does a mission left without steps.
@@ -6189,6 +6194,7 @@ class PBook {
       </div>`;
     });
 
+    html += this.teamListHtml();
     html += '</div>';
     el.innerHTML = html;
   }
@@ -10848,7 +10854,7 @@ class PBook {
   <text x="400" y="398" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="${P.main}" font-weight="600">${tr(`Specialization: {0}`, voiceLabel)}</text>
 
   <!-- Topics -->
-  <text x="400" y="438" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#9CA3AF">${tr(`Key topics: {0}`, (p.topTopics || []).slice(0, 4).join(' \u2022 ') || (CONFIG.certificate?.topic ? this.escHtml(loc(CONFIG.certificate.topic)) : tr('Recommender Systems')))}</text>
+  <text x="400" y="438" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#9CA3AF">${tr(`Key topics: {0}`, (this._cpTopChapters() ?? p.topTopics ?? []).slice(0, 4).map(t => this.escHtml(t)).join(' \u2022 ') || (CONFIG.certificate?.topic ? this.escHtml(loc(CONFIG.certificate.topic)) : tr('Recommender Systems')))}</text>
 
   <!-- Footer -->
   <line x1="150" y1="470" x2="350" y2="470" stroke="${P.line}" stroke-width="1"/>
@@ -11022,6 +11028,7 @@ const app = new PBook();
 window.app = app;
 installUx(PBook);   // js/ux.js: navigation, door/resume, explainable picks, progress moments
 installCompletion(PBook);   // js/completion.js: goal line, I-know-this checks, bridges, done-for-today (CONFIG.completion)
+installTeams(PBook);        // js/teams.js: group tasks with AI assistants (content/missions.json → teams)
 app.init();
 
 // Text highlight on selection (desktop + mobile)

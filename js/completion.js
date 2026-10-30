@@ -296,6 +296,86 @@ export const completionMethods = {
   },
 };
 
+
+// The profile map is not one of the nudges above: every book with core concepts shows it.
+const MAP_CSS = `
+.pm-legend{display:flex;flex-wrap:wrap;gap:.3em .9em;font-size:.72rem;color:var(--text-3);margin:.1em 0 .5em}
+.pm-ch{margin:.6em 0}
+.pm-ch-t{display:flex;justify-content:space-between;gap:.5em;font-size:.78rem;font-weight:700;color:var(--text-2)}
+.pm-chips{display:flex;flex-wrap:wrap;gap:.3em;margin-top:.3em}
+.pm-chip{font:inherit;font-size:.75rem;line-height:1.3;padding:.28em .65em;border-radius:999px;border:1.5px dashed var(--border);background:none;color:var(--text-3);cursor:pointer;text-align:left}
+.pm-chip.pm-read{border-style:solid;color:var(--text)}
+.pm-chip.pm-checked{border:1.5px solid var(--accent);color:var(--accent);font-weight:600}
+.pm-chip.pm-kept{border:1.5px solid var(--accent);background:var(--accent);color:#fff;font-weight:600}
+.pm-sum{display:flex;flex-wrap:wrap;gap:.3em 1.1em;font-size:.78rem;color:var(--text-2);margin-top:.7em;padding-top:.5em;border-top:1px solid var(--border)}
+`;
+
+export const profileMapMethods = {
+  // ---------------------------------------------------------------- profile map
+  // Every core concept by chapter in its state (the same states the certificate counts):
+  // not yet · read · checked (understood) · kept, and under it missions and group tasks done.
+  _cpCoreByChapter() {
+    const chs = new Map(), seen = new Set();
+    for (const b of (this.allBlocks || [])) {
+      if (!b.meta.core || b.meta.type !== 'spine') continue;
+      const cid = this._conceptIds(b.meta)[0];
+      if (!cid || !this.concepts?.[cid] || seen.has(cid)) continue;
+      seen.add(cid);
+      const k = b.meta._chapter || b._chapter || b.meta.chapter || '';
+      if (!chs.has(k)) chs.set(k, []);
+      chs.get(k).push(cid);
+    }
+    return chs;
+  },
+  _cpChapterTitle(id) { return (this.book?.chapters || []).find(c => c.id === id)?.title || ''; },
+  _cpState(cid) {
+    if (this.conceptKept(cid)) return 'kept';
+    if (this.conceptUnderstood(cid)) return 'checked';
+    return this._cRead?.(cid) ? 'read' : 'none';   // any telling read (as the goal line counts)
+  },
+  _profileMapHtml() {
+    const chs = this._cpCoreByChapter();
+    if (!chs.size) return '';
+    if (!document.getElementById('pbook-pmap-css')) {
+      const st = document.createElement('style');
+      st.id = 'pbook-pmap-css';
+      st.textContent = MAP_CSS;
+      document.head.appendChild(st);
+    }
+    const SYM = { none: '○', read: '📖', checked: '✓', kept: '★' };
+    const NAME = { none: tr('not yet'), read: tr('read'), checked: tr('checked'), kept: tr('kept') };
+    const all = [...chs.values()].flat();
+    const st = Object.fromEntries(all.map(c => [c, this._cpState(c)]));
+    const count = (...s) => all.filter(c => s.includes(st[c])).length;
+    const short = t => String(t || '').split(/[:：]/)[0].trim();
+    let h = `<div class="profile-section pm-map"><h3>${tr('🗺️ Your map of the book')}</h3>
+      <p class="profile-hint" style="margin:.1em 0 .3em">${tr('Every core idea of the book. Tap one to open it. ✓ means you answered its check, ★ means you still knew it days later.')}</p>
+      <div class="pm-legend">${Object.keys(SYM).map(k => `<span>${SYM[k]} ${NAME[k]}</span>`).join('')}</div>`;
+    for (const [k, cids] of chs) {
+      const got = cids.filter(c => st[c] !== 'none').length;
+      h += `<div class="pm-ch"><div class="pm-ch-t"><span>${esc(this._cpChapterTitle(k) || k)}</span><span>${got}/${cids.length}</span></div>
+        <div class="pm-chips">${cids.map(c => `<button class="pm-chip pm-${st[c]}" title="${NAME[st[c]]}" onclick="app.openConcept('${esc(c)}')">${SYM[st[c]]} ${esc(short(this.concepts[c].title))}</button>`).join('')}</div></div>`;
+    }
+    const ms = this.getMissions ? this.getMissions() : [];
+    const passed = new Set(this.user.completedMissions || []);
+    const teams = this._teams ? this._teams() : [];
+    const tdone = teams.length ? this._teamsDone() : {};
+    h += `<div class="pm-sum"><span>${tr('core concepts read ({0}/{1})', count('read', 'checked', 'kept'), all.length)}</span>
+      <span>${tr('core concepts checked ({0}/{1})', count('checked', 'kept'), all.length)}</span>
+      ${ms.length ? `<span>🎯 ${tr('missions passed ({0}/{1})', ms.filter(m => passed.has(m.id)).length, ms.length)}</span>` : ''}
+      ${teams.length ? `<span>👥 ${tr('group tasks done ({0}/{1})', teams.filter(t => tdone[t.id]).length, teams.length)}</span>` : ''}</div></div>`;
+    return h;
+  },
+  // Certificate "Key topics": the chapters where the reader got furthest; null in a book without core concepts
+  _cpTopChapters(max = 4) {
+    const chs = this._cpCoreByChapter();
+    if (!chs.size) return null;
+    const w = { kept: 3, checked: 2, read: 1, none: 0 };
+    return [...chs.entries()].map(([k, cids]) => ({ t: this._cpChapterTitle(k), s: cids.reduce((a, c) => a + w[this._cpState(c)], 0) }))
+      .filter(x => x.s > 0 && x.t).sort((a, b) => b.s - a.s).slice(0, max).map(x => x.t);
+  },
+};
+
 export function installCompletion(cls) {
-  Object.assign(cls.prototype, completionMethods);
+  Object.assign(cls.prototype, completionMethods, profileMapMethods);
 }
