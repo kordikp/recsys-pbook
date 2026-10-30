@@ -1,6 +1,8 @@
 // Vercel serverless function — syncs content items to Recombee
 // POST /api/sync-recombee with { secret: "..." }
-// Reads content files from GitHub raw, imports to Recombee
+// Reads the book from the deployment itself (book.json + the content bundle built at deploy
+// time), so it works for every book and for private repos; imports to Recombee.
+// PBOOK_CONTENT_BASE overrides where the content is read from (e.g. the production URL).
 
 const crypto = require('crypto');
 
@@ -8,8 +10,12 @@ const DB = process.env.RECOMBEE_DB || 'cvachond-land-free-pbook';
 const TOKEN = process.env.RECOMBEE_TOKEN || '';
 const REGION = process.env.RECOMBEE_REGION || 'rapi-eu-west';
 const SYNC_SECRET = process.env.SYNC_SECRET || '';
-const GITHUB_REPO = 'kordikp/recsys-pbook';
-const GITHUB_BRANCH = 'main';
+
+function contentBase(req) {
+  if (process.env.PBOOK_CONTENT_BASE) return process.env.PBOOK_CONTENT_BASE.replace(/\/+$/, '');
+  const host = String(req.headers.host || '');
+  return (/^(localhost|127\.)/.test(host) ? 'http://' : 'https://') + host;
+}
 
 function signUrl(p) {
   const ts = Math.floor(Date.now() / 1000);
@@ -78,11 +84,16 @@ module.exports = async function handler(req, res) {
   if (!TOKEN) return res.status(500).json({ error: 'RECOMBEE_TOKEN not configured' });
 
   try {
-    // Fetch book.json from GitHub
-    const bookUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/content/book.json`;
-    const bookRes = await fetch(bookUrl);
-    if (!bookRes.ok) return res.status(502).json({ error: 'Failed to fetch book.json from GitHub' });
+    const base = contentBase(req);
+    const bookRes = await fetch(`${base}/content/book.json`);
+    if (!bookRes.ok) return res.status(502).json({ error: `Failed to fetch ${base}/content/book.json (${bookRes.status})` });
     const bookJson = await bookRes.json();
+    // every file in one request: the bundle carries all of them, whichever language it is for
+    let bundled = {};
+    for (const l of ['en', 'cs', 'sk', 'hu']) {
+      const r = await fetch(`${base}/content/bundle.${l}.json`).catch(() => null);
+      if (r && r.ok) { bundled = (await r.json()).files || {}; break; }
+    }
 
     // Ensure item properties exist
     const properties = {
@@ -119,10 +130,12 @@ module.exports = async function handler(req, res) {
     for (const chapter of bookJson.chapters) {
       for (const file of chapter.files) {
         try {
-          const fileUrl = `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/content/${chapter.directory}/${file}`;
-          const fileRes = await fetch(fileUrl);
-          if (!fileRes.ok) continue;
-          const text = await fileRes.text();
+          let text = bundled[`${chapter.directory}/${file}`];
+          if (text === undefined) {
+            const fileRes = await fetch(`${base}/content/${chapter.directory}/${file}`);
+            if (!fileRes.ok) continue;
+            text = await fileRes.text();
+          }
           const meta = parseFrontmatter(text);
           if (!meta || !meta.id) continue;
           if (meta.status && meta.status !== 'accepted') continue; // skip non-accepted

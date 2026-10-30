@@ -10,7 +10,7 @@
 #   js/i18n.js js/i18n/*.js (interface language packs)
 #   css/games.css css/figures.css css/challenge.css
 #   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js
-#   api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js
+#   api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js api/sync-recombee.js
 #   scripts/migrate-facets.js scripts/check-games.mjs scripts/build-llms-index.js scripts/build-kb.js
 #   scripts/check-i18n.mjs scripts/build-bundle.mjs (content/bundle.<lang>.json: the target's vercel.json
 #   runs it as buildCommand; git-ignore content/bundle.*.json)
@@ -42,7 +42,7 @@ ENGINE=(
   js/i18n.js $(cd "$CORE" && ls js/i18n/*.js 2>/dev/null)
   css/games.css css/figures.css css/challenge.css
   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js
-  api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js
+  api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js api/sync-recombee.js
   scripts/migrate-facets.js scripts/check-games.mjs scripts/build-llms-index.js scripts/build-kb.js
   scripts/check-i18n.mjs scripts/build-bundle.mjs
   admin.html
