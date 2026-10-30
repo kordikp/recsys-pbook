@@ -1898,7 +1898,7 @@ export function installGames(Cls) {
   if (typeof document !== 'undefined' && !document.querySelector('link[data-games-css]')) {
     const l = document.createElement('link');
     l.rel = 'stylesheet';
-    l.href = 'css/games.css?v=3';
+    l.href = 'css/games.css?v=4';
     l.setAttribute('data-games-css', '');
     document.head.appendChild(l);
   }

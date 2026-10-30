@@ -17,6 +17,7 @@ const words = () => CONFIG.facetWords || {};
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const reduceMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 const DEPTH_SHORT = { intro: 'gentle', standard: 'standard', technical: 'technical', research: 'research' };
+const A11Y_MODES = ['contrast', 'big', 'font', 'cvd'];
 
 // Goal picked at the door → the first guided path we suggest (missions in app.js).
 // A book may define its own door goals in js/config.js (CONFIG.goals: key → {mission, label, depth?, hint}).
@@ -788,6 +789,49 @@ export const uxMethods = {
     if (meta) meta.setAttribute('content', eff === 'dark' ? '#171412' : '#FAFAF7');
     if (!this._themeMq) { this._themeMq = mq; mq.addEventListener?.('change', () => { if (this._themeChoice() === 'auto') this._applyThemeChoice(); }); }
     document.querySelectorAll('[data-theme-opt]').forEach(b => b.classList.toggle('active', b.dataset.themeOpt === t));
+  },
+
+  // Accessibility modes (css/a11y.css), free for everyone: contrast, big, font, cvd.
+  // Stored per device in pbook-a11y; never logged (it can hint at a disability).
+  // Until the reader chooses, a device asking for more contrast gets it.
+  _a11yModes() {
+    let v = null;
+    try { v = localStorage.getItem('pbook-a11y'); } catch (e) {}
+    if (v === null) return typeof matchMedia === 'function' && matchMedia('(prefers-contrast: more)').matches ? ['contrast'] : [];
+    return v.split(/\s+/).filter(m => A11Y_MODES.includes(m));
+  },
+  _applyA11y() {
+    const m = this._a11yModes();
+    if (m.length) document.documentElement.setAttribute('data-a11y', m.join(' '));
+    else document.documentElement.removeAttribute('data-a11y');
+  },
+  toggleA11y(mode) {
+    const m = new Set(this._a11yModes());
+    m.has(mode) ? m.delete(mode) : m.add(mode);
+    try { localStorage.setItem('pbook-a11y', A11Y_MODES.filter(x => m.has(x)).join(' ')); } catch (e) {}
+    this._applyA11y();
+    this._renderSettingsA11y();
+    this._renderSettingsThemes?.();
+  },
+  // Rendered next to Font size; only when the book loads css/a11y.css (older index.html → nothing to toggle)
+  _renderSettingsA11y() {
+    if (!getComputedStyle(document.documentElement).getPropertyValue('--a11y-css').trim()) return;
+    let box = document.getElementById('settingsA11y');
+    if (!box) {
+      const after = document.querySelector('.sg-opt[data-fs]')?.closest('.sg') || document.getElementById('settingsThemes')?.closest('.sg');
+      if (!after) return;
+      box = document.createElement('div');
+      box.className = 'sg'; box.id = 'settingsA11y';
+      after.after(box);
+    }
+    const on = new Set(this._a11yModes());
+    const opt = (k, label) => `<button class="sg-opt" aria-pressed="${on.has(k)}" onclick="app.toggleA11y('${k}')">${label}</button>`;
+    box.innerHTML = `<label>${tr('Accessibility (free for everyone)')}</label>
+      <div class="sg-row a11y-row" role="group" aria-label="${esc(tr('Accessibility (free for everyone)'))}">
+        ${opt('contrast', tr('High contrast'))}${opt('big', tr('Bigger text and buttons'))}${opt('font', tr('Easy-to-read font'))}${opt('cvd', tr('Colour-blind friendly'))}
+      </div>
+      ${on.has('cvd') ? `<div class="sg-note">${tr('Colour-blind friendly: right answers are blue ✓, mistakes orange ✗.')}</div>` : ''}
+      ${on.has('contrast') ? `<div class="sg-note">${tr('High contrast uses its own colours; your accent colour comes back when you switch it off.')}</div>` : ''}`;
   },
 
   // ---------------------------------------------------------------- accessibility

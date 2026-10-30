@@ -21,14 +21,14 @@ const CSS = `
 .tm-card{border:1.5px solid var(--border);border-radius:12px;padding:.7em .85em;margin:.7em 0;background:var(--surface,var(--card,#fff));font-size:.9rem}
 .tm-mine{border-color:var(--accent);background:var(--accent-bg,rgba(124,58,237,.06))}
 .tm-kicker{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--accent);margin-bottom:.3em}
-.tm-letter{display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:.8rem;margin-right:.4em;flex:none}
+.tm-letter{display:inline-flex;align-items:center;justify-content:center;width:1.6em;height:1.6em;border-radius:50%;background:var(--accent);color: var(--on-accent, #fff);font-weight:800;font-size:.8rem;margin-right:.4em;flex:none}
 .tm-row{display:flex;align-items:flex-start;gap:.2em;margin:.35em 0}
 .tm-row b{font-weight:700}
 .tm-steps{margin:.3em 0 0 1.2em;padding:0;font-size:.85rem;color:var(--text-2)}
 .tm-steps li{margin:.2em 0}
 .tm-pick{display:flex;flex-wrap:wrap;gap:.4em;margin:.35em 0 .7em}
 .tm-pick button{font:inherit;font-weight:700;min-width:2.6em;padding:.45em .8em;border-radius:10px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer}
-.tm-pick button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.tm-pick button.on{background:var(--accent);border-color:var(--accent);color: var(--on-accent, #fff)}
 .tm-pick button:disabled{opacity:.35;cursor:default}
 .tm-ai{border:1.5px solid var(--border);border-radius:10px;margin:.45em 0;background:var(--bg)}
 .tm-ai>summary{cursor:pointer;padding:.5em .7em;font-weight:600;font-size:.88rem}
@@ -38,7 +38,7 @@ const CSS = `
 .tm-msg.me{background:var(--border);margin-left:auto}
 .tm-say{display:flex;gap:.4em;padding:.5em .7em .7em}
 .tm-say input{flex:1;min-width:0;font:inherit;font-size:.88rem;padding:.45em .6em;border:1.5px solid var(--border);border-radius:8px;background:var(--card,#fff);color:var(--text)}
-.tm-btn{font:inherit;font-size:.82rem;font-weight:600;padding:.4em .9em;border-radius:8px;border:1.5px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
+.tm-btn{font:inherit;font-size:.82rem;font-weight:600;padding:.4em .9em;border-radius:8px;border:1.5px solid var(--accent);background:var(--accent);color: var(--on-accent, #fff);cursor:pointer}
 .tm-btn.ghost{background:none;color:var(--accent)}
 .tm-code{font-family:ui-monospace,monospace;font-size:1.6rem;font-weight:800;letter-spacing:.2em;color:var(--accent)}
 .tm-small{font-size:.75rem;color:var(--text-3)}

@@ -1791,4 +1791,12 @@ export default {
   "I can't think right now (no connection). So that the team can go on, here is my card:": "Most nem tudok gondolkodni (nincs kapcsolat). Hogy a csapat haladhasson, itt a kártyám:",
   "Read your card.": "Olvasd el a kártyádat.",
   "Put all the pieces together and write one answer.": "Rakd össze a darabokat, és írj egy választ.",
+  "Accessibility (free for everyone)": "Akadálymentesség (mindenkinek, ingyen)",
+  "High contrast": "Nagy kontraszt",
+  "Bigger text and buttons": "Nagyobb szöveg és gombok",
+  "Easy-to-read font": "Könnyebben olvasható betű",
+  "Colour-blind friendly": "Színtévesztőknek",
+  "Colour-blind friendly: right answers are blue ✓, mistakes orange ✗.": "Színtévesztő mód: a helyes válasz kék ✓, a hiba narancs ✗.",
+  "High contrast uses its own colours; your accent colour comes back when you switch it off.": "A nagy kontraszt saját színeket használ; a kiemelőszín a kikapcsolása után visszatér.",
+  "Unlocks at level {0}": "A(z) {0}. szinten nyílik meg",
 };

@@ -1,0 +1,132 @@
+/* Accent colours, the galaxy theme and accessibility modes (engine file; core-sync copies it).
+   Load it AFTER style.css and after the book's own look (e.g. aidetem.css): the :root[...]
+   selectors outrank a book's :root / [data-theme="dark"] variables, so the chosen colour always wins.
+   Every accent has a light and a dark shade: light ≥ 4.5:1 as text on the page and under white
+   button text; dark ≥ 4.5:1 as text on the dark page, ≥ 3:1 under white button text.
+   Accessibility modes are free for everyone (never level-gated), set on <html data-a11y="…">:
+     contrast  high contrast, light and dark
+     big       larger text and controls (everything sized in rem grows)
+     font      Atkinson Hyperlegible Next, a typeface designed for low-vision readers
+     cvd       colour-blind friendly: right = blue ✓, wrong = orange ✗ (Okabe–Ito hues)
+   Correct/wrong colours are variables here (--ok*, --no*); games.css keeps its own --g-ok/--g-no. */
+
+:root { --a11y-css: 1; --on-accent: #fff;
+  --ok: #047857; --ok-bg: #D1FAE5; --ok-bd: #10B981;
+  --no: #B91C1C; --no-bg: #FEE2E2; --no-bd: #EF4444;
+  --idea: #0369A1; --draft: #BE185D; --on-warn: #1C1917; }   /* proposed concepts, drafts, text on --warn */
+:root[data-theme="dark"] {
+  --ok: #6EE7B7; --ok-bg: #0B2E24; --ok-bd: #059669;
+  --no: #FCA5A5; --no-bg: #3A1414; --no-bd: #DC2626;
+  --idea: #38BDF8; --draft: #F472B6; }
+
+/* ---- accent colours (unlocked by level); .cosmetic-sw is the swatch in Settings ---- */
+:root[data-cosmetic="ocean"],  .cosmetic-sw[data-cosmetic="ocean"]  { --accent: #0369A1; --accent-hover: #075985; --accent-bg: #E0F2FE; }
+:root[data-cosmetic="sunset"], .cosmetic-sw[data-cosmetic="sunset"] { --accent: #C2410C; --accent-hover: #9A3412; --accent-bg: #FFEDD5; }
+:root[data-cosmetic="forest"], .cosmetic-sw[data-cosmetic="forest"] { --accent: #15803D; --accent-hover: #166534; --accent-bg: #DCFCE7; }
+:root[data-cosmetic="galaxy"], .cosmetic-sw[data-cosmetic="galaxy"] { --accent: #6D28D9; --accent-hover: #5B21B6; --accent-bg: #EDE9FE; }
+:root[data-cosmetic="neon"],   .cosmetic-sw[data-cosmetic="neon"]   { --accent: #BE185D; --accent-hover: #9D174D; --accent-bg: #FCE7F3; }
+:root[data-cosmetic="gold"],   .cosmetic-sw[data-cosmetic="gold"]   { --accent: #B45309; --accent-hover: #92400E; --accent-bg: #FEF3C7; }
+:root[data-theme="dark"][data-cosmetic="ocean"],  [data-theme="dark"] .cosmetic-sw[data-cosmetic="ocean"]  { --accent: #0091D3; --accent-hover: #007EBF; --accent-bg: #14242B; }
+:root[data-theme="dark"][data-cosmetic="sunset"], [data-theme="dark"] .cosmetic-sw[data-cosmetic="sunset"] { --accent: #E46000; --accent-hover: #CF4C00; --accent-bg: #301D10; }
+:root[data-theme="dark"][data-cosmetic="forest"], [data-theme="dark"] .cosmetic-sw[data-cosmetic="forest"] { --accent: #059E45; --accent-hover: #008B33; --accent-bg: #152619; }
+:root[data-theme="dark"][data-cosmetic="galaxy"], [data-theme="dark"] .cosmetic-sw[data-cosmetic="galaxy"] { --accent: #996CFF; --accent-hover: #8858EA; --accent-bg: #241B43; }
+:root[data-theme="dark"][data-cosmetic="neon"],   [data-theme="dark"] .cosmetic-sw[data-cosmetic="neon"]   { --accent: #EC4899; --accent-hover: #D63187; --accent-bg: #331B24; }
+:root[data-theme="dark"][data-cosmetic="gold"],   [data-theme="dark"] .cosmetic-sw[data-cosmetic="gold"]   { --accent: #D06F00; --accent-hover: #BC5D00; --accent-bg: #2C1E10; }
+
+/* Galaxy at night: the whole page becomes deep space (all text tokens re-checked, ≥ 6:1),
+   with a faint nebula and stars behind the content. In the light theme it is only the accent. */
+:root[data-theme="dark"][data-cosmetic="galaxy"] {
+  --bg: #0E0B1F; --surface: #181430; --surface-raised: #201B3B;
+  --text: #EEEAF8; --text-2: #C5BEDD; --text-3: #A39BC2;
+  --border: #332D57; --border-light: #221D40;
+  --sidebar-bg: #1C1838; --engineer-bg: #16204A; --product-bg: #0D2E33; --business-bg: #33240F;
+  --shadow: 0 1px 3px rgba(0,0,0,.5); --shadow-lg: 0 8px 30px rgba(0,0,0,.6); }
+:root[data-theme="dark"][data-cosmetic="galaxy"]:not([data-a11y~="contrast"]) body {
+  background-image: radial-gradient(ellipse 90% 45% at 10% -5%, rgba(124,58,237,.20), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 105% 35%, rgba(14,165,233,.08), transparent 70%);
+  background-attachment: fixed; }
+:root[data-theme="dark"][data-cosmetic="galaxy"]:not([data-a11y~="contrast"]) body::before {
+  content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .75;
+  background-image:
+    radial-gradient(1px 1px at 23px 41px, rgba(255,255,255,.9), transparent),
+    radial-gradient(1px 1px at 151px 97px, rgba(255,255,255,.7), transparent),
+    radial-gradient(1.5px 1.5px at 67px 163px, rgba(196,181,253,.9), transparent),
+    radial-gradient(1px 1px at 203px 19px, rgba(186,230,253,.8), transparent),
+    radial-gradient(1.5px 1.5px at 311px 241px, rgba(255,255,255,.6), transparent);
+  background-size: 191px 173px, 263px 229px, 331px 293px, 409px 367px, 487px 443px; }
+@media (prefers-reduced-motion: no-preference) {
+  :root[data-theme="dark"][data-cosmetic="galaxy"]:not([data-a11y~="contrast"]) body::before { animation: a11y-twinkle 7s ease-in-out infinite alternate; }
+}
+@keyframes a11y-twinkle { from { opacity: .55; } to { opacity: .85; } }
+
+/* ---- high contrast (overrides the accent colour and the book's own look) ---- */
+:root[data-a11y~="contrast"] {
+  --bg: #FFFFFF; --surface: #FFFFFF; --surface-raised: #FFFFFF;
+  --text: #000000; --text-2: #1F1F1F; --text-3: #3D3D3D;
+  --border: #5C5C5C; --border-light: #8F8F8F;
+  --accent: #0B3D91; --accent-hover: #072C6B; --accent-bg: #E1EAFB; --on-accent: #FFFFFF;
+  --sidebar-color: #0B3D91; --sidebar-bg: #EEF3FC;
+  --engineer-bg: #EEF4FF; --product-bg: #E9F8F1; --business-bg: #FFF6E5;
+  --hl-bg: #FFE14D; --hl-bg-hover: #FFD000;
+  --warn: #8A4B00; --warn-bg: #FFF1D6; --warn-text: #5C3200;
+  --ok: #035A41; --ok-bg: #E3F7EE; --ok-bd: #047857;
+  --no: #8F1414; --no-bg: #FDE7E7; --no-bd: #B91C1C;
+  --idea: #003F7D; --draft: #8A1046; --on-warn: #FFFFFF;
+  --shadow: none; --shadow-lg: 0 0 0 2px #000; }
+:root[data-theme="dark"][data-a11y~="contrast"] {
+  --bg: #000000; --surface: #000000; --surface-raised: #0F0F0F;
+  --text: #FFFFFF; --text-2: #F2F2F2; --text-3: #D9D9D9;
+  --border: #B3B3B3; --border-light: #7A7A7A;
+  --accent: #FFD43B; --accent-hover: #FFE680; --accent-bg: #2E2600; --on-accent: #000000;
+  --sidebar-color: #FFD43B; --sidebar-bg: #141000;
+  --engineer-bg: #0A1633; --product-bg: #04261C; --business-bg: #2B1A00;
+  --hl-bg: #6B4E00; --hl-bg-hover: #8A6500;
+  --warn: #FFB020; --warn-bg: #2B1D00; --warn-text: #FFE0A3;
+  --ok: #7CF0C0; --ok-bg: #00261A; --ok-bd: #34D399;
+  --no: #FFB3B3; --no-bg: #330000; --no-bd: #F87171;
+  --idea: #7DD3FC; --draft: #F9A8D4; --on-warn: #000000;
+  --shadow: none; --shadow-lg: 0 0 0 2px #fff; }
+:root[data-a11y~="contrast"] a { text-decoration: underline; text-underline-offset: .15em; }
+:root[data-a11y~="contrast"] :focus-visible { outline: 3px solid var(--accent) !important; outline-offset: 2px; }
+:root[data-a11y~="contrast"] ::placeholder { color: var(--text-3); opacity: 1; }
+:root[data-a11y~="contrast"] .cosmetic-grid { opacity: .6; }
+:root[data-a11y~="contrast"] .topbar-search { background: var(--surface); border: 1.5px solid var(--border); color: var(--text-2); }
+:root[data-a11y~="contrast"] .search-placeholder { color: var(--text-2); }
+/* locked missions and badges stay readable; the lock icon and the label say they are locked */
+:root[data-a11y~="contrast"] .mission-locked, :root[data-a11y~="contrast"] .gami-badge.locked { opacity: 1; }
+:root[data-a11y~="contrast"] .mission-locked { border-style: dashed; }
+:root[data-a11y~="contrast"] .cert-tier { opacity: 1 !important; }
+:root[data-a11y~="contrast"] .spine-body code { background: var(--surface-raised); outline: 1px solid var(--border-light); }
+:root[data-a11y~="contrast"] .gami-badge.locked .badge-icon { filter: grayscale(1); opacity: .6; }
+
+/* ---- colour-blind friendly: blue/orange instead of green/red (also the mini-games) ---- */
+:root[data-a11y~="cvd"] {
+  --ok: #0B5CAD; --ok-bg: #DDEBFA; --ok-bd: #2F7FD1; --no: #A3410B; --no-bg: #FDE8D8; --no-bd: #E06A1B;
+  --g-ok: #0B5CAD; --g-ok-bg: #DDEBFA; --g-ok-bd: #2F7FD1; --g-no: #A3410B; --g-no-bg: #FDE8D8; --g-no-bd: #E06A1B; }
+:root[data-theme="dark"][data-a11y~="cvd"] {
+  --ok: #93C5F5; --ok-bg: #0F2236; --ok-bd: #3F8FD8; --no: #F8B48A; --no-bg: #3A200D; --no-bd: #D9691F;
+  --g-ok: #93C5F5; --g-ok-bg: #0F2236; --g-ok-bd: #3F8FD8; --g-no: #F8B48A; --g-no-bg: #3A200D; --g-no-bd: #D9691F; }
+
+/* ---- larger text and controls ---- */
+:root[data-a11y~="big"] { font-size: 18.5px; }
+
+/* ---- easy-to-read typeface (SIL OFL, fonts/atkinson-hyperlegible-next/OFL.txt) ---- */
+@font-face { font-family: "Atkinson Hyperlegible Next"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url(../fonts/atkinson-hyperlegible-next/latin-ext.woff2) format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+@font-face { font-family: "Atkinson Hyperlegible Next"; font-style: normal; font-weight: 400 700; font-display: swap;
+  src: url(../fonts/atkinson-hyperlegible-next/latin.woff2) format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+:root[data-a11y~="font"] {
+  --font-body: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --font-ui: "Atkinson Hyperlegible Next", system-ui, sans-serif;
+  --font-head: "Atkinson Hyperlegible Next", system-ui, sans-serif; }
+:root[data-a11y~="font"] body { word-spacing: .04em; }
+
+/* ---- Settings: swatches and the accessibility toggles ---- */
+.cosmetic-sw { display: block; width: 2.2em; height: .45em; border-radius: 99px; background: var(--accent); margin-top: .1em; }
+.cosmetic-sw[data-cosmetic="galaxy"] { background: radial-gradient(1px 1px at 30% 50%, #fff, transparent), linear-gradient(90deg, #0E0B1F, var(--accent)); }
+.cosmetic-item[disabled] { cursor: default; }
+.a11y-row .sg-opt[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-bg); color: var(--accent); font-weight: 600; }
+.a11y-row .sg-opt[aria-pressed="true"]::before { content: "✓ "; }
+.sg-note { font-size: .72rem; color: var(--text-2); line-height: 1.45; margin-top: .4em; }

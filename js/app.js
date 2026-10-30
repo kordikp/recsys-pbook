@@ -8,10 +8,10 @@ import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=9';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
-import { installGames } from './games.js?v=4';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=5';
-import { installCompletion } from './completion.js?v=2';
-import { installTeams } from './teams.js?v=2';
+import { installGames } from './games.js?v=5';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=6';
+import { installCompletion } from './completion.js?v=3';
+import { installTeams } from './teams.js?v=3';
 import { installChallenges } from './challenge.js?v=1';
 
 class PBook {
@@ -3632,10 +3632,10 @@ class PBook {
     // resolve via _findAnyBlock (covers private/community variants); skip what can't resolve
     const qFor = id => this._getRecallQuestion(this._findAnyBlock(id))?.q;
     const allCards = [
-      ...hardCards.map(([id]) => ({ id, color: '#dc2626', label: 'Struggling', q: qFor(id) })),
+      ...hardCards.map(([id]) => ({ id, color: 'var(--no-bd, #dc2626)', label: 'Struggling', q: qFor(id) })),
       ...newCards.map(id => ({ id, color: 'var(--accent)', label: 'New', q: qFor(id) })),
       ...medCards.map(([id]) => ({ id, color: 'var(--warn)', label: 'Learning', q: qFor(id) })),
-      ...easyCards.map(([id]) => ({ id, color: 'var(--product)', label: 'Confident', q: qFor(id) })),
+      ...easyCards.map(([id]) => ({ id, color: 'var(--ok-bd, #059669)', label: 'Confident', q: qFor(id) })),
       ...unreadBlocks.map(b => ({ id: b.meta.id, color: 'var(--border)', label: 'Unread', q: b.meta.title })),
     ].filter(c => c.q);
     if (allCards.length > 0) {
@@ -3645,10 +3645,10 @@ class PBook {
           ${allCards.map(c => `<div style="width:${cellW}px;height:${cellW}px;border-radius:2px;background:${c.color};cursor:pointer;transition:transform .1s" title="${this.escHtml(tr(c.label) + ': ' + c.q)}" onclick="app.${c.label === 'Unread' ? "openBlock('" + c.id + "')" : "showBlockRecall('" + c.id + "')"}"></div>`).join('')}
         </div>
         <div style="display:flex;gap:.8em;font-size:.7rem;color:var(--text-3);margin-top:.4em">
-          ${hardCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:#dc2626;vertical-align:middle"></span> ${tr(`{0} struggling`, hardCards.length)}</span>` : ''}
+          ${hardCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--no-bd, #dc2626);vertical-align:middle"></span> ${tr(`{0} struggling`, hardCards.length)}</span>` : ''}
           ${newCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);vertical-align:middle"></span> ${tr(`{0} new`, newCards.length)}</span>` : ''}
           ${medCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--warn);vertical-align:middle"></span> ${tr(`{0} learning`, medCards.length)}</span>` : ''}
-          ${easyCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--product);vertical-align:middle"></span> ${tr(`{0} confident`, easyCards.length)}</span>` : ''}
+          ${easyCards.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--ok-bd, #059669);vertical-align:middle"></span> ${tr(`{0} confident`, easyCards.length)}</span>` : ''}
           ${unreadBlocks.length ? `<span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--border);vertical-align:middle"></span> ${tr(`{0} unread`, unreadBlocks.length)}</span>` : ''}
         </div>
       </div>`;
@@ -3673,7 +3673,7 @@ class PBook {
 
     // Struggling (ease < 1.8) — shown first, these need the most work
     if (hardCards.length > 0) {
-      const hCards = hardCards.sort((a,b) => a[1].ease - b[1].ease).slice(0, 12).map(([id, c]) => this._quizPreviewCard(id, c, '#dc2626', 'Struggling')).filter(Boolean);
+      const hCards = hardCards.sort((a,b) => a[1].ease - b[1].ease).slice(0, 12).map(([id, c]) => this._quizPreviewCard(id, c, 'var(--no-bd, #dc2626)', 'Struggling')).filter(Boolean);
       if (hCards.length) h += this.shelf(`${tr(`\u{1F534} Struggling ({0})`, hardCards.length)}`, hCards);
     }
 
@@ -3697,7 +3697,7 @@ class PBook {
 
     // Confident (ease >= 2.5) — still shown, tested occasionally
     if (easyCards.length > 0) {
-      const eCards = easyCards.sort((a,b) => b[1].ease - a[1].ease).slice(0, 10).map(([id, c]) => this._quizPreviewCard(id, c, 'var(--product)', 'Confident')).filter(Boolean);
+      const eCards = easyCards.sort((a,b) => b[1].ease - a[1].ease).slice(0, 10).map(([id, c]) => this._quizPreviewCard(id, c, 'var(--ok-bd, #059669)', 'Confident')).filter(Boolean);
       if (eCards.length) h += this.shelf(`${tr(`\u{1F7E2} Confident ({0})`, easyCards.length)}`, eCards);
     }
 
@@ -3762,7 +3762,7 @@ class PBook {
     }
     h += `</div>`;
     if (hardCards.length > 0) {
-      h += `<div style="text-align:center;margin-top:.4em"><button style="border:1.5px solid #dc2626;border-radius:8px;padding:.35em .8em;font-size:.72rem;color:#dc2626;cursor:pointer;background:none;font-family:var(--font-ui)" onclick="app._startHardMode()">${tr(`Hard mode ({0})`, hardCards.length)}</button></div>`;
+      h += `<div style="text-align:center;margin-top:.4em"><button style="border:1.5px solid var(--no-bd, #dc2626);border-radius:8px;padding:.35em .8em;font-size:.72rem;color:var(--no, #dc2626);cursor:pointer;background:none;font-family:var(--font-ui)" onclick="app._startHardMode()">${tr(`Hard mode ({0})`, hardCards.length)}</button></div>`;
     }
     h += `</div>`;
 
@@ -3843,7 +3843,7 @@ class PBook {
         <div class="recall-summary-icon">${perfect ? '\u{1F31F}' : pct >= 70 ? '\u{1F389}' : '\u{1F4AA}'}</div>
         <h2>${perfect ? tr('Perfect score!') : pct >= 70 ? tr('Great job!') : tr('Keep going!')}</h2>
         <p style="font-size:1.1rem;font-weight:700;margin:.3em 0">${tr(`{0} / {1} correct ({2}%)`, s.correct, s.total, pct)}</p>
-        <div class="recall-summary-bar"><div style="width:${pct}%;background:${pct >= 70 ? 'var(--product)' : 'var(--warn)'};height:100%;border-radius:4px"></div></div>
+        <div class="recall-summary-bar"><div style="width:${pct}%;background:${pct >= 70 ? 'var(--ok-bd, #059669)' : 'var(--warn)'};height:100%;border-radius:4px"></div></div>
         ${bonusXP ? `<p style="color:var(--accent);font-weight:600;margin-top:.5em">${tr(`+{0} XP quiz bonus`, bonusXP)}</p>` : ''}
         <div style="display:flex;flex-direction:column;gap:.5em;margin-top:1em;align-items:center">
           ${unread.length > 0 ? `<button class="btn-primary" style="width:100%;max-width:280px" onclick="app.switchView('home')">${tr(`\u{1F4D6} Read new sections ({0} left)`, unread.length)}</button>` : ''}
@@ -3862,7 +3862,7 @@ class PBook {
     const reps = card ? card.reps : 0;
     const ease = card ? card.ease.toFixed(1) : '—';
     const diffLabel = !card ? tr('New') : card.ease >= 2.5 ? tr('Easy') : card.ease >= 1.8 ? tr('Medium') : tr('Hard');
-    const diffColor = !card ? 'var(--text-3)' : card.ease >= 2.5 ? 'var(--product)' : card.ease >= 1.8 ? 'var(--warn)' : '#dc2626';
+    const diffColor = !card ? 'var(--text-3)' : card.ease >= 2.5 ? 'var(--ok, #047857)' : card.ease >= 1.8 ? 'var(--warn-text)' : 'var(--no, #dc2626)';
 
     el.innerHTML = `<div class="recall-session">
       <div class="recall-progress-row">
@@ -4183,9 +4183,9 @@ class PBook {
       const CIRC = 2 * Math.PI * (R + 4.5);
       svg += `<g style="cursor:pointer" onclick="app.switchView('read');app.openBlock('${anchorId}')">
         ${defTip ? `<title>${this.escHtml(defTip)}</title>` : ''}
-        <circle cx="${x}" cy="${y}" r="${R}" fill="${st.done ? '#D1FAE5' : 'var(--card, #fff)'}" stroke="${color}" stroke-width="3"/>
+        <circle cx="${x}" cy="${y}" r="${R}" fill="${st.done ? 'var(--ok-bg, #D1FAE5)' : 'var(--card, #fff)'}" stroke="${color}" stroke-width="3"/>
         ${pct > 0 && !st.done ? `<circle cx="${x}" cy="${y}" r="${R + 4.5}" fill="none" stroke="${color}" stroke-width="3" stroke-linecap="round" stroke-dasharray="${(CIRC * pct).toFixed(1)} ${CIRC.toFixed(1)}" transform="rotate(-90 ${x} ${y})" opacity="0.85"/>` : ''}
-        <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="${st.done ? 16 : 12.5}" font-weight="700" fill="${st.done ? '#15803D' : 'var(--text, #1b1b1f)'}">${st.done ? '✓' : `${st.read}/${st.total}`}</text>
+        <text x="${x}" y="${y + 5}" text-anchor="middle" font-size="${st.done ? 16 : 12.5}" font-weight="700" fill="${st.done ? 'var(--ok, #15803D)' : 'var(--text, #1b1b1f)'}">${st.done ? '✓' : `${st.read}/${st.total}`}</text>
         ${st.rem ? `<text x="${x + R - 4}" y="${y - R + 6}" font-size="13"><title>${tr(`well remembered`)}</title>⭐</text>` : ''}
         ${st.due ? `<text x="${x - R - 14}" y="${y + 4}" font-size="12" onclick="event.stopPropagation();app.switchView('quiz')"><title>${tr(`review due — open Quiz`)}</title>⏰</text>` : ''}
         ${cur && cur.slug === n.slug ? `<circle cx="${x}" cy="${y}" r="${R + 9}" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="3 5"/><text x="${x - R + 1}" y="${y - R + 3}" text-anchor="middle" font-size="15">🧭</text>` : ''}
@@ -4204,7 +4204,7 @@ class PBook {
     return `<div class="fade-up" style="max-width:840px;margin:0 auto">
       ${this._mapReturnToRead ? `<p style="margin:.1em 0 .3em"><button class="steer-chip" style="font-size:.74rem;border-color:#6366F1;color:#6366F1" onclick="app._mapReturnToRead=false;app.switchView('read')">${tr(`← Back to reading`)}</button></p>` : ''}
       <p style="font-size:.78rem;color:var(--text-2);margin:.2em 0 .2em">${tr(`The book as a game board: fields are concepts, the number shows how many of their articles you have read (✓ = all). Dashed ＋ fields are still waiting for an article — click to write it yourself. Hover a field for its definition, hover an arrow for the reason of the dependency.`)}</p>
-      ${(this.proposals || []).length ? `<p style="font-size:.7rem;margin:0 0 .3em"><a href="#" style="color:#0EA5E9" onclick="event.preventDefault();app.setMapMode('koncepty')">${tr(`🌱 {0} proposals waiting for votes or an author →`, (this.proposals || []).length)}</a></p>` : ''}
+      ${(this.proposals || []).length ? `<p style="font-size:.7rem;margin:0 0 .3em"><a href="#" style="color:var(--idea, #0369A1)" onclick="event.preventDefault();app.setMapMode('koncepty')">${tr(`🌱 {0} proposals waiting for votes or an author →`, (this.proposals || []).length)}</a></p>` : ''}
       <p style="font-size:.68rem;color:var(--text-3);margin:0 0 .5em">${tr(`✓ done · 2/4 in progress · ⭐ remembered · ⏰ review due · 🎮 game · ⇢ know first · ＋ waiting for an author`)}</p><div class="journey-scroll" style="overflow-x:auto;-webkit-overflow-scrolling:touch">${svg}</div></div>`;
   }
 
@@ -4265,7 +4265,7 @@ class PBook {
           const wl = m.type === 'spine' && this._facetValues(m, 'lens').find(v => v !== 'generic' && lensConf.icons?.[v]);
           const icon = TYPE_ICONS[m.type] || (wl && lensConf.icons[wl]) || GENRE_ICONS[this._facetValues(m, 'genre')[0] || 'explainer'] || '📄';
           const read = this.user.readBlocks.has(m.id);
-          return `<button class="tstrip-chip" style="--sc:${STATE_COLORS[state] || '#10B981'};${read ? 'box-shadow:0 0 0 1.5px #10B981' : ''}"
+          return `<button class="tstrip-chip" style="--sc:${STATE_COLORS[state] || '#10B981'};${read ? 'box-shadow:0 0 0 1.5px var(--ok-bd, #10B981)' : ''}"
             title="${this.escHtml((m.title || m.id) + (read ? tr(' · read') : ''))}" onclick="app.openTelling('${m.id}')">${icon}</button>`;
         }).join('');
         const isFocus = this._feedFocusSlug === n.slug;
@@ -4274,12 +4274,12 @@ class PBook {
           <a href="#" onclick="event.preventDefault();app.openBlock('${wt ? (wt.meta || wt).id : anchorId}')" style="font-size:.8rem;font-weight:600;color:var(--text);text-decoration:none;flex:1 1 auto" title="${this.escHtml(wt ? (wt.meta || wt).title : n.teaser || n.def || '')}">${this.escHtml(n.title)}${wt ? ` <span style="font-weight:400;color:var(--text-2)">· ${lensConf.icons?.[world] || ''} ${this.escHtml((wt.meta || wt).title)}</span>` : ''}</a>
           ${n.required === undefined ? '' : `<span class="concept-requirement" style="font-size:.65rem;border:1px solid var(--border);border-radius:5px;padding:.1em .4em">${n.required ? tr('Core') : tr('Optional')}</span>`}
           ${hasSpine ? '' : ('<span style="font-size:.7rem;color:var(--text-3);border:1px dashed var(--border);border-radius:6px;padding:.06em .4em">' + tr(`🌱 no articles yet`) + '</span>')}
-          ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:#EC4899;color:#EC4899" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">${tr(`✍️ draft in progress`)}</button>` : ''}
+          ${this._nodeDraft(n) ? `<button class="steer-chip" style="font-size:.6rem;border-color:var(--draft, #BE185D);color:var(--draft, #BE185D)" onclick="app.startAuthoring('${this._nodeDraftSlug(n)}')">${tr(`✍️ draft in progress`)}</button>` : ''}
           <span class="tstrip" style="margin:0">${chips}<button class="tstrip-chip" style="--sc:#EC4899" title="${tr(`Write your own telling of this concept (author studio with an AI coach)`)}" onclick="app.startAuthoring('${n.slug}')">✍️</button></span>
         </div>`;
       });
       if (ghosts.length) {
-        h += `<div style="margin-top:.45em;font-size:.7rem;color:#0EA5E9;font-weight:700">${tr(`🌱 Where to go deeper — not written yet, vote:`)}</div>`;
+        h += `<div style="margin-top:.45em;font-size:.7rem;color:var(--idea, #0369A1);font-weight:700">${tr(`🌱 Where to go deeper — not written yet, vote:`)}</div>`;
         ghosts.forEach(g => {
           const voted = g.slug in votes;
           h += `<div style="display:flex;align-items:flex-start;gap:.5em;padding:.22em 0">
@@ -4287,10 +4287,10 @@ class PBook {
             <div style="flex:1 1 auto"><span style="font-size:.78rem;font-weight:600;color:var(--text-2)">${this.escHtml(g.title)}</span>
               <span style="font-size:.7rem;color:var(--text-3)"> — ${this.escHtml(g.objective || '')}</span></div>
             <span id="ghost-${g.slug}-cmap" style="flex-shrink:0;display:flex;gap:.25em">${voted
-              ? `<span style="font-size:.7rem;color:#0EA5E9">${votes[g.slug] > 0 ? tr('✓ want') : tr('✓ passed')}</span>`
-              : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">${tr(`👍 want`)}</button>
+              ? `<span style="font-size:.7rem;color:var(--idea, #0369A1)">${votes[g.slug] > 0 ? tr('✓ want') : tr('✓ passed')}</span>`
+              : `<button class="steer-chip" style="border-color:var(--idea, #0369A1);color:var(--idea, #0369A1);font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">${tr(`👍 want`)}</button>
                  <button class="steer-chip" style="font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">${tr(`no`)}</button>`}
-              <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.7rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">${tr(`✍️ write it`)}</button>
+              <button class="steer-chip" style="border-color:var(--draft, #BE185D);color:var(--draft, #BE185D);font-size:.7rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">${tr(`✍️ write it`)}</button>
               <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-size:.7rem;padding:.06em .4em" title="${tr(`Creative workshop with the coach: align → create → certificate with your contribution`)}" onclick="app.startWorkshop('${g.slug}')">${tr(`🎓 workshop`)}</button></span>
           </div>`;
         });
@@ -4349,7 +4349,7 @@ class PBook {
       if (isFocus) svg += `<circle cx="${x}" cy="${y}" r="34" fill="none" stroke="#6366F1" stroke-width="9">${tip}</circle>`;
       svg += ghost
         ? `<circle cx="${x}" cy="${y}" r="14" fill="none" stroke="${temaColor[n.tema] || '#999'}" stroke-width="5" stroke-dasharray="8 8">${tip}</circle>`
-        : `<circle cx="${x}" cy="${y}" r="${isCur ? 22 : 17}" fill="${rem ? '#F59E0B' : read ? '#10B981' : 'var(--card,#fff)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 9 : 5}">${tip}</circle>`;
+        : `<circle cx="${x}" cy="${y}" r="${isCur ? 22 : 17}" fill="${rem ? '#F59E0B' : read ? 'var(--ok-bd, #10B981)' : 'var(--card,#fff)'}" stroke="${temaColor[n.tema] || '#999'}" stroke-width="${isCur ? 9 : 5}">${tip}</circle>`;
     });
     svg += '</svg>';
     const { read, total } = this._conceptProgress();
@@ -4366,7 +4366,7 @@ class PBook {
     try { if ((JSON.parse(localStorage.getItem('pbook-prereq-dismissed') || '[]')).includes(block.concept)) return ''; } catch (e) {}
     const unmet = this._unmetPrereqs(block.concept);
     if (!unmet.length) return '';
-    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.7rem;border-color:#0EA5E9;color:#0EA5E9" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
+    const chips = unmet.map(n => `<button class="steer-chip" style="font-size:.7rem;border-color:var(--idea, #0369A1);color:var(--idea, #0369A1)" onclick="app.openBlock('${this._nodeAnchor(n)}')">${this.escHtml(n.short || n.title)}</button>`).join('');
     return `<div class="prereq-banner" style="display:flex;flex-wrap:wrap;gap:.35em;align-items:center;margin:0 0 .6em;padding:.45em .6em;border:1.5px dashed #0EA5E9;border-radius:9px;background:color-mix(in srgb, #0EA5E9 6%, transparent);font-size:.72rem">
       ${tr(`<b>🧩 To make sense of this, first read:</b>{0}`, chips)}
       <a href="#" style="margin-left:auto;color:var(--text-3)" onclick="event.preventDefault();try{const k='pbook-prereq-dismissed';const a=JSON.parse(localStorage.getItem(k)||'[]');a.push('${block.concept}');localStorage.setItem(k,JSON.stringify(a));}catch(e){};this.closest('.prereq-banner').remove()">${tr(`read anyway`)}</a>
@@ -4470,7 +4470,7 @@ class PBook {
 
     // List mode legend
     html += `<div class="map-legend">
-      <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#059669"/></svg> ${tr(`Read`)}</span>
+      <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="var(--ok-bd, #059669)"/></svg> ${tr(`Read`)}</span>
       <span class="ml-item"><svg width="10" height="10"><circle cx="5" cy="5" r="4" fill="#E7E5E4"/></svg> ${tr(`Unread`)}</span>
       <span class="ml-item"><span style="font-size:.7rem;font-weight:700;color:var(--accent);background:var(--accent-bg);padding:.1em .3em;border-radius:3px">${tr(`CORE`)}</span> ${tr(`Must read`)}</span>
       <span class="ml-item"><span style="font-size:.65rem">${tr(`\u{1F3AE}`)}</span> ${tr(`Mini-game`)}</span>
@@ -4882,7 +4882,7 @@ class PBook {
       const opacity = isRead ? '1.0' : isCore ? '0.65' : '0.3';
       let stroke = '';
       if (isSaved) stroke = `stroke="#f59e0b" stroke-width="2"`;
-      else if (isRead) stroke = `stroke="#10B981" stroke-width="1.5"`;
+      else if (isRead) stroke = `stroke="var(--ok-bd, #10B981)" stroke-width="1.5"`;
       else if (isCore) stroke = `stroke="rgba(255,255,255,0.6)" stroke-width="1"`;
       const t = this.escHtml(item.title.length > 35 ? item.title.substring(0, 33) + '…' : item.title);
       const cls = `vmap-node${isCore ? ' vn-core' : ''}${isRead ? ' vn-read' : ''}${isSaved ? ' vn-saved' : ''}`;
@@ -4903,7 +4903,7 @@ class PBook {
     html += `</div>`;
     html += `<div style="font-size:.7rem;color:var(--text-3);padding:0 .3em .3em;display:flex;gap:.8em;flex-wrap:wrap">
       <span>${tr(`Progress: {0}/{1} read · {2}/{3} core`, readCount, mapData.items.length, coreRead, coreCount)}</span>
-      <span>${tr(`◉ core ·`)} <span style="color:#10B981">◉</span> ${tr(`read ·`)} <span style="color:#f59e0b">◉</span> ${tr(`saved`)}</span>
+      <span>${tr(`◉ core ·`)} <span style="color:var(--ok-bd, #10B981)">◉</span> ${tr(`read ·`)} <span style="color:var(--warn-text, #92400E)">◉</span> ${tr(`saved`)}</span>
     </div></div>`;
     return html;
   }
@@ -5270,14 +5270,14 @@ class PBook {
       if (totalRecall > 0) {
         // Confidence bar
         h += `<div style="display:flex;height:8px;border-radius:4px;overflow:hidden;background:var(--border);margin-bottom:.4em">
-          ${hardC ? `<div style="width:${Math.round(hardC/totalRecall*100)}%;background:#dc2626"></div>` : ''}
+          ${hardC ? `<div style="width:${Math.round(hardC/totalRecall*100)}%;background:var(--no-bd, #dc2626)"></div>` : ''}
           ${medC ? `<div style="width:${Math.round(medC/totalRecall*100)}%;background:var(--warn)"></div>` : ''}
-          ${easyC ? `<div style="width:${Math.round(easyC/totalRecall*100)}%;background:var(--product)"></div>` : ''}
+          ${easyC ? `<div style="width:${Math.round(easyC/totalRecall*100)}%;background:var(--ok-bd, #059669)"></div>` : ''}
         </div>`;
         h += `<div style="display:flex;gap:.6em;font-size:.7rem;color:var(--text-3);margin-bottom:.5em">`;
-        if (hardC) h += `<span style="color:#dc2626">${tr(`{0} struggling`, hardC)}</span>`;
+        if (hardC) h += `<span style="color:var(--no, #dc2626)">${tr(`{0} struggling`, hardC)}</span>`;
         if (medC) h += `<span style="color:var(--warn)">${tr(`{0} learning`, medC)}</span>`;
-        if (easyC) h += `<span style="color:var(--product)">${tr(`{0} confident`, easyC)}</span>`;
+        if (easyC) h += `<span style="color:var(--ok, #047857)">${tr(`{0} confident`, easyC)}</span>`;
         h += `</div>`;
 
         // Next reviews
@@ -5354,7 +5354,7 @@ class PBook {
         h += `<div style="font-size:.95rem">${tr(`<b>{0}×</b> free AI tries on this device`, left)}</div>
           <div style="font-size:.75rem;color:var(--text-2);margin-top:.3em">${tr(`After login (above) your ⚡ live server-side: +100 welcome, migration of existing XP, and earnings for working with the book. Prices: text {0} ⚡ · diagrams & variants {1} ⚡.`, pr.basic, pr.advanced)}</div>`;
       }
-      h += ('<div style="font-size:.7rem;color:#15803D;margin-top:.35em">' + tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`) + '</div></div>');
+      h += ('<div style="font-size:.7rem;color:var(--ok, #15803D);margin-top:.35em">' + tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`) + '</div></div>');
     }
     h += ('<div class="profile-section"><h3>' + tr(`How to earn XP`) + '</h3>');
     h += '<div style="font-size:.8rem;display:grid;grid-template-columns:auto 1fr;gap:.3em .8em">';
@@ -5363,7 +5363,7 @@ class PBook {
     h += ('<span style="font-weight:600;color:var(--accent)">' + tr(`+5 XP`) + '</span><span>' + tr(`Write a note`) + '</span>');
     h += ('<span style="font-weight:600;color:var(--accent)">' + tr(`+3 XP`) + '</span><span>' + tr(`Like a section`) + '</span>');
     h += ('<span style="font-weight:600;color:var(--accent)">' + tr(`+2 XP`) + '</span><span>' + tr(`Save for later`) + '</span>');
-    h += ('<span style="font-weight:600;color:#F59E0B">' + tr(`+2-8 XP`) + '</span><span>' + tr(`Recall review (depends on how well you remember)`) + '</span>');
+    h += ('<span style="font-weight:600;color:var(--warn-text, #92400E)">' + tr(`+2-8 XP`) + '</span><span>' + tr(`Recall review (depends on how well you remember)`) + '</span>');
     h += '</div></div>';
 
 
@@ -5481,7 +5481,7 @@ class PBook {
     tiers.forEach((t, i) => {
       const achieved = i <= achievedIdx;
       const isNext = i === achievedIdx + 1;
-      h += `<div style="border:1.5px solid ${achieved ? t.color : 'var(--border)'};border-radius:10px;padding:.5em .7em;opacity:${achieved || isNext ? 1 : 0.55}">
+      h += `<div class="cert-tier" style="border:1.5px solid ${achieved ? t.color : 'var(--border)'};border-radius:10px;padding:.5em .7em;opacity:${achieved || isNext ? 1 : 0.55}">
         <div style="font-size:.82rem;font-weight:700;color:${achieved ? t.color : 'var(--text-2)'}">${t.icon} ${t.title} ${achieved ? '✓' : ''}<span style="font-weight:400;color:var(--text-3);font-size:.72rem"> — ${t.subtitle}</span></div>
         ${!achieved ? `<div style="font-size:.72rem;color:var(--text-3);margin-top:.25em">${t.reqs.map(r => `${r.done ? '☑' : '☐'} ${r.label}`).join(' &middot; ')}</div>` : ''}
       </div>`;
@@ -6179,7 +6179,7 @@ class PBook {
       const isComplete = completed.has(m.id);
       const isLocked = this._isMissionLocked(m);
       const isActive = prog.read > 0 && !isComplete;
-      const diffColors = { Beginner: '#10B981', Intermediate: '#F59E0B', Advanced: '#EF4444', Capstone: '#8B5CF6' };
+      const diffColors = { Beginner: '#047857', Intermediate: '#B45309', Advanced: '#B91C1C', Capstone: '#6D28D9' };   // white text ≥ 4.5:1
 
       html += `<div class="mission-card ${isComplete ? 'mission-complete' : ''} ${isLocked ? 'mission-locked' : ''} ${isActive ? 'mission-active' : ''}" onclick="${isLocked ? '' : `app.showMission('${m.id}')`}">
         <div class="mission-icon">${isLocked ? '\u{1F512}' : m.icon}</div>
@@ -6604,7 +6604,7 @@ class PBook {
       <div style="max-width:780px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
           <div style="font-weight:800;font-size:1.05rem">${tr(`✍️ Author studio`)}</div>
-          <span id="stEarn" style="font-size:.7rem;color:#15803D;margin-left:auto;text-align:right"></span>
+          <span id="stEarn" style="font-size:.7rem;color:var(--ok, #15803D);margin-left:auto;text-align:right"></span>
           <span id="stSaved" style="font-size:.7rem;color:var(--text-3,#999)"></span>
           <button onclick="app._studioClose()" title="${tr(`Close — everything autosaves`)}" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
@@ -7253,7 +7253,7 @@ class PBook {
         </div>`;
     } else if (ws.step === 'align') {
       const msgs = ws.msgs.map(m => `<div style="display:flex;${m.role === 'user' ? 'justify-content:flex-end' : ''}">
-        <div style="max-width:85%;border-radius:12px;padding:.45em .7em;margin:.2em 0;font-size:.85rem;white-space:pre-wrap;${m.role === 'user' ? 'background:var(--accent);color:#fff' : 'background:var(--bg,#f4f4f1);border:1px solid var(--border,#ddd)'}">${this.escHtml(m.text)}</div></div>`).join('');
+        <div style="max-width:85%;border-radius:12px;padding:.45em .7em;margin:.2em 0;font-size:.85rem;white-space:pre-wrap;${m.role === 'user' ? 'background:var(--accent);color: var(--on-accent, #fff)' : 'background:var(--bg,#f4f4f1);border:1px solid var(--border,#ddd)'}">${this.escHtml(m.text)}</div></div>`).join('');
       inner = `<h3 style="margin:.4em 0">${tr(`Alignment with the coach`)} <span style="font-size:.7rem;color:var(--text-3);font-weight:400">(${ROLE_NAMES[ws.role] || ''})</span></h3>
         <div id="wsChat" style="border:1.5px solid var(--border,#ddd);border-radius:12px;padding:.6em .7em;background:var(--card,#fff);max-height:46vh;overflow-y:auto">${msgs || ''}
           ${!ws.msgs.length ? `<button class="steer-chip" onclick="app._wsAsk('')">${tr(`🎧 Let the coach open · {0} ⚡`, CONFIG.aiEconomy?.prices.basic || 0)}</button>` : ''}
@@ -7332,7 +7332,7 @@ class PBook {
     const pay = this.aiCanPay('basic');
     const spin = () => document.getElementById('wsSpin');
     // Out of ⚡? The conversation is not a prison — you can always create by hand and earn ⚡ back.
-    const escapeBtn = `<div style="margin-top:.4em"><button class="steer-chip" style="font-size:.7rem;border-color:#15803D;color:#15803D" onclick="app._wsToStudio()">${tr(`✍️ I will create on my own for now (free, earns ⚡) →`)}</button></div>`;
+    const escapeBtn = `<div style="margin-top:.4em"><button class="steer-chip" style="font-size:.7rem;border-color:#15803D;color:var(--ok, #15803D)" onclick="app._wsToStudio()">${tr(`✍️ I will create on my own for now (free, earns ⚡) →`)}</button></div>`;
     if (!pay.ok) { if (spin()) spin().innerHTML = this.aiPaywallHtml('basic') + escapeBtn; return; }
     if (spin()) spin().innerHTML = `<div style="font-size:.75rem;color:var(--text-3);padding:.3em 0">${tr(`The coach is thinking…`)}</div>`;
     try {
@@ -8477,7 +8477,7 @@ class PBook {
       const bar = `<div style="height:8px;border-radius:4px;background:var(--border,#eee);overflow:hidden"><div style="height:100%;width:${c.score}%;background:${c.score >= 70 ? '#10B981' : c.score >= 40 ? '#D97706' : '#EF4444'}"></div></div>`;
       out.innerHTML = `<div style="border:1.5px solid var(--border,#ddd);border-radius:10px;padding:.7em .8em;background:var(--card,#fff);font-size:.82rem">
         <div style="display:flex;justify-content:space-between;align-items:center">${tr(`<b>🧭 Coach · round {0}</b><b>{1}/100</b>`, st.round, c.score)}</div>${bar}
-        ${c.strengths.length ? `<div style="margin-top:.5em;color:#15803D">${tr(`<b>What works:</b> {0}`, c.strengths.map(this.escHtml).join(' · '))}</div>` : ''}
+        ${c.strengths.length ? `<div style="margin-top:.5em;color:var(--ok, #15803D)">${tr(`<b>What works:</b> {0}`, c.strengths.map(this.escHtml).join(' · '))}</div>` : ''}
         ${c.gaps.length ? `<div style="margin-top:.3em;color:#B45309">${tr(`<b>What is missing:</b> {0}`, c.gaps.map(this.escHtml).join(' · '))}</div>` : ''}
         ${c.question ? `<div style="margin-top:.3em">${tr(`<b>❓ Question for you:</b> {0}`, this.escHtml(c.question))}</div>` : ''}
         ${c.tip ? `<div style="margin-top:.3em;color:var(--text-2,#666)">${tr(`<b>💡 Tip:</b> {0}`, this.escHtml(c.tip))}</div>` : ''}
@@ -8706,7 +8706,7 @@ class PBook {
         this.rc.logEvent('boss_graded', { missionId, score: g.score, verdict: g.verdict, round: talk.turns.length + 1 });
         this._setPendingBoss(missionId, null);      // graded now — the saved copy is done
         if (g.verdict === 'pass') {
-          const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:#10B981"></div></div>
+          const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:var(--ok-bd, #10B981)"></div></div>
             <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
           hintEl.className = 'boss-hint boss-pass';
           hintEl.innerHTML = `${tr(`{0}<b>Passed!</b> {1}`, bar, this.escHtml(g.feedback))}`
@@ -8793,8 +8793,8 @@ class PBook {
   _bossReflToggle(el) {
     const on = el.dataset.on === '1';
     el.dataset.on = on ? '' : '1';
-    el.style.background = on ? '' : (el.dataset.kind === 'liked' ? '#D1FAE5' : el.dataset.kind === 'suggest' ? 'var(--accent-bg)' : '#FEE2E2');
-    el.style.borderColor = on ? '' : (el.dataset.kind === 'liked' ? '#10B981' : el.dataset.kind === 'suggest' ? 'var(--accent)' : '#EF4444');
+    el.style.background = on ? '' : (el.dataset.kind === 'liked' ? 'var(--ok-bg, #D1FAE5)' : el.dataset.kind === 'suggest' ? 'var(--accent-bg)' : 'var(--no-bg, #FEE2E2)');
+    el.style.borderColor = on ? '' : (el.dataset.kind === 'liked' ? 'var(--ok-bd, #10B981)' : el.dataset.kind === 'suggest' ? 'var(--accent)' : 'var(--no-bd, #EF4444)');
   }
   _bossReflSubmit(missionId, score) {
     const box = document.getElementById('bossRefl');
@@ -10102,6 +10102,7 @@ class PBook {
     if (drawer.classList.contains('open')) {
       this._renderSettingsAccount();
       this._renderSettingsThemes();
+      this._renderSettingsA11y();
     }
   }
 
@@ -10185,14 +10186,21 @@ class PBook {
     const rewards = this.getLevelRewards();
     const activeCosmetic = localStorage.getItem('pbook-cosmetic') || null;
     const u = this.user;
+    // the book's own accent (Default) = --accent with no cosmetic applied
+    const root = document.documentElement;
+    if (activeCosmetic) root.removeAttribute('data-cosmetic');
+    const baseAccent = getComputedStyle(root).getPropertyValue('--accent').trim() || 'var(--accent)';
+    if (activeCosmetic) root.setAttribute('data-cosmetic', activeCosmetic);
     let h = '<div class="cosmetic-grid" style="margin-top:.2em">';
     rewards.forEach(r => {
       const unlocked = u.level >= r.level;
       const active = r.theme ? (r.theme === activeCosmetic) : !activeCosmetic;
       const onclick = unlocked ? (r.theme ? `app.setCosmetic('${r.theme}');app._renderSettingsThemes()` : `app.setCosmetic(null);app._renderSettingsThemes()`) : '';
-      h += `<button class="cosmetic-item ${unlocked ? '' : 'cosmetic-locked'} ${active ? 'cosmetic-active' : ''}" ${unlocked ? `onclick="${onclick}"` : ''}>
+      // the swatch shows the real colour (light or dark shade) even before it is unlocked
+      const sw = r.theme ? `<span class="cosmetic-sw" data-cosmetic="${r.theme}"></span>` : `<span class="cosmetic-sw" style="background:${baseAccent}"></span>`;
+      h += `<button class="cosmetic-item ${unlocked ? '' : 'cosmetic-locked'} ${active ? 'cosmetic-active' : ''}" ${unlocked ? `onclick="${onclick}" aria-pressed="${active}"` : `disabled title="${tr(`Unlocks at level {0}`, r.level)}"`}>
         <span class="cosmetic-icon">${unlocked ? r.icon : '\u{1F512}'}</span>
-        <span class="cosmetic-name">${r.name}</span>
+        <span class="cosmetic-name">${r.name}</span>${sw}
         <span class="cosmetic-level">${unlocked ? (active ? '\u2713' : '') : tr(`Lv.{0}`, r.level)}</span>
       </button>`;
     });
@@ -10236,6 +10244,7 @@ class PBook {
 
   applyTheme() {
     this._applyThemeChoice();
+    this._applyA11y();
     const fs = localStorage.getItem('pbook-fs');
     if (fs) { const map = { small: '0.95rem', medium: '1.1rem', large: '1.3rem' }; document.documentElement.style.setProperty('--fs', map[fs]); }
     this._applyLevelTheme();
@@ -10244,6 +10253,7 @@ class PBook {
 
   updateSettingsUI() {
     document.querySelectorAll('.sg-opt').forEach(o => o.classList.remove('active'));
+    document.querySelector(`[data-theme-opt="${this._themeChoice()}"]`)?.classList.add('active');
     const fs = localStorage.getItem('pbook-fs') || 'medium';
     document.querySelector(`.sg-opt[data-fs="${fs}"]`)?.classList.add('active');
     // Sync feature checkboxes
@@ -10452,14 +10462,14 @@ class PBook {
     if (kind === 'login' || (!this._getAuth() && (tier !== 'basic' || this._trialUsedLocal()))) {
       return `<div style="border:1.5px solid #0EA5E9;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
         ${tier === 'basic' || this._trialUsedLocal() ? tr(`<b>🔑 AI needs an account</b><br>The free try is used. Log in in your`) : tr(`<b>🔑 This AI needs an account</b><br>The free try is for text only. Log in in your`)} <a href="#" onclick="event.preventDefault();app.switchView('profile')">${tr(`Profile`)}</a> ${tr(`— your ⚡ start counting server-side and existing XP migrates (up to 100).`)}<br>
-        <span style="color:#15803D;font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span>${hand}</div>`;
+        <span style="color:var(--ok, #15803D);font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span>${hand}</div>`;
     }
     const tierName = tier === 'advanced' ? tr('Advanced AI (variants & diagrams)') : tr('Basic AI (text)');
     return `<div style="border:1.5px solid #D97706;background:var(--card,#fff);border-radius:10px;padding:.55em .7em;font-size:.74rem;line-height:1.5">
       ${tr(`<b>⚡ Not enough ⚡ for this yet</b><br> {0}`, tr(`{tier} costs <b>{p} ⚡</b>, you have <b>⚡{b}</b>. Earn by working with the book:`).replace('{tier}', tierName).replace('{p}', c.prices[tier]).replace('{b}', this.aiBalance()))}<br>
       <span style="color:var(--text-2,#666)">${tr(`read a section +10 · recall +2 · game +5 · note +3 · <b>manual edit +{me}</b> · <b>your own writing in the studio +{me} per ~{z} chars</b>`).replace(/\{me\}/g, c.earnManualEdit).replace('{z}', c.earnStudioChars || 250)}</span><br>
       <span style="color:var(--text-2,#666)">${tr(`You can keep creating by hand right now — nothing stops you, and work earns your ⚡ back.`)}</span><br>
-      <span style="color:#15803D;font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span>${hand}
+      <span style="color:var(--ok, #15803D);font-size:.7rem">${tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`)}</span>${hand}
     </div>`;
   }
   // 402/401 ze serveru → paywall místo obecné chyby
@@ -10634,12 +10644,12 @@ class PBook {
       this.rc.logEvent('ghost_view', { slug: p.slug, ctx });
     }
     return `<div class="card ghost-card" style="flex:0 0 262px;border-top:3px solid #0EA5E9">
-      <div class="card-chapter" style="color:#0EA5E9;font-weight:700">${tr(`🌱 PROPOSED · not written yet`)}</div>
+      <div class="card-chapter" style="color:var(--idea, #0369A1);font-weight:700">${tr(`🌱 PROPOSED · not written yet`)}</div>
       <div class="card-title">${this.escHtml(p.title)}</div>
       <div class="card-teaser" style="font-size:.72rem">${this.escHtml(p.objective)}</div>
       <div style="font-size:.7rem;color:var(--text-3);font-style:italic;margin:.3em 0">${tr(`You'd be able to answer: {0}`, this.escHtml(p.recallQ))}</div>
       <div id="ghost-${p.slug}-${ctx}" style="display:flex;gap:.4em;margin-top:.35em">
-        <button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9" onclick="app.ghostVote('${p.slug}',1,'${ctx}')">${tr(`👍 I'd read this`)}</button>
+        <button class="steer-chip" style="border-color:var(--idea, #0369A1);color:var(--idea, #0369A1)" onclick="app.ghostVote('${p.slug}',1,'${ctx}')">${tr(`👍 I'd read this`)}</button>
         <button class="steer-chip" onclick="app.ghostVote('${p.slug}',-1,'${ctx}')">${tr(`Not for me`)}</button>
         <button class="steer-chip" style="border-color:var(--accent);color:var(--accent)" onclick="app.startAuthoring('${p.slug}')">${tr(`✍️ I could write it`)}</button>
       </div>
@@ -10654,7 +10664,7 @@ class PBook {
     const el = document.getElementById(`ghost-${slug}-${ctx}`);
     if (el) {
       el.innerHTML = v > 0
-        ? `<span style="font-size:.7rem;color:#0EA5E9">${tr(`✓ +2 XP — demand recorded, editors see the totals.`)} <a href="#" onclick="event.preventDefault();app.proposeConcept('${this.escHtml(slug)}: ')" style="color:var(--accent)">${tr(`add your angle`)}</a></span>`
+        ? `<span style="font-size:.7rem;color:var(--idea, #0369A1)">${tr(`✓ +2 XP — demand recorded, editors see the totals.`)} <a href="#" onclick="event.preventDefault();app.proposeConcept('${this.escHtml(slug)}: ')" style="color:var(--accent)">${tr(`add your angle`)}</a></span>`
         : `<span style="font-size:.7rem;color:var(--text-3)">${tr(`✓ noted — you won't see this one again`)}</span>`;
     }
   }
@@ -11015,6 +11025,8 @@ class PBook {
     this.user.reset();
     localStorage.removeItem('pbook-theme');
     localStorage.removeItem('pbook-fs');
+    localStorage.removeItem('pbook-a11y');
+    localStorage.removeItem('pbook-cosmetic');
     localStorage.removeItem('pbook-uid');
     localStorage.removeItem('pbook-notes');
     localStorage.removeItem('pbook-flags');

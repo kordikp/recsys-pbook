@@ -1791,4 +1791,12 @@ export default {
   "I can't think right now (no connection). So that the team can go on, here is my card:": "Teraz nemôžem premýšľať (nie je pripojenie). Aby tím mohol pokračovať, tu je moja karta:",
   "Read your card.": "Prečítaj si svoju kartu.",
   "Put all the pieces together and write one answer.": "Daj všetky kúsky dokopy a napíš jednu odpoveď.",
+  "Accessibility (free for everyone)": "Prístupnosť (pre všetkých, zadarmo)",
+  "High contrast": "Vysoký kontrast",
+  "Bigger text and buttons": "Väčší text a tlačidlá",
+  "Easy-to-read font": "Čitateľnejšie písmo",
+  "Colour-blind friendly": "Farby pre farboslepých",
+  "Colour-blind friendly: right answers are blue ✓, mistakes orange ✗.": "Farby pre farboslepých: správna odpoveď je modrá ✓, chyba oranžová ✗.",
+  "High contrast uses its own colours; your accent colour comes back when you switch it off.": "Vysoký kontrast má vlastné farby. Zvolená farba zvýraznenia sa vráti po jeho vypnutí.",
+  "Unlocks at level {0}": "Odomkne sa na úrovni {0}",
 };

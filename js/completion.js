@@ -31,8 +31,8 @@ const CSS = `
 .cp-a{color:var(--text-2);border-left:3px solid var(--accent);padding:.15em 0 .15em .6em;margin:.4em 0}
 .cp-btns{display:flex;flex-wrap:wrap;gap:.4em;margin-top:.45em}
 .cp-btn{font:inherit;font-size:.8rem;font-weight:600;padding:.35em .85em;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--text);cursor:pointer}
-.cp-btn.cp-yes{border-color:#10B981;color:#047857}
-.cp-btn.cp-main{background:var(--accent);border-color:var(--accent);color:#fff}
+.cp-btn.cp-yes{border-color:var(--ok-bd,#10B981);color:var(--ok,#047857)}
+.cp-btn.cp-main{background:var(--accent);border-color:var(--accent);color: var(--on-accent, #fff)}
 .cp-bridge summary{cursor:pointer;font-weight:600;list-style:none}
 .cp-bridge summary::-webkit-details-marker{display:none}
 .cp-bridge summary::before{content:"🔁 ";}
@@ -306,7 +306,7 @@ const MAP_CSS = `
 .pm-chip{font:inherit;font-size:.75rem;line-height:1.3;padding:.28em .65em;border-radius:999px;border:1.5px dashed var(--border);background:none;color:var(--text-3);cursor:pointer;text-align:left}
 .pm-chip.pm-read{border-style:solid;color:var(--text)}
 .pm-chip.pm-checked{border:1.5px solid var(--accent);color:var(--accent);font-weight:600}
-.pm-chip.pm-kept{border:1.5px solid var(--accent);background:var(--accent);color:#fff;font-weight:600}
+.pm-chip.pm-kept{border:1.5px solid var(--accent);background:var(--accent);color: var(--on-accent, #fff);font-weight:600}
 .pm-sum{display:flex;flex-wrap:wrap;gap:.3em 1.1em;font-size:.78rem;color:var(--text-2);margin-top:.7em;padding-top:.5em;border-top:1px solid var(--border)}
 `;
 
