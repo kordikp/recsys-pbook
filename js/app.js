@@ -9,7 +9,7 @@ import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=9';
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
 import { installGames } from './games.js?v=4';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=4';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=5';
 import { installCompletion } from './completion.js?v=1';
 import { installChallenges } from './challenge.js?v=1';
 
@@ -1009,7 +1009,7 @@ class PBook {
         ? ('<span class="telling-badge" style="color:#D97706;border-color:#D97706">' + tr(`✨ reader remix`) + '</span>')
         : ('<span class="telling-badge" style="color:#D97706;border-color:#D97706">' + tr(`✨ your remix`) + '</span>');
     }
-    if (s === 'core') return ('<span class="telling-badge" style="color:#7C3AED;border-color:#7C3AED" title="' + tr(`Essential and verified by the authors`) + '">' + tr(`ESSENTIAL`) + '</span>');
+    if (s === 'core') return ('<span class="telling-badge" style="color:var(--accent);border-color:var(--accent)" title="' + tr(`Essential and verified by the authors`) + '">' + tr(`ESSENTIAL`) + '</span>');
     if (s === 'community') return ('<span class="telling-badge" style="color:#D97706;border-color:#D97706">' + tr(`⚡ reader-shared`) + '</span>');
     if (s === 'private') return ('<span class="telling-badge" style="color:#D97706;border-color:#D97706">' + tr(`⚡ yours`) + '</span>');
     return ('<span class="telling-badge" style="color:#10B981;border-color:#10B981">' + tr(`edited`) + '</span>');
@@ -1556,6 +1556,7 @@ class PBook {
     overlay.classList.remove('hidden');
     this.showStep(0);
     this._customizeWelcome();
+    this._doorToc();
   }
 
   // Access log: one 'session_start' per tab session. How the reader came in (a teacher's
@@ -4276,7 +4277,7 @@ class PBook {
               : `<button class="steer-chip" style="border-color:#0EA5E9;color:#0EA5E9;font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',1,'cmap')">${tr(`👍 want`)}</button>
                  <button class="steer-chip" style="font-size:.7rem;padding:.06em .4em" onclick="app.ghostVote('${g.slug}',-1,'cmap')">${tr(`no`)}</button>`}
               <button class="steer-chip" style="border-color:#EC4899;color:#EC4899;font-size:.7rem;padding:.06em .4em" onclick="app.startAuthoring('${g.slug}')">${tr(`✍️ write it`)}</button>
-              <button class="steer-chip" style="border-color:#7C3AED;color:#7C3AED;font-size:.7rem;padding:.06em .4em" title="${tr(`Creative workshop with the coach: align → create → certificate with your contribution`)}" onclick="app.startWorkshop('${g.slug}')">${tr(`🎓 workshop`)}</button></span>
+              <button class="steer-chip" style="border-color:var(--accent);color:var(--accent);font-size:.7rem;padding:.06em .4em" title="${tr(`Creative workshop with the coach: align → create → certificate with your contribution`)}" onclick="app.startWorkshop('${g.slug}')">${tr(`🎓 workshop`)}</button></span>
           </div>`;
         });
       }
@@ -6378,7 +6379,7 @@ class PBook {
     const el = document.createElement('div');
     el.id = 'microCert';
     el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.45);z-index:300;display:flex;align-items:center;justify-content:center;padding:1em" onclick="if(event.target===this)document.getElementById('microCert').remove()">
-      <div style="background:var(--card,#fff);border-radius:16px;max-width:420px;width:100%;padding:1.2em 1.3em;border-top:6px solid #7C3AED" id="microCertCard">
+      <div style="background:var(--card,#fff);border-radius:16px;max-width:420px;width:100%;padding:1.2em 1.3em;border-top:6px solid var(--accent)" id="microCertCard">
         <div style="font-size:1.15rem;font-weight:800">${isAuthor ? tr('✍️ Author certificate') : tr('🎓 Micro-certificate')}</div>
         <div style="font-size:.75rem;color:var(--text-2,#666);margin:.15em 0 .6em">${isAuthor ? tr('for developing a concept with an AI coach') : tr('for completing a micro-mission')}</div>
         <input id="mcName" value="${this.escHtml(name)}" placeholder="${tr(`Your name (for print)`)}" onchange="localStorage.setItem('pbook-cert-name',this.value)"
@@ -6665,7 +6666,7 @@ class PBook {
         const btn = document.getElementById('stFbBtn');
         if (d?.ok && btn) {
           const n = (d.comments || []).length;
-          if (n) { btn.textContent += ` (${n})`; btn.style.borderColor = '#7C3AED'; btn.style.color = '#7C3AED'; this._studioFbStatus(st.shareId); }
+          if (n) { btn.textContent += ` (${n})`; btn.style.borderColor = 'var(--accent)'; btn.style.color = 'var(--accent)'; this._studioFbStatus(st.shareId); }
         }
       }).catch(() => {});
     }
@@ -6673,8 +6674,8 @@ class PBook {
     if (this._stBackupOffer) {
       this._stBackupOffer = false;
       const rb = document.createElement('div');
-      rb.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;font-size:.75rem;border:1.5px dashed #7C3AED;border-radius:9px;padding:.4em .6em;margin:.4em 0;color:var(--text-2,#666);background:color-mix(in srgb, #7C3AED 5%, transparent)';
-      rb.innerHTML = `${tr(`Your previous work-in-progress for this concept is safe.`)} <button class="steer-chip" style="font-size:.7rem;border-color:#7C3AED;color:#7C3AED" onclick="this.closest('div').remove();app._studioRestoreBackup()">${tr(`↩ Go back to it`)}</button>
+      rb.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;font-size:.75rem;border:1.5px dashed var(--accent);border-radius:9px;padding:.4em .6em;margin:.4em 0;color:var(--text-2,#666);background:color-mix(in srgb, var(--accent) 5%, transparent)';
+      rb.innerHTML = `${tr(`Your previous work-in-progress for this concept is safe.`)} <button class="steer-chip" style="font-size:.7rem;border-color:var(--accent);color:var(--accent)" onclick="this.closest('div').remove();app._studioRestoreBackup()">${tr(`↩ Go back to it`)}</button>
         <button class="steer-chip" style="font-size:.7rem" onclick="this.closest('div').remove()">✕</button>`;
       document.getElementById('stCanvas')?.before(rb);
     }
@@ -6710,9 +6711,9 @@ class PBook {
         : `<span style="color:#B45309;font-size:.75rem">⟦obr:${this.escHtml(ref.trim())}⟧ — ?</span>`);
       h = h.replace(this._studioMarkerRx(), (_, k, w) => {
         const mi = mkIdx++;
-        return `<span style="display:inline-block;max-width:100%;border:1.5px dashed #7C3AED;border-radius:10px;padding:.35em .6em;margin:.15em .1em;color:#7C3AED;font-size:.78rem;vertical-align:middle">🎨 ${/anim/i.test(k) ? 'ANIMATION' : 'DIAGRAM'}: ${this.escHtml(w.trim())}
-          <button class="steer-chip" style="font-size:.7rem;margin-left:.5em;border-color:#7C3AED;color:#7C3AED" onclick="app.generateGraphic(${mi})">${tr(`🎨 Draw this one · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button>
-          <button class="steer-chip" style="font-size:.7rem;border-color:#7C3AED;color:#7C3AED" onclick="app.studioDrawSchema(${mi})">${tr(`✏️ by hand`)}</button></span>`;
+        return `<span style="display:inline-block;max-width:100%;border:1.5px dashed var(--accent);border-radius:10px;padding:.35em .6em;margin:.15em .1em;color:var(--accent);font-size:.78rem;vertical-align:middle">🎨 ${/anim/i.test(k) ? 'ANIMATION' : 'DIAGRAM'}: ${this.escHtml(w.trim())}
+          <button class="steer-chip" style="font-size:.7rem;margin-left:.5em;border-color:var(--accent);color:var(--accent)" onclick="app.generateGraphic(${mi})">${tr(`🎨 Draw this one · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button>
+          <button class="steer-chip" style="font-size:.7rem;border-color:var(--accent);color:var(--accent)" onclick="app.studioDrawSchema(${mi})">${tr(`✏️ by hand`)}</button></span>`;
       });
       inner += `<div class="st-block" data-bi="${i}" title="${tr(`click to edit this paragraph`)}" style="border-radius:8px;padding:.15em .35em;margin:0 -.35em;cursor:text">${h}</div>`;
     });
@@ -7040,7 +7041,7 @@ class PBook {
       out.innerHTML = `<div style="border:1.5px solid #10B981;border-radius:8px;padding:.5em .7em;font-size:.78rem;background:var(--card,#fff)">
         ${tr(`💾 Saved (rev {0}, {1} slides) under <code>{2}</code>.`, d.rev, bundle.slides.length, this.escHtml(group))}
         <div style="display:flex;gap:.5em;flex-wrap:wrap;margin-top:.4em">
-          <a class="note-save" style="background:#7C3AED;font-size:.74rem;text-decoration:none" href="${open}" target="_blank" rel="noopener">${tr(`▶ Open in SlAIdy`)}</a>
+          <a class="note-save" style="background:var(--accent);font-size:.74rem;text-decoration:none" href="${open}" target="_blank" rel="noopener">${tr(`▶ Open in SlAIdy`)}</a>
           <button class="steer-chip" style="font-size:.72rem" onclick="navigator.clipboard.writeText('${open}');app.showXPToast('Link copied ✓','xp')">${tr(`🔗 copy link`)}</button>
         </div>
         <span style="color:var(--text-2,#666);font-size:.72rem">${tr(`Edits made in SlAIdy are saved there too — bring them back with "Load from class".`)}</span>
@@ -7185,11 +7186,11 @@ class PBook {
     if (document.getElementById('stSlaidy')) { document.getElementById('stSlaidy').remove(); return; }
     const st = this._authorState()[this._studio?.slug] || {};
     const group = st.deckGroup || this._slaidyGroup();
-    out.innerHTML = `<div id="stSlaidy" style="border:1.5px solid #7C3AED;border-radius:10px;padding:.55em .7em;font-size:.78rem;background:var(--card,#fff)">
+    out.innerHTML = `<div id="stSlaidy" style="border:1.5px solid var(--accent);border-radius:10px;padding:.55em .7em;font-size:.78rem;background:var(--card,#fff)">
       ${tr(`<b>🎞 Slides</b> — the deck lives in the class storage; SlAIdy and the book read and save it themselves.`)}
       <div style="display:flex;gap:.5em;flex-wrap:wrap;align-items:center;margin:.4em 0">
         <input id="stDeckGroup" placeholder="${tr(`class code`)}" value="${this.escHtml(group)}" style="width:110px;font:inherit;font-size:.76rem;padding:.3em .5em;border:1.5px solid var(--border,#ddd);border-radius:8px;background:var(--bg,#fafaf7)">
-        <button class="note-save" style="background:#7C3AED;font-size:.74rem" onclick="app.slaidyCloudSave()">${tr(`💾 Save to class{0}`, st.deckId ? tr(' (update)') : '')}</button>
+        <button class="note-save" style="background:var(--accent);font-size:.74rem" onclick="app.slaidyCloudSave()">${tr(`💾 Save to class{0}`, st.deckId ? tr(' (update)') : '')}</button>
         <button class="steer-chip" style="font-size:.72rem" onclick="app.slaidyCloudList()">${tr(`📥 Load from class`)}</button>
         ${st.deckId ? `<a class="steer-chip" style="font-size:.72rem;text-decoration:none" target="_blank" rel="noopener" href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(st.deckId))}">${tr(`▶ Open in SlAIdy`)}</a>` : ''}
         <button class="steer-chip" style="font-size:.72rem" onclick="document.getElementById('stSlaidy').remove()">✕</button>
@@ -7270,7 +7271,7 @@ class PBook {
       const name = localStorage.getItem('pbook-cert-name') || '';
       const date = new Date().toLocaleDateString(locale('en-GB'));
       const code = this._hash36([ws.slug, ws.role, date].join('|')).padEnd(8, '0').slice(0, 8);
-      inner = `<div style="border-top:6px solid #7C3AED;border-radius:14px;background:var(--card,#fff);padding:1em 1.2em" id="wsCert">
+      inner = `<div style="border-top:6px solid var(--accent);border-radius:14px;background:var(--card,#fff);padding:1em 1.2em" id="wsCert">
         <div style="font-size:1.1rem;font-weight:800">${tr(`🎓 Creative workshop certificate`)}</div>
         <input value="${this.escHtml(name)}" placeholder="${tr(`Your name (for print)`)}" onchange="localStorage.setItem('pbook-cert-name',this.value)"
           style="width:100%;font-size:.95rem;font-weight:700;padding:.35em .5em;border:1px dashed var(--border,#ddd);border-radius:8px;margin:.5em 0">
@@ -7357,7 +7358,7 @@ class PBook {
     if (stdo) stdo.wizard = true;
     const bar = document.createElement('div');
     bar.id = 'wsBar';
-    bar.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;border:1.5px solid #7C3AED;border-radius:10px;padding:.4em .6em;margin:.4em 0;background:color-mix(in srgb, #7C3AED 6%, transparent);font-size:.75rem';
+    bar.style.cssText = 'display:flex;gap:.5em;align-items:center;flex-wrap:wrap;border:1.5px solid var(--accent);border-radius:10px;padding:.4em .6em;margin:.4em 0;background:color-mix(in srgb, var(--accent) 6%, transparent);font-size:.75rem';
     bar.innerHTML = `<b>${tr(`Workshop`)}</b> <span style="color:var(--text-2)">${this.escHtml((ws.brief || tr('Creating your own way — summon the coach 🧭 any time; writing earns you ⚡.')).slice(0, 140))}</span>
       <button class="note-save" style="margin-left:auto;background:#10B981;font-size:.72rem" onclick="app.finishAuthoring()">${tr(`✅ Done → presentation`)}</button>`;
     document.getElementById('stCanvas')?.before(bar);
@@ -7522,7 +7523,7 @@ class PBook {
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .3em">${tr(`🎞 Class slide decks`)}</div>` + items2.map(it =>
         `<div style="display:flex;gap:.6em;align-items:center;padding:.45em .6em;border:1.5px solid var(--border,#eee);border-radius:10px;margin:.3em 0">
           <span style="flex:1 1 auto;min-width:0"><b>${this.escHtml(it.title || '—')}</b> <span style="font-size:.72rem;color:var(--text-3)">${tr(`— {0} · {1} slides`, this.escHtml(it.author || tr('no author')), it.n)}</span></span>
-          <a class="note-save" style="background:#7C3AED;font-size:.72rem;text-decoration:none" target="_blank" rel="noopener"
+          <a class="note-save" style="background:var(--accent);font-size:.72rem;text-decoration:none" target="_blank" rel="noopener"
             href="${this._slaidyAppUrl()}?deck=${encodeURIComponent(this._slaidyDeckUrl(it.id))}#present">${tr(`▶ Present`)}</a>
         </div>`).join('');
     }).catch(() => {});
@@ -7841,7 +7842,7 @@ class PBook {
       const vals = CONFIG.facets?.[dim]?.values || [];
       return `<div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin-top:.25em">${(L._dim || {})[dim] || dim}:
         <span>${vals.map(v => `<button class="steer-chip st-fac" data-dim="${dim}" data-v="${v}"
-          style="font-size:.7rem;margin:.1em${fac[dim] === v ? ';background:#EDE9FE;border-color:#7C3AED' : ''}"
+          style="font-size:.7rem;margin:.1em${fac[dim] === v ? ';background:var(--accent-bg);border-color:var(--accent)' : ''}"
           onclick="app._studioFacetPick(this)">${this.escHtml((L[dim] || {})[v] || v)}</button>`).join('')}</span></div>`;
     }).join('');
   }
@@ -8296,7 +8297,7 @@ class PBook {
     } else ok = this._studioPlace([token]);
     if (!ok) { delete stdo.assets[id]; this._studioSave(); return; }
     const out = document.getElementById('stOut');
-    if (out) out.innerHTML = `<div style="border:1.5px solid #7C3AED;border-radius:8px;padding:.5em .7em;font-size:.8rem;background:var(--card,#fff)">${tr('✏️ Your diagram: double-click a text to rewrite it, drag a box to move it, ⧉ adds another, the colour dots recolour, 🗑 removes, ↩ undoes.')}</div>`;
+    if (out) out.innerHTML = `<div style="border:1.5px solid var(--accent);border-radius:8px;padding:.5em .7em;font-size:.8rem;background:var(--card,#fff)">${tr('✏️ Your diagram: double-click a text to rewrite it, drag a box to move it, ⧉ adds another, the colour dots recolour, 🗑 removes, ↩ undoes.')}</div>`;
     this.rc.logEvent('author_schema', { slug: stdo.slug, fromMark: !!mark });
     setTimeout(() => document.querySelector(`#stCanvas figure[data-asset="${id}"]`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 60);
   }
@@ -8634,6 +8635,8 @@ class PBook {
     </div>`;
 
     html += '</div>';
+    // a fresh card starts a fresh Socratic dialogue (guiding questions and the reader's replies)
+    this._bossTalk = { id: m.id, turns: [], lastQ: '' };
     // reached from the book too (the last step's "Face the Final Boss", the mission bar)
     if (this.currentView !== 'glossary') this.switchView('glossary');
     el.innerHTML = html;
@@ -8668,6 +8671,7 @@ class PBook {
       return;
     }
 
+    const talk = this._bossTalk?.id === missionId ? this._bossTalk : (this._bossTalk = { id: missionId, turns: [], lastQ: '' });
     // AI examiner grades substance; keyword check is the offline fallback
     if (await this._probeBoss()) {
       const btn = document.getElementById('bossSubmit');
@@ -8679,28 +8683,33 @@ class PBook {
         const res = await fetch('/api/boss', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ question: m.boss.q, hints: m.boss.hints || [], answer: rawAnswer, missionTitle: m.title, lang: LANG }),
+          body: JSON.stringify({ question: m.boss.q, hints: m.boss.hints || [], answer: rawAnswer, missionTitle: m.title, lang: LANG, dialogue: talk.turns }),
         });
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.error || tr('grading failed'));
         const g = data.grade;
-        this.rc.logEvent('boss_graded', { missionId, score: g.score, verdict: g.verdict });
-        const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:${g.verdict === 'pass' ? '#10B981' : g.verdict === 'almost' ? '#D97706' : '#EF4444'}"></div></div>
-          <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
+        this.rc.logEvent('boss_graded', { missionId, score: g.score, verdict: g.verdict, round: talk.turns.length + 1 });
         this._setPendingBoss(missionId, null);      // graded now — the saved copy is done
         if (g.verdict === 'pass') {
+          const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:#10B981"></div></div>
+            <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
           hintEl.className = 'boss-hint boss-pass';
           hintEl.innerHTML = `${tr(`{0}<b>Passed!</b> {1}`, bar, this.escHtml(g.feedback))}`;
           this._bossReflection(missionId, hintEl, g.score);
         } else {
+          // Socratic: no score and no list of what is missing — the dragon asks one guiding
+          // question, the reader replies right under it, and the examiner grades answer + replies
+          talk.lastQ = g.followUp || '';
           hintEl.className = 'boss-hint boss-retry';
-          hintEl.innerHTML = `${bar}${this.escHtml(g.feedback)}
-            ${g.missing?.length ? `<div style="margin-top:.4em">${tr(`Still missing: {0}`, g.missing.map(x => `<b>${this.escHtml(x)}</b>`).join(' · '))}</div>` : ''}
-            ${g.followUp ? `<div style="margin-top:.4em">🐉 <i>${this.escHtml(g.followUp)}</i></div>` : ''}
+          hintEl.innerHTML = `${this.escHtml(g.feedback)}
+            ${g.followUp ? `<div class="boss-guide" style="margin-top:.5em"><div>🐉 <b>${this.escHtml(g.followUp)}</b></div>
+              <textarea class="boss-answer" id="bossReply" rows="2" style="margin-top:.4em" placeholder="${tr(`Your answer to the dragon's question…`)}"></textarea>
+              <button class="boss-submit" id="bossReplyBtn" onclick="app._bossReply('${missionId}')">${tr(`Reply to the dragon`)}</button></div>` : ''}
             <div style="margin-top:.5em">
-              <button class="wizard-nav-btn" onclick="document.getElementById('bossAnswer').focus()">${tr(`Improve my answer`)}</button>
+              <button class="wizard-nav-btn" onclick="document.getElementById('bossAnswer').focus()">${g.followUp ? tr(`Or rewrite your whole answer`) : tr(`Improve my answer`)}</button>
               <button class="wizard-nav-btn" onclick="app._wizardStep=0;app._renderWizardStep()">${tr(`Review the steps`)}</button>
             </div>`;
+          document.getElementById('bossReply')?.focus({ preventScroll: true });
         }
         if (btn) { btn.disabled = false; btn.textContent = tr('Check my answer'); }
         return;
@@ -8709,7 +8718,23 @@ class PBook {
         /* examiner down → fall through to keyword check */
       }
     }
-    this._checkBossAnswerLocal(missionId, rawAnswer, hintEl);
+    // offline: the replies to the dragon are part of the answer that waits for grading
+    this._checkBossAnswerLocal(missionId, [rawAnswer, ...talk.turns.map(t => t.a)].join('\n'), hintEl);
+  }
+
+  // The reader answers the dragon's guiding question; the examiner grades the original
+  // answer together with every reply so far (the server makes each round more concrete)
+  _bossReply(missionId) {
+    const talk = this._bossTalk;
+    const box = document.getElementById('bossReply');
+    const reply = (box?.value || '').trim();
+    if (!talk || talk.id !== missionId || !box) return;
+    if (reply.length < 3) { box.placeholder = tr('Write at least a few words.'); box.focus(); return; }
+    talk.turns.push({ q: talk.lastQ, a: reply.slice(0, 800) });
+    talk.lastQ = '';
+    const btn = document.getElementById('bossReplyBtn');
+    if (btn) btn.disabled = true;
+    this._checkBossAnswer(missionId);
   }
 
   // ===== POST-EXAM REFLECTION: what worked / what dragged / a suggestion =====
@@ -8737,8 +8762,8 @@ class PBook {
   _bossReflToggle(el) {
     const on = el.dataset.on === '1';
     el.dataset.on = on ? '' : '1';
-    el.style.background = on ? '' : (el.dataset.kind === 'liked' ? '#D1FAE5' : el.dataset.kind === 'suggest' ? '#EDE9FE' : '#FEE2E2');
-    el.style.borderColor = on ? '' : (el.dataset.kind === 'liked' ? '#10B981' : el.dataset.kind === 'suggest' ? '#7C3AED' : '#EF4444');
+    el.style.background = on ? '' : (el.dataset.kind === 'liked' ? '#D1FAE5' : el.dataset.kind === 'suggest' ? 'var(--accent-bg)' : '#FEE2E2');
+    el.style.borderColor = on ? '' : (el.dataset.kind === 'liked' ? '#10B981' : el.dataset.kind === 'suggest' ? 'var(--accent)' : '#EF4444');
   }
   _bossReflSubmit(missionId, score) {
     const box = document.getElementById('bossRefl');
@@ -10778,62 +10803,64 @@ class PBook {
     const tier = tiers[Math.max(achievedIdx, 0)];
     const tierHeader = achievedIdx >= 0 ? `${tr(`CERTIFICATE • {0}`, tier.title.toUpperCase())}` : tr('CERTIFICATE OF COMPLETION');
     const tierLine = achievedIdx >= 0 ? esc(`${tr(`{0} — verified core content at {1} depth`, tier.subtitle, tr(tier.id === 'guru' ? 'research' : tier.id === 'practitioner' ? 'technical' : 'foundational'))}`) : (CONFIG.certificate?.completed ? esc(loc(CONFIG.certificate.completed)) : tr('has successfully completed the study of Modern Recommender Systems'));
-    const tierColor = achievedIdx >= 0 ? tier.color : '#7C3AED';
+    // a book can dress the certificate in its own colours (CONFIG.certificate.palette)
+    const P = Object.assign({ main: '#7C3AED', bg1: '#F5F3FF', bg2: '#EDE9FE', line: '#C4B5FD', ink: '#4C1D95' }, CONFIG.certificate?.palette || {});
+    const tierColor = achievedIdx >= 0 ? tier.color : P.main;
 
     return `<?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 566" width="800" height="566">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F5F3FF"/>
-      <stop offset="100%" stop-color="#EDE9FE"/>
+      <stop offset="0%" stop-color="${P.bg1}"/>
+      <stop offset="100%" stop-color="${P.bg2}"/>
     </linearGradient>
   </defs>
   <rect width="800" height="566" fill="url(#bg)" rx="16"/>
-  <rect x="20" y="20" width="760" height="526" fill="none" stroke="#7C3AED" stroke-width="2" rx="12" stroke-dasharray="8 4"/>
-  <rect x="30" y="30" width="740" height="506" fill="none" stroke="#7C3AED" stroke-width="1" rx="10" opacity=".3"/>
+  <rect x="20" y="20" width="760" height="526" fill="none" stroke="${P.main}" stroke-width="2" rx="12" stroke-dasharray="8 4"/>
+  <rect x="30" y="30" width="740" height="506" fill="none" stroke="${P.main}" stroke-width="1" rx="10" opacity=".3"/>
 
   <!-- Header -->
   <text x="400" y="80" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="${tierColor}" letter-spacing="6">${tierHeader}</text>
-  <line x1="200" y1="95" x2="600" y2="95" stroke="#C4B5FD" stroke-width="1"/>
+  <line x1="200" y1="95" x2="600" y2="95" stroke="${P.line}" stroke-width="1"/>
 
   <!-- Title -->
-  <text x="400" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="#4C1D95" font-weight="bold">${this.escHtml(this._bookTitle())}</text>
-  <text x="400" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="#7C3AED">${tr(`A p-book by {0}`, this.escHtml(this._bookAuthors()))}</text>
+  <text x="400" y="140" text-anchor="middle" font-family="Georgia,serif" font-size="28" fill="${P.ink}" font-weight="bold">${this.escHtml(this._bookTitle())}</text>
+  <text x="400" y="168" text-anchor="middle" font-family="system-ui,sans-serif" font-size="13" fill="${P.main}">${tr(`A p-book by {0}`, this.escHtml(this._bookAuthors()))}</text>
 
   <!-- This certifies -->
   <text x="400" y="210" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#6B7280">${tr(`This certifies that`)}</text>
   <text x="400" y="248" text-anchor="middle" font-family="Georgia,serif" font-size="${nameSize}" fill="#1C1917" font-weight="bold">${displayName}</text>
-  <line x1="250" y1="260" x2="550" y2="260" stroke="#D4B5FD" stroke-width="1"/>
+  <line x1="250" y1="260" x2="550" y2="260" stroke="${P.line}" stroke-width="1"/>
 
   <!-- Achievement stats -->
   <text x="400" y="295" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#6B7280">${tierLine}</text>
 
-  <text x="200" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#7C3AED" font-weight="600">${tr(`{0} sections read`, p.progress.read)}</text>
-  <text x="400" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#7C3AED" font-weight="600">${tr(`Level {0} \u2022 {1} XP`, u.level, u.xp)}</text>
-  <text x="600" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="#7C3AED" font-weight="600">${tr(`{0} badges earned`, u.achievements.length)}</text>
+  <text x="200" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="${P.main}" font-weight="600">${tr(`{0} sections read`, p.progress.read)}</text>
+  <text x="400" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="${P.main}" font-weight="600">${tr(`Level {0} \u2022 {1} XP`, u.level, u.xp)}</text>
+  <text x="600" y="335" text-anchor="middle" font-family="system-ui,sans-serif" font-size="11" fill="${P.main}" font-weight="600">${tr(`{0} badges earned`, u.achievements.length)}</text>
 
   <text x="200" y="358" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#9CA3AF">${tr(`{0}% complete`, p.progress.pct)}</text>
   <text x="400" y="358" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#9CA3AF">${tr(`{0} path`, voiceLabel)}</text>
   <text x="600" y="358" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#9CA3AF">${tr(`{0} min reading`, p.readingTimeMin)}</text>
 
   <!-- Specialization -->
-  <rect x="280" y="378" width="240" height="30" rx="15" fill="#7C3AED" opacity=".1"/>
-  <text x="400" y="398" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#7C3AED" font-weight="600">${tr(`Specialization: {0}`, voiceLabel)}</text>
+  <rect x="280" y="378" width="240" height="30" rx="15" fill="${P.main}" opacity=".1"/>
+  <text x="400" y="398" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="${P.main}" font-weight="600">${tr(`Specialization: {0}`, voiceLabel)}</text>
 
   <!-- Topics -->
   <text x="400" y="438" text-anchor="middle" font-family="system-ui,sans-serif" font-size="10" fill="#9CA3AF">${tr(`Key topics: {0}`, (p.topTopics || []).slice(0, 4).join(' \u2022 ') || (CONFIG.certificate?.topic ? this.escHtml(loc(CONFIG.certificate.topic)) : tr('Recommender Systems')))}</text>
 
   <!-- Footer -->
-  <line x1="150" y1="470" x2="350" y2="470" stroke="#D4B5FD" stroke-width="1"/>
-  <text x="250" y="488" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="#4C1D95">${this.escHtml(CONFIG.book?.signature || tr('Pavel Kordik'))}</text>
+  <line x1="150" y1="470" x2="350" y2="470" stroke="${P.line}" stroke-width="1"/>
+  <text x="250" y="488" text-anchor="middle" font-family="Georgia,serif" font-size="12" fill="${P.ink}">${this.escHtml(CONFIG.book?.signature || tr('Pavel Kordik'))}</text>
   <text x="250" y="502" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#9CA3AF">${CONFIG.book?.signatureRole ? this.escHtml(loc(CONFIG.book.signatureRole)) : tr(`Author &amp; Recombee Co-founder`)}</text>
 
-  <line x1="450" y1="470" x2="650" y2="470" stroke="#D4B5FD" stroke-width="1"/>
-  <text x="550" y="488" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="#4C1D95">${date}</text>
+  <line x1="450" y1="470" x2="650" y2="470" stroke="${P.line}" stroke-width="1"/>
+  <text x="550" y="488" text-anchor="middle" font-family="system-ui,sans-serif" font-size="12" fill="${P.ink}">${date}</text>
   <text x="550" y="502" text-anchor="middle" font-family="system-ui,sans-serif" font-size="9" fill="#9CA3AF">${tr(`Date of completion`)}</text>
 
   <!-- Seal -->
-  <circle cx="400" cy="490" r="22" fill="#7C3AED" opacity=".15"/>
+  <circle cx="400" cy="490" r="22" fill="${P.main}" opacity=".15"/>
   <text x="400" y="496" text-anchor="middle" font-size="20">\u{1F393}</text>
 </svg>`;
   }

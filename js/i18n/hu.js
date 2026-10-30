@@ -1730,4 +1730,8 @@ export default {
   "✍️ your own telling &middot; not yet editor-verified": "✍️ a saját változatod &middot; a szerkesztők még nem ellenőrizték",
   "✍️ Your own words are enough: spelling and exact terms don't matter.": "✍️ Elég a saját szavaiddal: a helyesírás és a pontos szakszavak nem számítanak.",
   "You don't have to answer every part: show the main ideas.": "Nem kell mindenre válaszolnod: mutasd meg a fő gondolatokat.",
+  "Reply to the dragon": "Válasz a sárkánynak",
+  "Your answer to the dragon's question…": "A válaszod a sárkány kérdésére…",
+  "Or rewrite your whole answer": "Vagy írd át az egész válaszodat",
+  "Write at least a few words.": "Írj legalább pár szót.",
 };

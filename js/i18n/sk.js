@@ -1730,4 +1730,8 @@ export default {
   "✍️ your own telling &middot; not yet editor-verified": "✍️ tvoje vlastné podanie &middot; zatiaľ neoverené redakciou",
   "✍️ Your own words are enough: spelling and exact terms don't matter.": "✍️ Stačí vlastnými slovami: na pravopis ani presné pojmy sa nehľadí.",
   "You don't have to answer every part: show the main ideas.": "Nemusíš odpovedať na všetko: ukáž hlavné myšlienky.",
+  "Reply to the dragon": "Odpovedať drakovi",
+  "Your answer to the dragon's question…": "Tvoja odpoveď na otázku draka…",
+  "Or rewrite your whole answer": "Alebo prepíš celú odpoveď",
+  "Write at least a few words.": "Napíš aspoň pár slov.",
 };

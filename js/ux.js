@@ -254,18 +254,31 @@ export const uxMethods = {
     }
     const sel = document.querySelector('#introLens .intro-voice.selected');
     if (sel) this.onboardPick('lens', sel.dataset.lens, sel);
+    this._doorToc();
+  },
+  // The door's table of contents, when the book's index.html has <div id="doorToc">:
+  // its chapters (CONFIG.door.toc, else every non-extra chapter), each one tap from reading
+  _doorToc() {
+    const el = document.getElementById('doorToc');
+    const chs = Object.values(this.chapters || {});
+    if (!el || el.childElementCount || !chs.length) return;
+    const ids = CONFIG.door?.toc || (this.book?.chapters || []).filter(c => !c.extra).map(c => c.id);
+    el.innerHTML = ids.map(id => chs.find(c => c.id === id)).filter(Boolean).map(c =>
+      `<button class="door-toc-item" onclick="app.doorStart('${c.id}')"><span class="door-toc-n" aria-hidden="true">${c.number}</span>`
+      + `<span class="door-toc-text"><b>${this.escHtml(c.title)}</b>${c.subtitle ? `<small>${this.escHtml(c.subtitle)}</small>` : ''}</span></button>`).join('');
   },
   // The door's one primary button: save the (optional) picks, open Chapter 1.
   // A first-time reader is reading after two taps (open the site, tap Start).
-  doorStart() {
+  // From the table of contents it opens that chapter's first core concept instead.
+  doorStart(chapterId) {
     this._saveFeatureToggles();
     this._saveDoorPicks();
     document.getElementById('onboarding')?.classList.add('hidden');
     this.updateVoiceBadge?.();
     this.updateXPBadge();
     if (!this._f('missions')) document.querySelector('[data-view="glossary"]')?.style.setProperty('display', 'none');
-    if (this.user.readBlocks.size) { this._resumeReading(); return; }
-    const id = this._firstBlockId();
+    if (!chapterId && this.user.readBlocks.size) { this._resumeReading(); return; }
+    const id = (chapterId && this._chapterFirstBlockId(chapterId)) || this._firstBlockId();
     if (id) this.openBlock(id, 'door'); else this.switchView('home');
     let tries = 0;
     const tick = () => {
@@ -285,6 +298,12 @@ export const uxMethods = {
     const a = first && this.concepts?.[first]?.anchor;
     if (a && this.findBlock(a)) return a;
     return this.chapters?.[0]?.blocks.find(b => b.type === 'spine')?.id || null;
+  },
+  _chapterFirstBlockId(chapterId) {
+    const cid = this._conceptOrder().find(c => this.concepts?.[c]?.chapter === chapterId);
+    const a = cid && this.concepts[cid].anchor;
+    if (a && this.findBlock(a)) return a;
+    return Object.values(this.chapters || {}).find(c => c.id === chapterId)?.blocks?.find(b => b.type === 'spine')?.id || null;
   },
   // The goal picked at the door shapes the first experience: a soft depth hint
   // and a one-line pointer to the matching guided path (logged for the experiment).
