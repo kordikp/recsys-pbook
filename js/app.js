@@ -3,7 +3,7 @@
 import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=4';
-import { RecombeeClient, UserModel } from './recombee.js?v=14';
+import { RecombeeClient, UserModel } from './recombee.js?v=15';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=9';
 
 const APP_VERSION = '5.12.4';
@@ -11,7 +11,7 @@ import { AskTheBook, ConversationManager } from './tutor.js?v=2';
 import { installGames } from './games.js?v=4';
 import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=5';
 import { installCompletion } from './completion.js?v=2';
-import { installTeams } from './teams.js?v=1';
+import { installTeams } from './teams.js?v=2';
 import { installChallenges } from './challenge.js?v=1';
 
 class PBook {
@@ -36,6 +36,8 @@ class PBook {
 
   // ===== INIT =====
   async init() {
+    this._entryHash = location.hash;   // how the reader came in, before routing rewrites it (_logVisit)
+    this._classFromLink();      // before any log row: a teacher's link names the class
     translateStatic();          // index.html's own text, in the reader's language
     this._mountLangSwitch();
     // Demo seeding for screenshots/booth mode: ?seed=demo populates a plausible
@@ -1569,22 +1571,29 @@ class PBook {
   // whether they are back. Only the referrer's host is kept, never a path or a query.
   _logVisit() {
     try { if (sessionStorage.getItem('pbook-visit')) return; sessionStorage.setItem('pbook-visit', '1'); } catch (e) { /* storage blocked: log anyway */ }
-    const h = decodeURIComponent(location.hash.replace(/^#/, ''));
+    const h = decodeURIComponent((this._entryHash ?? location.hash).replace(/^#/, ''));
     const entry = !h ? 'home' : (h.match(/^(mission|mise|autor|dilna|trida|ohlas|zpetna-vazba|view)-/)?.[1] || (/^(cesta|quiz)$/.test(h) ? h : 'link'));
     let ref = '';
     try { ref = document.referrer ? new URL(document.referrer).host : ''; } catch (e) {}
     if (ref === location.host) ref = '';
     const u = this.user;
-    let classCode = false;
-    try { classCode = !!localStorage.getItem('pbook-deck-group'); } catch (e) {}
     this.rc.logEvent('session_start', {
       entry, ref, lang: LANG,
       returning: !!(u.readBlocks?.size || u.completedMissions?.length),
       read: u.readBlocks?.size || 0,
       device: innerWidth < 640 ? 'phone' : innerWidth < 1024 ? 'tablet' : 'desktop',
       installed: !!window.matchMedia?.('(display-mode: standalone)').matches,
-      classCode,
     });
+  }
+
+  // A teacher's link carries the class code (?trida=k7m2qx, made on /ucitel): the device keeps
+  // it as the reader's class (gallery, sharing) and every log row carries it (rc._sendToLog).
+  // The latest link wins, so a school tablet follows the class that uses it now.
+  _classFromLink() {
+    let c = '';
+    try { const q = new URLSearchParams(location.search); c = (q.get('trida') || q.get('class') || '').toLowerCase(); } catch (e) {}
+    if (!/^[a-z0-9-]{4,16}$/.test(c)) return;
+    try { localStorage.setItem('pbook-deck-group', c); } catch (e) {}
   }
 
   _customizeWelcome() {
@@ -8700,7 +8709,8 @@ class PBook {
           const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:#10B981"></div></div>
             <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
           hintEl.className = 'boss-hint boss-pass';
-          hintEl.innerHTML = `${tr(`{0}<b>Passed!</b> {1}`, bar, this.escHtml(g.feedback))}`;
+          hintEl.innerHTML = `${tr(`{0}<b>Passed!</b> {1}`, bar, this.escHtml(g.feedback))}`
+            + this._bossFairHtml('mission', missionId, talk.turns.length + 1, g.verdict);
           this._bossReflection(missionId, hintEl, g.score);
         } else {
           // Socratic: no score and no list of what is missing — the dragon asks one guiding
@@ -8714,7 +8724,7 @@ class PBook {
             <div style="margin-top:.5em">
               <button class="wizard-nav-btn" onclick="document.getElementById('bossAnswer').focus()">${g.followUp ? tr(`Or rewrite your whole answer`) : tr(`Improve my answer`)}</button>
               <button class="wizard-nav-btn" onclick="app._wizardStep=0;app._renderWizardStep()">${tr(`Review the steps`)}</button>
-            </div>`;
+            </div>${this._bossFairHtml('mission', missionId, talk.turns.length + 1, g.verdict)}`;
           document.getElementById('bossReply')?.focus({ preventScroll: true });
         }
         if (btn) { btn.disabled = false; btn.textContent = tr('Check my answer'); }
@@ -8741,6 +8751,21 @@ class PBook {
     const btn = document.getElementById('bossReplyBtn');
     if (btn) btn.disabled = true;
     this._checkBossAnswer(missionId);
+  }
+
+  // One tap after each verdict, nothing typed: was the examiner fair? The answer is logged
+  // as 'boss_fair' with the round and the verdict (no answer text) for the school pilot.
+  _bossFairHtml(kind, id, round, verdict) {
+    const v = /^(pass|almost|fail)$/.test(verdict) ? verdict : 'fail';
+    const call = fair => `app._bossFair(this,'${kind === 'team' ? 'team' : 'mission'}','${this.escHtml(String(id).replace(/[^\w-]/g, ''))}',${Number(round) || 1},'${v}',${fair})`;
+    const btn = 'background:none;border:1px solid var(--border,#ddd);border-radius:999px;padding:.15em .7em;margin-left:.35em;font-size:1rem;line-height:1.6;cursor:pointer';
+    return `<div class="boss-fair" style="margin-top:.6em;font-size:.78rem;color:var(--text-2)">${tr('Was this assessment fair?')}
+      <button type="button" style="${btn}" aria-label="${tr('Yes, fair')}" title="${tr('Yes, fair')}" onclick="${call(true)}">👍</button><button type="button" style="${btn}" aria-label="${tr('No, not fair')}" title="${tr('No, not fair')}" onclick="${call(false)}">👎</button></div>`;
+  }
+  _bossFair(el, kind, id, round, verdict, fair) {
+    this.rc.logEvent('boss_fair', { [kind === 'team' ? 'teamId' : 'missionId']: id, round, verdict, fair: !!fair });
+    const box = el.closest('.boss-fair');
+    if (box) { box.textContent = tr('Thanks, noted.'); box.setAttribute('role', 'status'); }
   }
 
   // ===== POST-EXAM REFLECTION: what worked / what dragged / a suggestion =====

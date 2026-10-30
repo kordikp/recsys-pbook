@@ -226,8 +226,12 @@ export class RecombeeClient {
 
   // --- Server-side log (fire & forget, queues when offline) ---
   _sendToLog(entry) {
-    // Books share one interactions table: every row says which book and edition it came from.
-    entry = { book: CONFIG.book?.slug || location.host, lang: LANG, ...entry };
+    // Books share one interactions table: every row says which book and edition it came from,
+    // and from which class when a teacher's link brought a class code (random, no names).
+    let classCode = '';
+    try { classCode = (localStorage.getItem('pbook-deck-group') || localStorage.getItem('sk-class-code') || '').toLowerCase(); } catch (e) {}
+    entry = { book: CONFIG.book?.slug || location.host, lang: LANG,
+      ...(/^[a-z0-9-]{4,16}$/.test(classCode) ? { classCode } : {}), ...entry };
     if (!navigator.onLine) {
       this._queueOffline({ type: 'log', data: entry });
       return;
@@ -268,7 +272,9 @@ export class RecombeeClient {
     const key = 'pbook-synced-to-server';
     if (localStorage.getItem(key)) return; // already synced
     const toSync = this.interactions.filter(i => i.type && i.ts);
-    if (toSync.length === 0) return;
+    // a new reader has nothing older than the live log: mark it done now, or the second page
+    // load would send the whole first visit again (every row of it twice in the log)
+    if (toSync.length === 0) { localStorage.setItem(key, String(Date.now())); return; }
     // Send in batches of 20 (fire & forget)
     for (let i = 0; i < toSync.length; i += 20) {
       const batch = toSync.slice(i, i + 20);

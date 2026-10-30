@@ -376,7 +376,7 @@ export const teamMethods = {
           if (this._teamMarkDone(t.id, g.score, 'boss')) this.showXPToast(tr('👥 Team task complete! +{0} XP', XP), 'achievement');
           const box = hint.parentElement;
           hint.outerHTML = this._teamDoneHtml(t, { via: 'boss' });
-          document.getElementById('tmHint')?.insertAdjacentHTML('afterbegin', `<div style="margin-bottom:.4em">${esc(g.feedback)}</div>`);
+          document.getElementById('tmHint')?.insertAdjacentHTML('afterbegin', `<div style="margin-bottom:.4em">${esc(g.feedback)}${this._bossFairHtml('team', t.id, talk.turns.length + 1, g.verdict)}</div>`);
           box?.querySelectorAll('#tmAnswer, .boss-actions, details').forEach(n => n.remove());
           return;
         }
@@ -385,7 +385,8 @@ export const teamMethods = {
         hint.innerHTML = `${esc(g.feedback)}
           ${g.followUp ? `<div class="boss-guide" style="margin-top:.5em"><div>🐉 <b>${esc(g.followUp)}</b></div>
             <textarea class="boss-answer" id="tmReply" rows="2" style="margin-top:.4em" placeholder="${tr('Your answer to the dragon\'s question…')}"></textarea>
-            <button class="boss-submit" id="tmReplyBtn" onclick="app._teamReply()">${tr('Reply to the dragon')}</button></div>` : ''}`;
+            <button class="boss-submit" id="tmReplyBtn" onclick="app._teamReply()">${tr('Reply to the dragon')}</button></div>` : ''}
+          ${this._bossFairHtml('team', t.id, talk.turns.length + 1, g.verdict)}`;
         if (btn) { btn.disabled = false; btn.textContent = tr('Check our answer'); }
         document.getElementById('tmReply')?.focus({ preventScroll: true });
         return;

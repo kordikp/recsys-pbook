@@ -8,8 +8,9 @@ const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const ADMIN_KEY = process.env.PBOOK_ADMIN_KEY || '';
 
 // Rows that carry a person's contact or their own words to the authors: stored
-// like any other row, never part of the public list below.
-const PRIVATE_TYPES = ['contact', 'author_message'];
+// like any other row, never part of the public list below. A teacher's survey
+// (/ucitel) can name the school, so it stays out of the list too.
+const PRIVATE_TYPES = ['contact', 'author_message', 'teacher_survey'];
 const EMAIL = /[^\s@]+@[^\s@]+\.[^\s@]+/;
 
 function isAdmin(req) {
@@ -175,6 +176,25 @@ module.exports = async function handler(req, res) {
         if (!question) return res.status(400).json({ error: 'question required' });
         data = { type: 'author_message', event: 'author_question', userId: clip(data.userId, 120) || 'unknown',
           question, blockId: clip(d.blockId, 120) || null };
+      }
+
+      // A teacher's survey after a lesson (/ucitel, school pilot): fixed fields, clipped, so
+      // the report can pair it with the class's log rows by the class code.
+      if (data.type === 'teacher_survey') {
+        const d = data.data || {};
+        const code = clip(d.classCode, 16).toLowerCase();
+        const scale = v => { const n = Math.round(Number(v)); return n >= 1 && n <= 5 ? n : null; };
+        const pick = (v, ok) => ok.includes(v) ? v : null;
+        data = {
+          type: 'teacher_survey', event: 'teacher_survey', userId: clip(data.userId, 120) || 'unknown',
+          book: clip(data.book, 60) || undefined, lang: clip(d.lang, 20),
+          classCode: /^[a-z0-9-]{4,16}$/.test(code) ? code : null,
+          how: (Array.isArray(d.how) ? d.how : []).filter(h => ['class', 'groups', 'home', 'other'].includes(h)).slice(0, 4),
+          howOther: clip(d.howOther, 200), lessons: Math.max(0, Math.min(40, Math.round(Number(d.lessons)) || 0)),
+          ease: scale(d.ease), fair: scale(d.fair), unfairExample: clip(d.unfairExample, 1000),
+          liked: clip(d.liked, 1500), again: pick(d.again, ['yes', 'rather-yes', 'rather-no', 'no']),
+          quote: pick(d.quote, ['no', 'anon', 'school']) || 'no', school: clip(d.school, 120),
+        };
       }
 
       // The host that served the book: rows of every book land in one shared table, and an
