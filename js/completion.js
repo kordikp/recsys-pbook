@@ -12,7 +12,8 @@
 //   understood = the concept's recall card was answered (Hard or better) or one of its games scored ≥ 70 %
 //   kept       = a recall answer (Hard or better) came two or more days after the previous review
 import { CONFIG } from './config.js';
-import { tr, trn } from './i18n.js';
+import { tr, trn, LANG } from './i18n.js';
+import { buildPbookSummary } from './tiny-profile.js?v=1';
 
 const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 const clean = s => String(s || '').replace(/\\"/g, '"');
@@ -326,6 +327,35 @@ export const profileMapMethods = {
       chs.get(k).push(cid);
     }
     return chs;
+  },
+  // The reader's profile for Tiny (metadata.pbook v1, js/tiny-profile.js): core concepts by state,
+  // passed missions, level, XP and the interest worlds — ids and numbers only.
+  profileSummary() {
+    const cores = {};
+    for (const cid of this._cpCoreConcepts()) {
+      const st = this._cpState(cid);
+      if (st !== 'none') cores[cid] = st === 'checked' ? 'understood' : st;
+    }
+    const u = this.user, lens = CONFIG.facets?.lens || {};
+    const liked = Object.entries(u.facetAffinity?.lens || {}).filter(([, w]) => w > 0).sort((a, b) => b[1] - a[1]).map(([v]) => v);
+    return buildPbookSummary({ book: CONFIG.book?.slug, lang: LANG, cores, missions: u.completedMissions, results: u.missionResults,
+      level: u.level, xp: u.xp, worlds: [u.steerPrefs?.lens, ...liked].filter(v => v && v !== 'generic').slice(0, 3),
+      allowedWorlds: lens.values || [] });
+  },
+  // Kept on the server too, so it waits there for the Tiny export: as a log row under the
+  // reader's id (also without an account) and in the account's synced data. Sent only when it
+  // changed, at most once a minute and once more when the page is hidden (REQUIREMENTS AC6).
+  _summarySync(hidden) {
+    if (!this.concepts || !this.allBlocks?.length) return;
+    let sum;
+    try { sum = this.profileSummary(); } catch (e) { return; }
+    const { updatedAt, ...stable } = sum, key = JSON.stringify(stable);
+    let last = ''; try { last = localStorage.getItem('pbook-summary-key') || ''; } catch (e) {}
+    if (key === last) return;
+    if (!hidden && Date.now() - (this._summaryAt || 0) < 60000) return;
+    this._summaryAt = Date.now();
+    try { localStorage.setItem('pbook-summary-key', key); localStorage.setItem('pbook-summary', JSON.stringify(sum)); } catch (e) {}
+    this.rc._sendToLog?.({ type: 'profile', event: 'profile_summary', userId: this.rc.userId, ts: Date.now(), summary: sum }, hidden);
   },
   _cpChapterTitle(id) { return (this.book?.chapters || []).find(c => c.id === id)?.title || ''; },
   _cpState(cid) {

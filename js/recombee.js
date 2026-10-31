@@ -129,7 +129,7 @@ export class RecombeeClient {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(entry.data),
           });
-          if (!res.ok && res.status !== 409) remaining.push(entry);
+          if (!res.ok && res.status >= 500) remaining.push(entry);   // a refused row (4xx) will not pass later either
         } else {
           remaining.push(entry); // unknown type, keep
         }
@@ -225,7 +225,7 @@ export class RecombeeClient {
   }
 
   // --- Server-side log (fire & forget, queues when offline) ---
-  _sendToLog(entry) {
+  _sendToLog(entry, beacon) {
     // Books share one interactions table: every row says which book and edition it came from,
     // and from which class when a teacher's link brought a class code (random, no names).
     let classCode = '';
@@ -236,6 +236,8 @@ export class RecombeeClient {
       this._queueOffline({ type: 'log', data: entry });
       return;
     }
+    // the page is going away: a beacon still leaves, a fetch may be cancelled
+    if (beacon && navigator.sendBeacon?.('/api/log', new Blob([JSON.stringify(entry)], { type: 'application/json' }))) return;
     try {
       fetch('/api/log', {
         method: 'POST',
@@ -504,6 +506,7 @@ export class UserModel {
     this.recall = {}; // blockId → { interval, ease, nextReview, lastReview, reps }
     this.activePath = null; // current reading path id
     this.completedMissions = [];
+    this.missionResults = {};   // missionId → { passedAt, score }: when the boss was beaten and how well
     this.missionTitles = [];
     this.missionBranches = {};
     this.load();
@@ -539,6 +542,7 @@ export class UserModel {
       if (s.recall) this.recall = s.recall;
       if (s.activePath) this.activePath = s.activePath;
       if (s.completedMissions) this.completedMissions = s.completedMissions;
+      if (s.missionResults) this.missionResults = s.missionResults;
       if (s.missionTitles) this.missionTitles = s.missionTitles;
       if (s.missionBranches) this.missionBranches = s.missionBranches;
       if (s.facetAffinity) this.facetAffinity = s.facetAffinity;
@@ -571,6 +575,7 @@ export class UserModel {
         recall: this.recall,
         activePath: this.activePath,
         completedMissions: this.completedMissions,
+        missionResults: this.missionResults,
         missionTitles: this.missionTitles,
         missionBranches: this.missionBranches,
         facetAffinity: this.facetAffinity,
@@ -945,6 +950,7 @@ export class UserModel {
     this.recall = {};
     this.activePath = null;
     this.completedMissions = [];
+    this.missionResults = {};
     this.missionTitles = [];
     this.missionBranches = {};
     this.facetAffinity = {};

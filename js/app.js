@@ -3,14 +3,14 @@
 import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=4';
-import { RecombeeClient, UserModel } from './recombee.js?v=15';
+import { RecombeeClient, UserModel } from './recombee.js?v=16';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=9';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
 import { installGames } from './games.js?v=5';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=6';
-import { installCompletion } from './completion.js?v=3';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=7';
+import { installCompletion } from './completion.js?v=4';
 import { installTeams } from './teams.js?v=3';
 import { installChallenges } from './challenge.js?v=1';
 
@@ -257,11 +257,15 @@ class PBook {
     this._cpStyle();
     this._offlineCopy();
 
+    this._giftFromUrl();
     if (this._getAuth()) this.refreshAiBalance(true);
     // Auto-sync for logged-in users: save every 2 minutes
     setInterval(() => {
       if (this._getAuth()) this.syncProfile().catch(() => {});
     }, 120000);
+    // The profile for Tiny (js/completion.js): sent when it changed, at most once a minute
+    setInterval(() => this._summarySync?.(), 60000);
+    document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') this._summarySync?.(true); });
     // Also sync on page unload
     window.addEventListener('beforeunload', () => {
       const auth = this._getAuth();
@@ -937,7 +941,7 @@ class PBook {
     // primary concept, not the raw "a|b" string (multi-concept blocks counted 0 and the label flipped)
     const others = this._tellingPool(this._conceptIds(block)[0]).filter(b => (b.meta?.id || b.id) !== block.id).length;
     return `<div class="tellings-indicator">
-      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="${tr(`Other ways this idea is told`)}" aria-expanded="false">&#127899;&#65039; ${others ? `${tr(`{0} other way{1} to read this`, others, others > 1 ? 's' : '')}` : tr('Tell it differently')} &#9662;</button>
+      <button class="steer-chip" onclick="app.toggleTellings('${block.id}')" title="${tr(`Other ways this idea is told`)}" aria-expanded="false">&#127899;&#65039; ${tr('Tell it differently')}${others ? ` · ${tr(`{0} other way{1} to read this`, others, others > 1 ? 's' : '')}` : ''} &#9662;</button>
       <div class="tellings-panel" id="tellings-${block.id}" style="display:none"></div>
     </div>`;
   }
@@ -947,8 +951,6 @@ class PBook {
   // any interaction inside cancels the fade. The tellings indicator stays.
   _renderFeedbackBar(block) {
     if (!this._f('steering') || !block.concept || block.type !== 'spine') return '';
-    const lensVals = CONFIG.facets.lens.values;
-    const lensIcons = CONFIG.facets.lens.icons || {};
     const depths = this._facetValues(block, 'depth');
     const canSimpler = !depths.includes('intro');
     const canDeeper = !depths.includes('research');
@@ -959,10 +961,7 @@ class PBook {
       ${canSimpler ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','simpler')" title="${tr(`Same idea, gentler telling`)}">${tr(`Simpler`)}</button>` : ''}
       ${canDeeper ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','deeper')" title="${tr(`Same idea, more depth`)}">${tr(`Deeper`)}</button>` : ''}
       ${!this._facetValues(block, 'visuality').includes('visual-first') ? `<button class="steer-chip" onclick="app.steerBlock('${block.id}','visual')" title="${tr(`Same idea, more visual`)}">${tr(`More visual`)}</button>` : ''}
-      <select class="steer-chip steer-lens" aria-label="${tr(`Examples from another world`)}" onchange="if(this.value){app.steerBlock('${block.id}','lens',this.value);this.value=''}" title="${tr(`Examples from your world`)}">
-        <option value="">${tr(`&#127758; Examples from&hellip;`)}</option>
-        ${lensVals.filter(l => !this._facetValues(block, 'lens').includes(l)).map(l => `<option value="${l}">${lensIcons[l] || ''} ${this._fw('lensShort', l)}</option>`).join('')}
-      </select>
+      ${this._lensSelectHtml(block.id, block)}
     </div>`;
   }
 
@@ -1044,8 +1043,8 @@ class PBook {
     // keyed by CONCEPT: the composed request survives swaps, "Original" and
     // opening the panel from any other telling of the same concept
     const target = presetTarget
-      ? { ...this.user.getTargetFacets(), ...presetTarget }
-      : (this._steerTargets[conceptId] || { ...this.user.getTargetFacets() });
+      ? { ...this._panelProfile(), ...presetTarget }
+      : (this._steerTargets[conceptId] || { ...this._panelProfile() });
     this._steerTargets[conceptId] = target;
 
     let h = `<div class="tellings-title">${tr(`Tellings of &ldquo;{0}&rdquo;`, this.escHtml(concept?.title || conceptId))}</div>`;
@@ -1061,26 +1060,50 @@ class PBook {
       { dim: 'carriers', label: tr('🧩 Blocks') },
     ];
     const curMeta = entry.meta;
-    const profile = this.user.getTargetFacets();
+    const profile = this._panelProfile();
     const changed = DIMS.filter(({ dim }) => (target[dim] || '') !== (profile[dim] || '')).length;
 
-    // Compact coverage strip: one chip per telling (state color + genre icon),
-    // full title & configuration on hover, click to read. Replaces the long rows.
+    // COMPACT: other tellings as labelled chips (icons alone said nothing on a phone),
+    // the four quick asks of the end-of-block bar, and the full form folded away.
     const GENRE_ICONS = { explainer: '📄', story: '📖', 'worked-example': '🧮', 'code-walkthrough': '💻', comic: '🎭', animation: '🎞' };
     const STATE_COLORS = { core: '#7C3AED', edited: '#10B981', community: '#D97706', private: '#9CA3AF' };
-    h += `<div class="tstrip">${pool.map(b => {
-      const m = b.meta;
-      const isCurrent = m.id === blockId;
-      const state = m.core ? 'core' : (m.state || 'edited');
-      const color = STATE_COLORS[state] || STATE_COLORS.edited;
-      const g = this._facetValues(m, 'genre')[0] || 'explainer';
-      const cfg = [this._facetValues(m, 'lens').join('|'), this._facetValues(m, 'lang').join('|'),
-                   g, this._facetValues(m, 'depth').join('–'), this._facetValues(m, 'visuality').join('–'),
-                   this._facetValues(m, 'lengthBand').join('–')].join(' · ');
-      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${this._tellingWords(m, ['genre', 'lens', 'depth', 'lengthBand']) || cfg}${isCurrent ? tr('\n(reading now)') : ''}`;
-      return `<button class="tstrip-chip ${isCurrent ? 'tstrip-current' : ''}" style="--sc:${color}"
-        title="${this.escHtml(tip)}" ${isCurrent ? '' : `onclick="app.pickTelling('${blockId}','${m.id}')"`}>${GENRE_ICONS[g] || '📄'}</button>`;
-    }).join('')}<span class="tstrip-hint">${tr(`{0} ways to read this idea — tap one to switch`, pool.length)}</span><button class="tstrip-chip" style="--sc:#EC4899" title="${tr(`Write your own telling (coach)`)}" onclick="app.startAuthoring('${conceptId}')">✍️</button></div>`;
+    const genreOf = m => this._facetValues(m, 'genre')[0] || 'explainer';
+    const lensOf = m => this._facetValues(m, 'lens').filter(l => l !== 'generic')[0];
+    // Same genre twice? Name the first dimension in which they differ; nothing differs → number them.
+    const label = m => {
+      const g = genreOf(m), same = pool.filter(b => genreOf(b.meta) === g).map(b => b.meta);
+      let extra = '';
+      if (same.length > 1) {
+        const key = (x, dim) => this._facetValues(x, dim).join('|');
+        const dim = ['lens', 'depth', 'lengthBand', 'visuality', 'lang'].find(d => new Set(same.map(x => key(x, d))).size > 1);
+        extra = !dim ? `${same.indexOf(m) + 1}`
+          : dim === 'lens' ? (lensOf(m) ? this._fw('lensShort', lensOf(m)) : this._fw('lensShort', 'generic'))
+          : dim === 'depth' ? this._depthPhrase(this._facetValues(m, 'depth'))
+          : this._facetValues(m, dim).map(v => this._fw(dim, v)).join('–');
+      }
+      return `${GENRE_ICONS[g] || '📄'} ${this.escHtml(this._fw('genre', g))}${extra ? ` · ${this.escHtml(extra)}` : ''}`;
+    };
+    h += `<div class="tl-row"><span class="tl-lbl">${tr(`Ways to read it:`)}</span>${pool.map(b => {
+      const m = b.meta, isCurrent = m.id === blockId;
+      const color = STATE_COLORS[m.core ? 'core' : (m.state || 'edited')] || STATE_COLORS.edited;
+      const tip = `${(m.title || m.id).replace(/"/g, "'")}\n${this._tellingWords(m, ['genre', 'lens', 'depth', 'lengthBand'])}${isCurrent ? tr('\n(reading now)') : ''}`;
+      return `<button class="tl-way${isCurrent ? ' tl-cur' : ''}" style="--sc:${color}" title="${this.escHtml(tip)}"
+        ${isCurrent ? 'aria-current="true"' : `onclick="app.pickTelling('${blockId}','${m.id}')"`}>${isCurrent ? '◉ ' : ''}${label(m)}</button>`;
+    }).join('')}</div>`;
+    const depths = this._facetValues(curMeta, 'depth');
+    h += `<div class="tl-row"><span class="tl-lbl">${tr(`Tell it:`)}</span>
+      ${!depths.includes('intro') ? `<button class="steer-chip" onclick="app.steerBlock('${blockId}','simpler')" title="${tr(`Same idea, gentler telling`)}">${tr(`Simpler`)}</button>` : ''}
+      ${!depths.includes('research') ? `<button class="steer-chip" onclick="app.steerBlock('${blockId}','deeper')" title="${tr(`Same idea, more depth`)}">${tr(`Deeper`)}</button>` : ''}
+      ${!this._facetValues(curMeta, 'visuality').includes('visual-first') ? `<button class="steer-chip" onclick="app.steerBlock('${blockId}','visual')" title="${tr(`Same idea, more visual`)}">${tr(`More visual`)}</button>` : ''}
+      ${this._lensSelectHtml(blockId, curMeta)}</div>`;
+    if (!this._preciseOpen) this._preciseOpen = {};
+    if ((missMsg && missMsg.trim()) || presetTarget) this._preciseOpen[conceptId] = true;
+    const open = !!this._preciseOpen[conceptId];
+    h += `<div class="tl-row tl-more">
+      <button class="steer-chip" aria-expanded="${open}" onclick="app.togglePrecise('${blockId}')">${tr(`🎛 Exact request`)}${changed ? ` (${changed})` : ''} ${open ? '▴' : '▾'}</button>
+      <button class="steer-chip" onclick="app.startAuthoring('${conceptId}')" title="${tr(`Write your own telling (coach)`)}">${tr(`✍️ Write your own`)}</button>
+      <button class="steer-chip" onclick="app.proposeConcept()" title="${tr(`These are tellings of one concept. Missing a whole <i>concept</i>?`).replace(/<[^>]+>/g, '')}">${tr(`🌱 A concept is missing`)}</button></div>`;
+    h += `<div class="tl-precise"${open ? '' : ' hidden'}>`;
 
     h += `<div class="tellings-compose">
       <div style="font-size:.72rem;font-weight:700;margin:.6em 0 .15em">${tr(`🎛 Want it told differently?`)} <span style="font-weight:400;color:var(--text-3)">${tr(`◉ = what you are reading ·`)} <span class="legend-active">${tr(`highlighted`)}</span> ${tr(`= what you asked for · number = how many versions exist{0}`, changed ? ` · <a href="#" onclick="event.preventDefault();app.resetPanelTarget('${blockId}')" style="color:var(--accent)">${tr(`↺ reset ({0} changed)`, changed)}</a>` : '')}</span></div>
@@ -1112,9 +1135,29 @@ class PBook {
     } else {
       h += `<span>${tr(`No telling covers this yet — your interest was recorded and helps editors decide what to write next. &#128203;`)}</span>`;
     }
-    h += '</div>';
-    h += `<div style="font-size:.7rem;color:var(--text-3);margin-top:.35em">${tr(`These are tellings of one concept. Missing a whole <i>concept</i>?`)} <a href="#" onclick="event.preventDefault();app.proposeConcept()" style="color:var(--accent)">${tr(`🌱 propose it`)}</a> ${tr(`(+10 XP).`)}</div>`;
+    h += '</div></div>';
     panel.innerHTML = h;
+  }
+  togglePrecise(blockId) {
+    const entry = this._findAnyBlock(blockId);
+    const cid = this._conceptIds(entry?.meta)[0]; if (!cid) return;
+    if (!this._preciseOpen) this._preciseOpen = {};
+    this._preciseOpen[cid] = !this._preciseOpen[cid];
+    this.toggleTellings(blockId, ' ');
+  }
+  // The reader's profile as the panel's starting request; a multilingual book
+  // reads and generates in the language on screen (the profile said English).
+  _panelProfile() {
+    const p = { ...this.user.getTargetFacets() };
+    if (CONFIG.book.languages && CONFIG.facets.lang?.values?.includes(LANG)) p.lang = LANG;
+    return p;
+  }
+  _lensSelectHtml(blockId, meta) {
+    const lensIcons = CONFIG.facets.lens.icons || {};
+    return `<select class="steer-chip steer-lens" aria-label="${tr(`Examples from another world`)}" onchange="if(this.value){app.steerBlock('${blockId}','lens',this.value);this.value=''}" title="${tr(`Examples from your world`)}">
+        <option value="">${tr(`&#127758; Examples from&hellip;`)}</option>
+        ${CONFIG.facets.lens.values.filter(l => !this._facetValues(meta, 'lens').includes(l)).map(l => `<option value="${l}">${lensIcons[l] || ''} ${this._fw('lensShort', l)}</option>`).join('')}
+      </select>`;
   }
 
   // Dimension picker interactions
@@ -1248,7 +1291,8 @@ class PBook {
       return dir > 0 ? set.some(v => vals.indexOf(v) > curBest) : set.some(v => vals.indexOf(v) < curBest);
     };
     const icons = CONFIG.facets.lens.icons || {};
-    const askLabel = facet === 'lens' ? `${icons[value] || ''} ${value}` : action === 'visual' ? tr('more visual') : `${action} (${target.depth})`;
+    const askLabel = facet === 'lens' ? `${icons[value] || ''} ${this.escHtml(this._fw('lensShort', value))}`
+      : action === 'visual' ? tr('more visual') : this.escHtml(this._fw('depth', target.depth));
     await this._serveOrMiss(blockId, conceptId, target, candidateFilter, { action, value, askLabel });
   }
 
@@ -1260,14 +1304,14 @@ class PBook {
     if (!entry || !this._conceptIds(entry.meta).length) return;
     const cid = this._conceptIds(entry.meta)[0];
     if (!this._steerTargets) this._steerTargets = {};
-    const target = { ...(this._steerTargets[cid] || this.user.getTargetFacets()) };
+    const target = { ...(this._steerTargets[cid] || this._panelProfile()) };
     if (facet === 'carriers') {
       const set = String(target.carriers || '').split('|').filter(Boolean);
       const i = set.indexOf(value);
       if (i >= 0) set.splice(i, 1); else set.push(value);
       if (set.length) target.carriers = set.join('|'); else delete target.carriers;
     } else if (target[facet] === value) {
-      const profile = this.user.getTargetFacets();
+      const profile = this._panelProfile();
       if (profile[facet] && profile[facet] !== value) target[facet] = profile[facet];
       else delete target[facet];
     } else {
@@ -5344,18 +5388,22 @@ class PBook {
     // XP breakdown
     if (CONFIG.aiEconomy?.enabled) {
       const pr = CONFIG.aiEconomy.prices;
-      h += ('<div class="profile-section"><h3>' + tr(`⚡ AI wallet`) + '</h3>');
+      h += (`<div class="profile-section" id="walletSec"${localStorage.getItem('pbook-gift') ? ' data-open="1"' : ''}><h3>` + tr(`⚡ AI wallet`) + '</h3>');
       if (this._getAuth()) {
         h += `<div style="font-size:1.6rem;font-weight:800">⚡ ${this._srvBalance != null ? this._srvBalance : '…'}</div>
+          <div id="walletSums" style="font-size:.75rem;color:var(--text-2)">${this._walletSumsHtml()}</div>
           <div style="font-size:.75rem;color:var(--text-2)">${tr(`server-side balance · basic AI (text) {0} ⚡ · advanced (variants & diagrams) {1} ⚡`, pr.basic, pr.advanced)}</div>
+          ${this._giftBoxHtml()}
           <div style="font-size:.75rem;color:var(--text-2);margin-top:.3em">${tr(`Earn by reading (+10), recall (+2), games (+5), notes (+3), manual edits (+{0}) and your own writing in the studio (+{1} per ~{2} chars). A daily cap is enforced server-side.`, CONFIG.aiEconomy.earnManualEdit, CONFIG.aiEconomy.earnManualEdit, CONFIG.aiEconomy.earnStudioChars || 250)}</div>`;
       } else {
         const left = Math.max(0, (CONFIG.aiEconomy.freeTrials || 1) - this._trialsUsedLocal());
-        h += `<div style="font-size:.95rem">${tr(`<b>{0}×</b> free AI tries on this device`, left)}</div>
+        h += `${localStorage.getItem('pbook-gift') ? `<div class="gift-wait">${tr(`🎁 A gift of ⚡ from a friend is waiting. Log in or create an account above and it is added to your wallet.`)}</div>` : ''}
+          <div style="font-size:.95rem">${tr(`<b>{0}×</b> free AI tries on this device`, left)}</div>
           <div style="font-size:.75rem;color:var(--text-2);margin-top:.3em">${tr(`After login (above) your ⚡ live server-side: +100 welcome, migration of existing XP, and earnings for working with the book. Prices: text {0} ⚡ · diagrams & variants {1} ⚡.`, pr.basic, pr.advanced)}</div>`;
       }
       h += ('<div style="font-size:.7rem;color:var(--ok, #15803D);margin-top:.35em">' + tr(`We nudge toward frugal AI use — manual work and thinking earn more. 🌱`) + '</div></div>');
     }
+    h += this._tinyProfileHtml();
     h += ('<div class="profile-section"><h3>' + tr(`How to earn XP`) + '</h3>');
     h += '<div style="font-size:.8rem;display:grid;grid-template-columns:auto 1fr;gap:.3em .8em">';
     h += ('<span style="font-weight:600;color:var(--accent)">' + tr(`+10 XP`) + '</span><span>' + tr(`Read a section`) + '</span>');
@@ -5557,7 +5605,7 @@ class PBook {
     const data = {};
     const keys = ['pbook-user', 'pbook-notes', 'pbook-highlights', 'pbook-interactions',
                   'pbook-uid', 'pbook-tour-done', 'pbook-cert-name', 'pbook-cert-email',
-                  'pbook-content-statuses', 'pbook-flags'];
+                  'pbook-content-statuses', 'pbook-flags', 'pbook-summary'];
     keys.forEach(k => {
       const v = localStorage.getItem(k);
       if (v) data[k] = v;
@@ -5595,10 +5643,11 @@ class PBook {
       profileData: this._collectProfileData(),
     });
 
-    if (result.error) { errEl.textContent = result.error; return; }
+    if (result.error) { errEl.textContent = tr(result.error); return; }
 
     this._setAuth({ email, token: result.token, displayName: result.displayName || name });
     if (name) localStorage.setItem('pbook-cert-name', name);
+    this.refreshAiBalance(true);
 
     // Switch Recombee identity: merge anonymous → account user
     const accountUid = 'acct-' + email.toLowerCase().trim().replace(/[^a-z0-9]/g, '-');
@@ -5620,7 +5669,7 @@ class PBook {
     errEl.textContent = tr('Logging in...');
 
     const result = await this._authRequest({ action: 'login', email, password });
-    if (result.error) { errEl.textContent = result.error; return; }
+    if (result.error) { errEl.textContent = tr(result.error); return; }
 
     this._setAuth({ email, token: result.token, displayName: result.displayName });
     this.refreshAiBalance(true);
@@ -5647,6 +5696,19 @@ class PBook {
         // Keep higher XP
         cloudUser.xp = Math.max(cloudUser.xp || 0, localUser.xp || 0);
         cloudUser.level = Math.max(cloudUser.level || 1, localUser.level || 1);
+        // Missions passed on either device stay passed; the first pass and the best score win
+        cloudUser.completedMissions = [...new Set([...(cloudUser.completedMissions || []), ...(localUser.completedMissions || [])])];
+        const res = { ...(cloudUser.missionResults || {}) };
+        for (const [id, r] of Object.entries(localUser.missionResults || {})) {
+          const c = res[id];
+          res[id] = !c ? r : { passedAt: [c.passedAt, r.passedAt].filter(Boolean).sort()[0] || null,
+            score: Math.max(c.score ?? -1, r.score ?? -1) < 0 ? null : Math.max(c.score ?? -1, r.score ?? -1) };
+        }
+        cloudUser.missionResults = res;
+        // Recall cards: per card the one reviewed last
+        const rec = { ...(cloudUser.recall || {}) };
+        for (const [k, c] of Object.entries(localUser.recall || {})) if (!rec[k] || (c.lastReview || 0) > (rec[k].lastReview || 0)) rec[k] = c;
+        cloudUser.recall = rec;
         // Merge achievements (union by id)
         const achMap = new Map();
         (localUser.achievements || []).forEach(a => achMap.set(a.id, a));
@@ -5705,7 +5767,7 @@ class PBook {
     if (result.error) {
       // Logged in elsewhere since (a login issues a new token): say it once, not every 2 minutes.
       if (result.code === 'session_expired' && !btn) {
-        if (!this._sessionWarned) { this._sessionWarned = true; this.showXPToast(result.error, 'info'); }
+        if (!this._sessionWarned) { this._sessionWarned = true; this.showXPToast(tr(result.error), 'info'); }
         return;
       }
       this.showXPToast(result.error, 'info');
@@ -6602,14 +6664,15 @@ class PBook {
     el.id = 'authorStudio';
     el.innerHTML = `<div style="position:fixed;inset:0;background:rgba(20,20,30,.5);z-index:250;overflow-y:auto">
       <div style="max-width:780px;margin:3vh auto 6vh;background:var(--card,#fff);border:1px solid var(--border,#ddd);border-radius:16px;box-shadow:0 14px 44px rgba(0,0,0,.28);padding:1em 1.2em 2em">
-        <div style="display:flex;justify-content:space-between;align-items:center;gap:.6em">
+        <div class="st-head">
           <div style="font-weight:800;font-size:1.05rem">${tr(`✍️ Author studio`)}</div>
-          <span id="stEarn" style="font-size:.7rem;color:var(--ok, #15803D);margin-left:auto;text-align:right"></span>
-          <span id="stSaved" style="font-size:.7rem;color:var(--text-3,#999)"></span>
+          <div class="st-sub"><span id="stEarn" class="st-earn" aria-live="polite"></span>
+          <span id="stSaved" style="font-size:.7rem;color:var(--text-3,#999)"></span></div>
           <button onclick="app._studioClose()" title="${tr(`Close — everything autosaves`)}" style="width:34px;height:34px;flex-shrink:0;border-radius:50%;border:1.5px solid var(--border,#ccc);background:var(--bg,#fafaf7);font-size:1rem;font-weight:700;cursor:pointer;line-height:1">✕</button>
         </div>
         <div style="font-size:.75rem;color:var(--text-2,#666);margin:.2em 0 .7em">${tr(`Write straight into the page: click a paragraph to edit it, select and drag images. Everything saves continuously.`)}</div>
-        <div style="border:1.5px solid var(--border,#ddd);border-radius:10px;padding:.6em .8em;font-size:.8rem;background:var(--card,#fff)">
+        <details class="st-brief" id="stBrief"${(cleanText || '').trim().length >= 60 ? '' : ' open'}>
+          <summary>${tr(`📋 Brief: goal, check question, form`)}</summary>
           <b>${this.escHtml(title)}</b>
           ${contract.objective ? `<div style="margin-top:.25em"><span style="color:var(--text-2,#666)">${tr(`Goal:`)}</span> ${this.escHtml(contract.objective)}</div>` : ''}
           ${(contract.mustCover || []).length ? `<div style="margin-top:.25em;font-size:.74rem"><span style="color:var(--text-2,#666)">${tr(`Must cover:`)}</span> ${(contract.mustCover || []).map(x => `<span style="display:inline-block;border:1px solid var(--border,#ddd);border-radius:999px;padding:0 .5em;margin:.1em">${this.escHtml(x)}</span>`).join('')}</div>` : ''}
@@ -6622,19 +6685,20 @@ class PBook {
                 <div id="stFacetRows">${this._studioFacetRowsHtml(st)}</div>
                 <div id="stFacetOut"></div>
           </div>
-        </div>
+        </details>
         <style>#stCanvas .st-block{transition:background .15s}#stCanvas .st-block:not([data-img]):hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}#stCanvas #stTitleH:hover{background:color-mix(in srgb, var(--accent) 6%, transparent)}</style><div id="stCanvas" style="border:1.5px solid var(--border,#eee);border-radius:12px;padding:1em 1.1em;background:var(--bg,#fafaf7);margin:.7em 0 .5em;min-height:30vh"></div>
         <div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap">
           ${this._f('generation') ? `<button class="note-save" id="stSeedBtn" onclick="app.seedDraft()" style="border:1.5px solid var(--accent);background:transparent;color:var(--accent)">${tr(`✨ Suggest a skeleton · {0} ⚡`, CONFIG.aiEconomy?.prices.basic || 0)}</button>
           <button class="note-save" style="background:var(--accent)" id="stCoachBtn" onclick="app.coachRound()">${tr(`🧭 Coach · {0} ⚡`, CONFIG.aiEconomy?.prices.basic || 0)}</button>
-          <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid #D97706;background:transparent;color:#B45309">${tr(`🎨 Generate a graphic · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button>` : ''}
+          <button class="note-save" id="stArtBtn" onclick="app.generateGraphic()" style="border:1.5px solid var(--warn, #D97706);background:transparent;color:var(--warn-text, #92400E)">${tr(`🎨 Generate a graphic · {0} ⚡`, CONFIG.aiEconomy?.prices.advanced || 0)}</button>` : ''}
           <button class="steer-chip" id="stFbBtn" title="${tr(`Ask for a second pair of eyes: you share a read-only snapshot, others comment — you remain the only writer.`)}" onclick="app.studioFeedbackPanel()" style="font-size:.72rem">${tr(`👀 Feedback`)}</button>
           <button class="steer-chip" title="${tr(`Slides: export the draft as a SlAIdy deck and import it back`)}" onclick="app.slaidyPanel()" style="font-size:.72rem">${tr(`🎞 SlAIdy`)}</button>
-              <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#10B981">${tr(`📤 Send to the book`)}</button>
+              <button class="note-save" id="stFinishBtn" onclick="app.finishAuthoring()" style="background:#047857;color:#fff">${tr(`📤 Send to the book`)}</button>
         </div>
         <div id="stOut" style="margin-top:.7em"></div>
-        <div style="font-size:.7rem;color:var(--text-2,#666);margin-top:.5em">${tr(`✏️ Click a paragraph = edit (markdown works, Ctrl+Enter/click away = done, Esc = cancel); click the title = rename. Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.`)}
-          ${tr(`Your own picture, free and without AI: 🖼 picture (a file, Ctrl+V or drag it in) or ✏️ diagram drawn by hand.`)}</div>
+        <details class="st-help"><summary>${tr(`❔ How it works`)}</summary><div>${tr(`✏️ Click a paragraph and write — B, I, heading, list and link are in the small bar above it. Enter = a new paragraph, Shift+Enter = a new line, Ctrl+Enter or a click elsewhere = done, Esc = cancel. Click the title = rename.`)}
+          ${tr(`Images: write [diagram: what to show], [animation: what moves] or [image: what to draw] marks in the text — "Generate a graphic" draws them ALL at once (one image per mark, inserted immediately), or click a single mark in the preview. Want click-through reveal? Write [animation: click-through — what appears at which step], or select an element and give it a 🎬 step. Finished image: click selects an element (drag, colours, ⧉, 🗑, ↩), double-click rewrites a label, ✨ sends an AI instruction.`)}
+          ${tr(`Your own picture, free and without AI: 🖼 picture (a file, Ctrl+V or drag it in) or ✏️ diagram drawn by hand.`)}</div></details>
         <textarea id="stDraft" style="display:none">${this.escHtml(cleanText)}</textarea>
       </div>
     </div>`;
@@ -6669,7 +6733,7 @@ class PBook {
       this._stEscBound = true;
       document.addEventListener('keydown', e => {
         if (e.key !== 'Escape') return;
-        if (e.target.closest('textarea, input')) return;
+        if (e.target.closest('textarea, input, [contenteditable="true"]')) return;
         if (document.getElementById('authorStudio')) this._studioClose();
       });
     }
@@ -6790,39 +6854,237 @@ class PBook {
     inp.focus(); inp.select();
   }
 
-  _studioEditBlock(i, blkEl) {
+  // Editing a paragraph: plain paragraphs, headings and simple lists are edited AS
+  // THEY LOOK (no ** or #), with a small toolbar; anything richer (tables, code,
+  // formulas, image marks…) opens as text with marks. The markdown in #stDraft
+  // stays the source of truth: the rich editor converts back on commit, and opens
+  // only if that round trip gives the paragraph back unchanged.
+  _studioEditBlock(i, blkEl, caret, insert) {
     if (this._stEditing) this._studioCommitBlock();
     const blocks = this._studio._blocks;
-    const ed = document.createElement('textarea');
-    ed.id = 'stBlockEd';
-    ed.value = blocks[i] ?? '';
-    ed.style.cssText = 'width:100%;min-height:64px;padding:.5em .6em;border:1.5px solid var(--accent);border-radius:8px;font:inherit;font-size:.88rem;line-height:1.55;background:var(--card,#fff);resize:none';
-    const grow = () => { ed.style.height = 'auto'; ed.style.height = Math.min(window.innerHeight * 0.5, ed.scrollHeight + 4) + 'px'; };
-    ed.addEventListener('input', grow);
+    const md = insert ? '' : (blocks[i] ?? '');
+    const rich = this._studioRichOk(md);
+    const level = (md.match(/^(#{1,4})\s/) || [])[1]?.length || 0;
+    const wrap = document.createElement('div');
+    wrap.id = 'stBlockWrap'; wrap.className = 'st-edit';
+    const B = (act, label, title) => `<button type="button" class="st-tb" data-act="${act}" title="${title}" aria-label="${title}" onmousedown="event.preventDefault()" onclick="app._studioTool('${act}')">${label}</button>`;
+    const tools = rich
+      ? B('bold', '<b>B</b>', tr('Bold (Ctrl+B)')) + B('italic', '<i>I</i>', tr('Italic (Ctrl+I)')) + B('heading', 'H', tr('Heading'))
+        + B('ul', '•', tr('Bulleted list')) + B('ol', '1.', tr('Numbered list')) + B('link', '🔗', tr('Link'))
+      : B('bold', '<b>B</b>', tr('Bold (Ctrl+B)')) + B('italic', '<i>I</i>', tr('Italic (Ctrl+I)'));
+    wrap.innerHTML = `<div class="st-toolbar" role="toolbar" aria-label="${tr('Paragraph')}">${tools}<span class="st-tb-gap"></span>
+        ${!insert && i > 0 && i < blocks.length ? B('up', '↑', tr('Move up')) : ''}${!insert && i < blocks.length - 1 ? B('down', '↓', tr('Move down')) : ''}
+        ${!insert && i < blocks.length ? B('del', '🗑', tr('Delete paragraph')) : ''}${B('done', tr('✓ Done'), tr('Done (Ctrl+Enter)'))}</div>`
+      + (rich ? `<div id="stBlockEd" class="st-rich${level ? ' st-h' : ''}" contenteditable="true" role="textbox" aria-multiline="true" aria-label="${tr('Paragraph')}" data-ph="${tr('Write here…')}"></div>`
+        : `<textarea id="stBlockEd" class="st-md" aria-label="${tr('Paragraph')}"></textarea><div class="st-md-note">${tr('This paragraph has a table, code, a formula or a picture mark — you edit it as text with marks.')}</div>`);
+    const ed = wrap.querySelector('#stBlockEd');
+    this._stEditing = { i, rich, orig: insert ? null : md, insert: !!insert, level: level || 3 };
+    if (rich) {
+      ed.innerHTML = this._mdToRich(md);
+      this._stEditing.origHtml = ed.innerHTML;
+      ed.addEventListener('paste', ev => {
+        if ([...(ev.clipboardData?.files || [])].length) return;          // a picture: the studio inserts it
+        const t = ev.clipboardData?.getData('text/plain'); if (t == null) return;
+        ev.preventDefault();
+        document.execCommand('insertText', false, t);
+      });
+    } else {
+      ed.value = md;
+      const grow = () => { ed.style.height = 'auto'; ed.style.height = Math.min(window.innerHeight * 0.5, ed.scrollHeight + 4) + 'px'; };
+      ed.addEventListener('input', grow);
+      requestAnimationFrame(grow);
+    }
     ed.addEventListener('keydown', ev => {
-      if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') { ev.preventDefault(); ed.blur(); }
-      if (ev.key === 'Escape') { this._stEditing = null; this._studioPreview(); }
+      if ((ev.ctrlKey || ev.metaKey) && ev.key === 'Enter') { ev.preventDefault(); ed.blur(); return; }
+      if (ev.key === 'Escape') { ev.preventDefault(); ev.stopPropagation(); this._stEditing = null; this._studioPreview(); return; }
+      // Enter = a new paragraph (Shift+Enter = a new line); inside a list, Enter adds an item
+      if (rich && ev.key === 'Enter' && !ev.shiftKey && !ev.isComposing) {
+        const sel = getSelection();
+        const n = sel.rangeCount ? sel.getRangeAt(0).startContainer : null;
+        if (n && (n.nodeType === 1 ? n : n.parentElement)?.closest('li')) return;
+        ev.preventDefault();
+        this._studioSplitAtCaret();
+      }
     });
-    ed.addEventListener('blur', () => this._studioCommitBlock());
-    this._stEditing = { i };
-    if (blkEl) blkEl.replaceWith(ed); else document.querySelector('#stCanvas .block-content')?.appendChild(ed);
-    grow();
+    ed.addEventListener('blur', () => { if (!this._stEditing?.hold) this._studioCommitBlock(); });
+    if (blkEl) blkEl.replaceWith(wrap); else document.querySelector('#stCanvas .block-content')?.appendChild(wrap);
     ed.focus();
-    ed.setSelectionRange(ed.value.length, ed.value.length);
+    if (rich) {
+      const r = document.createRange(); r.selectNodeContents(ed); r.collapse(caret === 'start');
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    } else ed.setSelectionRange(ed.value.length, ed.value.length);
+  }
+  _studioRichOk(md) {
+    if (/```|^\s*\||\$|⟦|<[a-z!\/]|!\[|^\s*>|\\|~~|^\s{2,}([-*+]|\d+[.)])\s/m.test(md)) return false;
+    if (this._studioMarkerRx().test(md)) { this._studioMarkerRx().lastIndex = 0; return false; }
+    const lines = md.split('\n');
+    if (/^#{1,4}\s/.test(md) && lines.length > 1) return false;
+    const li = lines.filter(l => /^([-*+]|\d+[.)])\s+/.test(l)).length;
+    if (li && li !== lines.length) return false;
+    const div = document.createElement('div'); div.innerHTML = this._mdToRich(md);
+    const bullets = t => t.replace(/^[*+]\s+/gm, '- ');
+    return this._richToMd(div, (md.match(/^(#{1,4})\s/) || [])[1]?.length || 0) === bullets(md.trim());
+  }
+  _mdToRich(md) {
+    const inline = t => this.escHtml(t)
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
+      .replace(/\*\*(.+?)\*\*/g, '<b>$1</b>')
+      .replace(/(^|[^*])\*([^*\s][^*]*?)\*(?!\*)/g, '$1<i>$2</i>')
+      .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, (m, txt, url) => /^(https?:|mailto:|#|\/|[\w.-]+\.html)/i.test(url.replace(/&amp;/g, '&')) ? `<a href="${url}">${txt}</a>` : m);
+    const lines = (md || '').split('\n');
+    const h = (md || '').match(/^#{1,4}\s+(.*)$/);
+    if (h && lines.length === 1) return inline(h[1]);
+    if (lines.length && lines.every(l => /^([-*+]|\d+[.)])\s+/.test(l))) {
+      const ol = /^\d/.test(lines[0]);
+      return `<${ol ? 'ol' : 'ul'}>${lines.map(l => `<li>${inline(l.replace(/^([-*+]|\d+[.)])\s+/, ''))}</li>`).join('')}</${ol ? 'ol' : 'ul'}>`;
+    }
+    return lines.map(inline).join('<br>');
+  }
+  _richToMd(root, heading) {
+    const wrapIn = (mark, inner) => {
+      const m = inner.match(/^(\s*)([\s\S]*?)(\s*)$/);
+      return m[2] ? `${m[1]}${mark}${m[2]}${mark}${m[3]}` : inner;
+    };
+    const walk = node => {
+      if (node.nodeType === 3) return node.nodeValue.replace(/ /g, ' ');
+      if (node.nodeType !== 1) return '';
+      const tag = node.tagName, kids = () => [...node.childNodes].map(walk).join('');
+      if (tag === 'BR') return '\n';
+      if (tag === 'B' || tag === 'STRONG') return wrapIn('**', kids());
+      if (tag === 'I' || tag === 'EM') return wrapIn('*', kids());
+      if (tag === 'CODE') return '`' + node.textContent + '`';
+      if (tag === 'A') { const t = kids(), u = node.getAttribute('href') || ''; return u ? `[${t}](${u})` : t; }
+      if (tag === 'UL' || tag === 'OL') {
+        const items = [...node.children].filter(x => x.tagName === 'LI').map((li, k) => `${tag === 'OL' ? (k + 1) + '.' : '-'} ${walk(li).replace(/\n+/g, ' ').trim()}`);
+        return '\n' + items.join('\n') + '\n';
+      }
+      if (tag === 'LI') return kids();
+      if (tag === 'DIV' || tag === 'P') { const t = kids(); return '\n' + t + (t.endsWith('\n') ? '' : '\n'); }
+      return kids();
+    };
+    let md = [...root.childNodes].map(walk).join('')
+      .split('\n').map(l => l.replace(/[ \t]+$/, '')).join('\n')
+      .replace(/\n{3,}/g, '\n\n').trim();
+    if (heading && md) md = '#'.repeat(heading) + ' ' + md.replace(/^#{1,4}\s+/, '').replace(/\n+/g, ' ');
+    return md;
+  }
+  _studioTool(act) {
+    const st = this._stEditing; const ed = document.getElementById('stBlockEd');
+    if (!st || !ed) return;
+    if (act === 'done') { ed.blur(); return; }
+    if (act === 'up' || act === 'down') { this._studioMoveBlock(st.i, act === 'up' ? -1 : 1); return; }
+    if (act === 'del') {
+      const ta = document.getElementById('stDraft');
+      this._studio.lastDelete = { draft: ta.value };
+      if (st.rich) ed.innerHTML = ''; else ed.value = '';
+      st.orig = null;
+      this._studioCommitBlock();
+      const out = document.getElementById('stOut');
+      if (out) out.innerHTML = `<div style="font-size:.8rem;display:flex;gap:.5em;align-items:center">${tr('🗑 Paragraph removed.')}
+        <button class="steer-chip" style="font-size:.7rem" onclick="app._studioUndelete()">${tr('↩ Undo')}</button></div>`;
+      return;
+    }
+    if (!st.rich) {   // text with marks: wrap the selection
+      const mark = act === 'bold' ? '**' : '*';
+      const a = ed.selectionStart, b = ed.selectionEnd, v = ed.value;
+      ed.value = v.slice(0, a) + mark + v.slice(a, b) + mark + v.slice(b);
+      ed.setSelectionRange(a + mark.length, b + mark.length);
+      ed.focus();
+      return;
+    }
+    if (document.activeElement !== ed) ed.focus();
+    if (act === 'bold' || act === 'italic') document.execCommand(act);
+    else if (act === 'ul' || act === 'ol') {
+      // Chrome drops the caret at the start of the new item; keep it where the writer was
+      const sel = getSelection(), r = sel.rangeCount ? sel.getRangeAt(0) : null;
+      const rest = r && document.createRange(); if (rest) { rest.setStart(r.endContainer, r.endOffset); rest.setEnd(ed, ed.childNodes.length); }
+      const atEnd = r && r.collapsed && !rest.toString().length;
+      document.execCommand(act === 'ul' ? 'insertUnorderedList' : 'insertOrderedList');
+      if (atEnd) { const e = document.createRange(); e.selectNodeContents(ed.querySelector('li:last-child') || ed); e.collapse(false); sel.removeAllRanges(); sel.addRange(e); }
+    }
+    else if (act === 'heading') { ed.classList.toggle('st-h'); st.headingChanged = true; }
+    else if (act === 'link') {
+      const sel = getSelection(); const range = sel.rangeCount ? sel.getRangeAt(0).cloneRange() : null;
+      st.hold = true;
+      const url = (prompt(tr('Link address (https://…)'), 'https://') || '').trim();
+      st.hold = false;
+      ed.focus();
+      if (range) { sel.removeAllRanges(); sel.addRange(range); }
+      if (!/^https?:\/\/\S+\.\S+/i.test(url)) return;
+      if (range && !range.collapsed) document.execCommand('createLink', false, url);
+      else document.execCommand('insertHTML', false, `<a href="${this.escHtml(url)}">${this.escHtml(url)}</a>`);
+    }
+    const tb = document.querySelector('#stBlockWrap .st-toolbar');
+    tb?.querySelectorAll('[data-act]').forEach(b => {
+      const on = b.dataset.act === 'heading' ? ed.classList.contains('st-h')
+        : ['bold', 'italic'].includes(b.dataset.act) ? document.queryCommandState(b.dataset.act) : null;
+      if (on != null) b.setAttribute('aria-pressed', on);
+    });
+  }
+  // Enter in the middle of a paragraph: what follows the caret becomes the next
+  // paragraph; Enter at the end opens a new empty paragraph right below.
+  _studioSplitAtCaret() {
+    const st = this._stEditing; const ed = document.getElementById('stBlockEd');
+    const sel = getSelection(); if (!st || !ed || !sel.rangeCount) return;
+    const r = sel.getRangeAt(0); r.deleteContents();
+    const tail = document.createRange(); tail.setStart(r.endContainer, r.endOffset); tail.setEnd(ed, ed.childNodes.length);
+    const box = document.createElement('div'); box.appendChild(tail.extractContents());
+    const head = this._richToMd(ed, ed.classList.contains('st-h') ? st.level : 0);
+    const after = this._richToMd(box, 0);
+    this._stEditing = null;                       // the blur that follows must not commit again
+    const blocks = this._studio._blocks || [];
+    const i = st.i, isNew = st.insert || i >= blocks.length;
+    const before = isNew ? '' : blocks[i];
+    if (isNew) { if (head) blocks.splice(i, 0, head); }
+    else if (head) blocks[i] = head; else blocks.splice(i, 1);
+    const at = head ? i + 1 : i;
+    if (after) blocks.splice(at, 0, after);
+    document.getElementById('stDraft').value = blocks.join('\n\n');
+    this._studioStat('manual');
+    if (head && head !== before) this._studioEarnAdd(Math.max(head.length - (before || '').length, 15));
+    this._studioSave();
+    this._studioPreview();
+    if (after) this._studioEditBlock(at, document.querySelector(`#stCanvas .st-block[data-bi="${at}"]`), 'start');
+    else this._studioInsertAt(at);
+  }
+  // A new empty paragraph at position `at` (it exists only once something is written)
+  _studioInsertAt(at) {
+    const blocks = this._studio._blocks || [];
+    const ref = document.querySelector(`#stCanvas .st-block[data-bi="${at}"]`);
+    if (at >= blocks.length || !ref) { this._studioEditBlock(blocks.length, null); return; }
+    const ph = document.createElement('div'); ref.before(ph);
+    this._studioEditBlock(at, ph, 'start', true);
+  }
+  _studioMoveBlock(i, dir) {
+    this._studioCommitBlock();
+    const blocks = this._studio._blocks || [];
+    const j = i + dir;
+    if (j < 0 || j >= blocks.length || i >= blocks.length) return;
+    [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+    document.getElementById('stDraft').value = blocks.join('\n\n');
+    this._studioStat('manual');
+    this._studioSave();
+    this._studioPreview();
+    const el = document.querySelector(`#stCanvas .st-block[data-bi="${j}"]`);
+    if (el && !el.dataset.img) this._studioEditBlock(j, el);
+    else el?.scrollIntoView({ block: 'nearest' });
   }
   _studioCommitBlock() {
     const ed = document.getElementById('stBlockEd'); const st = this._stEditing;
     if (!ed || !st) return;
     this._stEditing = null;
-    const val = ed.value.trim();
+    const changedHtml = st.rich && (ed.innerHTML !== st.origHtml || st.headingChanged);
+    const val = st.rich
+      ? (changedHtml || st.orig == null ? this._richToMd(ed, ed.classList.contains('st-h') ? st.level : 0) : st.orig.trim())
+      : ed.value.trim();
     const blocks = this._studio._blocks || [];
-    const before = st.i < blocks.length ? (blocks[st.i] || '') : '';
-    if (st.i >= blocks.length) { if (val) blocks.push(val); }
+    const before = !st.insert && st.i < blocks.length ? (blocks[st.i] || '') : '';
+    if (st.insert || st.i >= blocks.length) { if (val) blocks.splice(Math.min(st.i, blocks.length), 0, val); }
     else if (val) blocks[st.i] = val;
     else blocks.splice(st.i, 1);
     const ta = document.getElementById('stDraft');
     if (ta) ta.value = blocks.join('\n\n');
-    this._studioStat('manual');
+    if (val !== before) this._studioStat('manual');
     if (val && val !== before) this._studioEarnAdd(Math.max(val.length > before.length ? val.length - before.length : 0, 15));
     this._studioSave();
     this._studioPreview();
@@ -6854,11 +7116,15 @@ class PBook {
     const el = document.getElementById('stEarn'); if (!el) return;
     const c = CONFIG.aiEconomy;
     if (!c?.enabled || !this._f('gamification')) { el.textContent = ''; return; }
-    const e = (st || {}).earn || { chars: 0, paid: 0 };
+    st = st || this._authorState()[this._studio?.slug] || {};
+    const e = st.earn || { chars: 0, paid: 0 };
     const step = c.earnStudioChars || 250, cap = c.earnStudioMax || 4;
-    el.textContent = e.paid >= cap
+    const next = e.paid >= cap
       ? tr('✍️ max ⚡ earned for this draft')
       : tr('✍️ +{n} ⚡ in ~{z} chars of writing').replace('{n}', c.earnManualEdit || 8).replace('{z}', String(step - (e.chars % step)));
+    const bal = this._getAuth() ? (this._srvBalance != null ? `<b class="st-volts">⚡ ${this._srvBalance}</b>` : '<b class="st-volts">⚡ …</b>')
+      : `<a href="#" class="st-volts" onclick="event.preventDefault();app._studioClose();app.switchView('profile')">${tr(`⚡ count after login`)}</a>`;
+    el.innerHTML = `${bal}<span>${this.escHtml(next)}</span>`;
     el.title = tr('Your own writing earns ⚡ for AI — the coach and graphics are paid from them. Milestone every ') + step + tr(' chars, max ') + cap + tr('× per draft.');
   }
   // Studio drafts in progress — always findable (Profile, Concepts, Journey)
@@ -7443,7 +7709,7 @@ class PBook {
       const data = await res.json();
       if (!data.ok) throw new Error(data.error || tr('share failed'));
       const all = this._authorState(); (all[stdo.slug] = all[stdo.slug] || {}).shareId = data.id; this._authorSave(all);
-      this.rc.logEvent('draft_shared', { slug: stdo.slug });
+      this.rc.logEvent('studio_draft_shared', { slug: stdo.slug });   // draft_* rows belong to api/drafts.js
       this._studioFbStatus(data.id);
     } catch (e) {
       const msg = /too large/.test(e.message) ? tr('The pictures are too big to share — remove one or use a smaller picture.') : e.message;
@@ -7699,16 +7965,10 @@ class PBook {
             filter: `'classOrigin' == "${code}"`, count: 50, cascadeCreate: true, returnProperties: true });
           return (rec?.recomms || []).map(r => ({ meta: { id: r.id, title: r.values?.title, sharedAs: r.values?.sharedAs, state: r.values?.state } }));
         })().catch(() => []),
-        (async () => { try { return await (await fetch('/api/log')).json(); } catch (e) { return []; } })(),
+        (async () => { try { return await (await fetch('/api/log?usage=1')).json(); } catch (e) { return {}; } })(),
       ]);
       const votes = gal?.votes || {}, reacts = gal?.reacts || {};
-      const usage = {};
-      for (const r of Array.isArray(logRows) ? logRows : []) {
-        const id = r.item_id || r.data?.itemId; if (!id) continue;
-        const u = (usage[id] = usage[id] || { views: new Set(), likes: new Set() });
-        if (r.type === 'detailview') u.views.add(r.user_id);
-        if (r.type === 'rating' && (r.rating >= 0.7 || r.data?.rating >= 0.7)) u.likes.add(r.user_id);
-      }
+      const usage = logRows && typeof logRows === 'object' && !Array.isArray(logRows) ? logRows : {};
       const seen = new Map();
       for (const t of [...tells, ...tellsOrigin]) if (!seen.has(t.meta.id)) seen.set(t.meta.id, { id: t.meta.id, title: t.meta.title, who: t.meta.sharedAs, kind: t.meta.state === 'edited' || t.meta.state === 'core' ? tr('📖 in the book') : 'telling' });
       for (const it of gal?.items || []) if (!seen.has(it.id)) seen.set(it.id, { id: it.id, title: it.title, who: it.nick, kind: 'draft' });
@@ -7716,9 +7976,9 @@ class PBook {
       for (const id of new Set([...Object.keys(votes), ...Object.keys(reacts)])) if (!seen.has(id)) seen.set(id, { id, title: tr('(no longer listed)'), who: '', kind: '?' });
       const rows = [...seen.values()].map(x => {
         const rx = reacts[x.id] || { n: 0, sum: 0, c1: 0, c2: 0, c3: 0 };
-        const u = usage[x.id] || { views: new Set(), likes: new Set() };
-        const score = (votes[x.id] || 0) * 3 + rx.sum + u.likes.size * 3 + Math.round(u.views.size / 2);
-        return { ...x, votes: votes[x.id] || 0, rx, views: u.views.size, likes: u.likes.size, score };
+        const u = usage[x.id] || { views: 0, likes: 0 };
+        const score = (votes[x.id] || 0) * 3 + rx.sum + (u.likes || 0) * 3 + Math.round((u.views || 0) / 2);
+        return { ...x, votes: votes[x.id] || 0, rx, views: u.views || 0, likes: u.likes || 0, score };
       }).sort((a, b2) => b2.score - a.score);
       if (!rows.length) { box.innerHTML = `<div style="font-size:.76rem;color:var(--text-3);padding:.4em 0">${tr(`Nothing to rank yet — submissions, works and reactions will appear here.`)}</div>`; return; }
       box.innerHTML = `<div style="font-size:.8rem;font-weight:700;margin:.8em 0 .1em">${tr(`📊 Telling leaderboard`)}</div>
@@ -7858,7 +8118,7 @@ class PBook {
       return `<div style="font-size:.72rem;font-weight:700;color:var(--text-2,#666);margin-top:.25em">${(L._dim || {})[dim] || dim}:
         <span>${vals.map(v => `<button class="steer-chip st-fac" data-dim="${dim}" data-v="${v}"
           style="font-size:.7rem;margin:.1em${fac[dim] === v ? ';background:var(--accent-bg);border-color:var(--accent)' : ''}"
-          onclick="app._studioFacetPick(this)">${this.escHtml((L[dim] || {})[v] || v)}</button>`).join('')}</span></div>`;
+          onclick="app._studioFacetPick(this)">${this.escHtml(this._fw(dim, v))}</button>`).join('')}</span></div>`;
     }).join('');
   }
   _studioFacetPick(el) {
@@ -7877,7 +8137,7 @@ class PBook {
     if (!hasText || !changed) { apply(); return; }
     // The offer shows RIGHT UNDER the facet chips (not below the canvas where it's off-screen)
     const out = document.getElementById('stFacetOut') || document.getElementById('stOut');
-    const lbl = this.escHtml(((this._studioFacetLabels()[dim] || {})[v]) || v);
+    const lbl = this.escHtml(this._fw(dim, v));
     out.innerHTML = `<div style="display:flex;gap:.5em;align-items:center;flex-wrap:wrap;border:1.5px solid #D97706;border-radius:10px;padding:.45em .6em;font-size:.8rem;background:var(--card,#fff);margin-top:.4em">
       ${tr(`The text is already written — changing the form should change the content too.`)}
       <button class="steer-chip" style="border-color:#D97706;color:#B45309;font-weight:700" onclick="app._studioTransform('${dim}','${v}')">${tr(`✨ Transform the text → {0} · {1} ⚡`, lbl, CONFIG.aiEconomy?.prices.advanced || 0)}</button>
@@ -8196,7 +8456,7 @@ class PBook {
   }
   _studioUndelete() {
     const stdo = this._studio; const d = stdo?.lastDelete; if (!d) return;
-    stdo.assets[d.aid] = d.svg;
+    if (d.aid) stdo.assets[d.aid] = d.svg;
     document.getElementById('stDraft').value = d.draft;
     stdo.lastDelete = null;
     this._studioSave();
@@ -8533,6 +8793,8 @@ class PBook {
     if (this.user.completedMissions.includes(missionId)) return;
 
     this.user.completedMissions.push(missionId);
+    const res = (this.user.missionResults = this.user.missionResults || {});
+    if (!res[missionId]) res[missionId] = { passedAt: new Date().toISOString(), score: null };
     this.rc.logEvent('mission_complete', { missionId, group: m.group || null });
     if (!this.user.missionTitles) this.user.missionTitles = [];
     this.user.missionTitles.push(m.reward.title);
@@ -8542,6 +8804,7 @@ class PBook {
 
     this.showXPToast(`${tr(`\u{1F3C6} {0}! +{1} XP`, m.reward.title, m.reward.xp)}`, 'achievement');
     this.checkGamificationEvents();
+    this._summarySync?.();
     if (m._custom) this._showMicroCert(m);
     this.showMission(missionId);
   }
@@ -8706,6 +8969,9 @@ class PBook {
         this.rc.logEvent('boss_graded', { missionId, score: g.score, verdict: g.verdict, round: talk.turns.length + 1 });
         this._setPendingBoss(missionId, null);      // graded now — the saved copy is done
         if (g.verdict === 'pass') {
+          const res = (this.user.missionResults = this.user.missionResults || {});
+          res[missionId] = { passedAt: res[missionId]?.passedAt || new Date().toISOString(), score: Math.max(g.score, res[missionId]?.score || 0) };
+          this.user.save();
           const bar = `<div class="boss-score-bar"><div class="boss-score-fill" style="width:${g.score}%;background:var(--ok-bd, #10B981)"></div></div>
             <div style="font-size:.72rem;color:var(--text-3)">${g.score}/100</div>`;
           hintEl.className = 'boss-hint boss-pass';
@@ -10208,12 +10474,35 @@ class PBook {
     el.innerHTML = h;
   }
 
+  // The profile a book in AI dětem hands to Tiny (CONFIG.tiny): shown in full, so a pupil and a
+  // parent see exactly what would leave the book — ids and numbers, none of the pupil's words.
+  _tinyProfileHtml() {
+    if (!CONFIG.tiny || !this.profileSummary) return '';
+    let s; try { s = this.profileSummary(); } catch (e) { return ''; }
+    const n = Object.keys(s.cores).length, m = Object.keys(s.missions).length;
+    return `<div class="profile-section" id="tinySec"><h3>${tr('📤 Profile for Tiny')}</h3>
+      <div style="font-size:.8rem;color:var(--text-2)">${tr('{0} core concepts · {1} missions · level {2} · {3} XP', n, m, s.level, s.xp)}</div>
+      <div style="font-size:.75rem;color:var(--text-2);margin:.3em 0">${tr('This is what the book can send to Tiny, the AI dětem class platform, when you sign in there: which concepts and missions you have done, your level and XP. None of your own words, no name, no e-mail.')}</div>
+      <details style="font-size:.72rem"><summary style="cursor:pointer">${tr('Show the data')}</summary>
+        <pre style="white-space:pre-wrap;max-height:14em;overflow:auto;background:var(--bg-2, rgba(127,127,127,.08));padding:.5em;border-radius:8px">${this.escHtml(JSON.stringify(s, null, 1))}</pre></details>
+      <button class="btn-ghost" style="margin-top:.4em;border:1px solid var(--accent);border-radius:6px;padding:.3em .8em;font-size:.72rem;color:var(--accent)" onclick="app.downloadTinyProfile()">${tr('⬇ Download the profile')}</button></div>`;
+  }
+  downloadTinyProfile() {
+    const blob = new Blob([JSON.stringify({ pbook: this.profileSummary() }, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `pbook-profile-tiny.json`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
   exportData() {
     const u = this.user;
     const p = u.getProfile(this.allBlocks);
     const data = {
       exportedAt: new Date().toISOString(),
       profile: p,
+      tinyProfile: this.profileSummary ? this.profileSummary() : null,   // metadata.pbook v1 (js/tiny-profile.js)
       user: JSON.parse(localStorage.getItem('pbook-user') || '{}'),
       notes: JSON.parse(localStorage.getItem('pbook-notes') || '{}'),
       highlights: JSON.parse(localStorage.getItem('pbook-highlights') || '{}'),
@@ -10412,19 +10701,38 @@ class PBook {
     const a = this._getAuth();
     if (!a) { this._srvBalance = null; this.updateXPBadge(); return; }
     const d = await this._walletCall({ action: 'balance', email: a.email, token: a.token, clientXp: seed ? this.user.xp : undefined });
-    if (d && d.ok) { this._srvBalance = d.balance; this.updateXPBadge(); }
+    if (d && d.ok) { this._walletSums(d); this.updateXPBadge(); this._redeemPendingGift(); }
   }
-  // XP výdělky se na server hlásí dávkovaně (server je stropuje per den).
+  _walletSums(d) {
+    if (d.balance != null) this._srvBalance = d.balance;
+    if (d.earned != null) this._srvSums = { earned: d.earned, spent: d.spent || 0, given: d.given || 0 };
+    const el = document.getElementById('walletSums');
+    if (el) el.innerHTML = this._walletSumsHtml();
+  }
+  _walletSumsHtml() {
+    const x = this._srvSums; if (!x) return '';
+    return tr(`earned {0} ⚡ · spent on AI {1} ⚡`, x.earned, x.spent) + (x.given ? ` · ${tr(`given {0} ⚡`, x.given)}` : '');
+  }
+  // XP výdělky se na server hlásí dávkovaně (server je stropuje per den). Jeden
+  // nárok bere nejvýš 40 — rušná minuta (sekce + hra + opakování) jde po částech, nic se neztratí.
   _walletEarnQueue(n) {
     if (!this._getAuth() || !CONFIG.aiEconomy?.enabled) return;
     this._earnQ = (this._earnQ || 0) + n;
     clearTimeout(this._earnT);
     this._earnT = setTimeout(async () => {
-      const q = this._earnQ; this._earnQ = 0;
+      let q = this._earnQ; this._earnQ = 0;
       const a = this._getAuth();
-      if (!a || q <= 0) return;
-      const d = await this._walletCall({ action: 'earn', email: a.email, token: a.token, amount: q, reason: 'activity' });
-      if (d && d.ok) { this._srvBalance = d.balance; this.updateXPBadge(); }
+      while (a && q > 0) {
+        const part = Math.min(q, 40); q -= part;
+        const d = await this._walletCall({ action: 'earn', email: a.email, token: a.token, amount: part, reason: 'activity' });
+        if (!d || !d.ok) break;
+        this._walletSums(d);
+        if (d.capped) {
+          if (!this._earnCapNoted) { this._earnCapNoted = true; this.showXPToast(tr(`Today's ⚡ cap is reached — tomorrow they count again.`), 'info', 4500); }
+          break;
+        }
+      }
+      this.updateXPBadge();
     }, 4000);
   }
   _trialsUsedLocal() { return parseInt(localStorage.getItem('pbook-ai-trials-used') || (localStorage.getItem('pbook-ai-trial-used') === '1' ? '1' : '0'), 10) || 0; }
@@ -10487,6 +10795,135 @@ class PBook {
     return tr('AI unlocks after login (Profile) — paid from XP earned by reading and working with the book. Manual editing is free.');
   }
 
+  // ===== Dárek ⚡ kamarádovi =====
+  // Dárce zaplatí hned (server), kamarád dostane odkaz ?dar=KÓD nebo kód opíše.
+  // Kdo dárek vyzvedl, se dárci nikdy neříká. Kód z odkazu čeká v pbook-gift,
+  // dokud se kamarád nepřihlásí (refreshAiBalance ho pak vyzvedne).
+  _giftBoxHtml() {
+    return `<div class="gift-box" id="giftBox">
+      <div class="gift-acts"><button class="steer-chip" onclick="app.giftOpen()">${tr(`🎁 Give ⚡ to a friend`)}</button>
+        <button class="steer-chip" onclick="app.giftRedeemForm()">${tr(`🎟 I have a gift code`)}</button></div>
+      <div id="giftPane"></div></div>`;
+  }
+  _giftNice(code) { return code.slice(0, 4) + '-' + code.slice(4); }
+  _giftLink(code) { return location.origin + location.pathname + '?dar=' + code; }
+  async giftOpen() {
+    const pane = document.getElementById('giftPane'); const a = this._getAuth();
+    if (!pane || !a) return;
+    pane.innerHTML = `<div class="gift-note">${tr(`Loading…`)}</div>`;
+    const d = await this._walletCall({ action: 'gifts', email: a.email, token: a.token });
+    if (!d || !d.ok) { pane.innerHTML = `<div class="gift-note">${tr(`Gifts need a connection — try again in a moment.`)}</div>`; return; }
+    this._walletSums(d); this.updateXPBadge();
+    const max = Math.min(d.max || 50, d.dailyLeft == null ? 50 : d.dailyLeft, this.aiBalance());
+    const amounts = [5, 10, 20, 50].filter(n => n <= max);
+    let h = '<div class="gift-form">';
+    h += amounts.length
+      ? `<div class="gift-note">${tr(`How many ⚡? They leave your wallet now and your friend gets a link.`)}</div>
+        <div class="gift-acts">${amounts.map(n => `<button class="steer-chip" onclick="app.giftCreate(${n})">⚡ ${n}</button>`).join('')}</div>`
+      : `<div class="gift-note">${d.dailyLeft === 0 ? tr(`You have given enough for today — tomorrow you can give again.`) : tr(`You need at least 5 ⚡ to give a gift.`)}</div>`;
+    h += '</div><div id="giftMade"></div>';
+    if (d.gifts?.length) h += `<div class="gift-list"><b>${tr(`Your gifts`)}</b>${d.gifts.map(g => this._giftRowHtml(g)).join('')}</div>`;
+    pane.innerHTML = h;
+  }
+  _giftRowHtml(g) {
+    const st = { open: tr(`waiting`), redeemed: tr(`picked up ✓`), cancelled: tr(`cancelled, ⚡ back`) }[g.status] || '';
+    return `<div class="gift-row"><span>⚡ ${g.amount}</span><code>${this._giftNice(g.code)}</code><span>${st}</span>
+      ${g.status === 'open' ? `<button class="steer-chip" onclick="app.giftShow('${g.code}', ${g.amount})">${tr(`🔗 link`)}</button><button class="steer-chip" onclick="app.giftCancel('${g.code}')">${tr(`Cancel`)}</button>` : ''}</div>`;
+  }
+  async giftCreate(n) {
+    const a = this._getAuth(); if (!a || this._giftBusy) return;
+    this._giftBusy = true;
+    const d = await this._walletCall({ action: 'gift', email: a.email, token: a.token, amount: n });
+    this._giftBusy = false;
+    if (!d || !d.ok) { this.showXPToast(this._giftErr(d), 'info', 4500); return; }
+    this._walletSums(d); this.updateXPBadge();
+    this.rc.logEvent('gift_create', { amount: n });
+    await this.giftOpen();
+    this.giftShow(d.code, n);
+  }
+  giftShow(code, n) {
+    const el = document.getElementById('giftMade'); if (!el) return;
+    el.innerHTML = `<div class="gift-card"><div>${tr(`🎁 A gift of {0} ⚡ is ready. Send your friend this link:`, n)}</div>
+      <input readonly value="${this._giftLink(code)}" onclick="this.select()" aria-label="${tr(`Gift link`)}">
+      <div class="gift-acts"><button class="steer-chip" onclick="app.giftCopy('${code}', this)">${tr(`📋 Copy`)}</button>
+        ${navigator.share ? `<button class="steer-chip" onclick="app.giftShare('${code}', ${n})">${tr(`📤 Share`)}</button>` : ''}</div>
+      <div class="gift-note">${tr(`Or tell them the code {0} — they type it under “I have a gift code”. Whoever has the link can pick the gift up, so send it only to your friend.`, `<b>${this._giftNice(code)}</b>`)}</div></div>`;
+    el.scrollIntoView({ block: 'nearest' });
+  }
+  async giftCopy(code, btn) {
+    try { await navigator.clipboard.writeText(this._giftLink(code)); btn.textContent = tr(`Copied ✓`); }
+    catch (e) { btn.closest('.gift-card')?.querySelector('input')?.select(); }
+  }
+  giftShare(code, n) {
+    navigator.share?.({ title: tr(`A gift of ⚡ for AI`), text: tr(`I am giving you {0} ⚡ for AI in the book. Open the link:`, n), url: this._giftLink(code) }).catch(() => {});
+  }
+  async giftCancel(code) {
+    const a = this._getAuth(); if (!a) return;
+    const d = await this._walletCall({ action: 'cancel', email: a.email, token: a.token, code });
+    if (d && d.ok) { this._walletSums(d); this.updateXPBadge(); this.showXPToast(tr(`Gift cancelled — {0} ⚡ are back`, d.amount), 'xp'); }
+    else this.showXPToast(this._giftErr(d), 'info', 4500);
+    this.giftOpen();
+  }
+  giftRedeemForm() {
+    const pane = document.getElementById('giftPane'); if (!pane) return;
+    pane.innerHTML = `<div class="gift-form"><label class="gift-note" for="giftCode">${tr(`Gift code from a friend`)}</label>
+      <div class="gift-acts"><input id="giftCode" maxlength="12" autocomplete="off" spellcheck="false" placeholder="ABCD-EFGH" onkeydown="if(event.key==='Enter')app.giftRedeemTyped()">
+        <button class="steer-chip" onclick="app.giftRedeemTyped()">${tr(`Pick up`)}</button></div>
+      <div id="giftMsg" class="gift-note" role="status"></div></div>`;
+    document.getElementById('giftCode')?.focus();
+  }
+  giftRedeemTyped() {
+    const v = (document.getElementById('giftCode')?.value || '').trim();
+    if (!v) return;
+    try { localStorage.setItem('pbook-gift', v); } catch (e) {}
+    this._redeemPendingGift(true);
+  }
+  // ?dar=KÓD: keep the code, clean the address (it must not travel on in shared links)
+  _giftFromUrl() {
+    let c = '';
+    try {
+      const u = new URL(location.href); c = (u.searchParams.get('dar') || '').slice(0, 20);
+      if (c) { u.searchParams.delete('dar'); history.replaceState(history.state, '', u.pathname + u.search + u.hash); }
+    } catch (e) {}
+    if (!c) return;
+    try { localStorage.setItem('pbook-gift', c); } catch (e) {}
+    if (!this._getAuth()) this.showXPToast(tr(`🎁 A gift of ⚡ from a friend! Log in in your profile and it is yours.`), 'info', 6000);
+  }
+  async _redeemPendingGift(typed) {
+    let c = ''; try { c = localStorage.getItem('pbook-gift') || ''; } catch (e) {}
+    const msg = t => { const m = document.getElementById('giftMsg'); if (m) m.textContent = t; };
+    const a = this._getAuth();
+    if (!c || this._giftBusy) return;
+    if (!a) { msg(tr(`Log in first — then the gift is added to your wallet.`)); return; }
+    this._giftBusy = true;
+    const d = await this._walletCall({ action: 'redeem', email: a.email, token: a.token, code: c });
+    this._giftBusy = false;
+    if (d && d.ok) {
+      try { localStorage.removeItem('pbook-gift'); } catch (e) {}
+      this._walletSums(d); this.updateXPBadge();
+      const t = tr(`🎁 A gift from a friend: +{0} ⚡ for AI`, d.amount);
+      this.showXPToast(t, 'xp', 5000); msg(t);
+      this.rc.logEvent('gift_redeem', { amount: d.amount });
+      if (this.currentView === 'profile') this.renderProfile();
+      return;
+    }
+    // a settled or wrong code is dropped; offline, server trouble or today's limit keep it for later
+    const final = ['gift_used', 'gift_unknown', 'gift_own'].includes(d?.error);
+    if (final) { try { localStorage.removeItem('pbook-gift'); } catch (e) {} }
+    if (final || d?.error === 'gift_in_daily' || typed) { const t = this._giftErr(d); msg(t); this.showXPToast(t, 'info', 5000); }
+  }
+  _giftErr(d) {
+    const e = d && d.error;
+    return e === 'gift_used' ? tr(`This gift has already been picked up or cancelled.`)
+      : e === 'gift_unknown' ? tr(`This gift code does not exist — check it, please.`)
+      : e === 'gift_own' ? tr(`That is your own gift — send the link to a friend.`)
+      : e === 'gift_in_daily' ? tr(`You have received enough gifts for today — the code stays valid, try again tomorrow.`)
+      : e === 'gift_daily' ? tr(`You have given enough for today — tomorrow you can give again.`)
+      : e === 'insufficient_xp' ? tr(`You do not have that many ⚡.`)
+      : e === 'offline' ? tr(`No connection — the code waits, try again in a moment.`)
+      : tr(`Something went wrong — try again in a moment.`);
+  }
+
   updateXPBadge() {
     const el = document.getElementById('xpBadge');
     if (!el) return;
@@ -10494,9 +10931,12 @@ class PBook {
     el.style.display = '';
     const { read, total } = this._conceptProgress();
     const editor = this.getEditorTrack?.().tier === 'editor' ? '🛠 ' : '';
-    el.innerHTML = `<span class="xp-ring">${this._ringSvg(total ? read / total : 0, 18)}<span>${editor}${read}/${total}</span></span>`;
-    el.title = `${tr(`{0} of {1} concepts read`, read, total)}` + (this._f('gamification') ? ` ${tr(`· level {0} · {1} XP`, this.user.level, this.user.xp)}` : '') + (editor ? tr(' · editor') : '');
-    el.setAttribute('aria-label', `${tr(`Your progress: {0} of {1} concepts read. Open your profile`, read, total)}`);
+    // ⚡ for AI always in sight once they live on the server (logged in)
+    const volts = this._f('gamification') && CONFIG.aiEconomy?.enabled && this._getAuth() && this._srvBalance != null ? this._srvBalance : null;
+    el.innerHTML = `<span class="xp-ring">${this._ringSvg(total ? read / total : 0, 18)}<span>${editor}${read}/${total}</span></span>${volts != null ? `<span class="xp-volts">⚡${volts}</span>` : ''}`;
+    el.title = `${tr(`{0} of {1} concepts read`, read, total)}` + (this._f('gamification') ? ` ${tr(`· level {0} · {1} XP`, this.user.level, this.user.xp)}` : '') + (editor ? tr(' · editor') : '') + (volts != null ? ` ${tr(`· ⚡{0} for AI`, volts)}` : '');
+    el.setAttribute('aria-label', `${tr(`Your progress: {0} of {1} concepts read. Open your profile`, read, total)}` + (volts != null ? ` ${tr(`· ⚡{0} for AI`, volts)}` : ''));
+    if (this._studio && document.getElementById('stEarn')) this._studioEarnHint();
     // Apply cosmetic theme
     this._applyLevelTheme();
     // Update quiz tab badge
@@ -10524,14 +10964,14 @@ class PBook {
     }
   }
 
-  showXPToast(text, type) {
+  showXPToast(text, type, ms) {
     if (!this._f('gamification') && type !== 'info') return;
     const toast = document.getElementById('xpToast');
     if (!toast) return;
     toast.textContent = text;
     toast.className = 'xp-toast ' + (type || 'xp') + ' show';
     clearTimeout(this._xpToastTimer);
-    this._xpToastTimer = setTimeout(() => { toast.classList.remove('show'); }, 2500);
+    this._xpToastTimer = setTimeout(() => { toast.classList.remove('show'); }, ms || 2500);
   }
 
   // Check for pending gamification events and show toasts
@@ -11031,6 +11471,8 @@ class PBook {
     localStorage.removeItem('pbook-notes');
     localStorage.removeItem('pbook-flags');
     localStorage.removeItem('pbook-state');
+    localStorage.removeItem('pbook-summary');
+    localStorage.removeItem('pbook-summary-key');
     location.reload();
   }
 

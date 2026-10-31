@@ -89,6 +89,28 @@ async function readerStats() {
 
 function clip(v, n) { return String(v == null ? '' : v).trim().slice(0, n); }
 
+// Rows other endpoints WRITE and then TRUST: the ⚡ balance is summed from wallet rows
+// (api/wallet.js, api/generate.js), class galleries list deck/draft rows (api/decks.js,
+// api/drafts.js), the book's proposals come from proposal rows (api/proposals.js).
+// A client posting one here could mint ⚡ or plant content in a class, so they are refused.
+const SERVER_TYPES = ['wallet', 'deck', 'draft', 'proposal', 'auth'];
+const SERVER_EVENT = /^(wallet|deck|draft|proposal|auth)_/;
+// Events this endpoint builds itself from a contact form, a question or a survey (below).
+const OWN_EVENTS = { contact_message: 'contact', author_question: 'author_message', teacher_survey: 'teacher_survey' };
+const MAX_BODY = 256 * 1024;   // the largest real row is an archived block: ≤20 kB text + ≤40 kB picture
+
+// Without the editor key the list keeps what counts need (who, what, which item, ids and
+// numbers) and hides what readers wrote: free text has spaces, ids and slugs do not.
+function slimText(v, depth) {
+  if (typeof v === 'string') return /\s/.test(v) ? '(text)' : v.slice(0, 100);
+  if (!v || typeof v !== 'object') return v;
+  if (depth > 3) return null;
+  if (Array.isArray(v)) return v.slice(0, 20).map(x => slimText(x, depth + 1));
+  const o = {};
+  for (const k of Object.keys(v)) o[k] = slimText(v[k], depth + 1);
+  return o;
+}
+
 async function supabase(method, path, body) {
   const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
     method,
@@ -118,10 +140,28 @@ module.exports = async function handler(req, res) {
       if (q.full && q.blockId) {
         const rows = await supabase('GET',
           `interactions?order=created_at.desc&limit=1&event=eq.block_saved&data->>blockId=eq.${encodeURIComponent(q.blockId)}`);
-        return res.status(200).json(Array.isArray(rows) ? rows : []);
+        return res.status(200).json(Array.isArray(rows) ? (isAdmin(req) ? rows : rows.map(redact)) : []);
       }
       // Reader counts over the WHOLE log (the list below is only the latest ~1,000 rows)
-      if (q.stats) return res.status(200).json(await readerStats());
+      // A fresh count scans the whole table, so only an editor starts one; others get the last result.
+      if (q.stats) {
+        if (isAdmin(req)) return res.status(200).json(await readerStats());
+        return _stats ? res.status(200).json(_stats) : res.status(403).json({ error: 'editor key required' });
+      }
+      // Views and likes per item for a class leaderboard: counts only, four small columns
+      if (q.usage) {
+        const rows = await supabase('GET', 'interactions?type=in.(detailview,rating)&order=created_at.desc&limit=5000&select=type,item_id,user_id,rating');
+        const out = {};
+        for (const r of Array.isArray(rows) ? rows : []) {
+          if (!r.item_id) continue;
+          const u = out[r.item_id] || (out[r.item_id] = { v: new Set(), l: new Set() });
+          if (r.type === 'detailview') u.v.add(r.user_id);
+          else if (Number(r.rating) >= 0.7) u.l.add(r.user_id);
+        }
+        for (const k of Object.keys(out)) out[k] = { views: out[k].v.size, likes: out[k].l.size };
+        res.setHeader('Cache-Control', 'public, max-age=60');
+        return res.status(200).json(out);
+      }
       // Contacts + messages to the authors: editors only (admin → 🤝 Contacts)
       if (q.contacts) {
         if (!isAdmin(req)) return res.status(403).json({ error: 'editor key required' });
@@ -133,11 +173,13 @@ module.exports = async function handler(req, res) {
       // Decks and drafts are STORED in this table (api/decks.js, api/drafts.js) with
       // their whole content — up to 340 kB a row. Nothing reads them from here, and
       // with them the list was 38 MB and took 15–25 s (admin looked frozen).
-      let data = await supabase('GET', 'interactions?order=created_at.desc&limit=2000&type=not.in.(deck,draft)');
-      if (!Array.isArray(data)) data = await supabase('GET', 'interactions?order=created_at.desc&limit=2000');
+      // Wallet rows stay out of the public list: an open gift's code is in them, and whoever
+      // reads it can redeem the gift. Failed logins (api/auth.js) are nobody's business here, and a
+      // reader's profile summary (profile_summary, for Tiny) is for editors only.
+      let data = await supabase('GET', `interactions?order=created_at.desc&limit=2000&type=not.in.(deck,draft,auth${admin ? '' : ',wallet,profile'})`);
       if (!Array.isArray(data)) return res.status(200).json([]);
-      data = data.filter(r => !(r && PRIVATE_TYPES.includes(r.type)));
-      if (!admin) data.forEach(redact);
+      data = data.filter(r => r && !PRIVATE_TYPES.includes(r.type) && (admin || !['wallet', 'profile'].includes(r.type)));
+      if (!admin) data.forEach(r => { redact(r); if (r && r.data) r.data = slimText(r.data, 0); });
       // SLIM by default: content archives carry ≤60 kB payloads each — truncate
       // for list views (admin loads this on every tab; it must stay light)
       for (const r of data) {
@@ -154,7 +196,14 @@ module.exports = async function handler(req, res) {
   if (req.method === 'POST') {
     try {
       let data = req.body || {};
-      if (!data.type) return res.status(400).json({ error: 'type required' });
+      if (typeof data !== 'object' || Array.isArray(data)) return res.status(400).json({ error: 'JSON object required' });
+      if (!data.type || typeof data.type !== 'string' || data.type.length > 40) return res.status(400).json({ error: 'type required' });
+      if (data.event != null && (typeof data.event !== 'string' || data.event.length > 60)) return res.status(400).json({ error: 'bad event' });
+      if (JSON.stringify(data).length > MAX_BODY) return res.status(413).json({ error: 'row too large' });
+      if (SERVER_TYPES.includes(data.type) || SERVER_EVENT.test(data.event || '')
+        || (OWN_EVENTS[data.event] && OWN_EVENTS[data.event] !== data.type)) {
+        return res.status(403).json({ error: 'this row is written by the server only' });
+      }
 
       // "Collaborate with us" form: a contact and a short note, validated here
       // so the row is always small and well-formed.
@@ -202,13 +251,13 @@ module.exports = async function handler(req, res) {
       if (data && typeof data === 'object' && !data.site) data.site = clip(req.headers['x-forwarded-host'] || req.headers.host, 80) || undefined;
 
       const row = {
-        user_id: data.userId || 'unknown',
+        user_id: clip(data.userId, 120) || 'unknown',
         type: data.type,
-        item_id: data.itemId || null,
-        mode: data.mode || null,
+        item_id: data.itemId ? clip(data.itemId, 200) : null,
+        mode: data.mode ? clip(data.mode, 40) : null,
         event: data.event || null,
-        duration: data.duration || null,
-        rating: data.rating || null,
+        duration: Number(data.duration) || null,
+        rating: Number(data.rating) || null,
         data: data,
         server_ts: Date.now(),
       };
@@ -216,7 +265,7 @@ module.exports = async function handler(req, res) {
       const result = await supabase('POST', 'interactions', row);
       if (result.ok) return res.status(200).json({ ok: true });
       return res.status(500).json({ error: 'Supabase insert failed: HTTP ' + result.status + ' (check SUPABASE_KEY role + RLS policy on interactions)' });
-    } catch(e) { return res.status(500).json({ error: 'Supabase unreachable: ' + e.message + ' (paused project?)' }); }
+    } catch(e) { return res.status(500).json({ error: 'Supabase unreachable (paused project?)' }); }
   }
 
   return res.status(405).json({ error: 'method not allowed' });

@@ -109,7 +109,7 @@ module.exports = async function handler(req, res) {
       }
       if (!draft || gone) return res.status(404).json({ ok: false, error: 'not found' });
       return res.status(200).json({ ok: true, draft: { slug: draft.slug, title: draft.title, text: draft.text, nick: draft.nick || '' }, comments });
-    } catch (e) { return res.status(500).json({ ok: false, error: String(e.message || e) }); }
+    } catch (e) { console.error('drafts', e); return res.status(500).json({ ok: false, error: 'server error' }); }
   }
 
   if (req.method === 'POST') {
@@ -182,7 +182,7 @@ module.exports = async function handler(req, res) {
         return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true } : { ok: false, error: 'insert failed' });
       }
       return res.status(400).json({ ok: false, error: 'unknown action' });
-    } catch (e) { return res.status(500).json({ ok: false, error: String(e.message || e) }); }
+    } catch (e) { console.error('drafts', e); return res.status(500).json({ ok: false, error: 'server error' }); }
   }
 
   return res.status(405).json({ ok: false, error: 'method not allowed' });

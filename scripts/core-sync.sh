@@ -7,14 +7,15 @@
 #
 # ENGINE (overwritten in the target — never edit these in a satellite):
 #   js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/games-lab.js js/challenge.js js/ux.js js/completion.js js/teams.js
+#   js/tiny-profile.js (the reader's profile for Tiny, metadata.pbook v1; shown when CONFIG.tiny is set)
 #   js/i18n.js js/i18n/*.js (interface language packs)
-#   css/games.css css/figures.css css/challenge.css css/a11y.css (accent colours + accessibility modes;
+#   css/games.css css/figures.css css/challenge.css css/a11y.css (accent colours, accessibility modes, engine UI;
 #   the book's index.html links it after its own look and sets data-cosmetic/data-a11y before first paint)
 #   fonts/atkinson-hyperlegible-next/* (the easy-to-read typeface, SIL OFL)
 #   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js
 #   api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js api/sync-recombee.js
 #   scripts/migrate-facets.js scripts/check-games.mjs scripts/build-llms-index.js scripts/build-kb.js
-#   scripts/check-i18n.mjs scripts/build-bundle.mjs (content/bundle.<lang>.json: the target's vercel.json
+#   scripts/check-i18n.mjs scripts/check-tiny-profile.mjs scripts/build-bundle.mjs (content/bundle.<lang>.json: the target's vercel.json
 #   runs it as buildCommand; git-ignore content/bundle.*.json)
 #   admin.html
 #
@@ -41,13 +42,13 @@ TARGET="${1:?usage: core-sync.sh /path/to/book-repo}"
 
 ENGINE=(
   js/app.js js/recombee.js js/markdown.js js/qr.js js/tutor.js js/games.js js/games-lab.js js/challenge.js js/ux.js js/completion.js js/teams.js
-  js/i18n.js $(cd "$CORE" && ls js/i18n/*.js 2>/dev/null)
+  js/tiny-profile.js js/i18n.js $(cd "$CORE" && ls js/i18n/*.js 2>/dev/null)
   css/games.css css/figures.css css/challenge.css css/a11y.css
   fonts/atkinson-hyperlegible-next/latin.woff2 fonts/atkinson-hyperlegible-next/latin-ext.woff2 fonts/atkinson-hyperlegible-next/OFL.txt
   api/generate.js api/drafts.js api/decks.js api/boss.js api/log.js
   api/recs.js api/auth.js api/wallet.js api/proposals.js api/recombee.js api/mcp.js api/sync-recombee.js
   scripts/migrate-facets.js scripts/check-games.mjs scripts/build-llms-index.js scripts/build-kb.js
-  scripts/check-i18n.mjs scripts/build-bundle.mjs
+  scripts/check-i18n.mjs scripts/check-tiny-profile.mjs scripts/build-bundle.mjs
   admin.html
 )
 for f in "${ENGINE[@]}"; do

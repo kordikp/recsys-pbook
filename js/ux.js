@@ -18,6 +18,8 @@ const esc = s => String(s ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').re
 const reduceMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
 const DEPTH_SHORT = { intro: 'gentle', standard: 'standard', technical: 'technical', research: 'research' };
 const A11Y_MODES = ['contrast', 'big', 'font', 'cvd'];
+const THEME_ICONS = '<svg class="ic i-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.6 6.6 0 0 0 10.7 10.7z"/></svg>'
+  + '<svg class="ic i-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/></svg>';
 
 // Goal picked at the door → the first guided path we suggest (missions in app.js).
 // A book may define its own door goals in js/config.js (CONFIG.goals: key → {mission, label, depth?, hint}).
@@ -753,6 +755,8 @@ export const uxMethods = {
       if (!h || !FOLD.test(h.textContent) || sec.closest('details')) return;
       const d = document.createElement('details');
       d.className = sec.className + ' profile-fold';
+      if (sec.id) d.id = sec.id;
+      if (sec.dataset.open) d.open = true;   // e.g. the wallet while a friend's gift waits
       const sum = document.createElement('summary');
       sum.innerHTML = h.innerHTML;
       h.remove();
@@ -789,6 +793,31 @@ export const uxMethods = {
     if (meta) meta.setAttribute('content', eff === 'dark' ? '#171412' : '#FAFAF7');
     if (!this._themeMq) { this._themeMq = mq; mq.addEventListener?.('change', () => { if (this._themeChoice() === 'auto') this._applyThemeChoice(); }); }
     document.querySelectorAll('[data-theme-opt]').forEach(b => b.classList.toggle('active', b.dataset.themeOpt === t));
+    this._renderThemeBtn();
+  },
+  // Light/dark is one tap in the topbar (#themeBtn); css/a11y.css shows the sun or
+  // the moon from data-theme, so the icon is right before this script runs.
+  // Picking what the device shows anyway means "follow the device" again.
+  toggleThemeQuick() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const want = dark ? 'light' : 'dark';
+    const dev = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    try { if (want === dev) localStorage.removeItem('pbook-theme'); else localStorage.setItem('pbook-theme', want); } catch (e) {}
+    this._applyThemeChoice();
+  },
+  _renderThemeBtn() {
+    let b = document.getElementById('themeBtn');
+    if (!b) {   // a book whose index.html predates the button
+      const gear = document.getElementById('settingsBtn');
+      if (!gear || !getComputedStyle(document.documentElement).getPropertyValue('--a11y-css').trim()) return;
+      b = document.createElement('button');
+      b.id = 'themeBtn'; b.className = 'topbar-icon theme-btn';
+      b.setAttribute('onclick', 'app.toggleThemeQuick()');
+      b.innerHTML = THEME_ICONS;
+      gear.before(b);
+    }
+    const label = document.documentElement.getAttribute('data-theme') === 'dark' ? tr('Light mode') : tr('Dark mode');
+    b.title = label; b.setAttribute('aria-label', label);
   },
 
   // Accessibility modes (css/a11y.css), free for everyone: contrast, big, font, cvd.
@@ -813,12 +842,14 @@ export const uxMethods = {
     this._renderSettingsA11y();
     this._renderSettingsThemes?.();
   },
-  // Rendered next to Font size; only when the book loads css/a11y.css (older index.html → nothing to toggle)
+  // Rendered where Light/Dark used to be (that moved to the topbar); only when the
+  // book loads css/a11y.css (older index.html → nothing to toggle)
   _renderSettingsA11y() {
     if (!getComputedStyle(document.documentElement).getPropertyValue('--a11y-css').trim()) return;
     let box = document.getElementById('settingsA11y');
     if (!box) {
-      const after = document.querySelector('.sg-opt[data-fs]')?.closest('.sg') || document.getElementById('settingsThemes')?.closest('.sg');
+      const after = document.querySelector('.theme-row')?.closest('.sg') || document.getElementById('settingsAccount')
+        || document.querySelector('.sg-opt[data-fs]')?.closest('.sg') || document.getElementById('settingsThemes')?.closest('.sg');
       if (!after) return;
       box = document.createElement('div');
       box.className = 'sg'; box.id = 'settingsA11y';
@@ -826,8 +857,8 @@ export const uxMethods = {
     }
     const on = new Set(this._a11yModes());
     const opt = (k, label) => `<button class="sg-opt" aria-pressed="${on.has(k)}" onclick="app.toggleA11y('${k}')">${label}</button>`;
-    box.innerHTML = `<label>${tr('Accessibility (free for everyone)')}</label>
-      <div class="sg-row a11y-row" role="group" aria-label="${esc(tr('Accessibility (free for everyone)'))}">
+    box.innerHTML = `<label>${tr('Accessibility')}</label>
+      <div class="sg-row a11y-row" role="group" aria-label="${esc(tr('Accessibility'))}">
         ${opt('contrast', tr('High contrast'))}${opt('big', tr('Bigger text and buttons'))}${opt('font', tr('Easy-to-read font'))}${opt('cvd', tr('Colour-blind friendly'))}
       </div>
       ${on.has('cvd') ? `<div class="sg-note">${tr('Colour-blind friendly: right answers are blue ✓, mistakes orange ✗.')}</div>` : ''}

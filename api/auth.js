@@ -47,6 +47,22 @@ function checkPassword(email, password, stored) {
 function generateToken() {
   return crypto.randomBytes(32).toString('hex');
 }
+function sameToken(a, b) {
+  const x = Buffer.from(String(a || '')), y = Buffer.from(String(b || ''));
+  return x.length === y.length && x.length > 0 && crypto.timingSafeEqual(x, y);
+}
+
+// Guessing a password: after 10 wrong tries in 15 minutes an account takes no more for a while.
+// Each wrong try is a row in the log under a hash of the e-mail (never the address itself).
+const FAIL_WINDOW = 15 * 60 * 1000, FAIL_MAX = 10;
+const failId = email => 'auth:' + crypto.createHash('sha256').update('pbook-login:' + email).digest('hex').slice(0, 16);
+async function tooManyFails(email) {
+  const since = new Date(Date.now() - FAIL_WINDOW).toISOString();
+  const r = await supabase('GET', `interactions?event=eq.auth_login_failed&user_id=eq.${failId(email)}&created_at=gte.${encodeURIComponent(since)}&select=id&limit=${FAIL_MAX}`);
+  return r.ok && Array.isArray(r.data) && r.data.length >= FAIL_MAX;
+}
+const noteFail = email => supabase('POST', 'interactions', { user_id: failId(email), type: 'auth', event: 'auth_login_failed', data: {}, server_ts: Date.now() }).catch(() => {});
+const MAX_PROFILE = 1024 * 1024;   // a reader's whole progress is far smaller; this only stops abuse
 
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -63,8 +79,10 @@ module.exports = async function handler(req, res) {
   try {
     // ---- REGISTER ----
     if (action === 'register') {
-      if (!email || !password) return res.status(400).json({ error: 'email and password required' });
+      if (!email || !password || typeof email !== 'string' || typeof password !== 'string') return res.status(400).json({ error: 'email and password required' });
       if (password.length < 4) return res.status(400).json({ error: 'password must be at least 4 characters' });
+      if (email.length > 200 || password.length > 200) return res.status(400).json({ error: 'too long' });
+      if (JSON.stringify(profileData || {}).length > MAX_PROFILE) return res.status(413).json({ error: 'profile too large' });
 
       const emailLower = email.toLowerCase().trim();
       // Check if email exists
@@ -95,9 +113,10 @@ module.exports = async function handler(req, res) {
 
     // ---- LOGIN ----
     if (action === 'login') {
-      if (!email || !password) return res.status(400).json({ error: 'email and password required' });
+      if (!email || !password || typeof email !== 'string' || typeof password !== 'string') return res.status(400).json({ error: 'email and password required' });
 
       const emailLower = email.toLowerCase().trim();
+      if (await tooManyFails(emailLower)) return res.status(429).json({ error: 'Too many wrong passwords. Try again in 15 minutes.', code: 'too_many_tries' });
       const result = await supabase('GET', `user_profiles?email=eq.${encodeURIComponent(emailLower)}&select=*`);
       if (!result.ok || !Array.isArray(result.data) || result.data.length === 0) {
         return res.status(401).json({ error: 'No account found with this email.' });
@@ -106,6 +125,7 @@ module.exports = async function handler(req, res) {
       const user = result.data[0];
       const verdict = checkPassword(emailLower, password, user.password_hash);
       if (!verdict) {
+        await noteFail(emailLower);
         return res.status(401).json({ error: 'Wrong password.' });
       }
 
@@ -128,7 +148,7 @@ module.exports = async function handler(req, res) {
     if (action === 'update' || action === 'save' || action === 'load') {
       if (!email || !token) return res.status(401).json({ error: 'not authenticated' });
       const rows = await supabase('GET', `user_profiles?email=eq.${encodeURIComponent(email.toLowerCase().trim())}&select=session_token`);
-      if (!rows.ok || !Array.isArray(rows.data) || !rows.data.length || rows.data[0].session_token !== token) {
+      if (!rows.ok || !Array.isArray(rows.data) || !rows.data.length || !sameToken(rows.data[0].session_token, token)) {
         return res.status(401).json({ error: 'Your session has expired — please log in again.', code: 'session_expired' });
       }
     }
@@ -138,8 +158,9 @@ module.exports = async function handler(req, res) {
       if (!email) return res.status(401).json({ error: 'not authenticated' });
       const emailLower = email.toLowerCase().trim();
       const update = { updated_at: new Date().toISOString() };
-      if (displayName) update.display_name = displayName.substring(0, 60);
+      if (displayName) update.display_name = String(displayName).substring(0, 60);
       if (password) {
+        if (typeof password !== 'string' || password.length > 200) return res.status(400).json({ error: 'bad password' });
         if (password.length < 4) return res.status(400).json({ error: 'password must be at least 4 characters' });
         update.password_hash = hashPassword(password);
       }
@@ -153,6 +174,7 @@ module.exports = async function handler(req, res) {
       if (!email) return res.status(401).json({ error: 'not authenticated' });
       const emailLower = email.toLowerCase().trim();
 
+      if (JSON.stringify(profileData || {}).length > MAX_PROFILE) return res.status(413).json({ error: 'profile too large' });
       const update = { profile_data: profileData || {}, updated_at: new Date().toISOString() };
       if (displayName) update.display_name = displayName.substring(0, 60);
       const result = await supabase('PATCH', `user_profiles?email=eq.${encodeURIComponent(emailLower)}`, update);
@@ -181,6 +203,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(400).json({ error: 'Unknown action: ' + action });
   } catch (e) {
-    return res.status(500).json({ error: e.message });
+    console.error('auth', e);
+    return res.status(500).json({ error: 'server error' });
   }
 };

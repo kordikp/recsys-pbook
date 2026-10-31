@@ -236,8 +236,7 @@ function parseFrontmatterBody(text) {
 const ALLOWED_SOURCE_HOSTS = ['pbook-internet.vercel.app', 'polirural-pbook.vercel.app', 'mvi-pbook.vercel.app', 'informatika-pbook.vercel.app']
   .concat((process.env.PBOOK_SOURCE_HOSTS || '').split(',').map(h => h.trim()).filter(Boolean));
 function contentHost(req) {
-  const h = req.body && req.body.sourceHost;
-  return (h && ALLOWED_SOURCE_HOSTS.includes(h)) ? h : req.headers.host;
+  return delegated(req) ? req.body.sourceHost : req.headers.host;
 }
 
 // ---- Who the prompts speak to ----
@@ -296,10 +295,27 @@ function outputLanguage(requested, profile) {
 // deployment (same account) that holds one; payload carries sourceHost so
 // content lookups read the caller's book. With a local key this never runs.
 const GATEWAY = process.env.PBOOK_GATEWAY_URL || 'https://recsys-pbook.vercel.app';
+// A delegated request skips the wallet (the sister book charged its reader already), so the
+// claim must be proven: with PBOOK_GATEWAY_SECRET set (the same value on the gateway and on every
+// book that forwards) the request carries it in a header. Without the secret only the gateway
+// itself believes the claim (the old way, until every forwarding book has the secret). A book
+// with its own key never does, or anyone could add sourceHost to a request and generate for free.
+const GATEWAY_SECRET = process.env.PBOOK_GATEWAY_SECRET || '';
+const GATEWAY_HOST = (() => { try { return new URL(GATEWAY).host; } catch (e) { return ''; } })();
+const hostOf = req => String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim();
+function delegated(req) {
+  const h = req.body && req.body.sourceHost;
+  if (!h || !ALLOWED_SOURCE_HOSTS.includes(h)) return false;
+  if (GATEWAY_SECRET) {
+    const a = Buffer.from(String(req.headers['x-pbook-gateway'] || '')), b = Buffer.from(GATEWAY_SECRET);
+    return a.length === b.length && require('crypto').timingSafeEqual(a, b);
+  }
+  return hostOf(req) === GATEWAY_HOST;
+}
 
 async function forwardToGateway(req, res) {
   try {
-    const opts = { method: req.method, headers: { 'Content-Type': 'application/json' } };
+    const opts = { method: req.method, headers: { 'Content-Type': 'application/json', ...(GATEWAY_SECRET ? { 'x-pbook-gateway': GATEWAY_SECRET } : {}) } };
     if (req.method === 'POST') {
       const body = Object.assign({}, req.body || {}, { sourceHost: String(req.headers['x-forwarded-host'] || req.headers.host || '').split(',')[0].trim() });
       opts.body = JSON.stringify(body);
@@ -341,7 +357,7 @@ async function walletPrecheck(req) {
   try {
     if (!process.env.SUPABASE_URL) return null;               // economy off without a ledger
     const body = req.body || {};
-    if (ALLOWED_SOURCE_HOSTS.includes(body.sourceHost)) return null;   // delegated: caller enforced
+    if (delegated(req)) return null;   // a sister book charged its reader already
     const tier = walletTier(body);
     if (!tier) return null;
     const price = WALLET_PRICES[tier];
@@ -362,7 +378,17 @@ async function walletPrecheck(req) {
     const rows = await _wSb('GET', `interactions?event=eq.wallet_trial&user_id=eq.${encodeURIComponent(uid)}&limit=20&select=data`);
     const used = (Array.isArray(rows) ? rows : []).filter(r => !r.data?.book || r.data.book === book).length;
     if (used >= TRIALS) return { status: 401, body: { ok: false, error: 'login_required' } };
-    req._walletPlan = { kind: 'trial', user: uid, book, price: 0, tier };
+    // The device id is the reader's own to pick, so a new one would mean new trials forever:
+    // trials are also capped per network and day (a school class shares one address).
+    const ip = String(req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+    const net = ip ? require('crypto').createHash('sha256').update('pbook-trial:' + ip).digest('hex').slice(0, 16) : '';
+    if (net) {
+      const PER_NET = parseInt(process.env.WALLET_TRIALS_NET, 10) || 120;
+      const since = new Date(Date.now() - 864e5).toISOString();
+      const same = await _wSb('GET', `interactions?event=eq.wallet_trial&data->>net=eq.${net}&created_at=gte.${encodeURIComponent(since)}&limit=${PER_NET}&select=id`);
+      if (Array.isArray(same) && same.length >= PER_NET) return { status: 401, body: { ok: false, error: 'login_required' } };
+    }
+    req._walletPlan = { kind: 'trial', user: uid, book, price: 0, tier, net };
     return null;
   } catch (e) { return null; }   // wallet outage must never take generation down
 }
@@ -371,7 +397,7 @@ async function walletCommit(req) {
   const plan = req._walletPlan;
   if (!plan) return undefined;
   try {
-    if (plan.kind === 'trial') { await _wWrite(plan.user, 'wallet_trial', { book: plan.book }); return undefined; }
+    if (plan.kind === 'trial') { await _wWrite(plan.user, 'wallet_trial', { book: plan.book, ...(plan.net ? { net: plan.net } : {}) }); return undefined; }
     await _wWrite(plan.user, 'wallet_spend', { book: plan.book, amount: plan.price, tier: plan.tier });
     const led = await _wLedger(plan.user, plan.book);
     return led.balance;
@@ -602,7 +628,7 @@ async function callOpenAI(system, user, schema = BLOCK_SCHEMA, maxTokens = 4000,
       ],
     }));
   }
-  if (!res.ok) throw new Error(`llm ${res.status}: ${text.slice(0, 300)}`);
+  if (!res.ok) { console.error('llm', res.status, text.slice(0, 300)); throw new Error(`llm ${res.status}`); }   // the provider's text stays in the server log
   let data = JSON.parse(text);
   let choice = data.choices?.[0];
   // Reasoning models (gpt-5*, o*) count hidden reasoning against max_completion_tokens;
@@ -614,7 +640,7 @@ async function callOpenAI(system, user, schema = BLOCK_SCHEMA, maxTokens = 4000,
         { role: 'system', content: `${system}\n\nRespond ONLY with a JSON object matching this schema: ${JSON.stringify(schema)}` },
         { role: 'user', content: user },
       ] }));
-    if (!res.ok) throw new Error(`llm ${res.status}: ${text.slice(0, 300)}`);
+    if (!res.ok) { console.error('llm', res.status, text.slice(0, 300)); throw new Error(`llm ${res.status}`); }   // the provider's text stays in the server log
     data = JSON.parse(text);
     choice = data.choices?.[0];
   }

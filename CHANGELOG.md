@@ -6,6 +6,26 @@ The v2 brief: a coherent, accessible publication about modern recommender system
 
 _v2 is assembled from several parallel workstreams. Each adds its entry here when its branch merges; the reader-facing summary lives in the "New in version 2" section of the About block (`content/ch01-introduction/99-sidebar-about-this-book.md`)._
 
+### Engine 7.11.0 (2026-10-31)
+- **Topbar theme toggle**: light/dark is a moon/sun icon in the top bar. Picking what the device shows anyway goes back to following the device. The accessibility modes stay in Settings.
+- **"Tell it differently" is compact**: a "Ways to read it" row of tellings, quick asks (simpler, deeper, more visual, my world) and the full compose matrix only on request.
+- **Author studio**: paragraphs are edited in place (bold, italic, heading, lists, link, move, delete; Enter splits a paragraph). The header shows the ⚡ the studio has earned and the next milestone.
+- **Gift ⚡ to a friend**: `/api/wallet` actions `gift`, `redeem`, `cancel` and `gifts`. A code or a `?dar=CODE` link, cancellable until redeemed, with daily caps for giving and receiving. A double redeem is settled by a nonce and a reversal row.
+- **Profile for Tiny**: `js/tiny-profile.js` builds `metadata.pbook` v1 from a fixed schema, tested by `scripts/check-tiny-profile.mjs`.
+  - It appears in Profile when `CONFIG.tiny` is set, and in "Download all data".
+  - It is also stored as `profile_summary` log rows and in the account's synced data.
+  - Missions keep `passedAt` and the best boss score.
+  - A login merges passed missions, mission results and recall cards.
+- **Security review** ([SECURITY.md](SECURITY.md)):
+  - `/api/log` refuses server-owned rows (before this, anyone could mint ⚡ through it).
+  - The public log list hides wallet rows (open gift codes), readers' free text and profiles. `?usage=1` gives the leaderboard counts only.
+  - `/api/generate` no longer trusts `sourceHost` unless the request comes with `PBOOK_GATEWAY_SECRET` or reaches the gateway itself.
+  - Anonymous AI trials are capped per network and day.
+  - Logins brake after 10 wrong passwords.
+  - Proposals, stats recompute and the Recombee sync need the editor key.
+  - Provider error text stays in the server log.
+  - `setup-interactions-table.sql` is new. Both SQL files keep RLS on with no policy (service_role key).
+
 ### Docs, prompts and front matter
 - **About this book** (ch01, draft): authors and the Recombee disclosure, how the book is made (human-owned concept contracts, AI-maintained facets and drafting, AI-drawn figures reviewed blind and then by the editors, labelled reader-made tellings), how the book personalizes itself, how to cite it, licence, how to collaborate, and "New in version 2". It belongs to no concept (`concept: null`); `scripts/migrate-facets.js` keeps such front matter out of every concept's block list.
 - **Generator prompts** (`api/generate.js`): the coach, seed, transform, map-analysis and games-review prompts no longer address Czech pupils aged 11-15. They read audience, title and language from the source book's `pbook.json`, so this book's reader-authors (product people, engineers, students) get an English coach by default or one in the language of their draft, while sister books that use this deployment as their gateway keep their own audience. Anti-ghostwriting rules are unchanged; the forbidden-claims rule now covers every one of these modes.

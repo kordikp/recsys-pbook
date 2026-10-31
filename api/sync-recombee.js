@@ -71,14 +71,17 @@ function parseFrontmatter(text) {
 module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, X-Pbook-Admin');
   if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') return res.status(405).json({ error: 'POST only' });
 
-  // Auth check
+  // Editors only, when the deployment has a secret or an editor key: SYNC_SECRET in the body,
+  // or the editor key (PBOOK_ADMIN_KEY) in the X-Pbook-Admin header.
   const { secret } = req.body || {};
-  if (SYNC_SECRET && secret !== SYNC_SECRET) {
-    return res.status(401).json({ error: 'Invalid secret' });
+  const ADMIN_KEY = process.env.PBOOK_ADMIN_KEY || '';
+  const okSecret = SYNC_SECRET && secret === SYNC_SECRET, okKey = ADMIN_KEY && req.headers['x-pbook-admin'] === ADMIN_KEY;
+  if ((SYNC_SECRET || ADMIN_KEY) && !okSecret && !okKey) {
+    return res.status(401).json({ error: 'Invalid secret (or editor key)' });
   }
 
   if (!TOKEN) return res.status(500).json({ error: 'RECOMBEE_TOKEN not configured' });
@@ -199,6 +202,7 @@ module.exports = async function handler(req, res) {
       message: `Synced ${imported}/${items.length} items to Recombee`
     });
   } catch (e) {
-    return res.status(500).json({ error: e.message });
+    console.error('sync-recombee', e);
+    return res.status(500).json({ error: 'sync failed' });
   }
 };

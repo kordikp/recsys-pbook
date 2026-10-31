@@ -168,7 +168,7 @@ async function callOpenAI(system, user, schema = GRADE_SCHEMA, jsonHint = GRADE_
       ],
     }));
   }
-  if (!res.ok) throw new Error(`llm ${res.status}: ${text.slice(0, 300)}`);
+  if (!res.ok) { console.error('llm', res.status, text.slice(0, 300)); throw new Error(`llm ${res.status}`); }   // the provider's text stays in the server log
   const content = JSON.parse(text).choices?.[0]?.message?.content;
   if (!content) throw new Error('no content');
   return JSON.parse(content);

@@ -15,11 +15,9 @@ CREATE TABLE IF NOT EXISTS user_profiles (
 -- Index for fast login lookups
 CREATE INDEX IF NOT EXISTS idx_user_profiles_email ON user_profiles (email);
 
--- Allow the anon key to read/write (since we auth via our serverless function)
--- If you have RLS enabled, add this policy:
+-- Only the serverless functions may read or write (password hashes and session tokens live
+-- here): set SUPABASE_KEY to the service_role key, which bypasses RLS, and keep RLS on with NO
+-- policy, so the public anon key reads nothing. Older projects were told to add an "allow all"
+-- policy for the anon key; once the functions use the service_role key, drop it:
+--   DROP POLICY IF EXISTS "Allow all via anon key" ON user_profiles;
 ALTER TABLE user_profiles ENABLE ROW LEVEL SECURITY;
-
-CREATE POLICY "Allow all via anon key" ON user_profiles
-  FOR ALL
-  USING (true)
-  WITH CHECK (true);

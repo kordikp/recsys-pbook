@@ -217,6 +217,8 @@ if(localStorage.getItem('pbook-admin-session')==='1') document.getElementById('l
     <a href="/#view-map" target="_blank" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;background:var(--accent);color:#fff;text-decoration:none" title="new content is written in the book's ✍️ author studio">✍️ Write in book</a>
     <button onclick="showRCSetup()" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">Recombee</button>
     <button onclick="syncRecombee()" id="syncBtn" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">Sync Items</button>
+    <button id="keyBtn" onclick="const k=prompt('Editor key (PBOOK_ADMIN_KEY):');if(k){localStorage.setItem('pbook-admin-key',k.trim());location.reload()}" title="Without the editor key the log shows counts and ids, but hides what readers wrote and their e-mails" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid #F59E0B;color:#B45309">🔑 Editor key</button>
+    <script>try{if(localStorage.getItem('pbook-admin-key'))document.getElementById('keyBtn').remove()}catch(e){}</script>
     <button onclick="changePwd()" style="font-size:.65rem;color:var(--text3)">Change password</button>
     <button onclick="localStorage.removeItem('pbook-admin-session');location.reload()" style="font-size:.65rem;color:var(--text3)">Logout</button>
     <span class="hstat" id="hstat"></span>
@@ -781,16 +783,23 @@ function collectDemandSignals(){
   return [...new Set(lines)].slice(-80);
 }
 
-// Persist a proposal (goes live to readers immediately) and re-render.
+// Persist a proposal (goes live to readers immediately) and re-render. Editors only:
+// the server wants the editor key, asked once and kept in this browser.
+async function propPost(body){
+  const send=()=>fetch('/api/proposals',{method:'POST',headers:{'Content-Type':'application/json','X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''},body:JSON.stringify(body)});
+  let r=await send();
+  if(r.status===403){const k=prompt('Editor key (PBOOK_ADMIN_KEY) — needed to change proposals:');if(k){localStorage.setItem('pbook-admin-key',k.trim());r=await send();}}
+  return r;
+}
 window.propSave=async function(p){
-  const r=await fetch('/api/proposals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'save',proposal:p})});
+  const r=await propPost({action:'save',proposal:p});
   const d=await r.json().catch(()=>({}));
   if(!r.ok||!d.ok){alert('Save failed: '+(d.error||r.status));return false;}
   return true;
 };
 window.propDelete=async function(slug){
   if(!confirm('Delete proposal "'+slug+'"? Readers stop seeing its ghost card.'))return;
-  const r=await fetch('/api/proposals',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action:'delete',slug})});
+  const r=await propPost({action:'delete',slug});
   const d=await r.json().catch(()=>({}));
   if(!r.ok||!d.ok){alert('Delete failed: '+(d.error||r.status));return;}
   renderProposals(document.getElementById('main'));
@@ -1143,7 +1152,7 @@ function filtered(){
 // ---- Analytics: real Recombee data ----
 // ---- Analytics: from server-side log ----
 let _readerStatsP=null;
-function getReaderStats(){ if(!_readerStatsP) _readerStatsP=fetch('/api/log?stats=1').then(r=>r.ok?r.json():null).catch(()=>null); return _readerStatsP; }
+function getReaderStats(){ if(!_readerStatsP) _readerStatsP=fetch('/api/log?stats=1',{headers:{'X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''}}).then(r=>r.ok?r.json():null).catch(()=>null); return _readerStatsP; }
 async function renderReaderStats(el){
   const st=await getReaderStats();
   if(!st||!st.readers){ el.innerHTML='<p style="font-size:.8rem;color:var(--text3)">Reader counts unavailable (the log endpoint did not answer).</p>'; return; }
@@ -1467,7 +1476,7 @@ window.syncRecombee=async function(){
   const btn=document.getElementById('syncBtn');
   btn.textContent='Syncing...';btn.disabled=true;btn.style.opacity='.6';
   try{
-    const res=await fetch('/api/sync-recombee',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({secret:localStorage.getItem('pbook-admin-pwd')||''})});
+    const res=await fetch('/api/sync-recombee',{method:'POST',headers:{'Content-Type':'application/json','X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''},body:JSON.stringify({secret:localStorage.getItem('pbook-admin-pwd')||''})});
     const raw=await res.text();
     let data; try{data=JSON.parse(raw);}catch(_){data={ok:false,error:`endpoint returned ${res.status} — is /api/sync-recombee routed on this server?`};}
     if(data.ok){

@@ -47,7 +47,7 @@ The recommender ([Recombee](https://www.recombee.com)) receives facets as item p
 - **Contributors** — flag issues, share their generated/remixed tellings, or author tellings as PRs. Every profile has an invite link (`?invite=R-…`).
 - **Editors** — run the demand-driven redaction from [`/admin`](https://recsys-pbook.vercel.app/admin): 📥 Demand → 🌱 Proposals → ⚡ Community → 🩺 Health → 📚 Catalog → 📈 Reach → ✍️ Studio. Editorship is **earned** (an adopted telling promotes you) or **invited** (`?invite=E-…` links, generated in Reach).
 
-Full guides: **[HUMANS.md](HUMANS.md)** (readers / contributors / editors) · **[AGENTS.md](AGENTS.md)** (binding rules for AI collaborators — the facet metadata is AI-maintained under the governance split *humans own the facts, AI maintains the metadata*) · **[PERSONALIZATION.md](PERSONALIZATION.md)** (implementation reference) · `_design-collective-pbook.md` (design rationale) · `_editorial.md` (log of record).
+Full guides: **[HUMANS.md](HUMANS.md)** (readers / contributors / editors) · **[AGENTS.md](AGENTS.md)** (binding rules for AI collaborators — the facet metadata is AI-maintained under the governance split *humans own the facts, AI maintains the metadata*) · **[PERSONALIZATION.md](PERSONALIZATION.md)** (implementation reference) · **[SECURITY.md](SECURITY.md)** (what each API endpoint trusts, the editor key, the AI gateway, Supabase setup) · `_design-collective-pbook.md` (design rationale) · `_editorial.md` (log of record).
 
 ## Repository layout
 

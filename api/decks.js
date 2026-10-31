@@ -165,6 +165,7 @@ module.exports = async function handler(req, res) {
 
     return res.status(405).json({ ok: false, error: 'method not allowed' });
   } catch (e) {
-    return res.status(500).json({ ok: false, error: String(e.message || e) });
+    console.error('decks', e);
+    return res.status(500).json({ ok: false, error: 'server error' });
   }
 };

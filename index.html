@@ -75,12 +75,12 @@
   try { s = localStorage.getItem('pbook-lang'); } catch (e) {}
   var lang = L.indexOf(q) >= 0 ? q : L.indexOf(s) >= 0 ? s : L[0];
   function add(rel, href, as) { var l = document.createElement('link'); l.rel = rel; l.href = href; if (as) { l.as = as; l.crossOrigin = 'anonymous'; } document.head.appendChild(l); }
-  var M = ['config.js', 'i18n.js', 'markdown.js?v=4', 'recombee.js?v=15', 'diagrams.js?v=9', 'tutor.js?v=2', 'games.js?v=5', 'games-lab.js?v=1', 'ux.js?v=6', 'completion.js?v=3', 'teams.js?v=3', 'challenge.js?v=1'];
+  var M = ['config.js', 'i18n.js', 'markdown.js?v=4', 'recombee.js?v=16', 'diagrams.js?v=9', 'tutor.js?v=2', 'games.js?v=5', 'games-lab.js?v=1', 'ux.js?v=7', 'completion.js?v=4', 'tiny-profile.js?v=1', 'teams.js?v=3', 'challenge.js?v=1'];
   M.concat(lang === 'en' ? [] : ['i18n/' + lang + '.js']).forEach(function (m) { add('modulepreload', 'js/' + m); });
   ['book.json', 'bundle.' + lang + '.json'].forEach(function (f) { add('preload', 'content/' + f, 'fetch'); });
 })();</script>
 <link rel="stylesheet" href="css/style.css?v=7.10.0">
-<link rel="stylesheet" href="css/a11y.css?v=1">
+<link rel="stylesheet" href="css/a11y.css?v=2">
 <script>/* theme before first paint: saved choice, else the system preference (no white flash in dark mode) */
 try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' || (t === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches)) document.documentElement.setAttribute('data-theme', 'dark');
   var c = localStorage.getItem('pbook-cosmetic'); if (c) document.documentElement.setAttribute('data-cosmetic', c);
@@ -213,6 +213,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
   </button>
   <div class="topbar-right">
     <button class="xp-badge" id="xpBadge" onclick="app.switchView('profile')"></button>
+    <button class="topbar-icon theme-btn" id="themeBtn" onclick="app.toggleThemeQuick()" aria-label="Dark mode" title="Dark mode"><svg class="ic i-moon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.2A8.5 8.5 0 1 1 9.8 3.5a6.6 6.6 0 0 0 10.7 10.7z"/></svg><svg class="ic i-sun" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/></svg></button>
     <button class="topbar-icon" id="settingsBtn" onclick="app.toggleSettings()" aria-label="Settings" title="Settings">&#9881;</button>
   </div>
 </header>
@@ -329,14 +330,6 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
     </div>
     <!-- Account -->
     <div class="sg" id="settingsAccount"></div>
-    <!-- Appearance: never level-gated -->
-    <div class="sg"><label>Appearance</label>
-      <div class="sg-row theme-row" role="group" aria-label="Appearance">
-        <button class="sg-opt" data-theme-opt="light" onclick="app.setTheme('light')">Light</button>
-        <button class="sg-opt" data-theme-opt="dark" onclick="app.setTheme('dark')">Dark</button>
-        <button class="sg-opt" data-theme-opt="auto" onclick="app.setTheme('auto')">Like my device</button>
-      </div>
-    </div>
     <!-- Accent colours (unlocked as you read) -->
     <div class="sg"><label>Accent colour (more unlock as you read)</label>
       <div id="settingsThemes"></div>
@@ -380,7 +373,7 @@ try { var t = localStorage.getItem('pbook-theme') || 'auto'; if (t === 'dark' ||
   </div>
 </div>
 
-<script type="module" src="js/app.js?v=7.10.0"></script>
+<script type="module" src="js/app.js?v=7.11.0"></script>
 <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});</script>
 <!-- Vercel Web Analytics: visitors and page views, no cookies (project setting enabled 2026-10-05) -->
 <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>

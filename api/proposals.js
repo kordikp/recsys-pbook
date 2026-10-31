@@ -11,11 +11,12 @@
 // GET  /api/proposals            → { ok, proposals:[…], deleted:[slug…] }
 // GET  /api/proposals?stats=1    → adds per-slug interest: seen/want/skip
 //                                  (distinct readers) + voter facet profiles
-// POST { action:'save',   proposal:{slug,…} }
-// POST { action:'delete', slug }
+// POST { action:'save',   proposal:{slug,…} }   } editors only: header X-Pbook-Admin = PBOOK_ADMIN_KEY
+// POST { action:'delete', slug }                }  (a proposal is shown to readers at once)
 
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
+const ADMIN_KEY = process.env.PBOOK_ADMIN_KEY || '';
 
 async function supabase(method, path, body) {
   const res = await fetch(SUPABASE_URL + '/rest/v1/' + path, {
@@ -88,10 +89,11 @@ module.exports = async function handler(req, res) {
         }
       }
       return res.status(200).json(out);
-    } catch (e) { return res.status(500).json({ ok: false, error: String(e.message || e) }); }
+    } catch (e) { console.error('proposals', e); return res.status(500).json({ ok: false, error: 'server error' }); }
   }
 
   if (req.method === 'POST') {
+    if (!ADMIN_KEY || req.headers['x-pbook-admin'] !== ADMIN_KEY) return res.status(403).json({ ok: false, error: 'editor key required' });
     try {
       const b = req.body || {};
       if (b.action === 'save') {
@@ -121,7 +123,7 @@ module.exports = async function handler(req, res) {
         return res.status(r.ok ? 200 : 500).json(r.ok ? { ok: true } : { ok: false, error: 'insert failed ' + r.status });
       }
       return res.status(400).json({ ok: false, error: 'unknown action' });
-    } catch (e) { return res.status(500).json({ ok: false, error: String(e.message || e) }); }
+    } catch (e) { console.error('proposals', e); return res.status(500).json({ ok: false, error: 'server error' }); }
   }
 
   return res.status(405).json({ ok: false, error: 'method not allowed' });
