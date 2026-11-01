@@ -45,7 +45,7 @@ The recommender ([Recombee](https://www.recombee.com)) receives facets as item p
 
 - **Readers** — onboard in two taps, optionally state a learning goal (the book composes a 🎯 personal mission from matching concepts), steer any section, vote on proposed concepts, earn XP.
 - **Contributors** — flag issues, share their generated/remixed tellings, or author tellings as PRs. Every profile has an invite link (`?invite=R-…`).
-- **Editors** — run the demand-driven redaction from [`/admin`](https://recsys-pbook.vercel.app/admin): 📥 Demand → 🌱 Proposals → ⚡ Community → 🩺 Health → 📚 Catalog → 📈 Reach → ✍️ Studio. Editorship is **earned** (an adopted telling promotes you) or **invited** (`?invite=E-…` links, generated in Reach).
+- **Editors** — work from [`/admin`](https://recsys-pbook.vercel.app/admin): 📊 Overview (readers, the last 7 days, what needs a look, book status) → 📚 Content (concepts by chapter with signals, coverage of tellings, preview, hand-off to the studio) → 🌱 Wishes & proposals → 🤝 Reader contributions → 🏫 Classes, ✉️ Messages, ⚡ AI & credits (editor key) → 🗂 Data (profile export for Tiny, log export, Recombee sync, editor invites). Editorship is **earned** (an adopted telling promotes you) or **invited** (`?invite=E-…` links, created in Data).
 
 Full guides: **[HUMANS.md](HUMANS.md)** (readers / contributors / editors) · **[AGENTS.md](AGENTS.md)** (binding rules for AI collaborators — the facet metadata is AI-maintained under the governance split *humans own the facts, AI maintains the metadata*) · **[PERSONALIZATION.md](PERSONALIZATION.md)** (implementation reference) · **[SECURITY.md](SECURITY.md)** (what each API endpoint trusts, the editor key, the AI gateway, Supabase setup) · `_design-collective-pbook.md` (design rationale) · `_editorial.md` (log of record).
 
@@ -92,7 +92,7 @@ The repo is Vercel-ready (no build step; `vercel.json` maps legacy function path
 | `SUPABASE_URL`, `SUPABASE_KEY` | interaction log (`interactions` table) powering the admin |
 | `SYNC_SECRET` | protects `/api/sync-recombee` |
 
-First run: `/admin` → 📚 Catalog → **Sync Items** (pushes blocks + facet properties to Recombee). Then invite editors from 📈 Reach and fill the gaps that matter — editors go first, demand does the rest.
+First run: open `/admin`, enter the editor key (`PBOOK_ADMIN_KEY`), then 🗂 Data → **Sync the content** (pushes blocks + facet properties to Recombee, when it is enabled). Then invite editors from the same tab and fill the gaps that matter — editors go first, demand does the rest.
 
 To create a **different book** on the same engine, replace `content/` (see the frontmatter format in [`pbook.json`](pbook.json) and the authoring rules in AGENTS.md/HUMANS.md); everything else — steering, generation, curation, admin — is content-agnostic.
 
@@ -115,7 +115,7 @@ We are looking for people who want to write or translate tellings, use the book 
 
 ## Research
 
-The deployment is an open instrument: paradigm switches, steering, honest misses, generation, ghost votes, and shares are logged (anonymized) for studying interface-level personalization, LLM content quality under contracts, and the economics of elastic catalogs. A RecSys '26 demo paper describes the system; analytics are visible in `/admin` → 📈 Reach.
+The deployment is an open instrument: paradigm switches, steering, honest misses, generation, ghost votes, and shares are logged (anonymized) for studying interface-level personalization, LLM content quality under contracts, and the economics of elastic catalogs. A RecSys '26 demo paper describes the system; analytics are visible in `/admin` → 📊 Overview.
 
 ## License & credits
 

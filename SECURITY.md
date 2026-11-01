@@ -1,7 +1,7 @@
 # Security model of the p-book engine
 
 Who may do what through the serverless functions in `api/`, and what each one trusts. Read this
-before you add an endpoint or a new kind of row. Last reviewed 2026-10-31 (engine 7.11.0).
+before you add an endpoint or a new kind of row. Last reviewed 2026-11-01 (engine 7.12.0).
 
 ## Principles
 
@@ -36,8 +36,9 @@ before you add an endpoint or a new kind of row. Last reviewed 2026-10-31 (engin
 | `POST /api/log` | writes reader events (≤ 256 kB, no server-owned rows) | — |
 | `GET /api/log` | the latest 2,000 rows, pseudonymised, without free text, wallet or profile rows | the editor key for full rows |
 | `GET /api/log?usage=1` | views and likes per item (counts only) | — |
+| `GET /api/log?check=1` | whether the editor key is configured and whether the sent one is right | — |
 | `GET /api/log?stats=1` | the last computed reader counts | the editor key to recompute (it scans the table) |
-| `GET /api/log?contacts=1` | — | the editor key |
+| `GET /api/log?contacts=1`, `?classes=1`, `?wallet=1`, `?profiles=1` | — | the editor key (messages; class counts for the pilot; ⚡ totals of this host; the newest Tiny profile per reader) |
 | `POST /api/auth` | register, log in (10 wrong passwords in 15 min lock that account for a while) | the session token for `load`, `save`, `update` |
 | `POST /api/wallet` | — | the session token (balance, earn, gift, redeem, cancel) |
 | `POST /api/generate` | — | ⚡ in the wallet; an anonymous device gets `WALLET_TRIALS` basic tries (3), and one network at most `WALLET_TRIALS_NET` a day (120) |
@@ -48,8 +49,11 @@ before you add an endpoint or a new kind of row. Last reviewed 2026-10-31 (engin
 | `POST /api/sync-recombee` | — when `SYNC_SECRET` or the editor key is configured | `SYNC_SECRET` or the editor key |
 | `/api/mcp` | read-only access to public content | — |
 
-The editor key is `PBOOK_ADMIN_KEY`, sent in the `X-Pbook-Admin` header. `/admin` asks for it once
-(🔑 Editor key) and keeps it in that browser.
+The editor key is `PBOOK_ADMIN_KEY`, sent in the `X-Pbook-Admin` header and compared in constant
+time. `/admin` asks for it once, checks it with `?check=1` and keeps it in that browser; without it
+the admin shows only public counts. All `GET /api/log` reads take `?book=<slug>` and then return the
+rows of that book (its slug, its host, or old rows without a book): the `interactions` table is
+shared by every book.
 
 ## The AI gateway
 

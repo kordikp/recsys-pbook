@@ -6,6 +6,18 @@ The v2 brief: a coherent, accessible publication about modern recommender system
 
 _v2 is assembled from several parallel workstreams. Each adds its entry here when its branch merges; the reader-facing summary lives in the "New in version 2" section of the About block (`content/ch01-introduction/99-sidebar-about-this-book.md`)._
 
+### Engine 7.12.0 (2026-11-01)
+- **New `/admin`**, rewritten from scratch for what the book is now. Tabs follow the editor's tasks instead of the old pipeline (Demand → Proposals → Review → Health → Catalog → Reach) with its sidebar, and the editor key is the only gate.
+  - 📊 Overview: readers by week, the last 7 days, what needs a look (reports, 👎, wishes, messages), book status (version, AI, Recombee, Tiny), the most read sections.
+  - 📚 Content: concepts by chapter with tellings, readers, 👍 and reports; "needs attention" first; a coverage view of tellings by facet (from `CONFIG.facets`); a preview drawer, a hand-off to the author studio and a `.md` download. It reads `content/bundle.<lang>.json` (one request instead of one per file).
+  - 🌱 Wishes & proposals: readers' wishes, goals and misses grouped, then concept proposals as a compact sortable list (AI proposals, map analysis, export).
+  - 🤝 Reader contributions, 🏫 Classes (pilot counts per class code), ✉️ Messages, ⚡ AI & credits (wallet totals, trials, networks at the cap, model).
+  - 🗂 Data: profile export for Tiny (`metadata.pbook` v1), log export, Recombee sync or how to turn it on, editor invites, links.
+  - Czech or English by the book's language, phone layout, dark mode.
+  - Removed: the fake password gate, the Recombee token kept in the browser, the Netlify check, the AI rewrite that needed a wallet, the local-only "park" and the hard-coded facets.
+- **`/api/log` for the admin**: `?check=1`, `?classes=1`, `?wallet=1`, `?profiles=1` (editor key); `?book=` scopes every read to one book; the editor key is compared in constant time; cached aggregates (10 min). Contact and author-message rows keep the book. See [SECURITY.md](SECURITY.md).
+- The service worker cache is unchanged: `/admin` is not part of the app shell.
+
 ### Engine 7.11.0 (2026-10-31)
 - **Topbar theme toggle**: light/dark is a moon/sun icon in the top bar. Picking what the device shows anyway goes back to following the device. The accessibility modes stay in Settings.
 - **"Tell it differently" is compact**: a "Ways to read it" row of tellings, quick asks (simpler, deeper, more visual, my world) and the full compose matrix only on request.

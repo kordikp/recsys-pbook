@@ -3,1564 +3,1121 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>p-book Admin — Content & Marketing Pipeline</title>
+<meta name="robots" content="noindex">
+<title>p-book admin</title>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <style>
-:root{--bg:#f3f4f6;--surface:#fff;--text:#111827;--text2:#6b7280;--text3:#9ca3af;--border:#e5e7eb;--accent:#d97706;--accent-bg:#fef3c7;--eng:#2563eb;--prod:#059669;--biz:#d97706;--side:#7c3aed;--radius:10px;--shadow:0 1px 3px rgba(0,0,0,.06);--font:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:var(--font);color:var(--text);background:var(--bg);font-size:14px;line-height:1.5}
-button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
-a{color:var(--accent);text-decoration:none}
+:root{--bg:#f5f6f8;--surface:#fff;--surface2:#f0f2f5;--text:#15181d;--text2:#4f5866;--text3:#6f7884;--border:#e1e4e9;--accent:#b45309;--accent-bg:#fdf2e2;--ok:#047857;--ok-bg:#e6f5ee;--bad:#b91c1c;--bad-bg:#fdeaea;--info:#1d4ed8;--radius:10px;--font:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--bg:#111316;--surface:#1a1d22;--surface2:#22262c;--text:#e7e9ec;--text2:#b5bcc6;--text3:#8d95a0;--border:#2f343b;--accent:#f0a24a;--accent-bg:#382914;--ok:#4ade80;--ok-bg:#132b1c;--bad:#f87171;--bad-bg:#371818;--info:#93c5fd}}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--font);font-size:14px;line-height:1.5;color:var(--text);background:var(--bg)}
+a{color:var(--accent)}
+button{font:inherit;color:inherit;cursor:pointer}
+input,select,textarea{font:inherit;color:var(--text);background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.4em .6em}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3{line-height:1.25;margin:0}
+code{font-family:var(--mono);font-size:.86em}
+[hidden]{display:none!important}
 
-/* Layout */
-.app{display:grid;grid-template-columns:240px 1fr;grid-template-rows:52px 1fr;height:100vh;overflow:hidden}
-.header{grid-column:1/-1;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1.2em;gap:.8em;z-index:10}
-.header h1{font-size:.85rem;font-weight:700;color:var(--accent);white-space:nowrap}
-.header nav{display:flex;gap:.2em}
-.header nav button{padding:.4em .7em;border-radius:6px;font-size:.78rem;font-weight:600;color:var(--text2);transition:all .15s}
-.header nav button:hover{background:var(--border)}
-.header nav button.active{background:var(--accent-bg);color:var(--accent)}
-.spacer{flex:1}
-.hstat{font-size:.72rem;color:var(--text3)}
+/* header */
+.top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.4em 1em;padding:.45em 1em;flex-wrap:wrap}
+.brand{display:flex;align-items:baseline;gap:.45em;font-weight:700;white-space:nowrap}
+.brand a{color:var(--text);text-decoration:none}
+.tabs{display:flex;gap:.15em;overflow-x:auto;flex:1;min-width:0;scrollbar-width:thin}
+.tabs a{padding:.42em .7em;border-radius:7px;text-decoration:none;color:var(--text2);font-weight:600;font-size:.86rem;white-space:nowrap}
+.tabs a:hover{background:var(--surface2)}
+.tabs a[aria-selected=true]{background:var(--accent-bg);color:var(--accent)}
+.who{display:flex;align-items:center;gap:.5em;font-size:.8rem;white-space:nowrap}
 
-/* Sidebar */
-.sidebar{background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;padding:.8em;font-size:.78rem}
-.sf-title{font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin:1em 0 .4em}
-.sf-item{display:flex;align-items:center;gap:.4em;padding:.3em .5em;border-radius:5px;cursor:pointer;transition:background .12s}
-.sf-item:hover{background:var(--accent-bg)}
-.sf-item.active{background:var(--accent-bg);font-weight:600;color:var(--accent)}
-.sf-count{margin-left:auto;font-size:.62rem;color:var(--text3);background:var(--border);padding:.1em .4em;border-radius:8px}
-.sf-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.sf-pipe{display:flex;align-items:center;gap:.3em;padding:.25em .5em;border-radius:5px;cursor:pointer;font-size:.75rem;transition:background .12s}
-.sf-pipe:hover{background:var(--accent-bg)}
-.sf-pipe .sf-dot{width:8px;height:8px}
-.sf-pipe.active{background:var(--accent-bg);font-weight:600}
+/* layout */
+main{max-width:1180px;margin:0 auto;padding:1em}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:1em;align-items:start}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1em 1.1em;margin-bottom:1em;min-width:0}
+.grid .card{margin-bottom:0}
+.card.wide{grid-column:1/-1}
+.card h2{font-size:1rem;margin-bottom:.6em}
+.card h3{font-size:.86rem;margin:1em 0 .4em;color:var(--text2)}
+.muted{color:var(--text3)}
+.note{font-size:.76rem;color:var(--text3);margin:.6em 0 0}
+.err{color:var(--bad)}
+.hot{color:var(--bad)}
+.lead{color:var(--text2);margin:0 0 .8em;max-width:62em}
 
-/* Main */
-.main{overflow-y:auto;padding:1.5em}
+/* small pieces */
+.tiles{display:flex;flex-wrap:wrap;gap:.6em}
+.tile{border:1px solid var(--border);border-radius:9px;padding:.5em .8em;min-width:7.5em;flex:1}
+.tile b{display:block;font-size:1.45rem;line-height:1.2;font-variant-numeric:tabular-nums}
+.tile span{font-size:.75rem;color:var(--text2)}
+.chip{display:inline-block;font-size:.72rem;border:1px solid var(--border);border-radius:999px;padding:.05em .55em;color:var(--text2);white-space:nowrap}
+.chip.ok{border-color:var(--ok);color:var(--ok)}
+.chip.bad{border-color:var(--bad);color:var(--bad)}
+.chip.acc{border-color:var(--accent);color:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:.3em;border:1px solid var(--border);background:var(--surface);border-radius:7px;padding:.35em .75em;font-size:.82rem;font-weight:600;text-decoration:none;color:var(--text)}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.primary:hover{filter:brightness(1.08);color:#fff}
+.btn.danger{color:var(--bad)}
+.btn[disabled]{opacity:.55;cursor:default}
+.linkbtn{border:0;background:none;padding:0;color:var(--accent);font-size:.8rem;text-decoration:underline}
+.row{display:flex;flex-wrap:wrap;gap:.4em;align-items:center}
+.list{list-style:none;margin:0;padding:0}
+.list>li{padding:.45em 0;border-top:1px solid var(--border)}
+.list>li:first-child{border-top:0}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:.3em 1em;margin:0}
+.kv dt{color:var(--text2)}
+.kv dd{margin:0}
+.toolbar{display:flex;flex-wrap:wrap;gap:.5em;align-items:center;margin-bottom:1em}
+.toolbar input[type=search]{flex:1;min-width:14em}
+.seg{display:inline-flex;border:1px solid var(--border);border-radius:7px;overflow:hidden}
+.seg button{border:0;background:var(--surface);padding:.38em .8em;font-size:.82rem;font-weight:600;color:var(--text2)}
+.seg button[aria-pressed=true]{background:var(--accent-bg);color:var(--accent)}
+.box{border:1px solid var(--border);border-radius:9px;padding:.6em .8em;margin:.5em 0}
+.box.hot{border-color:var(--bad)}
+.box.go{border-color:var(--ok)}
+.quote{white-space:pre-wrap;background:var(--surface2);border-radius:7px;padding:.45em .6em;margin:.3em 0;font-size:.84rem}
+.why{font-size:.8rem;color:var(--text2);margin:.15em 0}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:.82rem;font-variant-numeric:tabular-nums}
+th,td{padding:.35em .5em;border-top:1px solid var(--border);text-align:left;vertical-align:top}
+th{font-weight:600;color:var(--text2);border-top:0;white-space:nowrap}
+td.n,th.n{text-align:right}
+.matrix th,.matrix td{text-align:center;white-space:nowrap}
+.matrix td:first-child,.matrix th:first-child{text-align:left;position:sticky;left:0;background:var(--surface);white-space:normal;min-width:12em}
+.gap{color:var(--text3)}
+.form{display:grid;gap:.45em}
+.form textarea{width:100%;min-height:4.5em;resize:vertical}
 
-/* Cards grid */
-.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.8em;margin-bottom:1.5em}
-.cg-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.8em;text-align:center}
-.cg-card h4{font-size:.62rem;font-weight:600;text-transform:uppercase;color:var(--text3);margin-bottom:.3em}
-.cg-num{font-size:1.6rem;font-weight:800;color:var(--accent)}
-.cg-sub{font-size:.7rem;color:var(--text2)}
+/* concepts */
+.chap{margin-top:1em}
+.chap>h3{margin:0 0 .3em;font-size:.9rem;color:var(--text)}
+details.concept{border-top:1px solid var(--border)}
+details.concept>summary{display:grid;grid-template-columns:1fr repeat(4,4.2em);gap:.5em;align-items:center;padding:.4em .2em;cursor:pointer;list-style:none}
+details.concept>summary::-webkit-details-marker{display:none}
+details.concept>summary .n{text-align:right;font-variant-numeric:tabular-nums;color:var(--text2);font-size:.82rem}
+details.concept[open]>summary{font-weight:600}
+.chead{display:grid;grid-template-columns:1fr repeat(4,4.2em);gap:.5em;font-size:.72rem;color:var(--text3);padding:0 .2em}
+.chead span{text-align:right}
+.blocks{margin:0 0 .6em .8em;padding:0;list-style:none}
+.blocks li{padding:.2em 0;display:flex;flex-wrap:wrap;gap:.35em;align-items:center}
+.blocks button.t{border:0;background:none;padding:0;color:var(--accent);text-align:left;font-size:.86rem}
 
-/* Status dots everywhere */
-.sdot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
-.sdot-draft{background:#d1d5db}.sdot-review{background:#fbbf24}.sdot-approved{background:#60a5fa}.sdot-published{background:#34d399}.sdot-none{background:transparent;border:1.5px dashed #d1d5db}
+/* columns chart */
+.cols{display:flex;align-items:flex-end;gap:3px;height:150px;margin-top:.3em;overflow-x:auto}
+.col{flex:1;min-width:20px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.col .v{font-size:.66rem;color:var(--text2);font-variant-numeric:tabular-nums}
+.col .b{width:100%;max-width:38px;background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+.col .l{font-size:.62rem;color:var(--text3);white-space:nowrap;margin-top:2px}
 
-/* Content list */
-.cl{display:flex;flex-direction:column;gap:.4em}
-.cl-item{display:grid;grid-template-columns:8px 2.5em 1fr auto auto auto auto;gap:.6em;align-items:center;padding:.55em .7em;background:var(--surface);border:1px solid var(--border);border-radius:8px;cursor:pointer;transition:all .12s;font-size:.8rem}
-.cl-item:hover{border-color:var(--accent);box-shadow:0 2px 8px rgba(0,0,0,.06)}
-.cl-ch{font-size:.65rem;color:var(--text3);font-weight:600}
-.cl-title{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cl-voice{font-size:.6rem;font-weight:700;text-transform:uppercase;padding:.12em .4em;border-radius:3px;color:#fff}
-.cl-pillar{font-size:.6rem;padding:.12em .4em;border-radius:3px;border:1px solid var(--border);color:var(--text2);max-width:10em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cl-stdc{font-size:.6rem;font-weight:600;padding:.1em .35em;border-radius:3px}
-.cl-actions{display:flex;gap:.2em}
-.cl-act{font-size:.85rem;padding:.15em .25em;border-radius:4px;transition:background .12s;color:var(--text3)}
-.cl-act:hover{background:var(--accent-bg);color:var(--accent)}
+/* drawer */
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(640px,100%);background:var(--surface);border-left:1px solid var(--border);box-shadow:-6px 0 24px rgba(0,0,0,.12);z-index:40;display:flex;flex-direction:column}
+.drawer header{display:flex;gap:.6em;align-items:flex-start;padding:.9em 1em .6em;border-bottom:1px solid var(--border)}
+.drawer header h2{flex:1;font-size:1.05rem}
+.drawer .scroll-y{overflow-y:auto;padding:.8em 1em 2em}
+.md{line-height:1.65}
+.md img,.md svg{max-width:100%;height:auto}
+.md table{font-size:.82rem}
+.md pre{background:var(--surface2);padding:.6em;border-radius:7px;overflow-x:auto}
 
-/* Detail / Editor - full right panel */
-.editor{position:fixed;top:52px;right:0;bottom:0;width:560px;background:var(--surface);border-left:1px solid var(--border);box-shadow:-4px 0 20px rgba(0,0,0,.08);transform:translateX(100%);transition:transform .25s ease;z-index:100;display:flex;flex-direction:column;overflow:hidden}
-.editor.open{transform:translateX(0)}
-.ed-head{padding:.8em 1.2em;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.6em;flex-shrink:0}
-.ed-head h2{font-size:1rem;font-weight:700;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ed-close{font-size:1.1rem;color:var(--text3);padding:.3em}
-.ed-tabs{display:flex;border-bottom:1px solid var(--border);flex-shrink:0}
-.ed-tab{padding:.5em 1em;font-size:.78rem;font-weight:600;color:var(--text3);border-bottom:2px solid transparent;transition:all .12s}
-.ed-tab:hover{color:var(--text)}
-.ed-tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.ed-body{flex:1;overflow-y:auto;padding:1.2em}
-.ed-section{margin-bottom:1.2em}
-.ed-label{font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.04em;color:var(--text3);margin-bottom:.4em}
-.ed-tags{display:flex;flex-wrap:wrap;gap:.3em}
-.ed-tag{font-size:.72rem;padding:.3em .7em;border-radius:6px;border:1.5px solid var(--border);color:var(--text2);transition:all .12s}
-.ed-tag:hover{border-color:var(--text2)}
-.ed-tag.on{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600}
+/* gate */
+.gate{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1em}
+.gate .card{max-width:420px;width:100%}
+.gate h1{font-size:1.2rem;margin-bottom:.2em}
+.gate form{display:grid;gap:.5em;margin:1em 0 .4em}
 
-/* Content preview — styled like reader */
-.ed-preview{background:#fff;border:1px solid var(--border);border-radius:8px;padding:1.2em;font-size:.88rem;line-height:1.7;max-height:500px;overflow-y:auto;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif}
-.ed-preview p{margin-bottom:.8em}
-.ed-preview h2,.ed-preview h3,.ed-preview h4{font-weight:700;margin:1em 0 .4em}
-.ed-preview h2{font-size:1.1rem} .ed-preview h3{font-size:.95rem} .ed-preview h4{font-size:.88rem}
-.ed-preview ul,.ed-preview ol{padding-left:1.4em;margin-bottom:.8em}
-.ed-preview li{margin-bottom:.3em}
-.ed-preview strong{font-weight:700}
-.ed-preview em{font-style:italic}
-.ed-preview code{font-family:monospace;font-size:.82rem;background:#f3f4f6;padding:.1em .3em;border-radius:3px}
-.ed-preview pre{background:#f3f4f6;padding:.8em;border-radius:6px;overflow-x:auto;margin:.8em 0}
-.ed-preview blockquote{border-left:3px solid var(--accent);padding-left:.8em;color:var(--text2);margin:.8em 0}
-.ed-preview table{width:100%;border-collapse:collapse;margin:.8em 0;font-size:.8rem}
-.ed-preview th,.ed-preview td{border:1px solid var(--border);padding:.4em .6em;text-align:left}
-.ed-preview th{background:#f9fafb;font-weight:600}
-.ed-preview hr{border:none;border-top:1px solid var(--border);margin:1em 0}
-.ed-preview img{max-width:100%;border-radius:6px}
-
-/* Social output */
-.ed-output{width:100%;min-height:200px;border:1px solid var(--border);border-radius:8px;padding:.8em;font-family:var(--font);font-size:.82rem;line-height:1.5;resize:vertical;background:var(--bg);color:var(--text)}
-.ed-format-tabs{display:flex;gap:.2em;flex-wrap:wrap;margin-bottom:.6em}
-.ed-fmt{font-size:.7rem;padding:.3em .6em;border-radius:5px;border:1.5px solid var(--border);color:var(--text2)}
-.ed-fmt.active{border-color:var(--accent);background:var(--accent-bg);color:var(--accent);font-weight:600}
-.ed-fmt .fmt-rec{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-left:.2em}
-.ed-btn-row{display:flex;gap:.4em;margin-top:.6em;flex-wrap:wrap}
-.ed-btn{font-size:.75rem;padding:.4em .8em;border-radius:6px;font-weight:600;border:1.5px solid var(--border);color:var(--text2);transition:all .12s}
-.ed-btn:hover{border-color:var(--accent);color:var(--accent)}
-.ed-btn-primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-.ed-btn-primary:hover{background:#b45309}
-.ed-btn-push{background:#059669;color:#fff;border-color:#059669}
-
-/* Workflow notes */
-.ed-notes{width:100%;min-height:80px;border:1px solid var(--border);border-radius:8px;padding:.6em;font-family:var(--font);font-size:.8rem;resize:vertical;background:var(--surface)}
-.ed-history{max-height:200px;overflow-y:auto}
-.ed-history-item{padding:.4em 0;border-bottom:1px solid var(--border);font-size:.75rem}
-.ed-history-item:last-child{border:none}
-.ed-history-meta{font-size:.65rem;color:var(--text3)}
-
-/* Pipeline kanban */
-.pipeline{display:grid;grid-template-columns:repeat(5,1fr);gap:.6em;min-height:400px}
-.pcol{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:.6em;display:flex;flex-direction:column}
-.pcol-head{font-size:.68rem;font-weight:700;text-transform:uppercase;color:var(--text3);margin-bottom:.6em;display:flex;justify-content:space-between;align-items:center;padding-bottom:.4em;border-bottom:2px solid var(--border)}
-.pcol-head.draft{border-color:#d1d5db}.pcol-head.review{border-color:#fbbf24}.pcol-head.approved{border-color:#60a5fa}.pcol-head.ready{border-color:#a78bfa}.pcol-head.published{border-color:#34d399}
-.pcol-count{background:var(--border);padding:.1em .4em;border-radius:8px;font-size:.6rem}
-.pcol-list{flex:1;display:flex;flex-direction:column;gap:.3em;overflow-y:auto}
-.pcard{padding:.5em;background:var(--bg);border-radius:6px;cursor:pointer;border-left:3px solid var(--border);transition:all .12s;font-size:.75rem}
-.pcard:hover{border-left-color:var(--accent);background:var(--accent-bg)}
-.pcard-title{font-weight:600;margin-bottom:.15em;line-height:1.2}
-.pcard-meta{font-size:.62rem;color:var(--text3);display:flex;gap:.4em;flex-wrap:wrap}
-.pcard-meta .cl-voice{font-size:.55rem}
-
-/* Toast */
-.toast{position:fixed;bottom:1.5em;left:50%;transform:translateX(-50%) translateY(100px);background:var(--text);color:#fff;padding:.6em 1.2em;border-radius:8px;font-size:.82rem;font-weight:600;z-index:999;transition:transform .3s;opacity:0}
-.toast.show{transform:translateX(-50%) translateY(0);opacity:1}
-
-/* Edit fields */
-.ed-fields{display:flex;flex-direction:column;gap:.4em}
-.ed-field{display:flex;align-items:center;gap:.5em}
-.ed-field label{font-size:.7rem;font-weight:600;color:var(--text3);width:7em;flex-shrink:0}
-.ed-field .ed-input{flex:1;padding:.35em .5em;border:1px solid var(--border);border-radius:6px;font-family:var(--font);font-size:.8rem;color:var(--text);background:var(--bg)}
-.ed-field .ed-input:focus{border-color:var(--accent);outline:none}
-.ed-field select.ed-input{appearance:auto}
-.ed-body-edit{width:100%;min-height:350px;border:1px solid var(--border);border-radius:8px;padding:.8em;font-family:'SF Mono',Monaco,Consolas,monospace;font-size:.78rem;line-height:1.5;resize:vertical;background:var(--bg);color:var(--text);tab-size:2}
-.ed-body-edit:focus{border-color:var(--accent);outline:none}
-@media(max-width:1000px){.app{grid-template-columns:1fr}.sidebar{display:none}.editor{width:100%}.pipeline{grid-template-columns:repeat(3,1fr)}}
+.toast{position:fixed;left:50%;bottom:1.2em;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:.55em 1em;border-radius:8px;font-size:.84rem;font-weight:600;z-index:60;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+@media (max-width:640px){
+  main{padding:.7em}
+  .top{padding:.4em .7em}
+  .grid{grid-template-columns:1fr}
+  details.concept>summary,.chead{grid-template-columns:1fr repeat(2,3.6em)}
+  details.concept>summary .opt,.chead .opt{display:none}
+}
 </style>
 </head>
 <body>
-<!-- Login gate -->
-<div id="loginGate" style="position:fixed;inset:0;background:var(--bg);z-index:1000;display:flex;align-items:center;justify-content:center">
-  <div style="text-align:center;max-width:320px;padding:1em">
-    <h1 style="font-size:1.2rem;margin-bottom:.8em">&#128218; p-book Admin</h1>
-    <div id="loginForm">
-      <input type="password" id="adminPwd" placeholder="Admin password" style="width:100%;padding:.5em;border:1.5px solid var(--border);border-radius:6px;font-size:.9rem;text-align:center" onkeydown="if(event.key==='Enter')checkPwd()">
-      <button onclick="checkPwd()" style="margin-top:.5em;width:100%;padding:.5em;background:var(--accent);color:#fff;border:none;border-radius:6px;font-weight:600;font-size:.85rem;cursor:pointer">Enter</button>
-      <p style="font-size:.68rem;color:var(--text3);margin-top:.5em">Default password: <b>pbook</b> — change it after first login.</p>
-    </div>
-    <div id="changePwdForm" style="display:none">
-      <p style="font-size:.82rem;color:var(--accent);font-weight:600;margin-bottom:.5em">Set your own password</p>
-      <input type="password" id="newPwd1" placeholder="New password" style="width:100%;padding:.5em;border:1.5px solid var(--border);border-radius:6px;font-size:.9rem;text-align:center;margin-bottom:.4em">
-      <input type="password" id="newPwd2" placeholder="Confirm password" style="width:100%;padding:.5em;border:1.5px solid var(--border);border-radius:6px;font-size:.9rem;text-align:center" onkeydown="if(event.key==='Enter')savePwd()">
-      <button onclick="savePwd()" style="margin-top:.5em;width:100%;padding:.5em;background:var(--accent);color:#fff;border:none;border-radius:6px;font-weight:600;font-size:.85rem;cursor:pointer">Save & continue</button>
-      <button onclick="skipPwd()" style="margin-top:.3em;width:100%;padding:.4em;background:none;border:none;font-size:.75rem;color:var(--text3);cursor:pointer">Skip for now</button>
-    </div>
-    <p id="pwdErr" style="color:#dc2626;font-size:.75rem;margin-top:.3em"></p>
-  </div>
-</div>
-<script>
-function hashPwd(pwd){return String(Math.abs(Array.from(new Uint8Array(new TextEncoder().encode(pwd))).reduce((h,b)=>(h*31+b)|0,0)))}
-function checkPwd(){
-  const pwd=document.getElementById('adminPwd').value;
-  const stored=localStorage.getItem('pbook-admin-hash');
-  if(!stored && pwd==='pbook'){
-    // First login with default password — force change
-    document.getElementById('loginForm').style.display='none';
-    document.getElementById('changePwdForm').style.display='block';
-  } else if(stored && hashPwd(pwd)===stored){
-    document.getElementById('loginGate').style.display='none';
-    localStorage.setItem('pbook-admin-session','1');
-  } else if(!stored && pwd==='pbook'){
-    document.getElementById('loginGate').style.display='none';
-    localStorage.setItem('pbook-admin-session','1');
-  } else {
-    document.getElementById('pwdErr').textContent='Wrong password';
-  }
-}
-function savePwd(){
-  const p1=document.getElementById('newPwd1').value;
-  const p2=document.getElementById('newPwd2').value;
-  if(p1.length<3){document.getElementById('pwdErr').textContent='At least 3 characters';return}
-  if(p1!==p2){document.getElementById('pwdErr').textContent='Passwords don\'t match';return}
-  localStorage.setItem('pbook-admin-hash',hashPwd(p1));
-  localStorage.setItem('pbook-admin-session','1');
-  document.getElementById('loginGate').style.display='none';
-}
-function skipPwd(){
-  localStorage.setItem('pbook-admin-session','1');
-  document.getElementById('loginGate').style.display='none';
-}
-window.changePwd=function(){
-  localStorage.removeItem('pbook-admin-session');
-  document.getElementById('loginForm').style.display='none';
-  document.getElementById('changePwdForm').style.display='block';
-  document.getElementById('loginGate').style.display='flex';
-  document.getElementById('newPwd1').focus();
-};
-if(localStorage.getItem('pbook-admin-session')==='1') document.getElementById('loginGate').style.display='none';
-</script>
-
-<div class="app">
-  <header class="header">
-    <h1>&#128218; p-book Admin</h1>
-    <nav id="mainNav"></nav>
-    <div class="spacer"></div>
-    <a href="/#view-map" target="_blank" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;background:var(--accent);color:#fff;text-decoration:none" title="new content is written in the book's ✍️ author studio">✍️ Write in book</a>
-    <button onclick="showRCSetup()" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">Recombee</button>
-    <button onclick="syncRecombee()" id="syncBtn" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">Sync Items</button>
-    <button id="keyBtn" onclick="const k=prompt('Editor key (PBOOK_ADMIN_KEY):');if(k){localStorage.setItem('pbook-admin-key',k.trim());location.reload()}" title="Without the editor key the log shows counts and ids, but hides what readers wrote and their e-mails" style="font-size:.75rem;font-weight:600;padding:.35em .8em;border-radius:6px;border:1.5px solid #F59E0B;color:#B45309">🔑 Editor key</button>
-    <script>try{if(localStorage.getItem('pbook-admin-key'))document.getElementById('keyBtn').remove()}catch(e){}</script>
-    <button onclick="changePwd()" style="font-size:.65rem;color:var(--text3)">Change password</button>
-    <button onclick="localStorage.removeItem('pbook-admin-session');location.reload()" style="font-size:.65rem;color:var(--text3)">Logout</button>
-    <span class="hstat" id="hstat"></span>
+<div id="gate" class="gate" hidden></div>
+<div id="app" hidden>
+  <header class="top">
+    <div class="brand"><a href="/" id="brand"></a><span class="muted">admin</span></div>
+    <nav class="tabs" id="tabs" role="tablist"></nav>
+    <div class="who" id="who"></div>
   </header>
-  <aside class="sidebar" id="sidebar"></aside>
-  <div class="main" id="main"></div>
+  <main id="main" tabindex="-1"></main>
 </div>
-<div class="editor" id="editor"></div>
-<div class="toast" id="toast"></div>
+<aside id="drawer" class="drawer" hidden></aside>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 <script type="module">
-import { renderMarkdown } from './js/markdown.js';
-window.renderMD = renderMarkdown;
+// Admin of a p-book: what readers do, what they ask for, and the editors' tools.
+// Data: content from the book's bundle, the interaction log and its aggregates from /api/log
+// (scoped to this book with ?book=), proposals from /api/proposals. Everything personal needs
+// the editor key (PBOOK_ADMIN_KEY), which the server checks and this browser keeps.
+import { CONFIG } from './js/config.js';
+import { renderMarkdown, parseFrontmatter } from './js/markdown.js';
 
-// Tabs follow the content lifecycle: readers create DEMAND → PROPOSALS are
-// drafted (AI or by hand) and interest-tested as 🌱 ghost items → reader
-// contributions land in REVIEW and get adopted into the served book → HEALTH
-// keeps shipped content working → CATALOG is the source of truth → REACH
-// measures growth (invites, editors). Writing happens in the book's ✍️ studio.
-const TABS = ['📥 Demand','🌱 Proposals','⚡ Review','🩺 Health','📚 Catalog','📈 Reach','🤝 Contacts','⚙️ More'];
+const ORIG = CONFIG.book?.lang || 'en';                 // the language the book is written in
+const UI = ['cs', 'sk'].includes(ORIG) ? 'cs' : 'en';   // the admin speaks Czech or English
+const L = (cs, en) => (UI === 'cs' ? cs : en);
+const LOC = UI === 'cs' ? 'cs-CZ' : 'en-GB';
+const BOOK = CONFIG.book?.slug || location.host;
+const DIR = CONFIG.book?.contentDir || 'content';
+const pickLang = v => (v && typeof v === 'object') ? (v[ORIG] || v.en || Object.values(v)[0] || '') : (v || '');
+const TITLE = pickLang(CONFIG.book?.title) || 'p-book';
+document.documentElement.lang = UI;
+document.title = `${TITLE} · admin`;
 
-let book,allBlocks=[],currentTab='📥 Demand',sideFilter=null,editorBlock=null;
-// These must be on window because onclick handlers run in global scope
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const num = n => (n == null || Number.isNaN(Number(n))) ? '–' : Number(n).toLocaleString(LOC);
+const pct = (a, b) => b ? Math.round(100 * a / b) + ' %' : '–';
+const day = t => t ? new Date(t).toLocaleDateString(LOC, { day: 'numeric', month: 'numeric' }) : '–';
+const when = t => t ? new Date(t).toLocaleString(LOC, { day: 'numeric', month: 'numeric', hour: '2-digit', minute: '2-digit' }) : '–';
+const plural = (n, one, few, many) => UI === 'cs' ? (n === 1 ? one : n >= 2 && n <= 4 ? few : many) : (n === 1 ? one : many);
+const store = {
+  get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+  set(k, v) { try { localStorage.setItem(k, v); } catch (e) {} },
+  del(k) { try { localStorage.removeItem(k); } catch (e) {} },
+};
+// Leftovers of the old admin: a password kept in this browser (it guarded nothing) and a
+// Recombee private token its setup screen saved where the book itself could read it.
+['pbook-admin-session', 'pbook-admin-hash', 'pbook-admin-pwd', 'pbook-rc-config', 'pbook-rc-token'].forEach(store.del);
 
-async function init(){
-  book=await(await fetch('content/book.json')).json();
-  // all files in parallel, book order kept (one by one it took ~19 s)
-  const jobs=book.chapters.flatMap(ch=>ch.files.map(f=>fetch(`content/${ch.directory}/${f}`).then(r=>r.text()).then(t=>{const{meta,body}=parseFM(t);return{...meta,body,_ch:ch.id,_cn:ch.number,_ct:ch.title,_f:f}}).catch(()=>null)));
-  allBlocks=(await Promise.all(jobs)).filter(Boolean);
-  document.getElementById('hstat').textContent=`${allBlocks.length} blocks · ${book.chapters.length} chapters`;
-  // Reader counts over the whole log (server-side, cached 10 min) — the tabs below only see the latest ~1,000 events
-  getReaderStats().then(st=>{ if(st&&st.readers) document.getElementById('hstat').textContent+=` · 👥 ${st.readers.allTime} readers · ${st.readers.last7d} this week`; });
-  document.getElementById('mainNav').innerHTML=TABS.map(t=>`<button class="${t===currentTab?'active':''}" onclick="ST('${t}')">${t}</button>`).join('');
-  renderSidebar();showMain();
+let KEY = store.get('pbook-admin-key') || '';
+let ADMIN = false;                                       // the server accepted KEY
+
+// ---------- data ----------
+async function getJSON(url, opts) {
+  const r = await fetch(url, opts);
+  if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+  return r.json();
+}
+const withKey = (o = {}) => ({ ...o, headers: { ...(o.headers || {}), ...(KEY ? { 'X-Pbook-Admin': KEY } : {}) } });
+const logUrl = p => `/api/log?${p ? p + '&' : ''}book=${encodeURIComponent(BOOK)}`;
+const memo = new Map();
+function once(k, fn) {
+  if (!memo.has(k)) memo.set(k, fn().catch(e => { memo.delete(k); throw e; }));
+  return memo.get(k);
+}
+const D = {
+  book: () => once('book', () => getJSON(CONFIG.book?.bookIndex || `${DIR}/book.json`)),
+  bundle: () => once('bundle', loadBundle),
+  log: () => once('log', () => getJSON(logUrl(''), withKey()).then(rows => (Array.isArray(rows) ? rows : []).map(norm))),
+  usage: () => once('usage', () => getJSON(logUrl('usage=1'))),
+  stats: () => once('stats', () => getJSON(logUrl('stats=1'), withKey())),
+  classes: () => once('classes', () => getJSON(logUrl('classes=1'), withKey())),
+  wallet: () => once('wallet', () => getJSON(logUrl('wallet=1'), withKey())),
+  messages: () => once('messages', () => getJSON(logUrl('contacts=1'), withKey())),
+  boss: () => once('boss', () => getJSON('/api/boss')),
+  proposals: () => once('proposals', loadProposals),
+};
+
+// The book's content: one request for the bundle (scripts/build-bundle.mjs), every file
+// one by one only for a book without one. Translations count with their original.
+async function loadBundle() {
+  const book = await D.book();
+  const where = new Map();
+  book.chapters.forEach((ch, ci) => (ch.files || []).forEach((f, fi) => where.set(`${ch.directory}/${f}`, { ch, ci, fi })));
+  let files = null, json = {};
+  try { const b = await getJSON(`${DIR}/bundle.${ORIG}.json`); files = b.files; json = b.json || {}; } catch (e) {}
+  if (!files) {
+    files = {};
+    await Promise.all([...where.keys()].map(p => fetch(`${DIR}/${p}`).then(r => r.ok ? r.text() : null)
+      .then(t => { if (t) files[p] = t; }).catch(() => {})));
+  }
+  const jsonFile = name => json[`${DIR}/${name}`] ? Promise.resolve(json[`${DIR}/${name}`]) : getJSON(`${DIR}/${name}`).catch(() => null);
+  const blocks = [], byId = new Map(), trOf = new Map(), translations = [];
+  for (const [p, raw] of Object.entries(files)) {
+    const at = where.get(p);
+    if (!at || !p.endsWith('.md')) continue;
+    const { meta, body } = parseFrontmatter(raw);
+    if (!meta.id) continue;
+    const b = { ...meta, body, raw, path: p, chapter: at.ch, order: at.ci * 1e4 + at.fi, langs: [meta.lang || ORIG] };
+    if (meta.translationOf) translations.push(b); else { blocks.push(b); byId.set(b.id, b); }
+  }
+  for (const t of translations) {
+    trOf.set(t.id, t.translationOf);
+    const o = byId.get(t.translationOf);
+    if (o && t.lang && !o.langs.includes(t.lang)) o.langs.push(t.lang);
+  }
+  blocks.sort((a, b) => a.order - b.order);
+  const [cj, pj] = await Promise.all([jsonFile('concepts.json'), jsonFile('concept-proposals.json')]);
+  return { book, blocks, byId, trOf, concepts: (cj && cj.concepts) || [], fileProposals: (pj && pj.proposals) || [] };
+}
+const canon = (B, id) => B.trOf.get(id) || id;
+const chapterTitle = ch => ch ? `${ch.number != null ? ch.number + '. ' : ''}${pickLang(ch.title) || ch.id}` : '';
+
+// One log row, flattened: older clients nested their fields one level deeper (data.data).
+function norm(r) {
+  const d = r.data && typeof r.data === 'object' ? r.data : {};
+  const inner = d.data && typeof d.data === 'object' && !Array.isArray(d.data) ? d.data : {};
+  return { ...inner, ...d, kind: r.event || d.event || r.type || d.type, type: r.type || d.type,
+    user: r.user_id || d.userId || '?', item: r.item_id || d.itemId || null,
+    rating: r.rating ?? d.rating, duration: r.duration ?? d.duration, at: Date.parse(r.created_at) || d.ts || 0 };
+}
+const isText = v => typeof v === 'string' && v.trim() && v !== '(text)';
+const AI_KINDS = ['boss_graded', 'team_graded', 'team_ai', 'remix_served'];
+const isAiCall = r => AI_KINDS.includes(r.kind) || (r.kind === 'generate_served' && !r.cached);
+
+// ---------- small renderers ----------
+const tile = (v, label) => `<div class="tile"><b>${typeof v === 'string' ? esc(v) : num(v)}</b><span>${esc(label)}</span></div>`;
+function columns(items) {
+  if (!items.length) return `<p class="muted">${L('Zatím bez dat.', 'No data yet.')}</p>`;
+  const max = Math.max(1, ...items.map(i => i.v));
+  return `<div class="cols">${items.map(i => `<div class="col" title="${esc(i.t || '')}"><span class="v">${num(i.v)}</span>`
+    + `<span class="b" style="height:${Math.round(110 * i.v / max)}px"></span><span class="l">${esc(i.l)}</span></div>`).join('')}</div>`;
+}
+function errText(e) {
+  if (e && e.status === 403) return `<p class="muted">🔒 ${L('Tohle uvidí jen editor s klíčem.', 'Only an editor with the key sees this.')}</p>`;
+  if (e && e.status === 404) return `<p class="err">${L('Tohle API tu není (lokální server?).', 'This API is not available here (local server?).')}</p>`;
+  return `<p class="err">${L('Nepodařilo se načíst: ', 'Could not load: ')}${esc(e && e.message || e)}</p>`;
+}
+// A card whose body fills in when its data arrives; null removes the card.
+function slot(parent, title, fn, cls = '') {
+  const el = document.createElement('section');
+  el.className = 'card ' + cls;
+  el.innerHTML = `${title ? `<h2>${title}</h2>` : ''}<div class="body"><p class="muted">${L('Načítám…', 'Loading…')}</p></div>`;
+  parent.appendChild(el);
+  const body = el.querySelector('.body');
+  Promise.resolve().then(fn).then(html => { if (html == null) el.remove(); else body.innerHTML = html; })
+    .catch(e => { body.innerHTML = errText(e); });
+  return el;
+}
+function download(name, text, type = 'application/json') {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text], { type }));
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+let toastT;
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 2600);
 }
 
-function parseFM(t){const m=t.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);if(!m)return{meta:{},body:t};const meta={};for(const l of m[1].split('\n')){const kv=l.match(/^(\w[\w-]*)\s*:\s*(.*)/);if(kv){let v=kv[2].trim();if(v==='true')v=true;else if(v==='false')v=false;else if(v==='null')v=null;else if(/^\d+$/.test(v))v=parseInt(v);else v=v.replace(/^["']|["']$/g,'');meta[kv[1]]=v}}return{meta,body:m[2].trim()}}
+// Clicks: every button says what it does in data-act (and its subject in data-arg)
+const ACT = {};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]');
+  if (!el || !ACT[el.dataset.act]) return;
+  e.preventDefault();
+  ACT[el.dataset.act](el.dataset.arg, el, e);
+});
 
-function renderSidebar(){
-  const sb=document.getElementById('sidebar');
-  let h=`<div class="sf-title">Book</div>`;
-  h+=`<div class="sf-pipe ${!sideFilter?'active':''}" onclick="SF(null)"><span class="sf-dot" style="background:var(--accent)"></span> All blocks <span class="sf-count">${allBlocks.length}</span></div>`;
+// ---------- the editor key ----------
+async function checkKey() {
+  try { return await getJSON('/api/log?check=1', withKey()); } catch (e) { return null; }
+}
+function showGate(check, msg) {
+  $('#app').hidden = true;
+  const g = $('#gate');
+  g.hidden = false;
+  g.innerHTML = `<section class="card">
+    <h1>📚 ${esc(TITLE)}</h1><p class="muted">${L('Administrace knihy', 'Book admin')}</p>
+    <form id="gateForm">
+      <label for="keyIn">${L('Klíč editora', 'Editor key')}</label>
+      <input id="keyIn" type="password" autocomplete="current-password" required>
+      <button class="btn primary" type="submit">${L('Vstoupit', 'Enter')}</button>
+    </form>
+    <p class="err" id="gateErr">${esc(msg || '')}</p>
+    <p class="note">${L('Klíč je proměnná PBOOK_ADMIN_KEY v nastavení projektu ve Vercelu. Zůstane jen v tomto prohlížeči.',
+      'The key is the PBOOK_ADMIN_KEY variable in the Vercel project settings. It stays in this browser only.')}</p>
+    ${check && check.configured === false ? `<p class="note err">${L('Server zatím klíč nastavený nemá.', 'The server has no key set yet.')}</p>` : ''}
+    <p><button class="linkbtn" data-act="publicMode">${L('Pokračovat bez klíče (jen souhrnné počty)', 'Continue without a key (counts only)')}</button></p>
+  </section>`;
+  $('#keyIn').focus();
+  $('#gateForm').onsubmit = async e => {
+    e.preventDefault();
+    KEY = $('#keyIn').value.trim();
+    const c = await checkKey();
+    if (c && c.admin) { store.set('pbook-admin-key', KEY); ADMIN = true; boot(); }
+    else $('#gateErr').textContent = c ? L('Tenhle klíč server nezná.', 'The server does not know this key.') : L('Server neodpovídá.', 'The server does not answer.');
+  };
+}
+ACT.publicMode = () => { KEY = ''; ADMIN = false; boot(); };
+ACT.logout = () => { store.del('pbook-admin-key'); KEY = ''; ADMIN = false; memo.clear(); location.hash = ''; showGate(null); };
 
-  h+=`<div class="sf-title">Chapters</div>`;
-  book.chapters.forEach((ch,i)=>{
-    const cnt=(allBlocks.filter(b=>b._cn===ch.number)).length;
-    h+=`<div class="sf-item ${sideFilter==='ch'+ch.number?'active':''}" onclick="SF('ch${ch.number}')"><span style="font-weight:700;color:var(--accent);width:1.2em">${ch.number}</span> ${ch.title} <span class="sf-count">${cnt}</span></div>`;
+// ---------- shell and routing ----------
+const TABS = [
+  { id: 'overview', icon: '📊', label: L('Přehled', 'Overview'), view: viewOverview },
+  { id: 'content', icon: '📚', label: L('Obsah', 'Content'), view: viewContent },
+  { id: 'wishes', icon: '🌱', label: L('Přání a návrhy', 'Wishes & proposals'), view: viewWishes },
+  { id: 'shared', icon: '🤝', label: L('Příspěvky čtenářů', 'Reader contributions'), view: viewShared, when: () => CONFIG.features?.community !== false },
+  { id: 'classes', icon: '🏫', label: L('Třídy', 'Classes'), view: viewClasses, admin: true },
+  { id: 'messages', icon: '✉️', label: L('Zprávy', 'Messages'), view: viewMessages, admin: true },
+  { id: 'ai', icon: '⚡', label: L('AI a kredity', 'AI & credits'), view: viewAI, admin: true },
+  { id: 'data', icon: '🗂', label: L('Data', 'Data'), view: viewData },
+];
+const tabs = () => TABS.filter(t => (!t.admin || ADMIN) && (!t.when || t.when()));
+
+function boot() {
+  $('#gate').hidden = true;
+  $('#app').hidden = false;
+  $('#brand').textContent = '📚 ' + TITLE;
+  $('#tabs').innerHTML = tabs().map(t => `<a role="tab" href="#${t.id}" id="tab-${t.id}">${t.icon} ${esc(t.label)}</a>`).join('');
+  $('#who').innerHTML = ADMIN
+    ? `<span class="chip ok">🔑 ${L('editor', 'editor')}</span><button class="linkbtn" data-act="logout">${L('Odhlásit', 'Sign out')}</button>`
+    : `<span class="chip">${L('jen počty', 'counts only')}</span><button class="linkbtn" data-act="logout">${L('Zadat klíč', 'Enter the key')}</button>`;
+  route();
+}
+let routeN = 0;
+function route() {
+  if ($('#app').hidden) return;
+  const list = tabs();
+  const t = list.find(x => x.id === location.hash.slice(1)) || list[0];
+  list.forEach(x => $('#tab-' + x.id).setAttribute('aria-selected', String(x === t)));
+  closeDrawer();
+  const m = $('#main');
+  m.innerHTML = '';
+  const n = ++routeN;
+  Promise.resolve(t.view(m, () => n === routeN)).catch(e => { if (n === routeN) m.innerHTML = `<section class="card">${errText(e)}</section>`; });
+}
+window.addEventListener('hashchange', route);
+
+// ---------- 📊 overview ----------
+function viewOverview(m) {
+  m.innerHTML = '<div class="grid"></div>';
+  const g = m.firstChild;
+  slot(g, L('Čtenáři', 'Readers'), async () => {
+    const st = ADMIN ? await D.stats().catch(e => { if (e.status === 403) return null; throw e; }) : null;
+    if (!st || !st.readers) return `<p class="muted">${L('Počty za celou dobu ukáže admin s klíčem editora.', 'All-time counts need the editor key.')}</p>`;
+    const r = st.readers;
+    return `<div class="tiles">${tile(r.allTime, L('od začátku', 'since the start'))}${tile(r.last30d, L('za 30 dní', 'in 30 days'))}`
+      + `${tile(r.last7d, L('za 7 dní', 'in 7 days'))}${tile(r.last24h, L('za 24 hodin', 'in 24 hours'))}${tile(st.accounts, L('účtů (všechny knihy)', 'accounts (all books)'))}</div>`
+      + `<h3>${L('Aktivní čtenáři po týdnech', 'Active readers by week')}</h3>`
+      + columns((st.weeks || []).map(w => ({ v: w.activeReaders, l: day(w.weekStart),
+        t: `${L('týden od', 'week from')} ${day(w.weekStart)}: ${w.activeReaders} ${L('aktivních', 'active')}, ${w.newReaders} ${L('nových', 'new')}` })))
+      + `<p class="note">${L('Čtenář je prohlížeč nebo účet: jeden člověk na dvou zařízeních se počítá dvakrát.', 'A reader is a browser or an account: one person on two devices counts twice.')}`
+      + ` ${num(st.events)} ${L('záznamů', 'events')} · ${L('spočítáno', 'computed')} ${when(st.computedAt)}</p>`;
+  }, 'wide');
+
+  slot(g, L('Posledních 7 dní', 'Last 7 days'), async () => {
+    const rows = await D.log();
+    const since = Date.now() - 7 * 864e5;
+    const w = rows.filter(r => r.at >= since);
+    const c = k => w.filter(r => r.kind === k).length;
+    const boss = w.filter(r => r.kind === 'boss_graded'), fair = w.filter(r => r.kind === 'boss_fair');
+    const oldest = rows.length ? Math.min(...rows.map(r => r.at)) : 0;
+    return `<div class="tiles">${tile(c('session_start'), L('návštěv', 'visits'))}${tile(c('detailview'), L('přečtených sekcí', 'sections read'))}`
+      + `${tile(c('game_end'), L('dohraných her', 'games finished'))}${tile(c('mission_complete'), L('splněných misí', 'missions done'))}`
+      + `${tile(`${boss.filter(b => b.verdict === 'pass').length} / ${boss.length}`, L('zkoušek prošlo / kol', 'exams passed / rounds'))}`
+      + `${tile(`${fair.filter(f => f.fair).length} / ${fair.filter(f => !f.fair).length}`, L('férovost zkoušek 👍 / 👎', 'exam fairness 👍 / 👎'))}`
+      + `${tile(w.filter(isAiCall).length, L('volání AI', 'AI calls'))}${tile(c('flag'), L('nahlášených chyb', 'reported problems'))}</div>`
+      + (oldest > since ? `<p class="note">${L(`Log tu ukazuje posledních ${num(rows.length)} záznamů (od ${day(oldest)}), takže čísla můžou být neúplná.`,
+        `The log here holds the latest ${num(rows.length)} events (since ${day(oldest)}), so the numbers may be incomplete.`)}</p>` : '');
   });
 
-  // Content status counts
+  slot(g, L('Ke kontrole', 'To check'), async () => {
+    const [rows, props, msgs] = await Promise.all([D.log(), D.proposals().catch(() => null), ADMIN ? D.messages().catch(() => []) : Promise.resolve(null)]);
+    const fresh = Date.now() - 14 * 864e5;
+    const items = [
+      [rows.filter(r => r.kind === 'flag').length, L('nahlášených chyb v obsahu', 'reported problems in the content'), 'content'],
+      [msgs ? msgs.filter(x => Date.parse(x.created_at) >= fresh).length : null, L('zpráv za 14 dní', 'messages in 14 days'), 'messages'],
+      [rows.filter(r => r.kind === 'concept_wish').length, L('přání nových témat', 'wishes for new topics'), 'wishes'],
+      [props ? props.list.filter(p => (props.stats[p.slug]?.want || 0) >= WRITE_K).length : null, L('návrhů, které čtenáři chtějí (připravené k napsání)', 'proposals readers want (ready to write)'), 'wishes'],
+      [new Set(rows.filter(r => r.kind === 'block_saved' && (r.action === 'shared' || r.state === 'community')).map(r => r.blockId)).size,
+        L('sdílených podání od čtenářů', 'tellings shared by readers'), 'shared'],
+    ].filter(([n]) => n != null);
+    return `<ul class="list">${items.map(([n, label, tab]) => `<li><a href="#${tab}"${n ? '' : ' class="muted"'}><b>${num(n)}</b> ${esc(label)}</a></li>`).join('')}</ul>`;
+  });
 
+  slot(g, L('Stav knihy', 'Book status'), async () => {
+    const [boss, sw] = await Promise.all([D.boss().catch(() => null),
+      fetch('/sw.js').then(r => r.ok ? r.text() : '').then(t => (/CACHE_NAME\s*=\s*['"]([^'"]+)/.exec(t) || [])[1] || '').catch(() => '')]);
+    const yes = t => `<span class="chip ok">✓ ${esc(t)}</span>`, no = t => `<span class="chip">${esc(t)}</span>`;
+    return `<dl class="kv">
+      <dt>${L('Verze', 'Version')}</dt><dd>${sw ? `<code>${esc(sw)}</code>` : '–'}</dd>
+      <dt>AI</dt><dd>${boss && boss.available ? yes(boss.model || L('zapnutá', 'on')) : no(L('není nastavená', 'not configured'))}</dd>
+      <dt>Recombee</dt><dd>${CONFIG.recombee?.enabled ? yes(CONFIG.recombee.database || L('zapnutý', 'on')) : no(L('vypnutý: doporučuje se v prohlížeči', 'off: recommendations run in the browser'))}</dd>
+      <dt>${L('Profil pro Tiny', 'Profile for Tiny')}</dt><dd>${CONFIG.tiny?.profile ? yes(L('ukládá se', 'saved')) : no(L('vypnutý', 'off'))}</dd>
+      <dt>${L('Klíč editora', 'Editor key')}</dt><dd>${ADMIN ? yes(L('ověřený', 'verified')) : no(L('bez klíče: jen počty', 'no key: counts only'))}</dd>
+    </dl>`;
+  });
+  slot(g, L('Nejčtenější sekce', 'Most read sections'), async () => {
+    const [u, B] = await Promise.all([D.usage(), D.bundle()]);
+    const agg = new Map();
+    for (const [id, x] of Object.entries(u || {})) {
+      const k = canon(B, id);
+      if (!B.byId.has(k)) continue;
+      const a = agg.get(k) || { views: 0, likes: 0 };
+      a.views += x.views; a.likes += x.likes; agg.set(k, a);
+    }
+    const top = [...agg].sort((a, b) => b[1].views - a[1].views).slice(0, 10);
+    if (!top.length) return `<p class="muted">${L('Zatím tu není žádné čtení.', 'Nobody has read anything yet.')}</p>`;
+    return `<ol class="list">${top.map(([id, x]) => `<li><button class="linkbtn" data-act="preview" data-arg="${esc(id)}">${esc(B.byId.get(id).title || id)}</button>`
+      + ` <span class="muted">· ${num(x.views)} ${L('čtenářů', 'readers')}${x.likes ? ` · ${num(x.likes)} 👍` : ''}</span></li>`).join('')}</ol>`
+      + `<p class="note">${L('Z posledních 5 000 zobrazení a hodnocení, všechny jazyky dohromady.', 'From the latest 5,000 views and ratings, all languages together.')}</p>`;
+  }, 'wide');
 
-  sb.innerHTML=h;
 }
 
-window.SF=function(f){
-  sideFilter=sideFilter===f?null:f;
-  // Switch to Content tab to show filtered results
-  if(sideFilter && currentTab!=='Content'){currentTab='Content';document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.textContent==='Content'));}
-  renderSidebar();showMain();
-};
-window.ST=function(t){currentTab=t;document.querySelectorAll('#mainNav button').forEach(b=>b.classList.toggle('active',b.textContent===t));showMain()};
-
-function showMain(){
-  const m=document.getElementById('main');
-  if(currentTab==='📥 Demand')renderDemand(m);
-  else if(currentTab==='🌱 Proposals')renderProposals(m);
-  else if(currentTab==='⚡ Review')renderCommunity(m);
-  else if(currentTab==='🩺 Health')renderHealth(m);
-  else if(currentTab==='📚 Catalog')renderCatalog(m);
-  else if(currentTab==='📈 Reach')renderReach(m);
-  else if(currentTab==='🤝 Contacts')renderContacts(m);
-  else if(currentTab==='⚙️ More')renderMore(m);
-  else renderDemand(m);
-}
-
-// Contacts: "collaborate with us" messages + questions sent to the authors from
-// the tutor. Stored in the log but never listed publicly — needs the editor key.
-async function renderContacts(m){
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  m.innerHTML='<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.5em">🤝 Contacts</h2><p style="font-size:.78rem;color:var(--text2)">Loading…</p>';
-  const load=()=>fetch('/api/log?contacts=1',{headers:{'X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''}});
-  let r=await load();
-  if(r.status===403){
-    const k=prompt('Editor key (PBOOK_ADMIN_KEY) — needed to read contacts:');
-    if(k){localStorage.setItem('pbook-admin-key',k.trim());r=await load();}
+// ---------- 📚 content ----------
+const CS = { q: '', ch: '', mode: 'list', dim: 'lens' };
+function blockSignals(rows, B) {
+  const S = new Map();
+  const s = id => { id = canon(B, id); return S.get(id) || S.set(id, { viewers: new Set(), views: 0, fin: 0, likes: new Set(), dislikes: new Set(), away: 0, remix: 0, flags: [], dwell: 0, dwellN: 0 }).get(id); };
+  for (const r of rows) {
+    const id = r.item || r.blockId;
+    if (!id) continue;
+    if (r.kind === 'detailview') {
+      const x = s(id), dur = Number(r.duration) || 0;
+      x.viewers.add(r.user); x.views++;
+      if (dur) { x.dwell += dur; x.dwellN++; }
+      if (dur >= Math.min(12, ((B.byId.get(canon(B, id))?.readingTime) || 3) * 9)) x.fin++;
+    } else if (r.kind === 'rating') {
+      const v = Number(r.rating);
+      if (v >= 0.7) s(id).likes.add(r.user); else if (v > 0 && v < 0.5) s(id).dislikes.add(r.user);
+    } else if (r.kind === 'flag' && r.blockId) s(r.blockId).flags.push({ type: r.type, text: r.text, at: r.at });
+    else if ((r.kind === 'steer' || r.kind === 'steer_miss') && r.blockId && r.action !== 'praise') s(r.blockId).away++;
+    else if (r.kind === 'remix_request' && r.blockId) s(r.blockId).remix++;
   }
-  if(!r.ok){
-    const why=r.status===403?'the editor key is missing or wrong':r.status===404?'the /api/log endpoint is not available here (local server?)':'HTTP '+r.status;
-    m.innerHTML=`<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.5em">🤝 Contacts</h2><p style="color:#dc2626;font-size:.8rem">Could not load contacts: ${why}.</p>`
-      +(r.status===403?`<button onclick="localStorage.removeItem('pbook-admin-key');renderContacts(document.getElementById('main'))" style="font-size:.75rem;padding:.3em .7em;border:1.5px solid var(--accent);border-radius:6px;color:var(--accent)">Enter the editor key</button>`:'');
+  for (const [id, x] of S) {
+    const b = B.byId.get(id);
+    const expected = ((b && b.readingTime) || 3) * 9;
+    x.avg = x.dwellN ? x.dwell / x.dwellN : 0;
+    x.shallow = x.viewers.size >= 3 && x.avg > 0 && x.avg < expected * 0.5;
+    x.expected = expected;
+    x.score = x.flags.length * 3 + x.dislikes.size * 2 + x.away + x.remix + (x.shallow ? 2 : 0) - x.likes.size * 2;
+  }
+  return S;
+}
+const chipsOf = b => [
+  b.core ? `<span class="chip acc">★ ${L('jádro', 'core')}</span>` : '',
+  b.lens && b.lens !== 'generic' ? `<span class="chip">${esc(b.lens)}</span>` : '',
+  b.depth && b.depth !== 'standard' ? `<span class="chip">${esc(b.depth)}</span>` : '',
+  b.genre && b.genre !== 'explainer' ? `<span class="chip">${esc(b.genre)}</span>` : '',
+  b.status && b.status !== 'accepted' ? `<span class="chip bad">${esc(b.status)}</span>` : '',
+  b.langs && b.langs.length > 1 ? `<span class="chip">${b.langs.map(esc).join(' ')}</span>` : '',
+].join(' ');
+
+async function viewContent(m, alive) {
+  m.innerHTML = `<div class="toolbar">
+      <input type="search" id="cq" placeholder="${L('Hledat sekci nebo koncept…', 'Search a section or concept…')}" aria-label="${L('Hledat', 'Search')}">
+      <select id="cch" aria-label="${L('Kapitola', 'Chapter')}"><option value="">${L('Všechny kapitoly', 'All chapters')}</option></select>
+      <div class="seg" role="group"><button data-act="cmode" data-arg="list">${L('Koncepty', 'Concepts')}</button><button data-act="cmode" data-arg="cover">${L('Pokrytí podání', 'Coverage')}</button></div>
+    </div><div id="cbody"><p class="muted">${L('Načítám obsah…', 'Loading content…')}</p></div>`;
+  const [B, rows, usage] = await Promise.all([D.bundle(), D.log().catch(() => []), D.usage().catch(() => ({}))]);
+  if (!alive()) return;
+  const chSel = $('#cch');
+  chSel.innerHTML += B.book.chapters.map(ch => `<option value="${esc(ch.id)}">${esc(chapterTitle(ch))}</option>`).join('');
+  $('#cq').value = CS.q; chSel.value = CS.ch;
+  const sig = blockSignals(rows, B);
+  const seen = {};
+  for (const [id, x] of Object.entries(usage || {})) { const k = canon(B, id); seen[k] = (seen[k] || 0) + x.views; }
+  const ctx = { B, sig, seen };
+  let t;
+  $('#cq').oninput = e => { CS.q = e.target.value; clearTimeout(t); t = setTimeout(() => renderContent(ctx), 150); };
+  chSel.onchange = e => { CS.ch = e.target.value; renderContent(ctx); };
+  ACT.cmode = v => { CS.mode = v; renderContent(ctx); };
+  ACT.cdim = (v, el) => { CS.dim = el.value; renderContent(ctx); };
+  renderContent(ctx);
+}
+
+function renderContent({ B, sig, seen }) {
+  document.querySelectorAll('[data-act=cmode]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.arg === CS.mode)));
+  const q = CS.q.trim().toLowerCase();
+  const inCh = b => !CS.ch || b.chapter.id === CS.ch;
+  const hit = b => !q || [b.title, b.id, b.concept].some(x => String(x || '').toLowerCase().includes(q));
+  const conceptBlocks = c => (c.blocks && c.blocks.length ? c.blocks.map(id => B.byId.get(id)) : B.blocks.filter(b => String(b.concept || '').split('|').map(s => s.trim()).includes(c.id))).filter(Boolean);
+  const concepts = B.concepts.map(c => ({ c, blocks: conceptBlocks(c) }))
+    .filter(({ c, blocks }) => (!CS.ch || c.chapter === CS.ch || blocks.some(inCh)) && (!q || [c.title, c.id].some(x => String(x || '').toLowerCase().includes(q)) || blocks.some(hit)));
+  let h = '';
+
+  if (CS.mode === 'cover') {
+    const dims = Object.entries(CONFIG.facets || {}).filter(([, f]) => !f.derived && Array.isArray(f.values));
+    if (!dims.find(([k]) => k === CS.dim)) CS.dim = (dims[0] || ['lens'])[0];
+    const vals = (CONFIG.facets?.[CS.dim]?.values) || [];
+    const covers = (b, v) => {
+      if (CS.dim === 'lang') return b.langs.includes(v);
+      const raw = b[CS.dim];
+      if (!raw) return v === vals[0];
+      const s = String(raw);
+      if (s.includes('..')) { const [a, z] = s.split('..').map(x => vals.indexOf(x.trim())); const i = vals.indexOf(v); return a >= 0 && z >= a && i >= a && i <= z; }
+      return s.split('|').map(x => x.trim()).includes(v);
+    };
+    h += `<section class="card"><div class="row" style="margin-bottom:.6em"><label for="cdim">${L('Rozměr', 'Dimension')}</label>
+      <select id="cdim" data-act="cdim">${dims.map(([k, f]) => `<option value="${esc(k)}"${k === CS.dim ? ' selected' : ''}>${esc(f.label || k)}</option>`).join('')}</select>
+      <span class="note" style="margin:0">${L('Kolik podání má každý koncept pro každou hodnotu; tečka = chybí.', 'How many tellings each concept has for each value; a dot = none.')}</span></div>
+      <div class="scroll"><table class="matrix"><thead><tr><th>${L('Koncept', 'Concept')}</th>${vals.map(v => `<th>${esc(v)}</th>`).join('')}</tr></thead><tbody>`
+      + concepts.map(({ c, blocks }) => `<tr><td>${esc(c.title || c.id)}</td>${vals.map(v => { const n = blocks.filter(b => covers(b, v)).length; return `<td>${n ? n : '<span class="gap">·</span>'}</td>`; }).join('')}</tr>`).join('')
+      + `</tbody></table></div></section>`;
+    $('#cbody').innerHTML = h;
+    $('#cdim').onchange = e => { CS.dim = e.target.value; renderContent({ B, sig, seen }); };
     return;
   }
-  const rows=await r.json();
-  const contacts=rows.filter(x=>x.event==='contact_message'),questions=rows.filter(x=>x.event==='author_question');
-  const when=x=>esc(new Date(x.created_at).toLocaleString());
-  let h=`<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.3em">🤝 Contacts</h2>
-    <p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">From the book's "Want to collaborate?" form and the tutor's "Message the authors". Never listed in the public log.</p>
-    <h3 style="font-size:.9rem;margin:.6em 0 .3em">Collaboration messages (${contacts.length})</h3>`;
-  h+=contacts.length?contacts.map(x=>{const d=x.data||{};const mail=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.contact||'');
-    return `<div style="border:1px solid var(--border);border-radius:8px;padding:.6em .8em;margin:.4em 0;font-size:.8rem">
-      <div><b>${esc(d.name||'(no name)')}</b> · ${mail?`<a href="mailto:${esc(d.contact)}">${esc(d.contact)}</a>`:esc(d.contact)} · <span style="color:var(--accent)">${esc(d.topic)}</span> <span style="float:right;color:var(--text3);font-size:.72rem">${when(x)}</span></div>
-      <div style="white-space:pre-wrap;margin-top:.3em">${esc(d.message)}</div></div>`}).join(''):'<p style="font-size:.78rem;color:var(--text3)">None yet.</p>';
-  h+=`<h3 style="font-size:.9rem;margin:1em 0 .3em">Questions to the authors (${questions.length})</h3>`;
-  h+=questions.length?questions.map(x=>{const d=x.data||{};
-    return `<div style="border:1px solid var(--border);border-radius:8px;padding:.5em .8em;margin:.4em 0;font-size:.8rem">
-      <span style="color:var(--text3);font-size:.72rem">${when(x)}${d.blockId?' · '+esc(d.blockId):''}</span><div style="white-space:pre-wrap">${esc(d.question)}</div></div>`}).join(''):'<p style="font-size:.78rem;color:var(--text3)">None yet.</p>';
-  m.innerHTML=h;
-}
 
-function renderMore(m){
-  m.innerHTML=`<h2 style="font-size:1.05rem;font-weight:800;margin-bottom:.5em">How this works</h2>
-    <p style="font-size:.78rem;color:var(--text2);max-width:640px">The pipeline (tabs left → right) mirrors how content is made: readers create <b>Demand</b> (steering misses, concept wishes, goals) → <b>Proposals</b> are drafted by AI or by hand and interest-tested as 🌱 ghost cards → readers' and editors' tellings land in <b>Review</b>, where you adopt them into the served book (state <b>edited</b>/<b>core</b>) or improve them first in the book's ✍️ author studio → <b>Health</b> watches shipped content → <b>Catalog</b> is the source of truth → <b>Reach</b> tracks growth and the editor track.</p>
-    <p style="font-size:.75rem;color:var(--text3);max-width:640px">Writing happens in the book itself: open any concept with the ✍️ pencil (or <span style="font-family:var(--mono)">/#autor-&lt;slug&gt;</span>) — live preview, image editing, AI coach. Adopted tellings serve to everyone immediately; the ⬇ .md button gives you the canonical file to commit to git. Guides: <a href="HUMANS.md" target="_blank">HUMANS.md</a> · <a href="AGENTS.md" target="_blank">AGENTS.md</a> · <a href="SCENARIOS.md" target="_blank">SCENARIOS.md</a> (Recombee scenarios per surface — create the missing ones in the <a href="https://admin.recombee.com" target="_blank">Admin UI</a>).</p>`;
-}
+  // what needs attention, worst first
+  const problems = B.blocks.filter(b => inCh(b) && hit(b) && sig.get(b.id) && (sig.get(b.id).score > 0 || sig.get(b.id).flags.length))
+    .map(b => ({ b, s: sig.get(b.id) })).sort((a, z) => z.s.score - a.s.score).slice(0, 20);
+  h += `<section class="card"><h2>${L('Potřebuje pozornost', 'Needs attention')} <span class="muted">(${problems.length})</span></h2>`;
+  h += problems.length ? problems.map(({ b, s }) => {
+    const why = [];
+    if (s.flags.length) why.push(`${s.flags.length}× ${L('nahlášeno', 'reported')}`);
+    if (s.dislikes.size) why.push(`${s.dislikes.size} 👎`);
+    if (s.away) why.push(`${s.away}× ${L('přepnuto na jiné podání', 'switched to another telling')}`);
+    if (s.remix) why.push(`${s.remix}× ${L('žádost o úpravu', 'asked to rework')}`);
+    if (s.shallow) why.push(L(`čtou krátce (${Math.round(s.avg)} s z ~${Math.round(s.expected)} s)`, `read briefly (${Math.round(s.avg)} s of ~${Math.round(s.expected)} s)`));
+    why.push(`${num(s.views)} ${L('zobrazení', 'views')}, ${num(s.fin)} ${L('dočteno', 'finished')}`);
+    const texts = s.flags.filter(f => isText(f.text)).slice(-3);
+    return `<div class="box${s.score >= 3 ? ' hot' : ''}"><div class="row"><button class="linkbtn" data-act="preview" data-arg="${esc(b.id)}"><b>${esc(b.title || b.id)}</b></button>
+      <span class="muted">· ${esc(chapterTitle(b.chapter))}</span></div><div class="why">${why.join(' · ')}</div>
+      ${texts.map(f => `<div class="quote">${f.type && f.type !== 'event' ? `<b>${esc(f.type)}:</b> ` : ''}${esc(f.text)} <span class="muted">(${day(f.at)})</span></div>`).join('')}
+      <div class="row">${blockButtons(b)}</div></div>`;
+  }).join('') : `<p class="muted">${L('Nic: žádná nahlášená chyba, žádné 👎 ani útěky z textu.', 'Nothing: no reports, no 👎, nobody running away from a text.')}</p>`;
+  if (!ADMIN) h += `<p class="note">${L('Texty hlášení uvidíš s klíčem editora.', 'The text of reports needs the editor key.')}</p>`;
+  h += '</section>';
 
-// ===== COVERAGE — the redakce cockpit (spec §12): concept × lens matrix,
-// steering demand from reader logs, community nomination queue =====
-const LENSES=['generic','ecommerce','media','social-feeds','education','jobs'];
-// subspace-aware: "a|b" sets and "a..b" ranges count for every covered value
-const LENS_ORDER=LENSES;
-function facetCovers(raw,val,allVals){
-  if(!raw)return val==='generic';
-  const s=String(raw);
-  if(s.includes('..')){const[a,b]=s.split('..');const i=allVals.indexOf(a.trim()),j=allVals.indexOf(b.trim()),t=allVals.indexOf(val);return i>=0&&j>=i&&t>=i&&t<=j}
-  return s.split('|').map(x=>x.trim()).includes(val);
-}
-const ADOPTION_K=5; // distinct readers with positive signal → nominated (spec §7)
-let _concepts=null,_commItems=null,_logRows=null;
-
-let _logRowsP=null;
-function getLogRows(){                       // ONE shared fetch for every tab
-  if(_logRows)return Promise.resolve(_logRows);
-  if(!_logRowsP)_logRowsP=fetch('/api/log',{headers:{'X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''}}).then(r=>r.ok?r.json():[]).then(x=>{_logRows=Array.isArray(x)?x:[];return _logRows}).catch(()=>{_logRows=[];return _logRows});
-  return _logRowsP;
-}
-async function _loadCoverageData(){
-  await Promise.all([                        // parallel, not a waterfall
-    (async()=>{if(!_concepts){try{_concepts=(await(await fetch('content/concepts.json')).json()).concepts||[]}catch(e){_concepts=[]}}})(),
-    (async()=>{if(!_commItems){
-      try{
-        const r=await fetch('/api/recs',{method:'POST',headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({endpoint:'/recomms/users/admin-console/items/',method:'POST',
-            body:{filter:`('state' == "community" OR 'state' == "edited" OR 'state' == "core") AND 'sharedAs' != null`,returnProperties:true,count:200,cascadeCreate:true}})});
-        const d=r.ok?await r.json():{};
-        _commItems=Array.isArray(d)?d:(d.recomms||[]).map(x=>({itemId:x.id,...(x.values||{})}));
-      }catch(e){_commItems=[]}
-    }})(),
-    getLogRows(),
-  ]);
-}
-
-// All tagging dimensions for the Catalog matrix (values mirror config.js)
-const ADMIN_FACETS = {
-  lens: ['generic','ecommerce','media','social-feeds','education','jobs'],
-  depth: ['intro','standard','technical','research'],
-  visuality: ['text-first','balanced','visual-first'],
-  genre: ['explainer','story','worked-example','code-walkthrough','comic','animation'],
-  lang: ['en','cs'],
-  carriers: ['prose','table','diagram','image','animation','formula','code'],
-};
-window._catDim = window._catDim || 'lens';
-
-async function renderCatalog(m){
-  m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading catalog (content + community)…</div>';
-  await _loadCoverageData();
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const dim=window._catDim, VALS=ADMIN_FACETS[dim];
-  const conceptsOfBlock=b=>String(b.concept||'').split('|').map(s=>s.trim()).filter(Boolean);
-  const chips=b=>{
-    const bits=[];
-    if(b.lens&&b.lens!=='generic')bits.push(b.lens);
-    if(b.lang&&b.lang!=='en')bits.push(String(b.lang).toUpperCase());
-    if(b.depth)bits.push(b.depth);
-    if(b.visuality&&b.visuality!=='text-first')bits.push(b.visuality);
-    if(b.genre&&b.genre!=='explainer')bits.push(b.genre);
-    return bits.map(x=>`<span style="font-size:.6rem;border:1px solid var(--border);border-radius:999px;padding:.02em .4em;color:var(--text3)">${esc(x)}</span>`).join(' ');
-  };
-
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">📚 Catalog — source of truth</h2>';
-  h+=`<div style="display:flex;align-items:center;gap:.6em;flex-wrap:wrap;margin:.3em 0 .6em">
-    <label style="font-size:.72rem">Dimension:
-      <select onchange="window._catDim=this.value;ST('📚 Catalog')" style="font-size:.72rem;padding:.15em .3em;border-radius:5px;border:1px solid var(--border)">
-        ${Object.keys(ADMIN_FACETS).map(d=>`<option value="${d}" ${d===dim?'selected':''}>${d}</option>`).join('')}
-      </select></label>
-    <button onclick="ST('🌱 Proposals')" style="font-size:.72rem;padding:.25em .7em;border:1.5px solid var(--accent);border-radius:6px;color:var(--accent)">＋ Propose new concept</button>
-    <span style="font-size:.68rem;color:var(--text3)">Editors go first: fill the gaps that matter, then Sync Items (top right). Click a concept to see its articles + actions; ↗ opens the anchor in the book.</span>
-  </div>`;
-  h+=`<p style="font-size:.72rem;color:var(--text3);margin-bottom:.5em"><b style="color:#7C3AED">■ core</b> · <b style="color:#10B981">■ edited</b> · <b style="color:#D97706">■ community</b> · · = gap (＋ downloads a prefilled draft). ⚠ = incomplete contract (blocks generation).</p>`;
-  h+='<div style="overflow-x:auto"><table style="border-collapse:collapse;font-size:.7rem;width:100%">';
-  h+='<tr><th style="text-align:left;padding:.3em .5em;position:sticky;left:0;background:var(--bg)">Concept</th>'+VALS.map(l=>`<th style="padding:.3em .5em">${l}</th>`).join('')+'</tr>';
-  for(const c of _concepts){
-    const gap=!c.contract?.recallQ||!(c.contract?.mustCover||[]).length;
-    const arts=allBlocks.filter(b=>conceptsOfBlock(b).includes(c.id));
-    const comm=_commItems.filter(i=>String(i.concept||'').split('|').includes(c.id));
-    // řádek s rozbalením: články + akce přímo pod konceptem
-    h+=`<tr><td style="padding:.25em .5em;border-top:1px solid var(--border);position:sticky;left:0;background:var(--bg);white-space:nowrap">
-      <details style="display:inline-block"><summary style="cursor:pointer;list-style:none">${gap?'<span title="contract incomplete (missing recallQ or mustCover)">⚠</span> ':''}<b>${esc(c.title)}</b><span style="color:var(--text3)"> · ${esc(c.chapter)} · ${arts.length+comm.length}</span></summary>
-        <div style="padding:.3em 0 .4em .8em;white-space:normal;max-width:34em">
-          <div style="margin:.15em 0"><a href="/#${esc(c.anchor)}" target="_blank" style="color:var(--accent);font-size:.68rem">↗ open anchor in the book</a>
-            <span style="color:var(--text3);font-size:.64rem"> · recallQ: ${esc(c.contract?.recallQ||'—')}</span></div>
-          ${arts.map(b=>`<div style="font-size:.7rem;padding:.08em 0"><span style="color:${b.state==='core'?'#7C3AED':'#10B981'}">●</span> ${b.id===c.anchor?'⚓ ':''}<a href="/#${esc(b.id)}" target="_blank" style="color:inherit">${esc(b.title)}</a> ${conceptsOfBlock(b).length>1?'<span style="font-size:.58rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .25em">multi</span>':''} ${chips(b)}</div>`).join('')}
-          ${comm.map(i=>`<div style="font-size:.7rem;padding:.08em 0"><span style="color:#D97706">●</span> ⚡ ${esc(i.title||i.itemId)} ${chips(i)} <span style="color:var(--text3);font-size:.6rem">by ${esc(i.sharedAs||'anonymous')}</span></div>`).join('')}
-        </div>
-      </details></td>`;
-    for(const val of VALS){
-      const git=arts.filter(b=>facetCovers(b[dim],val,VALS));
-      const cm=comm.filter(i=>facetCovers(i[dim],val,VALS));
-      const cells=[];
-      if(git.some(b=>b.state==='core'))cells.push(`<span style="color:#7C3AED">■${git.filter(b=>b.state==='core').length}</span>`);
-      if(git.some(b=>b.state!=='core'))cells.push(`<span style="color:#10B981">■${git.filter(b=>b.state!=='core').length}</span>`);
-      if(cm.length)cells.push(`<span style="color:#D97706">■${cm.length}</span>`);
-      h+=`<td style="padding:.25em .5em;border-top:1px solid var(--border);text-align:center">${cells.join(' ')||`<button title="no ${val} telling — download a prefilled draft" onclick="downloadTellingSkeleton('${esc(c.id)}','${dim}','${esc(val)}')" style="border:none;background:none;color:var(--text3);cursor:pointer">＋</button>`}</td>`;
-    }
-    h+='</tr>';
+  // concepts by chapter
+  h += `<section class="card"><h2>${L('Koncepty', 'Concepts')} <span class="muted">(${concepts.length})</span></h2>
+    <div class="chead"><span style="text-align:left">${L('koncept', 'concept')}</span><span>${L('podání', 'tellings')}</span><span>${L('čtenáři', 'readers')}</span><span class="opt">👍</span><span class="opt">${L('hlášení', 'reports')}</span></div>`;
+  const byCh = new Map();
+  for (const x of concepts) {
+    const key = x.c.chapter || (x.blocks[0] && x.blocks[0].chapter.id) || '';
+    (byCh.get(key) || byCh.set(key, []).get(key)).push(x);
   }
-  h+='</table></div>';
-  m.innerHTML=h;
+  for (const ch of B.book.chapters) {
+    const list = byCh.get(ch.id) || byCh.get(ch.directory);
+    if (!list) continue;
+    h += `<div class="chap"><h3>${esc(chapterTitle(ch))}</h3>` + list.map(({ c, blocks }) => {
+      const views = blocks.reduce((n, b) => n + (seen[b.id] || 0), 0);
+      const likes = blocks.reduce((n, b) => n + (sig.get(b.id)?.likes.size || 0), 0);
+      const flags = blocks.reduce((n, b) => n + (sig.get(b.id)?.flags.length || 0), 0);
+      const gap = c.contract && (!c.contract.recallQ || !(c.contract.mustCover || []).length);
+      return `<details class="concept"><summary><span>${gap ? `<span title="${L('chybí kontrolní otázka nebo co musí pokrýt', 'missing recall question or must-cover points')}">⚠</span> ` : ''}${esc(c.title || c.id)}</span>`
+        + `<span class="n">${blocks.length}</span><span class="n">${num(views)}</span><span class="n opt">${likes || ''}</span><span class="n opt">${flags ? `<b class="hot">${flags}</b>` : ''}</span></summary>`
+        + `<ul class="blocks">${blocks.map(b => `<li><button class="t" data-act="preview" data-arg="${esc(b.id)}">${esc(b.title || b.id)}</button> ${chipsOf(b)}`
+        + ` <span class="muted">${num(seen[b.id] || 0)} ${L('čt.', 'rd.')}</span></li>`).join('') || `<li class="muted">${L('Žádná sekce.', 'No section.')}</li>`}`
+        + `<li><a class="linkbtn" href="/#${encodeURIComponent(c.anchor || c.id)}" target="_blank" rel="noopener">${L('otevřít v knize', 'open in the book')} ↗</a></li></ul></details>`;
+    }).join('') + '</div>';
+  }
+  h += `<p class="note">${L('Čtenáři = různé prohlížeče, které sekci otevřely (z posledních 5 000 zobrazení).', 'Readers = distinct browsers that opened the section (from the latest 5,000 views).')}</p></section>`;
+  $('#cbody').innerHTML = h;
 }
 
-// Prefilled .md draft for a (concept × dimension value) gap — editors go first.
-window.downloadTellingSkeleton=function(conceptId,dim,val){
-  const c=_concepts.find(x=>x.id===conceptId);if(!c)return;
-  const f={lens:'generic',depth:'standard',visuality:'text-first',formalism:'none',lengthBand:'standard',genre:'explainer',lang:'en'};
-  if(dim in f)f[dim]=val;
-  const slugVal=String(val).replace(/[^a-z0-9]+/gi,'-');
-  const md=`---
-id: ${conceptId}-${slugVal}-draft
-type: spine
-title: "${(c.title||conceptId)} — ${val} telling (DRAFT)"
-readingTime: 3
-standalone: true
-core: false
-status: draft
-voice: universal
-concept: ${conceptId}
-recallQ: "${(c.contract?.recallQ||'').replace(/"/g,"'")}"
-recallA: "${(c.contract?.recallA||'').replace(/"/g,"'")}"
-state: edited
-lens: ${f.lens}
-visuality: ${f.visuality}
-depth: ${f.depth}
-formalism: ${f.formalism}
-lengthBand: ${f.lengthBand}
-genre: ${f.genre}
-lang: ${f.lang}
----
+function blockButtons(b) {
+  return `<a class="btn" href="/#${encodeURIComponent(b.id)}" target="_blank" rel="noopener">📖 ${L('V knize', 'In the book')}</a>`
+    + `<button class="btn" data-act="studio" data-arg="${esc(b.id)}">✍️ ${L('Upravit ve studiu', 'Edit in the studio')}</button>`
+    + `<button class="btn" data-act="mdFile" data-arg="${esc(b.id)}">⬇ .md</button>`;
+}
 
-<!-- DRAFT skeleton for the ${dim}=${val} gap of concept "${conceptId}".
-Contract (every telling must let the reader answer the recallQ):
-${(c.contract?.mustCover||[]).map(mc=>'- '+(mc.point||mc)).join('\n')}
-Place into content/${c.chapter}/NN?-sidebar-*.md AFTER the anchor, register in book.json, migrate + validate. -->
+// preview drawer
+ACT.preview = async id => {
+  const B = await D.bundle();
+  const b = B.byId.get(canon(B, id));
+  if (!b) { toast(L('Tahle sekce v obsahu není.', 'This section is not in the content.')); return; }
+  const dr = $('#drawer');
+  dr.innerHTML = `<header><h2>${esc(b.title || b.id)}</h2><button class="btn" data-act="closeDrawer" aria-label="${L('Zavřít', 'Close')}">✕</button></header>
+    <div class="scroll-y"><p class="note" style="margin-top:0"><code>${esc(b.path)}</code> · ${esc(chapterTitle(b.chapter))}${b.concept ? ` · ${L('koncept', 'concept')} <code>${esc(b.concept)}</code>` : ''}</p>
+    <div class="row" style="margin:.2em 0 .6em">${chipsOf(b)}</div><div class="row">${blockButtons(b)}</div>
+    ${b.recallQ ? `<div class="box"><b>${L('Kontrolní otázka', 'Recall question')}:</b> ${esc(b.recallQ)}${b.recallA ? `<div class="muted">${esc(b.recallA)}</div>` : ''}</div>` : ''}
+    <article class="md">${renderMarkdown(b.body || '')}</article></div>`;
+  dr.hidden = false;
+  dr.querySelector('[data-act=closeDrawer]').focus();
+};
+function closeDrawer() { const d = $('#drawer'); if (d && !d.hidden) { d.hidden = true; d.innerHTML = ''; } }
+ACT.closeDrawer = closeDrawer;
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
-# ${(c.title||conceptId)}
-
-*(write the ${val} telling here)*
-`;
-  const blob=new Blob([md],{type:'text/markdown'});
-  const aEl=document.createElement('a');aEl.href=URL.createObjectURL(blob);
-  aEl.download=`${conceptId}--${dim}-${slugVal}.md`;aEl.click();
+// The book's author studio reads drafts from this browser (same origin)
+function toStudio(slug, text) {
+  let all = {};
+  try { all = JSON.parse(store.get('pbook-author-drafts') || '{}') || {}; } catch (e) {}
+  if (all[slug]?.text?.trim() && all[slug].text !== text
+    && !confirm(L(`Ve studiu už je rozpracovaný text „${slug}“. Přepsat ho?`, `The studio already has a draft "${slug}". Overwrite it?`))) return;
+  all[slug] = { text, ts: Date.now() };
+  store.set('pbook-author-drafts', JSON.stringify(all));
+  window.open('/#autor-' + encodeURIComponent(slug), '_blank', 'noopener');
+}
+ACT.studio = async id => {
+  const B = await D.bundle();
+  const b = B.byId.get(canon(B, id));
+  if (b) toStudio(b.concept || b.id, b.body || '');
+};
+ACT.mdFile = async id => {
+  const B = await D.bundle();
+  const b = B.byId.get(canon(B, id));
+  if (b) download(b.path.split('/').pop(), b.raw, 'text/markdown');
 };
 
-async function renderDemand(m){
-  m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading reader demand (logs)…</div>';
-  await _loadCoverageData();
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">📥 Demand — what readers ask for</h2>';
-  h+='<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Reader demand allocates editorial attention. Three streams: unmet steering (missing tellings), concept wishes (missing concepts — feed 🌱 Proposals), and stated learning goals (personal missions).</p>';
-
-  // 1. Steering demand
-  const steer=_logRows.filter(r=>r.event==='steer'||r.event==='steer_miss'||(r.data&&(r.data.event==='steer'||r.data.event==='steer_miss')));
-  const genReq=_logRows.filter(r=>(r.event||r.data?.event)==='generate_request');
-  const missMap={};
-  steer.forEach(r=>{
-    const d=r.data||r;const ev=d.event||r.event;
-    if(ev!=='steer_miss')return;
-    const t=d.target||{};const key=`${d.concept||'?'} → ${t.lens||'generic'}·${t.depth||'std'}·${t.visuality||'text'}`;
-    missMap[key]=missMap[key]||{n:0,users:new Set()};missMap[key].n++;missMap[key].users.add(r.user_id||d.userId||'?');
-  });
-  const misses=Object.entries(missMap).sort((a,b)=>b[1].users.size-a[1].users.size).slice(0,15);
-  h+='<h3 style="font-size:.9rem;font-weight:700;margin:1em 0 .5em">Missing tellings — the to-write list</h3>';
-  h+=`<p style="font-size:.72rem;color:var(--text3)">Steer events: ${steer.length} · generate requests: ${genReq.length}. Ranked by distinct readers.</p>`;
-  h+=misses.length?('<table style="font-size:.72rem;border-collapse:collapse;width:100%">'+misses.map(([k,v])=>`<tr><td style="padding:.25em .5em;border-top:1px solid var(--border)">${esc(k)}</td><td style="padding:.25em .5em;border-top:1px solid var(--border);text-align:right">${v.users.size} readers · ${v.n}×</td></tr>`).join('')+'</table>'):'<p style="font-size:.75rem;color:var(--text3)">No unmet steering demand logged yet.</p>';
-
-  // 2. Concept wishes
-  const wishes=_logRows.filter(r=>(r.event==='concept_wish'||r.data?.event==='concept_wish'));
-  const wishTexts={};
-  wishes.forEach(r=>{const d=r.data?.data||r.data||{};const txt=(d.text||'').trim();if(!txt)return;
-    (wishTexts[txt.toLowerCase()]=wishTexts[txt.toLowerCase()]||{text:txt,users:new Set()}).users.add(r.userId||r.data?.userId||'?');});
-  const wishList=Object.values(wishTexts).sort((x,y)=>y.users.size-x.users.size);
-  // 🪞 Post-exam reflections: liked/disliked per block + tap-suggestions + notes
-  const refl=(_logRows||[]).filter(r=>(r.event||r.data?.event)==='mission_reflection').map(r=>r.data?.data||r.data||{});
-  if(refl.length){
-    const agg={};const sugg={};const notes=[];
-    refl.forEach(d=>{
-      (d.liked||[]).forEach(id=>{(agg[id]=agg[id]||{l:0,d:0}).l++;});
-      (d.disliked||[]).forEach(id=>{(agg[id]=agg[id]||{l:0,d:0}).d++;});
-      (d.suggestions||[]).forEach(x=>{sugg[x]=(sugg[x]||0)+1;});
-      if(d.note)notes.push({note:d.note,mission:d.mission,score:d.score});
-    });
-    h+='<h3 style="font-size:.9rem;font-weight:700;margin:1.2em 0 .4em">🪞 Post-exam reflections ('+refl.length+')</h3>';
-    h+='<p style="font-size:.7rem;color:var(--text3);margin-bottom:.4em">Fresh impressions right after the boss exam — liked/disliked blocks, tap-suggestions and free-text notes. All feed the demand signals for AI drafting.</p>';
-    const rows=Object.entries(agg).sort((a,b)=>(b[1].d-b[1].l)-(a[1].d-a[1].l));
-    if(rows.length){
-      h+='<div style="font-size:.74rem">'+rows.map(([id,c])=>{
-        const b2=allBlocks.find(x=>x.id===id);
-        return `<div style="display:flex;gap:.5em;padding:.15em 0;border-bottom:1px dashed var(--border)"><span style="flex:1">${esc(b2?.title||id)}</span><span style="color:#10B981">👍 ${c.l}</span><span style="color:#EF4444">👎 ${c.d}</span></div>`;
-      }).join('')+'</div>';
-    }
-    if(Object.keys(sugg).length){
-      h+='<div style="margin-top:.4em;font-size:.72rem"><b>Tap-suggestions:</b> '+Object.entries(sugg).sort((a,b)=>b[1]-a[1]).map(([x,n])=>`<span style="border:1px solid var(--border);border-radius:999px;padding:.05em .5em;margin:.1em">${esc(x)} <b>${n}</b></span>`).join(' ')+'</div>';
-    }
-    if(notes.length){
-      h+='<div style="margin-top:.4em;font-size:.72rem">'+notes.slice(-10).reverse().map(n=>`<div style="padding:.12em 0">📝 „${esc(n.note)}" <span style="color:var(--text3)">(${esc(n.mission||'?')}${n.score?` · ${n.score}/100`:''})</span></div>`).join('')+'</div>';
+// ---------- 🌱 wishes and proposals ----------
+const WRITE_K = 5;   // readers who want a proposal before it is worth writing
+async function loadProposals() {
+  const B = await D.bundle();
+  let srv = { proposals: [], deleted: [], stats: {} };
+  try { const d = await getJSON('/api/proposals?stats=1'); if (d && d.ok) srv = { ...srv, ...d }; } catch (e) {}
+  // a book may keep the chapter as `tema` and the texts per language
+  const tidy = p => ({ ...p, chapter: p.chapter || p.tema || '', title: pickLang(p.title), objective: pickLang(p.objective),
+    recallQ: pickLang(p.recallQ), recallA: pickLang(p.recallA) });
+  const by = new Map();
+  B.fileProposals.forEach(p => by.set(p.slug, { ...tidy(p), origin: 'git' }));
+  (srv.proposals || []).forEach(p => by.set(p.slug, { ...tidy(p), origin: by.has(p.slug) ? 'git+live' : 'live' }));
+  (srv.deleted || []).forEach(s => by.delete(s));
+  return { list: [...by.values()], stats: srv.stats || {} };
+}
+// What readers asked for, as lines for the AI that drafts proposals (and for the editor to read)
+function demandLines(rows) {
+  const lines = [];
+  for (const r of rows) {
+    if (r.kind === 'concept_wish' && isText(r.text)) lines.push(`WISH: ${r.text}`);
+    if (r.kind === 'personal_mission' && isText(r.goal)) lines.push(`GOAL: ${r.goal}`);
+    if (r.kind === 'steer_miss') lines.push(`MISS: concept=${r.concept || '?'} wanted ${r.facet || r.action || '?'}=${r.value || '?'}`);
+    if (r.kind === 'flag' && isText(r.text)) lines.push(`FLAG(${r.type || 'issue'}): ${r.text}`);
+    if (r.kind === 'mission_reflection' && Array.isArray(r.disliked)) {
+      r.disliked.forEach(id => lines.push(`DISLIKED: block=${id} (mission ${r.mission || '?'})`));
+      (r.suggestions || []).forEach(x => lines.push(`SUGGEST: ${x}`));
+      if (isText(r.note)) lines.push(`REFLECTION: ${r.note}`);
     }
   }
-  h+='<h3 style="font-size:.9rem;font-weight:700;margin:1.2em 0 .4em">Missing concepts — reader wishes</h3>';
-  h+=wishList.length?`<div style="font-size:.72rem;margin-bottom:.4em">${wishList.slice(0,15).map(w=>`<div>· "${esc(w.text)}" <span style="color:var(--text3)">(${w.users.size} reader${w.users.size>1?'s':''})</span></div>`).join('')}</div><p style="font-size:.7rem;color:var(--text3)">Draft contracts from these in <a href="#" onclick="ST('🌱 Proposals');return false">🌱 Proposals</a>.</p>`
-    :'<p style="font-size:.72rem;color:var(--text3)">No reader concept wishes logged yet.</p>';
-
-  // 3. Learning goals (personal missions)
-  const goals=_logRows.filter(r=>(r.event||r.data?.event)==='personal_mission');
-  const goalTexts={};
-  goals.forEach(r=>{const d=r.data?.data||r.data||{};const g=(d.goal||'').trim();if(!g)return;
-    (goalTexts[g.toLowerCase()]=goalTexts[g.toLowerCase()]||{text:g,n:0}).n++;});
-  const goalList=Object.values(goalTexts).sort((a,b)=>b.n-a.n).slice(0,15);
-  h+='<h3 style="font-size:.9rem;font-weight:700;margin:1.2em 0 .4em">Learning goals — what readers came to learn</h3>';
-  h+=goalList.length?`<div style="font-size:.72rem">${goalList.map(g=>`<div>· "${esc(g.text)}" <span style="color:var(--text3)">(${g.n}×)</span></div>`).join('')}</div>`
-    :'<p style="font-size:.72rem;color:var(--text3)">No personal-mission goals logged yet.</p>';
-  m.innerHTML=h;
-}
-
-// One-click adoption: flip the item's trust state in Recombee (instantly changes
-// serving: edited/core go to ALL readers) + archive the decision in Supabase.
-// Git stays the canonical home — use the .md download to commit core content.
-window.loadFullBlock=async function(blockId,elId){
-  const el=document.getElementById(elId);if(!el)return;
-  el.textContent='Loading full content…';
-  try{const rows=await(await fetch('/api/log?full=1&blockId='+encodeURIComponent(blockId))).json();
-    const d=rows[0]?.data||{};
-    el.textContent=d.body||'(no archived body)';
-    if(d.svg){const w=document.createElement('div');w.style.maxWidth='420px';w.innerHTML=d.svg;el.after(w);}
-  }catch(e){el.textContent='Load failed: '+e.message}
-};
-
-// Editor polish loop: pull the contribution into the BOOK's author studio (same
-// origin → shared localStorage), improve it there, share, then adopt here.
-window.improveInStudio=async function(itemId,concept){
-  let body='',svg='';
-  try{const rows=await(await fetch('/api/log?full=1&blockId='+encodeURIComponent(itemId))).json();
-    const d=rows[0]?.data||{};body=d.body||'';svg=d.svg||'';}catch(e){}
-  if(!body){alert('No archived body for this item — open the preview and copy it manually.');return;}
-  const slug=concept||itemId;
-  const KEY='pbook-author-drafts';
-  let all={};try{all=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
-  if(all[slug]?.text?.trim()&&!confirm('The studio already has a draft for "'+slug+'". Overwrite it with this contribution?'))return;
-  all[slug]={text:body+(svg?'\n\n⟦svg⟧\n'+svg+'\n⟦/svg⟧\n':''),ts:Date.now()};
-  localStorage.setItem(KEY,JSON.stringify(all));
-  window.open('/#autor-'+encodeURIComponent(slug),'_blank');
-};
-
-window.setBlockState=async function(itemId,state){
-  if(state!=='community'&&!confirm(`Set "${itemId}" to state=${state}? ${state==='core'?'CORE serves to everyone and counts toward certification.':state==='edited'?'Serves to everyone (including safe mode).':''}`))return;
-  try{
-    // edited/core need the server-side editor key (PBOOK_ADMIN_KEY), kept in this browser only
-    const send=()=>fetch('/api/recs',{method:'POST',headers:{'Content-Type':'application/json','X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''},
-      body:JSON.stringify({endpoint:`/items/${encodeURIComponent(itemId)}`,method:'POST',
-        body:{state,adoptedAt:new Date().toISOString(),classGroup:null,nominated:null,'!cascadeCreate':true}})});
-    let r=await send();
-    if(r.status===403&&state!=='community'){
-      const k=prompt('Editor key (PBOOK_ADMIN_KEY) — needed to adopt or promote:');
-      if(!k)return;
-      localStorage.setItem('pbook-admin-key',k.trim());
-      r=await send();
-    }
-    if(!r.ok){alert('State change failed: HTTP '+r.status+' — '+(await r.text()).slice(0,120));return;}
-    fetch('/api/log',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({type:'content',event:'block_saved',ts:Date.now(),userId:'admin-console',
-        action:state==='community'?'demoted':'adopted',blockId:itemId,state,title:'',concept:'',facets:{},remixLog:[],body:'',svg:''})}).catch(()=>{});
-    _commItems=null;                              // force refresh
-    ST(currentTab);
-    alert(`✓ ${itemId} → ${state}. It now serves ${state==='community'?'in open mode only':'to every reader'}. For CORE, also commit the .md to git (canonical).`);
-  }catch(e){alert('State change failed: '+e.message)}
-};
-
-async function renderCommunity(m){
-  m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading community layer…</div>';
-  await _loadCoverageData();
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const commSignals={};
-  _logRows.forEach(r=>{
-    const id=r.item_id||r.data?.itemId;if(!id||!String(id).startsWith('gen--'))return;
-    commSignals[id]=commSignals[id]||{views:new Set(),likes:new Set()};
-    if(r.type==='detailview')commSignals[id].views.add(r.user_id);
-    if(r.type==='rating'&&(r.rating>=0.7))commSignals[id].likes.add(r.user_id);
-  });
-  // Durable content archive (Supabase block_saved events) — the truth about what
-  // readers create; Recombee items are the serving copy. Merge both, archive wins.
-  const archived={};
-  const edits=[];
-  _logRows.forEach(r=>{
-    if((r.event||r.data?.event)!=='block_saved')return;
-    const d=r.data||{};
-    const rec={itemId:d.blockId,title:d.title,concept:d.concept,body:d.body,svg:d.svg,bodyLen:d.bodyLen,hasSvg:d.hasSvg,
-      remixOf:d.remixOf,remixLog:JSON.stringify(d.remixLog||[]),sharedAs:d.sharedAs||'anonymous',
-      lens:d.facets?.lens,depth:d.facets?.depth,visuality:d.facets?.visuality,
-      action:d.action,state:d.state,user:(d.userId||r.user_id||'?').slice(-8),ts:d.ts||r.server_ts};
-    edits.push(rec);
-    if(d.action==='shared'||d.state==='community'){
-      if(!archived[rec.itemId]||archived[rec.itemId].ts<rec.ts)archived[rec.itemId]=rec;
-    }
-  });
-  const commMap={};
-  _commItems.forEach(i=>{commMap[i.itemId]=i;});
-  Object.values(archived).forEach(a2=>{commMap[a2.itemId]={...commMap[a2.itemId],...a2};});
-  const merged=Object.values(commMap);
-
-  const nominated=merged.map(i=>{
-    const s=commSignals[i.itemId]||{views:new Set(),likes:new Set()};
-    return {item:i,readers:s.views.size,likes:s.likes.size,score:s.likes.size*3+s.views.size};
-  }).sort((a,b)=>(!!b.item.nominated-!!a.item.nominated)||(b.score-a.score));
-  let h=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">⚡ Review — reader contributions (${merged.length})</h2>`;
-  h+=`<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Reader-shared tellings, ranked by traction; ⭐ teacher picks from class shelves float to the top. A telling with 🏫 class is visible only to that class until adopted — adopting clears the class scope, so the best class work enriches the shared book. Adoption threshold: ≥${ADOPTION_K} distinct readers with positive signal. Adopt = download .md, review against the concept contract (HUMANS.md checklist), commit (state: edited), Sync Items. Adoption promotes the author on their 🛠 Editor track.</p>`;
-  h+=nominated.length?nominated.map(({item,readers,likes})=>{
-    const ready=likes>=ADOPTION_K;
-    let wishes='';
-    try{const lg=JSON.parse(item.remixLog||'[]');
-      if(Array.isArray(lg)&&lg.length)wishes='<div style="margin:.25em 0;padding:.3em .5em;background:var(--bg2,#f6f6f4);border-radius:6px;font-size:.68rem"><b>🎯 what the reader asked for:</b>'+lg.slice(-4).map(e=>`<div>· "${esc(e.instruction||'')}"${e.diagram?' <span style="color:var(--text3)">(diagram)</span>':''}</div>`).join('')+'<div style="color:var(--text3)">changes are ⟦highlighted⟧ in the downloaded .md</div></div>';
-    }catch(_){}
-    return `<div style="border:1.5px solid ${ready?'#10B981':'var(--border)'};border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
-      <span style="font-size:.6rem;font-weight:800;padding:.1em .4em;border-radius:4px;color:#fff;background:${item.state==='core'?'#7C3AED':item.state==='edited'?'#10B981':'#D97706'}">${esc(item.state||'community')}</span>
-      <b>${esc(item.title||item.itemId)}</b> ${item.nominated?'<span style="font-size:.6rem;color:#fff;background:#F59E0B;border-radius:4px;padding:.05em .35em;font-weight:800">⭐ teacher pick · '+esc(item.nominated)+'</span>':''} ${item.classGroup?'<span style="font-size:.6rem;color:#0369A1;border:1px solid #0EA5E9;border-radius:4px;padding:0 .3em">🏫 class '+esc(item.classGroup)+' only</span>':''} ${item.remixOf?'<span style="font-size:.6rem;color:#D97706;border:1px solid #D97706;border-radius:4px;padding:0 .3em">remix of '+esc(item.remixOf)+'</span>':''} ${ready?'<span style="color:#10B981;font-weight:700">· READY TO ADOPT</span>':''}
-      <div style="color:var(--text3);font-size:.68rem">${esc(item.concept)} · ${esc(item.lens)}/${esc(item.depth)}/${esc(item.visuality)} · shared by ${esc(item.sharedAs||'anonymous')} · ${readers} readers · ${likes} likes</div>
-      ${wishes}
-      ${item.body?`<details style="margin:.25em 0"><summary style="cursor:pointer;font-size:.68rem;color:var(--accent)">📄 preview content${item.svg||item.hasSvg?' (+ visual)':''}</summary><div id="full-${esc(item.itemId)}" style="white-space:pre-wrap;font-size:.7rem;max-height:260px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.5em;margin-top:.25em">${esc(item.body.slice(0,3000))}</div>${item.svg?`<div style="max-width:420px;margin:.4em 0">${item.svg}</div>`:''}${(item.bodyLen||item.hasSvg)&&!item.svg?`<button onclick="loadFullBlock('${esc(item.itemId)}','full-${esc(item.itemId)}')" style="font-size:.64rem;margin-top:.2em;border:1px solid var(--border);border-radius:6px;padding:.15em .5em;color:var(--accent)">⤓ load full content${item.hasSvg?' + visual':''}</button>`:''}</details>`:''}
-      <div style="margin-top:.3em;display:flex;gap:.4em;flex-wrap:wrap">
-        <button onclick="setBlockState('${esc(item.itemId)}','edited')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#065F46;font-weight:700">✓ Adopt → edited (serves to everyone)</button>
-        <button onclick="setBlockState('${esc(item.itemId)}','core')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent);font-weight:700">★ Promote → core</button>
-        <button onclick="setBlockState('${esc(item.itemId)}','community')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1px solid var(--border);color:var(--text3)">↩ back to community</button>
-        <button onclick="adoptCommunity('${esc(item.itemId)}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1px dashed var(--border);color:var(--text3)" title="canonical path: commit the markdown to git">⬇ .md for git</button>
-        <button onclick="improveInStudio('${esc(item.itemId)}','${esc(item.concept||'')}')" style="font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #EC4899;color:#EC4899;font-weight:700" title="load into the book's author studio, polish, then share & adopt">✍️ Improve in studio</button>
-      </div>
-    </div>`;
-  }).join(''):'<p style="font-size:.75rem;color:var(--text3)">No community blocks shared yet.</p>';
-
-  // What readers are editing right now (private layer) — visibility without
-  // exposure: bodies open on demand, nothing here is servable until shared.
-  const recentEdits=edits.filter(e=>e.action!=='shared').sort((a2,b2)=>b2.ts-a2.ts).slice(0,25);
-  h+=`<h2 style="font-size:1.05rem;font-weight:800;margin:1.2em 0 .3em">✏️ What readers are editing (private layer, ${recentEdits.length} recent)</h2>
-  <p style="font-size:.72rem;color:var(--text3);margin-bottom:.5em">Every generated / remixed / manually edited telling is archived here (Supabase) even before sharing — reload-proof for readers, visible for editors. Private content is not servable; treat it as signal.</p>`;
-  h+=recentEdits.length?recentEdits.map(e=>{
-    const when=e.ts?new Date(e.ts).toISOString().slice(5,16).replace('T',' '):'—';
-    let wl='';
-    try{const lg=JSON.parse(e.remixLog||'[]');if(lg.length)wl=' · 🎯 "'+esc(String(lg[lg.length-1].instruction||'').slice(0,80))+'"';}catch(_){}
-    return `<div style="border:1px solid var(--border);border-radius:8px;padding:.4em .6em;margin:.3em 0;font-size:.72rem">
-      <span style="font-size:.6rem;font-weight:800;color:#fff;background:${e.action==='generated'?'#7C3AED':e.action==='accepted'?'#10B981':'#D97706'};border-radius:4px;padding:.1em .4em">${esc(e.action||'edit')}</span>
-      <b>${esc(e.title||e.itemId)}</b> <span style="color:var(--text3)">· ${esc(e.concept)} · reader …${esc(e.user)} · ${when}${wl}</span>
-      ${e.body?`<details style="margin-top:.2em"><summary style="cursor:pointer;font-size:.66rem;color:var(--accent)">preview</summary><div id="efull-${esc(e.itemId)}-${e.ts}" style="white-space:pre-wrap;font-size:.68rem;max-height:200px;overflow:auto;background:var(--bg2,#f6f6f4);border-radius:6px;padding:.4em;margin-top:.2em">${esc(e.body.slice(0,2000))}</div>${(e.bodyLen||e.hasSvg)?`<button onclick="loadFullBlock('${esc(e.itemId)}','efull-${esc(e.itemId)}-${e.ts}')" style="font-size:.62rem;margin-top:.15em;border:1px solid var(--border);border-radius:6px;padding:.1em .45em;color:var(--accent)">⤓ full${e.hasSvg?' + visual':''}</button>`:''}</details>`:''}
-    </div>`;
-  }).join(''):'<p style="font-size:.72rem;color:var(--text3)">No reader edits archived yet.</p>';
-  m.innerHTML=h;
-}
-
-async function renderProposals(m){
-  m.innerHTML='<div style="padding:2em;color:var(--text3)">Loading proposals + interest…</div>';
-  await _loadCoverageData();
-  // Server state: live proposals + interest stats (event-sourced in Supabase).
-  let srv={proposals:[],deleted:[],stats:{}};
-  try{const r=await fetch('/api/proposals?stats=1');if(r.ok){const d=await r.json();if(d&&d.ok)srv=Object.assign(srv,d);}}catch(_){}
-  let fileProps=[];
-  try{fileProps=(await (await fetch('content/concept-proposals.json')).json()).proposals||[];}catch(_){}
-  // merge: git file = shipped layer; server wins on slug; server deletes hide git entries
-  const bySlug=new Map();
-  fileProps.forEach(p=>bySlug.set(p.slug,{...p,origin:'git'}));
-  srv.proposals.forEach(p=>bySlug.set(p.slug,{...p,origin:bySlug.has(p.slug)?'git+live':'live'}));
-  (srv.deleted||[]).forEach(sl=>bySlug.delete(sl));
-  const props=[...bySlug.values()];
-  window._propsMerged=props;window._propsStats=srv.stats||{};
-
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const WRITE_K=5;
-  const statLine=p=>{
-    const st=window._propsStats[p.slug]||{seen:0,want:0,skip:0,voters:{}};
-    const rate=st.seen?Math.round(100*st.want/st.seen):0;
-    const aud=Object.entries(st.voters||{}).filter(([k])=>k.startsWith('want:')).sort((a,b)=>b[1]-a[1]).slice(0,3)
-      .map(([k,n])=>`${k.slice(5)} (${n})`).join(' · ');
-    return `<div style="font-size:.68rem;color:var(--text3)">interest: 👁 ${st.seen} seen · <b style="color:#10B981">👍 ${st.want} want</b> · 👎 ${st.skip} skip · want-rate <b>${rate}%</b> — threshold ${WRITE_K} readers</div>`+
-      (aud?`<div style="font-size:.66rem;color:var(--text3)">who wants it: ${esc(aud)}</div>`:'');
-  };
-  const cardHtml=p=>{
-    const st=window._propsStats[p.slug]||{want:0};
-    const ready=st.want>=WRITE_K;
-    return `<div id="prop-${esc(p.slug)}" style="border:1.5px solid ${ready?'#10B981':'#0EA5E9'};border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
-      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter||'?')}</span>
-      <span style="font-size:.6rem;border:1px solid var(--border);border-radius:4px;padding:0 .3em;color:var(--text3)">${p.origin||'live'}</span>
-      ${ready?'<span style="background:#10B981;color:#fff;font-size:.6rem;font-weight:800;padding:.1em .45em;border-radius:999px;margin-left:.3em">READY TO WRITE</span>':''}
-      <div style="margin:.2em 0;font-size:.7rem">${esc(p.objective||'')}</div>
-      ${p.recallQ?`<div style="font-size:.66rem;color:var(--text3)">recall: ${esc(p.recallQ)}</div>`:''}
-      ${statLine(p)}
-      <div style="margin-top:.35em;display:flex;gap:.4em;flex-wrap:wrap">
-        <button onclick="propEdit('${esc(p.slug)}')" style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid var(--border)">✏️ Edit</button>
-        <button onclick="propDelete('${esc(p.slug)}')" style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid #EF4444;color:#EF4444">🗑 Delete</button>
-        ${st.want>0?`<button onclick="tailoredDraft('${esc(p.slug)}')" style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">🎯 Draft for this audience</button>`:''}
-        <button onclick='downloadProposal(JSON.stringify(window._propsMerged.find(x=>x.slug===${JSON.stringify(p.slug)})))' style="font-size:.66rem;padding:.15em .5em;border-radius:6px;border:1.5px solid var(--border)">⬇ .md</button>
-      </div>
-      <div id="propEdit-${esc(p.slug)}"></div><div id="propTail-${esc(p.slug)}"></div>
-    </div>`;
-  };
-
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">🌱 Proposals — interest-tested before anyone writes</h2>';
-  h+='<p style="font-size:.75rem;color:var(--text3);margin-bottom:.8em">Proposals are shown to readers as labeled ghost cards; votes measure demand BEFORE writing effort. Saving here goes <b>live for readers immediately</b> (server-persisted); the git file content/concept-proposals.json remains the shipped snapshot you can export below.</p>';
-  h+=props.length?props.map(cardHtml).join(''):'<p style="font-size:.72rem;color:var(--text3)">No proposals yet — add your own below, or draft from demand signals.</p>';
-
-  // Demand signals — visible, the exact digest the AI mining receives
-  const sig=collectDemandSignals();
-  h+=`<details style="margin-top:1em"><summary style="cursor:pointer;font-size:.8rem;font-weight:700">🔍 Demand signals — what the AI mining sees (${sig.length})</summary>
-    <div style="font-size:.68rem;color:var(--text3);margin:.3em 0">Streams: WISH = reader typed a learning wish (onboarding/mission box) · MISS = steering asked for a telling that does not exist · FLAG = reported issue. Live from /api/log + this device's flags.</div>
-    ${sig.length?`<pre style="font-size:.66rem;background:var(--bg2,#f6f6f4);border:1px solid var(--border);border-radius:8px;padding:.5em .7em;white-space:pre-wrap;max-height:16em;overflow:auto">${esc(sig.join('\n'))}</pre>`:'<p style="font-size:.7rem;color:var(--text3)">No signals yet. They appear when readers type wishes, hit steering misses, or flag content.</p>'}
-  </details>`;
-
-  h+=`<h3 style="font-size:.85rem;font-weight:700;margin:1.2em 0 .3em">✍️ Your own proposal</h3>
-    <div style="border:1.5px solid var(--border);border-radius:8px;padding:.6em .7em;font-size:.74rem">
-      <textarea id="epDesc" rows="2" style="width:100%;font-size:.74rem;padding:.35em;border:1px solid var(--border);border-radius:6px" placeholder="Describe the concept in your own words — what should the reader understand after it? (AI completes the contract: objective, mustCover, recallQ/A)"></textarea>
-      <div style="display:flex;gap:.5em;align-items:center;margin-top:.4em;flex-wrap:wrap">
-        <label>Chapter:
-          <select id="epChapter" onchange="document.getElementById('epNewChap').style.display=this.value==='__new'?'inline-block':'none'" style="font-size:.72rem;padding:.15em .3em;border-radius:5px;border:1px solid var(--border)">
-            ${[...new Set(_concepts.map(c=>c.chapter))].map(ch=>`<option value="${ch}">${ch}</option>`).join('')}
-            <option value="__new">➕ new chapter…</option>
-          </select></label>
-        <input id="epNewChap" style="display:none;font-size:.72rem;padding:.15em .4em;border:1px solid var(--border);border-radius:5px;width:14em" placeholder="chNN-slug (e.g. ch15-agents)">
-        <button onclick="editorPropose()" id="epBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ Complete with AI</button>
-      </div>
-      <div style="font-size:.64rem;color:var(--text3);margin-top:.3em">A new chapter is an arbiter decision (AGENTS.md stop-test) — the AI will place the concept there, but creating the chapter directory + book.json entry stays with you.</div>
-    </div>`;
-
-  h+=`<div style="margin-top:.8em"><button onclick="draftConceptProposals()" id="propBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ Draft proposals from demand signals</button>
-  <span style="font-size:.66rem;color:var(--text3)"> — mines the signals above; you review, then 💾 save to go live (nothing is created automatically)</span></div>
-  <div id="conceptProposals"></div>
-  <div style="margin-top:.8em"><button onclick="mapAnalysis()" id="mapAnBtn" style="font-size:.72rem;font-weight:600;padding:.3em .7em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">🧭 AI map analysis — what the book is missing</button>
-  <span style="font-size:.66rem;color:var(--text3)"> — hard prerequisites between existing concepts + missing prerequisite/deep-dive concepts as saveable proposals (strong model)</span></div>
-  <div id="mapAnalysisOut"></div>
-  <div style="margin-top:.6em"><button onclick="exportMergedProposalsJson()" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ Export merged concept-proposals.json (git snapshot)</button></div>`;
-  m.innerHTML=h;
-}
-
-// Shared demand-signal extractor: one source of truth for the visible panel
-// AND the AI mining (they must never diverge).
-function collectDemandSignals(){
-  const lines=[];
-  (_logRows||[]).forEach(r=>{
-    const ev=r.event||r.data?.event;const d=r.data?.data||r.data||{};
-    if(ev==='concept_wish'&&d.text)lines.push(`WISH: ${d.text}`);
-    if(ev==='steer_miss')lines.push(`MISS: concept=${d.concept||'?'} wanted ${d.dim||d.action||'?'}=${d.value||'?'}${d.wish?` note="${d.wish}"`:''}`);
-    if(ev==='flag'&&d.text)lines.push(`FLAG(${d.type||'issue'}): ${d.text}`);
-    if(ev==='mission_reflection'){
-      (d.disliked||[]).forEach(id=>lines.push(`DISLIKED: block=${id} (mission ${d.mission||'?'})`));
-      (d.suggestions||[]).forEach(x=>lines.push(`SUGGEST: ${x}`));
-      if(d.note)lines.push(`REFLECTION: ${d.note}`);
-    }
-  });
-  try{JSON.parse(localStorage.getItem('pbook-flags')||'[]').forEach(f=>{if(f.type==='concept-wish')lines.push(`WISH: ${f.text}`);});}catch(_){}
   return [...new Set(lines)].slice(-80);
 }
 
-// Persist a proposal (goes live to readers immediately) and re-render. Editors only:
-// the server wants the editor key, asked once and kept in this browser.
-async function propPost(body){
-  const send=()=>fetch('/api/proposals',{method:'POST',headers:{'Content-Type':'application/json','X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''},body:JSON.stringify(body)});
-  let r=await send();
-  if(r.status===403){const k=prompt('Editor key (PBOOK_ADMIN_KEY) — needed to change proposals:');if(k){localStorage.setItem('pbook-admin-key',k.trim());r=await send();}}
-  return r;
-}
-window.propSave=async function(p){
-  const r=await propPost({action:'save',proposal:p});
-  const d=await r.json().catch(()=>({}));
-  if(!r.ok||!d.ok){alert('Save failed: '+(d.error||r.status));return false;}
-  return true;
-};
-window.propDelete=async function(slug){
-  if(!confirm('Delete proposal "'+slug+'"? Readers stop seeing its ghost card.'))return;
-  const r=await propPost({action:'delete',slug});
-  const d=await r.json().catch(()=>({}));
-  if(!r.ok||!d.ok){alert('Delete failed: '+(d.error||r.status));return;}
-  renderProposals(document.getElementById('main'));
-};
-window.propEdit=function(slug){
-  const p=(window._propsMerged||[]).find(x=>x.slug===slug);if(!p)return;
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const el=document.getElementById('propEdit-'+slug);
-  el.innerHTML=`<div style="border-top:1px dashed var(--border);margin-top:.4em;padding-top:.4em">
-    <input id="pe-title-${slug}" value="${esc(p.title)}" style="width:100%;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="title">
-    <input id="pe-chapter-${slug}" value="${esc(p.chapter||'')}" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="chapter (chNN-slug)">
-    <textarea id="pe-objective-${slug}" rows="2" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="objective">${esc(p.objective||'')}</textarea>
-    <input id="pe-recallQ-${slug}" value="${esc(p.recallQ||'')}" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="recallQ">
-    <input id="pe-recallA-${slug}" value="${esc(p.recallA||'')}" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="recallA">
-    <textarea id="pe-mc-${slug}" rows="2" style="width:100%;margin-top:.25em;font-size:.72rem;padding:.25em;border:1px solid var(--border);border-radius:5px" placeholder="mustCover — one per line">${esc((p.mustCover||[]).join('\n'))}</textarea>
-    <button onclick="propEditSave('${esc(slug)}')" style="margin-top:.3em;font-size:.68rem;font-weight:700;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">💾 Save (goes live)</button>
-    <button onclick="document.getElementById('propEdit-${esc(slug)}').innerHTML=''" style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--border)">Cancel</button>
-  </div>`;
-};
-window.propEditSave=async function(slug){
-  const g=id=>document.getElementById('pe-'+id+'-'+slug)?.value||'';
-  const p=(window._propsMerged||[]).find(x=>x.slug===slug)||{slug};
-  const upd={...p,slug,title:g('title'),chapter:g('chapter'),objective:g('objective'),recallQ:g('recallQ'),recallA:g('recallA'),
-    mustCover:g('mc').split('\n').map(x=>x.trim()).filter(Boolean),source:p.source||'admin-edit'};
-  if(await propSave(upd))renderProposals(document.getElementById('main'));
-};
-
-// Audience-tailored draft: feed the proposal contract + its voters' facet
-// profile back to the AI, get a version aimed at the people who asked for it.
-window.tailoredDraft=async function(slug){
-  const p=(window._propsMerged||[]).find(x=>x.slug===slug);if(!p)return;
-  const st=(window._propsStats||{})[slug]||{voters:{}};
-  const aud=Object.entries(st.voters||{}).filter(([k])=>k.startsWith('want:')).sort((a,b)=>b[1]-a[1]).slice(0,5)
-    .map(([k,n])=>`${k.slice(5)} ×${n}`).join(', ')||'unknown';
-  const el=document.getElementById('propTail-'+slug);
-  el.innerHTML='<div style="font-size:.7rem;color:var(--text3);margin-top:.3em">🎯 Drafting for audience… (~25 s)</div>';
-  try{
-    const signals=`EDITOR PROPOSAL (authoritative seed — keep slug ${p.slug} and intent, refine the contract):\n${p.title}: ${p.objective}\nAUDIENCE (facet preferences of readers who voted WANT — tailor examples, depth and framing to them): ${aud}\nTARGET CHAPTER: ${p.chapter||'?'}`;
-    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({mode:'propose-concepts',signals,count:1,existing:_concepts.map(c=>({id:c.id,title:c.title})),chapters:[...new Set(_concepts.map(c=>c.chapter))]})});
-    const data=await res.json();
-    if(!data.ok||!data.proposals?.length)throw new Error(data.error||'draft failed');
-    const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const q=data.proposals[0];q.slug=p.slug;q.source='audience-tailored';
-    el.innerHTML=`<div style="border:1.5px dashed var(--accent);border-radius:8px;padding:.45em .6em;margin-top:.35em;font-size:.72rem">
-      <b>🎯 ${esc(q.title)}</b> <span style="font-size:.62rem;color:var(--text3)">audience: ${esc(aud)}</span>
-      <div style="margin:.2em 0">${esc(q.objective||'')}</div>
-      <div style="font-size:.66rem;color:var(--text3)">must cover: ${(q.mustCover||[]).map(esc).join(' · ')}</div>
-      <button onclick='propSave(${JSON.stringify(JSON.stringify(q)).replace(/'/g,"&#39;")}) && renderProposals(document.getElementById("main"))' style="margin-top:.25em;font-size:.66rem;font-weight:700;padding:.2em .5em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">💾 Replace live version</button>
-      <button onclick='downloadProposal(${JSON.stringify(JSON.stringify(q)).replace(/'/g,"&#39;")})' style="margin-top:.25em;font-size:.66rem;padding:.2em .5em;border-radius:6px;border:1.5px solid var(--border)">⬇ Anchor draft .md</button>
-    </div>`;
-  }catch(e){el.innerHTML='<div style="font-size:.7rem;color:#EF4444">Tailored draft error: '+e.message+'</div>';}
-};
-
-// Big-picture analysis: hard prereqs among existing concepts + missing concepts
-window.mapAnalysis=async function(){
-  const btn=document.getElementById('mapAnBtn');btn.disabled=true;btn.textContent='Analysing… (~40 s)';
-  const out=document.getElementById('mapAnalysisOut');
-  try{
-    const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-    const concepts=_concepts.map(c=>({id:c.id,title:c.title,objective:c.contract?.objective||''}));
-    const lang=/[ěščřžýáíéůúťď]/i.test(concepts.map(c=>c.objective).join(' '))?'cs':'en';
-    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({mode:'map-analysis',concepts,proposals:(window._propsMerged||[]).map(p=>({slug:p.slug,title:p.title})),lang})});
-    const data=await res.json();
-    if(!data.ok||!data.analysis)throw new Error(data.error||'analysis failed');
-    const an=data.analysis;
-    let h='';
-    if(an.prereqs?.length){
-      h+='<h3 style="font-size:.8rem;font-weight:700;margin:.8em 0 .2em">Hard prerequisites (only where truly necessary)</h3>';
-      h+=an.prereqs.map(pq=>`<div style="font-size:.72rem;padding:.15em 0"><code>${esc(pq.concept)}</code> ← ${pq.needs.map(x=>`<code>${esc(x)}</code>`).join(' + ')} <span style="color:var(--text3)">— ${esc(pq.why)}</span></div>`).join('');
-      h+=`<button onclick='downloadMapWithPrereqs(${JSON.stringify(JSON.stringify(an.prereqs)).replace(/'/g,"&#39;")})' style="margin:.4em 0;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #0EA5E9;color:#0EA5E9">⬇ concept-map.json with these prereqs (commit to enable reader nudges + feed ordering)</button>`;
-    } else h+='<p style="font-size:.72rem;color:var(--text3);margin:.6em 0 0">No hard prerequisites found — concepts stand alone. 👍</p>';
-    if(an.gaps?.length){
-      h+='<h3 style="font-size:.8rem;font-weight:700;margin:.8em 0 .2em">Missing concepts (save to start interest testing)</h3>';
-      const asProps=an.gaps.map(g=>({slug:g.slug,title:`${g.kind==='prerequisite'?'⬅':'➡'} ${g.title}`,
-        chapter:(_concepts.find(c=>c.id===g.relatedTo)||{}).chapter||'',objective:g.objective,
-        recallQ:g.recallQ,recallA:g.recallA,mustCover:g.mustCover||[],rationale:g.rationale,source:'map-analysis'}));
-      window._draftedProposals=(window._draftedProposals||[]).concat(asProps);
-      h+=draftedCardsHtml(asProps,'map-analysis');
+function viewWishes(m) {
+  slot(m, L('Co čtenáři chtějí', 'What readers ask for'), async () => {
+    const [rows, B] = await Promise.all([D.log(), D.bundle()]);
+    const group = (list, key) => {
+      const g = new Map();
+      for (const r of list) { const t = String(key(r) || '').trim(); if (!t) continue; const k = t.toLowerCase(); const x = g.get(k) || g.set(k, { text: t, users: new Set(), n: 0 }).get(k); x.users.add(r.user); x.n++; }
+      return [...g.values()].sort((a, b) => b.users.size - a.users.size || b.n - a.n);
+    };
+    const wishes = group(rows.filter(r => r.kind === 'concept_wish' && isText(r.text)), r => r.text);
+    const goals = group(rows.filter(r => r.kind === 'personal_mission' && isText(r.goal)), r => r.goal);
+    const misses = group(rows.filter(r => r.kind === 'steer_miss'), r => {
+      const c = B.concepts.find(x => x.id === r.concept);
+      return `${c ? c.title : r.concept || '?'} → ${r.facet || r.action || '?'}${r.value ? ' = ' + r.value : ''}`;
+    });
+    const refl = rows.filter(r => r.kind === 'mission_reflection' && Array.isArray(r.liked || r.disliked));
+    const votes = new Map();
+    refl.forEach(r => { (r.liked || []).forEach(id => { const v = votes.get(id) || votes.set(id, { up: 0, down: 0 }).get(id); v.up++; }); (r.disliked || []).forEach(id => { const v = votes.get(id) || votes.set(id, { up: 0, down: 0 }).get(id); v.down++; }); });
+    const notes = refl.filter(r => isText(r.note)).slice(-8).reverse();
+    const nWishCount = rows.filter(r => r.kind === 'concept_wish').length;
+    const li = (x, n) => `<li>${esc(x.text)} <span class="muted">· ${x.users.size} ${plural(x.users.size, L('čtenář', 'reader'), L('čtenáři', 'readers'), L('čtenářů', 'readers'))}</span></li>`;
+    const part = (title, list, empty) => `<div><h3>${title}</h3>${list.length ? `<ul class="list">${list.slice(0, 12).map(li).join('')}</ul>` : `<p class="muted">${empty}</p>`}</div>`;
+    let h = '<div class="grid">';
+    h += part(L('Nová témata', 'New topics'), wishes, ADMIN || !nWishCount ? L('Zatím žádné přání.', 'No wishes yet.') : L(`${nWishCount} přání; texty uvidíš s klíčem.`, `${nWishCount} wishes; the texts need the key.`));
+    h += part(L('Co se chtějí naučit', 'What they came to learn'), goals, L('Zatím nic.', 'Nothing yet.'));
+    h += part(L('Chybějící podání (žádost bez odpovědi)', 'Missing tellings (asked for, none existed)'), misses, L('Zatím nic.', 'Nothing yet.'));
+    h += `<div><h3>${L('Po zkoušce', 'After the exam')}</h3>`;
+    if (!votes.size && !notes.length) h += `<p class="muted">${L('Zatím nic.', 'Nothing yet.')}</p>`;
+    else {
+      h += `<ul class="list">${[...votes].sort((a, b) => (b[1].down - b[1].up) - (a[1].down - a[1].up)).slice(0, 10).map(([id, v]) =>
+        `<li><button class="linkbtn" data-act="preview" data-arg="${esc(id)}">${esc(B.byId.get(canon(B, id))?.title || id)}</button> <span class="muted">· ${v.up} 👍 · ${v.down} 👎</span></li>`).join('')}</ul>`;
+      h += notes.map(r => `<div class="quote">${esc(r.note)} <span class="muted">(${esc(r.mission || '')}${r.score != null ? ` · ${r.score}/100` : ''})</span></div>`).join('');
     }
-    out.innerHTML=h;
-  }catch(e){out.innerHTML='<div style="font-size:.72rem;color:#EF4444;margin-top:.4em">Map analysis error: '+e.message+'</div>';}
-  btn.disabled=false;btn.textContent='🧭 AI map analysis — what the book is missing';
-};
-window.downloadMapWithPrereqs=async function(pj){
-  const prereqs=JSON.parse(pj);
-  let cm={temata:[],nodes:[],edges:[]};
-  try{cm=await (await fetch('content/concept-map.json')).json();}catch(_){}
-  const bySlug={};cm.nodes.forEach(n=>bySlug[n.slug]=n);
-  prereqs.forEach(pq=>{if(bySlug[pq.concept])bySlug[pq.concept].prereq=pq.needs;});
-  const blob=new Blob([JSON.stringify(cm,null,1)],{type:'application/json'});
-  const aEl=document.createElement('a');aEl.href=URL.createObjectURL(blob);aEl.download='concept-map.json';aEl.click();
-};
-
-// Shared renderer for freshly AI-drafted proposals (editor-seeded or mined):
-// primary action is SAVE (goes live); downloads are the git-export path.
-function draftedCardsHtml(proposals,tag){
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  return proposals.map(p=>{
-    const pj=JSON.stringify(JSON.stringify(p)).replace(/'/g,"&#39;");
-    return `<div style="border:1.5px solid var(--accent);border-radius:8px;padding:.5em .7em;margin:.4em 0;font-size:.75rem">
-      <b>${esc(p.title)}</b> <code style="font-size:.66rem">${esc(p.slug)}</code> → <span style="color:var(--text3)">${esc(p.chapter||'?')}</span>${tag?` <span style="font-size:.6rem;color:var(--accent);border:1px solid var(--accent);border-radius:4px;padding:0 .3em">${tag}</span>`:''}
-      <div style="margin:.25em 0">${esc(p.objective||'')}</div>
-      <div style="font-size:.68rem;color:var(--text3)">must cover: ${(p.mustCover||[]).map(esc).join(' · ')}</div>
-      <div style="font-size:.68rem;color:var(--text3)">recall: ${esc(p.recallQ||'')}</div>
-      ${p.rationale?`<div style="font-size:.68rem;font-style:italic;color:var(--text3)">why: ${esc(p.rationale)}</div>`:''}
-      <button onclick='propSave(${pj}).then(ok=>ok&&renderProposals(document.getElementById("main")))' style="margin-top:.3em;font-size:.68rem;font-weight:700;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#10B981">💾 Save & go live</button>
-      <button onclick='downloadProposal(${pj})' style="margin-top:.3em;font-size:.68rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--border)">⬇ Anchor draft .md</button>
-    </div>`;
-  }).join('');
-}
-
-// Editor-seeded proposal: description is authoritative, AI completes the contract
-window.editorPropose=async function(){
-  const desc=(document.getElementById('epDesc')?.value||'').trim();
-  if(desc.length<15){alert('Describe the concept in at least a sentence.');return;}
-  const sel=document.getElementById('epChapter').value;
-  const newChap=(document.getElementById('epNewChap')?.value||'').trim();
-  const chapter=sel==='__new'?(newChap||'chXX-new'):sel;
-  const chapters=[...new Set(_concepts.map(c=>c.chapter))];
-  if(!chapters.includes(chapter))chapters.push(chapter);
-  const btn=document.getElementById('epBtn');btn.disabled=true;btn.textContent='Completing… (~20 s)';
-  try{
-    const signals=`EDITOR PROPOSAL (authoritative seed — keep the intent, complete a full contract):\n${desc}\nTARGET CHAPTER: ${chapter}${sel==='__new'?' (a NEW chapter the editor is founding — use exactly this id)':''}`;
-    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({mode:'propose-concepts',signals,count:1,existing:_concepts.map(c=>({id:c.id,title:c.title})),chapters})});
-    const data=await res.json();
-    if(!data.ok)throw new Error(data.error||'completion failed');
-    window._draftedProposals=(window._draftedProposals||[]).concat(data.proposals);
-    const el=document.getElementById('conceptProposals');
-    el.innerHTML=(el.innerHTML||'')+draftedCardsHtml(data.proposals,'editor-seeded');
-    document.getElementById('epDesc').value='';
-  }catch(e){alert('Editor proposal error: '+e.message);}
-  btn.disabled=false;btn.textContent='✨ Complete with AI';
-};
-
-// AI-drafted new-concept proposals from demand evidence (mode: propose-concepts)
-window.draftConceptProposals=async function(){
-  const btn=document.getElementById('propBtn');btn.disabled=true;btn.textContent='Drafting… (~30 s)';
-  try{
-    const lines=collectDemandSignals();
-    if(!lines.length){alert('No demand signals yet (wishes, misses, flags) — see the 🔍 panel above for what counts.');btn.disabled=false;btn.textContent='✨ Draft proposals from demand signals';return;}
-    const signals=lines.join('\n');
-    const chapters=[...new Set(_concepts.map(c=>c.chapter))];
-    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({mode:'propose-concepts',signals,existing:_concepts.map(c=>({id:c.id,title:c.title})),chapters})});
-    const data=await res.json();
-    if(!data.ok)throw new Error(data.error||'drafting failed');
-    window._draftedProposals=data.proposals;
-    document.getElementById('conceptProposals').innerHTML=draftedCardsHtml(data.proposals,'from demand');
-  }catch(e){alert('Proposal drafting error: '+e.message);}
-  btn.disabled=false;btn.textContent='✨ Draft proposals from demand signals';
-};
-
-// Export the MERGED current state (git + live) as the git snapshot file.
-window.exportMergedProposalsJson=function(){
-  const ps=(window._propsMerged||[]).map(({origin,savedAt,...p})=>p);
-  const blob=new Blob([JSON.stringify({version:1,note:'Concept proposals under interest testing — see admin Proposals.',proposals:ps},null,2)],{type:'application/json'});
-  const aEl=document.createElement('a');aEl.href=URL.createObjectURL(blob);aEl.download='concept-proposals.json';aEl.click();
-};
-
-window.downloadProposal=function(pj){
-  const p=JSON.parse(pj);
-  const md=`---
-id: ${p.slug}
-type: spine
-title: "${p.title}"
-teaser: "${p.objective.replace(/"/g,"'")}"
-readingTime: 3
-core: false
-status: draft
-voice: universal
-concept: ${p.slug}
-conceptTitle: "${p.title.replace(/"/g,"'")}"
-recallQ: "${p.recallQ.replace(/"/g,"'")}"
-recallA: "${p.recallA.replace(/"/g,"'")}"
-highlights:
-${p.mustCover.map(m=>`  - "${m.replace(/"/g,"'")}"`).join('\n')}
-state: edited
-lens: generic
-visuality: text-first
-depth: standard
-formalism: none
-lengthBand: standard
-genre: explainer
-lang: en
----
-
-<!-- AI-DRAFTED CONCEPT PROPOSAL — arbiter review required before this anchors a concept.
-Evidence: ${p.rationale.replace(/-->/g,'')}
-Place into content/${p.chapter}/NN-spine-${p.slug}.md, register in book.json, write the body, then migrate + validate. -->
-
-# ${p.title}
-
-*(draft body — objective: ${p.objective})*
-
-${p.mustCover.map(m=>`- ${m}`).join('\n')}
-`;
-  const blob=new Blob([md],{type:'text/markdown'});
-  const aEl=document.createElement('a');aEl.href=URL.createObjectURL(blob);
-  aEl.download=`NN-spine-${p.slug}.md`;aEl.click();
-};
-
-// ===== HEALTH — what readers actually read, and which content is failing them.
-// Problem content gets parked (status: review) or rewritten with AI, per reader signals. =====
-async function renderHealth(m){
-  m.innerHTML='<div style="padding:2em;color:var(--text3)">Crunching reader signals…</div>';
-  await _loadCoverageData();
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-  // Per-block signal aggregation from the interaction log
-  const sig={};
-  const S=id=>sig[id]=sig[id]||{viewers:new Set(),views:0,fin:0,likes:new Set(),dislikes:new Set(),steerAway:0,praise:0,remixReq:0,dwell:0,dwellN:0};
-  for(const r of _logRows){
-    const d=r.data||r;const id=r.item_id||d.itemId||d.blockId;if(!id)continue;const s=S(id);const uid=r.user_id||d.userId||'?';
-    const t=r.type||d.type,ev=r.event||d.event;
-    if(t==='detailview'){s.viewers.add(uid);s.views++;if(d.duration){s.dwell+=d.duration;s.dwellN++}
-      const _b=allBlocks.find(x=>x.id===id);const _thr=Math.min(12,((_b?_b.readingTime:3)||3)*60*0.15);
-      if((d.duration||0)>=_thr)s.fin++;}
-    if(t==='rating'&&(r.rating??d.rating)>=0.7)s.likes.add(uid);
-    if(t==='rating'&&(r.rating??d.rating)<0.5)s.dislikes.add(uid);
-    if(ev==='steer'&&d.action==='praise')s.praise++;
-    else if((ev==='steer'||ev==='steer_miss')&&d.blockId)S(d.blockId).steerAway++;
-    if(ev==='remix_request'&&d.blockId)S(d.blockId).remixReq++;
-  }
-  // Local reader flags (same-origin) count heavily
-  let flags=[];try{flags=JSON.parse(localStorage.getItem('pbook-flags')||'[]')}catch(e){}
-  const flagsBy={};flags.forEach(f=>{flagsBy[f.blockId]=(flagsBy[f.blockId]||[]);flagsBy[f.blockId].push(f)});
-
-  // Health rows for blocks with any traffic
-  const parked=(()=>{try{return JSON.parse(localStorage.getItem('pbook-content-statuses')||'{}')}catch(e){return{}}})();
-  const rows=allBlocks.filter(b=>sig[b.id]||flagsBy[b.id]).map(b=>{
-    const s=sig[b.id]||S(b.id);
-    const fl=(flagsBy[b.id]||[]).length;
-    const readers=s.viewers.size,likes=s.likes.size,dislikes=s.dislikes.size;
-    const expected=(b.readingTime||3)*60*0.15;                      // seconds to count as read
-    const avgDwell=s.dwellN?s.dwell/s.dwellN:0;
-    const shallow=readers>=3&&avgDwell>0&&avgDwell<expected*0.5;     // people open it, don't read it
-    const score=fl*3+dislikes*2+s.steerAway+s.remixReq+(shallow?2:0)-likes*2-s.praise;
-    return{b,s,fl,readers,likes,dislikes,avgDwell,shallow,score,isParked:parked[b.id]==='review'};
+    h += '</div></div>';
+    return h;
   });
-  rows.sort((a,x)=>x.score-a.score);
-  const problems=rows.filter(r=>r.score>0);
 
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">Content health</h2>';
-  h+=`<p style="font-size:.75rem;color:var(--text3)">${_logRows.length} interactions analyzed · ${rows.length} blocks with traffic · <b style="color:#EF4444">${problems.length} need attention</b>. Score = 3×flags + 2×dislikes + steers-away + remix-requests + shallow-reading − 2×likes − praise.</p>`;
-
-  // What readers read (engagement leaders — the healthy half of the picture)
-  const top=rows.filter(r=>r.readers>0).sort((a,x)=>x.readers-a.readers).slice(0,8);
-  if(top.length){
-    h+='<h3 style="font-size:.9rem;font-weight:700;margin:1em 0 .4em">📖 Most read right now</h3>';
-    h+=top.map(r=>`<span style="display:inline-block;font-size:.7rem;border:1px solid var(--border);border-radius:999px;padding:.15em .6em;margin:.15em" title="${r.s.views} served · ${r.s.fin} finished · ${r.s.views-r.s.fin} skipped">${esc(r.b.title)} <b>${r.s.views}</b> served · <b style="color:#10B981">${r.s.fin}</b> fin · ${r.s.views-r.s.fin} skip ${r.likes?`<span style="color:#10B981">${r.likes}❤</span>`:''}</span>`).join('');
-  }
-
-  h+='<h3 style="font-size:.9rem;font-weight:700;margin:1.2em 0 .4em">🚑 Problem content (ranked)</h3>';
-  if(!problems.length)h+='<p style="font-size:.78rem;color:var(--text3)">Nothing above the waterline — no flags, dislikes or steer-away clusters.</p>';
-  for(const r of problems.slice(0,30)){
-    const why=[];
-    if(r.fl)why.push(`${r.fl}× flagged (${(flagsBy[r.b.id]||[]).map(f=>f.type).join(', ')})`);
-    if(r.dislikes)why.push(`${r.dislikes} dislikes`);
-    if(r.s.steerAway)why.push(`${r.s.steerAway}× steered away`);
-    if(r.s.remixReq)why.push(`${r.s.remixReq}× remix-requested`);
-    if(r.shallow)why.push(`shallow reading (avg ${Math.round(r.avgDwell)}s of ~${Math.round((r.b.readingTime||3)*60*0.15)}s)`);
-    why.push(`${r.s.views} served → ${r.s.fin} finished / ${r.s.views-r.s.fin} skipped`);
-    const flagTexts=(flagsBy[r.b.id]||[]).map(f=>f.text).filter(Boolean).slice(0,2);
-    const rxWishes=_logRows.filter(x=>{const d=x.data?.data||x.data||{};return (x.event||x.data?.event)==='remix_request'&&d.blockId===r.b.id&&d.instruction;})
-      .map(x=>(x.data?.data||x.data).instruction).slice(-3);
-    h+=`<div style="border:1.5px solid ${r.isParked?'var(--border)':'#EF4444'};border-radius:10px;padding:.5em .7em;margin:.4em 0;font-size:.75rem;${r.isParked?'opacity:.6':''}">
-      <b>${esc(r.b.title)}</b> <span style="color:var(--text3)">· ${esc(r.b._ch)}/${esc(r.b._f)} · score ${r.score}</span> ${r.isParked?'<span style="color:#D97706;font-weight:700">⏸ PARKED</span>':''}
-      <div style="color:var(--text3);font-size:.68rem;margin:.2em 0">${why.join(' · ')||'—'}</div>
-      ${flagTexts.length?`<div style="font-size:.68rem;color:#D97706;margin:.2em 0">💬 "${esc(flagTexts.join('" · "'))}"</div>`:''}
-      ${rxWishes.length?`<div style="font-size:.68rem;color:#7C3AED;margin:.2em 0">✨ remix wishes: "${esc(rxWishes.join('" · "'))}"</div>`:''}
-      <div style="margin-top:.3em;display:flex;gap:.4em;flex-wrap:wrap">
-        <button onclick="parkBlock('${r.b.id}','${esc(r.b._ch)}','${esc(r.b._f)}')" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #D97706;color:#D97706">${r.isParked?'▶ Unpark':'⏸ Park'} (status: review)</button>
-        <button onclick="aiRewrite('${r.b.id}')" id="rw-${r.b.id}" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid var(--accent);color:var(--accent)">✨ AI rewrite from signals</button>
+  slot(m, L('Návrhy nových témat', 'Proposals for new topics'), async () => {
+    const [P, B] = await Promise.all([D.proposals(), D.bundle()]);
+    const chapters = [...new Set(B.concepts.map(c => c.chapter).filter(Boolean))];
+    const st = p => P.stats[p.slug] || {};
+    const list = P.list.slice().sort((x, y) => ((st(y).want || 0) - (st(x).want || 0)) || ((st(y).seen || 0) - (st(x).seen || 0)) || String(x.title).localeCompare(String(y.title)));
+    let h = `<p class="lead">${L('Návrh se čtenářům ukáže jako šedá karta „chceš tohle téma?“. Hlasy ukážou zájem dřív, než ho někdo začne psát. Uložení platí hned pro všechny čtenáře.',
+      'A proposal shows to readers as a grey "want this topic?" card. Their votes show interest before anyone writes it. Saving takes effect for all readers at once.')}</p>`;
+    h += `<div class="form box">
+        <label for="epDesc"><b>${L('Nový návrh', 'New proposal')}:</b> ${L('popiš téma vlastními slovy (co má čtenář po přečtení umět?). AI doplní cíl, co pokrýt a kontrolní otázku.', 'describe the topic in your own words (what should the reader be able to do afterwards?). The AI completes the goal, what to cover and the recall question.')}</label>
+        <textarea id="epDesc"></textarea>
+        <div class="row"><label for="epChapter">${L('Kapitola', 'Chapter')}</label>
+          <select id="epChapter">${chapters.map(ch => `<option>${esc(ch)}</option>`).join('')}<option value="__new">${L('nová kapitola…', 'new chapter…')}</option></select>
+          <input id="epNewChap" hidden placeholder="chNN-slug">
+          <button class="btn primary" data-act="propNew" id="epBtn">✨ ${L('Doplnit s AI', 'Complete with AI')}</button></div>
       </div>
-      <div id="rwout-${r.b.id}"></div>
-    </div>`;
+      <div class="row" style="margin:.6em 0">
+        <button class="btn" data-act="propFromDemand" id="propBtn">✨ ${L('Navrhnout témata z přání čtenářů', 'Draft topics from readers\u2019 wishes')}</button>
+        <button class="btn" data-act="mapAnalysis" id="mapBtn">🧭 ${L('Co v knize chybí (AI)', 'What the book is missing (AI)')}</button>
+        <button class="btn" data-act="propExport">⬇ concept-proposals.json</button>
+      </div>
+      <div id="drafted"></div>`;
+    h += `<h3>${L('Návrhy u čtenářů', 'Proposals shown to readers')} (${list.length})</h3>`;
+    h += list.length ? `<div class="chead"><span style="text-align:left">${L('téma', 'topic')}</span><span>👁</span><span>👍</span><span class="opt">👎</span><span class="opt">${L('zájem', 'interest')}</span></div>`
+      + list.map(p => proposalRow(p, st(p), chName(B, p.chapter))).join('') : `<p class="muted">${L('Zatím žádný návrh.', 'No proposals yet.')}</p>`;
+    setTimeout(() => { const s = $('#epChapter'); if (s) s.onchange = () => { $('#epNewChap').hidden = s.value !== '__new'; }; });
+    return h;
+  });
+}
+
+const chName = (B, id) => id ? (chapterTitle(B.book.chapters.find(c => c.id === id || c.directory === id)) || id) : '';
+function proposalRow(p, st = {}, chapter = '') {
+  const seen = st.seen || 0, want = st.want || 0, skip = st.skip || 0;
+  const ready = want >= WRITE_K;
+  const who = Object.entries(st.voters || {}).filter(([k]) => k.startsWith('want:')).sort((a, b) => b[1] - a[1]).slice(0, 3).map(([k, n]) => `${k.slice(5)} (${n})`).join(', ');
+  return `<details class="concept" id="prop-${esc(p.slug)}"><summary><span>${ready ? `<span class="chip ok">${L('k napsání', 'ready')}</span> ` : ''}${esc(p.title)}${chapter ? ` <span class="muted">· ${esc(chapter)}</span>` : ''}</span>`
+    + `<span class="n">${num(seen)}</span><span class="n"><b>${num(want)}</b></span><span class="n opt">${num(skip)}</span><span class="n opt">${pct(want, seen)}</span></summary>
+    <div class="box">
+    <div class="row"><code>${esc(p.slug)}</code> <span class="chip">${esc(p.origin || 'live')}</span></div>
+    ${p.objective ? `<div>${esc(p.objective)}</div>` : ''}
+    ${p.recallQ ? `<div class="why">${L('Kontrolní otázka', 'Recall')}: ${esc(p.recallQ)}</div>` : ''}
+    ${(p.mustCover || []).length ? `<div class="why">${L('Pokrýt', 'Cover')}: ${p.mustCover.map(esc).join(' · ')}</div>` : ''}
+    ${who ? `<div class="why">${L('Chtějí ho', 'Wanted by')}: ${esc(who)}</div>` : ''}
+    <div class="row" style="margin-top:.3em">
+      <button class="btn" data-act="propEdit" data-arg="${esc(p.slug)}">✏️ ${L('Upravit', 'Edit')}</button>
+      ${want ? `<button class="btn" data-act="propTailor" data-arg="${esc(p.slug)}">🎯 ${L('Přepsat pro zájemce', 'Tailor to who wants it')}</button>` : ''}
+      <button class="btn" data-act="propMd" data-arg="${esc(p.slug)}">⬇ .md</button>
+      <button class="btn danger" data-act="propDelete" data-arg="${esc(p.slug)}">🗑 ${L('Smazat', 'Delete')}</button>
+    </div><div class="pe"></div></div></details>`;
+}
+
+async function propPost(body) {
+  const send = () => fetch('/api/proposals', withKey({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) }));
+  let r = await send();
+  if (r.status === 403 && !ADMIN) {
+    const k = prompt(L('Klíč editora (PBOOK_ADMIN_KEY), bez něj návrhy měnit nejde:', 'Editor key (PBOOK_ADMIN_KEY), needed to change proposals:'));
+    if (k) { KEY = k.trim(); const c = await checkKey(); if (c && c.admin) { ADMIN = true; store.set('pbook-admin-key', KEY); } r = await send(); }
   }
-  m.innerHTML=h;
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok || !d.ok) { alert(L('Nepovedlo se: ', 'Failed: ') + (d.error || r.status)); return false; }
+  memo.delete('proposals');
+  return true;
 }
-
-// Park = hide from readers until revised. Toggles the local override AND copies the
-// one-line file change (the file is the source of truth for deployed readers).
-window.parkBlock=function(id,ch,file){
-  let st={};try{st=JSON.parse(localStorage.getItem('pbook-content-statuses')||'{}')}catch(e){}
-  const parking=st[id]!=='review';
-  if(parking)st[id]='review';else delete st[id];
-  localStorage.setItem('pbook-content-statuses',JSON.stringify(st));
-  const b=allBlocks.find(x=>x.id===id);if(b)b.status=parking?'review':'accepted';
-  const dir=(book.chapters.find(c=>c.id===ch)||{}).directory||ch;
-  const cmd=parking
-    ?`sed -i 's/^status: accepted/status: review/' content/${dir}/${file}`
-    :`sed -i 's/^status: review/status: accepted/' content/${dir}/${file}`;
-  navigator.clipboard?.writeText(cmd);
-  toast((parking?'Parked':'Unparked')+' locally — file command copied to clipboard (run + deploy to affect readers)');
-  renderHealth(document.getElementById('main'));
+const findProp = async slug => (await D.proposals()).list.find(p => p.slug === slug) || (window._drafted || []).find(p => p.slug === slug);
+ACT.propDelete = async slug => {
+  if (!confirm(L(`Smazat návrh „${slug}“? Čtenáři přestanou vidět jeho kartu.`, `Delete proposal "${slug}"? Readers stop seeing its card.`))) return;
+  if (await propPost({ action: 'delete', slug })) route();
+};
+ACT.propEdit = async (slug, el) => {
+  const p = await findProp(slug);
+  const box = el.closest('[id^=prop-]').querySelector('.pe');
+  const f = (k, label, v, area) => `<label>${label}${area ? `<textarea data-k="${k}">${esc(v || '')}</textarea>` : `<input data-k="${k}" value="${esc(v || '')}" style="width:100%">`}</label>`;
+  box.innerHTML = `<div class="form box">${f('title', L('Název', 'Title'), p.title)}${f('chapter', L('Kapitola', 'Chapter'), p.chapter)}${f('objective', L('Cíl', 'Objective'), p.objective, 1)}
+    ${f('recallQ', L('Kontrolní otázka', 'Recall question'), p.recallQ)}${f('recallA', L('Odpověď', 'Answer'), p.recallA)}${f('mustCover', L('Co musí pokrýt (řádek = bod)', 'Must cover (one per line)'), (p.mustCover || []).join('\n'), 1)}
+    <div class="row"><button class="btn primary" data-act="propSaveEdit" data-arg="${esc(slug)}">💾 ${L('Uložit (hned platí)', 'Save (live at once)')}</button><button class="btn" data-act="propCancel">${L('Zrušit', 'Cancel')}</button></div></div>`;
+};
+ACT.propCancel = (a, el) => { el.closest('.pe').innerHTML = ''; };
+ACT.propSaveEdit = async (slug, el) => {
+  const p = await findProp(slug);
+  const v = k => el.closest('.form').querySelector(`[data-k=${k}]`).value.trim();
+  const upd = { ...p, slug, title: v('title'), chapter: v('chapter'), objective: v('objective'), recallQ: v('recallQ'), recallA: v('recallA'),
+    mustCover: v('mustCover').split('\n').map(x => x.trim()).filter(Boolean), source: p.source || 'admin-edit' };
+  delete upd.origin;
+  if (await propPost({ action: 'save', proposal: upd })) route();
+};
+ACT.propSave = async slug => {
+  const p = (window._drafted || []).find(x => x.slug === slug);
+  if (p && await propPost({ action: 'save', proposal: p })) route();
+};
+ACT.propMd = async slug => {
+  const p = await findProp(slug);
+  if (!p) return;
+  const q = s => String(s || '').replace(/"/g, "'");
+  download(`NN-spine-${p.slug}.md`, `---\nid: ${p.slug}\ntype: spine\ntitle: "${q(p.title)}"\nteaser: "${q(p.objective)}"\nreadingTime: 3\ncore: false\nstatus: draft\nconcept: ${p.slug}\n`
+    + `recallQ: "${q(p.recallQ)}"\nrecallA: "${q(p.recallA)}"\nhighlights:\n${(p.mustCover || []).map(x => `  - "${q(x)}"`).join('\n')}\nlang: ${ORIG}\n---\n\n# ${p.title}\n\n`
+    + `<!-- ${L('Návrh tématu: cíl', 'Topic proposal: objective')} — ${q(p.objective)} -->\n\n${(p.mustCover || []).map(x => `- ${x}`).join('\n')}\n`, 'text/markdown');
+};
+ACT.propExport = async () => {
+  const P = await D.proposals();
+  download('concept-proposals.json', JSON.stringify({ version: 1, proposals: P.list.map(({ origin, savedAt, ...p }) => p) }, null, 2));
 };
 
-// AI rewrite: regenerate the telling from its contract, steered by the reader signals
-window.aiRewrite=async function(id){
-  const b=allBlocks.find(x=>x.id===id);if(!b||!b.concept){toast('No concept for this block');return}
-  const btn=document.getElementById('rw-'+id),out=document.getElementById('rwout-'+id);
-  let flags=[];try{flags=JSON.parse(localStorage.getItem('pbook-flags')||'[]').filter(f=>f.blockId===id)}catch(e){}
-  const problems=[];
-  flags.slice(0,3).forEach(f=>problems.push(`reader flagged (${f.type}): "${(f.text||'').slice(0,120)}"`));
-  if(!problems.length)problems.push('readers disengage from this telling (short dwell / steer-away) — make the opening more concrete and tighten it');
-  const instructions=`This replaces a telling readers struggled with. Address these signals: ${problems.join('; ')}`.slice(0,300);
-  if(btn){btn.disabled=true;btn.textContent='✨ Rewriting…'}
-  try{
-    const res=await fetch('/api/generate',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({concept:b.concept,facets:{lens:b.lens||'generic',visuality:b.visuality||'text-first',depth:b.depth||'standard',formalism:b.formalism||'none',lengthBand:b.lengthBand||'standard',genre:b.genre||'explainer'},instructions})});
-    const d=await res.json();
-    if(!res.ok||!d.ok)throw new Error(d.error||'generation failed');
-    const nb=d.block;
-    const fm=['---',`id: ${id}`,`type: spine`,`title: "${(nb.title||'').replace(/"/g,'\\"')}"`,`teaser: ""`,
-      `readingTime: ${Math.max(1,Math.round((nb.body||'').split(/\s+/).length/200))}`,`voice: ${b.voice||'universal'}`,
-      `concept: ${b.concept}`,`state: ${b.state||'edited'}`,`lens: ${b.lens||'generic'}`,`visuality: ${b.visuality||'text-first'}`,
-      `depth: ${b.depth||'standard'}`,`formalism: ${b.formalism||'none'}`,`lengthBand: ${b.lengthBand||'standard'}`,
-      nb.recallQ?`recallQ: "${nb.recallQ.replace(/"/g,'\\"')}"`:null,nb.recallA?`recallA: "${nb.recallA.replace(/"/g,'\\"')}"`:null,
-      `status: review`,'---','',nb.body||''].filter(Boolean).join('\n');
-    if(out)out.innerHTML=`<div style="border:1px dashed var(--accent);border-radius:8px;padding:.5em;margin-top:.4em;font-size:.7rem;max-height:14em;overflow:auto;white-space:pre-wrap">${esc((nb.body||'').slice(0,1200))}</div>
-      <button onclick="(function(){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([document.getElementById('rwsrc-${id}').textContent],{type:'text/markdown'}));a.download='${id}.rewrite.md';a.click()})()" style="font-size:.66rem;padding:.2em .6em;border-radius:6px;border:1.5px solid #10B981;color:#10B981;margin-top:.3em">⬇ Download .md (status: review) — review &amp; replace the file</button>
-      <pre id="rwsrc-${id}" style="display:none">${esc(fm)}</pre>`;
-  }catch(e){if(out)out.innerHTML=`<div style="font-size:.68rem;color:#EF4444;margin-top:.3em">${esc(e.message)}</div>`}
-  if(btn){btn.disabled=false;btn.textContent='✨ AI rewrite from signals'}
-};
-
-window.adoptCommunity=function(itemId){
-  const item=_commItems.find(i=>i.itemId===itemId);if(!item)return;
-  const fm=['---',`id: ${itemId}`,'type: spine',`title: "${(item.title||'').replace(/"/g,'\\"')}"`,
-    `teaser: ""`,`readingTime: ${Math.max(1,Math.round((item.body||'').split(/\s+/).length/200))}`,'voice: universal',
-    `concept: ${item.concept}`,'state: edited',`lens: ${item.lens||'generic'}`,`visuality: ${item.visuality||'text-first'}`,
-    `depth: ${item.depth||'standard'}`,`formalism: ${item.formalism||'none'}`,`lengthBand: ${item.lengthBand||'standard'}`,
-    item.recallQ?`recallQ: "${item.recallQ.replace(/"/g,'\\"')}"`:null,item.recallA?`recallA: "${item.recallA.replace(/"/g,'\\"')}"`:null,
-    `sharedAs: ${item.sharedAs||'anonymous'}`,'status: review','---','',item.body||''].filter(Boolean).join('\n');
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([fm],{type:'text/markdown'}));
-  a.download=`${itemId}.md`;a.click();URL.revokeObjectURL(a.href);
-  toast('Downloaded — review, place into content/chNN-…/, add to book.json, set status: accepted');
-};
-
-function filtered(){
-  let list=allBlocks;
-  if(sideFilter&&sideFilter.startsWith('ch'))list=list.filter(b=>'ch'+b._cn===sideFilter);
-  return list;
+async function aiPost(body) {
+  const r = await fetch('/api/generate', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok || !d.ok) throw new Error(d.error || ('HTTP ' + r.status));
+  return d;
 }
-
-// ---- Analytics: real Recombee data ----
-// ---- Analytics: from server-side log ----
-let _readerStatsP=null;
-function getReaderStats(){ if(!_readerStatsP) _readerStatsP=fetch('/api/log?stats=1',{headers:{'X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''}}).then(r=>r.ok?r.json():null).catch(()=>null); return _readerStatsP; }
-async function renderReaderStats(el){
-  const st=await getReaderStats();
-  if(!st||!st.readers){ el.innerHTML='<p style="font-size:.8rem;color:var(--text3)">Reader counts unavailable (the log endpoint did not answer).</p>'; return; }
-  const r=st.readers, wk=st.weeks||[], max=Math.max(1,...wk.map(w=>w.activeReaders));
-  const tile=(n,l)=>`<div style="border:1px solid var(--border);border-radius:10px;padding:.6em .9em;min-width:110px"><div style="font-size:1.5rem;font-weight:800">${n}</div><div style="font-size:.72rem;color:var(--text2)">${l}</div></div>`;
-  el.innerHTML=`<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.4em">👥 Readers</h2>
-    <div style="display:flex;gap:.6em;flex-wrap:wrap;margin-bottom:.7em">${tile(r.allTime,'readers since the start')}${tile(r.last30d,'active in 30 days')}${tile(r.last7d,'active in 7 days')}${tile(r.last24h,'active in 24 hours')}${tile(st.accounts??'–','accounts')}</div>
-    <table style="border-collapse:collapse;font-size:.75rem;font-variant-numeric:tabular-nums"><tr><th style="text-align:left;padding:.2em .6em">week from</th><th style="padding:.2em .6em">new</th><th style="padding:.2em .6em">active</th><th></th></tr>
-    ${wk.map(w=>`<tr><td style="padding:.15em .6em">${w.weekStart}</td><td style="padding:.15em .6em;text-align:right">${w.newReaders}</td><td style="padding:.15em .6em;text-align:right">${w.activeReaders}</td><td style="padding:.15em .6em"><div style="height:8px;width:${Math.round(160*w.activeReaders/max)}px;background:var(--accent);border-radius:4px"></div></td></tr>`).join('')}</table>
-    <p style="font-size:.7rem;color:var(--text3);margin-top:.4em">${st.events} logged events since ${String(st.firstEvent||'').slice(0,10)} · ${st.note} · computed ${String(st.computedAt).slice(11,16)} UTC (refreshes every 10 min)</p>`;
+async function busy(btn, label, fn) {
+  const old = btn.textContent;
+  btn.disabled = true; btn.textContent = label;
+  try { await fn(); } catch (e) { alert(L('AI se nepovedla: ', 'AI failed: ') + e.message); }
+  btn.disabled = false; btn.textContent = old;
 }
-async function renderReach(m){
-  m.innerHTML='<div id="reachReaders" style="margin-bottom:1.4em"></div><div id="reachGrowth" style="margin-bottom:1.2em"></div><div id="reachAnalytics"></div>';
-  renderReaderStats(document.getElementById('reachReaders'));
-  await _loadCoverageData();
-  const esc=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  const g=document.getElementById('reachGrowth');
-  // invites: acceptance per code (readers) + editor invites
-  const inv={}, einv=[];
-  _logRows.forEach(r=>{
-    const ev=r.event||r.data?.event;const d=r.data?.data||r.data||{};
-    if(ev==='invite_accepted'&&d.code){(inv[d.code]=inv[d.code]||{n:0,users:new Set()});inv[d.code].n++;inv[d.code].users.add(r.user_id||d.userId||'?');}
-    if(ev==='editor_invite_accepted'&&d.code)einv.push({code:d.code,user:r.user_id||'?'});
+function showDrafted(list, tag) {
+  window._drafted = (window._drafted || []).concat(list);
+  $('#drafted').insertAdjacentHTML('beforeend', list.map(p => `<div class="box go"><div class="row"><b>${esc(p.title)}</b> <code>${esc(p.slug)}</code> <span class="muted">→ ${esc(p.chapter || '?')}</span> <span class="chip acc">${esc(tag)}</span></div>
+    <div>${esc(p.objective || '')}</div><div class="why">${L('Pokrýt', 'Cover')}: ${(p.mustCover || []).map(esc).join(' · ')}</div>
+    ${p.rationale ? `<div class="why"><i>${esc(p.rationale)}</i></div>` : ''}
+    <div class="row"><button class="btn primary" data-act="propSave" data-arg="${esc(p.slug)}">💾 ${L('Uložit (čtenáři ho hned uvidí)', 'Save (readers see it at once)')}</button>
+    <button class="btn" data-act="propMd" data-arg="${esc(p.slug)}">⬇ .md</button></div></div>`).join(''));
+}
+const existing = B => B.concepts.map(c => ({ id: c.id, title: c.title }));
+ACT.propNew = async (a, btn) => {
+  const desc = $('#epDesc').value.trim();
+  if (desc.length < 15) { alert(L('Popiš téma aspoň jednou větou.', 'Describe the topic in at least a sentence.')); return; }
+  const B = await D.bundle();
+  const sel = $('#epChapter').value, chapter = sel === '__new' ? ($('#epNewChap').value.trim() || 'chXX-new') : sel;
+  const chapters = [...new Set([...B.concepts.map(c => c.chapter), chapter])];
+  await busy(btn, L('Doplňuji… (~20 s)', 'Completing… (~20 s)'), async () => {
+    const d = await aiPost({ mode: 'propose-concepts', count: 1, existing: existing(B), chapters,
+      signals: `EDITOR PROPOSAL (authoritative seed — keep the intent, complete a full contract):\n${desc}\nTARGET CHAPTER: ${chapter}` });
+    showDrafted(d.proposals || [], L('od editora', 'by an editor'));
+    $('#epDesc').value = '';
   });
-  // contributor leaderboard: shares, adoptions (approx via community_share), flags, ghost votes
-  const per={};
-  const bump=(u,k)=>{if(!u)return;(per[u]=per[u]||{share:0,flag:0,ghost:0,wish:0});per[u][k]++;};
-  _logRows.forEach(r=>{
-    const ev=r.event||r.data?.event;const u=r.user_id||r.data?.userId;
-    if(ev==='community_share')bump(u,'share');
-    if(ev==='flag')bump(u,'flag');
-    if(ev==='ghost_want'||ev==='ghost_skip')bump(u,'ghost');
-    if(ev==='concept_wish')bump(u,'wish');
-  });
-  const board=Object.entries(per).map(([u,s])=>({u,score:s.share*10+s.wish*3+s.flag*2+s.ghost,...s}))
-    .sort((a,b)=>b.score-a.score).slice(0,10);
-  let h='<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">📈 Reach — growth & the editor track</h2>';
-  h+=`<div style="display:flex;gap:1.5em;flex-wrap:wrap;font-size:.8rem;margin:.4em 0 .8em">
-    <span>🔗 invite codes used: <b>${Object.keys(inv).length}</b> (${Object.values(inv).reduce((s,x)=>s+x.users.size,0)} readers)</span>
-    <span>🛠 editor invites accepted: <b>${einv.length}</b></span>
-  </div>`;
-  h+='<h3 style="font-size:.85rem;font-weight:700;margin:.6em 0 .3em">Top contributors</h3>';
-  h+=board.length?('<table style="font-size:.72rem;border-collapse:collapse">'+board.map((x,i)=>`<tr><td style="padding:.2em .6em">${i+1}.</td><td style="padding:.2em .6em"><code>${esc(String(x.u).slice(0,14))}…</code></td><td style="padding:.2em .6em">score ${x.score}</td><td style="padding:.2em .6em;color:var(--text3)">${x.share} shared · ${x.wish} wishes · ${x.flag} flags · ${x.ghost} votes</td></tr>`).join('')+'</table>')
-    :'<p style="font-size:.72rem;color:var(--text3)">No contribution events logged yet.</p>';
-  // editor invite generator (honor-system gate; admin is where seniors land)
-  h+=`<h3 style="font-size:.85rem;font-weight:700;margin:1em 0 .3em">Invite an editor</h3>
-    <p style="font-size:.72rem;color:var(--text3)">Seniors get editor status on arrival: send them this link. It sets the 🛠 editor role in their book, points them at the editor guide, and links back here.</p>
-    <button onclick="genEditorInvite()" style="font-size:.72rem;padding:.3em .7em;border:1.5px solid var(--accent);border-radius:6px;color:var(--accent)">＋ Generate editor invite link</button>
-    <div id="editorInviteOut" style="font-size:.74rem;margin-top:.4em"></div>`;
-  g.innerHTML=h;
-  renderAnalytics(document.getElementById('reachAnalytics'));
-}
-
-window.genEditorInvite=function(){
-  const code='E-'+Math.random().toString(36).slice(2,8).toUpperCase();
-  const url=`${location.origin}/?invite=${code}`;
-  const out=document.getElementById('editorInviteOut');
-  out.innerHTML=`<code style="user-select:all">${url}</code> <button onclick="navigator.clipboard.writeText('${url}');this.textContent='✓ copied'" style="font-size:.68rem;padding:.15em .5em;border:1px solid var(--border);border-radius:5px">copy</button>
-    <div style="color:var(--text3);font-size:.66rem;margin-top:.2em">Acceptances appear above (editor_invite_accepted, code ${code}).</div>`;
 };
-
-// summary card (the helper went missing in an admin cleanup; Reach threw 'gc is not defined')
-function gc(t,n,s){return`<div class="cg-card"><h4>${t}</h4><div class="cg-num">${n}</div><div class="cg-sub">${s}</div></div>`}
-async function renderAnalytics(el){
-  el.innerHTML = '<div style="text-align:center;padding:2em;color:var(--text3)">Loading server-side analytics...</div>';
-
-  let interactions = [];
-  try {
-    const res={ok:true,json:async()=>await getLogRows()};
-    if (res.ok) {
-      const raw = await res.json();
-      // Normalize Supabase snake_case to camelCase + extract from data column
-      interactions = raw.map(r => {
-        const d = r.data || {};
-        return { userId: r.user_id || d.userId, type: r.type || d.type, itemId: r.item_id || d.itemId, mode: r.mode || d.mode, event: r.event || d.event, duration: r.duration || d.duration, rating: r.rating || d.rating, ts: r.server_ts || d.ts || Date.parse(r.created_at), ...d };
-      });
+ACT.propFromDemand = async (a, btn) => {
+  const [rows, B] = await Promise.all([D.log(), D.bundle()]);
+  const lines = demandLines(rows);
+  if (!lines.length) { alert(L('Zatím tu není žádné přání.', 'Readers have not asked for anything yet.')); return; }
+  await busy(btn, L('Navrhuji… (~30 s)', 'Drafting… (~30 s)'), async () => {
+    const d = await aiPost({ mode: 'propose-concepts', signals: lines.join('\n'), existing: existing(B), chapters: [...new Set(B.concepts.map(c => c.chapter))] });
+    showDrafted(d.proposals || [], L('z přání', 'from wishes'));
+  });
+};
+ACT.propTailor = async (slug, btn) => {
+  const [p, P, B] = await Promise.all([findProp(slug), D.proposals(), D.bundle()]);
+  const aud = Object.entries(P.stats[slug]?.voters || {}).filter(([k]) => k.startsWith('want:')).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([k, n]) => `${k.slice(5)} ×${n}`).join(', ') || 'unknown';
+  await busy(btn, L('Přepisuji… (~25 s)', 'Tailoring… (~25 s)'), async () => {
+    const d = await aiPost({ mode: 'propose-concepts', count: 1, existing: existing(B), chapters: [...new Set(B.concepts.map(c => c.chapter))],
+      signals: `EDITOR PROPOSAL (authoritative seed — keep slug ${p.slug} and intent, refine the contract):\n${p.title}: ${p.objective}\nAUDIENCE (facet preferences of readers who voted WANT — tailor examples, depth and framing to them): ${aud}\nTARGET CHAPTER: ${p.chapter || '?'}` });
+    showDrafted((d.proposals || []).slice(0, 1).map(x => ({ ...x, slug: p.slug, source: 'audience-tailored' })), L('pro zájemce', 'for who wants it'));
+  });
+};
+ACT.mapAnalysis = async (a, btn) => {
+  const [B, P] = await Promise.all([D.bundle(), D.proposals()]);
+  await busy(btn, L('Analyzuji… (~40 s)', 'Analysing… (~40 s)'), async () => {
+    const d = await aiPost({ mode: 'map-analysis', lang: ORIG, concepts: B.concepts.map(c => ({ id: c.id, title: c.title, objective: c.contract?.objective || '' })),
+      proposals: P.list.map(p => ({ slug: p.slug, title: p.title })) });
+    const an = d.analysis || {};
+    if (an.prereqs && an.prereqs.length) {
+      window._prereqs = an.prereqs;
+      $('#drafted').insertAdjacentHTML('beforeend', `<h3>${L('Nutné předpoklady mezi koncepty', 'Hard prerequisites between concepts')}</h3><ul class="list">${an.prereqs.map(x =>
+        `<li><code>${esc(x.concept)}</code> ← ${(x.needs || []).map(n => `<code>${esc(n)}</code>`).join(' + ')} <span class="muted">— ${esc(x.why)}</span></li>`).join('')}</ul>
+        <button class="btn" data-act="mapDownload">⬇ concept-map.json ${L('s těmito předpoklady', 'with these prerequisites')}</button>`);
     }
-  } catch(e) {}
-
-  // Fallback to localStorage if server has no data
-  if (!interactions.length) {
-    try { interactions = JSON.parse(localStorage.getItem('pbook-interactions') || '[]'); } catch(e) {}
-  }
-
-  const source = interactions.length && interactions[0].serverTs ? 'Server-side log' : 'Browser localStorage (fallback)';
-  const userId = localStorage.getItem('pbook-uid') || 'unknown';
-
-  // Parse interactions
-  const views = interactions.filter(i => i.type === 'detailview');
-  const ratings = interactions.filter(i => i.type === 'rating');
-  const bookmarks = interactions.filter(i => i.type === 'bookmark');
-  const events = interactions.filter(i => i.type === 'event');
-  const modeSwitches = events.filter(e => e.event === 'mode_switch');
-  const blockOpens = events.filter(e => e.event === 'open_block');
-
-  // Mode usage from mode_switch events
-  const modeCount = {};
-  modeSwitches.forEach(e => { modeCount[e.mode] = (modeCount[e.mode] || 0) + 1; });
-
-  // Blocks opened per mode
-  const modeBlocks = {};
-  blockOpens.forEach(e => {
-    if (!modeBlocks[e.mode]) modeBlocks[e.mode] = new Set();
-    modeBlocks[e.mode].add(e.blockId);
+    if (an.gaps && an.gaps.length) showDrafted(an.gaps.map(g => ({ slug: g.slug, title: `${g.kind === 'prerequisite' ? '⬅' : '➡'} ${g.title}`,
+      chapter: (B.concepts.find(c => c.id === g.relatedTo) || {}).chapter || '', objective: g.objective, recallQ: g.recallQ, recallA: g.recallA,
+      mustCover: g.mustCover || [], rationale: g.rationale, source: 'map-analysis' })), L('chybí v mapě', 'missing from the map'));
+    if (!(an.prereqs || []).length && !(an.gaps || []).length) toast(L('AI v mapě nenašla nic chybějícího.', 'The AI finds nothing missing.'));
   });
-
-  // Views per mode
-  const modeViews = {};
-  views.forEach(v => { const m = v.mode || 'unknown'; modeViews[m] = (modeViews[m] || 0) + 1; });
-
-  // View duration per mode
-  const modeDuration = {};
-  views.forEach(v => { if (v.duration) { const m = v.mode || 'unknown'; modeDuration[m] = (modeDuration[m] || 0) + v.duration; }});
-
-  // Most viewed items
-  const itemViews = {};
-  views.forEach(v => { itemViews[v.itemId] = (itemViews[v.itemId] || 0) + 1; });
-  const topItems = Object.entries(itemViews).sort((a,b) => b[1]-a[1]).slice(0, 15);
-
-  // Timeline (last 50 events)
-  const timeline = interactions.slice(-50).reverse();
-
-  let h = '<h2 style="font-size:1.15rem;font-weight:800;margin-bottom:.3em">Reader Analytics</h2>';
-  // Unique users across all interactions
-  const allUserIds = new Set();
-  interactions.forEach(i => { if (i.userId) allUserIds.add(i.userId); });
-
-  h += `<p style="font-size:.82rem;color:var(--text2);margin-bottom:1em">Source: <b>${source}</b> · ${allUserIds.size} reader${allUserIds.size!==1?'s':''} · ${interactions.length} interactions.</p>`;
-
-  // Summary
-  h += '<div class="cg">';
-  h += gc('Views', views.length, 'blocks read');
-  h += gc('Ratings', ratings.length, 'likes/dislikes');
-  h += gc('Bookmarks', bookmarks.length, 'saved');
-  h += gc('Mode Switches', modeSwitches.length, 'navigations');
-  h += gc('Block Opens', blockOpens.length, 'from various modes');
-  h += '</div>';
-
-  // Mode usage — key research metric
-  if (Object.keys(modeCount).length) {
-    h += '<h3 style="font-size:.9rem;font-weight:700;margin:1em 0 .5em">Mode Usage (switches)</h3>';
-    h += '<p style="font-size:.75rem;color:var(--text2);margin-bottom:.5em">How many times the reader switched to each mode. Key for comparing content serving approaches.</p>';
-    const maxMode = Math.max(...Object.values(modeCount), 1);
-    const modeColors = {netflix:'#7C3AED',read:'#2563EB',mission:'#D97706',map:'#059669',tutor:'#EC4899',search:'#6366F1',profile:'#6B7280',home:'#7C3AED'};
-    h += '<div style="display:flex;flex-direction:column;gap:.4em;max-width:500px">';
-    Object.entries(modeCount).sort((a,b) => b[1]-a[1]).forEach(([mode, count]) => {
-      const pct = Math.round(count / maxMode * 100);
-      const uniqueBlocks = modeBlocks[mode]?.size || 0;
-      const viewsInMode = modeViews[mode] || 0;
-      const durSec = modeDuration[mode] || 0;
-      h += `<div>
-        <div style="display:flex;align-items:center;gap:.5em">
-          <span style="width:5em;font-size:.75rem;font-weight:600;text-align:right">${mode}</span>
-          <div style="flex:1;height:18px;background:var(--border);border-radius:4px;overflow:hidden">
-            <div style="height:100%;width:${pct}%;background:${modeColors[mode]||'var(--accent)'};border-radius:4px"></div>
-          </div>
-          <span style="font-size:.72rem;color:var(--text2);width:2.5em">${count}x</span>
-        </div>
-        <div style="margin-left:5.5em;font-size:.65rem;color:var(--text3)">${viewsInMode} views · ${uniqueBlocks} unique blocks${durSec ? ' · ' + Math.round(durSec) + 's reading' : ''}</div>
-      </div>`;
-    });
-    h += '</div>';
-  }
-
-  // Top items
-  if (topItems.length) {
-    h += '<h3 style="font-size:.9rem;font-weight:700;margin:1.5em 0 .5em">Most Read Sections</h3>';
-    h += '<p style="font-size:.68rem;color:var(--text3)">served = views · finished = dwell ≥ min(12 s, 15 % of reading time) · skipped = the rest</p>';
-    h += '<div class="cl">';
-    topItems.forEach(([itemId, count]) => {
-      const b = allBlocks.find(x => x.id === itemId);
-      const thr = Math.min(12, ((b?.readingTime) || 3) * 60 * 0.15);
-      const fin = views.filter(v => (v.itemId === itemId) && (v.duration || 0) >= thr).length;
-      const skip = count - fin;
-      h += `<div class="cl-item" style="grid-template-columns:1fr auto"><span class="cl-title">${b ? b.title : itemId}</span><span style="font-size:.72rem;color:var(--text3)">${count} served · <b style="color:#10B981">${fin} finished</b> · ${skip} skipped</span></div>`;
-    });
-    h += '</div>';
-  }
-
-  // Timeline
-  if (timeline.length) {
-    h += '<details style="margin-top:1.5em"><summary style="font-size:.82rem;font-weight:600;cursor:pointer">Event Timeline (last 50)</summary>';
-    h += '<div class="cl" style="margin-top:.5em;font-size:.72rem">';
-    timeline.forEach(i => {
-      const time = i.ts && isFinite(i.ts) ? new Date(i.ts).toLocaleString() : '—';
-      const label = i.event ? `${i.event}: ${i.mode||''}` : `${i.type}: ${i.itemId||''}`;
-      h += `<div class="cl-item" style="grid-template-columns:auto 1fr;gap:.5em;padding:.2em .4em">
-        <span style="color:var(--text3);white-space:nowrap">${time}</span>
-        <span>${label}${i.duration ? ' ('+i.duration+'s)' : ''}${i.mode && i.type !== 'event' ? ' ['+i.mode+']' : ''}</span>
-      </div>`;
-    });
-    h += '</div></details>';
-  }
-
-  // Export
-  h += '<div style="margin-top:1.5em;display:flex;gap:.5em">';
-  h += '<button class="ed-btn ed-btn-primary" onclick="exportLocalAnalytics()">Export analytics (JSON)</button>';
-  h += '<button class="ed-btn" onclick="clearAnalytics()">Clear data</button>';
-  h += '</div>';
-
-  // Per-user summary
-  if (allUserIds.size > 1) {
-    h += '<h3 style="font-size:.9rem;font-weight:700;margin:1.5em 0 .5em">Per-Reader Summary</h3>';
-    h += '<div class="cl">';
-    [...allUserIds].forEach(uid => {
-      const uViews = views.filter(v => v.userId === uid).length;
-      const uModes = {};
-      events.filter(e => e.userId === uid && e.event === 'mode_switch').forEach(e => { uModes[e.mode] = (uModes[e.mode]||0)+1; });
-      const topMode = Object.entries(uModes).sort((a,b) => b[1]-a[1])[0];
-      h += `<div class="cl-item" style="grid-template-columns:1fr auto auto auto">
-        <span style="font-size:.7rem;font-family:monospace">${uid.substring(0,24)}...</span>
-        <span style="font-size:.68rem;color:var(--text3)">${uViews} views</span>
-        <span style="font-size:.68rem;color:var(--text3)">${Object.keys(uModes).length} modes</span>
-        <span style="font-size:.68rem;color:var(--accent)">${topMode ? topMode[0] : '—'}</span>
-      </div>`;
-    });
-    h += '</div>';
-  }
-
-  h += `<div style="margin-top:1em;padding:.8em;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);font-size:.75rem;color:var(--text2)">
-    <b>How it works:</b> Every reader interaction is sent to <b>Supabase</b> (persistent database) via the <code>/api/log</code> endpoint.
-    Data persists across deploys and is accessible from both localhost and production.
-  </div>`;
-
-  el.innerHTML = h;
-}
-
-window.exportLocalAnalytics = async function() {
-  let interactions = [];
-  // Try Supabase first (all users)
-  try {
-    const res={ok:true,json:async()=>await getLogRows()};
-    if (res.ok) interactions = await res.json();
-  } catch(e) {}
-  // Fallback to localStorage
-  if (!interactions.length) {
-    try { interactions = JSON.parse(localStorage.getItem('pbook-interactions') || '[]'); } catch(e) {}
-  }
-  const data = { exportedAt: new Date().toISOString(), source: interactions.length && interactions[0].user_id ? 'supabase' : 'localStorage', totalInteractions: interactions.length, interactions };
-  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'pbook-analytics-' + new Date().toISOString().slice(0,10) + '.json';
-  a.click();
-  toast('Analytics exported');
+};
+ACT.mapDownload = async () => {
+  let cm = { nodes: [] };
+  try { cm = await getJSON(`${DIR}/concept-map.json`); } catch (e) {}
+  const by = {}; (cm.nodes || []).forEach(n => { by[n.slug] = n; });
+  (window._prereqs || []).forEach(x => { if (by[x.concept]) by[x.concept].prereq = x.needs; });
+  download('concept-map.json', JSON.stringify(cm, null, 1));
 };
 
-window.clearAnalytics = function() {
-  if (!confirm('Clear all interaction data from this browser?')) return;
-  localStorage.removeItem('pbook-interactions');
-  toast('Analytics cleared');
-  showMain();
-};
-
-
-function editorialList(blocks){
-  let h='<div class="cl">';
-  blocks.forEach(b=>{
-    h+=`<div class="cl-item" style="grid-template-columns:2.5em 1fr auto">
-      <span class="cl-ch">Ch${b._cn}</span>
-      <span><span class="cl-title" style="cursor:pointer" onclick="OD('${b.id}')">${b.title}</span>
-        <span style="font-size:.6rem;color:var(--text3);margin-left:.3em">${b.type}${b.core?' · CORE':''}${b.concept?' · '+esc(b.concept):''}</span></span>
-      <span style="flex-shrink:0"><button class="ed-btn" style="font-size:.6rem;padding:.15em .45em" onclick="event.stopPropagation();OD('${b.id}')">Preview</button></span>
-    </div>`;
-  });
-  h+='</div>';
-  return h;
-}
-
-window.OD=function(id){
-  editorBlock=allBlocks.find(b=>b.id===id);
-  if(!editorBlock)return;
-  renderEditor();
-  document.getElementById('editor').classList.add('open');
-};
-window.CE=function(){document.getElementById('editor').classList.remove('open')};
-
-// Block detail: read-only preview + the two actions that matter — polish the
-// telling in the book's author studio, or take the canonical .md for git.
-window.renderEditor=function(){
-  const b=editorBlock;if(!b)return;
-  const ed=document.getElementById('editor');
-  let h=`<div class="ed-head">
-    <h2>${b.title}</h2>
-    <span style="font-size:.65rem;color:var(--text3);margin-left:.3em">Ch${b._cn} · ${b.type}${b.core?' · CORE':''} · ${b.readingTime||3}m · ${b._f}</span>
-    <div class="spacer"></div>
-    <button class="ed-close" onclick="CE()">&#10005;</button>
-  </div>`;
-  h+=`<div class="ed-body">
-    <div style="display:flex;gap:.4em;flex-wrap:wrap;margin-bottom:.8em">
-      <button class="ed-btn" style="border:1.5px solid #EC4899;color:#EC4899;font-weight:700" onclick="improveGitInStudio('${b.id}')" title="load into the book's author studio for a bigger rework">✍️ Improve in studio</button>
-      <button class="ed-btn" onclick="downloadGitMd('${b.id}')" title="download the canonical markdown file">⬇ .md</button>
-      <a class="ed-btn" href="/#${encodeURIComponent(b.id)}" target="_blank" style="text-decoration:none">📖 Open in book</a>
-    </div>
-    <div style="font-size:.85rem;line-height:1.6" class="md-preview">${window.renderMD?renderMD(b.body||''):esc(b.body||'')}</div>
-  </div>`;
-  ed.innerHTML=h;
-};
-
-window.improveGitInStudio=function(id){
-  const b=allBlocks.find(x=>x.id===id);if(!b)return;
-  const slug=b.concept||b.id;
-  const KEY='pbook-author-drafts';
-  let all={};try{all=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){}
-  if(all[slug]?.text?.trim()&&!confirm('The studio already has a draft for "'+slug+'". Overwrite it with this section?'))return;
-  all[slug]={text:b.body||'',ts:Date.now()};
-  localStorage.setItem(KEY,JSON.stringify(all));
-  window.open('/#autor-'+encodeURIComponent(slug),'_blank');
-};
-
-window.downloadGitMd=function(id){
-  const b=allBlocks.find(x=>x.id===id);if(!b)return;
-  const meta=Object.entries(b).filter(([k,v])=>!k.startsWith('_')&&k!=='body'&&v!==null&&v!==undefined&&v!=='')
-    .map(([k,v])=>`${k}: ${v}`).join('\n');
-  const blob=new Blob([`---\n${meta}\n---\n\n${b.body||''}\n`],{type:'text/markdown'});
-  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=b._f||b.id+'.md';a.click();
-};
-function escH(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
-window.syncRecombee=async function(){
-  const btn=document.getElementById('syncBtn');
-  btn.textContent='Syncing...';btn.disabled=true;btn.style.opacity='.6';
-  try{
-    const res=await fetch('/api/sync-recombee',{method:'POST',headers:{'Content-Type':'application/json','X-Pbook-Admin':localStorage.getItem('pbook-admin-key')||''},body:JSON.stringify({secret:localStorage.getItem('pbook-admin-pwd')||''})});
-    const raw=await res.text();
-    let data; try{data=JSON.parse(raw);}catch(_){data={ok:false,error:`endpoint returned ${res.status} — is /api/sync-recombee routed on this server?`};}
-    if(data.ok){
-      btn.textContent=`Synced ${data.imported}/${data.total}`;btn.style.color='#10B981';
-    }else{
-      btn.textContent='Sync failed';btn.style.color='#EF4444';
-      alert('Sync error: '+(data.error||'unknown')+((res.status===401||/401/.test(data.error||''))?'\n\nHint: RECOMBEE_TOKEN in .env is being rejected by the Recombee DB.':''));
+// ---------- 🤝 reader contributions ----------
+function viewShared(m) {
+  slot(m, L('Sdílená podání', 'Shared tellings'), async () => {
+    const [rows, B] = await Promise.all([D.log(), D.bundle()]);
+    let served = [];
+    if (CONFIG.recombee?.enabled) {
+      try {
+        const r = await fetch('/api/recs', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+          endpoint: '/recomms/users/admin-console/items/', method: 'POST',
+          body: { filter: `('state' == "community" OR 'state' == "edited" OR 'state' == "core") AND 'sharedAs' != null`, returnProperties: true, count: 200, cascadeCreate: true } }) });
+        const d = r.ok ? await r.json() : {};
+        served = (d.recomms || []).map(x => ({ itemId: x.id, ...(x.values || {}) }));
+      } catch (e) {}
     }
-  }catch(e){btn.textContent='Sync error';btn.style.color='#EF4444';alert('Sync error: '+e.message);}
-  setTimeout(()=>{btn.textContent='Sync Items';btn.disabled=false;btn.style.opacity='1';btn.style.color='#10B981';},3000);
+    const traction = new Map();
+    rows.forEach(r => {
+      const id = r.item; if (!id) return;
+      const t = traction.get(id) || traction.set(id, { views: new Set(), likes: new Set() }).get(id);
+      if (r.kind === 'detailview') t.views.add(r.user);
+      if (r.kind === 'rating' && Number(r.rating) >= 0.7) t.likes.add(r.user);
+    });
+    const archived = new Map();
+    rows.filter(r => r.kind === 'block_saved' && (r.action === 'shared' || r.state === 'community')).forEach(r => {
+      const old = archived.get(r.blockId);
+      if (!old || old.at < r.at) archived.set(r.blockId, { itemId: r.blockId, title: r.title, concept: r.concept, body: r.body, bodyLen: r.bodyLen, hasSvg: r.hasSvg,
+        sharedAs: r.sharedAs, classGroup: r.classGroup, remixOf: r.remixOf, lens: r.facets?.lens, at: r.at });
+    });
+    const all = new Map(served.map(i => [i.itemId, i]));
+    archived.forEach((a, id) => all.set(id, { ...(all.get(id) || {}), ...a }));
+    const list = [...all.values()].map(i => ({ i, views: traction.get(i.itemId)?.views.size || 0, likes: traction.get(i.itemId)?.likes.size || 0 }))
+      .sort((a, b) => (!!b.i.nominated - !!a.i.nominated) || (b.likes * 3 + b.views) - (a.likes * 3 + a.views));
+    window._shared = new Map(list.map(x => [x.i.itemId, x.i]));
+    const canAdopt = !!CONFIG.recombee?.enabled;
+    let h = `<p class="lead">${L('Sdílená podání od čtenářů: nová i upravená. Dobrá převezmi do knihy: vylepši je ve studiu, nebo stáhni .md do repozitáře.',
+      'Tellings readers wrote or reworked and shared. Take the good ones into the book: polish them in the studio, or download the .md for the repository.')}`
+      + (canAdopt ? '' : ` ${L('Přímé převzetí jedním tlačítkem potřebuje Recombee, které tahle kniha nemá zapnuté.', 'One-click adoption needs Recombee, which this book has turned off.')}`) + '</p>';
+    h += list.length ? list.map(({ i, views, likes }) => {
+      const concept = B.concepts.find(c => c.id === i.concept);
+      return `<div class="box${likes >= 5 ? ' go' : ''}"><div class="row"><span class="chip ${i.state === 'core' || i.state === 'edited' ? 'ok' : 'acc'}">${esc(i.state || 'community')}</span>
+        <b>${esc(i.title || i.itemId)}</b>${i.nominated ? ` <span class="chip acc">⭐ ${L('doporučeno ve třídě', 'class pick')}</span>` : ''}${i.classGroup ? ` <span class="chip">🏫 ${esc(i.classGroup)}</span>` : ''}</div>
+        <div class="why">${esc(concept ? concept.title : i.concept || '')}${i.lens ? ' · ' + esc(i.lens) : ''} · ${esc(i.sharedAs || L('bez jména', 'anonymous'))} · ${num(views)} ${L('čtenářů', 'readers')} · ${num(likes)} 👍${i.at ? ' · ' + day(i.at) : ''}</div>
+        ${isText(i.body) ? `<details><summary class="linkbtn">${L('náhled', 'preview')}</summary><div class="quote" id="full-${esc(i.itemId)}">${esc(i.body)}</div>
+          ${i.bodyLen || i.hasSvg ? `<button class="btn" data-act="loadFull" data-arg="${esc(i.itemId)}">⤓ ${L('celý text', 'full text')}</button>` : ''}</details>` : ''}
+        <div class="row" style="margin-top:.3em"><button class="btn" data-act="sharedStudio" data-arg="${esc(i.itemId)}">✍️ ${L('Vylepšit ve studiu', 'Polish in the studio')}</button>
+          <button class="btn" data-act="sharedMd" data-arg="${esc(i.itemId)}">⬇ .md</button>
+          ${canAdopt ? `<button class="btn" data-act="adopt" data-arg="${esc(i.itemId)}|edited">✓ ${L('Převzít (pro všechny)', 'Adopt (for everyone)')}</button>
+          <button class="btn" data-act="adopt" data-arg="${esc(i.itemId)}|community">↩ ${L('Vrátit do komunity', 'Back to community')}</button>` : ''}</div></div>`;
+    }).join('') : `<p class="muted">${L('Zatím tu není nic sdíleného.', 'Nobody has shared anything yet.')}</p>`;
+    return h;
+  });
+}
+async function fullBody(id) {
+  try { const rows = await getJSON('/api/log?full=1&blockId=' + encodeURIComponent(id), withKey()); return (rows[0] && rows[0].data) || {}; } catch (e) { return {}; }
+}
+ACT.loadFull = async id => {
+  const d = await fullBody(id);
+  const el = document.getElementById('full-' + id);
+  if (el) el.textContent = isText(d.body) ? d.body : L('(text se nepodařilo načíst)', '(the text could not be loaded)');
+};
+ACT.sharedStudio = async id => {
+  const d = await fullBody(id), i = window._shared.get(id) || {};
+  if (!isText(d.body)) { alert(L('Text se nepodařilo načíst.', 'The text could not be loaded.')); return; }
+  toStudio(i.concept || id, d.body + (d.svg ? `\n\n⟦svg⟧\n${d.svg}\n⟦/svg⟧\n` : ''));
+};
+ACT.sharedMd = async id => {
+  const d = await fullBody(id), i = window._shared.get(id) || {};
+  const body = isText(d.body) ? d.body : i.body || '';
+  download(`${id}.md`, `---\nid: ${id}\ntype: spine\ntitle: "${String(i.title || '').replace(/"/g, "'")}"\nconcept: ${i.concept || ''}\nstate: edited\nsharedAs: ${i.sharedAs || 'anonymous'}\nstatus: review\n---\n\n${body}\n`, 'text/markdown');
+};
+ACT.adopt = async arg => {
+  const [id, state] = arg.split('|');
+  if (state !== 'community' && !confirm(L(`Převzít „${id}“? Ukáže se všem.`, `Adopt "${id}"? Every reader will see it.`))) return;
+  const r = await fetch('/api/recs', withKey({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({
+    endpoint: `/items/${encodeURIComponent(id)}`, method: 'POST', body: { state, adoptedAt: new Date().toISOString(), classGroup: null, nominated: null, '!cascadeCreate': true } }) }));
+  if (!r.ok) { alert(L('Nepovedlo se: HTTP ', 'Failed: HTTP ') + r.status); return; }
+  toast(state === 'community' ? L('Vráceno do komunity.', 'Back in the community.') : L('Převzato: teď se ukazuje všem.', 'Adopted: everyone sees it now.'));
+  route();
 };
 
-// ---- Recombee setup ----
-window.showRCSetup=function(){
-  const current=localStorage.getItem('pbook-rc-config')||'';
-  let parsed={database:'cvachond-land-free-pbook',token:'',region:'rapi-eu-west'};
-  try{parsed=JSON.parse(current)||parsed}catch(e){}
-  const el=document.getElementById('main');
-  let h='<h2 style="font-size:1.1rem;font-weight:700;margin-bottom:.8em">Recombee Configuration</h2>';
-  h+='<p style="font-size:.82rem;color:var(--text2);margin-bottom:1.2em">Set the Recombee API credentials. This is saved in your browser and shared with all readers on this device. For production, deploy with a server-side token proxy.</p>';
-  h+='<div style="max-width:500px;display:flex;flex-direction:column;gap:.6em">';
-  h+='<div class="ed-field"><label>Database</label><input class="ed-input" id="rcDb" value="'+escH(parsed.database)+'"></div>';
-  h+='<div class="ed-field"><label>Private Token</label><input class="ed-input" id="rcToken" type="password" value="'+escH(parsed.token)+'" placeholder="Paste private token from Recombee admin"></div>';
-  h+='<div class="ed-field"><label>Region</label><input class="ed-input" id="rcRegion" value="'+escH(parsed.region)+'"></div>';
-  h+='</div>';
-  h+='<div class="ed-btn-row" style="margin-top:1em">';
-  h+='<button class="ed-btn ed-btn-primary" onclick="saveRCConfig()">Save & activate</button>';
-  h+='<button class="ed-btn" onclick="testRC()">Test connection</button>';
-  h+='<button class="ed-btn" style="color:#dc2626" onclick="clearRCConfig()">Clear token</button>';
-  h+='</div>';
-  h+='<div id="rcStatus" style="margin-top:1em;font-size:.82rem"></div>';
-  // Show current status
-  const saved=localStorage.getItem('pbook-rc-config');
-  if(saved){
-    try{const c=JSON.parse(saved);h+='<div style="margin-top:1.5em;padding:1em;background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);font-size:.8rem"><b>Active config:</b> '+c.database+' ('+c.region+')<br>Token: '+(c.token?'***'+c.token.slice(-8):'not set')+'</div>'}catch(e){}
-  }
-  el.innerHTML=h;
+// ---------- 🏫 classes ----------
+function viewClasses(m) {
+  slot(m, L('Třídy v pilotu', 'Classes in the pilot'), async () => {
+    const d = await D.classes();
+    const intro = `<p class="lead">${L('Počítají se zařízení otevřená odkazem s kódem třídy (stránka /ucitel). Zařízení, ze kterého přišel dotazník, se nepočítá. Celou zprávu pro pilot vytvoří ',
+      'Counted are the devices a teacher brought in with a class-code link (the /ucitel page). The teacher’s own device is not counted. The full pilot report is ')}<code>node scripts/pilot-report.mjs --supabase</code>.</p>`;
+    if (!d.classes.length) return intro + `<p class="muted">${L('Zatím žádná třída.', 'No class yet.')}</p>`;
+    const surveyed = new Set(d.surveys.map(s => String(s.data?.classCode || '').toLowerCase()));
+    return intro + `<div class="scroll"><table><thead><tr><th>${L('Kód', 'Code')}</th><th class="n">${L('Zařízení', 'Devices')}</th><th class="n">${L('Vrací se', 'Return')}</th>
+      <th class="n">${L('Návštěv', 'Visits')}</th><th class="n">${L('Zkouška prošla', 'Passed exam')}</th><th class="n">${L('Kol zkoušky', 'Exam rounds')}</th><th class="n">👍 / 👎</th>
+      <th class="n">${L('Mise', 'Missions')}</th><th class="n">${L('Týmy', 'Teams')}</th><th class="n">AI</th><th>${L('Aktivní', 'Active')}</th><th>${L('Dotazník', 'Survey')}</th></tr></thead><tbody>`
+      + d.classes.map(c => `<tr><td><code>${esc(c.code)}</code></td><td class="n">${num(c.devices)}</td><td class="n">${num(c.returning)}</td><td class="n">${num(c.sessions)}</td>
+        <td class="n">${num(c.bossPassDevices)} <span class="muted">(${pct(c.bossPassDevices, c.devices)})</span></td><td class="n">${num(c.bossRounds)}</td><td class="n">${c.up} / ${c.down}</td>
+        <td class="n">${num(c.missions)}</td><td class="n">${num(c.teams)}</td><td class="n">${num(c.aiCalls)}</td><td>${day(c.first)}–${day(c.last)}</td><td>${surveyed.has(c.code) ? '✓' : ''}</td></tr>`).join('')
+      + `</tbody></table></div><p class="note">${L('Vrací se = zařízení aktivní aspoň 2 různé dny. Spočítáno', 'Return = devices active on at least 2 different days. Computed')} ${when(d.computedAt)}.</p>`;
+  });
+  slot(m, L('Dotazníky učitelů', 'Teacher surveys'), async () => {
+    const d = await D.classes();
+    if (!d.surveys.length) return `<p class="muted">${L('Zatím žádný dotazník.', 'No survey yet.')}</p>`;
+    const AGAIN = { yes: L('ano', 'yes'), 'rather-yes': L('spíš ano', 'rather yes'), 'rather-no': L('spíš ne', 'rather no'), no: L('ne', 'no') };
+    const HOW = { class: L('celá třída', 'whole class'), groups: L('skupiny', 'groups'), home: L('doma', 'at home'), other: L('jinak', 'other') };
+    const QUOTE = { no: L('necitovat', 'do not quote'), anon: L('citovat anonymně', 'quote anonymously'), school: L('citovat se školou', 'quote with the school') };
+    return d.surveys.map(r => { const s = r.data || {}; return `<div class="box"><div class="row"><b>${esc(s.school || L('(škola neuvedena)', '(no school given)'))}</b>
+      ${s.classCode ? `<code>${esc(s.classCode)}</code>` : ''}<span class="muted">${when(r.created_at)}</span><span class="chip">${esc(QUOTE[s.quote] || s.quote || '')}</span></div>
+      <dl class="kv"><dt>${L('Hodin', 'Lessons')}</dt><dd>${num(s.lessons)}</dd><dt>${L('Jak', 'How')}</dt><dd>${(s.how || []).map(h => esc(HOW[h] || h)).join(', ')}${isText(s.howOther) ? ' · ' + esc(s.howOther) : ''}</dd>
+      <dt>${L('Snadné použití', 'Ease of use')}</dt><dd>${s.ease ?? '–'} / 5</dd><dt>${L('Férové hodnocení', 'Fair grading')}</dt><dd>${s.fair ?? '–'} / 5</dd>
+      <dt>${L('Použije znovu', 'Would use again')}</dt><dd>${esc(AGAIN[s.again] || s.again || '–')}</dd></dl>
+      ${isText(s.liked) ? `<div class="quote">${esc(s.liked)}</div>` : ''}${isText(s.unfairExample) ? `<div class="quote"><b>${L('Nefér', 'Unfair')}:</b> ${esc(s.unfairExample)}</div>` : ''}</div>`; }).join('');
+  });
+}
+
+// ---------- ✉️ messages ----------
+function viewMessages(m) {
+  slot(m, L('Zprávy od čtenářů', 'Messages from readers'), async () => {
+    const rows = await D.messages();
+    const contacts = rows.filter(x => x.event === 'contact_message'), questions = rows.filter(x => x.event === 'author_question');
+    let h = `<p class="lead">${L('Z formuláře „Chceš spolupracovat?“ a z tlačítka „Napsat autorům“ u tutora. Ve veřejném logu nejsou.', 'From the "Want to collaborate?" form and the tutor’s "Message the authors". Never in the public log.')}</p>`;
+    h += `<h3>${L('Spolupráce', 'Collaboration')} (${contacts.length})</h3>` + (contacts.length ? contacts.map(x => { const d = x.data || {};
+      const mail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.contact || '');
+      return `<div class="box"><div class="row"><b>${esc(d.name || L('(bez jména)', '(no name)'))}</b> · ${mail ? `<a href="mailto:${esc(d.contact)}">${esc(d.contact)}</a>` : esc(d.contact)}
+        ${d.topic ? `<span class="chip acc">${esc(d.topic)}</span>` : ''}<span class="muted">${when(x.created_at)}</span></div><div class="quote">${esc(d.message)}</div></div>`; }).join('')
+      : `<p class="muted">${L('Zatím žádná.', 'None yet.')}</p>`);
+    h += `<h3>${L('Otázky autorům', 'Questions to the authors')} (${questions.length})</h3>` + (questions.length ? questions.map(x => { const d = x.data || {};
+      return `<div class="box"><div class="row"><span class="muted">${when(x.created_at)}</span>${d.blockId ? `<button class="linkbtn" data-act="preview" data-arg="${esc(d.blockId)}">${esc(d.blockId)}</button>` : ''}</div>
+        <div class="quote">${esc(d.question)}</div></div>`; }).join('') : `<p class="muted">${L('Zatím žádné.', 'None yet.')}</p>`);
+    return h;
+  });
+}
+
+// ---------- ⚡ AI and credits ----------
+const REASON = { vitej: L('uvítání', 'welcome'), migrace: L('převod XP', 'XP carried over'), activity: L('aktivita', 'activity') };
+function viewAI(m) {
+  m.innerHTML = '<div class="grid"></div>';
+  const g = m.firstChild;
+  slot(g, L('⚡ Kredity za 90 dní', '⚡ Credits in 90 days'), async () => {
+    const w = await D.wallet();
+    return `<div class="tiles">${tile(w.spent, L('⚡ utraceno za AI', '⚡ spent on AI'))}${tile(w.calls.basic + w.calls.advanced, L('placených volání', 'paid calls'))}`
+      + `${tile(w.earned, L('⚡ získáno', '⚡ earned'))}${tile(w.accounts, L('účtů s kredity', 'accounts with credits'))}`
+      + `${tile(w.trials, L('zkoušek bez účtu', 'trials without an account'))}${tile(w.gifts.made, L('darů', 'gifts'))}</div>`
+      + `<h3>${L('Utraceno po dnech', 'Spent by day')}</h3>`
+      + columns((w.perDay || []).map(d => ({ v: d.spent, l: day(d.day), t: `${day(d.day)}: ${d.spent} ⚡ · ${d.calls} ${L('volání', 'calls')} · ${d.trials} ${L('zkoušek', 'trials')} · +${d.earned} ⚡` })))
+      + `<div class="grid" style="margin-top:.6em"><div><h3>${L('Volání podle úrovně', 'Calls by tier')}</h3><dl class="kv"><dt>${L('základní', 'basic')}</dt><dd>${num(w.calls.basic)}</dd>`
+      + `<dt>${L('pokročilá', 'advanced')}</dt><dd>${num(w.calls.advanced)}</dd><dt>${L('zkoušky bez účtu', 'anonymous trials')}</dt><dd>${num(w.trials)} (${num(w.trialDevices)} ${L('zařízení', 'devices')})</dd></dl></div>`
+      + `<div><h3>${L('Za co přibyly ⚡', 'What readers earned ⚡ for')}</h3><dl class="kv">${Object.entries(w.byReason || {}).sort((a, b) => b[1] - a[1]).slice(0, 8)
+        .map(([k, v]) => `<dt>${esc(REASON[k] || k)}</dt><dd>${num(v)}</dd>`).join('') || `<dt class="muted">–</dt><dd></dd>`}</dl></div>`
+      + `<div><h3>${L('Dary kamarádům', 'Gifts to friends')}</h3><dl class="kv"><dt>${L('darováno', 'given')}</dt><dd>${num(w.gifts.made)} (${num(w.gifts.madeSum)} ⚡)</dd>`
+      + `<dt>${L('vyzvednuto', 'redeemed')}</dt><dd>${num(w.gifts.redeemed)} (${num(w.gifts.redeemedSum)} ⚡)</dd><dt>${L('vráceno dárci', 'returned')}</dt><dd>${num(w.gifts.returned)}</dd></dl></div></div>`
+      + `<p class="note">${L(`Zkoušky bez účtu dnes z ${num(w.netsToday.networks)} sítí, ${num(w.netsToday.atCap)} z nich na limitu ${num(w.netsToday.cap)} za den (škola sdílí jednu adresu).`,
+        `Anonymous trials today from ${num(w.netsToday.networks)} networks, ${num(w.netsToday.atCap)} of them at the cap of ${num(w.netsToday.cap)} a day (a school shares one address).`)} ${L('Spočítáno', 'Computed')} ${when(w.computedAt)}.</p>`;
+  }, 'wide');
+  slot(g, L('Model', 'Model'), async () => {
+    const b = await D.boss().catch(() => null);
+    return b && b.available ? `<dl class="kv"><dt>${L('Zkoušející a generování', 'Examiner and generation')}</dt><dd><span class="chip ok">✓ ${esc(b.model || '')}</span></dd>`
+      + `<dt>${L('Poskytovatel', 'Provider')}</dt><dd>${esc(b.provider || '–')}</dd></dl>`
+      : `<p class="err">${L('AI není nastavená: zkoušky a generování nefungují.', 'AI is not configured: exams and generation do not work.')}</p>`;
+  });
+  slot(g, L('Volání AI v logu', 'AI calls in the log'), async () => {
+    const rows = await D.log();
+    const c = k => rows.filter(r => r.kind === k).length;
+    return `<dl class="kv"><dt>${L('kola zkoušky (boss)', 'exam rounds (boss)')}</dt><dd>${num(c('boss_graded'))}</dd><dt>${L('týmové úkoly', 'team tasks')}</dt><dd>${num(c('team_graded') + c('team_ai'))}</dd>`
+      + `<dt>${L('nová podání', 'new tellings')}</dt><dd>${num(rows.filter(r => r.kind === 'generate_served' && !r.cached).length)}</dd><dt>${L('úpravy textu', 'text reworks')}</dt><dd>${num(c('remix_served'))}</dd></dl>`
+      + `<p class="note">${L(`Z posledních ${num(rows.length)} záznamů.`, `From the latest ${num(rows.length)} events.`)}</p>`;
+  });
+}
+
+// ---------- 🗂 data ----------
+function viewData(m) {
+  m.innerHTML = '<div class="grid"></div>';
+  const g = m.firstChild;
+  slot(g, L('Profily pro Tiny', 'Profiles for Tiny'), async () => {
+    if (!CONFIG.tiny?.profile) return `<p class="muted">${L('V této knize je profil pro Tiny vypnutý (CONFIG.tiny).', 'This book has the Tiny profile turned off (CONFIG.tiny).')}</p>`;
+    return `<p class="lead">${L('Každý čtenář má souhrn pokroku ve tvaru metadata.pbook v1: přečtená, pochopená a udržená jádra, splněné mise, úroveň a oblíbené světy. Žádný vlastní text, jméno ani e-mail.',
+      'Every reader has a progress summary in the metadata.pbook v1 shape: cores read, understood and kept, missions passed, level and favourite worlds. No free text, name or e-mail.')}</p>`
+      + (ADMIN ? `<button class="btn primary" data-act="tinyExport">⬇ ${L('Stáhnout profily (JSON)', 'Download profiles (JSON)')}</button> <span id="tinyN" class="muted"></span>`
+        : `<p class="muted">🔒 ${L('Stažení potřebuje klíč editora.', 'Downloading needs the editor key.')}</p>`);
+  });
+  slot(g, L('Záznamy', 'Events'), async () => `<p class="lead">${L('Posledních nejvýš 1 000 záznamů této knihy. Celou tabulku vyexportuješ v Supabase.', 'The latest 1,000 events of this book at most. Export the whole table in Supabase.')}</p>`
+    + `<button class="btn" data-act="logExport">⬇ ${L('Stáhnout záznamy (JSON)', 'Download events (JSON)')}</button>`
+    + (ADMIN ? '' : `<p class="note">${L('Bez klíče jsou texty čtenářů skryté.', 'Without the key, readers’ texts are hidden.')}</p>`));
+  slot(g, 'Recombee', async () => CONFIG.recombee?.enabled
+    ? `<p class="lead">${L('Doporučování běží přes Recombee', 'Recommendations run on Recombee')} (<code>${esc(CONFIG.recombee.database || '')}</code>). ${L('Po změně obsahu pošli katalog znovu.', 'Send the catalog again after the content changes.')}</p>`
+      + (ADMIN ? `<button class="btn primary" data-act="sync">🔄 ${L('Synchronizovat obsah', 'Sync the content')}</button> <span id="syncOut" class="muted"></span>` : `<p class="muted">🔒 ${L('Potřebuje klíč editora.', 'Needs the editor key.')}</p>`)
+    : `<p class="lead">${L('Vypnuté: doporučuje se v prohlížeči čtenáře a interakce se ukládají jen do Supabase.', 'Off: recommendations run in the reader’s browser and interactions go to Supabase only.')}</p>`
+      + `<p class="note">${L('Zapnutí: ve Vercelu proměnné RECOMBEE_DB, RECOMBEE_TOKEN a PBOOK_ORIGINS, v js/config.js recombee.enabled: true, nasadit a tady synchronizovat obsah.',
+        'To turn it on: set RECOMBEE_DB, RECOMBEE_TOKEN and PBOOK_ORIGINS in Vercel, recombee.enabled: true in js/config.js, deploy, then sync the content here.')}</p>`);
+  slot(g, L('Pozvat editora', 'Invite an editor'), async () => `<p class="lead">${L('Odkaz zapne v knize roli editora a ukáže průvodce pro editory.', 'The link turns on the editor role in the book and shows the editor guide.')}</p>`
+    + `<button class="btn" data-act="invite">＋ ${L('Vytvořit odkaz', 'Create a link')}</button><div id="inviteOut" style="margin-top:.5em"></div>`);
+  slot(g, L('Odkazy', 'Links'), async () => {
+    const ucitel = await fetch('/ucitel', { method: 'HEAD' }).then(r => r.ok).catch(() => false);
+    return `<ul class="list"><li><a href="/" target="_blank" rel="noopener">📖 ${L('Kniha', 'The book')}</a></li>`
+      + (ucitel ? `<li><a href="/ucitel" target="_blank" rel="noopener">🏫 ${L('Stránka pro učitele (kód třídy, dotazník)', 'Teacher page (class code, survey)')}</a></li>` : '')
+      + (CONFIG.book?.issuesUrl ? `<li><a href="${esc(CONFIG.book.issuesUrl)}" target="_blank" rel="noopener">🐞 ${L('Hlášení chyb (GitHub)', 'Issues (GitHub)')}</a></li>` : '') + '</ul>';
+  });
+}
+ACT.tinyExport = async (a, btn) => {
+  btn.disabled = true;
+  try {
+    const list = await getJSON(logUrl('profiles=1'), withKey());
+    download(`tiny-profily-${BOOK}-${new Date().toISOString().slice(0, 10)}.json`,
+      JSON.stringify({ format: 'metadata.pbook', v: 1, book: BOOK, exportedAt: new Date().toISOString(), profiles: list }, null, 2));
+    $('#tinyN').textContent = `${num(list.length)} ${plural(list.length, L('profil', 'profile'), L('profily', 'profiles'), L('profilů', 'profiles'))}`;
+  } catch (e) { alert(L('Stažení se nepovedlo: ', 'Download failed: ') + e.message); }
+  btn.disabled = false;
 };
-
-window.saveRCConfig=function(){
-  const config={
-    database:document.getElementById('rcDb').value.trim(),
-    token:document.getElementById('rcToken').value.trim(),
-    region:document.getElementById('rcRegion').value.trim()
-  };
-  if(!config.token){toast('Token is required');return}
-  localStorage.setItem('pbook-rc-config',JSON.stringify(config));
-  // Also set for reader (they share localStorage on same domain)
-  localStorage.setItem('pbook-rc-token',config.token);
-  toast('Recombee config saved — active for all readers on this domain');
-  document.getElementById('rcStatus').innerHTML='<span style="color:var(--prod)">&#10003; Config saved. Readers will connect to Recombee on next page load.</span>';
+ACT.logExport = async () => {
+  const rows = await getJSON(logUrl(''), withKey()).catch(() => []);
+  download(`zaznamy-${BOOK}-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(rows, null, 1));
 };
-
-window.testRC=function(){
-  const db=document.getElementById('rcDb').value.trim();
-  const token=document.getElementById('rcToken').value.trim();
-  const region=document.getElementById('rcRegion').value.trim();
-  const statusEl=document.getElementById('rcStatus');
-  statusEl.innerHTML='Testing...';
-
-  // Use proxy (works on deployed site AND localhost with serve-local.js)
-  fetch('/.netlify/functions/recombee',{
-    method:'POST',
-    headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({endpoint:'/items/list/?count=1'})
-  })
-  .then(function(res){
-    if(res.ok) return res.json().then(function(data){statusEl.innerHTML='<span style="color:var(--prod)">&#10003; Connected via proxy! '+JSON.stringify(data).substring(0,100)+'</span>'});
-    else return res.text().then(function(text){statusEl.innerHTML='<span style="color:#dc2626">&#10007; Proxy error '+res.status+': '+text.substring(0,100)+'</span>'});
-  })
-  .catch(function(e){statusEl.innerHTML='<span style="color:#dc2626">&#10007; Connection failed: '+e.message+'</span>'});
+ACT.sync = async (a, btn) => {
+  btn.disabled = true;
+  const out = $('#syncOut');
+  out.textContent = L('Posílám…', 'Sending…');
+  try {
+    const r = await fetch('/api/sync-recombee', withKey({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }));
+    const d = await r.json().catch(() => ({}));
+    out.textContent = d.ok ? `✓ ${num(d.imported)} / ${num(d.total)}` : `✗ ${d.error || r.status}`;
+  } catch (e) { out.textContent = '✗ ' + e.message; }
+  btn.disabled = false;
 };
-
-window.clearRCConfig=function(){
-  localStorage.removeItem('pbook-rc-config');
-  localStorage.removeItem('pbook-rc-token');
-  toast('Recombee config cleared — readers will use local mode');
-  showRCSetup();
+ACT.invite = () => {
+  const code = 'E-' + Array.from(crypto.getRandomValues(new Uint8Array(4)), b => b.toString(36).padStart(2, '0')).join('').slice(0, 6).toUpperCase();
+  const url = `${location.origin}/?invite=${code}`;
+  $('#inviteOut').innerHTML = `<code style="user-select:all;word-break:break-all">${esc(url)}</code> <button class="btn" data-act="copy" data-arg="${esc(url)}">${L('Kopírovat', 'Copy')}</button>`;
 };
+ACT.copy = (text, btn) => { navigator.clipboard?.writeText(text).then(() => { btn.textContent = '✓'; }); };
 
-// ---- Toast ----
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
-
-init();
+// ---------- start ----------
+(async () => {
+  const c = await checkKey();
+  if (c && c.admin) { ADMIN = true; boot(); return; }
+  showGate(c, KEY ? L('Uložený klíč už neplatí.', 'The saved key is no longer valid.') : '');
+})();
 </script>
 </body>
 </html>
