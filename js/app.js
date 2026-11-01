@@ -9181,7 +9181,7 @@ class PBook {
     const result = this.tutor.generateResponse(query, context);
     // what readers ask and whether the book had it (/admin → Insights: questions the book could not answer)
     const asked = this.tutor.search?.(query, 1)?.[0];
-    this.rc.logEvent('ask', { q: String(query).trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 80), found: (result.confidence || 0) > 0,
+    this.rc.logEvent('ask', { q: Array.from(String(query).trim().toLowerCase().replace(/\s+/g, ' ')).slice(0, 80).join(''), found: (result.confidence || 0) > 0,
       ...(result.confidence > 0 && asked ? { concept: asked.concept.id } : {}) });
 
     // Store in conversation
@@ -9366,7 +9366,7 @@ class PBook {
     const st = this._searchState;
     this._searchState = null;
     if (!st) return;
-    const q = String(st.q || '').trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 80);
+    const q = Array.from(String(st.q || '').trim().toLowerCase().replace(/\s+/g, ' ')).slice(0, 80).join('');   // whole characters (emoji)
     if (q.length < 2) return;
     this.rc.logEvent('search', { q, n: st.n, engine: st.engine, ...(st.concept ? { concept: st.concept } : {}) });
   }

@@ -6,6 +6,11 @@ The v2 brief: a coherent, accessible publication about modern recommender system
 
 _v2 is assembled from several parallel workstreams. Each adds its entry here when its branch merges; the reader-facing summary lives in the "New in version 2" section of the About block (`content/ch01-introduction/99-sidebar-about-this-book.md`)._
 
+### Engine 7.13.1 (2026-11-01)
+- **Sync**: text is cut by whole characters. `searchText` cut in the middle of an emoji left a lone surrogate, and Recombee answered the whole batch with 502 (200 items of Informatika were missing). A failed batch is now split and retried, and the response lists the items that still fail. Existing segmentations are updated, not re-created (a plan allows only a few: PUT answered 403).
+- `/api/log` and the search and ask log rows cut text by whole characters (Postgres refuses a lone surrogate).
+- `app.js?v=7.13.1`, service worker `pbook-v93`.
+
 ### Engine 7.13.0 (2026-11-01)
 - **Recombee in full, as an A/B test.** `CONFIG.recombee.abShare` (default 1) is the share of devices Recombee serves; the other devices keep the book's own recommender unchanged and are the control. Every device sends its interactions. The arm stays with the device (`localStorage pbook-ab`); `?rc=1` / `?rc=0` pins it. Every log row carries `ab`. See [SCENARIOS.md](SCENARIOS.md).
 - **Item segments** (segmentations `concept`, `chapter`, `lens`, created by `/api/sync-recombee`):

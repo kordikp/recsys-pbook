@@ -339,7 +339,8 @@ async function insightStats(scope) {
     items, paths, classes };
 }
 
-function clip(v, n) { return String(v == null ? '' : v).trim().slice(0, n); }
+// cut without splitting an emoji: Postgres refuses a JSON string with a lone surrogate
+function clip(v, n) { const t = String(v == null ? '' : v).trim().slice(0, n); return /[\ud800-\udbff]$/.test(t) ? t.slice(0, -1) : t; }
 
 // Rows other endpoints WRITE and then TRUST: the ⚡ balance is summed from wallet rows
 // (api/wallet.js, api/generate.js), class galleries list deck/draft rows (api/decks.js,

@@ -32,6 +32,10 @@ async function recombeeApi(method, endpoint, body) {
   return { status: res.status, ok: res.ok || res.status === 409 };
 }
 
+// Cut text without splitting an emoji: a lone surrogate is invalid UTF-8, and Recombee answered a
+// batch holding one with 502 (the whole batch was lost)
+const cut = (text, n) => { const t = String(text || '').slice(0, n); return /[\ud800-\udbff]$/.test(t) ? t.slice(0, -1) : t; };
+
 function sameSecret(a, b) {
   if (!a || typeof b !== 'string') return false;
   const x = Buffer.from(a), y = Buffer.from(b);
@@ -68,6 +72,11 @@ const SEGMENTATIONS = {
   lens: { propertyName: 'lens', title: 'Example world', description: 'Tellings with examples from one world (generic = for everyone)' },
 };
 
+async function recombeeGet(endpoint) {
+  const res = await fetch(`https://${REGION}.recombee.com${signUrl('/' + DB + endpoint)}`).catch(() => null);
+  return res && res.ok ? res.json().catch(() => null) : null;
+}
+
 async function recombeeBatch(requests) {
   const url = `https://${REGION}.recombee.com${signUrl('/' + DB + '/batch/')}`;
   const res = await fetch(url, {
@@ -99,8 +108,8 @@ function parseFrontmatter(text) {
   meta._wordCount = body.split(/\s+/).length;
   const headings = (body.match(/^#{1,3}\s+(.+)$/gm) || []).map(h => h.replace(/^#+\s+/, '')).join('. ');
   const boldTerms = (body.match(/\*\*([^*]+)\*\*/g) || []).map(b => b.replace(/\*\*/g, '')).join(', ');
-  const plain = body.replace(/[#*_\[\]|>`~]/g, '').replace(/\(http[^)]+\)/g, '').substring(0, 600);
-  meta._searchText = `${headings}. ${boldTerms}. ${plain}`;
+  const plain = body.replace(/[#*_\[\]|>`~]/g, '').replace(/\(http[^)]+\)/g, '');
+  meta._searchText = `${headings}. ${boldTerms}. ${cut(plain, 600)}`;
   return meta;
 }
 
@@ -153,11 +162,15 @@ module.exports = async function handler(req, res) {
       return out.filter(r => r.code >= 400 && r.code !== 409).length;
     };
     const propErrors = await defs('items', ITEM_PROPERTIES) + await defs('users', USER_PROPERTIES);
-    // Segmentations: PUT creates, 409 = exists (then POST updates the title and description)
+    // Segmentations: an existing one gets its title and description updated (POST), a missing one is
+    // created (PUT). A plan allows only a few: PUT on an existing one answers 403 "too many".
     const segmentations = {};
+    const listed = await recombeeGet('/segmentations/list/?sourceType=items');
+    const have = new Set(((listed && listed.segmentations) || []).map(x => x.segmentationId));
     for (const [id, def] of Object.entries(SEGMENTATIONS)) {
-      let r = await recombeeApi('PUT', `/segmentations/property-based/${id}`, { sourceType: 'items', ...def });
-      if (r.status === 409) r = await recombeeApi('POST', `/segmentations/property-based/${id}`, { title: def.title, description: def.description });
+      const r = have.has(id)
+        ? await recombeeApi('POST', `/segmentations/property-based/${id}`, { title: def.title, description: def.description })
+        : await recombeeApi('PUT', `/segmentations/property-based/${id}`, { sourceType: 'items', ...def });
       segmentations[id] = r.status;
     }
 
@@ -182,7 +195,7 @@ module.exports = async function handler(req, res) {
             values: {
               type: meta.type || 'spine',
               title: meta.title || file,
-              teaser: (meta.teaser || '').substring(0, 500),
+              teaser: cut(meta.teaser, 500),
               voice: meta.voice || 'universal',
               readingTime: meta.readingTime || 3,
               core: meta.core === true,
@@ -190,7 +203,7 @@ module.exports = async function handler(req, res) {
               chapter: chapter.id,
               chapterNum: chapter.number,
               wordCount: meta._wordCount || 0,
-              searchText: (meta._searchText || '').substring(0, 2000),
+              searchText: cut(meta._searchText, 2000),
               publishedAt: meta.publishedAt ? new Date(meta.publishedAt).toISOString() : null,
               // Facet-vector as item features — the recommender learns per-facet affinities
               concept: meta.concept || null,
@@ -210,22 +223,32 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Batch import: 200 items per request, 3 requests at a time (a 1554-item book in ~3 s)
+    // Batch import: 100 items per request, 3 requests at a time (a 1554-item book in a few seconds).
+    // A batch Recombee fails as a whole (it answered 502 to one of them) is split in halves and retried.
     let imported = 0, errors = 0;
-    const BATCH_SIZE = 200, PARALLEL = 3;
+    const failed = [];
+    const BATCH_SIZE = 100, PARALLEL = 3;
+    const importChunk = async chunk => {
+      try {
+        const results = await recombeeBatch(chunk.map(item => ({ method: 'POST', path: `/items/${item.itemId}`, params: item.values })));
+        results.forEach((r, i) => {
+          if (r.code === 200 || r.code === 201) imported++;
+          else if (r.code >= 400) { errors++; if (failed.length < 10) failed.push(`${chunk[i].itemId} (${r.code})`); }
+        });
+      } catch (e) {
+        if (chunk.length > 1) {
+          const h = Math.ceil(chunk.length / 2);
+          await importChunk(chunk.slice(0, h));
+          await importChunk(chunk.slice(h));
+        } else {
+          errors += chunk.length;
+          for (const item of chunk) if (failed.length < 10) failed.push(`${item.itemId} (${e.message})`);
+        }
+      }
+    };
     const chunks = [];
     for (let i = 0; i < items.length; i += BATCH_SIZE) chunks.push(items.slice(i, i + BATCH_SIZE));
-    for (let i = 0; i < chunks.length; i += PARALLEL) {
-      await Promise.all(chunks.slice(i, i + PARALLEL).map(async chunk => {
-        try {
-          const results = await recombeeBatch(chunk.map(item => ({ method: 'POST', path: `/items/${item.itemId}`, params: item.values })));
-          imported += results.filter(r => r.code === 200 || r.code === 201).length;
-          errors += results.filter(r => r.code >= 400).length;
-        } catch (e) {
-          errors += chunk.length;
-        }
-      }));
-    }
+    for (let i = 0; i < chunks.length; i += PARALLEL) await Promise.all(chunks.slice(i, i + PARALLEL).map(importChunk));
 
     return res.status(200).json({
       ok: true,
@@ -234,6 +257,7 @@ module.exports = async function handler(req, res) {
       total: items.length,
       propErrors,
       segmentations,
+      ...(failed.length ? { failed } : {}),
       message: `Synced ${imported}/${items.length} items to Recombee`
     });
   } catch (e) {
