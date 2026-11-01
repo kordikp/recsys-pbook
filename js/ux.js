@@ -441,14 +441,47 @@ export const uxMethods = {
     if (prefs.lang && prefs.lang !== 'en' && this._covers(meta, 'lang', prefs.lang)) bits.push(this._fw('lang', prefs.lang));
     return bits.length ? `${tr(`Told your way: {0}`, bits.join(', '))}` : '';
   },
+  // Recombee's concept ranking for this reader (scenario next-concept: Item Segments to User over the
+  // `concept` segmentation). Devices Recombee serves (rc.serve, the A/B arm "rc") rank "Next for you"
+  // and the read-next pick with it; the local arm never asks. Refreshed after every new read; it also
+  // lets Recombee pick the telling of the first ready concept (scenario concept-tellings).
+  _rcRankFresh() {
+    const c = this._rcRank;
+    return !!(this.rc.serve && c && c.key === this.user.readBlocks.size && Date.now() - c.at < 10 * 60000);
+  },
+  async _rcConceptRank() {
+    if (!this.rc.serve || !this.concepts) return null;
+    if (this._rcRankFresh()) return this._rcRank;
+    if (this._rcRankP) return this._rcRankP;
+    const key = this.user.readBlocks.size;
+    this._rcRankP = (async () => {
+      const r = await this.rc.getSegmentsForUser(this.rc.scenario('nextConcept', 'next-concept'), 60).catch(() => null);
+      const ids = (r?.recomms || []).map(x => x.id).filter(id => this.concepts[id]);   // this book's concepts only
+      if (!ids.length) { this._rcRank = null; return null; }
+      const rank = { ids, pos: new Map(ids.map((id, i) => [id, i])), recommId: r.recommId, key, at: Date.now(), telling: null };
+      const first = ids.find(cid => !this._cRead(cid) && !this._unmetPrereqs(cid).length);
+      if (first) {
+        const t = await this.rc.getItemsForSegment(first, 5, this.rc.scenario('conceptTellings', 'concept-tellings'),
+          this.rc.langFilter(`'type' == "spine"`)).catch(() => null);
+        const hit = (t?.recomms || []).map(x => this.findBlock(x.id)).find(b => b && b.meta.type === 'spine' && this._conceptIds(b.meta)[0] === first);
+        if (hit) rank.telling = { cid: first, id: hit.meta.id };
+      }
+      this._rcRank = rank;
+      return rank;
+    })().finally(() => { this._rcRankP = null; });
+    return this._rcRankP;
+  },
   // THE local recommender behind "Next for you", the read-next "Recommended"
   // link and the feed fallback. Candidates are unread concepts whose prerequisites
   // are read; each is served as its best-fitting telling. Every pick carries the
   // reasons and the arithmetic, so the app is a worked example of its own ch07:
   //   score = 0.5 · facet fit + 0.3 · readiness + 0.2 · active-mission membership
+  // With Recombee's ranking (_rcConceptRank, devices it serves) half of the score is the rank:
+  //   score = 0.5 · Recombee + 0.2 · facet fit + 0.15 · readiness + 0.15 · mission
   _nextPicks({ exclude, limit = 6 } = {}) {
     if (!this.concepts) return [];
     const ex = exclude || new Set();
+    const rank = this._rcRankFresh() ? this._rcRank : null;
     const target = this.user.getTargetFacets();
     const order = this._conceptOrder();
     const lastReadId = [...this.user.readBlocks].reverse().find(id => this._findAnyBlock(id));
@@ -458,13 +491,19 @@ export const uxMethods = {
     const out = [];
     order.forEach((cid, idx) => {
       if (this._cRead(cid) || this._unmetPrereqs(cid).length) return;
-      const best = this._bestTelling(cid, target);
+      let best = this._bestTelling(cid, target);
+      const rcPick = rank?.telling?.cid === cid && this.findBlock(rank.telling.id);
+      if (rcPick && !ex.has(rcPick.meta.id)) best = { block: rcPick, fit: Math.min(1, this._facetMatch(rcPick.meta, target)), rc: true };
       if (!best || ex.has(best.block.meta.id)) return;
       const dist = lastIdx >= 0 ? idx - lastIdx : idx + 1;
       const ready = dist >= 1 && dist <= 3 ? 1 : dist > 3 ? 0.6 : 0.4;
       const m = missions.get(cid);
-      const score = 0.5 * best.fit + 0.3 * ready + 0.2 * (m ? 1 : 0);
+      const rp = rank ? rank.pos.get(cid) : undefined;
+      const rcScore = rp === undefined ? 0 : 1 - rp / rank.ids.length;
+      const score = rank ? 0.5 * rcScore + 0.2 * best.fit + 0.15 * ready + 0.15 * (m ? 1 : 0)
+        : 0.5 * best.fit + 0.3 * ready + 0.2 * (m ? 1 : 0);
       const reasons = [];
+      if (rp !== undefined && rp < 12) reasons.push(tr('Readers whose path through the book was like yours went on here (Recombee)'));
       if (m) reasons.push(`${tr(`Step {0} of your mission “{1}”`, m.step, m.title)}`);
       if (lastIdx >= 0 && dist === 1) reasons.push(`${tr(`The next idea after “{0}”, which you just read`, this.concepts[lastCid]?.title || lastCid)}`);
       else if (lastIdx >= 0 && dist > 1 && dist <= 3) reasons.push(`${tr(`Comes up shortly after what you've read (Chapter {0})`, this._conceptChapterNum(cid))}`);
@@ -476,9 +515,11 @@ export const uxMethods = {
       if (pre) reasons.push(`${tr(`Builds on “{0}”, which you've read`, this.concepts[pre]?.title || pre)}`);
       const fit = this._fitReason(best.block.meta, target);
       if (fit) reasons.push(fit);
+      if (best.rc) reasons.push(tr('Recombee picked this telling for you'));
       if (!reasons.length) reasons.push(`${tr(`Not read yet · Chapter {0}`, this._conceptChapterNum(cid))}`);
-      out.push({ meta: best.block.meta, cid, score, reasons,
-        math: `${tr(`score {0} = 0.5 × {1} fit + 0.3 × {2} ready + 0.2 × {3} mission`, score.toFixed(2), best.fit.toFixed(2), ready.toFixed(1), m ? 1 : 0)}` });
+      out.push({ meta: best.block.meta, cid, score, reasons, engine: rank ? 'rc' : 'local',
+        math: rank ? `${tr(`score {0} = 0.5 × {1} Recombee + 0.2 × {2} fit + 0.15 × {3} ready + 0.15 × {4} mission`, score.toFixed(2), rcScore.toFixed(2), best.fit.toFixed(2), ready.toFixed(1), m ? 1 : 0)}`
+          : `${tr(`score {0} = 0.5 × {1} fit + 0.3 × {2} ready + 0.2 × {3} mission`, score.toFixed(2), best.fit.toFixed(2), ready.toFixed(1), m ? 1 : 0)}` });
     });
     return out.sort((a, b) => b.score - a.score).slice(0, limit);
   },
@@ -532,30 +573,53 @@ export const uxMethods = {
     el.outerHTML = this.shelf(title, cards, sub);
     this._updateShelfArrows();
   },
-  // The three network shelves fill in when (and only if) their requests come back.
-  _fillHomeAsync(token, shown, lastReadBlock) {
+  // The network shelves fill in when (and only if) their requests come back. They ask for twice the
+  // cards they show: the shelves above may already show some of them.
+  _fillHomeAsync(token, shown, lastReadBlock, held) {
     const take = (list, max) => {
       const out = [];
       for (const m of list) { if (!m?.id || shown.has(m.id)) continue; shown.add(m.id); out.push(m); if (out.length >= max) break; }
       return out;
     };
     const blocksOf = res => (res?.recomms || []).map(r => this.findBlock(r.id)?.meta).filter(m => m && !this._extraChapter(m._chapter));
-    const personal = this.rc.getRecsForUser('homepage-personal', 8, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user))
-      .then(res => this._settleShelf('rcPersonal', token, tr('Picked for you'),
-        take(blocksOf(res), 8).map(m => this.cardHtml(m, false, { reasons: [CONFIG.recombee?.enabled ? tr('Picked by Recombee’s “homepage-personal” scenario from what you read, liked and steered') : tr('Picked from what you read, liked and steered')] })),
-        CONFIG.recombee?.enabled ? tr('Collaborative filtering at work: readers with a history like yours read these.') : tr('Picked for you from what you read and liked on this device.')))
+    const engineOf = res => res?.recommId ? 'rc' : 'local';
+    const spine = this.rc.langFilter(this.rc.reql({ type: 'spine' }));
+    // "Next for you" sits above the network shelves: when it is still pending (a device Recombee
+    // serves, ranking not ready at first paint), the shelves below take their cards after it
+    let first = Promise.resolve();
+    if (token === this._homeToken && document.getElementById('home-async-rcNext')) {
+      first = this._rcConceptRank().catch(() => null).then(() => {
+        (held || []).forEach(id => shown.delete(id));
+        const picks = [];
+        for (const p of this._nextPicks({ exclude: shown, limit: 8 })) if (take([p.meta], 1).length) picks.push(p);
+        if (picks.length && token === this._homeToken) this._logPicksShown('home-next', picks);
+        this._settleShelf('rcNext', token, tr('Next for you'), picks.map(p => this.cardHtml(p.meta, false, { ...p, surface: 'home-next' })),
+          tr('Unread ideas you are ready for, each in the telling that fits you best.'));
+      }).catch(() => this._settleShelf('rcNext', token, '', []));
+    }
+    const after = p => p.then(res => first.then(() => res));
+    const personal = after(this.rc.getRecsForUser('homepage-personal', 16, spine, this.rc.reqlBoost(this.user)))
+      .then(res => {
+        const metas = take(blocksOf(res), 8);
+        if (metas.length && token === this._homeToken) this.rc.logShown('home-personal', metas.map(m => m.id), res?.recommId, engineOf(res));
+        this._settleShelf('rcPersonal', token, tr('Picked for you'),
+          metas.map(m => this.cardHtml(m, false, { surface: 'home-personal', reasons: [res?.recommId ? tr('Picked by Recombee’s “homepage-personal” scenario from what you read, liked and steered') : tr('Picked from what you read, liked and steered')] })),
+          res?.recommId ? tr('Collaborative filtering at work: readers with a history like yours read these.') : tr('Picked for you from what you read and liked on this device.'));
+      })
       .catch(() => this._settleShelf('rcPersonal', token, '', []));
     if (lastReadBlock) {
       const t = lastReadBlock.meta.title || '';
-      this.rc.getRecsForItem(lastReadBlock.meta.id, 8, this.rc.reql({ type: 'spine' }), 'context-related')
+      after(this.rc.getRecsForItem(lastReadBlock.meta.id, 16, spine, 'context-related'))
         .then(res => {
           const list = blocksOf(res).filter(m => m.id !== lastReadBlock.meta.id && !this.user.readBlocks.has(m.id));
           const cards = take(list, 8);
+          if (cards.length >= 3 && token === this._homeToken) this.rc.logShown('home-related', cards.map(m => m.id), res?.recommId, engineOf(res));
           this._settleShelf('rcRelated', token, tr('Because you read: ') + esc(t),
-            cards.length >= 3 ? cards.map(m => this.cardHtml(m, false, { reasons: [`${tr(`Readers of “{0}” also read this (item-to-item recommendation)`, t)}`] })) : []);
+            cards.length >= 3 ? cards.map(m => this.cardHtml(m, false, { surface: 'home-related', reasons: [`${tr(`Readers of “{0}” also read this (item-to-item recommendation)`, t)}`] })) : []);
         })
         .catch(() => this._settleShelf('rcRelated', token, '', []));
     }
+    if (this.rc.serve) this._fillRcSegmentShelves(token, take, spine, after);
     if (this._f('community') && this.user.readerMode === 'open') {
       this.rc.listCommunityBlocks(null, 8).then(shared => {
         const cards = (shared || []).map(b => {
@@ -571,6 +635,43 @@ export const uxMethods = {
       }).catch(() => this._settleShelf('community', token, '', []));
     }
     return personal;
+  },
+  _logPicksShown(surface, picks) {
+    const rc = picks.some(p => p.engine === 'rc') && this._rcRank;
+    if (rc) { const src = (this.rc._recommSources = this.rc._recommSources || {}); picks.forEach(p => { src[p.meta.id] ||= this._rcRank.recommId; }); }
+    this.rc.logShown(surface, picks.map(p => p.meta.id), rc ? this._rcRank.recommId : null, rc ? 'rc' : 'local');
+  },
+  // Segment shelves, only on devices Recombee serves (SCENARIOS.md):
+  //   "Theme for you: <chapter>" — composite theme-for-you: a chapter segment plus its best sections;
+  //   "Try it in the world of …" — world-for-you ranks the example worlds, world-tellings fills the shelf.
+  _fillRcSegmentShelves(token, take, spine, after = p => p) {
+    const unread = m => !this.user.readBlocks.has(m.id);
+    const blocksOf = res => (res?.recomms || []).map(r => this.findBlock(r.id)?.meta).filter(m => m && !this._extraChapter(m._chapter) && unread(m));
+    after(this.rc.getComposite(this.rc.scenario('themeForYou', 'theme-for-you'), 16, spine)).then(res => {
+      const ch = res && (this.book?.chapters || []).find(c => c.id === res.source.id);
+      const metas = ch ? take(blocksOf(res), 6) : [];
+      if (metas.length < 2) return this._settleShelf('rcTheme', token, '', []);
+      if (token === this._homeToken) this.rc.logShown('home-theme', metas.map(m => m.id), res.recommId, 'rc');
+      this._settleShelf('rcTheme', token, `${tr(`Theme for you: {0}`, esc(loc(ch.title) || ch.id))}`,
+        metas.map(m => this.cardHtml(m, false, { surface: 'home-theme', reasons: [tr('Recombee picked this chapter and its sections from what you read and liked')] })),
+        tr('A whole chapter that fits what you read so far.'));
+    }).catch(() => this._settleShelf('rcTheme', token, '', []));
+    const lens = CONFIG.facets?.lens;
+    if (!lens) return this._settleShelf('rcWorld', token, '', []);
+    this.rc.getSegmentsForUser(this.rc.scenario('worldForYou', 'world-for-you'), 4).then(async seg => {
+      const w = (seg?.recomms || []).map(x => x.id).find(id => id !== 'generic' && (lens.values || []).includes(id));
+      if (!w) return this._settleShelf('rcWorld', token, '', []);
+      const res = await after(this.rc.getItemsForSegment(w, 16, this.rc.scenario('worldTellings', 'world-tellings'), spine));
+      const metas = take(blocksOf(res), 6);
+      if (metas.length < 2) return this._settleShelf('rcWorld', token, '', []);
+      if (token === this._homeToken) this.rc.logShown('home-world', metas.map(m => m.id), res.recommId, 'rc');
+      const label = lens.worldLabels?.[w] ? loc(lens.worldLabels[w]) : this._fw('lens', w);
+      const mission = lens.missions?.[w] && this._f('missions') && !(this.user.completedMissions || []).includes(lens.missions[w])
+        && this.getMissions().find(m => m.id === lens.missions[w]);
+      this._settleShelf('rcWorld', token, `${tr(`Try it {0}`, esc(label))}`,
+        metas.map(m => this.cardHtml(m, false, { surface: 'home-world', reasons: [tr('Recombee: readers with a history like yours enjoy this world')] })),
+        tr('The same ideas, with examples from another world.') + (mission ? ` <a href="#" onclick="event.preventDefault();app.showMission('${esc(mission.id)}')">${tr(`The world’s mission →`)}</a>` : ''));
+    }).catch(() => this._settleShelf('rcWorld', token, '', []));
   },
   // Frontier shelves: the next unread ideas, each shown as ALL its tellings
   // (tl;dr, story, comic, other worlds) — the book's variety, sorted by fit.

@@ -18,7 +18,15 @@ export const CONFIG = {
       nextRead: 'next-read',                  // Infinite scroll next chapter
       contextRelated: 'context-related',      // Sidebar related items (item-to-item)
       search: 'search',                       // Search results
-    }
+      // engine 7.13 (segments; set each scenario's segmentation in the Recombee Admin, see SCENARIOS.md)
+      nextConcept: 'next-concept',            // Item Segments to User (concept): the reader's next concept
+      conceptTellings: 'concept-tellings',    // Items to Item Segment (concept): the telling of that concept
+      themeForYou: 'theme-for-you',           // Composite (chapter → items): Home "Theme for you"
+      worldForYou: 'world-for-you',           // Item Segments to User (lens): Home "Another world"
+      worldTellings: 'world-tellings',        // Items to Item Segment (lens): sections of that world
+      searchConcepts: 'search-concepts',      // Search Item Segments (concept): the concept card in search
+    },
+    // abShare: 0.5,                          // A/B: share of devices served by Recombee (default 1); /admin → Insights
   },
 
   features: {

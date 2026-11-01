@@ -163,6 +163,11 @@ const LOC = UI === 'cs' ? 'cs-CZ' : 'en-GB';
 const BOOK = CONFIG.book?.slug || location.host;
 const DIR = CONFIG.book?.contentDir || 'content';
 const pickLang = v => (v && typeof v === 'object') ? (v[ORIG] || v.en || Object.values(v)[0] || '') : (v || '');
+// the reader's own Czech words (js/i18n/cs.js) for the English facet words of the config
+let PACK = {};
+if (UI === 'cs') try { PACK = (await import('./js/i18n/cs.js')).default; } catch (e) {}
+const T = s => (typeof s === 'string' && typeof PACK[s] === 'string') ? PACK[s] : s;
+const FACET_CS = { lens: 'Svět příkladů', visuality: 'Vizuální styl', depth: 'Hloubka', genre: 'Žánr', lengthBand: 'Délka' };
 const TITLE = pickLang(CONFIG.book?.title) || 'p-book';
 document.documentElement.lang = UI;
 document.title = `${TITLE} · admin`;
@@ -346,6 +351,7 @@ const TABS = [
   { id: 'shared', icon: '🤝', label: L('Příspěvky čtenářů', 'Reader contributions'), view: viewShared, when: () => CONFIG.features?.community !== false },
   { id: 'classes', icon: '🏫', label: L('Třídy', 'Classes'), view: viewClasses, admin: true },
   { id: 'messages', icon: '✉️', label: L('Zprávy', 'Messages'), view: viewMessages, admin: true },
+  { id: 'insights', icon: '🔎', label: 'Insights', view: viewInsights, admin: true },
   { id: 'ai', icon: '⚡', label: L('AI a kredity', 'AI & credits'), view: viewAI, admin: true },
   { id: 'data', icon: '🗂', label: L('Data', 'Data'), view: viewData },
 ];
@@ -1051,6 +1057,262 @@ function viewAI(m) {
   });
 }
 
+// ---------- 🔎 insights ----------
+// The last 30 days from /api/log?insights=1 (counts per section, surface, query, arm), mapped here
+// onto concepts, chapters and facets with the book's own content. Devices are split at random:
+// Recombee serves the "rc" arm, the book's own recommender the "local" one (js/recombee.js _pickArm).
+const SURFACE = {
+  'home-next': L('Další pro tebe (domů)', 'Next for you (home)'),
+  'home-personal': L('Vybráno pro tebe (domů)', 'Picked for you (home)'),
+  'home-related': L('Protože máš přečteno (domů)', 'Because you read (home)'),
+  'home-theme': L('Téma pro tebe (domů)', 'Theme for you (home)'),
+  'home-world': L('Zkus to v jiném světě (domů)', 'Try another world (home)'),
+  readnext: L('Doporučeno pod sekcí', 'Recommended below a section'),
+};
+const ARM = { rc: 'Recombee', local: L('kniha', 'the book'), none: L('před A/B', 'before A/B') };
+const RC_SCENARIOS = [
+  ['homepage-personal', 'Items to User', L('Vybráno pro tebe', 'Picked for you')],
+  ['context-related', 'Items to Item', L('Protože máš přečteno', 'Because you read')],
+  ['next-read', 'Items to User', L('nekonečné čtení', 'endless reading')],
+  ['search', 'Search Items', L('hledání', 'search')],
+  ['next-concept', 'Item Segments to User · concept', L('Další pro tebe, Doporučeno', 'Next for you, Recommended')],
+  ['concept-tellings', 'Items to Item Segment · concept', L('podání prvního konceptu', 'telling of the first concept')],
+  ['theme-for-you', 'Composite · chapter → items', L('Téma pro tebe', 'Theme for you')],
+  ['world-for-you', 'Item Segments to User · lens', L('jiný svět', 'another world')],
+  ['world-tellings', 'Items to Item Segment · lens', L('jiný svět: sekce', 'another world: sections')],
+  ['search-concepts', 'Search Item Segments · concept', L('koncept v hledání', 'concept in search')],
+];
+D.insights = () => once('insights', () => getJSON(logUrl('insights=1'), withKey()));
+const rcCall = (endpoint, method, body) => getJSON('/api/recombee', withKey({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ endpoint, method, body }) }));
+const share = (a, b) => b ? Math.round(100 * a / b) : null;
+const shareTxt = (a, b) => b ? `${share(a, b)} %` : '–';
+// two-proportion z-test → two-sided p (normal approximation)
+function pTwo(x1, n1, x2, n2) {
+  if (n1 < 5 || n2 < 5) return null;
+  const p = (x1 + x2) / (n1 + n2), se = Math.sqrt(p * (1 - p) * (1 / n1 + 1 / n2));
+  if (!se) return null;
+  const z = Math.abs(x1 / n1 - x2 / n2) / se;
+  const t = 1 / (1 + 0.2316419 * z), d = 0.3989423 * Math.exp(-z * z / 2);
+  return 2 * d * t * (0.3193815 + t * (-0.3565638 + t * (1.781478 + t * (-1.821256 + t * 1.330274))));
+}
+// item id → { concept, chapter, meta } through the bundle (translations count with their original)
+function itemIndex(B) {
+  const conceptOf = new Map();
+  for (const c of B.concepts) for (const id of c.blocks || []) conceptOf.set(id, c.id);
+  const cTitle = new Map(B.concepts.map(c => [c.id, pickLang(c.title) || c.id]));
+  const at = id => {
+    const o = B.byId.get(canon(B, id));
+    if (!o) return null;
+    return { meta: o, concept: o.concept || conceptOf.get(o.id) || conceptOf.get(id) || null, chapter: o.chapter };
+  };
+  return { at, cTitle };
+}
+
+function viewInsights(m) {
+  m.innerHTML = `<p class="lead">${L('Posledních 30 dní. Zařízení jsou náhodně rozdělená do dvou skupin: jednu obsluhuje Recombee, druhou doporučování přímo v knize. Čísla jsou souhrny, žádné jednotlivé dítě.',
+    'The last 30 days. Devices are split at random into two arms: Recombee serves one, the book’s own recommender the other. Every number is a total, never one child.')}`
+    + (CONFIG.recombee?.enabled ? ` ${L('Podíl zařízení na Recombee', 'Share of devices on Recombee')}: <b>${Math.round(100 * Number(CONFIG.recombee.abShare ?? 1))} %</b>.` : ` <b>${L('Recombee je v této knize vypnuté', 'Recombee is off in this book')}</b>.`)
+    + `</p><div class="grid"></div>`;
+  const g = m.querySelector('.grid');
+
+  slot(g, L('A/B: Recombee proti doporučování knihy', 'A/B: Recombee against the book’s recommender'), async () => {
+    const s = await D.insights();
+    const arms = ['rc', 'local', 'none'].filter(a => s.arms[a]);
+    if (!arms.length) return `<p class="muted">${L('Zatím bez dat.', 'No data yet.')}</p>`;
+    const per = (a, k) => s.arms[a].devices ? (s.arms[a][k] / s.arms[a].devices).toFixed(1) : '–';
+    const rows = [
+      [L('zařízení', 'devices'), a => num(s.arms[a].devices)],
+      [L('vrací se (2+ dny)', 'returning (2+ days)'), a => `${num(s.arms[a].returning)} (${shareTxt(s.arms[a].returning, s.arms[a].devices)})`],
+      [L('otevřených sekcí na zařízení', 'sections opened per device'), a => per(a, 'views')],
+      [L('dočtených sekcí na zařízení (aspoň polovina)', 'sections read per device (at least half)'), a => per(a, 'deepReads')],
+      [L('správně zopakovaných konceptů', 'concepts recalled right'), a => num(s.arms[a].recallOk)],
+      [L('splněných misí', 'missions passed'), a => num(s.arms[a].missions)],
+      [L('vyhraných her a vyřešených výzev', 'games won and challenges solved'), a => num(s.arms[a].gamesWon + s.arms[a].challenges)],
+    ];
+    let h = `<div class="scroll"><table><tr><th></th>${arms.map(a => `<th class="n">${esc(ARM[a])}</th>`).join('')}</tr>`
+      + rows.map(([label, f]) => `<tr><td>${label}</td>${arms.map(a => `<td class="n">${f(a)}</td>`).join('')}</tr>`).join('') + '</table></div>';
+    const rc = s.arms.rc, lo = s.arms.local;
+    if (rc && lo) {
+      const p = pTwo(rc.returning, rc.devices, lo.returning, lo.devices);
+      h += `<p class="note">${p == null ? L('Na srovnání je zatím málo zařízení.', 'Too few devices to compare yet.')
+        : L(`Rozdíl v podílu vracejících se: ${share(rc.returning, rc.devices) - share(lo.returning, lo.devices)} procentních bodů, p ≈ ${p.toFixed(3)}${p < 0.05 ? ' (spolehlivý)' : ' (zatím může být náhoda)'}.`,
+          `Difference in the returning share: ${share(rc.returning, rc.devices) - share(lo.returning, lo.devices)} points, p ≈ ${p.toFixed(3)}${p < 0.05 ? ' (reliable)' : ' (may still be chance)'}.`)}</p>`;
+    }
+    return h + `<p class="note">${L('Skupina zůstává se zařízením. „Před A/B“ jsou zařízení, která od vydání 7.13 nic nezaznamenala.', 'The arm stays with the device. "Before A/B" are devices with nothing logged since 7.13.')}`
+      + ` ${L('Spočítáno', 'Computed')} ${when(s.computedAt)}${s.rows.capped ? ` · <span class="hot">${L('jen část záznamů (limit)', 'part of the rows only (cap)')}</span>` : ''}.</p>`;
+  }, 'wide');
+
+  slot(g, L('Doporučovací místa: zobrazeno → kliknuto → dočteno', 'Recommendation surfaces: shown → clicked → read'), async () => {
+    const s = await D.insights();
+    const list = s.surfaces.slice().sort((a, b) => String(a.surface).localeCompare(b.surface) || a.engine.localeCompare(b.engine));
+    const se = s.search;
+    if (!list.length && !se.searches) return `<p class="muted">${L('Zatím bez dat: místa se počítají od vydání 7.13.', 'No data yet: surfaces count from release 7.13.')}</p>`;
+    let h = `<div class="scroll"><table><tr><th>${L('místo', 'surface')}</th><th>${L('vybírá', 'chosen by')}</th><th class="n">${L('zobrazení', 'impressions')}</th><th class="n">${L('kliknuto', 'clicked')}</th><th class="n">CTR</th><th class="n">${L('dočteno', 'read')}</th></tr>`;
+    h += list.map(r => `<tr><td>${esc(SURFACE[r.surface] || r.surface)}</td><td>${esc(ARM[r.engine] || r.engine)}</td><td class="n">${num(r.impressions)}</td>`
+      + `<td class="n">${num(r.clicked)}</td><td class="n">${shareTxt(r.clicked, r.impressions)}</td><td class="n">${shareTxt(r.deep, r.clicked)}</td></tr>`).join('');
+    for (const [eng, v] of Object.entries(se.byEngine || {})) h += `<tr><td>${L('Hledání', 'Search')}</td><td>${esc(ARM[eng] || eng)}</td><td class="n">${num(v.searches)}</td><td class="n">${num(v.clicked)}</td><td class="n">${shareTxt(v.clicked, v.searches)}</td><td class="n">–</td></tr>`;
+    return h + `</table></div><p class="note">${L('Zobrazení = jedno vykreslení police. Kliknuto = do 30 minut otevřená sekce z té police. Dočteno = z kliknutých aspoň polovina sekce.',
+      'Impression = one render of a shelf. Clicked = a section from it opened within 30 minutes. Read = of the clicked, at least half of the section seen.')}</p>`;
+  }, 'wide');
+
+  slot(g, L('Hledání', 'Search'), async () => {
+    const [s, B] = await Promise.all([D.insights(), D.bundle()]);
+    const { cTitle } = itemIndex(B);
+    const se = s.search;
+    let h = `<div class="tiles">${tile(se.searches, L('hledání', 'searches'))}${tile(shareTxt(se.zero, se.searches), L('bez výsledku', 'no result'))}${tile(shareTxt(se.clicked, se.searches), L('s kliknutím', 'with a click'))}</div>`;
+    const qs = se.queries || [];
+    if (!qs.length) return h + `<p class="note">${L('Dotazy se ukážou, až je napíšou aspoň dvě zařízení.', 'Queries show once at least two devices typed them.')}</p>`;
+    h += `<div class="scroll"><table><tr><th>${L('dotaz', 'query')}</th><th class="n">${L('zařízení', 'devices')}</th><th class="n">${L('bez výsledku', 'no result')}</th><th class="n">${L('kliknuto', 'clicked')}</th><th>${L('koncept', 'concept')}</th><th></th></tr>`
+      + qs.slice(0, 40).map(q => `<tr><td>${esc(q.q)}</td><td class="n">${num(q.devices)}</td><td class="n${q.zero ? ' hot' : ''}">${num(q.zero)}</td><td class="n">${num(q.clicked)}</td>`
+        + `<td>${q.concept ? esc(cTitle.get(q.concept) || q.concept) : '<span class="muted">–</span>'}</td>`
+        + `<td>${(q.zero || !q.clicked) ? `<button class="linkbtn" data-act="gap" data-arg="${esc(q.q)}">🌱 ${L('návrh', 'proposal')}</button>${CONFIG.recombee?.enabled ? ` <button class="linkbtn" data-act="synPrefill" data-arg="${esc(q.q)}">≈ ${L('synonymum', 'synonym')}</button>` : ''}` : ''}</td></tr>`).join('')
+      + '</table></div>';
+    return h + `<p class="note">${L('Jen dotazy aspoň ze dvou zařízení. „Bez výsledku“ a „bez kliknutí“ jsou díry v obsahu nebo ve slovníku: návrh konceptu, nebo synonymum pro Recombee.',
+      'Only queries from at least two devices. "No result" and "no click" are gaps in the content or the vocabulary: a concept proposal, or a synonym for Recombee.')}</p>`;
+  }, 'wide');
+
+  slot(g, L('Otázky knize, na které neměla odpověď', 'Questions the book could not answer'), async () => {
+    const s = await D.insights();
+    const a = s.ask, list = (a.questions || []).filter(q => q.unanswered);
+    let h = `<div class="tiles">${tile(a.asked, L('otázek', 'questions'))}${tile(shareTxt(a.unanswered, a.asked), L('bez odpovědi', 'unanswered'))}</div>`;
+    if (!list.length) return h + `<p class="note">${L('Otázky se ukážou, až stejnou položí aspoň dvě zařízení.', 'Questions show once at least two devices asked the same.')}</p>`;
+    return h + `<ul class="list">${list.slice(0, 25).map(q => `<li>${esc(q.q)} <span class="muted">· ${num(q.devices)} ${L('zař.', 'dev.')}</span> <button class="linkbtn" data-act="gap" data-arg="${esc(q.q)}">🌱 ${L('návrh', 'proposal')}</button></li>`).join('')}</ul>`;
+  });
+
+  if (CONFIG.recombee?.enabled) slot(g, L('Synonyma hledání (Recombee)', 'Search synonyms (Recombee)'), async () => {
+    const r = await rcCall('/synonyms/items/', 'GET', { count: 500 });
+    const list = r.synonyms || [];
+    return `<p class="lead">${L('Slova, která děti píšou jinak než kniha (např. „heslo“ = „autentizace“). Platí hned pro hledání na Recombee.', 'Words children type differently from the book (e.g. "password" = "authentication"). They apply to the Recombee search at once.')}</p>`
+      + `<div class="row"><input id="synTerm" placeholder="${L('co děti píšou', 'what children type')}"><input id="synSyn" placeholder="${L('slovo z knihy', 'the book’s word')}">`
+      + `<label class="muted" style="font-size:.8rem"><input type="checkbox" id="synOne"> ${L('jen jedním směrem', 'one way only')}</label>`
+      + `<button class="btn primary" data-act="synAdd">＋ ${L('Přidat', 'Add')}</button></div>`
+      + (list.length ? `<ul class="list" style="margin-top:.6em">${list.map(x => `<li>${esc(x.term)} ${x.oneWay ? '→' : '↔'} ${esc(x.synonym)} <button class="linkbtn" data-act="synDel" data-arg="${esc(x.id)}">${L('smazat', 'delete')}</button></li>`).join('')}</ul>`
+        : `<p class="note">${L('Zatím žádná synonyma.', 'No synonyms yet.')}</p>`);
+  });
+
+  slot(g, L('Témata a světy', 'Themes and worlds'), async () => {
+    const [s, B] = await Promise.all([D.insights(), D.bundle()]);
+    const { at } = itemIndex(B);
+    const ch = new Map(), worlds = new Map();
+    for (const [id, v] of Object.entries(s.items)) {
+      const x = at(id); if (!x) continue;
+      const c = ch.get(x.chapter.id) || ch.set(x.chapter.id, { ch: x.chapter, v: 0, d: 0, w: [0, 0, 0, 0, 0] }).get(x.chapter.id);
+      c.v += v.v; c.d += v.d; v.w.forEach((n, i) => { c.w[i] += n; });
+      const lens = [].concat(x.meta.lens || 'generic')[0];
+      if (lens !== 'generic') { const w = worlds.get(lens) || worlds.set(lens, { v: 0, d: 0, w: [0, 0, 0, 0, 0] }).get(lens); w.v += v.v; w.d += v.d; v.w.forEach((n, i) => { w.w[i] += n; }); }
+    }
+    if (!ch.size) return `<p class="muted">${L('Zatím bez dat.', 'No data yet.')}</p>`;
+    const trend = w => { const a = w[0], b = w[1]; return !b ? (a ? '↑' : '') : a > b * 1.2 ? '↑' : a < b * 0.8 ? '↓' : '→'; };
+    const row = (label, x) => `<tr><td>${label}</td>${x.w.slice().reverse().map(n => `<td class="n">${num(n)}</td>`).join('')}<td class="n">${trend(x.w)}</td><td class="n">${shareTxt(x.d, x.v)}</td></tr>`;
+    const head = `<tr><th></th>${[4, 3, 2, 1, 0].map(i => `<th class="n">${i ? L(`−${i} t.`, `−${i} wk`) : L('tento t.', 'this wk')}</th>`).join('')}<th class="n">${L('trend', 'trend')}</th><th class="n">${L('dočteno', 'read')}</th></tr>`;
+    const chRows = [...ch.values()].sort((a, b) => (a.ch.number ?? 99) - (b.ch.number ?? 99)).map(c => row(esc(chapterTitle(c.ch)), c)).join('');
+    const wl = CONFIG.facets?.lens?.worldLabels || {};
+    const wRows = [...worlds].sort((a, b) => b[1].v - a[1].v).map(([k, x]) => row(esc(wl[k] ? pickLang(wl[k]) : k), x)).join('');
+    let h = `<div class="scroll"><table>${head}${chRows}</table></div>`;
+    if (wRows) h += `<h3>${L('Světy příkladů', 'Example worlds')}</h3><div class="scroll"><table>${head}${wRows}</table></div>`;
+    const cls = Object.entries(s.classes || {});
+    if (cls.length) {
+      h += `<h3>${L('Třídy (od 5 zařízení): co je nejvíc táhne', 'Classes (5+ devices): what draws them most')}</h3><ul class="list">`
+        + cls.map(([code, c]) => {
+          const byCh = new Map();
+          for (const [id, n] of Object.entries(c.items)) { const x = at(id); if (x) byCh.set(x.chapter.id, (byCh.get(x.chapter.id) || 0) + n); }
+          const top = [...byCh].sort((a, b) => b[1] - a[1]).slice(0, 3).map(([id]) => esc(chapterTitle(B.book.chapters.find(k => k.id === id))));
+          return `<li><code>${esc(code)}</code> <span class="muted">· ${num(c.devices)} ${L('zař.', 'dev.')}</span> ${top.join(' · ')}</li>`;
+        }).join('') + '</ul>';
+    }
+    return h + `<p class="note">${L('Počty zařízení, která v daném týdnu otevřela sekci z kapitoly (jedno zařízení může být ve více sekcích). Dočteno = podíl otevření, kde dítě vidělo aspoň polovinu sekce.',
+      'Devices that opened a section of the chapter that week (one device may count in several sections). Read = share of openings where the child saw at least half.')}</p>`;
+  }, 'wide');
+
+  slot(g, L('Cesta konceptovým grafem', 'Paths through the concept graph'), async () => {
+    const [s, B] = await Promise.all([D.insights(), D.bundle()]);
+    const { at, cTitle } = itemIndex(B);
+    const C = new Map();
+    const cRow = id => C.get(id) || C.set(id, { id, v: 0, d: 0, p: [], entries: 0, exits: 0 }).get(id);
+    for (const [id, v] of Object.entries(s.items)) {
+      const x = at(id); if (!x || !x.concept) continue;
+      const c = cRow(x.concept); c.v += v.v; c.d += v.d; if (v.p != null) c.p.push(v.p);
+    }
+    for (const [id, n] of Object.entries(s.paths.entries || {})) { const x = at(id); if (x?.concept) cRow(x.concept).entries += n; }
+    for (const [id, n] of Object.entries(s.paths.exits || {})) { const x = at(id); if (x?.concept) cRow(x.concept).exits += n; }
+    const order = new Map(B.concepts.map((c, i) => [c.id, i]));
+    const pairs = new Map();
+    for (const p of s.paths.next || []) {
+      const a = at(p.from)?.concept, b = at(p.to)?.concept;
+      if (!a || !b || a === b) continue;
+      pairs.set(a + '>' + b, (pairs.get(a + '>' + b) || 0) + p.devices);
+    }
+    const drop = [...C.values()].filter(c => c.v >= 5).map(c => ({ ...c, rate: c.d / c.v, stop: c.exits / Math.max(1, c.v) }))
+      .sort((a, b) => a.rate - b.rate).slice(0, 10);
+    if (!C.size) return `<p class="muted">${L('Zatím bez dat.', 'No data yet.')}</p>`;
+    let h = `<div class="grid"><div><h3>${L('Kde děti odpadají (od 5 otevření)', 'Where children drop off (5+ openings)')}</h3>`
+      + (drop.length ? `<table><tr><th>${L('koncept', 'concept')}</th><th class="n">${L('otevřeno', 'opened')}</th><th class="n">${L('dočteno', 'read')}</th><th class="n">${L('tady končí', 'ends here')}</th></tr>`
+        + drop.map(c => `<tr><td>${(a => a ? `<button class="linkbtn" data-act="preview" data-arg="${esc(a)}">${esc(cTitle.get(c.id) || c.id)}</button>` : esc(cTitle.get(c.id) || c.id))(B.concepts.find(k => k.id === c.id)?.anchor)}</td><td class="n">${num(c.v)}</td><td class="n${c.rate < 0.4 ? ' hot' : ''}">${shareTxt(c.d, c.v)}</td><td class="n">${shareTxt(c.exits, c.v)}</td></tr>`).join('') + '</table>'
+        : `<p class="muted">${L('Zatím žádný koncept s 5 otevřeními.', 'No concept with 5 openings yet.')}</p>`)
+      + `</div><div><h3>${L('Nejčastější další krok', 'Most common next step')}</h3>`;
+    const top = [...pairs].sort((a, b) => b[1] - a[1]).slice(0, 12);
+    h += top.length ? `<table><tr><th>${L('z konceptu', 'from')}</th><th>${L('do konceptu', 'to')}</th><th class="n">${L('zařízení', 'devices')}</th></tr>`
+      + top.map(([k, n]) => { const [a, b] = k.split('>'); const back = (order.get(b) ?? 0) < (order.get(a) ?? 0);
+        return `<tr><td>${esc(cTitle.get(a) || a)}</td><td>${esc(cTitle.get(b) || b)}${back ? ` <span class="chip">${L('zpět', 'back')}</span>` : ''}</td><td class="n">${num(n)}</td></tr>`; }).join('') + '</table>'
+      : `<p class="muted">${L('Přechody se ukážou, až je udělají aspoň dvě zařízení.', 'Steps show once at least two devices made them.')}</p>`;
+    return h + `</div></div><p class="note">${L('„Tady končí“ = podíl otevření, po kterých dítě v tom sezení už nic dalšího neotevřelo. „Zpět“ = krok ke konceptu, který je v knize dřív.',
+      '"Ends here" = share of openings after which the child opened nothing else in that sitting. "Back" = a step to a concept earlier in the book.')}</p>`;
+  }, 'wide');
+
+  slot(g, L('Která podání fungují', 'Which tellings work'), async () => {
+    const [s, B] = await Promise.all([D.insights(), D.bundle()]);
+    const { at } = itemIndex(B);
+    const dims = Object.keys(CONFIG.facets || {}).filter(d => ['lens', 'visuality', 'depth', 'genre', 'lengthBand'].includes(d));
+    const F = {};
+    for (const [id, v] of Object.entries(s.items)) {
+      const x = at(id); if (!x || x.meta.type !== 'spine') continue;
+      for (const d of dims) {
+        const val = [].concat(x.meta[d] || (d === 'lens' ? 'generic' : '–'))[0];
+        const f = (F[d] = F[d] || {})[val] || (F[d][val] = { v: 0, d: 0, p: [] });
+        f.v += v.v; f.d += v.d; if (v.p != null) f.p.push(v.p);
+      }
+    }
+    const words = CONFIG.facetWords || {};
+    const lab = (d, v) => T(pickLang(words[d]?.[v])) || pickLang(CONFIG.facets?.lens?.worldLabels?.[v]) || v;
+    const blocks = dims.filter(d => F[d] && Object.keys(F[d]).length > 1).map(d => `<div><h3>${esc(L(FACET_CS[d], '') || pickLang(CONFIG.facets[d].label) || d)}</h3><table>`
+      + `<tr><th></th><th class="n">${L('otevřeno', 'opened')}</th><th class="n">${L('dočteno', 'read')}</th><th class="n">${L('průměrně vidět', 'mean seen')}</th></tr>`
+      + Object.entries(F[d]).sort((a, b) => b[1].v - a[1].v).map(([val, f]) => `<tr><td>${esc(lab(d, val))}</td><td class="n">${num(f.v)}</td><td class="n">${shareTxt(f.d, f.v)}</td>`
+        + `<td class="n">${f.p.length ? Math.round(100 * f.p.reduce((a, b) => a + b, 0) / f.p.length) + ' %' : '–'}</td></tr>`).join('') + '</table></div>').join('');
+    const fresh = Object.entries(s.items).map(([id, v]) => ({ x: at(id), v })).filter(o => o.x?.meta.publishedAt && Date.now() - Date.parse(o.x.meta.publishedAt) < 21 * 864e5);
+    return (blocks ? `<div class="grid">${blocks}</div>` : `<p class="muted">${L('Zatím bez dat.', 'No data yet.')}</p>`)
+      + (fresh.length ? `<h3>${L('Nová podání (3 týdny)', 'New tellings (3 weeks)')}</h3><ul class="list">${fresh.map(o => `<li>${esc(o.x.meta.title || o.x.meta.id)} <span class="muted">· ${num(o.v.v)} ${L('otevřeno', 'opened')}, ${shareTxt(o.v.d, o.v.v)} ${L('dočteno', 'read')}</span></li>`).join('')}</ul>` : '')
+      + `<p class="note">${L('Podle toho, jaká podání děti dočítají, se dá rozhodnout, co generovat a psát dál.', 'Which tellings children read to the end tells what to generate and write next.')}</p>`;
+  }, 'wide');
+
+  if (CONFIG.recombee?.enabled) slot(g, L('Recombee: scénáře', 'Recombee: scenarios'), async () => {
+    const list = await rcCall('/scenarios/', 'GET').catch(() => []);
+    const have = new Map((Array.isArray(list) ? list : []).map(x => [x.id, x.endpoint]));
+    const db = CONFIG.recombee.database || '';
+    return `<table><tr><th>${L('scénář', 'scenario')}</th><th>${L('typ', 'type')}</th><th>${L('v knize', 'in the book')}</th><th></th></tr>`
+      + RC_SCENARIOS.map(([id, type, where]) => `<tr><td><code>${esc(id)}</code></td><td>${esc(type)}</td><td>${esc(where)}</td><td>${have.has(id) ? '<span class="chip ok">✓</span>' : `<span class="chip">${L('zatím nepoužitý', 'not used yet')}</span>`}</td></tr>`).join('')
+      + `</table><p class="note">${L('Segmentové scénáře potřebují v Recombee nastavenou segmentaci (popis v SCENARIOS.md enginu). Výkon scénářů a vlastní přehledy Recombee:', 'Segment scenarios need their segmentation set in Recombee (engine SCENARIOS.md). Scenario performance and Recombee’s own insights:')}`
+      + ` <a href="https://admin.recombee.com/databases/${encodeURIComponent(db)}/kpi" target="_blank" rel="noopener">KPI</a> · <a href="https://admin.recombee.com/databases/${encodeURIComponent(db)}/insights" target="_blank" rel="noopener">Insights</a>.</p>`;
+  });
+}
+ACT.gap = q => {
+  navigator.clipboard?.writeText(q).catch(() => {});
+  location.hash = '#wishes';
+  toast(L('Dotaz je ve schránce: vlož ho do „Nový návrh“.', 'The query is on the clipboard: paste it into "New proposal".'));
+};
+ACT.synPrefill = q => { const t = $('#synTerm'); if (t) { t.value = q; $('#synSyn').focus(); t.scrollIntoView({ block: 'center' }); } };
+ACT.synAdd = async (a, btn) => {
+  const term = $('#synTerm').value.trim(), synonym = $('#synSyn').value.trim();
+  if (!term || !synonym) return;
+  btn.disabled = true;
+  try { await rcCall('/synonyms/items/', 'POST', { term, synonym, oneWay: $('#synOne').checked }); toast('✓'); route(); }
+  catch (e) { toast(L('Nepovedlo se: ', 'Failed: ') + e.message); }
+  btn.disabled = false;
+};
+ACT.synDel = async id => {
+  try { await rcCall('/synonyms/items/' + encodeURIComponent(id), 'DELETE'); route(); }
+  catch (e) { toast(L('Nepovedlo se: ', 'Failed: ') + e.message); }
+};
+
 // ---------- 🗂 data ----------
 function viewData(m) {
   m.innerHTML = '<div class="grid"></div>';
@@ -1066,11 +1328,12 @@ function viewData(m) {
     + `<button class="btn" data-act="logExport">⬇ ${L('Stáhnout záznamy (JSON)', 'Download events (JSON)')}</button>`
     + (ADMIN ? '' : `<p class="note">${L('Bez klíče jsou texty čtenářů skryté.', 'Without the key, readers’ texts are hidden.')}</p>`));
   slot(g, 'Recombee', async () => CONFIG.recombee?.enabled
-    ? `<p class="lead">${L('Doporučování běží přes Recombee', 'Recommendations run on Recombee')} (<code>${esc(CONFIG.recombee.database || '')}</code>). ${L('Po změně obsahu pošli katalog znovu.', 'Send the catalog again after the content changes.')}</p>`
+    ? `<p class="lead">${L('Doporučování a hledání pro', 'Recommendations and search for')} ${Math.round(100 * Number(CONFIG.recombee.abShare ?? 1))} % ${L('zařízení běží přes Recombee', 'of devices run on Recombee')} (<code>${esc(CONFIG.recombee.database || '')}</code>); ${L('interakce dostává ze všech zařízení. Srovnání skupin je v Insights.', 'it gets the interactions of every device. The arms are compared in Insights.')}</p>`
+      + `<p class="note">${L('Katalog, vlastnosti a segmentace (koncept, kapitola, svět) se pošlou po každém nasazení samy (GitHub Action). Ručně:', 'The catalog, properties and segmentations (concept, chapter, world) are sent after every deployment (GitHub Action). By hand:')}</p>`
       + (ADMIN ? `<button class="btn primary" data-act="sync">🔄 ${L('Synchronizovat obsah', 'Sync the content')}</button> <span id="syncOut" class="muted"></span>` : `<p class="muted">🔒 ${L('Potřebuje klíč editora.', 'Needs the editor key.')}</p>`)
     : `<p class="lead">${L('Vypnuté: doporučuje se v prohlížeči čtenáře a interakce se ukládají jen do Supabase.', 'Off: recommendations run in the reader’s browser and interactions go to Supabase only.')}</p>`
-      + `<p class="note">${L('Zapnutí: ve Vercelu proměnné RECOMBEE_DB, RECOMBEE_TOKEN a PBOOK_ORIGINS, v js/config.js recombee.enabled: true, nasadit a tady synchronizovat obsah.',
-        'To turn it on: set RECOMBEE_DB, RECOMBEE_TOKEN and PBOOK_ORIGINS in Vercel, recombee.enabled: true in js/config.js, deploy, then sync the content here.')}</p>`);
+      + `<p class="note">${L('Zapnutí: ve Vercelu proměnné RECOMBEE_DB, RECOMBEE_TOKEN, RECOMBEE_REGION a PBOOK_ORIGINS, v js/config.js recombee.enabled: true (a abShare pro A/B), nasadit a tady synchronizovat obsah. Segmentové scénáře nastav podle SCENARIOS.md.',
+        'To turn it on: set RECOMBEE_DB, RECOMBEE_TOKEN, RECOMBEE_REGION and PBOOK_ORIGINS in Vercel, recombee.enabled: true in js/config.js (and abShare for the A/B), deploy, then sync the content here. Set up the segment scenarios as SCENARIOS.md says.')}</p>`);
   slot(g, L('Pozvat editora', 'Invite an editor'), async () => `<p class="lead">${L('Odkaz zapne v knize roli editora a ukáže průvodce pro editory.', 'The link turns on the editor role in the book and shows the editor guide.')}</p>`
     + `<button class="btn" data-act="invite">＋ ${L('Vytvořit odkaz', 'Create a link')}</button><div id="inviteOut" style="margin-top:.5em"></div>`);
   slot(g, L('Odkazy', 'Links'), async () => {
@@ -1101,7 +1364,8 @@ ACT.sync = async (a, btn) => {
   try {
     const r = await fetch('/api/sync-recombee', withKey({ method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' }));
     const d = await r.json().catch(() => ({}));
-    out.textContent = d.ok ? `✓ ${num(d.imported)} / ${num(d.total)}` : `✗ ${d.error || r.status}`;
+    const segs = d.segmentations ? Object.entries(d.segmentations).filter(([, st]) => st >= 400 && st !== 409).map(([k]) => k) : [];
+    out.textContent = d.ok ? `✓ ${num(d.imported)} / ${num(d.total)}${d.errors ? ` · ${num(d.errors)} ${L('chyb', 'errors')}` : ''}${segs.length ? ` · ${L('segmentace selhala', 'segmentation failed')}: ${segs.join(', ')}` : ''}` : `✗ ${d.error || r.status}`;
   } catch (e) { out.textContent = '✗ ' + e.message; }
   btn.disabled = false;
 };

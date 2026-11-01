@@ -2,8 +2,9 @@
 // Same logic as netlify/functions/recombee.js
 //
 // Hardened 2026-09-27: the proxy signs only the calls the reader and the
-// admin console actually make. Everything else (DELETE, database reset,
-// listing users, property definitions, batch) is refused before signing.
+// admin console actually make. Everything else (database reset, listing users,
+// property definitions, batch) is refused before signing. The admin's Recombee
+// panel (scenarios, search synonyms) needs the editor key (EDITOR_ONLY).
 
 const crypto = require('crypto');
 
@@ -28,17 +29,29 @@ function originAllowed(origin) {
 const SEG = '[^/?#]+';
 const ALLOW = [
   ['POST', new RegExp('^/detailviews/$')],
+  ['POST', new RegExp('^/viewportions/$')],
   ['POST', new RegExp('^/ratings/$')],
   ['POST', new RegExp('^/bookmarks/$')],
   ['POST', new RegExp('^/purchases/$')],
   ['POST', new RegExp('^/users/' + SEG + '$')],
   ['PUT', new RegExp('^/users/' + SEG + '/merge/' + SEG + '$')],
   ['POST', new RegExp('^/recomms/users/' + SEG + '/items/$')],
+  ['POST', new RegExp('^/recomms/users/' + SEG + '/item-segments/$')],
   ['POST', new RegExp('^/recomms/next/items/' + SEG + '$')],
   ['POST', new RegExp('^/recomms/items/' + SEG + '/items/$')],
+  ['POST', new RegExp('^/recomms/item-segments/items/$')],
+  ['POST', new RegExp('^/recomms/composite/$')],
   ['POST', new RegExp('^/search/users/' + SEG + '/items/$')],
+  ['POST', new RegExp('^/search/users/' + SEG + '/item-segments/$')],
   ['POST', new RegExp('^/items/' + SEG + '$')],
   ['GET', new RegExp('^/items/list/(\\?count=1)?$')],
+];
+// The admin's Recombee panel (editor key only): which scenarios exist, the search synonyms.
+const EDITOR_ONLY = [
+  ['GET', new RegExp('^/scenarios/$')],
+  ['GET', new RegExp('^/synonyms/items/$')],
+  ['POST', new RegExp('^/synonyms/items/$')],
+  ['DELETE', new RegExp('^/synonyms/items/' + SEG + '$')],
 ];
 const EDITOR_STATES = ['edited', 'core'];
 
@@ -50,8 +63,15 @@ function signUrl(path) {
   return pathWithTs + '&hmac_sign=' + hmac;
 }
 
-function allowed(method, endpoint) {
-  return ALLOW.some(function (a) { return a[0] === method && a[1].test(endpoint); });
+function allowed(method, endpoint, list) {
+  return (list || ALLOW).some(function (a) { return a[0] === method && a[1].test(endpoint); });
+}
+
+function isEditor(req) {
+  const k = req.headers['x-pbook-admin'];
+  if (!ADMIN_KEY || typeof k !== 'string') return false;
+  const a = Buffer.from(k), b = Buffer.from(ADMIN_KEY);
+  return a.length === b.length && crypto.timingSafeEqual(a, b);
 }
 
 module.exports = async function handler(req, res) {
@@ -71,17 +91,17 @@ module.exports = async function handler(req, res) {
   const { endpoint, body, method: reqMethod } = req.body || {};
   if (typeof endpoint !== 'string' || !endpoint) return res.status(400).json({ error: 'endpoint required' });
   const method = String(reqMethod || (body ? 'POST' : 'GET')).toUpperCase();
-  if (endpoint.indexOf('..') !== -1 || !allowed(method, endpoint)) {
-    return res.status(403).json({ error: 'operation not allowed' });
+  if (endpoint.indexOf('..') !== -1) return res.status(403).json({ error: 'operation not allowed' });
+  if (!allowed(method, endpoint)) {
+    if (!allowed(method, endpoint, EDITOR_ONLY)) return res.status(403).json({ error: 'operation not allowed' });
+    if (!isEditor(req)) return res.status(403).json({ error: 'editor key required' });
   }
   if (method === 'GET' && /^\/items\/list\//.test(endpoint) && Number((body || {}).count || 1) > 1) {
     return res.status(403).json({ error: 'operation not allowed' });
   }
   // Promotion to edited/core is an editor action: require the server-side key.
   if (/^\/items\//.test(endpoint) && body && EDITOR_STATES.indexOf(body.state) !== -1) {
-    if (!ADMIN_KEY || req.headers['x-pbook-admin'] !== ADMIN_KEY) {
-      return res.status(403).json({ error: 'editor key required' });
-    }
+    if (!isEditor(req)) return res.status(403).json({ error: 'editor key required' });
   }
   // a shared telling carries its body, diagram SVG (up to 40 kB) and remix log
   if (JSON.stringify(body || {}).length > 150000) return res.status(413).json({ error: 'body too large' });

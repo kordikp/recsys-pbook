@@ -3,7 +3,14 @@
 // Falls back to local simulation when API unavailable
 
 import { CONFIG } from './config.js';
-import { tr, LANG } from './i18n.js';
+import { tr, LANG, LANGS } from './i18n.js';
+
+// Successes that count as a purchase of the section (see logEvent)
+const SUCCESS = {
+  recall_score: d => d.quality >= 3 && d.blockId,
+  challenge_done: d => !d.solution && d.blockId,
+  game_end: d => !d.timedOut && d.frac >= 0.7 && d.blockId,
+};
 
 export class RecombeeClient {
   constructor() {
@@ -11,6 +18,8 @@ export class RecombeeClient {
     // Enabled everywhere — local dev server provides proxy too
     this.enabled = this.config.enabled;
     this.userId = this.getOrCreateUserId();
+    this.arm = this._pickArm();
+    this.sessionId = 's-' + (crypto.randomUUID?.() || String(Date.now())).slice(0, 13);
     this.interactions = []; // local log (always kept for offline reference)
     this.allBlocks = [];
     // Flush offline queue when connectivity returns
@@ -31,6 +40,42 @@ export class RecombeeClient {
 
   setAllBlocks(blocks) { this.allBlocks = blocks; }
 
+  // --- A/B: which devices Recombee serves ---
+  // Every device sends its interactions to Recombee, so the model learns from all readers. Only
+  // devices in arm "rc" are SERVED by it; arm "local" keeps the book's own recommender and is the
+  // control group of /admin → Insights. CONFIG.recombee.abShare = share of devices on Recombee
+  // (default 1). The arm stays with the device; ?rc=1 / ?rc=0 pins it (testing, demos).
+  _pickArm() {
+    if (!this.enabled) return 'off';
+    const share = Math.max(0, Math.min(1, Number(this.config.abShare ?? 1)));
+    let saved = null;
+    try {
+      const q = new URLSearchParams(location.search).get('rc');
+      if (q === '1' || q === '0') localStorage.setItem('pbook-ab', JSON.stringify({ arm: q === '1' ? 'rc' : 'local', pinned: true }));
+      saved = JSON.parse(localStorage.getItem('pbook-ab') || 'null');
+    } catch (e) {}
+    if (saved && (saved.pinned || saved.share === share) && (saved.arm === 'rc' || saved.arm === 'local')) return saved.arm;
+    let h = 2166136261;                       // FNV-1a of the device id: stable, even split
+    for (const c of this.userId) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619) >>> 0; }
+    const arm = (h % 1000) < share * 1000 ? 'rc' : 'local';
+    try { localStorage.setItem('pbook-ab', JSON.stringify({ arm, share })); } catch (e) {}
+    return arm;
+  }
+  // Recommendations and search come from Recombee (else: the local recommender)
+  get serve() { return this.enabled && this.arm === 'rc'; }
+  scenario(key, fallback) { return this.config.scenarios?.[key] || fallback; }
+  // A multilingual book keeps every translation in the catalog: ask for the reader's language, plus
+  // the untranslated originals for a reader of another edition (findBlock maps any id to the
+  // reader's version, so this is about ranking, not about wrong-language cards). A book with
+  // languageFilter 'strict' shows other editions only their own language.
+  langFilter(extra) {
+    const parts = [];
+    if (LANGS.length > 1) parts.push(LANG === (CONFIG.book.lang || 'en') || CONFIG.book.languageFilter === 'strict'
+      ? `'lang' == "${LANG}"` : `('lang' == "${LANG}" OR 'translationOf' == null)`);
+    if (extra) parts.push(`(${extra})`);
+    return parts.length ? parts.join(' AND ') : undefined;
+  }
+
   // Several books share one Recombee database. Every recommendation and search
   // call is limited to THIS book: git blocks by chapter, reader-shared tellings
   // (no chapter) by concept. Without it Home served another book's Czech cards.
@@ -46,8 +91,13 @@ export class RecombeeClient {
   // --- API call via server-side proxy (avoids CORS) ---
   async api(method, endpoint, body, _retry) {
     if (!this.enabled) return null;
-    if (!_retry && this.scopeFilter && body && /^\/(recomms\/(users|items)|search\/users)\//.test(endpoint)) {
+    // item-level calls only: segment calls filter segments, not items (callers keep the book's own)
+    if (!_retry && this.scopeFilter && body && /^\/(recomms\/(users|items)\/[^/]+\/items\/|search\/users\/[^/]+\/items\/|recomms\/item-segments\/items\/)/.test(endpoint)) {
       body = { ...body, filter: body.filter ? `(${body.filter}) AND ${this.scopeFilter}` : this.scopeFilter };
+    }
+    if (!_retry && this.scopeFilter && body && endpoint === '/recomms/composite/') {
+      const rs = body.resultSettings || {};
+      body = { ...body, resultSettings: { ...rs, filter: rs.filter ? `(${rs.filter}) AND ${this.scopeFilter}` : this.scopeFilter } };
     }
     try {
       const controller = new AbortController();
@@ -148,19 +198,52 @@ export class RecombeeClient {
     this._ctx = { mode, ...extra, ts: Date.now() };
   }
 
+  // Which recommendation surface the reader opened something from (home shelf, read-next, search…)
+  // — the click half of the funnel in /admin → Insights (the other half is logShown)
+  _surfaceOf(itemId) {
+    const c = this._ctx || {};
+    return c.surface && (!c.blockId || c.blockId === itemId) ? c.surface : undefined;
+  }
+  // The recommendation an item came from: the one of the shelf the reader opened it from (one item
+  // can come back from several), else the latest that returned it. None = not a recommendation.
+  _ridFor(itemId) {
+    const s = this._surfaceOf(itemId);
+    return (s && this._shownRecomm?.[s + '|' + itemId]) || (this._recommSources || {})[itemId];
+  }
+
+  // One row per shelf render: what a surface showed and who chose it (Recombee or the book)
+  logShown(surface, ids, recommId, engine) {
+    if (!ids || !ids.length) return;
+    if (recommId) { const m = (this._shownRecomm = this._shownRecomm || {}); ids.forEach(id => { m[surface + '|' + id] = recommId; }); }
+    this.logEvent('rec_shown', { surface, n: ids.length, ids: ids.slice(0, 12), engine: engine || (this.serve ? 'rc' : 'local'), ...(recommId ? { recommId } : {}) });
+  }
+
   // --- Interactions (always stored locally + sent to Recombee) ---
   async sendView(itemId, duration) {
     const ctx = this._ctx || {};
-    const i = { type: 'detailview', itemId, userId: this.userId, ts: Date.now(), duration, mode: ctx.mode };
+    const surface = this._surfaceOf(itemId);
+    const i = { type: 'detailview', itemId, userId: this.userId, ts: Date.now(), duration, mode: ctx.mode, ...(surface ? { surface } : {}) };
     this.interactions.push(i);
     this._saveInteractions();
     const body = { userId: this.userId, itemId, cascadeCreate: true, timestamp: new Date().toISOString() };
     if (duration) body.duration = duration;
-    // Attribution: the recommId of THE recommendation this item came from (per-item
-    // map; global _lastRecommId only as a last resort) — per the Recombee guide.
-    const rid = (this._recommSources || {})[itemId] || this._lastRecommId;
+    // Attribution: the recommId of THE recommendation this item came from (_ridFor) — per the Recombee guide.
+    const rid = this._ridFor(itemId);
     if (rid) body.recommId = rid;
     if (this.enabled) return this.api('POST', '/detailviews/', body);
+  }
+
+  // How much of a section the reader actually saw (0–1), with the time spent. Recombee keeps one
+  // value per session and item (each call replaces it); the log gets a row for the insights.
+  async sendPortion(itemId, portion, seconds) {
+    portion = Math.max(0, Math.min(1, Math.round(portion * 100) / 100));
+    this.logEvent('read_portion', { itemId, portion, sec: Math.round(seconds || 0) });
+    if (!this.enabled) return;
+    const body = { userId: this.userId, itemId, portion, sessionId: this.sessionId, cascadeCreate: true, timestamp: new Date().toISOString() };
+    if (seconds) body.timeSpent = Math.round(seconds);
+    const rid = this._ridFor(itemId);
+    if (rid) body.recommId = rid;
+    return this.api('POST', '/viewportions/', body);
   }
 
   async sendRating(itemId, rating) {
@@ -186,17 +269,20 @@ export class RecombeeClient {
   }
 
 
-  // Log navigation/mode events (local only — for research analytics)
+  // Log navigation/mode events (the server log, for research analytics). A success with a
+  // section — a recall check passed, a challenge solved without the solution, a game won — is the
+  // book's "purchase": the strongest signal Recombee gets. (Until 7.13 mode switches went in as
+  // purchases of pseudo-items `_event:*`, which polluted the catalog.)
   logEvent(event, data) {
     const entry = { type: 'event', event, userId: this.userId, ts: Date.now(), ...data };
     this.interactions.push(entry);
     this._saveInteractions();
-    // Also send as purchase with zero amount to Recombee (abusing purchases as event log)
-    if (this.enabled && event === 'mode_switch') {
-      this.api('POST', '/purchases/', {
-        userId: this.userId, itemId: `_event:${data.mode || event}`,
-        cascadeCreate: true, timestamp: new Date().toISOString()
-      });
+    const won = SUCCESS[event]?.(data || {});
+    if (this.enabled && won) {
+      const body = { userId: this.userId, itemId: won, cascadeCreate: true, timestamp: new Date().toISOString() };
+      const rid = (this._recommSources || {})[won];
+      if (rid) body.recommId = rid;
+      this.api('POST', '/purchases/', body);
     }
   }
 
@@ -231,7 +317,7 @@ export class RecombeeClient {
     let classCode = '';
     try { classCode = (localStorage.getItem('pbook-deck-group') || localStorage.getItem('sk-class-code') || '').toLowerCase(); } catch (e) {}
     entry = { book: CONFIG.book?.slug || location.host, lang: LANG,
-      ...(/^[a-z0-9-]{4,16}$/.test(classCode) ? { classCode } : {}), ...entry };
+      ...(/^[a-z0-9-]{4,16}$/.test(classCode) ? { classCode } : {}), ...(this.arm !== 'off' ? { ab: this.arm } : {}), ...entry };
     if (!navigator.onLine) {
       this._queueOffline({ type: 'log', data: entry });
       return;
@@ -313,7 +399,7 @@ export class RecombeeClient {
 
   // --- Recommendations (Recombee API with local fallback) ---
   async getRecsForUser(scenario, count, filter, booster) {
-    if (this.enabled) {
+    if (this.serve) {
       const body = { count, cascadeCreate: true };
       if (scenario) body.scenario = scenario;
       if (filter) body.filter = filter;
@@ -338,7 +424,6 @@ export class RecombeeClient {
 
   _trackRecomms(result) {
     if (!result || !result.recommId) return;
-    this._lastRecommId = result.recommId;
     this._recommSources = this._recommSources || {};
     (result.recomms || []).forEach(r => { if (r && r.id) this._recommSources[r.id] = result.recommId; });
   }
@@ -346,14 +431,14 @@ export class RecombeeClient {
   // Recommendation pagination per the guide: the next batch of the same
   // recommendation chains via Recommend Next Items (recommId), not a fresh query.
   async getNextRecs(prevRecommId, count) {
-    if (!this.enabled || !prevRecommId) return null;
+    if (!this.serve || !prevRecommId) return null;
     const result = await this.api('POST', `/recomms/next/items/${prevRecommId}`, { count });
     if (result) this._trackRecomms(result);
     return result;
   }
 
   async getRecsForItem(itemId, count, filter, scenario) {
-    if (this.enabled) {
+    if (this.serve) {
       const body = { count, targetUserId: this.userId, cascadeCreate: true };
       if (scenario) body.scenario = scenario;
       if (filter) body.filter = filter;
@@ -415,14 +500,47 @@ export class RecombeeClient {
   }
 
   async searchItems(query, count, filter, scenario) {
-    if (this.enabled) {
+    if (this.serve) {
       const body = { searchQuery: query, count, cascadeCreate: true };
       if (scenario) body.scenario = scenario;
       if (filter) body.filter = filter;
       const result = await this.api('POST', `/search/users/${this.userId}/items/`, body);
-      if (result) return result;
+      if (result) { this._trackRecomms(result); return result; }
     }
     return this._localSearch(query, count);
+  }
+
+  // --- Item segments (SCENARIOS.md): a segment is a concept, a chapter or an example world ---
+  // The segmentation of each scenario is set in the Recombee Admin UI; the sync creates them.
+  // All return null when Recombee does not serve this device or the call fails (callers fall back).
+  // A scenario that fails (e.g. no segmentation set yet) rests for 10 minutes.
+  resting(scenario) { const t = this._segDown?.[scenario]; return !!t && Date.now() - t < 10 * 60000; }
+  async _segCall(scenario, endpoint, body) {
+    if (!this.serve || this.resting(scenario)) return null;
+    const r = await this.api('POST', endpoint, body);
+    if (!r) (this._segDown = this._segDown || {})[scenario] = Date.now();
+    return r?.recomms ? r : null;
+  }
+  getSegmentsForUser(scenario, count) {
+    return this._segCall(scenario, `/recomms/users/${this.userId}/item-segments/`, { count, scenario, cascadeCreate: true });
+  }
+  searchSegments(query, count, scenario) {
+    return this._segCall(scenario, `/search/users/${this.userId}/item-segments/`, { searchQuery: query, count, scenario, cascadeCreate: true });
+  }
+  async getItemsForSegment(segmentId, count, scenario, filter) {
+    const body = { contextSegmentId: segmentId, targetUserId: this.userId, count, scenario, cascadeCreate: true };
+    if (filter) body.filter = filter;
+    const r = await this._segCall(scenario, '/recomms/item-segments/items/', body);
+    if (r) this._trackRecomms(r);
+    return r;
+  }
+  // A segment for the reader plus its best items in one call ("Theme for you: <chapter>")
+  async getComposite(scenario, count, resultFilter) {
+    const body = { scenario, count, userId: this.userId, cascadeCreate: true };
+    if (resultFilter) body.resultSettings = { filter: resultFilter };
+    const r = await this._segCall(scenario, '/recomms/composite/', body);
+    if (r) this._trackRecomms(r);
+    return r?.source ? r : null;
   }
 
   // --- Local fallback recommendations ---
@@ -467,6 +585,7 @@ export class RecombeeClient {
   getStatus() {
     return {
       mode: this.enabled ? 'live' : 'local',
+      arm: this.arm,
       database: this.config.database,
       region: this.config.region,
       userId: this.userId,

@@ -1,24 +1,54 @@
 # Recombee scénáře p-booku
 
 Deliverable dle Recombee AI-assistant guide: každý povrch má pojmenovaný scénář.
-Scénáře **nelze založit přes API** — zakládají se v [Recombee Admin UI](https://admin.recombee.com)
-(databáze sdílená s dospělou recsys knihou; env `RECOMBEE_DB` na Vercelu).
-Klient má u každého požadavku fallback bez scénáře, takže chybějící scénář nic
-nerozbije — jen se nevyužije jeho vyladěná logika.
+Scénář se v Recombee zaregistruje sám při prvním požadavku, ale jeho logiku (a u segmentových
+scénářů **segmentaci**) nastavuje [Recombee Admin UI](https://admin.recombee.com) — ne API.
+Každá kniha má vlastní jména v `CONFIG.recombee.scenarios` (js/config.js); níže jsou výchozí.
+Klient má u každého požadavku fallback, takže chybějící nebo nenastavený scénář nic
+nerozbije — povrch jen zůstane prázdný nebo se ukáže lokální doporučení.
 
-| Scénář | Typ (Admin UI) | Povrch v knize | Stav | Doporučená konfigurace |
+## Položky (items)
+
+| Scénář | Klíč v configu | Typ (Admin UI) | Povrch v knize | Doporučená konfigurace |
 |---|---|---|---|---|
-| `homepage-personal` | Items to User | Procházet → „Vybráno pro tebe" | ✅ existuje | personalizace (recombee:personal), filter `'type' == "spine"` |
-| `next-read` | Items to User | Infinite feed (Číst) — první dávka; další stránky přes **Recommend Next Items** | ✅ existuje | personalizace + rotace VYPNUTÁ (rotationRate nepoužívat), filter `'type' == "spine"` |
-| `search` | Search Items | Hledání | ✅ existuje (search-items) | fulltext + personalizovaný rerank |
-| `context-related` | Items to Item | Procházet → „Protože sis přečetl/a X" | ✅ existuje (recombee:default) | filter `'type' == "spine"` posílá klient; ověřeno: k ch3-dino vrací ch3-pakety/ch1-pakety |
-| `concept-tellings` | Items to Item | „Další podání" konceptu (budoucí) | ❌ volitelné | filter `'concept' == context_item.'concept'` |
-| `map-suggest` | Items to User | Cesta/mapa — co číst dál (budoucí) | ❌ volitelné | boost nepřečtených core |
+| `homepage-personal` | homepagePersonal | Items to User | Domů → „Vybráno pro tebe" | personalizace, filter `'type' == "spine"` |
+| `next-read` | nextRead | Items to User | Infinite feed (Číst) — první dávka; další přes **Recommend Next Items** | personalizace, rotace vypnutá |
+| `search` | search | Search Items | Hledání (větev rc) | fulltext + personalizovaný rerank |
+| `context-related` | contextRelated | Items to Item | Domů → „Protože tě zaujalo X", Číst → další | filter `'type' == "spine"` posílá klient |
 
-Poznámka: scénář `homepage-voice` je legacy (voice systém nahradily facety) — kandidát na smazání v Admin UI.
+## Segmenty (engine 7.13)
 
-Poznámky k datům:
-- Pseudo-itemy `_event:*` (research log přes purchases) filtrovat všude: `'type' != null` nebo filter na `"spine"`.
-- Interakce: detailviews (s `recommId` atribucí per-item), ratings, bookmarks; anonymní → účet přes **Merge Users** (`switchUser`).
-- Stránkování feedu: `POST /recomms/next/items/<recommId>` — řetězí se, ~30 min platnost, každá dávka = nové (dosud nedoporučené) itemy.
-- Sync katalogu: GitHub Actions → produkční `/api/sync-recombee` (autoritativní env), spouští se změnou `content/**`.
+Segmentace zakládá `/api/sync-recombee` (property-based, zdroj items): **concept**, **chapter**, **lens**.
+
+| Scénář | Klíč v configu | Typ (Admin UI) | Segmentace | Povrch v knize |
+|---|---|---|---|---|
+| `next-concept` | nextConcept | Item Segments to User | concept | „Další pro tebe": pořadí pojmů (0,5 váhy skóre), cache 10 min |
+| `concept-tellings` | conceptTellings | Items to Item Segment | concept | podání prvního připraveného pojmu („Tohle podání ti vybralo Recombee") |
+| `theme-for-you` | themeForYou | Composite: Item Segment → Items | chapter | Domů → „Téma pro tebe: kapitola" |
+| `world-for-you` | worldForYou | Item Segments to User | lens | Domů → „Jiný svět" (bere první svět kromě `generic`) |
+| `world-tellings` | worldTellings | Items to Item Segment | lens | sekce toho světa + odkaz na misi světa |
+| `search-concepts` | searchConcepts | Search Item Segments | concept | karta „💡 Pojem · kapitola" nad výsledky hledání |
+
+Klient posílá filtry sám: rozsah knihy (`'chapter' in {…} OR 'concept' in {…}`) jen u položkových
+endpointů a v `resultSettings` composite; jazyk přes `rc.langFilter()` (kniha s
+`languageFilter: 'strict'` dostává jen svůj jazyk).
+
+## A/B (engine 7.13)
+
+`CONFIG.recombee.abShare` (výchozí 1) = podíl zařízení, kterým doporučení a hledání servíruje Recombee
+(větev `rc`); zbytek dostává lokální doporučování beze změny (větev `local`, kontrola). Interakce do
+Recombee posílají obě větve. Větev je v `localStorage pbook-ab`, `?rc=1` / `?rc=0` ji připne.
+Každý řádek logu nese `ab`; `/admin → Insights` porovnává větve (vracející se, hluboká čtení, mise)
+a povrchy (zobrazení → kliky → dočtení přes `rec_shown` + `surface`).
+
+## Interakce
+
+- detailviews s `recommId` (atribuce) a `surface`; **view portions** (`/viewportions/`, jak daleko se blok
+  dočetl, se `sessionId` a `recommId`); ratings, bookmarks.
+- **purchases = úspěch**: recall s kvalitou ≥ 3, výzva bez řešení, hra s ≥ 70 % bez vypršení času.
+  Pseudo-itemy `_event:*` se od 7.13 nezakládají (staré v DB filtruje `'type' != null` / `"spine"`).
+- anonymní → účet přes **Merge Users** (`switchUser`).
+- Stránkování feedu: `POST /recomms/next/items/<recommId>` — ~30 min platnost.
+- Sync katalogu: po produkčním deployi `/api/sync-recombee` se `SYNC_SECRET` (GitHub Actions).
+
+Poznámka: `homepage-voice` je legacy (voice systém nahradily facety).

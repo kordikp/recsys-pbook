@@ -3,13 +3,13 @@
 import { CONFIG } from './config.js';
 import { tr, trn, loc, locDeep, LANG, LANGS, LANG_NAMES, langLabel, locale, translateStatic } from './i18n.js';
 import { renderMarkdown, parseFrontmatter, smartPunct } from './markdown.js?v=4';
-import { RecombeeClient, UserModel } from './recombee.js?v=16';
+import { RecombeeClient, UserModel } from './recombee.js?v=17';
 import { getDiagram, DIAGRAM_FILES } from './diagrams.js?v=9';
 
 const APP_VERSION = '5.12.4';
 import { AskTheBook, ConversationManager } from './tutor.js?v=2';
 import { installGames } from './games.js?v=5';
-import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=7';
+import { installUx, BRANCH_WORDS, ACHIEVEMENT_NAMES } from './ux.js?v=8';
 import { installCompletion } from './completion.js?v=4';
 import { installTeams } from './teams.js?v=3';
 import { installChallenges } from './challenge.js?v=1';
@@ -92,6 +92,7 @@ class PBook {
     this.autoTagBlocks();
     await this.loadConcepts();   // concept index + contracts (graceful if missing)
     this.rc.setBookScope((this.book?.chapters || []).map(c => c.id), Object.keys(this.concepts || {}));
+    if (this.rc.serve && this.user.readBlocks.size) this._rcConceptRank().catch(() => null);   // ready for the first Home
     await this._loadProposals(); // concept proposals under interest testing (ghost items)
     await this._loadBookMissions();   // per-book missions (content/missions.json; built-ins only as fallback)
     console.info('[pbook] app', this._appVersion());
@@ -1845,7 +1846,8 @@ class PBook {
     setTimeout(() => { const mb = document.getElementById('miniBoard'); if (mb) mb.style.display = view === 'read' && this._cmapData ? '' : 'none'; }, 0);
     this.currentView = view;
     const modeMap = { home: 'netflix', read: 'read', map: 'map', glossary: 'mission', quiz: 'quiz', chat: 'tutor', profile: 'profile' };
-    this.rc.setContext(modeMap[view] || view);
+    // an automatic switch (openBlock → read) keeps the context openBlock set: where the reader came from
+    if (!auto || !this.rc._ctx) this.rc.setContext(modeMap[view] || view);
     // Only log mode_switch for explicit user navigation, not automatic transitions
     if (!auto) this.rc.logEvent('mode_switch', { mode: modeMap[view] || view, from: this._prevView });
     this._prevView = view;
@@ -1915,18 +1917,35 @@ class PBook {
     }
 
     // 2. Next for you — the local, explainable recommender (concept order,
-    // prerequisites, your facet profile, active missions)
+    // prerequisites, your facet profile, active missions); on a device Recombee serves, ranked by
+    // Recombee (js/ux.js _rcConceptRank) — a placeholder when that ranking is not ready yet
+    let held = null;
     if (this.user.readBlocks.size) {
-      const picks = this._nextPicks({ exclude: shown, limit: 8 });
-      const cards = picks.filter(p => take([p.meta], 1).length).map(p => this.cardHtml(p.meta, false, p));
-      if (cards.length) html += this.shelf(tr('Next for you'), cards, tr('Unread ideas you are ready for, each in the telling that fits you best.'));
+      if (this.rc.serve && !this._rcRankFresh() && !this.rc.resting(this.rc.scenario('nextConcept', 'next-concept'))) {
+        // held for this shelf, so the shelves below do not take its cards before the ranking comes
+        held = new Set(this._nextPicks({ exclude: shown, limit: 8 }).map(p => p.meta.id));
+        held.forEach(id => shown.add(id));
+        html += this._pendingShelf('rcNext', tr('Next for you'));
+      } else {
+        const picks = this._nextPicks({ exclude: shown, limit: 8 }).filter(p => take([p.meta], 1).length);
+        if (picks.length) {
+          html += this.shelf(tr('Next for you'), picks.map(p => this.cardHtml(p.meta, false, { ...p, surface: 'home-next' })), tr('Unread ideas you are ready for, each in the telling that fits you best.'));
+          this._logPicksShown('home-next', picks);
+        }
+      }
     }
 
-    // Network shelves: placeholders now, filled asynchronously
+    // Network shelves: placeholders now, filled asynchronously. They avoid the cards of the shelves
+    // above them (a snapshot now), not those of the shelves below, which render first
+    const shownAbove = new Set(shown);
     const lastReadId = [...this.user.readBlocks].reverse().find(id => this.findBlock(id));
     const lastReadBlock = lastReadId && this.findBlock(lastReadId);
     html += this._pendingShelf('rcPersonal', tr('Picked for you'));
     if (lastReadBlock) html += this._pendingShelf('rcRelated', tr('Because you read: ') + this.escHtml(lastReadBlock.meta.title || ''));
+    if (this.rc.serve && this.user.readBlocks.size) {
+      html += this._pendingShelf('rcTheme', tr('Theme for you'));
+      if (CONFIG.facets?.lens) html += this._pendingShelf('rcWorld', tr('Another world'));
+    }
 
     // Active missions (guarded)
     if (this._f('missions')) {
@@ -2019,7 +2038,7 @@ class PBook {
     this._updateShelfArrows();
     setTimeout(() => this._updateShelfArrows(), 200);
     setTimeout(() => this._updateShelfArrows(), 600);
-    this._fillHomeAsync(token, shown, lastReadBlock);
+    this._fillHomeAsync(token, shownAbove, lastReadBlock, held);
   }
 
   shelf(title, cardHtmls, sub) {
@@ -2138,7 +2157,8 @@ class PBook {
     const topics = (this.blockTopics[block.id] || []).slice(0, 2);
     const topicHtml = topics.length ? `<div class="card-topics">${topics.map(t => `<span class="card-topic" onclick="event.stopPropagation();app.showTopic('${t}')">${tr(t)}</span>`).join('')}</div>` : '';
 
-    return `<div class="card ${hero ? 'card-hero' : ''} ${isRead ? 'card-read' : ''} ${art ? 'card-has-art' : ''}" style="${borderStyle}" onclick="app.openBlock('${block.id}')">
+    const surface = why?.surface ? `,null,'${why.surface}'` : '';
+    return `<div class="card ${hero ? 'card-hero' : ''} ${isRead ? 'card-read' : ''} ${art ? 'card-has-art' : ''}" style="${borderStyle}" onclick="app.openBlock('${block.id}'${surface})">
       ${art ? `<img class="card-art" src="${art}" alt="" loading="lazy" onerror="this.remove()">` : ''}
       ${preview}
       <div class="card-chapter">${chLabel}</div>
@@ -2493,11 +2513,11 @@ class PBook {
     // The infinite feed = ONE recommendation paginated via Next Items (the
     // next-read scenario exists in the DB); a fresh query only at the start
     // or when the chain is exhausted.
-    if (this.rc.enabled && this._f('personalization')) {
+    if (this.rc.serve && this._f('personalization')) {
       let result = null;
       if (this._feedRecommId) result = await this.rc.getNextRecs(this._feedRecommId, count * 3);
       if (!result?.recomms?.length) {
-        result = await this.rc.getRecsForUser('next-read', count * 3, this.rc.reql({ type: 'spine' }), this.rc.reqlBoost(this.user));
+        result = await this.rc.getRecsForUser('next-read', count * 3, this.rc.langFilter(this.rc.reql({ type: 'spine' })), this.rc.reqlBoost(this.user));
       }
       this._feedRecommId = result?.recommId || null;
       if (result?.recomms?.length) {
@@ -2564,6 +2584,8 @@ class PBook {
     ownerCh = ownerCh || (block && this.chapters[block._chapterIdx]);
     this.user.trackRead(id, block?.voice, this._blockFacets(block));
     this.rc.sendView(id, Math.round((elapsedMs || 0) / 1000));
+    this._reportPortion(id, true);
+    if (this.rc.serve) { clearTimeout(this._rcRankT); this._rcRankT = setTimeout(() => this._rcConceptRank().catch(() => null), 4000); }
     const art = document.getElementById(`b-${id}`);
     art?.querySelector('.block-status')?.classList.remove('seen');
     art?.querySelector('.block-status')?.classList.add('read');
@@ -2577,6 +2599,17 @@ class PBook {
     if (this._wizardMission?.core?.[this._wizardStep] === id) this._attachMissionStory();
     this._refreshMiniBoard();
     this._afterReadCompletion(id);
+  }
+
+  // How much of a section the reader saw: Recombee's view portion plus a read_portion log row, sent
+  // when the section leaves the screen (if it grew by 20 points) and when it counts as read
+  _reportPortion(id, final) {
+    const p = Math.round(Math.min(1, this._portionMax?.[id] || (final ? 1 : 0)) * 100) / 100;
+    if (!this._portionSent) this._portionSent = {};
+    const last = this._portionSent[id] || 0;
+    if (p < 0.05 || p - last < (final ? 0.01 : 0.2)) return;
+    this._portionSent[id] = p;
+    this.rc.sendPortion(id, p, (this._dwellAcc?.[id] || 0) / 1000);
   }
 
   // Explicit "Mark as read" at the end of a block (counts like a full dwell)
@@ -2617,7 +2650,14 @@ class PBook {
             const elapsed = Date.now() - startTime;
             this._dwellAcc[id] = elapsed;
             // the end of the block has been on screen at least once
-            if (!this._reachedEnd[id] && e.target.getBoundingClientRect().bottom <= window.innerHeight + 24) this._reachedEnd[id] = true;
+            const rect = e.target.getBoundingClientRect();
+            if (!this._reachedEnd[id] && rect.bottom <= window.innerHeight + 24) this._reachedEnd[id] = true;
+            // how far down the block the reader got (Recombee view portion, _reportPortion)
+            if (rect.height > 0) {
+              const seenPart = Math.min(1, Math.max(0, (window.innerHeight - rect.top) / rect.height));
+              if (!this._portionMax) this._portionMax = {};
+              if (seenPart > (this._portionMax[id] || 0)) this._portionMax[id] = seenPart;
+            }
 
             // The steering bar stays hidden while the reader reads — asking
             // "how did this land" mid-read is invasive. It appears at the same
@@ -2652,6 +2692,7 @@ class PBook {
             clearInterval(this._dwellTimers[id]);
             delete this._dwellTimers[id];
           }
+          this._reportPortion(id);
         }
       });
     }, { threshold: 0.05 }); // low threshold so tall blocks with diagrams still trigger
@@ -3254,7 +3295,7 @@ class PBook {
       items += `<div class="rn-item" onclick="app.previewBlock('${nextInChapter.id}')"><span class="rn-label">${tr(`Next`)}</span><span class="rn-title">${nextInChapter.title}</span><span class="rn-time">${nextInChapter.readingTime || 3}m</span></div>`;
     }
     if (recBlock) {
-      items += `<div class="rn-item rn-rec" onclick="app.previewBlock('${recBlock.meta.id}')"><span class="rn-label">${tr(`Recommended`)}</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">${tr(`Ch{0}`, this._conceptChapterNum(pick.cid))}</span></div>${this._whyHtml(pick)}`;
+      items += `<div class="rn-item rn-rec" data-rec="${recBlock.meta.id}" data-engine="${pick.engine || 'local'}" onclick="app.previewBlock('${recBlock.meta.id}','readnext')"><span class="rn-label">${tr(`Recommended`)}</span><span class="rn-title">${recBlock.meta.title}</span><span class="rn-time">${tr(`Ch{0}`, this._conceptChapterNum(pick.cid))}</span></div>${this._whyHtml(pick)}`;
     }
     if (!items) return '';
 
@@ -3311,9 +3352,9 @@ class PBook {
     this.rc.logEvent('share', { missionId, mode: 'share_mission' });
   }
 
-  previewBlock(blockId) {
+  previewBlock(blockId, surface) {
     const block = this.findBlock(blockId);
-    if (!block) { this.openBlock(blockId); return; }
+    if (!block) { this.openBlock(blockId, null, surface); return; }
     const m = block.meta;
     const teaser = m.teaser || m.keyTakeaway || '';
 
@@ -3332,7 +3373,7 @@ class PBook {
         </div>
         <div class="preview-teaser">${this.escHtml(teaser)}${teaser.length >= 200 ? '...' : ''}</div>
         <div class="preview-actions">
-          <button class="preview-go" onclick="document.getElementById('previewPanel').remove();app.openBlock('${blockId}')">${tr(`Read this &rarr;`)}</button>
+          <button class="preview-go" onclick="document.getElementById('previewPanel').remove();app.openBlock('${blockId}'${surface ? `,null,'${surface}'` : ''})">${tr(`Read this &rarr;`)}</button>
           <button class="preview-dismiss" onclick="document.getElementById('previewPanel').remove()">${tr(`Stay here`)}</button>
         </div>
       </div>
@@ -3342,14 +3383,24 @@ class PBook {
 
   _updateInlineReadNext(blockId, ch) {
     const el = document.getElementById(`rn-${blockId}`);
-    if (el) { el.classList.add('rn-visible'); return; }
+    if (el) { el.classList.add('rn-visible'); this._logReadNextShown(el); return; }
     // Insert after the block article
     const article = document.getElementById(`b-${blockId}`);
     if (!article) return;
     const html = this.renderReadNext(blockId, ch);
     if (html) article.insertAdjacentHTML('afterend', html);
     // Show with animation
-    setTimeout(() => document.getElementById(`rn-${blockId}`)?.classList.add('rn-visible'), 50);
+    setTimeout(() => { const rn = document.getElementById(`rn-${blockId}`); rn?.classList.add('rn-visible'); this._logReadNextShown(rn); }, 50);
+  }
+
+  // The read-next "Recommended" item counts as shown once it is revealed (once per section)
+  _logReadNextShown(el) {
+    const rec = el?.querySelector('.rn-rec');
+    if (!rec || el.dataset.logged) return;
+    el.dataset.logged = '1';
+    const id = rec.dataset.rec, engine = rec.dataset.engine;
+    if (engine === 'rc' && this._rcRank?.recommId) (this.rc._recommSources = this.rc._recommSources || {})[id] ||= this._rcRank.recommId;
+    this.rc.logShown('readnext', [id], engine === 'rc' ? this._rcRank?.recommId : null, engine);
   }
 
 
@@ -9128,6 +9179,10 @@ class PBook {
     };
 
     const result = this.tutor.generateResponse(query, context);
+    // what readers ask and whether the book had it (/admin → Insights: questions the book could not answer)
+    const asked = this.tutor.search?.(query, 1)?.[0];
+    this.rc.logEvent('ask', { q: String(query).trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 80), found: (result.confidence || 0) > 0,
+      ...(result.confidence > 0 && asked ? { concept: asked.concept.id } : {}) });
 
     // Store in conversation
     const blockId = this.user.currentBlock || null;
@@ -9298,13 +9353,29 @@ class PBook {
   }
 
   closeSearch() {
+    this._flushSearchLog();
     document.getElementById('searchOverlay').classList.remove('open');
     document.getElementById('searchInput').value = '';
   }
 
+  // One `search` log row per query the reader settled on (1.5 s without typing, a click or closing),
+  // not one per keystroke: what was asked, how many results, who answered, the concept found.
+  // /admin → Insights shows queries typed on at least two devices, and those with no result.
+  _flushSearchLog() {
+    clearTimeout(this._searchLogT);
+    const st = this._searchState;
+    this._searchState = null;
+    if (!st) return;
+    const q = String(st.q || '').trim().toLowerCase().replace(/\s+/g, ' ').slice(0, 80);
+    if (q.length < 2) return;
+    this.rc.logEvent('search', { q, n: st.n, engine: st.engine, ...(st.concept ? { concept: st.concept } : {}) });
+  }
+
   async onSearch(query) {
     const el = document.getElementById('searchResults');
-    if (!query || query.length < 2) { el.innerHTML = ('<div class="search-empty">' + tr(`Type to search across all content...`) + '</div>'); return; }
+    const token = this._searchToken = (this._searchToken || 0) + 1;
+    clearTimeout(this._searchLogT);
+    if (!query || query.length < 2) { this._searchState = null; el.innerHTML = ('<div class="search-empty">' + tr(`Type to search across all content...`) + '</div>'); return; }
 
     // Local search (always works, even offline)
     // Normalize: lowercase, replace hyphens/underscores with spaces, collapse whitespace
@@ -9335,34 +9406,63 @@ class PBook {
       .sort((a, b) => b.score - a.score)
       .slice(0, 20);
 
-    // Also try Recombee (non-blocking, merge results)
-    const rcPromise = this.rc.searchItems(query, 10, null, 'search').catch(() => null);
-
     // Show local results immediately
-    const renderResults = (results) => {
-      if (!results.length) { el.innerHTML = ('<div class="search-empty">' + tr(`No results found.`) + '</div>'); return; }
-      el.innerHTML = results.map(r => {
+    const renderResults = (results, concept) => {
+      if (!results.length && !concept) { el.innerHTML = ('<div class="search-empty">' + tr(`No results found.`) + '</div>'); return; }
+      const go = (id, surface) => `app._flushSearchLog();app.openBlock('${id}','search','${surface}');app.closeSearch()`;
+      let head = '';
+      if (concept) {
+        const c = this.concepts[concept.cid];
+        head = `<div class="card card-hero" style="margin-bottom:.6em" onclick="${go(concept.meta.id, 'search-concept')}"><div class="card-chapter">${tr(`💡 Concept · Chapter {0}`, this._conceptChapterNum(concept.cid))}</div><div class="card-title">${this.escHtml(c.title)}</div><div class="card-teaser">${this.escHtml(concept.meta.teaser || '')}</div><div class="card-meta"><span class="card-time">${tr(`Read: {0} →`, this.escHtml(concept.meta.title || ''))}</span></div></div>`;
+      }
+      el.innerHTML = head + results.map(r => {
         const meta = r.meta || r;
         const fl = this._cardFacetLine(meta);
         const badge = fl ? `<span class="card-facets">${this.escHtml(fl)}</span>` : '';
-        return `<div class="card" style="margin-bottom:.5em" onclick="app.openBlock('${meta.id}','search');app.closeSearch()"><div class="card-chapter">${meta._chapterTitle || ''}</div><div class="card-title">${meta.title || meta.id}</div><div class="card-meta">${badge}<span class="card-time">${tr(`{0} min`, meta.readingTime || 3)}</span></div></div>`;
+        return `<div class="card" style="margin-bottom:.5em" onclick="${go(meta.id, 'search')}"><div class="card-chapter">${meta._chapterTitle || ''}</div><div class="card-title">${meta.title || meta.id}</div><div class="card-meta">${badge}<span class="card-time">${tr(`{0} min`, meta.readingTime || 3)}</span></div></div>`;
       }).join('');
     };
 
-    renderResults(localResults.map(r => r.block));
+    const local = localResults.map(r => r.block);
+    renderResults(local);
+    this._searchState = { q: query, n: local.length, engine: 'local' };
+    this._searchLogT = setTimeout(() => this._flushSearchLog(), 1500);
 
-    // Merge Recombee results when they arrive
-    const rcResults = await rcPromise;
-    if (rcResults?.recomms?.length) {
-      const localIds = new Set(localResults.map(r => r.block.meta.id));
-      const extra = rcResults.recomms
-        .filter(r => !localIds.has(r.id))
-        .map(r => this.findBlock(r.id))
-        .filter(Boolean)
-        .slice(0, 5);
-      if (extra.length) renderResults([...localResults.map(r => r.block), ...extra]);
+    if (!this.rc.serve) {
+      // the book's own search (a second, simpler local match adds what the first missed)
+      const extra = (await this.rc.searchItems(query, 10, null, 'search').catch(() => null))?.recomms || [];
+      const ids = new Set(local.map(b => b.meta.id));
+      const more = extra.filter(r => !ids.has(r.id)).map(r => this.findBlock(r.id)).filter(Boolean).slice(0, 5);
+      if (more.length && token === this._searchToken) {
+        renderResults([...local, ...more]);
+        if (this._searchState) this._searchState.n = local.length + more.length;
+      }
+      return;
+    }
+    // Recombee serves this device: personalised full-text search (with the synonyms editors keep
+    // in /admin) and the concept the query is about (Search Item Segments, scenario search-concepts)
+    await new Promise(r => setTimeout(r, 300));          // typing on: wait for the query to settle
+    if (token !== this._searchToken) return;
+    const [items, segs] = await Promise.all([
+      this.rc.searchItems(query, 12, this.rc.langFilter(), 'search').catch(() => null),
+      this.rc.searchSegments(query, 3, this.rc.scenario('searchConcepts', 'search-concepts')).catch(() => null),
+    ]);
+    if (token !== this._searchToken) return;
+    const cid = (segs?.recomms || []).map(x => x.id).find(id => this.concepts?.[id]);
+    const best = cid && this._bestTelling(cid, this.user.getTargetFacets());
+    const concept = best ? { cid, meta: best.block.meta } : null;
+    const rcBlocks = items?.recommId ? (items.recomms || []).map(r => this.findBlock(r.id)).filter(Boolean) : [];
+    const seen = new Set([concept?.meta.id]);
+    const merged = [...rcBlocks, ...local].filter(b => !seen.has(b.meta.id) && seen.add(b.meta.id)).slice(0, 20);
+    renderResults(merged, concept);
+    if (concept && segs?.recommId) (this.rc._recommSources = this.rc._recommSources || {})[concept.meta.id] ||= segs.recommId;
+    if (this._searchState) {
+      Object.assign(this._searchState, { n: merged.length + (concept ? 1 : 0), engine: items?.recommId ? 'rc' : 'local', ...(cid ? { concept: cid } : {}) });
+      clearTimeout(this._searchLogT);
+      this._searchLogT = setTimeout(() => this._flushSearchLog(), 1200);
     }
   }
+
 
   // ===== INTERACTIONS =====
 
@@ -10158,7 +10258,9 @@ class PBook {
   }
 
 
-  openBlock(blockId, source) {
+  // surface: the recommendation surface the reader opened it from (home-next, search…) — the click
+  // half of the funnel in /admin → Insights
+  openBlock(blockId, source, surface) {
     const block = this.findBlock(blockId);
     if (!block) return;
     const chIdx = block.meta._chapterIdx;
@@ -10178,8 +10280,8 @@ class PBook {
     this._navPushBlock(blockId);
     // Set analytics context: where did user discover this block?
     const mode = source || (this._wizardMission ? 'mission' : this.currentView === 'home' ? 'netflix' : this.currentView === 'map' ? 'map' : this.currentView === 'read' ? 'read' : this.currentView);
-    this.rc.setContext(mode, { blockId, chapter: chIdx });
-    this.rc.logEvent('open_block', { mode, blockId });
+    this.rc.setContext(mode, { blockId, chapter: chIdx, ...(surface ? { surface } : {}) });
+    this.rc.logEvent('open_block', { mode, blockId, ...(surface ? { surface } : {}) });
 
     // The essentials flow shows one telling per concept: opening a specific
     // telling (search, mission step, shared link…) serves THAT one in its

@@ -189,6 +189,156 @@ async function walletStats(host) {
     perDay: Object.values(out.perDay).sort((a, b) => a.day < b.day ? -1 : 1).slice(-30), computedAt: new Date().toISOString() };
 }
 
+// Insights for /admin (engine 7.13): the last 30 days of reading, recommendations and search, as
+// counts the admin maps onto concepts, chapters and facets with the content it already has.
+//   arms      — A/B by device: "rc" served by Recombee, "local" by the book (js/recombee.js _pickArm)
+//   surfaces  — per recommendation surface and engine: impressions (rec_shown rows), clicked
+//               impressions (an open_block from that surface of a shown item within 30 min), deep reads
+//   search    — queries typed on at least 2 devices (k-anonymity), with no result and no click
+//   items     — per section: devices that opened it, read at least half, mean portion, weekly devices
+//   paths     — the most common next section after a section, entries and exits of a sitting
+//   classes   — per class code with at least 5 devices: devices per section
+const K_MIN = 2, CLASS_MIN = 5, DAY = 864e5;
+async function insightStats(scope) {
+  const since = new Date(Date.now() - 30 * DAY).toISOString();
+  const win = `&created_at=gte.${encodeURIComponent(since)}${scope}&order=id.asc`;
+  const [views, events] = await Promise.all([
+    scanRows('interactions?select=user_id,item_id,created_at,surface:data->>surface,ab:data->>ab,cls:data->>classCode'
+      + `&type=eq.detailview${win}`, 80),
+    scanRows('interactions?select=user_id,event,created_at,ab:data->>ab,surface:data->>surface,n:data->>n,ids:data->ids,'
+      + 'engine:data->>engine,q:data->>q,found:data->>found,concept:data->>concept,item:data->>itemId,portion:data->>portion,'
+      + 'quality:data->>quality,frac:data->>frac,solution:data->>solution,block:data->>blockId'
+      + `&type=eq.event&event=in.(rec_shown,open_block,search,ask,read_portion,recall_score,challenge_done,game_end,mission_complete)${win}`, 80),
+  ]);
+  const now = Date.now(), t = r => Date.parse(r.created_at) || 0;
+  const reader = u => typeof u === 'string' && READER.test(u);
+  const V = views.rows.filter(r => reader(r.user_id) && r.item_id), E = events.rows.filter(r => reader(r.user_id));
+  // a device's arm: the latest row that names one (rows before 7.13 name none)
+  const armOf = new Map();
+  for (const r of [...V, ...E].sort((a, b) => t(a) - t(b))) if (r.ab === 'rc' || r.ab === 'local') armOf.set(r.user_id, r.ab);
+  const arm = u => armOf.get(u) || 'none';
+  // the deepest portion per device and section
+  const portion = new Map();   // user|item → max portion
+  for (const r of E) if (r.event === 'read_portion' && r.item) {
+    const k = r.user_id + '|' + r.item, p = Number(r.portion) || 0;
+    if (p > (portion.get(k) || 0)) portion.set(k, p);
+  }
+  const deep = (u, item) => (portion.get(u + '|' + item) || 0) >= 0.5;
+
+  // arms
+  const A = {};
+  const armRow = a => A[a] || (A[a] = { devices: new Set(), days: new Map(), views: 0, deep: new Set(), recallOk: 0, missions: 0, games: 0, challenges: 0 });
+  for (const r of V) {
+    const a = armRow(arm(r.user_id)); a.devices.add(r.user_id); a.views++;
+    (a.days.get(r.user_id) || a.days.set(r.user_id, new Set()).get(r.user_id)).add(String(r.created_at).slice(0, 10));
+    if (deep(r.user_id, r.item_id)) a.deep.add(r.user_id + '|' + r.item_id);
+  }
+  for (const r of E) {
+    const a = armRow(arm(r.user_id)); a.devices.add(r.user_id);
+    (a.days.get(r.user_id) || a.days.set(r.user_id, new Set()).get(r.user_id)).add(String(r.created_at).slice(0, 10));
+    if (r.event === 'recall_score' && Number(r.quality) >= 3) a.recallOk++;
+    else if (r.event === 'mission_complete') a.missions++;
+    else if (r.event === 'game_end' && Number(r.frac) >= 0.7) a.games++;
+    else if (r.event === 'challenge_done' && r.solution !== 'true') a.challenges++;
+  }
+  const arms = {};
+  for (const [k, a] of Object.entries(A)) arms[k] = { devices: a.devices.size, returning: [...a.days.values()].filter(d => d.size >= 2).length,
+    views: a.views, deepReads: a.deep.size, recallOk: a.recallOk, missions: a.missions, gamesWon: a.games, challenges: a.challenges };
+
+  // surfaces: impressions → clicked impressions → deep reads
+  const viewsBy = new Map();   // user → [{at, item, surface}] by time (detailviews: the section was on screen 3 s)
+  for (const r of V) (viewsBy.get(r.user_id) || viewsBy.set(r.user_id, []).get(r.user_id)).push({ at: t(r), item: r.item_id, surface: r.surface || '' });
+  for (const list of viewsBy.values()) list.sort((a, b) => a.at - b.at);
+  const opensBy = new Map();   // user → [{at, item, surface}]: clicks on a recommendation or a search result
+  for (const r of E) if (r.event === 'open_block' && r.surface && r.block) (opensBy.get(r.user_id) || opensBy.set(r.user_id, []).get(r.user_id)).push({ at: t(r), item: r.block, surface: r.surface });
+  const S = {};
+  const surf = (s, e) => S[s + '|' + e] || (S[s + '|' + e] = { surface: s, engine: e, impressions: 0, items: 0, clicked: 0, deep: 0 });
+  for (const r of E) {
+    if (r.event !== 'rec_shown' || !r.surface) continue;
+    const row = surf(r.surface, r.engine === 'rc' ? 'rc' : 'local');
+    const ids = Array.isArray(r.ids) ? r.ids : [];
+    row.impressions++; row.items += Number(r.n) || ids.length;
+    const at = t(r), hit = (opensBy.get(r.user_id) || []).find(v => v.at >= at && v.at - at <= 30 * 60000 && v.surface === r.surface && ids.includes(v.item));
+    if (hit) { row.clicked++; if (deep(r.user_id, hit.item)) row.deep++; }
+  }
+
+  // search, and questions to the book (Ask the book)
+  const Q = new Map(), Ask = new Map();
+  const searchTotals = { searches: 0, zero: 0, clicked: 0, byEngine: {} }, askTotals = { asked: 0, unanswered: 0 };
+  for (const r of E) {
+    if (r.event === 'search' && r.q) {
+      const at = t(r), zero = Number(r.n) === 0, eng = r.engine === 'rc' ? 'rc' : 'local';
+      const click = (opensBy.get(r.user_id) || []).some(v => v.at >= at - 5000 && v.at - at <= 5 * 60000 && /^search/.test(v.surface));
+      searchTotals.searches++; if (zero) searchTotals.zero++; if (click) searchTotals.clicked++;
+      const be = searchTotals.byEngine[eng] || (searchTotals.byEngine[eng] = { searches: 0, zero: 0, clicked: 0 });
+      be.searches++; if (zero) be.zero++; if (click) be.clicked++;
+      const g = Q.get(r.q) || Q.set(r.q, { q: r.q, devices: new Set(), count: 0, zero: 0, clicked: 0, concept: null }).get(r.q);
+      g.devices.add(r.user_id); g.count++; if (zero) g.zero++; if (click) g.clicked++; if (r.concept) g.concept = r.concept;
+    } else if (r.event === 'ask' && r.q) {
+      const found = r.found === 'true';
+      askTotals.asked++; if (!found) askTotals.unanswered++;
+      const g = Ask.get(r.q) || Ask.set(r.q, { q: r.q, devices: new Set(), count: 0, unanswered: 0, concept: null }).get(r.q);
+      g.devices.add(r.user_id); g.count++; if (!found) g.unanswered++; if (r.concept) g.concept = r.concept;
+    }
+  }
+  const kAnon = m => [...m.values()].filter(g => g.devices.size >= K_MIN).map(g => ({ ...g, devices: g.devices.size }))
+    .sort((a, b) => b.devices - a.devices || b.count - a.count).slice(0, 200);
+
+  // sections: devices, deep reads, mean portion, weekly devices (week 0 = the last 7 days)
+  const I = new Map();
+  const itemRow = id => I.get(id) || I.set(id, { v: new Set(), d: new Set(), w: [new Set(), new Set(), new Set(), new Set(), new Set()] }).get(id);
+  for (const r of V) {
+    const it = itemRow(r.item_id); it.v.add(r.user_id);
+    if (deep(r.user_id, r.item_id)) it.d.add(r.user_id);
+    const wk = Math.floor((now - t(r)) / (7 * DAY)); if (wk >= 0 && wk < 5) it.w[wk].add(r.user_id);
+  }
+  const pSum = new Map();
+  for (const [k, p] of portion) { const id = k.slice(k.indexOf('|') + 1); const x = pSum.get(id) || [0, 0]; x[0] += p; x[1]++; pSum.set(id, x); }
+  const items = {};
+  for (const [id, it] of I) {
+    const ps = pSum.get(id);
+    items[id] = { v: it.v.size, d: it.d.size, p: ps ? Math.round(ps[0] / ps[1] * 100) / 100 : null, w: it.w.map(x => x.size) };
+  }
+
+  // paths: the next section within a sitting (views at most 30 min apart), entries and exits of sittings
+  const pairs = new Map(), entries = {}, exits = {};
+  for (const [u, list] of viewsBy) {
+    const seq = list.filter((v, i) => i === 0 || v.item !== list[i - 1].item);
+    let prev = null;
+    for (const v of seq) {
+      if (!prev || v.at - prev.at > 30 * 60000) {
+        entries[v.item] = (entries[v.item] || 0) + 1;
+        if (prev) exits[prev.item] = (exits[prev.item] || 0) + 1;
+      } else {
+        const k = prev.item + '>' + v.item;
+        (pairs.get(k) || pairs.set(k, new Set()).get(k)).add(u);
+      }
+      prev = v;
+    }
+    if (prev) exits[prev.item] = (exits[prev.item] || 0) + 1;
+  }
+  const paths = { next: [...pairs].map(([k, us]) => { const [from, to] = k.split('>'); return { from, to, devices: us.size }; })
+    .filter(x => x.devices >= K_MIN).sort((a, b) => b.devices - a.devices).slice(0, 400), entries, exits };
+
+  // classes with at least CLASS_MIN devices
+  const C = new Map();
+  for (const r of V) {
+    const code = String(r.cls || '').toLowerCase();
+    if (!/^[a-z0-9-]{4,16}$/.test(code) || code === 'false' || code === 'true') continue;
+    const c = C.get(code) || C.set(code, { devices: new Set(), items: new Map() }).get(code);
+    c.devices.add(r.user_id);
+    (c.items.get(r.item_id) || c.items.set(r.item_id, new Set()).get(r.item_id)).add(r.user_id);
+  }
+  const classes = {};
+  for (const [code, c] of C) if (c.devices.size >= CLASS_MIN) {
+    classes[code] = { devices: c.devices.size, items: Object.fromEntries([...c.items].map(([id, us]) => [id, us.size]).sort((a, b) => b[1] - a[1]).slice(0, 60)) };
+  }
+  return { since, computedAt: new Date().toISOString(),
+    rows: { views: views.total, events: events.total, capped: views.pages >= 80 || events.pages >= 80 },
+    arms, surfaces: Object.values(S), search: { ...searchTotals, queries: kAnon(Q) }, ask: { ...askTotals, questions: kAnon(Ask) },
+    items, paths, classes };
+}
+
 function clip(v, n) { return String(v == null ? '' : v).trim().slice(0, n); }
 
 // Rows other endpoints WRITE and then TRUST: the ⚡ balance is summed from wallet rows
@@ -269,13 +419,14 @@ module.exports = async function handler(req, res) {
         return res.status(200).json(out);
       }
       // Editors only from here: messages, classes, the ⚡ economy, profiles for Tiny
-      if ((q.contacts || q.classes || q.wallet || q.profiles) && !isAdmin(req)) return res.status(403).json({ error: 'editor key required' });
+      if ((q.contacts || q.classes || q.wallet || q.profiles || q.insights) && !isAdmin(req)) return res.status(403).json({ error: 'editor key required' });
       if (q.contacts) {
         const rows = await supabase('GET',
           `interactions?event=in.(contact_message,author_question)&order=created_at.desc&limit=500&select=created_at,user_id,type,event,data${scope}`);
         return res.status(200).json(Array.isArray(rows) ? rows : []);
       }
       if (q.classes) return res.status(200).json(await cached('classes|' + scope, () => classStats(scope)));
+      if (q.insights) return res.status(200).json(await cached('insights|' + scope, () => insightStats(scope)));
       if (q.wallet) return res.status(200).json(await cached('wallet|' + hostOf(req), () => walletStats(hostOf(req))));
       // The newest profile summary of every reader (docs: the book's DEPLOY.md, "Readers' data")
       if (q.profiles) {
@@ -298,7 +449,8 @@ module.exports = async function handler(req, res) {
       let data = await supabase('GET', `interactions?order=created_at.desc&limit=2000&type=not.in.(deck,draft,auth${admin ? '' : ',wallet,profile'})${scope}`);
       if (!Array.isArray(data)) return res.status(200).json([]);
       data = data.filter(r => r && !PRIVATE_TYPES.includes(r.type) && (admin || !['wallet', 'profile'].includes(r.type)));
-      if (!admin) data.forEach(r => { redact(r); if (r && r.data) r.data = slimText(r.data, 0); });
+      // a search query or a question to the book is the reader's own words, even as one word
+      if (!admin) data.forEach(r => { redact(r); if (r && r.data) { if (r.data.q != null) r.data.q = '(hidden)'; r.data = slimText(r.data, 0); } });
       // SLIM by default: content archives carry ≤60 kB payloads each — truncate
       // for list views (admin loads this on every tab; it must stay light)
       for (const r of data) {

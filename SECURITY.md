@@ -1,7 +1,7 @@
 # Security model of the p-book engine
 
 Who may do what through the serverless functions in `api/`, and what each one trusts. Read this
-before you add an endpoint or a new kind of row. Last reviewed 2026-11-01 (engine 7.12.0).
+before you add an endpoint or a new kind of row. Last reviewed 2026-11-01 (engine 7.13.0).
 
 ## Principles
 
@@ -34,18 +34,19 @@ before you add an endpoint or a new kind of row. Last reviewed 2026-11-01 (engin
 | Endpoint | Anyone | Needs |
 |---|---|---|
 | `POST /api/log` | writes reader events (≤ 256 kB, no server-owned rows) | — |
-| `GET /api/log` | the latest 2,000 rows, pseudonymised, without free text, wallet or profile rows | the editor key for full rows |
+| `GET /api/log` | the latest 2,000 rows, pseudonymised, without free text, search text (`q`), wallet or profile rows | the editor key for full rows |
 | `GET /api/log?usage=1` | views and likes per item (counts only) | — |
 | `GET /api/log?check=1` | whether the editor key is configured and whether the sent one is right | — |
 | `GET /api/log?stats=1` | the last computed reader counts | the editor key to recompute (it scans the table) |
 | `GET /api/log?contacts=1`, `?classes=1`, `?wallet=1`, `?profiles=1` | — | the editor key (messages; class counts for the pilot; ⚡ totals of this host; the newest Tiny profile per reader) |
+| `GET /api/log?insights=1` | — | the editor key (30 days of counts for /admin → Insights: A/B arms, surfaces, search and questions only when typed on ≥ 2 devices, classes only from 5 devices; no user ids) |
 | `POST /api/auth` | register, log in (10 wrong passwords in 15 min lock that account for a while) | the session token for `load`, `save`, `update` |
 | `POST /api/wallet` | — | the session token (balance, earn, gift, redeem, cancel) |
 | `POST /api/generate` | — | ⚡ in the wallet; an anonymous device gets `WALLET_TRIALS` basic tries (3), and one network at most `WALLET_TRIALS_NET` a day (120) |
 | `POST /api/boss` | grading (free; inputs are capped) | — |
 | `GET/POST /api/decks`, `/api/drafts` | anyone who knows the class code or the random id (link sharing, like a shared document) | — |
 | `POST /api/proposals` | — | the editor key |
-| `POST /api/recombee` | only allowed calls from allowed origins (`PBOOK_ORIGINS`) | the editor key to promote a telling to `edited` or `core` |
+| `POST /api/recombee` (`/api/recs`) | only the reader's calls (`ALLOW`: interactions, view portions, item and segment recommendations, composite, search) from allowed origins (`PBOOK_ORIGINS`) | the editor key to promote a telling to `edited` or `core`, and for `EDITOR_ONLY` (list scenarios, read/add/delete search synonyms) |
 | `POST /api/sync-recombee` | — when `SYNC_SECRET` or the editor key is configured | `SYNC_SECRET` or the editor key |
 | `/api/mcp` | read-only access to public content | — |
 
@@ -82,6 +83,13 @@ books with engine 7.11.0 or newer first, then the gateway.
   functions use the service_role key.
 - Passwords are scrypt with a salt. Old unsalted hashes are re-hashed at the next login. Session
   tokens are random 32-byte values, compared in constant time.
+
+## What children type
+
+Search queries and questions to the book are research data about children, so they are handled as
+aggregates. The client logs a query once it settles (lower case, at most 80 characters), never each
+keystroke. The public log replaces the text with `(hidden)`. `/admin → Insights` shows a query or a
+question only when at least two devices typed it, and a class only from five devices.
 
 ## Known limits (accepted for now)
 

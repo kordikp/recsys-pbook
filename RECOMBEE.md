@@ -106,6 +106,26 @@ One signed request, hundreds of operations. Our 200+ item catalog syncs in secon
   errors and 5xx are worth retrying, with a small cap). We had an offline queue re-POSTing
   a 404 forever — console spam that masked the real signal.
 
+## Segments, view portions and an A/B (engine 7.13)
+
+- **Segmentations come from the sync** (`PUT /segmentations/property-based/{id}`, 409 → `POST` to
+  update): `concept`, `chapter`, `lens`. A segment scenario (Item Segments to User, Items to Item
+  Segment, Composite, Search Item Segments) also needs its segmentation chosen **in the Admin UI**;
+  until then it answers with nothing useful. The scenarios and what they serve: [SCENARIOS.md](SCENARIOS.md).
+- **Filters on segment endpoints**: Item Segments to User filters segments, not items — do not send
+  the item filter there. Items to Item Segment takes the item filter; Composite takes it in
+  `resultSettings.filter`.
+- **View portions** (`POST /viewportions/` with `sessionId`) say how much of a section was seen;
+  Recombee keeps the latest per session and item.
+- **Attribution**: a view gets the `recommId` of the shelf it was opened from. One item comes back
+  from several recommendations, so the last one that returned it is only the fallback, and a view
+  that was not a recommendation gets none (a global "last recommId" inflated the click-through).
+- **A/B**: every device sends interactions; only the `rc` arm is served by Recombee. Compare the arms
+  in `/admin → Insights`, not by Recombee's own KPI alone (the control arm has no recommIds).
+- **Multilingual catalog**: `bundle.<lang>.json` carries its language in full and the others as
+  stubs; the sync merges all of them. Importing from one bundle gave translations no type or title,
+  and the `'type' == "spine"` filter then hid every translation.
+
 ## Anti-patterns (each one cost us something)
 
 1. **Testing the wrong endpoint.** Smoke tests hit recomms; production failed on user

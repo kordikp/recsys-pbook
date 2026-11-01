@@ -6,6 +6,20 @@ The v2 brief: a coherent, accessible publication about modern recommender system
 
 _v2 is assembled from several parallel workstreams. Each adds its entry here when its branch merges; the reader-facing summary lives in the "New in version 2" section of the About block (`content/ch01-introduction/99-sidebar-about-this-book.md`)._
 
+### Engine 7.13.0 (2026-11-01)
+- **Recombee in full, as an A/B test.** `CONFIG.recombee.abShare` (default 1) is the share of devices Recombee serves; the other devices keep the book's own recommender unchanged and are the control. Every device sends its interactions. The arm stays with the device (`localStorage pbook-ab`); `?rc=1` / `?rc=0` pins it. Every log row carries `ab`. See [SCENARIOS.md](SCENARIOS.md).
+- **Item segments** (segmentations `concept`, `chapter`, `lens`, created by `/api/sync-recombee`):
+  - "Next for you" is ranked by Recombee's concept ranking (Item Segments to User, `next-concept`) on devices it serves: score = 0.5 · Recombee + 0.2 · fit + 0.15 · ready + 0.15 · mission, with the reasons shown. Recombee also picks the telling of the first ready concept (`concept-tellings`).
+  - Home "Theme for you: <chapter>" (Composite, `theme-for-you`) and "Try it in the world of …" (`world-for-you` + `world-tellings`, with a link to the world's mission).
+  - Search shows the concept a query is about ("💡 Concept · Chapter N", Search Item Segments, `search-concepts`) above personalised Recombee results.
+- **Better signals for Recombee**: view portions (how much of a section was seen, with the session), success as purchases (recall quality ≥ 3, a challenge solved without the solution, a game won with ≥ 70 %), attribution of a view to the shelf it was opened from (not to the last recommendation), no more `_event:*` pseudo-items.
+- **🔎 Insights** tab in `/admin` (editor key, `/api/log?insights=1`, last 30 days): the A/B arms (returning devices with a two-proportion test, sections read, recall, missions, games), every recommendation surface as shown → clicked → read (`rec_shown`, `open_block` with `surface`, `read_portion`), search (queries from ≥ 2 devices, no result, no click → a proposal or a Recombee synonym), questions the book could not answer, search synonyms edited through the proxy, chapters and example worlds by week, drop-offs and next steps in the concept graph, which facets of tellings get read, the Recombee scenarios. Classes show only from 5 devices.
+- **Search log**: one `search` row per settled query (text ≤ 80 chars, results, engine, concept); `ask` rows for Ask the book. The public log hides query text.
+- **Home**: the network shelves take their cards in page order (a pending "Next for you" keeps its cards), avoid only the shelves above them and ask for twice the cards they show.
+- **`/api/sync-recombee`**: merges every `bundle.<lang>.json` (a bundle has the other languages only as stubs, so translations were imported without type or title); defines every user property the client writes; segmentations; secrets compared in constant time.
+- **`/api/recombee`**: the reader may call view portions, item-segment recommendations, composite and segment search; scenarios and search synonyms need the editor key.
+- `js/recombee.js` v17, `js/ux.js` v8, `app.js?v=7.13.0`, service worker `pbook-v92`.
+
 ### Engine 7.12.0 (2026-11-01)
 - **New `/admin`**, rewritten from scratch for what the book is now. Tabs follow the editor's tasks instead of the old pipeline (Demand → Proposals → Review → Health → Catalog → Reach) with its sidebar, and the editor key is the only gate.
   - 📊 Overview: readers by week, the last 7 days, what needs a look (reports, 👎, wishes, messages), book status (version, AI, Recombee, Tiny), the most read sections.

@@ -32,6 +32,42 @@ async function recombeeApi(method, endpoint, body) {
   return { status: res.status, ok: res.ok || res.status === 409 };
 }
 
+function sameSecret(a, b) {
+  if (!a || typeof b !== 'string') return false;
+  const x = Buffer.from(a), y = Buffer.from(b);
+  return x.length === y.length && crypto.timingSafeEqual(x, y);
+}
+
+// Item properties: the facet vector is the recommender's item features (_design-collective-pbook.md §2, §6)
+const ITEM_PROPERTIES = {
+  type: 'string', title: 'string', teaser: 'string', voice: 'string',
+  readingTime: 'int', core: 'boolean', standalone: 'boolean',
+  chapter: 'string', chapterNum: 'int', wordCount: 'int', publishedAt: 'timestamp', searchText: 'string',
+  concept: 'string', state: 'string', lens: 'string', visuality: 'string',
+  depth: 'string', formalism: 'string', lengthBand: 'string', genre: 'string', carriers: 'string',
+  body: 'string', sharedAs: 'string', sharedAt: 'timestamp', recallQ: 'string', recallA: 'string',
+  remixOf: 'string', remixLog: 'string', diagramSvg: 'string', lang: 'string',
+  adoptedAt: 'timestamp', action: 'string', translationOf: 'string', classGroup: 'string',
+};
+// User properties: everything js/app.js and js/recombee.js write with setUserProperties. Recombee
+// answers 404 "user property X does not exist" until it is defined (the mystery 404 of 2026-07-07).
+const USER_PROPERTIES = {
+  voice: 'string', level: 'int', xp: 'int',
+  prefLens: 'string', prefLang: 'string', prefLengthBand: 'string',
+  prefVisuality: 'string', prefDepth: 'string', prefCarriers: 'string',
+  prefFormalism: 'string', prefGenre: 'string',
+  goal: 'string', readerMode: 'string',
+  readCount: 'int', readPct: 'double', coreRead: 'int', coreTotal: 'int', sessions: 'int',
+  completedMissions: 'int', activePath: 'string', lang: 'string', abArm: 'string', classCode: 'string',
+};
+// Segmentations behind the segment scenarios (SCENARIOS.md): a concept, a chapter (theme) and an
+// example world are each a segment of the items that carry that value.
+const SEGMENTATIONS = {
+  concept: { propertyName: 'concept', title: 'Concept', description: 'All tellings of one concept (every language)' },
+  chapter: { propertyName: 'chapter', title: 'Chapter (theme)', description: 'Sections of one chapter' },
+  lens: { propertyName: 'lens', title: 'Example world', description: 'Tellings with examples from one world (generic = for everyone)' },
+};
+
 async function recombeeBatch(requests) {
   const url = `https://${REGION}.recombee.com${signUrl('/' + DB + '/batch/')}`;
   const res = await fetch(url, {
@@ -79,7 +115,7 @@ module.exports = async function handler(req, res) {
   // or the editor key (PBOOK_ADMIN_KEY) in the X-Pbook-Admin header.
   const { secret } = req.body || {};
   const ADMIN_KEY = process.env.PBOOK_ADMIN_KEY || '';
-  const okSecret = SYNC_SECRET && secret === SYNC_SECRET, okKey = ADMIN_KEY && req.headers['x-pbook-admin'] === ADMIN_KEY;
+  const okSecret = sameSecret(SYNC_SECRET, secret), okKey = sameSecret(ADMIN_KEY, req.headers['x-pbook-admin']);
   if ((SYNC_SECRET || ADMIN_KEY) && !okSecret && !okKey) {
     return res.status(401).json({ error: 'Invalid secret (or editor key)' });
   }
@@ -91,50 +127,48 @@ module.exports = async function handler(req, res) {
     const bookRes = await fetch(`${base}/content/book.json`);
     if (!bookRes.ok) return res.status(502).json({ error: `Failed to fetch ${base}/content/book.json (${bookRes.status})` });
     const bookJson = await bookRes.json();
-    // every file in one request: the bundle carries all of them, whichever language it is for
-    let bundled = {};
-    for (const l of ['en', 'cs', 'sk', 'hu']) {
+    // Every file from the bundles: bundle.<lang>.json carries its language in full and the other
+    // languages as stubs (id, lang, concept… no type or title), so merge them, full beating stub.
+    // The languages come from the files themselves (a stub keeps its lang).
+    const bundled = {};
+    const stub = text => /\nbundleStub: true\n/.test(text);
+    const tried = new Set(), queue = ['en', 'cs'];
+    while (queue.length) {
+      const l = queue.shift();
+      if (tried.has(l) || !/^[a-z]{2,3}$/.test(l)) continue;
+      tried.add(l);
       const r = await fetch(`${base}/content/bundle.${l}.json`).catch(() => null);
-      if (r && r.ok) { bundled = (await r.json()).files || {}; break; }
+      if (!r || !r.ok) continue;
+      for (const [k, text] of Object.entries((await r.json()).files || {})) {
+        if (typeof text !== 'string') continue;
+        if (bundled[k] === undefined || !stub(text)) bundled[k] = text;
+        const m = /\nlang:\s*([\w|]+)/.exec(text.slice(0, 600));
+        if (m) for (const x of m[1].split('|')) if (!tried.has(x)) queue.push(x);
+      }
     }
 
-    // Ensure item properties exist
-    const properties = {
-      type: 'string', title: 'string', teaser: 'string', voice: 'string',
-      readingTime: 'int', core: 'boolean', standalone: 'boolean',
-      chapter: 'string', chapterNum: 'int', wordCount: 'int', publishedAt: 'timestamp', searchText: 'string',
-      // Facet system + community layer (see _design-collective-pbook.md §2, §6)
-      concept: 'string', state: 'string', lens: 'string', visuality: 'string',
-      depth: 'string', formalism: 'string', lengthBand: 'string', genre: 'string', carriers: 'string',
-      body: 'string', sharedAs: 'string', sharedAt: 'timestamp', recallQ: 'string', recallA: 'string',
-      remixOf: 'string', remixLog: 'string', diagramSvg: 'string', lang: 'string',
-      adoptedAt: 'timestamp', action: 'string',
+    // Properties (items AND users) in one batch each; 409 = already defined
+    const defs = async (kind, props) => {
+      const out = await recombeeBatch(Object.entries(props).map(([name, type]) => ({ method: 'PUT', path: `/${kind}/properties/${name}`, params: { type } })));
+      return out.filter(r => r.code >= 400 && r.code !== 409).length;
     };
-    for (const [name, type] of Object.entries(properties)) {
-      await recombeeApi('PUT', `/items/properties/${name}?type=${type}`);
-    }
-
-    // USER properties — the client writes these via setUserProperties; Recombee
-    // returns 404 "user property X does not exist" until they are defined
-    // (this was the mystery 404 of 2026-07-07)
-    const userProperties = {
-      voice: 'string', level: 'int', xp: 'int',
-      prefLens: 'string', prefLang: 'string', prefLengthBand: 'string',
-      prefVisuality: 'string', prefDepth: 'string', prefCarriers: 'string',
-      prefFormalism: 'string', prefGenre: 'string',
-      goal: 'string', readerMode: 'string',
-    };
-    for (const [name, type] of Object.entries(userProperties)) {
-      await recombeeApi('PUT', `/users/properties/${name}?type=${type}`);
+    const propErrors = await defs('items', ITEM_PROPERTIES) + await defs('users', USER_PROPERTIES);
+    // Segmentations: PUT creates, 409 = exists (then POST updates the title and description)
+    const segmentations = {};
+    for (const [id, def] of Object.entries(SEGMENTATIONS)) {
+      let r = await recombeeApi('PUT', `/segmentations/property-based/${id}`, { sourceType: 'items', ...def });
+      if (r.status === 409) r = await recombeeApi('POST', `/segmentations/property-based/${id}`, { title: def.title, description: def.description });
+      segmentations[id] = r.status;
     }
 
     // Fetch and parse all content files
+    const bookLang = String(bookJson.lang || process.env.PBOOK_LANG || 'en');
     const items = [];
     for (const chapter of bookJson.chapters) {
       for (const file of chapter.files) {
         try {
           let text = bundled[`${chapter.directory}/${file}`];
-          if (text === undefined) {
+          if (text === undefined || stub(text)) {
             const fileRes = await fetch(`${base}/content/${chapter.directory}/${file}`);
             if (!fileRes.ok) continue;
             text = await fileRes.text();
@@ -167,7 +201,8 @@ module.exports = async function handler(req, res) {
               formalism: meta.formalism || 'none',
               lengthBand: meta.lengthBand || 'standard', carriers: meta.carriers || 'prose',
               genre: meta.genre || null,
-              lang: meta.lang || 'en',
+              lang: meta.lang || bookLang,
+              translationOf: meta.translationOf || null,
               '!cascadeCreate': true,
             }
           });
@@ -175,23 +210,21 @@ module.exports = async function handler(req, res) {
       }
     }
 
-    // Batch import
+    // Batch import: 200 items per request, 3 requests at a time (a 1554-item book in ~3 s)
     let imported = 0, errors = 0;
-    const BATCH_SIZE = 50;
-    for (let i = 0; i < items.length; i += BATCH_SIZE) {
-      const chunk = items.slice(i, i + BATCH_SIZE);
-      const requests = chunk.map(item => ({
-        method: 'POST',
-        path: `/items/${item.itemId}`,
-        params: item.values,
+    const BATCH_SIZE = 200, PARALLEL = 3;
+    const chunks = [];
+    for (let i = 0; i < items.length; i += BATCH_SIZE) chunks.push(items.slice(i, i + BATCH_SIZE));
+    for (let i = 0; i < chunks.length; i += PARALLEL) {
+      await Promise.all(chunks.slice(i, i + PARALLEL).map(async chunk => {
+        try {
+          const results = await recombeeBatch(chunk.map(item => ({ method: 'POST', path: `/items/${item.itemId}`, params: item.values })));
+          imported += results.filter(r => r.code === 200 || r.code === 201).length;
+          errors += results.filter(r => r.code >= 400).length;
+        } catch (e) {
+          errors += chunk.length;
+        }
       }));
-      try {
-        const results = await recombeeBatch(requests);
-        imported += results.filter(r => r.code === 200 || r.code === 201).length;
-        errors += results.filter(r => r.code >= 400).length;
-      } catch (e) {
-        errors += chunk.length;
-      }
     }
 
     return res.status(200).json({
@@ -199,6 +232,8 @@ module.exports = async function handler(req, res) {
       imported,
       errors,
       total: items.length,
+      propErrors,
+      segmentations,
       message: `Synced ${imported}/${items.length} items to Recombee`
     });
   } catch (e) {
